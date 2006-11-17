@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.java.j2seproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
+            <name>adempiere</name>
+            <minimum-ant-version>1.6.5</minimum-ant-version>
+            <source-roots>
+                <root id="src.dir"/>
+                <root id="adempiere2.dir"/>
+                <root id="src.src.dir"/>
+                <root id="adempiere3.dir"/>
+                <root id="adempiere4.dir"/>
+                <root id="adempiere5.dir"/>
+                <root id="adempiere6.dir"/>
+                <root id="adempiere7.dir"/>
+                <root id="adempiere8.dir"/>
+                <root id="adempiere9.dir"/>
+                <root id="adempiere10.dir"/>
+                <root id="adempiere12.dir"/>
+                <root id="src.src2.dir"/>
+                <root id="adempiere13.dir"/>
+            </source-roots>
+            <test-roots/>
+        </data>
+    </configuration>
+</project>
