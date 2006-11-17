@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Adempiere Web Store Custimize</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<h1>Custimize your Web Store</h1>
+<p><font size="1">$Id: customize.html,v 1.1 2006/04/21 18:07:56 jjanke Exp $
+
+</font></p>
+<p>This application creates the web store for AD_Client_ID=11 (GardenWorld)
+
+</p>
+<p>For your own application, you need to
+
+</p>
+<ul>
+  <li>Log in as Client Administrator
+    <ul>
+      <li>In window Client, change the web directory, e.g. to xxx</li>
+      <li>Click on the right bottom corner of the window to get your AD_Client_ID, e.g. 1000000
+
+</li>
+    </ul>
+  </li>
+  <li> Unjar adempiereWebStore.war
+
+</li>
+  <li> In the WEB_INF directory
+    <ul>
+      <li> Edit web.xml to and change the AD_Client_ID parameter value to your AD_Client_ID, e.g. 1000000</li>
+      <li> Edit jboss-web.xml and set the context to your web directory, e.g. xxx
+
+</li>
+    </ul>
+  </li>
+  <li>Change the UI of the *.html and *.jsp files as required</li>
+  <li> Repackage it under another name, e.g. myStore.war before copying it to
+    $ADEMPIERE_HOME/jboss/server/adempiere/deploy
+</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

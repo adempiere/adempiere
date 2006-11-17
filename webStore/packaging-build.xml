@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="_generation_" name="Packaging Generator">
+<target name="_generation_" depends="N10004"/>
+<target name="N10004" description="AdempiereWebStore.war"/>
+</project>

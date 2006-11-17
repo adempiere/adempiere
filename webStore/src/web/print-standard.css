@@ -1,0 +1,381 @@
+/** Adempiere Web Store (c) Jorg Janke */
+/** $Id$ */
+
+html{
+	overflow-y: hidden;
+	overflow-x: hidden;
+	overflow: auto;
+}
+body{
+	font-family: Arial, sans-serif;
+	color: #333333;
+	margin: 0px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	overflow-y: auto;
+	overflow-x: auto;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+#page{
+	background-color: transparent;
+}
+#main {
+    background-color: #FFFFFF;
+	clear: both;
+	width: 100%;
+	border: 0px;
+	border-collapse: collapse;
+    
+}
+#menu{
+	vertical-align: top;
+	text-align: left;
+	background: #ffffff url("fade.jpg") no-repeat fixed;
+	width: 129px;
+	float: left;
+	padding-top: 5px;
+	overflow: hidden;
+}
+#content {
+	vertical-align: top;
+	left: 130px;
+	right: 0px;
+	margin-right: 0px;
+	background-color: #FFFFFF;
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px 0px 1px 1px;
+	padding: 5px;
+	position: absolute;
+	min-width: 730px;
+}
+#vendorUse{
+	vertical-align:top;
+	text-align:right;
+	width: 0px;
+	float: right;
+	background-color: #FFFFFF;	
+}
+.contentTable{
+	width: 100%;
+	border: 1px;
+	border-spacing: 2px;
+	padding: 2px;
+    border-color: #CCCCCC;
+    border-style: solid;
+}
+.internalTable{
+    width: 100%;
+    padding: 2px;
+    border-style: none;
+}
+.adTable{
+	width: 100%;
+	border: 1px;
+	border-spacing: 1px;
+	padding: 5px;
+}
+.oddRow{
+	background-color: #EEEEEE;
+}
+.evenRow{
+	background-color: #CCCCCC;
+}
+.amount{
+	text-align: right;
+}
+.quantity{
+	text-align: right;
+}
+.numeric{
+	text-align: right;
+}
+#footer{
+	background-color:#FFFFFF;
+	width: 100%;
+	border: 0px;
+	border-collapse: collapse;
+	padding: 3px;
+	white-space: nowrap;
+	min-width: 730px;
+}
+#footerParam4{
+	width: 130px;
+	text-align: left;
+    display:inline;
+    float: left;
+	white-space: nowrap;
+}
+#footerParam5{
+	text-align: left;
+    display:inline;
+    float: left;
+	white-space: nowrap;
+}
+#footerParam6{
+	text-align: right;
+    display:inline;
+    float: right;
+	white-space: nowrap;
+}
+#header{
+	background-color:#FFFFFF;
+	background-image: url("AdempiereSKY.jpg");
+	background-repeat: repeat-x;
+	height: 75px;
+	display: block;
+}
+#headerIcon {	
+	width: 130px;
+	text-align: left;
+	float: left;
+	border: 0px;
+}
+#headerIcon img{
+	width: 130px;
+	height: 75px;
+	border-style: none;
+    border-width: 0px;
+}
+#headerContent {
+	text-align: left;
+	margin-right: 240px;
+	white-space: nowrap;
+	position: absolute;
+	top: 0px;
+	left: 131px;
+}
+#headerMenu {
+	text-align: right;
+	width: 240px;
+	float: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+a {
+	color: #000066;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+h1 {
+	color: #003366;
+	font-size: x-large;
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+h2 {
+	color: #333333;
+	font-size: large;
+	font-style: italic;
+}
+h3 {
+	color: #006699;
+	font-size: medium;
+	font-style: normal;
+	font-weight: bold;
+}
+h4 {
+	color: #6600CC;
+	font-size: medium;
+	font-style: italic;
+}
+h5 {
+	color: #660099;
+	font-size: medium;
+	font-weight: normal;
+}
+h6 {
+	font-size: larger;
+	font-weight: bold;
+}
+hr {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+p {
+	text-align: justify;
+}
+th {
+	color: #EEEEEE;
+	border: 1px;
+    border-color: #CCCCCC;
+    border-style: outset;
+	background-color: #006699;
+	text-align: left;
+    vertical-align: top;
+}
+caption {
+	color: #660099;
+	text-align: left;
+	font-style: italic;
+	font-weight: bolder;
+}
+.menuDetail{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	padding-bottom: 0;
+	padding-left: 20px;
+	padding-top: 0;
+	text-decoration: none;
+}
+.menuDetail:hover{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	padding-bottom: 0;
+	padding-left: 20px;
+	padding-top: 0;
+	text-decoration: underline;
+}
+.menuMain{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	text-align: left;
+	text-decoration: none;
+	padding-left: 5px;
+}
+.menuMain:hover{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	text-align: left;
+	text-decoration: underline;
+	padding-left: 5px;
+}
+.menuSub{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	padding-left: 10px;
+	text-align: left;
+	text-decoration: none;
+}
+.menuSub:hover{
+	color: #006699;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	padding-left: 10px;
+	text-align: left;
+	text-decoration: underline;
+}
+.error{
+	border: 1px solid #FF4A4A;
+    color: #FF0000;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+form{
+	width: 100%;
+}
+fieldset{
+	border: 1px solid #AAAAAA;
+	clear: both;
+}
+legend{
+	color: #003366;
+	background: #EEEEEE;
+	border: 1px solid #999999;
+	padding: 2px 6px;
+}
+label{
+	clear: left;
+	width: 35%;
+	float: left;
+	text-align: right;
+	margin-right: 0.8em;
+	display: block;
+    font-weight: bold;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+input{
+/*	color: #781351;*/
+/*	background: #fee3ad;*/
+/*	border: #000000;*/
+}
+select{
+	color: #000000;
+	background: #ffffff;
+	border: 1px solid #CCCCCC;
+}
+.mandatory{
+	background:#FFFF99;
+}
+input.disabled{
+	border: 0px;
+	background: transparent;
+}
+.buttons{
+	text-align:center;
+}
+.Cbasket{
+	font-size: 9px;
+	display: inline;
+}
+#imgButton{
+	border-style:outset;
+}
+#imgButtonPressed{
+	border-style:inset;
+}
+#status{
+    background-color: #fff8dc;
+    color: #000000;
+    display: none;
+}
+
+#validationInfo{
+    text-align: center;
+}
+#visaBox{
+    width: 40%;
+    float:left;
+    text-align: right;
+}
+#amexBox{
+    width: 40%;
+    float:right;
+    text-align: left;
+}
+.availProduct{
+    /* comment out next line to show the Availability column */
+    display:none;
+}
+label#productSearch{
+    width:150px;
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+    display: block;
+}
+.nobr{
+    white-space: nowrap;
+}
+.wideText{
+    width:100%;
+}
+.lineItem{
+    vertical-align: top;
+}
+.entryNote{
+    font-size: small;
+    color: #666666;
+    text-align: center;
+    vertical-align: top;
+}
+.emphasized{
+    font-weight: bold;
+}
+.disabledMsg{
+	display: none;
+	font-style: italic;
+	text-align: center;
+}

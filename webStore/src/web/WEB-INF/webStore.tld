@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    
+	<display-name>Adempiere WebStore</display-name>
+	<description>$Id: webStore.tld,v 1.1 2006/04/21 18:07:57 jjanke Exp $</description>
+	<tlib-version>1.1</tlib-version>
+	<short-name>cws</short-name>
+	<uri>webStore.tld</uri>
+	
+	<tag>
+		<name>requestType</name>
+		<tag-class>org.compiere.wstore.RequestTypeTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Request Type Selection</description>
+	</tag>
+	<tag>
+		<name>requestOrder</name>
+		<tag-class>org.compiere.wstore.RequestOrderRefTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Request Order Reference</description>
+		<attribute>
+			<name>bpartnerID</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>loginLink</name>
+		<tag-class>org.compiere.wstore.LoginLinkTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Login Links</description>
+	</tag>
+	<tag>
+		<name>checkOutLink</name>
+		<tag-class>org.compiere.wstore.CheckOutLinkTag</tag-class>
+		<body-content>empty</body-content>
+		<description>CheckOut Links</description>
+		<attribute>
+			<name>oneLine</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>infoLink</name>
+		<tag-class>org.compiere.wstore.InfoLinkTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Info Links</description>
+		<attribute>
+			<name>oneLine</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>priceList</name>
+		<tag-class>org.compiere.wstore.PriceListTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Initializes + loads Price List</description>
+		<attribute>
+			<name>priceList_ID</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>productCategoryList</name>
+		<tag-class>org.compiere.wstore.ProductCategoryListTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Login Links</description>
+	</tag>
+	<tag>
+		<name>workflow</name>
+		<tag-class>org.compiere.wstore.WorkflowTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Workflow Choices</description>
+		<attribute>
+			<name>activityID</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>location</name>
+		<tag-class>org.compiere.wstore.LocationTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Location table rows</description>
+		<attribute>
+			<name>countryID</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>regionID</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>regionName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>postal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>city</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>message</name>
+		<tag-class>org.compiere.wstore.MessageTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Translate Messages</description>
+		<attribute>
+			<name>txt</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

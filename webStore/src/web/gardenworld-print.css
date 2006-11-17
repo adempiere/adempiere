@@ -1,0 +1,272 @@
+/** Adempiere Web Store (c) Jorg Janke */
+/** $Id$ */
+
+html{
+}
+body{
+ 	font-family: Times New Roman, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+}
+#page{
+}
+#main {
+	width: 100%;   
+}
+#menu{
+	display: none;
+}
+.menuDetail{
+	display: none;
+}
+.menuDetail:hover{
+	display: none;
+}
+.menuMain{
+	display: none;
+}
+.menuMain:hover{
+	display: none;
+}
+.menuSub{
+	display: none;
+}
+.menuSub:hover{
+	display: none;
+}
+#content {
+	position: absolute;
+	right: 0px;
+	font-family: Times New Roman, sans-serif;
+	font-size: 11px;
+	vertical-align: top;
+	padding: 5px;
+	border: 0px;
+}
+#vendorUse{
+	display: none;
+}
+.contentTable{
+ 	font-family: Times New Roman, sans-serif;
+	font-size: 11px;
+	width: 100%;
+	padding: 2px;
+}
+.internalTable{
+ 	font-family: Times New Roman, sans-serif;
+	font-size: 11px;
+    width: 100%;
+    padding: 2px;
+    border-style: none;
+}
+.adTable{
+	width: 100%;
+	padding: 5px;
+}
+.oddRow{
+	background-color: #FFCC99;
+}
+.evenRow{
+	background-color: #FF9966;
+}
+.amount{
+	text-align: right;
+}
+.quantity{
+	text-align: right;
+}
+.numeric{
+	text-align: right;
+}
+#footer{
+	display: none;
+}
+#footerParam4{
+	display: none;
+}
+#footerParam5{
+	text-align: center;
+    display:inline;
+}
+#footerParam6{
+	display: none;
+}
+#header{
+	display: none;
+}
+#headerIcon {	
+	display: none;
+}
+#headerIcon img{
+	display: none;
+}
+#headerContent {
+	display: none;
+}
+#headerMenu {
+	display: none;
+}
+h1 {
+	font-size: x-large;
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+h2 {
+	font-size: large;
+	font-style: italic;
+}
+h3 {
+	font-size: medium;
+	font-style: normal;
+	font-weight: bold;
+}
+h4 {
+	font-size: medium;
+	font-style: italic;
+}
+h5 {
+	font-size: medium;
+	font-weight: normal;
+}
+h6 {
+	font-size: larger;
+	font-weight: bold;
+}
+hr {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+#menu a {
+	display: none;
+}
+#menu a:hover {
+	display: none;
+}
+p {
+	text-align: justify;
+}
+th, legend {
+	color: #EEEEEE;
+	border: 1px;
+    border-color: #CCCCCC;
+    border-style: outset;
+	background-color: #006699;
+	text-align: left;
+    vertical-align: top;
+}
+caption {
+	text-align: left;
+	font-style: italic;
+	font-weight: bolder;
+}
+.error{
+	border: 1px solid #FF4A4A;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+form{
+	width: 100%;
+}
+fieldset{
+	border: 0px solid #AAAAAA;
+	clear: both;
+}
+label{
+	clear: left;
+	width: 35%;
+	float: left;
+	text-align: right;
+	margin-right: 0.8em;
+	display: block;
+    font-weight: bold;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+input{
+/*	color: #781351;*/
+/*	background: #fee3ad;*/
+/*	border: #000000;*/
+}
+select{
+	color: #000000;
+	background: #ffffff;
+	border: 1px solid #CCCCCC;
+}
+.mandatory{
+	background:#FFFF99;
+}
+input.disabled{
+	border: 0px;
+	background: transparent;
+}
+.buttons{
+	text-align:center;
+}
+.Cbasket{
+	font-size: 9px;
+	display: inline;
+}
+#imgButton{
+	border-style:outset;
+}
+#imgButtonPressed{
+	border-style:inset;
+}
+#status{
+    background-color: #fff8dc;
+    color: #000000;
+    display: none;
+}
+
+#validationInfo{
+	display: none;
+}
+#visaBox{
+	display: none;
+}
+#amexBox{
+	display: none;
+}
+.availProduct{
+    /* comment out next line to show the Availability column */
+    display:none;
+}
+label#productSearch{
+    width:150px;
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+    display: block;
+}
+.nobr{
+    white-space: nowrap;
+}
+.wideText{
+    width:100%;
+}
+.lineItem{
+    vertical-align: top;
+}
+.entryNote{
+ 	font-family: Times New Roman, sans-serif;
+	font-size: 11px;
+    color: #666666;
+    text-align: center;
+    vertical-align: top;
+}
+.emphasized{
+    font-weight: bold;
+}
+.disabledMsg{
+	display: none;
+	font-style: italic;
+	text-align: center;
+}
+#fileLoad{
+	display: none;
+}
