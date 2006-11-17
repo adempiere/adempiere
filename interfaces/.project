@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>interfaces</name>
+	<comment></comment>
+	<projects>
+		<project>base</project>
+		<project>dbPort</project>
+		<project>jboss</project>
+		<project>tools</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>
