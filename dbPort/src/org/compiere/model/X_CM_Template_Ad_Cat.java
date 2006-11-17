@@ -1,0 +1,161 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
+package org.compiere.model;
+
+/** Generated Model - DO NOT CHANGE */
+import java.util.*;
+import java.sql.*;
+import java.math.*;
+import org.compiere.util.*;
+/** Generated Model for CM_Template_Ad_Cat
+ *  @author Jorg Janke (generated) 
+ *  @version Release 2.5.3d - 2006-10-10 21:55:55.968 */
+public class X_CM_Template_Ad_Cat extends PO
+{
+/** Standard Constructor
+@param ctx context
+@param CM_Template_Ad_Cat_ID id
+@param trxName transaction
+*/
+public X_CM_Template_Ad_Cat (Properties ctx, int CM_Template_Ad_Cat_ID, String trxName)
+{
+super (ctx, CM_Template_Ad_Cat_ID, trxName);
+/** if (CM_Template_Ad_Cat_ID == 0)
+{
+setCM_Ad_Cat_ID (0);
+setCM_Template_ID (0);
+setName (null);
+}
+ */
+}
+/** Load Constructor 
+@param ctx context
+@param rs result set 
+@param trxName transaction
+*/
+public X_CM_Template_Ad_Cat (Properties ctx, ResultSet rs, String trxName)
+{
+super (ctx, rs, trxName);
+}
+/** AD_Table_ID=872 */
+public static final int Table_ID=872;
+
+/** TableName=CM_Template_Ad_Cat */
+public static final String Table_Name="CM_Template_Ad_Cat";
+
+protected static KeyNamePair Model = new KeyNamePair(872,"CM_Template_Ad_Cat");
+
+protected BigDecimal accessLevel = new BigDecimal(6);
+/** AccessLevel
+@return 6 - System - Client 
+*/
+protected int get_AccessLevel()
+{
+return accessLevel.intValue();
+}
+/** Load Meta Data
+@param ctx context
+@return PO Info
+*/
+protected POInfo initPO (Properties ctx)
+{
+POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+return poi;
+}
+/** Info
+@return info
+*/
+public String toString()
+{
+StringBuffer sb = new StringBuffer ("X_CM_Template_Ad_Cat[").append(get_ID()).append("]");
+return sb.toString();
+}
+/** Set Advertisement Category.
+@param CM_Ad_Cat_ID Advertisement Category like Banner Homepage  */
+public void setCM_Ad_Cat_ID (int CM_Ad_Cat_ID)
+{
+if (CM_Ad_Cat_ID < 1) throw new IllegalArgumentException ("CM_Ad_Cat_ID is mandatory.");
+set_Value ("CM_Ad_Cat_ID", new Integer(CM_Ad_Cat_ID));
+}
+/** Get Advertisement Category.
+@return Advertisement Category like Banner Homepage  */
+public int getCM_Ad_Cat_ID() 
+{
+Integer ii = (Integer)get_Value("CM_Ad_Cat_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Set Template.
+@param CM_Template_ID Template defines how content is displayed */
+public void setCM_Template_ID (int CM_Template_ID)
+{
+if (CM_Template_ID < 1) throw new IllegalArgumentException ("CM_Template_ID is mandatory.");
+set_Value ("CM_Template_ID", new Integer(CM_Template_ID));
+}
+/** Get Template.
+@return Template defines how content is displayed */
+public int getCM_Template_ID() 
+{
+Integer ii = (Integer)get_Value("CM_Template_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Set Description.
+@param Description Optional short description of the record */
+public void setDescription (String Description)
+{
+if (Description != null && Description.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+Description = Description.substring(0,254);
+}
+set_Value ("Description", Description);
+}
+/** Get Description.
+@return Optional short description of the record */
+public String getDescription() 
+{
+return (String)get_Value("Description");
+}
+/** Set Name.
+@param Name Alphanumeric identifier of the entity */
+public void setName (String Name)
+{
+if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
+if (Name.length() > 120)
+{
+log.warning("Length > 120 - truncated");
+Name = Name.substring(0,119);
+}
+set_Value ("Name", Name);
+}
+/** Get Name.
+@return Alphanumeric identifier of the entity */
+public String getName() 
+{
+return (String)get_Value("Name");
+}
+/** Get Record ID/ColumnName
+@return ID/ColumnName pair
+*/public KeyNamePair getKeyNamePair() 
+{
+return new KeyNamePair(get_ID(), getName());
+}
+}
