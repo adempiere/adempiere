@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Jorg Janke (ComPiere, Inc.) -->
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
+	<display-name>Adempiere Web Application</display-name>
+	<description>$Id: web.xml,v 1.1 2006/04/21 18:03:35 jjanke Exp $</description>
+	<context-param>
+		<param-name>AD_Client_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>ServerApps</param-name>
+		<param-value>1</param-value>
+	</context-param>
+	<filter>
+		<filter-name>WFilter</filter-name>
+		<display-name>Adempiere Web Filter</display-name>
+		<filter-class>org.compiere.www.WFilter</filter-class>
+		<init-param>
+			<param-name>Timing</param-name>
+			<param-value>Y</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>WFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>WAccount</servlet-name>
+		<display-name>Adempiere Account</display-name>
+		<servlet-class>org.compiere.www.WAccount</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WCounter</servlet-name>
+		<display-name>Adempiere Counter</display-name>
+		<servlet-class>org.compiere.wstore.Counter</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>WFieldUpdate</servlet-name>
+		<display-name>Adempiere Field Update</display-name>
+		<servlet-class>org.compiere.www.WFieldUpdate</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WLocation</servlet-name>
+		<display-name>Adempiere Location</display-name>
+		<servlet-class>org.compiere.www.WLocation</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WLogin</servlet-name>
+		<display-name>Adempiere Login</display-name>
+		<servlet-class>org.compiere.www.WLogin</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>WLookup</servlet-name>
+		<display-name>Adempiere Lookup</display-name>
+		<servlet-class>org.compiere.www.WLookup</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WMenu</servlet-name>
+		<display-name>Adempiere Menu</display-name>
+		<servlet-class>org.compiere.www.WMenu</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WProcess</servlet-name>
+		<display-name>Adempiere Process</display-name>
+		<servlet-class>org.compiere.www.WProcess</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WReport</servlet-name>
+		<display-name>Adempiere Report</display-name>
+		<servlet-class>org.compiere.www.WReport</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WHelp</servlet-name>
+		<display-name>Adempiere Help</display-name>
+		<servlet-class>org.compiere.www.WHelp</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WAttachment</servlet-name>
+		<display-name>Adempiere Attachment</display-name>
+		<servlet-class>org.compiere.www.WAttachment</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WRequest</servlet-name>
+		<display-name>Web Requests</display-name>
+		<servlet-class>org.compiere.wstore.RequestServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WStart</servlet-name>
+		<display-name>Adempiere Start</display-name>
+		<servlet-class>org.compiere.www.WStart</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>WStatus</servlet-name>
+		<display-name>Adempiere Status - first to load</display-name>
+		<servlet-class>org.compiere.www.WStatus</servlet-class>
+		<init-param>
+			<param-name>StatusInfo</param-name>
+			<param-value>Y</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>WTask</servlet-name>
+		<display-name>Adempiere Task</display-name>
+		<servlet-class>org.compiere.www.WTask</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WWindow</servlet-name>
+		<display-name>Adempiere Application Window</display-name>
+		<servlet-class>org.compiere.www.WWindow</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WWorkflow</servlet-name>
+		<display-name>Adempiere Workflow</display-name>
+		<servlet-class>org.compiere.www.WWorkflow</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WAccount</servlet-name>
+		<url-pattern>/WAccount</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WCounter</servlet-name>
+		<url-pattern>/WCounter</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WFieldUpdate</servlet-name>
+		<url-pattern>/WFieldUpdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WLocation</servlet-name>
+		<url-pattern>/WLocation</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WLogin</servlet-name>
+		<url-pattern>/WLogin</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WLookup</servlet-name>
+		<url-pattern>/WLookup</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WMenu</servlet-name>
+		<url-pattern>/WMenu</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WProcess</servlet-name>
+		<url-pattern>/WProcess</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WReport</servlet-name>
+		<url-pattern>/WReport</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WHelp</servlet-name>
+		<url-pattern>/WHelp</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WAttachment</servlet-name>
+		<url-pattern>/WAttachment</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WRequest</servlet-name>
+		<url-pattern>/WRequest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WStart</servlet-name>
+		<url-pattern>/WStart</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WStatus</servlet-name>
+		<url-pattern>/WStatus</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WTask</servlet-name>
+		<url-pattern>/WTask</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WWindow</servlet-name>
+		<url-pattern>/WWindow</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WWorkflow</servlet-name>
+		<url-pattern>/WWorkflow</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

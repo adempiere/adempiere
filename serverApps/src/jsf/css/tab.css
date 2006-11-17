@@ -1,0 +1,50 @@
+/* 
+if you could do multiple inheritance in css this would be perfect for it
+  not every aspect of this setup is as styled as it should be;
+  the buttons aren't properly squished together
+*/
+
+.baseParentTabStyle {
+    background-color: inherit;
+    width: 115px;
+}
+
+/* indented first level style tab button */
+.baseIndentOneTabStyle {
+    background-color: inherit;
+    width: 100px;
+}
+
+.baseIndentTwoTabStyle {
+	background-color: inherit;
+	width: 85px;
+}
+
+.selectedTabStyle {
+    border-left: 2px inset;
+    border-top: 2px inset;
+    border-bottom: 2px inset;
+    border-right: none;
+}
+
+.unselectedTabStyle {
+    border: 2px outset;
+}
+
+/* inherits from selectedTabStyle */
+.selectedMouseOverTabStyle {
+    color: WHITE;
+    border-left: 2px inset BLACK;
+    border-top: 2px inset BLACK;
+    border-bottom: 2px inset BLACK;
+    border-right: none;
+}
+
+.unselectedMouseOverTabStyle {
+    color: WHITE;
+    border: 2px outset BLACK;
+}
+
+.childTab {
+    padding-left: 15px;
+}

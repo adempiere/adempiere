@@ -1,0 +1,78 @@
+/* Adempiere (c) JJanke Modified by moyses */
+/* $Id: menu.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+
+body	{
+	background-color: #fbf8f1;
+	color: #000000;
+	font-size: 12px;
+}
+
+cite	{
+	display: block;
+	font-size: 10px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+li	{
+	font-weight: normal;
+	font-size: 12px;
+	margin-left: 0px;
+	padding-left: 5px;
+	cursor: pointer;
+}
+
+td {
+	font-size: 12px;
+}
+
+ul	{
+	margin-left:15px;
+}
+
+.menuTable	{
+	border-left: none;
+	border-right: none;
+	margin: 0px;
+	padding: 2px;
+}
+
+.menuHeader	{
+	border-top: none;
+}
+
+.menuCenter	{
+	border-bottom: 1px solid #000000;
+	border-top: 1px solid #000000;
+}
+
+.menuFooter	{
+	border-bottom: none;
+}
+
+
+.menuWindow	{
+	list-style-image: url(/adempiere/images/mWindow.gif); /* Menu Item */
+	list-style-type: circle;
+}
+
+.menuWorkflow	{
+	list-style-image: url(/adempiere/images/mWorkFlow.gif); /* Menu Item */
+	list-style-type: disc;
+}
+
+.menuReport	{
+	list-style-image: url(/adempiere/images/mReport.gif); /* Menu Item */
+	list-style-type: disc;
+}
+
+.menuProcess	{
+	list-style-image: url(/adempiere/images/mProcess.gif); /* Menu Item */
+	list-style-type: disc;
+}
+
+.menuSummary	{
+	font-weight: bold; /* Menu Closed */
+	list-style-image: url(images/mClosed.gif);
+	list-style-type: square;
+}

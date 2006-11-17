@@ -1,0 +1,35 @@
+/* Adempiere HTML UI (c) Jorg Janke */
+/* $Id: popup.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+
+body	{
+	background-color: #fbf8f1;
+	color: #000000;
+}
+
+.Cerror{
+	background: #dcf1cb;
+}
+
+.Cmandatory{
+	background: #e9eef5;
+}
+
+.popupTable	{
+	border-left: none;
+	border-right: none;
+	margin: 0px;
+	padding: 2px;
+}
+
+.popupHeader	{
+	border-top: none;
+}
+
+.popupCenter	{
+	border-bottom: 1px solid #000000;
+	border-top: 1px solid #000000;
+}
+
+.popupFooter	{
+	border-bottom: none;
+}

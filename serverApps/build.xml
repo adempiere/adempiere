@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!-- ============================================= -->
+<!-- Adempiere Server Application                   -->
+<!-- ============================================= -->
+<!-- $Header: /cvs/adempiere/serverApps/build.xml,v 1.14 2006/08/07 18:23:48 possibilityforge Exp $-->
+
+<project name="adempiereApps" default="main" basedir=".">
+
+  <property environment="env"/>
+
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.main.dir" value="${src.dir}/main"/>
+  <property name="src.client.dir" value="${src.main.dir}/client"/>
+  <property name="src.ejb.dir" value="${src.main.dir}/ejb"/>
+  <property name="src.servlet.dir" value="${src.main.dir}/servlet"/>
+  <property name="src.resources.dir" value="${src.dir}/resources"/>
+  <property name="src.web.dir" value="${src.dir}/web"/>
+  <property name="src.etc.dir" value="${src.dir}/etc"/>
+  <property name="src.server.dir" value="${src.main.dir}/server"/>
+  <property name="src.jsf.dir" value="${src.dir}/jsf/"/>
+
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.tmp.dir" value="${build.dir}/tmp"/>
+  <property name="build.deploy.dir" value="${build.dir}/deploy"/>
+  <property name="build.war.dir" value="${build.dir}/war"/>
+  <property name="build.jsf.dir" value="${build.dir}/jsf"/>
+  <property name="build.jar.dir" value="${build.dir}/jar"/>
+
+  <property name="jsf-lib.dir" value="${src.jsf.dir}/WEB-INF/lib/"/>
+
+
+  <target name="serverAppsInit">
+    <echo message="=========== Build Server Application"/>
+    <tstamp/>
+  </target>
+
+
+  <path id="base.path">
+    <pathelement location="../lib/Adempiere.jar" />
+    <pathelement location="../lib/CSTools.jar" />
+    <pathelement location="../tools/lib/j2ee.jar" />
+
+    <pathelement location="${build.classes.dir}" />
+  </path>
+
+  <!-- ============================================== -->
+  <!-- Compiles the source code for the JSF interface -->
+  <!-- ============================================== -->
+  <target name="jsfAppsCompile" depends="serverAppsInit">
+    <!--	Compile Web		-->
+    <mkdir dir="${build.jsf.dir}/WEB-INF/classes"/>
+    <mkdir dir="${build.jsf.dir}/window/"/>
+  	<mkdir dir="${build.jsf.dir}/images/"/>
+  	<mkdir dir="${build.jsf.dir}/mainMenu/"/>
+    <path id="jsf.path">
+      <path refid="base.path"/>
+      <pathelement location="${servlet-lib.path}"/>
+      <!-- pathelement dir="${jsf-lib.path}"/ -->
+      <fileset dir="${jsf-lib.dir}" includes="**/*.jar"/>
+    </path>
+  	
+    <javac
+	  destdir="${build.jsf.dir}/WEB-INF/classes"
+	  debug="on"
+	  deprecation="off"
+	  optimize="on"
+	  classpathref="jsf.path">
+      <src path="${src.jsf.dir}"/>
+    </javac>
+  	
+  	<copy todir="${build.jsf.dir}/images">
+  	  <fileset dir="${src.web.dir}/images">
+  		<include name="**/*.gif"/>
+  	  	<include name="**/*.png"/>
+  	  </fileset>
+  	</copy>
+
+  	<copy todir="${build.jsf.dir}">
+      <fileset dir="${src.jsf.dir}">
+        <include name="**/images/*"/>
+      	<include name="**/mainMenu/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+		<include name="**/*.jar" />
+		<include name="**/*.css" />
+        <include name="**/*.properties"/>
+		<include name="**/*.js" />
+		<include name="**/*.xml" />
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the jsf war archives                -->
+  <!-- =========================================== -->
+  <target name="jsfAppsWar" depends="jsfAppsCompile">
+    <mkdir dir="${build.deploy.dir}"/>
+
+    <!--	War Web Descriptor		-->
+  	<war
+  		  warfile="${build.deploy.dir}/adempiereJSFApps.war"
+  		  webxml="${src.jsf.dir}/WEB-INF/web.xml">
+  	      <fileset dir="${build.jsf.dir}" excludes="**/web.xml"/>
+  	      <manifest>
+  			<attribute name="Specification-Title" value="AdempiereJSFAppsWar"/>
+  			<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+  			<attribute name="Specification-Vendor" value="Adempiere"/>
+  			<attribute name="Implementation-Title" value="AdempiereJSFAppsWar ${env.ADEMPIERE_VERSION}"/>
+  			<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+  			<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+  			<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+  			<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+  	      </manifest>
+  	    </war>
+            <unwar src="${build.deploy.dir}/adempiereJSFApps.war" dest="${build.deploy.dir}/exploded/adempiereJSFApps.war" />
+  	  </target>
+
+  <!-- =========================================== -->
+  <!-- Compiles the source code                    -->
+  <!-- =========================================== -->
+  <target name="serverAppsCompile" depends="serverAppsInit">
+
+    <!--	Compile Web		-->
+    <mkdir dir="${build.war.dir}"/>
+    <path id="web.path">
+      <path refid="base.path"/>
+      <pathelement location="${servlet-lib.path}"/>
+    </path>
+  	
+    <javac
+	  destdir="${build.war.dir}"
+	  debug="on"
+	  deprecation="off"
+	  optimize="on"
+	  classpathref="web.path">
+      <src path="${src.servlet.dir}"/>
+    </javac>
+  	
+    <copy todir="${build.war.dir}">
+      <fileset dir="${src.servlet.dir}">
+        <include name="**/images/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the jar archives                    -->
+  <!-- =========================================== -->
+  <target name="serverAppsJar" depends="serverAppsCompile">
+    <mkdir dir="${build.jar.dir}"/>
+
+    <!--	Jar Apps Code			-->
+    <jar
+	  jarfile="${build.jar.dir}/adempiereApps.jar">
+      <fileset
+	    dir="${build.war.dir}"
+	    includes="**/*.*">
+      </fileset>
+      <manifest>
+		<attribute name="Specification-Title" value="AdempiereApps"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere"/>
+		<attribute name="Implementation-Title" value="AdempiereApps ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+      </manifest>
+    </jar>
+
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the war archives                    -->
+  <!-- =========================================== -->
+  <target name="serverAppsWar" depends="serverAppsJar">
+    <mkdir dir="${build.deploy.dir}"/>
+
+    <!--	War Web Descriptor		-->
+  	<war
+  		  warfile="${build.deploy.dir}/adempiereApps.war"
+  		  webxml="${src.web.dir}/WEB-INF/web.xml">
+  	      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/lib/**,**/classes/**"/>
+  	      <manifest>
+  			<attribute name="Specification-Title" value="AdempiereAppsWar"/>
+  			<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+  			<attribute name="Specification-Vendor" value="Adempiere"/>
+  			<attribute name="Implementation-Title" value="AdempiereAppsWar ${env.ADEMPIERE_VERSION}"/>
+  			<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+  			<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+  			<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+  			<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+  	      </manifest>
+  	    </war>
+  	  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the server binary                   -->
+  <!-- =========================================== -->
+  <target name="serverAppsDeployServer" depends="serverAppsWar">
+    <copy todir="../lib">
+      <fileset dir="${build.deploy.dir}" 
+      	includes="*.jar,*.war,*.ear"/>
+      <fileset dir="${build.jar.dir}" 
+      	includes="*.jar,*.war,*.ear"/>
+    </copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Creates the binary structure                -->
+  <!-- =========================================== -->
+  <target name="main" depends="serverAppsDeployServer">
+  	<copy file="src/ear/application.xml" tofile="../lib/adempiereApps.xml" />
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Cleans up the current build                 -->
+  <!-- =========================================== -->
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete file="../lib/adempiereApps.war" failonerror="false"/>
+    <delete file="../lib/adempiereApps.jar" failonerror="false"/>
+  </target>
+
+</project>

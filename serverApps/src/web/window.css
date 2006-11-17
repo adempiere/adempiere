@@ -1,0 +1,76 @@
+/* Adempiere HTML UI (c) Jorg Janke */
+/* $Id: window.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+
+
+body	{
+	/* Manu #F4FCFF; */
+	background-color: #fbf8f1;
+	color: #000000;
+	font-size: 12px;
+}
+
+big	{
+	cursor: pointer; /* used for tab */
+}
+
+td {
+	font-size: 12px;
+}
+
+.Cerror	{
+	background: #dcf1cb;
+}
+
+.Cmandatory	{
+	background: #e9eef5;
+}
+
+#imgButton	{
+	border-style: outset;
+}
+
+#imgButtonPressed	{
+	border-style: inset;
+}
+
+#tab	{
+	background: #E6E6FA; /* Window Tabs */
+	border-style: outset;
+	color: #0000CC;
+	cursor: pointer;
+	margin-right: 5px;
+	margin-top: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#tabSelected	{
+	background: #E6E6FA; /* Selected Window Tabs */
+	border-style: inset;
+	color: #000066;
+	cursor: pointer;
+	margin-right: 5px;
+	margin-top: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.windowTable	{
+	margin: 0px;
+	padding: 2px;
+	border-left: none;
+	border-right: none;
+}
+
+.windowHeader	{
+	border-top: none;
+}
+
+.windowCenter	{
+	border-bottom: 1px solid #000000;
+	border-top: 1px solid #000000;
+}
+
+.windowFooter	{
+	border-bottom: none;
+}

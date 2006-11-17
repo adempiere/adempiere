@@ -1,0 +1,22 @@
+/* pink background for required but empty fields */
+.requiredTextField {
+    background-color: #ffd6dd;
+}
+
+/* the blue background for filled required fields */
+.filledTextField {
+    background-color: #9191ff;
+}
+
+/* orange like the title says */
+.orangeTextField {
+    background-color: #ffc55c;
+}
+
+.fixedWidthInputText {
+    width: 15em;
+}
+
+.fillCellTableView {
+	width: 100%;
+}
