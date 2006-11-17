@@ -1,0 +1,75 @@
+<!-- ============================================= -->
+<!-- Base                                          -->
+<!-- ============================================= -->
+<!-- $Header: /cvs/adempiere/sqlj/build.xml,v 1.1 2006/04/21 18:04:47 jjanke Exp $ -->
+
+<project name="sqlj" default="sqljDist" basedir=".">
+	
+	<property name="src" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="dist.dir" value="."/>
+	<property environment="env"/>
+
+	
+	<path id="project.class.path">
+	    <pathelement path="${classpath}"/>
+	</path>
+
+
+	<target name="sqljInit" description="initialization target">
+	    <echo message="=========== Build SQLJ"/>
+	    <!-- create the time stamp -->
+	    <tstamp/>
+	    <!-- create the build directory structure used by compile -->
+	    <mkdir dir="${build.dir}"/>
+            <!--begin vpj-cd e-evolution PostgreSQL-->
+            <copy file="postgresql/sqlj.ddr" tofile="./${build.dir}/deployment/sqlj.ddr" failonerror="no"/>
+	    <!--end vpj-cd e-evolution PostgreSQL-->
+	</target>
+	
+
+	<!-- =========================================== -->
+	<!-- Compile	                                 -->
+	<!-- =========================================== -->
+	<target name="sqljCompile" depends="sqljInit">
+	    <javac srcdir="${src}" destdir="${build.dir}" 
+	    	deprecation="on" 
+	    	source="1.3" target="1.1" optimize="off" 
+	    	debug="on">
+	      <classpath refid="project.class.path"/>
+	    </javac>
+	</target>
+	
+
+	<!-- =========================================== -->
+	<!-- Distribution                                -->
+	<!-- =========================================== -->
+	<target name="sqljDist" depends="sqljCompile">
+		<jar jarfile="${dist.dir}/sqlj.jar" 
+			basedir="${build.dir}" 
+			compress="no">
+		  <manifest>
+			<attribute name="Specification-Title" value="Adempiere SQLJ Functions"/>
+			<attribute name="Specification-Version" value="sqlj"/>
+			<attribute name="Specification-Vendor" value="Adempiere"/>
+			<attribute name="Implementation-Title" value="sqlj ${env.ADEMPIERE_VERSION}"/>
+			<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+			<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+			<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+                        <!--begin vpj-cd e-evolution PostgreSQL-->
+		  	<section name="deployment/sqlj.ddr">
+		  	        <attribute name="SQLJDeploymentDescriptor" value="true"/>
+		  	</section>
+		  	<!--end vpj-cd e-evolution PostgreSQL-->
+		  </manifest>
+		</jar>
+	</target>
+
+	<target name="clean">
+	    <!-- Delete the ${build.dir} directory trees -->
+	    <delete dir="${build.dir}"/>
+	    <delete file="${dist.dir}/sqlj.jar" failonerror="false"/>
+	</target>
+
+
+</project>

@@ -1,0 +1,29 @@
+Begin Project "SQL J", "", VC_PROJECT=, AUXPROJPATH=
+DATASOURCE=
+DATABASE=
+
+Begin SubProject "oracle", "", PATH=.\oracle
+
+Begin File "createSQLJ.sql"
+PATH=.\oracle\createSQLJ.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "sybase", "", PATH=.\sybase
+
+Begin File "createSQLJ.sql"
+PATH=.\sybase\createSQLJ.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+End Project
