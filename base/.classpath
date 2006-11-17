@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/print"/>
+	<classpathentry kind="src" path="/tools"/>
+	<classpathentry kind="src" path="/dbPort"/>
+	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="lib" path="/interfaces/Interfaces.jar" sourcepath="/interfaces/src"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

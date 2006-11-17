@@ -1,0 +1,521 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
+package org.compiere.model;
+
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
+import org.compiere.util.*;
+import com.sun.org.apache.bcel.internal.generic.*;
+
+
+/**
+ *	Shipment/Receipt Callouts	
+ *	
+ *  @author Jorg Janke
+ *  @version $Id: CalloutInOut.java,v 1.7 2006/07/30 00:51:05 jjanke Exp $
+ */
+public class CalloutInOut extends CalloutEngine
+{
+	/**
+	 * 	C_Order - Order Defaults.
+	 *	@param ctx
+	 *	@param WindowNo
+	 *	@param mTab
+	 *	@param mField
+	 *	@param value
+	 *	@return error message or ""
+	 */
+	public String order (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer C_Order_ID = (Integer)value;
+		if (C_Order_ID == null || C_Order_ID.intValue() == 0)
+			return "";
+		//	No Callout Active to fire dependent values
+		if (isCalloutActive())	//	prevent recursive
+			return "";
+		
+		//	Get Details
+		MOrder order = new MOrder (ctx, C_Order_ID.intValue(), null);
+		if (order.get_ID() != 0)
+		{
+			mTab.setValue("DateOrdered", order.getDateOrdered());
+			mTab.setValue("POReference", order.getPOReference());
+			mTab.setValue("AD_Org_ID", new Integer(order.getAD_Org_ID()));
+			mTab.setValue("AD_OrgTrx_ID", new Integer(order.getAD_OrgTrx_ID()));
+			mTab.setValue("C_Activity_ID", new Integer(order.getC_Activity_ID()));
+			mTab.setValue("C_Campaign_ID", new Integer(order.getC_Campaign_ID()));
+			mTab.setValue("C_Project_ID", new Integer(order.getC_Project_ID()));
+			mTab.setValue("User1_ID", new Integer(order.getUser1_ID()));
+			mTab.setValue("User2_ID", new Integer(order.getUser2_ID()));
+			mTab.setValue("M_Warehouse_ID", new Integer(order.getM_Warehouse_ID()));
+			//
+			mTab.setValue("DeliveryRule", order.getDeliveryRule());
+			mTab.setValue("DeliveryViaRule", order.getDeliveryViaRule());
+			mTab.setValue("M_Shipper_ID", new Integer(order.getM_Shipper_ID()));
+			mTab.setValue("FreightCostRule", order.getFreightCostRule());
+			mTab.setValue("FreightAmt", order.getFreightAmt());
+
+			mTab.setValue("C_BPartner_ID", new Integer(order.getC_BPartner_ID()));
+		}
+		return "";
+	}	//	order
+	
+	
+	/**
+	 *	InOut - DocType.
+	 *			- sets MovementType
+	 *			- gets DocNo
+	 *	@param ctx
+	 *	@param WindowNo
+	 *	@param mTab
+	 *	@param mField
+	 *	@param value
+	 *	@return error message or ""
+	 */
+	public String docType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer C_DocType_ID = (Integer)value;
+		if (C_DocType_ID == null || C_DocType_ID.intValue() == 0)
+			return "";
+
+		String sql = "SELECT d.DocBaseType, d.IsDocNoControlled, s.CurrentNext "
+			+ "FROM C_DocType d, AD_Sequence s "
+			+ "WHERE C_DocType_ID=?"		//	1
+			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
+		try
+		{
+			Env.setContext(ctx, WindowNo, "C_DocTypeTarget_ID", C_DocType_ID.intValue());
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, C_DocType_ID.intValue());
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				//	Set Movement Type
+				String DocBaseType = rs.getString("DocBaseType");
+				if (DocBaseType.equals("MMS"))					//	Material Shipments
+					mTab.setValue("MovementType", "C-");				//	Customer Shipments
+				else if (DocBaseType.equals("MMR"))				//	Material Receipts
+					mTab.setValue("MovementType", "V+");				//	Vendor Receipts
+
+				//	DocumentNo
+				if (rs.getString("IsDocNoControlled").equals("Y"))
+					mTab.setValue("DocumentNo", "<" + rs.getString("CurrentNext") + ">");
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			return e.getLocalizedMessage();
+		}
+		return "";
+	}	//	docType
+
+
+	/**
+	 *	M_InOut - Defaults for BPartner.
+	 *			- Location
+	 *			- Contact
+	 *	@param ctx
+	 *	@param WindowNo
+	 *	@param mTab
+	 *	@param mField
+	 *	@param value
+	 *	@return error message or ""
+	 */
+	public String bpartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer C_BPartner_ID = (Integer)value;
+		if (C_BPartner_ID == null || C_BPartner_ID.intValue() == 0)
+			return "";
+
+		String sql = "SELECT p.AD_Language,p.C_PaymentTerm_ID,"
+			+ "p.M_PriceList_ID,p.PaymentRule,p.POReference,"
+			+ "p.SO_Description,p.IsDiscountPrinted,"
+			+ "p.SO_CreditLimit-p.SO_CreditUsed AS CreditAvailable,"
+			+ "l.C_BPartner_Location_ID,c.AD_User_ID "
+			+ "FROM C_BPartner p, C_BPartner_Location l, AD_User c "
+			+ "WHERE p.C_BPartner_ID=l.C_BPartner_ID(+)"
+			+ " AND p.C_BPartner_ID=c.C_BPartner_ID(+)"
+			+ " AND p.C_BPartner_ID=?";		//	1
+
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, C_BPartner_ID.intValue());
+			ResultSet rs = pstmt.executeQuery();
+			BigDecimal bd;
+			if (rs.next())
+			{
+				//	Location
+				Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
+				if (rs.wasNull())
+					mTab.setValue("C_BPartner_Location_ID", null);
+				else
+					mTab.setValue("C_BPartner_Location_ID", ii);
+				//	Contact
+				ii = new Integer(rs.getInt("AD_User_ID"));
+				if (rs.wasNull())
+					mTab.setValue("AD_User_ID", null);
+				else
+					mTab.setValue("AD_User_ID", ii);
+
+				//	CreditAvailable
+				double CreditAvailable = rs.getDouble("CreditAvailable");
+				if (!rs.wasNull() && CreditAvailable < 0)
+					mTab.fireDataStatusEEvent("CreditLimitOver",
+						DisplayType.getNumberFormat(DisplayType.Amount).format(CreditAvailable),
+						false);
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			return e.getLocalizedMessage();
+		}
+
+		return "";
+	}	//	bpartner
+
+	/**
+	 *	M_Warehouse.
+	 *		Set Organization and Default Locator
+	 *	@param ctx
+	 *	@param WindowNo
+	 *	@param mTab
+	 *	@param mField
+	 *	@param value
+	 *	@return error message or ""
+	 */
+	public String warehouse (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		if (isCalloutActive())
+			return "";
+		Integer M_Warehouse_ID = (Integer)value;
+		if (M_Warehouse_ID == null || M_Warehouse_ID.intValue() == 0)
+			return "";
+		setCalloutActive(true);
+
+		String sql = "SELECT w.AD_Org_ID, l.M_Locator_ID "
+			+ "FROM M_Warehouse w"
+			+ " LEFT OUTER JOIN M_Locator l ON (l.M_Warehouse_ID=w.M_Warehouse_ID AND l.IsDefault='Y') "
+			+ "WHERE w.M_Warehouse_ID=?";		//	1
+
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, M_Warehouse_ID.intValue());
+			ResultSet rs = pstmt.executeQuery();
+			BigDecimal bd;
+			if (rs.next())
+			{
+				//	Org
+				Integer ii = new Integer(rs.getInt(1));
+				int AD_Org_ID = Env.getContextAsInt(ctx, WindowNo, "AD_Org_ID");
+				if (AD_Org_ID != ii.intValue())
+					mTab.setValue("AD_Org_ID", ii);
+				//	Locator
+				ii = new Integer(rs.getInt(2));
+				if (rs.wasNull())
+					Env.setContext(ctx, WindowNo, 0, "M_Locator_ID", null);
+				else
+				{
+					log.config("M_Locator_ID=" + ii);
+					Env.setContext(ctx, WindowNo, "M_Locator_ID", ii.intValue());
+				}
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			setCalloutActive(false);
+			return e.getLocalizedMessage();
+		}
+
+		setCalloutActive(false);
+		return "";
+	}	//	warehouse
+
+	
+	/**************************************************************************
+	 * 	OrderLine Callout
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab model
+	 *	@param mField field model
+	 *	@param value new value
+	 *	@return error message or ""
+	 */
+	public String orderLine (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer C_OrderLine_ID = (Integer)value;
+		if (C_OrderLine_ID == null || C_OrderLine_ID.intValue() == 0)
+			return "";
+		setCalloutActive(true);
+		
+		//	Get Details
+		MOrderLine ol = new MOrderLine (ctx, C_OrderLine_ID.intValue(), null);
+		if (ol.get_ID() != 0)
+		{
+			mTab.setValue("M_Product_ID", new Integer(ol.getM_Product_ID()));
+			mTab.setValue("M_AttributeSetInstance_ID", new Integer(ol.getM_AttributeSetInstance_ID()));
+			//
+			mTab.setValue("C_UOM_ID", new Integer(ol.getC_UOM_ID()));
+			BigDecimal MovementQty = ol.getQtyOrdered().subtract(ol.getQtyDelivered());
+			mTab.setValue("MovementQty", MovementQty);
+			BigDecimal QtyEntered = MovementQty;
+			if (ol.getQtyEntered().compareTo(ol.getQtyOrdered()) != 0)
+				QtyEntered = QtyEntered.multiply(ol.getQtyEntered())
+					.divide(ol.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP);
+			mTab.setValue("QtyEntered", QtyEntered);
+			//
+			mTab.setValue("C_Activity_ID", new Integer(ol.getC_Activity_ID()));
+			mTab.setValue("C_Campaign_ID", new Integer(ol.getC_Campaign_ID()));
+			mTab.setValue("C_Project_ID", new Integer(ol.getC_Project_ID()));
+			mTab.setValue("C_ProjectPhase_ID", new Integer(ol.getC_ProjectPhase_ID()));
+			mTab.setValue("C_ProjectTask_ID", new Integer(ol.getC_ProjectTask_ID()));
+			mTab.setValue("AD_OrgTrx_ID", new Integer(ol.getAD_OrgTrx_ID()));
+			mTab.setValue("User1_ID", new Integer(ol.getUser1_ID()));
+			mTab.setValue("User2_ID", new Integer(ol.getUser2_ID()));
+		}
+		setCalloutActive(false);
+		return "";
+	}	//	orderLine
+
+	/**
+	 *	M_InOutLine - Default UOM/Locator for Product.
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab model
+	 *	@param mField field model
+	 *	@param value new value
+	 *	@return error message or ""
+	 */
+	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		if (isCalloutActive())
+			return "";
+		Integer M_Product_ID = (Integer)value;
+		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
+			return "";
+		setCalloutActive(true);
+		
+		//	Set Attribute & Locator
+		int M_Locator_ID = 0;
+		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+		{
+			mTab.setValue("M_AttributeSetInstance_ID", 
+				new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+			M_Locator_ID = Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID");
+			if (M_Locator_ID != 0)
+				mTab.setValue("M_Locator_ID", new Integer(M_Locator_ID));
+		}
+		else
+			mTab.setValue("M_AttributeSetInstance_ID", null);
+		//
+		int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
+		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+		if (IsSOTrx)
+		{
+			setCalloutActive(false);
+			return "";
+		}
+
+		//	Set UOM/Locator/Qty
+		MProduct product = MProduct.get(ctx, M_Product_ID.intValue());
+		mTab.setValue("C_UOM_ID", new Integer (product.getC_UOM_ID()));
+		BigDecimal QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
+		mTab.setValue("MovementQty", QtyEntered);
+		if (M_Locator_ID != 0)
+			;		//	already set
+		else if (product.getM_Locator_ID() != 0)
+		{
+			MLocator loc = MLocator.get(ctx, product.getM_Locator_ID());
+			if (M_Warehouse_ID == loc.getM_Warehouse_ID())
+				mTab.setValue("M_Locator_ID", new Integer (product.getM_Locator_ID()));
+			else
+				log.fine("No Locator for M_Product_ID=" + M_Product_ID + " and M_Warehouse_ID=" + M_Warehouse_ID);
+		}
+		else
+			log.fine("No Locator for M_Product_ID=" + M_Product_ID);
+		setCalloutActive(false);
+		return "";
+	}	//	product
+
+	/**
+	 *	InOut Line - Quantity.
+	 *		- called from C_UOM_ID, QtyEntered, MovementQty
+	 *		- enforces qty UOM relationship
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab model
+	 *	@param mField field model
+	 *	@param value new value
+	 *	@return error message or ""
+	 */
+	public String qty (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		if (isCalloutActive() || value == null)
+			return "";
+		setCalloutActive(true);
+
+		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
+		//	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
+		BigDecimal MovementQty, QtyEntered;
+		
+		//	No Product
+		if (M_Product_ID == 0)
+		{
+			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
+			mTab.setValue("MovementQty", QtyEntered);
+		}
+		//	UOM Changed - convert from Entered -> Product
+		else if (mField.getColumnName().equals("C_UOM_ID"))
+		{
+			int C_UOM_To_ID = ((Integer)value).intValue();
+			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			if (QtyEntered.compareTo(QtyEntered1) != 0)
+			{
+				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
+					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
+				QtyEntered = QtyEntered1;
+				mTab.setValue("QtyEntered", QtyEntered);
+			}
+			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+				C_UOM_To_ID, QtyEntered);
+			if (MovementQty == null)
+				MovementQty = QtyEntered;
+			boolean conversion = QtyEntered.compareTo(MovementQty) != 0;
+			log.fine("UOM=" + C_UOM_To_ID 
+				+ ", QtyEntered=" + QtyEntered
+				+ " -> " + conversion 
+				+ " MovementQty=" + MovementQty);
+			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			mTab.setValue("MovementQty", MovementQty);
+		}
+		//	No UOM defined
+		else if (Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID") == 0)
+		{
+			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
+			mTab.setValue("MovementQty", QtyEntered);
+		}
+		//	QtyEntered changed - calculate MovementQty
+		else if (mField.getColumnName().equals("QtyEntered"))
+		{
+			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
+			QtyEntered = (BigDecimal)value;
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			if (QtyEntered.compareTo(QtyEntered1) != 0)
+			{
+				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
+					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
+				QtyEntered = QtyEntered1;
+				mTab.setValue("QtyEntered", QtyEntered);
+			}
+			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+				C_UOM_To_ID, QtyEntered);
+			if (MovementQty == null)
+				MovementQty = QtyEntered;
+			boolean conversion = QtyEntered.compareTo(MovementQty) != 0;
+			log.fine("UOM=" + C_UOM_To_ID 
+				+ ", QtyEntered=" + QtyEntered
+				+ " -> " + conversion 
+				+ " MovementQty=" + MovementQty);
+			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			mTab.setValue("MovementQty", MovementQty);
+		}
+		//	MovementQty changed - calculate QtyEntered (should not happen)
+		else if (mField.getColumnName().equals("MovementQty"))
+		{
+			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
+			MovementQty = (BigDecimal)value;
+			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision(); 
+			BigDecimal MovementQty1 = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			if (MovementQty.compareTo(MovementQty1) != 0)
+			{
+				log.fine("Corrected MovementQty " 
+					+ MovementQty + "->" + MovementQty1);  
+				MovementQty = MovementQty1;
+				mTab.setValue("MovementQty", MovementQty);
+			}
+			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
+				C_UOM_To_ID, MovementQty);
+			if (QtyEntered == null)
+				QtyEntered = MovementQty;
+			boolean conversion = MovementQty.compareTo(QtyEntered) != 0;
+			log.fine("UOM=" + C_UOM_To_ID 
+				+ ", MovementQty=" + MovementQty
+				+ " -> " + conversion 
+				+ " QtyEntered=" + QtyEntered);
+			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			mTab.setValue("QtyEntered", QtyEntered);
+		}
+		//
+		setCalloutActive(false);
+		return "";
+	}	//	qty
+
+	/**
+	 *	M_InOutLine - ASI.
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab model
+	 *	@param mField field model
+	 *	@param value new value
+	 *	@return error message or ""
+	 */
+	public String asi (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		if (isCalloutActive())
+			return "";
+		Integer M_ASI_ID = (Integer)value;
+		if (M_ASI_ID == null || M_ASI_ID.intValue() == 0)
+			return "";
+		setCalloutActive(true);
+		//
+		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
+		int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
+		int M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, "M_Locator_ID");
+		log.fine("M_Product_ID=" + M_Product_ID
+			+ ", M_ASI_ID=" + M_ASI_ID
+			+ " - M_Warehouse_ID=" + M_Warehouse_ID 
+			+ ", M_Locator_ID=" + M_Locator_ID);
+		//	Check Selection
+		int M_AttributeSetInstance_ID =	Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+		if (M_ASI_ID.intValue() == M_AttributeSetInstance_ID)
+		{
+			int selectedM_Locator_ID = Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID");
+			if (selectedM_Locator_ID != 0)
+			{
+				log.fine("Selected M_Locator_ID=" + selectedM_Locator_ID);
+				mTab.setValue("M_Locator_ID", new Integer (selectedM_Locator_ID));
+			}
+		}
+		setCalloutActive(false);
+		return "";
+	}	//	asi
+
+}	//	CalloutInOut
