@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" path="sqlj/src"/>
+	<classpathentry kind="src" path="print/src"/>
+	<classpathentry kind="src" path="looks/src"/>
+	<classpathentry kind="src" path="install/src"/>
+	<classpathentry kind="src" path="dbPort/src"/>
+	<classpathentry kind="src" path="extend/src"/>
+	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
+	<classpathentry kind="src" path="serverRoot/src/main/server"/>
+	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
+	<classpathentry kind="src" path="interfaces/src"/>
+	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/activation.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/mail.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/standard.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/Verisign.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ocrs12.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-httpclient.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-logging.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jconn3.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jtds-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/j2ee.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-common-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-1.3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-j2ee.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc14.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/db2jcc_license_cu.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/db2jcc.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jnlp.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/commons-net-1.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="lib/jPDF.jar"/>
+	<classpathentry kind="lib" path="tools/lib/barbecue-1.0.6d.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.5.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/postgresql.jar"/>
+	<classpathentry kind="src" path="client/src"/>
+	<classpathentry kind="src" path="tools/src"/>
+	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
