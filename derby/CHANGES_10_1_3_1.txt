@@ -1,0 +1,14 @@
+The changes in the Derby 10.1.3.0 release since the 10.1.2.1 release include
+over 100 individual fixes to various issues. Among these are:
+
+  - Improved network server reliability, memory usage, and tracing facilities
+  - Numerous fixes to XA behavior
+  - Improved query performance for UNION queries and subqueries
+  - Better handling of text encoding on systems with non-native ASCII encodings
+  - More reliable behavior of scrollable insensitive result sets
+  - Updated documentation
+  - and many others
+
+For a complete list of changes in the release see the release notes:
+http://issues.apache.org/jira/secure/ReleaseNote.jspa?version=12310616&styleName=Html&projectId=10594&Create=Create
+
