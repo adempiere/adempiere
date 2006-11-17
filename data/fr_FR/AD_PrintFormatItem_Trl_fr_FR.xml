@@ -1,0 +1,2201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_PrintFormatItem">
+	<row id="100" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="PrintName" original="Activity">Activity</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="PrintName" original="Campaign">Campagne</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="PrintName" original="Charge">Charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="PrintName" original="Charge Amt">Mnt Charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="PrintName" original="Client">Société</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="PrintName" original="Created">Créé</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="PrintName" original="Created By">Créé par</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="112" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="113" trl="Y">
+		<value column="PrintName" original="Date Promised	:">Date Promised	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="PrintName" original="Delivery Rule">Delivery Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="115" trl="Y">
+		<value column="PrintName" original="Delivery Via">Delivery Via</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="116" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="PrintName" original="Doc Status">Doc Status</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="119" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="120" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="121" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="122" trl="Y">
+		<value column="PrintName" original="Invoice Rule">Invoice Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="123" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="124" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="125" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="126" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Order Reference	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="127" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="129" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="130" trl="Y">
+		<value column="PrintName" original="Price List">Price List</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="131" trl="Y">
+		<value column="PrintName" original="Price includes Tax">Price includes Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="132" trl="Y">
+		<value column="PrintName" original="Priority">Priorité</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="133" trl="Y">
+		<value column="PrintName" original="Project">Projet</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="134" trl="Y">
+		<value column="PrintName" original="Reference No	:">N° Référence     :</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="135" trl="Y">
+		<value column="PrintName" original="Sales Order">Commande de vente</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="136" trl="Y">
+		<value column="PrintName" original="Sales Consultant	:">Consultant ventes	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="137" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Transaction de ventes</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="138" trl="Y">
+		<value column="PrintName" original="Shipper">Transporteur</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="139" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="140" trl="Y">
+		<value column="PrintName" original="Total Lines">Total lignes</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="141" trl="Y">
+		<value column="PrintName" original="Updated">Mis à jour</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="142" trl="Y">
+		<value column="PrintName" original="Updated By">Mis à jour par</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="143" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="144" trl="Y">
+		<value column="PrintName" original="Client">Société</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="145" trl="Y">
+		<value column="PrintName" original="Created">Créé</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="146" trl="Y">
+		<value column="PrintName" original="Created By">Créé par</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="147" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="148" trl="Y">
+		<value column="PrintName" original="Discount %">Remise %</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="149" trl="Y">
+		<value column="PrintName" original="Doc Note">Note doc</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="150" trl="Y">
+		<value column="PrintName" original="Line Net">Montant net</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="151" trl="Y">
+		<value column="PrintName" original="Line No">N° ligne</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="152" trl="Y">
+		<value column="PrintName" original="List Price">Liste de prix</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="153" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="154" trl="Y">
+		<value column="PrintName" original="Qty">Qté</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="155" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="156" trl="Y">
+		<value column="PrintName" original="Resource Description">Description ressource</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="157" trl="Y">
+		<value column="PrintName" original="Sales Order">Commande de vente</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="158" trl="Y">
+		<value column="PrintName" original="Order Line">Ligne commande</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="159" trl="Y">
+		<value column="PrintName" original="UoM">UM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="160" trl="Y">
+		<value column="PrintName" original="Tax">Taxe</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="161" trl="Y">
+		<value column="PrintName" original="Unit Price">Prix unitaire</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="162" trl="Y">
+		<value column="PrintName" original="Updated">Mis à jour</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="163" trl="Y">
+		<value column="PrintName" original="Updated By">Mis à jour par</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="164" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="165" trl="Y">
+		<value column="PrintName" original="Activity">Activité</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="166" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="167" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="168" trl="Y">
+		<value column="PrintName" original="Campaign">Campagne</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="169" trl="Y">
+		<value column="PrintName" original="Charge">Charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="170" trl="Y">
+		<value column="PrintName" original="Charge Amt">Montant charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="171" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="172" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="173" trl="Y">
+		<value column="PrintName" original="Created">Créé</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="174" trl="Y">
+		<value column="PrintName" original="Created By">Créé par</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="175" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="176" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="177" trl="Y">
+		<value column="PrintName" original="Date Ordered	:">Date commandé   :</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="178" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="179" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="180" trl="Y">
+		<value column="PrintName" original="Doc Status">Statut document</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="181" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="182" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="183" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="184" trl="Y">
+		<value column="PrintName" original="Invoice">Facture</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="185" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="186" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="187" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="188" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Référence Commande:	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="189" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="190" trl="Y">
+		<value column="PrintName" original="Paid">PaiPayéd</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="191" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="192" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="193" trl="Y">
+		<value column="PrintName" original="Price List">Liste de prix</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="194" trl="Y">
+		<value column="PrintName" original="Price includes Tax">Prix TVA comprise</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="195" trl="Y">
+		<value column="PrintName" original="Project">Projet</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="196" trl="Y">
+		<value column="PrintName" original="Reference No	:">N° de référence	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="197" trl="Y">
+		<value column="PrintName" original="Sales Order	:">Commande de vente	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="198" trl="Y">
+		<value column="PrintName" original="Sales Consultant	:">Consultant ventes	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="199" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Transaction de ventes</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="200" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="201" trl="Y">
+		<value column="PrintName" original="Total Lines">Total lignes</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="202" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="203" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="204" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="205" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="206" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="207" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="208" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="209" trl="Y">
+		<value column="PrintName" original="Discount %">Discount %</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="210" trl="Y">
+		<value column="PrintName" original="Doc Note">Doc Note</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="211" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="212" trl="Y">
+		<value column="PrintName" original="Invoice Line">Invoice Line</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="213" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="214" trl="Y">
+		<value column="PrintName" original="Line Net">Line Net</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="215" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="216" trl="Y">
+		<value column="PrintName" original="List Price">List Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="217" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="218" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="219" trl="Y">
+		<value column="PrintName" original="Resource Description">Resource Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="220" trl="Y">
+		<value column="PrintName" original="UoM">UoM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="221" trl="Y">
+		<value column="PrintName" original="Tax">Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="222" trl="Y">
+		<value column="PrintName" original="Unit Price">Unit Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="223" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="224" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="225" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="226" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="227" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="228" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="229" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="230" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="231" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="232" trl="Y">
+		<value column="PrintName" original="Date Ordered	:">Date Ordered	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="233" trl="Y">
+		<value column="PrintName" original="Delivery Rule">Delivery Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="234" trl="Y">
+		<value column="PrintName" original="Delivery Via">Delivery Via</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="235" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="236" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="237" trl="Y">
+		<value column="PrintName" original="Doc Status">Doc Status</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="238" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="239" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="240" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="241" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="242" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="243" trl="Y">
+		<value column="PrintName" original="Movement Type">Movement Type</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="244" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="245" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="246" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Order Reference	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="247" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="248" trl="Y">
+		<value column="PrintName" original="Priority">Priority</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="249" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="250" trl="Y">
+		<value column="PrintName" original="Sales Order	:">Sales Order	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="251" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Sales Transaction</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="252" trl="Y">
+		<value column="PrintName" original="Shipper">Shipper</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="253" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="254" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="255" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="256" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="257" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="258" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="259" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="260" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="261" trl="Y">
+		<value column="PrintName" original="Doc Note">Doc Note</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="262" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="263" trl="Y">
+		<value column="PrintName" original="Locator">Locator</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="264" trl="Y">
+		<value column="PrintName" original="Lot">Lot</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="265" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="266" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="267" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="268" trl="Y">
+		<value column="PrintName" original="Serial No">Serial No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="269" trl="Y">
+		<value column="PrintName" original="Shipment/Receipt">Shipment/Receipt</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="270" trl="Y">
+		<value column="PrintName" original="Shipment/Receipt Line">Shipment/Receipt Line</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="271" trl="Y">
+		<value column="PrintName" original="UoM">UoM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="272" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="273" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="274" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="275" trl="Y">
+		<value column="PrintName" original="BP Greeting">Civilité Tiers</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="277" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="278" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="279" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="280" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="281" trl="Y">
+		<value column="PrintName" original="Name 2">Name 2</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="282" trl="Y">
+		<value column="PrintName" original="Order Reference">Order Reference</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="283" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="285" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="286" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="287" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="288" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="289" trl="Y">
+		<value column="PrintName" original="Reference No:">Reference No:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="291" trl="Y">
+		<value column="PrintName" original="Business Partner ">Business Partner </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="292" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="293" trl="Y">
+		<value column="PrintName" original="Date Invoiced">Date Invoiced</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="294" trl="Y">
+		<value column="PrintName" original="Discount">Discount</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="295" trl="Y">
+		<value column="PrintName" original="Document No">Document No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="296" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="297" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="298" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="300" trl="Y">
+		<value column="PrintName" original="Payment Rule">Payment Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="301" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="302" trl="Y">
+		<value column="PrintName" original="Payment">Payment</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="303" trl="Y">
+		<value column="PrintName" original="Amt in Words">Amt in Words</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="304" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="306" trl="Y">
+		<value column="PrintName" original="Business Partner ">Business Partner </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="307" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="308" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="309" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="310" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="311" trl="Y">
+		<value column="PrintName" original="Order Reference">Order Reference</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="312" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="314" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="315" trl="Y">
+		<value column="PrintName" original="Amount:">Amount:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="316" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="317" trl="Y">
+		<value column="PrintName" original="- #:">- #:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="318" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="319" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="320" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="321" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="322" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="323" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="324" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="325" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="326" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="327" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="328" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="329" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="330" trl="Y">
+		<value column="PrintName" original="Customer No:">Customer No:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="331" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="332" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="333" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="334" trl="Y">
+		<value column="PrintName" original="Warehouse	:">Warehouse	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="335" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="336" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="337" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="338" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="339" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="340" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="341" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="342" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="343" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="344" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="345" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="346" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="588" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="589" trl="Y">
+		<value column="PrintName" original="Activity">Activity</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="590" trl="Y">
+		<value column="PrintName" original="Charge">Charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="591" trl="Y">
+		<value column="PrintName" original="Charge Amt">Charge Amt</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="592" trl="Y">
+		<value column="PrintName" original="Campaign">Campaign</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="593" trl="Y">
+		<value column="PrintName" original="Delivery Via">Delivery Via</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="594" trl="Y">
+		<value column="PrintName" original="Invoice Rule">Invoice Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="595" trl="Y">
+		<value column="PrintName" original="Price List">Price List</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="596" trl="Y">
+		<value column="PrintName" original="Priority">Priority</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="597" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="598" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="599" trl="Y">
+		<value column="PrintName" original="Total Lines">Total Lines</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="600" trl="Y">
+		<value column="PrintName" original="Shipper">Shipper</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="601" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Sales Transaction</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="602" trl="Y">
+		<value column="PrintName" original="Sales Order">Sales Order</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="603" trl="Y">
+		<value column="PrintName" original="Project">Project</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="604" trl="Y">
+		<value column="PrintName" original="Price includes Tax">Price includes Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="605" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="606" trl="Y">
+		<value column="PrintName" original="Doc Status">Doc Status</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="607" trl="Y">
+		<value column="PrintName" original="Delivery Rule">Delivery Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="608" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="609" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="610" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="611" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="612" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="613" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="614" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="615" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="616" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="617" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="618" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="619" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="620" trl="Y">
+		<value column="PrintName" original="Date Promised	:">Date Promised	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="621" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="622" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="623" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Order Reference	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="624" trl="Y">
+		<value column="PrintName" original="Sales Consultant	:">Sales Consultant	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="625" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="626" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="627" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="628" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="629" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="630" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="631" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="632" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="633" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="634" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="635" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="636" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="637" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="638" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="639" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="640" trl="Y">
+		<value column="PrintName" original="Order Line">Order Line</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="641" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="642" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="643" trl="Y">
+		<value column="PrintName" original="Tax">Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="644" trl="Y">
+		<value column="PrintName" original="Sales Order">Sales Order</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="645" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="646" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="647" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="648" trl="Y">
+		<value column="PrintName" original="UoM">UoM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="649" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="650" trl="Y">
+		<value column="PrintName" original="List Price">List Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="651" trl="Y">
+		<value column="PrintName" original="Discount %">Discount %</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="652" trl="Y">
+		<value column="PrintName" original="Unit Price">Unit Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="653" trl="Y">
+		<value column="PrintName" original="Line Net">Line Net</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="654" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="655" trl="Y">
+		<value column="PrintName" original="Doc Note">Doc Note</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="656" trl="Y">
+		<value column="PrintName" original="Resource Description">Resource Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="657" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="658" trl="Y">
+		<value column="PrintName" original="Activity">Activity</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="659" trl="Y">
+		<value column="PrintName" original="Charge">Charge</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="660" trl="Y">
+		<value column="PrintName" original="Charge Amt">Charge Amt</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="661" trl="Y">
+		<value column="PrintName" original="Campaign">Campaign</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="662" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="663" trl="Y">
+		<value column="PrintName" original="Paid">Paid</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="664" trl="Y">
+		<value column="PrintName" original="Price includes Tax">Price includes Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="665" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Sales Transaction</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="666" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="667" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="668" trl="Y">
+		<value column="PrintName" original="Total Lines">Total Lines</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="669" trl="Y">
+		<value column="PrintName" original="Project">Project</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="670" trl="Y">
+		<value column="PrintName" original="Price List">Price List</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="671" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="672" trl="Y">
+		<value column="PrintName" original="Doc Status">Doc Status</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="673" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="674" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="675" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="676" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="677" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="678" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="679" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="680" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="681" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="682" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="683" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="684" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="685" trl="Y">
+		<value column="PrintName" original="Sales Order	:">Sales Order	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="686" trl="Y">
+		<value column="PrintName" original="Date Ordered	:">Date Ordered	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="687" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="688" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="689" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Order Reference	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="690" trl="Y">
+		<value column="PrintName" original="Sales Consultant	:">Sales Consultant	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="691" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="692" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="693" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="694" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="695" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="696" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="697" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="698" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="699" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="700" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="701" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="702" trl="Y">
+		<value column="PrintName" original="Tax">Tax</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="703" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="704" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="705" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="706" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="707" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="708" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="709" trl="Y">
+		<value column="PrintName" original="Invoice Line">Invoice Line</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="710" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="711" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="712" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="713" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="714" trl="Y">
+		<value column="PrintName" original="UoM">UoM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="715" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="716" trl="Y">
+		<value column="PrintName" original="List Price">List Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="717" trl="Y">
+		<value column="PrintName" original="Discount %">Discount %</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="718" trl="Y">
+		<value column="PrintName" original="Unit Price">Unit Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="719" trl="Y">
+		<value column="PrintName" original="Line Net">Line Net</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="720" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="721" trl="Y">
+		<value column="PrintName" original="Doc Note">Doc Note</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="722" trl="Y">
+		<value column="PrintName" original="Resource Description">Resource Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="723" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="724" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="725" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="726" trl="Y">
+		<value column="PrintName" original="Delivery Rule">Delivery Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="727" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="728" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="729" trl="Y">
+		<value column="PrintName" original="Sales Transaction">Sales Transaction</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="730" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="731" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="732" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="733" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="734" trl="Y">
+		<value column="PrintName" original="Shipper">Shipper</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="735" trl="Y">
+		<value column="PrintName" original="Priority">Priority</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="736" trl="Y">
+		<value column="PrintName" original="Movement Type">Movement Type</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="737" trl="Y">
+		<value column="PrintName" original="Doc Status">Doc Status</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="738" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="739" trl="Y">
+		<value column="PrintName" original="Delivery Via">Delivery Via</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="740" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="741" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="742" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="743" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="744" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="745" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="746" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=" "> </value>
+	</row>
+	<row id="747" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="748" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="749" trl="Y">
+		<value column="PrintName" original="Sales Order	:">Sales Order	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="750" trl="Y">
+		<value column="PrintName" original="Date Ordered	:">Date Ordered	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="751" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="752" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="753" trl="Y">
+		<value column="PrintName" original="Order Reference	:">Order Reference	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="754" trl="Y">
+		<value column="PrintName" original="Warehouse	:">Warehouse	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="755" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="756" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="757" trl="Y">
+		<value column="PrintName" original=" - "> - </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="758" trl="Y">
+		<value column="PrintName" original="@*CopyInfo@  @*MultiPageInfo@">@*CopyInfo@  @*MultiPageInfo@</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="759" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="760" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="761" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="762" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="763" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="764" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="765" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="766" trl="Y">
+		<value column="PrintName" original="Locator">Locator</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="767" trl="Y">
+		<value column="PrintName" original="Lot">Lot</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="768" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="769" trl="Y">
+		<value column="PrintName" original="Shipment/Receipt">Shipment/Receipt</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="770" trl="Y">
+		<value column="PrintName" original="Shipment/Receipt Line">Shipment/Receipt Line</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="771" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="772" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="773" trl="Y">
+		<value column="PrintName" original="Serial No">Serial No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="774" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="775" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="776" trl="Y">
+		<value column="PrintName" original="UoM">UoM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="777" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="778" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="779" trl="Y">
+		<value column="PrintName" original="Doc Note">Doc Note</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="780" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="781" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="782" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="783" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="784" trl="Y">
+		<value column="PrintName" original="Name 2">Name 2</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="785" trl="Y">
+		<value column="PrintName" original="BP Greeting">Civilité Tiers</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="786" trl="Y">
+		<value column="PrintName" original="Order Reference">Order Reference</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="787" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="788" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="789" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="790" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="791" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="792" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="793" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="794" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="795" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="796" trl="Y">
+		<value column="PrintName" original="Reference No:">Reference No:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="797" trl="Y">
+		<value column="PrintName" original="Customer No:">Customer No:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="798" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="799" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="800" trl="Y">
+		<value column="PrintName" original="Business Partner ">Business Partner </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="801" trl="Y">
+		<value column="PrintName" original="Line No">Line No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="802" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="803" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="804" trl="Y">
+		<value column="PrintName" original="Payment Rule">Payment Rule</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="805" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="806" trl="Y">
+		<value column="PrintName" original="Document No">Document No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="807" trl="Y">
+		<value column="PrintName" original="Date Invoiced">Date Invoiced</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="808" trl="Y">
+		<value column="PrintName" original="Invoice">Invoice</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="809" trl="Y">
+		<value column="PrintName" original="Payment">Payment</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="810" trl="Y">
+		<value column="PrintName" original="Discount">Discount</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="811" trl="Y">
+		<value column="PrintName" original="Amt in Words">Amt in Words</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="812" trl="Y">
+		<value column="PrintName" original="Business Partner ">Business Partner </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="813" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="814" trl="Y">
+		<value column="PrintName" original="Payment Selection">Payment Selection</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="815" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="816" trl="Y">
+		<value column="PrintName" original="Order Reference">Order Reference</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="817" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="818" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="819" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="820" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="821" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="822" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="823" trl="Y">
+		<value column="PrintName" original="Customer No	:">Customer No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="824" trl="Y">
+		<value column="PrintName" original="Reference No	:">Reference No	:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="825" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="826" trl="Y">
+		<value column="PrintName" original="- #:">- #:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="827" trl="Y">
+		<value column="PrintName" original="Amount:">Amount:</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="828" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="829" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="830" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="831" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="832" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="833" trl="Y">
+		<value column="PrintName" original=""/>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="907" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="908" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="909" trl="Y">
+		<value column="PrintName" original="Product">Product</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="910" trl="Y">
+		<value column="PrintName" original="Price List Version">Price List Version</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="911" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="912" trl="Y">
+		<value column="PrintName" original="List Price">List Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="913" trl="Y">
+		<value column="PrintName" original="Std Price">Std Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="914" trl="Y">
+		<value column="PrintName" original="Limit Price">Limit Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="915" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="916" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="917" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="918" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="919" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="920" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="921" trl="Y">
+		<value column="PrintName" original="Product">Product</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="922" trl="Y">
+		<value column="PrintName" original="Warehouse">Warehouse</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="923" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="924" trl="Y">
+		<value column="PrintName" original="Replenish Type">Replenish Type</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="925" trl="Y">
+		<value column="PrintName" original="Minimum Level">Minimum Level</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="926" trl="Y">
+		<value column="PrintName" original="Maximum Level">Maximum Level</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="927" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="928" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="929" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="930" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="943" trl="Y">
+		<value column="PrintName" original="Client">Client</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="944" trl="Y">
+		<value column="PrintName" original="Organization">Organisation</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="945" trl="Y">
+		<value column="PrintName" original="Product">Product</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="946" trl="Y">
+		<value column="PrintName" original="Business Partner ">Business Partner </value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="947" trl="Y">
+		<value column="PrintName" original="Quality Rating">Quality Rating</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="948" trl="Y">
+		<value column="PrintName" original="Active">Active</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="949" trl="Y">
+		<value column="PrintName" original="Current vendor">Current vendor</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="950" trl="Y">
+		<value column="PrintName" original="UPC/EAN">UPC/EAN</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="951" trl="Y">
+		<value column="PrintName" original="Currency">Currency</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="952" trl="Y">
+		<value column="PrintName" original="List Price">List Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="953" trl="Y">
+		<value column="PrintName" original="Effective">Effective</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="954" trl="Y">
+		<value column="PrintName" original="PO Price">PO Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="955" trl="Y">
+		<value column="PrintName" original="Royalty Amount">Royalty Amount</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="956" trl="Y">
+		<value column="PrintName" original="Last PO Price">Last PO Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="957" trl="Y">
+		<value column="PrintName" original="Last Invoice Price">Last Invoice Price</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="958" trl="Y">
+		<value column="PrintName" original="UOM">UOM</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="959" trl="Y">
+		<value column="PrintName" original="Minimum Order Qty">Minimum Order Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="960" trl="Y">
+		<value column="PrintName" original="Order Pack Qty">Order Pack Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="961" trl="Y">
+		<value column="PrintName" original="Promised Delivery Time">Promised Delivery Time</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="962" trl="Y">
+		<value column="PrintName" original="Actual Delivery Time">Actual Delivery Time</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="963" trl="Y">
+		<value column="PrintName" original="Cost per Order">Cost per Order</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="964" trl="Y">
+		<value column="PrintName" original="Vendor Product No">Vendor Product No</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="965" trl="Y">
+		<value column="PrintName" original="Vendor category">Vendor category</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="966" trl="Y">
+		<value column="PrintName" original="Manufacturer">Manufacturer</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="967" trl="Y">
+		<value column="PrintName" original="Discontinued">Discontinued</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="968" trl="Y">
+		<value column="PrintName" original="Discontinued by">Discontinued by</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="969" trl="Y">
+		<value column="PrintName" original="Created">Created</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="970" trl="Y">
+		<value column="PrintName" original="Created By">Created By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="971" trl="Y">
+		<value column="PrintName" original="Updated">Updated</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="972" trl="Y">
+		<value column="PrintName" original="Updated By">Updated By</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="980" trl="Y">
+		<value column="PrintName" original="Level no">Level no</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="981" trl="Y">
+		<value column="PrintName" original="Acct Date">Acct Date</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="982" trl="Y">
+		<value column="PrintName" original="Name">Name</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="983" trl="Y">
+		<value column="PrintName" original="Description">Description</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="984" trl="Y">
+		<value column="PrintName" original="Acct Debit">Acct Debit</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="985" trl="Y">
+		<value column="PrintName" original="Acct Credit">Acct Credit</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="986" trl="Y">
+		<value column="PrintName" original="Balance">Balance</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+	<row id="987" trl="Y">
+		<value column="PrintName" original="Qty">Qty</value>
+		<value column="PrintNameSuffix" original=""/>
+	</row>
+</adempiereTrl>

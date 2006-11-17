@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_Process">
+	<row id="100" trl="Y">
+		<value column="Name" original="Create Periods ">Создать периоды</value>
+		<value column="Description" original="Create 12 standard calendar periods (Jan-Dec)"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Renumber">Переномеровать</value>
+		<value column="Description" original="Renumber Discount entries"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Import Products ">Импорт продуктов</value>
+		<value column="Description" original="Imports products from a file into the application"/>
+		<value column="Help" original="Import Products will bring a file of products, in a predefined format into the application."/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Create Price List ">Создать прайс лист</value>
+		<value column="Description" original="Create Prices based on parameters of this version"/>
+		<value column="Help" original="Create Prices for this pricelist version in the sequence of the Discount Schema Price List.&#10;Lines with a higher sequence overwrite existing prices.  The sequence should be from generic to specific."/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Process Order">Обработать заказ</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Create Inventory Count List ">Create Inventory Count List </value>
+		<value column="Description" original="Create Inventory Count List">Create Inventory Count List</value>
+		<value column="Help" original="The inventory count lines are generated.  You can add new lines or delete lines.">The inventory count lines are generated.  You can add new lines or delete lines.</value>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="Update Quantity">Update Quantity</value>
+		<value column="Description" original="The Book Quantity is updated with current book quantity">The Book Quantity is updated with current book quantity</value>
+		<value column="Help" original="The Update Quantity Process will update the book quantity with the current book quantity.  ">The Update Quantity Process will update the book quantity with the current book quantity.  </value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="Process Inventory Count ">Process Inventory Count </value>
+		<value column="Description" original="Process Inventory count and update Inventory">Process Inventory count and update Inventory</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Copy Accounts">Копировать счета</value>
+		<value column="Description" original="Copy and overwrite all accounts to system defaults (DANGEROUS!!!)"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Process Shipment ">Обработать поставку</value>
+		<value column="Description" original="Process Shipment (Update Inventory)"/>
+		<value column="Help" original="Process Shipment will move products out of inventory and mark line items as shipped."/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Order Print">Печать заказа</value>
+		<value column="Description" original="** Special **">** Special **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Process Invoice">Обработать счет</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Copy Accounts">Копировать счета</value>
+		<value column="Description" original="Copy and overwrite Accouts to Business Partners of this group"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Copy Tabs">Копировать закладки</value>
+		<value column="Description" original=""/>
+		<value column="Help" original="Copy all tabs and fields of the window"/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Copy Tabs">Копировать закладки</value>
+		<value column="Description" original=""/>
+		<value column="Help" original="Copy fields to tab"/>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Vendor Selection">Выбор поставщика</value>
+		<value column="Description" original="Products with more than one vendor"/>
+		<value column="Help" original="Vendor Selection is initated when there is a product that is supplied by more than one vendor.  It allows the selection of a specific vendor for a Purchase Order."/>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Invoice Print ">Печать счета</value>
+		<value column="Description" original="** Special **">** Special **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Delivery Note / Shipment Print ">Печать поставки</value>
+		<value column="Description" original="** Special **">** Special **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Generate Shipments">Генерировать поставки</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Generate Invoices">Генерировать счета</value>
+		<value column="Description" original="Generate and print Invoices "/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Order Transactions">Открытые транзакции</value>
+		<value column="Description" original="Sales Order Transaction Report "/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Open Orders">Открытые заказы</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Process Movements">Обработать передвижения</value>
+		<value column="Description" original="Process Inventory Movements"/>
+		<value column="Help" original="Process Inventory Movements will update inventory quantities based on the defined movements between warehouses or locations."/>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Generate Commission">Генерировать комиссии</value>
+		<value column="Description" original="Generate Commission"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="124" trl="N">
+		<value column="Name" original="Product Transaction Summary">Product Transaction Summary</value>
+		<value column="Description" original="Product Transaction Summary">Product Transaction Summary</value>
+		<value column="Help" original="The report shows transaction summary for stored products">The report shows transaction summary for stored products</value>
+	</row>
+	<row id="125" trl="N">
+		<value column="Name" original="Replenish Report">Replenish Report</value>
+		<value column="Description" original="Inventory Replenish Report">Inventory Replenish Report</value>
+		<value column="Help" original="Report lists products to be replenished">Report lists products to be replenished</value>
+	</row>
+	<row id="126" trl="N">
+		<value column="Name" original="Order Drilldown">Order Drilldown</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Invoice Transactions">Транзакции счетов</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Daily Invoice">Дневные счета</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Monthly Invoice">Ежемесячные счета</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Weekly Invoice">Еженедельные счета</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="Weekly Invoice Product">Еженедельные счета по продуктам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Monthly Invoice Product">Ежемесячные счета по продуктам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Monthly Invoice Vendor">Ежемесячные счета по поставщикам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Generate Invoices (manual) ">Генерировать счета (в ручную)</value>
+		<value column="Description" original="Generate and print Invoices manually"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Copy From">Копировать из</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="136" trl="N">
+		<value column="Name" original="Verify BOM">Verify BOM</value>
+		<value column="Description" original="Verify BOM Structure">Verify BOM Structure</value>
+		<value column="Help" original="The Verify BOM Structure checks the elements and steps which comprise a Bill of Materials.">The Verify BOM Structure checks the elements and steps which comprise a Bill of Materials.</value>
+	</row>
+	<row id="137" trl="Y">
+		<value column="Name" original="Create/Post Production">Обработка производства</value>
+		<value column="Description" original="Create production lines, if not created - otherwise process the production"/>
+		<value column="Help" original="Create/Post Production will generate the production lines and process the production.  If the production lines already exisit, the the production will be processed"/>
+	</row>
+	<row id="138" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Product">Квартальные счета покупателю по продуктам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="139" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Vendor">Квартальные счета покупателю по поставщикам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="Copy Accounts">Копировать счета</value>
+		<value column="Description" original="Copy and overwrite Accounts to Products of this category"/>
+		<value column="Help" original="The Copy Accounts Process will take the accounts defined for a product category and copy them to any product that references this category.  If an account exists at the product level it will be overwritten."/>
+	</row>
+	<row id="142" trl="Y">
+		<value column="Name" original="Generate Receipt from Invoice">Генерировать квитанцию из счета</value>
+		<value column="Description" original="Create and process delivery Receipt from this invoice.  The invoice should be correct and completed."/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="144" trl="Y">
+		<value column="Name" original="Process Cash">Обработка наличных</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="145" trl="Y">
+		<value column="Name" original="Open Items">Открытые позиции</value>
+		<value column="Description" original="Open Item List"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="146" trl="N">
+		<value column="Name" original="Unreconciled Payments">Unreconciled Payments</value>
+		<value column="Description" original="Payments not reconciled with Bank Statement">Payments not reconciled with Bank Statement</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="147" trl="Y">
+		<value column="Name" original="Process Statement">Process Statement</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="148" trl="Y">
+		<value column="Name" original="Payment Allocation">Распределение оплаты</value>
+		<value column="Description" original="Payment - Invoice - Allocation"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Process Payment">Обработать платеж</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Reverse Allocation">Отмена платежей и счетов</value>
+		<value column="Description" original="This reverses the allocation and allows you to allocate the invoice and payment again"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Invoice Summary">Резюме по счетам</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Invoice Detail">Детали счета</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="153" trl="N">
+		<value column="Name" original="Online Process">Online Process</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="154" trl="Y">
+		<value column="Name" original="Generate Invoice from Receipt">Генерировать счет из квитанции</value>
+		<value column="Description" original="Create and process Invoice from this receipt.  The receipt should be correct and completed."/>
+		<value column="Help" original="Generate Invoice from Receipt will create an invoice based on the selected receipt and match the invoice to that receipt."/>
+	</row>
+	<row id="155" trl="Y">
+		<value column="Name" original="Create Payment">Создать платеж</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="156" trl="Y">
+		<value column="Name" original="Create From ...">Создать из ...</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="158" trl="Y">
+		<value column="Name" original="Process Requests">Обработать запросы</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="159" trl="N">
+		<value column="Name" original="Dunning Letter">Dunning Letter</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="160" trl="N">
+		<value column="Name" original="Tire Letter">Tire Letter</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="161" trl="N">
+		<value column="Name" original="Product Transaction Value">Product Transaction Value</value>
+		<value column="Description" original="Product Transaction Value">Product Transaction Value</value>
+		<value column="Help" original="The report shows product transactions with valuation">The report shows product transactions with valuation</value>
+	</row>
+	<row id="162" trl="Y">
+		<value column="Name" original="Project Status Summary">Резюме проекта</value>
+		<value column="Description" original="Project Status of Project Cycle"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="163" trl="Y">
+		<value column="Name" original="Copy from">Копировать из</value>
+		<value column="Description" original="Copy lines from another project"/>
+		<value column="Help" original="The Copy From Process will generate lines for the current project based on the lines of an exisiting project which the user selects."/>
+	</row>
+	<row id="164" trl="Y">
+		<value column="Name" original="Generate Order">Генерировать ордер</value>
+		<value column="Description" original="Generate Order from Project"/>
+		<value column="Help" original="The Generate Order process will generate a new Order document based on the project. A price list must be indicated on the project.  When the process is started you will be prompted to select a warehouse."/>
+	</row>
+	<row id="165" trl="Y">
+		<value column="Name" original="Copy from">Копировать из</value>
+		<value column="Description" original="Copy lines from existing Commission"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="166" trl="Y">
+		<value column="Name" original="Create Invoice">Создать счет</value>
+		<value column="Description" original="Create Invoice from Commission Calculation"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="167" trl="Y">
+		<value column="Name" original="Open/Close All">Открыть/Закрыть все</value>
+		<value column="Description" original="Open/Close all Base Document Types for this Period"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="168" trl="Y">
+		<value column="Name" original="Open/Close">Открыть/Закрыть</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Process Journal">Обработать журнал</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="170" trl="N">
+		<value column="Name" original="Cash Journal Detail">Cash Journal Detail</value>
+		<value column="Description" original="Detail Cash Journal Information">Detail Cash Journal Information</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="171" trl="N">
+		<value column="Name" original="Receivables Write-Off">Receivables Write-Off</value>
+		<value column="Description" original="Write off open receivables">Write off open receivables</value>
+		<value column="Help" original="Write-off receivables causes the invoices selected by the criteria to be marked as paid and the open invoice amount to be written off.">Write-off receivables causes the invoices selected by the criteria to be marked as paid and the open invoice amount to be written off.</value>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="Synchronize Terminology">Синронизировать терминологию</value>
+		<value column="Description" original="Synchronize the terminology within the system."/>
+		<value column="Help" original="Based on the entries in Window Element, the fields in windows, parameters, etc. are synchronized, if they are centrally maintained."/>
+	</row>
+	<row id="173" trl="Y">
+		<value column="Name" original="Create Columns from DB">Создать колонки БД</value>
+		<value column="Description" original="Create Dictionary Columns of Table not existing as a Column but in the Database"/>
+		<value column="Help" original="If you have added colums in the database to this table, this procedure creates the Column records in the Dictionary.  Please be aware, that they may deleted, if the entity typs is not set to User."/>
+	</row>
+	<row id="174" trl="Y">
+		<value column="Name" original="Create Fields">Создать поля</value>
+		<value column="Description" original="Create Frield from Table, which do not exist in the Tab yet"/>
+		<value column="Help" original="Based on the Table of this Tab, this procedure creates the missing Frields"/>
+	</row>
+	<row id="175" trl="Y">
+		<value column="Name" original="Resubmit Posting">Провести повторно</value>
+		<value column="Description" original="Resubmit posting of documents with posting errors"/>
+		<value column="Help" original="Documents with posting errors are reset to be posted by the next run of the accounting engine - after fixing the cause (e.g. opening period)."/>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Reset Accounting">Reset Accounting</value>
+		<value column="Description" original="Reset Accounting Entries">Reset Accounting Entries</value>
+		<value column="Help" original="Delete accounting records of documents to be re-created by the next run of the accounting engine.  This is a dramatic step and you want to do this ONLY after changes of the accounting structure (e.g. different default accounts, etc.) and if fixing via manual Jornal entries is not sensible.">Delete accounting records of documents to be re-created by the next run of the accounting engine.  This is a dramatic step and you want to do this ONLY after changes of the accounting structure (e.g. different default accounts, etc.) and if fixing via manual Jornal entries is not sensible.</value>
+	</row>
+	<row id="177" trl="N">
+		<value column="Name" original="Run Processor Now">Run Processor Now</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="178" trl="Y">
+		<value column="Name" original="Link Business Partner">Бизнес партнер</value>
+		<value column="Description" original="Find or Create Business Partner from Request"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="179" trl="Y">
+		<value column="Name" original="Verify Languages">Проверить язык</value>
+		<value column="Description" original="Verify existance of language translation in system (required after creating a new language)"/>
+		<value column="Help" original="Verify the translation creates missing translation records. Start this process after creating a new language. It will create new records by copying the base language entries."/>
+	</row>
+	<row id="180" trl="N">
+		<value column="Name" original="Inventory Valuation Report">Inventory Valuation Report</value>
+		<value column="Description" original="Inventory Valuation Report">Inventory Valuation Report</value>
+		<value column="Help" original="Report lists products with their on-hand quantity and values at the valuation date">Report lists products with their on-hand quantity and values at the valuation date</value>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Synchromize Column">Сихронизировать колонки</value>
+		<value column="Description" original="Change database table definition from application dictionary"/>
+		<value column="Help" original="When selected, the database column definition is updated based on your entries in the Column definition of the Application Dictionary. Note that not all changes are supported by the database and may result in an error."/>
+	</row>
+	<row id="182" trl="Y">
+		<value column="Name" original="Product Cost Update">Модификация стоимости продуктов</value>
+		<value column="Description" original="Sets furure cost price and standard cost price"/>
+		<value column="Help" original="For Standard Costing you can&#10;- update the future cost price&#10;- set the standard cost price to the future cost price"/>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Product Costing Report">Отчет затрат по продуктам</value>
+		<value column="Description" original="Product Cost Report"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="184" trl="N">
+		<value column="Name" original="Process Expenses">Process Expenses</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="Recompile DB Objects">Перекомпилировать объекты БД</value>
+		<value column="Description" original="Recompile Database Objects"/>
+		<value column="Help" original="Recompile Functions, Procedures, Triggers, Views, etc."/>
+	</row>
+	<row id="186" trl="N">
+		<value column="Name" original="Create AR Expense Invoices">Create AR Expense Invoices</value>
+		<value column="Description" original="Create Invoices from Expenses for Customers">Create Invoices from Expenses for Customers</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="187" trl="N">
+		<value column="Name" original="Create AP Expense Invoices">Create AP Expense Invoices</value>
+		<value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Create AP Invoices from Expenses to be paid to employees</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="188" trl="Y">
+		<value column="Name" original="Process Batch">Обработать пакет</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="189" trl="Y">
+		<value column="Name" original="Copy Columns">Копировать колонки</value>
+		<value column="Description" original="Copy Report Columns from other Column Set"/>
+		<value column="Help" original="Copy columns at the end of this Column Set"/>
+	</row>
+	<row id="190" trl="Y">
+		<value column="Name" original="Copy Lines">Копировать записи</value>
+		<value column="Description" original="Copy Report Lines from other Line Set"/>
+		<value column="Help" original="Copy lines at the end of this Line Set"/>
+	</row>
+	<row id="191" trl="N">
+		<value column="Name" original="Set Print Format">JasperReportTest</value>
+		<value column="Description" original="Set for all Print Formats with same Landscape/Portrait">Тест JasperReports</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="192" trl="N">
+		<value column="Name" original="Copy/Create">Copy/Create</value>
+		<value column="Description" original="Copy existing or create Print Format from Table">Copy existing or create Print Format from Table</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="193" trl="N">
+		<value column="Name" original="Generate PO from Sales Order">Generate PO from Sales Order</value>
+		<value column="Description" original="Create Purchase Order from Sales Orders">Create Purchase Order from Sales Orders</value>
+		<value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders).&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).&#10;">After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders).
+
+POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.
+
+Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).
+</value>
+	</row>
+</adempiereTrl>

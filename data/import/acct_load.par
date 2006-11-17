@@ -1,0 +1,7 @@
+userid=adempiere/adempiere
+control=acct_load.ctl 
+log=acct_load.log 
+data=AccountingDE.csv
+bad=acct_load.bad 
+discard=acct_load.discard 
+errors=0 

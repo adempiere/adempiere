@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_Form">
+	<row id="100" trl="Y">
+		<value column="Name" original="Generate Invoices (manual)">Генерировать счета (в ручную)</value>
+		<value column="Description" original="Select and generate invoices"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Import File Loader">Импорт</value>
+		<value column="Description" original="Load Files"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Initial Client Setup">Создание нового клиента</value>
+		<value column="Description" original="Initial Client Setup"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="103" trl="N">
+		<value column="Name" original="Material Transactions">Material Transactions</value>
+		<value column="Description" original="Material Transactions">Material Transactions</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Payment Allocation">Распределение оплаты</value>
+		<value column="Description" original="Allocate invoices and payments"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Generate Charges">Generate Charges</value>
+		<value column="Description" original="Generate Charges from natural accounts">Generate Charges from natural accounts</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Payment Print/Export">Платежи Печать/Экспорт</value>
+		<value column="Description" original="Print or export your payments"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Payment Selection (manual)">Выбор платежей (в ручную)</value>
+		<value column="Description" original="Manual Payment Selection"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Matching PO-Receipt-Invoice">Искать данные по покупкам</value>
+		<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices"/>
+		<value column="Help" original=""/>
+	</row>
+</adempiereTrl>

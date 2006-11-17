@@ -1,0 +1,15 @@
+Accounting.txt
+--------------
+
+This directory contains example natural account structure. 
+Note that Adempiere only maintains and validates AccountingUS.xls/csv.
+
+The other examples are contributions may not be complete.
+
+For explanation, use and updates please check
+http://www.adempiere.org/support/implement/chartOfAccounts.html
+
+We suggest to maintain your info in xls, but save the 
+account structure in csv for import.
+
+

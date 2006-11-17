@@ -1,0 +1,91 @@
+##############################################################################
+# Copyright (c) 1991, 2001 by Oracle Corporation
+##############################################################################
+ 
+###########################################
+# Cache and I/O
+###########################################
+db_block_size=4096
+db_cache_size=33554432
+ 
+###########################################
+# Cursors and Library Cache
+###########################################
+open_cursors=300
+ 
+###########################################
+# Diagnostics and Statistics
+###########################################
+background_dump_dest=D:\oracle\admin\adempiere\bdump
+core_dump_dest=D:\oracle\admin\adempiere\cdump
+timed_statistics=TRUE
+user_dump_dest=D:\oracle\admin\adempiere\udump
+ 
+###########################################
+# Distributed, Replication and Snapshot
+###########################################
+db_domain=adempiere.org
+remote_login_passwordfile=EXCLUSIVE
+ 
+###########################################
+# File Configuration
+###########################################
+control_files=("D:\oracle\oradata\adempiere\control01.ctl", "D:\oracle\oradata\adempiere\control02.ctl", "D:\oracle\oradata\adempiere\control03.ctl")
+ 
+###########################################
+# Job Queues
+###########################################
+job_queue_processes=1
+ 
+###########################################
+# MTS
+###########################################
+# Uncomment the following line when your listener is configured for SSL
+# (listener.ora and sqlnet.ora)
+# dispatchers = "(PROTOCOL=TCPS)(SER=MODOSE)", "(PROTOCOL=TCPS)(PRE=oracle.aurora.server.GiopServer)", "(PROTOCOL=TCPS)(PRE=oracle.aurora.server.SGiopServer)"
+dispatchers="(PROTOCOL=TCP)(SER=MODOSE)", "(PROTOCOL=TCP)(PRE=oracle.aurora.server.GiopServer)", "(PROTOCOL=TCP)(PRE=oracle.aurora.server.SGiopServer)"
+ 
+###########################################
+# Miscellaneous
+###########################################
+compatible=9.0.0
+db_name=adempiere
+ 
+###########################################
+# Network Registration
+###########################################
+instance_name=adempiere
+ 
+###########################################
+# PL/SQL
+###########################################
+utl_file_dir=*
+ 
+###########################################
+# Pools
+###########################################
+java_pool_size=33554432
+large_pool_size=524228
+shared_pool_size=37748736
+ 
+###########################################
+# Processes and Sessions
+###########################################
+processes=150
+ 
+###########################################
+# Redo Log and Recovery
+###########################################
+fast_start_mttr_target=300
+ 
+###########################################
+# Sort, Hash Joins, Bitmap Indexes
+###########################################
+sort_area_size=524288
+ 
+###########################################
+# System Managed Undo and Rollback Segments
+###########################################
+undo_management=AUTO
+undo_tablespace=UNDOTBS
+ 

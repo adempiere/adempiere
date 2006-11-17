@@ -1,0 +1,51 @@
+# Connection Manager config file
+# cman.ora - The file is used by cman and cman_admin.
+
+
+# The cman's listening addresses (one or more) 
+# for the purpose of relaying TNS sessions.
+# Open this port in your firewall
+
+cman = (ADDRESS_LIST=
+           (ADDRESS=(PROTOCOL=tcp)(HOST=main)(PORT=1630)(QUEUESIZE=32))
+       )
+
+
+# The cman administrator
+
+cman_admin = (ADDRESS=(PROTOCOL=tcp)(HOST=admin)(PORT=1650))
+
+# cman's configurable params
+#         MAXIMUM_RELAYS               defaults to 128
+#         LOG_LEVEL                    defaults to 0
+#         TRACING                      defaults to no
+#         TRACE_DIRECTORY              defaults to .../network/trace
+#         RELAY_STATISTICS             defaults to no
+#         SHOW_TNS_INFO                defaults to no
+#         USE_ASYNC_CALL               defaults to yes
+#         AUTHENTICATION_LEVEL         defaults to 0
+#         MAXIMUM_CONNECT_DATA         defaults to 1024
+#         ANSWER_TIMEOUT               defaults to 0
+#         MAX_FREELIST_BUFFERS         defaults to 2048
+#
+
+cman_profile = (parameter_list=
+			(MAXIMUM_RELAYS=1024)
+			(LOG_LEVEL=1)
+			(TRACING=no)
+			(RELAY_STATISTICS=yes)
+			(SHOW_TNS_INFO=yes)
+			(USE_ASYNC_CALL=yes)
+			(AUTHENTICATION_LEVEL=0)
+			(REMOTE_ADMIN=FALSE)
+			(ANSWER_TIMEOUT=30)
+		)
+
+
+#
+# cman is used as a firewall proxy on TCP, if "cman_rules" exist
+
+cman_rules = (rule_list=
+			(rule=(src=x)(dst=main)(srv=adempiere.adempiere.org)(act=accept))
+		)
+

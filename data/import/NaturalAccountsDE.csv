@@ -1,0 +1,67 @@
+[Account Value/No],[Account Name],[Description],[Account Type],[Account Sign],[Document Controlled],[Summary Account],[For Internal Use - Do Not Change- for additional accounts leave blank]
+1200,Bank Konto,Bank Cash Account,Asset,Natural,Yes,No,B_ASSET_ACCT
+4970,Bankkosten,Bank charges,Expense,Natural,Yes,No,B_EXPENSE_ACCT
+2110,Bank Zinskosten,Interest paid,Expense,Natural,Yes,No,B_INTERESTEXP_ACCT
+2650,Bank Zinsertrag,Interest received,Revenue,Natural,Yes,No,B_INTERESTREV_ACCT
+1201,Bank Kontobewegung,Bank transactions in transit,Asset,Natural,Yes,No,B_INTRANSIT_ACCT
+1332,Bezahlung selektiert,Selected invoices for payment ,Liability,Natural,Yes,No,B_PAYMENTSELECT_ACCT
+2671,Bank Bewertungsertrag,Foreign currency bank account gain,Revenue,Natural,Yes,No,B_REVALUATIONGAIN_ACCT
+2660,Bank Bewertungsverlust,Foreign currency bank account loss,Expense,Natural,Yes,No,B_REVALUATIONLOSS_ACCT
+2670,Bank Währungsgewinn (Konto),Difference between payment and bank account currency,Revenue,Natural,Yes,No,B_SETTLEMENTGAIN_ACCT
+2667,Bank Währungsverlust (Konto),Difference between payment and bank account currency,Expense,Natural,Yes,No,B_SETTLEMENTLOSS_ACCT
+1203,Bank nicht zugeordnete Zahlungen,Received unallocated payments,Asset,Natural,Yes,No,B_UNALLOCATEDCASH_ACCT
+1202,Bank nicht identifizierte Zahlungen,Receipts from unidentified customer,Asset,Natural,Yes,No,B_UNIDENTIFIED_ACCT
+1710,Kunden Anzahlung,Prepayments for future revenue,Liability,Natural,Yes,No,C_PREPAYMENT_ACCT
+1400,Kundenverbindlichkeiten,Accounts Receivables,Asset,Natural,Yes,No,C_RECEIVABLE_ACCT
+1000,Kasse,Petty Cash Account,Asset,Natural,Yes,No,CB_ASSET_ACCT
+1360,Kasse Transfer,Petty Cash Transfer,Asset,Natural,Yes,No,CB_CASHTRANSFER_ACCT
+2673,Kassendifferenzen,Petty Cash Differences,Expense,Natural,Yes,No,CB_DIFFERENCES_ACCT
+3403,Konto Kasse Aufwand,Default other expense for petty cash transactions,Expense,Natural,Yes,No,CB_EXPENSE_ACCT
+8403,Konto Kasse Ertrag,Default other revenue for petty cash transactions,Revenue,Natural,Yes,No,CB_RECEIPT_ACCT
+4900,Sonstige Ausgaben,Default other expense,Expense,Natural,Yes,No,CH_EXPENSE_ACCT
+8402,Sontige Einnahmen,Default other revenue,Revenue,Natural,Yes,No,CH_REVENUE_ACCT
+2668,Währungsdifferenz zum Kontenausgleich,Rounding difference to make journal balance in accounting currency,Expense,Natural,Yes,No,CURRENCYBALANCING_ACCT
+3400,Standard Ausgaben,Default Account (if no other account is defined) V1.1,Expense,Natural,Yes,No,DEFAULT_ACCT
+4100,Personalkosten,Default employee expemses,Expense,Natural,Yes,No,E_EXPENSE_ACCT
+1740,Mitarbeiter Vorschuesse,Expense advances,Asset,Natural,Yes,No,E_PREPAYMENT_ACCT
+860,GewinnVerlust Konto,Year end processing to balance account (Retained Earnings),Expense,Natural,Yes,No,INCOMESUMMARY_ACCT
+1594,Innerbetriebliche Foderungen,Default Receivables account for intercompany trx,Asset,Natural,Yes,No,INTERCOMPANYDUEFROM_ACCT
+700,Innerbetriebliche Verbindlichkeiten,Default Payables account for intercompany trx,Liability,Natural,Yes,No,INTERCOMPANYDUETO_ACCT
+3200,Lieferanten geliefert aber nicht abgerechnet,Received products/services from vendors but not invoiced,Expense,Natural,Yes,No,NOTINVOICEDRECEIPTS_ACCT
+7000,Forderungen noch nicht abgerechnet,We delivered but have not invoiced yet,Asset,Natural,Yes,No,NOTINVOICEDRECEIVABLES_ACCT
+8700,Nicht abgerechnete Einnahmen,We delivered but have not invoiced yet,Revenue,Natural,Yes,No,NOTINVOICEDREVENUE_ACCT
+3970,Produkt Lagerbestand,Product Inventory Account,Asset,Natural,Yes,No,P_ASSET_ACCT
+3402,Produkt Vertriebsausgaben,Cost of Goods Sold,Expense,Natural,Yes,No,P_COGS_ACCT
+3401,Produkt Ausgaben,Default Product or Service costs (I.e. not on inventory),Expense,Natural,Yes,No,P_EXPENSE_ACCT
+2663,Produkt Rechnung Preisdifferenz,Difference between product cost and invoice price (IPV),Expense,Natural,Yes,No,P_INVOICEPRICEVARIANCE_ACCT
+2665,Produkt Einkauf Preisdifferenz,Difference between purchase price and standard costs (PPV),Expense,Natural,Yes,No,P_PURCHASEPRICEVARIANCE_ACCT
+8400,Produkt Erlöse,Default Product or Service revenue,Revenue,Natural,Yes,No,P_REVENUE_ACCT
+8770,Gewährte Preisnachlässe,Granted Trade discounts (corrects Product Revenue),Revenue,Natural,Yes,No,P_TRADEDISCOUNTGRANT_ACCT
+3770,Erhaltene Preisnachlässe,Received Trade Discounts (corrects Product expense),Expense,Natural,Yes,No,P_TRADEDISCOUNTREC_ACCT
+8735,Skontoaufwand,Granted early payment discount to customers,Expense,Natural,Yes,No,PAYDISCOUNT_EXP_ACCT
+3735,Skontoertrag,Granted early payment discount from vendors,Revenue,Natural,Yes,No,PAYDISCOUNT_REV_ACCT
+1451,Projekt Bestandswert,Created Asset,Asset,Natural,Yes,No,PJ_ASSET_ACCT
+1452,Projekt Werte in Arbeit,Asset Work in Progress,Asset,Natural,Yes,No,PJ_WIP_ACCT
+2666,Einkauf Preisvarianz Ausgleich,Offset Account for Purchase price variance (PPV) ,Expense,Natural,Yes,No,PPVOFFSET_ACCT
+2662,Realisierte Währungsdifferenzen,Difference between invoice and payment currency,Revenue,Natural,Yes,No,REALIZEDGAIN_ACCT
+2664,Realisierte Währungsdifferenzen,Difference between invoice and payment currency,Expense,Natural,Yes,No,REALIZEDLOSS_ACCT
+9000,Bilanzvortrag,Year end processing to balance account (Income Summary),Owner's Equity,Natural,Yes,No,RETAINEDEARNING_ACCT
+2672,Rundungsdifferenzen,Difference to make journal balance in source currency - needs to be solved,Asset,Natural,Yes,No,SUSPENSEBALANCING_ACCT
+1590,Durchlaufende Posten Fehler,Import did not find account - needs to be solved,Asset,Natural,Yes,No,SUSPENSEERROR_ACCT
+1570,Vorsteuer,Tax to be re-imbursed - before tax declaration,Asset,Natural,Yes,No,T_CREDIT_ACCT
+1770,Mehrwertsteuer,Tax to be paid - before tax declaration,Liability,Natural,Yes,No,T_DUE_ACCT
+4340,Steueraufwand,Sales Tax paid to vendors,Expense,Natural,Yes,No,T_EXPENSE_ACCT
+1774,Steuerverbindlichkeiten,Tax to be paid based on tax declaration,Liability,Natural,Yes,No,T_LIABILITY_ACCT
+1540,Steuerforderungen,Tax to receive based on tax declaration,Asset,Natural,Yes,No,T_RECEIVABLES_ACCT
+8401,Vorausberechnete Einnahmen,We have invoiced but not delivered yet,Revenue,Natural,Yes,No,UNEARNEDREVENUE_ACCT
+2661,Nicht realisierbare Währungsdifferenzen,Difference between foreign currency receivables/payables and current rate,Revenue,Natural,Yes,No,UNREALIZEDGAIN_ACCT
+2669,Nicht realisierbare Währungsdifferenzen,Difference between foreign currency receivables/payables and current rate,Expense,Natural,Yes,No,UNREALIZEDLOSS_ACCT
+1600,Lieferanten Verbindlichkeiten,Accounts Payables,Liability,Natural,Yes,No,V_LIABILITY_ACCT
+1601,Lieferanten Verbindlichkeiten Dienstleistungen,Accounts Payables for non-product revenue,Liability,Natural,Yes,No,V_LIABILITY_SERVICES_ACCT
+1510,Lieferanten Anzahlung,Prepayments for future expense,Asset,Natural,Yes,No,V_PREPAYMENT_ACCT
+3986,Lager Differenzkorrektur Gewinn / Verlust,Physical Inventory Gain/Loss,Expense,Natural,Yes,No,W_DIFFERENCES_ACCT
+3985,Lager Bestandswert Korrektur,Inventory Actual Accounting Value Adjustment,Asset,Natural,Yes,No,W_INVACTUALADJUST_ACCT
+3980,Lager Bestandswert,Inventory Account,Asset,Natural,Yes,No,W_INVENTORY_ACCT
+3987,Lager Differenzkorrektur Marktwert,Difference to (lower cost) or market,Expense,Natural,Yes,No,W_REVALUATION_ACCT
+1401,Zurückhaltung,Withholding for 1099 or Quality Guarantee,Liability,Natural,Yes,No,WITHHOLDING_ACCT
+2400,Forderungsverluste,Receivables write-off - bad debt,Expense,Natural,Yes,No,WRITEOFF_ACCT

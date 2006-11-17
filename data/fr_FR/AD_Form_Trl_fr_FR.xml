@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_Form">
+	<row id="100" trl="Y">
+		<value column="Name" original="Generate Invoices (manual)">Générer factures (sélection)</value>
+		<value column="Description" original="Select and generate invoices">sélectionner et générer les factures</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Import File Loader">Chargeur de fichier à importer</value>
+		<value column="Description" original="Load flat Files into import tables">Fichier à importer</value>
+		<value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Initial Client Setup">Setup Client initial</value>
+		<value column="Description" original="Initial Client Setup">Setup Client initial</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Material Transactions">Mouvements Articles</value>
+		<value column="Description" original="Material Transactions">Mouvements Articles</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Payment Allocation">Affectation paiement</value>
+		<value column="Description" original="Allocate invoices and payments">Affectation des factures et des paiements</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Generate Charges">Générer Dépenses</value>
+		<value column="Description" original="Generate Charges from natural accounts">Générer Dépenses à partir des comptes</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Payment Print/Export">Impression / Export Paiements</value>
+		<value column="Description" original="Print or export your payments">Imprime et exporte les paiements</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Payment Selection (manual)">Sélection des paiements (manuelle)</value>
+		<value column="Description" original="Manual Payment Selection">Sélection manuelle des paiements</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Matching PO-Receipt-Invoice">Réconciliation ordre d'achat - réception - facture</value>
+		<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Réconcilie les ordres d'achat, les réceptions et les factures fournisseurs</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Translation Import/Export">Import/Export traduction</value>
+		<value column="Description" original="Import or Export Language Translation">Import or Export traduction langue</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Generate Shipments (manual)">Générer expédition (manuel)</value>
+		<value column="Description" original="Select and generate shipments">Sélectionner et générer les expéditions</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="111" trl="N">
+		<value column="Name" original="Password Maintenance">Password Maintenance</value>
+		<value column="Description" original="Maintain Passwords">Maintain Passwords</value>
+		<value column="Help" original="Maintain Passwords for Users and Business Partners">Maintain Passwords for Users and Business Partners</value>
+	</row>
+</adempiereTrl>

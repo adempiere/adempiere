@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_Process_Para">
+	<row id="227" trl="N">
+		<value column="Name" original="Delete existing Accounting Entries">Delete existing Accounting Entries</value>
+		<value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">The selected accounting entries will be deleted!  DANGEROUS !!!</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="233" trl="N">
+		<value column="Name" original="Pricelist Version">Pricelist Version</value>
+		<value column="Description" original="Only used if Price List is used to set future cost price">Only used if Price List is used to set future cost price</value>
+		<value column="Help" original=""/>
+	</row>
+</adempiereTrl>

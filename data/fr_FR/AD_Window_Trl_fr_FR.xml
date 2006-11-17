@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_Window">
+	<row id="100" trl="Y">
+		<value column="Name" original="Table and Column">Table et colonne</value>
+		<value column="Description" original="Maintain Tables and Columns">Gestion des tables et des colonnes</value>
+		<value column="Help" original="The Table and Column Window defines all tables with their columns">La fenêtre Table et colonne permet de déinir les tables avec leurs colonnes (champs) respectives</value>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Reference">Référence</value>
+		<value column="Description" original="Maintain System References">Gestion des réréfences du system</value>
+		<value column="Help" original="The Reference Window defines each field type and its parameters. This window is for System Admin use only.">La fenêtre référence défini chaque type de champ et ses paramètres. Cet écran est uniquement utilisée par l'administrateur système</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Window, Tab &amp; Field">Fenêtre, Tabulation &amp; Champs</value>
+		<value column="Description" original="Maintain Windows, Tabs &amp; Fields">Gestion des fenêtres, tabulation &amp; Champs</value>
+		<value column="Help" original="The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window.">Cet écran vous permet de définir la structure des tables et colonnes ainsi que la disposition de celles-ci dans chaque fenêtre</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Validation Rules">Règles de validation</value>
+		<value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Gestion des règles de validation dynamiques pour les colonnes et les champs</value>
+		<value column="Help" original="The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only.">Cet écran défini toutes les règles dynamiques utilisée lorsque l'on introduit et maintient les données des colonnes/champs. Cette fonction est réservée uniquement à l'administrateur.</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Message">Message</value>
+		<value column="Description" original="Maintain Information and Error Messages">Gestion des messages d'information et d'erreur</value>
+		<value column="Help" original="The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only.">Cet écran défini les messages utilisés par le systèmes. Ces messages sont les conseils, erreurs, textes d'information générés par le système. Cette fonction est réservée uniquement à l'administrateur du système.</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Menu">Menu</value>
+		<value column="Description" original="Maintain Menu">Gestion des menus</value>
+		<value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.">Cet écran permet de définir les menus affichés par le système. L'accès à ces menus pour chaque utilisateur dépend du paramètrage au niveau de la sécurité. Cette fonction est réservée uniquement à l'administrateur du système. </value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Language">Langue</value>
+		<value column="Description" original="Maintain Languages">Gestion des langues</value>
+		<value column="Help" original="The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.&#10;If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.&#10;&#10;For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).&#10;&#10;Verify the translation creates missing translation records. Start this process after creating a new language.">Cet écran vous permet de définir différentes langues pour les utilisateurs. Cela permet aux utilisateurs d'accéder aux données avec les fenêtres, tabulations et champs apparaissant dans leur propre langue. .
+ Si la langue est une langue système, vous pouvez appliquer cette langue à  l'interface utilisateur. Sinon, cette langue est uniquement disponible au travers des documents d'impression. 
+
+ Pour le code de la langue, nous suggerons d'utiliser la convention utilisée au niveau de Java au niveau des payes / langues (par exemple, fr_CN - Francais Canadien). 
+
+ Le bouton "vérification"  permet de créer les traductions mannquantes. Il faut exécuter ce processus après création d'une langue.  </value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Matched Invoice">Lettrage facture</value>
+		<value column="Description" original="View Matched Invoices">Voir les factures lettrées</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="User">Utilisateur</value>
+		<value column="Description" original="Maintain Users of the system">Gestion des utilisateurs système</value>
+		<value column="Help" original="The User Window allows you to define each User of the system.  Users can log into the system and have access to functionality via one or more roles.">Cet écran vous permet de définir les différents utilisateurs du système. L'utilisateur peut se connecter au système et acceder aux fonctionnalités auxquelles il a droit via la définition d'un (ou plusieurs) rôle.</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Client">Société</value>
+		<value column="Description" original="Maintain Clients">Gestion des Sociétés</value>
+		<value column="Help" original="The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's).&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.">La société est le niveau le plus élevé d'une société juridique. Chaque société  possède une ou plusieurs organisation  qui dépendent d'une sociétét. Chaque société défini sa structure comptable (plan comptable, structure des comptes, devise de base, etc.) 
+ Ne pas créer de société via cet écran mais bien via le menu "Création nouvelle société". Ce menu "création nouvelle société" permet de définir toutes les valeurs par défaut nécessaires, non réalisée par ce menu de gestion de société.</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Organization">Organisation</value>
+		<value column="Description" original="Maintain Organizations">Gestion des organisations</value>
+		<value column="Help" original="The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed">Cet écran permet de définir et maintenir les différentes organisations. Une organisation est bien souvent une entité légale ou une division pour laquelle on réalise des documents et transactions qui lui sont propres.</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Role">Rôle</value>
+		<value column="Description" original="Maintain User Responsibilities">Gestion des accès utilisateur</value>
+		<value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data.&#10;You can add users to the role.">Cet écran vous permet permet de définir les différents rôles. Chaque utilisateur possède un ou plusieurs rôles. Chaque rôle défini les accès aux menus, aux tâches, aux édititions, etc. Les rôles prédéfinis sont ceux de l'administrateur système (SuperUser), l'administrateur de la société et l'utilisateur de la société. Vous pouvez définir d'autres rôles spécifiques à certaines fonctionnalités et  modifier les accès spécifiques à ces rôles.</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Document Sequence">Séquence Documents</value>
+		<value column="Description" original="Maintain System and Document Sequences">Gestion des séquences documents</value>
+		<value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.">Décrit la méthode de numérotation des documents.
+Il est possible d'ajouter les préfixes et suffixes aux numéros des documents, ainsi que de modifier sa valeur courante.</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Workflow">Workflow</value>
+		<value column="Description" original="Maintain Workflow">Gestion du workflow</value>
+		<value column="Help" original="The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow.">Cet écran permet de définir les workflows (plans de travail) dans le système, les niveaux d'accès pour ce workflow ainsi que les étapes du workflow.</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Task">Tâche</value>
+		<value column="Description" original="Maintain Tasks">Gestion des tâches</value>
+		<value column="Help" original="The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks.">Cet écran défini les différentes tâches utilisées dans les workflows ainsi que les permissions d'accès de ces tâches.</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Currency">Devise</value>
+		<value column="Description" original="Maintain Currencies">gère les devises</value>
+		<value column="Help" original="The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) ">Cet écran définit toutes les devises utilisées pour les documents et le reporting. Il faut créer les devises sous l'utilisateur System. La mise à jour du cours peut se faire au niveau Société.</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Conversion Rates">Taux de change</value>
+		<value column="Description" original="Maintain Currency Conversion Rates">Gestion des taux de change devise</value>
+		<value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another">Cet écran défini les taux de change utilisés lors de la conversion de montant relatif à des documents avec des devises différentes.</value>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Calendar Year and Period">Calendrier Années Périodes</value>
+		<value column="Description" original="Maintain Calendars Years Periods">Gestion du Calendrier Années et Périodes</value>
+		<value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">Cet écran définit les calendriers utilisés pour la gestion des périodes.  Il est possible de définir des calendriers différents de l'année civile (par exemple l'année allant de juillet à juin).</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Account Element">Plan Comptable</value>
+		<value column="Description" original="Maintain Account Elements">Gestion des Plans de Compte</value>
+		<value column="Help" original="The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. &#10;One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments. ">Cet écran permet de gérer les plans de comptes et de définir des plans personnalisés 
+L'un de ces plans sera définit comme plan de base. De nouveaux plans peuvent être créés pour le reporting ou pour définir des plans personnalisés.</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Unit of Measure">Unités de  Mesure</value>
+		<value column="Description" original="Maintain Unit of Measure ">Gestion des Unités de Mesure </value>
+		<value column="Help" original="The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).">Cet écran définit les unités de mesure non monétaires. Gère aussi la conversion entre unités si elle est autorisée. Certaines conversions sont gérées par défaut, si elles ne sont pas spécifiées ici (par ex. heures, minutes, jours, jours ouvrables, etc...). T
+Les conversions doivent être directes  (par ex.,le système ne sait pas convertir de A vers C, si A vers B et B vers C sont paramètrés. Il faut donc explicitement définir A vers C).</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Location">Adresse</value>
+		<value column="Description" original="Maintain Location Address">Gestion des adresses</value>
+		<value column="Help" original="The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)">Cet écran définit les données relatives aux adresses. Cet écran est uniquement accessible par l'administrateur système. L'utilisateur spécifie ces informations via le bouton ou la tabulation de la fenêtre appropriée ( par exemple celle de la saisie d'une commande  de vente ou la définition d'un tiers)</value>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Country Region and City">Pays, région et ville</value>
+		<value column="Description" original="Maintain Countries Regions and Cities">Gestion des pays, régions et villes</value>
+		<value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">Cet écran défini les entités qui peux être utilisées dans les champs d'adresses. Cela permet de définir les formats d'adresses ainsi que les régions assocées à un pays, et les villes associées à une région donnée. 
+&lt;p&gt;Cette définition doit être idéalement réalisée par l'administrateur système.</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Business Partner">Tiers</value>
+		<value column="Description" original="Maintain Business Partners">gestion des tiers</value>
+		<value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions">Cet écran défini la gestion des fournisseurs, des clients et des salariés. Toutes les informations contenues dans ce fichier sont utilisées pour le traitement des flux d'achat et de vente. Avant de rentrer les articles, vous devez spécifier les fournisseurs. Avant de générer des commandes d'achats / de ventes, vous devez définir vos fournisseurs / vos clients. Cet écran vous permet de définir ces tiers associés à ces transactions.</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Accounting Schema">Schéma Comptable</value>
+		<value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Gestion des schémas comptables. Veuillez vous reconnecter après toute modification.</value>
+		<value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.&#10;">Cet écran définit les méthodes de comptabilisation et les comptes à utiliser. Il est possible de définir également des comptes par défaut au niveau du tiers, des articles, des types d'articles et des emplacements, etc. 
+ Revoir / modifier les comptes de comptabilisation générale ainsi que les comptes par défauts. Les comptes utilisés pour chaque transaction dépendent de l'organisation pour laquelle la transaction est effectuée. 
+ 
+</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Test">Test</value>
+		<value column="Description" original="Test Screen">Test Screen</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Attachment">Piece jointe</value>
+		<value column="Description" original="Maintain Attachments">Gestion des pièces jointes</value>
+		<value column="Help" original="For System Maintenance Only.  The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment.">Uniquement au niveau de la maintenance système. Cet écran est utilisée à des fins de diagnostique, afin d'imprimer les attributs d'une pièce jointe</value>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Preference">Preference</value>
+		<value column="Description" original="Maintain System Client Org and User Preferences">Gestion des préférences système, société, organisation et utilisateur</value>
+		<value column="Help" original="System Admin use only.">Cet écran défini la gestion des préférences système, société, Organisation et utilisateur, uniquement accessible pour le Super Utilisateur</value>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Project">Projet</value>
+		<value column="Description" original="Maintain Projects">Gestion des projets</value>
+		<value column="Help" original="The Project Window is used to define the projects which will be tracked via documents.">Cet écran vous permet de définir les projets qui seront tracés via les documents</value>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="GL Category">Catégories Grand Livre</value>
+		<value column="Description" original="Maintain General Ledger Categories">Gestion des catégories Grand Livre</value>
+		<value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">Cet écran permet de définir des catégories à utiliser dans les journaux.  Elles permettent éventuellement de réaliser des regroupements dans les journaux.</value>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="GL Journal">Journal Comptable</value>
+		<value column="Description" original="Enter and change Manual Journal Entries">Saisie des écritures comptables</value>
+		<value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">permet de saisir et modifier des écritures comptables</value>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="GL Document">GL Document</value>
+		<value column="Description" original="Enter and change General Ledger Documents">Définir et modifier des documents GL</value>
+		<value column="Help" original="The GL Document Window allows you to enter and modify General Ledger Documents">Cet écran vous permet de créer, modifier les documents GL (general ledger)</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Activity (ABC)">Activité (ABC)</value>
+		<value column="Description" original="Maintain Activities for Activity Based Costing">Gestion des activités pour comptabilité analytique</value>
+		<value column="Help" original="The Activity Based Costing Window defines the different activities for which you want to capture costs.">Cet écran permet l'enregistrement des dépenses par activité pour utiliser une comptabilité analytique.</value>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Document Type">Types Documents</value>
+		<value column="Description" original="Maintain Document Types">Gestion des types de documents</value>
+		<value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">Cet écran définit tous les types de documents utilisés par le système.  Chaque type définit les traitements, la numérotation et  le titre à imprimer.</value>
+	</row>
+	<row id="136" trl="Y">
+		<value column="Name" original="Approval">Approbation </value>
+		<value column="Description" original="Maintain Approvals">Gestion des approbations</value>
+		<value column="Help" original="The Maintain Approvals Window is used to define the different approvals that are used in workflows.">Cet écran vous permet de définir les différentes approbations utilisées dans les workflows</value>
+	</row>
+	<row id="137" trl="Y">
+		<value column="Name" original="Tax Rate">Taux TVA</value>
+		<value column="Description" original="Maintain Taxes and their Rates">Gestion de la TVA et des taux</value>
+		<value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.">indique les taux utilisé pour les différentes catégories de TVA</value>
+	</row>
+	<row id="138" trl="Y">
+		<value column="Name" original="Tax Category">Catégories TVA</value>
+		<value column="Description" original="Maintain Tax Categories">Gestion des tva</value>
+		<value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.">permet de saisir et gérer les taux de TVA.  Chaque article est associé à une catégorie de TVA qui facilite le changement des tauxfacilitates reacting changing tax rates.</value>
+	</row>
+	<row id="139" trl="Y">
+		<value column="Name" original="Warehouse &amp; Locators">Magasin et emplacements</value>
+		<value column="Description" original="Maintain Warehouses and Locators">Gestion des magasins et emplacements</value>
+		<value column="Help" original="The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse.">Cet écran définit les magasins et emplacements des produits dans ces magasins, ainsi que les paramètres comptables et d'inventaire applicable à ce magasin.</value>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="Product">Articles</value>
+		<value column="Description" original="Maintain Products">Gestion des Articles</value>
+		<value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">Cet écran définit les articles utilisés par une organisation.  Les articles sont des produits vendus aux clients, des composants utilisés dans la fabrication des produits et les articles achetés.</value>
+	</row>
+	<row id="141" trl="Y">
+		<value column="Name" original="Payment Term">Délai de paiement</value>
+		<value column="Description" original="Maintain Payment Terms">Gestion des délais de paiement</value>
+		<value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">définit les différents délais de paiement utilisables dans les relations avec les clients et les fournisseurs. Chaque facture doit avoir un délai de paiement. Dans le format standard de la facture le libellé et le code du délai sont imprimés.</value>
+	</row>
+	<row id="142" trl="Y">
+		<value column="Name" original="Shipper">Transporteurs</value>
+		<value column="Description" original="Maintain Shippers">Gestion des transporteurs</value>
+		<value column="Help" original="The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected.">Cet écran désigne les différents transporteurs. Lorsque une méthode d'expédition est sélectionnée pour une commande de vente, un transporteur doit être sélectionné.</value>
+	</row>
+	<row id="143" trl="Y">
+		<value column="Name" original="Sales Order">Commande Vente</value>
+		<value column="Description" original="Enter and change sales orders">gestion des commande de vente</value>
+		<value column="Help" original="The Order Window allows you to enter and modify Sales Orders.  ">L'écran des commandes de vente vous permet de saisir, modifier et traiter des commandes clients ou inter-dépôts.  </value>
+	</row>
+	<row id="144" trl="Y">
+		<value column="Name" original="Product Category">Catégories Produits</value>
+		<value column="Description" original="Maintain Product Categories">Gestion des catégories de produits</value>
+		<value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">Cet écran vous permet de définir des groupes de catégories.  Ces groupes peuvent  être utilisés pour générer des tarifs, définir des objectifs de marges et assigner des paramètres comptables.</value>
+	</row>
+	<row id="146" trl="Y">
+		<value column="Name" original="Price List">Tarifs</value>
+		<value column="Description" original="Maintain Product Price Lists">Gestion des Tarifs</value>
+		<value column="Help" original="The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.&#10;&lt;BR&gt;&#10;All pricelists have three prices: List, Standard and Limit&#10;&lt;BR&gt;&#10;First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.&#10;&lt;BR&gt; &#10;Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.">Cette écran vous permet de générer des tarifs de vente. Les tarifs définissent aussi la TVA et les devises. Il est possible de définir des versions différentes pour différentes dates de validité.  
+Les tarifs définissent 3  prix : Tarif, Standard et Plancher
+Créer tout d'abord un tarif. Il est possible d'ajouter manuellement chaque article ou de les créer automatiquement. Le tarif de base est en général le tarif d'achat avec le tarif de vente "public", le prix standard représente le prix d'achat négocié.  Le prix plancher peut être utilisé pour contrôler le prix d'achat final remisé.
+Les tarifs peuvent être calculés et copiés. Pour accélérer le traitement, les paramètres sont stockés et recopiés lors de la création d'un nouveau tarif.</value>
+	</row>
+	<row id="147" trl="Y">
+		<value column="Name" original="Invoice Schedule">Planning facturation</value>
+		<value column="Description" original="Maintain Invoicing Schedule">Gestion du planning de facturation</value>
+		<value column="Help" original="The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer.">Cet écran indique les paramètres de gestion du planning de facturation. Par exemple, si un client demande le regroupement des livraisons sur une seule facture vous pouvez le définir dans cet écran.</value>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Marketing Campaign">Campagne Marketing</value>
+		<value column="Description" original="Maintain Marketing Campaigns">gestion des campagnes Marketing</value>
+		<value column="Help" original="The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.">Cet écran définit le début et la fin d'une campagne. Permet d'obtenir l'encours de Chiffre d'affaires généré par cette campagne.</value>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Marketing Channel">Canal Marketing</value>
+		<value column="Description" original="Maintain Marketing  Channels">gestion des canaux marketing</value>
+		<value column="Help" original="The Marketing Channel Window defines the different channels used in Marketing Campaigns">Cet écran définit les canaux marketing utlisés pour les campagnes marketing.</value>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Element">Champ</value>
+		<value column="Description" original="Maintain Field Elements">Gestion des champs</value>
+		<value column="Help" original="The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments">Cet écran vous permet de définir les noms des champs, leur description ainsi que les aides/commentaires associés</value>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Sales Region">Secteurs Commerciaux</value>
+		<value column="Description" original="Maintain Sales Regions">Gestion des secteurs commerciaux</value>
+		<value column="Help" original="The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions">Cette fenêtre définit des secteurs commerciaux (géographiques ou par activité). Peut être utilisé pour créer des états.</value>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Account Combination">Combinaisons Comptes</value>
+		<value column="Description" original="Maintain Valid Account Combinations ">Gestion des combinaisons de comptes</value>
+		<value column="Help" original="The Account Combination Window defines and displays valid account combinations. ">définit et gère les différentes combinaisons de comptes valides. </value>
+	</row>
+	<row id="154" trl="Y">
+		<value column="Name" original="GL Budget">Budget Comptable</value>
+		<value column="Description" original="Maintain General Ledger Budgets">Gestion des budgets comptables</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="158" trl="Y">
+		<value column="Name" original="Bank">Banque</value>
+		<value column="Description" original="Maintain Bank">Gestion des banques</value>
+		<value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner">La gestion des banques est utilisée pour définir les banques et comptes associes, pour une organisation ou un tiers</value>
+	</row>
+	<row id="159" trl="Y">
+		<value column="Name" original="Dunning">Rappels de paiement</value>
+		<value column="Description" original="Maintain Dunning Levels">Gestion des modes et niveaux de rappels clients</value>
+		<value column="Help" original="The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  ">Cet écran indique les différents paramètres de gestion des rappels de paiement aux tiers. Chaque client peut être associé à un mode de rappel.</value>
+	</row>
+	<row id="160" trl="Y">
+		<value column="Name" original="Withholding (1099)">Retenues</value>
+		<value column="Description" original="Maintain Withholding Certificates">Gestion des retenues</value>
+		<value column="Help" original="The Withholding Window defines the rule used for calculating withholding amounts.">Cet écran définit les différents modes de retenues.</value>
+	</row>
+	<row id="161" trl="Y">
+		<value column="Name" original="Charge">Types dépenses</value>
+		<value column="Description" original="Maintain Charges">Gestion des types dépenses</value>
+		<value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">Cet écran définit les types de dépenses. il peut s'agir de frais bancaires, de frais d'achat ou de frais commerciaux.</value>
+	</row>
+	<row id="162" trl="Y">
+		<value column="Name" original="Accounting Fact Details">Transactions</value>
+		<value column="Description" original="Query Accounting Facts">Consultation des transactions comptables</value>
+		<value column="Help" original="Query the detail accounting transactions">Cette interrogation permet de consulter les transactions comptables</value>
+	</row>
+	<row id="163" trl="Y">
+		<value column="Name" original="Tree and Node Image">Arborescence et noeud</value>
+		<value column="Description" original="Maintain Tree definition">Gestion des arborescences</value>
+		<value column="Help" original="The Tree and Node Image Window defines the descriptors and images that will be used when a Tree is displayed.">Cet écran permet de définir la description et l'image utilisée lors de l'affichage d'une arborescence.</value>
+	</row>
+	<row id="165" trl="Y">
+		<value column="Name" original="Report &amp; Process">Edition et Processus</value>
+		<value column="Description" original="Maintain Reports &amp; Processes">Gestion des éditions et des processus.</value>
+		<value column="Help" original="The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.">Cet écran permet de définir les paramètres et droits d'accès de chaque édition et processus du système. Ce menu est accessible uniquement à l'administrateur système.</value>
+	</row>
+	<row id="167" trl="Y">
+		<value column="Name" original="Invoice (Customer)">Facture (Client)</value>
+		<value column="Description" original="Customer Invoice Entry">Traitement des factures client</value>
+		<value column="Help" original="The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.">Cet écran permet l'affichage et saisie des factures clients. Les factures peuvent aussi être générées à partir des commandes et des livraisons.</value>
+	</row>
+	<row id="168" trl="Y">
+		<value column="Name" original="Physical Inventory">Inventaire Physique</value>
+		<value column="Description" original="Enter Physical Inventory">Saisie de l'inventaire physique</value>
+		<value column="Help" original="The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts.">Cet écran génère les listes d'inventaire et permet ensuite la saisie et le traitement de l'inventaire.</value>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Shipment (Customer)">Expédition (Client)</value>
+		<value column="Description" original="Customer Inventory Shipments Customer Returns">Expédition de vente client, de retour client ou vers un stock</value>
+		<value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">Cet écran définit les expéditions clients réalisées ou à réaliser.  Celles-ci sont générées à partir d'une commande client. Le traitement d'une expédition génèrera la facture client.</value>
+	</row>
+	<row id="170" trl="Y">
+		<value column="Name" original="Inventory Move">Transferts inter-dépôts</value>
+		<value column="Description" original="Inventory Move">Transferts inter-dépôts</value>
+		<value column="Help" original="The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.">Cet écran permet de réaliser des transferts de marchandise entre dépôts, agences, etc....  Après saisie des lignes, en sélectionnant " Traiter mouvements", les mouvements de stock sont générés.</value>
+	</row>
+	<row id="171" trl="Y">
+		<value column="Name" original="Import Product (old)">Importer articles</value>
+		<value column="Description" original="Import Products">Importer articles</value>
+		<value column="Help" original="The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Cet écran affiche une table intermédiaire qui est utilisée lors de l'importation de donnée dans Adempiere. En cliquant sur le bouton "Exécuter", le système ajoutera ou modifiera les données du système.</value>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="Import Business Partner">Import des tiers</value>
+		<value column="Description" original="Import Business Partner">Importer tiers</value>
+		<value column="Help" original="The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Cet écran affiche une table intermédiaire qui est utilisée lors de l'importation de donnée dans Adempiere. En cliquant sur le bouton "Exécuter", le système ajoutera ou modifiera les données du système.</value>
+	</row>
+	<row id="174" trl="Y">
+		<value column="Name" original="Revenue Recognition">Revenue Recognition</value>
+		<value column="Description" original="Revenue Recognition Rules">Revenue Recognition Rules</value>
+		<value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.</value>
+	</row>
+	<row id="175" trl="Y">
+		<value column="Name" original="Perpetual Inventory">Inventaire Permanent</value>
+		<value column="Description" original="Maintain Perpetual Inventory Rules">Gestion des paramètres d'inventaire permanent</value>
+		<value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">Cet écran définit les paramètres de sélection des articles à compter lors des inventaires physiques.</value>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Vendor Details">Articles Fournisseur</value>
+		<value column="Description" original="Maintain Vendor Details">Gestion des articles fournisseurs</value>
+		<value column="Help" original="The Vendor Details Window allows you to display and maintain all products for a selected Vendor.">Cet écran affiche toutes les données d'un article d'un fournisseur donné.</value>
+	</row>
+	<row id="178" trl="Y">
+		<value column="Name" original="Greeting">Civilité</value>
+		<value column="Description" original="Maintain Greetings">Gestion des civilités</value>
+		<value column="Help" original="The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.">Cet écran définit les civilités (Titres / Qualités) rattachées aux tiers.</value>
+	</row>
+	<row id="180" trl="Y">
+		<value column="Name" original="Report View">Vue rapports</value>
+		<value column="Description" original="Maintain Report Views">Gestion des vues rapports</value>
+		<value column="Help" original="The Report View Window defines the views used when generating reports.  This window is for System Admin use only.">Cette écran défini les vues utilisées dans la génération des rapports. Accessible uniquement à l'administrateur système.</value>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Purchase Order">Commande achat</value>
+		<value column="Description" original="Manage Purchase Orders">Gestion des commandes achat</value>
+		<value column="Help" original="The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order">Cet écran permet de créer une commande d'achat relative à une organisation. Lorsque la commande d'achat a été introduit, on peut réaliser la réception ou la facturation à partir de cette commande  d'achat.</value>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Invoice (Vendor)">Facture (Fournisseur)</value>
+		<value column="Description" original="Vendor Invoice Entry">Entête de facture fournisseur</value>
+		<value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.">Cet écran permet l'affichage et la saisie des factures des fournisseurs. Celles-ci peuvent aussi être générées à partir des commandes d'achats et des livraisons.</value>
+	</row>
+	<row id="184" trl="Y">
+		<value column="Name" original="Material Receipt">Livraison</value>
+		<value column="Description" original="Vendor Shipments (Receipts)">Livraison Fournisseur</value>
+		<value column="Help" original="The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.">Cet écran définit la réception des articles en provenance des fournisseurs.  La réception peut être saisie ou générée par une commande achat ou une facture fournisseur.</value>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="EDI Definition">Paramètres EDI</value>
+		<value column="Description" original="Maintain EDI Definition">Gestion des paramètres EDI</value>
+		<value column="Help" original="The EDI Definition Window defines the parameters to be used when processing EDI Transactions">Cet écran définit les paramètres d'exécution des échanges de données informatisées</value>
+	</row>
+	<row id="186" trl="Y">
+		<value column="Name" original="EDI Transaction">Transactions EDI</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="187" trl="Y">
+		<value column="Name" original="Form">Template</value>
+		<value column="Description" original="Special Forms">Templates spécials</value>
+		<value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">Cet écran définit tout fenêtre qui n'est pas pas générée automatiquement. Accessible uniquement via l'administrateur système.</value>
+	</row>
+	<row id="188" trl="Y">
+		<value column="Name" original="Error Message">Message d'erreur</value>
+		<value column="Description" original="Display Error Messages">Affichage des messages d'erreur</value>
+		<value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.">Cet écran affiche tous les messages d'erreurs qui ont été générés. Les enregistrements doivent être manuellement supprimés. Accessible uniquement via l'administrateur système.</value>
+	</row>
+	<row id="189" trl="Y">
+		<value column="Name" original="Import Loader Format">Import du format de chargement</value>
+		<value column="Description" original="Maintain Import Loader Formats">Gestion du format des fichiers importés</value>
+		<value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Cet écran permet de définir le format des fichiers qui permettent de charger des informations comme les articles, les tiers, le plan comptable etc.</value>
+	</row>
+	<row id="190" trl="Y">
+		<value column="Name" original="Tire Storage">Tire Storage</value>
+		<value column="Description" original="Maintain storage of tires">Maintain storage of tires</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="191" trl="Y">
+		<value column="Name" original="Production">Production</value>
+		<value column="Description" original="Production based on Bill of Materials">Production basée sur les nomenclatures</value>
+		<value column="Help" original="The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials">Cet écran définit le plan et les mouvements de stock lors de la production d'un article à partir d'une nomenclature.</value>
+	</row>
+	<row id="192" trl="Y">
+		<value column="Name" original="Business Partner Group">Groupe de Tiers</value>
+		<value column="Description" original="Maintain Business Partner Groups">Gestion des groupes de tiers</value>
+		<value column="Help" original="The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.">Cet écran définit des paramètres généraux pour les tiers. Ceux-ci peuvent ensuite être modifiés au niveau de la gestion des Tiers. </value>
+	</row>
+	<row id="193" trl="Y">
+		<value column="Name" original="Notice">Messages</value>
+		<value column="Description" original="View System Notices">Affichage des messages du système</value>
+		<value column="Help" original="The system creates messages while performing processes. In this window you can view them.">le système créée des message lors des traitements, qui sont affichés dans cet écran.</value>
+	</row>
+	<row id="194" trl="Y">
+		<value column="Name" original="Bank Statement">Extraits bancaires</value>
+		<value column="Description" original="Process Bank Statements">Gestion des opérations bancaires</value>
+		<value column="Help" original="The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.">Cet écran permet de réconciler les extraits bancaires. Vous pouvez entrer les lignes d'extraits bancaires soit manuellement, soit en cliquant sur le bouton 'créer à partir de', qui permet de générer les lignes automatiquement à partir des lignes non réconciliées pour cette banque. Une fois les payement réconciliés, cliquez sur "Processer les extraits" afin de considerer les payements comme réconciliés et générer les écritures GL adéquates.</value>
+	</row>
+	<row id="195" trl="Y">
+		<value column="Name" original="Payment">Paiement</value>
+		<value column="Description" original="Process Payments">Enregistrement des paiements</value>
+		<value column="Help" original="The Process Payments Window allows you to enter payments that have been received for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.">Cet écran permet d'enregistrer les paiements des factures Si le paiement correspond à une unique facture, il peut être saisi dans Cet écran.  Pour des paiements sur +sieurs factures ou des paiements partiels, utiliser la fenêtre de rapprochement des paiements.  </value>
+	</row>
+	<row id="196" trl="Y">
+		<value column="Name" original="Custom Attribute">Spécificité</value>
+		<value column="Description" original="Maintain custom entity attributes">Gestion des spécificités </value>
+		<value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">Cet écran permet d'ajouter des informations complémentaires aux entités. Disponible uniquement à l'administrateur système</value>
+	</row>
+	<row id="197" trl="Y">
+		<value column="Name" original="Cashbook">Journal de caisse</value>
+		<value column="Description" original="Maintain Cashbook">Gestion du journal de caisse</value>
+		<value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">Cet écran définit la banque et le compte à partir duquel les transactions de cash sont processées.</value>
+	</row>
+	<row id="198" trl="Y">
+		<value column="Name" original="Cash Journal">Journal de Caisse</value>
+		<value column="Description" original="Cash transactions">Opérations en espèces</value>
+		<value column="Help" original="The Cash Journal Window is used to record disbursements from and receipts to Petty Cash">utilisé pour enregistrer les opérations en espèces</value>
+	</row>
+	<row id="199" trl="Y">
+		<value column="Name" original="Web Request">Requête Web </value>
+		<value column="Description" original="Process requests from the Web">Traite les requêtes reçues par le Web</value>
+		<value column="Help" original="System Admin use only">utilisé uniquement pour l'administration du système</value>
+	</row>
+	<row id="200" trl="Y">
+		<value column="Name" original="Field Group">Regourpement</value>
+		<value column="Description" original="Define Field Group">Gestion de regroupement</value>
+		<value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only.">Cet écran permet de gerer des sous-sections au niveau des tabulations. Accessible uniquement à l'administrateur système.</value>
+	</row>
+	<row id="201" trl="Y">
+		<value column="Name" original="Request">Requêtes</value>
+		<value column="Description" original="Work on your requests">Traitement des requêtes</value>
+		<value column="Help" original="The Request Window is used to define and track any request assigned to you.">utilisé pour traiter les requêtes.</value>
+	</row>
+	<row id="203" trl="Y">
+		<value column="Name" original="Request Processor">Processus batch</value>
+		<value column="Description" original="Define Request Processors">Définition des processus batch</value>
+		<value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes">Cet écran permet de définir les processus que vous souhaitez exécuter, en y définissant la fréquence de ceux-ci.</value>
+	</row>
+	<row id="204" trl="Y">
+		<value column="Name" original="Mail Template">Modèles Mails</value>
+		<value column="Description" original="Maintain Mail Template">gestion des modèles de mails</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="205" trl="Y">
+		<value column="Name" original="Reverse Allocation">Annulation affectation</value>
+		<value column="Description" original="Reverse Allocations ">Annulation des affectations</value>
+		<value column="Help" original="The Reverse Allocation Window allows you to reverse a payment allocation">Cet écran permet d'annuler une affectation de paiement.</value>
+	</row>
+	<row id="206" trl="Y">
+		<value column="Name" original="Payment Selection">Sélection Paiements</value>
+		<value column="Description" original="Select Invoices for Payment">Sélection des factures à payer</value>
+		<value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">Cet écran permet de sélectionner les factures à payer
+(a) Il est possible de sélectionner les factures manuellement ou de générer une sélection sur la base de critères définis.
+(b) Une fois la sélection faite, le paiement est généré.
+(c) Il ne reste plus qu'à imprimer ou exporter le paiement dans la fenêtre Impression / Export Paiements.</value>
+	</row>
+	<row id="207" trl="Y">
+		<value column="Name" original="Commission">Commissions</value>
+		<value column="Description" original="Maintain Commissions and Royalties">Gestion des commissions</value>
+		<value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">Cet écran définit comment , quand et à qui les commissions sont payées. Il est possible de payer des royalties et des commissions multiples pour une même commande ou une facture. Par exemple, on peut générer des commissions pour la personne repsonsable de la vente du produit, via sa catégorie de produit, et . ou le tiers (group).</value>
+	</row>
+	<row id="208" trl="Y">
+		<value column="Name" original="Project Cycle">Cycle du projet.</value>
+		<value column="Description" original="Maintain Project Cycles">Gestion des cycles de projet.</value>
+		<value column="Help" original="The Project Cycle Window defines the steps associated with a specific Project.&#10;You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.">Cet écran définit les étapes associées à un projet spécifique. Vous pouvez définir plusieurs cycles de projets afin de différencier plusieurs types de projet. Un cycle de projet spécifique peut couvrir une partie du projet (par exemple votre cycle des opportunités peut inclure les étapes de l'étape propect à l'étape contrat, alors que le cycle service peut inclure les étapes de l'installation jusqu'à l'acception du projet.</value>
+	</row>
+	<row id="209" trl="Y">
+		<value column="Name" original="Project Status">Statut projet</value>
+		<value column="Description" original="Maintain Project status">Gestion statut de projet</value>
+		<value column="Help" original="The Project Status allows you to define the different life cycle steps of a project. It is used in Project Cycles.">Cet écran vous permet de définir les différentes étapes de la vie d'un projet. Ces étapes(statut) sont utilisées au niveau de la définition des cycles de projet. </value>
+	</row>
+	<row id="210" trl="Y">
+		<value column="Name" original="Commission Run">Calcul des commissions</value>
+		<value column="Description" original="Check and modify Commissions">Vérification et modification des commissions.</value>
+		<value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.">Cet écran permet d'afficher les résultats du calcul des commissions, éventuellement de les modifier et finalement de générer une facture afin de payer cette commission.</value>
+	</row>
+	<row id="211" trl="Y">
+		<value column="Name" original="Performance Color">Cestion des couleur</value>
+		<value column="Description" original="Color used for Performance Analysis">Couleur utilisée pour l'analyse des performances</value>
+		<value column="Help" original="The Performance Color Window allows you to define the color schema to be used to indicate current performance.  The system has predefined Red (below 50%), Yellow (below 100%) and green above 100.  If you want to define your own color schema, do it here.">Cet écran vous permet de définir la palette de couleur utilisée pour afficher les performances actuelles. Le système défini pour vous la couleur rouge (moins de 50%), jaune ( en-dessous de 100%) et vert (au-dessus de 100 %). Si vous souhaitez définir votre propre schéma, vous pouvez le faire ici.</value>
+	</row>
+	<row id="212" trl="Y">
+		<value column="Name" original="Performance Goal">Objectifs</value>
+		<value column="Description" original="Define Performance Goals">Définition des objectifs</value>
+		<value column="Help" original="The Performance Goal Window allows you to define performance goals">Cet écran vous permet de définir les objectfs.</value>
+	</row>
+	<row id="213" trl="Y">
+		<value column="Name" original="Performance Measure Calculation">Calcul de la mesure de performance</value>
+		<value column="Description" original="Define how you calculate your performance measures">Défini comment sont calculés les mesures de performance</value>
+		<value column="Help" original="Please test the statement in SQL*Plus first.&#10;The select statement needs to return a single value!&#10;Any restrictions for Date range, Organizations, Business Partners, Products should be done via the &quot;Performance Measure&quot; window.  This is the generic calculation.&#10;As this tends to be somewhat technical, the system has a few examples predefined.&#10;">Vérifier tout d'abord la requète SQL*Plus. La requète doit retourner une valeur unique. Toute restriction sur les dates, organisations, tiers et produits doivent être effectuée via le module - mesure des performances -. C'est un modèle générique, quelques exemples sont prédéfinis dans la base.
+</value>
+	</row>
+	<row id="214" trl="Y">
+		<value column="Name" original="Performance Achievement">Réalisation des performances</value>
+		<value column="Description" original="Define Performance Achievements">Défini le niveau de réalisation des performances</value>
+		<value column="Help" original="The Performance Achievement Window allows you to define Tasks to be achieved.  The performance is measured by the percentage of reached achievements.">Cet écran vous permet de définir les tâches à réaliser. La performance est calculée par rapport au pourcentage de réalisation de la tâche.</value>
+	</row>
+	<row id="215" trl="Y">
+		<value column="Name" original="Performance Measure">Mesure de performance</value>
+		<value column="Description" original="Define your Performance Measures">Définition des mesures de performance</value>
+		<value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">Cet écran vous permet de définir les règles et restrictions au niveau de la mesure des performances. Vous pouvez par exemple restreindre la mesure aux ventes d'une certaine catégorie de produit pour une certaine période.</value>
+	</row>
+	<row id="216" trl="Y">
+		<value column="Name" original="Financial Report">Reporting Comptable</value>
+		<value column="Description" original="Maintain Financial Reports">Gestion du Reporting comptable</value>
+		<value column="Help" original="Financial Reports are the combination of a Report Column Set and Line Set.">Le reporting est réalisé par combinaison entre des lignes et colonnes paramétrées</value>
+	</row>
+	<row id="217" trl="Y">
+		<value column="Name" original="Report Column Set">Colonne rapport financier</value>
+		<value column="Description" original="Maintain Financial Report Column Sets">Gestion des colonnes du reporting financier</value>
+		<value column="Help" original="The Report Column Set defines what data is printed in the columns of a report.">Cet écran définit les données à imprimer dans les colonnes du reporting financier.</value>
+	</row>
+	<row id="218" trl="Y">
+		<value column="Name" original="Report Line Set">Ligne rapport financier</value>
+		<value column="Description" original="Maintain Financial Report Line Sets">Gestion des lignes du rapport financier</value>
+		<value column="Help" original="The Line Set determines, which lines are printed in a Financial Report">Cet écran permet de spécifier le format de ligne utilisée sur le rapport financier</value>
+	</row>
+	<row id="219" trl="Y">
+		<value column="Name" original="Revenue Recognition Run">Revenue Recognition Run</value>
+		<value column="Description" original="Start Revenue Recognition">Start Revenue Recognition</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="220" trl="Y">
+		<value column="Name" original="Service Level">Niveau de service</value>
+		<value column="Description" original="Maintain Service Levels">Gestion des niveaux de service</value>
+		<value column="Help" original="Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.">Les niveaux de services sont générés lorsqu'une facture relatif à un produit avec  une règle de revenue recognition est effectuée. Vous pouvez mettre à jour ce  niveau de service en ajoutant une ligne supplémentaire. </value>
+	</row>
+	<row id="221" trl="Y">
+		<value column="Name" original="Find (indirect use)">Cherche (utilisation indirecte)</value>
+		<value column="Description" original="Find Dialog (indirect use)">Fenêtre de recherche</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="223" trl="Y">
+		<value column="Name" original="Material Transactions (indirect use)">Mouvements Articles</value>
+		<value column="Description" original="Material Transactions (indirect use)">Mouvements Articles</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="224" trl="Y">
+		<value column="Name" original="Print Form">Format d'impression</value>
+		<value column="Description" original="Maintain Print Form (Invoices, Checks, ..)">Gestion des formats d'impression (factures, checks, etc.)</value>
+		<value column="Help" original="Define the documents you use for this Client.  Note that the check format is defined in the Bank (Account) Window.">Cet écran définit les format d'impression des documents pour une société donnée. </value>
+	</row>
+	<row id="225" trl="Y">
+		<value column="Name" original="System Color">Couleur système</value>
+		<value column="Description" original="Maintain System Colors">Gestion des couleurs système</value>
+		<value column="Help" original="System colors are used for background and indicators">Cet écran gère les couleurs utilisées au niveau des fonds d'écran et des indifcateurs</value>
+	</row>
+	<row id="226" trl="Y">
+		<value column="Name" original="Desktop">Bureau</value>
+		<value column="Description" original="Maintain Desktop">Gestion du bureau</value>
+		<value column="Help" original="Desktop is a collection of Workbenches">Collection d'outil bureau</value>
+	</row>
+	<row id="227" trl="Y">
+		<value column="Name" original="System Image">Image système</value>
+		<value column="Description" original="Maintain Images">Gestion des images</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="228" trl="Y">
+		<value column="Name" original="Matched Purchase Orders">Lettrer les Commandes Achat</value>
+		<value column="Description" original="View Matched Purchase Orders">Lettrer les commandes d'achat auprès des fournisseurs</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="229" trl="Y">
+		<value column="Name" original="User Window">Fenêtre utilisateur</value>
+		<value column="Description" original="Define User Window Customization">Définition des fenêtres utilisateurs</value>
+		<value column="Help" original="Customization">Customisation</value>
+	</row>
+	<row id="231" trl="Y">
+		<value column="Name" original="Workbench">Outils</value>
+		<value column="Description" original="Maintain Workbench">Gestion des outils</value>
+		<value column="Help" original="Workbenches are a collection of Windows">Les outils sont une collection de fenêtre.</value>
+	</row>
+	<row id="232" trl="Y">
+		<value column="Name" original="Request all">Voir toute les requètes</value>
+		<value column="Description" original="View and work on all requests">Visualiser et traiter toutes les requètes</value>
+		<value column="Help" original="This Request window is used to view all available requests">Cet écran est utilisé pour visualiser toutes les requètes disponibles</value>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Discount Schema">Remise</value>
+		<value column="Description" original="Maintain Trade Discount Schema">Gestion des Remises</value>
+		<value column="Help" original="Trade discount schema calculates the trade discount percentage">Utilisé pour le calcul des remises %.</value>
+	</row>
+	<row id="234" trl="Y">
+		<value column="Name" original="Expense Type">Type des dépenses</value>
+		<value column="Description" original="Maintain Expense Report Types">Gestion des types de dépenses</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="235" trl="Y">
+		<value column="Name" original="Expense Report">Notes de frais</value>
+		<value column="Description" original="Time and Expense Report">Notes de frais et Time report</value>
+		<value column="Help" original="The time and expense report allows you to capture time spent on a project, billable time and to claim expenses."/>
+	</row>
+	<row id="236" trl="Y">
+		<value column="Name" original="Resource">Ressources</value>
+		<value column="Description" original="Maintain Resource">Gestion des ressources</value>
+		<value column="Help" original="Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">Gestion des ressources. L'article de la ressource est automatiquement créé et synchronisé. Le nom, l'unité, etc... sont automatiquement mis à jour dans le fichier article. </value>
+	</row>
+	<row id="237" trl="Y">
+		<value column="Name" original="Resource Type">Type ressources</value>
+		<value column="Description" original="Maintain Resource Types">Gestion des types de ressources</value>
+		<value column="Help" original="Maintain Resource types and their principal availability.">Gestion types ressources et de leur disponibilité.</value>
+	</row>
+	<row id="238" trl="Y">
+		<value column="Name" original="Print Color">Couleur d'impression</value>
+		<value column="Description" original="Maintain Print Color">Gestion des couleurs d'impression</value>
+		<value column="Help" original="Colors used for printing">Cet écran définit les couleurs utilisées au niveau des impressions</value>
+	</row>
+	<row id="239" trl="Y">
+		<value column="Name" original="Print Font">Police de caratères</value>
+		<value column="Description" original="Maintain Print Font">Gestion des polices de caractères</value>
+		<value column="Help" original="Font used for printing">Définition des polices de caractères utilisées pour les impressions</value>
+	</row>
+	<row id="240" trl="Y">
+		<value column="Name" original="Print Format">Format d'impression</value>
+		<value column="Description" original="Maintain Print Format">Gestion du format d'impression</value>
+		<value column="Help" original="The print format determines how data is rendered for print.">Le format d'impression vous permet de spécifier la façon dont vos données seront imprimées</value>
+	</row>
+	<row id="241" trl="Y">
+		<value column="Name" original="Print Paper">Mise en page</value>
+		<value column="Description" original="Maintain Print Paper">Mise en page</value>
+		<value column="Help" original="Printer Paper Size, Orientation and Margins">Cet écran permet de définir la mise-en page (format du papier, de l'orientation et des marges)</value>
+	</row>
+	<row id="242" trl="Y">
+		<value column="Name" original="Expenses (to be invoiced)">Dépenses (non facturées)</value>
+		<value column="Description" original="View expenses and charges not invoiced to customers">Consulter les dépenses non facturées</value>
+		<value column="Help" original="Before invoicing to customers, check the expense lines to be invoiced">Avant la facturation, vérifier les dépenses qui doivent faire l'objet d'une facturation</value>
+	</row>
+	<row id="243" trl="Y">
+		<value column="Name" original="Print Table Format">Format des impressions</value>
+		<value column="Description" original="Define Report Table Format">Défini le format standard d'impressions</value>
+		<value column="Help" original="The Print Table Format lets you define how table header, etc. is printed">Ce menu vous permet de définir les formats types pour vos impressions (entête, bas de page, etc .)</value>
+	</row>
+	<row id="244" trl="Y">
+		<value column="Name" original="Request Type">Types Requêtes</value>
+		<value column="Description" original="Maintain Request Types">Gestion des types de requêtes</value>
+		<value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">les types de requêtes permettent de classer et traiter les requêtes</value>
+	</row>
+	<row id="245" trl="Y">
+		<value column="Name" original="Interest Area">Centres d'intérêts</value>
+		<value column="Description" original="Interest Area or Topic">Centres d'intérêts</value>
+		<value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">indique un sujet ou un centre d'intérêt  émis par un tiers. Il peut ensuite être exploité lors de campagnes marketing.</value>
+	</row>
+	<row id="246" trl="Y">
+		<value column="Name" original="System">Système</value>
+		<value column="Description" original="System Definition">Définition Système</value>
+		<value column="Help" original="Common System Definition - Only one Record - Please no not add additional records.">Définition générale du système</value>
+	</row>
+	<row id="247" trl="Y">
+		<value column="Name" original="Import Product">Import Product</value>
+		<value column="Description" original="Import Products">Import Products</value>
+		<value column="Help" original="The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+	</row>
+	<row id="248" trl="Y">
+		<value column="Name" original="Import Account">Import Account</value>
+		<value column="Description" original="Import Natural Account Values">Import Natural Account Values</value>
+		<value column="Help" original="The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+	</row>
+	<row id="249" trl="Y">
+		<value column="Name" original="Import Report Line Set">Import Report Line Set</value>
+		<value column="Description" original="Import Report Line Sets">Import Report Line Sets</value>
+		<value column="Help" original="The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+	</row>
+	<row id="250" trl="Y">
+		<value column="Name" original="Language Translation">Language Translation</value>
+		<value column="Description" original="Check Language Translations">Check Language Translations</value>
+		<value column="Help" original="Verify your language translations for selected entities">Verify your language translations for selected entities</value>
+	</row>
+	<row id="251" trl="Y">
+		<value column="Name" original="Asset">Asset</value>
+		<value column="Description" original="Asset used internally or by customers">Asset used internally or by customers</value>
+		<value column="Help" original="An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.">An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.</value>
+	</row>
+	<row id="252" trl="Y">
+		<value column="Name" original="Asset Group">Asset Group</value>
+		<value column="Description" original="Group of Assets">Group of Assets</value>
+		<value column="Help" original="The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.">The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.</value>
+	</row>
+	<row id="253" trl="Y">
+		<value column="Name" original="Training">Training</value>
+		<value column="Description" original="Repeated Training">Repeated Training</value>
+		<value column="Help" original="The training may have multiple actual classes">The training may have multiple actual classes</value>
+	</row>
+	<row id="254" trl="Y">
+		<value column="Name" original="Expenses (not reimbursed)">Expenses (not reimbursed)</value>
+		<value column="Description" original="View expenses and charges not reimbursed">View expenses and charges not reimbursed</value>
+		<value column="Help" original="Before reimbursing expenses, check the open expense items">Before reimbursing expenses, check the open expense items</value>
+	</row>
+	<row id="255" trl="N">
+		<value column="Name" original="Accounting Fact Balances">Accounting Fact Balances</value>
+		<value column="Description" original="Query Accounting Daily Balances">Query Accounting Daily Balances</value>
+		<value column="Help" original="Query daily account balances">Query daily account balances</value>
+	</row>
+</adempiereTrl>

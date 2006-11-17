@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_Window">
+	<row id="100" trl="Y">
+		<value column="Name" original="Table and Column">Таблицы и колонки</value>
+		<value column="Description" original="Maintain Tables and Columns"/>
+		<value column="Help" original="The Table and Column Window defines all tables with their columns"/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Reference">Поля и параметры</value>
+		<value column="Description" original="Maintain System References"/>
+		<value column="Help" original="The Reference Window defines each field type and its parameters. THis window is for System Admin use only."/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Window, Tab &amp; Field">Окна, Закладки и Поля</value>
+		<value column="Description" original="Maintain Windows, Tabs &amp; Fields"/>
+		<value column="Help" original="The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window."/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Validation Rules">Правила валидации</value>
+		<value column="Description" original="Maintain dynamic Validation Rules for columns and fields"/>
+		<value column="Help" original="The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only."/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Message">Сообщения</value>
+		<value column="Description" original="Maintain Information and Error Messages"/>
+		<value column="Help" original="The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only."/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Menu">Меню</value>
+		<value column="Description" original="Maintain Menu"/>
+		<value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined."/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Language">Языки</value>
+		<value column="Description" original="Mainain Languages"/>
+		<value column="Help" original="The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.&#10;If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.&#10;&#10;For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).&#10;&#10;Verify the translation creates missing translation records. Start this process after creating a new language."/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Match Invoice">Соответствующие счета</value>
+		<value column="Description" original="View Matched Invoices"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="User">Пользователи</value>
+		<value column="Description" original="Maintain Users of the system"/>
+		<value column="Help" original="The User Window allows you to define each User of the system.  Users can log into the system and have access to functionality via one or more roles."/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Client">Клиент</value>
+		<value column="Description" original="Maintain Clients"/>
+		<value column="Help" original="The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's).&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, wou will not be able to view it and also the required client infrastructure would not have been set up.">Клиент это верхний уровень иерархии в системе, каждый клиент будет иметь одну или более организаций (подразделений).\nНе создавайте нового клиента в этом окне, используйте "Создание нового клиента".\n</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Organization">Организации</value>
+		<value column="Description" original="Maintain Organizations"/>
+		<value column="Help" original="The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed"/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Role">Роли</value>
+		<value column="Description" original="Maintain User Responsibilities"/>
+		<value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional rols to control access for specific functionality or data.&#10;You can add users to the role."/>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Document Sequence">Последовательности</value>
+		<value column="Description" original="Maintain System and Document Sequences">Как будут генерироваться номера в системе</value>
+		<value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number."/>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Workflow">Последовательности работ</value>
+		<value column="Description" original="Maintain Workflow"/>
+		<value column="Help" original="The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow."/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Task">Задачи</value>
+		<value column="Description" original="Maintain Tasks"/>
+		<value column="Help" original="The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks."/>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Currency">Валюты</value>
+		<value column="Description" original="Maintain Currencies"/>
+		<value column="Help" original="The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) "/>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Conversion Rates">Курсы обмена</value>
+		<value column="Description" original="Maintain Currency Conversion Rates"/>
+		<value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another"/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Calendar Year and Period">Календарь и периоды</value>
+		<value column="Description" original="Maintain Calendars Years Periods"/>
+		<value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June)."/>
+	</row>
+	<row id="118" trl="N">
+		<value column="Name" original="Account Element">Account Element</value>
+		<value column="Description" original="Maintain Account Elements">Maintain Account Elements</value>
+		<value column="Help" original="The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. &#10;One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments. ">The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. \nOne of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments. </value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Unit of Measure">Единицы измерения</value>
+		<value column="Description" original="Maintain Unit of Measure "/>
+		<value column="Help" original="The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly)."/>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Location">Адреса</value>
+		<value column="Description" original="Maintain Location Address"/>
+		<value column="Help" original="The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)"/>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Country Region and City">Города и районы</value>
+		<value column="Description" original="Maintain Countries Regions and Cities"/>
+		<value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level."/>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Business Partner">Бизнес партнер</value>
+		<value column="Description" original="Maintain Business Partners"/>
+		<value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employess.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions"/>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Accounting Schema">Схема учета</value>
+		<value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Схема учета - Для того чтобы изменения вступили в силу вам надо выйти и войти в систему</value>
+		<value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accuunting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.&#10;">The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accuunting for Business Partners, Products, Locations, etc.\nReview and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.\n</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Test">Тест</value>
+		<value column="Description" original="Test Screen"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Attachment">Приложения</value>
+		<value column="Description" original="Maintain Attachments">Работа с приложениями</value>
+		<value column="Help" original="For System Maintenance Only.  The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment."/>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Preference">Предпочтения</value>
+		<value column="Description" original="Maintain System Client Org and User Preferences"/>
+		<value column="Help" original="System Admin use only."/>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Project">Проект</value>
+		<value column="Description" original="Maintain Projects"/>
+		<value column="Help" original="The Project WIndow is used to define the projects which will be tracked via documents."/>
+	</row>
+	<row id="131" trl="N">
+		<value column="Name" original="GL Category">GL Category</value>
+		<value column="Description" original="Maintain General Ledger Categories">Maintain General Ledger Categories</value>
+		<value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.</value>
+	</row>
+	<row id="132" trl="N">
+		<value column="Name" original="GL Journal">GL Journal</value>
+		<value column="Description" original="Enter and change Manual Journal Entries">Enter and change Manual Journal Entries</value>
+		<value column="Help" original="The GL Journal Window allows you to enter and modicfy manual journal entries">The GL Journal Window allows you to enter and modicfy manual journal entries</value>
+	</row>
+	<row id="133" trl="N">
+		<value column="Name" original="GL Document">GL Document</value>
+		<value column="Description" original="Enter and change General Ledger Documents">Enter and change General Ledger Documents</value>
+		<value column="Help" original="The GL Document Window allows you to enter and modify General Ledger Documents">The GL Document Window allows you to enter and modify General Ledger Documents</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Activity (ABC)">Деятельность</value>
+		<value column="Description" original="Maintain Activities for Activity Based Costing">Для затрат базирующихся на дейтельности</value>
+		<value column="Help" original="The Activity Based Costing Window defines the different activities for which you wnat to capture costs."/>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Document Type">Типы документов</value>
+		<value column="Description" original="Maintain Document Types"/>
+		<value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  "/>
+	</row>
+	<row id="136" trl="Y">
+		<value column="Name" original="Approval">Подтверждения</value>
+		<value column="Description" original="Maintain Approvals">Для последовательностей работ</value>
+		<value column="Help" original="The Maintain Approvals Window is used to define the different approvals that are used in workflows."/>
+	</row>
+	<row id="137" trl="Y">
+		<value column="Name" original="Tax Rate">Ставки налогов</value>
+		<value column="Description" original="Maintain Taxes and their Rates"/>
+		<value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies."/>
+	</row>
+	<row id="138" trl="Y">
+		<value column="Name" original="Tax Category">Категории налогов</value>
+		<value column="Description" original="Maintain Tax Categories"/>
+		<value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates."/>
+	</row>
+	<row id="139" trl="Y">
+		<value column="Name" original="Warehouse &amp; Locators">Склады</value>
+		<value column="Description" original="Maintain Warehouses and Locators"/>
+		<value column="Help" original="The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse."/>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="Product">Продукты</value>
+		<value column="Description" original="Maintain Products"/>
+		<value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization."/>
+	</row>
+	<row id="141" trl="Y">
+		<value column="Name" original="Payment Term">Термины платежей</value>
+		<value column="Description" original="Maintain Payment Terms"/>
+		<value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.</value>
+	</row>
+	<row id="142" trl="Y">
+		<value column="Name" original="Shipper">Службы доставки</value>
+		<value column="Description" original="Maintain Shippers"/>
+		<value column="Help" original="The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected."/>
+	</row>
+	<row id="143" trl="Y">
+		<value column="Name" original="Sales Order">Заказ на продажу</value>
+		<value column="Description" original="Enter and change sales orders"/>
+		<value column="Help" original="The Order Window allows you to enter and modify Sales Orders.  "/>
+	</row>
+	<row id="144" trl="Y">
+		<value column="Name" original="Product Category">Категории продуктов</value>
+		<value column="Description" original="Maintain Product Categories"/>
+		<value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products."/>
+	</row>
+	<row id="146" trl="Y">
+		<value column="Name" original="Price List">Прайс листы</value>
+		<value column="Description" original="Maintain Product Price Lists"/>
+		<value column="Help" original="The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.&#10;&lt;BR&gt;&#10;All pricelists have three prices: List, Standard and Limit&#10;&lt;BR&gt;&#10;First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.&#10;&lt;BR&gt; &#10;Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.">The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.\n&lt;BR&gt;\nAll pricelists have three prices: List, Standard and Limit\n&lt;BR&gt;\nFirst step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.\n&lt;BR&gt; \nPricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.</value>
+	</row>
+	<row id="147" trl="Y">
+		<value column="Name" original="Invoice Schedule">Расписание счетов</value>
+		<value column="Description" original="Maintain Invoicing Schedule"/>
+		<value column="Help" original="The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer."/>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Marketing Campaign">Маркетинг. компания</value>
+		<value column="Description" original="Maintain Marketing Campaigns"/>
+		<value column="Help" original="The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign."/>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Marketing Channel">Маркетинг. каналы</value>
+		<value column="Description" original="Maintain Marketing  Channels"/>
+		<value column="Help" original="The Marketing Channel Window defines the different channels used in Marketing Campaigns"/>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Element">Элементы</value>
+		<value column="Description" original="Maintain Field Elements"/>
+		<value column="Help" original="The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments"/>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Sales Region">Регионы продаж</value>
+		<value column="Description" original="Maintain Sales Regions"/>
+		<value column="Help" original="The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions"/>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Account Combination">Комбинации счетов</value>
+		<value column="Description" original="Maintain Valid Account Combinations ">Определенье комбинации счетов</value>
+		<value column="Help" original="The Account Combination Window defines and displays valid account combinations. "/>
+	</row>
+	<row id="154" trl="N">
+		<value column="Name" original="GL Budget">GL Budget</value>
+		<value column="Description" original="Maintain General Ledger Budgets">Maintain General Ledger Budgets</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="158" trl="Y">
+		<value column="Name" original="Bank">Банки</value>
+		<value column="Description" original="Maintain Bank">Банки и счета в них</value>
+		<value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner"/>
+	</row>
+	<row id="159" trl="Y">
+		<value column="Name" original="Dunning">Требования</value>
+		<value column="Description" original="Maintain Dunning Levels"/>
+		<value column="Help" original="The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  "/>
+	</row>
+	<row id="160" trl="N">
+		<value column="Name" original="Withholding (1099)">Withholding (1099)</value>
+		<value column="Description" original="Maintain Withholding Certificates">Maintain Withholding Certificates</value>
+		<value column="Help" original="The Withholding Window defines the rule used for calculating withholding amounts.">The Withholding Window defines the rule used for calculating withholding amounts.</value>
+	</row>
+	<row id="161" trl="Y">
+		<value column="Name" original="Charge">Затраты</value>
+		<value column="Description" original="Maintain Charges"/>
+		<value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">Затраты на банк, поставщика, отгрузку и т.д.</value>
+	</row>
+	<row id="162" trl="Y">
+		<value column="Name" original="Accounting Fact">Факты учета</value>
+		<value column="Description" original="Query Accounting Facts">Факты учета</value>
+		<value column="Help" original="Query the detail accounting transactions">Детали транзакций учета</value>
+	</row>
+	<row id="163" trl="Y">
+		<value column="Name" original="Tree and Node Image">Деревья</value>
+		<value column="Description" original="Maintain Tree definition"/>
+		<value column="Help" original="The Tree and Node Image Window defines the descriptors and images that will be used when a Tree is displayed."/>
+	</row>
+	<row id="165" trl="Y">
+		<value column="Name" original="Report &amp; Process">Отчеты и процессы</value>
+		<value column="Description" original="Maintain Reports &amp; Processes"/>
+		<value column="Help" original="The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only."/>
+	</row>
+	<row id="167" trl="N">
+		<value column="Name" original="Invoice (Customer)">Счета (на продажу)</value>
+		<value column="Description" original="Customer Invoice Entry"/>
+		<value column="Help" original="The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents."/>
+	</row>
+	<row id="168" trl="N">
+		<value column="Name" original="Physical Inventory">Physical Inventory</value>
+		<value column="Description" original="Enter Physical Inventory">Enter Physical Inventory</value>
+		<value column="Help" original="The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts.">The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts.</value>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Shipment (Customer)">Поставки</value>
+		<value column="Description" original="Customer Inventory Shipments Customer Returns"/>
+		<value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice."/>
+	</row>
+	<row id="170" trl="Y">
+		<value column="Name" original="Inventory Move">Движение продуктов</value>
+		<value column="Description" original="Inventory Move"/>
+		<value column="Help" original="The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory."/>
+	</row>
+	<row id="171" trl="Y">
+		<value column="Name" original="Import Product">Импорт продуктов</value>
+		<value column="Description" original="Import Products"/>
+		<value column="Help" original="The Import Products Window is an interm table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records."/>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="Import Business Partner">Импорт партнеров</value>
+		<value column="Description" original="Import Business Partner"/>
+		<value column="Help" original="The Import Business Partner Window is an interm table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records."/>
+	</row>
+	<row id="174" trl="N">
+		<value column="Name" original="Revenue Recognition">Revenue Recognition</value>
+		<value column="Description" original="Revenue Recognition Rules">Revenue Recognition Rules</value>
+		<value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.</value>
+	</row>
+	<row id="175" trl="N">
+		<value column="Name" original="Perpetual Inventory">Perpetual Inventory</value>
+		<value column="Description" original="Maintain Perpetual Inventory Rules">Maintain Perpetual Inventory Rules</value>
+		<value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.</value>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Vendor Details">Данные поставщиков</value>
+		<value column="Description" original="Maintain Vendor Details"/>
+		<value column="Help" original="The Vendor Details Window allows you to display and maintain all products for a selected Vendor."/>
+	</row>
+	<row id="178" trl="Y">
+		<value column="Name" original="Greeting">Приветствия</value>
+		<value column="Description" original="Maintain Greetings"/>
+		<value column="Help" original="The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact."/>
+	</row>
+	<row id="179" trl="Y">
+		<value column="Name" original="Import Address">Импорт адресов</value>
+		<value column="Description" original="Import Address"/>
+		<value column="Help" original="The Import Address Window is an interm table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records."/>
+	</row>
+	<row id="180" trl="Y">
+		<value column="Name" original="Report View">Представления для отчетов</value>
+		<value column="Description" original="Maintain Report Views"/>
+		<value column="Help" original="The Report View Window defines the views used when generating reports.  This window is for System Admin use only."/>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Purchase Order">Заказы на покупку</value>
+		<value column="Description" original="Manage Purchase Orders"/>
+		<value column="Help" original="The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order"/>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Invoice (Vendor)">Счета (на покупку)</value>
+		<value column="Description" original="Vendor Invoice Entry"/>
+		<value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts."/>
+	</row>
+	<row id="184" trl="Y">
+		<value column="Name" original="Material Receipt">Квитанции на получение</value>
+		<value column="Description" original="Vendor Shipments (Receipts)"/>
+		<value column="Help" original="The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice."/>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="EDI Definition">EDI</value>
+		<value column="Description" original="Maintain EDI Definition"/>
+		<value column="Help" original="The EDI Definition Window defines the parameters to be used when processing EDI Transactions"/>
+	</row>
+	<row id="186" trl="Y">
+		<value column="Name" original="EDI Transaction">Транзакции EDI</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="187" trl="Y">
+		<value column="Name" original="Form">Формы</value>
+		<value column="Description" original="Special Forms"/>
+		<value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only."/>
+	</row>
+	<row id="188" trl="Y">
+		<value column="Name" original="Error Message">Сообщения об ошибках</value>
+		<value column="Description" original="Display Error Messages"/>
+		<value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted."/>
+	</row>
+	<row id="189" trl="Y">
+		<value column="Name" original="Import Loader Format">Загрузчики (для импорта)</value>
+		<value column="Description" original="Maintain Import Loader Formats"/>
+		<value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported."/>
+	</row>
+	<row id="190" trl="N">
+		<value column="Name" original="Tire Storage">Tire Storage</value>
+		<value column="Description" original="Maintain storage of tires">Maintain storage of tires</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="191" trl="Y">
+		<value column="Name" original="Production">Производство</value>
+		<value column="Description" original="Production based on Bill of Materials"/>
+		<value column="Help" original="The Production Window defines those plan and invenroty movements that occur when a product is created from a bill of materials"/>
+	</row>
+	<row id="192" trl="Y">
+		<value column="Name" original="Business Partner Group">Группа партнеров</value>
+		<value column="Description" original="Maintain Business Partner Groups"/>
+		<value column="Help" original="The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level."/>
+	</row>
+	<row id="193" trl="Y">
+		<value column="Name" original="Notice">Входящие сообщения</value>
+		<value column="Description" original="View System Notices"/>
+		<value column="Help" original="The system creates messages while performing processes. In this window you can view them."/>
+	</row>
+	<row id="194" trl="N">
+		<value column="Name" original="Bank Statement">Bank Statement</value>
+		<value column="Description" original="Process Bank Statements">Process Bank Statements</value>
+		<value column="Help" original="The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.">The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.</value>
+	</row>
+	<row id="195" trl="Y">
+		<value column="Name" original="Payment">Платежи</value>
+		<value column="Description" original="Process Payments"/>
+		<value column="Help" original="The Process Payments Window allows you to enter payments that have been received for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window."/>
+	</row>
+	<row id="196" trl="N">
+		<value column="Name" original="Custom Attribute">Custom Attribute</value>
+		<value column="Description" original="Maintain custom entity attributes">Maintain custom entity attributes</value>
+		<value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.</value>
+	</row>
+	<row id="197" trl="N">
+		<value column="Name" original="Cashbook">Cashbook</value>
+		<value column="Description" original="Maintain Cashbook">Maintain Cashbook</value>
+		<value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">The Cashbook Window defines the bank and account against which cash transactions will be processed.</value>
+	</row>
+	<row id="198" trl="Y">
+		<value column="Name" original="Cash Journal">Касовй журнал</value>
+		<value column="Description" original="Cash transactions"/>
+		<value column="Help" original="The Cash Journal Window is used to record disbusements from and receipts to Petty Cash"/>
+	</row>
+	<row id="199" trl="Y">
+		<value column="Name" original="Web Request">Запросы через Web</value>
+		<value column="Description" original="Process requests from the Web"/>
+		<value column="Help" original="System Admin use only"/>
+	</row>
+	<row id="200" trl="Y">
+		<value column="Name" original="Field Group">Группы полей</value>
+		<value column="Description" original="Define Field Group"/>
+		<value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only."/>
+	</row>
+	<row id="201" trl="Y">
+		<value column="Name" original="Request">Запросы</value>
+		<value column="Description" original="Work on your requests"/>
+		<value column="Help" original="The Request Window is used to define and track any request assigned to you."/>
+	</row>
+	<row id="203" trl="N">
+		<value column="Name" original="Request Processor">Request Processor</value>
+		<value column="Description" original="Define Request Processors">Define Request Processors</value>
+		<value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes">The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes</value>
+	</row>
+	<row id="204" trl="Y">
+		<value column="Name" original="Mail Template">Шаблоны почты</value>
+		<value column="Description" original="Maintain Mail Template"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="205" trl="Y">
+		<value column="Name" original="Reverse Allocation">Распределение оплаты</value>
+		<value column="Description" original="Reverse Allocations "/>
+		<value column="Help" original="The Reverse Allocation Window allows you to reverse a payment allocation"/>
+	</row>
+	<row id="206" trl="Y">
+		<value column="Name" original="Payment Selection">Выбор платежей</value>
+		<value column="Description" original="Select Invoices for Payment"/>
+		<value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">The Payment Selection Window allows you to select and process the invoices you want to pay.\n(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.\n\n(b) If you are happy with the Payment Selection, you create the payments.\n\n(c) You print or export your payments in the Window Payment Print/Export</value>
+	</row>
+	<row id="207" trl="Y">
+		<value column="Name" original="Commission">Комиссии</value>
+		<value column="Description" original="Maintain Commissions and Royalties"/>
+		<value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group)."/>
+	</row>
+	<row id="208" trl="Y">
+		<value column="Name" original="Project Cycle">Проектный цикл</value>
+		<value column="Description" original="Maintain Project Cycles"/>
+		<value column="Help" original="The Project Cycle Window defines the steps associated with a specific Project.&#10;You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance."/>
+	</row>
+	<row id="209" trl="Y">
+		<value column="Name" original="Project Status">Статус проектов</value>
+		<value column="Description" original="Maintain Project status"/>
+		<value column="Help" original="The Project Status allows you to define the different life cycle steps of a project. It is used in Project Cycles."/>
+	</row>
+	<row id="210" trl="Y">
+		<value column="Name" original="Commission Run">Считать комиссии</value>
+		<value column="Description" original="Check and modify Commissions"/>
+		<value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission."/>
+	</row>
+	<row id="211" trl="Y">
+		<value column="Name" original="Performance Color">Цвета анализа работы</value>
+		<value column="Description" original="Color used for Performance Anaysis"/>
+		<value column="Help" original="The Performance Color Window allows you to define the color schema to be used to indicate current performance.  The system has predefined Red (below 50%), Yellow (below 100%) and green above 100.  If you want to define your own color schema, do it here.">The Performance Color Window allows you to define the color schema to be used to indicate current performance.  The system has predefined Red (below 50%), Yellow (below 100%) and green above 100.  If you want to define your own color schema, do it here.</value>
+	</row>
+	<row id="212" trl="Y">
+		<value column="Name" original="Performance Goal">Цели</value>
+		<value column="Description" original="Define Performance Goals"/>
+		<value column="Help" original="The Performance Goal Window allows you to define performance goals"/>
+	</row>
+	<row id="213" trl="Y">
+		<value column="Name" original="Performance Measure Calculation">Вычисление производительности</value>
+		<value column="Description" original="Define how you calculate your performance measures"/>
+		<value column="Help" original="Please test the statement in SQL*Plus first.&#10;The select statement needs to return a single value!&#10;Any restrictions for Date range, Organizations, Business Partners, Products should be done via the &quot;Performance Measure&quot; window.  This is the generic calculation.&#10;As this tends to be somewhat technical, the system has a few examples predefined.&#10;">Please test the statement in SQL*Plus first.\nThe select statement needs to return a single value!\nAny restrictions for Date range, Organizations, Business Partners, Products should be done via the "Performance Measure" window.  This is the generic calculation.\nAs this tends to be somewhat technical, the system has a few examples predefined.\n</value>
+	</row>
+	<row id="214" trl="Y">
+		<value column="Name" original="Performance Achievement">Достигнутая производительность</value>
+		<value column="Description" original="Define Performance Achievements"/>
+		<value column="Help" original="The Performance Achievement Window allows you to define Tasks to be achieved.  The performance is measured by the percentage of reached achievements."/>
+	</row>
+	<row id="215" trl="Y">
+		<value column="Name" original="Performance Measure">Измерения</value>
+		<value column="Description" original="Define your Performance Measures"/>
+		<value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame."/>
+	</row>
+	<row id="216" trl="Y">
+		<value column="Name" original="Financial Report">Финансовые отчеты</value>
+		<value column="Description" original="Maintain Financial Reports"/>
+		<value column="Help" original="Financial Reports are the combination of a Report ColumnSet and LineSet."/>
+	</row>
+	<row id="217" trl="Y">
+		<value column="Name" original="Report Column">Колонки отчета</value>
+		<value column="Description" original="Maintain Financial Report Columns">Для финансовых отчетов</value>
+		<value column="Help" original="The Report Column Set defines what data is printed in the columns of a report."/>
+	</row>
+	<row id="218" trl="Y">
+		<value column="Name" original="Report Line">Строки отчета</value>
+		<value column="Description" original="Maintain Financial Report Lines">для финансовых отчетов</value>
+		<value column="Help" original="The Line Set determines, which lines are printed in a Financial Report"/>
+	</row>
+	<row id="219" trl="N">
+		<value column="Name" original="Revenue Recognition Run">Revenue Recognition Run</value>
+		<value column="Description" original="Start Revenue Recognition">Start Revenue Recognition</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="220" trl="Y">
+		<value column="Name" original="Service Level">Уровень сервиса</value>
+		<value column="Description" original="Maintain Service Levels"/>
+		<value column="Help" original="Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line."/>
+	</row>
+	<row id="221" trl="Y">
+		<value column="Name" original="Find (indirect use)">Поиск (indirect use)</value>
+		<value column="Description" original="Find Dialog (indircet use)"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="223" trl="Y">
+		<value column="Name" original="Material Transactions (indirect use)">Транзакции материалов (indirect use)</value>
+		<value column="Description" original="Material Transactions (indirect use)"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="224" trl="Y">
+		<value column="Name" original="Print Form">Печатные формы</value>
+		<value column="Description" original="Maintain Print Form (Invoices, Checks, ..)"/>
+		<value column="Help" original="Define the documents you use for this Client.  Note that the check format is defined in the Bank (Account) Window."/>
+	</row>
+	<row id="225" trl="Y">
+		<value column="Name" original="System Color">Системные цвета</value>
+		<value column="Description" original="Mainatain System Colors"/>
+		<value column="Help" original="System colors are used for background and indicators"/>
+	</row>
+	<row id="226" trl="N">
+		<value column="Name" original="Desktop">Desktop</value>
+		<value column="Description" original="Maintain Desktop">Maintain Desktop</value>
+		<value column="Help" original="Desktop is a collection of Workbenches">Desktop is a collection of Workbenches</value>
+	</row>
+	<row id="227" trl="Y">
+		<value column="Name" original="System Image">Иконки</value>
+		<value column="Description" original="Maintain Images"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="228" trl="Y">
+		<value column="Name" original="Match Purchase Orders">Соответствующие заказы</value>
+		<value column="Description" original="View Matched Purchase Orders"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="229" trl="Y">
+		<value column="Name" original="User Window">Пользовательские окна</value>
+		<value column="Description" original="Define User Window Customization"/>
+		<value column="Help" original="Customization"/>
+	</row>
+	<row id="231" trl="Y">
+		<value column="Name" original="Workbench">Инструменты</value>
+		<value column="Description" original="Maintain Workbench"/>
+		<value column="Help" original="Workbenches are a collection of Windows"/>
+	</row>
+	<row id="232" trl="Y">
+		<value column="Name" original="Request all">Все запросы</value>
+		<value column="Description" original="View and work on all requests"/>
+		<value column="Help" original="This Request window is used to view all available requests"/>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Discount Schema">Схема скидок</value>
+		<value column="Description" original="Maintain Trade Discount Schema"/>
+		<value column="Help" original="Trade discount schema calculates the trade discount percentage"/>
+	</row>
+	<row id="234" trl="Y">
+		<value column="Name" original="Expense Type">Типы расходов</value>
+		<value column="Description" original="Maintain Expense Report Types"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="235" trl="Y">
+		<value column="Name" original="Expense Report">Отчет расходов</value>
+		<value column="Description" original="Time and Expense Report"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="236" trl="Y">
+		<value column="Name" original="Resource">Ресурсы</value>
+		<value column="Description" original="Maintain Resource"/>
+		<value column="Help" original="Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product."/>
+	</row>
+	<row id="237" trl="Y">
+		<value column="Name" original="Resource Type">Типы ресурсов</value>
+		<value column="Description" original="Maintain Resource Types"/>
+		<value column="Help" original="Maintain Resoce types and their principal availability."/>
+	</row>
+	<row id="238" trl="Y">
+		<value column="Name" original="Print Color">Цвет печати</value>
+		<value column="Description" original="Maintain Print Color"/>
+		<value column="Help" original="Colors used for printing"/>
+	</row>
+	<row id="239" trl="Y">
+		<value column="Name" original="Print Font">Шрифт для печати</value>
+		<value column="Description" original="Maintain Print Font"/>
+		<value column="Help" original="Font used for printing"/>
+	</row>
+	<row id="240" trl="Y">
+		<value column="Name" original="Print Format">Формат печати</value>
+		<value column="Description" original="Maintain Print Format"/>
+		<value column="Help" original="The print format determines how data is rendered for print."/>
+	</row>
+	<row id="241" trl="Y">
+		<value column="Name" original="Print Paper">Настройки печати</value>
+		<value column="Description" original="Maintain Print Paper"/>
+		<value column="Help" original="Printer Paper Size, Orientation and Margins"/>
+	</row>
+	<row id="242" trl="Y">
+		<value column="Name" original="Expenses (not invoiced)">Расходы (не выставленные)</value>
+		<value column="Description" original="View not invoiced expenses"/>
+		<value column="Help" original="Before invoicing, check the expense lines to be invoiced"/>
+	</row>
+	<row id="243" trl="Y">
+		<value column="Name" original="Print Table Format">Настройки печати таблиц</value>
+		<value column="Description" original="Define Report Table Format"/>
+		<value column="Help" original="The Print Table Format lets you define how table header, etc. is printed"/>
+	</row>
+	<row id="244" trl="N">
+		<value column="Name" original="Request Type">Request Type</value>
+		<value column="Description" original="Maintain Request Types">Maintain Request Types</value>
+		<value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.</value>
+	</row>
+	<row id="245" trl="N">
+		<value column="Name" original="Interest Area">Interest Area</value>
+		<value column="Description" original="Interest Area or Topic">Interest Area or Topic</value>
+		<value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.</value>
+	</row>
+	<row id="246" trl="N">
+		<value column="Name" original="System">System</value>
+		<value column="Description" original="System Definition">System Definition</value>
+		<value column="Help" original="Common System Definition">Common System Definition</value>
+	</row>
+</adempiereTrl>

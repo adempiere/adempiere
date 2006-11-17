@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_FieldGroup">
+	<row id="101" trl="Y">
+		<value column="Name" original="Status">Statut</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Quantities">Quantités</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Amounts">Montants</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Reference">Réference</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="History">Historique</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Product">Article</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Business Partner">Tiers</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Warehouse">Magasin</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Bank">Banque</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Cash Book">Livre de caisse</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Tax">TVA</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Project">Projet</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="General">Général</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Action">Action</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Standard Cost">Coûts standards </value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Actual Costs">Coûts actuels</value>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Statistics">Statistiques</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Defaults">Defauts</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Request Management">Gestion demande</value>
+	</row>
+	<row id="120" trl="N">
+		<value column="Name" original="Web Store">Web Store</value>
+	</row>
+</adempiereTrl>

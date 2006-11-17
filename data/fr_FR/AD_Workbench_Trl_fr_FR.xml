@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA--><adempiereTrl language="fr_FR" table="AD_Workbench"><row id="100" trl="Y"><value column="Name" original="Sales">Ventes</value><value column="Description" original=""/><value column="Help" original=""/></row></adempiereTrl>

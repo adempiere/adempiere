@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="C_PaymentTerm">
+	<row id="100" trl="Y">
+		<value column="Name" original="30 Days Net">30 jours net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Immediate">Comptant net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="2%10 Net 30">2%10 Net 30</value>
+		<value column="Description" original="2% discount if paid in 10 days, net due in 30 days">2% remise si payé sous 10 jours, net sous 30 jours</value>
+		<value column="DocumentNote" original="Payment Term Note: Long Term Contracts are eligible for payment discounts.">Remarque:Remise d'application pour les  contrats à long terme  </value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="30 Days Net">30 jours Net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+</adempiereTrl>

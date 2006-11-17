@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_PrintFormatItem">
+	<row id="907" trl="N">
+		<value column="PrintName" original="Shipment/Receipt">Накладная/Квитанция</value>
+	</row>
+	<row id="908" trl="N">
+		<value column="PrintName" original="Client">Клиент</value>
+	</row>
+	<row id="909" trl="N">
+		<value column="PrintName" original="Organization">Организация</value>
+	</row>
+	<row id="910" trl="N">
+		<value column="PrintName" original="Sales Order">Продажа</value>
+	</row>
+	<row id="911" trl="N">
+		<value column="PrintName" original="Date Ordered">Дата заказа</value>
+	</row>
+	<row id="912" trl="N">
+		<value column="PrintName" original="Document No">Номер документа</value>
+	</row>
+	<row id="913" trl="N">
+		<value column="PrintName" original="Order Reference">Ссылка на</value>
+	</row>
+	<row id="914" trl="N">
+		<value column="PrintName" original="Description">Описание</value>
+	</row>
+	<row id="915" trl="N">
+		<value column="PrintName" original="Active">Запись активна</value>
+	</row>
+	<row id="916" trl="N">
+		<value column="PrintName" original="Sales Transaction">Транзакция продаж</value>
+	</row>
+	<row id="917" trl="N">
+		<value column="PrintName" original="Doc Type">Тип док.</value>
+	</row>
+	<row id="918" trl="N">
+		<value column="PrintName" original="Movement Date">Дата движения</value>
+	</row>
+	<row id="919" trl="N">
+		<value column="PrintName" original="Acct Date">День</value>
+	</row>
+	<row id="920" trl="N">
+		<value column="PrintName" original="Date printed">Дата печати</value>
+	</row>
+	<row id="921" trl="N">
+		<value column="PrintName" original="Business Partner ">Бизнес партнер</value>
+	</row>
+	<row id="922" trl="N">
+		<value column="PrintName" original="Partner Address">Адрес партнера</value>
+	</row>
+	<row id="923" trl="N">
+		<value column="PrintName" original="Partner Contact">Контакт</value>
+	</row>
+	<row id="924" trl="N">
+		<value column="PrintName" original="Warehouse">Склад</value>
+	</row>
+	<row id="925" trl="N">
+		<value column="PrintName" original="Priority">Приоритет</value>
+	</row>
+	<row id="926" trl="N">
+		<value column="PrintName" original="Delivery Via">Доставка через</value>
+	</row>
+	<row id="927" trl="N">
+		<value column="PrintName" original="Shipper">Способ доставки</value>
+	</row>
+	<row id="928" trl="N">
+		<value column="PrintName" original="Delivery Rule">Правила доставки</value>
+	</row>
+	<row id="929" trl="N">
+		<value column="PrintName" original="Freight Cost Rule">Правила стоим. отгрузки</value>
+	</row>
+	<row id="930" trl="N">
+		<value column="PrintName" original="Freight Amt">Стоим. отгрузки</value>
+	</row>
+	<row id="931" trl="N">
+		<value column="PrintName" original="Charge">Траты</value>
+	</row>
+	<row id="932" trl="N">
+		<value column="PrintName" original="Charge Amt">Сумма затрат</value>
+	</row>
+	<row id="933" trl="N">
+		<value column="PrintName" original="Create from">Создать из</value>
+	</row>
+	<row id="934" trl="N">
+		<value column="PrintName" original="GenerateTo">Генерировать</value>
+	</row>
+	<row id="935" trl="N">
+		<value column="PrintName" original="Doc Status">Статус документа</value>
+	</row>
+	<row id="936" trl="N">
+		<value column="PrintName" original="Movement Type">Тип движения</value>
+	</row>
+	<row id="937" trl="N">
+		<value column="PrintName" original="Doc Action">Статус</value>
+	</row>
+	<row id="938" trl="N">
+		<value column="PrintName" original="Process Now">Обработать сейчас</value>
+	</row>
+	<row id="939" trl="N">
+		<value column="PrintName" original="Posted">Проведено</value>
+	</row>
+	<row id="940" trl="N">
+		<value column="PrintName" original="Processed">Обработано</value>
+	</row>
+	<row id="941" trl="N">
+		<value column="PrintName" original="Invoice">Счет</value>
+	</row>
+	<row id="942" trl="N">
+		<value column="PrintName" original="Printed">Напечатано</value>
+	</row>
+	<row id="943" trl="N">
+		<value column="PrintName" original="Created">Дата создания</value>
+	</row>
+	<row id="944" trl="N">
+		<value column="PrintName" original="Created By">Кем создано</value>
+	</row>
+	<row id="945" trl="N">
+		<value column="PrintName" original="Updated">Модифицированно</value>
+	</row>
+	<row id="946" trl="N">
+		<value column="PrintName" original="Updated By">Кем модиф.</value>
+	</row>
+	<row id="947" trl="N">
+		<value column="PrintName" original="Business Partner ">Бизнес партнер</value>
+	</row>
+	<row id="948" trl="N">
+		<value column="PrintName" original="Client">Клиент</value>
+	</row>
+	<row id="949" trl="N">
+		<value column="PrintName" original="Maximum Level">Макс. уровень</value>
+	</row>
+	<row id="950" trl="N">
+		<value column="PrintName" original="Minimum Level">Мин. уровень</value>
+	</row>
+	<row id="951" trl="N">
+		<value column="PrintName" original="Minimum Order Qty">Мин. кол-во</value>
+	</row>
+	<row id="952" trl="N">
+		<value column="PrintName" original="On Hand Qty">В наличии</value>
+	</row>
+	<row id="953" trl="N">
+		<value column="PrintName" original="Order Pack Qty">Кол-во в пакете</value>
+	</row>
+	<row id="954" trl="N">
+		<value column="PrintName" original="Ordered Qty">Заказ. кол-во</value>
+	</row>
+	<row id="955" trl="N">
+		<value column="PrintName" original="Organization">Организация</value>
+	</row>
+	<row id="956" trl="N">
+		<value column="PrintName" original="Process Instance">Экземпляр процесса</value>
+	</row>
+	<row id="957" trl="N">
+		<value column="PrintName" original="Product">Продукт</value>
+	</row>
+	<row id="958" trl="N">
+		<value column="PrintName" original="Qty to Order">Кол-во к заказу</value>
+	</row>
+	<row id="959" trl="N">
+		<value column="PrintName" original="Replenish Type">Метод дозаказа</value>
+	</row>
+	<row id="960" trl="N">
+		<value column="PrintName" original="Reserved Qty">Зарезер. кол-во</value>
+	</row>
+	<row id="961" trl="N">
+		<value column="PrintName" original="Warehouse">Склад</value>
+	</row>
+	<row id="962" trl="N">
+		<value column="PrintName" original="Client">Клиент</value>
+	</row>
+	<row id="963" trl="N">
+		<value column="PrintName" original="Currency">Валюта</value>
+	</row>
+	<row id="964" trl="N">
+		<value column="PrintName" original="Limit Price">Мин. цена</value>
+	</row>
+	<row id="965" trl="N">
+		<value column="PrintName" original="Limit price Value">Цена</value>
+	</row>
+	<row id="966" trl="N">
+		<value column="PrintName" original="List Price">Прайс </value>
+	</row>
+	<row id="967" trl="N">
+		<value column="PrintName" original="List price Value">Значение</value>
+	</row>
+	<row id="968" trl="N">
+		<value column="PrintName" original="On Hand Qty">В наличии</value>
+	</row>
+	<row id="969" trl="N">
+		<value column="PrintName" original="Organization">Организация</value>
+	</row>
+	<row id="970" trl="N">
+		<value column="PrintName" original="PO Price">Цена заказа</value>
+	</row>
+	<row id="971" trl="N">
+		<value column="PrintName" original="PO Price Value">PO Price Value</value>
+	</row>
+	<row id="972" trl="N">
+		<value column="PrintName" original="Price List Version">Версия прайс листа</value>
+	</row>
+	<row id="973" trl="N">
+		<value column="PrintName" original="Process Instance">Экземпляр процесса</value>
+	</row>
+	<row id="974" trl="N">
+		<value column="PrintName" original="Product">Продукт</value>
+	</row>
+	<row id="975" trl="N">
+		<value column="PrintName" original="Standard Cost">Станд. затраты</value>
+	</row>
+	<row id="976" trl="N">
+		<value column="PrintName" original="Standard Cost Value">Станд. затраты</value>
+	</row>
+	<row id="977" trl="N">
+		<value column="PrintName" original="Std Price">Станд. цена</value>
+	</row>
+	<row id="978" trl="N">
+		<value column="PrintName" original="Std Price Value">Std Price Value</value>
+	</row>
+	<row id="979" trl="N">
+		<value column="PrintName" original="Valuation Date">Дата проверки</value>
+	</row>
+	<row id="980" trl="N">
+		<value column="PrintName" original="Warehouse">Склад</value>
+	</row>
+	<row id="981" trl="N">
+		<value column="PrintName" original="Accounting Schema">Схема учета</value>
+	</row>
+	<row id="982" trl="N">
+		<value column="PrintName" original="Active">Запись активна</value>
+	</row>
+	<row id="983" trl="N">
+		<value column="PrintName" original="Average Cost">Средняя стоимость</value>
+	</row>
+	<row id="984" trl="N">
+		<value column="PrintName" original="Average Cost Amount Sum">Совокупные затраты </value>
+	</row>
+	<row id="985" trl="N">
+		<value column="PrintName" original="Average Cost Quantity Sum">Затраты</value>
+	</row>
+	<row id="986" trl="N">
+		<value column="PrintName" original="Client">Клиент</value>
+	</row>
+	<row id="987" trl="N">
+		<value column="PrintName" original="Created">Дата создания</value>
+	</row>
+	<row id="988" trl="N">
+		<value column="PrintName" original="Created By">Кем создано</value>
+	</row>
+	<row id="989" trl="N">
+		<value column="PrintName" original="Current Cost Price">Current Cost Price</value>
+	</row>
+	<row id="990" trl="N">
+		<value column="PrintName" original="Future Cost price">Планируемая цена</value>
+	</row>
+	<row id="991" trl="N">
+		<value column="PrintName" original="Last Invoice Price">Послед. цена</value>
+	</row>
+	<row id="992" trl="N">
+		<value column="PrintName" original="Last PO Price">Послед. цена</value>
+	</row>
+	<row id="993" trl="N">
+		<value column="PrintName" original="Name">Имя</value>
+	</row>
+	<row id="994" trl="N">
+		<value column="PrintName" original="Organization">Организация</value>
+	</row>
+	<row id="995" trl="N">
+		<value column="PrintName" original="Product">Продукт</value>
+	</row>
+	<row id="996" trl="N">
+		<value column="PrintName" original="Product Category">Категория</value>
+	</row>
+	<row id="997" trl="N">
+		<value column="PrintName" original="Search Key">Ключ поиска</value>
+	</row>
+	<row id="998" trl="N">
+		<value column="PrintName" original="Standard Cost">Станд. затраты</value>
+	</row>
+	<row id="999" trl="N">
+		<value column="PrintName" original="Standard Cost Invoice Diff">Разница выставл. и станд. затрат</value>
+	</row>
+	<row id="1000" trl="N">
+		<value column="PrintName" original="Standard Cost PO Diff">Разница продан. и станд. затрат</value>
+	</row>
+	<row id="1001" trl="N">
+		<value column="PrintName" original="Std Cost Amount Sum">Std Cost Amount Sum</value>
+	</row>
+	<row id="1002" trl="N">
+		<value column="PrintName" original="Std Cost Quantity Sum">Std Cost Quantity Sum</value>
+	</row>
+	<row id="1003" trl="N">
+		<value column="PrintName" original="Std PO Cost Amount Sum">Std PO Cost Amount Sum</value>
+	</row>
+	<row id="1004" trl="N">
+		<value column="PrintName" original="Std PO Cost Quantity Sum">Std PO Cost Quantity Sum</value>
+	</row>
+	<row id="1005" trl="N">
+		<value column="PrintName" original="Total Invoice Amount">Всего выставлено</value>
+	</row>
+	<row id="1006" trl="N">
+		<value column="PrintName" original="Total Invoice Cost">Всего выставл. затрат</value>
+	</row>
+	<row id="1007" trl="N">
+		<value column="PrintName" original="Total Invoice Quantity">Общее выствл. кол-во</value>
+	</row>
+	<row id="1008" trl="N">
+		<value column="PrintName" original="Updated">Модифицированно</value>
+	</row>
+	<row id="1009" trl="N">
+		<value column="PrintName" original="Updated By">Кем модиф.</value>
+	</row>
+</adempiereTrl>

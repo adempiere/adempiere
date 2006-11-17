@@ -1,0 +1,1907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_Tab">
+	<row id="100" trl="N">
+		<value column="Name" original="Table">Table</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Table definitions">Table definitions</value>
+		<value column="Help" original="Table (header) definition">Table (header) definition</value>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Column">Colonne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Table Column definitions">Définition des colonnes de table</value>
+		<value column="Help" original="Defines the columns of a table">Définit les colonnes d'une table</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Reference">Référence</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Reference header definitions">Définition des entête de référence</value>
+		<value column="Help" original="The Reference Tab defines the references that are used to validate data">L'onglet Référence définit les références qui sont utilisées pour valider les données</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Table Validation">Validation de table</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Table validation">Validation de table</value>
+		<value column="Help" original="The Table Validation Tab defines tables to validate data">L'onglet validation de table définit les tables pour lesquelles on valide les données</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="List Validation">Validation par Liste</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Reference List">Liste de référence</value>
+		<value column="Help" original="The List Validation Tab defines lists to validate data">L'onglet Liste Validation définit les listes pour valider les données </value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Window">Fenêtre</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Window header definitions">Définitions d'entête de fenêtre</value>
+		<value column="Help" original="The Window Tab defines each window in the system.">L'onglet fenêtre définit chaque fenêtre dans le système</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Tab">Onglet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Tab definition within a window holds fields">Définition d'onglets dans une fenêtre contenant des champs</value>
+		<value column="Help" original="The Tab Tab defines each Tab within a Window.  Each Tab contains a discrete selection of fields.">L'onglet "Onglet" définit chaque onglet dansune fenêtre. Chaque onglet contient un choix fini de champs.</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Field">Champ</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Field definitions in tabs in windows">Définitions des champs d'un onglet d'une fenêtre</value>
+		<value column="Help" original="The Field Tab defines the Fields displayed within a tab.  Changes made to the Field Tab become visible after restart due to caching">L'onglet Champ définit les champs affichés dans un onglet. Les changement ne seront visibles qu'après avoir redémarré.</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Validation">Validation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Validation Rules">Règle de validation</value>
+		<value column="Help" original="The Validation Rules Tab defines all dynamic rules used when entering and maintaining columns and fields.">L'onglet règles de validation défini routes les règles dynamiques utilisée lorsque l'on introduit et maintient les colonnes et les champs</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Message">Message</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Information Error and Menu Messages">Message d'erreur et de menu</value>
+		<value column="Help" original="The Message Tab displays error message text and menu messages">L'onglet Message affiche les messages d'erreur et de menu</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Menu">Menu</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Menu">Gestion des menus</value>
+		<value column="Help" original="The Menu Tab defines the tree structured menu which will be used for the selected Organization.">L'onglet Menu présente l'arborescence des menus utilisés pour l'organisation choisie.</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Menu Translation - May not need to be translated">Traduction de Menu. A ne pas traduire en grand partie</value>
+		<value column="Help" original="Menu translations are derived from Window,  Process, etc. You only need to translate Summary level items.">Les options de menus reprennent le nom de la fenêtre, du processus, etc. Seuls les noeuds sont à traduire.</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Language">Langue</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="System and User Languages">Langues Systèmes ou Utilisateurs</value>
+		<value column="Help" original="If you want to add an additional User Interface language, select &quot;System Language&quot;. Otherwise, the system allows you to just translate elements for printing documents.">Pour ajouter une langue Utilisateur, cocher l'option "Langue système'" sinon seuls les éléments des impressions pourront être traduits.</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Field Translation">Traduction de champ</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Menu Translation - May not need to be translated">Traduction de menu - Peut être éviter</value>
+		<value column="Help" original="Fields are automatically translated, if centrally maintained.  You only need to translate not centrally maintained Fields.">Les champs gérés de façon centralisée sont automatiquement traduits. Seuls les autres champs doivent être traduits.</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Tab Translation">Traduction d'onglet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Window Translation">Traduction de fenêtre</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="User">Utilisateur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="User">Utilisateur</value>
+		<value column="Help" original="The User Tab defines the log in for Users who have access to the system.">L'onglet Utilisateur définit le login d'accès au système.</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Role">Rôle</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define responsibility roles">Définir les rôles de responsabilités</value>
+		<value column="Help" original="Define the role and add the client and organizations the role has access to. You can give users access to this role and modify the access of this role to windows, forms, processes and reports as well as tasks.">Définir un rôle et ajouter la société et les organisations auquelles le rôle a accès. Vous pouvez donner accès à ce rôle à des utilisateurs et modifier les accès que possède ce rôle sur les fenêtre, les formes, les processus et les éditions aussi bien que les tâches</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="User Assignment">Utilisateur Affecté</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Users with this Role">Utilisateur pour ce rôle</value>
+		<value column="Help" original="The User Assignment Tab displays Users who have been defined for this Role.">L'onglet "Utilsateur Affecté" affiche la liste des utilsateurs définie pour ce rôle.</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="User Roles">Utilisateur Rôles</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="User Roles">Liste des rôles d'un utilisateur</value>
+		<value column="Help" original="The User Roles Tab define the Roles each user may have.  The Roles will determine what windows, tasks, processes and workflows that a User has access to.">L'onglet "Utilisateur Rôles" definit les rôles que possède un utilisateur. L'accès aux fenêtres, tâches... est déterminé par les rôles.</value>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Node">Noeud</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define workflow nodes">Définir les noeuds d'un workflow.</value>
+		<value column="Help" original="The Node Tab defines each Node or step in this Workflow.">L'onglet Noeud permet de définir chaque noeud ou étape dans ce workflow.</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Node Translation">Traduction de noeud</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Node Translation">Traduction de noeud</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Next Nodes">Noeuds suivants</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Next Nodes">Noeuds suivants</value>
+		<value column="Help" original="The Next Nodes Tab defines the order or Nodes or Steps in a Workflow.">Longlet "Noeuds suivants" permet de définir l'ordre des noeud ou des étapes dans un workflow.</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Previous Nodes">Noeuds précédent</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">Noeuds précédent</value>
+		<value column="Help" original="">Noeuds précédent</value>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Task Translation">Traduction de tâche</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">Traduction de tâche</value>
+		<value column="Help" original="">Traduction de tâche</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Conversion Rates">Taux de change</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define currency conversion rates">Définir les taux de change des devises</value>
+		<value column="Help" original="The Conversion Rate Tab defines the rates to use when converting a source currency to an accounting or reporting currency.">L'onglet Taux de Change" peremet de définir les cours de devise pour la comptabilité et les éditions en devise</value>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Calendar">Calendrier</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define your calendar">Calendrier</value>
+		<value column="Help" original="The Calendar Tab defines each calendar that will be used by an Organization.">définit les calendriers utilisés pour une organisation.</value>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Year">Année</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Calendar Year">Définit les années (exercices) du calendrier</value>
+		<value column="Help" original="The Year Window is used to define each year for the specified calendar.">définit chaque année (exercice) du calendrier.</value>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Period">Période</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Calendar Periods">définit les périodes comptables</value>
+		<value column="Help" original="The Period Tab defines a Period No, Name and Start Date for each Calendar Year.  Each period begins on the defined Start Date and ends one day prior to the next period's Start Date.">définit les périodes comptables à rattacher à un exercice.</value>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="Non Business Day">Jours Fériés</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Non Business Days">Définit les jours fériés ou chômés</value>
+		<value column="Help" original="The Non Business Days Tab defines those days to exclude when calculating the due date for given payment terms.  For example, if an invoice terms was Net 10 days and the Invoice Date was 2/17/2000 the due date would be 2/27/2000.  If 2/27/2000 was defined as a non business day then the due date  on the Invoice would be 2/28/2000.">permet d'indiquer les jours non travaillés à exclure lors du calcul des échéances et délais de paiement. Par exemple, pour une facture dont le délai de paiement est fixé à "10 jours nets" et datée du 27/2/2000, si ce jour est définit comme férié, la date d'échéance sera fixée au 28/2/2000.</value>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Element Value">Compte</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Element Values">Définition des comptes</value>
+		<value column="Help" original="The Element Value Tab defines the individual valid values for the Element.  The values must conform to the format defined.  If the Element is an Account Type then the Account Classification (Asset, Liability etc) and posting controls are also defined">définit les paramètres des comptes.  Les valeurs doivent être conformes. s'il s'agit d'un compte, la classe de compte et les paramètres de comptabilisation sont aussi à définir.</value>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Unit of Measure">Unité de mesure</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define units of measure">définition des unités de meusre</value>
+		<value column="Help" original="The Unit of Measure Tab defines a non monetary Unit of Measure.">définit les unités de mesure non monétaires.</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Conversion">Conversion</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define standard Unit of Measure Conversion">définition des conversions entre unités de mesure</value>
+		<value column="Help" original="The Conversion Tab defines the rates for converting a Unit of Measure. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).">L'onglet Conversion permet d'établir une table de correspondance entre les unités de mesure. Le système fournit déjà des éléments (e.g. minute, heure, jour,...). Toute correspondance doit être explicitement définit. Si vous définissez une conversion entre A-B et B-C, il vous faudra définir A-C.</value>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Country">Pays</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Country">Définir les pays</value>
+		<value column="Help" original="The Country Tab defines any country in which you do business.  Values entered here are referenced in location records for Business Partners.">L'onglet pays permet de définir les pays référencés pour le métier (tax, localisation de tiers...).</value>
+	</row>
+	<row id="136" trl="Y">
+		<value column="Name" original="Region">Secteur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Regions">Définir les secteurs</value>
+		<value column="Help" original="The Region Tab  defines a Region within a Country.  This tab is enabled only if the Has Region checkbox is selected for the Country.">L'onglet Secteur permet de subdiviser un pays en secteurs (Accessible uniquement si l'option Secteur à été choisi pour le pays).</value>
+	</row>
+	<row id="143" trl="Y">
+		<value column="Name" original="Organization">Organisation</value>
+		<value column="CommitWarning" original="When adding a new organization, you must re-login to be able to access the new organization."/>
+		<value column="Description" original="Define Organizations">Définir les organisations</value>
+		<value column="Help" original="The Organization Tab is used to define an Organization.  Each Organization has a Key and Name and optionally a Description.  &#10;When adding a new organization, you must re-login to be able to access the new organization.">L'onglet oraganisation permet de définir une organisation. Une organisation nouvellement créée ne sera visble qu'après une reconnexion au système.</value>
+	</row>
+	<row id="145" trl="Y">
+		<value column="Name" original="Client">Société</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Client Definition">Définition d'une société </value>
+		<value column="Help" original="The Client Definition Tab defines a unique client.&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.">L'onglet Société affiche la Société pour laquelle vous êtes connecté. NE PAS CREER de nouvelles sociétés dans cette fenêtre mais ulisez l'option de menu de création d'une nouvelle société en vue d'initialiser les règles de sécurité et d'accès. Une société créé dans cette fenêtre ne serait pas visible.</value>
+	</row>
+	<row id="146" trl="Y">
+		<value column="Name" original="Sequence">Sequence</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Sequence Definition">Définition des séquences</value>
+		<value column="Help" original="The Sequence Tab defines the numeric sequencing to use for documents.  These can also include a alpha suffix and / or prefix.">indique la séquence numérique à utiliser pour la numérotation de chaque type de document. Il est possible d'ajouter un suffixe ou préfixe alpha numérique.</value>
+	</row>
+	<row id="148" trl="Y">
+		<value column="Name" original="Workflow">Workflow</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Workflow">Définir un Worflow</value>
+		<value column="Help" original="The Workflow Tab defines Workflows in the system.">L'onglet Worflow permet de définir des Worflow pour le système.</value>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Workflow Translation">Traduction de Worflow</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Task">Tâche</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Task">Tâche</value>
+		<value column="Help" original="The Task Tab defines the unique tasks that will be used.">L'onglet tâche définit les tâches système pouvant être utilisée (Import, Information système...)</value>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Currency">Devise</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Currency">définit la devise</value>
+		<value column="Help" original="The Currency Tab defines any currency you will transact with or report in.">.</value>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Test">Test</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Element">Plan</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Account Element definition">Définition du plan de comptes</value>
+		<value column="Help" original="The Element Tab defines the Name, Description and Format for an Element.  Additionally, a Type of Account or User Defined is selected. Each Account Schema must have an Account Element type.  The User Defined Elements are optional.">définit le nom et le format du plan de compte. Un type de compte est sélectionné.  Chaque shéma comptable doit être rattaché à un plan de comptes. Les plans personnalisés sont optionnels.</value>
+	</row>
+	<row id="154" trl="Y">
+		<value column="Name" original="Location">Adresse</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Location">Définir les adresses</value>
+		<value column="Help" original="The Location Tab defines the location of an Organization.">L'onglet location permet de définir l'adresse d'une organisation. </value>
+	</row>
+	<row id="156" trl="Y">
+		<value column="Name" original="Preference">Préférence</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain System Client Org and User Preferences">Maintenance des préférences Système, Dossieur, Organisation, Utilisateurs</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="157" trl="Y">
+		<value column="Name" original="Project">Projet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Project">Définir un projet</value>
+		<value column="Help" original="The Project Tab is used to define the Value, Name and Description for each project.  It also is defines the tracks the amounts assigned to, committed to and used for this project.">L'onglet Projet permet de définir un projet et de tracer les montants affectés, engagés et utilisés</value>
+	</row>
+	<row id="158" trl="Y">
+		<value column="Name" original="GL Category">Catégories GL</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define General Ledger Categories">définit les catégories GL</value>
+		<value column="Help" original="The GL Category Tab defines optional identifiers for a document or journal.  Each Category may be used on a document, manual journal or import">définit des catégories pour un document ou un journal.  Chaque catégorie pour être utilisée dans un document, un journal ou lors d'un import.</value>
+	</row>
+	<row id="159" trl="Y">
+		<value column="Name" original="Batch">Batch</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="General Ledger Journal Batch">Journal Batch (GL)</value>
+		<value column="Help" original="The GL Journal Batch Tab defines the control parameters for a Journal Batch.  A Batch can consist of multiple Journals.">définit les paramètres d'un journal batch. Un batch peut contenir plusieurs journaux.</value>
+	</row>
+	<row id="160" trl="Y">
+		<value column="Name" original="Journal">Journal</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="General Ledger Journal">Journal (GL)</value>
+		<value column="Help" original="The GL Journal Tab defines the control parameters for a single GL Journal.">définit les paramètres d'un journal.</value>
+	</row>
+	<row id="161" trl="Y">
+		<value column="Name" original="Line">Ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="General Ledger Journal Line">Ligne journal</value>
+		<value column="Help" original="The GL Journal Line Tab defines the individual debit and credit transactions that comprise a journal.">définit les mouvements débit et crédit du journal.</value>
+	</row>
+	<row id="167" trl="Y">
+		<value column="Name" original="Document Definition">Type document</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define a Document Type">type de document</value>
+		<value column="Help" original="The Document Definition Tab defines the processing parameters and controls for the document.  ">définit les paramètres de traitement et d'utilisation des documents.  </value>
+	</row>
+	<row id="168" trl="Y">
+		<value column="Name" original="Approval">Approbation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Defines approval types">Définit les type d'approbation</value>
+		<value column="Help" original="The Approval Tab defines the approval types to be used in documents.">L'onglet Approbation permet de définir les types d'approbation par document</value>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Client Info">Information société</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Client Info">Informations détaillées d'une société</value>
+		<value column="Help" original="The Client Info Tab defines the details for each client.  The accounting rules and high level defaults are defined here. The Calendar is used to determine if a period is open or closed.">L'onglet "Information société" permet d'intégrer des détails pour une société. Les règles comptables et les valeurs par défaut de haut niveaux doivent être définis ici.</value>
+	</row>
+	<row id="170" trl="Y">
+		<value column="Name" original="Organization Info">Organisation Info</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Organization Detail Information">Informations détaillées d'une organisation</value>
+		<value column="Help" original="The Organization Info Tab is used to define an Organization's address, DUNS number and Tax Identification number">L'onglet "Organisation Info" permet de gérer l'adresse, l'identifaint DUNS, l'identifiant TVA de l'organisation.</value>
+	</row>
+	<row id="171" trl="Y">
+		<value column="Name" original="Reference Translation">Traduction des références</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">Traduction des références</value>
+		<value column="Help" original="">Traduction des références</value>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="List Translation">Traduction des listes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">Traduction des listes</value>
+		<value column="Help" original="">Traduction des listes</value>
+	</row>
+	<row id="173" trl="Y">
+		<value column="Name" original="Attachment">Attachement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Attachment">Attachement</value>
+		<value column="Help" original="The Attachment tab displays the attributes of an attachment.">L'onglet Attachement permet d'afficher les attributs d'un attachement.</value>
+	</row>
+	<row id="174" trl="Y">
+		<value column="Name" original="Tax">TVA</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Tax definition">définition TVA</value>
+		<value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.&#10;If you have multiple taxes, create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines, the tax is estimated, the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax, you need to adjust the percentage to result in the correct amount."/>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Tax Category">Catégorie TVA</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Tax Category">Catégorie TVA</value>
+		<value column="Help" original="The Tax Category Tab is used to define and maintain Tax Categories.  Each Product is associated with a Tax Category.  This facilitates adapting to changes in taxation."/>
+	</row>
+	<row id="177" trl="Y">
+		<value column="Name" original="Warehouse">Magasin</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Warehouse">Magasin</value>
+		<value column="Help" original="The Warehouse Tab defines each Warehouse that is used to store products.">désigne un lieu de stockage de marchandises.</value>
+	</row>
+	<row id="178" trl="Y">
+		<value column="Name" original="Locator">Emplacement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Locator">Emplacement</value>
+		<value column="Help" original="The Locator Tab defines any Locators for that Warehouse.">désigne un endroit dans le dépôt où est entreposée la marchandise.</value>
+	</row>
+	<row id="179" trl="Y">
+		<value column="Name" original="Storage">Niveau</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">indique les quantités détenues pour chaque produit en dépôt</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="180" trl="Y">
+		<value column="Name" original="Product">Article</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Product">Définition de l'article</value>
+		<value column="Help" original="The Product Tab defines each product and identifies it for use in price lists and orders.">définit chaque produit pour son utilisation dans les tarifs et les commandes.</value>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Substitute">Article de Substitution</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Substitute">Article de substitution</value>
+		<value column="Help" original="The Substitute Tab defines products which may be used as a replacement for the selected product.">définit les articles pouvant se substituer.</value>
+	</row>
+	<row id="182" trl="Y">
+		<value column="Name" original="Replenish">Réapprovisionnement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Replenishment">Réapprovisionnement</value>
+		<value column="Help" original="The Replenishment Tab defines the type of replenishment quantities.  This is used for automated ordering.">gestion des paramètres de réapprovisionnement, utilisé pour les traitements automatiques.</value>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Price">Prix</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Product Pricing">Prix</value>
+		<value column="Help" original="The Pricing Tab displays the List, Standard and Limit prices for each price list a product is contained in.">gestion des prix tarif, standard et maximum de chaque tarif auquel est attribué l'article.</value>
+	</row>
+	<row id="184" trl="Y">
+		<value column="Name" original="Payment Term">Délai de paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Payment Terms">Définit les délais de paiement.</value>
+		<value column="Help" original="The Payment Term Tab defines the different payments terms that you offer to your Business Partners when paying invoices and also those terms which your Vendors offer you for payment of your invoices. On the standard invoice, the Name and the Document Note of the Payment Term is printed.">Les délais de paiement concernent tant les factures d'achat que les facture de vente. Le délai de paiement fait partie de l'édition standard de la facture.</value>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="Shipper">Transporteur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Shippers">Transporteur</value>
+		<value column="Help" original="The Shippers Tab defines any entity who will provide shipping to or shipping from an Organization.">L'onglet Transporteur permet de définir n'importe quelle entité qui fournit le service de transport à destination ou au départ d'une organisation.</value>
+	</row>
+	<row id="186" trl="Y">
+		<value column="Name" original="Order">Commande</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Header">Entête de Commande</value>
+		<value column="Help" original="The Order Header Tab defines the parameters of an Order">regroupe les paramètres d'une commande
+</value>
+	</row>
+	<row id="187" trl="Y">
+		<value column="Name" original="Order Line">Ligne Commande</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Line">Ligne Commande</value>
+		<value column="Help" original="The Order Line Tab defines the individual line items that comprise an Order.">à une ligne commande correspond un article </value>
+	</row>
+	<row id="189" trl="Y">
+		<value column="Name" original="Product Category">Catégorie Produit</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Product Category">Catégorie Produit</value>
+		<value column="Help" original="The Product Category defines unique groupings of products.  Product categories can be used in building price lists.">permet de regrouper les produits.</value>
+	</row>
+	<row id="191" trl="Y">
+		<value column="Name" original="Price List">Tarifs</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Price Lists">Gestion des Tarifs</value>
+		<value column="Help" original="Price lists determine currency of the document as well as tax treatment. ">Détermine aussi le traitement des devises et de la TVA. </value>
+	</row>
+	<row id="192" trl="Y">
+		<value column="Name" original="Product Price">Prix Articles</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Product Prices">Gestion des prix des articles</value>
+		<value column="Help" original="The Price List Tab displays the prices for a product based on the selected price list.">affiche les prix pour les articles appartenant à ce tarif.</value>
+	</row>
+	<row id="193" trl="Y">
+		<value column="Name" original="Invoice Schedule">Planning facturation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Invoice Schedule">Gestion du planning de facturation</value>
+		<value column="Help" original="The Invoice Schedule Tab defines the frequency for which batch invoices will be generated for a Business Partner.">définit les scénarios de facturation à attribuer à un client.</value>
+	</row>
+	<row id="198" trl="Y">
+		<value column="Name" original="Conversion Rate">Taux de change</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Currency Conversion Rates">Taux de change</value>
+		<value column="Help" original="The Conversion Rates tab is used to define conversion rates to be used when converting document amounts from one currency to another.  Conversion rates can be defined for multiple rate types.  They can also be effective for a defined range of dates.">L'onglet "Taux de change" permet la gestion de conversion entre devises. Le taux de change peut être  défini pour un type de taux et une durée.</value>
+	</row>
+	<row id="199" trl="Y">
+		<value column="Name" original="Accounting Schema">Schemas Comptabilisation</value>
+		<value column="CommitWarning" original="For changes to become effective, you must re-login"/>
+		<value column="Description" original="Define your Account Schema Structure">Gestion des shémas de comptabilisation</value>
+		<value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  Each Organization will select an Accounting Schema to use.">définit les paramètres de comptabilisation pour chaque organisation.</value>
+	</row>
+	<row id="200" trl="Y">
+		<value column="Name" original="General Ledger">Grand-Livre</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Accounts for GL">Comptes du Grand-Livre</value>
+		<value column="Help" original="The General Ledger Tab defines error and balance handling to use as well as  the necessary accounts for posting to General Ledger.  ">définit le traitement des erreurs ainsi que les principaux comptes nécessaires pour comptabiliser les écritures de la comptabilité générale.</value>
+	</row>
+	<row id="201" trl="Y">
+		<value column="Name" original="Campaign">Campagne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Marketing Campaign">campagne marketing</value>
+		<value column="Help" original="The Marketing Campaign Tab defines the parameters for a Campaign.  These include a start and end date as well as the amount of any invoices that have been processed which reference this campaign.">définit les paramètres de la campagne : durée et montants.</value>
+	</row>
+	<row id="202" trl="Y">
+		<value column="Name" original="Channel">Canal</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Distribution Channel">Canal de distribution</value>
+		<value column="Help" original="The Marketing Channel Tab defines the different methods or processes through which customers are obtained.">définit les méthodes et procédés pour gagner des clients.</value>
+	</row>
+	<row id="203" trl="Y">
+		<value column="Name" original="Element">Elément</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Element">Elément</value>
+		<value column="Help" original="The Element Tab defines each system level element.">L'onglet élément permet de définit les éléments au niveau système.</value>
+	</row>
+	<row id="204" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="">Traduction</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="205" trl="Y">
+		<value column="Name" original="Period Control">Contrôle Périodes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Period Control">définit le statut de chaque période</value>
+		<value column="Help" original="The Period Control Tab displays the status of a Period (Never Opened, Opened, Closed).  ">définit le statut de chaque période comptable (pas ouverte, ouverte, close).  </value>
+	</row>
+	<row id="206" trl="Y">
+		<value column="Name" original="Sales Region">Secteurs Commerciaux</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Sales Region">Secteurs Commerciaux</value>
+		<value column="Help" original="The Sales Region Tab defines the different regions where you do business.  Sales Regions can be used when generating reports or calculating commissions.">définit différents secteurs ou secteur où l'activité commerciale est exercée. Des états peuvent être créés à des fins statistiques ou pour calculer des commissions.</value>
+	</row>
+	<row id="207" trl="Y">
+		<value column="Name" original="Combination">Combinaisons</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Valid Account Combinations">Combinaisons de comptes</value>
+		<value column="Help" original="The Account Combination Tab defines and displays valid account combination.  An Alias can be defined to facilitate document entry.">définit et gère les différentes combinaisons de comptes. Un alias peut être définit pour faciliter les saisies.</value>
+	</row>
+	<row id="208" trl="Y">
+		<value column="Name" original="Budget">Budget</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="The GL Budget Tab defines a General Ledger Budget">L'onglet Budget GL défini un budget au niveau du grand livre</value>
+		<value column="Help" original="The GL Budgets are used to define the anticipated costs of doing business.  They are used in reporting as a comparison to actual amounts.">L'onglet Budget permet de définir les prévisions de coûts par affaires. Ces chiffres ont reportées sur des édition pour comparaison avec les chiffres réalisés.</value>
+	</row>
+	<row id="209" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Accounting">Comptabilité</value>
+		<value column="Help" original="The Accounting Tab defines the Accounting parameters to be used for inventory in that Warehouse.">définit les paramètres comptables utlisés lors des mouvements de stock dans ce magasin</value>
+	</row>
+	<row id="210" trl="Y">
+		<value column="Name" original="Accounting">Paramètres Comptables</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Accounting Parameters">Gestion des paramètres comptables</value>
+		<value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this product.">définit les paramètres par défaut utilisés lors de la génération de mouvements comptables à la suite de factures d'achat ou de vente.</value>
+	</row>
+	<row id="211" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Project Accounting">Définir les comptes par projet</value>
+		<value column="Help" original="The Accounting Tab is used to define the Asset Account to use when a project is completed and the associated asset realized.">L'onglet Comptabilité permet de définir les comptes à l'actif ventilé quant un projet est achevé et l'actif associés réalisés</value>
+	</row>
+	<row id="212" trl="Y">
+		<value column="Name" original="Customer Accounting">Comptabilité Client</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Customer Accounting">définit les paramètres comptables affectés au client</value>
+		<value column="Help" original="The Customer Accounting Tab defines the default accounts to use when this business partner is referenced on an accounts receivable transaction.">L'onglet "Comptabilité Client" permet de définir les comptes par défaut à ventiler lors d'une créance.</value>
+	</row>
+	<row id="213" trl="Y">
+		<value column="Name" original="Vendor Accounting">Comptabilité Fournisseur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Vendor Accounting">définit les paramètres comptables affectés au fournisseur</value>
+		<value column="Help" original="The Vendor Accounting Tab defines the default accounts to use when this business partner is referenced in an accounts payable transaction.">L'onglet "Comptabilité Fournisseur" permet de définir les comptes par défaut à ventiler lors d'une dette.</value>
+	</row>
+	<row id="214" trl="Y">
+		<value column="Name" original="Employee Accounting">Comptabilité Employés</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Employee Accounting">Comptabilité Employés</value>
+		<value column="Help" original="The Employee Accounting Tab defines the default accounts to use when this business partner is referenced on a expense reimbursement.">L'onglet "Comptabilité Employés" permet de définir les comptes par défaut à ventiler lorsque le tiers est référencé  comme charge à rembourser</value>
+	</row>
+	<row id="215" trl="Y">
+		<value column="Name" original="City">Ville</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Cities">Définir les villes</value>
+		<value column="Help" original="The Cities Tab defines Cities within a Country or Region.  Cities entered here are not referenced when entering the address.">L'onglet Ville permet de définir les villes d'un pays ou d'un secteur</value>
+	</row>
+	<row id="217" trl="Y">
+		<value column="Name" original="Account Schema Element">Composants Schéma Comptabilisation</value>
+		<value column="CommitWarning" original="ATTENTION: ANY CHANGES here will effect the structure of your chart of accounts!&#10;For changes to become effective, you must re-login">ATTENTION: TOUTE MODIFICATION affecte votre plan de compte et EST IRREVERSIBLE! Les données sont irrémédiablement touchés. Veuillez vous reconnecter pour que les modifications soit effectives.</value>
+		<value column="Description" original="Define the elements of your Account Key">défiinit les composants du Schéma de Comptabilisation</value>
+		<value column="Help" original="The Account Schema Element Tab defines the elements that comprise the account key. A name is defined which will display in documents.  Also the order of the elements and if they are balanced and mandatory are indicated.">définit les composants d'une écriture comptable, leur ordre et s'il faut vérifier l'équilibre de l'écriture au niveau de ce composant et s'il est obligatoire.</value>
+	</row>
+	<row id="220" trl="Y">
+		<value column="Name" original="Business Partner">Tiers</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Business Partner">Tiers</value>
+		<value column="Help" original="The Business Partner Tab defines any Entity with whom an organization transacts.">définit tout partenaire avec lequel l'entretpsie entretient des relations d'affaires.</value>
+	</row>
+	<row id="221" trl="Y">
+		<value column="Name" original="Contact">Contact</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Contact">Définir les contact</value>
+		<value column="Help" original="The Contact Tab defines the contact(s) for a business partner. These contacts are then referenced in documents.">L'onglet Contact permet de définir les contact d'un Tiers qui peuvent être référencés dans les documents (commandes, factures,...)</value>
+	</row>
+	<row id="222" trl="Y">
+		<value column="Name" original="Location">Adresse</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Location">Adresse</value>
+		<value column="Help" original="The Location Tab defines the physical location of a business partner.  A business partner may have multiple location records.">indique la ou les adresses du tiers.</value>
+	</row>
+	<row id="223" trl="Y">
+		<value column="Name" original="Customer">Client</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Customer Parameters">définit les paramètres du client</value>
+		<value column="Help" original="The Customer Tab defines a Business Partner who is a customer of this organization.  If the Customer check box is selected then the necessary fields will display. ">indique au système que le tiers est un client. En cochant la case "client", les champs nécessaires s'aftichent</value>
+	</row>
+	<row id="224" trl="Y">
+		<value column="Name" original="Vendor">Fournisseur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Vendor Parameters">définit les paramètres fournisseur</value>
+		<value column="Help" original="The Vendor Tab defines a Business Partner that is a Vendor for this Organization.  If the Vendor check box is selected the necessary fields will display.">indique au système que le tiers est un fournisseur. En cochant la case "fournisseur", les champs nécessaires s'aftichent.</value>
+	</row>
+	<row id="225" trl="Y">
+		<value column="Name" original="Employee">Employés</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Employee Parameters">Définit les paramètres des employés</value>
+		<value column="Help" original="The Employee Tab defines a Business Partner who is an Employee of this organization.  If the Employee is also a Sales Representative then the check box should be selected.">L'employé de l'entreprise est considéré comme un tiers. Il peut être représentant commercial si la case correspondante est cochée.</value>
+	</row>
+	<row id="226" trl="Y">
+		<value column="Name" original="Bank Account">Banque</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Bank Account">Banqude</value>
+		<value column="Help" original="The Define Bank Account Tab defines the banking information for this business partner.  This data is used for processing payments and remittances.">définit les informations bancaires du tiers qui seront utilisées lors de l'établissement des paiements..</value>
+	</row>
+	<row id="227" trl="Y">
+		<value column="Name" original="Bank">Banque</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Bank">Gestion des banques</value>
+		<value column="Help" original="The Bank Tab defines a bank that is used by an organization or business partner.  Each Bank is given an identifying Name, Address, Routing No and Swift Code">L'onglet Bank permet de définir les informations gérérales d'une banque utilsée par une organisation ou un tiers, à savoir : Le nom, l'adresse, le code banque et le code swift.</value>
+	</row>
+	<row id="228" trl="Y">
+		<value column="Name" original="Account">Compte</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Account">Gérer les compte d'un banque</value>
+		<value column="Help" original="The Account Tab is used to define one or more accounts for a Bank.  Each account has a unique Account No and Currency.  ">L'onglet Compte permet de gérer un à plusieurs comptes pour une banque. Chaque compte a un numéro unique et une seule devise.</value>
+	</row>
+	<row id="229" trl="Y">
+		<value column="Name" original="Withholding">Retenue</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Withholding">Définir les retenues à la source</value>
+		<value column="Help" original="The Withholding Tab defines any withholding information for this business partner.">L'onglet Retenue premet de définir les retenues à la source pour un tiers. Ces retenues sont nécessaires aux US pour certaines TVA et peuvent être utilisées pour des paiements partiels</value>
+	</row>
+	<row id="230" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Translation ">Traduction</value>
+		<value column="Help" original="The Translation Tab defines a Document Type in an alternate language.">traduit les types de documents dans un autre langage que celui du système.</value>
+	</row>
+	<row id="231" trl="Y">
+		<value column="Name" original="Dunning">Relance</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Dunning Rules">Gestion des relances</value>
+		<value column="Help" original="The Dunning Tab defines the parameters for a dunning level.">L'onglet Relance permet definitr le paramétrage des rappels par niveau.</value>
+	</row>
+	<row id="232" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Translation">définit la traduction</value>
+		<value column="Help" original="The Translation Tab defines the translation to an alternate language">permet de traduire les données pour un autre langage.</value>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="235" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="236" trl="Y">
+		<value column="Name" original="Order Tax">TVA</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Tax">TVA</value>
+		<value column="Help" original="The Order Tax Tab displays the tax amount for an Order based on the lines entered.">L'onglet TVA affiche le montant de la TVA pour une commande en fonction des lignes de cette dernière.</value>
+	</row>
+	<row id="237" trl="Y">
+		<value column="Name" original="Charge">Dépense</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Charge">Dépense</value>
+		<value column="Help" original="The Charge Tab defines the unique charges that may be associated with a document.">définit un type de dépense qui peut être associé à un document..</value>
+	</row>
+	<row id="238" trl="Y">
+		<value column="Name" original="Version">Versions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain price list versions">Gestions des versions</value>
+		<value column="Help" original="Price lists are automatically created based on Product Purchasing Information and the Vendor Category Discount.&#10;The other alternative is to copy them from existing pricelists and the re-calculate them.&#10;You can also re-calculate the pricelist by referencing no pricelist or referencing the same pricelist.&#10;">Les tarifications sont automatiquement créées suivant les informations d'achat de l'article et suivant la catégorie de remise du fournisseur.  Vous pouvez aussi copier les rubriques d'une version de tarification existante et les recalculer ou bien  recalculer la tarification en ne précisant aucune version ou en choisissant la version actuelle dans le champ adéquat.</value>
+	</row>
+	<row id="239" trl="Y">
+		<value column="Name" original="Purchasing">Achats</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Purchasing">Achats</value>
+		<value column="Help" original="The Purchasing Tab define the pricing and rules ( pack quantity, UPC, minimum order quantity) for each product.">définit les paramètres d'achat pour les articles (prix, conditionnement, etc...).</value>
+	</row>
+	<row id="241" trl="Y">
+		<value column="Name" original="Withholding">Retenues</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Withholding Rules">Modes de retenues</value>
+		<value column="Help" original="The Withholding Rules Tab define the rules governing the withholding of amounts.">définit les différents modes de calcul des retenues.</value>
+	</row>
+	<row id="242" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="243" trl="Y">
+		<value column="Name" original="Tree">Arborescence</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Tree">Arborescence</value>
+		<value column="Help" original="The Tree Tab defines a Tree which will be displayed.">L'onglet Arborescence permet de définir l'arborescence qui sera affichée.</value>
+	</row>
+	<row id="245" trl="Y">
+		<value column="Name" original="Report &amp; Process">Edition et Processus</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Report &amp; Process">Définir les Editions et les Processus</value>
+		<value column="Help" original="The Report and Process Tab defines each report and process run in the system.">L'onglet "Edition et Processus" permet de définir l'environnement de lancement de l'édition ou du processus dans le système.</value>
+	</row>
+	<row id="246" trl="Y">
+		<value column="Name" original="Parameter">Paramètre</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Report Parameter">Paramètres de l'édition</value>
+		<value column="Help" original="The Report Parameter Tab defines any parameters required to execute a report or process.">L'onglet Paramètre permet de définir chaque paramètre nécessaire à l'exécution de l'édition ou du processus.</value>
+	</row>
+	<row id="247" trl="Y">
+		<value column="Name" original="Parameter Translation">Traduction des paramètres</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="248" trl="Y">
+		<value column="Name" original="Report Translation">Traduction de l'édition</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="249" trl="Y">
+		<value column="Name" original="Activity">Activité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Activity for Activity Based Costing">Activité pour comptabilité analytique</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="252" trl="Y">
+		<value column="Name" original="Defaults">Comptes par défaut</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Default Accounts">Comptes par défaut</value>
+		<value column="Help" original="The Defaults Tab displays the Default accounts for an Accounting Schema.  These values will display when a new document is opened.  The user can override these defaults within the document.">définit les comptes à utiliser par défaut. Ceux-ci sont affichés lors de la saisie d'un document. L'utilisateur peut alors opérer des changements pour le document en cours.</value>
+	</row>
+	<row id="254" trl="Y">
+		<value column="Name" original="Costing">Coûts</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Costing">Suivi des coûts</value>
+		<value column="Help" original="The Costing Tab defines ">affiche les informations sur les coûts de l'article (C.A., prix d'achat, etc...)</value>
+	</row>
+	<row id="255" trl="Y">
+		<value column="Name" original="Inventory Count">Inventaire</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Inventory Count">définit l'inventaire</value>
+		<value column="Help" original="The Inventory Count Tab defines the parameters for a manual count and adjustment of inventory">définit les paramètres de saisie et de traitement de l'inventaire</value>
+	</row>
+	<row id="256" trl="Y">
+		<value column="Name" original="Inventory Count Line">Lignes d'inventaire</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Inventory Count Line">Lignes d'inventaire</value>
+		<value column="Help" original="The Inventory Count Line defines the counts of the individual products in inventory.">Définit les articles comptés et la quantité</value>
+	</row>
+	<row id="257" trl="Y">
+		<value column="Name" original="Shipment">Expédition</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Shipments and Customer Returns">Expéditions et retours clients</value>
+		<value column="Help" original="The Shipments Tab allows you to generate, maintain, enter and process Shipments to a Customer or Returns from a Customer. ">vous permet de générer, saisir, modifier et traiter les expéditions et retours clients.</value>
+	</row>
+	<row id="258" trl="Y">
+		<value column="Name" original="Shipment Line">Ligne Expédition</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Shipment Line">Ligne Expédition</value>
+		<value column="Help" original="The Shipment Line Tab defines the individual items in a Shipment.">définit les articles d'une expédition.</value>
+	</row>
+	<row id="259" trl="Y">
+		<value column="Name" original="Move">Transfert</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Move">Gestion des transferts</value>
+		<value column="Help" original="The Move Tab defines and identifies the movement of an item or items in inventory.">gestion des transferts inter-dépôts.</value>
+	</row>
+	<row id="260" trl="Y">
+		<value column="Name" original="Move Line">Lignes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Move Line">Gestion des lignes de transfert</value>
+		<value column="Help" original="The Move Line Tab defines the product and quantity to be moved and the location it is moving from and to.  ">Définit les articles et les quantités à transférer.  </value>
+	</row>
+	<row id="262" trl="Y">
+		<value column="Name" original="Product Transactions">Mouvements</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Transactions for stored Products">Mouvements de stock</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="263" trl="Y">
+		<value column="Name" original="Invoice">Facture</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Customer Invoice">Entête de facture client</value>
+		<value column="Help" original="The Invoice Tab defines the parameters of an Invoice generated for a Business Partner.  It constitutes an accounts receivable.">définit les paramètres de la facture d'un client</value>
+	</row>
+	<row id="264" trl="Y">
+		<value column="Name" original="Product">Article</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="268" trl="Y">
+		<value column="Name" original="Level">Niveau</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Dunning Level">Gestion des niveaux de rappels</value>
+		<value column="Help" original="The Dunning Level Tab defines the timing and frequency of the dunning notices.">définit le délai et la fréquence des rappels, ainsi que les frais et intérêts éventuels.</value>
+	</row>
+	<row id="269" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Dunning Level Translation">Traduction des niveaux de rappels</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="270" trl="Y">
+		<value column="Name" original="Invoice Line">Ligne facture</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Customer Invoice Line">Ligne facture client</value>
+		<value column="Help" original="The Invoice Line Tab defines the individual items or charges on an Invoice."/>
+	</row>
+	<row id="271" trl="Y">
+		<value column="Name" original="Invoice Tax">Tva</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Customer Invoice Tax">Tva facture client</value>
+		<value column="Help" original="The Invoice Tax Tab displays the total tax due based on the Invoice Lines.">affiche le total de tva calculé à partir des lignes de la facture.</value>
+	</row>
+	<row id="272" trl="Y">
+		<value column="Name" original="Revenue Recognition">Décomposition CA</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Revenue Recognition">Décomposition du chiffre d'affaire</value>
+		<value column="Help" original="The Revenue Recognition Tab defines the intervals at which revenue will be recognized.  You can also base the revenue recognition on provided Service Levels.">L"onglet "Décomposition CA" permet de décomposer le chiffre d'affair par intervalle ou par niveau de service rendu.</value>
+	</row>
+	<row id="273" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Unit of Measure Translation">Traduction des unités de mesure</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="275" trl="Y">
+		<value column="Name" original="Perpetual Inventory">Inventaire Permanent</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="276" trl="Y">
+		<value column="Name" original="Vendor">Fournisseur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Vendor">Fournisseur</value>
+		<value column="Help" original="The Vendor Tab displays the Vendors.  A Vendor is selected and all products for that Vendor will be displayed.">Permet de sélectionner un fournisseur afin d'afficher les articles qu'il livre.</value>
+	</row>
+	<row id="278" trl="Y">
+		<value column="Name" original="Product Details">Articles</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Product Details">Articles du fournisseur</value>
+		<value column="Help" original="The Product Details Tab allows you to display and maintain all products for a selected Vendor.">affiche les articles du commandés chez le fournisseur.</value>
+	</row>
+	<row id="282" trl="Y">
+		<value column="Name" original="Greeting">Civilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Greeting">Civilité</value>
+		<value column="Help" original="The Greeting Tab defines the manner in which you will address business partners on documents.">définit les termes en lesquels on s'adresse aux tiers.</value>
+	</row>
+	<row id="283" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="284" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="288" trl="Y">
+		<value column="Name" original="Report View">Vue Edition</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Report View">Définir la vue d"une édition</value>
+		<value column="Help" original="The Define Report View defines the views used in report generation">L'onglet "Vue Edition" permet de définir les vues (Base de données) utilisée lors de la généraiton d'un édition.</value>
+	</row>
+	<row id="289" trl="Y">
+		<value column="Name" original="Transactions">Transactions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Transactions for stored Products">Transactions pour cet articles</value>
+		<value column="Help" original="The Transaction Tab displays the transactions that have been processed for this product.">affiche les transactions (mouvements) enregistrées pour cet article.</value>
+	</row>
+	<row id="290" trl="Y">
+		<value column="Name" original="Invoice">Facture</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Vendor Invoice">Entête de facture fournisseur</value>
+		<value column="Help" original="The Invoice Tab defines the parameters of an Invoice generated by a Business Partner.  It constitutes an accounts payable.">L'onglet Facture permet de définir les paramètres d'une facture venant d'un tiers. Cela constitue une dette.</value>
+	</row>
+	<row id="291" trl="Y">
+		<value column="Name" original="Invoice Line">Ligne facture</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Vendor Invoice Line">Ligne facture fournisseur</value>
+		<value column="Help" original="The Invoice Line Tab defines the individual items or charges on an Invoice.">définit les articles composant la facture fournisseur.</value>
+	</row>
+	<row id="292" trl="Y">
+		<value column="Name" original="Invoice Tax">TVA facturation </value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Vendor Invoice Tax">TVA Fournisseur</value>
+		<value column="Help" original="The Invoice Tax Tab displays the total tax due based on the Invoice Lines.&#10;">L'onglet TVA affiche le total de la TVA due calculée suivant les lignes de la facture.</value>
+	</row>
+	<row id="293" trl="Y">
+		<value column="Name" original="Purchase Order Line">Ligne commande </value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Line">Ligne commande achat</value>
+		<value column="Help" original="The Order Line Tab defines the individual items in an order.">définit le détail des articles d'une commande.</value>
+	</row>
+	<row id="294" trl="Y">
+		<value column="Name" original="Purchase Order">Commande d'Achat</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Header">Entête commande d'achat</value>
+		<value column="Help" original="The Order Header Tab defines the parameters of an order.  The field values defined will determine how the Order Lines are processed.">L'onglet "Commande d'Achat" permet de définir mes paramètre d'une commande. Le valeur de champs entrées détermineront le comportement des lignes de commande.</value>
+	</row>
+	<row id="295" trl="Y">
+		<value column="Name" original="Order Tax">TVA  </value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Order Tax">TVA</value>
+		<value column="Help" original="The Order Tax Tab displays the tax associated with the Order Lines.">indique la TVA  associée aux lignes de la commande.</value>
+	</row>
+	<row id="296" trl="Y">
+		<value column="Name" original="Material Receipt">Livraison</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Enter Receipts and Vendor Returns">Entrées de marchandises et retours fournisseurs</value>
+		<value column="Help" original="The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. ">génère les entrées de marchandises et les retours aux fournisseurs.</value>
+	</row>
+	<row id="297" trl="Y">
+		<value column="Name" original="Receipt Line">Ligne livraison</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Shipment Line">Ligne livraison de marchandise</value>
+		<value column="Help" original="The Shipment Line Tab defines the individual items in a Shipment.">indique les articles livrés ou retournés relatifs au document.</value>
+	</row>
+	<row id="298" trl="Y">
+		<value column="Name" original="EDI Definition">Paramètres EDI</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain EDI Definition">Gestion des paramètres EDI</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="299" trl="Y">
+		<value column="Name" original="EDI Transaction">Transactions EDI</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="300" trl="Y">
+		<value column="Name" original="EDI Log">Log EDI</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="302" trl="Y">
+		<value column="Name" original="Form">Forme</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Special Form">Forme spéciale</value>
+		<value column="Help" original="The Forms Tab defines any window which is not automatically generated.  For System Admin use only.">L'onglet Forme permet de définir toutes les fenêtre qui ne sont pas générées à la volée. Accès restreint au rôle System Admin.</value>
+	</row>
+	<row id="303" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="304" trl="Y">
+		<value column="Name" original="Window Access">Accès Fenêtres</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Window Access">Accès aux fenêtres</value>
+		<value column="Help" original="The Window Access Tab defines the Windows and type of access that this Role is granted.">L'onglet "Accès Fenêtres" permet de définir la politique d'accès aux fenêtres par rôle.</value>
+	</row>
+	<row id="305" trl="Y">
+		<value column="Name" original="Process Access">Accès Processus</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Process Access">Accès aux processus</value>
+		<value column="Help" original="The Process Access Tab defines the Processes and type of access that this Role is granted.">L'onglet "Accès Processus" permet de définir la politique d'accès aux processus par rôle.</value>
+	</row>
+	<row id="306" trl="Y">
+		<value column="Name" original="Form Access">Accès Forme</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Form Access">Accès aux Formes</value>
+		<value column="Help" original="The Form Access Tab defines the Forms and type of access that this Role is granted.">L'onglet "Accès Forme" permet de définir la politique d'accès aux Formes par rôle.</value>
+	</row>
+	<row id="307" trl="Y">
+		<value column="Name" original="Workflow Access">Accès Worflow</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Workflow Access">Accès aux Workflows</value>
+		<value column="Help" original="The Workflow Access Tab defines the Workflows and type of access that this Role is granted.">L'onglet "Accès Worflow" permet de définir la politique d'accès aux worflows par rôle.</value>
+	</row>
+	<row id="308" trl="Y">
+		<value column="Name" original="Report Access">Accès Edition</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Report Access">Accès aux Editions</value>
+		<value column="Help" original="The Report Access Tab determines who can access a report or process">L'onglet "Accès Edition" permet de définir les droits d'accès aux éditions par rôle.</value>
+	</row>
+	<row id="309" trl="Y">
+		<value column="Name" original="Access">Accès</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Form Access">Accès à une Forme</value>
+		<value column="Help" original="The Forms Access Tab defines the access rules for this form">L'onglet Accès permet de définit les règles d'accès pour cette forme.</value>
+	</row>
+	<row id="310" trl="Y">
+		<value column="Name" original="Access">Accès</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Task Access">Accès des tâches</value>
+		<value column="Help" original="The Task Access Tab defines the Roles that will have access to this task and the type of access each Role is granted.">L'onglet Accès permet de définir la politique d'accès aux tâches par rôle.</value>
+	</row>
+	<row id="311" trl="Y">
+		<value column="Name" original="Access">Accès</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Window Access">Accès aux fenêtres</value>
+		<value column="Help" original="The Window Access Tab defines the Roles which have access to this Window.">L'onglet Accès permet de définir les droits d'accès aux fenêtres par rôle.</value>
+	</row>
+	<row id="312" trl="Y">
+		<value column="Name" original="Access">Accès</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Workflow Access">Accès Workflow</value>
+		<value column="Help" original="The Workflow Access Tab defines the Roles who have access to this Workflow. ">L'onglet Accès  permet de définir les droits d'accès aux fenêtres par rôle.</value>
+	</row>
+	<row id="313" trl="Y">
+		<value column="Name" original="Task Access">Accès Tâches</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Task Access">Accès aux Tâches</value>
+		<value column="Help" original="The Task Access Tab defines the Task and type of access that this Role is granted.">L'onglet "Accès Taches" permet de définir la politique d'accès aux tâches par rôle.</value>
+	</row>
+	<row id="314" trl="Y">
+		<value column="Name" original="Error Message">Message d'erreur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Error Message">Message d'erreur</value>
+		<value column="Help" original="The Error Message Tab displays error messages that have been generated.  They can be deleted with an automated clean up process.">L'onglet "Message d'erreur" affiche les messages d'erreur générés. Un processus peut nettoyer ces messages.</value>
+	</row>
+	<row id="315" trl="Y">
+		<value column="Name" original="Import Format">Format d'importation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="316" trl="Y">
+		<value column="Name" original="Format Field">Champ Format</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Format Fields">Gérer les Champs Format</value>
+		<value column="Help" original="Define the individual field based on the table definition.  Please note that you have to make sure that a Constant has the correct  SQL data type (i.e. if it is a 'string', you need to enclose it like 'this').&#10;&lt;p&gt;Product mapping (for details see documentation):&#10;&lt;pre&gt;&#10;H_Item =&gt; Value&#10;H_ItemDesc =&gt; Name / Description&#10;H_ItemDefn =&gt; Help&#10;H_ItemType =&gt; ProductCategory&#10;H_PartnrID =&gt; Value of Business Partner&#10;H_Commodity1 =&gt; Vendor Product No&#10;H_Commodity2 =&gt; SKU&#10;H_ItemClass =&gt; Classification (A,B,C..)&#10;V_OperAmt_T_Cur =&gt; Currency&#10;V_OperAmt_T =&gt; Price &#10;&lt;/pre&gt;">Permet de définir individuellement un champ suivant la définition de la table.  Veuillez noter qu'une constante possède le type de donnée SQL adéquat (i.e. S'il s'agit de 'string', vous devez l'encadrer comme 'cela').
+&lt;p&gt;Mapping d'article (cf la documentation):
+&lt;pre&gt;
+H_Item =&gt; Valeur
+H_ItemDesc =&gt; Nom / Description
+H_ItemDefn =&gt; Aide
+H_ItemType =&gt; Catégorie d'Article
+H_PartnrID =&gt; Identifiant tiers
+H_Commodity1 =&gt; No d'article fournisseur
+H_Commodity2 =&gt; SKU
+H_ItemClass =&gt; Classification (A,B,C..)
+V_OperAmt_T_Cur =&gt; Devise
+V_OperAmt_T =&gt; Prix
+&lt;/pre&gt;</value>
+	</row>
+	<row id="317" trl="Y">
+		<value column="Name" original="Bill of Materials">Nomenclature</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Bill of Material product lines">Nomenclature de l'article</value>
+		<value column="Help" original="The Bill of Materials tab defines those products that are generated from other products.  A Bill of Material (BOM) is one or more Products or BOMs.&#10;&#10;Available Quantity:&#10;- Stored BOMs have to be created via &quot;Production&quot;&#10;- The available quantity of a non-stored BOMs is dynamically calculated&#10;- The attribute &quot;Stored&quot; is defined in the &quot;Product&quot; tab&#10;&#10;Price:&#10;- BOMs must be listed in Pricelists&#10;- If the price is 0.00, the price is dynamically calculated&#10;&#10;Printing:&#10;- Usually, only the BOM information is printed&#10;- For invoices, delivery slips and pick lists, you have the option to print the details&#10;- In the details, the quantity is listed - and the price, if this is dynamically calculated&#10;">définit les produits qui sont créés à partir d'autres produits. Les composants peuvent être des articles ou des articles composés
+Quantités composées :
+- Les articles composés doivent être crées par "Production"
+- Les quantités disponibles d'articles composés non gérés en stock sont calculées
+- la gestion (ou non) en stock est définie dans "Article"
+
+Prix :
+- les composants  doivent être présents dans les tarifs
+- si le prix est à 0, il est calculé dynamiquement
+
+Impression :
+- par défaut, seul le nom de l'article est imprimé sur les documents
+- il est possible d'imprimer la liste des composants sur les factures, bons d'expédition et de préparation
+- pour chaque composant la quantité est affichée, ainsi que le prix (si le calcul est possible)
+</value>
+	</row>
+	<row id="318" trl="Y">
+		<value column="Name" original="Storage">Stockage</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="319" trl="Y">
+		<value column="Name" original="Production Header">Production En-tête</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Production Header">Production En-tête</value>
+		<value column="Help" original="The Production Header Tab defines a unique production plan">désigne un plan de production unique</value>
+	</row>
+	<row id="320" trl="Y">
+		<value column="Name" original="Production Plan">Plan de production</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Production Plan">Plan de production</value>
+		<value column="Help" original="The Production Plan Tab defines the items used and generated in a production.">Définit les composants utilisés par la production dans ce plan.</value>
+	</row>
+	<row id="321" trl="Y">
+		<value column="Name" original="Production Line">Ligne de production</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Production Line">Ligne de production</value>
+		<value column="Help" original="The Production Line Tab displays the actual movements in and out of inventory generated by a Production Plan.">affiche les mouvements de stock générés par la production d'un article suivant ce plan.</value>
+	</row>
+	<row id="322" trl="Y">
+		<value column="Name" original="Business Partner Group">Groupe de Tiers</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Business Partner Groups for Reporting Accounting Defaults">Définition des paramètres généraux des tiers</value>
+		<value column="Help" original="The Business Partner Group Tab allow for the association of business partners for reporting and accounting defaults.">parmet de définir des paramètres généraux pour les comptes de tiers.</value>
+	</row>
+	<row id="323" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Accounting">Définir la comptabilité</value>
+		<value column="Help" original="The Accounting Tab defines the default accounts for any business partner that references this group.  These default values can be modified for each business partner if required.">L'onglet Comptabilité permet de définir le compte par défaut pour tous tiers qui fait référence au groupe. Ces valeurs par défaut peuvent impacter chaque tiers si nécessaire.</value>
+	</row>
+	<row id="324" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Accounting Parameters">Paramètres comptables</value>
+		<value column="Help" original="The Accounting Tab defines default accounting parameters.  Any product that uses a product category can inherit its default accounting parameters.">définit les paramètres comptables.  Tout produit  appartenant à une catégorie hérite des paramètres comptables de cette catégorie.</value>
+	</row>
+	<row id="325" trl="Y">
+		<value column="Name" original="Notice">Message</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="System Notice">Message Système</value>
+		<value column="Help" original="The Notice Tab provides a method of viewing messages that are generated by this system when performing processes.">affiche les messages émis par le système lors des traitements.</value>
+	</row>
+	<row id="326" trl="Y">
+		<value column="Name" original="Payment Processor">Paiement en ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Processor for online payments">Processus de paiement en ligne</value>
+		<value column="Help" original="The Electronic Payments Tab is used to define the parameters for the processing of electronic payments.">L'onglet "Paiement en ligne" permet de définir les paramètre pour procéder à des paiements éléctroniques.</value>
+	</row>
+	<row id="327" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Accounting Data">Gérer les paramètres comptable de la banque</value>
+		<value column="Help" original="The Accounting Tab is used to define the accounts used for transactions with this Bank.">L'onglet Comptabilité permet de définir les paramètres comptable nécessaires aux transactions avec cette banque.</value>
+	</row>
+	<row id="328" trl="Y">
+		<value column="Name" original="Bank Statement">Extrait bancaire</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Bank Statement">Extrait bancaire</value>
+		<value column="Help" original="The Bank Statement Tab defines the Bank Statement to be reconciled.">définit l'extrait bancaire à rapporcher.</value>
+	</row>
+	<row id="329" trl="Y">
+		<value column="Name" original="Statement Line">Ligne Extrait</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Statement Line">Statement Line</value>
+		<value column="Help" original="The Statement Line Tab defines the individual line items on the Bank Statement.  They can be entered manually or generated from payments entered.">définit les opérations bancaires de l'extrait. Elles peuvent être saisies ou générées à partir des paiements.</value>
+	</row>
+	<row id="330" trl="Y">
+		<value column="Name" original="Payment">Paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Payment">Paiement</value>
+		<value column="Help" original="The Payment Tab defines a payment made by a Business Partner.  If it is for a single invoice it can be allocated directly to that invoice using this screen.&#10;You can also apply over/under payments:&lt;br&gt;&#10;You have an over-payment, if you received more money than due for a single invoice. Instead of writing the difference off (i.e. would be a gain), you can leave the amount unallocated and use it for later invoices or credit memos. Please note that the Amount is the payment amount, so you need to enter the over-payment as a negative amount.&lt;br&gt;&#10;You can also receive a partial payment (under-payment). If you decide not to write off the remaining invoice amount, enter the under-payment as a positive amount.&#10;">L'onglet paiement défini un paiement fait par un tiers. Si il est réalisé pour une facture, il peut  être affecté  directement à cette facture via cet écran. Vous pouvez également appliquer un montant supérieur / inférieure. Vous avez  un paiement supérieur si vous recevez plus d'argent que le montant dû de la facture. Vous pouvez laisser le montant non affecté et le traiter plus tard avec une facture de crédit et/ou une autre facture, plutôt que de la passer en write-off. Attention, le montant correspond au montant payé, et donc le paiement dépassant le montant attendu doit être passé en négatif. Vous pouvez également recevoir un paiement partiel. Si vous décidez de ne pas le passer en write-off, le montant restant doit être passé en positif.</value>
+	</row>
+	<row id="331" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Charge Accounting">Comptabilité des dépenses</value>
+		<value column="Help" original="The Accounting Tab defines the accounting parameters used for transactions including a charge or charges.">définit les paramètres comptables appliqués pour traiter les transaction incluant une ou plusieurs dépenses.</value>
+	</row>
+	<row id="332" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Organization Accounting">Comptabilité de l'organisation</value>
+		<value column="Help" original="The Organization Accounting Tab defines the default accounting parameters to be used by this Organization.">L'onglet Comptabilité permet de définir les paramètres comptables par défaut utilisés pour cette organisation.</value>
+	</row>
+	<row id="333" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Accounting">Comptabilité</value>
+		<value column="Help" original="The Accounting Tab defines the accounting parameters to be used for transactions referencing this Tax Rate.">définit les paramètres comptables à utiliser pour l'enregistrement des écritures de TVA</value>
+	</row>
+	<row id="334" trl="Y">
+		<value column="Name" original="Accounting">Comptabilisation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Withholding Accounting">Comptabilisation des retenues</value>
+		<value column="Help" original="The Withholding Accounting Tab defines the accounting parameters for Withholding.">définit les paramètres de comptabilisation des retenues.</value>
+	</row>
+	<row id="335" trl="Y">
+		<value column="Name" original="Custom Attribute">Custom Attribute</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Custom Attribute">Define Custom Attribute</value>
+		<value column="Help" original="The Custom Attribute Tab defines additional attributes or information for a product or entity.">The Custom Attribute Tab defines additional attributes or information for a product or entity.</value>
+	</row>
+	<row id="336" trl="Y">
+		<value column="Name" original="Cashbook">Journal de caisse</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Cashbook">Gérer le journal de caisse</value>
+		<value column="Help" original="The Cashbook Tab defines a unique cashbook for an organization.">L'onglet "Journal de  Caisse" permet de définir un journal de caisse unique pour une organisation.</value>
+	</row>
+	<row id="337" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Cashbook Accounting">Comptabilité du journal  de caisse</value>
+		<value column="Help" original="The Cashbook Accounting Tab defines the accounting parameters for transaction involving a cashbook.">L'onglet Comptabilité permet de définir les paramètres comptables pour les transaction impliquent le journal de caisse.</value>
+	</row>
+	<row id="338" trl="Y">
+		<value column="Name" original="Cash Journal">Journal</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Cash Journal">Journal de caisse</value>
+		<value column="Help" original="The Cash Journal Tab defines the parameters for this journal.">définit les paramètres du journal</value>
+	</row>
+	<row id="339" trl="Y">
+		<value column="Name" original="Cash Line">Ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Cash Line">Lignes de journal de caisse</value>
+		<value column="Help" original="The Cash Line Tab defines the individual lines for this journal.">permet la saisie des lignes d'opérations du journal de caisse.</value>
+	</row>
+	<row id="340" trl="Y">
+		<value column="Name" original="Web Request">Requête Web</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Web Requests">Requête Web</value>
+		<value column="Help" original="The Web Request Tab defines any request generated from the Web">L'onglet "Requête Web" permet de traiter les requêtes venant du Web.</value>
+	</row>
+	<row id="341" trl="Y">
+		<value column="Name" original="Payment Batch">Batch Paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="342" trl="Y">
+		<value column="Name" original="Field group">Groupe Champ</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="System Admin use only.  Field Groups allow for grouping of fields within a window">Accès réservé au rôle Système. Les groupes de champs permettent de regrouper les champs à l'intérieur d'un fenêtre.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="343" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="344" trl="Y">
+		<value column="Name" original="Request">Requête</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Request">Définition de la requête</value>
+		<value column="Help" original="The Request Tab defines any Request submitted by a Business Partner.">décrit la requête en provenance d'un tiers.</value>
+	</row>
+	<row id="346" trl="Y">
+		<value column="Name" original="Request Processor">Processus Requête</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Request Processor">Processus de Requête</value>
+		<value column="Help" original="The Request Processor Tab allows you to define processes that you want to occur and the frequency and timing of these processes. If no other user is found, the items are assigned to the supervisor.">L'onglet "Processus Requête" permet de définir l'ordonnancement (heures et fréquence) des traitements. Si aucun Utilisateur n'est précisé, les rubriques sont affectées au superviseur.</value>
+	</row>
+	<row id="347" trl="Y">
+		<value column="Name" original="Mail Template">Modèle Mail</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="348" trl="Y">
+		<value column="Name" original="Action History">Historique</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Action History">Historique</value>
+		<value column="Help" original="The Action History Tab displays any actions which have been taken for a Request.">liste les actions menées dans le cadre de cette requête.</value>
+	</row>
+	<row id="349" trl="Y">
+		<value column="Name" original="Allocation">Affectation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Reverse Allocation">Affectation Inverse</value>
+		<value column="Help" original="The Reverse Allocation Tab defines the Payment Allocation to be reversed.">L'onglet Affectation permet de réaliser une répartition inverse annulant un lettrage précédent.</value>
+	</row>
+	<row id="351" trl="Y">
+		<value column="Name" original="Org Access">Accès Org</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Org Access">Gérer les accès au niveau Organisation</value>
+		<value column="Help" original="Add the client organizations the user has access to.">Permet d'ajouter l'accès à un utilisateur pour une organisation. Ne traiter que les organisation de la société à laquelle ce rôle a accès.</value>
+	</row>
+	<row id="352" trl="Y">
+		<value column="Name" original="Payment Selection">Sélection Paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Payment"/>
+		<value column="Help" original="The Payment Selection Tab defines the bank account and date of the payments to be made. You also create the payments here.">définit les éléments de base du paiement (choix de la banque, etc...) Le paiement est aussi créé à partir de cet onglet.</value>
+	</row>
+	<row id="353" trl="Y">
+		<value column="Name" original="Payment Selection Line">Ligne Sélection Paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Payment Selection Line">Ligne Sélection Paiement</value>
+		<value column="Help" original="The Payment Selection Line Tab defines the individual invoices an organization is paying to a Vendor with this payment.">définit chacune des factures à payer au fournisseur.</value>
+	</row>
+	<row id="354" trl="Y">
+		<value column="Name" original="Report View Column">Edition Colonne Vue</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Report View Column">Surcharge des colonnes d'une vue pour une édition</value>
+		<value column="Help" original="The Report View Column Tab defines any columns which will be overridden in the generation of the select SQL">L'onglet "Edition Colonne Vue" permet de surcharger une colonne de la vue (Base de données).</value>
+	</row>
+	<row id="355" trl="Y">
+		<value column="Name" original="Commission">Commission</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Commission Rule">définit le mode de commision</value>
+		<value column="Help" original="Define when to pay a commission to whom.  For each period, you start the calculation of the commission after the transaction for that period are completed or closed.">définit le mode de commission. Pour chaque période, il faut lancer le calcul des commissions après que cette période soit clôturée. </value>
+	</row>
+	<row id="356" trl="Y">
+		<value column="Name" original="Commission Line">Ligne Commission</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define your commission calculation rule">définit les critères de sélection pour payer les commissions. </value>
+		<value column="Help" original="Define the selection criteria for paying the commission. If you do not enter restricting parameters (e.g. for specific Business Partner (Groups) or Product (Categories), etc. all transactions for the period will be used to calculate the commission.&#10;&#10;After converting from the transaction to the commission currency,&#10;the formula for calculating the commission is:&#10;&#10;(Converted Amount - Subtract Amount) * Amount Multiplier&#10;+ (Actual Quantity - Subtract Quantity) * Quantity Multiplier&#10;&#10;You can choose, that only positive amounts (Converted Amount - Subtract Amount) and positive quantities (Actual Quantity - Subtract Quantity) are used in the calculation.">Si aucune sélection  n'est faite (par Tiers (Groupe) ou Produit (Catégories), etc...) toutes les transactions de la période seront utilisées. Après conversion de la transaction dans la devise de la commission, la formule de calcul suivante est appliquée :
+(Converted Amount - Subtract Amount) * Amount Multiplier
++ (Actual Quantity - Subtract Quantity) * Quantity Multiplier
+Il est possible de ne sélectionner que les montants positifs et les quantités positives.
+</value>
+	</row>
+	<row id="358" trl="Y">
+		<value column="Name" original="Project Cycle">Cycle de projet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Project Cycle">Définition du cycle de projet</value>
+		<value column="Help" original="Define the currency that projects Project are reported. The projects themselves could be in a different currency.">Défini la devise dans lequel le projet est comptabilié</value>
+	</row>
+	<row id="359" trl="Y">
+		<value column="Name" original="Cycle Step">Etape du cycle</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Project Cycle Steps">Définition des étapes du cycle du projet</value>
+		<value column="Help" original="The Cycle Steps determine the logical sequence of events within your cycle.&#10;">Les étapes du cycle détermine la séquence logique des évènements qui font partie du cycle.</value>
+	</row>
+	<row id="360" trl="Y">
+		<value column="Name" original="Project Status">Statut du projet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Defines the different Project Status to be used in a Project Cycle">Défini les différents statuts du projet utilisé dans le cycle du projet</value>
+		<value column="Help" original="Defines the different Project Status to be used in a Project Cycle">Défini les différents statuts du projet utilisé dans le cycle du projet</value>
+	</row>
+	<row id="361" trl="Y">
+		<value column="Name" original="Line">Ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Project Lines">Définition des lignes de projet</value>
+		<value column="Help" original="The Project Lines Tab is used to define the lines (products and/or services) associated with this Project.">L'onglet lignes de projet  est utilisée pour définir les lignes (articles et/ou service) associées au projet.</value>
+	</row>
+	<row id="362" trl="Y">
+		<value column="Name" original="Commission Run">Exécution des commissions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Commission run for a period">Traitement des commission pour la période</value>
+		<value column="Help" original="Commission run for a period defined in the Commission window.">Traitement des commission pour la période définie dans l'écran des commissions</value>
+	</row>
+	<row id="363" trl="Y">
+		<value column="Name" original="Commission Amount">Montant des commissions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Commission line amounts">Lignes montant des commissions</value>
+		<value column="Help" original="For each commission line, a line is generated.  You can overwrite the amount and quantity to modify the commission amount, but the suggested way is creating additional Commission Detail lines.  Please be aware that manual changes will not reconcile with the Commission Details.">Pour toutes les lignes de commissions, une ligne est générée. Vous pouvez modifier le montant et la quantité afin de modifier le montant commissionné. Toutefois, la méthode conseillée est d'ajouter une ligne de commission détail. Les modifications manuelles ne sont pas réconciliées avec le détail des commissions</value>
+	</row>
+	<row id="364" trl="Y">
+		<value column="Name" original="Used in Column">Utilisé dans la colonne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Used  in Column">Utilisé dans la colonne</value>
+		<value column="Help" original="The Used in Column Tab defines the table and column this element resides in.">Défini la table et la colonne dans lesquelles l'élément se trouve</value>
+	</row>
+	<row id="365" trl="Y">
+		<value column="Name" original="Commission Detail">Détail commission</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Commission Detail Information">Information sur le détail des commissions</value>
+		<value column="Help" original="You may alter the amount and quantity of the detail records, but the suggested way is to add new correcting lines.&#10;The amounts are converted from the transaction currency to the Commission Currency (defined in the Commission window) using the start date and the spot exchange rate.">On peut modifier le montant et la quantité sur les enregistrements détails mais la méthode conseillée est d'ajouter une ligne de correction.  Les montants sont convertis de la devise de la transaction en  devise de commission (défini sur l'écran de la commission ) en utilisant la date de début de validadité et le taux de change de type spot.</value>
+	</row>
+	<row id="366" trl="Y">
+		<value column="Name" original="Performance Color">Couleur performance</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Color for Performance Analysis">Couleur pour les analyses de performance</value>
+		<value column="Help" original="The Performance Color Tab allows you to alter the system default colors to indicate a performance level.">Permet de modifier les couleurs par défaut au niveau des indicateurs de performances</value>
+	</row>
+	<row id="367" trl="Y">
+		<value column="Name" original="Performance Goal">Objectif performance</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Performance Goal">Objectif performance</value>
+		<value column="Help" original="The Performance Goal Tab defines specific goals for performance.">Défini les objectifs spécifiques dans le cadre de l'analyse de performance  </value>
+	</row>
+	<row id="369" trl="Y">
+		<value column="Name" original="Performance Measure Calculation">Calcul de mesure des performance</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain your Performance Measure Calculation">Gestion des méthodes de calcul de performance</value>
+		<value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated.  Please test the statement in SQL*Plus first.&#10;The select statement needs to return a single value!&#10;Any restrictions for Date range, Organizations, Business Partners, Products should be done via the &quot;Performance Measure&quot; window.  This is the generic calculation.&#10;As this tends to be somewhat technical, the system has a few examples predefined.">The Performance Measure Calculation defines how performance measures will be calculated.  Please test the statement in SQL*Plus first.
+The select statement needs to return a single value!
+Any restrictions for Date range, Organizations, Business Partners, Products should be done via the "Performance Measure" window.  This is the generic calculation.
+As this tends to be somewhat technical, the system has a few examples predefined.</value>
+	</row>
+	<row id="370" trl="Y">
+		<value column="Name" original="Performance Achievement">Réalisation des performances</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Performance Achievement">Réalisation des performances</value>
+		<value column="Help" original="The Performance Achievement Tab defines the Tasks to be achieved.  The performance is measured by the percentage of reached achievements.">Défini les tâches à réaliser. La performance est déterminée sur base du pourcentage d'accomplissement des tâches</value>
+	</row>
+	<row id="371" trl="Y">
+		<value column="Name" original="Measure">Mesure</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Performance Measure">Mesure des performances</value>
+		<value column="Help" original="The Performance Measure Tab defines the date range and method to be used for measuring performance.">Défini l'interval de dates et la méthode utilisée pour la mesure de performance</value>
+	</row>
+	<row id="372" trl="Y">
+		<value column="Name" original="Financial Report">Reporting comptable</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="373" trl="Y">
+		<value column="Name" original="Report Column Set">Ensemble Colonnes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Financial Report Column Sets">Gestion des paramètres colonnes</value>
+		<value column="Help" original="Column Sets are the combination of Columns to be included in a Financial Report"/>
+	</row>
+	<row id="374" trl="Y">
+		<value column="Name" original="Report Column">Colonne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Financial Report Column">Gestion des colonnes du reporting</value>
+		<value column="Help" original="A column represents a column in a Financial Report">colonne dans un état de reporting</value>
+	</row>
+	<row id="375" trl="Y">
+		<value column="Name" original="Report Line Set">Ensemble Lignes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Financial Report Line Set">Gestion des paramètres des lignes</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="376" trl="Y">
+		<value column="Name" original="Report Line">Ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Financial Report Line">Gestion de la ligne</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="377" trl="Y">
+		<value column="Name" original="Report Source">Type de Ligne</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Segment Values of Report Line Source ">Maintenance des valeurs des segment des sources des lignes du rapport financier</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="378" trl="Y">
+		<value column="Name" original="Revenue Recognition Plan">Revenue Recognition Plan</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View Revenue Recognition Plan">View Revenue Recognition Plan</value>
+		<value column="Help" original="The Revenue Recognition plan is generated then invoicing a product with revenue recognition.  With Revenue Recognition, the amount is posted to the Unrecognized revenue and over time or based on Service Level booked to Earned Revenue.">The Revenue Recognition plan is generated then invoicing a product with revenue recognition.  With Revenue Recognition, the amount is posted to the Unrecognized revenue and over time or based on Service Level booked to Earned Revenue.</value>
+	</row>
+	<row id="379" trl="Y">
+		<value column="Name" original="Revenue Recognition Run">Revenue Recognition Run</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View Revenue Recognition Run History">View Revenue Recognition Run History</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="380" trl="Y">
+		<value column="Name" original="Service Level">Niveau de service</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View Service Level">Vue niveau de service</value>
+		<value column="Help" original="The service level is automatically created when creating an invoice with products using revenue recognition based on service levels.">The service level is automatically created when creating an invoice with products using revenue recognition based on service levels.</value>
+	</row>
+	<row id="381" trl="Y">
+		<value column="Name" original="Service Level Line">Ligne niveau de service</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Service Levels">Gestion des niveaux de service</value>
+		<value column="Help" original="Add new service level lines to change the recognized amount">Add new service level lines to change the recognized amount</value>
+	</row>
+	<row id="382" trl="Y">
+		<value column="Name" original="Find">Cherche</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="384" trl="Y">
+		<value column="Name" original="Material Transactions">Mouvements Articles</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="385" trl="Y">
+		<value column="Name" original="Print Form">Format d'impression</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Print Form (Invoices, Checks, ..) information">Gestion des informations relatives aux formats d'impressions (facture, cheques, etc.)</value>
+		<value column="Help" original="The selection determines what Print Format is used to print a particular Form for your Organization.">La sélection détermine quel format d'impression est utilisé pour imprimer un formulaire spécifique pour votre organisation</value>
+	</row>
+	<row id="386" trl="Y">
+		<value column="Name" original="Bank Account Document">Document bancaire</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Bank Account Documents">Maintenance des documents bancaires</value>
+		<value column="Help" original="In this tab, you define the documents used for this bank account.  You define your check and other payment document (sequence) number as well as format.">Dans cet onglet, vous définissez les documents utilisé pour cette banque. Vous définissez les différentes méthodes de paiement, les séquences et format  utilisés par ceux-ci </value>
+	</row>
+	<row id="387" trl="Y">
+		<value column="Name" original="System Color">Couleur système</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="System color for backgrounds and indicators">Couleur système utilisé comme couleur de fond et pour les indicateurs</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="388" trl="Y">
+		<value column="Name" original="Desktop">Bureau</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Desktop is a collection of Workbenches">Desktop is a collection of Workbenches</value>
+		<value column="Help" original="Desktop is a collection of Workbenches">Desktop is a collection of Workbenches</value>
+	</row>
+	<row id="389" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="390" trl="Y">
+		<value column="Name" original="Workbench">Workbench</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Workbench on the desktop">Workbench on the desktop</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="391" trl="Y">
+		<value column="Name" original="Image">Image</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Image link">Lien image</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="393" trl="Y">
+		<value column="Name" original="Window Customization">Personnalisation écran</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="394" trl="Y">
+		<value column="Name" original="Tab Customization">Personnalisation onglet</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="395" trl="Y">
+		<value column="Name" original="Field Customization">Personnalisation champ</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="398" trl="Y">
+		<value column="Name" original="Workbench">Workbench</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Workbenches are a collection of Windows">Workbenches sont une collections d'écrans</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="399" trl="Y">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="400" trl="Y">
+		<value column="Name" original="Window">Ecran</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Workbench Window">Workbench Window</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="401" trl="Y">
+		<value column="Name" original="Routing">Routage</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Request Routing">Routage des demandes</value>
+		<value column="Help" original="Define the sequence of keywords and to whom the web and mail requests should be routed to.">Défini la séquence des mots clefs et à qui sont transferés les demandes mails et web.</value>
+	</row>
+	<row id="402" trl="Y">
+		<value column="Name" original="Request">Demandes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Request">Définition des demandes</value>
+		<value column="Help" original="The Request Tab defines any Request submitted by a Business Partner.">Gère les demandes soumises par un tiers</value>
+	</row>
+	<row id="403" trl="Y">
+		<value column="Name" original="Action History">Historique des actions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Action History">Historique des actions</value>
+		<value column="Help" original="The Action History Tab displays any actions which have been taken for a Request.">The Action History Tab displays any actions which have been taken for a Request.</value>
+	</row>
+	<row id="404" trl="Y">
+		<value column="Name" original="Discount Schema">Schéma Remises</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Trade Discount Schema">Schéma Remises</value>
+		<value column="Help" original="Trade discount schema calculates the trade discount percentage">Utilisé pour calculer les remises commerciales</value>
+	</row>
+	<row id="405" trl="Y">
+		<value column="Name" original="Price List">Tarif</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Trade Discount Price List">Liste des Tarifs remisés</value>
+		<value column="Help" original="Pricelists are created based on Product Purchase and Category Discounts.&#10;The parameters listed here allow to copy and calculate pricelists.&lt;BR&gt;&#10;The calculation:&#10;&lt;UL&gt;&#10;&lt;LI&gt;Copy and convert price from referenced price list&#10;&lt;LI&gt;result plus Surcharge Amount&#10;&lt;LI&gt;result minus Discount&#10;&lt;LI&gt;if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)&#10;&lt;LI&gt;if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)&#10;&lt;LI&gt;Round resulting price&#10;&lt;/UL&gt;&#10;&lt;B&gt;The Formula&lt;/B&gt; is&lt;BR&gt;&#10;NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100;&lt;BR&gt;&#10;if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin);&lt;BR&gt;&#10;if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin);&lt;BR&gt;&#10; &lt;BR&gt;&#10;&lt;B&gt;Example:&lt;/B&gt; (assuming same currency)&lt;BR&gt;&#10;Original Prices:  List=300, Standard=250, Limit=200;&lt;BR&gt;&#10;New List Price: Base=List, Surcharge=0, Discount=0, Round">Pricelists are created based on Product Purchase and Category Discounts.
+The parameters listed here allow to copy and calculate pricelists.&lt;BR&gt;
+The calculation:
+&lt;UL&gt;
+&lt;LI&gt;Copy and convert price from referenced price list
+&lt;LI&gt;result plus Surcharge Amount
+&lt;LI&gt;result minus Discount
+&lt;LI&gt;if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)
+&lt;LI&gt;if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)
+&lt;LI&gt;Round resulting price
+&lt;/UL&gt;
+&lt;B&gt;The Formula&lt;/B&gt; is&lt;BR&gt;
+NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100;&lt;BR&gt;
+if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin);&lt;BR&gt;
+if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin);&lt;BR&gt;
+ &lt;BR&gt;
+&lt;B&gt;Example:&lt;/B&gt; (assuming same currency)&lt;BR&gt;
+Original Prices:  List=300, Standard=250, Limit=200;&lt;BR&gt;
+New List Price: Base=List, Surcharge=0, Discount=0, Round</value>
+	</row>
+	<row id="406" trl="Y">
+		<value column="Name" original="Discount Break">Paliers</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Trade discount based on breaks (steps)">Remises par paliers</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="407" trl="Y">
+		<value column="Name" original="Assigned Products">Produits</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Products assigned to Product Category">Produits affectés à cette catégorie.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="408" trl="Y">
+		<value column="Name" original="Match Invoice">Lettrage facture</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View matched Invoices">Voir les factures affectées</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="409" trl="Y">
+		<value column="Name" original="Match PO">Lettrer commande d'achat</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View matched Purchase Orders">Voir les commandes d'achats affectées</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="410" trl="Y">
+		<value column="Name" original="Expense Type">Type dépenses</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Expense Report Type">Maintenance des type de dépense</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="411" trl="Y">
+		<value column="Name" original="Product">Article</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Product definition of Expense Type">Définition d'article d'un type de frais</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="412" trl="Y">
+		<value column="Name" original="Expense Report">Rapport des frais</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Time and Expense Report">Time and Expense Report</value>
+		<value column="Help" original="Enter the time and expenses for the Employee or Contractor (Business Partner). &lt;br&gt;&#10;The price list determines the default costs of the expenses, products or resource to be reimbursed. In that sense, it is a &quot;Purchase Price&quot; list. The Warehouse is used to correct the inventory of items invoiced to customers (i.e. if not invoiced, the inventory is not adjusted).&lt;br&gt;&#10;Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee with an Address and Contact!"/>
+	</row>
+	<row id="413" trl="Y">
+		<value column="Name" original="Report Line">Ligne rapport</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Time and Expense Report Line">Ligne du rapport temps et frais</value>
+		<value column="Help" original="Enter the expense items and billable or non-billable hours. If you enter a non-zero amount in Invoiced Amount, that amount will be used for billing the customer - otherwise the price on the current sales price list of the customer."/>
+	</row>
+	<row id="414" trl="Y">
+		<value column="Name" original="Resource">Ressources</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Resources">Gestion des ressources</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="415" trl="Y">
+		<value column="Name" original="Assignment">Missions</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Resource Assignments">Mission s des ressources</value>
+		<value column="Help" original="History of Assignments">historique des missions de la ressource</value>
+	</row>
+	<row id="416" trl="Y">
+		<value column="Name" original="Unavailability">Indisponiblilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Resource unavailability">Indisponibilité des ressources</value>
+		<value column="Help" original="Dates, when the resource is not available (e.g. vacation)">définit les dates auxquelles la ressource est indisponible</value>
+	</row>
+	<row id="417" trl="Y">
+		<value column="Name" original="Product">Article</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Product information of Resource">Gestion de l'article lié à la ressource</value>
+		<value column="Help" original="The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">L'article lié est automatiquement créé et mis à jour en cas de modification.</value>
+	</row>
+	<row id="418" trl="Y">
+		<value column="Name" original="Resource Type">Type Ressource</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Resource Types">Gestion des types de ressources</value>
+		<value column="Help" original="Maintain Resource types and their principal availability.">Gestiond des types de ressources et de leur disponibilité</value>
+	</row>
+	<row id="419" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Accounting Parameters">Définition des paramètres comptables</value>
+		<value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this Expense Type. Not all accounts apply.">Définition des combinaisons comptables par défaut lors des transactions comptables générées par le système pour les ordres et les factures qui contiennent ce type de frais. Cela ne s'applique pas pour tous les comptes définis.</value>
+	</row>
+	<row id="420" trl="Y">
+		<value column="Name" original="Price">Prix</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Expense Type Pricing">Prix type frais</value>
+		<value column="Help" original="The Pricing Tab displays the List, Standard and Limit prices for each price list a product is contained in.">L'onglet Prix affiche les prix listes, standards et limites pour chaque chaque article défini dans la liste de prix</value>
+	</row>
+	<row id="421" trl="Y">
+		<value column="Name" original="Price">Tarif</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Resource Pricing">Tarif de la ressource</value>
+		<value column="Help" original="The Pricing Tab displays the List, Standard and Limit prices for each price list a resource is contained in.">affiche les listes standard et plancher de chaque tarif contenant la ressource.</value>
+	</row>
+	<row id="422" trl="Y">
+		<value column="Name" original="Accounting">Comptabilité</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Accounting Parameters">Paramètres comptables de la ressource</value>
+		<value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this resource.  Not all accounts apply to resources.">définit les paramètres comptables utilisé lors de la génération d'écritures par des commandes ou des factures contenant la ressource.  Tous les comptes ne s'appliquent pas aux ressources.</value>
+	</row>
+	<row id="423" trl="Y">
+		<value column="Name" original="Print Color">Couleur d'impression</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Print Color">Gérer les couleurs d'impression</value>
+		<value column="Help" original="Colors used for printing">Couleurs utlisées lors des impressions</value>
+	</row>
+	<row id="424" trl="Y">
+		<value column="Name" original="Print Font">Police d'impression</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Print Font">Gérer les polices d'impression</value>
+		<value column="Help" original="Font used for printing">Police utilisées pour les impressions</value>
+	</row>
+	<row id="425" trl="Y">
+		<value column="Name" original="Print Format">Format d'impression</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Print Format">Gérer les format d'inmression</value>
+		<value column="Help" original="The print format determines how data is rendered for print.">Le format d'impression détermine le rendu des données lors de l'impression.</value>
+	</row>
+	<row id="426" trl="Y">
+		<value column="Name" original="Format Item">Format des rubriques</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Print Format Item">Format d'édition des rubriques</value>
+		<value column="Help" original="Item in the print format maintaining layout information">Permet de définir la disposition des rubriques dans l'édition. </value>
+	</row>
+	<row id="427" trl="Y">
+		<value column="Name" original="Print Paper">Format de papier</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Maintain Print Paper">Gérer les formats de papier</value>
+		<value column="Help" original="Printer Paper Size, Orientation and Margins. &#10;The Validation Code contains the Media Size name. The names of the media sizes correspond to those in the IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt">Taille, Orientation et marge. 
+Le champ "Code de validation" contient le nom MediaSize. ce derniercorrespond à la normel IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt</value>
+	</row>
+	<row id="428" trl="Y">
+		<value column="Name" original="Display Order">Séquence de l'affichage</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Display Order of the Print Format Items">Affiche la séquence des rubriques à imprimer</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="429" trl="Y">
+		<value column="Name" original="Sort Order">Ordre de tri</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Sort Order of the Print Format Items">Ordre de tri des impressions par rubriques</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="430" trl="Y">
+		<value column="Name" original="Field Sequence">Ordre des champs</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Sequence if the Fields in a Tab">Ordre des champs présents dans l'onglet</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="431" trl="Y">
+		<value column="Name" original="Customer">Tiers</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Business Partner (Customers) to be invoiced">Tiers devant être facturés</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="432" trl="Y">
+		<value column="Name" original="Report Line">Ligne du rapport</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Time and Expense Report Line (not invoiced)">Temps et frais de ligne d'édition (Non facturé)</value>
+		<value column="Help" original="View and modify Time and Expense Report Lines.">Permet de voir et modifier le Temps et le coût d'une ligne d'édition.</value>
+	</row>
+	<row id="433" trl="Y">
+		<value column="Name" original="Item Translation">Traduction de rubrique</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Print Format Translation">Traduction de format d'impression</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="434" trl="Y">
+		<value column="Name" original="Graph">Graphisme</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Graph to be included">Définir les graphismes à inclure</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="435" trl="Y">
+		<value column="Name" original="Print Table Format">Format de table d'impression</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Define Report Table Format">Définir les formats de tables pour les états</value>
+		<value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. If you leave the entries empty, the default colors and fonts are used:&lt;br&gt;&#10;Fonts are based on the Font used in the Report; Page Header and Table Header will be bold, the Function Font is Bold-Italic, the Footer Font is two points smaller, the Parameter Font is Italic.">Le format de table d'impression vous permet de définit comment imprimer les entêtes de table. En cas de valeur nulle, les couleurs et les polices par défaut sont utilisés: Les polices sont basés sur celles utilisés dans les états; Les entêtes de page et de table sont gras, la police fonction est Gras-Italique, la police pied de page a 2 unités de moins, la police Paramètre est Italique</value>
+	</row>
+	<row id="436" trl="Y">
+		<value column="Name" original="Generated Payment">Paiement généré</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View Generated Payment after creating the Payments">Affiche le paiement généré.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="437" trl="Y">
+		<value column="Name" original="Request Type">Type requête</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Type of request (e.g. Inquiry, Complaint, ..)">Type de requête t (e.g. demande de renseignements, plainte, etc...)</value>
+		<value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">permet de traiter et classer les requêtes émises par les tiers.</value>
+	</row>
+	<row id="438" trl="Y">
+		<value column="Name" original="Interest Area">Centre d'intérêt</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Interest Area or Topic">Sujet ou centre d'intérêt</value>
+		<value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">Les centres d'intérêt concernent lintérêt porté par un contact sur un thème et peuvent être utilisés pour les campagnes marketing. </value>
+	</row>
+	<row id="439" trl="Y">
+		<value column="Name" original="Interest Area">Centres d'intérêt</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Business Partner Contact Interest Area">Centres d'intérêt</value>
+		<value column="Help" original="Interest Area can be used for Marketing Campaigns">Centres d'intérêts pour les campagnes publicitaires ciblées.</value>
+	</row>
+	<row id="440" trl="Y">
+		<value column="Name" original="System">Système</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="System Definition">Définition Système</value>
+		<value column="Help" original="Common System Definition. Do NOT create additional records!!">Définition système commune. NE PAS ajouter d'enregistrement</value>
+	</row>
+	<row id="441" trl="N">
+		<value column="Name" original="Import Business Partner">Importer Tiers</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="442" trl="N">
+		<value column="Name" original="Import Product">Importer article</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Import Products">Importer article</value>
+		<value column="Help" original="Before importing, Adempiere checks the Unit of Measure (default if not set), the Product Category (default if not set), the Business Partner, the Currency (defaults to accounting currency if not set), the Product Type (only Items and Services), the uniqueness of UPC, Key and uniqueness and existence of the Vendor Product No.&lt;br&gt;&#10;Adempiere tries to map to existing products, if the UPC, the Key and the Vendor Product No matches (in this sequence). If the imported record could be matched, product field values will only be overwritten, if the corresponding  Import field is explicitly defined.  Example: the Product Category will only be overwritten if explicitly set in the Import.">Avant l'importantion, Adempiere vérifie les unités de mesures (utilisation du défaut si non défini dans le fichier), le tiers, la devise (utilisation de la devise de base si non spécifié), le type d'article (uniquement pour les articles et le service) l'unicité UPC, l'unicité et l'existence de l'article fournisseur. Adempiere essaye d'affecter les données à un article existant si l'UPC, la clé et l'article fournisseur (dans cette séquence) correespondent. Si l'enregistrement est trouvé, les valeurs sont mises à jour pour les champs explicitement défini au niveau de l'import. La catégorie d'article sera mise à jour uniquement si la valeur est spécifiée au niveau de l'import.</value>
+	</row>
+	<row id="443" trl="N">
+		<value column="Name" original="Import Account">Importer les comptes</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="444" trl="N">
+		<value column="Name" original="Import Report Line Set">Importer le set de ligne rapport financier</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="445" trl="N">
+		<value column="Name" original="Select Language">Choisir la langue</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Select your Language">Choisir votre langue</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="446" trl="N">
+		<value column="Name" original="Element Translation">Element Translation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="447" trl="N">
+		<value column="Name" original="Message Translation">Traduction message</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="448" trl="N">
+		<value column="Name" original="Window Translation">Traduction fenêtre</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="449" trl="N">
+		<value column="Name" original="Process Translation">Traduction processus</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="450" trl="N">
+		<value column="Name" original="Asset">Immobilisation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Asset used internally or by customers">Immobilisation interne ou client</value>
+		<value column="Help" original="An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.">Une immobilisation est issue d'une commande achat ou de la livraison d'un article. Elle peut être utilisée en interne ou être une immobilisation client.</value>
+	</row>
+	<row id="451" trl="N">
+		<value column="Name" original="Delivery">Livraison</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Delivery or availability">Livraison ou disponibilité</value>
+		<value column="Help" original="Record of delivery or availability">Enregistrement de livraison ou de disponibilité</value>
+	</row>
+	<row id="452" trl="N">
+		<value column="Name" original="Asset Group">Groupe immobilisation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Group of Assets">Groupe d'immobilisation</value>
+		<value column="Help" original="The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.">Le groupe d'immobilisation spécifie les comptes par défaut. Si le groupe d'immobilisation est sélectionné au niveau de la catégorie d'article, l'immobilisation est créée lors de la réception de l'immobilisation </value>
+	</row>
+	<row id="453" trl="N">
+		<value column="Name" original="Training">Formation</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Repeated Training">Session de Formation </value>
+		<value column="Help" original="The training may have multiple actual classes. New Classes are created here.">La formation peut avoir plusieurs sessions. Les nouvelles sessions sont créées ici</value>
+	</row>
+	<row id="454" trl="N">
+		<value column="Name" original="Class">Session</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="The actual training class instance">La session de formation actuelle</value>
+		<value column="Help" original="A scheduled class">Session planifié</value>
+	</row>
+	<row id="456" trl="N">
+		<value column="Name" original="Employee, Vendor">Employé, vendeur</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Business Partner to be reimbursed">Tiers à rembourser</value>
+		<value column="Help" original="Select the business partner to be reimbursed.">Sélectionner le tiers qui doit être remboursé?</value>
+	</row>
+	<row id="457" trl="N">
+		<value column="Name" original="Report Line">Ligne rapport</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Time and Expense Report Line (not reimbursed)">Ligne du rapport 'Time and Expense' (non remboursée)</value>
+		<value column="Help" original="View and modify Time and Expense Report Lines.">Consulter et modifier les lignes des rapports de temps et rapport de frais.</value>
+	</row>
+	<row id="458" trl="N">
+		<value column="Name" original="Translation">Traduction</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="459" trl="N">
+		<value column="Name" original="Daily Balances">Balance journalière</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="View daily accounting balances">Consulter les balances comptables journalières</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="460" trl="N">
+		<value column="Name" original="Payment Schedule">Planification paiement</value>
+		<value column="CommitWarning" original=""/>
+		<value column="Description" original="Invoice Payment Schedule">Planification des paiments factures</value>
+		<value column="Help" original=""/>
+	</row>
+</adempiereTrl>

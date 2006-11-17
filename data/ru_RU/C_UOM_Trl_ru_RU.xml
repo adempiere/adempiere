@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="C_UOM">
+	<row id="100" trl="N">
+		<value column="Name" original="Each">шт.</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="Ea ">Ea </value>
+	</row>
+	<row id="101" trl="N">
+		<value column="Name" original="Hour">Час</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="h  ">h  </value>
+	</row>
+	<row id="102" trl="N">
+		<value column="Name" original="Day">День</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="d  ">d  </value>
+	</row>
+	<row id="103" trl="N">
+		<value column="Name" original="Minutes">Минуты</value>
+		<value column="Description" original="(lowest unit for resorce assigments)"/>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="104" trl="N">
+		<value column="Name" original="Work Day">Рабочий день</value>
+		<value column="Description" original="8 hour">8 часов</value>
+		<value column="UOMSymbol" original="D  ">D  </value>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Week">Неделя</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="w  ">w  </value>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="Month">Месяц</value>
+		<value column="Description" original="30 days">30 days</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="Working Month">Рабочий месяц</value>
+		<value column="Description" original="20 days">20 дней</value>
+		<value column="UOMSymbol" original="M  ">M  </value>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="Year">Год</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="y  ">y  </value>
+	</row>
+</adempiereTrl>

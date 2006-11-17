@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.5.0c/2003-09-01 - Smart ERP & CRM - Copyright (c) 1999-2003           ; Implementation: 250c 20030907-2249 - RocacorBIT--><adempiereTrl language="ca_ES" table="AD_Desktop"><row id="100" trl="Y"><value column="Name" original="FrontOffice">FrontOffice</value><value column="Description" original="Front Office Desktop">Front Office Desktop</value><value column="Help" original=""/></row></adempiereTrl>

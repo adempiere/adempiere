@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Polskie tłumacznie oraz wsparcie techniczne Jotel sp.j. email: marek.mosiewicz@jotel.com.pl -->
+<!--Adempiere(tm) Version 2.5.1c_2004-05-14 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke; Implementation: Custom 20040530-1908 - Unsupported-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="pl_PL" table="AD_Process_Para">
+	<row id="227" trl="Y">
+		<value column="Name" original="Delete existing Accounting Entries">Kasowanie istrnijących kont</value>
+		<value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Kasowanie istniejących kont NIEBEZPIECZNE !!!!</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Pricelist Version">Wersja cennika</value>
+		<value column="Description" original="Only used if Price List is used to set future cost price">Używana tylko jeżeli cennik jest wykorzystywany do ustalenia przyszłej ceny kosztowje</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="302" trl="N">
+		<value column="Name" original="Target Payment Rule">Docelowy sposób płatności</value>
+		<value column="Description" original="How you pay the invoice">Sposób płatności faktury</value>
+		<value column="Help" original="The Payment Rule indicates the method of invoice payment.">Wskazuje sposób w jaki faktora zostanie zapłacona</value>
+	</row>
+	<row id="452" trl="N">
+		<value column="Name" original="Maintenance Mode">Tryb utrzymywania</value>
+		<value column="Description" original="Language Maintenance Mode">Tryb utrzymwyania spójności języka</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="467" trl="N">
+		<value column="Name" original="Existing Organization">Istniejaca jedn. org.</value>
+		<value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Jednostka organizacyjna. Pozostaw pustą jeżeli chcesz utowrzyć nową</value>
+		<value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">Jednostak organizacyjna lub prawna. Np. sklep, wydział. Pomiędzy jednostkami możliwe jest współdzielenie danych.</value>
+	</row>
+	<row id="469" trl="N">
+		<value column="Name" original="Limit Access to Role">Ogranicz dostęp tylko dla</value>
+		<value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">Jeżeli nie zostanie wybrana rola uprawnienia nadawane są dla wszystkich ról w systemie.</value>
+		<value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">Rola wyznacza dostęp do danych. Dostęp możliwy jest tylko dla użytkowników posiadających określoną rolę. Jeżeli rola nie zostanie wybrana, dostęp maja wszyscy użytkownicy</value>
+	</row>
+	<row id="493" trl="N">
+		<value column="Name" original="New User/Contact">Nowy użytkownik/kontakt</value>
+		<value column="Description" original="User within the system - Internal or Business Partner Contact">Uzytkownik systemu - wewnętrzny lub kontrahent</value>
+		<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Uzytkownik systemu - wewnętrzny lub kontrahent</value>
+	</row>
+	<row id="494" trl="N">
+		<value column="Name" original="New Workflow Responsible">Nowa osoba odpowiedzialna</value>
+		<value column="Description" original="Responsible for Workflow Execution">Nowa osoba odpowiedzialna za wykonanie workflow</value>
+		<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Uzytkownik systemu - wewnętrzny lub kontrahent</value>
+	</row>
+	<row id="496" trl="N">
+		<value column="Name" original="New User/Contact">Nowy użytkownik</value>
+		<value column="Description" original="User within the system - Internal or Business Partner Contact">Uzytkownik systemu - wewnętrzny lub kontrahent</value>
+		<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Uzytkownik systemu - wewnętrzny lub kontrahent</value>
+	</row>
+	<row id="497" trl="N">
+		<value column="Name" original="New Workflow Responsible">Nowa osoba odpowiedzialna</value>
+		<value column="Description" original="Responsible for Workflow Execution">Nowa osoba odpowiedzialna za wykonanie workflow</value>
+		<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Osoba odpowiedzialna za wykonanie workflow.</value>
+	</row>
+</adempiereTrl>

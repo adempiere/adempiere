@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<adempiereTrl language="ru_RU" table="AD_FieldGroup">
+	<row id="101" trl="Y">
+		<value column="Name" original="Status">Статус</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Quantities">Количества</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Amounts">Суммы</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Reference">Ссылка</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="History">История</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Product">Продукт</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Business Partner">Партнер</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Warehouse">Склад</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Bank">Банк</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Cash Book">Кассовая книга</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Tax">Налог</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Project">Проект</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="General">Общее</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Action">Действие</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Standard Cost">Стандартные затраты</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Actual Costs">Фактические затраты</value>
+	</row>
+	<row id="117" trl="N">
+		<value column="Name" original="Statistics">Statistics</value>
+	</row>
+</adempiereTrl>

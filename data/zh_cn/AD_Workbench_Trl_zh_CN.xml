@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Release 2.5.1f_2004-09-09 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke; Implementation: 2.5.1f 20040910-0117 - Adempiere Inc. (C) 1999-2004 Jorg Janke--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">--><adempiereTrl language="zh_CN" table="AD_Workbench"><row id="100" trl="Y"><value column="Name" original="Sales">销售</value><value column="Description" original=""/><value column="Help" original=""/></row></adempiereTrl>

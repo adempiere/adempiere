@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
+<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<adempiereTrl language="fr_FR" table="AD_Workflow">
+	<row id="101" trl="Y">
+		<value column="Name" original="Project Setup and Use">Paramétrage Projets</value>
+		<value column="Description" original="Setup of projects and project reporting">Paramètrage des projets et du reporting des projets</value>
+		<value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">dans les projets, il est possible de suivre le statut et la progression des projets de ventes, ede service et d'investissement. Un projet peut engendrer de multiples niveaux ou phases et requiert des ressources de plusieurs secteurs.</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Language Setup">Paramétrage Langues</value>
+		<value column="Description" original="Setup a new Language of the system and translate elements">création d'un nouvelle langue système et traductio</value>
+		<value column="Help" original="Define a new language as a system language.">définit une nouvelle langue système.</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Initial Client Setup Review">Création initiale société</value>
+		<value column="Description" original="Review of system level setup of a new  Client">Revue des paramétrages initiaux d'une société</value>
+		<value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">Paramétrage complet d'une société.
+Les workflows suivants sont à lancer :
+- Paramétrage comptable 
+- Paramétrage tiers
+- Paramétrage articles
+- Paramétrage tarifs
+- Paramétrage dépôts
+- Paramétrage TVA
+</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Accounting Setup">Paramétrage Comptable</value>
+		<value column="Description" original="Review and change Accounting Setup">Paramètre ou modifie la comptabilité</value>
+		<value column="Help" original="This workflow allows you to review and change your Accounting Rules. ">permet de créer et modifier les paramètres de comptabilisation. </value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Business Partner Setup">Paramètrage Tiers</value>
+		<value column="Description" original="Setup Business Partner Rules">Création et gestion des paramètres relatifs aux tiers</value>
+		<value column="Help" original="This workflow defines the Business Partners and the supporting rules.">permet de créer les paramètres standards de gestion des tiers.</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Product Setup">Paramétrage articles</value>
+		<value column="Description" original="Set up Products">Paramétrage articles</value>
+		<value column="Help" original="Define your products manually. You should verify the settings especially if you import your products.">Paramétrer les articles manuellement. Il faut vérifier ces paramètres surtout si l'on importe les articles.</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Price List Setup">Paramétrage tarifs</value>
+		<value column="Description" original="Define your Price Lists and Discounts">Définit les tarifs et les remises</value>
+		<value column="Help" original="You define your price lists after entering or importing your products">définir les tarifs après avoir saisi ou importé les articles</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="** Invalid **">** Invalide **</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Tax Setup">Paramétrage TVA</value>
+		<value column="Description" original="Setup tax calculation">paramétrage du calcul de la TVA² pour les articles, services et dépenses</value>
+		<value column="Help" original="Setup the tax calculation for products, services and charges">Paramètrage de la TVA oour les articles, le service et les charges</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Sales Setup">Paramétrage ventes</value>
+		<value column="Description" original="Setup Sales">Paramétrage ventes</value>
+		<value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns.">Paramétrage des vendeurs, des commissions, des canaux marketing et des campagnes.</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Performance Measurement Setup">Suivi Performances</value>
+		<value column="Description" original="Setup your Performance Measurement">Paramétrage du suivi des performances </value>
+		<value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced Scorecard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">Guide du paramétrage du suivi des performances basé sur des indicateurs clé, etc..
+Important : faire une analyse préalable !
+- Quels sont les objectifs et comment les mesurer ?
+tout d'abord définir la méthode pour mesurer et ensuite les objectifs.
+3 méthodes possibles :
+- via des mesures quantifiables  (par ex. un C.A. de 3 M en T1)
+- via des mesures manuelles
+- via des réalisations
+Les système convertit les mesures en pourcentages (basés sur les objectifs et les réalisations ou en nombre total et réalisations atteintes)
+</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Request Setup">Paramétrage Requêtes</value>
+		<value column="Description" original="Set up the client to process requests">Paramètre la société au niveau des demandes d'information</value>
+		<value column="Help" original=""/>
+	</row>
+</adempiereTrl>

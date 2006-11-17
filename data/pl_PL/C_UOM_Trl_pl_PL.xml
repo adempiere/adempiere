@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Polskie tłumacznie oraz wsparcie techniczne Jotel sp.j. email: marek.mosiewicz@jotel.com.pl -->
+<!--Adempiere(tm) Version 2.5.1c_2004-05-14 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke; Implementation: Custom 20040530-1908 - Unsupported-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="pl_PL" table="C_UOM">
+	<row id="100" trl="N">
+		<value column="Name" original="Each">Sztuka</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="Ea ">szt. </value>
+	</row>
+	<row id="101" trl="N">
+		<value column="Name" original="Hour">Godz.</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="h  ">h  </value>
+	</row>
+	<row id="102" trl="N">
+		<value column="Name" original="Day">Day</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="d  ">d  </value>
+	</row>
+	<row id="103" trl="N">
+		<value column="Name" original="Minutes">Minuty</value>
+		<value column="Description" original="(lowest unit for resorce assigments)">minuty</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="104" trl="N">
+		<value column="Name" original="Work Day">Dzień rob.</value>
+		<value column="Description" original="8 hour">8 godzin</value>
+		<value column="UOMSymbol" original="D  ">D  </value>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Week">Tydzień</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="w  ">tydz.  </value>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="Month">Miesiąc</value>
+		<value column="Description" original="30 days">30 dni</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="Working Month">Mies. rob.</value>
+		<value column="Description" original="20 days">20 dni</value>
+		<value column="UOMSymbol" original="M  ">M  </value>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="Year">Rok</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="y  ">r</value>
+	</row>
+</adempiereTrl>
