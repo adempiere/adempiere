@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================= -->
+<!-- Client                                        -->
+<!-- ============================================= -->
+<!-- $Header: /cvs/adempiere/client/build.xml,v 1.2 2006/06/10 21:57:27 jjanke Exp $ -->
+
+<project name="client" default="clientDistribute" basedir=".">
+
+  <description>
+    This buildfile is used to build the client subproject within 
+    the Adempiere project.
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="dist.dir" value="../lib"/>
+  <property name="jar.path" value="../lib"/>
+  <property environment="env"/>
+
+  <!-- set path to include the necessary jar files for javac -->
+  <path id="project.class.path">
+    <pathelement path="${classpath}"/>
+    <pathelement path="${jar.path}/CCTools.jar"/>
+    <pathelement path="../base/Base.jar"/>
+    <pathelement path="../print/Print.jar"/>
+    <pathelement path="../dbPort/dbPort.jar"/>
+    <pathelement path="../lib/freepdf.jar"/>
+    <pathelement path="../lib/jcommon-1.0.5.jar"/>
+    <pathelement path="../lib/jfreechart-1.0.2.jar"/>
+    <pathelement path="../looks/CLooks.jar"/>
+    <pathelement path="../extend/Extend.jar"/>
+    <pathelement path="../interfaces/Interfaces.jar"/>
+    <pathelement path="../tools/lib/j2ee.jar"/>
+  </path>
+
+
+  <target name="clientInit" description="initialization target">
+    <echo message="=========== Build Client"/>
+    <!-- create the time stamp -->
+    <tstamp/>
+    <!-- create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+    <!-- check for the distribution directory -->
+    <available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
+
+    <uptodate property="jar.uptodate"
+		targetfile="${dist.dir}/${jar.name}.jar">
+      <srcfiles dir="${src}" includes="**/*.java"/>
+      <srcfiles dir="..\base" includes="Base.jar"/>
+      <srcfiles dir="..\dbPort" includes="dbPort.jar"/>
+      <srcfiles dir="..\looks" includes="CLooks.jar"/>
+      <srcfiles dir="..\print" includes="Print.jar"/>
+      <srcfiles dir="..\extend" includes="Extend.jar"/>
+      <srcfiles dir="..\interfaces" includes="Interfaces.jar"/>
+    </uptodate>
+  </target>
+
+  <target name="clientMakedir" depends="clientInit" unless="dist.dir.exists">
+    <!-- create the distribution directory if not available -->
+    <mkdir dir="${dist.dir}"/>
+  </target>
+  
+
+  <!-- =========================================== -->
+  <!-- Compile                                     -->
+  <!-- =========================================== -->
+  <target name="clientCompile" depends="clientMakedir">
+    <!-- compile the java code from ${src} into ${build.dir} -->
+    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+      <classpath refid="project.class.path"/>
+    </javac>
+    <!-- copy all image & sound files from src to the build directory -->
+    <copy todir="${build.dir}">
+      <fileset dir="${src}">
+        <include name="**/images/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Distribution                                -->
+  <!-- =========================================== -->
+  <target name="clientDistribute" depends="clientCompile" unless="jar.uptodate">
+    <!-- get included jars -->
+    <unjar src="..\base\Base.jar" dest="${build.dir}" />
+    <unjar src="..\dbPort\dbPort.jar" dest="${build.dir}" />
+    <unjar src="..\looks\CLooks.jar" dest="${build.dir}" />
+    <unjar src="..\print\Print.jar" dest="${build.dir}" />
+    <unjar src="..\extend\Extend.jar" dest="${build.dir}" />
+    <!-- <unjar src="..\interfaces\Interfaces.jar" dest="${build.dir}" /> -->
+    <delete dir="${build.dir}/META-INF"/>
+
+    <!-- put everything from ${build.dir} into Adempiere.jar file -->
+    <jar
+	  jarfile="${dist.dir}/Adempiere.jar" 
+	  basedir="${build.dir}" 
+	  index="yes">
+      <manifest>
+        <attribute name="Specification-Title" value="Adempiere"/>
+        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+        <attribute name="Specification-Vendor" value="ADempiere"/>
+        <attribute name="Implementation-Title" value="Adempiere ${env.ADEMPIERE_VERSION}"/>
+        <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/> 
+        <attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
+        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
+      </manifest> 
+    </jar>
+
+    <!-- Sign Jar 
+    signjar jar="${dist.dir}/Adempiere.jar" 
+	alias="adempiere" 
+	storepass="${password}"
+      keystore="../keystore/myKeystore" -->
+  </target>
+
+
+  <target name="clean">
+    <!-- Delete the ${build.dir} directory trees -->
+    <delete dir="${build.dir}"/>
+    <delete file="${dist.dir}/Adempiere.jar" failonerror="false"/>
+  </target>
+
+</project>
