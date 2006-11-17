@@ -1,0 +1,3 @@
+Please find a few scripts to start the adempiere server in background.
+If you have a better one or suggestions for improvement, 
+please file a support request!
