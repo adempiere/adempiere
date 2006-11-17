@@ -1,0 +1,733 @@
+Begin Project "Maintain", "Maintenance", VC_PROJECT=, AUXPROJPATH=
+DATASOURCE=DEV2.Reference
+DATABASE=
+
+Begin SubProject "Maintenance", "", PATH=.\maintenance
+
+Begin File "0_Add_New_Column.sql"
+PATH=.\maintenance\0_add_new_column.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_Add_New_Field.sql"
+PATH=.\maintenance\0_add_new_field.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_CleanUpAD.sql"
+PATH=.\maintenance\0_cleanupad.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_DataCheck.sql"
+PATH=.\maintenance\0_datacheck.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_SyncNames.sql"
+PATH=.\maintenance\0_syncnames.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_TempTable_Create.sql"
+PATH=.\maintenance\0_temptable_create.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "0_TempTable_Drop.sql"
+PATH=.\maintenance\0_temptable_drop.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "1_Account_Defaults.sql"
+PATH=.\maintenance\1_account_defaults.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "2_ObjectCompare.sql"
+PATH=.\maintenance\2_objectcompare.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "8_CleanUp.sql"
+PATH=.\maintenance\8_CleanUp.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "9_UpdateDBVersion.sql"
+PATH=.\maintenance\9_updatedbversion.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "AD_Element_Check.sql"
+PATH=.\maintenance\ad_element_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Element_Copy.sql"
+PATH=.\maintenance\ad_element_copy.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Field_Check.sql"
+PATH=.\maintenance\ad_field_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Field_ReSeq.sql"
+PATH=.\maintenance\ad_field_reseq.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Form_Access.sql"
+PATH=.\maintenance\ad_form_access.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Form_Check.sql"
+PATH=.\maintenance\ad_form_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Menu_Check.sql"
+PATH=.\maintenance\ad_menu_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Org_Check.sql"
+PATH=.\maintenance\ad_org_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_PrintFormatItem_Check.sql"
+PATH=.\maintenance\AD_PrintFormatItem_Check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Process_Access.sql"
+PATH=.\maintenance\ad_process_access.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_ReplicationTable_Check.sql"
+PATH=.\maintenance\AD_ReplicationTable_Check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Role_CreateAccess.sql"
+PATH=.\maintenance\ad_role_createaccess.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Sequence_Check.sql"
+PATH=.\maintenance\ad_sequence_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Task_Access.sql"
+PATH=.\maintenance\ad_task_access.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_TreeNode_Check.sql"
+PATH=.\maintenance\ad_treenode_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Window_Access.sql"
+PATH=.\maintenance\ad_window_access.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_WorkFlow_Access.sql"
+PATH=.\maintenance\ad_workflow_access.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_BPartner_Check.sql"
+PATH=.\maintenance\c_bpartner_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_CashLine_Check.sql"
+PATH=.\maintenance\c_cashline_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_DocType_Check.sql"
+PATH=.\maintenance\c_doctype_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_ElementValue_Check.sql"
+PATH=.\maintenance\c_elementvalue_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_ElementValue_Copy.sql"
+PATH=.\maintenance\c_elementvalue_copy.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Location_Cleanup.sql"
+PATH=.\maintenance\c_location_cleanup.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Order_Check.sql"
+PATH=.\maintenance\c_order_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_PaymentTerm_Check.sql"
+PATH=.\maintenance\c_paymentterm_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_PeriodControl_Check.sql"
+PATH=.\maintenance\c_periodcontrol_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Project_Check.sql"
+PATH=.\maintenance\c_project_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_SalesRegion_Check.sql"
+PATH=.\maintenance\c_salesregion_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_TaxCategory_Check.sql"
+PATH=.\maintenance\c_taxcategory_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_ValidCombbination_Check.sql"
+PATH=.\maintenance\c_validcombbination_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_ValidCombbination_Constraints.sql"
+PATH=.\maintenance\C_ValidCombbination_Constraints.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_ChangeKey.sql"
+PATH=.\maintenance\dba_changekey.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Check.sql"
+PATH=.\maintenance\dba_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_DeleteCascade.sql"
+PATH=.\maintenance\dba_deletecascade.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Indexes.sql"
+PATH=.\maintenance\dba_indexes.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Recompile_Run.sql"
+PATH=.\maintenance\dba_recompile_run.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_RecreateTables.sql"
+PATH=.\maintenance\dba_recreatetables.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Tables.sql"
+PATH=.\maintenance\dba_tables.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Trg_Disable.sql"
+PATH=.\maintenance\dba_trg_disable.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_Trg_Enable.sql"
+PATH=.\maintenance\dba_trg_enable.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Product_Check.sql"
+PATH=.\maintenance\m_product_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Product_Delete.sql"
+PATH=.\maintenance\m_product_delete.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Storage_Check.sql"
+PATH=.\maintenance\m_storage_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Storage_CheckReserved.sql"
+PATH=.\maintenance\m_storage_checkreserved.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Transaction_Source.sql"
+PATH=.\maintenance\m_transaction_source.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "M_AttributeSet_Check.sql"
+PATH=.\maintenance\M_AttributeSet_Check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Invoice_Check.sql"
+PATH=.\maintenance\C_Invoice_Check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Payment_Check.sql"
+PATH=.\maintenance\C_Payment_Check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "8_DropTrg.sql"
+PATH=.\maintenance\8_DropTrg.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "TableColumn.sql"
+PATH=.\maintenance\TableColumn.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DB2_Utils.sql"
+PATH=.\maintenance\DB2_Utils.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "Translation", "", PATH=.\translation
+
+Begin File "Translation_Check.sql"
+PATH=.\translation\translation_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Translation-Status.sql"
+PATH=.\translation\translation-status.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Translation_Copy.sql"
+PATH=.\translation\translation_copy.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DeleteLanguage.sql"
+PATH=.\translation\DeleteLanguage.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Dummy_Translation.sql"
+PATH=.\translation\Dummy_Translation.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "Other", "", PATH=.\other
+
+Begin File "Apps_Tuning.sql"
+PATH=.\other\apps_tuning.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Order_Ovr.sql"
+PATH=.\other\c_order_ovr.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "cursors.sql"
+PATH=.\other\cursors.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "dbms_job.sql"
+PATH=.\other\dbms_job.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "DocStatusAction.sql"
+PATH=.\other\docstatusaction.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Fix_CashBook.sql"
+PATH=.\other\Fix_CashBook.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "History.sql"
+PATH=.\other\history.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Import_Overwrites.sql"
+PATH=.\other\import_overwrites.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Java.sql"
+PATH=.\other\java.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Java_Drop.sql"
+PATH=.\other\java_drop.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Java_List.sql"
+PATH=.\other\java_list.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Monitor_Index.sql"
+PATH=.\other\monitor_index.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Performance.sql"
+PATH=.\other\performance.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "print_views.sql"
+PATH=.\other\print_views.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "RenameColumn.sql"
+PATH=.\other\renamecolumn.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "RenameTable.sql"
+PATH=.\other\renametable.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "UpdateFK.sql"
+PATH=.\other\UpdateFK.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "UpdateWith2Tables.sql"
+PATH=.\other\updatewith2tables.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "UserErrors.sql"
+PATH=.\other\usererrors.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "History", "", PATH=.\history
+
+Begin File "db_changes.sql"
+PATH=.\history\db_changes.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "db_cleanup.sql"
+PATH=.\history\db_cleanup.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "db_generate.sql"
+PATH=.\history\db_generate.sql
+DESCRIPTION=Generated Files from ER
+INCLUDE=1
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+End SubProject
+
+End Project

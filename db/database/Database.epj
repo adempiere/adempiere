@@ -1,0 +1,553 @@
+Begin Project "Database", "Adempiere Database Project", VC_PROJECT=, AUXPROJPATH=
+DATASOURCE=Dev2.reference
+DATABASE=
+
+Begin SubProject "Startup", "", PATH=.\startup
+
+Begin SubProject "oracle", "", PATH=.\startup\oracle
+
+Begin File "AfterImport.sql"
+PATH=.\startup\oracle\afterimport.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=208
+OBJECTTYPE=38
+End File
+
+Begin File "BackupCold.sql"
+PATH=.\startup\oracle\backupcold.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "BeforeExport.sql"
+PATH=.\startup\oracle\BeforeExport.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "CheckDB.sql"
+PATH=.\startup\oracle\checkdb.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "CreateUser.sql"
+PATH=.\startup\oracle\createuser.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "Daily.sql"
+PATH=.\startup\oracle\Daily.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+Begin File "Start.sql"
+PATH=.\startup\oracle\start.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "Stop.sql"
+PATH=.\startup\oracle\stop.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "Test.sql"
+PATH=.\startup\oracle\test.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+End SubProject
+
+Begin SubProject "Create", "", PATH=.\create
+
+Begin File "Adempiere.sql"
+PATH=.\create\adempiere.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=38
+End File
+
+Begin File "Sequences.sql"
+PATH=.\create\sequences.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=47
+OBJECTTYPE=38
+End File
+
+Begin File "Temporary.sql"
+PATH=.\create\temporary.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=46
+OBJECTTYPE=38
+End File
+
+Begin File "Views.sql"
+PATH=.\create\views.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=48
+OBJECTTYPE=38
+End File
+
+Begin File "AdempiereEtc.sql"
+PATH=.\create\AdempiereEtc.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "Functions", "", PATH=.\functions
+
+Begin File "Acct_Balance.sql"
+PATH=.\functions\Acct_Balance.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=44
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_PriceLimit.sql"
+PATH=.\functions\bom_pricelimit.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=0
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_PriceList.sql"
+PATH=.\functions\bom_pricelist.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=1
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_PriceStd.sql"
+PATH=.\functions\bom_pricestd.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=2
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_Qty_Available.sql"
+PATH=.\functions\bom_qty_available.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=3
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_Qty_OnHand.sql"
+PATH=.\functions\bom_qty_onhand.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=4
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_Qty_Ordered.sql"
+PATH=.\functions\bom_qty_ordered.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=5
+OBJECTTYPE=-1
+End File
+
+Begin File "BOM_Qty_Reserved.sql"
+PATH=.\functions\bom_qty_reserved.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=6
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Base_Convert.sql"
+PATH=.\functions\c_base_convert.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=7
+OBJECTTYPE=-1
+End File
+
+Begin File "C_BPartner_RemitLocation.SQL"
+PATH=.\functions\C_BPartner_RemitLocation.SQL
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=39
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Currency_Convert.sql"
+PATH=.\functions\c_currency_convert.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=38
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Currency_Rate.sql"
+PATH=.\functions\c_currency_rate.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=37
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Currency_Round.sql"
+PATH=.\functions\c_currency_round.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=19
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Invoice_Discount.sql"
+PATH=.\functions\c_invoice_discount.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=35
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Invoice_Open.sql"
+PATH=.\functions\c_invoice_open.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=8
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Invoice_Paid.sql"
+PATH=.\functions\c_invoice_paid.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=9
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Payment_Allocated.sql"
+PATH=.\functions\c_payment_allocated.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=10
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Payment_Available.sql"
+PATH=.\functions\c_payment_available.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=11
+OBJECTTYPE=-1
+End File
+
+Begin File "C_PaymentTerm_Discount.sql"
+PATH=.\functions\c_paymentterm_discount.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=12
+OBJECTTYPE=-1
+End File
+
+Begin File "C_PaymentTerm_DueDays.sql"
+PATH=.\functions\c_paymentterm_duedays.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=13
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_ConstraintCmd.sql"
+PATH=.\functions\dba_constraintcmd.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=22
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_DisplayType.sql"
+PATH=.\functions\dba_displaytype.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=31
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Attribute_Name.sql"
+PATH=.\functions\M_Attribute_Name.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=42
+OBJECTTYPE=-1
+End File
+
+Begin File "C_PaymentTerm_DueDate.sql"
+PATH=.\functions\C_PaymentTerm_DueDate.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=43
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "Procedures", "", PATH=.\procedures
+
+Begin File "AD_Column_Sync.sql"
+PATH=.\procedures\ad_column_sync.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=34
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_PrintPaper_Default.sql"
+PATH=.\procedures\AD_PrintPaper_Default.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=40
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Sequence_Doc.sql"
+PATH=.\procedures\ad_sequence_doc.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=14
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Sequence_DocType.sql"
+PATH=.\procedures\ad_sequence_doctype.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=15
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Sequence_Next.sql"
+PATH=.\procedures\ad_sequence_next.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=16
+OBJECTTYPE=-1
+End File
+
+Begin File "AD_Syncronize.sql"
+PATH=.\procedures\ad_syncronize.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=32
+OBJECTTYPE=-1
+End File
+
+Begin File "C_Order_DrillDown.sql"
+PATH=.\procedures\c_order_drilldown.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=20
+OBJECTTYPE=-1
+End File
+
+Begin File "DBA_AfterImport.sql"
+PATH=.\procedures\dba_afterimport.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=29
+OBJECTTYPE=21
+End File
+
+Begin File "DBA_Cleanup.sql"
+PATH=.\procedures\dba_cleanup.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=30
+OBJECTTYPE=21
+End File
+
+Begin File "DBA_Recompile.sql"
+PATH=.\procedures\dba_recompile.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=28
+OBJECTTYPE=-1
+End File
+
+Begin File "Fact_Acct_Balance_Update.sql"
+PATH=.\procedures\Fact_Acct_Balance_Update.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=41
+OBJECTTYPE=-1
+End File
+
+Begin File "M_PriceList_Create.sql"
+PATH=.\procedures\m_pricelist_create.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=23
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Product_BOM_Check.sql"
+PATH=.\procedures\m_product_bom_check.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=24
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Product_Delete.sql"
+PATH=.\procedures\m_product_delete.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=26
+OBJECTTYPE=-1
+End File
+
+Begin File "M_Production_Run.sql"
+PATH=.\procedures\m_production_run.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=27
+OBJECTTYPE=-1
+End File
+
+Begin File "T_InventoryValue_Create.sql"
+PATH=.\procedures\t_inventoryvalue_create.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=33
+OBJECTTYPE=-1
+End File
+
+Begin File "nextID.sql"
+PATH=.\procedures\nextID.sql
+DESCRIPTION=
+INCLUDE=1
+BUILDINDEX=45
+OBJECTTYPE=-1
+End File
+
+End SubProject
+
+Begin SubProject "Access", "", PATH=.\access
+
+Begin File "Context_Body.sql"
+PATH=.\access\context_body.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=100
+OBJECTTYPE=20
+End File
+
+Begin File "Context_Header.sql"
+PATH=.\access\context_header.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=98
+OBJECTTYPE=19
+End File
+
+Begin File "Context_List.sql"
+PATH=.\access\context_list.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=154
+OBJECTTYPE=38
+End File
+
+Begin File "Context_Test.sql"
+PATH=.\access\context_test.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=155
+OBJECTTYPE=38
+End File
+
+Begin File "CreateContext.sql"
+PATH=.\access\createcontext.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=99
+OBJECTTYPE=38
+End File
+
+Begin File "Policy_Add.sql"
+PATH=.\access\policy_add.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=157
+OBJECTTYPE=-1
+End File
+
+Begin File "Policy_Drop.sql"
+PATH=.\access\policy_drop.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=158
+OBJECTTYPE=38
+End File
+
+Begin File "Privileges.sql"
+PATH=.\access\privileges.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=159
+OBJECTTYPE=38
+End File
+
+Begin File "Wrap.sql"
+PATH=.\access\wrap.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=160
+OBJECTTYPE=38
+End File
+
+End SubProject
+
+Begin SubProject "Custom", "", PATH=.\custom
+
+End SubProject
+
+Begin File "DatabaseBuild.sql"
+PATH=.\DatabaseBuild.sql
+DESCRIPTION=
+INCLUDE=0
+BUILDINDEX=-1
+OBJECTTYPE=-1
+End File
+
+End Project
