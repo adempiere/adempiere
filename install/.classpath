@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/dbPort"/>
+	<classpathentry kind="src" path="/tools"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="src" path="/client"/>
+	<classpathentry kind="src" path="/jboss"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="src" path="/print"/>
+	<classpathentry kind="src" path="/serverApps"/>
+	<classpathentry kind="src" path="/serverRoot"/>
+	<classpathentry kind="lib" path="/lib/oracle.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
+	<classpathentry kind="lib" path="/lib/db2.jar"/>
+	<classpathentry kind="lib" path="/lib/derby.jar"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>
