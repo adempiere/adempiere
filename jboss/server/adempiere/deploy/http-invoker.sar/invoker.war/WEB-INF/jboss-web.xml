@@ -1,0 +1,3 @@
+<jboss-web>
+   <security-domain>java:/jaas/jmx-console</security-domain>
+</jboss-web>

@@ -1,0 +1,83 @@
+import org.jboss.console.manager.interfaces.*;
+import org.jboss.console.manager.interfaces.impl.*;
+import org.jboss.console.plugins.*;
+import org.jboss.console.plugins.helpers.*;
+
+import javax.management.*;
+
+   String getVersion (PluginContext ctx)
+   {
+      return "0.0a";
+   }
+   
+   String getName (PluginContext ctx)
+   {
+      return "UCL lister";
+   }
+
+   ResourceTreeNode createUCLSubResource (PluginContext ctx, ObjectInstance instance)
+   {
+      String uclName = instance.getObjectName().getKeyProperty ("UCL");
+      TreeNodeMenuEntry[] menus = ctx.createMenus (new String[] 
+            {
+               "Before for UCL="+uclName, "before.html&ucl="+uclName,
+               null,
+               "After", "test.html"
+            });
+            
+      return ctx.createResourceNode ( 
+            "UCL " + uclName, // name
+            "UCL with id " + uclName, // description
+            "arrow.gif", // Icon URL
+            "mapage&ucl=" + uclName, // Default URL
+            menus,
+            null,
+            null,
+            instance.getObjectName().toString(),
+            instance.getClassName () );
+   }
+   
+   ResourceTreeNode[] createUCLSubResources (PluginContext ctx) 
+   {
+      ObjectInstance[] insts = 
+         ctx.getMBeansForClass("jmx.loading:*", 
+            "org.jboss.mx.loading.UnifiedClassLoader2");
+      ctx.getLogger().info("TAILLE: " + insts.length);
+      ResourceTreeNode[] result = new ResourceTreeNode[10];//[insts.length];
+      for (int i=0; i<result.length && i<10; i++)
+      {
+         ctx.getLogger().info("ELT: " + insts[i]);
+         result[i] = createUCLSubResource (ctx, insts[i]);
+      }
+      
+      return result;                  
+   }
+   
+   TreeNode getTreeForResource(ManageableResource resource,
+   PluginContext ctx)
+   {
+      try
+      {
+         TreeNodeMenuEntry[] menus = ctx.createMenus (new String[] 
+               {
+                  "Before", "before.html",
+                  null,
+                  "After", "after.html"
+               });
+
+         return ctx.createTreeNode (
+               "Unified ClassLoaders", // name
+               "Display all JBoss UCLs", // description
+               "http://localhost:8080/web-console/arrow.gif", // Icon URL
+               "http://www.jboss.org/", // Default URL
+               menus,
+               null, // sub nodes
+               createUCLSubResources (ctx)   // Sub-Resources                  
+            );            
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace ();
+         return null;
+      }
+   }

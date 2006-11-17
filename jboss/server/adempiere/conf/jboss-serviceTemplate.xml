@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: jboss-serviceTemplate.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+
+<!-- ===================================================================== -->
+<!--  JBoss Server Configuration                                           -->
+<!-- ===================================================================== -->
+
+<server>
+
+   <!-- Load all jars from the JBOSS_DIST/server/<config>/lib directory. This
+     can be restricted to specific jars by specifying them in the archives
+     attribute.
+    -->
+   <classpath codebase="lib" archives="*"/>
+
+
+   <!-- ==================================================================== -->
+   <!-- JSR-77 Single JBoss Server Management Domain                         -->
+   <!-- ==================================================================== -->
+   <mbean code="org.jboss.management.j2ee.LocalJBossServerDomain"
+      name="jboss.management.local:j2eeType=J2EEDomain,name=Manager">
+      <attribute name="MainDeployer">jboss.system:service=MainDeployer</attribute>
+      <attribute name="SARDeployer">jboss.system:service=ServiceDeployer</attribute>
+      <attribute name="EARDeployer">jboss.j2ee:service=EARDeployer</attribute>
+      <attribute name="EJBDeployer">jboss.ejb:service=EJBDeployer</attribute>
+      <attribute name="RARDeployer">jboss.jca:service=RARDeployer</attribute>
+      <attribute name="CMDeployer">jboss.jca:service=ConnectionFactoryDeployer</attribute>
+      <attribute name="WARDeployer">jboss.web:service=WebServer</attribute>
+      <attribute name="JNDIService">jboss:service=Naming</attribute>
+      <attribute name="UserTransactionService">jboss:service=ClientUserTransaction</attribute>
+      <attribute name="RMI_IIOPService">jboss:service=CorbaORB</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- XMBean Persistence                                                   -->
+   <!-- ==================================================================== -->   
+   <mbean code="org.jboss.system.pm.AttributePersistenceService"
+      name="jboss:service=AttributePersistenceService"
+      xmbean-dd="resource:xmdesc/AttributePersistenceService-xmbean.xml">
+      <!-- the AttributePersistenceService is persistent, itself -->
+           
+      <!--
+      <attribute name="AttributePersistenceManagerClass">org.jboss.system.pm.XMLAttributePersistenceManager</attribute>
+      <attribute name="AttributePersistenceManagerConfig">
+         <data-directory>data/xmbean-attrs</data-directory>
+      </attribute>      
+      <attribute name="ApmDestroyOnServiceStop">false</attribute>
+      <attribute name="VersionTag"></attribute>
+      -->
+   </mbean>
+
+   <!-- A Thread pool service -->
+   <mbean code="org.jboss.util.threadpool.BasicThreadPool"
+      name="jboss.system:service=ThreadPool">
+      <attribute name="Name">JBoss System Threads</attribute>
+      <attribute name="ThreadGroupName">System Threads</attribute>
+      <!-- How long a thread will live without any tasks in MS -->
+      <attribute name="KeepAliveTime">60000</attribute>
+      <!-- The max number of threads in the pool -->
+      <attribute name="MaximumPoolSize">10</attribute>
+      <!-- The max number of tasks before the queue is full -->
+      <attribute name="MaximumQueueSize">1000</attribute>
+      <!-- The behavior of the pool when a task is added and the queue is full.
+      abort - a RuntimeException is thrown
+      run - the calling thread executes the task
+      wait - the calling thread blocks until the queue has room
+      discard - the task is silently discarded without being run
+      discardOldest - check to see if a task is about to complete and enque
+         the new task if possible, else run the task in the calling thread
+      -->
+      <attribute name="BlockingMode">run</attribute>
+   </mbean>
+
+   <!-- Preload all custom editors for VMs that don't use the thread
+        context class loader when searching for PropertyEditors. Uncomment
+        if your JDK 1.3.0 VM fails to find JBoss PropertyEditors.
+   <mbean code="org.jboss.varia.property.PropertyEditorManagerService"
+     name="jboss:type=Service,name=BootstrapEditors">
+     <attribute name="BootstrapEditors">
+       java.math.BigDecimal=org.jboss.util.propertyeditor.BigDecimalEditor
+       java.lang.Boolean=org.jboss.util.propertyeditor.BooleanEditor
+       java.lang.Class=org.jboss.util.propertyeditor.ClassEditor
+       java.util.Date=org.jboss.util.propertyeditor.DateEditor
+       java.io.File=org.jboss.util.propertyeditor.FileEditor
+       java.net.InetAddress=org.jboss.util.propertyeditor.InetAddressEditor
+       java.lang.Integer=org.jboss.util.propertyeditor.IntegerEditor
+       javax.management.ObjectName=org.jboss.mx.util.propertyeditor.ObjectNameEditor
+       java.util.Properties=org.jboss.util.propertyeditor.PropertiesEditor
+       [Ljava.lang.String;=org.jboss.util.propertyeditor.StringArrayEditor
+       java.net.URL=org.jboss.util.propertyeditor.URLEditor
+     </attribute>
+   </mbean>
+   -->
+
+   <!-- ==================================================================== -->
+   <!-- Log4j Initialization                                                 -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.logging.Log4jService"
+      name="jboss.system:type=Log4jService,service=Logging"
+	  xmbean-dd="resource:xmdesc/Log4jService-xmbean.xml">
+      <attribute name="ConfigurationURL">resource:log4j.xml</attribute>
+      <!-- Set the org.apache.log4j.helpers.LogLog.setQuiteMode. As of log4j1.2.8
+      this needs to be set to avoid a possible deadlock on exception at the
+      appender level. See bug#696819.
+      -->
+      <attribute name="Log4jQuietMode">true</attribute>
+      <!-- How frequently in seconds the ConfigurationURL is checked for changes -->
+      <attribute name="RefreshPeriod">60</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- JBoss RMI Classloader - only install when available                  -->
+   <!-- ==================================================================== -->
+   <mbean code="org.jboss.util.property.jmx.SystemPropertyClassValue"
+      name="jboss.rmi:type=RMIClassLoader">
+      <attribute name="Property">java.rmi.server.RMIClassLoaderSpi</attribute>
+      <attribute name="ClassName">org.jboss.system.JBossRMIClassLoader</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Service Binding                                                      -->
+   <!-- ==================================================================== -->
+
+   <!-- Automatically activated when generatting the clustering environment -->
+   <!-- @TESTSUITE_CLUSTER_CONFIG@ -->
+
+   <!--
+      | Binding service manager for port/host mapping. This is a sample
+      | config that demonstrates a JBoss instances with a server name 'ports-01'
+      | loading its bindings from an XML file using the ServicesStoreFactory
+      | implementation returned by the XMLServicesStoreFactory.
+      |
+      | ServerName: The unique name assigned to a JBoss server instance for
+      | lookup purposes. This allows a single ServicesStore to handle mulitiple
+      | JBoss servers.
+      |
+      | StoreURL: The URL string passed to org.jboss.services.binding.ServicesStore
+      | during initialization that specifies how to connect to the bindings store.
+      | StoreFactory: The org.jboss.services.binding.ServicesStoreFactory interface
+      | implementation to create to obtain the ServicesStore instance.
+
+   <mbean code="org.jboss.services.binding.ServiceBindingManager"
+     name="jboss.system:service=ServiceBindingManager">
+     <attribute name="ServerName">ports-01</attribute>
+     <attribute name="StoreURL">${jboss.home.url}/docs/examples/binding-manager/sample-bindings.xml</attribute>
+     <attribute name="StoreFactoryClassName">
+       org.jboss.services.binding.XMLServicesStoreFactory
+     </attribute>
+   </mbean>
+
+   -->
+
+
+   <!-- ==================================================================== -->
+   <!-- Class Loading                                                        -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.web.WebService"
+      name="jboss:service=WebService">
+      <attribute name="Port">8083</attribute>
+      <!-- Should resources and non-EJB classes be downloadable -->
+      <attribute name="DownloadServerClasses">true</attribute>
+      <attribute name="Host">${jboss.bind.address}</attribute>
+      <attribute name="BindAddress">${jboss.bind.address}</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- JNDI                                                                 -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.naming.NamingService"
+      name="jboss:service=Naming"
+      xmbean-dd="resource:xmdesc/NamingService-xmbean.xml">
+      <!-- The call by value mode. true if all lookups are unmarshalled using
+      the caller's TCL, false if in VM lookups return the value by reference.
+      -->
+      <attribute name="CallByValue">false</attribute>
+      <!-- The listening port for the bootstrap JNP service. Set this to -1
+        to run the NamingService without the JNP invoker listening port.
+      -->
+      <attribute name="Port">@ADEMPIERE_JNP_PORT@</attribute>
+      <!-- The bootstrap JNP server bind address. This also sets the default
+      RMI service bind address. Empty == all addresses
+       -->
+      <attribute name="BindAddress">${jboss.bind.address}</attribute>
+      <!-- The port of the RMI naming service, 0 == anonymous -->
+      <attribute name="RmiPort">1098</attribute>
+      <!-- The RMI service bind address. Empty == all addresses
+       -->
+      <attribute name="RmiBindAddress">${jboss.bind.address}</attribute>
+      <!-- The thread pool service used to control the bootstrap lookups -->
+      <depends optional-attribute-name="LookupPool"
+         proxy-type="attribute">jboss.system:service=ThreadPool</depends>
+   </mbean>
+
+   <mbean code="org.jboss.naming.JNDIView"
+   		name="jboss:service=JNDIView"
+   		xmbean-dd="resource:xmdesc/JNDIView-xmbean.xml">
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Security                                                             -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.security.plugins.SecurityConfig"
+      name="jboss.security:service=SecurityConfig">
+      <attribute name="LoginConfig">jboss.security:service=XMLLoginConfig</attribute>
+   </mbean>
+   <mbean code="org.jboss.security.auth.login.XMLLoginConfig"
+      name="jboss.security:service=XMLLoginConfig">
+      <attribute name="ConfigResource">login-config.xml</attribute>
+   </mbean>
+
+   <!-- JAAS security manager and realm mapping -->
+   <mbean code="org.jboss.security.plugins.JaasSecurityManagerService"
+      name="jboss.security:service=JaasSecurityManager">
+      <attribute name="SecurityManagerClassName">org.jboss.security.plugins.JaasSecurityManager</attribute>
+      <attribute name="DefaultUnauthenticatedPrincipal">anonymous</attribute>
+      <!-- DefaultCacheTimeout: Specifies the default timed cache policy timeout
+      in seconds.
+      If you want to disable caching of security credentials, set this to 0 to
+      force authentication to occur every time. This has no affect if the
+      AuthenticationCacheJndiName has been changed from the default value.
+      -->
+      <attribute name="DefaultCacheTimeout">1800</attribute>
+      <!-- DefaultCacheResolution: Specifies the default timed cache policy
+      resolution in seconds. This controls the interval at which the cache
+      current timestamp is updated and should be less than the DefaultCacheTimeout
+      in order for the timeout to be meaningful. This has no affect if the
+      AuthenticationCacheJndiName has been changed from the default value.
+      -->
+      <attribute name="DefaultCacheResolution">60</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Transactions                                                         -->
+   <!-- ==================================================================== -->
+   <!-- The configurable Xid factory.  For use with Oracle, set pad to true -->
+   <mbean code="org.jboss.tm.XidFactory"
+      name="jboss:service=XidFactory">
+      <!--attribute name="Pad">true</attribute-->
+   </mbean>
+
+   <!--
+      | The fast in-memory transaction manager.
+    -->
+   <mbean code="org.jboss.tm.TransactionManagerService"
+      name="jboss:service=TransactionManager"
+      xmbean-dd="resource:xmdesc/TransactionManagerService-xmbean.xml">
+      <attribute name="TransactionTimeout">300</attribute>
+      <!-- set to false to disable transaction demarcation over IIOP -->
+      <attribute name="GlobalIdsEnabled">true</attribute>
+      <depends optional-attribute-name="XidFactory">jboss:service=XidFactory</depends>
+   </mbean>
+   <!--
+      | UserTransaction support.
+    -->
+   <mbean code="org.jboss.tm.usertx.server.ClientUserTransactionService"
+      name="jboss:service=ClientUserTransaction"
+      xmbean-dd="resource:xmdesc/ClientUserTransaction-xmbean.xml">
+      <depends>
+         <mbean code="org.jboss.invocation.jrmp.server.JRMPProxyFactory"
+            name="jboss:service=proxyFactory,target=ClientUserTransactionFactory">
+            <attribute name="InvokerName">jboss:service=invoker,type=jrmp</attribute>
+            <attribute name="TargetName">jboss:service=ClientUserTransaction</attribute>
+            <attribute name="JndiName">UserTransactionSessionFactory</attribute>
+            <attribute name="ExportedInterface">org.jboss.tm.usertx.interfaces.UserTransactionSessionFactory</attribute>
+            <attribute name="ClientInterceptors">
+               <interceptors>
+                  <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
+                  <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
+               </interceptors>
+            </attribute>
+            <depends>jboss:service=invoker,type=jrmp</depends>
+         </mbean>
+      </depends>
+      <depends optional-attribute-name="TxProxyName">
+         <mbean code="org.jboss.invocation.jrmp.server.JRMPProxyFactory"
+            name="jboss:service=proxyFactory,target=ClientUserTransaction">
+            <attribute name="InvokerName">jboss:service=invoker,type=jrmp</attribute>
+            <attribute name="TargetName">jboss:service=ClientUserTransaction</attribute>
+            <attribute name="JndiName"></attribute>
+            <attribute name="ExportedInterface">org.jboss.tm.usertx.interfaces.UserTransactionSession</attribute>
+            <attribute name="ClientInterceptors">
+               <interceptors>
+                  <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
+                  <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
+               </interceptors>
+            </attribute>
+            <depends>jboss:service=invoker,type=jrmp</depends>
+         </mbean>
+      </depends>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Invokers to the JMX node                                             -->
+   <!-- ==================================================================== -->
+
+   <!-- RMI/JRMP invoker -->
+   <mbean code="org.jboss.invocation.jrmp.server.JRMPInvoker"
+      name="jboss:service=invoker,type=jrmp">
+      <attribute name="RMIObjectPort">4444</attribute>
+      <attribute name="ServerAddress">${jboss.bind.address}</attribute>
+      <!--
+      <attribute name="RMIClientSocketFactory">custom</attribute>
+      <attribute name="RMIServerSocketFactory">custom</attribute>
+      <attribute name="RMIServerSocketAddr">custom</attribute>
+      <attribute name="SecurityDomain">ssl-domain-name</attribute>
+      -->
+      <depends>jboss:service=TransactionManager</depends>
+   </mbean>
+
+   <mbean code="org.jboss.invocation.local.LocalInvoker"
+      name="jboss:service=invoker,type=local">
+
+      <depends>jboss:service=TransactionManager</depends>
+   </mbean>
+
+   <mbean code="org.jboss.invocation.pooled.server.PooledInvoker"
+      name="jboss:service=invoker,type=pooled">
+      <attribute name="NumAcceptThreads">1</attribute>
+      <attribute name="MaxPoolSize">300</attribute>
+      <attribute name="ClientMaxPoolSize">300</attribute>
+      <attribute name="SocketTimeout">60000</attribute>
+      <attribute name="ServerBindAddress">${jboss.bind.address}</attribute>
+      <attribute name="ServerBindPort">4445</attribute>
+      <attribute name="ClientConnectAddress">${jboss.bind.address}</attribute>
+      <attribute name="ClientConnectPort">0</attribute>
+      <attribute name="EnableTcpNoDelay">false</attribute>
+
+      <depends optional-attribute-name="TransactionManagerService">jboss:service=TransactionManager</depends>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Monitoring and Management                                            -->
+   <!-- ==================================================================== -->
+
+   <!-- Uncomment to enable JMX monitoring of the bean cache
+   <mbean code="org.jboss.monitor.BeanCacheMonitor"
+          name="jboss.monitor:name=BeanCacheMonitor"/>
+   -->
+
+   <!-- Uncomment to enable JMX monitoring of the entity bean locking
+   <mbean code="org.jboss.monitor.EntityLockMonitor"
+          name="jboss.monitor:name=EntityLockMonitor"/>
+   -->
+
+   <!-- ==================================================================== -->
+   <!-- An MBean that is a registry for JDBC type-mapping metadata           -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.ejb.plugins.cmp.jdbc.metadata.MetaDataLibrary"
+      name="jboss.jdbc:service=metadata"/>
+
+   <!-- ==================================================================== -->
+   <!-- Deployment Scanning                                                  -->
+   <!-- ==================================================================== -->
+
+   <!-- An mbean for hot deployment/undeployment of archives.
+   -->
+   <mbean code="org.jboss.deployment.scanner.URLDeploymentScanner"
+      name="jboss.deployment:type=DeploymentScanner,flavor=URL">
+
+      <!-- Uncomment (and comment/remove version below) to enable usage of the
+        DeploymentCache
+      <depends optional-attribute-name="Deployer">jboss.deployment:type=DeploymentCache</depends>
+      -->
+      <depends optional-attribute-name="Deployer">jboss.system:service=MainDeployer</depends>
+
+      <!-- The URLComparator can be used to specify a deployment ordering
+           for deployments found in a scanned directory.  The class specified
+           must be an implementation of java.util.Comparator, it must be able
+           to compare two URL objects, and it must have a no-arg constructor.
+           Two deployment comparators are shipped with JBoss:
+             - org.jboss.deployment.DeploymentSorter
+               Sorts by file extension, as follows:
+                 "sar", "service.xml", "rar", "jar", "war", "wsr", "ear", "zip",
+                 "*"
+             - org.jboss.deployment.scanner.PrefixDeploymentSorter
+               If the name portion of the url begins with 1 or more digits, those
+               digits are converted to an int (ignoring leading zeroes), and
+               files are deployed in that order.  Files that do not start with
+               any digits will be deployed first, and they will be sorted by
+               extension as above with DeploymentSorter.
+      -->
+      <attribute name="URLComparator">org.jboss.deployment.DeploymentSorter</attribute>
+      <!--
+      <attribute name="URLComparator">org.jboss.deployment.scanner.PrefixDeploymentSorter</attribute>
+      -->
+
+      <!-- The FilterInstance specifies a URLLister.URLFilter for scanned
+           directories. This DeploymentFilter is initialized with the given
+           prefixes, suffixes and matches that define which URLs should be
+           ignored.
+      -->
+      <attribute name="FilterInstance"
+         attributeClass="org.jboss.deployment.scanner.DeploymentFilter"
+         serialDataType="javaBean">
+         <!-- Files starting with theses strings are ignored -->
+         <property name="prefixes">#,%,\,,.,_$</property>
+         <!-- Files ending with theses strings are ignored -->
+         <property name="suffixes">#,$,%,~,\,v,.BAK,.bak,.old,.orig,.tmp,.rej,.sh</property>
+         <!-- Files matching with theses strings are ignored -->
+         <property name="matches">.make.state,.nse_depinfo,CVS,CVS.admin,RCS,RCSLOG,SCCS,TAGS,core,tags</property>
+      </attribute>
+
+      <!-- Frequency in milliseconds to rescan the URLs for changes -->
+      <attribute name="ScanPeriod">5000</attribute>
+      <!-- A flag to disable the scans -->
+      <attribute name="ScanEnabled">true</attribute>
+
+      <!-- URLs are comma separated and resolve relative to the server home URL
+         unless the given path is absolute. If the URL ends in "/" it is
+         considered a collection and scanned, otherwise it is simply deployed;
+         this follows RFC2518 convention and allows discrimination between
+         collections and directories that are simply unpacked archives.
+
+         URLs may be local (file:) or remote (http:). Scanning is supported
+         for remote URLs but unpacked deployment units are not.
+
+         Example URLs:
+            deploy/
+                 scans ${jboss.server.url}/deploy/, which is local or remote
+                 depending on the URL used to boot the server
+            ${jboss.server.home}/deploy/
+                 scans ${jboss.server.home)/deploy, which is always local
+            file:/var/opt/myapp.ear
+                 deploy myapp.ear from a local location
+            file:/var/opt/apps/
+                 scans the specified directory
+            http://www.test.com/netboot/myapp.ear
+                 deploys myapp.ear from a remote location
+            http://www.test.com/netboot/apps/
+                 scans the specified WebDAV location
+       -->
+      <attribute name="URLs">
+         deploy/
+      </attribute>
+
+      <!-- Indicates if the scanner should recursively scan directories that
+      contain no "." in their names. This can be used to group applications
+      and services that must be deployed and that have the same
+      logical function in the same directory i.e.
+        deploy/JMX/
+        deploy/JMS/
+        ...
+      -->
+
+      <attribute name="RecursiveSearch">True</attribute>
+
+   </mbean>
+
+</server>

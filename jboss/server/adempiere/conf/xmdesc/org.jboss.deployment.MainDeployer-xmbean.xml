@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+<!-- $Id: The MainDeployer XMBean descriptor -->
+<mbean>
+   <description>The Main deployer is the service which acts as the entry
+       point for the deployment/undeployment requests.
+   </description>
+   <class>org.jboss.deployment.MainDeployer</class>
+
+   <attribute access='read-write' setMethod='setCopyFiles' getMethod='getCopyFiles'>
+      <description></description>
+      <name>CopyFiles</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access='write-only' setMethod='setServiceController'>
+      <description></description>
+      <name>ServiceController</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>
+   <attribute access='read-only' getMethod='getServiceName'>
+      <description></description>
+      <name>ServiceName</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>
+   <attribute access='read-only' getMethod='getSuffixOrder'>
+      <description></description>
+      <name>SuffixOrder</name>
+      <type>[Ljava.lang.String;</type>
+   </attribute>
+   <attribute access='read-write' setMethod='setEnhancedSuffixOrder' getMethod='getEnhancedSuffixOrder'>
+      <description></description>
+      <name>EnhancedSuffixOrder</name>
+      <type>[Ljava.lang.String;</type>
+      <!--
+      <descriptors>
+        <value value="100:deployer,100:deployer.xml,200:sar,200:service.xml,300:rar,300:ds.xml,500:jar,600:war,600:wsr,600:ear,700:zip,900:last"/>
+      </descriptors>
+      -->
+   </attribute>
+   <attribute access='read-write' setMethod='setTempDir' getMethod='getTempDir'>
+      <description></description>
+      <name>TempDir</name>
+      <type>java.io.File</type>
+   </attribute>
+   <attribute access='read-only' getMethod='getTempDirString'>
+      <description></description>
+      <name>TempDirString</name>
+      <type>java.lang.String</type>
+   </attribute>
+   &defaultAttributes;
+
+   <operation>
+      <description></description>
+      <name>addDeployer</name>
+      <parameter>
+         <name>deployer</name>
+         <type>org.jboss.deployment.SubDeployer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>removeDeployer</name>
+      <parameter>
+         <name>deployer</name>
+         <type>org.jboss.deployment.SubDeployer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>deploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <name>deploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>deploy</name>
+      <parameter>
+         <name>sdi</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>getDeployment</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>org.jboss.deployment.DeploymentInfo</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>getWatchUrl</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>java.net.URL</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>isDeployed</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>isDeployed</name>
+      <parameter>
+         <name>url</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listDeployed</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listDeployedAsString</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listDeployedModules</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listDeployers</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>
+   <operation>
+      <description>Check the current deployment states and generate a
+      IncompleteDeploymentException if there are mbeans waiting for depedencies.
+      </description>
+      <name>checkIncompleteDeployments</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listIncompletelyDeployed</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>listWaitingForDeployer</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>redeploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>redeploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>redeploy</name>
+      <parameter>
+         <name>sdi</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>shutdown</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>undeploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>undeploy</name>
+      <parameter>
+         <name>url</name>
+         <type>java.net.URL</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description></description>
+      <name>undeploy</name>
+      <parameter>
+         <name>sdi</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+
+   &defaultOperations;
+</mbean>

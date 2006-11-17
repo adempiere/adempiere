@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+<!-- $Id: org.jboss.deployment.JARDeployer-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<mbean>
+	 <description>The JARDeployer adds archives that do not contain META-INF/*.xml
+       files. The pattern of xml files that correspond to deployment descriptors
+       can be specified using the DescriptorNames attribute.
+	 </description>
+	 <class>org.jboss.deployment.JARDeployer</class>
+   <attribute access='read-write' getMethod='getDescriptorNames' setMethod='setDescriptorNames'>
+      <description>The list of suffixes that define deployment descriptors which
+      if found in an archive META-INF directory indicate non-jar deployments
+      which should be ignored by the JARDeployer.</description>
+      <name>DescriptorNames</name>
+      <type>[Ljava.lang.String;</type>
+      <!-- This suffix list represents the legacy behavior that ignored all
+         archives with META-INF/*.xml files
+      <descriptors>
+        <value value=".xml"/>
+      </descriptors>
+      -->
+      <!-- Ignore archives with the standard descriptors in META-INF -->
+      <descriptors>
+        <value value="ejb-jar.xml,jboss-service.xml,-ds.xml,ra.xml,application.xml"/>
+      </descriptors>
+   </attribute>
+
+   &defaultAttributes;
+
+   <operation>
+      <description>Get the associated service DeploymentInfo if found, null otherwise</description>
+      <name>getService</name>
+      <parameter>
+         <name>serviceName</name>
+         <type>javax.management.ObjectName</type>
+      </parameter>
+      <return-type>org.jboss.deployment.DeploymentInfo</return-type>
+   </operation>
+   <operation>
+      <description>This method is called by MainDeployer to determine which
+      deployer is suitable for a DeploymentInfo.</description>
+      <name>accepts</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation>
+      <description>The init method lets the deployer set a few properties of the
+      DeploymentInfo, such as the watch url.</description>
+      <name>init</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>Set up the components of the deployment that do not refer to
+      other components.</description>
+      <name>create</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>The start method starts all the mbeans in this DeploymentInfo.</description>
+      <name>start</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>The stop method invokes stop on the mbeans associated with
+      the deployment in reverse order relative to start.</description>
+      <name>stop</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>The destroy method invokes destroy on the mbeans associated
+      with the deployment in reverse order relative to create.</description>
+      <name>destroy</name>
+      <parameter>
+         <name>di</name>
+         <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+
+   &defaultOperations;
+ </mbean>

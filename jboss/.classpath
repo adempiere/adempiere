@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="client/jboss-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="client/jboss-common-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="client/jboss-j2ee.jar"/>
+	<classpathentry exported="true" kind="lib" path="client/jbosssx-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="client/jboss-transaction-client.jar"/>
+	<classpathentry exported="true" sourcepath="C:/Sources/jboss-4.0.2-src/naming/src/main" kind="lib" path="client/jnp-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="client/jmx-invoker-adaptor-client.jar"/>
+	<classpathentry kind="output" path="lib"/>
+</classpath>

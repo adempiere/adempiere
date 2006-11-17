@@ -1,0 +1,4 @@
+<!-- The contents of this file will be loaded for each web application -->
+<Context cookies="true" crossContext="true">
+
+</Context>

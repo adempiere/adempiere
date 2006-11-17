@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+<!-- $Id: -->
+<mbean>
+	 <description>JNDIView Service. List deployed application java:comp namespaces, 
+		 the java: namespace as well as the global InitialContext JNDI namespace.
+	 </description>
+	 <class>org.jboss.naming.JNDIView</class>
+	 &defaultAttributes;
+	 <operation>
+		 <description>Output JNDI info as text</description>
+		 <name>list</name>
+		 <parameter>
+			 <description>If true, list the class of each object in addition to its name</description>
+			 <name>verbose</name>
+			 <type>boolean</type>
+		 </parameter>
+		 <return-type>java.lang.String</return-type>
+	 </operation>
+	 <operation>
+		 <description>Output JNDI info in XML format</description>
+		 <name>listXML</name>
+		 <return-type>java.lang.String</return-type>
+	 </operation>
+	 &defaultOperations;   			
+ </mbean>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: schedule-manager-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+
+<server>
+
+   <!-- ==================================================================== -->
+   <!-- Scheduler Service                                                    -->
+   <!-- ==================================================================== -->
+   
+   <!--
+    | This MBean is an example of a Schedule Target
+    - ->
+   <mbean code="org.jboss.varia.scheduler.example.SchedulableMBeanExample" 
+          name="jboss:service=SchedulableMBeanExample">
+   </mbean>
+   <!- - -->
+   
+   <!--
+    | The Schedule Manager has to be started whenever
+    | schedules are needed
+    - ->
+   <mbean code="org.jboss.varia.scheduler.ScheduleManager"
+          name="jboss:service=ScheduleManager">
+      <attribute name="StartAtStartup">true</attribute>
+   </mbean>
+   <!- - -->
+   
+   <!--
+    | This is a single schedule Provider which works like the
+    | old Scheduler (when a MBean target is used)
+    - ->
+   <mbean code="org.jboss.varia.scheduler.SingleScheduleProvider" 
+          name="jboss:service=SingleScheduleProvider">
+      <depends>jboss:service=ScheduleManager</depends>
+      <depends>jboss:service=SchedulableMBeanExample</depends>
+      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
+      <attribute name="TargetName">jboss:service=SchedulableMBeanExample</attribute>
+      <attribute name="TargetMethod">hit( NOTIFICATION, DATE, REPETITIONS, SCHEDULER_NAME, java.lang.String )</attribute>
+      <attribute name="DateFormat"></attribute>
+      <attribute name="StartDate">NOW</attribute>
+      <attribute name="Period">10000</attribute>
+      <attribute name="Repetitions">10</attribute>
+   </mbean>
+   <!- - -->
+   
+   <!--
+    | This is a Database based schedule Provider. For more
+    | information have a look at the class JavaDoc
+    | For hypersonic
+    | CREATE TABLE Schedule
+    | (
+    |    target VARCHAR(100),
+    |    method_name VARCHAR(100),
+    |    method_signature VARCHAR(100),
+    |    start_date VARCHAR(20),
+    |    period BIGINT,
+    |    repetitions INTEGER,
+    |    date_format VARCHAR(20)
+    | )
+    - ->
+   <mbean code="org.jboss.varia.scheduler.DBScheduleProvider" 
+          name="jboss:service=DBScheduleProvider">
+      <depends>jboss:service=ScheduleManager</depends>
+      <depends>jboss:service=SchedulableMBeanExample</depends>
+      <depends>jboss:service=Hypersonic</depends>
+      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
+      <attribute name="DataSourceName">java:DefaultDS</attribute>
+      <attribute name="SQLStatement">SELECT target, method_name, method_signature, start_date, period, repetitions, date_format FROM Schedule</attribute>
+   </mbean>
+   <!- - -->
+   
+   <!--
+    | This is a XML based schedule Provider. For more
+    | information have a look at the class JavaDoc
+    - ->
+   <mbean code="org.jboss.varia.scheduler.XMLScheduleProvider" 
+          name="jboss:service=XMLScheduleProvider">
+      <depends>jboss:service=ScheduleManager</depends>
+      <depends>jboss:service=SchedulableMBeanExample</depends>
+      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
+      <attribute name="Schedules">
+         <schedules>
+            <schedule>
+               <target-mbean-name>jboss:service=SchedulableMBeanExample</target-mbean-name>
+               <target-method-name>hit</target-method-name>
+               <target-method-signature>NOTIFICATION, DATE, REPETITIONS, SCHEDULER_NAME, java.lang.String</target-method-signature>
+               <date-format></date-format>
+               <start-date>NOW</start-date>
+               <period>15555</period>
+               <repetitions>55</repetitions>
+            </schedule>
+         </schedules>
+      </attribute>
+   </mbean>
+   <!- - -->
+   
+</server>

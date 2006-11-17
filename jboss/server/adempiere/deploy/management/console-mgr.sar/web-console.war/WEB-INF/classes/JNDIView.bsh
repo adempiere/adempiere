@@ -1,0 +1,27 @@
+import org.jboss.console.manager.interfaces.*;
+import org.jboss.console.manager.interfaces.impl.*;
+import org.jboss.console.plugins.*;
+import org.jboss.console.plugins.helpers.*;
+
+
+   TreeNode getTreeForResource(ManageableResource resource,
+   PluginContext ctx)
+   {
+      try
+      {
+         return ctx.createResourceNode (
+               "JNDIView", // name
+               "Viewer for JNDI Tree", // description
+               "images/jndiview.gif", // Icon URL
+               "JNDIView.jsp", // Default URL
+               null,
+               null,
+               null,
+               new SimpleFolderResource ("ROOT/JNDIView"));
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace ();
+         return null;
+      }
+   }

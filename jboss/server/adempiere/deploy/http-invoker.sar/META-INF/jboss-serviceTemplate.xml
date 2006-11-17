@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: jboss-serviceTemplate.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+
+<server>
+
+  <!-- The HTTP invoker service configration
+  -->
+  <mbean code="org.jboss.invocation.http.server.HttpInvoker"
+    name="jboss:service=invoker,type=http">
+     <!-- Use a URL of the form http://<hostname>:8080/invoker/EJBInvokerServlet
+      where <hostname> is InetAddress.getHostname value on which the server
+      is running.
+      -->
+     <attribute name="InvokerURLPrefix">http://</attribute>
+     <attribute name="InvokerURLSuffix">:@ADEMPIERE_WEB_PORT@/invoker/EJBInvokerServlet</attribute>
+     <attribute name="UseHostName">true</attribute>
+  </mbean>
+
+   <!-- Expose the Naming service interface via HTTP -->
+   <mbean code="org.jboss.invocation.http.server.HttpProxyFactory"
+      name="jboss:service=invoker,type=http,target=Naming">
+      <!-- The Naming service we are proxying -->
+      <attribute name="InvokerName">jboss:service=Naming</attribute>
+      <!-- Compose the invoker URL from the cluster node address -->
+      <attribute name="InvokerURLPrefix">http://</attribute>
+      <attribute name="InvokerURLSuffix">:@ADEMPIERE_WEB_PORT@/invoker/JMXInvokerServlet</attribute>
+      <attribute name="UseHostName">true</attribute>
+      <attribute name="ExportedInterface">org.jnp.interfaces.Naming</attribute>
+      <attribute name="JndiName"></attribute>
+      <attribute name="ClientInterceptors">
+          <interceptors>
+             <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
+             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+             <interceptor>org.jboss.naming.interceptors.ExceptionInterceptor</interceptor>
+             <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
+          </interceptors>
+      </attribute>
+   </mbean>
+
+   <!-- Expose the Naming service interface via clustered HTTP. This maps
+   to the ReadOnlyJNDIFactory servlet URL
+   -->
+   <mbean code="org.jboss.invocation.http.server.HttpProxyFactory"
+      name="jboss:service=invoker,type=http,target=Naming,readonly=true">
+      <attribute name="InvokerName">jboss:service=Naming</attribute>
+      <attribute name="InvokerURLPrefix">http://</attribute>
+      <attribute name="InvokerURLSuffix">:@ADEMPIERE_WEB_PORT@/invoker/readonly/JMXInvokerServlet</attribute>
+      <attribute name="UseHostName">true</attribute>
+      <attribute name="ExportedInterface">org.jnp.interfaces.Naming</attribute>
+      <attribute name="JndiName"></attribute>
+      <attribute name="ClientInterceptors">
+          <interceptors>
+             <interceptor>org.jboss.proxy.ClientMethodInterceptor</interceptor>
+             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+             <interceptor>org.jboss.naming.interceptors.ExceptionInterceptor</interceptor>
+             <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
+          </interceptors>
+      </attribute>
+   </mbean>
+</server>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The JBoss service configuration file for the EJB deployer service.
+$Id: ejb-deployer.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
+-->
+<server>
+
+  <!-- ==================================================================== -->
+  <!-- J2EE Timer Service                                                   -->
+  <!-- ==================================================================== -->
+
+  <!-- An EJB Timer Service that is Tx aware -->
+  <mbean code="org.jboss.ejb.txtimer.EJBTimerServiceImpl"
+    name="jboss.ejb:service=EJBTimerService">
+    <attribute name="RetryPolicy">jboss.ejb:service=EJBTimerService,retryPolicy=fixedDelay</attribute>
+    <attribute name="PersistencePolicy">jboss.ejb:service=EJBTimerService,persistencePolicy=database</attribute>
+    <attribute name="TimerIdGeneratorClassName">org.jboss.ejb.txtimer.BigIntegerTimerIdGenerator</attribute>
+    <attribute name="TimedObjectInvokerClassName">org.jboss.ejb.txtimer.TimedObjectInvokerImpl</attribute>
+  </mbean>
+
+  <!-- A retry policy that uses a fixed interval in milli seconds -->
+  <mbean code="org.jboss.ejb.txtimer.FixedDelayRetryPolicy" name="jboss.ejb:service=EJBTimerService,retryPolicy=fixedDelay">
+    <attribute name="Delay">100</attribute>
+  </mbean>
+
+  <!-- A persistence policy that does not persist the timer -->
+  <mbean code="org.jboss.ejb.txtimer.NoopPersistencePolicy" name="jboss.ejb:service=EJBTimerService,persistencePolicy=noop"/>
+
+  <!-- A persistence policy that persistes timers to a database /JJ/
+  <mbean code="org.jboss.ejb.txtimer.DatabasePersistencePolicy" name="jboss.ejb:service=EJBTimerService,persistencePolicy=database">
+    - DataSource JNDI name -
+    <depends optional-attribute-name="DataSource">jboss.jca:service=DataSourceBinding,name=DefaultDS</depends>
+    - The plugin that handles database persistence -
+    <attribute name="DatabasePersistencePlugin">org.jboss.ejb.txtimer.GeneralPurposeDatabasePersistencePlugin</attribute>
+  </mbean>
+  -->
+
+  <!-- ==================================================================== -->
+  <!-- EJB Deployer                                                         -->
+  <!-- ==================================================================== -->
+
+  <!-- EJB deployer, remove to disable EJB behavior-->
+  <mbean code="org.jboss.ejb.EJBDeployer" name="jboss.ejb:service=EJBDeployer">
+    <!-- A flag indicating if the deployer should validate the
+    ejb-jar.xml/jboss.xml descriptors and components
+    -->
+    <attribute name="VerifyDeployments">true</attribute>
+    <!-- A flag indicating if the xml parser should validate the descriptor
+    DTDs
+    -->
+    <attribute name="ValidateDTDs">false</attribute>
+    <!-- A flag indicating if the verifier should be verbose about its
+    operation
+    -->
+    <attribute name="VerifierVerbose">true</attribute>
+    <!-- Setting this to 'true' will cause all deployments
+     to fail when the Verifier detected a problem with the contained
+     Beans. If false, warnings/errors will be logged but the deployment
+     will not fail.
+    -->
+    <attribute name="StrictVerifier">true</attribute>
+
+    <!-- The EJBDeployer needs the JTA transaction manager service -->
+    <depends optional-attribute-name="TransactionManagerServiceName">jboss:service=TransactionManager</depends>
+    <!-- The dynamic class loading simple web server -->
+    <depends optional-attribute-name="WebServiceName">jboss:service=WebService</depends>
+  </mbean>
+
+</server>

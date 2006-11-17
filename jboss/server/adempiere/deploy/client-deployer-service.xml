@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The J2EE application client deployer service
+-->
+<server>
+   <mbean code="org.jboss.deployment.ClientDeployer"
+      name="jboss.j2ee:service=ClientDeployer"
+      xmbean-dd="client-deployer-xmbean.xml" />
+      <!--
+      <xmbean>
+         <description>The J2EE Application Client Deployer</description>
+         <class>org.jboss.deployment.ClientDeployer</class>
+
+         <!- -  Attributes - ->
+         <attribute access="read-only" getMethod="getStateString">
+            <description>The service state name</description>
+            <name>StateString</name>
+            <type>java.lang.String</type>
+         </attribute>
+         <attribute access="read-only" getMethod="getState">
+            <description>The service state value</description>
+            <name>State</name>
+            <type>int</type>
+         </attribute>
+
+         <!- - Operations - ->
+         <operation>
+            <description>The create lifecycle operation</description>
+            <name>create</name>
+         </operation>
+         <operation>
+            <description>The start lifecycle operation</description>
+            <name>start</name>
+         </operation>
+         <operation>
+            <description>The stop lifecycle operation</description>
+            <name>stop</name>
+         </operation>
+         <operation>
+            <description>The destroy lifecycle operation</description>
+            <name>destroy</name>
+         </operation>
+      </xmbean>
+   </mbean>
+   -->
+</server>
+

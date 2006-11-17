@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: properties-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+
+<server>
+
+  <!-- ==================================================================== -->
+  <!-- PropertyEditorManager Service                                        -->
+  <!-- ==================================================================== -->
+
+  <!--
+     | Allows access to the PropertyEditorManager, which is used when setting
+     | MBean attribute values from configuration.
+   -->
+
+  <mbean code="org.jboss.varia.property.PropertyEditorManagerService" 
+	 name="jboss:type=Service,name=PropertyEditorManager">
+
+    <!-- 
+       | Register and editor for each of the type_name=editor_type_name listed
+       | in properties file style convetion.
+
+    <attribute name="Editors">
+      java.net.URL=my.project.editors.URLPropertyEditor
+    </attribute>
+
+    -->
+
+  </mbean>
+
+
+  <!-- ==================================================================== -->
+  <!-- System Properties Service                                            -->
+  <!-- ==================================================================== -->
+
+  <!--
+     | Allows rich access to system properties.
+   -->
+
+  <mbean code="org.jboss.varia.property.SystemPropertiesService" 
+	 name="jboss:type=Service,name=SystemProperties">
+
+    <!-- 
+       | Load properties from each of the given comma seperated URLs
+
+    <attribute name="URLList">
+      http://somehost/some-location.properties,
+      ./conf/somelocal.properties
+    </attribute>
+
+    -->
+
+    <!-- 
+       | Set raw properties file style properties.
+
+    <attribute name="Properties">
+
+      my.project.property=This is the value of my property
+      my.project.anotherProperty=This is the value of my other property
+
+    </attribute>
+     
+    -->
+
+  </mbean>
+
+</server>
