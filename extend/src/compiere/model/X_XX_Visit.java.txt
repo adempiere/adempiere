@@ -1,0 +1,285 @@
+/** Generated Model - DO NOT CHANGE - Copyright (C) 1999-2005 Jorg Janke */
+package adempiere.model;
+
+import org.compiere.model.*;
+import java.util.*;
+import java.sql.*;
+import java.math.*;
+import org.compiere.util.*;
+
+/**
+ * Generated Model for XX_Visit
+ * 
+ * @author Jorg Janke (generated)
+ * @version Release 2.5.3c - 2006-03-08 11:13:42.216
+ */
+public class X_XX_Visit extends PO {
+	/** Standard Constructor */
+	public X_XX_Visit(Properties ctx, int XX_Visit_ID, String trxName) {
+		super(ctx, XX_Visit_ID, trxName);
+		/**
+		 * if (XX_Visit_ID == 0) { setAD_User_ID (0); setC_BPartner_ID (0);
+		 * setC_BPartner_Location_ID (0); setMinutes (0); setName (null);
+		 * setR_InterestArea_ID (0); setSalesRep_ID (0); setVISITTIME (new
+		 * Timestamp(System.currentTimeMillis())); setXX_Visit_ID (0); }
+		 */
+	}
+
+	/** Load Constructor */
+	public X_XX_Visit(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
+	}
+
+	/** AD_Table_ID=1000001 */
+	public static final int Table_ID = 1000001;
+
+	/** TableName=XX_Visit */
+	public static final String Table_Name = "XX_Visit";
+
+	protected static KeyNamePair Model = new KeyNamePair(1000001, "XX_Visit");
+
+	protected BigDecimal accessLevel = new BigDecimal(1);
+
+	/** AccessLevel 1 - Org */
+	protected int get_AccessLevel() {
+		return accessLevel.intValue();
+	}
+
+	/** Load Meta Data */
+	protected POInfo initPO(Properties ctx) {
+		POInfo poi = POInfo.getPOInfo(ctx, Table_ID);
+		return poi;
+	}
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer("X_XX_Visit[").append(get_ID())
+				.append("]");
+		return sb.toString();
+	}
+
+	/**
+	 * Set User/Contact. User within the system - Internal or Business Partner
+	 * Contact
+	 */
+	public void setAD_User_ID(int AD_User_ID) {
+		if (AD_User_ID < 1)
+			throw new IllegalArgumentException("AD_User_ID is mandatory.");
+		set_Value("AD_User_ID", new Integer(AD_User_ID));
+	}
+
+	/**
+	 * Get User/Contact. User within the system - Internal or Business Partner
+	 * Contact
+	 */
+	public int getAD_User_ID() {
+		Integer ii = (Integer) get_Value("AD_User_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/**
+	 * Set Business Partner . Identifies a Business Partner
+	 */
+	public void setC_BPartner_ID(int C_BPartner_ID) {
+		if (C_BPartner_ID < 1)
+			throw new IllegalArgumentException("C_BPartner_ID is mandatory.");
+		set_Value("C_BPartner_ID", new Integer(C_BPartner_ID));
+	}
+
+	/**
+	 * Get Business Partner . Identifies a Business Partner
+	 */
+	public int getC_BPartner_ID() {
+		Integer ii = (Integer) get_Value("C_BPartner_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/**
+	 * Set Partner Location. Identifies the (ship to) address for this Business
+	 * Partner
+	 */
+	public void setC_BPartner_Location_ID(int C_BPartner_Location_ID) {
+		if (C_BPartner_Location_ID < 1)
+			throw new IllegalArgumentException(
+					"C_BPartner_Location_ID is mandatory.");
+		set_Value("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+	}
+
+	/**
+	 * Get Partner Location. Identifies the (ship to) address for this Business
+	 * Partner
+	 */
+	public int getC_BPartner_Location_ID() {
+		Integer ii = (Integer) get_Value("C_BPartner_Location_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/**
+	 * Set Description. Optional short description of the record
+	 */
+	public void setDescription(String Description) {
+		if (Description != null && Description.length() > 255) {
+			log.warning("Length > 255 - truncated");
+			Description = Description.substring(0, 254);
+		}
+		set_Value("Description", Description);
+	}
+
+	/**
+	 * Get Description. Optional short description of the record
+	 */
+	public String getDescription() {
+		return (String) get_Value("Description");
+	}
+
+	/**
+	 * Set Minutes. Minutes spent with the BPatyner
+	 */
+	public void setMinutes(int Minutes) {
+		set_Value("Minutes", new Integer(Minutes));
+	}
+
+	/**
+	 * Get Minutes. Minutes spent with the BPatyner
+	 */
+	public int getMinutes() {
+		Integer ii = (Integer) get_Value("Minutes");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/**
+	 * Set Name. Alphanumeric identifier of the entity
+	 */
+	public void setName(String Name) {
+		if (Name == null)
+			throw new IllegalArgumentException("Name is mandatory.");
+		if (Name.length() > 120) {
+			log.warning("Length > 120 - truncated");
+			Name = Name.substring(0, 119);
+		}
+		set_Value("Name", Name);
+	}
+
+	/**
+	 * Get Name. Alphanumeric identifier of the entity
+	 */
+	public String getName() {
+		return (String) get_Value("Name");
+	}
+
+	public KeyNamePair getKeyNamePair() {
+		return new KeyNamePair(get_ID(), getName());
+	}
+
+	/**
+	 * Set Processed. The document has been processed
+	 */
+	public void setProcessed(boolean Processed) {
+		set_Value("Processed", new Boolean(Processed));
+	}
+
+	/**
+	 * Get Processed. The document has been processed
+	 */
+	public boolean isProcessed() {
+		Object oo = get_Value("Processed");
+		if (oo != null) {
+			if (oo instanceof Boolean)
+				return ((Boolean) oo).booleanValue();
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Process Now */
+	public void setProcessing(boolean Processing) {
+		set_Value("Processing", new Boolean(Processing));
+	}
+
+	/** Get Process Now */
+	public boolean isProcessing() {
+		Object oo = get_Value("Processing");
+		if (oo != null) {
+			if (oo instanceof Boolean)
+				return ((Boolean) oo).booleanValue();
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/**
+	 * Set Interest Area. Interest Area or Topic
+	 */
+	public void setR_InterestArea_ID(int R_InterestArea_ID) {
+		if (R_InterestArea_ID < 1)
+			throw new IllegalArgumentException(
+					"R_InterestArea_ID is mandatory.");
+		set_Value("R_InterestArea_ID", new Integer(R_InterestArea_ID));
+	}
+
+	/**
+	 * Get Interest Area. Interest Area or Topic
+	 */
+	public int getR_InterestArea_ID() {
+		Integer ii = (Integer) get_Value("R_InterestArea_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID = 190;
+
+	/**
+	 * Set Sales Representative. Sales Representative or Company Agent
+	 */
+	public void setSalesRep_ID(int SalesRep_ID) {
+		if (SalesRep_ID < 1)
+			throw new IllegalArgumentException("SalesRep_ID is mandatory.");
+		set_Value("SalesRep_ID", new Integer(SalesRep_ID));
+	}
+
+	/**
+	 * Get Sales Representative. Sales Representative or Company Agent
+	 */
+	public int getSalesRep_ID() {
+		Integer ii = (Integer) get_Value("SalesRep_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+
+	/** Set VISITTIME */
+	public void setVISITTIME(Timestamp VISITTIME) {
+		if (VISITTIME == null)
+			throw new IllegalArgumentException("VISITTIME is mandatory.");
+		set_Value("VISITTIME", VISITTIME);
+	}
+
+	/** Get VISITTIME */
+	public Timestamp getVISITTIME() {
+		return (Timestamp) get_Value("VISITTIME");
+	}
+
+	/** Set Visit */
+	public void setXX_Visit_ID(int XX_Visit_ID) {
+		if (XX_Visit_ID < 1)
+			throw new IllegalArgumentException("XX_Visit_ID is mandatory.");
+		set_ValueNoCheck("XX_Visit_ID", new Integer(XX_Visit_ID));
+	}
+
+	/** Get Visit */
+	public int getXX_Visit_ID() {
+		Integer ii = (Integer) get_Value("XX_Visit_ID");
+		if (ii == null)
+			return 0;
+		return ii.intValue();
+	}
+}

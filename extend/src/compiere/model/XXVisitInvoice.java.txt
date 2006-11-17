@@ -1,0 +1,96 @@
+/******************************************************************************
+ * The contents of this file are subject to the   Adempiere License  Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * You may obtain a copy of the License at http://www.adempiere.org/license.html
+ * Software distributed under the License is distributed on an  "AS IS"  basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific language governing rights and limitations under the License.
+ * The Original Code is Adempiere ERP & CRM Smart Business Solution. The Initial
+ * Developer of the Original Code is Jorg Janke. Portions created by Jorg Janke
+ * are Copyright (C) 1999-2006 Jorg Janke.
+ * All parts are Copyright (C) 1999-2006 ComPiere, Inc.  All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ *****************************************************************************/
+package adempiere.model;
+
+import java.math.BigDecimal;
+
+import org.compiere.model.*;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.AdempiereUserError;
+
+/**
+ * 	Generate Invoice for Visit Process
+ *	
+ *  @author Jorg Janke
+ *  @version $Id: XXVisitInvoice.java.txt,v 1.1 2006/04/21 17:55:19 jjanke Exp $
+ */
+public class XXVisitInvoice extends SvrProcess 
+{
+	/**	Parameter				*/
+	private int	p_XX_Visit_ID = 0; 
+
+	/**
+	 * 	Prepare
+	 *	@see org.compiere.process.SvrProcess#prepare()
+	 */
+	protected void prepare() 
+	{
+		p_XX_Visit_ID = getRecord_ID();
+	}	//	prepare
+
+	/**
+	 * 	Process
+	 *	@see org.compiere.process.SvrProcess#doIt()
+	 *	@return summary
+	 *	@throws Exception
+	 */
+	protected String doIt() throws Exception 
+	{
+		log.info("XX_Visit_ID=" + p_XX_Visit_ID);
+		MVisit visit = new MVisit (getCtx(), p_XX_Visit_ID, get_TrxName());
+		if (visit.get_ID() == 0 || visit.get_ID() != p_XX_Visit_ID)
+			throw new AdempiereSystemError("@NotFound@ @XX_Visit_ID@ " + p_XX_Visit_ID);
+		//	Nothing to do
+		if (visit.isProcessed())
+			throw new AdempiereUserError("@XX_Visit_ID@ @Processed@");
+		//	Create Invoice Header
+		MInvoice invoice = new MInvoice (getCtx(), 0, get_TrxName());
+		invoice.setIsSOTrx(true);
+		invoice.setC_DocTypeTarget_ID();
+		//	Set Business Partner
+		MBPartner bp = new MBPartner (getCtx(), visit.getC_BPartner_ID(), null);
+		invoice.setBPartner(bp);
+		invoice.setC_BPartner_Location_ID(visit.getC_BPartner_Location_ID());
+		invoice.setAD_User_ID(visit.getAD_User_ID());
+		//	Other Invoice Details
+		invoice.setSalesRep_ID(visit.getSalesRep_ID());
+		invoice.setDescription(visit.getName());
+		if (!invoice.save())
+			throw new AdempiereSystemError("Could not save Invoice");
+		
+		//	Create Invoice Line
+		MInvoiceLine line = new MInvoiceLine(invoice);
+		line.setQty(visit.getMinutes());
+		line.setPrice(new BigDecimal(5));
+		line.setDescription(visit.getDescription());
+		if (line.getDescription() == null)
+			line.setDescription(visit.getName());
+		line.setTax();
+		if (!line.save())
+			throw new AdempiereSystemError("Could not save invoice line");
+		
+		//	Update Visit
+		visit.setProcessed(true);
+		visit.save();
+		
+		//	Process Invoice
+		invoice.setDocAction(MInvoice.DOCACTION_Complete);
+		invoice.processIt(MInvoice.DOCACTION_Complete);
+		invoice.save();
+				
+		return "@C_Invoice_ID@ " + invoice.getDocumentNo();
+	}	//	doIt
+
+}	//	XXVisitInvoice

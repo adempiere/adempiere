@@ -1,0 +1,63 @@
+/******************************************************************************
+ * The contents of this file are subject to the   Adempiere License  Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * You may obtain a copy of the License at http://www.adempiere.org/license.html
+ * Software distributed under the License is distributed on an  "AS IS"  basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific language governing rights and limitations under the License.
+ * The Original Code is Adempiere ERP & CRM Smart Business Solution. The Initial
+ * Developer of the Original Code is Jorg Janke. Portions created by Jorg Janke
+ * are Copyright (C) 1999-2006 Jorg Janke.
+ * All parts are Copyright (C) 1999-2006 ComPiere, Inc.  All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ *****************************************************************************/
+package adempiere.model;
+
+import java.sql.ResultSet;
+import java.util.Properties;
+
+/**
+ * 	Visit Business Model
+ *	
+ *  @author Jorg Janke
+ *  @version $Id: MVisit.java.txt,v 1.1 2006/04/21 17:55:19 jjanke Exp $
+ */
+public class MVisit extends X_XX_Visit 
+{
+	/**
+	 * 	Standard Constructor
+	 *	@param ctx context
+	 *	@param XX_Visit_ID id
+	 *	@param trxName transaction
+	 */
+	public MVisit(Properties ctx, int XX_Visit_ID, String trxName) 
+	{
+		super(ctx, XX_Visit_ID, trxName);
+	}	//	MVisit
+
+	/**
+	 * 	Load Constructor
+	 *	@param ctx context
+	 *	@param rs result set
+	 *	@param trxName transaction
+	 */
+	public MVisit(Properties ctx, ResultSet rs, String trxName) 
+	{
+		super(ctx, rs, trxName);
+	}	//	MVisit
+	
+	/**
+	 * 	Before Save "Trigger"
+	 *	@param newRecord new
+	 *	@return true if can be saved
+	 */
+	protected boolean beforeSave(boolean newRecord) 
+	{
+		//	Invoice at least 5 minutes
+		if (newRecord && getMinutes() < 5)
+			setMinutes(5);
+			
+		return true;
+	}	//	beforeSave
+
+}	//	MVisit
