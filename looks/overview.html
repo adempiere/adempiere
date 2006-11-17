@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Adempiere Looks Overview</title>
+</head>
+<body>
+<p> <a href="http://www.adempiere.org/looks/index.html"> <img align="right" src="http://www.adempiere.org/looks/AdempiereLooks120x60.gif" width="120" height="60" alt="Adempiere Looks" border="0"> 
+  </a> Adempiere Looks is a 3D extension of the Java Metal Look and Feel. </p>
+<p>For updates 
+  check <a href="http://www.adempiere.org/looks/index.html">http://www.adempiere.org/looks</a>.</p>
+<h2>Overview</h2>
+<p>Adempiere Looks was inspired by the <a href="http://www.incors.org" target="_blank">Kunststoff</a> 
+  Look and Feel and adds color capabilities as well as texture backgrounds. Adempiere 
+  Looks is free and Open Source.</p>
+<p>Adempiere Looks are based on Java 1.4.0.</p>
+<p>Adempiere Looks Utilities allow you to change the Look and Feel of your application 
+  by the individual user. This is not restricted to the standard and Adempiere 
+  Looks, but also <a href="http://www.incors.org" target="_blank">Kunststoff</a>. 
+  You can also define your own Theme.</p>
+<p><b><a href="constant-values.html">Constants</a></b></p>
+<h2>Start Options</h2>
+<h3>Change the default Look &amp; Feel</h3>
+<p>You can change the default Look &amp; Feel by editing or adding the file <a href="/looks/swing.properties">swing.properties</a> 
+  in the folder $JAVA_HOME/jre/lib</p>
+<h3>Start via AdempierePLAF</h3>
+<p>You can change the Look &amp; Feel to the one selected by starting via CompmierePLAF. 
+  Example:</p>
+<pre>  java -cp AdempiereLooks.jar;SwingSet2.jar 
+    org.compiere.plaf.AdempierePLAF SwingSet2</pre>
+<p>This tries to invoke the <i>main</i> method of the class of if not found the 
+  constructor without parameters.</p>
+<h3>Modify <i>main</i> Method</h3>
+<p>Just add the line:</p>
+<pre>  AdempierePLAF.setPLAF();</pre>
+<h3>Change the Look &amp; Feel</h3>
+<p>You set the Look &amp; Feel by invoking the Adempiere PLAF Editor:</p>
+<p>Stand alone:</p>
+<pre>  java -jar AdempiereLooks.jar
+  java -cp AdempiereLooks.jar org.compiere.plaf.AdempierePLAF</pre>
+<p>or within your program by</p>
+<pre>  new AdempierePLAFEditor ();</pre>
+<p>and from a Dialog or Frame to change the Look and Feel of your current windows 
+  via</p>
+<pre>  new AdempierePLAFEditor (this);
+</pre>
+<p>You can also set the Adempiere Look directly:</p>
+<pre>  UIManager.setLookAndFeel
+    (new org.compiere.plaf.AdempiereLookAndFeel());</pre>
+<p>&nbsp;</p>
+</body>
+</html>
