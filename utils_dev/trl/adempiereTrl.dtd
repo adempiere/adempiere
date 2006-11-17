@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(tm) Version 2.5.1a/2004-03-15 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke -->
+<!--Adempiere Translation file DTD -->
+<!ELEMENT adempiereTrl (row+)>
+<!ATTLIST adempiereTrl
+	table CDATA #REQUIRED
+	language CDATA #REQUIRED
+>
+<!ELEMENT row (value+)>
+<!ATTLIST row
+	trl CDATA #IMPLIED
+	id CDATA #REQUIRED
+>
+<!ELEMENT value (#PCDATA)>
+<!ATTLIST value
+	original CDATA #IMPLIED
+	column CDATA #REQUIRED
+>

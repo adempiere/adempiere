@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><templates><template autoinsert="true" context="javadoc" deleted="false" description="&lt;b&gt;&lt;/b&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.b_tag" name="&lt;b&gt;">&lt;b&gt;${word_selection}${cursor}&lt;/b&gt;</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;&lt;/code&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.code_tag" name="&lt;code&gt;">&lt;code&gt;${word_selection}${cursor}&lt;/code&gt;</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;null&lt;/code&gt;" enabled="true" name="&lt;code&gt;">&lt;code&gt;null&lt;/code&gt;</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;i&gt;&lt;/i&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.i_tag" name="&lt;i&gt;">&lt;i&gt;${word_selection}${cursor}&lt;/i&gt;</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;pre&gt;&lt;/pre&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.pre_tag" name="&lt;pre&gt;">&lt;pre&gt;${word_selection}${cursor}&lt;/pre&gt;</template><template autoinsert="true" context="javadoc" deleted="false" description="author name" enabled="true" id="org.eclipse.jdt.ui.templates.author" name="@author">@author ${user}</template><template autoinsert="true" context="java" deleted="false" description="Cache Get" enabled="true" name="cache">/**&#13;
+ * 	Get ${enclosing_type} from Cache&#13;
+ *	@param ctx context&#13;
+ *	@param _ID id&#13;
+ *	@return ${enclosing_type}&#13;
+ */&#13;
+public static ${enclosing_type} get (Properties ctx, int _ID)&#13;
+{&#13;
+	Integer key = new Integer (_ID);&#13;
+	${enclosing_type} retValue = (${enclosing_type})s_cache.get(key);&#13;
+	if (retValue != null)&#13;
+		return retValue;&#13;
+	retValue = new ${enclosing_type} (ctx, _ID, null);&#13;
+	if (retValue.get_ID() != 0)&#13;
+		s_cache.put(key, retValue);&#13;
+	return retValue;&#13;
+}	//	get&#13;
+	&#13;
+/**	Cache						*/&#13;
+private static CCache&lt;Integer,${enclosing_type}&gt; s_cache = new CCache&lt;Integer,${enclosing_type}&gt;("", 20);</template><template autoinsert="false" context="java" deleted="false" description="dynamic cast" enabled="true" id="org.eclipse.jdt.ui.templates.cast" name="cast">${type} ${new_name} = (${type}) ${name};</template><template autoinsert="false" context="java" deleted="false" description="catch block" enabled="true" id="org.eclipse.jdt.ui.templates.catch" name="catch">catch (${Exception} e) {
+	${cursor}// ${todo}: handle exception
+}</template><template autoinsert="true" context="java" deleted="false" description="Adempiere Header" enabled="true" name="Adempiere">/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms version 2 of the GNU General Public License as published
+ * by the Free Software Foundation. This program is distributed in the hope
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along 
+ * with this program; if not, write to the Free Software Foundation, Inc., 
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ * You may reach us at: ComPiere, Inc. - http://www.adempiere.org/license.html
+ * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@adempiere.org 
+ *****************************************************************************/
+</template><template autoinsert="false" context="java" deleted="false" description="do while statement" enabled="true" id="org.eclipse.jdt.ui.templates.do" name="do">do {
+	${line_selection}${cursor}
+} while (${condition});</template><template autoinsert="false" context="java" deleted="false" description="else block" enabled="true" id="org.eclipse.jdt.ui.templates.else" name="else">else {
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="else if block" enabled="true" id="org.eclipse.jdt.ui.templates.elseif" name="elseif">else if (${condition}) {
+	${cursor}
+}</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;false&lt;/code&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.code_tag_false" name="false">&lt;code&gt;false&lt;/code&gt;</template><template autoinsert="false" context="java" deleted="false" description="iterate over array" enabled="true" id="org.eclipse.jdt.ui.templates.for_array" name="for">for (int ${index} = 0; ${index} &lt; ${array}.length; ${index}++) {
+	${line_selection}${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="iterate over array with temporary variable" enabled="true" id="org.eclipse.jdt.ui.templates.for_temp" name="for">for (int ${index} = 0; ${index} &lt; ${array}.length; ${index}++) {
+	${array_type} ${array_element} = ${array}[${index}];
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="iterate over collection" enabled="true" id="org.eclipse.jdt.ui.templates.for_collection" name="for">for (Iterator ${iterator} = ${collection}.iterator(); ${iterator}.hasNext(); ) {
+	${type} ${element} = (${type}) ${iterator}.next();
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="iterate over an array or Iterable" enabled="true" id="org.eclipse.jdt.ui.templates.for_iterable" name="foreach">for (${iterable_type} ${iterable_element} : ${iterable}) {
+	${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="Get Lines" enabled="true" name="getLines">/**	The Lines						*/&#13;
+private ${array_type}[]		m_lines = null;&#13;
+&#13;
+/**&#13;
+ * 	Get Lines&#13;
+ *	@param reload reload data&#13;
+ *	@return array of lines&#13;
+ */&#13;
+public ${array_type}[] getLines (boolean reload)&#13;
+{&#13;
+	if (m_lines != null &amp;&amp; !reload)&#13;
+		return m_lines;&#13;
+	ArrayList list = new ArrayList();&#13;
+	${cursor}&#13;
+&#13;
+	//&#13;
+	m_lines = new ${array_type}[list.size()];&#13;
+	list.toArray(m_lines);&#13;
+	return m_lines;&#13;
+}	//	getLines&#13;
+</template><template autoinsert="false" context="java" deleted="false" description="if statement" enabled="true" id="org.eclipse.jdt.ui.templates.if" name="if">if (${condition}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="if else statement" enabled="true" id="org.eclipse.jdt.ui.templates.ifelse" name="ifelse">if (${condition}) {
+	${cursor}
+} else {
+	
+}</template><template autoinsert="false" context="java" deleted="false" description="dynamic type test and cast" enabled="true" id="org.eclipse.jdt.ui.templates.instanceof" name="instanceof">if (${name} instanceof ${type}) {
+	${type} ${new_name} = (${type})${name};
+	${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="JDBC Query" enabled="true" name="jdbc">PreparedStatement pstmt = null;
+try
+{
+	pstmt = DB.prepareStatement(sql, get_trxName());
+	pstmt.setInt(1, x);
+	ResultSet rs = pstmt.executeQuery();
+	while (rs.next())
+	{
+		list.add (new XX (ctx, rs, get_trxName()));
+	}
+	rs.close();
+	pstmt.close();
+	pstmt = null;
+}
+catch (Exception e)
+{
+	log.log(Level.SEVERE, sql, e);
+}
+try
+{
+	if (pstmt != null)
+		pstmt.close();
+	pstmt = null;
+}
+catch (Exception e)
+{
+	pstmt = null;
+}</template><template autoinsert="false" context="java" deleted="false" description="lazy creation" enabled="true" id="org.eclipse.jdt.ui.templates.lazy" name="lazy">if (${name} == null) {
+	${name} = new ${type}(${arguments});
+	${cursor}
+}
+
+return ${name};</template><template autoinsert="true" context="java" deleted="false" description="Create Static" enabled="true" name="Logger">/**	Logger	*/&#13;
+private static CLogger log = CLogger.getCLogger(${enclosing_type}.class);&#13;
+</template><template autoinsert="false" context="java" deleted="false" description="main method" enabled="true" id="org.eclipse.jdt.ui.templates.main" name="main">public static void main(String[] args) {
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="create new object" enabled="true" id="org.eclipse.jdt.ui.templates.new" name="new">${type} ${name} = new ${type}(${arguments});</template><template autoinsert="false" context="java" deleted="false" description="non-externalized string marker" enabled="true" id="org.eclipse.jdt.ui.templates.non-nls" name="nls">//$$NON-NLS-${N}$$</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;null&lt;/code&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.code_tag_null" name="null">&lt;code&gt;null&lt;/code&gt;</template><template autoinsert="true" context="java" deleted="false" description="private method" enabled="true" id="org.eclipse.jdt.ui.templates.private_method" name="private_method">private ${return_type} ${name}(${arguments}) {
+	${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="private static method" enabled="true" id="org.eclipse.jdt.ui.templates.private_static_method" name="private_static_method">private static ${return_type} ${name}(${arguments}) {
+	${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="protected method" enabled="true" id="org.eclipse.jdt.ui.templates.protected_method" name="protected_method">protected ${return_type} ${name}(${arguments}) {
+	${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="public method" enabled="true" id="org.eclipse.jdt.ui.templates.public_method" name="public_method">public ${return_type} ${name}(${arguments}) {
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="runnable" enabled="true" id="org.eclipse.jdt.ui.templates.runnable" name="runnable">new Runnable() {
+	public void run() {
+		${line_selection}
+	}
+}</template><template autoinsert="false" context="java" deleted="false" description="switch case statement" enabled="true" id="org.eclipse.jdt.ui.templates.switch" name="switch">switch (${key}) {
+	case ${value}:
+		${cursor}
+		break;
+
+	default:
+		break;
+}</template><template autoinsert="false" context="java" deleted="false" description="synchronized block" enabled="true" id="org.eclipse.jdt.ui.templates.synchronized" name="synchronized">synchronized (${mutex}) {
+	${line_selection}
+}</template><template autoinsert="true" context="java" deleted="false" description="print to standard error" enabled="true" id="org.eclipse.jdt.ui.templates.syserr" name="syserr">System.err.println(${word_selection}${cursor});</template><template autoinsert="true" context="java" deleted="false" description="print to standard out" enabled="true" id="org.eclipse.jdt.ui.templates.sysout" name="sysout">System.out.println(${word_selection}${cursor});</template><template autoinsert="true" context="java" deleted="false" description="print current method to standard out" enabled="true" id="org.eclipse.jdt.ui.templates.systrace" name="systrace">System.out.println("${enclosing_type}.${enclosing_method}()");</template><template autoinsert="false" context="java" deleted="false" description="test method" enabled="true" id="org.eclipse.jdt.ui.templates.test" name="test">public void test${name}() throws Exception {
+	${cursor} 
+}</template><template autoinsert="true" context="java" deleted="false" description="convert collection to array" enabled="true" id="org.eclipse.jdt.ui.templates.toarray" name="toarray">(${type}[]) ${collection}.toArray(new ${type}[${collection}.size()]);</template><template autoinsert="true" context="java" deleted="false" description="Create List &amp; Convert to Array" enabled="true" name="toArray">ArrayList&lt;{enclosing_type}&gt; list = new ArrayList&lt;{enclosing_type}&gt;();&#13;
+${cursor}&#13;
+${enclosing_type}[] retValue = new ${enclosing_type}[list.size()];&#13;
+list.toArray(retValue);&#13;
+return retValue;</template><template autoinsert="true" context="java" deleted="false" description="String Representation" enabled="true" name="toString">/**
+ * 	String Representation
+ *	@return info
+ */
+public String toString()
+{
+	StringBuffer sb = new StringBuffer("${enclosing_type}[");
+	sb.append(getID())
+		.append("-").append(getName())
+		.append("]");
+	return sb.toString();
+}	//	toString</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;true&lt;/code&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.code_tag_true" name="true">&lt;code&gt;true&lt;/code&gt;</template><template autoinsert="false" context="java" deleted="false" description="try catch block" enabled="true" id="org.eclipse.jdt.ui.templates.try" name="try">try {
+	${line_selection}${cursor}
+} catch (${Exception} e) {
+	// ${todo}: handle exception
+}</template><template autoinsert="false" context="java" deleted="false" description="iterate with enumeration" enabled="true" id="org.eclipse.jdt.ui.templates.while_enumeration" name="while">while (${enumeration}.hasMoreElements()) {
+	${type} ${element} = (${type}) ${enumeration}.nextElement();
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="iterate with iterator" enabled="true" id="org.eclipse.jdt.ui.templates.while_iterator" name="while">while (${iterator}.hasNext()) {
+	${type} ${element} = (${type}) ${iterator}.next();
+	${cursor}
+}</template><template autoinsert="false" context="java" deleted="false" description="while loop with condition" enabled="true" id="org.eclipse.jdt.ui.templates.while_condition" name="while">while (${condition}) {
+	${line_selection}${cursor}
+}</template></templates>
