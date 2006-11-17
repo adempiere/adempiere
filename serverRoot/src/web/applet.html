@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Adempiere Client Applet Start</title>
+<link href="standard.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.warning {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+<body>
+<h1>Adempiere Client Applet Start</h1>
+<p> Due to Browser incompatibilities, here is a list of different ways to start the Adempiere Java Client from a Browser. 
+This requires that your browser supports Java. <br/>
+<a href="http://java.sun.com/j2se/1.5.0/docs/guide/plugin/developer_guide/using_tags.html" target="_blank">Applet Start Details</a> 
+</p>
+<p class="warning">After the Adempiere Client started DO NOT close/use this window as that will crash the application!</p>
+<table width="*"  border="1" cellspacing="5" cellpadding="5">
+  <tr>
+    <td> Microsoft IE <br />
+      <object classid="clsid:CAFEEFAC-0014-0002-0000-ABCDEFFEDCBA"
+    	width="200" height="100"
+    	codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_5_0-windows-i586.cab#Version=1,5,0,0">
+        <param name="code" value="org/adempiere/apps/AApplet.class" />
+        <param name="codebase" value="/admin/adempiereHome/" />
+        <param name="archive" value="Adempiere.jar,AdempiereCLib.jar"/>
+        <param name="type" value="application/x-java-applet;jpi-version=1.5.0" />
+        Internet Explorer: No Java 2 SDK, Standard Edition v 1.5.0 support for APPLET
+      </object>
+    </td>
+  </tr>
+  <tr>
+    <td><!--[if !IE]>  -->
+      Non IE Browsers <br />
+      <object classid="java:org/adempiere/apps/AApplet.class" 
+		archive="Adempiere.jar,AdempiereCLib.jar" 
+		codebase="/admin/adempiereHome/"
+        width="200" height="100">
+      </object>
+      <!-- <![endif]-->
+    </td>
+  </tr>
+  <tr>
+    <td> Browsers supporting the EMBED tag <br />
+      Code commented out - modify source if required! <br />
+      <!-- start (add the < before the tag) --
+       embed type="application/x-java-applet;jpi-version=1.5.0" 
+		width="200" height="100"
+		code="org/adempiere/apps/AApplet.class" 
+        codebase="/admin/adempiereHome/"
+		archive="Adempiere.jar AdempiereCLib.jar"
+        pluginspage="http://java.sun.com/j2se/1.5/download.html">
+        <noembed> 
+		Browsers supporting the EMBED tag: No Java 2 SDK, Standard Edition v 1.5.0 support for APPLET 
+		</noembed>
+      </embed>
+	  <!-- end -->
+    </td>
+  </tr>
+  <tr>
+    <td> Browsers supporting the APPLET tag <br />
+      Code commented out - modify source if required! <br />
+      <!-- start (add the < before the tag) --
+	   applet code="org/adempiere/apps/AApplet.class"
+		archive="Adempiere.jar,AdempiereCLib.jar" 
+		codebase="/admin/adempiereHome/"
+        width="200" height="200">
+		Browsers supporting the APPLET tag: No Java 2 SDK, Standard Edition v 1.5.0 support for APPLET 
+	  </applet>
+	  <!-- end -->
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

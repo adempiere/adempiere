@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Jorg Janke (ComPiere, Inc.) -->
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
+	<display-name>Adempiere Root</display-name>
+	<description>$Id: web.xml,v 1.1 2006/04/21 18:04:14 jjanke Exp $</description>
+	<context-param>
+		<param-name>ServerRoot</param-name>
+		<param-value>1</param-value>
+	</context-param>
+	<filter>
+		<filter-name>AdempiereMonitorFilter</filter-name>
+		<display-name>Adempiere Monitor Filter</display-name>
+		<filter-class>org.compiere.web.AdempiereMonitorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AdempiereMonitorFilter</filter-name>
+		<url-pattern>/adempiereMonitor</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>JnlpDownloadServlet</servlet-name>
+		<display-name>JNLP Download Servlet</display-name>
+		<servlet-class>jnlp.sample.servlet.JnlpDownloadServlet</servlet-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>INFORMATIONAL</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>StatusInfo</servlet-name>
+		<display-name>Server Status</display-name>
+		<description>Adempiere Server Status Info</description>
+		<servlet-class>org.compiere.web.StatusInfo</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AdempiereMonitor</servlet-name>
+		<display-name>Adempiere Monitor</display-name>
+		<description>Adempiere Server Monitor</description>
+		<servlet-class>org.compiere.web.AdempiereMonitor</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JnlpDownloadServlet</servlet-name>
+		<url-pattern>*.jnlp</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatusInfo</servlet-name>
+		<url-pattern>/statusInfo</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AdempiereMonitor</servlet-name>
+		<url-pattern>/adempiereMonitor/*</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	<mime-mapping>
+		<extension>jar</extension>
+		<mime-type>application/x-java-archive</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>jardiff</extension>
+		<mime-type>application/x-java-archive-diff</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>jnlp</extension>
+		<mime-type>application/x-java-jnlp-file</mime-type>
+	</mime-mapping>
+	<welcome-file-list>
+		<welcome-file>adempiere.html</welcome-file>
+	</welcome-file-list>
+</web-app>

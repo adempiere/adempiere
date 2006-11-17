@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+Disallow: /adempiere
+Disallow: /jmx-console

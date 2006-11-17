@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/server"/>
+	<classpathentry kind="src" path="src/main/servlet"/>
+	<classpathentry kind="src" path="src/main/ejb"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/tools"/>
+	<classpathentry kind="src" path="/dbPort"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="lib" path="/interfaces/Interfaces.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/print"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

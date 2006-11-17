@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<!-- ============================================= -->
+<!-- Adempiere Server Root                          -->
+<!-- ============================================= -->
+<!-- $Header: /cvs/adempiere/serverRoot/build.xml,v 1.4 2006/06/10 21:58:02 jjanke Exp $-->
+
+<project name="adempiereRoot" default="main" basedir=".">
+
+  <property environment="env"/>
+
+  <property name="xdoclet.home" value="../tools" />
+  <property name="xdoclet.force" value="false" />
+  <property name="ejb.version" value="2.0" />
+
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.main.dir" value="${src.dir}/main"/>
+  <property name="src.ear.dir" value="${src.dir}/ear"/>
+  <property name="src.ejb.dir" value="${src.main.dir}/ejb"/>
+  <property name="src.servlet.dir" value="${src.main.dir}/servlet"/>
+  <property name="src.server.dir" value="${src.main.dir}/server"/>
+  <property name="src.resources.dir" value="${src.dir}/resources"/>
+  <property name="src.web.dir" value="${src.dir}/web"/>
+
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.tmp.dir" value="${build.dir}/tmp"/>
+  <property name="build.deploy.dir" value="${build.dir}/deploy"/>
+  <property name="build.classes.dir" value="${build.dir}/classes"/>
+  <property name="build.war.dir" value="${build.dir}/war"/>
+
+  <property name="interfaces.dir" value="../interfaces"/>
+  <property name="src.interfaces.dir" value="../interfaces/src"/>
+  <property name="build.interfaces.dir" value="../interfaces/classes"/>
+
+
+  <target name="adempiereRootInit">
+    <echo message="=========== Build Server Root"/>
+
+    <tstamp/>
+    <uptodate property="interfaces.uptodate"
+		targetfile="${interfaces.dir}/Interfaces.jar">
+      <srcfiles dir="${src.ejb.dir}" includes="**/*.java"/>
+      <srcfiles dir="${src.interfaces.dir}" includes="**/*.java"/>
+    </uptodate>
+  	
+  </target>
+
+
+  <path id="xdoclet.path">
+    <pathelement location="${xdoclet.home}/lib/ant.jar" />
+    <pathelement location="${xdoclet.home}/lib/log4j.jar" />
+    <pathelement location="${xdoclet.home}/lib/commons-logging.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet-web-module-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet-ejb-module-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/xjavadoc-1.1.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet-xdoclet-module-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/commons-collections-3.1.jar" />
+  </path>
+
+  <path id="base.path">
+    <path refid="xdoclet.path"/>
+    <pathelement location="../lib/Adempiere.jar" />
+    <pathelement location="../lib/CSTools.jar" />
+    <pathelement location="../tools/lib/j2ee.jar" />
+    <pathelement location="${build.classes.dir}" />
+  </path>
+
+
+  <!-- =================================================================== -->
+  <!-- Generates the necessary EJB classes and deployment descriptors      -->
+  <!-- =================================================================== -->
+  <target name="adempiereRootXdoclet" depends="adempiereRootInit">
+    <echo message="XDoclet=${xdoclet.home}"/>
+    <echo message="UpToDate=${interfaces.uptodate}"/>
+    
+    <taskdef
+	  name="ejbdoclet"
+	  classname="xdoclet.modules.ejb.EjbDocletTask"
+	  classpathref="base.path"/>
+
+    <ejbdoclet
+	  destdir="${src.interfaces.dir}"
+	  excludedTags="@version,@author"
+	  ejbspec="${ejb.version}"
+	  mergedir="${src.resources.dir}/xdoclet"
+	  force="${xdoclet.force}">
+      <fileset dir="${src.ejb.dir}">
+        <include name="**/*Bean.java"/>
+      </fileset>
+      <packageSubstitution packages="session,entity" substituteWith="interfaces"/>
+      <homeinterface/>
+      <localinterface/>
+      <localhomeinterface/>
+      <remoteinterface/>
+      <deploymentdescriptor destdir="${build.dir}/META-INF"/>
+    </ejbdoclet>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Compiles the source code                    -->
+  <!-- =========================================== -->
+  <target name="adempiereRootCompile" depends="adempiereRootXdoclet">
+    <mkdir dir="${build.classes.dir}"/>
+
+    <!--	Compile all -->
+    <javac
+	  destdir="${build.classes.dir}"
+	  debug="on"
+	  deprecation="off"
+	  optimize="on"
+	  classpathref="base.path">
+      <src path="${src.ejb.dir}"/>
+      <src path="${src.interfaces.dir}"/>
+      <src path="${src.servlet.dir}"/>
+      <src path="${src.server.dir}"/>
+    </javac>
+
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Creates the jar archives                    -->
+  <!-- =========================================== -->
+  <target name="adempiereRootJar" depends="adempiereRootCompile">
+    <mkdir dir="${build.deploy.dir}"/>
+
+    <!--	Jar -->
+    <jar
+	  jarfile="${build.deploy.dir}/adempiereRoot.jar">
+      <fileset
+	    dir="${build.classes.dir}">
+      </fileset>
+      <fileset
+	    dir="${build.dir}"
+	    includes="META-INF/**">
+      </fileset>
+      <manifest>
+		<attribute name="Specification-Title" value="AdempiereRoot"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere"/>
+		<attribute name="Implementation-Title" value="AdempiereRoot ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+      </manifest>
+    </jar>
+
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the war archives                    -->
+  <!-- =========================================== -->
+  <target name="adempiereRootWar" depends="adempiereRootJar">
+    <war
+	  warfile="${build.deploy.dir}/adempiereRootBase.war"
+	  webxml="${src.web.dir}/WEB-INF/web.xml">
+	  <!-- copy from web		-->
+      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/lib/**,**/classes/**"/>
+      <!-- WEB-INF/lib			-->
+      <lib dir="${src.web.dir}/WEB-INF/lib"/>
+      <manifest>
+		<attribute name="Specification-Title" value="AdempiereRootWar"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere"/>
+		<attribute name="Implementation-Title" value="AdempiereRootWar ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+      </manifest>
+    </war>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Creates the interface archive               -->
+  <!-- =========================================== -->
+  <target name="adempiereRootInterfaces" depends="adempiereRootCompile">
+
+    <!-- Copy MBeans to interfaces		-->
+    <copy todir="${src.interfaces.dir}">
+      <fileset dir="${src.server.dir}" includes="**/*MBean.java"/>
+    </copy>
+
+    <!-- Compile interfaces			-->
+    <mkdir dir="${build.interfaces.dir}"/>
+    <javac
+	  srcdir="${src.interfaces.dir}"
+	  destdir="${build.interfaces.dir}"
+	  debug="off"
+	  deprecation="on"
+	  optimize="on"
+	  classpathref="base.path">
+    </javac>
+    <!-- Jar Interfaces				-->
+    <jar
+	  destfile="${interfaces.dir}/Interfaces.jar"
+	  basedir="${build.interfaces.dir}" />
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Deploy Server Files		                   -->
+  <!-- =========================================== -->
+  <target name="adempiereRootDeployServer" depends="adempiereRootJar,adempiereRootWar,adempiereRootInterfaces">
+	<copy todir="../lib">
+		<fileset dir="${build.deploy.dir}"/>
+	</copy>
+	<copy file="${src.ear.dir}/application.xml" 
+		tofile="../lib/adempiereRoot.xml"/>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Creates the binary structure                -->
+  <!-- =========================================== -->
+  <target name="main" depends="adempiereRootDeployServer">
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Cleans up the current build                 -->
+  <!-- =========================================== -->
+  <target name="clean">
+    <delete dir="${build.dir}" failonerror="false"/>
+	<!-- This is boring to delete these
+    <delete>
+      <fileset dir="${src.interfaces.dir}" includes="**/*.java"/>
+    </delete>
+    -->
+  </target>
+
+</project>
