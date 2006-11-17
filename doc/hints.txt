@@ -1,0 +1,56 @@
+Hints
+=====
+$Id: hints.txt,v 1.1 2006/04/21 17:54:54 jjanke Exp $
+
+Javadoc
+=======
+
+@author Jorg Janke
+@deprecated  As of .. replaced by {@link #method(int)}
+@exception  class-name  synonym for throws
+{@link  package.class#member  label} 
+{@linkplain  package.class#member  label} 
+@param  parameter-name description 
+@return  description 
+@see  reference 
+@see  package.class#member  label 
+@see  #field
+@see  #method(Type, Type,...)
+@see  #method(Type argname, Type argname,...)
+@since  since-text 
+@serial  field-description | include | exclude 
+@serialField  field-name  field-type  field-description 
+@serialData  data-description 
+@throws  class-name  description 
+@version  $Id: hints.txt,v 1.1 2006/04/21 17:54:54 jjanke Exp $
+
+CVS
+===
+
+$Author: jjanke $
+$Date: 2006/04/21 17:54:54 $
+$Header: /cvs/adempiere/doc/hints.txt,v 1.1 2006/04/21 17:54:54 jjanke Exp $
+$Id: hints.txt,v 1.1 2006/04/21 17:54:54 jjanke Exp $
+$Locker:  $
+$Name:  $
+$RCSfile: hints.txt,v $
+$Revision: 1.1 $
+$Source: /cvs/adempiere/doc/hints.txt,v $
+$State: Exp $
+
+$Log: hints.txt,v $
+Revision 1.1  2006/04/21 17:54:54  jjanke
+*** empty log message ***
+
+Revision 1.2  2001/10/15 23:58:43  jjanke
+Spelling
+
+Revision 1.1  2001/10/15 23:55:31  jjanke
+Init
+
+
+
+
+
+
+

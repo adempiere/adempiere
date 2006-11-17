@@ -1,0 +1,72 @@
+Document Info - $Id: DocStatus.txt,v 1.1 2006/04/21 17:54:54 jjanke Exp $
+=============
+
+value Status = 131	Name                
+-----------------------	---------------------------------
+??                      Unknown     
+AP                      Approved  
+CH                      Changed      
+CL                      Closed       
+CO                      Completed       
+DR                      Drafted        
+IN                      Inactive     
+NA                      Not Approved      
+PE                      Posting Error   
+PO                      Posted      
+PR                      Printed       
+RE                      Reversed   
+TE                      Transfer Error   
+TR                      Transferred  
+VO                      Voided   
+XX                      Being Processed   
+
+
+Value Action = 135	Name      
+-----------------------	---------------------------------
+--                      <None>
+AP                      Approve
+CL                      Close
+CO                      Complete
+PO                      Post
+PR                      Print
+RA                      Reverse - Accrual
+RC                      Reverse - Correction
+RE                      Re-enact
+RJ                      Reject
+RV                      Reverse
+TR                      Transfer
+VO                      Void
+
+
+Value SubTypeSO = 148	Loaded as OrderType in Context
+-----------------------	---------------------------------
+WR			POS Order
+SO			Standard Order	*
+OB			Quotation	*
+WP			Warehouse Order
+ON			Proposal
+PR			Prepay Order
+WI			OnCredit Order
+RM			Return Material
+
+Value DocBaseType = 183	Name
+-----------------------	---------------------------------
+MMM			Material Movement
+POO			Purchase Order
+POR			Purchase Requisition
+MMR			Material Receipt
+GLJ			GL Journal
+GLD			GL Document
+API			AP Invoice
+APP			AP Payment
+ARI			AR Invoice
+ARR			AR Receipt
+SOO			Sales Order
+ARF			AR Pro Forma Invoice
+MMS			Material Delivery
+MMI			Material Physical Inventory
+APC			AP Credit Memo
+ARC			AR Credit Memo
+CMB			Bank Statement
+CMC			Cash Journal
+CMA			Payment Allocation

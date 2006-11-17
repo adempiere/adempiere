@@ -1,0 +1,60 @@
+RAISE_APPLICATION_ERROR
+=======================
+
+RAISE_APPLICATION_ERROR(-20011, 'Did not update Line');
+
+Security
+--------
+20222	- Context.Login
+
+Tree Errors
+-----------
+20001	- AD_Menu_Trg
+20001	- AD_Org_Trg
+20001	- C_BPartner_Trg
+20001	- C_ElementValue_Trg
+20001	- C_Project_Trg
+20001	- C_Product_Trg
+
+
+Data Errors
+-----------
+20010	- C_Currency_Conversion		Rate not found - not activated
+20011	- C_Order_Post			Reservation not successful
+20012	- C_Invoice_Post		CashBook not found
+
+
+Sequence Errors
+---------------
+20100	- AD_SequenceNextNo (Function)
+20100	- AD_Sequence_Doc
+20100	- AD_Sequence_DocType
+20100	- AD_Sequence_Next
+
+
+User Errors
+-----------
+20101	- C_ValidCombination_Trg	Not fully qualified
+20102	- C_CashLine_Trg		Cannot change line with Invoice
+
+20200	- C_OrderLine_Trg		Product had reservations, etc.
+
+20400	- M_Product_Trg			Product has active Inventory
+20401	- AD_Column_Trg			DisplayType not supported
+20402	- AD_Column_Trg			Mandatory requites literal default value
+20403	- S_ResourceUnavailable_Trg	End Date greater than Start Date
+
+
+
+Posted/Processed
+----------------
+20501	- Document processed/posted
+		- C_BankStatement_Trg, C_BankStatementLine_Trg
+		- C_CashLine_Trg
+		- C_InvoiceLine_Trg, C_InvoiceTax_Trg
+		- C_OrderLine_Trg, C_OrderTax_Trg
+		- GL_JornalLine_Trg
+		- M_InventoryLine_Trg
+		- M_MovementLine_Trg
+		- M_ProductionLine_Trg, M_ProductionPlan_Trg
+		- M_InOutLine_Trg
