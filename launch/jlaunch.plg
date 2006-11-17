@@ -1,0 +1,44 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: jlaunch - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Intermediate/jlaunch.res" /d "NDEBUG" "D:\Adempiere\Launch\jlaunch.rc"" 
+Creating temporary file "C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1B.tmp" with contents
+[
+/nologo /ML /W3 /WX /GX /Zd /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Intermediate/jlaunch.pch" /Yu"stdafx.h" /Fo"Intermediate/" /Fd"Intermediate/" /FD /c 
+"D:\Adempiere\Launch\jlaunch.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1B.tmp" 
+Creating temporary file "C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1C.tmp" with contents
+[
+/nologo /ML /W3 /WX /GX /Zd /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Intermediate/jlaunch.pch" /Yc"stdafx.h" /Fo"Intermediate/" /Fd"Intermediate/" /FD /c 
+"D:\Adempiere\Launch\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1C.tmp" 
+Creating temporary file "C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1D.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/Adempiere.pdb" /machine:I386 /out:"Release/Adempiere.exe" 
+.\Intermediate\jlaunch.obj
+.\Intermediate\StdAfx.obj
+.\Intermediate\jlaunch.res
+]
+Creating command line "link.exe @C:\DOCUME~1\jjanke\LOCALS~1\Temp\RSP1D.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+jlaunch.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+Adempiere.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
