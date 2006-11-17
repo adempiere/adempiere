@@ -1,0 +1,40 @@
+adempiereWebCM.ear
+- Adempiere.jar
+-- classpath = AdempiereSLib.jar
+- AdempiereSLib.jar
+-- (none)
+- compuiereWebCM.war
+-- classpath = Adempiere.jar AdempiereSLib.jar
+
+
+adempiereRoot.ear
+- Adempiere.jar
+-- classpath = AdempiereSLib.jar
+- adempiereRoot.jar
+-- classpath = Adempiere.jar AdempiereSLib.jar
+- AdempiereSLib.jar
+-- (none)
+- adempiereRoot.war
+-- classpath = Adempiere.jar AdempiereSLib.jar
+
+
+adempiereApps.ear
+- Adempiere.jar
+-- classpath = AdempiereSLib.jar
+- adempiereApps.jar
+-- classpath = Adempiere.jar AdempiereSLib.jar
+- adempiereSLib.jar
+-- (none)
+- adempiereApps.war 
+-- classpath = Adempiere.jar AdempiereSLib.jar
+
+
+adempiereWebStore.ear
+- Adempiere.jar
+-- classpath = AdempiereSLib.jar
+- adempiereApps.jar
+-- classpath = Adempiere.jar AdempiereSLib.jar
+- adempiereSLib.jar
+-- (none)
+- adempiereWebStore.war
+-- classpath = Adempiere.jar AdempiereSLib.jar adempiereApps.jar
