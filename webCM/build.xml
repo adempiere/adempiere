@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================= -->
+<!-- Adempiere CM Server                            -->
+<!-- ============================================= -->
+<!-- $Header$-->
+
+<project name="webCM" default="main" basedir=".">
+
+  <property environment="env"/>
+
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.main.dir" value="${src.dir}/main"/>
+  <property name="src.servlet.dir" value="${src.main.dir}/servlet"/>
+  <property name="src.web.dir" value="${src.dir}/web"/>
+  <property name="src.etc.dir" value="${src.dir}/etc"/>
+
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.war.dir" value="${build.dir}/war"/>
+  <property name="deploy.dir" value="${basedir}/deploy"/>
+
+  <target name="webCMinit">
+    <echo message="=========== Build webCM"/>
+    <tstamp/>
+  </target>
+
+
+  <path id="base.path">
+    <pathelement location="../lib/Adempiere.jar" />
+    <pathelement location="../lib/CSTools.jar" />
+    <pathelement location="../tools/lib/j2ee.jar" />
+
+    <pathelement location="${build.classes.dir}" />
+  </path>
+
+
+  <!-- =========================================== -->
+  <!-- Compiles the source code                    -->
+  <!-- =========================================== -->
+  <target name="webCMcompile" depends="webCMinit">
+
+    <!--	Compile Web		-->
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.war.dir}"/>
+    <path id="web.path">
+      <path refid="base.path"/>
+      <pathelement location="${servlet-lib.path}"/>
+    </path>
+  	
+    <javac
+	  destdir="${build.war.dir}"
+	  debug="on"
+	  deprecation="off"
+	  optimize="on"
+	  classpathref="web.path">
+      <src path="${src.servlet.dir}"/>
+    </javac>
+  	
+    <copy todir="${build.war.dir}">
+      <fileset dir="${src.servlet.dir}">
+        <include name="**/images/*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.wav"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the war archives                    -->
+  <!-- =========================================== -->
+  <target name="webCMwar" depends="webCMcompile">
+    <mkdir dir="${deploy.dir}"/>
+
+    <!--	War Web Descriptor		-->
+    <war
+	  warfile="${deploy.dir}/adempiereWebCMbase.war"
+	  webxml="${src.web.dir}/WEB-INF/web.xml">
+      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/lib/**,**/classes/**"/>
+      <!-- WEB-INF/classes			-->
+      <classes dir="${build.war.dir}"/>
+      <manifest>
+		<attribute name="Specification-Title" value="AdempiereWebCM"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="(C) 2006 ComPiere, Inc., (C) 2006 ComDivision GmbH"/>
+		<attribute name="Implementation-Title" value="AdempiereWebCMWar ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
+      </manifest>
+    </war>
+
+  </target>
+
+  <!-- =========================================== -->
+  <!-- Creates the server binary                   -->
+  <!-- =========================================== -->
+  <target name="webCMdeployServer" depends="webCMwar">
+    <copy todir="../lib">
+      <fileset dir="${deploy.dir}" 
+      	includes="*.jar,*.war,*.ear"/>
+    </copy>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Creates the binary structure                -->
+  <!-- =========================================== -->
+  <target name="main" depends="webCMdeployServer">
+  	<copy file="src/ear/application.xml" tofile="../lib/adempiereWebCM.xml" />
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Cleans up the current build                 -->
+  <!-- =========================================== -->
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete dir="${deploy.dir}"/>
+    <delete file="../lib/adempiereWebCMbase.war" failonerror="false"/>
+    <delete file="../lib/adempiereWebCM.xml" failonerror="false"/>
+  </target>
+
+</project>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
+	<display-name>Adempiere Web CM</display-name>
+	<description>$Id$</description>
+	<context-param>
+		<param-name>AD_Client_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>ServerApps</param-name>
+		<param-value>1</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+			org.compiere.cm.utils.Counter
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.compiere.cm.utils.Attributes
+		</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>AdRedirector</servlet-name>
+		<display-name>Adempiere WebCM Ad Redirector</display-name>
+		<servlet-class>org.compiere.cm.AdRedirector</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Broadcast</servlet-name>
+		<display-name>Adempiere WebCM Broadcaster</display-name>
+		<servlet-class>org.compiere.cm.Broadcast</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CacheService</servlet-name>
+		<display-name>Adempiere WebCM CacheService</display-name>
+		<servlet-class>org.compiere.cm.cache.Service</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Community</servlet-name>
+		<display-name>Adempiere WebCM Community Handler</display-name>
+		<servlet-class>org.compiere.cm.Community</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RequestServlet</servlet-name>
+		<display-name>Adempiere WebCM Request Handler</display-name>
+		<servlet-class>org.compiere.cm.RequestServlet</servlet-class>
+	</servlet>	
+	<servlet>
+		<servlet-name>XMLBroadcast</servlet-name>
+		<display-name>Adempiere WebCM XML Broadcaster</display-name>
+		<servlet-class>org.compiere.cm.XMLBroadcast</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>StageBroadcast</servlet-name>
+		<display-name>Adempiere WebCM Stage Broadcaster</display-name>
+		<servlet-class>org.compiere.cm.StageBroadcast</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>MediaBroadcast</servlet-name>
+		<display-name>Adempiere WebCM Media Broadcaster</display-name>
+		<servlet-class>org.compiere.cm.MediaBroadcast</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdRedirector</servlet-name>
+		<url-pattern>/AdRedirector</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XMLBroadcast</servlet-name>
+		<url-pattern>/xml/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StageBroadcast</servlet-name>
+		<url-pattern>/stage/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CacheService</servlet-name>
+		<url-pattern>/cache/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Community</servlet-name>
+		<url-pattern>/communityServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RequestServlet</servlet-name>
+		<url-pattern>/requestServlet</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>MediaBroadcast</servlet-name>
+		<url-pattern>/media/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Broadcast</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>Broadcast</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/</location>
+	</error-page>
+</web-app>
