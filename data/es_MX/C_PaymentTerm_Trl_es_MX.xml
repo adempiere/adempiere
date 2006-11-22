@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="C_PaymentTerm">
+	<row id="100" trl="N">
+		<value column="Name" original="30 Net">30 Net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Immediate">Immediate</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="2%10 Net 30">2%10 Net 30</value>
+		<value column="Description" original="2% discount if paid in 10 days, net due in 30 days">2% discount if paid in 10 days, net due in 30 days</value>
+		<value column="DocumentNote" original="Payment Term Note: Long Term Contracts are eligible for payment discounts.">Payment Term Note: Long Term Contracts are eligible for payment discounts.</value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="30 Days Net">30 Days Net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="50% Immediate - 50% in 30 days">50% Immediate - 50% in 30 days</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000001" trl="N">
+		<value column="Name" original="terminoI">terminoI</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000041" trl="N">
+		<value column="Name" original="Immediate">Immediate</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000042" trl="N">
+		<value column="Name" original="Immediate">Immediate</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000043" trl="N">
+		<value column="Name" original="30 DIAS">30 DIAS</value>
+		<value column="Description" original="30 DIAS">30 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000044" trl="N">
+		<value column="Name" original="60 DIAS">60 DIAS</value>
+		<value column="Description" original="60 DIAS">60 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000045" trl="N">
+		<value column="Name" original="90 DIAS">90 DIAS</value>
+		<value column="Description" original="90 DIAS">90 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000046" trl="N">
+		<value column="Name" original="CHEQUE DIFERIDO 30 DIAS">CHEQUE DIFERIDO 30 DIAS</value>
+		<value column="Description" original="CHEQUE DIFERIDO 30 DIAS">CHEQUE DIFERIDO 30 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000047" trl="Y">
+		<value column="Name" original="CHEQUE DIFERIDO 60 DIAS">Inmediato</value>
+		<value column="Description" original="CHEQUE DIFERIDO 60 DIAS"/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000048" trl="N">
+		<value column="Name" original="CHEQUE DIFERIDO 90 DIAS">CHEQUE DIFERIDO 90 DIAS</value>
+		<value column="Description" original="CHEQUE DIFERIDO 90 DIAS">CHEQUE DIFERIDO 90 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000049" trl="N">
+		<value column="Name" original="CARTA DE CREDITO">CARTA DE CREDITO</value>
+		<value column="Description" original="CARTA DE CREDITO">CARTA DE CREDITO</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000050" trl="N">
+		<value column="Name" original="LETRA DE CAMBIO">LETRA DE CAMBIO</value>
+		<value column="Description" original="LETRA DE CAMBIO">LETRA DE CAMBIO</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000051" trl="N">
+		<value column="Name" original="CONTADO">CONTADO</value>
+		<value column="Description" original="CONTADO">CONTADO</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000052" trl="N">
+		<value column="Name" original="CHEQUE">CHEQUE</value>
+		<value column="Description" original="CHEQUE">CHEQUE</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000053" trl="N">
+		<value column="Name" original="120 DIAS FF">120 DIAS FF</value>
+		<value column="Description" original="120 DIAS FF">120 DIAS FF</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000054" trl="N">
+		<value column="Name" original="15 DIAS FF">15 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000055" trl="N">
+		<value column="Name" original="160 DIAS FF">160 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000056" trl="N">
+		<value column="Name" original="180 DIAS FF">180 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000057" trl="N">
+		<value column="Name" original="20% ANT 20%C/E 30-60-90">20% ANT 20%C/E 30-60-90</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000058" trl="N">
+		<value column="Name" original="20 DIAS CHEQUE DIFERIDO C/E">20 DIAS CHEQUE DIFERIDO C/E</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000059" trl="N">
+		<value column="Name" original="21 DIAS FF">21 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000060" trl="N">
+		<value column="Name" original="28 DIAS ENT CHEQUE A LA SEMANA">28 DIAS ENT CHEQUE A LA SEMANA</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000061" trl="N">
+		<value column="Name" original="30 DIAS FF">30 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000062" trl="N">
+		<value column="Name" original="30% OC 30 C/E SALDO 20% 30 20% 60">30% OC 30 C/E SALDO 20% 30 20% 60</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000063" trl="N">
+		<value column="Name" original="30/60/90 DIAS FF">30/60/90 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000064" trl="N">
+		<value column="Name" original="45 DIAS FF">45 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000065" trl="N">
+		<value column="Name" original="45 DIAS FF E/CH A LOS 10 DIAS">45 DIAS FF E/CH A LOS 10 DIAS</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000066" trl="N">
+		<value column="Name" original="5 DIAS FF CHEQUE DIFERIDO">5 DIAS FF CHEQUE DIFERIDO</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000067" trl="N">
+		<value column="Name" original="50% OC SALDO C/E">50% OC SALDO C/E</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000068" trl="N">
+		<value column="Name" original="50% C/E 50% 30 DIAS FF">50% C/E 50% 30 DIAS FF</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000069" trl="N">
+		<value column="Name" original="60 DIAS ENTREGA CH A LOS 30 DIAS">60 DIAS ENTREGA CH A LOS 30 DIAS</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000070" trl="N">
+		<value column="Name" original="60 DIAS FF CHEQUE A LOS 30 DIAS">60 DIAS FF CHEQUE A LOS 30 DIAS</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000071" trl="N">
+		<value column="Name" original="60 y 90 DIAS FF">60 y 90 DIAS FF</value>
+		<value column="Description" original="60 y 90 DIA FECHA FACTURA">60 y 90 DIA FECHA FACTURA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000072" trl="N">
+		<value column="Name" original="7 DIAS FF">7 DIAS FF</value>
+		<value column="Description" original="7 DIAS FECHA FACTURA">7 DIAS FECHA FACTURA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000073" trl="N">
+		<value column="Name" original="75 DIAS FF CH 30 DIAS">75 DIAS FF CH 30 DIAS</value>
+		<value column="Description" original="75 DIAS FECHA FACTURA Y CHEQUE A LOS 30 DIAS">75 DIAS FECHA FACTURA Y CHEQUE A LOS 30 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000074" trl="N">
+		<value column="Name" original="90 DIAS ENTREGA CH 30 DIAS">90 DIAS ENTREGA CH 30 DIAS</value>
+		<value column="Description" original="90 DIAS DE ENTREGA Y CHEQUE A LOS 30 DIAS">90 DIAS DE ENTREGA Y CHEQUE A LOS 30 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000075" trl="N">
+		<value column="Name" original="90 DIAS FF">90 DIAS FF</value>
+		<value column="Description" original="90 DIAS FECHA FACTURA">90 DIAS FECHA FACTURA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000076" trl="N">
+		<value column="Name" original="CH DIF 15 DIAS C/ENTREGA">CH DIF 15 DIAS C/ENTREGA</value>
+		<value column="Description" original="CHEQUE DIFERIDO A 15 DIAS CONTRA ENTREGA">CHEQUE DIFERIDO A 15 DIAS CONTRA ENTREGA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000077" trl="N">
+		<value column="Name" original="CH DIF 30 DIAS C/ENTREGA">CH DIF 30 DIAS C/ENTREGA</value>
+		<value column="Description" original="CHEQUE DIFERIDO A 30 DIAS CONTRA ENTREGA">CHEQUE DIFERIDO A 30 DIAS CONTRA ENTREGA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000080" trl="N">
+		<value column="Name" original="CH DIF 60 DIAS FF">CH DIF 60 DIAS FF</value>
+		<value column="Description" original="CHEQUE DE PAGO DIFERIDO 60 DIAS FECHA FACTURA">CHEQUE DE PAGO DIFERIDO 60 DIAS FECHA FACTURA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000081" trl="N">
+		<value column="Name" original="CH DIF 30/60 DIAS">CH DIF 30/60 DIAS</value>
+		<value column="Description" original="CHEQUE DE PAGO DIFERIDO 30/60 DIAS">CHEQUE DE PAGO DIFERIDO 30/60 DIAS</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000082" trl="N">
+		<value column="Name" original="LETRA 120 FF">LETRA 120 FF</value>
+		<value column="Description" original="LETRA A 120 DIAS FECHA FACTURA">LETRA A 120 DIAS FECHA FACTURA</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+</compiereTrl>

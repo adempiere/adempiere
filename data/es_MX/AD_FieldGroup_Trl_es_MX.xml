@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_FieldGroup">
+	<row id="101" trl="Y">
+		<value column="Name" original="Status">Estado</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Quantities">Cantidades</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Amounts">Totales</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Reference">Referencia</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="History">Historia</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Product">Producto</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Business Partner">Socio de Negocio</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Warehouse">Almacén</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Bank">Banco</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Cash Book">Libro de Efectivo</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Tax">Impuesto</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Project">Proyecto</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="General">General</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Action">Acción</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Standard Cost">Costo Estándar</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Actual Costs">Costo Actual</value>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Statistics">Estadisticas</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Defaults">Predeterminado</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Request Management">Gestion de Solicitudes</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Web Store">Tienda Web</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Internal">Interno</value>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="External">Externo</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Common">Común</value>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Shipment">Envío</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Document">Documento</value>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Line">Linea</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Simulation">Simulación</value>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Calculations">Cálculos</value>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Proxy">Proxy</value>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Delivery">Entrega</value>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="Invoicing">Facturación</value>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Only ..">Sólo ....</value>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Selection">Selección</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Workflow">Flujo de Trabajo</value>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Access">Acceso</value>
+	</row>
+	<row id="1000000" trl="Y">
+		<value column="Name" original="Times">Tiempos</value>
+	</row>
+	<row id="1000004" trl="Y">
+		<value column="Name" original="Package">Planning</value>
+	</row>
+	<row id="1000005" trl="Y">
+		<value column="Name" original="Label">Label</value>
+	</row>
+	<row id="1000006" trl="Y">
+		<value column="Name" original="Tarima">Tarima</value>
+	</row>
+</compiereTrl>

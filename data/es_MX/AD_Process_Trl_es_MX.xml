@@ -1,0 +1,1678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_Process">
+	<row id="100" trl="Y">
+		<value column="Name" original="Create Periods ">Crear Períodos</value>
+		<value column="Description" original="Create 12 standard calendar periods (Jan-Dec)">Crear 12 períodos de calendario estándar (Ene-Dic)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Renumber">Renumerar</value>
+		<value column="Description" original="Renumber Discount entries">Renumerar entradas de descuentos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Create Price List ">Crear Lista de Precios</value>
+		<value column="Description" original="Create Prices based on parameters of this version">Crear precios basado en parámetros de esta versión</value>
+		<value column="Help" original="Create Prices for this pricelist version in the sequence of the Discount Schema Price List.&#10;Lines with a higher sequence overwrite existing prices.  The sequence should be from generic to specific.">Crear precios para esta versión de lista de precios en la secuencia del esquema de descuentos de lista de precios</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Process Order">Procesar Orden</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Create Inventory Count List ">Crear Lista de Conteo Físico</value>
+		<value column="Description" original="Create Inventory Count List">Crear lista de conteo físico del inventario</value>
+		<value column="Help" original="The inventory count lines are generated.  You can add new lines or delete lines manually.">Las líneas de conteo físico del inventario son generadas. Se puede adicionar o borrar líneas</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Update Quantity">Actualizar Cantidad</value>
+		<value column="Description" original="The Book Quantity is updated with current book quantity">La cantidad en libros es actualizada con la cantidad real en libros</value>
+		<value column="Help" original="The Update Quantity Process will update the book quantity with the current book quantity.  ">(vacio)</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Process Inventory Count ">Procesar Conteo Físico</value>
+		<value column="Description" original="Process Inventory count and update Inventory">Procesar conteo físico y actualizar el inventario</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Add or Copy Accounts">Copiar Cuentas</value>
+		<value column="Description" original="Add missing Accounts - or Copy&amp;Overwrite Accounts (DANGEROUS!!)">Copiar y sobreescribir todas las cuentas a los valores preestablecidos del sistema (PELIGROSO!!!)</value>
+		<value column="Help" original="Either add missing accounts - or copy and overwrite all default accounts.  If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...)"/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Process Shipment ">Procesar Entrega</value>
+		<value column="Description" original="Process Shipment/Receipt (Update Inventory)">Procesar Entrega (actualiza el inventario)</value>
+		<value column="Help" original="Process Shipment/Receipt will move products out of/into  inventory and mark line items as shipped/received.">Procesar Entrega, moverá productos del inventario y marca los ítems como Entregados. </value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Order Print">Imprimir Orden</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Process Invoice">Procesar Factura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Copy Accounts">Copiar Cuentas</value>
+		<value column="Description" original="Copy and overwrite Accounts to Business Partners of this group">Copiar y sobreescribir las cuentas para los socios del negocio de este grupo</value>
+		<value column="Help" original="If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the receivebles account, ...)"/>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Copy Window Tabs">Copiar Pestañas</value>
+		<value column="Description" original="Copy all Tabs and Fields from other Window"/>
+		<value column="Help" original="">Copiar todas las pestañas y campos de la ventana</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Copy Tab Fields">Copiar Pestañas</value>
+		<value column="Description" original="Copy Fields from other Tab"/>
+		<value column="Help" original="">Copiar campos a la pestaña</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Vendor Selection">Selección de Proveedor</value>
+		<value column="Description" original="Products with more than one vendor">Productos con más de un proveedor</value>
+		<value column="Help" original="Vendor Selection is initiated when there is a product that is supplied by more than one vendor.  It allows the selection of a specific vendor for a Purchase Order.">Selección del proveedor es iniciado cuando hay un producto que es suministrado por más de un proveedor. Permite la selección de un proveedor específico para una orden de compra</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Invoice Print ">Imprimir Factura</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Delivery Note / Shipment Print ">Imprimir Entrega/nota de envío</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Generate Shipments">Generar Entregas</value>
+		<value column="Description" original="Generate and print Shipments from open Orders"/>
+		<value column="Help" original="Shipments for open Orders are created based on the delivery rule of the Order and the relative order priority.  If a Promise Date is selected only orders up to (including) the date are selected.&lt;br&gt;&#10;If several Orders of a business partner have the same location, the orders can be consolidated into one Shipment.&lt;br&gt;&#10;You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available)."/>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Generate Invoices">Generar Facturas</value>
+		<value column="Description" original="Generate and print Invoices from open Orders">Generar e imprimir facturas</value>
+		<value column="Help" original="Invoices for open Orders are created based on the invoice rule of the Order.&#10;If several Orders of a business partner have the same bill location, the orders can be consolidated into one Invoice."/>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Order Transactions">Transacciones de Ordenes</value>
+		<value column="Description" original="Sales Order Transaction Report ">Reporte de transacciones de Orden de ventas</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Open Orders">Órdenes Abiertas</value>
+		<value column="Description" original="Open Order Report"/>
+		<value column="Help" original="Orders with quantities to deliver (Backordered) or quantities to invoice"/>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Process Movements">Procesar Movimientos</value>
+		<value column="Description" original="Process Inventory Movements">Procesar movimientos de inventario</value>
+		<value column="Help" original="Process Inventory Movements will update inventory quantities based on the defined movements between warehouses or locations.">Procesar movimientos de inventario actualizará cantidades en inventario basados en los movimientos definidos entre bodegas o localizaciones</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Generate Commission">Generar Comisión</value>
+		<value column="Description" original="Generate Commission">Generar comisión</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Product Transaction Summary">Resumen de Transacciones de Producto</value>
+		<value column="Description" original="Product Transaction Summary">Resumen de transacciones de producto</value>
+		<value column="Help" original="The report shows transaction summary for stored products">El reporte muestra un resumen de transacciones para productos almacenados</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Replenish Report">Reporte de Reabastecimiento</value>
+		<value column="Description" original="Inventory Replenish Report"/>
+		<value column="Help" original="Report lists products to be replenished. Note that a product can have only one current vendor. If there are more then vendor per product, both records are reset.  You need to select a current vendor manually.&lt;br&gt;&#10;Movements are only created, if a sourcing warehouse is defined for the warehouse to be replenished.">El reporte lista los productos que deben ser repuestos</value>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Order Drilldown">Detalle de Orden</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Invoice Transactions (Acct)">Transacciones de Facturas</value>
+		<value column="Description" original="Invoice Transactions by Accounting Date"/>
+		<value column="Help" original="The report lists the invoice transactions by accounting date"/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Daily Invoice">Factura Diaria</value>
+		<value column="Description" original="Imvoice Report per Day"/>
+		<value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Monthly Invoice">Factura Mensual</value>
+		<value column="Description" original="Imvoice Report per Month"/>
+		<value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Weekly Invoice">Factura Semanal</value>
+		<value column="Description" original="Imvoice Report per Week"/>
+		<value column="Help" original="Invoiced amount by Organization and Sales Rep"/>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="Weekly Invoice Prod Cat">Factura Semanal de Producto</value>
+		<value column="Description" original="Imvoice Report by Product Category per Week"/>
+		<value column="Help" original="Invoiced Amount by Product Category"/>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Monthly Invoice Prod Cat">Factura Mensual de Producto</value>
+		<value column="Description" original="Imvoice Report by Product Category per Month"/>
+		<value column="Help" original="Invoiced Amount by Product Category"/>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Monthly Invoice Vendor">Factura Mensual de Proveedor</value>
+		<value column="Description" original="Imvoice Report by Product Vendor per Month"/>
+		<value column="Help" original="Invoiced Amount by Vendor and Product Category"/>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Generate Invoices (manual) ">Generar Facturas (Lote)</value>
+		<value column="Description" original="Generate and print Invoices manually">Generar e imprimir facturas manualmente</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Copy Lines">Copiar De</value>
+		<value column="Description" original="Copy Lines from other Import Format"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="136" trl="Y">
+		<value column="Name" original="Verify BOM">Verificar LDM</value>
+		<value column="Description" original="Verify BOM Structure">Verificar estructura de LDM</value>
+		<value column="Help" original="The Verify BOM Structure checks the elements and steps which comprise a Bill of Materials.">Verificar la estructura de la LDM revisa los elementos y pasos que hacen parte de la lista de materiales</value>
+	</row>
+	<row id="137" trl="Y">
+		<value column="Name" original="Create/Post Production">Crear/Aplicar Producción</value>
+		<value column="Description" original="Create production lines, if not created - otherwise process the production">Crear líneas de producción; si no están creadas; de otra manera procesa la producción</value>
+		<value column="Help" original="Create/Post Production will generate the production lines and process the production.  If the production lines already exists, the production will be processed">Crear/Aplicar producción generará las líneas de producción y procesará la producción. Si las líneas de producción ya existen; entonces la producción será procesada</value>
+	</row>
+	<row id="138" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Product">Factura Trimestral a Clientes por Producto</value>
+		<value column="Description" original="Invoice Report by Customer and Product Category per Quarter"/>
+		<value column="Help" original="Invoiced Amount by Customer and Product Category"/>
+	</row>
+	<row id="139" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Vendor">Factura Trimestral a Clientes por Proveedor</value>
+		<value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter"/>
+		<value column="Help" original="Invoiced Amount by Customer and Vendor (what customer bought from which vendor)"/>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="Copy Accounts">Copiar Cuentas</value>
+		<value column="Description" original="Copy and overwrite Accounts to Products of this category">Copiar y sobreescribir las cuentas a productos de esta categoría</value>
+		<value column="Help" original="If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the revenue account, ...)">El proceso de copiar cuentas tomará las cuentas definidas para una categoría de producto y las copiará a cualquier producto que que haga referencia a esta categoría. Si una cuenta existe a nivel de producto sera sobreescrita</value>
+	</row>
+	<row id="142" trl="Y">
+		<value column="Name" original="Generate Receipt from Invoice">Generar Recibos desde Facturas</value>
+		<value column="Description" original="Create and process delivery Receipt from this invoice.">Crear y procesar recibo de la Entrega desde esta factura. La factura debe estar correcta y completa</value>
+		<value column="Help" original="The invoice should be correct and completed."/>
+	</row>
+	<row id="144" trl="Y">
+		<value column="Name" original="Process Cash">Procesar Caja</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="145" trl="Y">
+		<value column="Name" original="Open Items">Saldos Abiertos</value>
+		<value column="Description" original="Open Item (Invoice) List">Saldos Abiertos</value>
+		<value column="Help" original="Displays all unpaid invoices for a given Business Partner and date range. Please note that Invoices paid in Cash will appear in Open Items until the Cash Journal is processed."/>
+	</row>
+	<row id="146" trl="Y">
+		<value column="Name" original="UnReconciled Payments">Pagos sin Reconciliar</value>
+		<value column="Description" original="Payments not reconciled with Bank Statement">Pagos no reconciliados con el balance bancario</value>
+		<value column="Help" original="The report lists payments which are not reconciled with a bank statement. Payments with a zero payment amount are not listed."/>
+	</row>
+	<row id="147" trl="Y">
+		<value column="Name" original="Process Statement">Procesar Conciliación</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="148" trl="Y">
+		<value column="Name" original="Allocation">Asignación de Pago</value>
+		<value column="Description" original="Payment - Invoice - Allocation">Pago-Factura-Asignación</value>
+		<value column="Help" original="The report displays invoice allocations to payments and cash journals.  Previous allocations are displayed as reversed."/>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Process Payment">Procesar Pago</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Process Allocation">Revertir Asignación</value>
+		<value column="Description" original="">Esta acción revierte la asignación y permite asignar la factura y pagar de nuevo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Invoice Transactions (Doc)">Resumen de Facturas</value>
+		<value column="Description" original="Invoice Transactions by Invoice Date"/>
+		<value column="Help" original="The report lists the invoice transactiobs by invoice date"/>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Invoice Detail &amp; Margin">Detalles de Facturas</value>
+		<value column="Description" original="Invoice (Line) Detail and Margin Report"/>
+		<value column="Help" original="The Report lists Customer and Vendor Invoice Details with Margines."/>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Online Process">Procesar en Línea</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="154" trl="Y">
+		<value column="Name" original="Generate Invoice from Receipt">Generar Facturas desde Recibos</value>
+		<value column="Description" original="Create and process Invoice from this receipt.  The receipt should be correct and completed.">Crear y procesar la factura desde este recibo. El recibo debe esta correcto y completo</value>
+		<value column="Help" original="Generate Invoice from Receipt will create an invoice based on the selected receipt and match the invoice to that receipt. You can set the document number only if the invoice document type allows to set the document number manually."/>
+	</row>
+	<row id="155" trl="Y">
+		<value column="Name" original="Prepare Payment">Crear Pagos</value>
+		<value column="Description" original="Create Prepared Payments (Checks) to be paid"/>
+		<value column="Help" original="You create the actual Payments via Payment Print/Export"/>
+	</row>
+	<row id="156" trl="Y">
+		<value column="Name" original="Create From ...">Crear Desde</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="159" trl="Y">
+		<value column="Name" original="Dunning Letter">Carta de Morosidad</value>
+		<value column="Description" original="** Special ** Do not change **"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="160" trl="Y">
+		<value column="Name" original="Tire Letter">Carta de Llantas</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="161" trl="Y">
+		<value column="Name" original="Product Transaction Value">Valor de Transacción de Producto</value>
+		<value column="Description" original="Product Transaction Value">Valor de transacciones de producto</value>
+		<value column="Help" original="The report shows product transactions with current vendor prices">El reporte muestra transacciones de producto valorizadas</value>
+	</row>
+	<row id="162" trl="Y">
+		<value column="Name" original="Project Status Summary">Reporte Ciclo del Proyecto</value>
+		<value column="Description" original="Project Status of Project Cycle">Estado del Ciclo de proyecto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="164" trl="Y">
+		<value column="Name" original="Generate Order">Generar Orden</value>
+		<value column="Description" original="Generate Order from Project">Generar orden desde un proyecto</value>
+		<value column="Help" original="The Generate Order process will generate a new Order document based on the project phase. A price list and warehouse/service point must be defined on the project.">El proceso de Generar Orden generará una nueva orden basado en el proyecto. Una lista de precios debe ser seleccionada en el proyecto. Cuando el proceso arranca una bodega debe ser seleccionada</value>
+	</row>
+	<row id="165" trl="Y">
+		<value column="Name" original="Copy Lines">Copiar De</value>
+		<value column="Description" original="Copy Commission Lines from other Commission">Copiar líneas desde comisión existente</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="166" trl="Y">
+		<value column="Name" original="Create Invoice">Crear Factura</value>
+		<value column="Description" original="Create Invoice from Commission Calculation">Crear factura desde cálculo de comisión</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="167" trl="Y">
+		<value column="Name" original="Open/Close All">Abrir/Cerrar Todo</value>
+		<value column="Description" original="Change Period Status for all Period Controls of this Period">Abrir/Cerrar todos los tipos de documento base para este período</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="168" trl="Y">
+		<value column="Name" original="Open/Close">Abrir/Cerrar</value>
+		<value column="Description" original="Change Period Status"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Process Journal">Procesar Diario</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="170" trl="Y">
+		<value column="Name" original="Cash Journal Detail">Detalle de Diario de Caja</value>
+		<value column="Description" original="Detail Cash Journal Information">Información de detalle de asientos de caja</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="171" trl="Y">
+		<value column="Name" original="Receivables Write-Off">Dar de Baja Cuentas por Cobrar</value>
+		<value column="Description" original="Write off open receivables">Dar de baja cuentas por recibir pendientes</value>
+		<value column="Help" original="Write-off receivables causes the invoices selected by the criteria to be marked as paid and the open invoice amount to be written off.  Alternatively you can create payments.">Dar de Baja cuentas por recibir causa que las facturas seleccionadas por los criterios para ser marcadas como pagadas y los Totales de las facturas abiertas seran dadas de baja</value>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="Synchronize Terminology">Sincronizar Terminología</value>
+		<value column="Description" original="Synchronize the terminology within the system.">Sincronizar la terminología dentro del sistema</value>
+		<value column="Help" original="Based on the entries in Window Element, the fields in windows, parameters, etc. are synchronized, if they are centrally maintained.  Also synchronizes Language Translation.">Basado en las entradas en el elemento de ventana; los campos en ventanas; parámetros; etc. Son sincronizados; si ellos son mantenidos centralizadamente.</value>
+	</row>
+	<row id="173" trl="Y">
+		<value column="Name" original="Create Columns from DB">Crear Cuentas desde BD</value>
+		<value column="Description" original="Create Dictionary Columns of Table not existing as a Column but in the Database">Crear columnas de diccionario de tabla que no existe como una columna sino en la base de datos</value>
+		<value column="Help" original="If you have added columns in the database to this table, this procedure creates the Column records in the Dictionary.  Please be aware, that they may deleted, if the entity type is not set to User.">Si existen columnas adicionadas a esta tabla en la base de datos; este procedimiento crea los registros de columna en el diccionario. Favor tener en cuenta que si estas columnas no estan definidas como de usuario; ellas pueden ser borradas</value>
+	</row>
+	<row id="174" trl="Y">
+		<value column="Name" original="Create Fields">Crear Campos</value>
+		<value column="Description" original="Create Field from Table Column, which do not exist in the Tab yet">Crear campo desde la tabla; la cual no existe aun en la pestaña</value>
+		<value column="Help" original="Based on the table columns of this Tab, this procedure creates the missing Fields">Basado en la tabla de esta pestaña; este procedimiento crea los campos faltantes</value>
+	</row>
+	<row id="175" trl="Y">
+		<value column="Name" original="Resubmit Posting">Reenviar a Registrar</value>
+		<value column="Description" original="Resubmit posting of documents with posting errors">Reenviar registro de documentos que presentaron errores durante su registro</value>
+		<value column="Help" original="Documents with posting errors are reset to be posted by the next run of the accounting engine - after fixing the cause (e.g. opening period).">Documentos con errores de registro son restablecidos la próxima vez que el motor de contabilidad corra; después de arreglar la causa del error (ej. Abrir un período)</value>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Reset Accounting">Restablecer Contabilidad</value>
+		<value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Restablecer entradas contables</value>
+		<value column="Help" original="Delete accounting records of documents to be re-created by the next run of the accounting engine.  This is a dramatic step and you want to do this ONLY after changes of the accounting structure (e.g. different default accounts, etc.) and if fixing via manual Journal entries is not sensible.">Borra los registros contables de documentos para ser recreados la próxima vez que el motor contable corra. Este es un paso dramático y solo debe ser ejecutado después de cambiar la estructura contable (ej. cambiar las cuentas predeterminadas) si el solucionar el problema a través de entradas de diario manuales no es adecuado.</value>
+	</row>
+	<row id="179" trl="Y">
+		<value column="Name" original="Language Maintenance">Verificar Lenguajes</value>
+		<value column="Description" original="Maintain language translation in system">Verificar existencia de lenguaje de traducción en el sistema (se requiere despues de la creación de un nuevo lenguaje)</value>
+		<value column="Help" original="You can Add Missing Translation entries (required after activating an additional System Language) - Delete Translation Records - or Re-Create the translation Records (first delete and add missing entries).&#10;Note that Adding the Missing Translation records creates them by copying the System Language (English).  You would apply the Language Pack after that process.  Run Syncronize Terminology after importing the translation.">Verificar la Traducción crea los registros de traducción faltántes. Arranque este proceso después de crear un nuevo lenguaje. El proceso crea los registros copiando de las entradas del lenguaje base</value>
+	</row>
+	<row id="180" trl="Y">
+		<value column="Name" original="Inventory Valuation Report">Reporte de Valor de Inventario</value>
+		<value column="Description" original="Inventory Valuation Report">Reporte de valorización del inventario</value>
+		<value column="Help" original="Report lists products with their on-hand quantity and values at the valuation date">El reporte lista los productos con su cantidad a la mano y valores a la fecha de valorización</value>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Synchronize Column">Sincronizar Columnas</value>
+		<value column="Description" original="Change database table definition from application dictionary">Cambiar definición de tabla de la base de datos desde el diccionario de la aplicación</value>
+		<value column="Help" original="When selected, the database column definition is updated based on your entries in the Column definition of the Application Dictionary. Note that not all changes are supported by the database and may result in an error.">Cuando se selecciona; la definición de la columna en la base de datos es actualizada basado en las entradas de la definición de la columna en el diccionario de la aplicación. Note que no todas las entradas son soportadas por la base de datos y pueden generar error.</value>
+	</row>
+	<row id="182" trl="Y">
+		<value column="Name" original="Standard Cost Update">Actualizar Costo de Producto</value>
+		<value column="Description" original="Set standard and future cost price">Establecer precio de costo futuro y estándar</value>
+		<value column="Help" original="For Standard Costs you can set/recalculate the current or future cost price (for the cost type of the accounting schema). If the Costing Level of the Accounting Schema is set to Client, missing cost records are created. The historical costs are calculated based on the accumulated amount/quantity of the costing method.">Para costo estándar se puede actualizar el precio a futuro y establecer el costo estándar como el precio futuro</value>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Product Costing Report (old)">Reporte de Costo del Producto</value>
+		<value column="Description" original="Product Cost Report">Reporte de costo de producto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="184" trl="Y">
+		<value column="Name" original="Process Expenses">Procesar Gastos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="Recompile DB Objects">Recompilar Objetos de BD</value>
+		<value column="Description" original="Recompile Database Objects">Recompilar objetos de la base de datos</value>
+		<value column="Help" original="Recompile Functions, Procedures, Triggers, Views, etc.">Recompilar funciones; procedimientos; triggers; vistas; etc.</value>
+	</row>
+	<row id="186" trl="Y">
+		<value column="Name" original="Create Sales Orders from Expense">Crear Orden de Venta desde Gastos</value>
+		<value column="Description" original="Create Sales Orders for Customers from Expense Reports">Crear Orden de Venta para Cliente desde Gastos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="187" trl="Y">
+		<value column="Name" original="Create AP Expense Invoices">Crear Facturas de Gastos de CXP</value>
+		<value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Crear facturas de CXP desde gastos a ser reembolsados a empleados</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="188" trl="Y">
+		<value column="Name" original="Process Batch">Procesar Lote</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="189" trl="Y">
+		<value column="Name" original="Copy Columns">Copiar Columnas</value>
+		<value column="Description" original="Copy Report Columns from other Column Set">Copiar columnas de un reporte desde otro conjunto de columnas</value>
+		<value column="Help" original="Copy columns at the end of this Column Set. Please note that you need to re-set the calculation operands.">Copiar columnas al final de éste conjunto de columnas</value>
+	</row>
+	<row id="190" trl="Y">
+		<value column="Name" original="Copy Lines">Copiar Líneas</value>
+		<value column="Description" original="Copy Report Lines from other Line Set">Copiar líneas de reporte desde otro conjunto de líneas</value>
+		<value column="Help" original="Copy lines at the end of this Line Set. Please note that you need to re-set the calculation operands.">Copiar líneas al final de éste conjunto de líneas</value>
+	</row>
+	<row id="191" trl="Y">
+		<value column="Name" original="Set Print Format">Establecer Formato de Impresión</value>
+		<value column="Description" original="Set for all Print Formats with same Landscape/Portrait">Establecer para todos los formatos de impresión con el mismo paisaje/retrato.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="192" trl="Y">
+		<value column="Name" original="Copy/Create">Copiar/Crear</value>
+		<value column="Description" original="Copy existing OR create Print Format from Table">Copiar de un formato existente o crear uno de tabla</value>
+		<value column="Help" original="Select either a table to create a print format [creates initial rough layout]&#10;OR a print format to copy into the current print format [copies layout]."/>
+	</row>
+	<row id="193" trl="Y">
+		<value column="Name" original="Generate PO from Sales Order">Generar OC desde Orden de Venta</value>
+		<value column="Description" original="Create Purchase Order from Sales Orders">Crear Orden de compra desde orden de ventas</value>
+		<value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders). &#10;The Organization of the Sales Order is used to create the Purchase Order. If a (default) PO document type is defined on Organization level, that is used instead of the document types defined on Client level.&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).&#10;">Después de completar ordenes de ventas; el usuario puede crear una o más ordenes de compra por cada orden de venta. Una orden de compra solo esta relacionada a una orden de venta. Ordenes de compra son creadas para todas las líneas de la orden de ventas donde el producto tiene un proveedor actual; el proveedor tiene una lista de precios con todos los productos en la última version del precio de lista. La unidad de medida es copiada; la orden de compra y de venta pueden tener monedas diferentes. Una vez este proceso es corrido; es necesario sincronizar las Ordenes manualmente (e.g. En caso de líneas adicionales)</value>
+	</row>
+	<row id="194" trl="Y">
+		<value column="Name" original="Import Business Partners">Importar Socios de Negocio</value>
+		<value column="Description" original="Import Business Partners">Importar Socios de Negocio</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data."/>
+	</row>
+	<row id="195" trl="Y">
+		<value column="Name" original="Reopen Request">Reabrir Solicitud</value>
+		<value column="Description" original="Reopen closed requests">Reabre una Solicitud Cerrada</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="196" trl="Y">
+		<value column="Name" original="Import Products ">Importa Productos </value>
+		<value column="Description" original="Imports products from a file into the application">Importa productos para el archivo de aplicación.</value>
+		<value column="Help" original="Import Products will bring a file of products, in a predefined format into the application.&lt;p&gt;&#10;The Parameters are default values for null import record values, they do not overwrite any data.&lt;p&gt;&#10;If you select an existing price list and you have List, Standard, and Limit Price defined, they are directly created/updated.">Los productos de la importación traerán un archivo de productos, en un formato predefinido en el uso.</value>
+	</row>
+	<row id="197" trl="Y">
+		<value column="Name" original="Import Accounts">Importa Cuentas</value>
+		<value column="Description" original="Import Natural Accounts">Importa Cuentas Naturales</value>
+		<value column="Help" original="Import accounts and their hierarchies and optional update the default accounts.  &#10;Updating the Default Accounts changes the natural account segment of the used account, e.g. account 01-240 becomes 01-300).  If you create a new combination, the old account (e.g. 01-240) will remain, otherwise replaced.&#10;If you select this, make sure that you not multiple default accounts using one natural account and HAVE A BACKUP !!&#10;&lt;p&gt;The Parameters are default values for null import record values, they do not overwrite any data.">Cuentas de la importación y su actualización de jerarquía y opcional a cuentas por default. la actualización a cuentas considera los cambios el segmento natural de la cuenta usada, ejm. la cuenta 01-240 se convierte en 01-300). Si usted crea una nueva combinación, seguirá existiendo cuenta anterior (ejm. 01-240), si no es substituido. ¡Si usted selecciona esto, cerciórese de que por default duplique una cuenta natural y TENGA Una RESERVA!!</value>
+	</row>
+	<row id="198" trl="Y">
+		<value column="Name" original="Import Report Line Set">Importa lote de líneas de Informe</value>
+		<value column="Description" original="Import Report Line Set information">Importa lote de líneas de información </value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data."/>
+	</row>
+	<row id="199" trl="Y">
+		<value column="Name" original="Generate Shipments (manual)">Generar Entrega (Manual)</value>
+		<value column="Description" original="Generate and print Shipments"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="200" trl="Y">
+		<value column="Name" original="Print Invoices">Imprime Facturas</value>
+		<value column="Description" original="Print Invoices to paper or send PDF">Imprima las facturas en papel o para enviar en PDF</value>
+		<value column="Help" original="(Re)Print Invoices or send them as PDF attachments to the Business Partner Contact with a valid EMail addres.&#10;&lt;br&gt;&#10;Remark: If you only enter a Document No FROM value, all invoices greater or equal that document number are printed; you can alternatively use the % character as a widcard."/>
+	</row>
+	<row id="201" trl="Y">
+		<value column="Name" original="Deliver Assets">Entrega de Activos</value>
+		<value column="Description" original="Deliver Customer Assets electronically">Entrega de Activos a Clientes electrónicamente</value>
+		<value column="Help" original="Send Mail to customers and attach new delivery (optional)."/>
+	</row>
+	<row id="202" trl="Y">
+		<value column="Name" original="Create Report">Crear Informe</value>
+		<value column="Description" original="Create Financial Report">Crea Informe Financiero</value>
+		<value column="Help" original="The default period is the current period. You can optionally enter other restrictions.  You can select an alternative Reporting Hierarchy.">El periodo por defaul es el periodo actual. Usted puede incorporar opcionalmente otras restricciones.</value>
+	</row>
+	<row id="203" trl="Y">
+		<value column="Name" original="Update Accounting Balance">Actualiza Balance Contable</value>
+		<value column="Description" original="Update Daily Accounting Balances">Actualización de Balances Diarios de Contabilidad</value>
+		<value column="Help" original="This process is run automatically">Este Proceso Funciona Automaticamente</value>
+	</row>
+	<row id="204" trl="Y">
+		<value column="Name" original="Statement of Accounts">Estado de Cuenta</value>
+		<value column="Description" original="Report Account Statement Beginning Balance and Transactions">Reporte de Estado de Cuenta, Inicio del Balance y Transacciones</value>
+		<value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. You can select an alternative Reporting Hierarchy.">Seleccione un periodo (Campo vacio muestra periodo actual) o indique un rango de cuentas o fechas</value>
+	</row>
+	<row id="205" trl="Y">
+		<value column="Name" original="Cache Reset">Reinicia Cache </value>
+		<value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Reinicia el Cache del sitema ** Cerrar todas las ventanas antes de iniciar **</value>
+		<value column="Help" original="To increase performance, Compiere caches repeatedly used data. This process clears the local cache.">Para aumentar funcionamiento, Compiere reasigna los datos usados. Este proceso despeja el cache local.</value>
+	</row>
+	<row id="206" trl="Y">
+		<value column="Name" original="Import Orders">Importa Ordenes</value>
+		<value column="Description" original="Import Orders">Importa Ordenes</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.&#10;Note that only Prepare and Complete are valid document actions.">Los parámetros son valores prefijados para los valores nulos del expediente de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="207" trl="Y">
+		<value column="Name" original="Import Invoice">Importación de Factura</value>
+		<value column="Description" original="Import Invoice">Importación de Factura</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.&#10;Note that only Prepare and Complete are valid document actions.">Los parámetros son valores prefijados para los valores nulos del expediente de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="208" trl="Y">
+		<value column="Name" original="Start Replication Run">Inicia Replicación con un Host Remoto</value>
+		<value column="Description" original="Start Replication with Remote Host">Inicia Replicación con un Host Remoto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="209" trl="Y">
+		<value column="Name" original="Send Mail Text">Envía Texto Mail</value>
+		<value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Envie los Email a los suscriptores activos de un grupo de socios de negocio o área de interés.</value>
+		<value column="Help" original="Select the Interest Area to which subscribers you send the Mail Text from the User selected.  Additionally, you can send mails to the Contacts of a Business Partner Group.&lt;br&gt;&#10;The User to send emails from needs to have valid EMail information. If you don't select a user, the Mail is sent from the Client's Request Mail User.">Seleccione el área de interés, a que suscriptores usted envía el texto de correo del usuario seleccionado. Alternativamente, usted puede enviar correos a los contactos de un grupo de socio de negocio.&lt;br&gt;
+El usuario para enviar emails de necesidades para tener valida la información del Email. Si usted no selecciona un usuario, el mail se envia de la solicitud del cliente.</value>
+	</row>
+	<row id="210" trl="Y">
+		<value column="Name" original="Copy Lines">Copiar Lineas</value>
+		<value column="Description" original="Copy Lines from other Invoice">Copiar Lineas Desde otra Factura</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="211" trl="Y">
+		<value column="Name" original="Copy Lines">Copiar Lineas</value>
+		<value column="Description" original="Copy Lines from other Order">Copiar Lineas Desde otra Factura</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="212" trl="Y">
+		<value column="Name" original="Copy Details">Copiar Desde</value>
+		<value column="Description" original="Copy Lines/Phases/Tasks from other Project">Copia Lineas/Fases/Tareas desde otro Proyecto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="213" trl="Y">
+		<value column="Name" original="Start Process">Inicio de Corrida Recurrente </value>
+		<value column="Description" original="Start Recurring Run">Inicio de Corrida Recurrente </value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="214" trl="Y">
+		<value column="Name" original="Copy Details">Copia Detalles</value>
+		<value column="Description" original="Copy Journal/Lines from other Journal Batch">Copia líneas de Poliza de diario de otra poliza de diario</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="215" trl="Y">
+		<value column="Name" original="Set Project Type">Establece Tipo de Proyecto</value>
+		<value column="Description" original="Set Project Type and for Service Projects copy Phases and Tasks of Project Type into Project">Copia Fases y Tareas de un Tipo de Proyecto en su Proyecto</value>
+		<value column="Help" original="&#10;">
+</value>
+	</row>
+	<row id="216" trl="Y">
+		<value column="Name" original="Generate Order">Generar Orden</value>
+		<value column="Description" original="Generate Order from Project Phase">Generar Orden desde una Fase de Proyecto</value>
+		<value column="Help" original="The Generate Order process will generate a new Order document based on the project phase or tasks. A price list and warehouse/service point must be defined on the project.  If a product is defined on phase level, the Phase information is used as the basis for the Order (milestone invoicing) - otherwise the individual tasks.">Una fase puede ser facturada completa en lugar de facturar los productos de las tareas dependientes de la fase. El Proceso generar orden generará un documento de orden nueva basada en en la fase del proyecto o las tareas. En el Proyecto debe estar definida una lista de Precios y un almacén/punto de servicio. Si se define un producto al nivel de fase, se usa la información de la fase como la base para la orden (control de facturaciçon) - de otra manera se facturan las tareas individuales.</value>
+	</row>
+	<row id="217" trl="Y">
+		<value column="Name" original="Project Print">Impresión del Proyecto</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="218" trl="Y">
+		<value column="Name" original="Project Cycle Report">Reporte Ciclo del Proyecto</value>
+		<value column="Description" original="Report Projects based on Project Cycle">Reporte del Proyecto basado en un Ciclo de Proyecto</value>
+		<value column="Help" original="The Project Cycle reports on common project phases of a Cycle Step/Phase. All Report information is weighted by the relative weight of the Cycle Step and converted to the currency of the Project Cycle (e.g. for Sales Funnel Reporting).&lt;p&gt;&#10;The Projects must have a Project Type, Phase and Currency defined. The Phase must be assigned to a Cycle Step.">El ciclo del proyecto reporte las fases comunes del proyecto de un ciclo por pasos/fases. Toda la información del informe es cargada de acuerdo al peso relativo del paso del ciclo y convertida a la moneda del ciclo del proyecto (por ejemplo para el reporte de las ventas).&lt;p &gt; los proyectos debe tener un tipo, una fase y una moneda definidos. La fase se debe asignar a un paso del ciclo.</value>
+	</row>
+	<row id="219" trl="Y">
+		<value column="Name" original="Import Inventory">Importa Inventario</value>
+		<value column="Description" original="Import Physical Inventory">Importa Inventario Fisico</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.">Los parámetros son valores prefijados para los valores nulos del registro de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="220" trl="Y">
+		<value column="Name" original="Import Journal">Importa Polizas</value>
+		<value column="Description" original="Import General Ledger Batch/Journal/Line">Importa Contabilidad General Lote/Poliza/Linea</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.">Los parámetros son valores prefijados para los valores nulos del expediente de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="221" trl="Y">
+		<value column="Name" original="Import Bank Statement">Importar Extractos de Cuentas</value>
+		<value column="Description" original="Import Bank Statement">Importa Estado de Cuenta</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.">Los parámetros son valores por defaul para los valores nulos del expediente de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="222" trl="Y">
+		<value column="Name" original="Customer Assets">Activos del Cliente</value>
+		<value column="Description" original="Report Customer Assets with Delivery Count">Divulgue los activos del cliente con cuenta de la entrega</value>
+		<value column="Help" original="The report lists the assets of business partners with the total asset delivery count."/>
+	</row>
+	<row id="223" trl="Y">
+		<value column="Name" original="Asset Delivery Details">Entrega de Activo</value>
+		<value column="Description" original="Report Asset Deliveries Details">Reporte de entrega de Activos </value>
+		<value column="Help" original="The report lists the details of Asset Deliveries for the records selected."/>
+	</row>
+	<row id="224" trl="Y">
+		<value column="Name" original="Issue to Project">Edición del Proyecto</value>
+		<value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Publique el material para proyectar el recibo o la localización manual del inventario.</value>
+		<value column="Help" original="Select a Project and either&#10;&lt;br&gt;- Material Receipt&#10;&lt;br&gt;- Expense Report&#10;&lt;br&lt;- Inventory Location and Project Line not issued yet&#10;&lt;br&gt;- Inventory Location, Product and Quantity&#10;The default Movement Date is today's date.">Seleccione un proyecto cualquiera
+&lt;br&gt;- Recibo de Material 
+&lt;br&gt;- Reporte del Costo
+&lt;br&lt;- Inventory Location and Project Line not issued yet
+&lt;br&gt;- Inventory Location, Product and Quantity
+The default Movement Date is today's date.</value>
+	</row>
+	<row id="225" trl="Y">
+		<value column="Name" original="Generate PO from Project">Genera OC para Proyecto</value>
+		<value column="Description" original="Generate PO from Project Line(s)">Genera líneas de OC para proyecto.</value>
+		<value column="Help" original="&#10;">
+</value>
+	</row>
+	<row id="226" trl="Y">
+		<value column="Name" original="Project Detail Accounting Report">Informe detallado del proyecto de Contabilidad</value>
+		<value column="Description" original="Accounting Fact Details of Project">Informe a detalle de la contabilidad del proyecto.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="227" trl="Y">
+		<value column="Name" original="Close Project">Proyecto Cerrado</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="228" trl="Y">
+		<value column="Name" original="Project Lines not Issued">Líneas del proyecto no publicadas</value>
+		<value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Las listas proyectan las líneas de una orden de trabajo o de un proyecto del activo, que no se publican al proyecto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="229" trl="Y">
+		<value column="Name" original="Project POs not Issued">Posición del Proyecto no Publicada</value>
+		<value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Proyecte las líneas con las ordenes de compra generadas de una orden de trabajo o de un proyecto del activo, que no se publican al proyecto.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="230" trl="Y">
+		<value column="Name" original="Get Price">Obtener Precio</value>
+		<value column="Description" original="Get Price for Project Line based on Project Price List">Obtener Precio para una Linea de Proyecto Basado en una lista de Precios del Proyecto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="231" trl="Y">
+		<value column="Name" original="Quote convert">Convertir Cotización</value>
+		<value column="Description" original="Convert open Proposal or Quotation to Order">Convierte una Propuesta o Cotización abierta a Orden</value>
+		<value column="Help" original="You can convert a Proposal or Quotation to any other Order document type. You would use this process, if you want to maintain/keep the Proposal or Quotation. The document status needs to be In Process.">Usted puede convertir una Propuesta o una Cotización a cualquier otro tipo de documento de Orden. Utilizaría este proceso, si usted desea mantener la Propuesta o la Cotización. El estado del documento necesita estar en proceso.</value>
+	</row>
+	<row id="232" trl="Y">
+		<value column="Name" original="RePrice Order/Invoice">Recalcule Precio Orden/Factura</value>
+		<value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Recalcule el precio basado en la última versión de la lista de precios de una orden o factura abierta</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Verify Document Types">Verifica tipos de Documento</value>
+		<value column="Description" original="Verify Document Types">Verifica tipos de Documento</value>
+		<value column="Help" original="Makes sure that there is a DocumentType for all Document Base Types&lt;br&gt;&#10;Creates missing Period Controls for Document Type (You may have to open them)">Comprueba que hay un tipo de documento para toda la base del documento&lt;br&gt;
+Cra los controles que faltan del periodo para el tipo de documento (Usted debe tener que abrirlos)</value>
+	</row>
+	<row id="234" trl="Y">
+		<value column="Name" original="Project Margin (Work Order)">Margen del Proyecto (Orden de Trabajo)</value>
+		<value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">El proyecto de la orden de trabajo alinea (rédito previsto) contra las ediciones del proyecto (costos)</value>
+		<value column="Help" original="The Project Margin Report for Work Orders compares the Project lines (planned revenue) against the Project issues (actual effort and costs). The margin amount is calculated by subtracting the costs (issue) from the revenue (line).&#10;The costs are in the currency of the Accounting Schema - the lines are in the currency of the price list of the project.">El informe del margen del proyecto para las ordenes de trabajo compara las lineas de proyecto (rédito previsto) contra las ediciones del proyecto (esfuerzo y los costos reales). La cantidad del margen es calculada restando los costos (edición) del redito (línea). 
+Los costos estan en el actual esquema contable - Las líneas estan en la actual lista de precios del proyecto.</value>
+	</row>
+	<row id="235" trl="Y">
+		<value column="Name" original="Verify Tree">Verifica Árbol</value>
+		<value column="Description" original="Verify completeness and correctness of Tree">Verifique la corrección y lo completo del árbol</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="236" trl="Y">
+		<value column="Name" original="Storage Detail">Detalle de Almacenamiento</value>
+		<value column="Description" original="Storage Detail Report">Reporte de detalle de almacenaje.</value>
+		<value column="Help" original="The report shows storage details including product instance (Lot, Serial No) info">El reporte muestra los detalles del almacenaje incluyendo el caso del producto (porción, cuento por entregas)</value>
+	</row>
+	<row id="237" trl="Y">
+		<value column="Name" original="Transaction Detail">Detalle de Transacciones</value>
+		<value column="Description" original="Transaction Detail Report">Reporte de Detalles de Transacciónes</value>
+		<value column="Help" original="The report shows transaction details (receipts, shipments, inventory, movements, ...) including product instance (Lot, Serial No) info">El reporte muestra detalles de transacciones (recibos, envios, inventario, movimiento, ...) incluyendo el caso del producto (Lote, No. de serie) Información.</value>
+	</row>
+	<row id="238" trl="Y">
+		<value column="Name" original="Aging">Antiguedad</value>
+		<value column="Description" original="Aging Report">Reporte Antiguedad</value>
+		<value column="Help" original="The aging report allows you to report on Open Items (Invoices). Select the aging buckets, you want to have in your report. If you select a currency, you get only invoices of that currency, otherwise the amounts are converted to your primary accounting currency. If you do not select a Due Date, the system date is used to calculate the buckets.">El informe de la antiguedad permite que usted reporte sobre los item´s abiertos (facturas). Seleccione los cubos de la antiguedad, que usted desea tener en su informe.</value>
+	</row>
+	<row id="239" trl="Y">
+		<value column="Name" original="Clicks Monthy">Clic's Mensuales</value>
+		<value column="Description" original="Clicks per Month">Clic's por mes</value>
+		<value column="Help" original="The report shows the advertisement Click Count per Month">El informe demuestra la cuenta de tecleo del anuncio por mes.</value>
+	</row>
+	<row id="240" trl="Y">
+		<value column="Name" original="Clicks Unprocessed">Clic's sin procesar</value>
+		<value column="Description" original="Unprocessed Clicks">Clic's sin procesar</value>
+		<value column="Help" original="The Report shows Clicks, which could not be processed (URL not matched to Click Count)">El informe demuestra los tecleos, que no podrían ser procesados (URL no emparejado a la cuenta del tecleo)</value>
+	</row>
+	<row id="241" trl="Y">
+		<value column="Name" original="Delete Notices">Eliminar Noticias</value>
+		<value column="Description" original="Delete all Notices">Eliminar todas las Noticias</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="242" trl="Y">
+		<value column="Name" original="Validate">Validar</value>
+		<value column="Description" original="Validate Payment Schedule">Validar Programa de Pagos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="243" trl="Y">
+		<value column="Name" original="Validate">Validar</value>
+		<value column="Description" original="Validate Payment Terms and Schedule">Validar Programa de Pagos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="244" trl="Y">
+		<value column="Name" original="Warehouse Organization">Almacén de Organización</value>
+		<value column="Description" original="Set and verify Organization ownership of Warehouse">Active y verifique la propiedad de la organizacion del almacén.</value>
+		<value column="Help" original="The process allows you to change or verify the organization ownership of a warehouse and its dependent entities (Location, Storage).">El proceso permite que usted cambie o que verifique la propiedad de la organización de un almacén y de sus entidades dependientes, (Localización, Almacenaje).</value>
+	</row>
+	<row id="245" trl="Y">
+		<value column="Name" original="Product Organization">Organización del Producto</value>
+		<value column="Description" original="Set and verify Organization ownership of Products">Determinado y verifique la propiedad de la organización de productos</value>
+		<value column="Help" original="The process allows you to change or verify the organization ownership of Products and its dependent entities (BOM, Substitute, Replenish, Purchasing, Business Partner Info, Costing). &lt;br&gt;&#10;Select either a Product Category ar a specific Product.">El proceso permite que usted cambie o que verifique la propiedad de la organización de productos y de sus entidades independientes. (LDM, Sustituto, Llenado, Comprado, Info de Socio de Negocio, Costos). &lt;br&gt;
+Seleccione cualquier categoria de producto o un producto en especifico.</value>
+	</row>
+	<row id="246" trl="Y">
+		<value column="Name" original="Business Partner Organization">Organización del Socio de Negocio</value>
+		<value column="Description" original="Set and verify Organization ownership of Business Partners">Seleccione y verifique la propiedad de la organización de los socios de negocio.</value>
+		<value column="Help" original="The process allows you to change or verify the organization ownership of Business Partners and its dependent entities (Location, Contact/User, Bank Account, Withholding). &lt;br&gt;&#10;Select either a Business Partner Group ar a specific Business Partner">El proceso permite que usted cambie o que verifique la propiedad de la organización, de productos y de sus entidades dependientes. (Localización, Contacto/Usuario, cuenta bancaria, Retenido). &lt;br&gt;
+Seleccione cualquier grupo de socio de negocio o un socio de negocio especifico.</value>
+	</row>
+	<row id="247" trl="Y">
+		<value column="Name" original="Load Bank Statement">Carga de Estado de cuentas</value>
+		<value column="Description" original="Load Bank Statement">Carga de Estado de cuentas</value>
+		<value column="Help" original="Load the bank statement into the import table. The parameters used depend on the actual loader.">Carge el estado de cuenta en la tabla de la importación. Los parametros usados dependen del cargador real.</value>
+	</row>
+	<row id="248" trl="Y">
+		<value column="Name" original="Delete Import">Borrar Importación</value>
+		<value column="Description" original="Delete all data in Import Table">Borra todos los datos de la tabla de importación</value>
+		<value column="Help" original="You would delete all data in an import table, if there was a problem with data loading.  The delete does not distinguish between imported and not imported data.">Usted suprimiría todos los datos en una tabla de la importación, si había un problema con el cargamento de los datos. La cancelación no distingue entre los datos importados y no importados.</value>
+	</row>
+	<row id="249" trl="Y">
+		<value column="Name" original="Import Conversion Rate">Importar Tarifa de Conversión</value>
+		<value column="Description" original="Import Currency Conversion Rate">Importar Tarifa de Conversión</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="250" trl="Y">
+		<value column="Name" original="Register Now!">Registrarce Ahora!!!</value>
+		<value column="Description" original="Registrations help us to better serve the Compiere User Base.">Los registros nos ayudan a mejorar servicio de la base de usuario de compiere.</value>
+		<value column="Help" original="We will NOT make the data available to any third party or use the information for other than statistical purposes.  &#10;It will help us, if you would allow to publish your use of Compiere. We will contact you directly before we publish any information.&#10;">No pondremos los datos a disposición de terceros ni utilizaremos la información para propósitos estadísticos.  
+Nos ayudará, si usted permitirá publicar su uso en Compiere. Nos pondremos en contacto directamente antes de que publiquemos cualquier información.</value>
+	</row>
+	<row id="251" trl="Y">
+		<value column="Name" original="Invoice Tax">Impuesto de Factura</value>
+		<value column="Description" original="Invoice Tax Reconciliation">Impuesto conciliado de la Factura</value>
+		<value column="Help" original="The Report lists Invoice Tax lines with Business Partner Tax information.">Las listas de informe facturan líneas del impuesto con la información de impuesto del socio de negocios.</value>
+	</row>
+	<row id="252" trl="Y">
+		<value column="Name" original="Accounting Fact Details">Detalles de Asientos Contables</value>
+		<value column="Description" original="Accounting Fact Details Report">Reporte de detalles de asientos contables</value>
+		<value column="Help" original="Report with detail accounting details."/>
+	</row>
+	<row id="253" trl="Y">
+		<value column="Name" original="Accounting Fact Daily">Asientos Diarios de Contabilidad</value>
+		<value column="Description" original="Accounting Fact Details summarized by Accounting Date">Detalles de los Asientos contables resumidos por la fecha de contabilidad</value>
+		<value column="Help" original="The report lists the daily summary of accounting transactions"/>
+	</row>
+	<row id="254" trl="Y">
+		<value column="Name" original="Accounting Fact Period">Asientos Contables por Período</value>
+		<value column="Description" original="Accounting Fact Details summarized by Accounting Period">Detalles de asientos contables resumidos por período de contabilización</value>
+		<value column="Help" original="The Period is based on the the Calendar defined on Client level.">El período se basa en el calendario definido en nivel del cliente.</value>
+	</row>
+	<row id="255" trl="Y">
+		<value column="Name" original="Reopen Order">Reabrir Orden</value>
+		<value column="Description" original="Open previously closed Order">Abra la orden previamente cerrada</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="256" trl="Y">
+		<value column="Name" original="Match Bank Statement">Conciliación de Estado de Cuenta Bancario</value>
+		<value column="Description" original="Match Bank Statement Info to Business Partners, Invoices and Payments">Estado de la cuenta del banco, información a los socios de negocio, a las facturas y a los pagos.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="257" trl="Y">
+		<value column="Name" original="Create Payment">Crea Pago</value>
+		<value column="Description" original="Create Payment from Bank Statement Info">Cree el pago del estado de la información del estado de cuenta</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="258" trl="Y">
+		<value column="Name" original="Sequence Check">Comprobar Secuencia</value>
+		<value column="Description" original="Check System and Document Sequences">Compruebe la secuencia del sistema y del documento.</value>
+		<value column="Help" original="Check that System and Document sequences are correct.  Run this process, if you get Duplicate Key error messages.">Compruebe que la secuencia del documento y del sistema estén correctas. Arranque este proceso, si usted consigue mensajes de error del articulo con valores identicos de validación.</value>
+	</row>
+	<row id="259" trl="Y">
+		<value column="Name" original="Create Orders">Crea Ordenes</value>
+		<value column="Description" original="Create orders based on Distribution List line items">Cree las órdenes basadas en la línea de artículos de la lista de distribución</value>
+		<value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Observe al hacer el redondeo, la cantidad total de orden(es) es probable ser más alto a la cantidad incorporada.
+</value>
+	</row>
+	<row id="260" trl="Y">
+		<value column="Name" original="Link Organization">Liga Organización</value>
+		<value column="Description" original="Link Business Partner to an Organization">Integración de Socio de Negocio a una Organización</value>
+		<value column="Help" original="If the Business Partner is another Organization, select the Organization or set to empty to create a new Organization.  You link a Business Partner to an Organization to create explicit Documents for Inter-Org transaction.&#10;If you create a new Organization, you may supply a Organization Type.  If you select a Role, the access to the new Organization is limited to that role, otherwise all (non manual) roles of the Client will have access to the new Organization.">Si el socio de negocio esta en otra organización, seleccione la organización o fije para crear una nueva organización. Usted liga a socio de negocio a una organización para crear los documentos explícitos para la Integración-Org transacción. Si usted crea una nueva organización, usted puede proveer un tipo de la organización. Si usted selecciona un rol, el acceso a la nueva organización se limita a ese rol, si no todo los roles (no manual) del cliente tendrán acceso a la nueva organización.</value>
+	</row>
+	<row id="261" trl="Y">
+		<value column="Name" original="Create &amp; Invite">Crea e Invita</value>
+		<value column="Description" original="Create RfQ and Invite Vendors">Crea SPC (RfQ) e invita a los proveedores</value>
+		<value column="Help" original="Create (missing) RfQ Responses and optionally send EMail Invitation/Reminder to Vendors to respond to RfQ">Cree (faltando) las respuestas de SPC (RfQ) y envíe opcionalmente email Invitación/Remitente a los proveedores  para responder a SPC (RfQ)</value>
+	</row>
+	<row id="262" trl="Y">
+		<value column="Name" original="Invite &amp; Remind">Invitación y Recordatorio</value>
+		<value column="Description" original="EMail Invite or Remind Vendor to answer RfQ">Email Invitación y recordatorio al provedor para contestar la SPC (RfQ)</value>
+		<value column="Help" original="Send Invitation/Reminder to Vendors to respond to RfQ per email">Envía Invitación/Recordatorio al proveedor para la respuesta de SPC (RfQ) por email</value>
+	</row>
+	<row id="263" trl="Y">
+		<value column="Name" original="RfQ Unanswered">SPC (RfQ) Sin Responder</value>
+		<value column="Description" original="Outstanding RfQ Responses">Respuestas RfQ Exepcionales</value>
+		<value column="Help" original="Lists Responses of active RfQs (not closed/processed) where the Response is not marked as complete. ">Enumera respuestas de RfQ activas (No cerradas/Procesadas) donde la respuesta no está marcada como completa.</value>
+	</row>
+	<row id="264" trl="Y">
+		<value column="Name" original="RfQ Response">Respuesta SPC (RfQ)</value>
+		<value column="Description" original="Detail RfQ Responses">Detalles Respuesta SPC (RfQ)</value>
+		<value column="Help" original="Lists detail Responses of active RfQs (not closed/processed) where the Response is marked as complete. ">Enumera respuestas de detalle de RFQs activos (No cerrados/Procesados) Donde la respuesta esta marcada como completa.</value>
+	</row>
+	<row id="265" trl="Y">
+		<value column="Name" original="Rank Responses">Valuación de Respuestas </value>
+		<value column="Description" original="Rank Completed RfQ Responses">Valuación de las respuestas a la SPC (RfQ) completas</value>
+		<value column="Help" original="Invalid responses are ranked with 999 per Quantity. The Quantity Responses are ranked among each other and the RfQ Best Response updated.  The response Lines is maked as Selected winner, where the line quantity purchase quantity is selected.  A total winner is only selected, if the RfQ type is &quot;Quote All Lines&quot; or &quot;Quote Total only&quot;.&#10;&#10;Then the rankings of all Quantity Responses are added for the total ranking of the response. The response with the lowest total ranking is marked as Selected Winner.&#10;">Las respuestas invalidas estan valuadas por 999 en la Cantidad.  Las respuestas de la cantidad estan valuadas entre sí y la mejor respuesta a la SPC (RfQ) es actualizada. Las líneas de respuesta son marcadas como ganador seleccionado, donde esta seleccionada la cantidad de compra.
+
+Entonces las valuaciones de todas las respuestas de cantidad se adicionan a la valuación total de la respuesta .  La respuesta con el valor total más bajo se marca como ganador seleccioado.</value>
+	</row>
+	<row id="266" trl="Y">
+		<value column="Name" original="Create Purchase Order">Crea Orden de Compra</value>
+		<value column="Description" original="Create Purchase Order(s) for RfQ Winner(s)">Crea Orden de Compra  Para una SPC (RfQ) de los Ganadores</value>
+		<value column="Help" original="Create purchase order(s) for the resonse(s) and lines marked as Selected Winner using the selected Purchase Quantity (in RfQ Line Quantity) . If a Response is marked as Selected Winner, all lines are created (and Selected Winner of other responses ignored).  If there is no response marked as Selected Winner, the lines are used.">Crea orden(es) de compra para la respuesta(s) y las líneas marcadas como ganador seleccionado usando la cantidad seleccionada de la compra (en la línea cantidad de SPC (RfQ)). Si una respuesta está marcada como ganador seleccionado, se crean todas las líneas (y no hacen caso al ganador seleccionado de otras respuestas). Si no hay respuesta marcada como ganador seleccionado, se utilizan las líneas.</value>
+	</row>
+	<row id="267" trl="Y">
+		<value column="Name" original="Create Sales Order">Crea Orden de Venta</value>
+		<value column="Description" original="Create Sales Order">Crea orden de Venta</value>
+		<value column="Help" original="A Sales Order is created for the entered Business Partner.  A sales order line is created for each RfQ line quantity, where &quot;Offer Quantity&quot; is selected.  If on the RfQ Line Quantity, an offer amount is entered (not 0), that price is used. &#10;If a magin is entered on RfQ Line Quantity, it overwrites the general margin.  The margin is the percentage added to the Best Response Amount.">Una orden de las ventas se crea para el socio de negocio inscrito. Una línea de la orden de las ventas se crea para cada línea cantidad de SPC (RfQ), donde "Cantidad Ofrecida" se selecciona. Si en la línea cantidad de SPC (RfQ), se introduce una cantidad de la oferta (no 0), que el precio se utiliza. Si un margen se incorpora en la línea cantidad de SPC (RfQ), sobreescribe el margen general. El margen es el porcentaje agregado a la mejor cantidad de la respuesta.</value>
+	</row>
+	<row id="268" trl="Y">
+		<value column="Name" original="Copy Lines">Copia Líneas</value>
+		<value column="Description" original="Copy Lines from another RfQ">Copia Líneas de otra SPC (RfQ)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="269" trl="Y">
+		<value column="Name" original="Close RfQ">Cierra SPC (RfQ)</value>
+		<value column="Description" original="Close RfQ and Responses">Cierra SPC (RfQ) y respuestas</value>
+		<value column="Help" original="Close the RfQ and all it's Responses">Cierra SPC (RfQ) y todas sus respuestas</value>
+	</row>
+	<row id="270" trl="Y">
+		<value column="Name" original="Open Requisitions">Requisiciones Abiertas</value>
+		<value column="Description" original="Detail Open Requisition Information">Detalle de la información de Ordenes Abiertas.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="271" trl="Y">
+		<value column="Name" original="Create Orders">Crea Ordenes</value>
+		<value column="Description" original="Create orders based on Distribution List line items">Crea Oden Basada en las líneas de la lista de distribución de los productos.</value>
+		<value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Observe al hacer el redondeo, la cantidad total de orden(es) es probable ser más alto a la cantidad incorporada.
+</value>
+	</row>
+	<row id="272" trl="Y">
+		<value column="Name" original="UnLink Business Partner Org">Desliga Socio de Negocio de la Organización</value>
+		<value column="Description" original="UnLink Business Partner from an Organization">Desliga Socio de Negocio de la Organización</value>
+		<value column="Help" original="UnLink a Business Partner Linked to an Organization (for explicit inter-org documents)">Desliga a Socio de Negocio Ligado a una Organización. (Para los documentos explicitos inter-org)</value>
+	</row>
+	<row id="273" trl="Y">
+		<value column="Name" original="Process Requisition">Proceso de Solicitudes</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="274" trl="Y">
+		<value column="Name" original="Asset Delivery Month">Entrega Activo del Mes </value>
+		<value column="Description" original="Report Asset Deliveries Summary per month">Sumario de Entrega de Activos por mes</value>
+		<value column="Help" original="The report lists the Asset and the deliveries per month for the records selected.">Informe de activos y las entregas por mes para los registros seleccionados</value>
+	</row>
+	<row id="275" trl="Y">
+		<value column="Name" original="Validate Document Type">Valida tipo de documento</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="276" trl="Y">
+		<value column="Name" original="RfQ Response Print ">Imprime Respuesta SPC (RfQ)</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial ** No Cambie **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="277" trl="Y">
+		<value column="Name" original="Check Complete">Completar Verificación</value>
+		<value column="Description" original="Check if Response is Complete based on RfQ settings">Compruebe si la respuesta es completa basada en los ajustes de SPC (RfQ)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="278" trl="Y">
+		<value column="Name" original="Manage Activity">Manejador de Actividades</value>
+		<value column="Description" original="">Manejador de Actividades</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="279" trl="Y">
+		<value column="Name" original="Manage Process">Manejador de Procesos</value>
+		<value column="Description" original="">Manejador de Proceso</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="280" trl="Y">
+		<value column="Name" original="Process Confirmation">Completa la Confirmación</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="281" trl="Y">
+		<value column="Name" original="Create Confirmation">Crea Confirmación</value>
+		<value column="Description" original="Create Confirmations for the Document"/>
+		<value column="Help" original="The confirmations generated need to be processed (confirmed) before you can process this document"/>
+	</row>
+	<row id="282" trl="Y">
+		<value column="Name" original="Create Package">Crear Paquete</value>
+		<value column="Description" original="Create Package for Shipmet"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="283" trl="Y">
+		<value column="Name" original="Process RMA">Proceso ADM (RMA)</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="284" trl="Y">
+		<value column="Name" original="Open Confirmation Details">Detalle de Confirmaciones Abiertas</value>
+		<value column="Description" original="Open Shipment or Receipt Confirmation Details">Detalle de Confirmaciones de entregas/Recibos abiertas </value>
+		<value column="Help" original="The Report lists the open confirmation lines">Informe de lines de confirmación abiertas.</value>
+	</row>
+	<row id="285" trl="Y">
+		<value column="Name" original="Open Confirmations">Confirmaciones Abiertas</value>
+		<value column="Description" original="Open Shipment or Receipt Confirmations">Confirmaciones de entregas/Recibos abiertas </value>
+		<value column="Help" original="The report lists the open confirmations">El reporte de listas de confirmaciones abiertas</value>
+	</row>
+	<row id="286" trl="Y">
+		<value column="Name" original="Process Confirmation">Procesa Confirmación</value>
+		<value column="Description" original="Process Inventory Movement Confirmation">Confirmación de proceso del Movimiento de Inventario</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="287" trl="Y">
+		<value column="Name" original="Print Format Detail">Imprime detalle de Formato</value>
+		<value column="Description" original="Print Format Detail Report">Formato de la impresión con los detalles del artículo</value>
+		<value column="Help" original="Print Format with Item details">Formato de la impresión con los detalles del artículo</value>
+	</row>
+	<row id="288" trl="Y">
+		<value column="Name" original="Reset Password">Reinicia Contraseña</value>
+		<value column="Description" original="Reset Passwords for User">Reinicia contraseñas para el usuario</value>
+		<value column="Help" original="You can change User Passwords and EMail settings.  You do not need to know/enter the password, if you are an Administrator.">Puede cambiar la contraseña del usuario y la configuración del correo electrónico. No necesita conocer la contraseña o introducirla si es Administrador.</value>
+	</row>
+	<row id="289" trl="Y">
+		<value column="Name" original="Create Dunning Run">Crear Cálculo de Morosidad</value>
+		<value column="Description" original="Create Dunning Run Entries based on the Dunning Level criteria">Crea Cartas de Morosidad basado en criterios dados.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="290" trl="Y">
+		<value column="Name" original="Inventory Move Print">Impresión del movimiento de inventario</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial ** No Cambie **</value>
+		<value column="Help" original="Create/Copy your own Format and Process"/>
+	</row>
+	<row id="291" trl="Y">
+		<value column="Name" original="Physical Inventory Print">Impresión de Inventario Físico</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial ** No Cambie **</value>
+		<value column="Help" original="Create/Copy your own Format and Process"/>
+	</row>
+	<row id="292" trl="Y">
+		<value column="Name" original="Shipment Confirmation">Confirmación de Entregas</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial ** No Cambia **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="293" trl="Y">
+		<value column="Name" original="Material Receipt Details">Detalle de Recibos de Material</value>
+		<value column="Description" original="Material Receipt Detail Information">Información a Detalle de la Lista de Materiales</value>
+		<value column="Help" original="The report provides Material Repecipt Header and Line with locator information.">El informe se provee del jefe y de la linea de materiales de recepcion de la información de la localización.</value>
+	</row>
+	<row id="294" trl="Y">
+		<value column="Name" original="Shipment Details">Detalle de Entregas</value>
+		<value column="Description" original="Shipment Detail Information">Detalle de Información de Entregas</value>
+		<value column="Help" original="The report provides Material Shipment Header and Line with locator information.  You can use the report to create a Consolidated Picking List.">El informe se provee del jefe y del envío de la línea de materiales de la información de la localización. Usted puede utilizar el informe para crear una lista consolidada.</value>
+	</row>
+	<row id="295" trl="Y">
+		<value column="Name" original="Role Access Update">Actualización de Rol</value>
+		<value column="Description" original="Update the access rights of a role or roles of a client">Actualizar las reglas de acceso de un rol o roles de un cliente.</value>
+		<value column="Help" original="Update the access rights of a role or all roles of a client to windows, forms, processes and workflows.&#10;If run for System, all roles of all clients are updated.&#10;Note that a role is only updated if it is not marked as manual.">Actualize las reglas de acceso de un rol o de todos los roles de un cliente para Ventanas, Formatos y Flujos de Trabajo.
+Si está funcionando para el sistema, todos los roles de todos los clientes son actualizados. Observe que un rol es solamente actualizado si no esta marcado como manual.</value>
+	</row>
+	<row id="296" trl="Y">
+		<value column="Name" original="Import Confirmations">Importa Confirmaciones</value>
+		<value column="Description" original="Import Confirmations">Importa Confirmaciones</value>
+		<value column="Help" original="The Parameters are default values for null import record values, they do not overwrite any data.">Los parámetros son valores por default para los valores nulos del expediente de la importación, ellos no sobreescriben ningunos datos.</value>
+	</row>
+	<row id="297" trl="Y">
+		<value column="Name" original="Capture + Calculate Measures">Captura y Cálculo de Medida</value>
+		<value column="Description" original="Capture and Calculate Measures">Captura y Cálculo de Medida</value>
+		<value column="Help" original="If automatic, capture measures - and calculate/update the actual measure.">Si Automatico, captura - cálcula/actualiza la actual Medida.</value>
+	</row>
+	<row id="298" trl="Y">
+		<value column="Name" original="Calculate Measures">Calcule las Medidas</value>
+		<value column="Description" original="Calculate the Measure">Calcule las Medidas</value>
+		<value column="Help" original="Calculate/update the actual measure.">Calcule/actualize la medida actual.</value>
+	</row>
+	<row id="299" trl="Y">
+		<value column="Name" original="Verify">Verifica </value>
+		<value column="Description" original="Verify GL Distribution">Verifica Distribución CG</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="300" trl="Y">
+		<value column="Name" original="Delete">Borra</value>
+		<value column="Description" original="Delete Invoice Matching Record">Cancelación de correspondencia del Registro de la Factura</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="301" trl="Y">
+		<value column="Name" original="Delete">Borra</value>
+		<value column="Description" original="Delete PO Matching Record">Deshacer correspondencia de registros de Ordenes de Compra.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="302" trl="Y">
+		<value column="Name" original="Auto Allocation">Asignación (Auto)</value>
+		<value column="Description" original="Automatic allocation of invoices to payments">Asignación automática de facturas a los pagos     </value>
+		<value column="Help" original="Try to allocate invoices to payments for a business partner or group.  You may want to reset existing allocations first.&lt;br&gt;&#10;The allocation is based on (1) payments entered with reference to invoices (2) payment selections (3) business partner balance (4) matching amount of invoice &amp; payment.  Allocation is based on exact amount and includes AP/AR imvoices/payments.&lt;br&gt;&#10;Optionally as (5), you can enable to allocate payments to the oldest invoice. In this case, there might be an unallocated amount remaining.">Asignar facturas a los pagos para un Socio o un Grupo de Socios de Negocio. Usted puede restaurar asignaciones existentes primero.</value>
+	</row>
+	<row id="303" trl="Y">
+		<value column="Name" original="Reset Allocation">Asignación (Restaura)</value>
+		<value column="Description" original="Reset (delete) allocation of invoices to payments">Reinicia (Borra) Asignación automática de facturas a los pagos     </value>
+		<value column="Help" original="Delete Allocations for a business partner or business partner group, accounting date range or individual allocation. In contrast to &quot;Void&quot; in &quot;View Allocation&quot;, the allocation is deleted (no trace), if the period is open.">Borra Asignaciones para un Socio de Negocio o para un Grupo de Socios de Negocio</value>
+	</row>
+	<row id="304" trl="Y">
+		<value column="Name" original="Validate Workflow">Valida Flujo de Trabajo</value>
+		<value column="Description" original="Validate thet the workflos is correct">Valida cuando el Flujo de Trabajo es correcto</value>
+		<value column="Help" original="(limited checking)">(Comprobación limitada)</value>
+	</row>
+	<row id="305" trl="Y">
+		<value column="Name" original="Document Value based Workflows">El valor del documento basado en Flujos de Trabajo</value>
+		<value column="Description" original="*** DO NOT MODIFY ***">*** NO SE MODIFIQUE ***</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="306" trl="Y">
+		<value column="Name" original="Un-Do Changes">Deshace Cambios</value>
+		<value column="Description" original="Undo changes">Deshace Cambios</value>
+		<value column="Help" original="You can undo certain changes.">Usted puede deshacer ciertos cambios</value>
+	</row>
+	<row id="307" trl="Y">
+		<value column="Name" original="Re-Do Changes">Replica Cambios</value>
+		<value column="Description" original="Reapply changes">Replica Cambios</value>
+		<value column="Help" original="You can reapply certain changes.">Usted puede replicar ciertos cambios.</value>
+	</row>
+	<row id="308" trl="Y">
+		<value column="Name" original="Reapply Customizations">Replica Costumización</value>
+		<value column="Description" original="If you identified customizations in the Change Log, you can reapply them">If you identified customizations in the Change Log, you can reapply them</value>
+		<value column="Help" original="The migration &quot;resets&quot; the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release.">The migration "resets" the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release.</value>
+	</row>
+	<row id="309" trl="Y">
+		<value column="Name" original="Workflow to Client">Mueve Flujo de Trabajo</value>
+		<value column="Description" original="Move custom workflow elements to the current client">Mueva los elementos de encargo de Flujo de Trabajo al cliente actual. </value>
+		<value column="Help" original="The security architecture prevents you from adding client specific modifications/customizations to existing standard workflows.  This process moves your customization made on system level to this client to add client specific details.">La arquitectura de la seguridad evita que usted agrege al cliente modificaciones/arreglos para registros particulares a los Flujos de Trabajo estandares exisentes. Este proceso mueve su arreglo para requisitos particulares hecho en nivel de sistema a este cliente para arreglar los detalles del cliente especifico.</value>
+	</row>
+	<row id="310" trl="Y">
+		<value column="Name" original="Trial Balance">Balanza de Comprobación </value>
+		<value column="Description" original="Trial Balance for a period or date range">Balanza de Comprobación para un Periodo o un Rango de Fechas </value>
+		<value column="Help" original="Select a Period (current period if empty) or enter a Account Date Range. If an account is selected, the balance is calculated based on the account type and the primary calendar of the client (i.e. for revenue/expense accounts from the beginning of the year). If no account is selected, the balance is the sum of all transactions before the selected account range or first day of the period selected. You can select an alternative Reporting Hierarchy.">Seleccione un período (Campo vacío toma período actual) ó indique un rango de fechas, 
+
+
+Si se selecciona una cuenta, el balance es calculado en base al  tipo de cuenta y el calendario contable (Ejm. Ingresos/Gastos considerados desde el principio del año). Si no se selecciona ninguna cuenta, el balance es la suma de todas las transacciones antes de la selección de cuenta o el primer día del período seleccionado.</value>
+	</row>
+	<row id="311" trl="Y">
+		<value column="Name" original="Product UOM Convert">Conversión de UM de un Producto</value>
+		<value column="Description" original="Brack-up or repackage same Products with different UOM">Respaldo o re-empaque del mismo producto con diferente UM</value>
+		<value column="Help" original="Example: &quot;Product EA&quot; has a defined UOM Conversion to &quot;Product 6Pack&quot; and vice versa.  &#10;This is a one-step replacement for defining BOM and creating/processes a Production.">Ejm: "Producto EA" tienen una UM de conversión a "Paquete de 6" y viceversa.  Este es un paso para re-empacado para definir LDM y crear procesos para producción.</value>
+	</row>
+	<row id="312" trl="Y">
+		<value column="Name" original="Print Dunning Letters">Imprime Carta de Morosidad</value>
+		<value column="Description" original="Print Dunning letters to paper or send PDF">Imprime Carta de Morosidad o la envía como PDF</value>
+		<value column="Help" original="(Re)Print Dunning Letters or send them as PDF attachments to the Business Partner Contact with a valid EMail addres.&#10;">(Re) Imprime Carta de Morosidad o envia como PDF anexado a un mail para el Contacto del socio de Negocio.</value>
+	</row>
+	<row id="313" trl="Y">
+		<value column="Name" original="Payment Print ">Impresión del Pago</value>
+		<value column="Description" original="** Special ** Do not change **">** Especial ** No Cambie **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="314" trl="Y">
+		<value column="Name" original="Validate Business Partner">Valida Socio del Negocio</value>
+		<value column="Description" original="Check data consistency of Business Partner">Verifica la consistencia de los datos del Socio de Negocio</value>
+		<value column="Help" original="Check the payments and invoices of a business partner and checks the balances.">Verifica los pagos y las facturas del Socio de Negocio y verifica el balance</value>
+	</row>
+	<row id="315" trl="Y">
+		<value column="Name" original="Order Batch Process">Proceso de Órdenes en Lote</value>
+		<value column="Description" original="Process Orders in Batch">Proceso de Órdenes en Lote</value>
+		<value column="Help" original="Based on the selection criteria, the orders are processed using the document action selected.  Make sure that the document action is valid for the documents.">Basado en el criterio de selección, Las órdenes son procesadas usando la acción del documento seleccionado.  Asegúrese que la acción del documento sea valida en los documentos.</value>
+	</row>
+	<row id="316" trl="Y">
+		<value column="Name" original="UnAllocated Invoices">Asignación de Facturas</value>
+		<value column="Description" original="Invoices not allocated to Payments">Facturas no asignadas a los pagos</value>
+		<value column="Help" original="Report of not allocated Invoices (for partially paid/allocated invoices see Open Item)">Reporte de Facturas no asignadas (Para las Facturas de vea parcialmente el articulo </value>
+	</row>
+	<row id="317" trl="Y">
+		<value column="Name" original="UnAllocated Payments">Facturas no asignadas</value>
+		<value column="Description" original="Payments not allocated to Invoices">Facturas no asignadas a los pagos</value>
+		<value column="Help" original="Report of not allocated Payments (for partially allocated payments, use Payment Detail)">Reporte de facturas no asignadas (para las facturas de pago/asignado vea parcialmente el articulo abierto)</value>
+	</row>
+	<row id="318" trl="Y">
+		<value column="Name" original="Payment Details">Detalles del Pago</value>
+		<value column="Description" original="Payment Detail Report">Reporte de Detalles de Pagos</value>
+		<value column="Help" original="Type adjusted payments (receipts positive, payments negative) with allocated and available amounts">Mecanografie los pagos ajustados (Positivo de los recibos, negativa de los pagos) con cantidades asignadas y disponibles</value>
+	</row>
+	<row id="319" trl="Y">
+		<value column="Name" original="Business Partner Open">Saldos de Socio de Negocio</value>
+		<value column="Description" original="Business Partner Open Amount">Saldos de Socio de Negocio</value>
+		<value column="Help" original="The report lists open invoices and payments">Abre las listas de informe de facturas y pagos.</value>
+	</row>
+	<row id="320" trl="Y">
+		<value column="Name" original="Commission Run Detail">Detalle de la Función de la Comision.</value>
+		<value column="Description" original="Commission Run Detail Report">Reporte del Detalle de la Función de la Comision.</value>
+		<value column="Help" original="Commission Run, Amount Details with Order/Invoice details">Función de la Comisión, Cantidad de detalles con orden / Detalles de la Factura.</value>
+	</row>
+	<row id="321" trl="Y">
+		<value column="Name" original="Synchronize Doc Translation">Sincroniza la traducción del documento</value>
+		<value column="Description" original="Synchronize Document Translation">Sincroniza la traducción del documento</value>
+		<value column="Help" original="If the current client has not multi-lingual documents enabled, the translations for documents are synchronized with the main record (i.e. it copies the content of the main record to the translation records).  This process is necessary when swiching to a mono-lingual environment as there the terminoligy is maintained not in the translation records.&lt;br&gt;&#10;This applies to the client defined document translations, e.g. for UoM, Payment Terms, Product Info, etc.">Si el cliente actual no permite se hagan los documentos multilenguajes, las traducciones para los documentos se sincronizan con el expediente principal (es decir copia el contenido del expediente principal a los expedientes de la traducción).  Este proceso es necesario en un ambiente monolenguaje ya que allí no se mantiene la terminologia en la traducción de registros.Esto se aplica a las traducciones definidas del documento de cliente, ej. para UM, los términos del pago, información de producto, etc.</value>
+	</row>
+	<row id="322" trl="Y">
+		<value column="Name" original="Material Reference">Referencia de Material</value>
+		<value column="Description" original="Material Transactions Cross Reference (used/resourced)">Remisión material de las transacciones (Recurso/usado)</value>
+		<value column="Help" original="The report displays, e.g. where Material Receipts are used or Customer Shipments are resourced from">Las exhibiciones del informe, ej. donde se utilizan los recibos materiales o el cliente que son los envíos de recursos</value>
+	</row>
+	<row id="323" trl="Y">
+		<value column="Name" original="Create Invoices">Crea las facturas</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="324" trl="Y">
+		<value column="Name" original="Invoice Requests">Factura de solucitud</value>
+		<value column="Description" original="Create Invoice for Requests">Crear factura para solicitud</value>
+		<value column="Help" original="Create invoice for Request Type with optional Request Group, Category for Business Partner.  If the used product for invoicing is not defined, the product defined in the parameter is used.">Cree la factura para el tipo de la solicitud con el grupo opcional de categoria de solicitud, para el socio de negocio. Si el producto usado para facturar no se define, el producto definido en el parámetro se utiliza.</value>
+	</row>
+	<row id="325" trl="Y">
+		<value column="Name" original="Storage Cleanup">Limpieza General del Almacén</value>
+		<value column="Description" original="Inventory Storage Cleanup">Limpieza General del Almacenaje de Inventario</value>
+		<value column="Help" original="Create Inventory Movements for unbalanced Inventory Location Storage (i.e. within a warehouse move inventory to locations with negative on hand quantity).">Cree los movimientos de inventario para el almacenaje desequilibrado de la localización de inventario (ej. Dentro de un almacén el movimiento de inventario y las localizaciones de cantidad a la mano son negativas)</value>
+	</row>
+	<row id="326" trl="Y">
+		<value column="Name" original="Invoice Not Realized Gain/Loss">Factura no realizada Perdida/Aumento</value>
+		<value column="Description" original="Invoice Not Realized Gain &amp; Loss Report">Factura no realizada Aumento &amp; Reporte de Perdida</value>
+		<value column="Help" original="The Report lists not fully paid invoices with open amount, the GL amounts and the revalued amounts.  If an invoice is partially paid, the percentage of the open amount is used to calculate the revaluation amount.&lt;br&gt;&#10;If you select a currency, only invoices of that currency are included; if you select Include All Currencies, all invoices are included and you can use the report to reconcile your AP/AR accounts.&lt;br&gt;&#10;If you select a GL Document Type, a GL Journal is created. &#10;Note that the report only includes posted invoices.">El reporte de listas no completamente pagadas de las lineas de informe con cantidad abierta, las cantidades de GL y las cantidades nuevas. Si usted selecciona el tipo de documento de la GL. Se crea un diario de GL.</value>
+	</row>
+	<row id="327" trl="Y">
+		<value column="Name" original="Test EMail">Probar EMail</value>
+		<value column="Description" original="Test EMail Connection">Probar Conexión a EMail </value>
+		<value column="Help" original="Test EMail Connection based on info defined. An EMail is sent from the request user to the request user.  Also, the web store mail settings are tested.">Probar conexión a Email basados en información definida. Un Email es enviado desde el usuario de la solicitud a el usuario de la solicitud. También son probadas las configriraciones del portal Web.</value>
+	</row>
+	<row id="328" trl="Y">
+		<value column="Name" original="Column Encryption">Encriptar Columna </value>
+		<value column="Description" original="Test and enable Column Encryption">Comprobar y Permitir Encriptar Columna </value>
+		<value column="Help" original="To enable storage encryption or remove encryption is dangerous as you may loose data. You need to verify that the column is big enough to hold the encrypted value.  You can provide your own encryption method, but cannot change it once enabled.  &lt;br&gt;&#10;The default implementation supports US ASCII String conversion (not Unicode, Numbers, Dates)&lt;br&gt;&#10;Note that support is restricted to setup and test, but not data recovery.">De permitir el almacenaje encriptado o remover el encriptado es peligroso pues puede  perder información. Necesita verificar que la columna sea lo suficientemente grande para soportar los valores encriptados.Usted puede proporcionar su propio método de encriptado, pero no puede cambiarlo si lo a habilitado.  &lt;br&gt;
+La implementación predeterminada soporta US ASCII conversión de cadena (no Unicode,Números, Fechas)&lt;br&gt;
+Note que el soporte es restringido para configurar y probar, pero no recupera datos.</value>
+	</row>
+	<row id="329" trl="Y">
+		<value column="Name" original="Product Cost">Costo de Producto</value>
+		<value column="Description" original="Product Cost Report">Reportar Costo de Producto</value>
+		<value column="Help" original="The Product Cost  report lists the product costs for the product, cost type and cost element">El Reporte Costo de Producto lista el Costo de Producto para el Producto, tipo de costo y elemento de costo. </value>
+	</row>
+	<row id="330" trl="Y">
+		<value column="Name" original="Product Cost Summary">Sumario Costo de Producto</value>
+		<value column="Description" original="Product Cost Summary Report">Reporte Sumario Costo de Producto </value>
+		<value column="Help" original="The Product Cost  report lists the summarized product costs for the product">El Reporte Costo de Producto lista los Costos de Producto Sumarisados para el Producto. </value>
+	</row>
+	<row id="331" trl="Y">
+		<value column="Name" original="Product Cost Detail">Detalle Costo de Producto</value>
+		<value column="Description" original="Product Invoice Cost Detail Report">Reportar Detalle Costo de Producto Facturado</value>
+		<value column="Help" original="The Product Invoice Cost Detail Report lists the products with the individual invoice cost allocation">El Reporte Costo de Producto Facturado lista los productos con asignación de costo facturado individualmente.
+</value>
+	</row>
+	<row id="332" trl="Y">
+		<value column="Name" original="Distribute Costs">Distribución de Costos</value>
+		<value column="Description" original="Distribute costs to Products">Distribución de Costos a Productos </value>
+		<value column="Help" original="Distribute costs to Products based on selections - Distribution Base (Quantity, Current Costs, Line, Weight, ..) and Receipt/Line or directly to the product.">Distribución de Costos a Productos basados en selecciones - Bas de Distribución (Cantidad,Costo Actual línea, Peso)
+y Recibi/Línea o directamente para el producto. </value>
+	</row>
+	<row id="333" trl="Y">
+		<value column="Name" original="Order Detail">Detalle de Orden</value>
+		<value column="Description" original="Order Detail Report">Reportar Detalle de la Orden </value>
+		<value column="Help" original="The report includes order detail information including lost sales.  The report can be used for Sales and Purchasing.">El reporte incluye información detallada de la orden incluyendo ventas perdidas. El reporte puede ser usado paara Ventas y Compras.  </value>
+	</row>
+	<row id="334" trl="Y">
+		<value column="Name" original="Business Partner Detail">Detalle Socio del Negocio</value>
+		<value column="Description" original="Business Partner Detail Report">Reporte Detalle Socio del Negocio </value>
+		<value column="Help" original="The report list details of Business Partner, Addresses and Contacts for any active Business Partner with an Address and Contact">Los detalles de Lista de Reporte de Socio del Negocio, Dirección, Contacto para cualquier Socio del Negocio Activo con una dirección y  Contacto.</value>
+	</row>
+	<row id="335" trl="Y">
+		<value column="Name" original="Create Costing Records"> Crear Registro de Costeo</value>
+		<value column="Description" original="Create Costing Records">Crear Registro de Costeo</value>
+		<value column="Help" original="The costing records are created when needed or by batch processes. You can force the creation of the costing information here.">Los registro de costeo se cran cuando los necesita mediante proceso por lotes. Usted puede forzar la creación de la información de costeo aqui. </value>
+	</row>
+	<row id="336" trl="Y">
+		<value column="Name" original="Create Tax Declaration">Crear Declaración de Impuestos</value>
+		<value column="Description" original="Create Tax Declaration from Documents">Crear Declaración de Impuestos desde Documentos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="337" trl="Y">
+		<value column="Name" original="Create PO from Requisition">Crear OC desde Requisición</value>
+		<value column="Description" original="Create Purchase Orders from Requisitions">Crear Orden de Compra desde una  Requisición</value>
+		<value column="Help" original="Create Purchase orders from Purchase Requisitions.">Crear Orden de Compra desde una  Requisición</value>
+	</row>
+	<row id="338" trl="Y">
+		<value column="Name" original="Create GL/Default">Crear CG/ Predeterminado </value>
+		<value column="Description" original="Copy matching account element values from existing Accounting Schema">Copia valores de Elementos de Cuenta cotejados desde esquema contable existente</value>
+		<value column="Help" original="Create the GL and Default accounts for this accounting schema and copy matching account element values.">Crear CG y predeterminar cuentas para este Esquema Contable y copia valores de elementos de cuenta cotejados.
+</value>
+	</row>
+	<row id="339" trl="Y">
+		<value column="Name" original="Report or Update Issue">Reportar o Actualizar Surtimiento</value>
+		<value column="Description" original="Report Issue to Compiere">Reportar Surtimiento a Compiere</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="340" trl="Y">
+		<value column="Name" original="Monthly Invoice Product">Producto Facturado Mensualmente</value>
+		<value column="Description" original="Imvoice Report by Product per Month">Reporte de Factura por Producto por Més  </value>
+		<value column="Help" original="Invoiced Amount by Product and Month">Cantidad Facturada por Producto y Més.</value>
+	</row>
+	<row id="341" trl="Y">
+		<value column="Name" original="Quarter Invoice Product">Facturación Trimestral por producto</value>
+		<value column="Description" original="Imvoice Report by Product per Quarter">Reportar Facturación por Producto por Trimestre</value>
+		<value column="Help" original="Invoiced Amount by Product and Quarter">Cantidad Factirada por Producto y Més.
+</value>
+	</row>
+	<row id="342" trl="Y">
+		<value column="Name" original="Validate Support">Validar Soporte </value>
+		<value column="Description" original="Validate Support Contract">Validar Contrato de Soporte</value>
+		<value column="Help" original="The process connects to the Compiere Support Services server and validates the support contract.  To sign up for support, please go to http://www.compiere.org">El proceso se conecta al servidor de  Servicios de Soporte Compiere y vsñifs el contrato de soporte. Para contratar soporte por favor ingrese a www.e-evolution.com.mx
+</value>
+	</row>
+	<row id="1000000" trl="Y">
+		<value column="Name" original="PProfileBOM">Planteamiento</value>
+		<value column="Description" original="">Planteamiento de Perfil de LDM</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000002" trl="Y">
+		<value column="Name" original="Crear Producto">Crear Producto</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000003" trl="Y">
+		<value column="Name" original="MPCProfile CopyFrom">Copiar Desde</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000004" trl="Y">
+		<value column="Name" original="RV_Product_Price">Reporte Productos con Precio de Lista </value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000005" trl="Y">
+		<value column="Name" original="Workflow Cost Roll-Up">Integracion de Costos de FT-Rutas y Procesos</value>
+		<value column="Description" original="Workflow Cost Roll-Up">Integracion de Costos de FT-Rutas y Procesos</value>
+		<value column="Help" original="Workflow Cost Roll-Up">Integracion de Costos de FT-Rutas y Procesos</value>
+	</row>
+	<row id="1000006" trl="Y">
+		<value column="Name" original="Bill of Material &amp; Formula Cost Review ">Consulta de Costo de LDM y Fórmulas</value>
+		<value column="Description" original="Bill of Material &amp; Formula Cost Review ">Consulta de Costo de LDM y Fórmulas</value>
+		<value column="Help" original="Bill of Material &amp; Formula Cost Review ">Consulta de Costo de LDM y Fórmulas</value>
+	</row>
+	<row id="1000007" trl="Y">
+		<value column="Name" original="Manufacturing Orders Review  ">Informe Órdenes de Manufactura</value>
+		<value column="Description" original="MPC Manufacturing Orders Review  ">Informe Órdenes de Manufactura</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000008" trl="Y">
+		<value column="Name" original="Status Change">Estados de Cambios</value>
+		<value column="Description" original="Status Change">Estado de cambio</value>
+		<value column="Help" original="Status Change">Estado de cambio</value>
+	</row>
+	<row id="1000009" trl="Y">
+		<value column="Name" original="Dispatch Report">Reporte de Despacho</value>
+		<value column="Description" original="Dispatch Report">Reporte de Despacho</value>
+		<value column="Help" original="Dispatch Report">Reporte de Despacho</value>
+	</row>
+	<row id="1000010" trl="Y">
+		<value column="Name" original="Cost Review ">Informe de Costos</value>
+		<value column="Description" original="Cost Review ">Informe de Costos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000011" trl="Y">
+		<value column="Name" original="Repetitive Picklist Caculation">Cálculo de lista de empaque repetitivo</value>
+		<value column="Description" original="Repetitive Picklist Caculation">Calculo de la lista repetitiva de empaque.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000012" trl="Y">
+		<value column="Name" original="Picklist Review ">Consulta de Lista de Empaque</value>
+		<value column="Description" original="Picklist Review ">Consulta de Lista de Empaque</value>
+		<value column="Help" original="Picklist Review ">Consulta de Lista de Empaque</value>
+	</row>
+	<row id="1000013" trl="Y">
+		<value column="Name" original="Review  Shop Floor Transaction">Informe de Transacciones de Control de Piso</value>
+		<value column="Description" original="Review  Shop Floor Transaction">Informe de Transacciones de Control de Piso</value>
+		<value column="Help" original="Review  Shop Floor Transaction">Informe de Transacciones de Control de Piso</value>
+	</row>
+	<row id="1000014" trl="Y">
+		<value column="Name" original="Productivity Review">Informe de la Productividad</value>
+		<value column="Description" original="Productivity Review">Informe de la Productividad</value>
+		<value column="Help" original="Productivity Review">Informe de la Productividad</value>
+	</row>
+	<row id="1000015" trl="Y">
+		<value column="Name" original="Efficiency Review">Informe de Eficiencia</value>
+		<value column="Description" original="Efficiency Review">Informe de Eficiencia</value>
+		<value column="Help" original="Efficiency Review">Informe de Eficiencia</value>
+	</row>
+	<row id="1000016" trl="Y">
+		<value column="Name" original="Review  WIP Cost ">Revición de Costo WIP</value>
+		<value column="Description" original="Review  WIP Cost ">Revición de Costo WIP </value>
+		<value column="Help" original="Review  WIP Cost ">Revición de Costo WIP</value>
+	</row>
+	<row id="1000017" trl="Y">
+		<value column="Name" original="Net Change Material Plan">Generar Plan de Materiales de Cambio Neto</value>
+		<value column="Description" original="Net Change Material Plan">Generar Plan de Materiales de Cambio Neto</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000018" trl="Y">
+		<value column="Name" original="Regenerate Material Plan">Generar Plan de Materiales</value>
+		<value column="Description" original="Regenerate Material Plan">Generar Plan de Materiales</value>
+		<value column="Help" original="Regenerate Material Plan">Generar Plan de Materiales</value>
+	</row>
+	<row id="1000019" trl="Y">
+		<value column="Name" original="Selective Material Plan">Plan de Material Selectivo</value>
+		<value column="Description" original="Selective Material Plan">Plan de Material Selectivo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000020" trl="Y">
+		<value column="Name" original="Planned Order Review ">Informe de Ordenes Planeadas</value>
+		<value column="Description" original="Planned Order Review ">Informe de Ordenes Planeadas</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000021" trl="Y">
+		<value column="Name" original="Past Due Receipts Review ">Consulta de Recibos Vencidos </value>
+		<value column="Description" original="Past Due Receipts Review ">Revisión atrasada de los recibos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000022" trl="Y">
+		<value column="Name" original="MRP Detail Review ">Informe Detallado de MRP</value>
+		<value column="Description" original="MRP Detail Review ">Informe Detallado de MRP</value>
+		<value column="Help" original="MRP Detail Review ">Informe Detallado de MRP</value>
+	</row>
+	<row id="1000023" trl="Y">
+		<value column="Name" original="MRP Summary Review ">Informe Resumido de MRP</value>
+		<value column="Description" original="MRP Summary Review ">Informe Resumido de MRP</value>
+		<value column="Help" original="MRP Summary Review ">Informe Resumido de MRP</value>
+	</row>
+	<row id="1000024" trl="Y">
+		<value column="Name" original="Action Notice Review ">Informe de Mensajes de Acción</value>
+		<value column="Description" original="Action Notice Review ">Informe de Mensajes de Acción</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000025" trl="Y">
+		<value column="Name" original="Capacity Plan Calculation">Calcular Plan de Capacidad</value>
+		<value column="Description" original="Capacity Plan Calculation">Calcular Plan de Capacidad</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000026" trl="Y">
+		<value column="Name" original="Input/Output Review ">Informe Entradas/Salidas</value>
+		<value column="Description" original="Input/Output Review ">Informe Entradas/Salidas</value>
+		<value column="Help" original="Input/Output Review ">Informe Entradas/Salidas</value>
+	</row>
+	<row id="1000027" trl="Y">
+		<value column="Name" original="Detail Resource Load Review ">Informe detallado de Carga de Recursos</value>
+		<value column="Description" original="Detail Resource Load Review ">Informe detallado de Carga de Recursos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000028" trl="Y">
+		<value column="Name" original="Resource Load Summary Review">Informe Resumido de Carga de Recursos</value>
+		<value column="Description" original="Resource Load Summary Review">Informe Resumido de Carga de Recursos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000029" trl="Y">
+		<value column="Name" original="Operations Review">Informe de Operaciones</value>
+		<value column="Description" original="Operations Review">Informe de Operaciones</value>
+		<value column="Help" original="Operations Review">Informe de Operaciones</value>
+	</row>
+	<row id="1000030" trl="Y">
+		<value column="Name" original="Operation Cost Calculation">Cálculo de Costo de Operación</value>
+		<value column="Description" original="Operation Cost Calculation">Cálculo de Costo de Operación</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000031" trl="Y">
+		<value column="Name" original="ProfileBOM">Perfil LDM</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000032" trl="Y">
+		<value column="Name" original="Process Manufacturing Order">Procesador de Órdenes de Manufactura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000033" trl="Y">
+		<value column="Name" original="Order Receipts">Órdenes Recibidas</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000034" trl="Y">
+		<value column="Name" original="Cost Workflow &amp; Process Review ">Informe de Costos de FT-Rutas y  Procesos</value>
+		<value column="Description" original="Cost Workflow &amp; Process Review ">Informe de Costos de FT-Rutas y  Procesos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000036" trl="Y">
+		<value column="Name" original="Where Used Review  ">Donde Usar la Revisión</value>
+		<value column="Description" original="Where Used Review  ">Donde Usar la Revisión</value>
+		<value column="Help" original="Where Used Review  ">Donde Usar la Revisión</value>
+	</row>
+	<row id="1000037" trl="Y">
+		<value column="Name" original="Mutiple Components Change">Cambio a Múltiples Componentes</value>
+		<value column="Description" original="Mutiple Components Change">Cambio a Múltiples Componentes</value>
+		<value column="Help" original="Mutiple Components Change">Cambio a Múltiples Componentes</value>
+	</row>
+	<row id="1000038" trl="Y">
+		<value column="Name" original="Bill of Material &amp; Formula Cost Roll-UP">Integración de Costos de LDM y Fórmulas</value>
+		<value column="Description" original="Bill of Material &amp; Formula Cost Roll-UP">Integración de Costos de LDM y Fórmulas</value>
+		<value column="Help" original="Bill of Material &amp; Formula Cost Roll-UP">Integración de Costos de LDM y Fórmulas</value>
+	</row>
+	<row id="1000039" trl="Y">
+		<value column="Name" original="Manufacturing Schedule">Programa de Manufactura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000040" trl="Y">
+		<value column="Name" original="Create Element">Crea Elemento</value>
+		<value column="Description" original="Create Element">Crea Elemento</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000041" trl="Y">
+		<value column="Name" original="Create Product Planning">Planeación de Producto por Grupo</value>
+		<value column="Description" original="MPC_Product_Planning">Planeación de Producto por Grupo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000042" trl="Y">
+		<value column="Name" original="Genera Etapas ">Genera Etapas </value>
+		<value column="Description" original="Genera Etapas">Genera Etapas</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000043" trl="Y">
+		<value column="Name" original="Calcula Potencial">Calcula Potencial</value>
+		<value column="Description" original="Calcula Potencial">Calcula Potencial</value>
+		<value column="Help" original="&#9;">	</value>
+	</row>
+	<row id="1000046" trl="Y">
+		<value column="Name" original="Import Roles">Importa Roles de Acceso</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000047" trl="Y">
+		<value column="Name" original="BORRAR TODO">Borrar Todo</value>
+		<value column="Description" original="BORRAR TODO">Borrar Todo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000048" trl="Y">
+		<value column="Name" original="Copiar Seleccionados">Crear LDM</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000049" trl="Y">
+		<value column="Name" original="Calculate Low Level">Calculo de Niveles Inferiores</value>
+		<value column="Description" original="">** Especial ** No Cambie **</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000050" trl="Y">
+		<value column="Name" original="Copy Price to Standard Cost">Copiar el Precio a Costo Estándar</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000051" trl="Y">
+		<value column="Name" original="Perfil Nutricional">Completa Facturas</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000052" trl="Y">
+		<value column="Name" original="CopyToNutrients">Etiqueta</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000053" trl="Y">
+		<value column="Name" original="Copy From Perfil">Calcula Código de Nivel Inferior</value>
+		<value column="Description" original="">Calcula Código de Nivel Inferior</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000054" trl="Y">
+		<value column="Name" original="Etiqueta">MPC Copia Precio de Lista a Costo Estándar</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000055" trl="Y">
+		<value column="Name" original="Ingredientes Seleccionados">PERFIL</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000056" trl="Y">
+		<value column="Name" original="MPC_ProfileBOM_Create Proposal">Requisición</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000057" trl="Y">
+		<value column="Name" original="Ingredients Report">Verificación de Componentes</value>
+		<value column="Description" original="">Verificación de Componentes</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000058" trl="Y">
+		<value column="Name" original="Ingredients Selected">Liberación e Impresión de la OM</value>
+		<value column="Description" original="">Liberación e Impresión de la OM</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000059" trl="Y">
+		<value column="Name" original="Activar y desactivar formula">Flujo de Efectivo</value>
+		<value column="Description" original="">Flujo de Efectivo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000060" trl="Y">
+		<value column="Name" original="RV_Manufacturing Order">Orden de Manufactura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000061" trl="Y">
+		<value column="Name" original="translateMProd">Traducción de Productos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000064" trl="Y">
+		<value column="Name" original="Print &amp; Release Order">Imprime y Libera Orden</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000065" trl="Y">
+		<value column="Name" original="Component Check">Verificación de Componentes/Resumen</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000066" trl="Y">
+		<value column="Name" original="MPC _Order Simulation Vimifos">MPC _Orden Simulación Vimifos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000067" trl="Y">
+		<value column="Name" original="Aplicar Formatos">Aplicar Formatos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000068" trl="Y">
+		<value column="Name" original="CashFlow">Flujo de Efectivo</value>
+		<value column="Description" original="CashFlow">Flujo de Efectivo</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000070" trl="Y">
+		<value column="Name" original="RV_CashAnalysis">Análisis de Flujo de Efectivo</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000071" trl="Y">
+		<value column="Name" original="Copy Req to Analisis">Copia Solicitud para Análisis</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000072" trl="Y">
+		<value column="Name" original="Update Low Level">Actualiza Nivel más bajo</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000073" trl="Y">
+		<value column="Name" original="C_Invoice_Number">Numero de Factura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000074" trl="Y">
+		<value column="Name" original="Requisition">Requisición.</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000075" trl="Y">
+		<value column="Name" original="Completar Facturas">Completar Facturas</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000076" trl="Y">
+		<value column="Name" original="Freight ">Fletes</value>
+		<value column="Description" original="RV_Freight ">Fletes</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000078" trl="Y">
+		<value column="Name" original="Create Record MRP">Crea Registros MRP</value>
+		<value column="Description" original=""/>
+		<value column="Help" original="This process delete all records of MRP and generate the nagain">Este proceso elimina todos los registros del MRP y los genera nuevamente</value>
+	</row>
+	<row id="1000079" trl="Y">
+		<value column="Name" original="Product Costing">Costo del Producto</value>
+		<value column="Description" original="Product Costing">Costo del Producto</value>
+		<value column="Help" original="&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;">													</value>
+	</row>
+	<row id="1000080" trl="Y">
+		<value column="Name" original="Physical Inventory Costing">Costeo de Inventario Fisico</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000081" trl="Y">
+		<value column="Name" original="INFORCHEC">INFORCHEC</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000082" trl="Y">
+		<value column="Name" original="Process Cost Collector">Proceso Colector de Costos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000083" trl="Y">
+		<value column="Name" original="ChangeInvoiceNumber">Cambia Numero de Factura</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000084" trl="Y">
+		<value column="Name" original="CheckPrint">Verifica Impresión</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000085" trl="Y">
+		<value column="Name" original="RV_InventoryEffectiveDate">Inventario a Fecha Efectiva</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000086" trl="Y">
+		<value column="Name" original="MPC Formula Costos Report">MPC Reporte de Formula de Costos </value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000087" trl="Y">
+		<value column="Name" original="Recalculate Tax">Recalcule el Impuesto</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000089" trl="Y">
+		<value column="Name" original="Order Transactions">Transacciones de Órdenes</value>
+		<value column="Description" original="Order Transactions">Transacciones de Órdenes</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000090" trl="Y">
+		<value column="Name" original="RV_MPC_Product_NOCost">RV_MPC_Product_NOCost</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000092" trl="Y">
+		<value column="Name" original="FactAnalysis">Análisis de Hechos Contables </value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000093" trl="Y">
+		<value column="Name" original="ReAllocate Process">Proceso de Re-asignación de Pagos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000094" trl="Y">
+		<value column="Name" original="Conversion de Asignaciones">Conversion de Asignaciones</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000095" trl="Y">
+		<value column="Name" original="Allocation_CConversion">Asignación de Conversión</value>
+		<value column="Description" original="Allocation_CConversion">Asignación de Conversión</value>
+		<value column="Help" original="The report displays invoice allocations to payments and cash journals.  Previous allocations are displayed as reversed.">El informe exhibe asignaciones de la factura a los pagos y diarios de efectivo. Las asignaciones anteriores se exhiben según lo invertido.</value>
+	</row>
+	<row id="1000096" trl="Y">
+		<value column="Name" original="Accounting Post Fact Details">Detalle de Asientos Contables</value>
+		<value column="Description" original="Accounting Post Fact Details Report">Reporte de Detalle de Asientos Contables</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000097" trl="Y">
+		<value column="Name" original="Multi Level BOM &amp; Formula">Multi nivel LDM y formulas</value>
+		<value column="Description" original="">Multi nivel LDM y formulas</value>
+		<value column="Help" original="">Multi nivel LDM y formulas</value>
+	</row>
+	<row id="1000098" trl="Y">
+		<value column="Name" original="Bill of Material &amp; Formula">Lista de Materiales y Formulas</value>
+		<value column="Description" original="Bill of Material &amp; Formula">Lista de Materiales y Formulas</value>
+		<value column="Help" original="Bill of Material &amp; Formula">Lista de Materiales y Formulas</value>
+	</row>
+	<row id="1000100" trl="Y">
+		<value column="Name" original="MPC_Product_BOM CopyFrom">Copiar Lineas desde otra Lista de Materiales</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000101" trl="Y">
+		<value column="Name" original="RV_Operation_Activity">Crear OC Subcontrato</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000102" trl="Y">
+		<value column="Name" original="RV_MPC_MRP">Informe del Detalle de MRP</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000103" trl="Y">
+		<value column="Name" original="T_ComponentCheck">Verificación de Componentes/Detalle</value>
+		<value column="Description" original="">Verificación de componenetes mostrando todos los renglones de Almacenamiento</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000104" trl="N">
+		<value column="Name" original="RV_MPC_ORDER_BOMLINEDETAILS">RV_MPC_Order_BOMLineDetails</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+</compiereTrl>

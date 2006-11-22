@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="AD_Task">
+	<row id="102" trl="Y">
+		<value column="Name" original="Java Version"> Versione Java</value>
+		<value column="Description" original="Displays the version of the default Java VM">Mostra la versione del default di Java VM</value>
+		<value column="Help" original="The java version used by the application might be different.">La versione Java usata dall'applicativo potrebbe essere diversa.</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Database export">Esporta il Database </value>
+		<value column="Description" original="Export (save) the database">Esporta (salva) il database</value>
+		<value column="Help" original="Run this command from the server">Usa questo comando dal server</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Database transfer">Trasferimento Database </value>
+		<value column="Description" original="Transfer the database">Trasferisce il database</value>
+		<value column="Help" original="Run this command from the server">Usa questo comando dal server</value>
+	</row>
+</compiereTrl>

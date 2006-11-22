@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="C_Tax">
+	<row id="104" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="CT Sales">CT Sales</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original="6%CT">6%CT</value>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="GST">GST</value>
+		<value column="Description" original="Canadian Federal Sales Tax">Canadian Federal Sales Tax</value>
+		<value column="TaxIndicator" original="GST">GST</value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="PST">PST</value>
+		<value column="Description" original="Canadian Provintial Tax">Canadian Provintial Tax</value>
+		<value column="TaxIndicator" original="PST">PST</value>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="GST/PST">GST/PST</value>
+		<value column="Description" original="Canadian Federal &amp; State Tax">Canadian Federal &amp; State Tax</value>
+		<value column="TaxIndicator" original="Tax">Tax</value>
+	</row>
+	<row id="109" trl="N">
+		<value column="Name" original="Exempt">Exempt</value>
+		<value column="Description" original="Used when Business Partners are exempt from tax">Used when Business Partners are exempt from tax</value>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="1000000" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="1000001" trl="Y">
+		<value column="Name" original="IVA04">IVA04</value>
+		<value column="Description" original="IVA 4%">IVA 4%</value>
+		<value column="TaxIndicator" original="04">4</value>
+	</row>
+	<row id="1000002" trl="Y">
+		<value column="Name" original="IVA04N">IVA04N</value>
+		<value column="Description" original="IVA 4% Non.Detraibile">IVA 4% Non Detraibile</value>
+		<value column="TaxIndicator" original="04N">4</value>
+	</row>
+	<row id="1000003" trl="Y">
+		<value column="Name" original="IVA20X">IVA20X</value>
+		<value column="Description" original="Iva 20% Detraibile al 50%">Iva 20% Detraibile al 50%</value>
+		<value column="TaxIndicator" original="20X">4</value>
+	</row>
+	<row id="1000004" trl="Y">
+		<value column="Name" original="IVA10">IVA10</value>
+		<value column="Description" original="IVA 10%">IVA 10%</value>
+		<value column="TaxIndicator" original="10">4</value>
+	</row>
+	<row id="1000005" trl="Y">
+		<value column="Name" original="IVA10N">IVA10N</value>
+		<value column="Description" original="IVA 10% Non Detraibile">IVA 10% Non Detraibile</value>
+		<value column="TaxIndicator" original="10N">4</value>
+	</row>
+	<row id="1000006" trl="Y">
+		<value column="Name" original="IVA20">IVA20</value>
+		<value column="Description" original="IVA 20%">IVA 20%</value>
+		<value column="TaxIndicator" original="20">4</value>
+	</row>
+	<row id="1000007" trl="Y">
+		<value column="Name" original="IVA20N">IVA20N</value>
+		<value column="Description" original="IVA 20% Non Detraibile">IVA 20% Non Detraibile</value>
+		<value column="TaxIndicator" original="20N">4</value>
+	</row>
+</compiereTrl>

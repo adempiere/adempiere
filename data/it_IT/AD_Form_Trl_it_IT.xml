@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="AD_Form">
+	<row id="100" trl="Y">
+		<value column="Name" original="Generate Invoices (manual)">Creazione fatture (manuale)</value>
+		<value column="Description" original="Select and generate invoices">Selezione e creazione fatture</value>
+		<value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Import File Loader">Importazione Dati da FIle</value>
+		<value column="Description" original="Load flat Files into import tables">Caricamento flat file nelle tabelle d'importazione</value>
+		<value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">Il Caricatore del File di Importazione fa parsing del contenuto del flat file e lo carica nelle tabelle di importazione. I commenti iniziano con una  '[' e finiscono con una  ']' ed essi sono ingnorati; esempio: [Testata].</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Initial Client Setup">Impostazione iniziale del client</value>
+		<value column="Description" original="Initial new Client/Tenant Setup">Impostazione iniziale del client</value>
+		<value column="Help" original="Set up a new Client/Tenant of the system"/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Material Transactions">Operazioni relative ai materiali</value>
+		<value column="Description" original="Material Transactions">Operazioni relative ai materiali</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Payment Allocation">Imputazione Pagamenti</value>
+		<value column="Description" original="Allocate invoices and payments">Imputazione incassi e pagamenti</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Generate Charges">Creazione Addebiti</value>
+		<value column="Description" original="Generate Charges from natural accounts">Creazione Addebiti dai conti originari</value>
+		<value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Payment Print/Export">Stampa/esportazione pagamento</value>
+		<value column="Description" original="Print or export your payments">Stampa/esportazione pagamenti</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Payment Selection (manual)">Pagamento Fatture (manuale)</value>
+		<value column="Description" original="Manual Payment Selection">Pagamento Manuale delle Fatture</value>
+		<value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Matching PO-Receipt-Invoice">Abbinamento Ordine d'Acquisto-Entrata Merci-Fattura</value>
+		<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Abbinamento Ordine d'acquisto-Entrata Merci-fattura</value>
+		<value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Translation Import/Export">Traduzione Importazione/esportazione</value>
+		<value column="Description" original="Import or Export Language Translation">Traduzione lingua di importazione/esportazione</value>
+		<value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage."/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Generate Shipments (manual)">Creazione Documenti di Spedizione (manuale)</value>
+		<value column="Description" original="Select and generate shipments">Creazione Documenti di Spedizione (manuale)</value>
+		<value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for."/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="SQL Process">Manutenzione Password</value>
+		<value column="Description" original="Process SQL Statements">Manutenzione Passwords</value>
+		<value column="Help" original="Process SQL DDL Statements">Manutenzione delle Passwords per gli utenti ed i Business Partners</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Merge Entities">Fusione Entità</value>
+		<value column="Description" original="Merge From Entity to To Entity - Delete From">Fusione da Entità ad Entità - Cancella da</value>
+		<value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">Potenzialmente dannoso! Per Favore essere sicuri di quello che si stà facendo prima di far partire il Form.
+</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="POS">Punto di Vendita Finale</value>
+		<value column="Description" original="Point Of Sales Terminal">Punto di Vendita</value>
+		<value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized."/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="BOM Drop">Esplosione Distinta Base</value>
+		<value column="Description" original="Drop (expand) Bill of Materials">Inserisce (esplosa) la distinta base in Ordine o Fattura</value>
+		<value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Esplode la Distinta Base in un Ordine, Fattura, etc. Il documento deve essere in stato Bozza. Siate sicuri che gli articoli della Distinta Base siano nel listino prezzi dell'Ordine, Fattura, etc altrimenti il prezzo sarà zero.
+</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Tree Maintenance">Gestione Albero</value>
+		<value column="Description" original="Maintain Trees">Gestisce gli Alberi</value>
+		<value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Mostra e cambia alberi. Gestisce gli ingressi nelle loro finestre specifiche</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Workflow Editor">Editor di Workflow</value>
+		<value column="Description" original="Edit Workflows">Editor di Workflow</value>
+		<value column="Help" original="Edit the graphical layout of workflows"/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Workflow Activities">Attività di Workflow</value>
+		<value column="Description" original="My active workflow activities">Attività di Workflow Attive</value>
+		<value column="Help" original="View active worflow activities"/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Archive Viewer">Visualizzatore Archivio</value>
+		<value column="Description" original="View automatically archived Documents">View automatically archived Documents</value>
+		<value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Performance Indicators">Indicatori di Performance</value>
+		<value column="Description" original="View Performance Indicators">Indicatori di Performance</value>
+		<value column="Help" original="View all Performance Indicators and Goals">View all Performance Indicators and Goals</value>
+	</row>
+</compiereTrl>

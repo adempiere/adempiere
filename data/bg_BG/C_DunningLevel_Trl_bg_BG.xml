@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!--ADempiere Release 3.1.0_2006-01-20 - The Open Source Profesional ERP,CRM and SCM - ADempiere; Implementation: unknown - not supported--><!--<!DOCTYPE adempiereTrl PUBLIC "-//Adempiere//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="bg_BG" table="C_DunningLevel">
+	<row id="100" trl="N">
+		<value column="PrintName" original="Statement">Statement</value>
+		<value column="Note"
+			original="Please review your statement and submit due payments.">			Please review your statement and submit due payments.		</value>
+	</row>
+	<row id="101" trl="N">
+		<value column="PrintName" original="Dunning Letter">			Dunning Letter		</value>
+		<value column="Note"
+			original="Please pay the due invoices immediately">			Please pay the due invoices immediately		</value>
+	</row>
+</adempiereTrl>

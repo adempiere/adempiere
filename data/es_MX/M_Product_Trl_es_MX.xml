@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="M_Product">
+	<row id="122" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="123" trl="N">
+		<value column="Name" original="Oak Tree">Oak Tree</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original="Oak Trees may grow quite a bit.">Oak Trees may grow quite a bit.</value>
+	</row>
+	<row id="124" trl="N">
+		<value column="Name" original="Elm Tree">Elm Tree</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="125" trl="N">
+		<value column="Name" original="Grass Seed Container">Grass Seed Container</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="126" trl="N">
+		<value column="Name" original="Planting Service">Planting Service</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="127" trl="N">
+		<value column="Name" original="Rose Bush">Rose Bush</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="128" trl="N">
+		<value column="Name" original="Azalea Bush">Azalea Bush</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="129" trl="N">
+		<value column="Name" original="Holly Bush">Holly Bush</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="130" trl="N">
+		<value column="Name" original="Plum Tree">Plum Tree</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="131" trl="N">
+		<value column="Name" original="Travel cost">Travel cost</value>
+		<value column="Description" original="Travel related costs">Travel related costs</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="132" trl="N">
+		<value column="Name" original="Mary Consultant">Mary Consultant</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="133" trl="N">
+		<value column="Name" original="Patio Chair">Patio Chair</value>
+		<value column="Description" original="Nice Chair for outdoors">Nice Chair for outdoors</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="134" trl="N">
+		<value column="Name" original="Patio Table">Patio Table</value>
+		<value column="Description" original="Nice Table for outdoors">Nice Table for outdoors</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="135" trl="N">
+		<value column="Name" original="Patio Sun Screen">Patio Sun Screen</value>
+		<value column="Description" original="Protect from UV">Protect from UV</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="136" trl="N">
+		<value column="Name" original="Fertilizer #50">Fertilizer #50</value>
+		<value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bag of Lawn Fertilizer</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="137" trl="N">
+		<value column="Name" original="Mulch 10#">Mulch 10#</value>
+		<value column="Description" original="10# Bag of Mulch">10# Bag of Mulch</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="138" trl="N">
+		<value column="Name" original="Hoe 4 ft">Hoe 4 ft</value>
+		<value column="Description" original="4 Foot Metal Hoe">4 Foot Metal Hoe</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="139" trl="N">
+		<value column="Name" original="Rake Bamboo">Rake Bamboo</value>
+		<value column="Description" original="4 Foot Bamboo Rake">4 Foot Bamboo Rake</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="140" trl="N">
+		<value column="Name" original="Rake Metal">Rake Metal</value>
+		<value column="Description" original="4 Foot Metal Rake">4 Foot Metal Rake</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="141" trl="N">
+		<value column="Name" original="Weeder">Weeder</value>
+		<value column="Description" original="Hand Weeder">Hand Weeder</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="142" trl="N">
+		<value column="Name" original="Transplanter">Transplanter</value>
+		<value column="Description" original="Hand Transplanter">Hand Transplanter</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="143" trl="N">
+		<value column="Name" original="Grass Seeder">Grass Seeder</value>
+		<value column="Description" original="Manual Grass Seeder">Manual Grass Seeder</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="144" trl="N">
+		<value column="Name" original="Lawn Tiller">Lawn Tiller</value>
+		<value column="Description" original="Manual Lawn Tiller">Manual Lawn Tiller</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="145" trl="N">
+		<value column="Name" original="Patio Furniture Set">Patio Furniture Set</value>
+		<value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">1 table, 4 Chairs and 1 Sun Screen</value>
+		<value column="DocumentNote" original="&#9;">	</value>
+	</row>
+	<row id="146" trl="N">
+		<value column="Name" original="How To Plant">How To Plant</value>
+		<value column="Description" original="Information on how to best to plant your future.">Information on how to best to plant your future.</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="147" trl="N">
+		<value column="Name" original="TShirt - Red Large">TShirt - Red Large</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="148" trl="N">
+		<value column="Name" original="TShirt - Green Large">TShirt - Green Large</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="149" trl="N">
+		<value column="Name" original="Line Chair">Line Chair</value>
+		<value column="Description" original="Line Chair">Line Chair</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="150" trl="N">
+		<value column="Name" original="Line Fertilaizer">Line Fertilaizer</value>
+		<value column="Description" original="Line Fertilaizer">Line Fertilaizer</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000001" trl="N">
+		<value column="Name" original="Endorsement">Endorsement</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000002" trl="N">
+		<value column="Name" original="Seat">Seat</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000003" trl="N">
+		<value column="Name" original="Front Leg">Front Leg</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000004" trl="N">
+		<value column="Name" original="N">N</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000005" trl="N">
+		<value column="Name" original="Screw">Screw</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000006" trl="N">
+		<value column="Name" original="RR">RR</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000007" trl="N">
+		<value column="Name" original="Back Leg">Back Leg</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000008" trl="N">
+		<value column="Name" original="Total Nitrogen">Total Nitrogen</value>
+		<value column="Description" original="Total Nitrogen">Total Nitrogen</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000022" trl="N">
+		<value column="Name" original="M">M</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000023" trl="N">
+		<value column="Name" original="K">K</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000024" trl="N">
+		<value column="Name" original="Z">Z</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000025" trl="N">
+		<value column="Name" original="L">L</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000026" trl="N">
+		<value column="Name" original="F">F</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000027" trl="N">
+		<value column="Name" original="Nitric Nitrogen">Nitric Nitrogen</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000028" trl="N">
+		<value column="Name" original="X">X</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000029" trl="N">
+		<value column="Name" original="W">W</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000030" trl="N">
+		<value column="Name" original="Q">Q</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000031" trl="N">
+		<value column="Name" original="Y">Y</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000032" trl="N">
+		<value column="Name" original="Elementary Calcium">Elementary Calcium</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000033" trl="N">
+		<value column="Name" original="U">U</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000034" trl="N">
+		<value column="Name" original="P">P</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000035" trl="N">
+		<value column="Name" original="T">T</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000036" trl="N">
+		<value column="Name" original="O">O</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000037" trl="N">
+		<value column="Name" original="Water">Water</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000038" trl="N">
+		<value column="Name" original="V">V</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000039" trl="N">
+		<value column="Name" original="Oxidize of Calcium">Oxidize of Calcium</value>
+		<value column="Description" original="Oxidize of Calcium">Oxidize of Calcium</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000040" trl="N">
+		<value column="Name" original="S">S</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000041" trl="N">
+		<value column="Name" original="R">R</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1003831" trl="N">
+		<value column="Name" original="Patio Set">Patio Set</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1003832" trl="N">
+		<value column="Name" original="HQ Plant">HQ Plant</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1003833" trl="N">
+		<value column="Name" original="Estándar">Estándar</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1007440" trl="N">
+		<value column="Name" original="Prod1">Prod1</value>
+		<value column="Description" original="Producto 1">Producto 1</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1007441" trl="N">
+		<value column="Name" original="prod1">prod1</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1007442" trl="N">
+		<value column="Name" original="Douglas Fir">Douglas Fir</value>
+		<value column="Description" original="Producto Douglas Fir">Producto Douglas Fir</value>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1007443" trl="N">
+		<value column="Name" original="John Consultores">John Consultores</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+</compiereTrl>

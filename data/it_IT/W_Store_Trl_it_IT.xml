@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="W_Store">
+	<row id="11" trl="N">
+		<value column="EMailFooter" original=""/>
+		<value column="EMailHeader" original=""/>
+		<value column="WebInfo" original=""/>
+		<value column="WebParam1" original="Compiere120x60.gif">Compiere120x60.gif</value>
+		<value column="WebParam2" original="&lt;h1&gt;Web Store&lt;/h1&gt;">&lt;h1&gt;Web Store&lt;/h1&gt;</value>
+		<value column="WebParam3" original="Parameter3">Parameter3</value>
+		<value column="WebParam4" original="Parameter4">Parameter4</value>
+		<value column="WebParam5" original="Parameter5">Parameter5</value>
+		<value column="WebParam6" original="Parameter6">Parameter6</value>
+	</row>
+</compiereTrl>

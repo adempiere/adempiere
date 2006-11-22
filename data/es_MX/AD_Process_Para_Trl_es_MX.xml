@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_Process_Para">
+	<row id="227" trl="Y">
+		<value column="Name" original="Delete existing Accounting Entries">Delete existing Accounting Entries</value>
+		<value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">The selected accounting entries will be deleted!  DANGEROUS !!!</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Pricelist Version">Pricelist Version</value>
+		<value column="Description" original="Only used if Price List is used to set future/standard cost price">Only used if Price List is used to set future cost price</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="302" trl="Y">
+		<value column="Name" original="Target Payment Rule">Target Payment Rule</value>
+		<value column="Description" original="How you pay the invoice">How you pay the invoice</value>
+		<value column="Help" original="The Payment Rule indicates the method of invoice payment.">The Payment Rule indicates the method of invoice payment.</value>
+	</row>
+	<row id="315" trl="N">
+		<value column="Name" original="From User">From User</value>
+		<value column="Description" original="Send EMail from user">Send EMail from user</value>
+		<value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">The email is sent from the user selected - otherwise it is sent from the request email address of the client</value>
+	</row>
+	<row id="452" trl="Y">
+		<value column="Name" original="Maintenance Mode">Maintenance Mode</value>
+		<value column="Description" original="Language Maintenance Mode">Language Maintenance Mode</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="467" trl="Y">
+		<value column="Name" original="Existing Organization">Existing Organization</value>
+		<value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Organizational entity within client - set to empty if you want to create a new organization</value>
+		<value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</value>
+	</row>
+	<row id="469" trl="Y">
+		<value column="Name" original="Limit Access to Role">Limit Access to Role</value>
+		<value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">If no Role is selected, grant access to all (non-manual) roles of the Client</value>
+		<value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">The Role determines security and access a user who has this Role will have in the System.</value>
+	</row>
+	<row id="493" trl="Y">
+		<value column="Name" original="New User/Contact">New User/Contact</value>
+		<value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+		<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+	</row>
+	<row id="494" trl="Y">
+		<value column="Name" original="New Workflow Responsible">New Workflow Responsible</value>
+		<value column="Description" original="Responsible for Workflow Execution">Responsible for Workflow Execution</value>
+		<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+	</row>
+	<row id="496" trl="Y">
+		<value column="Name" original="New User/Contact">New User/Contact</value>
+		<value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+		<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+	</row>
+	<row id="497" trl="Y">
+		<value column="Name" original="New Workflow Responsible">New Workflow Responsible</value>
+		<value column="Description" original="Responsible for Workflow Execution">Responsible for Workflow Execution</value>
+		<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+	</row>
+	<row id="523" trl="Y">
+		<value column="Name" original="Default Sales Rep">Default Sales Rep</value>
+		<value column="Description" original="If not defined on Business Partner Level">If not defined on Business Partner Level</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="524" trl="Y">
+		<value column="Name" original="Dunning Currency">Dunning Currency</value>
+		<value column="Description" original="Currency to create Dunning Letters">Currency to create Dunning Letters</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000009" trl="Y">
+		<value column="Name" original="Action">Action</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000010" trl="Y">
+		<value column="Name" original="NewProduct">NewProduct</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000070" trl="Y">
+		<value column="Name" original="Product Category">Product Category</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000071" trl="Y">
+		<value column="Name" original="Purchased">Purchased</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+</compiereTrl>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><!--ADempiere Release 3.1.0_2006-01-20 - The Open Source Profesional ERP,CRM and SCM - ADempiere; Implementation: unknown - not supported--><!--<!DOCTYPE adempiereTrl PUBLIC "-//Adempiere//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="bg_BG" table="C_TaxCategory">
+	<row id="107" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original="" />
+	</row>
+</adempiereTrl>

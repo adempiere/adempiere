@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="C_UOM">
+	<row id="100" trl="Y">
+		<value column="Name" original="Each">Pieza</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="Ea ">Pza</value>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Hour">Hora</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="h  ">hr</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Day">Día</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="d  ">d  </value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Minutes">Minutos</value>
+		<value column="Description" original="(lowest unit for resorce assigments)">(lowest unit for resorce assigments)</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Work Day">Día de trabajo</value>
+		<value column="Description" original="8 hour">8 Horas</value>
+		<value column="UOMSymbol" original="D  ">D  </value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Week">Semana</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="w  ">w  </value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Month">Mes</value>
+		<value column="Description" original="30 days">30 días</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Working Month">Mes de Trabajo</value>
+		<value column="Description" original="20 days">20 days</value>
+		<value column="UOMSymbol" original="M  ">M  </value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Year">Año</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="y  ">y  </value>
+	</row>
+	<row id="109" trl="N">
+		<value column="Name" original="6-Pack">6-Pack</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="6Pk">6Pk</value>
+	</row>
+	<row id="1000000" trl="Y">
+		<value column="Name" original="kg">kg</value>
+		<value column="Description" original="kg">kg</value>
+		<value column="UOMSymbol" original="kg">kg</value>
+	</row>
+	<row id="1000001" trl="N">
+		<value column="Name" original="%">%</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="%">%</value>
+	</row>
+	<row id="1000002" trl="N">
+		<value column="Name" original="g/Kg">g/Kg</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="gKg">gKg</value>
+	</row>
+	<row id="1000003" trl="N">
+		<value column="Name" original="mg/Kg">mg/Kg</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="MgKg">MgKg</value>
+	</row>
+	<row id="1000014" trl="Y">
+		<value column="Name" original="LITRO">LITRO</value>
+		<value column="Description" original="LITRO">LITRO</value>
+		<value column="UOMSymbol" original="LT">LT</value>
+	</row>
+	<row id="1000015" trl="Y">
+		<value column="Name" original="METRO">METRO</value>
+		<value column="Description" original="METRO">METRO</value>
+		<value column="UOMSymbol" original="MT">MT</value>
+	</row>
+	<row id="1000017" trl="N">
+		<value column="Name" original="kg">kg</value>
+		<value column="Description" original="kg">kg</value>
+		<value column="UOMSymbol" original="kg">kg</value>
+	</row>
+	<row id="1000019" trl="N">
+		<value column="Name" original="Cada Uno">Cada Uno</value>
+		<value column="Description" original="Cada Uno">Cada Uno</value>
+		<value column="UOMSymbol" original="CU">CU</value>
+	</row>
+	<row id="1000020" trl="N">
+		<value column="Name" original="Gramos">Gramos</value>
+		<value column="Description" original="Gramos">Gramos</value>
+		<value column="UOMSymbol" original="GR">GR</value>
+	</row>
+	<row id="1000021" trl="N">
+		<value column="Name" original="Blister">gr</value>
+		<value column="Description" original="Blister"/>
+		<value column="UOMSymbol" original="BL">gr</value>
+	</row>
+	<row id="1000022" trl="N">
+		<value column="Name" original="Mililitro">Mililitro</value>
+		<value column="Description" original="Mililitro">Mililitro</value>
+		<value column="UOMSymbol" original="ML">ML</value>
+	</row>
+	<row id="1000023" trl="N">
+		<value column="Name" original="Miligramo">Miligramo</value>
+		<value column="Description" original="Miligramo">Miligramo</value>
+		<value column="UOMSymbol" original="MG">MG</value>
+	</row>
+	<row id="1000024" trl="N">
+		<value column="Name" original="Revisar">Revisar</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original=""/>
+	</row>
+	<row id="1000025" trl="N">
+		<value column="Name" original="Pieza">Pieza</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original=""/>
+	</row>
+</compiereTrl>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="C_UOM">
+	<row id="100" trl="Y">
+		<value column="Name" original="Each">Pezzo</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="Ea ">Ea </value>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Hour">Ora</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="h  ">h  </value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Day">Giorno</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="d  ">d  </value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Minutes">Minuti</value>
+		<value column="Description" original="(lowest unit for resorce assigments)">(lowest unit for resorce assigments)</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Work Day">Giornata Uomo</value>
+		<value column="Description" original="8 hour">8 ore</value>
+		<value column="UOMSymbol" original="D  ">D  </value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Week">Settimana</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="w  ">w  </value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Month">Mese</value>
+		<value column="Description" original="30 days">30 giorni</value>
+		<value column="UOMSymbol" original="m  ">m  </value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Working Month">Mese Uomo</value>
+		<value column="Description" original="20 days">20 giorni/uomo</value>
+		<value column="UOMSymbol" original="M  ">M  </value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Year">Anno</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="y  ">y  </value>
+	</row>
+	<row id="109" trl="N">
+		<value column="Name" original="6-Pack">6-Pack</value>
+		<value column="Description" original=""/>
+		<value column="UOMSymbol" original="6Pk">6Pk</value>
+	</row>
+</compiereTrl>

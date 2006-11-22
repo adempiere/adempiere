@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="C_PaymentTerm">
+	<row id="100" trl="N">
+		<value column="Name" original="30 Net">30 Net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="Immediate">Immediate</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="2%10 Net 30">2%10 Net 30</value>
+		<value column="Description" original="2% discount if paid in 10 days, net due in 30 days">2% discount if paid in 10 days, net due in 30 days</value>
+		<value column="DocumentNote" original="Payment Term Note: Long Term Contracts are eligible for payment discounts.">Payment Term Note: Long Term Contracts are eligible for payment discounts.</value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="30 Days Net">30 Days Net</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="50% Immediate - 50% in 30 days">50% Immediate - 50% in 30 days</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+	<row id="1000000" trl="N">
+		<value column="Name" original="Immediate">Immediate</value>
+		<value column="Description" original=""/>
+		<value column="DocumentNote" original=""/>
+	</row>
+</compiereTrl>

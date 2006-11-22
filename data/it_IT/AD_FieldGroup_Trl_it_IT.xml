@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="AD_FieldGroup">
+	<row id="101" trl="Y">
+		<value column="Name" original="Status">Stato</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Quantities">Quantità</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Amounts">Importi</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Reference">Riferimento</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="History">Storia</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Product">Prodotto</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Business Partner">Business partner</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Warehouse">Magazzino</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Bank">Banca</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Cash Book">Libro di cassa</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Tax">Imposte</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Project">Commessa/progetto</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="General">Generale</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Action">Azione</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Standard Cost">Costo standard</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Actual Costs">Costo effettivo</value>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Statistics">Statistiche</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Defaults">Defaults</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Request Management">Gestione richiesta</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Web Store">Web Store</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Internal">Interno</value>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="External">Esterno</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Common">Comune</value>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Shipment">Spedizione</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Document">Documento</value>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Line">Riga</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Simulation">Simulazione</value>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Calculations">Calcoli</value>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Proxy">Proxy</value>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Delivery">Spedizione</value>
+	</row>
+	<row id="131" trl="Y">
+		<value column="Name" original="Invoicing">Fatturazione</value>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Only ..">Solamente ..</value>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Selection">Selezione</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Workflow">Workflow</value>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="Access">Accesso</value>
+	</row>
+</compiereTrl>

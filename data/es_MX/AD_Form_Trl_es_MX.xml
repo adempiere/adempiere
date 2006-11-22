@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_Form">
+	<row id="100" trl="Y">
+		<value column="Name" original="Generate Invoices (manual)">Generar Factura (manual)</value>
+		<value column="Description" original="Select and generate invoices">Seleccionar y Generar Facturas</value>
+		<value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Import File Loader">Cargador de Archivos para importar</value>
+		<value column="Description" original="Load flat Files into import tables">Cargar Archivos</value>
+		<value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."/>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Initial Client Setup">Configuración Inicial de Compañía</value>
+		<value column="Description" original="Initial new Client/Tenant Setup">Configuración Inicial de Compañía</value>
+		<value column="Help" original="Set up a new Client/Tenant of the system"/>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Material Transactions">Transacciones de Materiales</value>
+		<value column="Description" original="Material Transactions">Transacciones de Materiales</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Payment Allocation">Asignación de Pagos</value>
+		<value column="Description" original="Allocate invoices and payments">Asignar facturas y pagos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Generate Charges">Generar Cargos</value>
+		<value column="Description" original="Generate Charges from natural accounts">Generar cargos desde cuentas contables</value>
+		<value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."/>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Payment Print/Export">Imprimir/Exportar Pagos</value>
+		<value column="Description" original="Print or export your payments">Imprimir o exportar sus pagos</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Payment Selection (manual)">Selección de Pagos (manual)</value>
+		<value column="Description" original="Manual Payment Selection">Selección manual de pagos</value>
+		<value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."/>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Matching PO-Receipt-Invoice">Corresponder OC-Recibo-Factura</value>
+		<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Corresponder Ordenes de Compra; Recibos; Facturas de Proveedores</value>
+		<value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."/>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Translation Import/Export">Importar/Exportar Traducción</value>
+		<value column="Description" original="Import or Export Language Translation">Importar o Exportar Traducción de Lenguaje.</value>
+		<value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage."/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Generate Shipments (manual)">Generar Entrega (manual)</value>
+		<value column="Description" original="Select and generate shipments">Seleccionar y Generar Entregas</value>
+		<value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for."/>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="SQL Process">Mantener Contraseña</value>
+		<value column="Description" original="Process SQL Statements">Mantener Contraseña</value>
+		<value column="Help" original="Process SQL DDL Statements">Mantener Constraseña de Usuarios y Socios del Negocio</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Merge Entities">Mezclar Entidades</value>
+		<value column="Description" original="Merge From Entity to To Entity - Delete From">Mezclar de Entidad en Entidad - De Cancelar</value>
+		<value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;Peligro - Porfavor este usted enterado de lo que esta haciendo!&lt;/i&gt;
+Todos los casos de la entidad (ej. Cliente A) son cambiados para otra entidad (ej. Clientes B). 
+De la entidad (ej. Suprimen al Cliente A) 
+&lt;p&gt;&lt;b&gt;Hay NINGUN deshace ni remota, Haga porfavor una reserva&lt;/b&gt; Esté por favor enterado que usted puede cambiar los expedientes de historia (ej. facturas, etc.)!
+&lt;p&gt;&lt;b&gt;Efectos Secundarios:&lt;/b&gt; combinandoce los productos es problable torcer costos del producto: La combinación de Socio de negocio puede dar lugar incorrecto a abrir al balance del articulo. </value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="POS">PDV (Pre-Alfa)</value>
+		<value column="Description" original="Point Of Sales Terminal">Punto de Venta</value>
+		<value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized."/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="BOM Drop">LDM Drop</value>
+		<value column="Description" original="Drop (expand) Bill of Materials">Drop (expand) Bill of Materials</value>
+		<value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Tree Maintenance">Mantenimiento del Árbol</value>
+		<value column="Description" original="Maintain Trees">Mantener árbol</value>
+		<value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Visión y Cambio de árboles. Mantenga las entradas en su ventana especifica.</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Workflow Editor">Editor de Flujo de Trabajo</value>
+		<value column="Description" original="Edit Workflows">Editor de Flujo de Trabajo</value>
+		<value column="Help" original="Edit the graphical layout of workflows"/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Workflow Activities">Actividades del Flujo de Trabajo</value>
+		<value column="Description" original="My active workflow activities">Actividades de Flujo de Trabajo activas</value>
+		<value column="Help" original="View active worflow activities"/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Archive Viewer">Visualizador de Archivo</value>
+		<value column="Description" original="View automatically archived Documents">Visualiza automáticamente archivador de documentos</value>
+		<value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">Dependiendo del nivel automático de archivos de la compañía los documentos y reportes que son guardados y puestos a disposición para su visualización.</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Performance Indicators">Indicadores de Desempeño</value>
+		<value column="Description" original="View Performance Indicators">Vista de Indicadores de Desempeño</value>
+		<value column="Help" original="View all Performance Indicators and Goals">Vista de todos los Indicadores de Desempeño y Metas</value>
+	</row>
+	<row id="1000000" trl="Y">
+		<value column="Name" original="Planned Order Approval ">Aprobación de Órdenes Planeadas</value>
+		<value column="Description" original="Planned Order Approval ">Aprobación de Órdenes Planeadas</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000002" trl="Y">
+		<value column="Name" original="Order Split">División de Orden</value>
+		<value column="Description" original="Order Split">División de Orden</value>
+		<value column="Help" original="Order Split">División de Orden</value>
+	</row>
+	<row id="1000004" trl="Y">
+		<value column="Name" original="Component Issue">Surtimiento de Componentes</value>
+		<value column="Description" original="Component Issue">Surtimiento de Componentes</value>
+		<value column="Help" original="Component Issue">Surtimiento de Componentes</value>
+	</row>
+	<row id="1000005" trl="Y">
+		<value column="Name" original="Receipts ">Recibos</value>
+		<value column="Description" original="Receipts ">Recibos</value>
+		<value column="Help" original="Receipts ">Recibos</value>
+	</row>
+	<row id="1000006" trl="Y">
+		<value column="Name" original="Repetitive Schedule Explosion">Explosión de programa Repetitivo</value>
+		<value column="Description" original="Repetitive Schedule Explosion">Explosión del Horario Repetitivo</value>
+		<value column="Help" original="Repetitive Schedule Explosion">Explosión del Horario Repetitivo</value>
+	</row>
+	<row id="1000007" trl="Y">
+		<value column="Name" original="Repetitive Picklist Transfer">Transferencia de Lista de empaque repetitiva</value>
+		<value column="Description" original="Repetitive Picklist Transfer">Transferencia de Lista de empaque repetitiva.</value>
+		<value column="Help" original="Repetitive Picklist Transfer">Transferencia de Lista de empaque repetitiva.</value>
+	</row>
+	<row id="1000008" trl="Y">
+		<value column="Name" original="Action Notice">Mensaje de Acción</value>
+		<value column="Description" original="Action Notice">Mensaje de Acción</value>
+		<value column="Help" original="Action Notice">Mensaje de Acción</value>
+	</row>
+	<row id="1000009" trl="Y">
+		<value column="Name" original="Bill of Material &amp; Formula Review">Informe de LDM y Formulas</value>
+		<value column="Description" original="">Informe de LDM y Formulas</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000010" trl="Y">
+		<value column="Name" original="MPCProfileBOM Form">MPC Forma de Perfil de LDM</value>
+		<value column="Description" original="MPCProfileBOM Form">MPC Forma de Perfil de LDM</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000011" trl="Y">
+		<value column="Name" original="Order Receipt &amp; Issue">Recibo y Entrega de Órdenes de Manufactura</value>
+		<value column="Description" original="Manufacturing Order Receipt &amp; Issue">Recibo y Entrega de Órdenes de Manufactura</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000013" trl="Y">
+		<value column="Name" original="MPC_Simulation Vimifos">MPC_Simulación Vimifos</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000014" trl="Y">
+		<value column="Name" original="MRP Detail Review ">MRP Revisión a Detalle</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000015" trl="Y">
+		<value column="Name" original="Pick List Simulation">Simulación de la Lista de Selección</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000016" trl="Y">
+		<value column="Name" original="F Etiqueta">F Etiqueta</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000018" trl="Y">
+		<value column="Name" original="Charge Format">Formato de la Carga</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000019" trl="Y">
+		<value column="Name" original="Query Builder">Constructor de Pregunta</value>
+		<value column="Description" original="Query Builder">Constructor de Pregunta</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000020" trl="Y">
+		<value column="Name" original="Resource Load View">Consulta de carga de recursos</value>
+		<value column="Description" original="">Consulta de carga de recursos</value>
+		<value column="Help" original="">Consulta de carga de recursos</value>
+	</row>
+	<row id="1000021" trl="Y">
+		<value column="Name" original="Resource Load View to date">Vista de Carga de Recursos a la fecha</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+</compiereTrl>

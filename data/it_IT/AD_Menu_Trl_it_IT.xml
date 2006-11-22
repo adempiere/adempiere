@@ -1,0 +1,1729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="AD_Menu">
+	<row id="100" trl="Y">
+		<value column="Name" original="Invoice Inquiry">Interrogazione/Elaborazione Fatture</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="101" trl="Y">
+		<value column="Name" original="Task">Compito (Task)</value>
+		<value column="Description" original="Maintain Tasks">Gestione compiti (Tasks)</value>
+	</row>
+	<row id="102" trl="Y">
+		<value column="Name" original="Currency">Valuta</value>
+		<value column="Description" original="Maintain Currencies">Gestione Valuta</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Currency Rate">Tasso di Conversione</value>
+		<value column="Description" original="Maintain Currency Conversion Rates">Gestione tassi di conversione valuta</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Calendar Year and Period">Esercizi</value>
+		<value column="Description" original="Maintain Calendars Years Periods">Gestione Esercizi</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Account Element">Piano dei Conti</value>
+		<value column="Description" original="Maintain Account Elements">Gestione Elementi Contabili</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Account Combination">Combinazione Conto</value>
+		<value column="Description" original="Maintain Valid Account Combinations ">Gestione Combinazioni di Conto valido </value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Unit of Measure">Unità di Misura</value>
+		<value column="Description" original="Maintain Unit of Measure ">Gestione Unità di Misura</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Location">Indirizzo</value>
+		<value column="Description" original="Maintain Location Address">Gestione Indirizzo</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Country Region and City">Paese, Regione e Provincia</value>
+		<value column="Description" original="Maintain Countries Regions and Cities">Gestione Paesi, Regioni e Provincia</value>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Business Partner">Business Partner</value>
+		<value column="Description" original="Maintain Business Partners">Gestione Business Partners</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Accounting Schema">Schema contabile</value>
+		<value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Gestione Schema contabile - Per rendere effettive le modifiche devi re-login</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Test">Test</value>
+		<value column="Description" original="Test Screen">Test Screen</value>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Attachment">Allegato</value>
+		<value column="Description" original="Maintain Attachments">Gestione Allegati</value>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Preference">Preferenza</value>
+		<value column="Description" original="Maintain System Client Org and User Preferences">Gestione Org. Sistema Client e Preferenze Utente</value>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Project (Service)">Progetto (Servizio)</value>
+		<value column="Description" original="Maintain Service Projects">Gestione Progetti</value>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="GL Category">Categoria Contabile</value>
+		<value column="Description" original="Maintain General Ledger Categories">Gestione Categorie di contabilità generale</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="GL Journal">Prime Note</value>
+		<value column="Description" original="Enter and change Manual Journal Entries">Inserisce e modifica Entrate Manuali del Libro Giornale come prime note</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Activity (ABC)">Attività (ABC)</value>
+		<value column="Description" original="Maintain Activities for Activity Based Costing">Gestione attività per Activity Based Costing</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Document Type">Tipo Documento</value>
+		<value column="Description" original="Maintain Document Types">Gestione Tipi Documento</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Tax Rate">Aliquota d'Imposta</value>
+		<value column="Description" original="Maintain Taxes and their Rates">Gestione Imposte e loro aliquote</value>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Tax Category">Categorie imposte</value>
+		<value column="Description" original="Maintain Tax Categories">Gestione Categorie imposte</value>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Warehouse &amp; Locators">Magazzino e Aree Stoccaggio</value>
+		<value column="Description" original="Maintain Warehouses and Locators">Gestione Magazzino e Aree Stoccaggio</value>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Product">Prodotto</value>
+		<value column="Description" original="Maintain Products">Gestione Prodotti</value>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Payment Term">Termini di pagamento</value>
+		<value column="Description" original="Maintain Payment Terms">Gestione Termini di pagamento</value>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Shipper">Spedizioniere</value>
+		<value column="Description" original="Maintain Shippers">Gestione Spedizionieri</value>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Sales Order">Ordine di Vendita</value>
+		<value column="Description" original="Enter and change sales orders">Inserisci e Modifica Ordini di Vendita</value>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Product Category">Categoria Prodotto</value>
+		<value column="Description" original="Maintain Product Categories">Gestione Categorie Prodotto</value>
+	</row>
+	<row id="132" trl="Y">
+		<value column="Name" original="Price List">Listino Prezzi</value>
+		<value column="Description" original="Maintain Product Price Lists">Gestione Listino Prezzi Prodotto</value>
+	</row>
+	<row id="133" trl="Y">
+		<value column="Name" original="Invoice Schedule">Pianificazione  fatturazione</value>
+		<value column="Description" original="Maintain Invoicing Schedule">Gestione Pianificazione fatturazione</value>
+	</row>
+	<row id="134" trl="Y">
+		<value column="Name" original="Marketing Campaign">Campagna di Marketing </value>
+		<value column="Description" original="Maintain Marketing Campaigns">Gestione Campagne di Marketing </value>
+	</row>
+	<row id="135" trl="Y">
+		<value column="Name" original="GL Budget">Budget CG</value>
+		<value column="Description" original="Maintain General Ledger Budgets">Gestione Budgets di contabilità generale</value>
+	</row>
+	<row id="136" trl="Y">
+		<value column="Name" original="Marketing Channel">Canale di Marketing </value>
+		<value column="Description" original="Maintain Marketing  Channels">Gestione Canali di Marketing </value>
+	</row>
+	<row id="137" trl="Y">
+		<value column="Name" original="Sales Region">Regione Vendite</value>
+		<value column="Description" original="Maintain Sales Regions">Gestione Regioni Vendite</value>
+	</row>
+	<row id="138" trl="Y">
+		<value column="Name" original="Element">Elemento</value>
+		<value column="Description" original="Maintain System Elements">Gestione Elementi dei campi</value>
+	</row>
+	<row id="139" trl="Y">
+		<value column="Name" original="Table and Column">Tabella e Colonna</value>
+		<value column="Description" original="Maintain Tables and Columns">Gestione Tabelle e Colonne</value>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="Reference">Riferimento</value>
+		<value column="Description" original="Maintain System References">Gestione Riferimenti di Sistema</value>
+	</row>
+	<row id="141" trl="Y">
+		<value column="Name" original="Window, Tab &amp; Field">Finestre, Tab &amp; Campi</value>
+		<value column="Description" original="Maintain Windows, Tabs &amp; Fields">Gestione Finestre, Tab &amp; Campi</value>
+	</row>
+	<row id="142" trl="Y">
+		<value column="Name" original="Validation Rules">Convalida Regole</value>
+		<value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Gestione Convalida dinamica Regole per colonne e campi</value>
+	</row>
+	<row id="143" trl="Y">
+		<value column="Name" original="Message">Messaggio</value>
+		<value column="Description" original="Maintain Information and Error Messages">Gestione Informazioni e Messaggi d'Errore</value>
+	</row>
+	<row id="144" trl="Y">
+		<value column="Name" original="Menu">Menu</value>
+		<value column="Description" original="Maintain Menu">Gestione Menu</value>
+	</row>
+	<row id="145" trl="Y">
+		<value column="Name" original="Language">Lingua</value>
+		<value column="Description" original="Maintain Languages">Gestione Lingue</value>
+	</row>
+	<row id="147" trl="Y">
+		<value column="Name" original="User">Utente</value>
+		<value column="Description" original="Maintain Users of the system">Gestione Utenti del sistema</value>
+	</row>
+	<row id="148" trl="Y">
+		<value column="Name" original="Client">Azienda (Client)</value>
+		<value column="Description" original="Maintain Clients/Tenants">Gestione Aziende</value>
+	</row>
+	<row id="149" trl="Y">
+		<value column="Name" original="Organization">Organizzazione</value>
+		<value column="Description" original="Maintain Organizations">Gestione Organizzazioni</value>
+	</row>
+	<row id="150" trl="Y">
+		<value column="Name" original="Role">Ruolo</value>
+		<value column="Description" original="Maintain User Responsibilities">Gestione Responsabilità Utente</value>
+	</row>
+	<row id="151" trl="Y">
+		<value column="Name" original="Document Sequence">Sequenza Documento</value>
+		<value column="Description" original="Maintain System and Document Sequences">Gestione Sistema e Sequenze del Documento</value>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Workflow">Workflow</value>
+		<value column="Description" original="Maintain Workflow">Gestione Workflow</value>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Application Dictionary">Dizionario della Applicazione</value>
+		<value column="Description" original="Maintain Application Dictionary">Gestione del dizionario del applicativo</value>
+	</row>
+	<row id="155" trl="Y">
+		<value column="Name" original="General Rules">Configurazione Generale</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="156" trl="Y">
+		<value column="Name" original="Client Rules">Configurazione Azienda</value>
+		<value column="Description" original="Maintain Client Rules">Gestione delle Regole dell'Azienda</value>
+	</row>
+	<row id="157" trl="Y">
+		<value column="Name" original="Data">Dati</value>
+		<value column="Description" original="Maintain Data">Gestione dati</value>
+	</row>
+	<row id="158" trl="Y">
+		<value column="Name" original="Performance Measurement">Misurazione della Performance</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="159" trl="Y">
+		<value column="Name" original="Utility">Utilità</value>
+		<value column="Description" original="">Utilità</value>
+	</row>
+	<row id="160" trl="Y">
+		<value column="Name" original="Project Management">Gestione del Progetto</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="161" trl="Y">
+		<value column="Name" original="System Rules">Configurazione del Sistema</value>
+		<value column="Description" original="General System Rules">Regole generali di sistema</value>
+	</row>
+	<row id="163" trl="Y">
+		<value column="Name" original="Data Import">Importazione Dati</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="164" trl="Y">
+		<value column="Name" original="Accounting Rules">Impostazioni Contabilità</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="165" trl="Y">
+		<value column="Name" original="Business Partner Rules">Impostazioni Business Partner</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="166" trl="Y">
+		<value column="Name" original="Quote-to-Invoice">Ciclo Attivo (OTC)</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="167" trl="Y">
+		<value column="Name" original="Material Management Rules">Impostazioni  Materiali</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="169" trl="Y">
+		<value column="Name" original="Accounting Fact Details">Elenco Dati Contabili</value>
+		<value column="Description" original="Query Accounting Facts">Elenco dei Dati contabili</value>
+	</row>
+	<row id="170" trl="Y">
+		<value column="Name" original="Tree">Albero e Immagine Nodo </value>
+		<value column="Description" original="Maintain Tree definition">Gestione definizione albero</value>
+	</row>
+	<row id="171" trl="Y">
+		<value column="Name" original="Bank">Banca</value>
+		<value column="Description" original="Maintain Bank">Gestione Banca</value>
+	</row>
+	<row id="172" trl="Y">
+		<value column="Name" original="Dunning">Sollecito</value>
+		<value column="Description" original="Maintain Dunning Levels">Gestione livelli di sollecito</value>
+	</row>
+	<row id="173" trl="Y">
+		<value column="Name" original="Withholding (1099)">Ritenute</value>
+		<value column="Description" original="Maintain Withholding Certificates"/>
+	</row>
+	<row id="174" trl="Y">
+		<value column="Name" original="Charge">Addebiti</value>
+		<value column="Description" original="Maintain Charges">Gestione Addebiti</value>
+	</row>
+	<row id="175" trl="Y">
+		<value column="Name" original="Organization Rules">Impostazioni Organizzazione</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="176" trl="Y">
+		<value column="Name" original="Report &amp; Process">Report &amp; Processi</value>
+		<value column="Description" original="Maintain Reports &amp; Processes">Gestisci Reports &amp; Processi</value>
+	</row>
+	<row id="178" trl="Y">
+		<value column="Name" original="Invoice (Customer)">Fattura (Cliente)</value>
+		<value column="Description" original="Customer Invoice Entry">Inserimento Fattura Cliente</value>
+	</row>
+	<row id="179" trl="Y">
+		<value column="Name" original="Physical Inventory">Inventario Fisico</value>
+		<value column="Description" original="Enter Physical Inventory">Immessione Inventario fisico</value>
+	</row>
+	<row id="180" trl="Y">
+		<value column="Name" original="Shipment (Customer)">Spedizioni (Cliente)</value>
+		<value column="Description" original="Customer Inventory Shipments Customer Returns">Spedizioni Inventario Cliente e Resi Cliente(Customer Inventory Shipments Customer Returns)</value>
+	</row>
+	<row id="181" trl="Y">
+		<value column="Name" original="Inventory Move">Movimentazione Scorte</value>
+		<value column="Description" original="Inventory Move">Movimentazione Scorte</value>
+	</row>
+	<row id="183" trl="Y">
+		<value column="Name" original="Material Management">Gestione Materiali</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="185" trl="Y">
+		<value column="Name" original="Import Business Partner">Importazione Business Partner</value>
+		<value column="Description" original="Import Business Partner">Importazione Business Partner</value>
+	</row>
+	<row id="186" trl="Y">
+		<value column="Name" original="Revenue Recognition">Riconoscimento Ricavo</value>
+		<value column="Description" original="Revenue Recognition Rules">Regole riconoscimento ricavo</value>
+	</row>
+	<row id="187" trl="Y">
+		<value column="Name" original="Perpetual Inventory">Inventario perpetuo</value>
+		<value column="Description" original="Maintain Perpetual Inventory Rules">Gestione Regole Inventario Perpetuo</value>
+	</row>
+	<row id="188" trl="Y">
+		<value column="Name" original="Vendor Details">Dettagli Fornitore</value>
+		<value column="Description" original="Maintain Vendor Details">Gestione Dettagli Fornitore</value>
+	</row>
+	<row id="190" trl="Y">
+		<value column="Name" original="Greeting">Titoli</value>
+		<value column="Description" original="Maintain Greetings">Gestione Titoli</value>
+	</row>
+	<row id="192" trl="Y">
+		<value column="Name" original="Generate Invoices">Generare Fatture</value>
+		<value column="Description" original="Generate and print Invoices from open Orders">Genera e stampa Fatture.</value>
+	</row>
+	<row id="193" trl="Y">
+		<value column="Name" original="Generate Shipments">Generare Spedizioni</value>
+		<value column="Description" original="Generate and print Shipments from open Orders"/>
+	</row>
+	<row id="194" trl="Y">
+		<value column="Name" original="Order Transactions">Transazioni Ordine</value>
+		<value column="Description" original="Sales Order Transaction Report ">Report delle transazioni dell'Ordine di Vendita </value>
+	</row>
+	<row id="195" trl="Y">
+		<value column="Name" original="Open Orders">Ordini Aperti</value>
+		<value column="Description" original="Open Order Report"/>
+	</row>
+	<row id="196" trl="Y">
+		<value column="Name" original="Replenish Report">Report di ri-approvigionamento magazzino</value>
+		<value column="Description" original="Inventory Replenish Report">Report di ri-approvigionamento magazzino</value>
+	</row>
+	<row id="197" trl="Y">
+		<value column="Name" original="Product Transaction Summary">Totali Transazioni di Prodotto</value>
+		<value column="Description" original="Product Transaction Summary">Totali Transazioni di Prodotto</value>
+	</row>
+	<row id="200" trl="Y">
+		<value column="Name" original="Request Processor">Elaboratore Richieste</value>
+		<value column="Description" original="Define Request Processors">Definizione Elaboratore Richieste</value>
+	</row>
+	<row id="201" trl="Y">
+		<value column="Name" original="Report View">Vista Report</value>
+		<value column="Description" original="Maintain Report Views">Gestione Viste del Report</value>
+	</row>
+	<row id="202" trl="Y">
+		<value column="Name" original="Invoice Transactions (Acct)">Transazioni di Fatturazione</value>
+		<value column="Description" original="Invoice Transactions by Accounting Date"/>
+	</row>
+	<row id="203" trl="Y">
+		<value column="Name" original="Requisition-to-Invoice">Ciclo Passivo (PTP)</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="204" trl="Y">
+		<value column="Name" original="Material Receipt">Entrata Merci</value>
+		<value column="Description" original="Vendor Shipments (Receipts)">Entrata merci</value>
+	</row>
+	<row id="205" trl="Y">
+		<value column="Name" original="Purchase Order">Ordine di Acquisto</value>
+		<value column="Description" original="Manage Purchase Orders">Gestione Ordini di Acquisto</value>
+	</row>
+	<row id="206" trl="Y">
+		<value column="Name" original="Invoice (Vendor)">Fattura (Fornitore)</value>
+		<value column="Description" original="Vendor Invoice Entry">Inserimento Fattura Fornitore</value>
+	</row>
+	<row id="210" trl="Y">
+		<value column="Name" original="Daily Invoice">Fatture per Giorno</value>
+		<value column="Description" original="Imvoice Report per Day"/>
+	</row>
+	<row id="211" trl="Y">
+		<value column="Name" original="Monthly Invoice">Fatture per Mese</value>
+		<value column="Description" original="Imvoice Report per Month"/>
+	</row>
+	<row id="212" trl="Y">
+		<value column="Name" original="Monthly Invoice Prod Cat">Fatture per Prodotto per Mese</value>
+		<value column="Description" original="Imvoice Report by Product Category per Month"/>
+	</row>
+	<row id="213" trl="Y">
+		<value column="Name" original="Weekly Invoice Prod Cat">Fatture per Prodotto per Settimana</value>
+		<value column="Description" original="Imvoice Report by Product Category per Week"/>
+	</row>
+	<row id="214" trl="Y">
+		<value column="Name" original="Monthly Invoice Vendor">Fatture per Fornitore per Mese</value>
+		<value column="Description" original="Imvoice Report by Product Vendor per Month"/>
+	</row>
+	<row id="215" trl="Y">
+		<value column="Name" original="Weekly Invoice">Fatture per Settimana</value>
+		<value column="Description" original="Imvoice Report per Week"/>
+	</row>
+	<row id="216" trl="Y">
+		<value column="Name" original="Form">Form</value>
+		<value column="Description" original="Special Forms">Forms Speciali</value>
+	</row>
+	<row id="217" trl="Y">
+		<value column="Name" original="Generate Invoices (manual)">Creazione fatture (manuale)</value>
+		<value column="Description" original="Select and generate invoices">Selezione e creazione fatture</value>
+	</row>
+	<row id="218" trl="Y">
+		<value column="Name" original="System Admin">Administrazione del Sistema</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="219" trl="Y">
+		<value column="Name" original="Project Setup and Use">Configurazione progetto</value>
+		<value column="Description" original="Setup of projects and project reporting">Configurazione dei progetti e rendiconto dei progetti</value>
+	</row>
+	<row id="220" trl="Y">
+		<value column="Name" original="Java Version"> Versione Java</value>
+		<value column="Description" original="Displays the version of the default Java VM">Mostra la versione del default di Java VM</value>
+	</row>
+	<row id="221" trl="Y">
+		<value column="Name" original="Error Message">Messaggio d'Errore</value>
+		<value column="Description" original="Display Error Messages">Visualizza Messaggi d'Errore</value>
+	</row>
+	<row id="222" trl="Y">
+		<value column="Name" original="Import Loader Format">Formati di Importazione</value>
+		<value column="Description" original="Maintain Import Loader Formats">Gestione Formati di Importazione</value>
+	</row>
+	<row id="223" trl="Y">
+		<value column="Name" original="Import File Loader">Importazione Dati da FIle</value>
+		<value column="Description" original="Load flat Files into import tables">Caricamento flat file nelle tabelle d'importazione</value>
+	</row>
+	<row id="224" trl="Y">
+		<value column="Name" original="Language Setup">Configurazione lingua</value>
+		<value column="Description" original="Setup a new Language of the system and translate elements">Configura un nuovo lingua e traduce gli elementi.</value>
+	</row>
+	<row id="225" trl="Y">
+		<value column="Name" original="Initial Client Setup">Impostazione iniziale del client</value>
+		<value column="Description" original="Initial new Client/Tenant Setup">Impostazione iniziale del client</value>
+	</row>
+	<row id="226" trl="Y">
+		<value column="Name" original="Tire Storage">Tire Storage</value>
+		<value column="Description" original="Maintain storage of tires">Maintain storage of tires</value>
+	</row>
+	<row id="227" trl="Y">
+		<value column="Name" original="Vendor Selection">Selezione Fornitore</value>
+		<value column="Description" original="Products with more than one vendor">Prodotti con più di un fornitore</value>
+	</row>
+	<row id="228" trl="Y">
+		<value column="Name" original="Production">Produzione</value>
+		<value column="Description" original="Production based on Bill of Materials">Produzione basata sulle Distinte Base</value>
+	</row>
+	<row id="229" trl="Y">
+		<value column="Name" original="Material Transactions">Operazioni relative ai materiali</value>
+		<value column="Description" original="Material Transactions">Operazioni relative ai materiali</value>
+	</row>
+	<row id="230" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Product">Fatture per Prodotto per Trimestre</value>
+		<value column="Description" original="Invoice Report by Customer and Product Category per Quarter"/>
+	</row>
+	<row id="231" trl="Y">
+		<value column="Name" original="Quarterly Invoice Customer by Vendor">Fatture Cliente per Fornitore per Trimestre</value>
+		<value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter"/>
+	</row>
+	<row id="232" trl="Y">
+		<value column="Name" original="Business Partner Group">Gruppo Business Partner </value>
+		<value column="Description" original="Maintain Business Partner Groups">Gestione gruppi di Business Partner </value>
+	</row>
+	<row id="233" trl="Y">
+		<value column="Name" original="Notice">Avviso</value>
+		<value column="Description" original="View System Notices">Mostra Sistema Avvisi</value>
+	</row>
+	<row id="234" trl="Y">
+		<value column="Name" original="Bank Statement">Estratto Conto Bancario</value>
+		<value column="Description" original="Process Bank Statements">Elaborare estratti conto bancario</value>
+	</row>
+	<row id="235" trl="Y">
+		<value column="Name" original="Payment">Pagamento</value>
+		<value column="Description" original="Process Payments and Receipts">Elabora pagamenti</value>
+	</row>
+	<row id="236" trl="Y">
+		<value column="Name" original="Open Items">Partite Aperte</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="237" trl="Y">
+		<value column="Name" original="Request">Richiesta</value>
+		<value column="Description" original="Work on your requests">Lavora sulle tue richieste</value>
+	</row>
+	<row id="238" trl="Y">
+		<value column="Name" original="Mail Template">Gestione Email</value>
+		<value column="Description" original="Maintain Mail Template">Gestione Modello Email</value>
+	</row>
+	<row id="239" trl="Y">
+		<value column="Name" original="Custom Attribute">Attributi Customizzati</value>
+		<value column="Description" original="Maintain custom entity attributes">Gestione attributi customizzati delle entità </value>
+	</row>
+	<row id="240" trl="Y">
+		<value column="Name" original="Cashbook">Libro Cassa</value>
+		<value column="Description" original="Maintain Cashbook"> Gestione Libro Cassa</value>
+	</row>
+	<row id="241" trl="Y">
+		<value column="Name" original="Cash Journal">Giornale di Cassa</value>
+		<value column="Description" original="Cash transactions">Transazioni di Cassa</value>
+	</row>
+	<row id="243" trl="Y">
+		<value column="Name" original="Open Items">Partite Aperte</value>
+		<value column="Description" original="Open Item (Invoice) List">Elenco delle Partite Aperte</value>
+	</row>
+	<row id="244" trl="Y">
+		<value column="Name" original="UnReconciled Payments">Pagamenti non Effettuati</value>
+		<value column="Description" original="Payments not reconciled with Bank Statement">Pagamenti non effettuati </value>
+	</row>
+	<row id="245" trl="Y">
+		<value column="Name" original="Payment Allocation">Imputazione Pagamenti</value>
+		<value column="Description" original="Allocate invoices and payments">Imputazione incassi e pagamenti</value>
+	</row>
+	<row id="246" trl="Y">
+		<value column="Name" original="Allocation">Imputazione dei pagamenti</value>
+		<value column="Description" original="Payment - Invoice - Allocation">Pagamento - Fattura - Allocazioni</value>
+	</row>
+	<row id="249" trl="Y">
+		<value column="Name" original="Field Group">Gruppo Campo</value>
+		<value column="Description" original="Define Field Group">Definisci Gruppo Campo</value>
+	</row>
+	<row id="251" trl="Y">
+		<value column="Name" original="View Allocation">Annullamento Imputazione</value>
+		<value column="Description" original="View and Reverse Allocations ">Annullamento Imputazione</value>
+	</row>
+	<row id="252" trl="Y">
+		<value column="Name" original="Invoice Transactions (Doc)">Totali Fatture</value>
+		<value column="Description" original="Invoice Transactions by Invoice Date"/>
+	</row>
+	<row id="253" trl="Y">
+		<value column="Name" original="Invoice Detail &amp; Margin">Dettagli Fatture</value>
+		<value column="Description" original="Invoice (Line) Detail and Margin Report"/>
+	</row>
+	<row id="254" trl="Y">
+		<value column="Name" original="Generate Charges">Creazione Addebiti</value>
+		<value column="Description" original="Generate Charges from natural accounts">Creazione Addebiti dai conti originari</value>
+	</row>
+	<row id="255" trl="Y">
+		<value column="Name" original="Payment Selection">Pagamento Fatture</value>
+		<value column="Description" original="Select Invoices for Payment">Seleziona le Fatture per il Pagamento</value>
+	</row>
+	<row id="256" trl="Y">
+		<value column="Name" original="Product Transaction Value">Valore di Transazione del Prodotto</value>
+		<value column="Description" original="Product Transaction Value">Valore di Transazione del Prodotto</value>
+	</row>
+	<row id="257" trl="Y">
+		<value column="Name" original="Commission">Commissioni</value>
+		<value column="Description" original="Maintain Commissions and Royalties">Gestione Commissioni e Royalties</value>
+	</row>
+	<row id="258" trl="Y">
+		<value column="Name" original="Project Reporting">Reporting del Progetto</value>
+		<value column="Description" original="Maintain Project Reporting Cycles">Gestione Cicli di Reporting del Progetto</value>
+	</row>
+	<row id="260" trl="Y">
+		<value column="Name" original="Project Status Summary">Totali Stato del Progetto </value>
+		<value column="Description" original="Project Status of Project Cycle">Stato del Progetto nel Ciclo deo Progetto</value>
+	</row>
+	<row id="261" trl="Y">
+		<value column="Name" original="Initial Client Setup Review">Rivisione configurazione iniziale del client</value>
+		<value column="Description" original="Review of system level setup of a new  Client">Rivisione configurazione iniziale del client</value>
+	</row>
+	<row id="263" trl="Y">
+		<value column="Name" original="Partner Relations">Relazioni con i Partners</value>
+		<value column="Description" original="Customer Relations and Partner Management">Relazioni del cliente e gestione del Partner</value>
+	</row>
+	<row id="264" trl="Y">
+		<value column="Name" original="Commission Run">Elaborazione Commissione</value>
+		<value column="Description" original="Check and modify Commissions">Controlla e modifica le Commissioni</value>
+	</row>
+	<row id="265" trl="Y">
+		<value column="Name" original="Accounting Setup">Configurazione Contabilità</value>
+		<value column="Description" original="Review and change Accounting Setup">Revisiona e cambia l'inserimento contabilità</value>
+	</row>
+	<row id="266" trl="Y">
+		<value column="Name" original="Business Partner Setup">Configurazione business partner</value>
+		<value column="Description" original="Setup Business Partner Rules">Inserimento Regole del Business Partner </value>
+	</row>
+	<row id="267" trl="Y">
+		<value column="Name" original="Price List Setup">Configurazione listini</value>
+		<value column="Description" original="Define your Price Lists and Discounts">Definizione dei Listini Prezzi e degli Sconti</value>
+	</row>
+	<row id="268" trl="Y">
+		<value column="Name" original="Product Setup">Configurazione prodotti</value>
+		<value column="Description" original="Set up Products">Inserimento Prodotti</value>
+	</row>
+	<row id="269" trl="Y">
+		<value column="Name" original="Sales Setup">Configurazione vendite</value>
+		<value column="Description" original="Setup Sales">Configurazione vendite</value>
+	</row>
+	<row id="270" trl="Y">
+		<value column="Name" original="Tax Setup">Configurazione imposte</value>
+		<value column="Description" original="Setup tax calculation">Configurazione calcolo delle imposte</value>
+	</row>
+	<row id="271" trl="Y">
+		<value column="Name" original="Service">Servizi</value>
+		<value column="Description" original="Service Management">Gestione Servizi</value>
+	</row>
+	<row id="272" trl="Y">
+		<value column="Name" original="Sales and Marketing">Impostazioni Vendita e  Marketing</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="275" trl="Y">
+		<value column="Name" original="Performance Goal">Obiettivo Performance</value>
+		<value column="Description" original="Define Performance Goals">Definiscce Obiettivo della Performance</value>
+	</row>
+	<row id="276" trl="Y">
+		<value column="Name" original="Performance Measure Calculation">Calcolo Misure Performance</value>
+		<value column="Description" original="Define how you calculate your performance measures">Definire come calcolare la performance </value>
+	</row>
+	<row id="277" trl="Y">
+		<value column="Name" original="Performance Measurement Setup">Configurazione indicatori di perfomance</value>
+		<value column="Description" original="Setup your Performance Measurement">Configurazione indicatori di perfomance</value>
+	</row>
+	<row id="278" trl="Y">
+		<value column="Name" original="Performance Analysis">Contabilità e Controllo di Gestione</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="279" trl="Y">
+		<value column="Name" original="Performance Measure">Misurazione  Performance</value>
+		<value column="Description" original="Define your Performance Measures">Definisci le Misure di Performance</value>
+	</row>
+	<row id="280" trl="Y">
+		<value column="Name" original="Financial Reporting">Reporting Finanziario</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="281" trl="Y">
+		<value column="Name" original="Financial Report">Report Finanziari</value>
+		<value column="Description" original="Maintain Financial Reports">Gestisci Reports finanziari</value>
+	</row>
+	<row id="282" trl="Y">
+		<value column="Name" original="Report Column Set">Inserimento Colonna Report </value>
+		<value column="Description" original="Maintain Financial Report Column Sets">Gestione Inserimenti Colonne Report finanziario</value>
+	</row>
+	<row id="283" trl="Y">
+		<value column="Name" original="Report Line Set">Inserimento Linee del Report </value>
+		<value column="Description" original="Maintain Financial Report Line Sets">Gestione Inserimenti Linee Report finanziario</value>
+	</row>
+	<row id="284" trl="Y">
+		<value column="Name" original="Service Level">Livello Servizio</value>
+		<value column="Description" original="Maintain Service Levels">Gestione Livelli Servizio</value>
+	</row>
+	<row id="286" trl="Y">
+		<value column="Name" original="Payment Selection (manual)">Pagamento Fatture (manuale)</value>
+		<value column="Description" original="Manual Payment Selection">Pagamento Manuale delle Fatture</value>
+	</row>
+	<row id="287" trl="Y">
+		<value column="Name" original="Payment Print/Export">Stampa/esportazione pagamento</value>
+		<value column="Description" original="Print or export your payments">Stampa/esportazione pagamenti</value>
+	</row>
+	<row id="288" trl="Y">
+		<value column="Name" original="Cash Journal Detail">Dettagli Libro Cassa</value>
+		<value column="Description" original="Detail Cash Journal Information">Informazioni sui dettagli del Libro Cassa</value>
+	</row>
+	<row id="289" trl="Y">
+		<value column="Name" original="Database export">Esporta il Database </value>
+		<value column="Description" original="Export (save) the database">Esporta (salva) il database</value>
+	</row>
+	<row id="290" trl="Y">
+		<value column="Name" original="Find (indirect use)">Trova (uso indiretto)</value>
+		<value column="Description" original="Find Dialog (indirect use)">Trova Dialogo (uso indiretto) Find Dialog (indirect use)</value>
+	</row>
+	<row id="292" trl="Y">
+		<value column="Name" original="Material Transactions (indirect use)">Transazioni di Materiale (uso indiretto)</value>
+		<value column="Description" original="Material Transactions (indirect use)">Transazioni di Materiale (uso indiretto)</value>
+	</row>
+	<row id="293" trl="Y">
+		<value column="Name" original="Print Form">Form di Stampa</value>
+		<value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Gestione Form di Stampa (Fatture, Assegni, ..)</value>
+	</row>
+	<row id="294" trl="Y">
+		<value column="Name" original="System Color">Colore Sistema</value>
+		<value column="Description" original="Maintain System Colors">Gestione Colori del Sistema</value>
+	</row>
+	<row id="295" trl="Y">
+		<value column="Name" original="Desktop">Desktop</value>
+		<value column="Description" original="Maintain Desktop">Gestione Desktop</value>
+	</row>
+	<row id="296" trl="Y">
+		<value column="Name" original="System Image">Immagine Sistema</value>
+		<value column="Description" original="Maintain Images and Icons">Gestione immagini</value>
+	</row>
+	<row id="300" trl="Y">
+		<value column="Name" original="Workbench">Workbench</value>
+		<value column="Description" original="Maintain Workbench">Gestione Workbench</value>
+	</row>
+	<row id="301" trl="Y">
+		<value column="Name" original="Sales">Vendite</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="302" trl="Y">
+		<value column="Name" original="Database transfer">Trasferimento Database </value>
+		<value column="Description" original="Transfer the database">Trasferisce il database</value>
+	</row>
+	<row id="303" trl="Y">
+		<value column="Name" original="Synchronize Terminology">Sincronizzazione Terminologia</value>
+		<value column="Description" original="Synchronize the terminology within the system.">Sincronizza la terminologia all'interno del sistema</value>
+	</row>
+	<row id="304" trl="Y">
+		<value column="Name" original="Receivables Write-Off">Storno Crediti</value>
+		<value column="Description" original="Write off open receivables">Storno dei Crediti non esigibili</value>
+	</row>
+	<row id="306" trl="Y">
+		<value column="Name" original="Resubmit Posting">Rielaborazione Registrazioni</value>
+		<value column="Description" original="Resubmit posting of documents with posting errors">Rielaborazione registrazioni di documenti in errore</value>
+	</row>
+	<row id="307" trl="Y">
+		<value column="Name" original="Reset Accounting">Azzeramento Contabilità </value>
+		<value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Azzera le registrazioni contabili</value>
+	</row>
+	<row id="308" trl="Y">
+		<value column="Name" original="Request (all)">Richiesta tutto</value>
+		<value column="Description" original="View and work on all requests">Mostra e lavora a tutte le richieste</value>
+	</row>
+	<row id="309" trl="Y">
+		<value column="Name" original="Request Setup">Cofigurazione richieste</value>
+		<value column="Description" original="Set up the client to process requests">Configurazione richieste del cliente</value>
+	</row>
+	<row id="310" trl="Y">
+		<value column="Name" original="Discount Schema">Schema della Scontistica</value>
+		<value column="Description" original="Maintain Trade Discount Schema">Gestione Schema della scontistica</value>
+	</row>
+	<row id="311" trl="Y">
+		<value column="Name" original="Inventory Valuation Report">Report Valutazione Inventario</value>
+		<value column="Description" original="Inventory Valuation Report">Report Valutazione Inventario</value>
+	</row>
+	<row id="312" trl="Y">
+		<value column="Name" original="Matching PO-Receipt-Invoice">Abbinamento Ordine d'Acquisto-Entrata Merci-Fattura</value>
+		<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Abbinamento Ordine d'acquisto-Entrata Merci-fattura</value>
+	</row>
+	<row id="313" trl="Y">
+		<value column="Name" original="Standard Cost Update">Aggiornamento dei Costi del Prodotto</value>
+		<value column="Description" original="Set standard and future cost price">Inserisci costi futuri e costi standard.</value>
+	</row>
+	<row id="314" trl="Y">
+		<value column="Name" original="Product Costing Report (old)">Report Costo dei Prodotti</value>
+		<value column="Description" original="Product Cost Report">Report Costo dei Prodotti</value>
+	</row>
+	<row id="315" trl="Y">
+		<value column="Name" original="Matched Invoices">Fatture Abbinate</value>
+		<value column="Description" original="View Matched Invoices">Visualizzare Fatture abbinate</value>
+	</row>
+	<row id="316" trl="Y">
+		<value column="Name" original="Matched Purchase Orders">Ordini di Acquisto Abbinati</value>
+		<value column="Description" original="View Matched Purchase Orders">Mostra Ordini di acquisto abbinati</value>
+	</row>
+	<row id="317" trl="Y">
+		<value column="Name" original="Expense Type">Tipo Spese</value>
+		<value column="Description" original="Maintain Expense Report Types">Gestione Tipi Spese del Report </value>
+	</row>
+	<row id="318" trl="Y">
+		<value column="Name" original="Expense Report">Report Ore e Spese</value>
+		<value column="Description" original="Time and Expense Report">Report Ore e Spese</value>
+	</row>
+	<row id="319" trl="Y">
+		<value column="Name" original="Resource">Risorsa</value>
+		<value column="Description" original="Maintain Resources">Gestione Risorsa</value>
+	</row>
+	<row id="320" trl="Y">
+		<value column="Name" original="Resource Type">Tipo Risorse</value>
+		<value column="Description" original="Maintain Resource Types">Gestione Tipi Risorsa</value>
+	</row>
+	<row id="321" trl="Y">
+		<value column="Name" original="Recompile DB Objects">Ricompilare Oggetti DB</value>
+		<value column="Description" original="Recompile Database Objects">Ricompilare Oggetti del Databases</value>
+	</row>
+	<row id="322" trl="Y">
+		<value column="Name" original="Print Format">Formato Stampa</value>
+		<value column="Description" original="Maintain Print Format">Gestione Formato Stampa</value>
+	</row>
+	<row id="323" trl="Y">
+		<value column="Name" original="Print Font">Carattere Stampa</value>
+		<value column="Description" original="Maintain Print Font">Gestione Carattere Stampa</value>
+	</row>
+	<row id="324" trl="Y">
+		<value column="Name" original="Print Color">Colori di Stampa</value>
+		<value column="Description" original="Maintain Print Color">Gestionie Colori di Stampa</value>
+	</row>
+	<row id="325" trl="Y">
+		<value column="Name" original="Print Paper">Carta per Stampa</value>
+		<value column="Description" original="Maintain Print Paper">Gestione Carta per Stampa</value>
+	</row>
+	<row id="326" trl="Y">
+		<value column="Name" original="Printing">Stampa </value>
+		<value column="Description" original="Print Definition">Definizione stampa</value>
+	</row>
+	<row id="327" trl="Y">
+		<value column="Name" original="Expenses (to be invoiced)">Spese (da fatturare)</value>
+		<value column="Description" original="View expenses and charges not invoiced to customers">Mostra spese e addebiti non fatturati al cliente</value>
+	</row>
+	<row id="328" trl="Y">
+		<value column="Name" original="Create Sales Orders from Expense">Creare Ordine di Vendita dalle Spese</value>
+		<value column="Description" original="Create Sales Orders for Customers from Expense Reports">Creare Ordine di Vendita per il Cliente dai Report di spesa</value>
+	</row>
+	<row id="329" trl="Y">
+		<value column="Name" original="Create AP Expense Invoices">Creare Fatture da Spese </value>
+		<value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Creare Fatture da Spese</value>
+	</row>
+	<row id="331" trl="Y">
+		<value column="Name" original="Print Table Format">Stampa Formato Tabella</value>
+		<value column="Description" original="Define Report Table Format">Definisce il Formato Tabella del Report</value>
+	</row>
+	<row id="332" trl="Y">
+		<value column="Name" original="Request Type">Tipo Richiesta</value>
+		<value column="Description" original="Maintain Request Types">Gestione Tipi Richiesta</value>
+	</row>
+	<row id="333" trl="Y">
+		<value column="Name" original="Interest Area">Area di Interesse</value>
+		<value column="Description" original="Interest Area or Topic">Area di Interesse o Topic</value>
+	</row>
+	<row id="334" trl="Y">
+		<value column="Name" original="System">Sistema</value>
+		<value column="Description" original="System Definition">Definizione Sistema</value>
+	</row>
+	<row id="335" trl="Y">
+		<value column="Name" original="Generate PO from Sales Order">Generare Ordine di Acquisto dall'Ordine di Vendita</value>
+		<value column="Description" original="Create Purchase Order from Sales Orders">Creare l'Ordine di Acquisto dall'Ordine di Vendita</value>
+	</row>
+	<row id="336" trl="Y">
+		<value column="Name" original="Translation Import/Export">Traduzione Importazione/esportazione</value>
+		<value column="Description" original="Import or Export Language Translation">Traduzione lingua di importazione/esportazione</value>
+	</row>
+	<row id="337" trl="Y">
+		<value column="Name" original="Reopen Request">Riaprire Richiesta</value>
+		<value column="Description" original="Reopen closed requests">Riaprire richieste chiuse</value>
+	</row>
+	<row id="338" trl="Y">
+		<value column="Name" original="Import Report Line Set">Importazione Linee del Report </value>
+		<value column="Description" original="Import Report Line Sets">Importazione Linee del Report </value>
+	</row>
+	<row id="339" trl="Y">
+		<value column="Name" original="Import Account">Importazione Conto</value>
+		<value column="Description" original="Import Natural Account Values">Importa Valori di Conto Naturali</value>
+	</row>
+	<row id="340" trl="Y">
+		<value column="Name" original="Import Product">Importazione Prodotti</value>
+		<value column="Description" original="Import Products">Importazione Prodotti</value>
+	</row>
+	<row id="341" trl="Y">
+		<value column="Name" original="System Translation Check">Traduzione Lingua</value>
+		<value column="Description" original="Check System Language Translations">Controlla Traduzione Lingua</value>
+	</row>
+	<row id="342" trl="Y">
+		<value column="Name" original="Asset">Bene Gestito</value>
+		<value column="Description" original="Asset used internally or by customers">Bene usato internamente o dai clienti</value>
+	</row>
+	<row id="343" trl="Y">
+		<value column="Name" original="Asset Group">Gruppo Bene Gestito</value>
+		<value column="Description" original="Group of Assets">Gruppo Bene Gestito</value>
+	</row>
+	<row id="344" trl="Y">
+		<value column="Name" original="Training">Formazione</value>
+		<value column="Description" original="Repeated Training">Formazione Ripetuta</value>
+	</row>
+	<row id="345" trl="Y">
+		<value column="Name" original="Assets">Bene Gestito</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="346" trl="Y">
+		<value column="Name" original="Generate Shipments (manual)">Creazione Documenti di Spedizione (manuale)</value>
+		<value column="Description" original="Select and generate shipments">Creazione Documenti di Spedizione (manuale)</value>
+	</row>
+	<row id="347" trl="Y">
+		<value column="Name" original="Print Invoices">Stampare Fatture</value>
+		<value column="Description" original="Print Invoices to paper or send PDF">Stampare Fatture su carta o invia PDF</value>
+	</row>
+	<row id="348" trl="Y">
+		<value column="Name" original="Deliver Assets">Consegnare Beni Gestiti</value>
+		<value column="Description" original="Deliver Customer Assets electronically">Consegnare beni gestiti elettronicamente</value>
+	</row>
+	<row id="349" trl="Y">
+		<value column="Name" original="Expenses (not reimbursed)">Spese da Rimborsare </value>
+		<value column="Description" original="View expenses and charges not reimbursed">Mostra Spese e addebiti non rimborsati</value>
+	</row>
+	<row id="350" trl="Y">
+		<value column="Name" original="Statement of Accounts">Estratto Conto</value>
+		<value column="Description" original="Report Account Statement Beginning Balance and Transactions">Report di Estratto Conto con Saldo e Transazioni</value>
+	</row>
+	<row id="351" trl="Y">
+		<value column="Name" original="SQL Process">Manutenzione Password</value>
+		<value column="Description" original="Process SQL Statements">Manutenzione Passwords</value>
+	</row>
+	<row id="352" trl="Y">
+		<value column="Name" original="Accounting Fact Balances">Quadratura Giornaliera</value>
+		<value column="Description" original="Query Accounting Daily Balances">Query sulla quadratura giornaliera</value>
+	</row>
+	<row id="353" trl="Y">
+		<value column="Name" original="Attribute Set">Serie di Attributi</value>
+		<value column="Description" original="Maintain Product Attribute Set">Gestione Serie di attributi</value>
+	</row>
+	<row id="354" trl="Y">
+		<value column="Name" original="Serial No Control">Controllo Numero di Serie</value>
+		<value column="Description" original="Product Serial Number Control">Controllo numero di serie per prodotto</value>
+	</row>
+	<row id="355" trl="Y">
+		<value column="Name" original="Lot Control">Controllo Lotto</value>
+		<value column="Description" original="Product Lot Control">Controllo lotto per prodotto</value>
+	</row>
+	<row id="356" trl="Y">
+		<value column="Name" original="Lot">Lotto</value>
+		<value column="Description" original="Product Lot Definition">Lotto</value>
+	</row>
+	<row id="357" trl="Y">
+		<value column="Name" original="Product Attributes">Attributi Prodotto</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="358" trl="Y">
+		<value column="Name" original="Attribute Search">Attributo di Ricerca</value>
+		<value column="Description" original="Common Search Attribute ">Attributo di ricerca</value>
+	</row>
+	<row id="359" trl="Y">
+		<value column="Name" original="Attribute">Attributo</value>
+		<value column="Description" original="Product Attribute">Attributo del Prodotto</value>
+	</row>
+	<row id="360" trl="Y">
+		<value column="Name" original="Expense Invoice (Alpha)">Fatture di Addebitamento Fornitore</value>
+		<value column="Description" original="Payables expense invoices - This is Alpha Functionality">Fatture di addebitamento Fornitore</value>
+	</row>
+	<row id="361" trl="Y">
+		<value column="Name" original="Recurring">Documento Ricorrente</value>
+		<value column="Description" original="Recurring Document">Documento Ricorrente</value>
+	</row>
+	<row id="362" trl="Y">
+		<value column="Name" original="Role Data Access">Ruolo di Accesso</value>
+		<value column="Description" original="Maintain Data Access Rules">Gestione le regole di accesso dati</value>
+	</row>
+	<row id="363" trl="Y">
+		<value column="Name" original="Import Inventory">Importazione Inventario</value>
+		<value column="Description" original="Import Inventory Transactions">Importazione le transazione di inventario</value>
+	</row>
+	<row id="364" trl="Y">
+		<value column="Name" original="Project Type">Tipo di Progetto</value>
+		<value column="Description" original="Maintain Project Type and Phase">Gestione Tipo di Progetto e Fase</value>
+	</row>
+	<row id="365" trl="Y">
+		<value column="Name" original="Print Label">Stampa dell'Etichetta</value>
+		<value column="Description" original="Print Label Format">Formato di Stampa dell'Etichetta</value>
+	</row>
+	<row id="366" trl="Y">
+		<value column="Name" original="Session Audit">Sessione</value>
+		<value column="Description" original="Audit of User Sessions">Elenco delle sessioni utente</value>
+	</row>
+	<row id="367" trl="Y">
+		<value column="Name" original="Security">Sicurezza</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="368" trl="Y">
+		<value column="Name" original="Change Audit">Log Modifiche</value>
+		<value column="Description" original="Audit of data changes">Log delle modifiche ai dati</value>
+	</row>
+	<row id="369" trl="Y">
+		<value column="Name" original="Time Type">Tipo di Tempo</value>
+		<value column="Description" original="Maintain Time Recording Type">Maintain Time Recording Type</value>
+	</row>
+	<row id="370" trl="Y">
+		<value column="Name" original="Cost Type">Tipo di Costo</value>
+		<value column="Description" original="Maintain Cost Types">Maintain Cost Types</value>
+	</row>
+	<row id="371" trl="Y">
+		<value column="Name" original="Advertisement">Annuncio</value>
+		<value column="Description" original="Web Advertisement">Annuncio Web</value>
+	</row>
+	<row id="372" trl="Y">
+		<value column="Name" original="Web">Web</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="373" trl="Y">
+		<value column="Name" original="Import Bank Statement">Importazione Estratto Conto Bancario</value>
+		<value column="Description" original="Import Bank Statements">Importazione Estratto Conto Bancario</value>
+	</row>
+	<row id="374" trl="Y">
+		<value column="Name" original="Import Payment">Importazione Pagementi</value>
+		<value column="Description" original="Import Payments">Importazione Pagementi</value>
+	</row>
+	<row id="375" trl="Y">
+		<value column="Name" original="Click">Click</value>
+		<value column="Description" original="Maintain Web Click">Maintain Web Click</value>
+	</row>
+	<row id="376" trl="Y">
+		<value column="Name" original="Import Order">Importazione Ordini</value>
+		<value column="Description" original="Import Orders">Importazione Ordini</value>
+	</row>
+	<row id="377" trl="Y">
+		<value column="Name" original="Invoice Payment Schedule">Pianificazione Pagamento Fatture</value>
+		<value column="Description" original="Maintain Invoice Payment Schedule">Maintain Invoice Payment Schedule</value>
+	</row>
+	<row id="378" trl="Y">
+		<value column="Name" original="Import GL Journal">Importazione Gornali</value>
+		<value column="Description" original="Import General Ledger Journals">Importazione Giornali Contabilità Generale</value>
+	</row>
+	<row id="379" trl="Y">
+		<value column="Name" original="Alert">Avviso</value>
+		<value column="Description" original="Compiere Alert">Avviso Compiere</value>
+	</row>
+	<row id="380" trl="Y">
+		<value column="Name" original="Counter">Contatore Web</value>
+		<value column="Description" original="Web Counter">Contatore Web</value>
+	</row>
+	<row id="381" trl="Y">
+		<value column="Name" original="Freight Category">Categoria Spese di Trasporto</value>
+		<value column="Description" original="Maintain Freight Categories">Gestione le catagorie Spese di Trasporto</value>
+	</row>
+	<row id="382" trl="Y">
+		<value column="Name" original="Import Invoice">Importazione Fatture</value>
+		<value column="Description" original="Import Invoices">Importazione Fatture</value>
+	</row>
+	<row id="383" trl="Y">
+		<value column="Name" original="Cache Reset">Azzeramento Cache</value>
+		<value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Azzeramento Cache del Sistema ** Chiudere tutte le finestre prima di procedere **</value>
+	</row>
+	<row id="384" trl="Y">
+		<value column="Name" original="Accounting Dimensions">Dimensioni Contabili</value>
+		<value column="Description" original="Maintain Non-Account Dimension Trees">Maintain Non-Account Dimension Trees</value>
+	</row>
+	<row id="385" trl="Y">
+		<value column="Name" original="Replication">Replicazione</value>
+		<value column="Description" original="Maintain Data Replication Targets">Getione i Target della Replicazione</value>
+	</row>
+	<row id="386" trl="Y">
+		<value column="Name" original="Replication Strategy">Strategia di Replicazione</value>
+		<value column="Description" original="Maintain Data Replication Strategy">Gestione della strategia di replicazione</value>
+	</row>
+	<row id="387" trl="Y">
+		<value column="Name" original="Project (Order)">Progetto (Ordine di Lavoro)</value>
+		<value column="Description" original="Maintain Sales Order Projects and Work Orders">Administrazione Progetti di Ordine di Vendita ed Ordine di Lavoro</value>
+	</row>
+	<row id="388" trl="Y">
+		<value column="Name" original="Knowledge Base">Base di Conoscenza</value>
+		<value column="Description" original="Maintain Knowledge Base">Gestione Base di Conoscenza</value>
+	</row>
+	<row id="389" trl="Y">
+		<value column="Name" original="Knowledge Category">Categoria di Conoscenza</value>
+		<value column="Description" original="Maintain Knoweledge Categories and Values">Gestione le categorie e valori di conoscenza</value>
+	</row>
+	<row id="390" trl="Y">
+		<value column="Name" original="Knowledge Synonym">Sinonimo di Conoscenza</value>
+		<value column="Description" original="Knowlege Keyword Synonym">Sinonimo per le parole chiave di conoscenza</value>
+	</row>
+	<row id="391" trl="Y">
+		<value column="Name" original="Knowledge Source">Fonte di Conoscenza</value>
+		<value column="Description" original="Source of Knowledge Entries">Fonte delle immessione di conoscenza</value>
+	</row>
+	<row id="392" trl="Y">
+		<value column="Name" original="Knowledge">Conoscenza</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="393" trl="Y">
+		<value column="Name" original="Update Accounting Balance">Aggiornamento Bilancio Contabile</value>
+		<value column="Description" original="Update Daily Accounting Balances">Aggiorna quotidianamente i bilanci contabili</value>
+	</row>
+	<row id="394" trl="Y">
+		<value column="Name" original="Business Partner Info">Informazioni Business Partner</value>
+		<value column="Description" original="Document Information of Business Partners">Informazione Business Partner</value>
+	</row>
+	<row id="395" trl="Y">
+		<value column="Name" original="Replication Setup">Setup Replicazione</value>
+		<value column="Description" original="Setup of data replication">Impostazione Replicazione</value>
+	</row>
+	<row id="396" trl="Y">
+		<value column="Name" original="Send Mail Text">Inviare Email</value>
+		<value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Invia Email a gli iscritti di un'area di interesse o a un Gruppo di Business Partner</value>
+	</row>
+	<row id="397" trl="Y">
+		<value column="Name" original="Merge Entities">Fusione Entità</value>
+		<value column="Description" original="Merge From Entity to To Entity - Delete From">Fusione da Entità ad Entità - Cancella da</value>
+	</row>
+	<row id="398" trl="Y">
+		<value column="Name" original="Project Cycle Report">Report Ciclo del Progetto</value>
+		<value column="Description" original="Report Projects based on Project Cycle">Report Progetti basato sul Ciclo del Progetto</value>
+	</row>
+	<row id="399" trl="Y">
+		<value column="Name" original="Customer Assets">Bene Gestito Cliente</value>
+		<value column="Description" original="Report Customer Assets with Delivery Count">Report del Bene Gestito dal Cliente con Conto Consegna</value>
+	</row>
+	<row id="400" trl="Y">
+		<value column="Name" original="Asset Delivery Details">Consegnare Bene Gestito</value>
+		<value column="Description" original="Report Asset Deliveries Details">Report di Consegna del Bene Gestito</value>
+	</row>
+	<row id="401" trl="Y">
+		<value column="Name" original="Issue to Project">Attribuire al Progetto</value>
+		<value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Addebita Materiale al Progetto a partire da una Ricevuta o da un Inventario Manuale</value>
+	</row>
+	<row id="402" trl="Y">
+		<value column="Name" original="Generate PO from Project">Generare Ordini di Acquisto dal Progetto</value>
+		<value column="Description" original="Generate PO from Project Line(s)">Generare Ordini di Acquisto da Righe Progetto</value>
+	</row>
+	<row id="403" trl="Y">
+		<value column="Name" original="Project Detail Accounting Report">Report Dettagli Contabili del Progetto</value>
+		<value column="Description" original="Accounting Fact Details of Project"/>
+	</row>
+	<row id="404" trl="Y">
+		<value column="Name" original="Project Lines not Issued">Righe di Progetti non Attribuiti</value>
+		<value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Elenca le Linee del Progetto di un Ordine di Lavorazione o di un Progetto per un determinato Bene, che non sono correlati al Progetto</value>
+	</row>
+	<row id="405" trl="Y">
+		<value column="Name" original="Project POs not Issued">Ordini di Acquisto Progetto non Attribuiti</value>
+		<value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Elenca le Linee di Progetto con gli Ordini di Acquisto generati di un Ordine di Lavoro o di un Progetto per un Bene Gestito</value>
+	</row>
+	<row id="406" trl="Y">
+		<value column="Name" original="RePrice Order/Invoice">Ricalcola Prezzi Ordine/Fattura</value>
+		<value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Ricalcola i prezzi basandosi sulla ultima versione del listino prezzi di un Ordine aperto o di una Fattura</value>
+	</row>
+	<row id="407" trl="Y">
+		<value column="Name" original="Quote convert">Conversione Preventivi</value>
+		<value column="Description" original="Convert open Proposal or Quotation to Order">Converte una Quotazione o un Preventivo in un Ordine di vendita</value>
+	</row>
+	<row id="408" trl="Y">
+		<value column="Name" original="Label Printer">Stampante Etichette</value>
+		<value column="Description" original="Maintain Label Printer Definition">Gestisce la stampa delle etichette</value>
+	</row>
+	<row id="409" trl="Y">
+		<value column="Name" original="Verify Document Types">Verifica Tipi Documenti</value>
+		<value column="Description" original="Verify Document Types">Verifica Tipi Documenti</value>
+	</row>
+	<row id="410" trl="Y">
+		<value column="Name" original="Project Margin (Work Order)">Margine Progetto</value>
+		<value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">Linee di Ordoini di lavoro del progetto 8Ricavi pianificati) vs. Costi di progetto</value>
+	</row>
+	<row id="411" trl="Y">
+		<value column="Name" original="Storage Detail">Dettagli scorte</value>
+		<value column="Description" original="Storage Detail Report">Report di dettaglio sulle scorte</value>
+	</row>
+	<row id="412" trl="Y">
+		<value column="Name" original="Transaction Detail">Dettagli transazioni</value>
+		<value column="Description" original="Transaction Detail Report">Report di dettaglio sulle transazioni</value>
+	</row>
+	<row id="413" trl="Y">
+		<value column="Name" original="Aging">Lista Crediti</value>
+		<value column="Description" original="Aging Report">Report Lista Crediti</value>
+	</row>
+	<row id="414" trl="Y">
+		<value column="Name" original="Sales Rep Info">Informazioni Agente</value>
+		<value column="Description" original="Company Agent (Sales Rep) Information">Informazioni Agente Commerciale</value>
+	</row>
+	<row id="415" trl="Y">
+		<value column="Name" original="Clicks Monthy">Clicks Mensili</value>
+		<value column="Description" original="Clicks per Month">Clicks per Mese</value>
+	</row>
+	<row id="416" trl="Y">
+		<value column="Name" original="Clicks Unprocessed">Clicks non Processati</value>
+		<value column="Description" original="Unprocessed Clicks">Clicks non Processati</value>
+	</row>
+	<row id="417" trl="Y">
+		<value column="Name" original="UnPosted Documents">Documenti non Registrati</value>
+		<value column="Description" original="Unposted Documents">Documenti non Registrati</value>
+	</row>
+	<row id="418" trl="Y">
+		<value column="Name" original="Currency Type">Tipo Cambio Valuta</value>
+		<value column="Description" original="Maintain Currency Conversion Rate Types">Gestisce i tipi di tasso di conversione valuta</value>
+	</row>
+	<row id="419" trl="Y">
+		<value column="Name" original="POS">Punto di Vendita Finale</value>
+		<value column="Description" original="Point Of Sales Terminal">Punto di Vendita</value>
+	</row>
+	<row id="420" trl="Y">
+		<value column="Name" original="Business Partner Organization">Organizzazione Business Partner</value>
+		<value column="Description" original="Set and verify Organization ownership of Business Partners">Configura e verifica l'organizzazione dei Business Partner</value>
+	</row>
+	<row id="421" trl="Y">
+		<value column="Name" original="Product Organization">Organizzazione Prodotto</value>
+		<value column="Description" original="Set and verify Organization ownership of Products">Configura e verifica l'organizzazione del Prodotto</value>
+	</row>
+	<row id="422" trl="Y">
+		<value column="Name" original="Warehouse Organization">Organizzazione Magazzino</value>
+		<value column="Description" original="Set and verify Organization ownership of Warehouse">Verifica l'organizzazione e la struttura del Magazzino</value>
+	</row>
+	<row id="423" trl="Y">
+		<value column="Name" original="Load Bank Statement">Importa Estratto Conto</value>
+		<value column="Description" original="Load Bank Statement">Importa Estratto Conto</value>
+	</row>
+	<row id="424" trl="Y">
+		<value column="Name" original="Delete Import">Elimina Dati Importati</value>
+		<value column="Description" original="Delete all data in Import Table">Elimina Dati Importati</value>
+	</row>
+	<row id="425" trl="Y">
+		<value column="Name" original="Import Currency Rate">Importazioni Tassi Conversione Valuta</value>
+		<value column="Description" original="Import Currency Conversion Rates">Importazioni Tassi Conversione Valuta</value>
+	</row>
+	<row id="426" trl="Y">
+		<value column="Name" original="BOM Drop">Esplosione Distinta Base</value>
+		<value column="Description" original="Drop (expand) Bill of Materials">Inserisce (esplosa) la distinta base in Ordine o Fattura</value>
+	</row>
+	<row id="427" trl="Y">
+		<value column="Name" original="Workflow Responsible">Responsabile del Workflow</value>
+		<value column="Description" original="Responsible for Workflow Execution">Responsabile per l'esecuzione del Workflow</value>
+	</row>
+	<row id="428" trl="Y">
+		<value column="Name" original="Workflow Process">Processo</value>
+		<value column="Description" original="Monitor workflow processes">Gestisce i processi del Workflow</value>
+	</row>
+	<row id="429" trl="Y">
+		<value column="Name" original="Workflow Activities (all)">Attività di Workflow (Tutte)</value>
+		<value column="Description" original="Monitor all Workflow activities">Gestisce tutte le attività dei workflow</value>
+	</row>
+	<row id="430" trl="Y">
+		<value column="Name" original="Registration Attributes">Registrazione attributi</value>
+		<value column="Description" original="Asset Registration Attributes">Attributi di Bene Gestito</value>
+	</row>
+	<row id="431" trl="Y">
+		<value column="Name" original="Registration">Registrazione</value>
+		<value column="Description" original="User Asset Registration">Registrazione Utenti Bene Gestito</value>
+	</row>
+	<row id="432" trl="Y">
+		<value column="Name" original="Invoice Tax">Registro IVA e Imposte</value>
+		<value column="Description" original="Invoice Tax Reconciliation">Registro IVA e Imposte</value>
+	</row>
+	<row id="433" trl="Y">
+		<value column="Name" original="Accounting Fact Details">Libro Giornale</value>
+		<value column="Description" original="Accounting Fact Details Report">Report sui dettagli contabili</value>
+	</row>
+	<row id="434" trl="Y">
+		<value column="Name" original="Accounting Fact Daily">Eventi contabili per data</value>
+		<value column="Description" original="Accounting Fact Details summarized by Accounting Date">Eventi contabili aggregati per data</value>
+	</row>
+	<row id="435" trl="Y">
+		<value column="Name" original="Accounting Fact Period">Eventi contabili per periodo contabile</value>
+		<value column="Description" original="Accounting Fact Details summarized by Accounting Period">Eventi contabili per periodo contabile</value>
+	</row>
+	<row id="436" trl="Y">
+		<value column="Name" original="Reopen Order">Riapertura Ordini</value>
+		<value column="Description" original="Open previously closed Order">Riapre gli Ordini precedentemente chiusi</value>
+	</row>
+	<row id="437" trl="Y">
+		<value column="Name" original="Bank Statement Matcher">Quadratura Estratto Conto</value>
+		<value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments</value>
+	</row>
+	<row id="438" trl="Y">
+		<value column="Name" original="Payment Batch">Gruppo Pagamenti</value>
+		<value column="Description" original="Process Payment Patches for EFT">Elabora i pagamenti per i bonifici </value>
+	</row>
+	<row id="439" trl="Y">
+		<value column="Name" original="Workflow Processor">Elaboratore dei Workflow</value>
+		<value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
+	</row>
+	<row id="440" trl="Y">
+		<value column="Name" original="Accounting Processor">Elaboratore Contabilità</value>
+		<value column="Description" original="Maintain Accounting Processor and Logs">Elaboratore Contabilità e Log</value>
+	</row>
+	<row id="441" trl="Y">
+		<value column="Name" original="Organization Type">Tipo Organizzazione</value>
+		<value column="Description" original="Maintain Organization Types">Gestisce i Tipi di Organizzazione</value>
+	</row>
+	<row id="442" trl="Y">
+		<value column="Name" original="Auction Buyer">Acquirente</value>
+		<value column="Description" original="Maintain Auction Buyer Information">Gestisce le informazioni dell'acquirente</value>
+	</row>
+	<row id="443" trl="Y">
+		<value column="Name" original="Auction Seller">Venditore</value>
+		<value column="Description" original="Maintain Auction Seller Information">Gestisce le informazioni dell'acquirente d'asta</value>
+	</row>
+	<row id="444" trl="Y">
+		<value column="Name" original="Package">Packaging</value>
+		<value column="Description" original="Manage Shipment Packages">Gestisce Spedizioni Pacchi</value>
+	</row>
+	<row id="445" trl="Y">
+		<value column="Name" original="Distribution List">Lista di Distribuzione</value>
+		<value column="Description" original="Maintain Distribution Lists">Gestisce Liste di Distribuzione</value>
+	</row>
+	<row id="446" trl="Y">
+		<value column="Name" original="Alert Processor">Elaboratore Allarmi</value>
+		<value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Maintain Alert Processor/Server Parameter and Logs</value>
+	</row>
+	<row id="447" trl="Y">
+		<value column="Name" original="Bid Topic">Argomento dell'Offerta</value>
+		<value column="Description" original="Topic with Bids and Offers">Argomento dell'Offerta dell'asta</value>
+	</row>
+	<row id="448" trl="Y">
+		<value column="Name" original="Subscription Type">Tipo Prenotazione</value>
+		<value column="Description" original="Maintain Subscription Types">Gestisce i vari tipi di prenotazione</value>
+	</row>
+	<row id="449" trl="Y">
+		<value column="Name" original="Subscription">Prenotazioni</value>
+		<value column="Description" original="Maintain Subscriptions and Deliveries">Gestisce le Prenotazioni e le Consegne</value>
+	</row>
+	<row id="450" trl="Y">
+		<value column="Name" original="Scheduler">Scheduler</value>
+		<value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
+	</row>
+	<row id="451" trl="Y">
+		<value column="Name" original="Partner Relation">Relazioni tra Partner</value>
+		<value column="Description" original="Maintain Business Partner Relations">Gestisce le relazioni tra Business Partner</value>
+	</row>
+	<row id="452" trl="Y">
+		<value column="Name" original="RfQ Topic">Argomento della Richiesta</value>
+		<value column="Description" original="Maintain RfQ Topics and Subscribers">Gestisce l'Argomento della Richiesta e gli iscritti</value>
+	</row>
+	<row id="453" trl="Y">
+		<value column="Name" original="Auction Topic Type">Argomento dell'Asta</value>
+		<value column="Description" original="Maintain Auction Topic Type and Categories">Gestisce i tipi di Argomento d'asta e le categorie</value>
+	</row>
+	<row id="454" trl="Y">
+		<value column="Name" original="RfQ">Richiesta Quotazione</value>
+		<value column="Description" original="Manage Request for Quotations">Gestisce Richiesta Quotazione</value>
+	</row>
+	<row id="455" trl="Y">
+		<value column="Name" original="RMA">Restituzione Merci</value>
+		<value column="Description" original="Manage Return Material Authorization">Gestisce le Autorizzazioni di Restituzione Merci</value>
+	</row>
+	<row id="456" trl="Y">
+		<value column="Name" original="Server">Server</value>
+		<value column="Description" original="Compiere Server Maintenance">Compiere Server Maintenance</value>
+	</row>
+	<row id="457" trl="Y">
+		<value column="Name" original="Sales Orders">Ordini di Vendita</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="458" trl="Y">
+		<value column="Name" original="Sales Invoices">Fatture di Vendita</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="459" trl="Y">
+		<value column="Name" original="Shipments">Consegne</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="460" trl="Y">
+		<value column="Name" original="Market Place">Gestione Mercati</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="461" trl="Y">
+		<value column="Name" original="Sequence Check">Controllo Sequenza</value>
+		<value column="Description" original="Check System and Document Sequences">Controlla le Sequenze dei Documenti e del Sistema</value>
+	</row>
+	<row id="462" trl="Y">
+		<value column="Name" original="Dunning Run">Elaborazione Sollecito</value>
+		<value column="Description" original="Manage Dunning Runs">Elaborazione Sollecito</value>
+	</row>
+	<row id="463" trl="Y">
+		<value column="Name" original="Requisition">Richieste</value>
+		<value column="Description" original="Material Requisition">Richieste di Materiale</value>
+	</row>
+	<row id="464" trl="Y">
+		<value column="Name" original="GL Distribution">Distribuzione del Mastro</value>
+		<value column="Description" original="General Ledger Distribution">Distribuzione del Mastro</value>
+	</row>
+	<row id="465" trl="Y">
+		<value column="Name" original="Tree Maintenance">Gestione Albero</value>
+		<value column="Description" original="Maintain Trees">Gestisce gli Alberi</value>
+	</row>
+	<row id="466" trl="Y">
+		<value column="Name" original="RfQ Response">Risposta Richiesta Quotazione</value>
+		<value column="Description" original="Manage RfQ Responses">Gestisce la Risposta Richiesta Quotazione</value>
+	</row>
+	<row id="467" trl="Y">
+		<value column="Name" original="RfQ Response">Risposte alla Richiesta Quotazione</value>
+		<value column="Description" original="Detail RfQ Responses">Dettagli sulla Risposta alla Richiesta Quotazione</value>
+	</row>
+	<row id="468" trl="Y">
+		<value column="Name" original="RfQ Unanswered">Richieste senza Risposta</value>
+		<value column="Description" original="Outstanding RfQ Responses">Richieste senza Risposta</value>
+	</row>
+	<row id="469" trl="Y">
+		<value column="Name" original="Workflow Editor">Editor di Workflow</value>
+		<value column="Description" original="Edit Workflows">Editor di Workflow</value>
+	</row>
+	<row id="470" trl="Y">
+		<value column="Name" original="Workflow Activities">Attività di Workflow</value>
+		<value column="Description" original="My active workflow activities">Attività di Workflow Attive</value>
+	</row>
+	<row id="471" trl="Y">
+		<value column="Name" original="Open Requisitions">Richieste Aperte</value>
+		<value column="Description" original="Detail Open Requisition Information">Dettagli sulle Richieste di Quotazione</value>
+	</row>
+	<row id="472" trl="Y">
+		<value column="Name" original="Distribution Run">Elabora Distribuzioni</value>
+		<value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Crea Ordini per distribuire prodotti a liste di Business Partner</value>
+	</row>
+	<row id="473" trl="Y">
+		<value column="Name" original="UnLink Business Partner Org">Scollega Business Partner da Organizzazione</value>
+		<value column="Description" original="UnLink Business Partner from an Organization">Scollega Business Partner da Organizzazione</value>
+	</row>
+	<row id="474" trl="Y">
+		<value column="Name" original="Asset Delivery Month">Consegna Bene Gestito Mensili</value>
+		<value column="Description" original="Report Asset Deliveries Summary per month">Riassunto Mensile Consegne Bene Gestito</value>
+	</row>
+	<row id="475" trl="Y">
+		<value column="Name" original="Access Audit">Access Log</value>
+		<value column="Description" original="Audit of Access to data or resources">Log of Access to data or resources</value>
+	</row>
+	<row id="476" trl="Y">
+		<value column="Name" original="Counter Document">Contatore Documento</value>
+		<value column="Description" original="Maintain Counter Document Types">Gestisce i tipi di contatore del Documento</value>
+	</row>
+	<row id="477" trl="Y">
+		<value column="Name" original="Demand">Approvigionamento</value>
+		<value column="Description" original="Maintain Material Demand">Gestisce la domanda di Merci</value>
+	</row>
+	<row id="478" trl="Y">
+		<value column="Name" original="Forecast">Previsione Domanda</value>
+		<value column="Description" original="Maintain Material Forecast">Gestisce le previsioni di domanda sui materiali per la gestione dell'approvvigionamento</value>
+	</row>
+	<row id="479" trl="Y">
+		<value column="Name" original="Ship/Receipt Confirm">Conferma Spedizione/Ricevimento</value>
+		<value column="Description" original="Material Shipment or Receipt Confirmation">Conferma Spedizione/Ricevimento Materiale</value>
+	</row>
+	<row id="480" trl="Y">
+		<value column="Name" original="RMA Type">Tipo Autorizzazione Restituzione Merci</value>
+		<value column="Description" original="Return Material Authorization Type">Tipo Autorizzazione Restituzione Merci</value>
+	</row>
+	<row id="481" trl="Y">
+		<value column="Name" original="Open Confirmation Details">Dettagli Conferme Aperte</value>
+		<value column="Description" original="Open Shipment or Receipt Confirmation Details">Dettagli Conferme Spedizioni o Ricevimenti Aperte</value>
+	</row>
+	<row id="482" trl="Y">
+		<value column="Name" original="Open Confirmations">Conferme Aperte</value>
+		<value column="Description" original="Open Shipment or Receipt Confirmations">Conferme di Spedizioni o Ingresso Merci ancora Aperte</value>
+	</row>
+	<row id="483" trl="Y">
+		<value column="Name" original="Process Audit">Process Audit</value>
+		<value column="Description" original="Audit process use">Audit process use</value>
+	</row>
+	<row id="484" trl="Y">
+		<value column="Name" original="Move Confirmation">Conferma Movimentazione</value>
+		<value column="Description" original="Confirm Inventory Moves">Conferma Movimentazione Inventario</value>
+	</row>
+	<row id="485" trl="Y">
+		<value column="Name" original="Print Format Detail">Stampa Dettagli di Formattazione</value>
+		<value column="Description" original="Print Format Detail Report">Il Report Stampa Dettagli di Formattazione</value>
+	</row>
+	<row id="486" trl="Y">
+		<value column="Name" original="Import Confirmations">Importa Conferme</value>
+		<value column="Description" original="Import Receipt/Shipment Confirmation Lines">Importa Linee Conferma Entrate Merci/Spedizioni</value>
+	</row>
+	<row id="487" trl="Y">
+		<value column="Name" original="Reset Password">Azzera Password</value>
+		<value column="Description" original="Reset Passwords for User">Azzera le Password per gli Utenti</value>
+	</row>
+	<row id="488" trl="Y">
+		<value column="Name" original="SLA Criteria">Criterio SLA</value>
+		<value column="Description" original="Service Level Agreement Criteria">Criterio Service Level Agreement (Livello di Gradimento del Servizio)</value>
+	</row>
+	<row id="489" trl="Y">
+		<value column="Name" original="SLA by Partner">SLA per il Partner</value>
+		<value column="Description" original="Service Level Agreement">Livello di Gradimento del Servizio</value>
+	</row>
+	<row id="490" trl="Y">
+		<value column="Name" original="Price List Schema">Schema Listino Prezzi</value>
+		<value column="Description" original="Maintain Price List Schema">Gestione Schema Listino Prezzi</value>
+	</row>
+	<row id="491" trl="Y">
+		<value column="Name" original="POS Terminal">POS</value>
+		<value column="Description" original="Maintain your Point of Sales Terminal">Gestisce il Punto di Vendita Finale</value>
+	</row>
+	<row id="492" trl="Y">
+		<value column="Name" original="POS Key Layout">Disposizione Chiave POS</value>
+		<value column="Description" original="POS Function Key Layout">Disposizione Funzione Chiave POS Point of Sale (Punto di Vendita)</value>
+	</row>
+	<row id="493" trl="Y">
+		<value column="Name" original="Material Receipt Details">Dettagli Ricevimento Merci</value>
+		<value column="Description" original="Material Receipt Detail Information">Informazioni  Dettagli Ricevimento Merci</value>
+	</row>
+	<row id="494" trl="Y">
+		<value column="Name" original="Shipment Details">Dettagli Spedizioni</value>
+		<value column="Description" original="Shipment Detail Information">Informazioni sui Dettagli Spedizioni</value>
+	</row>
+	<row id="495" trl="Y">
+		<value column="Name" original="Role Access Update">Aggiornamento dell' Accesso del Ruolo</value>
+		<value column="Description" original="Update the access rights of a role or roles of a client">Aggiorna i permessi d' accesso di un ruolo o di più ruoli di una Azienda.</value>
+	</row>
+	<row id="496" trl="Y">
+		<value column="Name" original="Reset Allocation">Annulla Allocazione Fatture</value>
+		<value column="Description" original="Reset (delete) allocation of invoices to payments">Annulla la Allocazione delle fatture nei pagamenti.</value>
+	</row>
+	<row id="497" trl="Y">
+		<value column="Name" original="Auto Allocation">Allocazione Automatica</value>
+		<value column="Description" original="Automatic allocation of invoices to payments">Allocazione Automatica delle fatture nei pagamenti</value>
+	</row>
+	<row id="498" trl="Y">
+		<value column="Name" original="System Registration">Registrazione Sistema</value>
+		<value column="Description" original="Register your System">Registrazione Sistema</value>
+	</row>
+	<row id="499" trl="Y">
+		<value column="Name" original="Reapply Customizations">Riapplica personalizzazioni</value>
+		<value column="Description" original="If you identified customizations in the Change Log, you can reapply them">Riapplica personalizzazioni</value>
+	</row>
+	<row id="500" trl="Y">
+		<value column="Name" original="Workflow to Client">Dal Workflow al Client</value>
+		<value column="Description" original="Move custom workflow elements to the current client">Sposta i Workflow personalizzati nel Client/Azienda Corrente</value>
+	</row>
+	<row id="501" trl="Y">
+		<value column="Name" original="Workflow">Workflow</value>
+		<value column="Description" original="Compiere Workflow">Compiere Workflow</value>
+	</row>
+	<row id="502" trl="Y">
+		<value column="Name" original="Trial Balance">Bilancio di verifica</value>
+		<value column="Description" original="Trial Balance for a period or date range">Bilancio di verifica per esercizio o periodo</value>
+	</row>
+	<row id="503" trl="Y">
+		<value column="Name" original="Internal Use Inventory">Inventario uso interno</value>
+		<value column="Description" original="Enter Internal Use of Inventory">Inventario uso interno</value>
+	</row>
+	<row id="504" trl="Y">
+		<value column="Name" original="Product UOM Convert">Conversione UdM Prodotto</value>
+		<value column="Description" original="Brack-up or repackage same Products with different UOM">Conversione UdM Prodotto</value>
+	</row>
+	<row id="505" trl="Y">
+		<value column="Name" original="Print Dunning Letters">Stampa lettere solleciti</value>
+		<value column="Description" original="Print Dunning letters to paper or send PDF">Stampa lettere solleciti su carta o PDF</value>
+	</row>
+	<row id="506" trl="Y">
+		<value column="Name" original="Validate Business Partner">Valida Business Partner</value>
+		<value column="Description" original="Check data consistency of Business Partner">Valida Business Partner</value>
+	</row>
+	<row id="507" trl="Y">
+		<value column="Name" original="Order Batch Process">Elabora gruppi di Ordini</value>
+		<value column="Description" original="Process Orders in Batch">Elabora gruppi di Ordini</value>
+	</row>
+	<row id="508" trl="Y">
+		<value column="Name" original="Archive Viewer">Visualizzatore Archivio</value>
+		<value column="Description" original="View automatically archived Documents">View automatically archived Documents</value>
+	</row>
+	<row id="509" trl="Y">
+		<value column="Name" original="UnAllocated Invoices">Fatture non allocate</value>
+		<value column="Description" original="Invoices not allocated to Payments">Fatture non allocate sui pagamenti</value>
+	</row>
+	<row id="510" trl="Y">
+		<value column="Name" original="UnAllocated Payments">Pagamenti non allocati</value>
+		<value column="Description" original="Payments not allocated to Invoices">Pagamenti non allocati</value>
+	</row>
+	<row id="511" trl="Y">
+		<value column="Name" original="Payment Details">Dettagli Pagamenti</value>
+		<value column="Description" original="Payment Detail Report">Dettagli Pagamenti</value>
+	</row>
+	<row id="512" trl="Y">
+		<value column="Name" original="Business Partner Open">Importo Aperto Business Partner</value>
+		<value column="Description" original="Business Partner Open Amount">Importo Aperto Business Partner</value>
+	</row>
+	<row id="513" trl="Y">
+		<value column="Name" original="Commission Run Detail">Dettagli Commisioni Correnti</value>
+		<value column="Description" original="Commission Run Detail Report">Dettagli Commisioni Correnti</value>
+	</row>
+	<row id="514" trl="Y">
+		<value column="Name" original="Synchronize Doc Translation">Sincronizza Traduzione Documenti</value>
+		<value column="Description" original="Synchronize Document Translation">Synchronize Document Translation</value>
+	</row>
+	<row id="515" trl="Y">
+		<value column="Name" original="Material Reference">Riferimenti dei Materiali</value>
+		<value column="Description" original="Material Transactions Cross Reference (used/resourced)">Riferimenti incrociati sull'uso dei Materiali</value>
+	</row>
+	<row id="516" trl="Y">
+		<value column="Name" original="Invoice Batch">Fatturazione Batch</value>
+		<value column="Description" original="Expense Invoice Batch">Fatture di spesa Batch</value>
+	</row>
+	<row id="517" trl="Y">
+		<value column="Name" original="Window Customization">Finestra Utente</value>
+		<value column="Description" original="Define Window Customization for Role/User">Definisce Finestra Utente Customization</value>
+	</row>
+	<row id="518" trl="Y">
+		<value column="Name" original="EDI Definition">Definizione EDI</value>
+		<value column="Description" original="Maintain EDI Definition">Gestione Definizione EDI</value>
+	</row>
+	<row id="519" trl="Y">
+		<value column="Name" original="EDI Transaction">Transazione EDI</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="520" trl="Y">
+		<value column="Name" original="Product Costs">Costo prodotto</value>
+		<value column="Description" original="Maintain Product Costs">Gestisce il costo dei prodotti</value>
+	</row>
+	<row id="521" trl="Y">
+		<value column="Name" original="Cost Element">Elemento di Costo</value>
+		<value column="Description" original="Maintain Product Cost Element">Gestisce gli elementi di Costo</value>
+	</row>
+	<row id="522" trl="Y">
+		<value column="Name" original="Costing">Gestione Costi</value>
+		<value column="Description" original="">Gestione Costi Produzione</value>
+	</row>
+	<row id="523" trl="Y">
+		<value column="Name" original="Request Status">Stato Richiesta</value>
+		<value column="Description" original="Maintain Request Status">Stato Richiesta</value>
+	</row>
+	<row id="524" trl="Y">
+		<value column="Name" original="Request Standard Response">Risposta standard Richiesta</value>
+		<value column="Description" original="Maintain Request Standard Response ">Risposta standard Richiesta</value>
+	</row>
+	<row id="525" trl="Y">
+		<value column="Name" original="Request Resolution">Risoluzione Richiesta</value>
+		<value column="Description" original="Maintain Request Resolutions">Risoluzione Richiesta</value>
+	</row>
+	<row id="526" trl="Y">
+		<value column="Name" original="Request Group">Gruppo Richiesta</value>
+		<value column="Description" original="Maintain Request Group">Gruppo Richiesta</value>
+	</row>
+	<row id="527" trl="Y">
+		<value column="Name" original="Request Category">Categoria Richiesta</value>
+		<value column="Description" original="Maintain Request Category">Categoria Richiesta</value>
+	</row>
+	<row id="528" trl="Y">
+		<value column="Name" original="Request">Richieste</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="529" trl="Y">
+		<value column="Name" original="Web Store">Negozio Elettronico</value>
+		<value column="Description" original="Define Web Store">Definisce il Negozio elettronico</value>
+	</row>
+	<row id="530" trl="Y">
+		<value column="Name" original="Position">Posizione</value>
+		<value column="Description" original="Maintain Job Positions">Gestione Posizioni di Lavoro</value>
+	</row>
+	<row id="531" trl="Y">
+		<value column="Name" original="Position Category">Categoria Posizione</value>
+		<value column="Description" original="Maintain Job Position Categories">Gestisce le Categorie di Posizioni di Lavoro</value>
+	</row>
+	<row id="532" trl="Y">
+		<value column="Name" original="Remuneration">Remunerazione</value>
+		<value column="Description" original="Maintain Remuneration">Gestisce la remunerazione</value>
+	</row>
+	<row id="533" trl="Y">
+		<value column="Name" original="BOM Change Notice">Notifica Modifica Collegata</value>
+		<value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Gestisce la  Notifica Modifica Collegata Distinta Base</value>
+	</row>
+	<row id="534" trl="Y">
+		<value column="Name" original="Product BOM">Distinta Base</value>
+		<value column="Description" original="Maintain Product Bill of Materials">Gestisce la Distinta Base</value>
+	</row>
+	<row id="535" trl="Y">
+		<value column="Name" original="Invoice Requests">Fatture per richieste</value>
+		<value column="Description" original="Create Invoice for Requests">Crea Fatture per richieste</value>
+	</row>
+	<row id="536" trl="Y">
+		<value column="Name" original="Change Notice">Notifica Modifica Generica</value>
+		<value column="Description" original="Maintain (Engineering) Change Notice (Version)">Gestisce la notifica di modifica generica non collegata alla Distinta Base</value>
+	</row>
+	<row id="537" trl="Y">
+		<value column="Name" original="Storage Cleanup">Pulizia Dati Inventario</value>
+		<value column="Description" original="Inventory Storage Cleanup">Pulizia Dati Inventario</value>
+	</row>
+	<row id="538" trl="Y">
+		<value column="Name" original="Invoice Not Realized Gain/Loss">Fatture non incassate</value>
+		<value column="Description" original="Invoice Not Realized Gain &amp; Loss Report">Fatture non incassate (Profitti/Perdite)</value>
+	</row>
+	<row id="540" trl="Y">
+		<value column="Name" original="Product Cost">Costi di Produzione</value>
+		<value column="Description" original="Product Cost Report">Costi di Produzione</value>
+	</row>
+	<row id="541" trl="Y">
+		<value column="Name" original="Product Cost Summary">Totale Costi di Produzione</value>
+		<value column="Description" original="Product Cost Summary Report">Totale Costi di Produzione</value>
+	</row>
+	<row id="542" trl="Y">
+		<value column="Name" original="Product Cost Detail">Dettagli Costi di Produzione</value>
+		<value column="Description" original="Product Invoice Cost Detail Report">Dettagli Costi di Produzione</value>
+	</row>
+	<row id="543" trl="Y">
+		<value column="Name" original="Order Detail">Dettagli Ordine</value>
+		<value column="Description" original="Order Detail Report">Report di dettaglio degli Ordini</value>
+	</row>
+	<row id="544" trl="Y">
+		<value column="Name" original="Business Partner Detail">Dettagli Business Partner</value>
+		<value column="Description" original="Business Partner Detail Report">Report Dettagli Business Partner</value>
+	</row>
+	<row id="545" trl="Y">
+		<value column="Name" original="Attribute Set Instance">Serie Attributi di Istanza</value>
+		<value column="Description" original="View Attribute Set Instance detail and use">Verifica Serie Attributi di Istanza</value>
+	</row>
+	<row id="546" trl="Y">
+		<value column="Name" original="Create Costing Records">Crea Registrazione dei Costi</value>
+		<value column="Description" original="Create Costing Records">Crea Registrazione dei Costi</value>
+	</row>
+	<row id="547" trl="Y">
+		<value column="Name" original="Tax Declaration">Dichiarazione Imposte</value>
+		<value column="Description" original="Define the declaration to the tax authorities">Definisce la Dichiarazione delle imposte</value>
+	</row>
+	<row id="548" trl="Y">
+		<value column="Name" original="Reporting Hierarchy">Gerarchia dei Report</value>
+		<value column="Description" original="Define Reporting Hierarchy">Gerarchia dei Report</value>
+	</row>
+	<row id="549" trl="Y">
+		<value column="Name" original="Create PO from Requisition">Crea Ordini di Acquisto dalle Richieste</value>
+		<value column="Description" original="Create Purchase Orders from Requisitions">Crea Ordini di Acquisto dalle Richieste</value>
+	</row>
+	<row id="550" trl="Y">
+		<value column="Name" original="Budget Control">Controllo Budget</value>
+		<value column="Description" original="Maintain Budget Controls">Controllo Budget</value>
+	</row>
+	<row id="551" trl="Y">
+		<value column="Name" original="GL Fund (Alpha)">Controllo Fondi (Alpha)</value>
+		<value column="Description" original="Maintain Fund Controls">Gestisce il Controllo dei Fondi</value>
+	</row>
+	<row id="552" trl="Y">
+		<value column="Name" original="System Issue Report">Report dei Problemi del Sistema</value>
+		<value column="Description" original="Automatically created or manually entered System Issue Reports">Report dei Porblemi automatico o manuale</value>
+	</row>
+	<row id="553" trl="Y">
+		<value column="Name" original="Quarter Invoice Product">Fatture Trimestrali per Prodotto</value>
+		<value column="Description" original="Imvoice Report by Product per Quarter">Fatture Trimestrali per Prodotto</value>
+	</row>
+	<row id="554" trl="Y">
+		<value column="Name" original="Monthly Invoice Product">Fatture per Prodotto e per Mese</value>
+		<value column="Description" original="Imvoice Report by Product per Month">Report Fatture per Prodotto e per Mese</value>
+	</row>
+	<row id="555" trl="Y">
+		<value column="Name" original="Performance Indicators">Indicatori di Performance</value>
+		<value column="Description" original="View Performance Indicators">Indicatori di Performance</value>
+	</row>
+	<row id="556" trl="Y">
+		<value column="Name" original="Performance Color Schema">Schema dei Colori delle Performance</value>
+		<value column="Description" original="Maintain Performance Color Schema">Schema dei Colori delle Performance</value>
+	</row>
+	<row id="557" trl="Y">
+		<value column="Name" original="Performance Benchmark">Benchmark delle Performance</value>
+		<value column="Description" original="Performance Benchmark">Benchmark delle Performance</value>
+	</row>
+	<row id="558" trl="Y">
+		<value column="Name" original="Performance Ratio">Rapporti delle Performance</value>
+		<value column="Description" original="Maintain Performance Ratios">Rapporti delle Performance</value>
+	</row>
+	<row id="559" trl="Y">
+		<value column="Name" original="Issue Recommendation">Raccomandazioni sui Problemi</value>
+		<value column="Description" original="Maintain Issue Recommendation">Raccomandazioni sui Problemi</value>
+	</row>
+	<row id="560" trl="Y">
+		<value column="Name" original="Issue Status">Stato dei Problemi</value>
+		<value column="Description" original="Maintain Issue Status">Stato dei Problemi</value>
+	</row>
+	<row id="561" trl="Y">
+		<value column="Name" original="Known Issue">Problema Conosciuto</value>
+		<value column="Description" original="Maintain Known Issue">Problema Conosciuto</value>
+	</row>
+	<row id="562" trl="Y">
+		<value column="Name" original="Issue Project">Problemi del Progetto</value>
+		<value column="Description" original="Maintain Issue Projects">Problemi del Progetto</value>
+	</row>
+	<row id="563" trl="Y">
+		<value column="Name" original="Issue User">Utente del Problema</value>
+		<value column="Description" original="User who reported Issues">Utente che ha avuto ilProblema</value>
+	</row>
+	<row id="564" trl="Y">
+		<value column="Name" original="Issue System">Sistema per la gestione dei Problemi</value>
+		<value column="Description" original="Maintain Systems">Sistema per la gestione dei Problemi</value>
+	</row>
+</compiereTrl>

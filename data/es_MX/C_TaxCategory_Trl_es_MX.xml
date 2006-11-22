@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="C_TaxCategory">
+	<row id="107" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+	</row>
+	<row id="1000017" trl="N">
+		<value column="Name" original="IVA">IVA</value>
+		<value column="Description" original="IVA">IVA</value>
+	</row>
+	<row id="1000018" trl="N">
+		<value column="Name" original="Estándar">Estándar</value>
+		<value column="Description" original="Estándar">Estándar</value>
+	</row>
+	<row id="1000019" trl="N">
+		<value column="Name" original="IVA">IVA</value>
+		<value column="Description" original="IVA">IVA</value>
+	</row>
+	<row id="1000020" trl="N">
+		<value column="Name" original="-">-</value>
+		<value column="Description" original="-">-</value>
+	</row>
+</compiereTrl>

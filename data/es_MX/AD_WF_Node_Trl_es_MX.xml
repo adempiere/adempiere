@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_WF_Node">
+	<row id="116" trl="Y">
+		<value column="Name" original="Accounting Schema">Esquema Contable</value>
+		<value column="Description" original="Project as Account Segment">Project as Account Segmenr</value>
+		<value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">To enable accounting reporting of projects, create and enable a project segment in the account elements.</value>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="System Elements">Elementos del Sistema</value>
+		<value column="Description" original="Translate System Elements">Traducción Elementos del Sistema</value>
+		<value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)</value>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Messages">Mensajes</value>
+		<value column="Description" original="Translate Messages">Traducción de Mensajes</value>
+		<value column="Help" original="Translate the messages used in Windows, Forms and Processes">Translate the messages used in Windows, Forms and Processes</value>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Reference">Referencias</value>
+		<value column="Description" original="Translate References">Traducción de Referencias</value>
+		<value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">Referencias son empleadas como slección de Listas predefinidas.Sólo necesita traducir los elementos de la lista!!
+</value>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Window &amp; Tab">Ventanas y Pestañas</value>
+		<value column="Description" original="Translate Windows and Tabs">Traducción de Ventanas y Pestañas</value>
+		<value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.</value>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Form">Formas</value>
+		<value column="Description" original="Translate Forms">Traducción de Formas</value>
+		<value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Forms are special Windows and you need to translate its name, description and Help.</value>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Report &amp; Process">Informes y Procesos</value>
+		<value column="Description" original="Translate Reports and Processes">Traducción Informes y Procesos</value>
+		<value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Traduce el Nombre, Descripción y Ayuda para los Procesos y Informes. Usted no necesita traducir los parametros si hay un mantenimiento central.</value>
+	</row>
+	<row id="140" trl="Y">
+		<value column="Name" original="User">Usuario</value>
+		<value column="Description" original="Define Sales Representative as User">Defina su Usuario como Representante de Ventas</value>
+		<value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">Los usuarios pueden registrarce en el sistema y tener acceso a la funcionalidad via uno o más roles. Esto permite al usuario ser tratado como representante de ventas en el sistema.</value>
+	</row>
+	<row id="141" trl="Y">
+		<value column="Name" original="Business Partner">Socio del Negocio</value>
+		<value column="Description" original="Set up Sales Representative as Business Partner">Configure su Socio del Negocio como Representante de Ventas</value>
+		<value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">Configure al representante de ventas como empleado y representante de ventas en la pestaña del empleado. Tambien configurar la parte del proveedor si usted desea crear pagos.</value>
+	</row>
+	<row id="146" trl="Y">
+		<value column="Name" original="Workflow">Flujo de Trabajo</value>
+		<value column="Description" original="Translate Workflows">Traducción Flujo de Trabajo</value>
+		<value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!</value>
+	</row>
+	<row id="152" trl="Y">
+		<value column="Name" original="Check Client Setup">Compañía</value>
+		<value column="Description" original="Check Client setup for Requests">Verificación de la Configuración de Compañía</value>
+		<value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">Usted necesita tener un servidor de correo y una dirección de mail de los cuales las notificaciones de solicitudes se envien. Opcionalmente, si usted define un usuario y contraseña del mail, las solicitudes se leen en las carpetas de los usuarios del correo y se importan en el sistema.</value>
+	</row>
+	<row id="153" trl="Y">
+		<value column="Name" original="Check Users">Usuarios</value>
+		<value column="Description" original="Check users for Request processing">Verifica usuarios para procesar request</value>
+		<value column="Help" original="Please ensure that users have a email address and supervisor assigned.">Asegurese porfavor de que los usuarios tengan una dirección de correo y supervisor asignado.</value>
+	</row>
+	<row id="155" trl="Y">
+		<value column="Name" original="Check Business Partners">Socios del Negocio</value>
+		<value column="Description" original="Check Business Partners for Request processing">Verificar Socio de Negocio para procesar Request.</value>
+		<value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">Usted puede enviar email para los socios de negocio. Asegurar que, los socios de negocio y/o los contactos tiene direcciones de email.</value>
+	</row>
+	<row id="1000159" trl="Y">
+		<value column="Name" original="Discrete Manufacturing">Manufactura Discreta</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+</compiereTrl>

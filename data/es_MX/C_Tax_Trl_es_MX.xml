@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="C_Tax">
+	<row id="104" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="105" trl="N">
+		<value column="Name" original="CT Sales">CT Sales</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original="6%CT">6%CT</value>
+	</row>
+	<row id="106" trl="N">
+		<value column="Name" original="GST">GST</value>
+		<value column="Description" original="Canadian Federal Sales Tax">Canadian Federal Sales Tax</value>
+		<value column="TaxIndicator" original="GST">GST</value>
+	</row>
+	<row id="107" trl="N">
+		<value column="Name" original="PST">PST</value>
+		<value column="Description" original="Canadian Provintial Tax">Canadian Provintial Tax</value>
+		<value column="TaxIndicator" original="PST">PST</value>
+	</row>
+	<row id="108" trl="N">
+		<value column="Name" original="GST/PST">GST/PST</value>
+		<value column="Description" original="Canadian Federal &amp; State Tax">Canadian Federal &amp; State Tax</value>
+		<value column="TaxIndicator" original="Tax">Tax</value>
+	</row>
+	<row id="109" trl="N">
+		<value column="Name" original="Exempt">Exempt</value>
+		<value column="Description" original="Used when Business Partners are exempt from tax">Used when Business Partners are exempt from tax</value>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="1000050" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="1000051" trl="N">
+		<value column="Name" original="Standard">Standard</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+</compiereTrl>

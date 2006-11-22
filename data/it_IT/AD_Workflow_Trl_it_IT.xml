@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="it_IT" table="AD_Workflow">
+	<row id="101" trl="Y">
+		<value column="Name" original="Project Setup and Use">Configurazione progetto</value>
+		<value column="Description" original="Setup of projects and project reporting">Configurazione dei progetti e rendiconto dei progetti</value>
+		<value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">I Progetti permettono di controllare lo stato e i progressi delle opportunità di vendita, dei progetti di servizio e di investimento. Un Progetto è un processo intrapreso che può coinvolgere diverse azioni o fasi e richiede risorse da più di un' area.</value>
+	</row>
+	<row id="103" trl="Y">
+		<value column="Name" original="Language Setup">Configurazione lingua</value>
+		<value column="Description" original="Setup a new Language of the system and translate elements">Configura un nuovo lingua e traduce gli elementi.</value>
+		<value column="Help" original="Define a new language as a system language.">Definisce un nuovo linguaggio come linguaggio di sistema.</value>
+	</row>
+	<row id="104" trl="Y">
+		<value column="Name" original="Initial Client Setup Review">Rivisione configurazione iniziale del client</value>
+		<value column="Description" original="Review of system level setup of a new  Client">Rivisione configurazione iniziale del client</value>
+		<value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">Questo workflow revisiona il sistema di configurazione di un Nuovo Cliente come effettuato dalla configurazione automatica Iniziale del Cliente.
+Potresti voler controllare anche i seguenti Workflows:
+- Configurazione Contabilità
+- Configurazione Business Partner 
+- Configurazione Prodotto - Configurazione Listino Prezzi
+- Configurazione Magazzino
+- Configurazione Tasse
+</value>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="Accounting Setup">Configurazione Contabilità</value>
+		<value column="Description" original="Review and change Accounting Setup">Revisiona e cambia l'inserimento contabilità</value>
+		<value column="Help" original="This workflow allows you to review and change your Accounting Rules. ">Questo workflow ti permette di rivedere e cambiare le Regole di Contabilità. </value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="Business Partner Setup">Configurazione business partner</value>
+		<value column="Description" original="Setup Business Partner Rules">Inserimento Regole del Business Partner </value>
+		<value column="Help" original="This workflow defines the Business Partners and the supporting rules.">Questo workflow definisce il Business Partners e le regole di appoggio.</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="Product Setup">Configurazione prodotti</value>
+		<value column="Description" original="Set up Products">Inserimento Prodotti</value>
+		<value column="Help" original="Define your products manually. You should verify the settings especially if you import your products.">Definisce i prodotti manualmente. Dovresti verificare l'inserimento dei prodotti specialmente in caso di importazione.</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="Price List Setup">Configurazione listini</value>
+		<value column="Description" original="Define your Price Lists and Discounts">Definizione dei Listini Prezzi e degli Sconti</value>
+		<value column="Help" original="You define your price lists after entering or importing your products. In addition to price lists, you can define discounts for business partners.  Assign specific Price Lists and Discounst to Business Partners.">Definisci il Listino Prezzi dopo aver inserito o importato i prodotti.</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Replication Setup">Setup Replicazione</value>
+		<value column="Description" original="Setup of data replication">Impostazione Replicazione</value>
+		<value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required&#10;"/>
+	</row>
+	<row id="110" trl="Y">
+		<value column="Name" original="Tax Setup">Configurazione imposte</value>
+		<value column="Description" original="Setup tax calculation">Configurazione calcolo delle imposte</value>
+		<value column="Help" original="Setup the tax calculation for products, services and charges">Configura delle imposte per i prodotti, i servizi e le spese.</value>
+	</row>
+	<row id="111" trl="Y">
+		<value column="Name" original="Sales Setup">Configurazione vendite</value>
+		<value column="Description" original="Setup Sales">Configurazione vendite</value>
+		<value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns.">Configura i rappresentanti di Vendita, le Provvigioni, i Canali e le Campagne di Marketing.</value>
+	</row>
+	<row id="112" trl="Y">
+		<value column="Name" original="Performance Measurement Setup">Configurazione indicatori di perfomance</value>
+		<value column="Description" original="Setup your Performance Measurement">Configurazione indicatori di perfomance</value>
+		<value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced Scorecard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">Questo workflow ti guida nella configurazione degli indicatori di performance basandoti sugli Indicatori di Performance Chiave, Segnapunti Bilanciati, ecc.
+
+Fondamentale: Prima di tutto fai le tue analisi!
+- Quali sono i tuoi obiettivi e come li misuri?
+
+Mentre stai configurando il sistema, fallo alla rovescia:
+Prima di tutto definisci come lo misuri e alla fine definisci gli obiettivi delle misurazioni.
+Hai tre modi per misurare le performance:
+- attraverso misure quantificabilli (p.e. vendite di $3 milioni in Q1)
+- attraverso misure manuali
+- attraverso risultati (compiti)
+
+Il sistema converte le misure in percentuali (basate sulle misure e gli obiettivi raggiunti - o sul numero dei risultati totali raggiunti)</value>
+	</row>
+	<row id="113" trl="Y">
+		<value column="Name" original="Request Setup">Cofigurazione richieste</value>
+		<value column="Description" original="Set up the client to process requests">Configurazione richieste del cliente</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="114" trl="Y">
+		<value column="Name" original="Requisition Setup">Requisition Setup</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="115" trl="Y">
+		<value column="Name" original="Process_Requisition">Process Requisition</value>
+		<value column="Description" original="(Standard Process_Requisition)"/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="116" trl="Y">
+		<value column="Name" original="Process_Order">Process_Order</value>
+		<value column="Description" original="(Standard Process Order)">(Standard Process Order)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="117" trl="Y">
+		<value column="Name" original="Process_Shipment">Process_Shipment</value>
+		<value column="Description" original="(Standard Process Shipment)">(Standard Process Shipment)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="118" trl="Y">
+		<value column="Name" original="Process_Invoice">Process_Invoice</value>
+		<value column="Description" original="(Standard Process Onvoice)">(Standard Process Onvoice)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="119" trl="Y">
+		<value column="Name" original="Process_Cash">Process_Cash</value>
+		<value column="Description" original="(Standard Process Cash)">(Standard Process Cash)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="120" trl="Y">
+		<value column="Name" original="Process_Payment">Process_Payment</value>
+		<value column="Description" original="(Standard Process Payment)">(Standard Process Payment)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="121" trl="Y">
+		<value column="Name" original="Process_Journal">Process_Jouranl</value>
+		<value column="Description" original="(Standard Process Journal)">(Standard Process Journal)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="122" trl="Y">
+		<value column="Name" original="Process_JournalBatch">Process_JournalBatch</value>
+		<value column="Description" original="(Standard Process Jornal Batch)">(Standard Process Jornal Batch)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="123" trl="Y">
+		<value column="Name" original="Process_RMA">Process RMA</value>
+		<value column="Description" original="(Standard Process_RMA)">(Standard Process_RMA)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="124" trl="Y">
+		<value column="Name" original="Process_InOutConfirm">Process_InOutConfirm</value>
+		<value column="Description" original="(Standard Process Confirmation)">(Standard Process Confirmation)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="125" trl="Y">
+		<value column="Name" original="Process_Allocation">Process_Allocation</value>
+		<value column="Description" original="(Standard Process Allocation)">(Standard Process Allocation)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="126" trl="Y">
+		<value column="Name" original="Process_TimeExpense">Process_TimeExpense</value>
+		<value column="Description" original="(Standard Process Time Expense)">(Standard Process Time Expense)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="127" trl="Y">
+		<value column="Name" original="Process_Inventory">Process_Inventory</value>
+		<value column="Description" original="(Standard Process Inventory)">(Standard Process Inventory)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="128" trl="Y">
+		<value column="Name" original="Process_Movement">Process_Movement</value>
+		<value column="Description" original="(Standard Process Movement)">(Standard Process Movement)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="129" trl="Y">
+		<value column="Name" original="Process_MovementConfirm">Process_MovementConfirm</value>
+		<value column="Description" original="(Standard Process Movement Confirmation)">(Standard Process Movement Confirmation)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="130" trl="Y">
+		<value column="Name" original="Process_BankStatement">Process_BankStatement</value>
+		<value column="Description" original="(Standard Process Bank Statement)">(Standard Process Bank Statement)</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="131" trl="N">
+		<value column="Name" original="Business Partner Approval">Business Partner Approval</value>
+		<value column="Description" original="Example Document based workflow">Example Document based workflow</value>
+		<value column="Help" original="When a new Business Partner is created, it is forwarded for review and credit check.">When a new Business Partner is created, it is forwarded for review and credit check.</value>
+	</row>
+</compiereTrl>

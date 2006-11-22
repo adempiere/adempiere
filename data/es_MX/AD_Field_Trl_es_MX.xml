@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Compiere(r) Release 2.5.3b_2005-12-30 - Smart ERP & CRM - (c) 1999-2005 Compiere (r); Implementation: Custom 20060601-1420 - Unsupported-->
+<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
+<compiereTrl language="es_MX" table="AD_Field">
+	<row id="1546" trl="Y">
+		<value column="Name" original="Link Column">Columna Primaria</value>
+		<value column="Description" original="Link Column for Multi-Parent tables">Columna para Multi-Llave</value>
+		<value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">La columna primaria indica qu=E9 columna es la llave primaria para esas situaciones donde hay m=E1s de una llave.</value>
+	</row>
+	<row id="2124" trl="Y">
+		<value column="Name" original="Language">Lenguaje</value>
+		<value column="Description" original="Language for this Business Partner if Multi-Language enabled">Lenguaje para esta aplicación</value>
+		<value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">El lenguaje identifica el lenguaje a usar para el despliegue</value>
+	</row>
+	<row id="3665" trl="Y">
+		<value column="Name" original="Start Node">Iniciar Nodo</value>
+		<value column="Description" original="Workflow Node, step or process">Workflow Node, step or process</value>
+		<value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">The Workflow Node indicates a unique step or process in a Workflow.</value>
+	</row>
+	<row id="4055" trl="Y">
+		<value column="Name" original="Tax Amount">Total del Impuesto</value>
+		<value column="Description" original="Tax Amount for Credit Card transaction">Monto del impuesto para las transacciones con tarjeta de cr=E9dito</value>
+		<value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">El monto del impuesto exhibe la cantidad total del impuesto. El monto del impuesto se utiliza solamente para el proceso de la tarjeta de cr=E9dito.</value>
+	</row>
+	<row id="4253" trl="Y">
+		<value column="Name" original="Only Currency">Moneda Única</value>
+		<value column="Description" original="Restrict accepting only this currency">Restringe aceptar solamente esta moneda.</value>
+		<value column="Help" original="The Only Currency field indicates that this bank account accepts only the currency identified here.">El campo moneda Única  indica que esta cuenta bancaria acepta solamente la moneda identificada aquí.</value>
+	</row>
+	<row id="4462" trl="Y">
+		<value column="Name" original="Business Partner / Sales Rep">Socio del Negocio / Rep de Ventas</value>
+		<value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Identifica al socio del negocio (representante de ventas) que recibe una Comisi=F3n.</value>
+		<value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">El socio de negocio debe ser vendedor y puede ser un representante de ventas.</value>
+	</row>
+	<row id="4725" trl="Y">
+		<value column="Name" original="Acknowledge">Acuse de recibo</value>
+		<value column="Description" original="System Notice acknowledged">Aviso del sistema de acuse de recibo</value>
+		<value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">La casilla de vericaci=F3n Acuse de recibo indica si este aviso no necesita ser conservado.</value>
+	</row>
+	<row id="5092" trl="Y">
+		<value column="Name" original="Driving Column">Conducir la columna</value>
+		<value column="Description" original="Column which controls all tabs in the workbench">Columna que controla todas las pesta=F1as en el banco de trabajo.</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="5899" trl="N">
+		<value column="Name" original="System Name">System Name</value>
+		<value column="Description" original="Name your Compiere System installation, e.g. Joe Block, Inc.">Name your Compiere System installation, e.g. Joe Block, Inc.</value>
+		<value column="Help" original="The name if the system to differentiate support contracts">The name if the system to differentiate support contracts</value>
+	</row>
+	<row id="6344" trl="N">
+		<value column="Name" original="Attribute Set Instance">Instancia Conjunto de Atributos </value>
+		<value column="Description" original="Product Attribute Values">Valor Atributos de Productos</value>
+		<value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Los valores actuales de Atributos de Producto. Instancia Atributo de Producto  son definidos en 
+The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value>
+	</row>
+	<row id="8985" trl="Y">
+		<value column="Name" original="Document No">Documento No</value>
+		<value column="Description" original="Document sequence number of the document">Document sequence number of the document</value>
+		<value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
+
+If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</value>
+	</row>
+	<row id="10097" trl="Y">
+		<value column="Name" original="Value">Valor</value>
+		<value column="Description" original="Condition Value">Condition Value</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="10886" trl="Y">
+		<value column="Name" original="Overwrite Project">Sobre Escribe Proyecto</value>
+		<value column="Description" original="Overwrite the account segment Project with the value specified">Overwrite the account segment Project with the value specified</value>
+		<value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.</value>
+	</row>
+	<row id="11799" trl="Y">
+		<value column="Name" original="Attribute Set Instance">Instancia Conjunto de Atributos</value>
+		<value column="Description" original="Product Attribute Values">Valores Atributos de Producto</value>
+		<value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Los valores de los Atributos de Producto actual. Atributos Instancias de Producto son definidos en transacción actual.</value>
+	</row>
+	<row id="12732" trl="N">
+		<value column="Name" original="Language">Language</value>
+		<value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
+		<value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+	</row>
+	<row id="1000004" trl="Y">
+		<value column="Name" original="Description">Código </value>
+		<value column="Description" original="Optional short description of the record">Descripción corta opcional del registro</value>
+		<value column="Help" original="A description is limited to 255 characters.">Una descripción esta limitada a 255 caracteres</value>
+	</row>
+	<row id="1000006" trl="Y">
+		<value column="Name" original="Attribute Value Type">Tipo del valor</value>
+		<value column="Description" original="Type of Attribute Value">Tipo del valor</value>
+		<value column="Help" original="The Attribute Value type deternines the data/validation type">Tipo del valor del atributo  determina la calidad del dato/ tipo de validación</value>
+	</row>
+	<row id="1000030" trl="Y">
+		<value column="Name" original="Attribute">Nutriente</value>
+		<value column="Description" original="Product Attribute">Atributo del Producto</value>
+		<value column="Help" original="Product Attribute like Color, Size">Product Attribute like Color, Size</value>
+	</row>
+	<row id="1000034" trl="Y">
+		<value column="Name" original="Client">Client</value>
+		<value column="Description" original="Client/Tenant for this installation.">Client/Tenant for this installation.</value>
+		<value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</value>
+	</row>
+	<row id="1000036" trl="Y">
+		<value column="Name" original="Search Key">Search Key</value>
+		<value column="Description" original="Search key for the record in the format required - must be unique">Search key for the record in the format required - must be unique</value>
+		<value column="Help" original="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">A search key allows you a fast method of finding a particular record.
+If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</value>
+	</row>
+	<row id="1000038" trl="Y">
+		<value column="Name" original="Description">Description</value>
+		<value column="Description" original="Optional short description of the record">Optional short description of the record</value>
+		<value column="Help" original="A description is limited to 255 characters.">A description is limited to 255 characters.</value>
+	</row>
+	<row id="1000039" trl="Y">
+		<value column="Name" original="Comment/Help">Comment/Help</value>
+		<value column="Description" original="Comment or Hint">Comment or Hint</value>
+		<value column="Help" original="The Help field contains a hint, comment or help about the use of this item.">The Help field contains a hint, comment or help about the use of this item.</value>
+	</row>
+	<row id="1000040" trl="Y">
+		<value column="Name" original="Document Note">Document Note</value>
+		<value column="Description" original="Additional information for a Document">Additional information for a Document</value>
+		<value column="Help" original="The Document Note is used for recording any additional information regarding this product.">The Document Note is used for recording any additional information regarding this product.</value>
+	</row>
+	<row id="1000041" trl="Y">
+		<value column="Name" original="UPC/EAN">UPC/EAN</value>
+		<value column="Description" original="Bar Code (Universal Product Code or its superset European Article Number)">Bar Code (Universal Product Code or its superset European Article Number)</value>
+		<value column="Help" original="Use this field to enter the bar code for the product in any of the bar code symbologies (Codabar, Code 25, Code 39, Code 93, Code 128, UPC (A), UPC (E), EAN-13, EAN-8, ITF, ITF-14, ISBN, ISSN, JAN-13, JAN-8, POSTNET and FIM, MSI/Plessey, and Pharmacode) ">Use this field to enter the bar code for the product in any of the bar code symbologies (Codabar, Code 25, Code 39, Code 93, Code 128, UPC (A), UPC (E), EAN-13, EAN-8, ITF, ITF-14, ISBN, ISSN, JAN-13, JAN-8, POSTNET and FIM, MSI/Plessey, and Pharmacode) </value>
+	</row>
+	<row id="1000042" trl="Y">
+		<value column="Name" original="SKU">SKU</value>
+		<value column="Description" original="Stock Keeping Unit">Stock Keeping Unit</value>
+		<value column="Help" original="The SKU indicates a user defined stock keeping unit.  It may be used for an additional bar code symbols or your own schema.">The SKU indicates a user defined stock keeping unit.  It may be used for an additional bar code symbols or your own schema.</value>
+	</row>
+	<row id="1000054" trl="Y">
+		<value column="Name" original="Mail Template">Mail Template</value>
+		<value column="Description" original="Text templates for mailings">Text templates for mailings</value>
+		<value column="Help" original="The Mail Template indicates the mail template for return messages.">The Mail Template indicates the mail template for return messages.</value>
+	</row>
+	<row id="1000055" trl="Y">
+		<value column="Name" original="Weight">Weight</value>
+		<value column="Description" original="Weight of a product">Weight of a product</value>
+		<value column="Help" original="The Weight indicates the weight  of the product in the Weight UOM of the Client">The Weight indicates the weight  of the product in the Weight UOM of the Client</value>
+	</row>
+	<row id="1000061" trl="Y">
+		<value column="Name" original="Shelf Width">Shelf Width</value>
+		<value column="Description" original="Shelf width required">Shelf width required</value>
+		<value column="Help" original="The Shelf Width indicates the width dimension required on a shelf for a product">The Shelf Width indicates the width dimension required on a shelf for a product</value>
+	</row>
+	<row id="1000062" trl="Y">
+		<value column="Name" original="Shelf Height">Shelf Height</value>
+		<value column="Description" original="Shelf height required">Shelf height required</value>
+		<value column="Help" original="The Shelf Height indicates the height dimension required on a shelf for a product">The Shelf Height indicates the height dimension required on a shelf for a product</value>
+	</row>
+	<row id="1000063" trl="Y">
+		<value column="Name" original="Shelf Depth">Shelf Depth</value>
+		<value column="Description" original="Shelf depth required">Shelf depth required</value>
+		<value column="Help" original="The Shelf Depth indicates the depth dimension required on a shelf for a product ">The Shelf Depth indicates the depth dimension required on a shelf for a product </value>
+	</row>
+	<row id="1000078" trl="Y">
+		<value column="Name" original="Version No">Especie</value>
+		<value column="Description" original="Version Number">Especie</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000082" trl="Y">
+		<value column="Name" original="Attribute Set Instance">Perfil Nutricional</value>
+		<value column="Description" original="Product Attribute Set Instance">Perfil Nutricional</value>
+		<value column="Help" original="The values of the actual Product Attributes">Valor actual de Instancia del Conjunto de Atributos del Producto</value>
+	</row>
+	<row id="1000109" trl="Y">
+		<value column="Name" original="Attribute Set Instance">Perfil Nutricional</value>
+		<value column="Description" original="Product Attribute Set Instance">Instancia del Conjunto de Atributos del Producto</value>
+		<value column="Help" original="The values of the actual Product Attributes">Valor actual de Instancia del Conjunto de Atributos del Producto</value>
+	</row>
+	<row id="1000168" trl="Y">
+		<value column="Name" original="Search Key">Código</value>
+		<value column="Description" original="Search key for the record in the format required - must be unique">Clave de búsqueda para el registro en el formato requerido; debe ser única</value>
+		<value column="Help" original="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">Una clave de búsqueda le permite a usted un método rápido de encontrar un registro en particular</value>
+	</row>
+	<row id="1000246" trl="Y">
+		<value column="Name" original="Start Node">Inicio del Nodo</value>
+		<value column="Description" original="Workflow Node, step or process">Flujo de Trabajo del Nodo, Paso o Proceso</value>
+		<value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">El Nodo de flujo de trabajo indica pasos unicos en procesos de Flujo de trabajo
+</value>
+	</row>
+	<row id="1000338" trl="Y">
+		<value column="Name" original="Value">Valor</value>
+		<value column="Description" original="Condition Value">Condition Value</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000697" trl="Y">
+		<value column="Name" original="Version No">Versión No</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1000973" trl="Y">
+		<value column="Name" original="Resource/Plant">Recurso</value>
+		<value column="Description" original="Resource/Plant">S_Resource_ID</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1001148" trl="Y">
+		<value column="Name" original="Resource Plant">Recurso</value>
+		<value column="Description" original="Resource Plant">Resource Plant</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1001224" trl="Y">
+		<value column="Name" original="Version No">Version No</value>
+		<value column="Description" original="Version Number">Version Number</value>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1001234" trl="Y">
+		<value column="Name" original="Attribute Set Instance">Attribute Set Instance</value>
+		<value column="Description" original="Product Attribute Set Instance">Product Attribute Set Instance</value>
+		<value column="Help" original="The values of the actual Product Attributes">The values of the actual Product Attributes</value>
+	</row>
+	<row id="1001308" trl="Y">
+		<value column="Name" original="M_ProductT_ID">M_ProductT_ID</value>
+		<value column="Description" original=""/>
+		<value column="Help" original=""/>
+	</row>
+	<row id="1001316" trl="Y">
+		<value column="Name" original="Resource">Recurso</value>
+		<value column="Description" original="Resource">Recurso</value>
+		<value column="Help" original=""/>
+	</row>
+</compiereTrl>
