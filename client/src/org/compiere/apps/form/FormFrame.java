@@ -81,7 +81,10 @@ public class FormFrame extends CFrame
 	public boolean 		m_maximize = false;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(FormFrame.class);
-	 
+	
+	/** Form ID			*/
+	private int		p_AD_Form_ID = 0;
+
 	/**
 	 * 	Static Init
 	 * 	@throws Exception
@@ -233,6 +236,7 @@ public class FormFrame extends CFrame
 		}
 		//
 		m_panel.init(m_WindowNo, this);
+		p_AD_Form_ID = AD_Form_ID;
 		return true;
 	}	//	openForm
 
@@ -353,5 +357,13 @@ public class FormFrame extends CFrame
 		worker.start();
 		return worker;
 	}	//	startBatch
-	
+
+	/**
+	 * @return Returns the AD_Form_ID.
+	 */
+	public int getAD_Form_ID ()
+	{
+		return p_AD_Form_ID;
+	}	//	getAD_Window_ID
+
 }	//	FormFrame

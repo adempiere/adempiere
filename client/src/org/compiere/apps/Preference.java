@@ -83,6 +83,9 @@ public final class Preference extends CDialog
 	private CCheckBox autoCommit = new CCheckBox();
 	private CCheckBox autoNew = new CCheckBox();
 	private CCheckBox printPreview = new CCheckBox();
+	private CCheckBox validateConnectionOnStartup = new CCheckBox();
+	private CCheckBox singleInstancePerWindow = new CCheckBox();
+	private CCheckBox openWindowMaximized = new CCheckBox();
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	private BorderLayout icontextLayout = new BorderLayout();
@@ -161,6 +164,12 @@ public final class Preference extends CDialog
 		adempiereSys.setToolTipText(Msg.getMsg(Env.getCtx(), "AdempiereSys", false));
 		printPreview.setText(Msg.getMsg(Env.getCtx(), "AlwaysPrintPreview", true));
 		printPreview.setToolTipText(Msg.getMsg(Env.getCtx(), "AlwaysPrintPreview", false));
+		validateConnectionOnStartup.setText(Msg.getMsg(Env.getCtx(), "ValidateConnectionOnStartup", true));
+		validateConnectionOnStartup.setToolTipText(Msg.getMsg(Env.getCtx(), "ValidateConnectionOnStartup", false));
+		singleInstancePerWindow.setText(Msg.getMsg(Env.getCtx(), "SingleInstancePerWindow", true));
+		singleInstancePerWindow.setToolTipText(Msg.getMsg(Env.getCtx(), "SingleInstancePerWindow", false));
+		openWindowMaximized.setText(Msg.getMsg(Env.getCtx(), "OpenWindowMaximized", true));
+		openWindowMaximized.setToolTipText(Msg.getMsg(Env.getCtx(), "OpenWindowMaximized", false));
 		autoLogin.setText(Msg.getMsg(Env.getCtx(), "AutoLogin", true));
 		autoLogin.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoLogin", false));
 		storePassword.setText(Msg.getMsg(Env.getCtx(), "StorePassword", true));
@@ -236,6 +245,12 @@ public final class Preference extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		customizePane.add(printPreview,    new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		customizePane.add(validateConnectionOnStartup,    new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		customizePane.add(singleInstancePerWindow,    new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		customizePane.add(openWindowMaximized,    new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//	Info
 //		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
 		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
@@ -393,6 +408,15 @@ public final class Preference extends CDialog
 		//  Print Preview
 		printPreview.setSelected(Ini.isPropertyBool(Ini.P_PRINTPREVIEW));
 
+		//  Validate Connection on Startup
+		validateConnectionOnStartup.setSelected(Ini.isPropertyBool(Ini.P_VALIDATE_CONNECTION_ON_STARTUP));
+
+		//  Single Instance per Window
+		singleInstancePerWindow.setSelected(Ini.isPropertyBool(Ini.P_SINGLE_INSTANCE_PER_WINDOW));
+
+		//  Open Window Maximized
+		openWindowMaximized.setSelected(Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED));
+
 		//	TraceLevel
 		traceLevel.setSelectedItem(CLogMgt.getLevel());
 		traceFile.setSelected(Ini.isPropertyBool(Ini.P_TRACEFILE));
@@ -460,6 +484,12 @@ public final class Preference extends CDialog
 		
 		//  Print Preview
 		Ini.setProperty(Ini.P_PRINTPREVIEW, (printPreview.isSelected()));
+		//  Validate Connection on Startup
+		Ini.setProperty(Ini.P_VALIDATE_CONNECTION_ON_STARTUP, (validateConnectionOnStartup.isSelected()));
+		//  Single Instance per Window
+		Ini.setProperty(Ini.P_SINGLE_INSTANCE_PER_WINDOW, (singleInstancePerWindow.isSelected()));
+		//  Open Window Maximized
+		Ini.setProperty(Ini.P_OPEN_WINDOW_MAXIMIZED, (openWindowMaximized.isSelected()));
 		//	TraceLevel/File
 		Level level = (Level)traceLevel.getSelectedItem();
 		CLogMgt.setLevel(level);

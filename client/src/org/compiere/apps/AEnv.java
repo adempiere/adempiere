@@ -297,6 +297,11 @@ public final class AEnv
 			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
 				Env.exitEnv(0);
 		}
+		else if (actionCommand.equals("Logout"))
+		{
+			AMenu aMenu = (AMenu)Env.getWindow(WindowNo);
+			aMenu.logout();
+		}
 
 		//  View Menu   ------------------------
 		else if (actionCommand.equals("InfoProduct"))
@@ -373,8 +378,9 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Preference"))
 		{
-			if (role.isShowPreference())
+			if (role.isShowPreference()) {
 				AEnv.showCenterScreen(new Preference (Env.getFrame(c), WindowNo));
+			}
 		}
 
 		//  Help Menu   ------------------------
@@ -552,6 +558,24 @@ public final class AEnv
 		Env.exitEnv(status);
 	}	//	exit
 
+	public static void logout() 
+	{
+		if (s_server != null)
+		{
+			try
+			{
+				s_server.remove();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+		Env.logout();
+		
+		//reload
+		new AMenu();
+	}
+	
 	/**
 	 * 	Is Workflow Process view enabled.
 	 *	@return true if enabled
@@ -606,9 +630,15 @@ public final class AEnv
 		}
 		//
 		AWindow frame = new AWindow();
+		((AMenu)Env.getWindow(0)).getWindowManager().add(frame);
 		if (!frame.initWindow(s_workflow_Window_ID, query))
 			return;
-		AEnv.showCenterScreen(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+			frame.setVisible(true);
+			frame.toFront();
+		} else
+			AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	startWorkflowProcess
 	

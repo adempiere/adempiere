@@ -52,9 +52,11 @@ public final class APanel extends CPanel
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
 	 */
-	public APanel()
+	public APanel(AWindow window)
 	{
 		super();
+		m_window = window;
+		
 		m_ctx = Env.getCtx();
 		//
 		try
@@ -70,6 +72,8 @@ public final class APanel extends CPanel
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(APanel.class);
+	
+	private AWindow m_window;
 	
 	/**
 	 *	Dispose
@@ -144,6 +148,8 @@ public final class APanel extends CPanel
 		this.add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(northLayout);
 		northLayout.setAlignment(FlowLayout.LEFT);
+		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
+		//toolBar.setBorderPainted(false);
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
@@ -248,6 +254,12 @@ public final class APanel extends CPanel
 			mTools.addSeparator();
 			aPreference = addAction("Preference",	mTools, 	null,	false);
 		}
+		
+		//Window
+		AMenu aMenu = (AMenu)Env.getWindow(0);
+		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), m_window);
+		menuBar.add(mWindow);
+		
 		//								Help
 		JMenu mHelp = AEnv.getMenu("Help");
 		menuBar.add(mHelp);
@@ -619,7 +631,7 @@ public final class APanel extends CPanel
 		}   //  Workbench Loop
 
 		//  stateChanged (<->) triggered
-		toolBar.setName(getTitle());
+		toolBar.setName(getTitle());	
 		m_curTab.getTableModel().setChanged(false);
 		//	Set Detail Button
 		aDetail.setEnabled(0 != m_curWinTab.getTabCount()-1);

@@ -61,6 +61,20 @@ public final class Env
 	}	//	close
 
 	/**
+	 * Logout from the system
+	 */
+	public static void logout()
+	{
+		//	End Session
+		MSession session = MSession.get(Env.getCtx(), false);	//	finish
+		if (session != null)
+			session.logout();
+		//
+		reset(true);	// final cache reset
+		//
+	}
+	
+	/**
 	 * 	Reset Cache
 	 * 	@param finalCall everything otherwise login data remains
 	 */
@@ -1345,8 +1359,15 @@ public final class Env
 				window.setVisible(false);
 				s_log.info(window.toString());
 			//	window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_ICONIFIED));
-				if (s_hiddenWindows.size() > 10)
-					s_hiddenWindows.remove(0);		//	sort of lru
+				if (s_hiddenWindows.size() > 10) {
+					CFrame toClose = s_hiddenWindows.remove(0);		//	sort of lru
+					try {
+						s_closingWindows = true;
+						toClose.dispose();
+					} finally {
+						s_closingWindows = false;
+					}
+				}
 				return true;
 			}
 		}
@@ -1358,7 +1379,7 @@ public final class Env
 	 *	@param AD_Window_ID window
 	 *	@return true if window re-displayed
 	 */
-	static public boolean showWindow (int AD_Window_ID)
+	static public CFrame showWindow (int AD_Window_ID)
 	{
 		for (int i = 0; i < s_hiddenWindows.size(); i++)
 		{
@@ -1369,10 +1390,10 @@ public final class Env
 				s_log.info(hidden.toString());
 				hidden.setVisible(true);
 				hidden.toFront();
-				return true;
+				return hidden;
 			}
 		}
-		return false;
+		return null;
 	}	//	showWindow
 
 	/**

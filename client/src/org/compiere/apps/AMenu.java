@@ -108,7 +108,7 @@ public final class AMenu extends CFrame
 		updateInfo();
 		//
 		splash.dispose();
-		splash = null;
+		splash = null;		
 	}	//	AMenu
 
 	private int 		m_WindowNo;
@@ -133,6 +133,8 @@ public final class AMenu extends CFrame
 	private DecimalFormat	m_memoryFormat = DisplayType.getNumberFormat(DisplayType.Integer);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AMenu.class);
+	
+	private WindowManager windowManager = new WindowManager();
 	
 	
 	/**************************************************************************
@@ -312,6 +314,7 @@ public final class AMenu extends CFrame
 		AEnv.addMenuItem("PrintScreen", null, KeyStroke.getKeyStroke(KeyEvent.VK_PRINTSCREEN, 0), mFile, this);
 		AEnv.addMenuItem("ScreenShot", null, KeyStroke.getKeyStroke(KeyEvent.VK_PRINTSCREEN, KeyEvent.SHIFT_MASK), mFile, this);
 		mFile.addSeparator();
+		AEnv.addMenuItem("Logout", null, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
 		AEnv.addMenuItem("Exit", null, KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
 
 		//      View
@@ -345,6 +348,10 @@ public final class AMenu extends CFrame
 			mTools.addSeparator();
 			AEnv.addMenuItem("Preference", null, null, mTools, this);
 		}
+		
+		//Window Menu
+		JMenu mWindow = new WindowMenu(windowManager, this);
+		menuBar.add(mWindow);
 
 		//      Help
 		JMenu mHelp = AEnv.getMenu("Help");
@@ -367,6 +374,14 @@ public final class AMenu extends CFrame
 		super.dispose();
 		AEnv.exit(0);
 	}	//	dispose
+	
+	public void logout()
+	{
+		windowManager.close();
+		Ini.saveProperties(true);
+		super.dispose();
+		AEnv.logout();
+	}
 
 	/**
 	 *  Window Events - requestFocus
@@ -593,6 +608,9 @@ public final class AMenu extends CFrame
 			wfActivity.display();
 	}	//	stateChanged
 
+	public WindowManager getWindowManager() {
+		return windowManager;
+	}
 	
 	/**************************************************************************
 	 * 	Mouse Listener

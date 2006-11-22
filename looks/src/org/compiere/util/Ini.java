@@ -126,6 +126,17 @@ public final class Ini implements Serializable
 	/** Print Preview			*/
 	public static final String  P_PRINTPREVIEW = 	"PrintPreview";
 	private static final boolean DEFAULT_PRINTPREVIEW =	false;
+	/** Validate connection on startup */
+	public static final String P_VALIDATE_CONNECTION_ON_STARTUP = "ValidateConnectionOnStartup";
+	private static final boolean DEFAULT_VALIDATE_CONNECTION_ON_STARTUP = false;
+	
+	/** Single instance per window id **/
+	public static final String P_SINGLE_INSTANCE_PER_WINDOW = "SingleInstancePerWindow";
+	public static final boolean DEFAULT_SINGLE_INSTANCE_PER_WINDOW = false;
+		
+	/** Open new windows as maximized **/
+	public static final String P_OPEN_WINDOW_MAXIMIZED = "OpenWindowMaximized";
+	public static final boolean DEFAULT_OPEN_WINDOW_MAXIMIZED = false;
 	//
 	private static final String P_WARNING =	    	"Warning";
 	private static final String DEFAULT_WARNING =	"Do_not_change_any_of_the_data_as_they_will_have_undocumented_side_effects.";
@@ -144,6 +155,9 @@ public final class Ini implements Serializable
 		P_CONTEXT, P_TEMP_DIR,
 		P_ROLE, P_CLIENT, P_ORG, P_PRINTER, P_WAREHOUSE, P_TODAY,
 		P_PRINTPREVIEW,
+		P_VALIDATE_CONNECTION_ON_STARTUP,
+		P_SINGLE_INSTANCE_PER_WINDOW,
+		P_OPEN_WINDOW_MAXIMIZED,
 		P_WARNING, P_WARNING_de
 	};
 	/** Ini Property Values	*/
@@ -158,6 +172,9 @@ public final class Ini implements Serializable
 		DEFAULT_CONTEXT, DEFAULT_TEMP_DIR,
 		DEFAULT_ROLE, DEFAULT_CLIENT, DEFAULT_ORG, DEFAULT_PRINTER, DEFAULT_WAREHOUSE, DEFAULT_TODAY.toString(),
 		DEFAULT_PRINTPREVIEW?"Y":"N",
+		DEFAULT_VALIDATE_CONNECTION_ON_STARTUP?"Y":"N",
+		DEFAULT_SINGLE_INSTANCE_PER_WINDOW?"Y":"N",
+		DEFAULT_OPEN_WINDOW_MAXIMIZED?"Y":"N",
 		DEFAULT_WARNING, DEFAULT_WARNING_de
 	};
 
