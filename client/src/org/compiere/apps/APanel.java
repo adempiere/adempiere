@@ -164,7 +164,7 @@ public final class APanel extends CPanel
 	//	Local (added to toolbar)
 	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct,
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
-							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner;
+							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, aDeleteSelection;
 
 	
 	/**************************************************************************
@@ -195,6 +195,7 @@ public final class APanel extends CPanel
 		mEdit.addSeparator();
 		aCopy =		addAction("Copy", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.SHIFT_MASK),	false);
 		aDelete = 	addAction("Delete",			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0),	false);
+		aDeleteSelection = addAction("DeleteSelection", mEdit, KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK), false);
 		aIgnore = 	addAction("Ignore",			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),	false);
 		aRefresh = 	addAction("Refresh",		mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),	false);
 		mEdit.addSeparator();
@@ -276,6 +277,7 @@ public final class APanel extends CPanel
 		toolBar.add(aHelp.getButton());			//	F1
 		toolBar.add(aNew.getButton());
 		toolBar.add(aDelete.getButton());
+		toolBar.add(aDeleteSelection.getButton());
 		toolBar.add(aSave.getButton());
 		toolBar.addSeparator();
 		toolBar.add(aRefresh.getButton());      //  F5
@@ -822,10 +824,12 @@ public final class APanel extends CPanel
 		aSave.setEnabled(changed && !readOnly);
 		//
 		//	No Rows
-		if (e.getTotalRows() == 0 && insertRecord)
-		{
+		if (e.getTotalRows() == 0 && insertRecord) {
 			aNew.setEnabled(true);
 			aDelete.setEnabled(false);
+			aDeleteSelection.setEnabled(false);
+		} else {
+			aDeleteSelection.setEnabled(true);
 		}
 
 		//	Single-Multi
@@ -1049,6 +1053,7 @@ public final class APanel extends CPanel
 				{
 					aSave.setEnabled(false);
 					aDelete.setEnabled(false);
+					aDeleteSelection.setEnabled(false);
 				}
 				m_curTab.navigateCurrent();     //  updates counter
 				m_curGC.dynamicDisplay(0);
@@ -1081,6 +1086,7 @@ public final class APanel extends CPanel
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
 			aDelete.setEnabled(false);
+			aDeleteSelection.setEnabled(false);
 			aFind.setEnabled(false);
 			aRefresh.setEnabled(false);
 			aAttachment.setEnabled(false);
@@ -1176,6 +1182,8 @@ public final class APanel extends CPanel
 				cmd_new(true);
 			else if (cmd.equals(aDelete.getName()))
 				cmd_delete();
+			else if (cmd.equals(aDeleteSelection.getName()))
+				cmd_deleteSelection();
 			else if (cmd.equals(aIgnore.getName()))
 				cmd_ignore();
 			else if (cmd.equals(aRefresh.getName()))
@@ -1288,6 +1296,70 @@ public final class APanel extends CPanel
 				m_curGC.rowChanged(false, keyID);
 		m_curGC.dynamicDisplay(0);
 	}   //  cmd_delete
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 */
+	private void cmd_deleteSelection(){
+		if (m_curTab.isReadOnly())
+			return;
+		//show table with deletion rows -> value, name...
+		JPanel messagePanel = new JPanel();
+		JList list = new JList();
+		JScrollPane scrollPane = new JScrollPane(list);
+		Vector<String> data = new Vector<String>();
+		int noOfRows = m_curTab.getRowCount();
+		for(int i=0; i<noOfRows; i++){
+			StringBuffer displayValue = new StringBuffer();
+			displayValue = displayValue.append(m_curTab.getValue(i,m_curTab.getKeyColumnName()));
+			if(m_curTab.getField("DocumentNo")!=null){
+				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "DocumentNo"));
+			}
+			if(m_curTab.getField("Line")!=null){
+				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Line"));
+			}
+			if(m_curTab.getField("Value")!=null){
+				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Value"));
+			}
+			if(m_curTab.getField("Name")!=null){
+				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Name"));
+			}
+			data.add(displayValue.toString());
+		}
+		list.setListData(data);
+		
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		messagePanel.add(scrollPane);
+		
+		final JOptionPane pane = new JOptionPane(
+				messagePanel, // message
+				JOptionPane.QUESTION_MESSAGE, // messageType
+				JOptionPane.OK_CANCEL_OPTION); // optionType
+		final JDialog deleteDialog = pane.createDialog(this.getParent(), Msg.getMsg(m_ctx, "DeleteSelection"));
+		deleteDialog.setVisible(true);
+		Integer okCancel = (Integer) pane.getValue();
+		if(okCancel!=null && okCancel==JOptionPane.OK_OPTION){
+			log.fine("ok");
+			Object[] selectedValues = list.getSelectedValues();
+			for (int i = 0; i < selectedValues.length; i++) {
+				log.fine(selectedValues[i].toString());
+			}
+			int[] indices = list.getSelectedIndices();
+			Arrays.sort(indices);
+			int offset = 0;
+			for (int i = 0; i < indices.length; i++) {
+				m_curTab.setCurrentRow(indices[i]-offset);
+				int keyID = m_curTab.getRecord_ID();
+				if (m_curTab.dataDelete()){
+						m_curGC.rowChanged(false, keyID);
+						offset++;
+				}
+			}
+			m_curGC.dynamicDisplay(0);
+		} else {
+			log.fine("cancel");
+		}
+	}//cmd_deleteSelection
 
 	/**
 	 *  If required ask if you want to save and save it

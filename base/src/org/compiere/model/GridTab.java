@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.beans.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
@@ -25,6 +26,11 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.event.*;
 import org.compiere.util.*;
+
+import de.schaeffer.compiere.constants.Constants;
+import de.schaeffer.compiere.tools.BPartnerSelection;
+import de.schaeffer.compiere.tools.CustomValueComparison;
+import de.schaeffer.compiere.tools.OrderWeightCheck;
 
 /**
  *	Tab Model.
@@ -2124,6 +2130,24 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (status == null || status.length() == 0)
 			 m_DataStatusEvent.setInfo("NavigateOrUpdate", null, false,false);
 		fireDataStatusChanged(m_DataStatusEvent);
+		
+//		 CHANGED: Vergleich von fpa und selected values BPartnerSelection
+		if (getName().equalsIgnoreCase("BPartner Selection")) {
+			BPartnerSelection.compareWithFpaValues(this, null);
+			return m_currentRow;
+		}// ende changed
+		// CHANGED: Vergleich von actual und customer values in OrderLine
+		else if (getName().equalsIgnoreCase("Order Line")) {
+			CustomValueComparison.compare(this);
+			return m_currentRow;
+		}// ende changed
+//		 CHANGED: checks the total order weight
+		else if (getName().equalsIgnoreCase("Purchase Order")) {
+			//besser mit ID - getAD_Tab_ID()
+			OrderWeightCheck.compare(this);
+			return m_currentRow;
+		}// ende changed
+		
 		return m_currentRow;
 	}   //  setCurrentRow
 
@@ -2441,6 +2465,86 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	public synchronized void addDataStatusListener(DataStatusListener l)
 	{
 		m_listenerList.add(DataStatusListener.class, l);
+	}
+	
+//	 CHANGED: Eigene Methode - für das Umsortieren der Tabellenzeilen
+	/**
+	 * Vertauscht zwei Zeilen einer Tabelle.
+	 * 
+	 * @author Karsten Thiemann
+	 * @param from
+	 *            Index der Zeile die verschoben wird
+	 * @param to
+	 *            Index der Zielzeile
+	 */
+	public void moveRow(int from, int to) {
+		// nothing to do
+		if (from == to) {
+			log.fine("nothing to do - from == to");
+			return;
+		}
+
+		// Row range check
+		int nextRow = verifyRow(to);
+		if (nextRow == -1) {
+			log.fine("Row range check - return");
+			return;
+		}
+		// Check, if we have old uncommitted data
+		m_mTable.dataSave(nextRow, false);
+
+		int lineCol = m_mTable.findColumn("Line");
+		if (lineCol == -1) {
+			lineCol = m_mTable.findColumn("SeqNo");
+		}
+		Integer lineNoCurrentRow = null;
+		Integer lineNoNextRow = null;
+		if (m_mTable.getValueAt(from, lineCol) instanceof Integer) {
+			// die verschiedenen Ansichten (Tabelle/Grid) liefern verschiedene
+			// Typen...
+			lineNoCurrentRow = (Integer) m_mTable.getValueAt(from, lineCol);
+			lineNoNextRow = (Integer) m_mTable.getValueAt(nextRow, lineCol);
+		} else if (m_mTable.getValueAt(from, lineCol) instanceof BigDecimal) {
+			lineNoCurrentRow = new Integer(((BigDecimal) m_mTable.getValueAt(from, lineCol))
+					.intValue());
+			lineNoNextRow = new Integer(((BigDecimal) m_mTable.getValueAt(nextRow, lineCol))
+					.intValue());
+		} else {
+			log.fine("unknown value format - return");
+			return;
+		}
+		if (lineNoCurrentRow == Constants.FREIGHTCOST_LINENO
+				|| lineNoNextRow == Constants.FREIGHTCOST_LINENO) {
+			return; // Versandkosten nicht mitsortieren!
+		}
+		log.fine("LineIndex from: " + from + " LineIndex to: " + nextRow);
+		log.fine("lineNoCurrentRow: " + lineNoCurrentRow + " lineNoNextRow: " + lineNoNextRow);
+		// switch the lineNo's
+		m_mTable.setValueAt(new Integer(-10), from, lineCol); // wegen der
+																// Dateiumbenennung
+																// (als
+																// Zwischenspeicher)
+		log.fine("LineNo der Zeile " + from + " auf -10 gesetzt.");
+		log.fine("aktueller Wert von LineNo: " + m_mTable.getValueAt(from, lineCol).toString());
+		setCurrentRow(nextRow, false);// speichert alle Werte der Zeile
+										// (fehlerfrei!)
+		m_mTable.dataSave(true);
+		m_mTable.setValueAt(lineNoCurrentRow, nextRow, lineCol);
+		log.fine("LineNo der Zeile " + nextRow + " auf " + lineNoCurrentRow + " gesetzt.");
+		log.fine("aktueller Wert von LineNo: " + m_mTable.getValueAt(nextRow, lineCol).toString());
+		setCurrentRow(from, false);
+		m_mTable.dataSave(true);
+		m_mTable.setValueAt(lineNoNextRow, from, lineCol);
+		log.fine("LineNo der Zeile " + from + " auf " + lineNoNextRow + " gesetzt.");
+		log.fine("aktueller Wert von LineNo: " + m_mTable.getValueAt(from, lineCol).toString());
+		setCurrentRow(nextRow, false);
+		m_mTable.dataSave(true);
+		m_mTable.sort(lineCol, true);
+		navigate(nextRow);
+	}	
+	
+	public void setCurrentRow(int row){
+		setCurrentRow(row, false);
 	}
 
 }	//	MTab
