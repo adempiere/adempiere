@@ -302,7 +302,10 @@ public final class ALogin extends CDialog
 	{
 		m_cc = CConnection.get(Adempiere.getCodeBaseHost());
 		hostField.setValue(m_cc);
-		validateConnection ();
+		
+		if ( Ini.isPropertyBool(Ini.P_VALIDATE_CONNECTION_ON_STARTUP)) {
+			validateConnection();
+		} 
 
 		//  Application/PWD
 		userTextField.setText(Ini.getProperty(Ini.P_UID));
@@ -339,15 +342,25 @@ public final class ALogin extends CDialog
 		}
 	}   //  processWindowEvent
 
+	private void validateAppServer() {
+		m_cc.testAppsServer();
+	}
+	
+	private void connectToDatabase() {
+		//Check connection
+		DB.setDBTarget(m_cc);
+		DB.connect();
+	}
+	
 	/**
 	 *  Validate Connection
 	 */
 	private void validateConnection()
 	{
 		m_connectionOK = false;
-		//
-		m_cc.testAppsServer();
-		m_cc.testDatabase(false);
+		validateAppServer();
+		
+		connectToDatabase();
 		//
 		hostField.setDisplay();
 	}   //  validateConnection
@@ -393,6 +406,7 @@ public final class ALogin extends CDialog
 				connectionOK();		//	first ok
 			else
 			{
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				m_okPressed = true;
 				defaultsOK();	//	disposes
 			}
@@ -532,7 +546,7 @@ public final class ALogin extends CDialog
 		m_pwd = new String (passwordField.getPassword());
 
 		//	Establish connection
-		DB.setDBTarget(CConnection.get());
+		connectToDatabase();
 		if (!DB.isConnected())
 		{
 			statusBar.setStatusLine(txt_NoDatabase, true);
