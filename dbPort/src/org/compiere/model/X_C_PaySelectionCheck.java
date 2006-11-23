@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelectionCheck
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:58.078 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_PaySelectionCheck extends PO
 {
 /** Standard Constructor
@@ -93,6 +93,22 @@ public String toString()
 {
 StringBuffer sb = new StringBuffer ("X_C_PaySelectionCheck[").append(get_ID()).append("]");
 return sb.toString();
+}
+/** Set Partner Bank Account.
+@param C_BP_BankAccount_ID Bank Account of the Business Partner */
+public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
+{
+if (C_BP_BankAccount_ID <= 0) set_Value ("C_BP_BankAccount_ID", null);
+ else 
+set_Value ("C_BP_BankAccount_ID", new Integer(C_BP_BankAccount_ID));
+}
+/** Get Partner Bank Account.
+@return Bank Account of the Business Partner */
+public int getC_BP_BankAccount_ID() 
+{
+Integer ii = (Integer)get_Value("C_BP_BankAccount_ID");
+if (ii == null) return 0;
+return ii.intValue();
 }
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */

@@ -314,8 +314,7 @@ public class MTree_Base extends X_AD_Tree
 		if ("M_Product".equals(tableName) || "C_BPartner".equals(tableName) 
 			|| "AD_Org".equals(tableName) || "C_Campaign".equals(tableName))
 			return "x.AD_PrintColor_ID";
-		  // return "NULL"; // globalqss - saca error en PostgreSQL
-		  return "0";
+		return "NULL";
 	}	//	getSourceTableName
 	
 	

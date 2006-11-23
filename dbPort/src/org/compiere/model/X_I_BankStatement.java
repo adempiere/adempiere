@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_BankStatement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:59.734 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_I_BankStatement extends PO
 {
 /** Standard Constructor
@@ -884,7 +884,6 @@ public static final String TRXTYPE_Void = "V";
 @param TrxType Type of credit card transaction */
 public void setTrxType (String TrxType)
 {
-if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
 if (TrxType == null || TrxType.equals("A") || TrxType.equals("C") || TrxType.equals("D") || TrxType.equals("F") || TrxType.equals("S") || TrxType.equals("V"));
  else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - A - C - D - F - S - V");
 if (TrxType != null && TrxType.length() > 20)

@@ -309,6 +309,141 @@ public class MUser extends X_AD_User
 	
 		
 	/**
+	 * 	Get Value - 7 bit lower case alpha numerics max length 8
+	 *	@return value
+	 */
+	public String getValue()
+	{
+		String s = super.getValue();
+		if (s != null)
+			return s;
+		setValue(null);
+		return super.getValue();
+	}	//	getValue
+
+	/**
+	 * 	Set Value - 7 bit lower case alpha numerics max length 8
+	 *	@param Value
+	 */
+	public void setValue(String Value)
+	{
+		if (Value == null || Value.trim().length () == 0)
+			Value = getLDAPUser();
+		if (Value == null || Value.length () == 0)
+			Value = getName();
+		if (Value == null || Value.length () == 0)
+			Value = "noname";
+		//
+		String result = cleanValue(Value);
+		if (result.length() > 8)
+		{
+			String first = getName(Value, true);
+			String last = getName(Value, false);
+			if (last.length() > 0)
+			{
+				String temp = last;
+				if (first.length() > 0)
+					temp = first.substring (0, 1) + last;
+				result = cleanValue(temp);
+			}
+			else
+				result = cleanValue(first);
+		}
+		if (result.length() > 8)
+			result = result.substring (0, 8);
+		super.setValue(result);
+	}	//	setValue
+	
+	/**
+	 * 	Clean Value
+	 *	@param value value
+	 *	@return lower case cleaned value
+	 */
+	private String cleanValue (String value)
+	{
+		char[] chars = value.toCharArray();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < chars.length; i++)
+		{
+			char ch = chars[i];
+			ch = Character.toLowerCase (ch);
+			if ((ch >= '0' && ch <= '9')		//	digits
+				|| (ch >= 'a' && ch <= 'z'))	//	characters
+				sb.append(ch);
+		}
+		return sb.toString ();
+	}	//	cleanValue
+	
+	/**
+	 * 	Get First Name
+	 *	@return first name
+	 */
+	public String getFirstName()
+	{
+		return getName (getName(), true);
+	}	//	getFirstName
+	
+	/**
+	 * 	Get Last Name
+	 *	@return first name
+	 */
+	public String getLastName()
+	{
+		return getName (getName(), false);
+	}	//	getLastName
+
+	/**
+	 * 	Get First/Last Name
+	 *	@param name name
+	 *	@param getFirst if true first name is returned
+	 *	@return first/last name
+	 */
+	private String getName (String name, boolean getFirst)
+	{
+		if (name == null || name.length () == 0)
+			return "";
+		String first = null;
+		String last = null;
+		//	Janke, Jorg R - Jorg R Janke
+		//	double names not handled gracefully nor titles 
+		//	nor (former) aristrocratic world de/la/von 
+		boolean lastFirst = name.indexOf(',') != -1;
+		StringTokenizer st = null;
+		if (lastFirst)
+			st = new StringTokenizer(name, ",");
+		else
+			st = new StringTokenizer(name, " ");
+		while (st.hasMoreTokens())
+		{
+			String s = st.nextToken().trim();
+			if (lastFirst)
+			{
+				if (last == null)
+					last = s;
+				else if (first == null)
+					first = s;
+			}
+			else
+			{
+				if (first == null)
+					first = s;
+				else
+					last = s;
+			}
+		}
+		if (getFirst)
+		{
+			if (first == null)
+				return "";
+			return first.trim();
+		}
+		if (last == null)
+			return "";
+		return last.trim();
+	}	//	getName
+	
+	
+	/**
 	 * 	Add to Description
 	 *	@param description description to be added
 	 */
@@ -349,6 +484,16 @@ public class MUser extends X_AD_User
 		return true;
 	}	//	isOnline
 
+	/**
+	 * 	Set EMail - reset validation
+	 *	@param EMail email
+	 */
+	public void setEMail(String EMail)
+	{
+		super.setEMail (EMail);
+		setEMailVerifyDate (null);
+	}	//	setEMail
+	
 	/**
 	 * 	Convert EMail
 	 *	@return Valid Internet Address
@@ -643,6 +788,8 @@ public class MUser extends X_AD_User
 		//	New Address invalidates verification
 		if (!newRecord && is_ValueChanged("EMail"))
 			setEMailVerifyDate(null);
+		if (newRecord || super.getValue() == null || is_ValueChanged("Value"))
+			setValue(super.getValue());
 		return true;
 	}	//	beforeSave
 	

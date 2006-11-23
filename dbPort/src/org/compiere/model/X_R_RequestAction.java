@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestAction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:03.093 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_R_RequestAction extends PO
 {
 /** Standard Constructor
@@ -245,7 +245,6 @@ public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
 @param ConfidentialType Type of Confidentiality */
 public void setConfidentialType (String ConfidentialType)
 {
-if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
 if (ConfidentialType == null || ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P"));
  else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
 if (ConfidentialType != null && ConfidentialType.length() > 1)
@@ -320,7 +319,6 @@ public static final String ISESCALATED_Yes = "Y";
 @param IsEscalated This request has been escalated */
 public void setIsEscalated (String IsEscalated)
 {
-if (IsEscalated == null) throw new IllegalArgumentException ("IsEscalated is mandatory");
 if (IsEscalated == null || IsEscalated.equals("N") || IsEscalated.equals("Y"));
  else throw new IllegalArgumentException ("IsEscalated Invalid value - " + IsEscalated + " - Reference_ID=319 - N - Y");
 if (IsEscalated != null && IsEscalated.length() > 1)
@@ -347,7 +345,6 @@ public static final String ISINVOICED_Yes = "Y";
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (String IsInvoiced)
 {
-if (IsInvoiced == null) throw new IllegalArgumentException ("IsInvoiced is mandatory");
 if (IsInvoiced == null || IsInvoiced.equals("N") || IsInvoiced.equals("Y"));
  else throw new IllegalArgumentException ("IsInvoiced Invalid value - " + IsInvoiced + " - Reference_ID=319 - N - Y");
 if (IsInvoiced != null && IsInvoiced.length() > 1)
@@ -374,7 +371,6 @@ public static final String ISSELFSERVICE_Yes = "Y";
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (String IsSelfService)
 {
-if (IsSelfService == null) throw new IllegalArgumentException ("IsSelfService is mandatory");
 if (IsSelfService == null || IsSelfService.equals("N") || IsSelfService.equals("Y"));
  else throw new IllegalArgumentException ("IsSelfService Invalid value - " + IsSelfService + " - Reference_ID=319 - N - Y");
 if (IsSelfService != null && IsSelfService.length() > 1)
@@ -491,7 +487,6 @@ public static final String PRIORITY_Minor = "9";
 @param Priority Indicates if this request is of a high, medium or low priority. */
 public void setPriority (String Priority)
 {
-if (Priority == null) throw new IllegalArgumentException ("Priority is mandatory");
 if (Priority == null || Priority.equals("1") || Priority.equals("3") || Priority.equals("5") || Priority.equals("7") || Priority.equals("9"));
  else throw new IllegalArgumentException ("Priority Invalid value - " + Priority + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");
 if (Priority != null && Priority.length() > 1)
@@ -524,7 +519,6 @@ public static final String PRIORITYUSER_Minor = "9";
 @param PriorityUser Priority of the issue for the User */
 public void setPriorityUser (String PriorityUser)
 {
-if (PriorityUser == null) throw new IllegalArgumentException ("PriorityUser is mandatory");
 if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3") || PriorityUser.equals("5") || PriorityUser.equals("7") || PriorityUser.equals("9"));
  else throw new IllegalArgumentException ("PriorityUser Invalid value - " + PriorityUser + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");
 if (PriorityUser != null && PriorityUser.length() > 1)
@@ -765,7 +759,6 @@ public static final String TASKSTATUS_100Complete = "D";
 @param TaskStatus Status of the Task */
 public void setTaskStatus (String TaskStatus)
 {
-if (TaskStatus == null) throw new IllegalArgumentException ("TaskStatus is mandatory");
 if (TaskStatus == null || TaskStatus.equals("0") || TaskStatus.equals("2") || TaskStatus.equals("4") || TaskStatus.equals("6") || TaskStatus.equals("8") || TaskStatus.equals("9") || TaskStatus.equals("A") || TaskStatus.equals("C") || TaskStatus.equals("D"));
  else throw new IllegalArgumentException ("TaskStatus Invalid value - " + TaskStatus + " - Reference_ID=366 - 0 - 2 - 4 - 6 - 8 - 9 - A - C - D");
 if (TaskStatus != null && TaskStatus.length() > 1)

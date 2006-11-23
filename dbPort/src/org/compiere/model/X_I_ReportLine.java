@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ReportLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:00.203 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_I_ReportLine extends PO
 {
 /** Standard Constructor
@@ -117,7 +117,6 @@ public static final String AMOUNTTYPE_YearQuantity = "QY";
 @param AmountType Type of amount to report */
 public void setAmountType (String AmountType)
 {
-if (AmountType == null) throw new IllegalArgumentException ("AmountType is mandatory");
 if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || AmountType.equals("BY") || AmountType.equals("CP") || AmountType.equals("CT") || AmountType.equals("CY") || AmountType.equals("DP") || AmountType.equals("DT") || AmountType.equals("DY") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("QY"));
  else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - BP - BT - BY - CP - CT - CY - DP - DT - DY - QP - QT - QY");
 if (AmountType != null && AmountType.length() > 2)
@@ -164,7 +163,6 @@ public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
 @param CalculationType Calculation */
 public void setCalculationType (String CalculationType)
 {
-if (CalculationType == null) throw new IllegalArgumentException ("CalculationType is mandatory");
 if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("P") || CalculationType.equals("R") || CalculationType.equals("S"));
  else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - P - R - S");
 if (CalculationType != null && CalculationType.length() > 1)
@@ -311,7 +309,6 @@ public static final String LINETYPE_SegmentValue = "S";
 @param LineType Line Type */
 public void setLineType (String LineType)
 {
-if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory");
 if (LineType == null || LineType.equals("C") || LineType.equals("S"));
  else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - C - S");
 if (LineType != null && LineType.length() > 1)
@@ -415,7 +412,6 @@ public static final String POSTINGTYPE_Statistical = "S";
 @param PostingType The type of posted amount for the transaction */
 public void setPostingType (String PostingType)
 {
-if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
 if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S"));
  else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");
 if (PostingType != null && PostingType.length() > 1)

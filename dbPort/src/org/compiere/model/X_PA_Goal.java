@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Goal
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:02.281 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_PA_Goal extends PO
 {
 /** Standard Constructor
@@ -246,7 +246,6 @@ public static final String MEASUREDISPLAY_Day = "8";
 @param MeasureDisplay Measure Scope initially displayed */
 public void setMeasureDisplay (String MeasureDisplay)
 {
-if (MeasureDisplay == null) throw new IllegalArgumentException ("MeasureDisplay is mandatory");
 if (MeasureDisplay == null || MeasureDisplay.equals("0") || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8"));
  else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 0 - 1 - 3 - 5 - 7 - 8");
 if (MeasureDisplay != null && MeasureDisplay.length() > 1)

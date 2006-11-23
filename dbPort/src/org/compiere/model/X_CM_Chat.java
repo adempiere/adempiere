@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Chat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:55.718 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_CM_Chat extends PO
 {
 /** Standard Constructor
@@ -189,6 +189,34 @@ return (String)get_Value("Description");
 */public KeyNamePair getKeyNamePair() 
 {
 return new KeyNamePair(get_ID(), getDescription());
+}
+
+/** ModerationType AD_Reference_ID=395 */
+public static final int MODERATIONTYPE_AD_Reference_ID=395;
+/** After Publishing = A */
+public static final String MODERATIONTYPE_AfterPublishing = "A";
+/** Before Publishing = B */
+public static final String MODERATIONTYPE_BeforePublishing = "B";
+/** Not moderated = N */
+public static final String MODERATIONTYPE_NotModerated = "N";
+/** Set Moderation Type.
+@param ModerationType Type of moderation */
+public void setModerationType (String ModerationType)
+{
+if (ModerationType == null || ModerationType.equals("A") || ModerationType.equals("B") || ModerationType.equals("N"));
+ else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - A - B - N");
+if (ModerationType != null && ModerationType.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+ModerationType = ModerationType.substring(0,0);
+}
+set_Value ("ModerationType", ModerationType);
+}
+/** Get Moderation Type.
+@return Type of moderation */
+public String getModerationType() 
+{
+return (String)get_Value("ModerationType");
 }
 /** Set Record ID.
 @param Record_ID Direct internal record ID */

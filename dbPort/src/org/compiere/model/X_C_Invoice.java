@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Invoice
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:57.468 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_Invoice extends PO
 {
 /** Standard Constructor
@@ -655,6 +655,36 @@ public BigDecimal getGrandTotal()
 BigDecimal bd = (BigDecimal)get_Value("GrandTotal");
 if (bd == null) return Env.ZERO;
 return bd;
+}
+
+/** InvoiceCollectionType AD_Reference_ID=394 */
+public static final int INVOICECOLLECTIONTYPE_AD_Reference_ID=394;
+/** Collection Agency = C */
+public static final String INVOICECOLLECTIONTYPE_CollectionAgency = "C";
+/** Dunning = D */
+public static final String INVOICECOLLECTIONTYPE_Dunning = "D";
+/** Legal Procedure = L */
+public static final String INVOICECOLLECTIONTYPE_LegalProcedure = "L";
+/** Uncollectable = U */
+public static final String INVOICECOLLECTIONTYPE_Uncollectable = "U";
+/** Set Collection Status.
+@param InvoiceCollectionType Invoice Collection Status */
+public void setInvoiceCollectionType (String InvoiceCollectionType)
+{
+if (InvoiceCollectionType == null || InvoiceCollectionType.equals("C") || InvoiceCollectionType.equals("D") || InvoiceCollectionType.equals("L") || InvoiceCollectionType.equals("U"));
+ else throw new IllegalArgumentException ("InvoiceCollectionType Invalid value - " + InvoiceCollectionType + " - Reference_ID=394 - C - D - L - U");
+if (InvoiceCollectionType != null && InvoiceCollectionType.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+InvoiceCollectionType = InvoiceCollectionType.substring(0,0);
+}
+set_Value ("InvoiceCollectionType", InvoiceCollectionType);
+}
+/** Get Collection Status.
+@return Invoice Collection Status */
+public String getInvoiceCollectionType() 
+{
+return (String)get_Value("InvoiceCollectionType");
 }
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */

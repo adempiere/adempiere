@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentTerm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:58.25 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_PaymentTerm extends PO
 {
 /** Standard Constructor
@@ -394,7 +394,6 @@ public static final String NETDAY_Sunday = "7";
 @param NetDay Day when payment is due net */
 public void setNetDay (String NetDay)
 {
-if (NetDay == null) throw new IllegalArgumentException ("NetDay is mandatory");
 if (NetDay == null || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6") || NetDay.equals("7"));
  else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");
 if (NetDay != null && NetDay.length() > 1)

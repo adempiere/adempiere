@@ -74,11 +74,12 @@ public class MSequence extends X_AD_Sequence
             //end vpj-cd e-evolution 09/02/2005 PostgreSQL	
 			+ "FROM AD_Sequence "
 			+ "WHERE Name=?"
-			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' ";
-		//	+ "FOR UPDATE";	// OF CurrentNext, CurrentNextSys";
+			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
+			+ "FOR UPDATE";	// jz derby needs expicitly said it//OF CurrentNext, CurrentNextSys";
 		Trx trx = trxName == null ? null : Trx.get(trxName, true);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		boolean autocommit = false;
 		for (int i = 0; i < 3; i++)
 		{
 			try
@@ -91,6 +92,9 @@ public class MSequence extends X_AD_Sequence
 				if (conn == null)
 					return -1;
 				//
+				//jz auto commit off here
+				autocommit = conn.getAutoCommit();
+				conn.setAutoCommit(false);
 				pstmt = conn.prepareStatement(selectSQL,
 					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 				pstmt.setString(1, TableName);
@@ -108,20 +112,23 @@ public class MSequence extends X_AD_Sequence
 					//
 					if (USE_PROCEDURE)
 					{
-						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
+						retValue = nextID(conn, AD_Sequence_ID, compiereSys);
 					}
 					else
 					{
 						int incrementNo = rs.getInt(3);
 						if (adempiereSys)
 						{
-							retValue = rs.getInt(2);
-							rs.updateInt(2, retValue + incrementNo);
+							//jz return a increased value
+							//retValue = rs.getInt(2);
+							//rs.updateInt(2, retValue + incrementNo);
+							retValue = rs.getInt(2)+ incrementNo;
+							rs.updateInt(2, retValue);
 						}
 						else
 						{
-							retValue = rs.getInt(1);
-							rs.updateInt(1, retValue + incrementNo);
+							retValue = rs.getInt(1) + incrementNo;
+							rs.updateInt(1, retValue);
 						}
 						rs.updateRow();
 					}
@@ -133,6 +140,7 @@ public class MSequence extends X_AD_Sequence
 				rs.close();
 				pstmt.close();
 				pstmt = null;
+				conn.setAutoCommit(autocommit); //jz set back
 				//
 			//	conn.close();
 				conn = null;
@@ -145,6 +153,7 @@ public class MSequence extends X_AD_Sequence
 				try 
 				{
 					conn.rollback();
+					conn.setAutoCommit(autocommit); //jz set back
 					if (pstmt != null)
 						pstmt.close();
 				}
@@ -255,9 +264,12 @@ public class MSequence extends X_AD_Sequence
 			+ "FROM AD_Sequence "
 			+ "WHERE Name=?"
 			+ " AND AD_Client_ID IN (0,?)"
-			+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
-			+ "ORDER BY AD_Client_ID DESC ";
-		//	+ "FOR UPDATE";
+			+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
+		if (!DB.isDerby()&&!DB.isDB2())
+			selectSQL += " ORDER BY AD_Client_ID DESC ";
+		else
+		//	selectSQL += " FOR UPDATE OF CurrentNext, CurrentNextSys ";   //jz for update , no order by, 10.216 no need
+			selectSQL +=  "FOR UPDATE";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		Trx trx = trxName == null ? null : Trx.get(trxName, true);

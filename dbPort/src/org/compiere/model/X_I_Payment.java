@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Payment
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:00.109 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_I_Payment extends PO
 {
 /** Standard Constructor
@@ -516,7 +516,6 @@ public static final String CREDITCARDTYPE_Visa = "V";
 @param CreditCardType Credit Card (Visa, MC, AmEx) */
 public void setCreditCardType (String CreditCardType)
 {
-if (CreditCardType == null) throw new IllegalArgumentException ("CreditCardType is mandatory");
 if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("M") || CreditCardType.equals("N") || CreditCardType.equals("P") || CreditCardType.equals("V"));
  else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - C - D - M - N - P - V");
 if (CreditCardType != null && CreditCardType.length() > 1)
@@ -1058,7 +1057,6 @@ public static final String TENDERTYPE_Check = "K";
 @param TenderType Method of Payment */
 public void setTenderType (String TenderType)
 {
-if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
 if (TenderType == null || TenderType.equals("A") || TenderType.equals("C") || TenderType.equals("D") || TenderType.equals("K"));
  else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - A - C - D - K");
 if (TenderType != null && TenderType.length() > 1)
@@ -1093,7 +1091,6 @@ public static final String TRXTYPE_Void = "V";
 @param TrxType Type of credit card transaction */
 public void setTrxType (String TrxType)
 {
-if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
 if (TrxType == null || TrxType.equals("A") || TrxType.equals("C") || TrxType.equals("D") || TrxType.equals("F") || TrxType.equals("S") || TrxType.equals("V"));
  else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - A - C - D - F - S - V");
 if (TrxType != null && TrxType.length() > 1)

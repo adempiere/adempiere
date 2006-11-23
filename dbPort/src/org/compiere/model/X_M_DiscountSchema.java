@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchema
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:00.781 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_M_DiscountSchema extends PO
 {
 /** Standard Constructor
@@ -99,7 +99,6 @@ public static final String CUMULATIVELEVEL_Line = "L";
 @param CumulativeLevel Level for accumulative calculations */
 public void setCumulativeLevel (String CumulativeLevel)
 {
-if (CumulativeLevel == null) throw new IllegalArgumentException ("CumulativeLevel is mandatory");
 if (CumulativeLevel == null || CumulativeLevel.equals("L"));
  else throw new IllegalArgumentException ("CumulativeLevel Invalid value - " + CumulativeLevel + " - Reference_ID=246 - L");
 if (CumulativeLevel != null && CumulativeLevel.length() > 1)

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Category_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:01.875 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_M_Product_Category_Acct extends PO
 {
 /** Standard Constructor
@@ -124,7 +124,6 @@ public static final String COSTINGLEVEL_Organization = "O";
 @param CostingLevel The lowest level to accumulate Costing Information */
 public void setCostingLevel (String CostingLevel)
 {
-if (CostingLevel == null) throw new IllegalArgumentException ("CostingLevel is mandatory");
 if (CostingLevel == null || CostingLevel.equals("B") || CostingLevel.equals("C") || CostingLevel.equals("O"));
  else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - B - C - O");
 if (CostingLevel != null && CostingLevel.length() > 1)
@@ -165,7 +164,6 @@ public static final String COSTINGMETHOD__ = "x";
 @param CostingMethod Indicates how Costs will be calculated */
 public void setCostingMethod (String CostingMethod)
 {
-if (CostingMethod == null) throw new IllegalArgumentException ("CostingMethod is mandatory");
 if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("F") || CostingMethod.equals("I") || CostingMethod.equals("L") || CostingMethod.equals("S") || CostingMethod.equals("U") || CostingMethod.equals("i") || CostingMethod.equals("p") || CostingMethod.equals("x"));
  else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - A - F - I - L - S - U - i - p - x");
 if (CostingMethod != null && CostingMethod.length() > 1)

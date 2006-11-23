@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_InvoiceGL
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:03.734 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_T_InvoiceGL extends PO
 {
 /** Standard Constructor
@@ -126,7 +126,6 @@ public static final String APAR_ReceivablesOnly = "R";
 @param APAR Include Receivables and/or Payables transactions */
 public void setAPAR (String APAR)
 {
-if (APAR == null) throw new IllegalArgumentException ("APAR is mandatory");
 if (APAR == null || APAR.equals("A") || APAR.equals("P") || APAR.equals("R"));
  else throw new IllegalArgumentException ("APAR Invalid value - " + APAR + " - Reference_ID=332 - A - P - R");
 if (APAR != null && APAR.length() > 1)

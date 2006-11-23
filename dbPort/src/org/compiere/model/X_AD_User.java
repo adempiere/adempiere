@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_User
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:54.421 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_User extends PO
 {
 /** Standard Constructor
@@ -230,7 +230,6 @@ public static final String CONNECTIONPROFILE_WAN = "W";
 @param ConnectionProfile How a Java Client connects to the server(s) */
 public void setConnectionProfile (String ConnectionProfile)
 {
-if (ConnectionProfile == null) throw new IllegalArgumentException ("ConnectionProfile is mandatory");
 if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W"));
  else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
 if (ConnectionProfile != null && ConnectionProfile.length() > 1)
@@ -583,5 +582,22 @@ set_Value ("Title", Title);
 public String getTitle() 
 {
 return (String)get_Value("Title");
+}
+/** Set Search Key.
+@param Value Search key for the record in the format required - must be unique */
+public void setValue (String Value)
+{
+if (Value != null && Value.length() > 40)
+{
+log.warning("Length > 40 - truncated");
+Value = Value.substring(0,39);
+}
+set_Value ("Value", Value);
+}
+/** Get Search Key.
+@return Search key for the record in the format required - must be unique */
+public String getValue() 
+{
+return (String)get_Value("Value");
 }
 }

@@ -93,7 +93,7 @@ public class MClient extends X_AD_Client
 		MClient[] retValue = new MClient[list.size ()];
 		list.toArray (retValue);
 		return retValue;
-	}	//	get
+	}	//	getAll
 
 	/**
 	 * 	Get optionally cached client
@@ -314,55 +314,55 @@ public class MClient extends X_AD_Client
 				String value = rs.getString(1);
 				String name = getName() + " " + rs.getString(2);
 				//
-				if (value.equals(MTree_Base.TREETYPE_Organization))
+				if (value.equals(X_AD_Tree.TREETYPE_Organization))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_Org_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_BPartner))
+				else if (value.equals(X_AD_Tree.TREETYPE_BPartner))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_BPartner_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_Project))
+				else if (value.equals(X_AD_Tree.TREETYPE_Project))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_Project_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_SalesRegion))
+				else if (value.equals(X_AD_Tree.TREETYPE_SalesRegion))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_SalesRegion_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_Product))
+				else if (value.equals(X_AD_Tree.TREETYPE_Product))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_Product_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_ElementValue))
+				else if (value.equals(X_AD_Tree.TREETYPE_ElementValue))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					m_AD_Tree_Account_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_Campaign))
+				else if (value.equals(X_AD_Tree.TREETYPE_Campaign))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_Campaign_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_Activity))
+				else if (value.equals(X_AD_Tree.TREETYPE_Activity))
 				{
 					tree = new MTree_Base (this, name, value);
 					success = tree.save();
 					AD_Tree_Activity_ID = tree.getAD_Tree_ID();
 				}
-				else if (value.equals(MTree_Base.TREETYPE_Menu))	//	No Menu
+				else if (value.equals(X_AD_Tree.TREETYPE_Menu))	//	No Menu
 					success = true;
 				else	//	PC (Product Category), BB (BOM)
 				{

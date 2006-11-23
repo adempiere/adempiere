@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_BOM
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:01.843 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_M_Product_BOM extends PO
 {
 /** Standard Constructor
@@ -133,7 +133,6 @@ public static final String BOMTYPE_StandardPart = "P";
 @param BOMType Type of BOM */
 public void setBOMType (String BOMType)
 {
-if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory");
 if (BOMType == null || BOMType.equals("1") || BOMType.equals("2") || BOMType.equals("3") || BOMType.equals("4") || BOMType.equals("5") || BOMType.equals("6") || BOMType.equals("7") || BOMType.equals("8") || BOMType.equals("9") || BOMType.equals("O") || BOMType.equals("P"));
  else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=279 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - O - P");
 if (BOMType != null && BOMType.length() > 1)

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BPartner
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:56.515 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_BPartner extends PO
 {
 /** Standard Constructor
@@ -309,7 +309,6 @@ public static final String DELIVERYRULE_AfterReceipt = "R";
 @param DeliveryRule Defines the timing of Delivery */
 public void setDeliveryRule (String DeliveryRule)
 {
-if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is mandatory");
 if (DeliveryRule == null || DeliveryRule.equals("A") || DeliveryRule.equals("F") || DeliveryRule.equals("L") || DeliveryRule.equals("M") || DeliveryRule.equals("O") || DeliveryRule.equals("R"));
  else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - A - F - L - M - O - R");
 if (DeliveryRule != null && DeliveryRule.length() > 1)
@@ -338,7 +337,6 @@ public static final String DELIVERYVIARULE_Shipper = "S";
 @param DeliveryViaRule How the order will be delivered */
 public void setDeliveryViaRule (String DeliveryViaRule)
 {
-if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRule is mandatory");
 if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("S"));
  else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - D - P - S");
 if (DeliveryViaRule != null && DeliveryViaRule.length() > 1)
@@ -426,7 +424,6 @@ public static final String FREIGHTCOSTRULE_Line = "L";
 @param FreightCostRule Method for charging Freight */
 public void setFreightCostRule (String FreightCostRule)
 {
-if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRule is mandatory");
 if (FreightCostRule == null || FreightCostRule.equals("C") || FreightCostRule.equals("F") || FreightCostRule.equals("I") || FreightCostRule.equals("L"));
  else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - C - F - I - L");
 if (FreightCostRule != null && FreightCostRule.length() > 1)
@@ -457,7 +454,6 @@ public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
 @param InvoiceRule Frequency and method of invoicing  */
 public void setInvoiceRule (String InvoiceRule)
 {
-if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is mandatory");
 if (InvoiceRule == null || InvoiceRule.equals("D") || InvoiceRule.equals("I") || InvoiceRule.equals("O") || InvoiceRule.equals("S"));
  else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - D - I - O - S");
 if (InvoiceRule != null && InvoiceRule.length() > 1)
@@ -854,7 +850,6 @@ public static final String PAYMENTRULE_DirectDeposit = "T";
 @param PaymentRule How you pay the invoice */
 public void setPaymentRule (String PaymentRule)
 {
-if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
 if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T"));
  else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");
 if (PaymentRule != null && PaymentRule.length() > 1)
@@ -889,7 +884,6 @@ public static final String PAYMENTRULEPO_DirectDeposit = "T";
 @param PaymentRulePO Purchase payment option */
 public void setPaymentRulePO (String PaymentRulePO)
 {
-if (PaymentRulePO == null) throw new IllegalArgumentException ("PaymentRulePO is mandatory");
 if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("D") || PaymentRulePO.equals("K") || PaymentRulePO.equals("P") || PaymentRulePO.equals("S") || PaymentRulePO.equals("T"));
  else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - D - K - P - S - T");
 if (PaymentRulePO != null && PaymentRulePO.length() > 1)
@@ -970,7 +964,6 @@ public static final String SOCREDITSTATUS_NoCreditCheck = "X";
 @param SOCreditStatus Business Partner Credit Status */
 public void setSOCreditStatus (String SOCreditStatus)
 {
-if (SOCreditStatus == null) throw new IllegalArgumentException ("SOCreditStatus is mandatory");
 if (SOCreditStatus == null || SOCreditStatus.equals("H") || SOCreditStatus.equals("O") || SOCreditStatus.equals("S") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X"));
  else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - H - O - S - W - X");
 if (SOCreditStatus != null && SOCreditStatus.length() > 1)
@@ -1144,7 +1137,7 @@ if (bd == null) return Env.ZERO;
 return bd;
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.adempiere.org */
+@param URL Full URL address - e.g. http://www.compiere.org */
 public void setURL (String URL)
 {
 if (URL != null && URL.length() > 120)
@@ -1155,7 +1148,7 @@ URL = URL.substring(0,119);
 set_Value ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.adempiere.org */
+@return Full URL address - e.g. http://www.compiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");

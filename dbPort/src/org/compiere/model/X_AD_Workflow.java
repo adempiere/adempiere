@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workflow
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:55.062 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Workflow extends PO
 {
 /** Standard Constructor
@@ -312,7 +312,6 @@ public static final String DURATIONUNIT_Second = "s";
 @param DurationUnit Unit of Duration */
 public void setDurationUnit (String DurationUnit)
 {
-if (DurationUnit == null) throw new IllegalArgumentException ("DurationUnit is mandatory");
 if (DurationUnit == null || DurationUnit.equals("D") || DurationUnit.equals("M") || DurationUnit.equals("Y") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s"));
  else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - D - M - Y - h - m - s");
 if (DurationUnit != null && DurationUnit.length() > 1)

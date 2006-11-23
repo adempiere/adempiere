@@ -261,14 +261,7 @@ public class MColumn extends X_AD_Column
 		StringBuffer sql = new StringBuffer (getColumnName())
 			.append(" ").append(getSQLDataType());
 		//	Default
-	    if (getDefaultValue() != null && getDefaultValue().length() > 0
-		  	    // globalqss 2005-11-03
-		  	    && (! getDefaultValue().equals("@#AD_Org_ID@"))
-		  	    && (! getDefaultValue().equals("@#AD_Client_ID@"))
-		  	    && (! getDefaultValue().equals("@AD_Org_ID@"))
-		  	    && (! getDefaultValue().equals("@AD_Client_ID@"))
-		  	    // end globalqss 2005-11-03
-		  	    )
+		if (getDefaultValue() != null && getDefaultValue().length() > 0)
 		{
 			sql.append(" DEFAULT ");
 			if (DisplayType.isText(getAD_Reference_ID()))

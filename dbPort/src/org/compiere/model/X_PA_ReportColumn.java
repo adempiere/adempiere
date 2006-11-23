@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportColumn
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:02.5 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_PA_ReportColumn extends PO
 {
 /** Standard Constructor
@@ -122,7 +122,6 @@ public static final String AMOUNTTYPE_YearQuantity = "QY";
 @param AmountType Type of amount to report */
 public void setAmountType (String AmountType)
 {
-if (AmountType == null) throw new IllegalArgumentException ("AmountType is mandatory");
 if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || AmountType.equals("BY") || AmountType.equals("CP") || AmountType.equals("CT") || AmountType.equals("CY") || AmountType.equals("DP") || AmountType.equals("DT") || AmountType.equals("DY") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("QY"));
  else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - BP - BT - BY - CP - CT - CY - DP - DT - DY - QP - QT - QY");
 if (AmountType != null && AmountType.length() > 2)
@@ -281,7 +280,6 @@ public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
 @param CalculationType Calculation */
 public void setCalculationType (String CalculationType)
 {
-if (CalculationType == null) throw new IllegalArgumentException ("CalculationType is mandatory");
 if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("P") || CalculationType.equals("R") || CalculationType.equals("S"));
  else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - P - R - S");
 if (CalculationType != null && CalculationType.length() > 1)
@@ -337,7 +335,6 @@ public static final String CURRENCYTYPE_SourceCurrency = "S";
 @param CurrencyType Currency Type */
 public void setCurrencyType (String CurrencyType)
 {
-if (CurrencyType == null) throw new IllegalArgumentException ("CurrencyType is mandatory");
 if (CurrencyType == null || CurrencyType.equals("A") || CurrencyType.equals("S"));
  else throw new IllegalArgumentException ("CurrencyType Invalid value - " + CurrencyType + " - Reference_ID=238 - A - S");
 if (CurrencyType != null && CurrencyType.length() > 1)
@@ -409,7 +406,6 @@ public static final String ELEMENTTYPE_UserElement2 = "X2";
 @param ElementType Element Type (account or user defined) */
 public void setElementType (String ElementType)
 {
-if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
 if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2"));
  else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2");
 if (ElementType != null && ElementType.length() > 2)

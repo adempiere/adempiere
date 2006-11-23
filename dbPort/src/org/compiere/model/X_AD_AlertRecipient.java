@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertRecipient
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:52.14 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_AlertRecipient extends PO
 {
 /** Standard Constructor
@@ -102,14 +102,14 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Alert.
-@param AD_Alert_ID Adempiere Alert */
+@param AD_Alert_ID Compiere Alert */
 public void setAD_Alert_ID (int AD_Alert_ID)
 {
 if (AD_Alert_ID < 1) throw new IllegalArgumentException ("AD_Alert_ID is mandatory.");
 set_ValueNoCheck ("AD_Alert_ID", new Integer(AD_Alert_ID));
 }
 /** Get Alert.
-@return Adempiere Alert */
+@return Compiere Alert */
 public int getAD_Alert_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Alert_ID");

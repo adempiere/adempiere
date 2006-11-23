@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Budget
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:59.093 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_GL_Budget extends PO
 {
 /** Standard Constructor
@@ -98,7 +98,6 @@ public static final String BUDGETSTATUS_Draft = "D";
 @param BudgetStatus Indicates the current status of this budget */
 public void setBudgetStatus (String BudgetStatus)
 {
-if (BudgetStatus == null) throw new IllegalArgumentException ("BudgetStatus is mandatory");
 if (BudgetStatus == null || BudgetStatus.equals("A") || BudgetStatus.equals("D"));
  else throw new IllegalArgumentException ("BudgetStatus Invalid value - " + BudgetStatus + " - Reference_ID=178 - A - D");
 if (BudgetStatus != null && BudgetStatus.length() > 1)

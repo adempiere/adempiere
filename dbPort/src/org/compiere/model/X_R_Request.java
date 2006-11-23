@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Request
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:03.0 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_R_Request extends PO
 {
 /** Standard Constructor
@@ -676,7 +676,6 @@ public static final String NEXTACTION_None = "N";
 @param NextAction Next Action to be taken */
 public void setNextAction (String NextAction)
 {
-if (NextAction == null) throw new IllegalArgumentException ("NextAction is mandatory");
 if (NextAction == null || NextAction.equals("F") || NextAction.equals("N"));
  else throw new IllegalArgumentException ("NextAction Invalid value - " + NextAction + " - Reference_ID=219 - F - N");
 if (NextAction != null && NextAction.length() > 1)
@@ -742,7 +741,6 @@ public static final String PRIORITYUSER_Minor = "9";
 @param PriorityUser Priority of the issue for the User */
 public void setPriorityUser (String PriorityUser)
 {
-if (PriorityUser == null) throw new IllegalArgumentException ("PriorityUser is mandatory");
 if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3") || PriorityUser.equals("5") || PriorityUser.equals("7") || PriorityUser.equals("9"));
  else throw new IllegalArgumentException ("PriorityUser Invalid value - " + PriorityUser + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");
 if (PriorityUser != null && PriorityUser.length() > 1)
@@ -1096,7 +1094,6 @@ public static final String TASKSTATUS_100Complete = "D";
 @param TaskStatus Status of the Task */
 public void setTaskStatus (String TaskStatus)
 {
-if (TaskStatus == null) throw new IllegalArgumentException ("TaskStatus is mandatory");
 if (TaskStatus == null || TaskStatus.equals("0") || TaskStatus.equals("2") || TaskStatus.equals("4") || TaskStatus.equals("6") || TaskStatus.equals("8") || TaskStatus.equals("9") || TaskStatus.equals("A") || TaskStatus.equals("C") || TaskStatus.equals("D"));
  else throw new IllegalArgumentException ("TaskStatus Invalid value - " + TaskStatus + " - Reference_ID=366 - 0 - 2 - 4 - 6 - 8 - 9 - A - C - D");
 if (TaskStatus != null && TaskStatus.length() > 1)

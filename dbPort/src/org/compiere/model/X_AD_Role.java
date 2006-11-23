@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Role
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.921 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Role extends PO
 {
 /** Standard Constructor
@@ -213,7 +213,6 @@ public static final String CONNECTIONPROFILE_WAN = "W";
 @param ConnectionProfile How a Java Client connects to the server(s) */
 public void setConnectionProfile (String ConnectionProfile)
 {
-if (ConnectionProfile == null) throw new IllegalArgumentException ("ConnectionProfile is mandatory");
 if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W"));
  else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
 if (ConnectionProfile != null && ConnectionProfile.length() > 1)

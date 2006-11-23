@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Field
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:52.765 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Field extends PO
 {
 /** Standard Constructor
@@ -364,7 +364,6 @@ public static final String ISMANDATORY_Yes = "Y";
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (String IsMandatory)
 {
-if (IsMandatory == null) throw new IllegalArgumentException ("IsMandatory is mandatory");
 if (IsMandatory == null || IsMandatory.equals("N") || IsMandatory.equals("Y"));
  else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - N - Y");
 if (IsMandatory != null && IsMandatory.length() > 1)
@@ -455,7 +454,6 @@ public static final String OBSCURETYPE_ObscureAlphaNumericButFirstLast4 = "A44";
 @param ObscureType Type of obscuring the data (limiting the display) */
 public void setObscureType (String ObscureType)
 {
-if (ObscureType == null) throw new IllegalArgumentException ("ObscureType is mandatory");
 if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A04") || ObscureType.equals("A44"));
  else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A04 - A44");
 if (ObscureType != null && ObscureType.length() > 3)

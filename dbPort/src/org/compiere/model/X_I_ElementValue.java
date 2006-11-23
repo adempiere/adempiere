@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ElementValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:59.89 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_I_ElementValue extends PO
 {
 /** Standard Constructor
@@ -118,7 +118,6 @@ public static final String ACCOUNTSIGN_Natural = "N";
 @param AccountSign Indicates the Natural Sign of the Account as a Debit or Credit */
 public void setAccountSign (String AccountSign)
 {
-if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is mandatory");
 if (AccountSign == null || AccountSign.equals("C") || AccountSign.equals("D") || AccountSign.equals("N"));
  else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - C - D - N");
 if (AccountSign != null && AccountSign.length() > 1)
@@ -153,7 +152,6 @@ public static final String ACCOUNTTYPE_Revenue = "R";
 @param AccountType Indicates the type of account */
 public void setAccountType (String AccountType)
 {
-if (AccountType == null) throw new IllegalArgumentException ("AccountType is mandatory");
 if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") || AccountType.equals("L") || AccountType.equals("M") || AccountType.equals("O") || AccountType.equals("R"));
  else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - E - L - M - O - R");
 if (AccountType != null && AccountType.length() > 1)

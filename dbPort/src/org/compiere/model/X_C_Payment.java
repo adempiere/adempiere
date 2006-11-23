@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Payment
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:58.109 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_Payment extends PO
 {
 /** Standard Constructor
@@ -613,7 +613,6 @@ public static final String CREDITCARDTYPE_Visa = "V";
 @param CreditCardType Credit Card (Visa, MC, AmEx) */
 public void setCreditCardType (String CreditCardType)
 {
-if (CreditCardType == null) throw new IllegalArgumentException ("CreditCardType is mandatory");
 if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("M") || CreditCardType.equals("N") || CreditCardType.equals("P") || CreditCardType.equals("V"));
  else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - C - D - M - N - P - V");
 if (CreditCardType != null && CreditCardType.length() > 1)
@@ -1185,7 +1184,6 @@ public static final String R_AVSADDR_Match = "Y";
 @param R_AvsAddr This address has been verified */
 public void setR_AvsAddr (String R_AvsAddr)
 {
-if (R_AvsAddr == null) throw new IllegalArgumentException ("R_AvsAddr is mandatory");
 if (R_AvsAddr == null || R_AvsAddr.equals("N") || R_AvsAddr.equals("X") || R_AvsAddr.equals("Y"));
  else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - N - X - Y");
 if (R_AvsAddr != null && R_AvsAddr.length() > 1)
@@ -1214,7 +1212,6 @@ public static final String R_AVSZIP_Match = "Y";
 @param R_AvsZip The Zip Code has been verified */
 public void setR_AvsZip (String R_AvsZip)
 {
-if (R_AvsZip == null) throw new IllegalArgumentException ("R_AvsZip is mandatory");
 if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip.equals("Y"));
  else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - N - X - Y");
 if (R_AvsZip != null && R_AvsZip.length() > 1)

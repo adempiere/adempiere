@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_Node
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:54.765 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_WF_Node extends PO
 {
 /** Standard Constructor
@@ -405,7 +405,6 @@ public static final String DOCACTION_Unlock = "XL";
 @param DocAction The targeted status of the document */
 public void setDocAction (String DocAction)
 {
-if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
 if (DocAction == null || DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL"));
  else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");
 if (DocAction != null && DocAction.length() > 2)
@@ -462,7 +461,6 @@ public static final String DYNPRIORITYUNIT_Minute = "M";
 @param DynPriorityUnit Change of priority when Activity is suspended waiting for user */
 public void setDynPriorityUnit (String DynPriorityUnit)
 {
-if (DynPriorityUnit == null) throw new IllegalArgumentException ("DynPriorityUnit is mandatory");
 if (DynPriorityUnit == null || DynPriorityUnit.equals("D") || DynPriorityUnit.equals("H") || DynPriorityUnit.equals("M"));
  else throw new IllegalArgumentException ("DynPriorityUnit Invalid value - " + DynPriorityUnit + " - Reference_ID=221 - D - H - M");
 if (DynPriorityUnit != null && DynPriorityUnit.length() > 1)
@@ -508,7 +506,6 @@ public static final String EMAILRECIPIENT_WFResponsible = "R";
 @param EMailRecipient Recipient of the EMail */
 public void setEMailRecipient (String EMailRecipient)
 {
-if (EMailRecipient == null) throw new IllegalArgumentException ("EMailRecipient is mandatory");
 if (EMailRecipient == null || EMailRecipient.equals("B") || EMailRecipient.equals("D") || EMailRecipient.equals("R"));
  else throw new IllegalArgumentException ("EMailRecipient Invalid value - " + EMailRecipient + " - Reference_ID=363 - B - D - R");
 if (EMailRecipient != null && EMailRecipient.length() > 1)
@@ -557,7 +554,6 @@ public static final String FINISHMODE_Manual = "M";
 @param FinishMode Workflow Activity Finish Mode */
 public void setFinishMode (String FinishMode)
 {
-if (FinishMode == null) throw new IllegalArgumentException ("FinishMode is mandatory");
 if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M"));
  else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
 if (FinishMode != null && FinishMode.length() > 1)
@@ -741,7 +737,6 @@ public static final String STARTMODE_Manual = "M";
 @param StartMode Workflow Activity Start Mode  */
 public void setStartMode (String StartMode)
 {
-if (StartMode == null) throw new IllegalArgumentException ("StartMode is mandatory");
 if (StartMode == null || StartMode.equals("A") || StartMode.equals("M"));
  else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
 if (StartMode != null && StartMode.length() > 1)
@@ -768,7 +763,6 @@ public static final String SUBFLOWEXECUTION_Synchronously = "S";
 @param SubflowExecution Mode how the sub-workflow is executed */
 public void setSubflowExecution (String SubflowExecution)
 {
-if (SubflowExecution == null) throw new IllegalArgumentException ("SubflowExecution is mandatory");
 if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S"));
  else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
 if (SubflowExecution != null && SubflowExecution.length() > 1)

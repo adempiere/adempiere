@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Dunning
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:57.281 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_Dunning extends PO
 {
 /** Standard Constructor
@@ -40,6 +40,7 @@ super (ctx, C_Dunning_ID, trxName);
 /** if (C_Dunning_ID == 0)
 {
 setC_Dunning_ID (0);
+setCreateLevelsSequentially (false);
 setIsDefault (false);
 setName (null);
 setSendDunningLetter (false);
@@ -102,6 +103,24 @@ public int getC_Dunning_ID()
 Integer ii = (Integer)get_Value("C_Dunning_ID");
 if (ii == null) return 0;
 return ii.intValue();
+}
+/** Set Create levels sequentially.
+@param CreateLevelsSequentially Create Dunning Letter by level sequentially */
+public void setCreateLevelsSequentially (boolean CreateLevelsSequentially)
+{
+set_Value ("CreateLevelsSequentially", new Boolean(CreateLevelsSequentially));
+}
+/** Get Create levels sequentially.
+@return Create Dunning Letter by level sequentially */
+public boolean isCreateLevelsSequentially() 
+{
+Object oo = get_Value("CreateLevelsSequentially");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
 }
 /** Set Description.
 @param Description Optional short description of the record */

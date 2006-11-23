@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintFormatItem
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.421 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_PrintFormatItem extends PO
 {
 /** Standard Constructor
@@ -302,7 +302,6 @@ public static final String BARCODETYPE_Code39USD3WOChecksum = "us3";
 @param BarcodeType Type of barcode */
 public void setBarcodeType (String BarcodeType)
 {
-if (BarcodeType == null) throw new IllegalArgumentException ("BarcodeType is mandatory");
 if (BarcodeType == null || BarcodeType.equals("28A") || BarcodeType.equals("28B") || BarcodeType.equals("28C") || BarcodeType.equals("2o9") || BarcodeType.equals("3O9") || BarcodeType.equals("3o9") || BarcodeType.equals("417") || BarcodeType.equals("C14") || BarcodeType.equals("C18") || BarcodeType.equals("C28") || BarcodeType.equals("C39") || BarcodeType.equals("COD") || BarcodeType.equals("E28") || BarcodeType.equals("GTN") || BarcodeType.equals("MON") || BarcodeType.equals("NW7") || BarcodeType.equals("SID") || BarcodeType.equals("U28") || BarcodeType.equals("US3") || BarcodeType.equals("US4") || BarcodeType.equals("USP") || BarcodeType.equals("c39") || BarcodeType.equals("us3"));
  else throw new IllegalArgumentException ("BarcodeType Invalid value - " + BarcodeType + " - Reference_ID=377 - 28A - 28B - 28C - 2o9 - 3O9 - 3o9 - 417 - C14 - C18 - C28 - C39 - COD - E28 - GTN - MON - NW7 - SID - U28 - US3 - US4 - USP - c39 - us3");
 if (BarcodeType != null && BarcodeType.length() > 3)
@@ -778,13 +777,13 @@ if (oo != null)
 }
 return false;
 }
-/** Set Calculate Variance (?ï¿½).
+/** Set Calculate Variance (?²).
 @param IsVarianceCalc Calculate Variance */
 public void setIsVarianceCalc (boolean IsVarianceCalc)
 {
 set_Value ("IsVarianceCalc", new Boolean(IsVarianceCalc));
 }
-/** Get Calculate Variance (?ï¿½).
+/** Get Calculate Variance (?²).
 @return Calculate Variance */
 public boolean isVarianceCalc() 
 {
@@ -1036,7 +1035,6 @@ public static final String SHAPETYPE_RoundRectangle = "R";
 @param ShapeType Type of the shape to be painted */
 public void setShapeType (String ShapeType)
 {
-if (ShapeType == null) throw new IllegalArgumentException ("ShapeType is mandatory");
 if (ShapeType == null || ShapeType.equals("3") || ShapeType.equals("N") || ShapeType.equals("O") || ShapeType.equals("R"));
  else throw new IllegalArgumentException ("ShapeType Invalid value - " + ShapeType + " - Reference_ID=333 - 3 - N - O - R");
 if (ShapeType != null && ShapeType.length() > 1)

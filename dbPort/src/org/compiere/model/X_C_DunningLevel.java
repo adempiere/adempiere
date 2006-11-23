@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningLevel
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:57.281 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_DunningLevel extends PO
 {
 /** Standard Constructor
@@ -45,6 +45,10 @@ setChargeFee (false);
 setChargeInterest (false);
 setDaysAfterDue (Env.ZERO);
 setDaysBetweenDunning (0);
+setIsSetCreditStop (false);
+setIsSetPaymentTerm (false);
+setIsShowAllDue (false);
+setIsShowNotDue (false);
 setName (null);
 setPrintName (null);
 }
@@ -119,6 +123,22 @@ set_ValueNoCheck ("C_Dunning_ID", new Integer(C_Dunning_ID));
 public int getC_Dunning_ID() 
 {
 Integer ii = (Integer)get_Value("C_Dunning_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Set Payment Term.
+@param C_PaymentTerm_ID The terms of Payment (timing, discount) */
+public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+{
+if (C_PaymentTerm_ID <= 0) set_Value ("C_PaymentTerm_ID", null);
+ else 
+set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+}
+/** Get Payment Term.
+@return The terms of Payment (timing, discount) */
+public int getC_PaymentTerm_ID() 
+{
+Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
@@ -250,6 +270,78 @@ public BigDecimal getInterestPercent()
 BigDecimal bd = (BigDecimal)get_Value("InterestPercent");
 if (bd == null) return Env.ZERO;
 return bd;
+}
+/** Set Credit Stop.
+@param IsSetCreditStop Set the business partner to credit stop */
+public void setIsSetCreditStop (boolean IsSetCreditStop)
+{
+set_Value ("IsSetCreditStop", new Boolean(IsSetCreditStop));
+}
+/** Get Credit Stop.
+@return Set the business partner to credit stop */
+public boolean isSetCreditStop() 
+{
+Object oo = get_Value("IsSetCreditStop");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Set Set Payment Term.
+@param IsSetPaymentTerm Set the payment term of the Business Partner */
+public void setIsSetPaymentTerm (boolean IsSetPaymentTerm)
+{
+set_Value ("IsSetPaymentTerm", new Boolean(IsSetPaymentTerm));
+}
+/** Get Set Payment Term.
+@return Set the payment term of the Business Partner */
+public boolean isSetPaymentTerm() 
+{
+Object oo = get_Value("IsSetPaymentTerm");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Set Show All Due.
+@param IsShowAllDue Show/print all due invoices */
+public void setIsShowAllDue (boolean IsShowAllDue)
+{
+set_Value ("IsShowAllDue", new Boolean(IsShowAllDue));
+}
+/** Get Show All Due.
+@return Show/print all due invoices */
+public boolean isShowAllDue() 
+{
+Object oo = get_Value("IsShowAllDue");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Set Show Not Due.
+@param IsShowNotDue Show/print all invoices which are not due (yet). */
+public void setIsShowNotDue (boolean IsShowNotDue)
+{
+set_Value ("IsShowNotDue", new Boolean(IsShowNotDue));
+}
+/** Get Show Not Due.
+@return Show/print all invoices which are not due (yet). */
+public boolean isShowNotDue() 
+{
+Object oo = get_Value("IsShowNotDue");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
 }
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */

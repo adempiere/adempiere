@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Scheduler
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.968 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Scheduler extends PO
 {
 /** Standard Constructor
@@ -344,7 +344,6 @@ public static final String WEEKDAY_Sunday = "7";
 @param WeekDay Day of the Week */
 public void setWeekDay (String WeekDay)
 {
-if (WeekDay == null) throw new IllegalArgumentException ("WeekDay is mandatory");
 if (WeekDay == null || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6") || WeekDay.equals("7"));
  else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");
 if (WeekDay != null && WeekDay.length() > 1)

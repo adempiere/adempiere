@@ -69,7 +69,7 @@ public class MLocation extends X_C_Location implements Comparator
 
 		MLocation loc = null;
 		String sql = "SELECT * FROM C_Location l "
-			+ "WHERE C_Location_ID=(SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?)";
+			+ "WHERE C_Location_ID IN (SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?)";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);

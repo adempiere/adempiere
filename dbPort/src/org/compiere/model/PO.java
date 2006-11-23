@@ -594,12 +594,25 @@ public abstract class PO
 	 */
 	protected final boolean set_Value (String ColumnName, Object value)
 	{
+		if (ColumnName.equals("WhereClause") && value instanceof String && value != null)
+		{
+			//jz check if there is '=null' and replace them
+			value = ((String)value).replaceAll("=null", " IS NULL ");
+			value = ((String)value).replaceAll("=NULL", " IS NULL ");
+			value = ((String)value).replaceAll("!=null", " IS NOT NULL ");
+			value = ((String)value).replaceAll("!=NULL", " IS NOT NULL ");
+		}
+		
 		int index = get_ColumnIndex(ColumnName);
 		if (index < 0)
 		{
 			log.log(Level.SEVERE, "Column not found - " + ColumnName);
 			return false;
 		}
+		//jz
+		if (ColumnName.endsWith("_ID") && value instanceof String )
+			value = Integer.parseInt((String)value);
+			
 		return set_Value (index, value);
 	}   //  setValue
 
@@ -2227,6 +2240,7 @@ public abstract class PO
 				else
 					doComma = true;
 				sqlInsert.append(column);
+				//jz for ad_issue, some value may include ' in a string???
 				sqlValues.append(encrypt(index, value));
 			}
 			m_custom = null;
@@ -2426,7 +2440,7 @@ public abstract class PO
 		PO_Record.deleteCascade(AD_Table_ID, Record_ID, localTrxName);
 
 		//	The Delete Statement
-		StringBuffer sql = new StringBuffer ("DELETE ")
+		StringBuffer sql = new StringBuffer ("DELETE FROM ") //jz why no FROM??
 			.append(p_info.getTableName())
 			.append(" WHERE ")
 			.append(get_WhereClause(true));
@@ -2587,9 +2601,14 @@ public abstract class PO
 			.append("FROM AD_Language l, ").append(tableName).append(" t ")
 			.append("WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.")
 			.append(keyColumn).append("=").append(get_ID())
+			/*jz since derby bug, rewrite the sql 
 			.append(" AND NOT EXISTS (SELECT * FROM ").append(tableName)
 			.append("_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.")
 			.append(keyColumn).append("=t.").append(keyColumn).append(")");
+			*/
+			.append(" AND EXISTS (SELECT * FROM ").append(tableName)
+			.append("_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.")
+			.append(keyColumn).append("!=t.").append(keyColumn).append(")");
 		int no = DB.executeUpdate(sql.toString(), m_trxName);
 		log.fine("#" + no);
 		return no > 0;
@@ -2678,7 +2697,7 @@ public abstract class PO
 		//
 		String tableName = p_info.getTableName();
 		String keyColumn = m_KeyColumns[0];
-		StringBuffer sql = new StringBuffer ("DELETE ")
+		StringBuffer sql = new StringBuffer ("DELETE  FROM  ")
 			.append(tableName).append("_Trl WHERE ")
 			.append(keyColumn).append("=").append(get_ID());
 		int no = DB.executeUpdate(sql.toString(), trxName);

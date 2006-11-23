@@ -233,7 +233,7 @@ public class TranslationTable
 		if (po.get_IDOld() == 0)
 			throw new IllegalArgumentException("PO Old ID is 0");
 		//
-		StringBuffer sb = new StringBuffer("DELETE ");
+		StringBuffer sb = new StringBuffer("DELETE  FROM  ");
 		sb.append(m_trlTableName)
 			.append(" WHERE ")
 			.append(m_baseTableName).append("_ID=").append(po.get_IDOld());

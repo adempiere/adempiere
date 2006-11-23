@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_InterestArea
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:02.906 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_R_InterestArea extends PO
 {
 /** Standard Constructor
@@ -42,6 +42,7 @@ super (ctx, R_InterestArea_ID, trxName);
 setIsSelfService (true);	// Y
 setName (null);
 setR_InterestArea_ID (0);
+setValue (null);
 }
  */
 }
@@ -160,5 +161,23 @@ public int getR_InterestArea_ID()
 Integer ii = (Integer)get_Value("R_InterestArea_ID");
 if (ii == null) return 0;
 return ii.intValue();
+}
+/** Set Search Key.
+@param Value Search key for the record in the format required - must be unique */
+public void setValue (String Value)
+{
+if (Value == null) throw new IllegalArgumentException ("Value is mandatory.");
+if (Value.length() > 40)
+{
+log.warning("Length > 40 - truncated");
+Value = Value.substring(0,39);
+}
+set_Value ("Value", Value);
+}
+/** Get Search Key.
+@return Search key for the record in the format required - must be unique */
+public String getValue() 
+{
+return (String)get_Value("Value");
 }
 }

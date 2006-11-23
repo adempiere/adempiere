@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Product
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:00.156 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_I_Product extends PO
 {
 /** Standard Constructor
@@ -610,7 +610,6 @@ public static final String PRODUCTTYPE_Service = "S";
 @param ProductType Type of product */
 public void setProductType (String ProductType)
 {
-if (ProductType == null) throw new IllegalArgumentException ("ProductType is mandatory");
 if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") || ProductType.equals("O") || ProductType.equals("R") || ProductType.equals("S"));
  else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - E - I - O - R - S");
 if (ProductType != null && ProductType.length() > 1)

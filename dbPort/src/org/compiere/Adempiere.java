@@ -41,9 +41,9 @@ public final class Adempiere
 	/** Main Version String         */
 	static public final String	MAIN_VERSION	= "Release 3.1.1";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public final String	DATE_VERSION	= "2006-08-10";
+	static public final String	DATE_VERSION	= "2006-11-02";
 	/** Database Version as date    Compared with AD_System		*/
-	static public final String	DB_VERSION		= "2006-08-10";
+	static public final String	DB_VERSION		= "2006-11-02";
 
 	/** Product Name            */
 	static public final String	NAME 			= "Adempiere\u00AE";

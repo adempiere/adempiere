@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSet
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:00.562 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_M_AttributeSet extends PO
 {
 /** Standard Constructor
@@ -252,7 +252,7 @@ if (oo != null)
 return false;
 }
 /** Set Lot Char End Overwrite.
-@param LotCharEOverwrite Lot/Batch End Indicator overwrite - default ï¿½ */
+@param LotCharEOverwrite Lot/Batch End Indicator overwrite - default » */
 public void setLotCharEOverwrite (String LotCharEOverwrite)
 {
 if (LotCharEOverwrite != null && LotCharEOverwrite.length() > 1)
@@ -263,13 +263,13 @@ LotCharEOverwrite = LotCharEOverwrite.substring(0,0);
 set_Value ("LotCharEOverwrite", LotCharEOverwrite);
 }
 /** Get Lot Char End Overwrite.
-@return Lot/Batch End Indicator overwrite - default ï¿½ */
+@return Lot/Batch End Indicator overwrite - default » */
 public String getLotCharEOverwrite() 
 {
 return (String)get_Value("LotCharEOverwrite");
 }
 /** Set Lot Char Start Overwrite.
-@param LotCharSOverwrite Lot/Batch Start Indicator overwrite - default ï¿½ */
+@param LotCharSOverwrite Lot/Batch Start Indicator overwrite - default « */
 public void setLotCharSOverwrite (String LotCharSOverwrite)
 {
 if (LotCharSOverwrite != null && LotCharSOverwrite.length() > 1)
@@ -280,7 +280,7 @@ LotCharSOverwrite = LotCharSOverwrite.substring(0,0);
 set_Value ("LotCharSOverwrite", LotCharSOverwrite);
 }
 /** Get Lot Char Start Overwrite.
-@return Lot/Batch Start Indicator overwrite - default ï¿½ */
+@return Lot/Batch Start Indicator overwrite - default « */
 public String getLotCharSOverwrite() 
 {
 return (String)get_Value("LotCharSOverwrite");

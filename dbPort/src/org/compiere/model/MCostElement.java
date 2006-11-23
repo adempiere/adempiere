@@ -52,9 +52,10 @@ public class MCostElement extends X_M_CostElement
 			pstmt.setInt (1, po.getAD_Client_ID());
 			pstmt.setString(2, CostingMethod);
 			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
+			boolean n = rs.next(); //jz to fix DB2 resultSet closed problem
+			if (n)
 				retValue = new MCostElement (po.getCtx(), rs, po.get_TrxName());
-			if (rs.next())
+			if (n && rs.next())
 				s_log.warning("More then one Material Cost Element for CostingMethod=" + CostingMethod);
 			rs.close ();
 			pstmt.close ();
@@ -242,7 +243,7 @@ public class MCostElement extends X_M_CostElement
 		if (COSTELEMENTTYPE_Material.equals(getCostElementType())
 			&& (newRecord || is_ValueChanged("CostingMethod")))
 		{
-			String sql = "SELECT  COALESCE(MAX(M_CostElement_ID),0) FROM M_CostElement "
+			String sql = "SELECT  MAX(COALESCE(M_CostElement_ID,0)) FROM M_CostElement "
 				+ "WHERE AD_Client_ID=? AND CostingMethod=?";
 			int id = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID(), getCostingMethod());
 			if (id > 0 && id != get_ID())

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Color
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:52.484 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Color extends PO
 {
 /** Standard Constructor
@@ -384,7 +384,6 @@ public static final String STARTPOINT_NorthWest = "8";
 @param StartPoint Start point of the gradient colors */
 public void setStartPoint (String StartPoint)
 {
-if (StartPoint == null) throw new IllegalArgumentException ("StartPoint is mandatory");
 if (StartPoint == null || StartPoint.equals("1") || StartPoint.equals("2") || StartPoint.equals("3") || StartPoint.equals("4") || StartPoint.equals("5") || StartPoint.equals("6") || StartPoint.equals("7") || StartPoint.equals("8"));
  else throw new IllegalArgumentException ("StartPoint Invalid value - " + StartPoint + " - Reference_ID=248 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8");
 if (StartPoint != null && StartPoint.length() > 22)

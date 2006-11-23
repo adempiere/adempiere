@@ -205,7 +205,7 @@ public class M_Element extends X_AD_Element
 				.append(get_ID())
 				.append(") AND IsCentrallyMaintained='Y'");
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("afterSave - Fields updated #" + no);
+			log.fine("Fields updated #" + no);
 			
 			//	Parameter 
 			sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
@@ -226,7 +226,7 @@ public class M_Element extends X_AD_Element
 				.append(" WHERE AD_Element_ID=").append(get_ID())
 				.append(" AND IsCentrallyMaintained='Y'");
 			no += DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("afterSave - Parameters updated #" + no);
+			log.fine("Parameters updated #" + no);
 			
 			//	Print Info
 			sql = new StringBuffer("UPDATE AD_PrintFormatItem pi SET PrintName=")
@@ -235,9 +235,9 @@ public class M_Element extends X_AD_Element
 				.append(" WHERE AD_Client_ID=0")
 				.append(" AND EXISTS (SELECT * FROM AD_Column c ")
 					.append("WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=")
-					.append(get_ID()).append(")");
+					.append(get_ID()).append(") AND IsCentrallyMaintained='Y'");
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("afterSave - PrintFormatItem updated #" + no);
+			log.fine("PrintFormatItem updated #" + no);
 		}
 		return success;
 	}	//	afterSave

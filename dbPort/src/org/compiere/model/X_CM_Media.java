@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Media
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:55.859 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_CM_Media extends PO
 {
 /** Standard Constructor
@@ -234,7 +234,6 @@ public static final String MEDIATYPE_ImagePng = "PNG";
 @param MediaType Defines the media type for the browser */
 public void setMediaType (String MediaType)
 {
-if (MediaType == null) throw new IllegalArgumentException ("MediaType is mandatory");
 if (MediaType == null || MediaType.equals("CSS") || MediaType.equals("GIF") || MediaType.equals("JPG") || MediaType.equals("JS") || MediaType.equals("PDF") || MediaType.equals("PNG"));
  else throw new IllegalArgumentException ("MediaType Invalid value - " + MediaType + " - Reference_ID=388 - CSS - GIF - JPG - JS - PDF - PNG");
 if (MediaType != null && MediaType.length() > 3)

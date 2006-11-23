@@ -194,6 +194,7 @@ public class MLookupFactory
 				return null;
 			}
 			info.Query = newSQL;
+			s_log.fine("getLookupInfo, newSQL ="+newSQL); //jz
 		}
 
 		//	Direct Query - NO Validation/Security
@@ -230,9 +231,14 @@ public class MLookupFactory
 		//	Add Local Validation
 		if (local_validationCode.length() != 0)
 		{
-			info.Query = info.Query.substring(0, posOrder)
-				+ (hasWhere ? " AND " : " WHERE ") + local_validationCode
-				+ info.Query.substring(posOrder);
+			//jz handle no posOrder case
+			if (posOrder > 0)
+				info.Query = info.Query.substring(0, posOrder)
+					+ (hasWhere ? " AND " : " WHERE ") + local_validationCode
+					+ info.Query.substring(posOrder);
+			else
+				info.Query = info.Query
+				+ (hasWhere ? " AND " : " WHERE ") + local_validationCode;
 		}
 				
 		//	Add Security
@@ -660,8 +666,14 @@ public class MLookupFactory
 			realSQL.append(" FROM ").append(TableName);
 		}
 
-		//	Order by Display
-		realSQL.append(" ORDER BY 3");
+		//	Order by Display    
+		if (DB.isDerby())  //jz derby restriction 
+		{
+			if (size > 3)
+				realSQL.append(" ORDER BY " + ((LookupDisplayColumn)list.get(2)).ColumnName);
+		}
+		else 
+			realSQL.append(" ORDER BY 3");
 		MQuery zoomQuery = null;	//	corrected in VLookup
 
 		if (CLogMgt.isLevelFinest())

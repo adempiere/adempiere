@@ -415,7 +415,7 @@ public class MLanguage extends X_AD_Language
 	 */
 	private int deleteTable (String tableName)
 	{
-		String sql = "DELETE " + tableName 
+		String sql = "DELETE  FROM  " + tableName 
 			+ " WHERE AD_Language='" + getAD_Language() + "'";
 		int no = DB.executeUpdate(sql, get_TrxName());
 		log.fine(tableName + " #" + no);

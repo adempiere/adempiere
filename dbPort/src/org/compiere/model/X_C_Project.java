@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Project
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:58.312 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_Project extends PO
 {
 /** Standard Constructor
@@ -681,7 +681,6 @@ public static final String PROJECTCATEGORY_WorkOrderJob = "W";
 @param ProjectCategory Project Category */
 public void setProjectCategory (String ProjectCategory)
 {
-if (ProjectCategory == null) throw new IllegalArgumentException ("ProjectCategory is mandatory");
 if (ProjectCategory == null || ProjectCategory.equals("A") || ProjectCategory.equals("N") || ProjectCategory.equals("S") || ProjectCategory.equals("W"));
  else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - A - N - S - W");
 if (ProjectCategory != null && ProjectCategory.length() > 1)

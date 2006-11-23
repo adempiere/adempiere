@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Column
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:52.562 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Column extends PO
 {
 /** Standard Constructor
@@ -260,10 +260,10 @@ return new KeyNamePair(get_ID(), getColumnName());
 @param ColumnSQL Virtual Column (r/o) */
 public void setColumnSQL (String ColumnSQL)
 {
-if (ColumnSQL != null && ColumnSQL.length() > 255)
+if (ColumnSQL != null && ColumnSQL.length() > 2000)
 {
-log.warning("Length > 255 - truncated");
-ColumnSQL = ColumnSQL.substring(0,254);
+log.warning("Length > 2000 - truncated");
+ColumnSQL = ColumnSQL.substring(0,1999);
 }
 set_Value ("ColumnSQL", ColumnSQL);
 }

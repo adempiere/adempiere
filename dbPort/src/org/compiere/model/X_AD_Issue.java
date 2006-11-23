@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Issue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.031 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Issue extends PO
 {
 /** Standard Constructor
@@ -250,7 +250,6 @@ public static final String ISREPRODUCIBLE_Yes = "Y";
 @param IsReproducible Problem can re reproduced in Gardenworld */
 public void setIsReproducible (String IsReproducible)
 {
-if (IsReproducible == null) throw new IllegalArgumentException ("IsReproducible is mandatory");
 if (IsReproducible == null || IsReproducible.equals("N") || IsReproducible.equals("Y"));
  else throw new IllegalArgumentException ("IsReproducible Invalid value - " + IsReproducible + " - Reference_ID=319 - N - Y");
 if (IsReproducible != null && IsReproducible.length() > 1)
@@ -277,7 +276,6 @@ public static final String ISVANILLASYSTEM_Yes = "Y";
 @param IsVanillaSystem The system was NOT compiled from Source - i.e. standard distribution */
 public void setIsVanillaSystem (String IsVanillaSystem)
 {
-if (IsVanillaSystem == null) throw new IllegalArgumentException ("IsVanillaSystem is mandatory");
 if (IsVanillaSystem == null || IsVanillaSystem.equals("N") || IsVanillaSystem.equals("Y"));
  else throw new IllegalArgumentException ("IsVanillaSystem Invalid value - " + IsVanillaSystem + " - Reference_ID=319 - N - Y");
 if (IsVanillaSystem != null && IsVanillaSystem.length() > 1)
@@ -314,7 +312,6 @@ public static final String ISSUESOURCE_Form = "X";
 @param IssueSource Issue Source */
 public void setIssueSource (String IssueSource)
 {
-if (IssueSource == null) throw new IllegalArgumentException ("IssueSource is mandatory");
 if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") || IssueSource.equals("P") || IssueSource.equals("R") || IssueSource.equals("T") || IssueSource.equals("W") || IssueSource.equals("X"));
  else throw new IllegalArgumentException ("IssueSource Invalid value - " + IssueSource + " - Reference_ID=104 - B - F - P - R - T - W - X");
 if (IssueSource != null && IssueSource.length() > 1)
@@ -673,7 +670,7 @@ public String getRemote_Host()
 return (String)get_Value("Remote_Host");
 }
 /** Set Request Document No.
-@param RequestDocumentNo Adempiere Request Document No */
+@param RequestDocumentNo Compiere Request Document No */
 public void setRequestDocumentNo (String RequestDocumentNo)
 {
 if (RequestDocumentNo != null && RequestDocumentNo.length() > 30)
@@ -684,7 +681,7 @@ RequestDocumentNo = RequestDocumentNo.substring(0,29);
 set_ValueNoCheck ("RequestDocumentNo", RequestDocumentNo);
 }
 /** Get Request Document No.
-@return Adempiere Request Document No */
+@return Compiere Request Document No */
 public String getRequestDocumentNo() 
 {
 return (String)get_Value("RequestDocumentNo");

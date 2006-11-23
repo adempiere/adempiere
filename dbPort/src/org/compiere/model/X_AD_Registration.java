@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Registration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.796 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_Registration extends PO
 {
 /** Standard Constructor
@@ -372,13 +372,13 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Start Implementation/Production.
-@param StartProductionDate The day you started the implementation (if implementing) - or production (went life) with Adempiere */
+@param StartProductionDate The day you started the implementation (if implementing) - or production (went life) with Compiere */
 public void setStartProductionDate (Timestamp StartProductionDate)
 {
 set_Value ("StartProductionDate", StartProductionDate);
 }
 /** Get Start Implementation/Production.
-@return The day you started the implementation (if implementing) - or production (went life) with Adempiere */
+@return The day you started the implementation (if implementing) - or production (went life) with Compiere */
 public Timestamp getStartProductionDate() 
 {
 return (Timestamp)get_Value("StartProductionDate");

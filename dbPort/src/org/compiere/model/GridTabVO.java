@@ -187,6 +187,10 @@ public class GridTabVO implements Evaluatee, Serializable
 			vo.WhereClause = rs.getString("WhereClause");
 			if (vo.WhereClause == null)
 				vo.WhereClause = "";
+			//jz col=null not good for Derby
+			if (vo.WhereClause.indexOf("=null")>0)
+				vo.WhereClause.replaceAll("=null", " IS NULL ");
+
 			vo.OrderByClause = rs.getString("OrderByClause");
 			if (vo.OrderByClause == null)
 				vo.OrderByClause = "";

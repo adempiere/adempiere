@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Group
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:56.421 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_BP_Group extends PO
 {
 /** Standard Constructor
@@ -327,7 +327,6 @@ public static final String PRIORITYBASE_Same = "S";
 @param PriorityBase Base of Priority */
 public void setPriorityBase (String PriorityBase)
 {
-if (PriorityBase == null) throw new IllegalArgumentException ("PriorityBase is mandatory");
 if (PriorityBase == null || PriorityBase.equals("H") || PriorityBase.equals("L") || PriorityBase.equals("S"));
  else throw new IllegalArgumentException ("PriorityBase Invalid value - " + PriorityBase + " - Reference_ID=350 - H - L - S");
 if (PriorityBase != null && PriorityBase.length() > 1)

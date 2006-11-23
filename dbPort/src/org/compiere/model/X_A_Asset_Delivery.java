@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Delivery
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:55.25 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_A_Asset_Delivery extends PO
 {
 /** Standard Constructor
@@ -338,7 +338,7 @@ public String getSerNo()
 return (String)get_Value("SerNo");
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.adempiere.org */
+@param URL Full URL address - e.g. http://www.compiere.org */
 public void setURL (String URL)
 {
 if (URL != null && URL.length() > 120)
@@ -349,7 +349,7 @@ URL = URL.substring(0,119);
 set_ValueNoCheck ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.adempiere.org */
+@return Full URL address - e.g. http://www.compiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");

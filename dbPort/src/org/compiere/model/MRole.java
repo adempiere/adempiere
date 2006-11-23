@@ -317,7 +317,7 @@ public final class MRole extends X_AD_Role
 				setUserLevel(USERLEVEL_System);
 			else if (getUserLevel().equals(USERLEVEL_System))
 			{
-				log.saveError("AccessTableNoUpdate", Msg.getElement(getCtx(), "UserLevel"));
+				log.saveWarning("AccessTableNoUpdate", Msg.getElement(getCtx(), "UserLevel"));
 				return false;
 			}
 	//	}
@@ -435,13 +435,13 @@ public final class MRole extends X_AD_Role
 		//
 		String whereDel = " WHERE AD_Role_ID=" + getAD_Role_ID();
 		//
-		int winDel = DB.executeUpdate("DELETE AD_Window_Access" + whereDel, get_TrxName());
+		int winDel = DB.executeUpdate("DELETE FROM AD_Window_Access" + whereDel, get_TrxName());
 		int win = DB.executeUpdate(sqlWindow + roleAccessLevelWin, get_TrxName());
-		int procDel = DB.executeUpdate("DELETE AD_Process_Access" + whereDel, get_TrxName());
+		int procDel = DB.executeUpdate("DELETE FROM AD_Process_Access" + whereDel, get_TrxName());
 		int proc = DB.executeUpdate(sqlProcess + roleAccessLevel, get_TrxName());
-		int formDel = DB.executeUpdate("DELETE AD_Form_Access" + whereDel, get_TrxName());
+		int formDel = DB.executeUpdate("DELETE FROM AD_Form_Access" + whereDel, get_TrxName());
 		int form = DB.executeUpdate(sqlForm + roleAccessLevel, get_TrxName());
-		int wfDel = DB.executeUpdate("DELETE AD_WorkFlow_Access" + whereDel, get_TrxName());
+		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int wf = DB.executeUpdate(sqlWorkflow + roleAccessLevel, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
@@ -1101,7 +1101,7 @@ public final class MRole extends X_AD_Role
 		boolean canReport = true;
 		for (int i = 0; i < m_tableAccess.length; i++)
 		{
-			if (!MTableAccess.ACCESSTYPERULE_Reporting.equals(m_tableAccess[i].getAccessTypeRule()))
+			if (!X_AD_Table_Access.ACCESSTYPERULE_Reporting.equals(m_tableAccess[i].getAccessTypeRule()))
 				continue;
 			if (m_tableAccess[i].isExclude())		//	Exclude
 			{
@@ -1147,7 +1147,7 @@ public final class MRole extends X_AD_Role
 		boolean canExport = true;
 		for (int i = 0; i < m_tableAccess.length; i++)
 		{
-			if (!MTableAccess.ACCESSTYPERULE_Exporting.equals(m_tableAccess[i].getAccessTypeRule()))
+			if (!X_AD_Table_Access.ACCESSTYPERULE_Exporting.equals(m_tableAccess[i].getAccessTypeRule()))
 				continue;
 			if (m_tableAccess[i].isExclude())		//	Exclude
 			{
@@ -1182,7 +1182,7 @@ public final class MRole extends X_AD_Role
 		boolean hasAccess = true;	//	assuming exclusive rule
 		for (int i = 0; i < m_tableAccess.length; i++)
 		{
-			if (!MTableAccess.ACCESSTYPERULE_Accessing.equals(m_tableAccess[i].getAccessTypeRule()))
+			if (!X_AD_Table_Access.ACCESSTYPERULE_Accessing.equals(m_tableAccess[i].getAccessTypeRule()))
 				continue;
 			if (m_tableAccess[i].isExclude())		//	Exclude
 			//	If you Exclude Access to a table and select Read Only, 
@@ -1879,7 +1879,7 @@ public final class MRole extends X_AD_Role
 		
 		if (!retValue && createError)
 		{
-			log.saveError("AccessTableNoUpdate",
+			log.saveWarning("AccessTableNoUpdate",
 				"AD_Client_ID=" + AD_Client_ID 
 				+ ", AD_Org_ID=" + AD_Org_ID + ", UserLevel=" + userLevel
 				+ " => missing=" + whatMissing);
@@ -1946,13 +1946,13 @@ public final class MRole extends X_AD_Role
 		//  Notification
 		/**
 		if (forInsert)
-			log.saveError("AccessTableNoUpdate",
+			log.saveWarning("AccessTableNoUpdate",
 				"(Required=" + TableLevel + "("
 				+ getTableLevelString(Env.getAD_Language(ctx), TableLevel)
 				+ ") != UserLevel=" + userLevel);
 		else
 		**/
-			log.saveError("AccessTableNoView",
+			log.saveWarning("AccessTableNoView",
 				"Required=" + TableLevel + "("
 				+ getTableLevelString(Env.getAD_Language(ctx), TableLevel)
 				+ ") != UserLevel=" + userLevel);
@@ -2073,7 +2073,7 @@ public final class MRole extends X_AD_Role
 	 */
 	public boolean isShowPreference()
 	{
-		return !MRole.PREFERENCETYPE_None.equals(getPreferenceType());
+		return !X_AD_Role.PREFERENCETYPE_None.equals(getPreferenceType());
 	}	//	isShowPreference
 	
 	/**

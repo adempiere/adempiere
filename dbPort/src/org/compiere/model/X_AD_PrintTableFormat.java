@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintTableFormat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:53.609 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_PrintTableFormat extends PO
 {
 /** Standard Constructor
@@ -280,7 +280,6 @@ public static final String HDRSTROKETYPE_DottedLine = "d";
 @param HdrStrokeType Type of the Header Line Stroke */
 public void setHdrStrokeType (String HdrStrokeType)
 {
-if (HdrStrokeType == null) throw new IllegalArgumentException ("HdrStrokeType is mandatory");
 if (HdrStrokeType == null || HdrStrokeType.equals("2") || HdrStrokeType.equals("D") || HdrStrokeType.equals("S") || HdrStrokeType.equals("d"));
  else throw new IllegalArgumentException ("HdrStrokeType Invalid value - " + HdrStrokeType + " - Reference_ID=312 - 2 - D - S - d");
 if (HdrStrokeType != null && HdrStrokeType.length() > 1)
@@ -576,7 +575,6 @@ public static final String LINESTROKETYPE_DottedLine = "d";
 @param LineStrokeType Type of the Line Stroke */
 public void setLineStrokeType (String LineStrokeType)
 {
-if (LineStrokeType == null) throw new IllegalArgumentException ("LineStrokeType is mandatory");
 if (LineStrokeType == null || LineStrokeType.equals("2") || LineStrokeType.equals("D") || LineStrokeType.equals("S") || LineStrokeType.equals("d"));
  else throw new IllegalArgumentException ("LineStrokeType Invalid value - " + LineStrokeType + " - Reference_ID=312 - 2 - D - S - d");
 if (LineStrokeType != null && LineStrokeType.length() > 1)

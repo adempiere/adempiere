@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceSchedule
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:57.671 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_C_InvoiceSchedule extends PO
 {
 /** Standard Constructor
@@ -274,7 +274,6 @@ public static final String INVOICEWEEKDAYCUTOFF_Sunday = "7";
 @param InvoiceWeekDayCutoff Last day in the week for shipments to be included */
 public void setInvoiceWeekDayCutoff (String InvoiceWeekDayCutoff)
 {
-if (InvoiceWeekDayCutoff == null) throw new IllegalArgumentException ("InvoiceWeekDayCutoff is mandatory");
 if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6") || InvoiceWeekDayCutoff.equals("7"));
  else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");
 if (InvoiceWeekDayCutoff != null && InvoiceWeekDayCutoff.length() > 1)

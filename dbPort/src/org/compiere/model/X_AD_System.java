@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_System
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:54.078 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_System extends PO
 {
 /** Standard Constructor
@@ -295,7 +295,7 @@ if (oo != null)
 return false;
 }
 /** Set LDAP Domain.
-@param LDAPDomain Directory service domain name - e.g. adempiere.org */
+@param LDAPDomain Directory service domain name - e.g. compiere.org */
 public void setLDAPDomain (String LDAPDomain)
 {
 if (LDAPDomain != null && LDAPDomain.length() > 255)
@@ -306,7 +306,7 @@ LDAPDomain = LDAPDomain.substring(0,254);
 set_Value ("LDAPDomain", LDAPDomain);
 }
 /** Get LDAP Domain.
-@return Directory service domain name - e.g. adempiere.org */
+@return Directory service domain name - e.g. compiere.org */
 public String getLDAPDomain() 
 {
 return (String)get_Value("LDAPDomain");
@@ -550,25 +550,25 @@ public String getSupportEMail()
 return (String)get_Value("SupportEMail");
 }
 /** Set Support Expires.
-@param SupportExpDate Date when the Adempiere support expires */
+@param SupportExpDate Date when the Compiere support expires */
 public void setSupportExpDate (Timestamp SupportExpDate)
 {
 set_ValueNoCheck ("SupportExpDate", SupportExpDate);
 }
 /** Get Support Expires.
-@return Date when the Adempiere support expires */
+@return Date when the Compiere support expires */
 public Timestamp getSupportExpDate() 
 {
 return (Timestamp)get_Value("SupportExpDate");
 }
 /** Set Internal Users.
-@param SupportUnits Number of Internal Users for Adempiere Support */
+@param SupportUnits Number of Internal Users for ComPiere Support */
 public void setSupportUnits (int SupportUnits)
 {
 set_ValueNoCheck ("SupportUnits", new Integer(SupportUnits));
 }
 /** Get Internal Users.
-@return Number of Internal Users for Adempiere Support */
+@return Number of Internal Users for ComPiere Support */
 public int getSupportUnits() 
 {
 Integer ii = (Integer)get_Value("SupportUnits");

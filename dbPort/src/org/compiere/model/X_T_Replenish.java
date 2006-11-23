@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Replenish
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:56:03.75 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_T_Replenish extends PO
 {
 /** Standard Constructor
@@ -344,7 +344,6 @@ public static final String REPLENISHMENTCREATE_Requisition = "POR";
 @param ReplenishmentCreate Create from Replenishment */
 public void setReplenishmentCreate (String ReplenishmentCreate)
 {
-if (ReplenishmentCreate == null) throw new IllegalArgumentException ("ReplenishmentCreate is mandatory");
 if (ReplenishmentCreate == null || ReplenishmentCreate.equals("MMM") || ReplenishmentCreate.equals("POO") || ReplenishmentCreate.equals("POR"));
  else throw new IllegalArgumentException ("ReplenishmentCreate Invalid value - " + ReplenishmentCreate + " - Reference_ID=329 - MMM - POO - POR");
 if (ReplenishmentCreate != null && ReplenishmentCreate.length() > 1)

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserMail
  *  @author Jorg Janke (generated) 
- *  @version Release 2.5.3d - 2006-10-10 21:55:54.546 */
+ *  @version Release 2.6.0a - $Id$ */
 public class X_AD_UserMail extends PO
 {
 /** Standard Constructor
@@ -150,7 +150,6 @@ public static final String ISDELIVERED_Yes = "Y";
 @param IsDelivered Delivered */
 public void setIsDelivered (String IsDelivered)
 {
-if (IsDelivered == null) throw new IllegalArgumentException ("IsDelivered is mandatory");
 if (IsDelivered == null || IsDelivered.equals("N") || IsDelivered.equals("Y"));
  else throw new IllegalArgumentException ("IsDelivered Invalid value - " + IsDelivered + " - Reference_ID=319 - N - Y");
 if (IsDelivered != null && IsDelivered.length() > 1)

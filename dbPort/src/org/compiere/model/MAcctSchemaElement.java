@@ -371,7 +371,7 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 			return m_ColumnName;
 		}
 		return getColumnName(et);
-	}	//	getColumnName
+	}	//	getDisplayColumnName
 
 	
 	/**
