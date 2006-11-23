@@ -21,6 +21,7 @@ import java.sql.*;
 import java.util.logging.*;
 import javax.sql.*;
 
+import org.compiere.dbPort.Convert;
 import org.compiere.util.*;
 
 import com.ibm.db2.jcc.*;
@@ -832,5 +833,9 @@ public class DB_DB2
 		}
 		/** **/
 	}	//	main
+
+	public Convert getConvert() {
+		throw new UnsupportedOperationException("Not implemented.");
+	}
 	
 }	//	DB_DB2

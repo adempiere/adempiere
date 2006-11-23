@@ -47,7 +47,7 @@ public final class DB
 	/** Connection Cache r/o            */
 	private static Connection[]		s_connections = null;
 	/** Connection Cache Size           */
-	private static int              s_conCacheSize = Ini.isClient() ? 3 : 3;
+	private static int              s_conCacheSize = Ini.isClient() ? 1 : 3;
 	/** Connection counter              */
 	private static int              s_conCount = 0;
 	/** Connection r/w                  */
@@ -231,12 +231,28 @@ public final class DB
 			s_cc = cc;
 			s_connections = null;
 			s_connectionRW = null;
+			s_connectionID = null;
 		}
 		s_cc.setDataSource();
 		log.config(s_cc + " - DS=" + s_cc.isDataSource());
 	//	Trace.printStack();
 	}   //  setDBTarget
 
+	public static boolean connect() {
+		boolean success =false;
+		try 
+		{
+			success = getConnectionRW() != null;
+			if (success) success = getConnectionRO() != null;
+			if (success) success = getConnectionID() != null;
+			s_cc.readInfo(getConnectionRW());
+		} catch (Exception e)
+		{
+			success = false;
+		}
+		return success;
+	}
+	
 	/**
 	 *  Is there a connection to the database ?
 	 *  @return true, if connected to database
@@ -661,6 +677,20 @@ public final class DB
 			log.log(Level.SEVERE, "R/W", e);
 		}
 		s_connectionRW = null;
+		
+		//ID Connection
+		try 
+		{
+			if (s_connectionID != null)
+			{
+				s_connectionID.close();
+			}
+		} catch (SQLException e)
+		{
+			log.log(Level.SEVERE, "Id", e);
+		}
+		s_connectionID = null;
+		
 		//	CConnection
 		if (s_cc != null)
 		{

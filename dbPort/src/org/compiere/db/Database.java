@@ -66,5 +66,25 @@ public class Database
 
 	/** Connection Timeout in seconds   */
 	public static int           CONNECTION_TIMEOUT = 10;
+	
+	/**
+	 *  Get Database
+	 *  @return database
+	 */
+	public static AdempiereDatabase getDatabase (String type)
+	throws Exception
+	{
+		AdempiereDatabase db = null;
+		for (int i = 0; i < Database.DB_NAMES.length; i++)
+		{
+			if (Database.DB_NAMES[i].equals (type))
+			{
+				db = (AdempiereDatabase)Database.DB_CLASSES[i].
+					   newInstance ();
+				break;
+			}
+		}
+		return db;
+	}
 
 }   //  Database

@@ -21,6 +21,8 @@ import java.sql.*;
 
 import javax.sql.*;
 
+import org.compiere.dbPort.Convert;
+
 //import org.compiere.util.CPreparedStatement;
 
 /**
@@ -263,6 +265,8 @@ public interface AdempiereDatabase
 	 * 	Close
 	 */
 	public void close();
+	
+	public Convert getConvert();
 
 	/**
 	 * 	Get Data Type

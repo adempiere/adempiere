@@ -209,6 +209,9 @@ public class CConnection implements Serializable
 	private Server		m_server = null;
 	/** DB Info				*/
 	private String		m_dbInfo = null;
+	
+	/** Had application server been query **/
+	private boolean m_queryAppsServer = false;
 
 	
 	/*************************************************************************
@@ -256,6 +259,7 @@ public class CConnection implements Serializable
 		m_apps_host = apps_host;
 		m_name = toString ();
 		m_okApps = false;
+		m_queryAppsServer = false;
 	}
 
 	/**
@@ -275,6 +279,7 @@ public class CConnection implements Serializable
 	{
 		m_apps_port = apps_port;
 		m_okApps = false;
+		m_queryAppsServer = false;
 	}
 
 	/**
@@ -303,9 +308,11 @@ public class CConnection implements Serializable
 	 */
 	public boolean isAppsServerOK (boolean tryContactAgain)
 	{
-		if (!tryContactAgain)
+		if (!tryContactAgain && m_queryAppsServer)
 			return m_okApps;
 
+		m_queryAppsServer = true;
+		
 		//	Get Context
 		if (m_iContext == null)
 		{
@@ -340,8 +347,9 @@ public class CConnection implements Serializable
 	 */
 	public Exception testAppsServer ()
 	{
-		if (queryAppsServerInfo ())
-			testDatabase (false);
+		//if (queryAppsServerInfo ())
+		//	testDatabase (false);
+		queryAppsServerInfo ();
 		return getAppsServerException ();
 	} 	//  testAppsServer
 
@@ -966,18 +974,9 @@ public class CConnection implements Serializable
 			Connection.TRANSACTION_READ_COMMITTED);
 		if (conn != null)
 		{
-			try
+			try 
 			{
-				DatabaseMetaData dbmd = conn.getMetaData ();
-				m_info[0] = "Database=" + dbmd.getDatabaseProductName ()
-							+ " - " + dbmd.getDatabaseProductVersion ();
-				m_info[0] = m_info[0].replace ('\n', ' ');
-				m_info[1] = "Driver  =" + dbmd.getDriverName ()
-							+ " - " + dbmd.getDriverVersion ();
-				if (isDataSource())
-					m_info[1] += " - via DataSource";
-				m_info[1] = m_info[1].replace ('\n', ' ');
-				log.config(m_info[0] + " - " + m_info[1]);
+				readInfo(conn);
 				conn.close ();
 			}
 			catch (Exception e)
@@ -989,6 +988,18 @@ public class CConnection implements Serializable
 		return m_dbException; //  from opening
 	} 	//  testDatabase
 
+	public void readInfo(Connection conn) throws SQLException {
+		DatabaseMetaData dbmd = conn.getMetaData ();
+		m_info[0] = "Database=" + dbmd.getDatabaseProductName ()
+					+ " - " + dbmd.getDatabaseProductVersion ();
+		m_info[0] = m_info[0].replace ('\n', ' ');
+		m_info[1] = "Driver  =" + dbmd.getDriverName ()
+					+ " - " + dbmd.getDriverVersion ();
+		if (isDataSource())
+			m_info[1] += " - via DataSource";
+		m_info[1] = m_info[1].replace ('\n', ' ');
+		log.config(m_info[0] + " - " + m_info[1]);		
+	}
 	
 	/*************************************************************************
 	 *  Short String representation
@@ -1200,15 +1211,7 @@ public class CConnection implements Serializable
 		{
 			try
 			{
-				for (int i = 0; i < Database.DB_NAMES.length; i++)
-				{
-					if (Database.DB_NAMES[i].equals (m_type))
-					{
-						m_db = (AdempiereDatabase)Database.DB_CLASSES[i].
-							   newInstance ();
-						break;
-					}
-				}
+				m_db = Database.getDatabase(m_type);
 			}
 			catch (Exception e)
 			{
@@ -1491,6 +1494,7 @@ public class CConnection implements Serializable
 		log.finer(getAppsHost());
 		long start = System.currentTimeMillis();
 		m_okApps = false;
+		m_queryAppsServer = true;
 		m_appsException = null;
 		//
 		getInitialContext (false);

@@ -14,13 +14,21 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 
-import javax.sql.*;
-import org.compiere.dbPort.*;
-import org.compiere.util.*;
+import javax.sql.ConnectionPoolDataSource;
+import javax.sql.DataSource;
+import javax.sql.RowSet;
+
+import org.compiere.dbPort.Convert;
+import org.compiere.dbPort.Convert_PostgreSQL;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 
 /**
  *  PostgreSQL Database Port
@@ -30,6 +38,10 @@ import org.compiere.util.*;
  */
 public class DB_PostgreSQL implements AdempiereDatabase
 {
+	public Convert getConvert() {
+		return m_convert;
+	}
+
 	/**
 	 *  PostgreSQL Database
 	 */
@@ -47,7 +59,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	private org.postgresql.ds.PGPoolingDataSource m_ds = null;
 
 	/** Statement Converter     */
-	private Convert         m_convert = new Convert(Database.DB_POSTGRESQL);
+	private Convert_PostgreSQL         m_convert = new Convert_PostgreSQL();
 	/** Connection String       */
 	private String          m_connection;
 	/** Cached Database Name	*/

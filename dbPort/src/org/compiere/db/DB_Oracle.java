@@ -24,6 +24,8 @@ import javax.sql.*;
 import oracle.jdbc.*;
 import oracle.jdbc.pool.*;
 import org.compiere.*;
+import org.compiere.dbPort.Convert;
+import org.compiere.dbPort.Convert_Oracle;
 import org.compiere.util.*;
 
 /**
@@ -77,6 +79,8 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
     private static final String 	CACHE_NAME = "AdempiereCCache";
     /** Cached User Name			*/
     private String					m_userName = null;
+    
+    private Convert m_convert = new Convert_Oracle();
 
     /**	Logger			*/
 	private static CLogger			log	= CLogger.getCLogger (DB_Oracle.class);
@@ -1108,5 +1112,9 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 		}
 		**/
 	}	//	main
+
+	public Convert getConvert() {
+		return m_convert;
+	}
 	
 }   //  DB_Oracle

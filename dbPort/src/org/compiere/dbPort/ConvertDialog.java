@@ -16,14 +16,42 @@
  *****************************************************************************/
 package org.compiere.dbPort;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.sql.*;
-import javax.swing.*;
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.db.CConnectionEditor;
+import org.compiere.db.DB_DB2;
+import org.compiere.db.Database;
+import org.compiere.swing.CFrame;
 
 /**
  *  Conversion Dialog
@@ -244,7 +272,7 @@ public class ConvertDialog extends CFrame implements ActionListener
 		if (fExecute.isSelected())
 		{
 			CConnection cc = (CConnection)fConnect.getValue();
-			Convert convert = new Convert (cc.getType());
+			Convert convert = cc.getDatabase().getConvert();
 			convert.setVerbose(fVerbose.isSelected());
 			//
 			Connection conn = cc.getConnection (true, Connection.TRANSACTION_READ_COMMITTED);
@@ -273,7 +301,13 @@ public class ConvertDialog extends CFrame implements ActionListener
 				infoPane.append("No conversion needed.\n");
 				return;
 			}
-			Convert convert = new Convert (target);
+			Convert convert = null;
+			try {
+				convert = Database.getDatabase(target).getConvert();
+			} catch (Exception e) {
+				infoPane.append("Error: " + e + "\n");
+				return;
+			}
 			//
 			String cc = convert.convertAll(sb.toString());
 
