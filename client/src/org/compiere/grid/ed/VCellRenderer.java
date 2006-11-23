@@ -109,7 +109,8 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 		else
 		{	//	returns JLabel
 			c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-			c.setFont(AdempierePLAF.getFont_Field());
+			//c.setFont(AdempierePLAF.getFont_Field());
+			c.setFont(table.getFont());
 		}
 
 		//  Background & Foreground

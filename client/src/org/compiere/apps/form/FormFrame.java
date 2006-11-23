@@ -136,6 +136,11 @@ public class FormFrame extends CFrame
 			mTools.addSeparator();
 			AEnv.addMenuItem("Preference", null, null, mTools, this);
 		}
+		
+		//		Window
+		AMenu aMenu = (AMenu)Env.getWindow(0);
+		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), this);
+		menuBar.add(mWindow);
 
 		//      Help
 		JMenu mHelp = AEnv.getMenu("Help");
