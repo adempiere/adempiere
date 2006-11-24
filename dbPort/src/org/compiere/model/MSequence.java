@@ -112,7 +112,7 @@ public class MSequence extends X_AD_Sequence
 					//
 					if (USE_PROCEDURE)
 					{
-						retValue = nextID(conn, AD_Sequence_ID, compiereSys);
+						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
 					}
 					else
 					{

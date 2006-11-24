@@ -562,6 +562,15 @@ public final class DB
 		return false;
 	}	//	isPostgreSQL
             //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
+	
+	public static boolean isDB2()
+	{
+		if (s_cc != null)
+			return s_cc.isDB2();
+        log.severe("No Database");
+		return false;
+	}
+	
 	/**
 	 * 	Do we have a Postgre DB ?
 	 *	@return true if connected to PostgreSQL
