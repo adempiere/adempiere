@@ -27,11 +27,6 @@ import java.util.logging.*;
 import javax.swing.event.*;
 import org.compiere.util.*;
 
-import de.schaeffer.compiere.constants.Constants;
-import de.schaeffer.compiere.tools.BPartnerSelection;
-import de.schaeffer.compiere.tools.CustomValueComparison;
-import de.schaeffer.compiere.tools.OrderWeightCheck;
-
 /**
  *	Tab Model.
  *  - a combination of AD_Tab (the display attributes) and AD_Table information.
