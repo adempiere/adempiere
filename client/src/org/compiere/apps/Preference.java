@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.*;
 import javax.swing.table.*;
 //
@@ -126,6 +127,8 @@ public final class Preference extends CDialog
 	private CButton bErrorSave = new CButton(Msg.getMsg(Env.getCtx(), "SaveFile"));
 	private CButton bRoleInfo = new CButton(Msg.translate(Env.getCtx(), "AD_Role_ID"));
 
+	private CPanel configPanel = new CPanel();
+	
 	/**
 	 *	Static Init.
 	 *  <pre>
@@ -193,64 +196,96 @@ public final class Preference extends CDialog
 //		tabPane.add(customizePane,  Msg.getMsg(Env.getCtx(), "Preference"));
 		tabPane.add(customizePane,  Msg.getMsg(Env.getCtx(), "Preference"));
 		customizePane.setLayout(customizeLayout);
-		customizePane.add(infoArea,          new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(uiTheme,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(bRoleInfo,    new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-
-		customizePane.add(autoCommit,     new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(adempiereSys,     new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0			
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		customizePane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		customizePane.add(autoLogin,      new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(storePassword,     new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		Border insetBorder = BorderFactory.createEmptyBorder(2, 2, 2, 0); 
+		CPanel loginPanel = new CPanel();
+		loginPanel.setBorder(BorderFactory.createTitledBorder("Login"));
+		loginPanel.setLayout(new GridLayout(1, 2));
+		autoLogin.setBorder(insetBorder);
+		storePassword.setBorder(insetBorder);
+		loginPanel.add(autoLogin);
+		loginPanel.add(storePassword);
+		customizePane.add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
-		customizePane.add(showAcct,     new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(showTrl,   new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		CPanel windowPanel = new CPanel();
+		windowPanel.setBorder(BorderFactory.createTitledBorder("Window"));
+		windowPanel.setLayout(new GridLayout(4, 2));
+		windowPanel.add(showAcct);showAcct.setBorder(insetBorder);
+		windowPanel.add(showTrl);showTrl.setBorder(insetBorder);
+		windowPanel.add(showAdvanced);showAdvanced.setBorder(insetBorder);
+		windowPanel.add(autoCommit);autoCommit.setBorder(insetBorder);
+		windowPanel.add(autoNew);autoNew.setBorder(insetBorder);
+		windowPanel.add(cacheWindow);cacheWindow.setBorder(insetBorder);
+		windowPanel.add(openWindowMaximized);openWindowMaximized.setBorder(insetBorder);
+		windowPanel.add(singleInstancePerWindow);singleInstancePerWindow.setBorder(insetBorder);
+		customizePane.add(windowPanel, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
-		customizePane.add(showAdvanced,	new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(autoNew,     new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0			
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		CPanel connPanel = new CPanel();
+		connPanel.setBorder(BorderFactory.createTitledBorder("Connection"));
+		connPanel.setLayout(new GridBagLayout());
+		connPanel.add(connectionProfileLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		connPanel.add(connectionProfile,    new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		connPanel.add(validateConnectionOnStartup,    new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		customizePane.add(connPanel, new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
-		customizePane.add(connectionProfileLabel,    new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(connectionProfile,    new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(cacheWindow,     new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0			
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-
-		customizePane.add(traceLabel,    new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
-		customizePane.add(traceLevel,       new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(traceFile,       new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		CPanel tracePanel = new CPanel();
+		tracePanel.setBorder(BorderFactory.createTitledBorder("Trace"));
+		tracePanel.setLayout(new GridBagLayout());
+		tracePanel.add(traceLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		tracePanel.add(traceLevel,       new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		tracePanel.add(traceFile,       new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		customizePane.add(tracePanel, new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
-		customizePane.add(lPrinter,     new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(fPrinter,         new GridBagConstraints(1, 8, 2, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		CPanel printPanel = new CPanel();
+		printPanel.setBorder(BorderFactory.createTitledBorder("Printing"));
+		printPanel.setLayout(new GridBagLayout());
+		printPanel.add(lPrinter,     new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		printPanel.add(fPrinter,         new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		printPanel.add(printPreview,    new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
+		customizePane.add(printPanel, new GridBagConstraints(0, 4, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
-		customizePane.add(lDate,       new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(fDate,        new GridBagConstraints(1, 9, 2, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(printPreview,    new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(validateConnectionOnStartup,    new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(singleInstancePerWindow,    new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		customizePane.add(openWindowMaximized,    new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		CPanel otherPanel = new CPanel();
+		otherPanel.setBorder(BorderFactory.createEmptyBorder());
+		otherPanel.setLayout(new GridLayout());
+		CPanel datePanel = new CPanel();
+		datePanel.setLayout(new FlowLayout());
+		((FlowLayout)datePanel.getLayout()).setAlignment(FlowLayout.LEFT);
+		datePanel.add(lDate);
+		datePanel.add(fDate);
+		otherPanel.add(datePanel);datePanel.setBorder(insetBorder);
+		otherPanel.add(adempiereSys);adempiereSys.setBorder(insetBorder);
+		customizePane.add(otherPanel, new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
+		
+		CPanel themePanel = new CPanel();
+		themePanel.add(uiTheme);
+		//TODO
+		tabPane.add(themePanel, uiTheme.getText());
+		
+		configPanel.setLayout(new BorderLayout());
+		configPanel.add(infoArea, BorderLayout.CENTER);
+		CPanel configSouth = new CPanel();
+		configSouth.setLayout(new FlowLayout());
+		((FlowLayout)configSouth.getLayout()).setAlignment(FlowLayout.RIGHT);
+		configSouth.add(bRoleInfo);
+		configPanel.add(configSouth, BorderLayout.SOUTH);
+		tabPane.add(configPanel, "Info");
+		
 		//	Info
 //		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
 		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
@@ -519,9 +554,9 @@ public final class Preference extends CDialog
 		errorTable.setModel(model);
 		//
 		if (bErrorsOnly.isSelected())
-			tabPane.setTitleAt(2, Msg.getMsg(Env.getCtx(), "Errors") + " (" + data.size() + ")");
+			tabPane.setTitleAt(4, Msg.getMsg(Env.getCtx(), "Errors") + " (" + data.size() + ")");
 		else
-			tabPane.setTitleAt(2, Msg.getMsg(Env.getCtx(), "TraceInfo") + " (" + data.size() + ")");
+			tabPane.setTitleAt(4, Msg.getMsg(Env.getCtx(), "TraceInfo") + " (" + data.size() + ")");
 		errorTable.autoSize();
 	}	//	cmd_errorsOnly
 	

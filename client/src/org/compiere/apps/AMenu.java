@@ -35,7 +35,6 @@ import org.compiere.grid.tree.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
-
 /**
  *	Application Menu Controller
  *
@@ -272,6 +271,7 @@ public final class AMenu extends CFrame
 			m_tabActivities++;
 			m_tabWorkflow++;
 		}
+		treePanel.setBorder(BorderFactory.createEmptyBorder(2,3,2,3));
 		centerPane.add(treePanel, Msg.getMsg(m_ctx, "Menu"));
 		centerPane.add(new CScrollPane(wfActivity), Msg.getMsg (m_ctx, "WorkflowActivities") + ": 0");
 		centerPane.add(new CScrollPane(wfPanel), Msg.getMsg (m_ctx, "WorkflowPanel"));
