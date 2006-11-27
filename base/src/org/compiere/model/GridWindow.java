@@ -198,7 +198,7 @@ public class GridWindow implements Serializable
 	 *  Get Color
 	 *  @return AdempiereColor or null
 	 */
-	public AdempiereColor getColor()
+	public CompiereColor getColor()
 	{
 		if (m_vo.AD_Color_ID == 0)
 			return null;

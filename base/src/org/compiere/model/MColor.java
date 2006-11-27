@@ -95,7 +95,7 @@ public class MColor extends X_AD_Color
 	 *  see org.compiere.grid.ed.VColor#getAdempiereColor
 	 *  @return AdempiereColor
 	 */
-	public AdempiereColor getAdempiereColor()
+	public CompiereColor getAdempiereColor()
 	{
 		if (get_ID() == 0)
 			return null;
@@ -107,26 +107,26 @@ public class MColor extends X_AD_Color
 			log.log(Level.SEVERE, "MColor.getAdempiereColor - No ColorType");
 			return null;
 		}
-		AdempiereColor cc = null;
+		CompiereColor cc = null;
 		//
-		if (ColorType.equals(AdempiereColor.TYPE_FLAT))
+		if (ColorType.equals(CompiereColor.TYPE_FLAT))
 		{
-			cc = new AdempiereColor(getColor(true), true);
+			cc = new CompiereColor(getColor(true), true);
 		}
-		else if (ColorType.equals(AdempiereColor.TYPE_GRADIENT))
+		else if (ColorType.equals(CompiereColor.TYPE_GRADIENT))
 		{
 			int RepeatDistance = getRepeatDistance();
 			String StartPoint = getStartPoint();
 			int startPoint = StartPoint == null ? 0 : Integer.parseInt(StartPoint);
-			cc = new AdempiereColor(getColor(true), getColor(false), startPoint, RepeatDistance);
+			cc = new CompiereColor(getColor(true), getColor(false), startPoint, RepeatDistance);
 		}
-		else if (ColorType.equals(AdempiereColor.TYPE_LINES))
+		else if (ColorType.equals(CompiereColor.TYPE_LINES))
 		{
 			int LineWidth = getLineWidth();
 			int LineDistance = getLineDistance();
-			cc = new AdempiereColor(getColor(false), getColor(true), LineWidth, LineDistance);
+			cc = new CompiereColor(getColor(false), getColor(true), LineWidth, LineDistance);
 		}
-		else if (ColorType.equals(AdempiereColor.TYPE_TEXTURE))
+		else if (ColorType.equals(CompiereColor.TYPE_TEXTURE))
 		{
 			int AD_Image_ID = getAD_Image_ID();
 			String url = getURL(AD_Image_ID);
@@ -134,7 +134,7 @@ public class MColor extends X_AD_Color
 				return null;
 			BigDecimal ImageAlpha = getImageAlpha();
 			float compositeAlpha = ImageAlpha == null ? 0.7f : ImageAlpha.floatValue();
-			cc = new AdempiereColor(url, getColor(true), compositeAlpha);
+			cc = new CompiereColor(url, getColor(true), compositeAlpha);
 		}
 		return cc;
 	}   //  getAdempiereColor
