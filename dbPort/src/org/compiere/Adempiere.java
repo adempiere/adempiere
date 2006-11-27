@@ -22,10 +22,13 @@ import java.net.*;
 import java.util.logging.*;
 import javax.jnlp.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
+
 import com.qoppa.pdf.*;
 
 /**
@@ -453,12 +456,7 @@ public final class Adempiere
 		{
 			if (CLogMgt.isLevelAll())
 				log.log(Level.FINEST, System.getProperties().toString());
-			//
-                        //begin vpj-cd e-evolution
-			//CompiereTheme.load();
-                        AdempiereThemeInnova.load();
-                        //end vpj-cd e-evolution
-			AdempierePLAF.setPLAF (null);
+			AdempierePLAF.setPLAF ();
 		}
 
 		//  Set Default Database Connection from Ini

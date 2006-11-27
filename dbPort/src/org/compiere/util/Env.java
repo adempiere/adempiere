@@ -1429,6 +1429,30 @@ public final class Env
 		s_log.info("End");
 	}	//	sleep
 	
+	/**
+	 * Update all windows after look and feel changes.
+	 * @since 2006-11-27 
+	 */
+	public static Set<Window>updateUI() 
+	{
+		Set<Window> updated = new HashSet<Window>();
+		for (Container c : s_windows)
+		{
+			Window w = getFrame(c);
+			if (w == null) continue;
+			if (updated.contains(w)) continue;
+			SwingUtilities.updateComponentTreeUI(c);
+			updated.add(w);
+		}
+		for (Window w : s_hiddenWindows)
+		{
+			if (updated.contains(w)) continue;
+			SwingUtilities.updateComponentTreeUI(w);
+			updated.add(w);
+		}
+		return updated;
+	}
+	
 	
 	/**************************************************************************
 	 *  Static Variables
