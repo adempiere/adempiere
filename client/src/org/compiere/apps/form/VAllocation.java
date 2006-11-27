@@ -27,6 +27,8 @@ import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
@@ -135,7 +137,7 @@ public class VAllocation extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		//
 		mainPanel.setLayout(mainLayout);
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));

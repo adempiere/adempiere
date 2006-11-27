@@ -24,6 +24,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**

@@ -23,6 +23,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 //
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;

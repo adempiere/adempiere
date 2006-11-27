@@ -22,6 +22,8 @@ import java.beans.*;
 import java.sql.*;
 import java.text.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.search.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;

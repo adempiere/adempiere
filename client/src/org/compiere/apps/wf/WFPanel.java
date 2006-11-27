@@ -22,6 +22,8 @@ import java.beans.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.apps.form.*;
 import org.compiere.model.*;
@@ -122,7 +124,7 @@ public class WFPanel extends CPanel
 	private void jbInit() throws Exception
 	{
 		this.setLayout(mainLayout);
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		southPanel.setLayout(southLayout);
 		//	Center
 		this.add(new JScrollPane(centerPanel), BorderLayout.CENTER);

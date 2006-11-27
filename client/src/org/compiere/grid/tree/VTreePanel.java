@@ -30,6 +30,8 @@ import javax.swing.*;
 import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.tree.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
@@ -230,6 +232,8 @@ public final class VTreePanel extends CPanel
 		southPanel.add(treeSearch, BorderLayout.EAST);
 		this.add(southPanel, BorderLayout.SOUTH);
 		//
+		centerSplitPane.setOpaque(false);
+		toolbar.setOpaque(false);
 		centerSplitPane.add(treePane, JSplitPane.RIGHT);
 		centerSplitPane.add(bar, JSplitPane.LEFT);
 		centerSplitPane.setBorder(BorderFactory.createEmptyBorder());
@@ -871,6 +875,7 @@ public final class VTreePanel extends CPanel
 	//		label = label.substring(0, space);
 
 		CButton button = new CButton(label);
+		button.setOpaque(false);
 		button.setHorizontalAlignment(JButton.LEFT);
 		button.setToolTipText(nd.getDescription());
 		button.setActionCommand(String.valueOf(nd.getNode_ID()));

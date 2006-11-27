@@ -125,7 +125,7 @@ public class VPaySelect extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);

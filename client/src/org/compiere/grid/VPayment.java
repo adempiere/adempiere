@@ -24,6 +24,8 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;

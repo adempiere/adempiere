@@ -105,7 +105,7 @@ public class VPayPrint extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		//
 		southPanel.setLayout(southLayout);
 		southLayout.setAlignment(FlowLayout.RIGHT);

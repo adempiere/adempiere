@@ -19,6 +19,8 @@ package org.compiere.apps;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.plaf.*;
 import java.util.logging.*;

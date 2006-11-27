@@ -241,7 +241,7 @@ public class VScheduleTimePanel extends JComponent
 
 		//	Header Background
 		Rectangle where = new Rectangle(0, 0, w, getHeaderHeight());
-		AdempiereUtils.paint3Deffect(g2D, where, false, true);
+		CompiereUtils.paint3Deffect(g2D, where, false, true);
 
 		//	heading
 		TextLayout layout = null;

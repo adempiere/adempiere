@@ -22,6 +22,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
@@ -106,7 +108,7 @@ public class VSetup extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		centerPanel.setLayout(centerLayout);
 		String optional = Msg.translate(Env.getCtx(), "Optional");
 		//

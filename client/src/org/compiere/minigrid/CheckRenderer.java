@@ -20,6 +20,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**

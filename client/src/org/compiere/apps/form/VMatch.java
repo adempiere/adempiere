@@ -289,7 +289,7 @@ public class VMatch extends CPanel
 		xMatchedToTable.prepareTable(layout, "", "", true, "");
 
 		//  Visual
-		AdempiereColor.setBackground (this);
+		CompiereColor.setBackground (this);
 
 		//  Listener
 		matchFrom.addActionListener(this);

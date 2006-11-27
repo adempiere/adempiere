@@ -20,6 +20,8 @@ import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
 import java.util.logging.*;

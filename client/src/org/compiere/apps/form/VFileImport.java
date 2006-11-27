@@ -101,7 +101,7 @@ public class VFileImport extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		bFile.setText(Msg.getMsg(Env.getCtx(), "FileImportFile"));
 		bFile.setToolTipText(Msg.getMsg(Env.getCtx(), "FileImportFileInfo"));
 		bFile.addActionListener(this);

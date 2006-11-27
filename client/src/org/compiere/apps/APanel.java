@@ -553,7 +553,7 @@ public final class APanel extends CPanel
 					else	//	normal tab
 					{
 						GridController gc = new GridController();			        //  Timing: ca. .1 sec
-						AdempiereColor cc = mWindow.getColor();
+						CompiereColor cc = mWindow.getColor();
 						if (cc != null)
 							gc.setBackgroundColor(cc);                  //  set color on Window level
 						gc.initGrid(gTab, false, m_curWindowNo, this, mWindow);  //  will set color on Tab level

@@ -19,6 +19,7 @@ package org.compiere.grid.ed;
 import java.awt.event.*;
 import java.beans.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 import org.compiere.swing.*;
 import org.compiere.model.*;

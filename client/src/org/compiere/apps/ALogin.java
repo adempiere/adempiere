@@ -22,6 +22,8 @@ import java.sql.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.*;
 import org.compiere.db.*;
 import org.compiere.grid.ed.*;

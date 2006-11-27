@@ -109,7 +109,7 @@ public class VTrxMaterial extends CPanel
 	 */
 	void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		mainPanel.setLayout(mainLayout);
 		mainLayout.setVgap(10);
 		parameterPanel.setLayout(parameterLayout);

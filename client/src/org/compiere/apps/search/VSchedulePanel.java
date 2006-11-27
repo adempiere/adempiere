@@ -247,7 +247,7 @@ public class VSchedulePanel extends JComponent implements MouseListener
 			if (!where.intersects(clipBounds))
 				continue;
 			//	Header Background
-			AdempiereUtils.paint3Deffect(g2D, where, false, true);
+			CompiereUtils.paint3Deffect(g2D, where, false, true);
 			g2D.setPaint(Color.blue);
 			TextLayout layout = new TextLayout (getHeading(i), g2D.getFont(), g2D.getFontRenderContext());
 			float hh = layout.getAscent() + layout.getDescent();

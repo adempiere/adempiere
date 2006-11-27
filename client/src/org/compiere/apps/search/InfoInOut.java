@@ -19,6 +19,8 @@ package org.compiere.apps.search;
 import java.awt.*;
 import java.sql.*;
 import java.util.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;

@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
@@ -112,7 +114,7 @@ public class VInvoiceGen extends CPanel
 	 */
 	void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		//
 		selPanel.setLayout(selPanelLayout);
 		lOrg.setLabelFor(fOrg);

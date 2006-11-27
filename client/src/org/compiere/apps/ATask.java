@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.util.logging.*;
 import javax.swing.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.*;
 import org.compiere.plaf.*;
 import org.compiere.util.*;

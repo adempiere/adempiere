@@ -24,6 +24,8 @@ import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.minigrid.*;
 import org.compiere.model.*;
@@ -109,7 +111,7 @@ public class VCharge extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		AdempiereColor.setBackground(this);
+		CompiereColor.setBackground(this);
 		newBorder = new TitledBorder("");
 		accountBorder = new TitledBorder("");
 		mainPanel.setLayout(mainLayout);

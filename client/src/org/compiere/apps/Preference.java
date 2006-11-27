@@ -24,8 +24,13 @@ import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.table.*;
 //
+import org.adempiere.plaf.PLAFEditor;
+import org.adempiere.plaf.PLAFEditorPanel;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
@@ -40,6 +45,9 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: Preference.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  @author Low Heng Sin
+ *  @version 2006-11-27
  */
 public final class Preference extends CDialog
 	implements ActionListener, ListSelectionListener
@@ -109,7 +117,6 @@ public final class Preference extends CDialog
 	private CCheckBox showAcct = new CCheckBox();
 	private CCheckBox showAdvanced = new CCheckBox();
 	private CCheckBox cacheWindow = new CCheckBox();
-	private CButton uiTheme = new CButton();
 	private CLabel lPrinter = new CLabel();
 	private CPrinter fPrinter = new CPrinter();
 	private CLabel lDate = new CLabel();
@@ -128,6 +135,8 @@ public final class Preference extends CDialog
 	private CButton bRoleInfo = new CButton(Msg.translate(Env.getCtx(), "AD_Role_ID"));
 
 	private CPanel configPanel = new CPanel();
+
+	private PLAFEditorPanel plafEditor = new PLAFEditorPanel();
 	
 	/**
 	 *	Static Init.
@@ -157,8 +166,6 @@ public final class Preference extends CDialog
 		traceFile.setText(Msg.getMsg(Env.getCtx(), "TraceFile", true));
 		traceFile.setToolTipText(Msg.getMsg(Env.getCtx(), "TraceFile", false));
 
-		uiTheme.setText(Msg.getMsg(Env.getCtx(), "UITheme", true));
-		uiTheme.setToolTipText(Msg.getMsg(Env.getCtx(), "UITheme", false));
 		autoCommit.setText(Msg.getMsg(Env.getCtx(), "AutoCommit", true));
 		autoCommit.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoCommit", false));
 		autoNew.setText(Msg.getMsg(Env.getCtx(), "AutoNew", true));
@@ -193,7 +200,6 @@ public final class Preference extends CDialog
 		panel.setLayout(panelLayout);
 		panel.add(tabPane, BorderLayout.CENTER);
 		//	Customize
-//		tabPane.add(customizePane,  Msg.getMsg(Env.getCtx(), "Preference"));
 		tabPane.add(customizePane,  Msg.getMsg(Env.getCtx(), "Preference"));
 		customizePane.setLayout(customizeLayout);
 		customizePane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -273,9 +279,10 @@ public final class Preference extends CDialog
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel themePanel = new CPanel();
-		themePanel.add(uiTheme);
-		//TODO
-		tabPane.add(themePanel, uiTheme.getText());
+		themePanel.setLayout(new GridLayout(1, 1));
+		
+		themePanel.add(plafEditor);
+		tabPane.add(themePanel, Msg.getMsg(Env.getCtx(), "UITheme", true));
 		
 		configPanel.setLayout(new BorderLayout());
 		configPanel.add(infoArea, BorderLayout.CENTER);
@@ -287,7 +294,6 @@ public final class Preference extends CDialog
 		tabPane.add(configPanel, "Info");
 		
 		//	Info
-//		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
 		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
 		contextPane.setLayout(icontextLayout);
 		contextPane.add(contextListScrollPane, BorderLayout.CENTER);
@@ -365,12 +371,7 @@ public final class Preference extends CDialog
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		//	UI Change
-		if (e.getSource() == uiTheme)
-		{
-			new AdempierePLAFEditor(this, false);
-		}
-		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
+		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 			dispose();
 		else if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 			cmd_save();
@@ -399,8 +400,6 @@ public final class Preference extends CDialog
 		infoArea.setCaretPosition(0);
 
 		//	--	Load Settings	--
-		//	UI
-		uiTheme.addActionListener(this);
 		//	AutoCommit
 		autoCommit.setSelected(Env.isAutoCommit(Env.getCtx()));
 		autoNew.setSelected(Env.isAutoNew(Env.getCtx()));
@@ -539,6 +538,36 @@ public final class Preference extends CDialog
 		if (ts != null)
 			Env.setContext(Env.getCtx(), "#Date", ts);
 
+		//UI
+		ValueNamePair laf = plafEditor.getSelectedLook();
+		ValueNamePair theme = plafEditor.getSelectedTheme();
+		if ( laf != null ) {
+			String clazz = laf.getValue();
+			String currentLaf = UIManager.getLookAndFeel().getClass().getName();
+			if (clazz != null && clazz.length() > 0 && !currentLaf.equals(clazz))
+			{
+				//laf changed
+				AdempierePLAF.setPLAF(laf, theme, true);
+				AEnv.updateUI();
+			}
+			else
+			{
+				if (UIManager.getLookAndFeel() instanceof MetalLookAndFeel)
+				{
+					MetalTheme currentTheme = MetalLookAndFeel.getCurrentTheme();
+					String themeClass = currentTheme.getClass().getName();
+					String sTheme = theme.getValue();
+					if (sTheme != null && sTheme.length() > 0 && !sTheme.equals(themeClass))
+					{
+						ValueNamePair plaf = new ValueNamePair(UIManager.getLookAndFeel().getName(),
+								UIManager.getLookAndFeel().getClass().getName());
+						AdempierePLAF.setPLAF(plaf, theme, true);
+						AEnv.updateUI();
+					}
+				}
+			}
+		}
+		
 		Ini.saveProperties(Ini.isClient());
 		dispose();
 	}	//	cmd_save

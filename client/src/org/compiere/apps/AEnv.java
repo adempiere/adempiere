@@ -891,5 +891,25 @@ public final class AEnv
 			}
 		}
 	}   //  cacheReset
+	
+	/**
+	 * Update all windows after look and feel changes.
+	 * @since 2006-11-27 
+	 */
+	public static void updateUI()
+	{
+		Set<Window> updated = Env.updateUI();
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			CFrame[] frames = ((AMenu)top).getWindowManager().getWindows();
+			for (CFrame f : frames)
+			{
+				if (updated.contains(f)) continue;
+				SwingUtilities.updateComponentTreeUI(f);
+				updated.add(f);
+			}
+		}
+	}
 		
 }	//	AEnv
