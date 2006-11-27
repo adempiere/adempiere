@@ -23,6 +23,7 @@ import java.awt.im.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**
@@ -63,8 +64,6 @@ public class CTextPane extends JScrollPane
 		super.setOpaque(false);
 		super.getViewport().setOpaque(false);
 		m_textPane.setContentType("text/html");
-		m_textPane.setFont(AdempierePLAF.getFont_Field());
-		m_textPane.setForeground(AdempierePLAF.getTextColor_Normal());
 	}   //  CTextPane
 
 	private JTextPane m_textPane = null;

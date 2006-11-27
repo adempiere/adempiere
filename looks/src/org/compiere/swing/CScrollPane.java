@@ -20,6 +20,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**
@@ -67,7 +68,6 @@ public class CScrollPane extends JScrollPane
 	public CScrollPane (Component view, int vsbPolicy, int hsbPolicy)
 	{
 		super (view, vsbPolicy, hsbPolicy);
-		setBackgroundColor(null);
 		setOpaque(false);
 		getViewport().setOpaque(false);
 	}	//	CScollPane
@@ -77,15 +77,11 @@ public class CScrollPane extends JScrollPane
 	 *  Set Background
 	 *  @param bg AdempiereColor for Background, if null set standard background
 	 */
-	public void setBackgroundColor (AdempiereColor bg)
+	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = AdempierePanelUI.getDefaultBackground();
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
-	//	super.setBackground(bg.getFlatColor());
-	//	getViewport().putClientProperty(AdempierePLAF.BACKGROUND, bg);
-	//	getViewport().setBackground(bg.getFlatColor());
-	//	getViewport().setOpaque(true);
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 	}   //  setBackground
 	
 }	//	CScollPane

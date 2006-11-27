@@ -24,7 +24,8 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 
-import org.compiere.plaf.AdempierePLAF;
+import org.adempiere.plaf.AdempierePLAF;
+
 
 /**
  *  Mini Browser

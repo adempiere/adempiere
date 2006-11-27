@@ -23,6 +23,7 @@ import java.awt.im.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**
@@ -125,8 +126,6 @@ public class CTextArea extends JScrollPane
 		m_textArea = textArea;
 		super.setOpaque(false);
 		super.getViewport().setOpaque(false);
-		m_textArea.setFont(AdempierePLAF.getFont_Field());
-		m_textArea.setForeground(AdempierePLAF.getTextColor_Normal());
 		m_textArea.setLineWrap(true);
 		m_textArea.setWrapStyleWord(true);
 		//	Overwrite default Tab

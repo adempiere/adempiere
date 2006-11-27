@@ -21,6 +21,8 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
 
@@ -132,10 +134,6 @@ public class CComboBox extends JComboBox
 	 */
 	private void init()
 	{
-		//  overwrite - otherwise Label Font
-		setFont(AdempierePLAF.getFont_Field());
-		setForeground(AdempierePLAF.getTextColor_Normal());
-		setBackground(false);
 		FIELD_HIGHT = getPreferredSize().height;
 	}   //  init
 
@@ -151,8 +149,8 @@ public class CComboBox extends JComboBox
 	 */
 	public void setIcon (Icon defaultIcon)
 	{
-		if (getUI() instanceof AdempiereComboBoxUI)
-			((AdempiereComboBoxUI)getUI()).setIcon(defaultIcon);
+		if (getUI() instanceof CompiereComboBoxUI)
+			((CompiereComboBoxUI)getUI()).setIcon(defaultIcon);
 		m_icon = defaultIcon;
 	}   //  setIcon
 
@@ -163,8 +161,8 @@ public class CComboBox extends JComboBox
 	public void setUI (ComboBoxUI ui)
 	{
 		super.setUI(ui);
-		if (m_icon != null && ui instanceof AdempiereComboBoxUI)
-			((AdempiereComboBoxUI)getUI()).setIcon(m_icon);
+		if (m_icon != null && ui instanceof CompiereComboBoxUI)
+			((CompiereComboBoxUI)getUI()).setIcon(m_icon);
 	}   //  setUI
 
 	/**
@@ -283,16 +281,16 @@ public class CComboBox extends JComboBox
 	 *  Add Mouse Listener - 1-4-0 Bug.
 	 *  Bug in 1.4.0 Metal: arrowButton gets Mouse Events, so add the JComboBox
 	 *  MouseListeners to the arrowButton - No context menu if right-click
-	 *  @see AdempiereComboBoxUI#installUI(JComponent)
+	 *  @see CompiereComboBoxUI#installUI(JComponent)
 	 *  @param ml
 	 */
 	public void addMouseListener (MouseListener ml)
 	{
 		super.addMouseListener(ml);
 		//  ignore calls from javax.swing.plaf.basic.BasicComboBoxUI.installListeners(BasicComboBoxUI.java:271)
-		if (getUI() instanceof AdempiereComboBoxUI && !Trace.getCallerClass(1).startsWith("javax"))
+		if (getUI() instanceof CompiereComboBoxUI && !Trace.getCallerClass(1).startsWith("javax"))
 		{
-			JButton b = ((AdempiereComboBoxUI)getUI()).getArrowButton();
+			JButton b = ((CompiereComboBoxUI)getUI()).getArrowButton();
 			if (b != null)
 				b.addMouseListener(ml);
 		}
@@ -313,9 +311,9 @@ public class CComboBox extends JComboBox
 	public void removeMouseListener (MouseListener ml)
 	{
 		super.removeMouseListener(ml);
-		if (getUI() instanceof AdempiereComboBoxUI)
+		if (getUI() instanceof CompiereComboBoxUI)
 		{
-			JButton b = ((AdempiereComboBoxUI)getUI()).getArrowButton();
+			JButton b = ((CompiereComboBoxUI)getUI()).getArrowButton();
 			if (b != null)
 				b.removeMouseListener(ml);
 		}

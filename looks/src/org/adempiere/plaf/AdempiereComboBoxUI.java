@@ -19,7 +19,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.plaf.metal.*;
 
-import org.compiere.plaf.AdempiereComboPopup;
+import org.compiere.plaf.CompiereComboPopup;
 
 
 /**
@@ -55,7 +55,7 @@ public class AdempiereComboBoxUI extends com.jgoodies.looks.plastic.PlasticCombo
 	{
 		MouseListener[] ml = c.getMouseListeners();
 		super.installUI(c);
-		c.setOpaque(false);
+		//c.setOpaque(false);
 		//
 		for (int i = 0; i < ml.length; i++)
 		{
@@ -74,8 +74,8 @@ public class AdempiereComboBoxUI extends com.jgoodies.looks.plastic.PlasticCombo
 	protected JButton createArrowButton()
 	{
 		JButton button = super.createArrowButton();
-		button.setContentAreaFilled(false);
-		button.setOpaque(false);
+		//button.setContentAreaFilled(false);
+		//button.setOpaque(false);
 		return button;
 	}   //  createArrowButton
 
@@ -101,7 +101,7 @@ public class AdempiereComboBoxUI extends com.jgoodies.looks.plastic.PlasticCombo
 	 */
 	protected ComboPopup createPopup()
 	{
-		AdempiereComboPopup newPopup = new AdempiereComboPopup( comboBox );
+		CompiereComboPopup newPopup = new CompiereComboPopup( comboBox );
 		newPopup.getAccessibleContext().setAccessibleParent(comboBox);
 		return newPopup;
 	}   //  createPopup

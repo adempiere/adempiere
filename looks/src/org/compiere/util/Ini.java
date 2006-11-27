@@ -69,15 +69,18 @@ public final class Ini implements Serializable
 	/** Look & Feel			*/
 	public static final String	P_UI_LOOK =			"UILookFeel";
 
-        private static final String	DEFAULT_UI_LOOK =	AdempiereLookAndFeel.NAME;
+    private static final String	DEFAULT_UI_LOOK =	AdempiereLookAndFeel.NAME;
 	/** UI Theme			*/
         
 	private static final String	DEFAULT_UI_THEME =	AdempiereThemeInnova.NAME;        
 	/** UI Theme			*/
 	public static final String	P_UI_THEME =		"UITheme";
-	/** Flat Color UI		*/
+	
+	/** Flat Color UI		
 	public static final String	P_UI_FLAT =			"UIFlat";
 	private static final boolean DEFAULT_UI_FLAT =	false;
+	*/
+	
 	/** Auto Save			*/
 	public static final String  P_A_COMMIT =		"AutoCommit";
 	private static final boolean DEFAULT_A_COMMIT =	true;
@@ -148,7 +151,7 @@ public final class Ini implements Serializable
 		P_UID, P_PWD, P_TRACELEVEL, P_TRACEFILE, 
 		P_LANGUAGE, P_INI,
 		P_CONNECTION, P_STORE_PWD,
-		P_UI_LOOK, P_UI_THEME, P_UI_FLAT,
+		P_UI_LOOK, P_UI_THEME, /* P_UI_FLAT,*/
 		P_A_COMMIT, P_A_LOGIN, P_A_NEW, 
 		P_ADEMPIERESYS, P_SHOW_ACCT, P_SHOW_TRL, 
 		P_SHOW_ADVANCED, P_CACHE_WINDOW,
@@ -165,7 +168,7 @@ public final class Ini implements Serializable
 		DEFAULT_UID, DEFAULT_PWD, DEFAULT_TRACELEVEL, DEFAULT_TRACEFILE?"Y":"N",
 		DEFAULT_LANGUAGE, DEFAULT_INI,
 		DEFAULT_CONNECTION, DEFAULT_STORE_PWD?"Y":"N",
-		DEFAULT_UI_LOOK, DEFAULT_UI_THEME, DEFAULT_UI_FLAT?"Y":"N",
+		DEFAULT_UI_LOOK, DEFAULT_UI_THEME, /* DEFAULT_UI_FLAT?"Y":"N", */
 		DEFAULT_A_COMMIT?"Y":"N", DEFAULT_A_LOGIN?"Y":"N", DEFAULT_A_NEW?"Y":"N",
 		DEFAULT_ADEMPIERESYS?"Y":"N", DEFAULT_SHOW_ACCT?"Y":"N", DEFAULT_SHOW_TRL?"Y":"N", 
 		DEFAULT_SHOW_ADVANCED?"Y":"N", DEFAULT_CACHE_WINDOW?"Y":"N",

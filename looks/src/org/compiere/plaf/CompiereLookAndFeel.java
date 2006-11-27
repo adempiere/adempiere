@@ -22,7 +22,7 @@ import javax.swing.*;
 import javax.swing.plaf.metal.*;
 
 /**
- *  Adempiere Look & Feel.
+ *  Compiere Look & Feel.
  *  We wanted a nice UI not the battleship gray based stuff.
  *  I guess a matter of taste.
  *  <code>
@@ -49,12 +49,22 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	public static final     String  NAME = "Compiere";
 
 	/** The Theme                   */
-	private static          CompiereTheme   s_adempiereTheme = new CompiereThemeBlueMetal();
-	private static          MetalTheme      s_theme = s_adempiereTheme;
+	private static          CompiereTheme   s_compiereTheme = new CompiereThemeBlueMetal();
+	private static          MetalTheme      s_theme = s_compiereTheme;
 
 	/** Paint Round Corners         */
 	protected static boolean ROUND = false;
-
+	
+	/** Key of Client Property to paint in CompiereColor    */
+	public static final String  BACKGROUND = "CompiereBackground";
+	/** Key of Client Property for Rectangle Items - if exists, the standard background is used */
+	public static final String  BACKGROUND_FILL = "CompiereBackgroundFill";
+	/** Key of Client Property for CPanel               */
+	public static final String  TABLEVEL = "CompiereTabLevel";
+	
+	/** Version tag */
+	public static final String  VERSION = "R1.4.0";
+	
 	/**
 	 *  The Name
 	 *  @return Name
@@ -79,7 +89,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	public String getDescription()
 	{
-		return "Adempiere Look & Feel - (c) 2001-2005 Jorg Janke";
+		return "Compiere Look & Feel - (c) 2001-2005 Jorg Janke";
 	}   //  getDescription
 
 	
@@ -89,7 +99,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	public UIDefaults getDefaults()
 	{
-	//	System.out.println("AdempiereLookAndFeel.getDefaults");
 		//  Theme already created/set
 		MetalLookAndFeel.setCurrentTheme(s_theme);
 		UIDefaults defaults = super.getDefaults();  // calls init..Defaults
@@ -105,7 +114,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initClassDefaults(UIDefaults table)
 	{
-	//	System.out.println("AdempiereLookAndFeel.initClassDefaults");
 		super.initClassDefaults( table);
 		//  Overwrite
 		putDefault (table, "PanelUI");
@@ -140,7 +148,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	{
 		try
 		{
-			String className = "org.compiere.plaf.Adempiere" + uiKey;
+			String className = "org.compiere.plaf.Compiere" + uiKey;
 			table.put(uiKey, className);
 		}
 		catch (Exception ex)
@@ -155,11 +163,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initSystemColorDefaults (UIDefaults table)
 	{
-	//	System.out.println("AdempiereLookAndFeel.initSystemColorDefaults");
 		super.initSystemColorDefaults( table);
-
-		// we made the color a bit darker
-	//	table.put("textHighlight", AdempiereUtils.getTranslucentColor(getTextHighlightColor(), 128));
 	}   //  initSystemColorDefaults
 
 	/**
@@ -168,7 +172,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initComponentDefaults (UIDefaults table)
 	{
-	//	System.out.println("AdempiereLookAndFeel.initComponentDefaults");
 		super.initComponentDefaults( table);
 
 		//  ComboBox defaults
@@ -207,12 +210,12 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	}   //  getCurrentTheme
 
 	/**
-	 *  Get Adempiere Theme
+	 *  Get Compiere Theme
 	 *  @return Metal Theme
 	 */
-	public static CompiereTheme getAdempiereTheme()
+	public static CompiereTheme getCompiereTheme()
 	{
-		return s_adempiereTheme;
+		return s_compiereTheme;
 	}   //  getCurrentTheme
 
 	/**

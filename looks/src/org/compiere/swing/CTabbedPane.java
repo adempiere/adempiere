@@ -22,9 +22,10 @@ import java.util.*;
 
 import javax.swing.*;
 
-import org.compiere.plaf.AdempiereColor;
-import org.compiere.plaf.AdempierePLAF;
-import org.compiere.plaf.AdempierePanelUI;
+import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.plaf.CompiereLookAndFeel;
+import org.compiere.plaf.CompierePanelUI;
 import org.compiere.util.Trace;
 import sun.swing.*;
 
@@ -84,7 +85,7 @@ public class CTabbedPane extends JTabbedPane
 	 * Creates an empty <code>TabbedPane</code> with a defaults and Color
 	 * @param bg Color
 	 */
-	public CTabbedPane (AdempiereColor bg)
+	public CTabbedPane (CompiereColor bg)
 	{
 		super();
 		init();
@@ -96,9 +97,6 @@ public class CTabbedPane extends JTabbedPane
 	 */
 	private void init()
 	{
-		setOpaque(false);
-		setFont(AdempierePLAF.getFont_Label());
-		setForeground(AdempierePLAF.getTextColor_Label());
 	}   //  init
 
 	
@@ -111,9 +109,7 @@ public class CTabbedPane extends JTabbedPane
 		if (bg.equals(getBackground()))
 			return;
 		super.setBackground (bg);
-		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-			setBackgroundColor (new AdempiereColor(bg));
+		setBackgroundColor (new CompiereColor(bg));
 	}   //  setBackground
 
 	/**
@@ -128,12 +124,11 @@ public class CTabbedPane extends JTabbedPane
 	 *  Set Background
 	 *  @param bg AdempiereColor for Background, if null set standard background
 	 */
-	public void setBackgroundColor (AdempiereColor bg)
+	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = AdempierePanelUI.getDefaultBackground();
-		setOpaque(true);
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 		//
 		repaint();
@@ -143,11 +138,11 @@ public class CTabbedPane extends JTabbedPane
 	 *  Get Background
 	 *  @return Color for Background
 	 */
-	public AdempiereColor getBackgroundColor ()
+	public CompiereColor getBackgroundColor ()
 	{
 		try
 		{
-			return (AdempiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -195,10 +190,10 @@ public class CTabbedPane extends JTabbedPane
 		if (component instanceof JPanel)
 		{
 			JPanel p = (JPanel)component;
-			if (p.getClientProperty(AdempierePLAF.BACKGROUND) == null)
+			if (p.getClientProperty(CompiereLookAndFeel.BACKGROUND) == null)
 			{
-				AdempiereColor.setBackground(p);
-				p.setOpaque(true);
+				//AdempiereColor.setBackground(p);
+				//p.setOpaque(true);
 			}
 		}
 		//	Set first	
@@ -328,7 +323,7 @@ public class CTabbedPane extends JTabbedPane
 	{
 		StringBuffer sb = new StringBuffer ("CTabbedPane [");
 		sb.append(super.toString());
-		AdempiereColor bg = getBackgroundColor();
+		CompiereColor bg = getBackgroundColor();
 		if (bg != null)
 			sb.append(bg.toString());
 		sb.append("]");

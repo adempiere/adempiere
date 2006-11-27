@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.TextUI;
 
-import org.compiere.plaf.AdempierePLAF;
+import org.adempiere.plaf.AdempierePLAF;
 
 /**
  *  Adempiere Colored Field with external popup editor.

@@ -45,6 +45,8 @@ public class CTable extends JTable
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		getTableHeader().addMouseListener(new CTableMouseListener());
 		setSurrendersFocusOnKeystroke(true);
+		//Default row height too narrow
+		setRowHeight(getFont().getSize() + 8);
 	}	//	CTable
 
 	/** Last model index sorted */
@@ -300,5 +302,13 @@ public class CTable extends JTable
 			sort(mc);
 		}
 	}	//  CTableMouseListener
+
+
+	@Override
+	public void setFont(Font font) {
+		super.setFont(font);
+		//Update row height
+		setRowHeight(getFont().getSize() + 8);
+	}
 
 }	//	CTable

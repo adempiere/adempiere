@@ -22,6 +22,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 
 /**
@@ -117,8 +118,6 @@ public class CTextField extends JTextField
 	 */
 	private void init()
 	{
-		setFont(AdempierePLAF.getFont_Field());
-		setForeground(AdempierePLAF.getTextColor_Normal());
 		setBackground (false);
 		//	Minimum Size
 		Dimension size = getPreferredSize();

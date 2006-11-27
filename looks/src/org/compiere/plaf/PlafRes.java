@@ -117,7 +117,9 @@ public class PlafRes extends ListResourceBundle
 	{ "LineBackColor",          "Background Color" },
 	{ "LineWidth",              "Line Width" },
 	{ "LineDistance",           "Line Distance" },
-	{ "FlatColor",              "Flat Color" }
+	{ "FlatColor",              "Flat Color" },
+	{ "UITheme",				"User Interface Theme" },
+	{ "Preview",				"Preview" }
 	};
 
 	/**

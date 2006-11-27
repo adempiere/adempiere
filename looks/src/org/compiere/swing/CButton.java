@@ -18,6 +18,8 @@ package org.compiere.swing;
 
 import java.awt.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
 
@@ -68,8 +70,6 @@ public class CButton extends JButton implements CEditor
 	public CButton (Action a)
 	{
 		super (a);
-		setContentAreaFilled(false);
-		setOpaque(false);
 	}	//	CButton
 
 	/**
@@ -81,11 +81,6 @@ public class CButton extends JButton implements CEditor
 	public CButton(String text, Icon icon)
 	{
 		super (text, icon);
-		setContentAreaFilled(false);
-		setOpaque(false);
-		//
-		setFont(AdempierePLAF.getFont_Label());
-		setForeground(AdempierePLAF.getTextColor_Label());
 	}   //  CButton
 
 	
@@ -99,12 +94,7 @@ public class CButton extends JButton implements CEditor
 		if (bg.equals(getBackground()))
 			return;
 		super.setBackground (bg);
-		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-		{
-			setOpaque(true);
-			setContentAreaFilled(true);
-		}
+		setBackgroundColor(new CompiereColor(bg));
 		this.repaint();
 	}   //  setBackground
 
@@ -128,12 +118,11 @@ public class CButton extends JButton implements CEditor
 	 *  Set Background
 	 *  @param bg AdempiereColor for Background, if null set standard background
 	 */
-	public void setBackgroundColor (AdempiereColor bg)
+	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = AdempiereColor.getDefaultBackground();
-		setOpaque(true);
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 		this.repaint();
 	}   //  setBackground
@@ -142,11 +131,11 @@ public class CButton extends JButton implements CEditor
 	 *  Get Background
 	 *  @return Color for Background
 	 */
-	public AdempiereColor getBackgroundColor ()
+	public CompiereColor getBackgroundColor ()
 	{
 		try
 		{
-			return (AdempiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{

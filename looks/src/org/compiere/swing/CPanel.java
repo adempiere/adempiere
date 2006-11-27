@@ -18,6 +18,8 @@ package org.compiere.swing;
 
 import java.awt.*;
 import javax.swing.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
 
@@ -79,7 +81,7 @@ public class CPanel extends JPanel
 	 * Creates a new <code>CPanel</code> with a double buffer and a flow layout.
 	 * @param bc Initial Background Color
 	 */
-	public CPanel(AdempiereColor bc)
+	public CPanel(CompiereColor bc)
 	{
 		this ();
 		init();
@@ -107,20 +109,20 @@ public class CPanel extends JPanel
 			return;
 		super.setBackground (bg);
 		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-			setBackgroundColor (new AdempiereColor(bg));
+		//if (!Trace.getCallerClass(1).startsWith("javax"))
+		setBackgroundColor (new CompiereColor(bg));
 	}   //  setBackground
 
 	/**
 	 *  Set Background
 	 *  @param bg AdempiereColor for Background, if null set standard background
 	 */
-	public void setBackgroundColor (AdempiereColor bg)
+	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = AdempierePanelUI.getDefaultBackground();
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
 		setOpaque(true);	//	not transparent
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 	}   //  setBackground
 
@@ -128,11 +130,11 @@ public class CPanel extends JPanel
 	 *  Get Background
 	 *  @return Color for Background
 	 */
-	public AdempiereColor getBackgroundColor ()
+	public CompiereColor getBackgroundColor ()
 	{
 		try
 		{
-			return (AdempiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -152,9 +154,9 @@ public class CPanel extends JPanel
 	public void setTabLevel (int level)
 	{
 		if (level == 0)
-			putClientProperty(AdempierePLAF.TABLEVEL, null);
+			putClientProperty(CompiereLookAndFeel.TABLEVEL, null);
 		else
-			putClientProperty(AdempierePLAF.TABLEVEL, new Integer(level));
+			putClientProperty(CompiereLookAndFeel.TABLEVEL, new Integer(level));
 	}   //  setTabLevel
 
 	/**
@@ -165,7 +167,7 @@ public class CPanel extends JPanel
 	{
 		try
 		{
-			Integer ll = (Integer)getClientProperty(AdempierePLAF.TABLEVEL);
+			Integer ll = (Integer)getClientProperty(CompiereLookAndFeel.TABLEVEL);
 			if (ll != null)
 				return ll.intValue();
 		}
@@ -185,7 +187,7 @@ public class CPanel extends JPanel
 	{
 		StringBuffer sb = new StringBuffer ("CPanel [");
 		sb.append(super.toString());
-		AdempiereColor bg = getBackgroundColor();
+		CompiereColor bg = getBackgroundColor();
 		if (bg != null)
 			sb.append(bg.toString());
 		sb.append("]");

@@ -174,9 +174,6 @@ public class CLabel extends JLabel
 		setOpaque(false);
 		if (getToolTipText() == null)	//	force Tool Tip
 			setToolTipText(getText());
-		//
-		setForeground(AdempierePLAF.getTextColor_Label());
-		setFont(AdempierePLAF.getFont_Label());
 	}   //  init
 
 

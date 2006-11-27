@@ -21,7 +21,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.text.Document;
 
-import org.compiere.plaf.AdempierePLAF;
+import org.adempiere.plaf.AdempierePLAF;
 
 /**
  *  Password Field
@@ -107,8 +107,6 @@ public class CPassword extends JPasswordField implements CEditor
 	 */
 	private void init()
 	{
-		setFont(AdempierePLAF.getFont_Field());
-		setForeground(AdempierePLAF.getTextColor_Normal());
 	}   //  init
 
 	/*************************************************************************/

@@ -14,11 +14,9 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.plaf;
+package org.adempiere.plaf;
 
 import java.awt.*;
-
-import javax.swing.UIDefaults;
 import javax.swing.plaf.*;
 
 /**
@@ -27,12 +25,12 @@ import javax.swing.plaf.*;
  *  @author Jorg Janke, Adam Michau
  *  @version $Id: AdempiereThemeBlueMetal.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
-public class CompiereThemeBlueMetal extends CompiereTheme
+public class AdempiereThemeInnova extends org.adempiere.plaf.AdempiereTheme
 {
 	/**
 	 * 	Adempiere default Theme Blue Metal
 	 */
-	public CompiereThemeBlueMetal()
+	public AdempiereThemeInnova()
 	{
 		setDefault();
 		s_theme = this;
@@ -40,45 +38,60 @@ public class CompiereThemeBlueMetal extends CompiereTheme
 	}	//	AdempiereThemeBlueMetal
 	
 	/**	Name			*/
-	public static final String	NAME = "Compiere Theme";
+	public static final String	NAME = "Adempiere Theme";
 	
 	/**
 	 *  Set Defaults
 	 */
-	protected void setDefault()
+	public void setDefault()
 	{
-		/** Blue 102, 102, 153      */
-		primary1 =      new ColorUIResource(102, 102, 153);
-		/** Blue 153, 153, 204      */
-		primary2 =      new ColorUIResource(153, 153, 204);
-		/** Blue 204, 204, 255      */
-		primary3 =      new ColorUIResource(204, 204, 255);
-		/** Gray 102, 102, 102      */
-		secondary1 =    new ColorUIResource(102, 102, 102);
-		/** Gray 153, 153, 153      */
-		secondary2 =    new ColorUIResource(153, 153, 153);
-		/** BlueGray 214, 224, 234 - background */
-		secondary3 =    new ColorUIResource(205, 215, 231);
+   
+            
+        /** Blue 51,51,102          */
+	primary0 = new ColorUIResource(103, 152, 203);
+	/** Blue 102, 102, 153      */
+	//protected static ColorUIResource primary1;
+	primary1 = new ColorUIResource( 101,  138,  187);
+	/** Blue 153, 153, 204      */
+	primary2 = new ColorUIResource(103, 152,  203); 
+	/** Blue 204, 204, 255      */
+	primary3= new ColorUIResource(233, 238, 245); // 
+           
+	/** Black                   */
+	//secondary0 = new ColorUIResource(0, 0, 0);
+	/** Gray 102, 102, 102      */
+	//protected static ColorUIResource secondary1;
+	secondary1= new ColorUIResource(190, 179, 153);
+	/** Gray 153, 153, 153      */
+	//protected static ColorUIResource secondary2;
+	secondary2= new ColorUIResource(246, 239, 224);
+	/** BlueGray 214, 224, 234 - background */
+	//protected static ColorUIResource secondary3;
+	secondary3=  new ColorUIResource(251, 248, 241);
+	/** White                   */
+	//secondary4 = new ColorUIResource(255, 255, 255);
 
-		/** Black                   */
-		black =         new ColorUIResource(Color.black);
-		/** White                   */
-		white =         new ColorUIResource(Color.white);
+	/** Black                   */
+	black = BLACK;
+	/** White                   */
+	white =  WHITE;
 
-		/** Background for mandatory fields */
-		mandatory =     new ColorUIResource(224, 224, 255); //  blue-isch
-		/** Background for fields in error  */
-		error =         new ColorUIResource(255, 204, 204); //  red-isch
-		/** Background for inactive fields  */
-		inactive =      new ColorUIResource(234, 234, 234);	//	light gray
-		/** Background for info fields      */
-		info =          new ColorUIResource(253, 237, 207);	//	light yellow
+	/** Background for mandatory fields */
+	mandatory =  new ColorUIResource(233, 238, 245); // blueish 
+	/** Background for fields in error 180,220,143  */
+	error = new ColorUIResource(220, 241, 203); // green ;
+	/** Background for inactive fields  */
+	inactive = new ColorUIResource(241,239,222);//241,239,222
+	/** Background for info fields      */
+	info =  new ColorUIResource(251, 248, 251); // somewhat white
 
-		/** Foreground Text OK      */
-		txt_ok =        new ColorUIResource(51, 51, 102);   //  dark blue
-		/** Foreground Text Error   */
-		txt_error =     new ColorUIResource(204, 0, 0);     //  dark red
-
+	/** Foreground Text OK        */
+	txt_ok =new ColorUIResource(0, 153, 255); // blue ;
+	/** Foreground Text Error     */
+	txt_error = new ColorUIResource(255, 0, 51); // red ;
+        
+                	/** Black                   */
+               // secondary0 = new ColorUIResource(0, 0, 0);                
 		/** Control font            */
 		controlFont = null;
 		_getControlTextFont();
@@ -98,5 +111,5 @@ public class CompiereThemeBlueMetal extends CompiereTheme
 		menuFont = null;
 		_getMenuTextFont();
 	}   //  setDefault
-
+	
 }	//	AdempiereThemeBlueMetal

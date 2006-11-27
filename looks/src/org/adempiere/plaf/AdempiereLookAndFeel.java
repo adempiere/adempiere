@@ -1,15 +1,18 @@
 /******************************************************************************
- * The contents of this file are subject to the   Compiere License  Version 1.1
- * ("License"); You may not use this file except in compliance with the License
- * You may obtain a copy of the License at http://www.compiere.org/license.html
- * Software distributed under the License is distributed on an  "AS IS"  basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- * The Original Code is Compiere ERP & CRM Smart Business Solution. The Initial
- * Developer of the Original Code is Jorg Janke. Portions created by Jorg Janke
- * are Copyright (C) 1999-2005 Jorg Janke.
- * All parts are Copyright (C) 1999-2005 ComPiere, Inc.  All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.adempiere.plaf;
 
@@ -18,18 +21,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.metal.*;
 
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+
 /**
- *  Compiere Look & Feel.
- *  We wanted a nice UI not the battleship gray based stuff.
- *  I guess a matter of taste.
- *  <code>
- *  :
- *  UIManager.setLookAndFeel(new com.compiere.plaf.CompiereLookAndFeel());
- *  // or UIManager.setLookAndFeel("com.compiere.plaf.CompiereLookAndFeel");
- *  </code>
- *
- *  @author     Jorg Janke
- *  @version    $Id: CompiereLookAndFeel.java,v 1.19 2005/12/05 02:38:28 jjanke Exp $
+ *  Adempiere Look & Feel, based on JGoodies look and feel
  */
 public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLookAndFeel
 {
@@ -86,10 +81,7 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	 */
 	public UIDefaults getDefaults()
 	{
-	//	System.out.println("CompiereLookAndFeel.getDefaults");
-		//  Theme already created/set
-		//MetalLookAndFeel.setCurrentTheme(s_theme);
-                com.jgoodies.looks.plastic.PlasticLookAndFeel.setCurrentTheme(s_theme);
+        //com.jgoodies.looks.plastic.PlasticLookAndFeel.setCurrentTheme(s_theme);
 		UIDefaults defaults = super.getDefaults();  // calls init..Defaults
 		return defaults;
 	}   //  getDefaults
@@ -153,11 +145,7 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	 */
 	protected void initSystemColorDefaults (UIDefaults table)
 	{
-	//	System.out.println("CompiereLookAndFeel.initSystemColorDefaults");
 		super.initSystemColorDefaults( table);
-
-		// we made the color a bit darker
-	//	table.put("textHighlight", CompiereUtils.getTranslucentColor(getTextHighlightColor(), 128));
 	}   //  initSystemColorDefaults
 
 	/**
@@ -166,7 +154,6 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	 */
 	protected void initComponentDefaults (UIDefaults table)
 	{
-	//	System.out.println("CompiereLookAndFeel.initComponentDefaults");
 		super.initComponentDefaults( table);
 
 		//  ComboBox defaults
@@ -199,7 +186,7 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	{
 		if (theme != null)
 			s_theme = theme;
-		MetalLookAndFeel.setCurrentTheme(s_theme);
+		PlasticLookAndFeel.setCurrentTheme(s_theme);
 	}   //  setCurrentTheme
 
 	/**
@@ -244,4 +231,4 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 		super.provideErrorFeedback (component);
 	}   //  provideErrorFeedback
 
-}   //  CompiereLookAndFeel
+}   //  AdempiereLookAndFeel
