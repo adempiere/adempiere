@@ -19,10 +19,10 @@ if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" ]
 fi
 
 # Cleanup
-sqlplus $1/$2@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/Daily.sql
+sqlplus $1/$2@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/Daily.sql
 
 # Export
-exp $1/$2@$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDat.dmp Log=$ADEMPIERE_HOME/data/ExpDat.log CONSISTENT=Y OWNER=$1 
+exp $1/$2@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDat.dmp Log=$ADEMPIERE_HOME/data/ExpDat.log CONSISTENT=Y OWNER=$1 
 
 cd $ADEMPIERE_HOME/data
 jar cvfM ExpDat.jar ExpDat.dmp ExpDat.log

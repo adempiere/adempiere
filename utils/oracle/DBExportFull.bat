@@ -6,14 +6,15 @@
 
 @if (%ADEMPIERE_HOME%) == () goto environment
 @if (%ADEMPIERE_DB_NAME%) == () goto environment
+@if (%ADEMPIERE_DB_SERVER%) == () goto environment
 @Rem Must have parameter: systemAccount
 @if (%1) == () goto usage
 
 
-@sqlplus %1/%2@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\%ADEMPIERE_DB_PATH%\Daily.sql
+@sqlplus %1/%2@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\%ADEMPIERE_DB_PATH%\Daily.sql
 
 
-@exp %1/%2@%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\ExpDatFull.dmp Log=%ADEMPIERE_HOME%\data\ExpDatFull.log CONSISTENT=Y STATISTICS=NONE FULL=Y
+@exp %1/%2@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\ExpDatFull.dmp Log=%ADEMPIERE_HOME%\data\ExpDatFull.log CONSISTENT=Y STATISTICS=NONE FULL=Y
 
 @cd %ADEMPIERE_HOME%\data
 @jar cvfM data\ExpDatFull.jar ExpDatFull.dmp  ExpDatFull.log

@@ -21,17 +21,17 @@ fi
 echo -------------------------------------
 echo Re-Create new user
 echo -------------------------------------
-sqlplus $1@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/CreateUser.sql Reference Adempiere
+sqlplus $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/CreateUser.sql Reference Adempiere
 
 echo -------------------------------------
 echo Import Reference
 echo -------------------------------------
 echo imp $1@$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Reference.dmp FROMUSER=\(reference\) TOUSER=reference
-imp $1@$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Reference.dmp FROMUSER=\(reference\) TOUSER=reference
+imp $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Reference.dmp FROMUSER=\(reference\) TOUSER=reference
 
 echo -------------------------------------
 echo Check System
 echo Import may show some warnings. This is OK as long as the following does not show errors
 echo -------------------------------------
-sqlplus reference/adempiere@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/AfterImport.sql
+sqlplus reference/adempiere@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/AfterImport.sql
 

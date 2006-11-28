@@ -6,13 +6,14 @@
 
 @if (%ADEMPIERE_HOME%) == () goto environment
 @if (%ADEMPIERE_DB_NAME%) == () goto environment
+@if (%ADEMPIERE_DB_SERVER%) == () goto environment
 @Rem Must have parameter: systemAccount
 @if (%1) == () goto usage
 
 @echo -------------------------------------
 @echo Re-Create new user
 @echo -------------------------------------
-@sqlplus %1@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\%ADEMPIERE_DB_PATH%\CreateUser.sql Reference Adempiere
+@sqlplus %1@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\%ADEMPIERE_DB_PATH%\CreateUser.sql Reference Adempiere
 
 @echo -------------------------------------
 @echo Import Reference
@@ -23,7 +24,7 @@ imp %1@%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\Reference.dmp FROMUSER=(re
 @echo Check System
 @echo Import may show some warnings. This is OK as long as the following does not show errors
 @echo -------------------------------------
-@sqlplus reference/adempiere@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\%ADEMPIERE_DB_PATH%\AfterImport.sql
+@sqlplus reference/adempiere@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\%ADEMPIERE_DB_PATH%\AfterImport.sql
 
 @goto end
 

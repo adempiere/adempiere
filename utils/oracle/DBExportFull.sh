@@ -18,7 +18,7 @@ if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" ]
     exit 1
 fi
 
-exp $1@$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDatFull.dmp Log=$ADEMPIERE_HOME/data/ExpDatFull.log CONSISTENT=Y FULL=Y
+exp $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/ExpDatFull.dmp Log=$ADEMPIERE_HOME/data/ExpDatFull.log CONSISTENT=Y FULL=Y
 
 cd $ADEMPIERE_HOME/data
 jar cvfM ExpDatFull.jar ExpDatFull.dmp  ExpDatFull.log
