@@ -99,6 +99,7 @@ public class PLAFEditorPanel extends CPanel {
 	private CTextField mandatory = new CTextField(s_res.getString("Mandatory"));
 	CButton button = new CButton("Button");
 	CPanel tabPage1 = new CPanel();
+	private JSplitPane splitPane = new JSplitPane();
 	
 	public PLAFEditorPanel() {
 		init();
@@ -117,7 +118,6 @@ public class PLAFEditorPanel extends CPanel {
 		this.setLayout(new BorderLayout());
 		
 		//splitpane for the selection and preview panel
-		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		add(splitPane, BorderLayout.CENTER);
@@ -151,13 +151,13 @@ public class PLAFEditorPanel extends CPanel {
 		lookList.setVisibleRowCount(12);
 		JScrollPane scrollPane = new JScrollPane(lookList);
 		scrollPane.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getSecondary1(), 1));
-		selectionPanel.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, 
+		selectionPanel.add(scrollPane, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0, 
 				GridBagConstraints.NORTHWEST, GridBagConstraints.VERTICAL, new Insets(0, 5, 2, 2), 100, 0));
 		
 		themeList.setVisibleRowCount(12);
 		scrollPane = new JScrollPane(themeList);
 		scrollPane.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getSecondary1(), 1));
-		selectionPanel.add(scrollPane, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0, 
+		selectionPanel.add(scrollPane, new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, 
 				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 2, 2, 5), 0, 0));
 		
 		previewPart.setBorder(BorderFactory.createEmptyBorder());
@@ -184,6 +184,10 @@ public class PLAFEditorPanel extends CPanel {
 		});
 	}
 	
+	/**
+	 * Handle theme selection changed
+	 * @param e
+	 */
 	protected void themeSelectionChanged(ListSelectionEvent e) {
 		if (m_setting) return;
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -383,6 +387,12 @@ public class PLAFEditorPanel extends CPanel {
 	public ValueNamePair getSelectedTheme() {
 		return (ValueNamePair)themeList.getSelectedValue();
 	}
+
+	@Override
+	public void paint(Graphics g) {
+		splitPane.setDividerLocation(0.50);
+		super.paint(g);
+	}
 }
 
 /**
@@ -425,7 +435,7 @@ class PreviewPanel extends CPanel {
 				}
 			}
 		} else {
-			//draw preview image
+			//draw captured preview image
 			if (image != null)
 				g.drawImage(image, 0, 0, null);
 		}
