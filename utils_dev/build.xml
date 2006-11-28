@@ -64,7 +64,29 @@
 			dest="${env.ADEMPIERE_ROOT}" 
 			overwrite="yes"/>
 		<!-- Run Setup				-->
+		<!--
 		<ant inheritAll="false" dir="${env.ADEMPIERE_HOME}" target="setup"/>
+		-->
+		<antcall target="runSetupWin"></antcall>
+		<antcall target="runSetupNonWin"></antcall>
+	</target>
+	
+	<target name="runSetupInit">
+		<condition property="isWindows">
+			<os family="windows" />
+		</condition>
+	</target>
+	
+	<target name="runSetupWin" depends="runSetupInit" if="isWindows" >
+		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_setup.bat" 
+			spawn="false" resolveexecutable="true">
+		</exec>
+	</target>
+	
+	<target name="runSetupNonWin" depends="runSetupInit" unless="isWindows" >
+		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_setup.sh" 
+			spawn="false" resolveexecutable="true">
+		</exec>
 	</target>
 
 	<!-- ================================================ -->
