@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.db;
 
+import org.compiere.util.CLogger;
+
 /**
  *  General Database Constants and Utilities
  *
@@ -24,6 +26,9 @@ package org.compiere.db;
  */
 public class Database
 {
+	/**	Logger							*/
+	private static CLogger			log = CLogger.getCLogger (Database.class);
+	
 	/** Oracle ID       */
 	public static String        DB_ORACLE   = "Oracle";               	
 	/** IBM DB/2 ID		*/
@@ -34,11 +39,8 @@ public class Database
 	public static String        DB_MSSQLServer = "SQLServer";
                 /** PostgreSQL ID   */
 	public static String        DB_POSTGRESQL = "PostgreSQL";
-        // begin vpj-c e-evolution 11/30/2005 EDB
         /** Enterprise DB   */
 	//public static String        DB_EDB = "EnterpriseDB";
-        // end vpj-c e-evolution 11/30/2005 EDB
-        
 
 	/** Supported Databases     */
 	public static String[]      DB_NAMES = new String[] {
@@ -46,10 +48,8 @@ public class Database
 		,DB_DB2
 	//	,DB_DERBY
 	//	,DB_MSSQLServer
-        // begin vpj-c e-evolution 02/08/205 PostgreSQL
 		,DB_POSTGRESQL 
         //        ,DB_EDB
-        // end e-evolution 02/08/2005 PostgreSQL
 	};
 
 	/** Database Classes        */
@@ -58,17 +58,15 @@ public class Database
 		,DB_DB2.class
 	//	,DB_Derby.class
 	//	,DB_MSSQLServer.class
-        //begin vpj-c e-evolution 02/08/2005 PostgreSQL        
 		,DB_PostgreSQL.class
         //        ,DB_EDB.class        
-        //end e-evolution 02/08/205	PostgreSQL
 	};
 
 	/** Connection Timeout in seconds   */
 	public static int           CONNECTION_TIMEOUT = 10;
 	
 	/**
-	 *  Get Database
+	 *  Get Database by database Id.
 	 *  @return database
 	 */
 	public static AdempiereDatabase getDatabase (String type)
@@ -85,6 +83,32 @@ public class Database
 			}
 		}
 		return db;
+	}
+	
+	/**
+	 *  Get Database Driver by url string.
+	 *  Access to database specific functionality.
+	 *  @param URL JDBC connection url
+	 *  @return Adempiere Database Driver
+	 */
+	public static AdempiereDatabase getDatabaseFromURL(String url)
+	{
+		if (url == null)
+		{
+			log.severe("No Database URL");
+			return null;
+		}
+		if (url.indexOf("oracle") != -1)
+			return new DB_Oracle();
+//		if (URL.indexOf("derby") != -1)
+//			return new DB_Derby();
+		if (url.indexOf("db2") != -1)
+			return new DB_DB2();
+        if (url.indexOf("postgresql") != -1)
+			return new DB_DB2();
+
+		log.severe("No Database for " + url);
+		return null;
 	}
 
 }   //  Database

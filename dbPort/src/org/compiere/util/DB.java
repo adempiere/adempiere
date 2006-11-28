@@ -238,6 +238,10 @@ public final class DB
 	//	Trace.printStack();
 	}   //  setDBTarget
 
+	/**
+	 * Connect to database and initialise all connections.
+	 * @return True if success, false otherwise
+	 */
 	public static boolean connect() {
 		boolean success =false;
 		try 
@@ -506,23 +510,7 @@ public final class DB
 	 */
 	public static AdempiereDatabase getDatabase(String URL)
 	{
-		if (URL == null)
-		{
-			log.severe("No Database URL");
-			return null;
-		}
-		if (URL.indexOf("oracle") != -1)
-			return new DB_Oracle();
-//		if (URL.indexOf("derby") != -1)
-//			return new DB_Derby();
-		if (URL.indexOf("db2") != -1)
-			return new DB_DB2();
-                //begin e-evolution postgresql
-                if (URL.indexOf("postgresql") != -1)
-			return new DB_DB2();
-                //end e-evolution postgresql
-		log.severe("No Database for " + URL);
-		return null;
+		return Database.getDatabaseFromURL(URL);
 	}   //  getDatabase
 
 	/**
