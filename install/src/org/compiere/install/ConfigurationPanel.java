@@ -21,6 +21,9 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+
 import org.apache.tools.ant.*;
 import org.compiere.*;
 import org.compiere.apps.*;
@@ -162,7 +165,8 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 	{
 		this.setLayout(gridBagLayout);
 		Insets bInsets = new Insets(0, 5, 0, 5);
-
+		TitledBorder titledBorder = new TitledBorder("dummy");
+		
 		//	Java
 		lJavaHome.setToolTipText(res.getString("JavaHomeInfo"));
 		lJavaHome.setText(res.getString("JavaHome"));
@@ -173,18 +177,27 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lJavaType.setToolTipText(res.getString("JavaTypeInfo"));
 		lJavaType.setText(res.getString("JavaType"));
 		fJavaType.setPreferredSize(fJavaHome.getPreferredSize());
-		this.add(lJavaHome,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fJavaHome,    new GridBagConstraints(1, 0, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okJavaHome,   new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(bJavaHome,    new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		
+		JLabel sectionLabel = new JLabel("Java");
+		sectionLabel.setForeground(titledBorder.getTitleColor());
+		JSeparator separator = new JSeparator();
+		this.add(sectionLabel,    new GridBagConstraints(0, 0, 7, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 10), 0, 0));
+		this.add(separator,    new GridBagConstraints(0, 1, 7, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 10), 0, 0));
+		
+		this.add(lJavaHome,    new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fJavaHome,    new GridBagConstraints(1, 2, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 0), 0, 0));
+		this.add(okJavaHome,   new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(bJavaHome,    new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(lJavaType,    new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fJavaType,    new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
+		this.add(lJavaType,    new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fJavaType,    new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
 		//	AdempiereHome - KeyStore
 		lAdempiereHome.setToolTipText(res.getString("AdempiereHomeInfo"));
 		lAdempiereHome.setText(res.getString("AdempiereHome"));
@@ -196,20 +209,28 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lKeyStore.setToolTipText(res.getString("KeyStorePasswordInfo"));
 		fKeyStore.setText("");
 		okKeyStore.setEnabled(false);
-		this.add(lAdempiereHome,		new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fAdempiereHome,		new GridBagConstraints(1, 1, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okAdempiereHome,	new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(bAdempiereHome,     new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+		
+		sectionLabel = new JLabel("Adempiere");
+		sectionLabel.setForeground(titledBorder.getTitleColor());
+		separator = new JSeparator();
+		this.add(sectionLabel,    new GridBagConstraints(0, 3, 7, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 0), 0, 0));
+		this.add(separator,    new GridBagConstraints(0, 4, 7, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 10), 0, 0));
+		this.add(lAdempiereHome,		new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fAdempiereHome,		new GridBagConstraints(1, 5, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(okAdempiereHome,	new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(bAdempiereHome,     new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(lKeyStore,  		new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
+		this.add(lKeyStore,  		new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(fKeyStore,  		new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okKeyStore,  		new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		this.add(fKeyStore,  		new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(okKeyStore,  		new GridBagConstraints(6, 5, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
 		//	Apps Server - Type
 		lAppsServer.setToolTipText(res.getString("AppsServerInfo"));
 		lAppsServer.setText(res.getString("AppsServer"));
@@ -219,16 +240,23 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lAppsType.setToolTipText(res.getString("AppsTypeInfo"));
 		lAppsType.setText(res.getString("AppsType"));
 		fAppsType.setPreferredSize(fAppsServer.getPreferredSize());
-		this.add(lAppsServer,   new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fAppsServer,   new GridBagConstraints(1, 2, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
-		this.add(okAppsServer,  new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 5, 5), 0, 0));
-		this.add(lAppsType,     new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fAppsType,     new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
+		sectionLabel = new JLabel(res.getString("AppsServer"));
+		sectionLabel.setForeground(titledBorder.getTitleColor());
+		separator = new JSeparator();
+		this.add(sectionLabel,    new GridBagConstraints(0, 6, 6, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 0), 0, 0));
+		this.add(separator,    new GridBagConstraints(0, 7, 7, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 10), 0, 0));
+		this.add(lAppsServer,   new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fAppsServer,   new GridBagConstraints(1, 8, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(okAppsServer,  new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(lAppsType,     new GridBagConstraints(4, 8, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fAppsType,     new GridBagConstraints(5, 8, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
 		// 	Deployment - JNP
 		lDeployDir.setToolTipText(res.getString("DeployDirInfo"));
 		lDeployDir.setText(res.getString("DeployDir"));
@@ -240,20 +268,20 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lJNPPort.setText(res.getString("JNPPort"));
 		fJNPPort.setText(".");
 		okJNPPort.setEnabled(false);
-		this.add(lDeployDir,	new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fDeployDir,	new GridBagConstraints(1, 3, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okDeployDir,	new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(bDeployDir,    new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+		this.add(lDeployDir,	new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fDeployDir,	new GridBagConstraints(1, 9, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okDeployDir,	new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
+		this.add(bDeployDir,    new GridBagConstraints(3, 9, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(lJNPPort,      new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fJNPPort,      new GridBagConstraints(5, 3, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okJNPPort,     new GridBagConstraints(6, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		this.add(lJNPPort,      new GridBagConstraints(4, 9, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fJNPPort,      new GridBagConstraints(5, 9, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okJNPPort,     new GridBagConstraints(6, 9, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 		//	Web Ports
 		lWebPort.setToolTipText(res.getString("WebPortInfo"));
 		lWebPort.setText(res.getString("WebPort"));
@@ -262,18 +290,18 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lSSLPort.setText("SSL");
 		fSSLPort.setText(".");
 		okSSLPort.setEnabled(false);
-		this.add(lWebPort,   new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fWebPort,   new GridBagConstraints(1, 4, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okWebPort,  new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(lSSLPort,   new GridBagConstraints(4, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fSSLPort,   new GridBagConstraints(5, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okSSLPort,  new GridBagConstraints(6, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		this.add(lWebPort,   new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fWebPort,   new GridBagConstraints(1, 10, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okWebPort,  new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
+		this.add(lSSLPort,   new GridBagConstraints(4, 10, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fSSLPort,   new GridBagConstraints(5, 10, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okSSLPort,  new GridBagConstraints(6, 10, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 		//	Database Server - Type
 		lDatabaseServer.setToolTipText(res.getString("DatabaseServerInfo"));
 		lDatabaseServer.setText(res.getString("DatabaseServer"));
@@ -282,35 +310,44 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lDatabaseType.setToolTipText(res.getString("DatabaseTypeInfo"));
 		lDatabaseType.setText(res.getString("DatabaseType"));
 		fDatabaseType.setPreferredSize(fDatabaseServer.getPreferredSize());
-		this.add(lDatabaseServer,	new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fDatabaseServer,   new GridBagConstraints(1, 5, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
-		this.add(okDatabaseServer,  new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 5, 5), 0, 0));
-		this.add(lDatabaseType,		new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fDatabaseType,     new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
-		//	DB Name - TNS
+		sectionLabel = new JLabel(res.getString("DatabaseServer"));
+		sectionLabel.setForeground(titledBorder.getTitleColor());
+		separator = new JSeparator();
+		this.add(sectionLabel,    new GridBagConstraints(0, 11, 6, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 0), 0, 0));
+		this.add(separator,    new GridBagConstraints(0, 12, 7, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 10), 0, 0));
+		this.add(lDatabaseServer,	new GridBagConstraints(0, 13, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fDatabaseServer,   new GridBagConstraints(1, 13, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(okDatabaseServer,  new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(lDatabaseType,		new GridBagConstraints(4, 13, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fDatabaseType,     new GridBagConstraints(5, 13, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 2, 0), 0, 0));
+		//Database/Service Name
 		lDatabaseName.setToolTipText(res.getString("DatabaseNameInfo"));
 		lDatabaseName.setText(res.getString("DatabaseName"));
 		fDatabaseName.setText(".");
+		
+		//TNS/Native connection
 		lDatabaseDiscovered.setToolTipText(res.getString("TNSNameInfo"));
 		lDatabaseDiscovered.setText(res.getString("TNSName"));
 		fDatabaseDiscovered.setEditable(true);
 		fDatabaseDiscovered.setPreferredSize(fDatabaseName.getPreferredSize());
 		okDatabaseSQL.setEnabled(false);
-		this.add(lDatabaseName,		new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fDatabaseName,		new GridBagConstraints(1, 6, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okDatabaseSQL, 		new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(lDatabaseDiscovered,  	new GridBagConstraints(4, 6, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		this.add(fDatabaseDiscovered,  	new GridBagConstraints(5, 6, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
+		this.add(lDatabaseName,		new GridBagConstraints(0, 14, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fDatabaseName,		new GridBagConstraints(1, 14, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okDatabaseSQL, 		new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
+		this.add(lDatabaseDiscovered,  	new GridBagConstraints(4, 14, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
+		this.add(fDatabaseDiscovered,  	new GridBagConstraints(5, 14, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
 		//	Port - System
 		lDatabasePort.setToolTipText(res.getString("DatabasePortInfo"));
 		lDatabasePort.setText(res.getString("DatabasePort"));
@@ -319,16 +356,16 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lSystemPassword.setText(res.getString("SystemPassword"));
 		fSystemPassword.setText(".");
 		okDatabaseSystem.setEnabled(false);
-		this.add(lDatabasePort,		new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fDatabasePort,     new GridBagConstraints(1, 7, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(lSystemPassword,   new GridBagConstraints(4, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fSystemPassword,   new GridBagConstraints(5, 7, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okDatabaseSystem,	new GridBagConstraints(6, 7, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		this.add(lDatabasePort,		new GridBagConstraints(0, 15, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fDatabasePort,     new GridBagConstraints(1, 15, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(lSystemPassword,   new GridBagConstraints(4, 15, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fSystemPassword,   new GridBagConstraints(5, 15, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okDatabaseSystem,	new GridBagConstraints(6, 15, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 
 		//	User - Password
 		lDatabaseUser.setToolTipText(res.getString("DatabaseUserInfo"));
@@ -338,17 +375,24 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lDatabasePassword.setText(res.getString("DatabasePassword"));
 		fDatabasePassword.setText(".");
 		okDatabaseUser.setEnabled(false);
-		this.add(lDatabaseUser,     new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fDatabaseUser,		new GridBagConstraints(1, 8, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(lDatabasePassword, new GridBagConstraints(4, 8, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fDatabasePassword, new GridBagConstraints(5, 8, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okDatabaseUser,	new GridBagConstraints(6, 8, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		this.add(lDatabaseUser,     new GridBagConstraints(0, 16, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fDatabaseUser,		new GridBagConstraints(1, 16, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(lDatabasePassword, new GridBagConstraints(4, 16, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fDatabasePassword, new GridBagConstraints(5, 16, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okDatabaseUser,	new GridBagConstraints(6, 16, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 
+		sectionLabel = new JLabel(res.getString("MailServer"));
+		sectionLabel.setForeground(titledBorder.getTitleColor());
+		separator = new JSeparator();
+		this.add(sectionLabel,    new GridBagConstraints(0, 17, 6, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 0), 0, 0));
+		this.add(separator,    new GridBagConstraints(0, 18, 7, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 10), 0, 0));
 		//	Mail Server - Email
 		lMailServer.setToolTipText(res.getString("MailServerInfo"));
 		lMailServer.setText(res.getString("MailServer"));
@@ -358,16 +402,16 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lAdminEMail.setText(res.getString("AdminEMail"));
 		fAdminEMail.setText(".");
 		okMailServer.setEnabled(false);
-		this.add(lMailServer,   new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fMailServer,   new GridBagConstraints(1, 9, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
-		this.add(okMailServer,	new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 5, 5), 0, 0));
-		this.add(lAdminEMail,   new GridBagConstraints(4, 9, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 5, 5), 0, 0));
-		this.add(fAdminEMail,   new GridBagConstraints(5, 9, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
+		this.add(lMailServer,   new GridBagConstraints(0, 19, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fMailServer,   new GridBagConstraints(1, 19, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
+		this.add(okMailServer,	new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 2, 5), 0, 0));
+		this.add(lAdminEMail,   new GridBagConstraints(4, 19, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 2, 5), 0, 0));
+		this.add(fAdminEMail,   new GridBagConstraints(5, 19, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 5, 2, 0), 0, 0));
 		
 		//	Mail User = Password
 		lMailUser.setToolTipText(res.getString("MailUserInfo"));
@@ -377,29 +421,36 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		lMailPassword.setText(res.getString("MailPassword"));
 		fMailPassword.setText(".");
 		okMailUser.setEnabled(false);
-		this.add(lMailUser,		new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fMailUser,     new GridBagConstraints(1, 10, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(lMailPassword, new GridBagConstraints(4, 10, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(fMailPassword, new GridBagConstraints(5, 10, 1, 1, 0.5, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
-		this.add(okMailUser,	new GridBagConstraints(6, 10, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		this.add(lMailUser,		new GridBagConstraints(0, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fMailUser,     new GridBagConstraints(1, 20, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(lMailPassword, new GridBagConstraints(4, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		this.add(fMailPassword, new GridBagConstraints(5, 20, 1, 1, 0.5, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 5, 2, 0), 0, 0));
+		this.add(okMailUser,	new GridBagConstraints(6, 20, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 0, 2, 5), 0, 0));
 
+		//grap extra space when window is maximized
+		CPanel filler = new CPanel();
+		filler.setOpaque(false);
+		filler.setBorder(null);
+		this.add(filler,    		new GridBagConstraints(0, 21, 1, 1, 0.0, 1.0
+				,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+		
 		//	End
 		bTest.setToolTipText(res.getString("TestInfo"));
 		bTest.setText(res.getString("Test"));
 		bSave.setToolTipText(res.getString("SaveInfo"));
 		bSave.setText(res.getString("Save"));
 		bHelp.setToolTipText(res.getString("HelpInfo"));
-		this.add(bTest,    		new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 10, 5), 0, 0));
-		this.add(bHelp,         new GridBagConstraints(3, 11, 2, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 10, 5), 0, 0));
-		this.add(bSave,         new GridBagConstraints(5, 11, 2, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 5, 10, 5), 0, 0));
+		this.add(bTest,    		new GridBagConstraints(0, 22, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
+		this.add(bHelp,         new GridBagConstraints(3, 22, 2, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
+		this.add(bSave,         new GridBagConstraints(5, 22, 2, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(15, 5, 10, 5), 0, 0));
 		//
 		bAdempiereHome.addActionListener(this);
 		bJavaHome.addActionListener(this);
@@ -446,7 +497,7 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 		{
 			String dbName = (String)fDatabaseDiscovered.getSelectedItem();
 			if (dbName != null && dbName.length() > 0)
-				fDatabaseName.setText(dbName);
+				fDatabaseName.setText(m_data.resolveDatabaseName(dbName));
 		}
 		//
 		else if (e.getSource() == fJavaType)

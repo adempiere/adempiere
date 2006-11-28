@@ -231,7 +231,10 @@ public class ConfigurationData
 			setAppsServer(hostName);
 			//	Database Server
 			initDatabase("");
-			setDatabaseName(getDatabaseDiscovered());
+			String connectionName = getDatabaseDiscovered();
+			if (connectionName != null) {
+				setDatabaseName(resolveDatabaseName(connectionName));
+			}
 			setDatabaseSystemPassword("");
 			setDatabaseServer(hostName);
 			setDatabaseUser("adempiere");
@@ -271,6 +274,18 @@ public class ConfigurationData
 	}	//	load
 	
 	
+	public String resolveDatabaseName(String connectionName) {
+		int index = p_panel.fDatabaseType.getSelectedIndex();
+		if (index < 0 || index >= DBTYPE.length)
+			log.warning("DatabaseType Index invalid: " + index);
+		else if (m_databaseConfig[index] == null)
+			log.warning("DatabaseType Config missing: " + DBTYPE[index]);
+		else
+			return m_databaseConfig[index].getDatabaseName(connectionName);
+		return connectionName;
+	}
+
+
 	/**************************************************************************
 	 * 	test
 	 *	@return true if test ok

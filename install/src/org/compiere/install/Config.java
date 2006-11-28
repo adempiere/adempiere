@@ -69,6 +69,17 @@ public abstract class Config
 	}	//	discoverDatabases
 	
 	/**
+	 * Get real database name from native connection profile name
+	 * return from discoverDatabases
+	 * @param nativeConnectioName
+	 * @return Database name
+	 */
+	public String getDatabaseName(String nativeConnectioName)
+	{
+		return nativeConnectioName;
+	}
+	
+	/**
 	 * 	Get Panel
 	 *	@return panel
 	 */
