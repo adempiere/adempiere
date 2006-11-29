@@ -257,7 +257,8 @@ public final class AEnv
 		if (iconName == null)
 			iconName = actionName;
 		String text = Msg.getMsg(Env.getCtx(), actionName);
-		CMenuItem mi = new CMenuItem(text, Env.getImageIcon(iconName + "16.gif"));
+		ImageIcon icon = Env.getMenuImageIcon(iconName + "16");
+		CMenuItem mi = new CMenuItem(text, icon);
 		mi.setActionCommand(actionName);
 		if (ks != null)
 			mi.setAccelerator(ks);
