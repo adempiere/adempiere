@@ -206,7 +206,7 @@ public final class Preference extends CDialog
 		
 		Border insetBorder = BorderFactory.createEmptyBorder(2, 2, 2, 0); 
 		CPanel loginPanel = new CPanel();
-		loginPanel.setBorder(BorderFactory.createTitledBorder("Login"));
+		loginPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Login")));
 		loginPanel.setLayout(new GridLayout(1, 2));
 		autoLogin.setBorder(insetBorder);
 		storePassword.setBorder(insetBorder);
@@ -216,7 +216,7 @@ public final class Preference extends CDialog
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel windowPanel = new CPanel();
-		windowPanel.setBorder(BorderFactory.createTitledBorder("Window"));
+		windowPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Window")));
 		windowPanel.setLayout(new GridLayout(4, 2));
 		windowPanel.add(showAcct);showAcct.setBorder(insetBorder);
 		windowPanel.add(showTrl);showTrl.setBorder(insetBorder);
@@ -230,7 +230,7 @@ public final class Preference extends CDialog
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel connPanel = new CPanel();
-		connPanel.setBorder(BorderFactory.createTitledBorder("Connection"));
+		connPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Connection")));
 		connPanel.setLayout(new GridBagLayout());
 		connPanel.add(connectionProfileLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
@@ -242,7 +242,7 @@ public final class Preference extends CDialog
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel tracePanel = new CPanel();
-		tracePanel.setBorder(BorderFactory.createTitledBorder("Trace"));
+		tracePanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "TraceInfo")));
 		tracePanel.setLayout(new GridBagLayout());
 		tracePanel.add(traceLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
@@ -254,7 +254,7 @@ public final class Preference extends CDialog
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel printPanel = new CPanel();
-		printPanel.setBorder(BorderFactory.createTitledBorder("Printing"));
+		printPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Printing")));
 		printPanel.setLayout(new GridBagLayout());
 		printPanel.add(lPrinter,     new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
@@ -291,7 +291,7 @@ public final class Preference extends CDialog
 		((FlowLayout)configSouth.getLayout()).setAlignment(FlowLayout.RIGHT);
 		configSouth.add(bRoleInfo);
 		configPanel.add(configSouth, BorderLayout.SOUTH);
-		tabPane.add(configPanel, "Info");
+		tabPane.add(configPanel, Msg.getMsg(Env.getCtx(), "Info"));
 		
 		//	Info
 		tabPane.add(contextPane,  Msg.getMsg(Env.getCtx(), "Context"));
