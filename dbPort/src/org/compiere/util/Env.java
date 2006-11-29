@@ -23,6 +23,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+
 import org.compiere.*;
 import org.compiere.db.*;
 import org.compiere.model.*;
@@ -1441,13 +1442,29 @@ public final class Env
 			Window w = getFrame(c);
 			if (w == null) continue;
 			if (updated.contains(w)) continue;
-			SwingUtilities.updateComponentTreeUI(c);
+			SwingUtilities.updateComponentTreeUI(w);
+			w.validate();
+			RepaintManager mgr = RepaintManager.currentManager(w);
+			Component childs[] = w.getComponents();
+			for (Component child : childs) {
+				if (child instanceof JComponent)
+					mgr.markCompletelyDirty((JComponent)child);
+			}
+			w.repaint();
 			updated.add(w);
 		}
 		for (Window w : s_hiddenWindows)
 		{
 			if (updated.contains(w)) continue;
 			SwingUtilities.updateComponentTreeUI(w);
+			w.validate();
+			RepaintManager mgr = RepaintManager.currentManager(w);
+			Component childs[] = w.getComponents();
+			for (Component child : childs) {
+				if (child instanceof JComponent)
+					mgr.markCompletelyDirty((JComponent)child);
+			}
+			w.repaint();
 			updated.add(w);
 		}
 		return updated;
