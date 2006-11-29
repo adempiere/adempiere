@@ -907,6 +907,14 @@ public final class AEnv
 			{
 				if (updated.contains(f)) continue;
 				SwingUtilities.updateComponentTreeUI(f);
+				f.validate();
+				RepaintManager mgr = RepaintManager.currentManager(f);
+				Component childs[] = f.getComponents();
+				for (Component c : childs) {
+					if (c instanceof JComponent)
+						mgr.markCompletelyDirty((JComponent)c);
+				}
+				f.repaint();
 				updated.add(f);
 			}
 		}

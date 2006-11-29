@@ -149,7 +149,7 @@ public final class APanel extends CPanel
 		northPanel.setLayout(northLayout);
 		northLayout.setAlignment(FlowLayout.LEFT);
 		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
-		//toolBar.setBorderPainted(false);
+		toolBar.setBorderPainted(false);
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 

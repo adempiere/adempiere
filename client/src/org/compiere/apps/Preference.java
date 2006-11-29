@@ -559,8 +559,9 @@ public final class Preference extends CDialog
 					String sTheme = theme.getValue();
 					if (sTheme != null && sTheme.length() > 0 && !sTheme.equals(themeClass))
 					{
-						ValueNamePair plaf = new ValueNamePair(UIManager.getLookAndFeel().getName(),
-								UIManager.getLookAndFeel().getClass().getName());
+						ValueNamePair plaf = new ValueNamePair(
+								UIManager.getLookAndFeel().getClass().getName(),
+								UIManager.getLookAndFeel().getName());
 						AdempierePLAF.setPLAF(plaf, theme, true);
 						AEnv.updateUI();
 					}
