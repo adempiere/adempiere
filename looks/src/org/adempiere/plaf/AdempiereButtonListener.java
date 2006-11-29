@@ -28,13 +28,13 @@ import javax.swing.plaf.basic.*;
 public class AdempiereButtonListener extends BasicButtonListener
 {
 	/**
-	 * 	Compiere Button Listener
+	 * 	Adempiere Button Listener
 	 *	@param b button
 	 */
 	public AdempiereButtonListener (AbstractButton b)
 	{
 		super (b);
-	}	//	CompiereButtonListener
+	}	//	AdempiereButtonListener
 	
 	/**
 	 * 	Install Keyboard Actions
@@ -93,4 +93,4 @@ public class AdempiereButtonListener extends BasicButtonListener
     	}
     }	//	updateMnemonicBindingX
     
-}	//	CompiereButtonListener
+}	//	AdempiereButtonListener

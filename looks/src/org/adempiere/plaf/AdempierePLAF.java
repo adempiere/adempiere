@@ -22,7 +22,6 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.WindowEvent;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
@@ -44,13 +42,11 @@ import org.compiere.plaf.CompiereLookAndFeel;
 import org.compiere.plaf.CompiereThemeBlueMetal;
 import org.compiere.plaf.CompiereThemeIce;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CFrame;
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ExtendedTheme;
 import org.compiere.util.Ini;
 import org.compiere.util.ValueNamePair;
 
-import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticTheme;
 
 /**
@@ -286,7 +282,6 @@ public final class AdempierePLAF
 	//default theme
 	private static ValueNamePair    s_vp_compiereTheme = null;
 	private static ValueNamePair    s_vp_metalTheme = null;
-	private static ValueNamePair    s_vp_plasticTheme = null;
 	//e-evolution vpj-cd 19102006
 	private static ValueNamePair    s_vp_adempiereTheme = null;
 	//e-evolution vpj-cd 1910200sky
@@ -305,21 +300,15 @@ public final class AdempierePLAF
 		
 		try
 		{
-			Class c = Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+			Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 			vp = new ValueNamePair("org.adempiere.plaf.AdempiereLookAndFeel", org.adempiere.plaf.AdempiereLookAndFeel.NAME);
 			plafList.add(vp);
 			s_vp_adempiereTheme = new ValueNamePair("org.adempiere.plaf.AdempiereTheme", AdempiereThemeInnova.NAME);
 			plasticThemes.add (s_vp_adempiereTheme);
 			
-			c = Class.forName("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
-			vp = new ValueNamePair("com.jgoodies.looks.plastic.PlasticXPLookAndFeel", "Plastic");
-			plafList.add(vp);
-			MetalTheme theme = PlasticLookAndFeel.createMyDefaultTheme();
-			vp = new ValueNamePair(theme.getClass().getName(), theme.getName());
-			s_vp_plasticTheme = vp;
-			List installedThemes = PlasticLookAndFeel.getInstalledThemes();
+			List installedThemes = AdempiereLookAndFeel.getInstalledThemes();
 			for(Object t : installedThemes) {
-				theme = (MetalTheme)t;
+				MetalTheme theme = (MetalTheme)t;
 				vp = new ValueNamePair(theme.getClass().getName(), theme.getName());
 				plasticThemes.add(vp);
 			}
@@ -397,7 +386,7 @@ public final class AdempierePLAF
 	public static ValueNamePair[] getThemes ()
 	{
 		LookAndFeel l = UIManager.getLookAndFeel();
-		if ( l instanceof PlasticLookAndFeel)
+		if ( l instanceof AdempiereLookAndFeel)
 			return s_plasticThemes;
 		else if ( l instanceof MetalLookAndFeel)
 			return s_metalThemes;
@@ -480,7 +469,6 @@ public final class AdempierePLAF
 		
 		//  Default Theme
 		boolean metal = MetalLookAndFeel.class.isAssignableFrom(lafClass);
-		boolean plastic = PlasticLookAndFeel.class.isAssignableFrom(lafClass);
 		boolean adempiere = AdempiereLookAndFeel.class.isAssignableFrom(lafClass);
 		boolean compiere = CompiereLookAndFeel.class.isAssignableFrom(lafClass);
 		if (theme == null && metal)
@@ -489,8 +477,6 @@ public final class AdempierePLAF
 				theme = s_vp_compiereTheme;
 			else if (adempiere)
 				theme = s_vp_adempiereTheme;
-			else if (plastic)
-				theme = s_vp_plasticTheme;
 			else
 				theme = s_vp_metalTheme;
 		}
@@ -502,15 +488,10 @@ public final class AdempierePLAF
 				MetalTheme t = (MetalTheme)c.newInstance();
 				if (compiere)
 					CompiereLookAndFeel.setCurrentTheme(t);
-				else if (adempiere)
-					AdempiereLookAndFeel.setCurrentTheme(t);
-				else {
-					if (plastic && t instanceof PlasticTheme) {
-						PlasticLookAndFeel.setPlasticTheme((PlasticTheme)t);
-					} else {
-						MetalLookAndFeel.setCurrentTheme(t);
-					}
-				}
+				else if (adempiere && t instanceof PlasticTheme)
+					AdempiereLookAndFeel.setCurrentTheme((PlasticTheme)t);
+				else 
+					MetalLookAndFeel.setCurrentTheme(t);
 				//
 				if (updateIni)
 					Ini.setProperty(Ini.P_UI_THEME, theme.getName());
@@ -560,7 +541,7 @@ public final class AdempierePLAF
 	{
 		//  Clean Theme Properties
 		AdempierePLAF.setPLAF ();
-	}   //  reset
+	}  //  reset
 
 	/**
 	 *  Print current UIDefaults
@@ -647,15 +628,10 @@ public final class AdempierePLAF
 	{
 		if (laf instanceof CompiereLookAndFeel)
 			CompiereLookAndFeel.setCurrentTheme(theme);
-		else if (laf instanceof AdempiereLookAndFeel)
-			AdempiereLookAndFeel.setCurrentTheme(theme);
-		else {
-			if (laf instanceof PlasticLookAndFeel && theme instanceof PlasticTheme) {
-				PlasticLookAndFeel.setPlasticTheme((PlasticTheme)theme);
-			} else {
-				MetalLookAndFeel.setCurrentTheme(theme);
-			}
-		}
+		else if (laf instanceof AdempiereLookAndFeel && theme instanceof PlasticTheme)
+			AdempiereLookAndFeel.setCurrentTheme((PlasticTheme)theme);
+		else 
+			MetalLookAndFeel.setCurrentTheme(theme);
 	}
 	
 	/**************************************************************************

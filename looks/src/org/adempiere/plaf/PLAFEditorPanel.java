@@ -433,6 +433,8 @@ class PreviewPanel extends CPanel {
 					UIManager.setLookAndFeel(laf);
 				} catch (UnsupportedLookAndFeelException e) {
 				}
+				laf = null;
+				theme = null;
 			}
 		} else {
 			//draw captured preview image

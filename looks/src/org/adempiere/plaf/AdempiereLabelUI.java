@@ -22,7 +22,7 @@ import javax.swing.plaf.metal.*;
 import sun.swing.*;
 
 /**
- * 	Compiere Label UI
+ * 	Adempiere Label UI
  *	
  *  @author Jorg Janke
  *  @version $Id: CompiereLabelUI.java,v 1.2 2005/12/05 02:38:28 jjanke Exp $
@@ -30,7 +30,7 @@ import sun.swing.*;
 public class AdempiereLabelUI extends MetalLabelUI
 {
 	/** Singleton				*/
-    protected static AdempiereLabelUI compiereLabelUI = new AdempiereLabelUI();
+    protected static AdempiereLabelUI adempiereLabelUI = new AdempiereLabelUI();
 
     /**
      * 	Create UI
@@ -39,7 +39,7 @@ public class AdempiereLabelUI extends MetalLabelUI
      */
     public static AdempiereLabelUI createUI(JComponent c) 
     {
-    	return compiereLabelUI;
+    	return adempiereLabelUI;
     }	//	createUI
 	
 	/**
@@ -150,4 +150,4 @@ public class AdempiereLabelUI extends MetalLabelUI
 		}	//	doPress
 	}	//	PressAction
 
-}	//	CompiereLabelUI
+}	//	AdempiereLabelUI

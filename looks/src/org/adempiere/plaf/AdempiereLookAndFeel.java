@@ -19,14 +19,13 @@ package org.adempiere.plaf;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.plaf.metal.*;
-
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticTheme;
 
 /**
  *  Adempiere Look & Feel, based on JGoodies look and feel
  */
-public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLookAndFeel
+public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLookAndFeel
 {
 	/**
 	 *  Constructor
@@ -41,8 +40,8 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	public static final     String  NAME = "Adempiere";
 
 	/** The Theme                   */
-	private static          AdempiereTheme  s_adempiereTheme = new org.adempiere.plaf.AdempiereTheme();
-	private static          AdempiereTheme      s_theme = s_adempiereTheme;
+	private static          PlasticTheme  s_adempiereTheme = new org.adempiere.plaf.AdempiereTheme();
+	private static          PlasticTheme      s_theme = s_adempiereTheme;
 
 	/** Paint Round Corners         */
 	protected static boolean ROUND = false;
@@ -98,26 +97,8 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 		//System.out.println("AdempiereLookAndFeel.initClassDefaults");
 		super.initClassDefaults( table);
 		//  Overwrite
-		/*putDefault (table, "PanelUI");
-		putDefault (table, "ButtonUI");
-		putDefault (table, "ToggleButtonUI");
-		putDefault (table, "TabbedPaneUI");
-		putDefault (table, "TableHeaderUI");
-		putDefault (table, "RadioButtonUI");*/
-		//putDefault (table, "CheckBoxUI");
 		putDefault (table, "ComboBoxUI");
-		/*putDefault (table, "MenuUI");
-		putDefault (table, "MenuBarUI");
-		putDefault (table, "MenuItemUI");
-		putDefault (table, "CheckBoxMenuItemUI");
-		putDefault (table, "ToolBarUI");
-		putDefault (table, "RootPaneUI");
-		putDefault (table, "ViewportUI");
-		putDefault (table, "SplitPaneUI");
-		putDefault (table, "ScrollPaneUI");*/
 		putDefault (table, "LabelUI");
-		/*putDefault (table, "ToolTipUI");
-		putDefault (table, "TextAreaUI");*/
 
 	}   //  initClassDefaults
 
@@ -170,39 +151,32 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.PlasticLook
 	}   //  initComponentDefaults
 
 	
-	/**************************************************************************
-	 *  Create Default Thems
-	 */
-	protected void createDefaultTheme()
-	{
-		setCurrentTheme(s_theme);
-	}   //  createDefaultTheme
-
 	/**
 	 *  Set Current Theme
 	 *  @param theme metal theme
 	 */
-	public static void setCurrentTheme (org.adempiere.plaf.AdempiereTheme theme)
+	public static void setCurrentTheme (PlasticTheme theme)
 	{
-		if (theme != null)
+		if (theme != null) {
 			s_theme = theme;
-		PlasticLookAndFeel.setCurrentTheme(s_theme);
+			PlasticLookAndFeel.setCurrentTheme(s_theme);
+		}
 	}   //  setCurrentTheme
 
 	/**
 	 *  Get Current Theme
 	 *  @return Metal Theme
 	 */
-	public static AdempiereTheme getCurrentTheme()
+	public static PlasticTheme getCurrentTheme()
 	{
 		return s_theme;
 	}   //  getCurrentTheme
 
 	/**
-	 *  Get Compiere Theme
+	 *  Get default adempiere theme
 	 *  @return Metal Theme
 	 */
-	public static AdempiereTheme getAdempiereTheme()
+	public static PlasticTheme getDefaultTheme()
 	{
 		return s_adempiereTheme;
 	}   //  getCurrentTheme
