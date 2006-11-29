@@ -40,7 +40,6 @@ import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.LookAndFeel;
@@ -49,8 +48,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.SplitPaneUI;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 
@@ -70,6 +67,7 @@ import sun.awt.AppContext;
  * @author Low Heng Sin
  * @version 2006-11-27
  */
+@SuppressWarnings("serial")
 public class PLAFEditorPanel extends CPanel {
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(PLAFEditor.class.getName());
@@ -99,7 +97,6 @@ public class PLAFEditorPanel extends CPanel {
 	private CTextField mandatory = new CTextField(s_res.getString("Mandatory"));
 	CButton button = new CButton("Button");
 	CPanel tabPage1 = new CPanel();
-	private JSplitPane splitPane = new JSplitPane();
 	
 	public PLAFEditorPanel() {
 		init();
@@ -117,23 +114,10 @@ public class PLAFEditorPanel extends CPanel {
 	private void setupUI() {
 		this.setLayout(new BorderLayout());
 		
-		//splitpane for the selection and preview panel
-		splitPane.setBorder(BorderFactory.createEmptyBorder());
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		add(splitPane, BorderLayout.CENTER);
-		
 		CPanel selectionPanel = new CPanel();
 		CPanel previewPart = new CPanel();
-		
-		splitPane.setTopComponent(selectionPanel);
-		splitPane.setBottomComponent(previewPart);
-		splitPane.setDividerLocation(0.50);
-		splitPane.setDividerSize(0);
-		//disable divider
-		SplitPaneUI splitPaneUI = splitPane.getUI();
-		if (splitPaneUI instanceof BasicSplitPaneUI) {
-			((BasicSplitPaneUI)splitPaneUI).getDivider().setEnabled(false);
-		}
+		add(selectionPanel, BorderLayout.CENTER);
+		add(previewPart, BorderLayout.SOUTH);
 		
 		//setup look and theme selection component 
 		selectionPanel.setLayout(new GridBagLayout());
@@ -386,12 +370,6 @@ public class PLAFEditorPanel extends CPanel {
 	 */
 	public ValueNamePair getSelectedTheme() {
 		return (ValueNamePair)themeList.getSelectedValue();
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		splitPane.setDividerLocation(0.50);
-		super.paint(g);
 	}
 }
 
