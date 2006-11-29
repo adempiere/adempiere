@@ -1279,12 +1279,31 @@ public final class Env
 		URL url = Adempiere.class.getResource("images/" + fileNameInImageDir);
 		if (url == null)
 		{
-			s_log.log(Level.SEVERE, "Not found: " +  fileNameInImageDir);
+			s_log.log(Level.WARNING, "Not found: " +  fileNameInImageDir);
 			return null;
 		}
 		return new ImageIcon(url);
 	}   //  getImageIcon
 
+	/**
+	 *  Get ImageIcon. Will try .gif then .png
+	 *
+	 *  @param fileName file name in imgaes folder without the extension(e.g. Bean16)
+	 *  @return image
+	 */
+	public static ImageIcon getMenuImageIcon (String fileName)
+	{
+		URL url = Adempiere.class.getResource("images/" + fileName+".gif");
+		if (url == null)
+			url = Adempiere.class.getResource("images/" + fileName+".png");
+		if (url == null)
+		{
+			s_log.log(Level.WARNING, "GIF/PNG Not found: " + fileName);
+			return null;
+		}
+		return new ImageIcon(url);
+	}   //  getImageIcon
+	
 
 	/***************************************************************************
 	 *  Start Browser
