@@ -573,6 +573,8 @@ public final class AEnv
 		}
 		Env.logout();
 		
+		Splash.getSplash().setVisible(true);
+
 		//reload
 		new AMenu();
 	}

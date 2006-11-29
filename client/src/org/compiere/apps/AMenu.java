@@ -57,6 +57,9 @@ public final class AMenu extends CFrame
 		//	Login
 		initSystem (splash);        //	login
 		splash.setText(Msg.getMsg(m_ctx, "Loading"));
+		splash.toFront();
+		splash.paint(splash.getGraphics());
+		
 		//
 		Adempiere.startupEnvironment(true);		//	Load Environment
 		MSession.get (Env.getCtx(), true);		//	Start Session
