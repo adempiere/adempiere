@@ -257,7 +257,7 @@ public final class AEnv
 		if (iconName == null)
 			iconName = actionName;
 		String text = Msg.getMsg(Env.getCtx(), actionName);
-		ImageIcon icon = Env.getMenuImageIcon(iconName + "16");
+		ImageIcon icon = Env.getImageIcon2(iconName + "16");
 		CMenuItem mi = new CMenuItem(text, icon);
 		mi.setActionCommand(actionName);
 		if (ks != null)

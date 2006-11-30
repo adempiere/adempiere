@@ -162,7 +162,7 @@ public final class APanel extends CPanel
 	/** Private Lock Button	*/
 	public AppsAction		aLock;
 	//	Local (added to toolbar)
-	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct,
+	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct, aLogout,
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
 							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, aDeleteSelection;
 
@@ -186,6 +186,7 @@ public final class APanel extends CPanel
 		aPrint = 	addAction("Print",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),	false);
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
+		aLogout = 	addAction("Logout", 		mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), false);
 		aExit =		addAction("Exit",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.SHIFT_MASK+Event.ALT_MASK),	false);
 		//								Edit
 		JMenu mEdit = AEnv.getMenu("Edit");
@@ -1248,6 +1249,8 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHelp.getName()))
 				cmd_help();
 			//  General Commands (Environment)
+			else if (cmd.equals(aLogout.getName()))
+				cmd_logout();
 			else if (!AEnv.actionPerformed (e.getActionCommand(), m_curWindowNo, this))
 				log.log(Level.SEVERE, "No action for: " + cmd);
 		}
@@ -1264,6 +1267,15 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		setBusy(false, true);
 	}	//	actionPerformed
+
+	private void cmd_logout() {
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu) {
+			((AMenu)top).logout();
+		}
+		
+	}
+
 
 	/**
 	 *  Create New Record
