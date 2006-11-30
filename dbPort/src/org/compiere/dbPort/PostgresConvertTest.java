@@ -46,7 +46,7 @@ public class PostgresConvertTest
 	 */
 	public static void main (String[] args)
 	{
-		Compiere.startup(true);
+		Adempiere.startup(true);
 		CLogMgt.setLoggerLevel(Level.INFO, null);
 		CLogMgt.setLevel(Level.INFO);
 		//
