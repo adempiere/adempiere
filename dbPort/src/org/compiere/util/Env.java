@@ -1286,12 +1286,15 @@ public final class Env
 	}   //  getImageIcon
 
 	/**
-	 *  Get ImageIcon. Will try .gif then .png
+	 *  Get ImageIcon. This method different from getImageIcon
+	 *  where the fileName parameter is without extension. The
+	 *  method will first try .gif and then .png if .gif does not
+	 *  exists.
 	 *
 	 *  @param fileName file name in imgaes folder without the extension(e.g. Bean16)
 	 *  @return image
 	 */
-	public static ImageIcon getMenuImageIcon (String fileName)
+	public static ImageIcon getImageIcon2 (String fileName)
 	{
 		URL url = Adempiere.class.getResource("images/" + fileName+".gif");
 		if (url == null)
@@ -1302,7 +1305,7 @@ public final class Env
 			return null;
 		}
 		return new ImageIcon(url);
-	}   //  getImageIcon
+	}   //  getImageIcon2
 	
 
 	/***************************************************************************
