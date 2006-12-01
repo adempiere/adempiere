@@ -141,7 +141,7 @@ public class FinBalance extends SvrProcess
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
 			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID) "
 			+ "WHERE C_AcctSchema_ID=" + C_AcctSchema_ID
-			+ " AND EXISTS (SELECT * FROM Fact_Acct a "
+			+ " AND EXISTS (SELECT 1 FROM Fact_Acct a "
 				+ "WHERE a.AD_Client_ID=ab.AD_Client_ID AND a.AD_Org_ID=ab.AD_Org_ID"
 				+ " AND a.C_AcctSchema_ID=ab.C_AcctSchema_ID AND TRUNC(a.DateAcct)=TRUNC(ab.DateAcct)"
 				+ " AND a.Account_ID=ab.Account_ID AND a.PostingType=ab.PostingType"
@@ -165,7 +165,7 @@ public class FinBalance extends SvrProcess
 		}
 
 		/** Insert		**/
-		sql = "INSERT INTO Fact_Acct_Balance ab "
+		sql = "INSERT INTO Fact_Acct_Balance "
 			+ "(AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, DateAcct,"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ "	C_Project_ID, AD_OrgTrx_ID,	C_SalesRegion_ID,C_Activity_ID,"
@@ -180,7 +180,7 @@ public class FinBalance extends SvrProcess
 			+ "FROM Fact_Acct a "
 			+ "WHERE C_AcctSchema_ID=" + C_AcctSchema_ID;
 			if (!deleteFirst)
-				sql += " AND NOT EXISTS (SELECT * "
+				sql += " AND NOT EXISTS (SELECT 1 "
 					+ "FROM Fact_Acct_Balance x "
 					+ "WHERE a.AD_Client_ID=x.AD_Client_ID AND a.AD_Org_ID=x.AD_Org_ID"
 					+ " AND a.C_AcctSchema_ID=x.C_AcctSchema_ID AND TRUNC(a.DateAcct)=TRUNC(x.DateAcct)"

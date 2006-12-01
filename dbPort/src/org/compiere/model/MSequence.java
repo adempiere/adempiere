@@ -110,7 +110,22 @@ public class MSequence extends X_AD_Sequence
 				{
 					int AD_Sequence_ID = rs.getInt(4);
 					//
-					if (USE_PROCEDURE)
+					if (DB.isFyracle()) {
+						PreparedStatement updateSQL;
+						int incrementNo = rs.getInt(3);
+						if (adempiereSys) {
+							updateSQL = conn
+									.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
+							retValue = rs.getInt(2);
+						} else {
+							updateSQL = conn
+									.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
+							retValue = rs.getInt(1);
+						}
+						updateSQL.setInt(1, incrementNo);
+						updateSQL.setInt(2, AD_Sequence_ID);
+						updateSQL.executeUpdate();
+					} else 	if (USE_PROCEDURE)
 					{
 						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
 					}
@@ -303,7 +318,21 @@ public class MSequence extends X_AD_Sequence
 				prefix = rs.getString(4);
 				suffix = rs.getString(5);
 				incrementNo = rs.getInt(3);
-				
+				if (DB.isFyracle()) {
+					PreparedStatement updateSQL;
+					if (adempiereSys) {
+						updateSQL = conn
+								.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
+						next = rs.getInt(2);
+					} else {
+						updateSQL = conn
+								.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
+						next = rs.getInt(1);
+					}
+					updateSQL.setInt(1, incrementNo);
+					updateSQL.setInt(2, AD_Sequence_ID);
+					updateSQL.executeUpdate();
+				} else	
 				if (USE_PROCEDURE)
 				{
 					next = nextID(conn, AD_Sequence_ID, adempiereSys);
@@ -462,7 +491,21 @@ public class MSequence extends X_AD_Sequence
 					adempiereSys = false;
 				AD_Sequence_ID = rs.getInt(7);
 				
-				if (USE_PROCEDURE)
+				if (DB.isFyracle()) {
+					PreparedStatement updateSQL;
+					if (adempiereSys) {
+						updateSQL = conn
+								.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
+						next = rs.getInt(2);
+					} else {
+						updateSQL = conn
+								.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
+						next = rs.getInt(1);
+					}
+					updateSQL.setInt(1, incrementNo);
+					updateSQL.setInt(2, AD_Sequence_ID);
+					updateSQL.executeUpdate();
+				}else if (USE_PROCEDURE)
 				{
 					next = nextID(conn, AD_Sequence_ID, adempiereSys);
 				}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!-- ============================================= -->
 <!-- Adempiere Installer build file                 -->
 <!-- ============================================= -->
@@ -32,6 +32,10 @@
 	<pathelement path="${lib.dir}/CCTools.jar"/>
 	<pathelement path="${lib.dir}/Adempiere.jar"/>
 	<pathelement path="${lib.dir}/oracle.jar"/>
+	<pathelement path="${lib.dir}/postgresql.jar"/>
+	<pathelement path="${lib.dir}/fyracle.jar"/>
+	<pathelement path="${lib.dir}/sybase.jar"/>
+	<pathelement path="${lib.dir}/ibm.jar"/>
 	<pathelement path="${lib.dir}/db2.jar"/>
 	<pathelement path="../tools/lib/ant.jar"/>
 	<pathelement path="../tools/lib/ant-launcher.jar"/>

@@ -822,6 +822,11 @@ public class CConnection implements Serializable
 				setDbPort (DB_PostgreSQL.DEFAULT_PORT);
 		}
 		//end vpj-cd e-evolution 09 ene 2006
+		if (isFyracle())
+		{
+			if (getDbPort () != DB_Fyracle.DEFAULT_PORT)
+				setDbPort (DB_Fyracle.DEFAULT_PORT);
+		}		
 	} 	//  setType
 
 	/**
@@ -888,7 +893,15 @@ public class CConnection implements Serializable
 		return Database.DB_POSTGRESQL.equals (m_type);
 	} 	//  isPostgreSQL
     //end
-        
+	/**
+	 *  Is PostgreSQL DB
+	 *  @return true if PostgreSQL
+	 */
+	public boolean isFyracle ()
+	{
+		return Database.DB_FYRACLE.equals (m_type);
+	} 	//  isPostgreSQL
+    //end        
 	/**
 	 *  Is Database Connection OK
 	 *  @return true if database connection is OK

@@ -42,6 +42,9 @@ public class Database
         /** Enterprise DB   */
 	//public static String        DB_EDB = "EnterpriseDB";
 
+ 	public static String        DB_FYRACLE = "Fyracle(beta)";    
+        
+
 	/** Supported Databases     */
 	public static String[]      DB_NAMES = new String[] {
 		 DB_ORACLE
@@ -49,6 +52,7 @@ public class Database
 	//	,DB_DERBY
 	//	,DB_MSSQLServer
 		,DB_POSTGRESQL 
+		,DB_FYRACLE
         //        ,DB_EDB
 	};
 
@@ -59,6 +63,7 @@ public class Database
 	//	,DB_Derby.class
 	//	,DB_MSSQLServer.class
 		,DB_PostgreSQL.class
+		,DB_Fyracle.class
         //        ,DB_EDB.class        
 	};
 
@@ -105,7 +110,9 @@ public class Database
 		if (url.indexOf("db2") != -1)
 			return new DB_DB2();
         if (url.indexOf("postgresql") != -1)
-			return new DB_DB2();
+			return new DB_PostgreSQL();
+        if (url.indexOf("firebirdsql") != -1)
+			return new DB_Fyracle();
 
 		log.severe("No Database for " + url);
 		return null;

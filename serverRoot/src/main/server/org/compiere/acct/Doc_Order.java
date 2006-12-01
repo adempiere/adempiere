@@ -608,7 +608,8 @@ public class Doc_Order extends Doc
 			+ "FROM C_Order o, C_OrderLine ol, C_AcctSchema a "
 			+ "WHERE o.C_Order_ID=ol.C_Order_ID"
 			+ " AND pc.M_Product_ID=ol.M_Product_ID AND pc.C_AcctSchema_ID=a.C_AcctSchema_ID"
-			+ " AND ROWNUM=1"
+			//TODO FYRACLE many lines for same product
+			+ (DB.isFyracle()?"":" AND ROWNUM=1") 
 			+ " AND pc.C_AcctSchema_ID=").append(C_AcctSchema_ID).append(" AND o.C_Order_ID=")
 			.append(get_ID()).append(") ")
 			.append("WHERE EXISTS (SELECT * "

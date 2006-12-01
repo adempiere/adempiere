@@ -3148,7 +3148,7 @@ public abstract class PO
 		//
 		Object retValue = null;
                 //begin vpj-cd e-Evolution 03/11/2005 PostgreSQL
-		if(DB.isPostgreSQL())
+		if(DB.isPostgreSQL()||DB.isFyracle())
 		{			
 		    byte buf[] = (byte[])value;
 			retValue = buf;

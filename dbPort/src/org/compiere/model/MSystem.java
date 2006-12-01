@@ -176,12 +176,12 @@ public class MSystem extends X_AD_System
 		if (s == null || recalc)
 		{
 			//jz to avoid data conversion     String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
-			String sql = "SELECT 'C'||getChars((SELECT COUNT(*) FROM AD_Client))"
-				+ "||'U'||getChars((SELECT COUNT(*) FROM AD_User))"
-				+ "||'B'||getChars((SELECT COUNT(*)  FROM C_BPartner))"
-				+ "||'P'||getChars((SELECT COUNT(*)  FROM M_Product))"
-				+ "||'I'||getChars((SELECT COUNT(*)  FROM C_Invoice))"
-				+ "||'M'||getChars((SELECT COUNT(*) FROM M_Transaction))"
+			String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
+				+ "||'U'||(SELECT COUNT(*) FROM AD_User)"
+				+ "||'B'||(SELECT COUNT(*)  FROM C_BPartner)"
+				+ "||'P'||(SELECT COUNT(*)  FROM M_Product)"
+				+ "||'I'||(SELECT COUNT(*)  FROM C_Invoice)"
+				+ "||'M'||(SELECT COUNT(*) FROM M_Transaction)"
 				+ " FROM AD_System";
 			PreparedStatement pstmt = null;
 			try

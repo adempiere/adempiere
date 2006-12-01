@@ -558,7 +558,14 @@ public final class DB
         log.severe("No Database");
 		return false;
 	}
-	
+	public static boolean isFyracle()
+	{
+		if (s_cc != null)
+			return s_cc.isFyracle();
+                log.severe("No Database");
+		return false;
+	}	//	isFyracle
+ 	
 	/**
 	 * 	Do we have a Postgre DB ?
 	 *	@return true if connected to PostgreSQL

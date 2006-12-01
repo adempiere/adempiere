@@ -28,6 +28,7 @@
     <pathelement path="${lib.dir}/db2.jar"/>
     <pathelement path="${lib.dir}/derby.jar"/>
     <pathelement path="${lib.dir}/postgresql.jar"/>
+    <pathelement path="${lib.dir}/fyracle.jar"/>
 
     <pathelement path="${lib.dir}/jboss.jar"/>
 

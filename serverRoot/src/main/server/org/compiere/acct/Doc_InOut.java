@@ -264,10 +264,11 @@ public class Doc_InOut extends Doc
 		log.fine("M_InOut_ID=" + get_ID());
 		//	Old Model
 		StringBuffer sql = new StringBuffer(
+				//FYRACLE add pc. everywhere
 			"UPDATE M_Product_Costing pc "
 			+ "SET (CostAverageCumQty, CostAverageCumAmt)="
-			+ "(SELECT CostAverageCumQty - SUM(il.MovementQty),"
-			+ " CostAverageCumAmt - SUM(il.MovementQty*CurrentCostPrice) "
+			+ "(SELECT pc.CostAverageCumQty - SUM(il.MovementQty),"
+			+ " pc.CostAverageCumAmt - SUM(il.MovementQty*pc.CurrentCostPrice) "
 			+ "FROM M_InOutLine il "
 			+ "WHERE pc.M_Product_ID=il.M_Product_ID"
 			+ " AND il.M_InOut_ID=").append(get_ID()).append(") ")

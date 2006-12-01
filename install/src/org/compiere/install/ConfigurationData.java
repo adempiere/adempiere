@@ -740,6 +740,8 @@ public class ConfigurationData
                  //begin vpj-cd e-evolution 03/17/2005 PostgreSQL
                 else if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
 			ccType = Database.DB_POSTGRESQL;
+                else if (getDatabaseType().equals(DBTYPE_FYRACLE))
+        			ccType = Database.DB_FYRACLE;
                
 		//end vpj-cd e-evolution 03/17/2005 PostgreSQL
 		CConnection cc = null;
@@ -1138,6 +1140,8 @@ public class ConfigurationData
 	/** PostgreSQL          */
 	private static String	DBTYPE_POSTGRESQL = "postgresql";
         private static String	DBTYPE_EDB = "enterprisedb";
+        private static String	DBTYPE_FYRACLE = "fyracle";
+        
 	// end e-evolution vpj-cd 02/07/2005 PostgreSQL
 	
 	/** Database Types		*/
@@ -1146,8 +1150,10 @@ public class ConfigurationData
 		DBTYPE_ORACLE, 
 		//DBTYPE_DB2, 
 		//DBTYPE_MS,
+		DBTYPE_FYRACLE,
                  //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
                  DBTYPE_POSTGRESQL 
+                 
         };
 	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		
@@ -1160,6 +1166,7 @@ public class ConfigurationData
 		//begin e-evolution vpj-cd 02/07/2005 PostgreSQL
 		//null	
 		//null,
+		new ConfigFyracle(this),
 		new ConfigPostgreSQL(this)  
 //		new ConfigEDB(this)
 		//		end e-evolution vpj-cd 02/07/2005 PostgreSQL
