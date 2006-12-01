@@ -119,12 +119,6 @@ public class CTextField extends JTextField
 	private void init()
 	{
 		setBackground (false);
-		//	Minimum Size
-		Dimension size = getPreferredSize();
-		if (size != null)
-			size = new Dimension (20,10);
-		size.width = 30;
-		setMinimumSize(size);
 	}   //  init
 
 	/*************************************************************************/
