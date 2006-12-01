@@ -17,6 +17,9 @@
 package org.compiere.print;
 
 import java.util.logging.*;
+
+import javax.swing.JFrame;
+
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.process.*;
@@ -108,7 +111,7 @@ public class ReportCtl
 			re.print();
 		}
 		else
-			new Viewer(re);
+			preview(re);
 		return true;
 	}	//	startStandardReport
 
@@ -137,7 +140,7 @@ public class ReportCtl
 		PrintInfo info = new PrintInfo(pi);
 
 		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-		new Viewer(re);
+		preview(re);
 		return true;
 	}	//	startFinReport
 
@@ -164,7 +167,7 @@ public class ReportCtl
 			ReportEngine.printConfirm (type, Record_ID);
 		}
 		else
-			new Viewer(re);
+			preview(re);
 		return true;
 	}	//	StartDocumentPrint
 
@@ -190,4 +193,10 @@ public class ReportCtl
 		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, IsDirectPrint);
 	}	//	startCheckPrint
 	
+	private static void preview(ReportEngine re) {
+		Viewer viewer = new Viewer(re);
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+			((AMenu)top).getWindowManager().add(viewer);
+	}
 }	//	ReportCtl

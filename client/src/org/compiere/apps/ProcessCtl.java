@@ -49,8 +49,8 @@ public class ProcessCtl extends Thread
 	 *  Creates a ProcessCtl instance, which calls
 	 *  lockUI and unlockUI if parent is a ASyncProcess
 	 *  <br>
-	 *	Called from ProcessCtl.startProcess, ProcessDialog.actionPerformed,
-	 *  APanel.cmd_print, APanel.actionButton, VPaySelect.cmd_generate
+	 *	Called from ProcessCtl.startProcess, APanel.cmd_print,  
+	 *  APanel.actionButton, VPaySelect.cmd_generate
 	 *
 	 *  @param parent ASyncProcess & Container
 	 *  @param WindowNo window no
@@ -82,6 +82,52 @@ public class ProcessCtl extends Thread
 				pi.setError (true);
 				return null;
 			}
+		}
+
+		//	execute
+		ProcessCtl worker = new ProcessCtl(parent, pi, trx);
+		worker.start();		//	MUST be start!
+		return worker;
+	}	//	execute
+	
+	/**
+	 *	Async Process - Do it all.
+	 *  <code>
+	 *	- Get Instance ID
+	 *	- Get Parameters
+	 *	- execute (lock - start process - unlock)
+	 *  </code>
+	 *  Creates a ProcessCtl instance, which calls
+	 *  lockUI and unlockUI if parent is a ASyncProcess
+	 *  <br>
+	 *	Called from ProcessDialog.actionPerformed
+	 *
+	 *  @param parent ASyncProcess & Container
+	 *  @param WindowNo window no
+	 *  @param paraPanel Process Parameter Panel
+	 *  @param pi ProcessInfo process info
+	 *  @param trx Transaction
+	 *  @return worker started ProcessCtl instance or null for workflow
+	 */
+	public static ProcessCtl process(ASyncProcess parent, int WindowNo, ProcessParameterPanel paraPanel, ProcessInfo pi, Trx trx)
+	{
+		log.fine("WindowNo=" + WindowNo + " - " + pi);
+
+		MPInstance instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID());
+		if (!instance.save())
+		{
+			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
+			pi.setError (true);
+			return null;
+		}
+		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+
+		//	Get Parameters
+		if (!paraPanel.saveParameters())
+		{
+			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
+			pi.setError (true);
+			return null;
 		}
 
 		//	execute

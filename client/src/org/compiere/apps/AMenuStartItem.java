@@ -270,6 +270,8 @@ public class AMenuStartItem extends Thread implements ActionListener
 			m_menu.getWindowManager().add(pd);
 
 			SwingUtilities.invokeLater(m_updatePB);			//	2
+			pd.getContentPane().invalidate();
+			pd.getContentPane().validate();
 			pd.pack();
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
