@@ -231,18 +231,18 @@ public class AMenuStartItem extends Thread implements ActionListener
 				return;
 
 			SwingUtilities.invokeLater(m_updatePB);			//	2
+			frame.pack();
 			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) )
 				frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-			else
-				frame.pack();
 			
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) )
+			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
 				frame.setVisible(true);
-			else
+				frame.toFront();
+			} else
 				AEnv.showCenterScreen(frame);
-			frame.toFront();
+			
 			m_menu.getWindowManager().add(frame);
 			
 //			if (wfPanel.isVisible())
@@ -329,13 +329,15 @@ public class AMenuStartItem extends Thread implements ActionListener
 		SwingUtilities.invokeLater(m_updatePB);			//	1
 		ff.openForm(AD_Form_ID);
 		SwingUtilities.invokeLater(m_updatePB);			//	2
-		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) == false)
-			ff.pack();
+		
 		//	Center the window
 		SwingUtilities.invokeLater(m_updatePB);			//	3
-		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) )
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			ff.pack();
 			ff.setExtendedState(Frame.MAXIMIZED_BOTH);
-		else
+			ff.setVisible(true);
+			ff.toFront();
+		} else
 			AEnv.showCenterScreen(ff);
 	}	//	startForm
 

@@ -637,6 +637,7 @@ public final class AEnv
 		if (!frame.initWindow(s_workflow_Window_ID, query))
 			return;
 		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			frame.pack();
 			frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 			frame.setVisible(true);
 			frame.toFront();
