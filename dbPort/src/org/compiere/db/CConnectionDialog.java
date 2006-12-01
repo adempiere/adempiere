@@ -220,7 +220,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(dbUidField, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0));
-		centerPanel.add(dbPwdField, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0
+		centerPanel.add(dbPwdField, new GridBagConstraints(2, 9, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 12), 0, 0));
 		centerPanel.add(cbFirewall, new GridBagConstraints(1, 10, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 12), 0, 0));
@@ -252,7 +252,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		bTestDB.addActionListener(this);
 		bOK.addActionListener(this);
 		bCancel.addActionListener(this);
-
+		
 		//	Server
 		if (!Ini.isClient())
 		{
