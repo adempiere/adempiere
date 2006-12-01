@@ -8,8 +8,8 @@
 
 echo .
 echo Load Oracle SQLJ ...
-loadjava -user $1@$ADEMPIERE_DB_NAME -verbose -force -resolve $ADEMPIERE_HOME/lib/sqlj.jar
+loadjava -user $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME -verbose -force -resolve $ADEMPIERE_HOME/lib/sqlj.jar
 
 echo .
 echo Create Oracle Functions ...
-sqlplus $1@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/oracle/createSQLJ.sql
+sqlplus $1@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/oracle/createSQLJ.sql

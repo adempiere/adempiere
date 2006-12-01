@@ -8,9 +8,9 @@
 @Echo .
 @Echo Load Oracle SQLJ ...
 @SET CLASSPATH=
-@call loadjava -user %1@%ADEMPIERE_DB_NAME% -verbose -force -resolve %ADEMPIERE_HOME%\lib\sqlj.jar
+@call loadjava -user %1@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% -verbose -force -resolve %ADEMPIERE_HOME%\lib\sqlj.jar
 
 @Echo .
 
 @Echo Create Oracle Functions ...
-@sqlplus %1@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\oracle\createSQLJ.sql
+@sqlplus %1@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\oracle\createSQLJ.sql
