@@ -23,7 +23,7 @@ import org.compiere.util.*;
 
 /**
  *	Inventory Move Line Model
- *	
+ *
  *  @author Jorg Janke
  *  @version $Id: MMovementLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
@@ -42,8 +42,8 @@ public class MMovementLine extends X_M_MovementLine
 		{
 		//	setM_LocatorTo_ID (0);	// @M_LocatorTo_ID@
 		//	setM_Locator_ID (0);	// @M_Locator_ID@
-		//	setM_MovementLine_ID (0);			
-		//	setLine (0);	
+		//	setM_MovementLine_ID (0);
+		//	setLine (0);
 		//	setM_Product_ID (0);
 			setM_AttributeSetInstance_ID(0);	//	ID
 			setMovementQty (Env.ZERO);	// 1
@@ -51,7 +51,7 @@ public class MMovementLine extends X_M_MovementLine
 			setScrappedQty(Env.ZERO);
 			setConfirmedQty(Env.ZERO);
 			setProcessed (false);
-		}	
+		}
 	}	//	MMovementLine
 
 	/**
@@ -75,7 +75,7 @@ public class MMovementLine extends X_M_MovementLine
 		setClientOrg(parent);
 		setM_Movement_ID(parent.getM_Movement_ID());
 	}	//	MMovementLine
-	
+
 	/**
 	 * 	Get AttributeSetInstance To
 	 *	@return ASI
@@ -87,7 +87,7 @@ public class MMovementLine extends X_M_MovementLine
 			M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstance_ID();
 		return M_AttributeSetInstanceTo_ID;
 	}	//	getM_AttributeSetInstanceTo_ID
-	
+
 	/**
 	 * 	Add to Description
 	 *	@param description text
@@ -111,9 +111,9 @@ public class MMovementLine extends X_M_MovementLine
 			return MProduct.get(getCtx(), getM_Product_ID());
 		return null;
 	}	//	getProduct
-	
+
 	/**
-	 * 	Set Movement Qty - enforce UOM 
+	 * 	Set Movement Qty - enforce UOM
 	 *	@param MovementQty qty
 	 */
 	public void setMovementQty (BigDecimal MovementQty)
@@ -123,14 +123,14 @@ public class MMovementLine extends X_M_MovementLine
 			MProduct product = getProduct();
 			if (product != null)
 			{
-				int precision = product.getUOMPrecision(); 
+				int precision = product.getUOMPrecision();
 				MovementQty = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
 			}
 		}
 		super.setMovementQty(MovementQty);
 	}	//	setMovementQty
 
-	
+
 	/**
 	 * 	Before Save
 	 *	@param newRecord new
@@ -141,11 +141,11 @@ public class MMovementLine extends X_M_MovementLine
 		//	Set Line No
 		if (getLine() == 0)
 		{
-			String sql = "SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM C_M_MovementLine WHERE M_Movement_ID=?";
+			String sql = "SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=?";
 			int ii = DB.getSQLValue (get_TrxName(), sql, getM_Movement_ID());
 			setLine (ii);
 		}
-		
+
 		if (getM_Locator_ID() == getM_LocatorTo_ID())
 		{
 			log.saveError("Error", Msg.parseTranslation(getCtx(), "@M_Locator_ID@ == @M_LocatorTo_ID@"));
@@ -165,5 +165,5 @@ public class MMovementLine extends X_M_MovementLine
 		return true;
 	}	//	beforeSave
 
-	
+
 }	//	MMovementLine
