@@ -28,12 +28,13 @@ operating system.<br>
 <br>
 Install Java SDK and Fyracle according to their own manuals. Follwoing
 instruction<br>
-will assume that You installed Java in c:\adempiere\jdk folder and
+will assume that You installed Java in c:\adempiere\jdk1.5.0 folder and
 Fyracle in c:\adempiere\fyracle <br>
 folder.<br>
 <br>
 Next uninstall Adempiere.zip into to c:\adempiere\Adempiere directory<br>
-and adempiereData.zip into c:\adempiere\data directory.<br>
+Find database file c:\adempiere\Adempiere\data\Adempiere_fy.jar.
+Unzip it to c:\adempiere\data
 <br>
 Please run c:\adempiere\Adempiere\RUN_setup.bat to setup adempiere server.<br>
 Please fill them with following values:<br>
@@ -44,8 +45,8 @@ Please fill them with following values:<br>
 (c:\adempiere\Adempiere)</li>
   <li>Server is name of computer used for application server (can not
 be localhost). This name of computer must be available for all clients
-of adempiere</li>
-  <li>Web port and SSL port are ports on which web version of adempiere
+of Adempiere</li>
+  <li>Web port and SSL port are ports on which web version of Adempiere
 will be available (must be not used)</li>
   <li>JNP port is application server port and probably should not be
 changed</li>
@@ -53,17 +54,20 @@ changed</li>
   <li>Choose Fyracle database from combobox.</li>
   <li>Database host should be name of computer n which You install
 server (not localhost)</li>
-  <li>Database name is name of data file location. In our exaple it is
+  <li>Database name is name of data file location. In our example it is
 c:\adempiere\data\adempiere.fdb<br>
   </li>
   <li>Database port should be set 3050</li>
-  <li>Database user should be set to SYSDBA</li>
-  <li>Database password is 'masterkey'</li>
-  <li>Remainig fields are to setup adempiere email account</li>
+  <li>Database user should be set to SYSDBA
+	</li>
+  <li>Database default password is 'masterkey'. <b>Security warning:</b>You <b>must</b> change database password with Firebird tools to secure one.
+</li>
+  <li>Fill Adempiere email account, which will be used by system</li>
 </ul>
 Press Save button to save changes to configuration.<br>
 <br>
-It is adviced to restart Windows computer in next step as Windows can
+<br>
+It is adviced to restart Windows computer in next step, as Windows can
 not set environment variable<br>
 without it.<br>
 <br>
