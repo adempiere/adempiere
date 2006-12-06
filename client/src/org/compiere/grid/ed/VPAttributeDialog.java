@@ -580,6 +580,7 @@ public class VPAttributeDialog extends CDialog
 			this.setVisible(false);
 			this.setModal (false);	//	otherwise blocked
 			this.setVisible(true);
+			AEnv.addToWindowManager(frame);
 			AEnv.showScreen(frame, SwingConstants.EAST);
 		}
 		//  async window - not able to get feedback

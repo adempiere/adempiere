@@ -1133,7 +1133,10 @@ public class VLookup extends JComponent
 			ADialog.error(m_lookup.getWindowNo(), this, msg, pp==null ? "" : pp.getName());
 		}
 		else
+		{
+			AEnv.addToWindowManager(frame);
 			AEnv.showCenterScreen(frame);
+		}
 			//  async window - not able to get feedback
 		frame = null;
 		//

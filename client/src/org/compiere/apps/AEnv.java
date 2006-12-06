@@ -485,6 +485,7 @@ public final class AEnv
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID)))
 			return;
+		addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	zoom
@@ -535,11 +536,23 @@ public final class AEnv
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
+		addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	zoom
 	
-	
+	/**
+	 * Track open frame in window manager
+	 * @param frame
+	 */
+	public static void addToWindowManager(CFrame frame)
+	{
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			((AMenu)top).getWindowManager().add(frame);
+		}
+	}
 	/**
 	 *	Exit System
 	 *  @param status System exit status (usually 0 for no error)
@@ -633,9 +646,9 @@ public final class AEnv
 		}
 		//
 		AWindow frame = new AWindow();
-		((AMenu)Env.getWindow(0)).getWindowManager().add(frame);
 		if (!frame.initWindow(s_workflow_Window_ID, query))
 			return;
+		addToWindowManager(frame);
 		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
 			frame.pack();
 			frame.setExtendedState(Frame.MAXIMIZED_BOTH);

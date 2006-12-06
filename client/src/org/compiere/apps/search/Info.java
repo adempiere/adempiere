@@ -686,6 +686,7 @@ public abstract class Info extends CDialog
 		final AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
+		AEnv.addToWindowManager(frame);
 		//	Modal Window causes UI lock
 		if (isModal())
 		{

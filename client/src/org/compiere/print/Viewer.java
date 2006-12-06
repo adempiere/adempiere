@@ -953,6 +953,7 @@ public class Viewer extends CFrame
 		int AD_Window_ID = 240;		//	hardcoded
 		int AD_PrintFormat_ID = m_reportEngine.getPrintFormat().get_ID();
 		win.initWindow(AD_Window_ID, MQuery.getEqualQuery("AD_PrintFormat_ID", AD_PrintFormat_ID));
+		AEnv.addToWindowManager(win);
 		AEnv.showCenterScreen(win);
 		//	see windowStateChanged for applying change
 	}	//	cmd_customize

@@ -403,6 +403,7 @@ public class VTrxMaterial extends CPanel
 			setCursor(Cursor.getDefaultCursor());
 			return;
 		}
+		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 		setCursor(Cursor.getDefaultCursor());
