@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor: phib [ 1566335 ] Report View scrolling (Bug 1566328)          *
  *****************************************************************************/
 package org.compiere.print;
 
@@ -36,6 +37,8 @@ import com.qoppa.pdf.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: Viewer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * globalqss: integrate phib contribution from 
+ *   http://sourceforge.net/tracker/index.php?func=detail&aid=1566335&group_id=176962&atid=879334
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -142,6 +145,11 @@ public class Viewer extends CFrame
 		northPanel.add(toolBar,  BorderLayout.EAST);
 		this.getContentPane().add(centerScrollPane, BorderLayout.CENTER);
 		centerScrollPane.getViewport().add(m_viewPanel, null);
+		// pb add: set scrolling with scrollbar buttons to move by 20 pixels
+		// each press
+		centerScrollPane.getVerticalScrollBar().setUnitIncrement(20);
+		centerScrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+		// end pb
 		this.getContentPane().add(statusBar, BorderLayout.SOUTH);
 
 		//	ToolBar
@@ -196,7 +204,9 @@ public class Viewer extends CFrame
 		createMenu();
 //		comboZoom.addActionListener(this);
 		//	Change Listener to set Page no
-		centerScrollPane.getViewport().addChangeListener(this);
+		//pb comment this out so that scrolling works normally
+		//centerScrollPane.getViewport().addChangeListener(this);
+		// end pb
 
 		//	Max Page
 		m_pageMax = m_viewPanel.getPageCount();
@@ -531,6 +541,8 @@ public class Viewer extends CFrame
 		{
 			newPage = ((Integer)spinnerModel.getValue()).intValue();
 		}
+		// pb with the viewport change listener disabled the following is
+		// superfluous and should be removed
 		else	//	Viewpoint
 		{
 			Point p = centerScrollPane.getViewport().getViewPosition();
