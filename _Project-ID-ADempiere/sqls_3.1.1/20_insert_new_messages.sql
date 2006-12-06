@@ -58,8 +58,18 @@ INSERT INTO ad_message
              'I', 'D'
             );         
 
+INSERT INTO ad_message
+            (ad_message_id, ad_client_id, ad_org_id, isactive, created,
+             createdby, updated, updatedby, VALUE, msgtext,
+             msgtype, entitytype
+            )
+     VALUES (50006, 0, 0, 'Y', SYSDATE,
+             0, SYSDATE, 0, 'SaveParentFirst', 'Save Parent Tab First',
+             'I', 'D'
+            );         
+
 UPDATE ad_sequence
-   SET currentnextsys = 50006
+   SET currentnextsys = 50007
  WHERE NAME = 'AD_Message';
 
 COMMIT ;
