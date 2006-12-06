@@ -190,6 +190,11 @@ public class AZoomAcross implements ActionListener
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, m_query))
 			return;
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			((AMenu)top).getWindowManager().add(frame);
+		}
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	launchZoom

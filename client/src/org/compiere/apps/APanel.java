@@ -931,6 +931,8 @@ public final class APanel extends CPanel
 		VTabbedPane tp = (VTabbedPane)e.getSource();
 		boolean back = false;
 		boolean isAPanelTab = false;
+		
+		int previousIndex = 0;
 
 		//  Workbench Tab Change
 		if (tp.isWorkbench())
@@ -958,6 +960,8 @@ public final class APanel extends CPanel
 			log.info("Tab=" + tp);
 			m_curWinTab = tp;
 			int tpIndex = m_curWinTab.getSelectedIndex();
+			//	detect no tab change
+			if (tpIndex == m_curTabIndex) return;
 			back = tpIndex < m_curTabIndex;
 			GridController gc = null;
 			if (m_curWinTab.getSelectedComponent() instanceof GridController)
@@ -1013,6 +1017,7 @@ public final class APanel extends CPanel
 		//	if (m_curTabIndex >= 0)
 		//		m_curWinTab.setForegroundAt(m_curTabIndex, AdempierePLAF.getTextColor_Normal());
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
+			previousIndex = m_curTabIndex;
 			m_curTabIndex = tpIndex;
 			if (!isAPanelTab)
 				m_curGC = gc;
@@ -1037,6 +1042,14 @@ public final class APanel extends CPanel
 			{
 				MRole role = MRole.getDefault(); 
 				m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
+				if (m_curGC.isNeedToSaveParent())
+				{
+					// there is a problem, so we go back
+					ADialog.error(m_curWindowNo, this, "SaveParentFirst");
+					m_curWinTab.setSelectedIndex(previousIndex);
+					setBusy(false, true);
+					return;
+				}
 			}
 
 			//  Set initial record

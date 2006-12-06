@@ -582,6 +582,10 @@ public class GridController extends CPanel
 			vTable.autoSize(true);
 	}   //  query
 
+	public boolean isNeedToSaveParent()
+	{
+		return m_mTab.isNeedToSaveParent();
+	}
 	
 	/**************************************************************************
 	 *  Switch from single to multi & vice versa
