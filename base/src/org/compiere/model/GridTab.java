@@ -127,6 +127,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
+	
+	private boolean m_parentNeedSave = false;
 
 
 	/**************************************************************************
@@ -508,6 +510,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//	Detail Query
 		if (isDetail())
 		{
+			m_parentNeedSave = false;
 			String lc = getLinkColumnName();
 			if (lc.equals(""))
 				log.severe ("No link column");
@@ -520,7 +523,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				m_linkValue = value;
 				//	Check validity
 				if (value.length() == 0)
-					log.severe ("No value for link column " + lc);
+				{
+					//log.severe ("No value for link column " + lc);
+					//parent is new, can't retrieve detail
+					m_parentNeedSave = true;
+					return;
+				}
 				else
 				{
 					//	we have column and value
@@ -2409,6 +2417,14 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return null;
 		return m_mTable.getValueAt(row, col);
 	}   //  getValue
+	
+	public boolean isNeedToSaveParent()
+	{
+		if (isDetail())
+			return m_parentNeedSave;
+		else
+			return false;
+	}
 
 	/**
 	 *  toString
