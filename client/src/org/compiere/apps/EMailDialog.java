@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): phib - fixing bug [ 1568765 ] Close email dialog button broken *
  *****************************************************************************/
 package org.compiere.apps;
 
@@ -32,6 +33,9 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: EMailDialog.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  globalqss: integrate phib fixing bug reported here
+ *     http://sourceforge.net/tracker/index.php?func=detail&aid=1568765&group_id=176962&atid=879332
  */
 public class EMailDialog extends CDialog 
 	implements ActionListener, VetoableChangeListener
@@ -312,6 +316,9 @@ public class EMailDialog extends CDialog
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
+			dispose();
+		
 		if (getTo() == null || getTo().length() == 0)
 		{
 			return;
