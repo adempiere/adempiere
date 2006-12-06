@@ -171,6 +171,7 @@ public class AArchive implements ActionListener
 		else	//	all Reports
 			av.query(true, m_AD_Table_ID, 0);
 		//
+		AEnv.addToWindowManager(ff);
 		ff.pack();
 		AEnv.showCenterScreen(ff);
 		ff = null;

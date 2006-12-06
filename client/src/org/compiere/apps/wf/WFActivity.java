@@ -519,6 +519,7 @@ public class WFActivity extends CPanel
 			FormFrame ff = new FormFrame();
 			ff.openForm(AD_Form_ID);
 			ff.pack();
+			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);
 		}
 		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))

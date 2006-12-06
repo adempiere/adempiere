@@ -606,6 +606,7 @@ public class VPaySelect extends CPanel
 		//
 		ff.pack();
 		this.setVisible(false);
+		AEnv.addToWindowManager(ff);
 		AEnv.showCenterScreen(ff);
 		this.dispose();
 	}   //  unlockUI
