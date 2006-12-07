@@ -48,6 +48,8 @@ public class ConfigOracle extends Config
 	private static OracleDriver s_oracleDriver = null;
 	/** Discoverd TNS			*/
 	private String[] 			p_discovered = null;
+	/** Discovered Database Name */
+	private String[] 			p_dbname = null;
 	/** Last Connection			*/
 	private Connection			m_con = null;
 	/** Express Edition			*/
@@ -75,47 +77,106 @@ public class ConfigOracle extends Config
 			return p_discovered;
 		//
 		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> dblist = new ArrayList<String>();
 		//	default value to lowercase or null
 		String def = selected;
 		if (def != null && def.trim().length() == 0)
 			def = null;
-		if (def != null)
+		if (def != null) {
 			list.add(def.toLowerCase());
-
+			dblist.add(def.toLowerCase());
+		}
+		
 		if (m_XE)
 		{
 			String serviceName = "xe";
 			if (!list.contains(serviceName))
 				list.add(serviceName);
 		}
-		//	Search for Oracle Info
-		String path = System.getProperty("java.library.path");
-		String[] entries = path.split(File.pathSeparator);
-		for (int e = 0; e < entries.length; e++)
+		
+		String path = System.getenv("ORACLE_HOME");
+		if (path == null) 
 		{
-			String entry = entries[e].toLowerCase();
-			if (entry.indexOf("ora") != -1 && entry.endsWith("bin"))
+			//	Search for Oracle Info
+			path = System.getProperty("java.library.path");
+			String[] entries = path.split(File.pathSeparator);
+			for (int e = 0; e < entries.length; e++)
 			{
-				StringBuffer sb = getTNS_File (entries[e].substring(0, entries[e].length()-4));
-				String[] serviceNames = getTNS_Names (sb);
-				if (serviceNames != null)
+				String entry = entries[e].toLowerCase();
+				if (entry.indexOf("ora") != -1 && entry.endsWith("bin"))
 				{
-					for (int i = 0; i < serviceNames.length; i++)
+					StringBuffer sb = getTNS_File (entries[e].substring(0, entries[e].length()-4));
+					String[] tnsnames = getTNS_Names (sb, true);
+					String[] dbNames = getTNS_Names (sb, false);
+					if (tnsnames != null)
 					{
-						String serviceName = serviceNames[i].toLowerCase();
-						if (!list.contains(serviceName))
-							list.add(serviceName);
+						for (int i = 0; i < tnsnames.length; i++)
+						{
+							String tns = tnsnames[i];	//	 is lower case
+							String db = dbNames[i];
+							if (!tns.equals(def)) {
+								list.add(tns);
+								dblist.add(db);
+							} else {
+								dblist.remove(0);
+								dblist.add(0, db);
+							}
+						}
+						break;
 					}
-					break;
+				}
+			}	//	for all path entries
+		}
+		else
+		{
+			StringBuffer sb = getTNS_File (path);
+			String[] tnsnames = getTNS_Names (sb, true);
+			String[] dbNames = getTNS_Names (sb, false);
+			if (tnsnames != null)
+			{
+				for (int i = 0; i < tnsnames.length; i++)
+				{
+					String tns = tnsnames[i];	//	 is lower case
+					String db = dbNames[i];
+					if (!tns.equals(def)) {
+						list.add(tns);
+						dblist.add(db);
+					} else {
+						dblist.remove(0);
+						dblist.add(0, db);
+					}
 				}
 			}
-		}	//	for all path entries
+		}
 
 		p_discovered = new String[list.size()];
 		list.toArray(p_discovered);
+		p_dbname = new String[dblist.size()];
+		dblist.toArray(p_dbname);
 		return p_discovered;
 	}	//	discoverDatabases
 	
+	@Override
+	public String getDatabaseName(String nativeConnectioName) 
+	{
+		int idx = -1;
+		if (p_discovered == null) return nativeConnectioName;
+		for (int i = 0; i < p_discovered.length; i++)
+		{
+			if (p_discovered[i].equals(nativeConnectioName))
+			{
+				idx = i;
+				break;
+			}
+		}
+		if (idx >= 0 
+				&& p_dbname != null 
+				&& idx < p_dbname.length)
+			return p_dbname[idx];
+		else
+			return nativeConnectioName;
+	}
+
 	/**
 	 * 	Get File tnmsnames.ora in StringBuffer
 	 * 	@param oraHome ORACLE_HOME
@@ -157,7 +218,7 @@ public class ConfigOracle extends Config
 	 * 	@param tnsnames content of tnsnames.ora
 	 * 	@return service names or null
 	 */
-	private String[] getTNS_Names (StringBuffer tnsnames)
+	private String[] getTNS_Names (StringBuffer tnsnames, boolean tns)
 	{
 		if (tnsnames == null)
 			return null;
@@ -169,7 +230,7 @@ public class ConfigOracle extends Config
 		{
 			String line = lines[i].trim();
 			log.finest(i + ": " + line);
-			if (false)	//	get TNS Name
+			if (tns)	//	get TNS Name
 			{
 				if (line.length() > 0
 					&& Character.isLetter(line.charAt(0))	//	no # (
@@ -304,8 +365,8 @@ public class ConfigOracle extends Config
 		//	TNS Name Info via sqlplus - if not tomcat 
 		if (!p_data.getAppsServerType().equals(ConfigurationData.APPSTYPE_TOMCAT))
 		{
-			String sqlplus = "sqlplus system/" + systemPassword + "@" + databaseName
-				+ " @" + getProperty(ConfigurationData.ADEMPIERE_HOME)
+			String sqlplus = "sqlplus system/" + systemPassword + "@" 
+				+ databaseServer.getHostName() + "/" + databaseName
 				+ "/utils/oracle/Test.sql";
 			log.config(sqlplus);
 			pass = testSQL(sqlplus);

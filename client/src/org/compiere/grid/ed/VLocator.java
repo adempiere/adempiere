@@ -451,6 +451,7 @@ public class VLocator extends JComponent
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, null))
 			return;
+		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 		setCursor(Cursor.getDefaultCursor());

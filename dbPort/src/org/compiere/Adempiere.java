@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -22,6 +22,7 @@ import java.net.*;
 import java.util.logging.*;
 import javax.jnlp.*;
 import javax.swing.*;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
@@ -33,6 +34,9 @@ import com.qoppa.pdf.*;
  *
  *  @author Jorg Janke
  *  @version $Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $
+ *  
+ *  globalqss: fix error about null pointer in OnlineHelp.Worker.run
+ *             change the URL for online help for connection
  */
 public final class Adempiere
 {
@@ -149,8 +153,8 @@ public final class Adempiere
 		s_ImplementationVersion = adempierePackage.getImplementationVersion();
 		if (s_ImplementationVendor == null)
 		{
-			s_ImplementationVendor = "not supported";
-			s_ImplementationVersion = "unknown";
+			s_ImplementationVendor = "Supported by ADempiere community";
+			s_ImplementationVersion = "ADempiere";
 		}
 	}	//	setPackageInfo
 
@@ -453,12 +457,7 @@ public final class Adempiere
 		{
 			if (CLogMgt.isLevelAll())
 				log.log(Level.FINEST, System.getProperties().toString());
-			//
-                        //begin vpj-cd e-evolution
-			//CompiereTheme.load();
-                        AdempiereThemeInnova.load();
-                        //end vpj-cd e-evolution
-			AdempierePLAF.setPLAF (null);
+			AdempierePLAF.setPLAF ();
 		}
 
 		//  Set Default Database Connection from Ini

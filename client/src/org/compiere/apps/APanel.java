@@ -52,9 +52,11 @@ public final class APanel extends CPanel
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
 	 */
-	public APanel()
+	public APanel(AWindow window)
 	{
 		super();
+		m_window = window;
+				
 		m_ctx = Env.getCtx();
 		//
 		try
@@ -71,6 +73,8 @@ public final class APanel extends CPanel
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(APanel.class);
 	
+	private AWindow m_window;
+
 	/**
 	 *	Dispose
 	 */
@@ -144,6 +148,8 @@ public final class APanel extends CPanel
 		this.add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(northLayout);
 		northLayout.setAlignment(FlowLayout.LEFT);
+		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
+		toolBar.setBorderPainted(false);
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
@@ -159,7 +165,6 @@ public final class APanel extends CPanel
 	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct, aLogout,
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
 							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, aDeleteSelection;
-
 	
 	/**************************************************************************
 	 *	Create Menu and Toolbar and registers keyboard actions.
@@ -180,6 +185,7 @@ public final class APanel extends CPanel
 		aPrint = 	addAction("Print",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),	false);
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
+		aLogout = 	addAction("Logout", 		mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), false);
 		aExit =		addAction("Exit",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.SHIFT_MASK+Event.ALT_MASK),	false);
 		//								Edit
 		JMenu mEdit = AEnv.getMenu("Edit");
@@ -249,6 +255,12 @@ public final class APanel extends CPanel
 			mTools.addSeparator();
 			aPreference = addAction("Preference",	mTools, 	null,	false);
 		}
+		
+		//Window
+		AMenu aMenu = (AMenu)Env.getWindow(0);
+		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), m_window);
+		menuBar.add(mWindow);
+		
 		//								Help
 		JMenu mHelp = AEnv.getMenu("Help");
 		menuBar.add(mHelp);
@@ -812,8 +824,7 @@ public final class APanel extends CPanel
 		aSave.setEnabled(changed && !readOnly);
 		//
 		//	No Rows
-		if (e.getTotalRows() == 0 && insertRecord)
-		{
+		if (e.getTotalRows() == 0 && insertRecord) {
 			aNew.setEnabled(true);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
@@ -920,6 +931,8 @@ public final class APanel extends CPanel
 		boolean back = false;
 		boolean isAPanelTab = false;
 
+		int previousIndex = 0;
+
 		//  Workbench Tab Change
 		if (tp.isWorkbench())
 		{
@@ -946,6 +959,8 @@ public final class APanel extends CPanel
 			log.info("Tab=" + tp);
 			m_curWinTab = tp;
 			int tpIndex = m_curWinTab.getSelectedIndex();
+			//	detect no tab change
+			if (tpIndex == m_curTabIndex) return;
 			back = tpIndex < m_curTabIndex;
 			GridController gc = null;
 			if (m_curWinTab.getSelectedComponent() instanceof GridController)
@@ -1001,6 +1016,7 @@ public final class APanel extends CPanel
 		//	if (m_curTabIndex >= 0)
 		//		m_curWinTab.setForegroundAt(m_curTabIndex, AdempierePLAF.getTextColor_Normal());
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
+			previousIndex = m_curTabIndex;
 			m_curTabIndex = tpIndex;
 			if (!isAPanelTab)
 				m_curGC = gc;
@@ -1025,8 +1041,15 @@ public final class APanel extends CPanel
 			{
 				MRole role = MRole.getDefault(); 
 				m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
+				if (m_curGC.isNeedToSaveParent())
+				{
+					// there is a problem, so we go back
+					ADialog.error(m_curWindowNo, this, "SaveParentFirst");
+					m_curWinTab.setSelectedIndex(previousIndex);
+					setBusy(false, true);
+					return;
+				}
 			}
-
 			//  Set initial record
 			if (m_curTab.getRowCount() == 0)
 			{
@@ -1237,6 +1260,8 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHelp.getName()))
 				cmd_help();
 			//  General Commands (Environment)
+			else if (cmd.equals(aLogout.getName()))
+				cmd_logout();
 			else if (!AEnv.actionPerformed (e.getActionCommand(), m_curWindowNo, this))
 				log.log(Level.SEVERE, "No action for: " + cmd);
 		}
@@ -1253,6 +1278,14 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		setBusy(false, true);
 	}	//	actionPerformed
+
+	private void cmd_logout() {
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu) {
+			((AMenu)top).logout();
+		}
+		
+	}
 
 	/**
 	 *  Create New Record

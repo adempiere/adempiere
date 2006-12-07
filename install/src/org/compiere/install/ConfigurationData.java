@@ -234,7 +234,10 @@ public class ConfigurationData
 			setAppsServer(hostName);
 			//	Database Server
 			initDatabase("");
-			setDatabaseName(getDatabaseDiscovered());
+			String connectionName = getDatabaseDiscovered();
+			if (connectionName != null) {
+				setDatabaseName(resolveDatabaseName(connectionName));
+			}
 			setDatabaseSystemPassword("");
 			setDatabaseServer(hostName);
 			setDatabaseUser("adempiere");
@@ -274,6 +277,17 @@ public class ConfigurationData
 	}	//	load
 	
 	
+	public String resolveDatabaseName(String connectionName) {
+		int index = p_panel.fDatabaseType.getSelectedIndex();
+		if (index < 0 || index >= DBTYPE.length)
+			log.warning("DatabaseType Index invalid: " + index);
+		else if (m_databaseConfig[index] == null)
+			log.warning("DatabaseType Config missing: " + DBTYPE[index]);
+		else
+			return m_databaseConfig[index].getDatabaseName(connectionName);
+		return connectionName;
+	}
+
 	/**************************************************************************
 	 * 	test
 	 *	@return true if test ok
@@ -728,11 +742,11 @@ public class ConfigurationData
 			ccType = Database.DB_DB2;
 		else if (getDatabaseType().equals(DBTYPE_DERBY))
 			ccType = Database.DB_DERBY;
-                 //begin vpj-cd e-evolution 03/17/2005 PostgreSQL
-                else if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
+		//begin vpj-cd e-evolution 03/17/2005 PostgreSQL
+		else if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
 			ccType = Database.DB_POSTGRESQL;
-                else if (getDatabaseType().equals(DBTYPE_FYRACLE))
-        			ccType = Database.DB_FYRACLE;
+		else if (getDatabaseType().equals(DBTYPE_FYRACLE))
+			ccType = Database.DB_FYRACLE;
                
 		//end vpj-cd e-evolution 03/17/2005 PostgreSQL
 		CConnection cc = null;
@@ -1132,8 +1146,8 @@ public class ConfigurationData
         // begin e-evolution vpj-cd 02/07/2005 PostgreSQL
 	/** PostgreSQL          */
 	private static String	DBTYPE_POSTGRESQL = "postgresql";
-        private static String	DBTYPE_EDB = "enterprisedb";
-        private static String	DBTYPE_FYRACLE = "fyracle";
+    private static String	DBTYPE_EDB = "enterprisedb";
+    private static String	DBTYPE_FYRACLE = "fyracle";
         
 	// end e-evolution vpj-cd 02/07/2005 PostgreSQL
 	
@@ -1144,8 +1158,8 @@ public class ConfigurationData
 		//DBTYPE_DB2, 
 		//DBTYPE_MS,
 		DBTYPE_FYRACLE,
-                 //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-                 DBTYPE_POSTGRESQL 
+        //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
+        DBTYPE_POSTGRESQL 
                  
         };
 	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL

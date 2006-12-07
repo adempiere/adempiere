@@ -159,8 +159,8 @@ public final class AppsAction extends AbstractAction
 	 */
 	private ImageIcon getIcon(String name, boolean small)
 	{
-		String fullName = name + (small ? "16.gif" : "24.gif");
-		return Env.getImageIcon(fullName);
+		String fullName = name + (small ? "16" : "24");
+		return Env.getImageIcon2(fullName);
 	}	//	getIcon
 
 	/**
