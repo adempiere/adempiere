@@ -2138,6 +2138,7 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("EntityType") || columnName.equals("DocumentNo")
 					|| columnName.equals("Processed") || columnName.equals("IsSelfService")
 					|| columnName.equals("DocAction") || columnName.equals("DocStatus")
+					|| columnName.equals("Posted") || columnName.equals("IsReconciled")
 					|| columnName.startsWith("Ref_")
 					//	Order/Invoice
 					|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
