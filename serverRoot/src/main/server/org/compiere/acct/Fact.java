@@ -762,6 +762,7 @@ public final class Fact
 	 * 	Set Transaction name
 	 * 	@param trxName
 	 */
+	@SuppressWarnings("unused")
 	private void set_TrxName(String trxName) 
 	{
 		m_trxName = trxName;

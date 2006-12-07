@@ -20,7 +20,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import org.compiere.*;
-import org.compiere.ldap.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 import org.compiere.wf.*;
@@ -148,12 +147,15 @@ public class AdempiereServerMgr
 			m_servers.add(server);
 		}		
 		//	LDAP
-		LdapProcessorModel lp = new LdapProcessorModel(m_ctx);
-		AdempiereServer server = AdempiereServer.create(lp);
-		server.start();
-		server.setPriority(Thread.NORM_PRIORITY-2);
-		m_servers.add(server);
-		
+		MLdapProcessor[] ldapModels = MLdapProcessor.getActive(m_ctx);
+		for (int i = 0; i < ldapModels.length; i++)
+		{
+			MLdapProcessor lp = ldapModels[i];
+			AdempiereServer server = AdempiereServer.create(lp);
+			server.start();
+			server.setPriority(Thread.NORM_PRIORITY-1);
+			m_servers.add(server);
+		}
 		
 		log.fine("#" + noServers);
 		return startAll();

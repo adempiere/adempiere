@@ -10,12 +10,13 @@
  * You should have received a copy of the GNU General Public License along 
  * with this program; if not, write to the Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- * You may reach us at: ComPiere, Inc. - http://www.adempiere.org/license.html
- * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@adempiere.org 
+ * You may reach us at: ComPiere, Inc. - http://www.compiere.org/license.html
+ * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@compiere.org 
  *****************************************************************************/
 package org.compiere.ldap;
 
 import java.util.logging.*;
+
 import org.compiere.util.*;
 import com.sun.jndi.ldap.*;
 
@@ -27,138 +28,235 @@ import com.sun.jndi.ldap.*;
  */
 public class LdapMessage
 {
-	/**
-	 * 	Ldap Message
-	 *	@param data BER data
-	 *	@param length Ber data length
-	 */
-	public LdapMessage (byte[] data, int length)
-	{
-		try
-		{
-			decode(data, length);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, data.toString(), e);
-		}
-	}	//	LdapMessage
+	static public final int BIND_REQUEST = 96;
+	static public final int BIND_RESPONSE = 97;
+	static public final int UNBIND_REQUEST	= 98;
+	static public final int SEARCH_REQUEST	= 99;
+	static public final int SEARCH_REP_ENTRY	= 100;
+	static public final int SEARCH_RES_RESULT	= 101;
 	
-	/**
-	 	LDAPMessage ::= SEQUENCE {
-    	                messageID       MessageID,
-    	                protocolOp      CHOICE {
-    	                        bindRequest     BindRequest,
-    	                        bindResponse    BindResponse,
-    	                        unbindRequest   UnbindRequest,
-    	                        searchRequest   SearchRequest,
-    	                        searchResEntry  SearchResultEntry,
-    	                        searchResDone   SearchResultDone,
-    	                        searchResRef    SearchResultReference,
-    	                        modifyRequest   ModifyRequest,
-    	                        modifyResponse  ModifyResponse,
-    	                        addRequest      AddRequest,
-    	                        addResponse     AddResponse,
-    	                        delRequest      DelRequest,
-    	                        delResponse     DelResponse,
-    	                        modDNRequest    ModifyDNRequest,
-    	                        modDNResponse   ModifyDNResponse,
-    	                        compareRequest  CompareRequest,
-    	                        compareResponse CompareResponse,
-    	                        abandonRequest  AbandonRequest,
-    	                        extendedReq     ExtendedRequest,
-    	                        extendedResp    ExtendedResponse },
-    	                 controls       [0] Controls OPTIONAL }
-    **/
+	static public final int SIMPLE_AUTHENTICATION = 128;
 	
-	static public final int BIND_REQUEST = 0;
-	static public final int BIND_RESPONSE = 1;
-	static public final int UNBIND_REQUEST	= 2;
-	static public final int SEARCH_REQUEST	= 3;
-	static public final int SEARCH_RESENTRY	= 4;
-	static public final int SEARCH_RESDONE	= 5;
-	static public final int MODIFY_REQUEST	= 6;
-	static public final int MODIFY_RESPONSE	= 7;
-	static public final int ADD_REQUEST	= 8;
-	static public final int ADD_RESPONSE = 9;
-	static public final int DEL_REQUEST	= 10;
-	static public final int DEL_RESPONSE = 11;
-	static public final int MODDN_REQUEST = 12;
-	static public final int MODDN_RESPONSE = 13;
-	static public final int COMPARE_REQUEST = 14;
-	static public final int COMPARE_RESPONSE = 15;
-	static public final int ABANDON_REQUEST = 16;
-	static public final int EXTENDED_REQUEST = 17;
-	static public final int EXTENDED_RESPONSE = 18;
-
-	static public final int[] PROTOCOL_OP = {
-		BIND_REQUEST, BIND_RESPONSE, UNBIND_REQUEST, 
-		SEARCH_REQUEST, SEARCH_RESENTRY, SEARCH_RESDONE,
-		MODIFY_REQUEST, MODIFY_RESPONSE, ADD_REQUEST, ADD_RESPONSE,
-		DEL_REQUEST, DEL_RESPONSE, MODDN_REQUEST, MODDN_RESPONSE,
-		COMPARE_REQUEST, COMPARE_RESPONSE, ABANDON_REQUEST,
-		EXTENDED_REQUEST, EXTENDED_RESPONSE};
-
+	static public final int FILTER_AND = 160;
+	static public final int FILTER_OR = 161;
+	static public final int FILTER_NOT = 162;
+	static public final int FILTER_EQUALITYMATCH = 163;
 	
+	static public final int SEQUENCE = 48;
+	
+	/** Decoder */
+	private BerDecoder decoder = null;
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (LdapMessage.class);
 	/** Protocol Operation		*/
 	private int		m_protocolOp = -1;
+    /** Message Id needed for the reply message */
+	private int  msgId;  
+	/** Distinguished name */
+	private String dn = null;
+	/** Organization */
+	private String org = null;
+	/** Organization unit */
+	private String orgUnit = null;
+	/** User Id */
+	private String userId = null;
+	/** Password */
+	private String passwd = null;
+	/** base Object */
+	private String baseObj = null;
+	/** LdapResult object to hold if there's any error during parsing */
+	private LdapResult result = null;
+	
+	/**
+	 * 	Ldap Message
+	 */
+	public LdapMessage()
+	{
+	}	//	LdapMessage
+	
+	/*
+	 *  Reset all the attributes
+	 */
+	public void reset(LdapResult result)
+	{
+		this.result = result;
+		decoder = null;
+		m_protocolOp = -1;
+		msgId = -1;
+		dn = null;
+		org = null;
+		orgUnit = null;
+		userId = null;
+		passwd = null;
+		baseObj = null;
 
+	}  // reset()
 	
 	/**
 	 * 	Decode Message
-	 *	@param data data
-	 *	@param length length
-	 *	@throws Exception
+	 *	@param data input buffer
+	 *  @param length buffer size
 	 */
-	private void decode (byte[] data, int length) throws Exception
+	public void decode(byte[] data, int length)
 	{
-		BerDecoder decoder = new BerDecoder(data, 0, length);
-		int left = decoder.bytesLeft();
-		int pos = decoder.getParsePosition();
-		//
-		int seq = decoder.parseSeq(null);
-		left = decoder.bytesLeft();
-		pos = decoder.getParsePosition();
-		//
-		int messageID = decoder.parseInt();
-		left = decoder.bytesLeft();
-		pos = decoder.getParsePosition();
-		//
-		int peek = decoder.peekByte();
-		m_protocolOp = decoder.parseSeq(PROTOCOL_OP);
-		m_protocolOp -= Ber.ASN_APPLICATION;
-		if (m_protocolOp - Ber.ASN_CONSTRUCTOR >= 0)
-			m_protocolOp -= Ber.ASN_CONSTRUCTOR;
-		left = decoder.bytesLeft();
-		pos = decoder.getParsePosition();
-		//
-		//	Payload
-		if (m_protocolOp == BIND_REQUEST)
+		try
 		{
-			int version = decoder.parseInt();
-			left = decoder.bytesLeft();
-			pos = decoder.getParsePosition();
-			//
-			byte[] dn = decoder.parseOctetString(Ber.ASN_OCTET_STR, null);
-			left = decoder.bytesLeft();
-			pos = decoder.getParsePosition();
-			//
-			byte[] authentification = decoder.parseOctetString(Ber.ASN_CONTEXT, null);
-			left = decoder.bytesLeft();
-			pos = decoder.getParsePosition();
-			//
-			log.info("#" + messageID + ": bind - version=" + version + ", dn=" + new String(dn)
-				+ ", auth=" + new String (authentification));
+			// Create the decoder
+			decoder = new BerDecoder(data, 0, length);
 		}
-		else if (m_protocolOp == UNBIND_REQUEST)
-			log.info("#" + messageID + ": unbind");
-		else
+		catch (Exception e)
 		{
-			log.warning("#" + messageID + ": Unknown Op + " + m_protocolOp);
+			log.log(Level.SEVERE, data.toString(), e);
+			return;
+		}
+		
+		try
+		{
+			// Parse the message envelope
+			decoder.parseSeq(null);
+	
+			//  Parse message Id
+			msgId = decoder.parseInt();
+	
+			// Parse the operation protocol
+			m_protocolOp = decoder.parseSeq(null);
+			
+			//
+			//	Payload
+			if (m_protocolOp == BIND_REQUEST)
+				handleBind();
+			else if (m_protocolOp == UNBIND_REQUEST)
+				log.info("#" + msgId + ": unbind");
+			else if (m_protocolOp == SEARCH_REQUEST)
+				handleSearch();
+			else  // Only supoort BIND, UNBIND and SEARCH
+			{
+				result.setErrorNo(LdapResult.LDAP_PROTOCOL_ERROR);
+				result.setErrorString(": Unsupported Request");
+				log.warning("#" + msgId + ": Unknown Op + " + m_protocolOp);
+			}
+		}
+		catch (Exception ex)
+		{
+			result.setErrorNo(LdapResult.LDAP_PROTOCOL_ERROR);
+			log.log(Level.SEVERE, "", ex);
 		}
 	}	//	decode
+
+	/*
+	 * Encode the search request message
+	 */
+	private void handleSearch()
+	{
+		try
+		{
+			// Parse the base Object
+			baseObj = decoder.parseString(true);
+			parseDN(baseObj);
+			
+			decoder.parseEnumeration();  // scope
+			decoder.parseEnumeration();  // derefAliases
+			decoder.parseInt();  // sizeLimit
+			decoder.parseInt();  // timeLimit
+			decoder.parseBoolean();  // typeOnly
+			
+			boolean equalityFilter = false;
+			while (true)
+			{
+				int filter = decoder.parseSeq(null); //Filter
+				if (filter == FILTER_EQUALITYMATCH)
+				{
+					decoder.parseString(true);
+					userId = decoder.parseString(true);
+					equalityFilter = true;
+					break;
+				}
+				else if (filter == FILTER_AND)
+					decoder.parseStringWithTag(135, true, null);
+				else if (filter == SEQUENCE)
+					break;
+			}  // while true
+			
+			if (!equalityFilter)  // Didn't find the it
+			{
+				result.setErrorNo(LdapResult.LDAP_PROTOCOL_ERROR);
+				result.setErrorString("Can't can't Filter - EqualityMatch");
+			}
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "", ex);
+		}
+	}   // handleSearch()
+	
+	/*
+	 * Encode the bind request message
+	 */
+	private void handleBind()
+	{
+		try
+		{
+			// Parse LDAP version; only support v3
+			int version = decoder.parseInt();
+			if (version != 3)
+			{
+				result.setErrorNo(LdapResult.LDAP_PROTOCOL_ERROR);
+				result.setErrorString("Unsupported LDAP version");
+				log.info("#" + msgId + ": unsupported LDAP version - " + version);
+				return;
+			}
+	
+			// Parse DN
+			dn = decoder.parseString(true);
+			
+			// Peek on AuthenticationChoice; only support simple authentication
+			int auth = decoder.peekByte();
+			if (auth != SIMPLE_AUTHENTICATION)  // 0x80 - simple authentication
+			{
+				result.setErrorNo(LdapResult.LDAP_AUTH_METHOD_NOT_SUPPORTED);
+				log.info("#" + msgId + ": unsupported authentication method - " + auth);
+				return;
+			}
+			
+			// It is simple authentication, get the authentication string
+			passwd = decoder.parseStringWithTag(SIMPLE_AUTHENTICATION, true, null);
+			if (passwd != null && passwd.length() > 0)
+			{
+				parseDN(dn);
+				if (userId == null || userId.length() <= 0)
+				{
+					result.setErrorNo(LdapResult.LDAP_NO_SUCH_OBJECT);
+					result.setErrorString(": \"cn\" not defined");
+					log.info("#" + msgId + ": \"cn\" not defined");
+					return;
+				}
+			}
+
+			// Log the information 
+			log.info("#" + msgId + ": bind - version=" + version + ", userId=" + userId);
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "", ex);
+		}
+	}  // handleBind()
+	
+	/*
+	 * Parse the DN to find user id, organization and organization unit
+	 */
+	private void parseDN(String dName)
+	{
+		String[] dnArray = dName.split(",");
+		for (int i = 0; i < dnArray.length; i++)
+		{
+			if (dnArray[i].startsWith("cn="))
+				userId = dnArray[i].split("=")[1];
+			else if (dnArray[i].startsWith("o="))
+				org = dnArray[i].split("=")[1];
+			else if (dnArray[i].startsWith("ou="))
+				orgUnit = dnArray[i].split("=")[1];
+		}
+	}  // parseDN()
 	
 	/**
 	 * 	Get Operation Code
@@ -169,4 +267,66 @@ public class LdapMessage
 		return m_protocolOp;
 	}	//	getOperation
 	
+	/**
+	 * 	Get message id
+	 *	@return msgId
+	 */
+	public int getMsgId()
+	{
+		return msgId;
+	}	//	getMsgId()
+	
+	/**
+	 * 	Get DN
+	 *	@return dn
+	 */
+	public String getDN()
+	{
+		return dn;
+	}	//	getDN()
+	
+	/**
+	 * 	Get User Id
+	 *	@return userId
+	 */
+	public String getUserId()
+	{
+		return userId;
+	}	//	getUserId()
+	
+	/**
+	 * 	Get User passwod
+	 *	@return passwd
+	 */
+	public String getUserPasswd()
+	{
+		return passwd;
+	}	//	getUserPasswd()
+	
+	/**
+	 * 	Get base object
+	 *	@return baseObj
+	 */
+	public String getBaseObj()
+	{
+		return baseObj;
+	}	//	getBaseObj()
+	
+	/**
+	 * 	Get organization
+	 *	@return org
+	 */
+	public String getOrg()
+	{
+		return org;
+	}	//	getOrg()
+	
+	/**
+	 * 	Get organization unit
+	 *	@return orgUnit
+	 */
+	public String getOrgUnit()
+	{
+		return orgUnit;
+	}	//	getOrgUnit()
 }	//	LdapMessage

@@ -994,6 +994,23 @@ public class DocLine
 		}
 		return 0;
 	}   //  getUser2_ID
+        
+        	/**
+	 *  Get User Defined Column
+	 *  @param ColumnName column name
+	 *  @return user defined column value
+	 */
+	public int getValue(String ColumnName)
+	{
+		int index = p_po.get_ColumnIndex(ColumnName);
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getValue
 
 	/**
 	 *  String representation

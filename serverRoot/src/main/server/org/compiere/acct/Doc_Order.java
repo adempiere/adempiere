@@ -339,6 +339,7 @@ public class Doc_Order extends Doc
 			BigDecimal grossAmt = getAmount(Doc.AMTTYPE_Gross);
 
 			//  Commitment
+			FactLine fl = null;
 			if (as.isCreateCommitment())
 			{
 				Fact fact = new Fact(this, as, Fact.POST_Commitment);
@@ -351,7 +352,7 @@ public class Doc_Order extends Doc
 
 					//	Account
 					MAccount expense = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
-					FactLine fl = fact.createLine (line, expense,
+					fl = fact.createLine (line, expense,
 						getC_Currency_ID(), cost, null);
 				}
 				//	Offset
@@ -383,7 +384,7 @@ public class Doc_Order extends Doc
 
 					//	Account
 					MAccount expense = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
-					FactLine fl = fact.createLine (line, expense,
+					fl = fact.createLine (line, expense,
 						getC_Currency_ID(), null, cost);
 				}
 				//	Offset
@@ -550,6 +551,7 @@ public class Doc_Order extends Doc
 				C_InvoiceLine_ID);
 		
 		BigDecimal total = Env.ZERO;
+		FactLine fl = null;
 		int C_Currency_ID = -1;
 		for (int i = 0; i < commitments.length; i++)
 		{
@@ -567,7 +569,7 @@ public class Doc_Order extends Doc
 
 			//	Account
 			MAccount expense = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
-			FactLine fl = fact.createLine (line, expense,
+			fl = fact.createLine (line, expense,
 				C_Currency_ID, null, cost);
 		}
 		//	Offset

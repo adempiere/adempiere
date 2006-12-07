@@ -10,15 +10,15 @@
  * You should have received a copy of the GNU General Public License along 
  * with this program; if not, write to the Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- * You may reach us at: ComPiere, Inc. - http://www.adempiere.org/license.html
- * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@adempiere.org 
+ * You may reach us at: ComPiere, Inc. - http://www.compiere.org/license.html
+ * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@compiere.org 
  *****************************************************************************/
 package org.compiere.ldap;
 
-import java.io.*;
 import java.util.logging.*;
+import org.compiere.model.*;
 import org.compiere.util.*;
-import com.sun.jndi.ldap.*;
+import com.sun.jndi.ldap.BerEncoder;
 
 /**
  * 	Ldap Wire Response
@@ -28,120 +28,278 @@ import com.sun.jndi.ldap.*;
  */
 public class LdapResult
 {
-
-	public LdapResult()
-	{
-		super ();
-	}	//	LdapResult
-	
-	/** 
-	 	LDAPResult ::= SEQUENCE {
-	 		resultCode      ENUMERATED {
-                     success                      (0),
-                     operationsError              (1),
-                     protocolError                (2),
-                     timeLimitExceeded            (3),
-                     sizeLimitExceeded            (4),
-                     compareFalse                 (5),
-                     compareTrue                  (6),
-
-                     authMethodNotSupported       (7),
-                     strongAuthRequired           (8),
-                                -- 9 reserved --
-                     referral                     (10),  -- new
-                     adminLimitExceeded           (11),  -- new
-                     unavailableCriticalExtension (12),  -- new
-                     confidentialityRequired      (13),  -- new
-                     saslBindInProgress           (14),  -- new
-                     noSuchAttribute              (16),
-                     undefinedAttributeType       (17),
-                     inappropriateMatching        (18),
-                     constraintViolation          (19),
-                     attributeOrValueExists       (20),
-                     invalidAttributeSyntax       (21),
-                     noSuchObject                 (32),
-                     aliasProblem                 (33),
-                     invalidDNSyntax              (34),
-                     -- 35 reserved for undefined isLeaf --
-                     aliasDereferencingProblem    (36),
-                                -- 37-47 unused --
-                     inappropriateAuthentication  (48),
-                     invalidCredentials           (49),
-                     insufficientAccessRights     (50),
-                     busy                         (51),
-                     unavailable                  (52),
-                     unwillingToPerform           (53),
-                     loopDetect                   (54),
-                                -- 55-63 unused --
-                     namingViolation              (64),
-                     objectClassViolation         (65),
-                     notAllowedOnNonLeaf          (66),
-                     notAllowedOnRDN              (67),
-                     entryAlreadyExists           (68),
-                     objectClassModsProhibited    (69),
-                                -- 70 reserved for CLDAP --
-                     affectsMultipleDSAs          (71), -- new
-                                -- 72-79 unused --
-                     other                        (80) },
-                     -- 81-90 reserved for APIs --
-        matchedDN       LDAPDN,
-        errorMessage    LDAPString,
-        referral        [3] Referral OPTIONAL }
-    **/
-	
+	/** LdapMesssage */
+	private LdapMessage ldapMsg = null;
 	/** Encoder							*/
-	private BerEncoder m_encoder = new BerEncoder();
+	private BerEncoder m_encoder = null;
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (LdapResult.class);
+	/** Error number */
+	private int errNo = LDAP_SUCCESS;
+	/** Error String */
+	private String errStr = "";
+	/** LdapUser */
+	private MLdapUser ldapUser = null;
+	/** disconnect to client */
+	private boolean disconnect = false;
+	
+	public LdapResult ()
+	{
+	}	//	LdapResult
+	
+	/*
+	 * Reset the attributes
+	 */
+	public void reset(LdapMessage ldapMsg, MLdapUser ldapUser)
+	{
+		this.ldapMsg = ldapMsg;
+		m_encoder = new BerEncoder();
+		errNo = LDAP_SUCCESS;
+		errStr = "";
+		this.ldapUser = ldapUser;
+	}  // reset()
 	
 	/**
-	 * 	Bind Response
+	 * 	Get the response according to the request message
+	 * 	@param model model
 	 *	@return reponse
 	 */
-	public byte[] bindResponse() 
+	public byte[] getResult(MLdapProcessor model) 
 	{
+		if (errNo != LDAP_SUCCESS)
+		{
+			generateResult("", 
+					((ldapMsg.getOperation()==LdapMessage.BIND_REQUEST)?
+							LdapMessage.BIND_RESPONSE:LdapMessage.SEARCH_RES_RESULT),
+							errNo, ldapErrorMessage[errNo] + errStr);
+			m_encoder.getTrimmedBuf();
+		}
+		
 		try
 		{
-/**
-		m_encoder.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-		for (int i = 0; i < sortKeys.length; i++) {
-		    ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-		    ber.encodeString(sortKeys[i].getAttributeID(), true); // v3
-		    if ((matchingRule = sortKeys[i].getMatchingRuleID()) != null) {
-			ber.encodeString(matchingRule, (Ber.ASN_CONTEXT | 0), true);
-		    }
-		    if (! sortKeys[i].isAscending()) {
-			ber.encodeBoolean(true, (Ber.ASN_CONTEXT | 1));
-		    }
-		    ber.endSeq();
-		} 
-*/
-			//	payload
-			m_encoder.beginSeq(Ber.ASN_APPLICATION | LdapMessage.BIND_RESPONSE);
-			//	Response
-			m_encoder.encodeInt(0);	//	success
-			m_encoder.encodeOctetString("cn=testCN".getBytes(), 0);	//	matched DN
-			m_encoder.encodeOctetString("".getBytes(), 0);	//	error mag	
-			//	referral
-			//	sasl
-			//
-			m_encoder.endSeq();
-			log.info("Success");
+			String usrId = ldapMsg.getUserId();
+			String o = ldapMsg.getOrg();
+			String ou = ldapMsg.getOrgUnit();
+			
+			// Adding the Application 1 Sequence
+			if (ldapMsg.getOperation() == LdapMessage.BIND_REQUEST)
+			{
+				String pwd = ldapMsg.getUserPasswd();
+				if (pwd == null || pwd.length() <= 0)
+				{
+					// 1st anonymous bind
+					generateResult(ldapMsg.getDN(), LdapMessage.BIND_RESPONSE, 
+							LDAP_SUCCESS, null);
+					log.info("Success");
+					return m_encoder.getTrimmedBuf();
+				}
+				
+				// Authenticate with Compiere data
+				if (ldapUser.getUserId() == null)
+				{  // Try to authenticate on the 1st bind, must be java client
+					ldapUser.reset();
+					model.authenticate(ldapUser, usrId, o, ou);
+					if (ldapUser.getErrorMsg() != null)
+					{   // Failed to authenticated with compiere 
+						errNo = LDAP_NO_SUCH_OBJECT;
+						generateResult(ldapMsg.getBaseObj(), LdapMessage.SEARCH_RES_RESULT,
+								LDAP_NO_SUCH_OBJECT, 
+								ldapErrorMessage[LDAP_NO_SUCH_OBJECT] + ldapUser.getErrorMsg());					
+						log.info("Failed");
+						return m_encoder.getTrimmedBuf();
+					}
+				}
+				
+				// Check to see if the input passwd is match to the one
+				// in compiere database
+				if (usrId.compareTo(ldapUser.getUserId()) == 0 &&
+					pwd.compareTo(ldapUser.getPassword()) == 0)
+				{	// Successfully authenticated
+					generateResult("", LdapMessage.BIND_RESPONSE, 
+							LDAP_SUCCESS, null);
+					// Close the connection to client since most of the client 
+					// application might cache the connection but we can't afford 
+					// to have too many such client connection
+					disconnect = true;
+					log.info("Success");
+				}
+				else
+				{	// Unsuccessfully authenticated
+					errNo = LDAP_INAPPROPRIATE_AUTHENTICATION;
+					generateResult("", LdapMessage.BIND_RESPONSE, 
+							LDAP_INAPPROPRIATE_AUTHENTICATION, 
+							ldapErrorMessage[LDAP_INAPPROPRIATE_AUTHENTICATION]);
+					log.info("Failed : " + ldapErrorMessage[LDAP_INAPPROPRIATE_AUTHENTICATION]);
+				}
+			}
+			else if (ldapMsg.getOperation() == LdapMessage.SEARCH_REQUEST)
+			{
+				// Authenticate with compiere database
+				ldapUser.reset();
+				model.authenticate(ldapUser, usrId, o, ou);
+				if (ldapUser.getErrorMsg() != null)
+				{
+					errNo = LDAP_NO_SUCH_OBJECT;
+					generateResult(ldapMsg.getBaseObj(), LdapMessage.SEARCH_RES_RESULT,
+							LDAP_NO_SUCH_OBJECT, 
+							ldapErrorMessage[LDAP_NO_SUCH_OBJECT] + ldapUser.getErrorMsg());					
+					log.info("Failed");
+					return m_encoder.getTrimmedBuf();
+				}
+					
+			    m_encoder.beginSeq(48);  // Hard coded here for Envelope header
+			    m_encoder.encodeInt(ldapMsg.getMsgId());
+				m_encoder.beginSeq(LdapMessage.SEARCH_REP_ENTRY);  // Application 4
+				m_encoder.encodeString("cn="+ldapMsg.getUserId(), true);   // this should be object name
+				// not going to put in any attributes for this 
+				m_encoder.beginSeq(48);
+				m_encoder.endSeq();
+				m_encoder.endSeq();
+				m_encoder.endSeq();
+				
+				// SearchResultDone Application 5 for bind
+				// Result 0 = success
+				// No error message
+				generateResult(ldapMsg.getBaseObj(), LdapMessage.SEARCH_RES_RESULT, 
+						LDAP_SUCCESS, null);
+				log.info("Success");
+			}
+			
+			return m_encoder.getTrimmedBuf();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-		return getResult();
+
+		return m_encoder.getTrimmedBuf();
 	}	//	bindResponse
 	
 	/**
-	 * 	Get BER Result as byte array
-	 *	@return byte array
+	 * 	Generate LDAPResult
+	 *  @param dn Distinguished Name
+	 *  @param resultProtocol Result protocol/operation code
+	 *  @param resultCode Result code
+	 *  @param errMsg Error Message
+	 *	@return reponse
 	 */
-	public byte[] getResult()
+	private void generateResult(String dn, int resultProtocol, 
+			                    int resultCode, String errMsg)
 	{
-		return m_encoder.getTrimmedBuf();
-	}	//	getResult
+		try
+		{
+		    m_encoder.beginSeq(48);  // Hard coded here for Envelope header
+		    m_encoder.encodeInt(ldapMsg.getMsgId());
+		    m_encoder.beginSeq(resultProtocol);  
+		    m_encoder.encodeInt(resultCode, 10);   // Enumeration - 10
+	        // Adding LDAPDN
+	        m_encoder.encodeString(dn, true);
+	        // Adding error message
+	        m_encoder.encodeString((errMsg == null)?"":errMsg, true);
+	        m_encoder.endSeq();
+	        m_encoder.endSeq();
+		}
+	    catch (Exception ex)
+	    {
+			log.log(Level.SEVERE, "", ex);
+	    }
+	}  // generateResult()
 	
+	/*
+	 * Should it be close the connection with client
+	 */
+	public boolean getDone()
+	{
+		if (errNo != LDAP_SUCCESS)
+			return true;
+		return disconnect;
+	}  // getDone()
+	
+	/**
+	 * Set the error No
+	 * @param errNo Error Number
+	 */
+	public void setErrorNo(int errNo)
+	{
+		this.errNo = errNo;
+	}  // setErrorNo()
+	
+	/**
+	 * Get the error No
+	 * @return errNo Error Number
+	 */
+	public int getErrorNo()
+	{
+		return errNo;
+	}  // getErrorNo()
+	
+	/**
+	 * Set the error String
+	 * @param errStr Error String
+	 */
+	public void setErrorString(String errStr)
+	{
+		this.errStr = errStr;
+	}  // setErrorStr()
+	
+    static final int LDAP_SUCCESS = 0;
+    static final int LDAP_OPERATIONS_ERROR = 1;
+    static final int LDAP_PROTOCOL_ERROR = 2;
+    static final int LDAP_TIME_LIMIT_EXCEEDED = 3;
+    static final int LDAP_SIZE_LIMIT_EXCEEDED = 4;
+    static final int LDAP_COMPARE_FALSE = 5;
+    static final int LDAP_COMPARE_TRUE = 6;
+    static final int LDAP_AUTH_METHOD_NOT_SUPPORTED = 7;
+    static final int LDAP_STRONG_AUTH_REQUIRED = 8;
+    static final int LDAP_PARTIAL_RESULTS = 9;
+    static final int LDAP_REFERRAL = 10;
+    static final int LDAP_ADMIN_LIMIT_EXCEEDED = 11;
+    static final int LDAP_UNAVAILABLE_CRITICAL_EXTENSION = 12;
+    static final int LDAP_CONFIDENTIALITY_REQUIRED = 13;
+    static final int LDAP_SASL_BIND_IN_PROGRESS = 14;
+    static final int LDAP_NO_SUCH_ATTRIBUTE = 16;
+    static final int LDAP_UNDEFINED_ATTRIBUTE_TYPE = 17;
+    static final int LDAP_INAPPROPRIATE_MATCHING = 18;
+    static final int LDAP_CONSTRAINT_VIOLATION = 19;
+    static final int LDAP_ATTRIBUTE_OR_VALUE_EXISTS = 20;
+    static final int LDAP_INVALID_ATTRIBUTE_SYNTAX = 21;
+    static final int LDAP_NO_SUCH_OBJECT = 32;
+    static final int LDAP_ALIAS_PROBLEM = 33;
+    static final int LDAP_INVALID_DN_SYNTAX = 34;
+    static final int LDAP_IS_LEAF = 35;
+    static final int LDAP_ALIAS_DEREFERENCING_PROBLEM = 36;
+    static final int LDAP_INAPPROPRIATE_AUTHENTICATION = 48;
+    static final int LDAP_INVALID_CREDENTIALS = 49;
+    static final int LDAP_INSUFFICIENT_ACCESS_RIGHTS = 50;
+    static final int LDAP_BUSY = 51;
+    static final int LDAP_UNAVAILABLE = 52;
+    static final int LDAP_UNWILLING_TO_PERFORM = 53;
+    static final int LDAP_LOOP_DETECT = 54;
+    static final int LDAP_NAMING_VIOLATION = 64;
+    static final int LDAP_OBJECT_CLASS_VIOLATION = 65;
+    static final int LDAP_NOT_ALLOWED_ON_NON_LEAF = 66;
+    static final int LDAP_NOT_ALLOWED_ON_RDN = 67;
+    static final int LDAP_ENTRY_ALREADY_EXISTS = 68;
+    static final int LDAP_OBJECT_CLASS_MODS_PROHIBITED = 69;
+    static final int LDAP_AFFECTS_MULTIPLE_DSAS = 71;
+    static final int LDAP_OTHER = 80;
+    static final String ldapErrorMessage[] = {
+        "Success", "Operations Error", "Protocol Error", "Timelimit Exceeded", 
+        "Sizelimit Exceeded", "Compare False", "Compare True", 
+        "Authentication Method Not Supported", "Strong Authentication Required", null,
+        "Referral", "Administrative Limit Exceeded", "Unavailable Critical Extension", 
+        "Confidentiality Required", "SASL Bind In Progress", null, "No Such Attribute", 
+        "Undefined Attribute Type", "Inappropriate Matching", "Constraint Violation",
+        "Attribute Or Value Exists", "Invalid Attribute Syntax", null, null, null, 
+        null, null, null, null, null,null, null, "No Such Object", "Alias Problem", 
+        "Invalid DN Syntax", null, "Alias Dereferencing Problem", null, null, null,
+        null, null, null, null, null, null, null, null, "Inappropriate Authentication", 
+        "Invalid Credentials", "Insufficient Access Rights", "Busy", "Unavailable", 
+        "Unwilling To Perform", "Loop Detect", null, null, null, null, null,
+        null, null, null, null, "Naming Violation", "Object Class Violation", 
+        "Not Allowed On Non-leaf", "Not Allowed On RDN", "Entry Already Exists", 
+        "Object Class Modifications Prohibited", null, "Affects Multiple DSAs", null, 
+        null, null, null, null, null, null, null,"Other", null, null, null, null, 
+        null, null, null, null, null,null
+    };
 }	//	LdapResult

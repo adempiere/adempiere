@@ -49,8 +49,8 @@ public abstract class AdempiereServer extends Thread
 			return new AlertProcessor ((MAlertProcessor)model);
 		if (model instanceof MScheduler)
 			return new Scheduler ((MScheduler)model);
-		if (model instanceof LdapProcessorModel)
-			return new LdapProcessor((LdapProcessorModel)model);
+		if (model instanceof MLdapProcessor)
+			return new LdapProcessor((MLdapProcessor)model);
 		//
 		throw new IllegalArgumentException("Unknown Processor");
 	}	//	 create

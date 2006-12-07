@@ -117,6 +117,48 @@ public final class FactLine extends X_Fact_Acct
 			setAD_Client_ID(m_acct.getAD_Client_ID());
 		setAccount_ID (m_acct.getAccount_ID());
 		setC_SubAcct_ID(m_acct.getC_SubAcct_ID());
+
+		//	User Defined References
+		MAcctSchemaElement ud1 = m_acctSchema.getAcctSchemaElement(
+				X_C_AcctSchema_Element.ELEMENTTYPE_UserElement1);
+		if (ud1 != null)
+		{
+			String ColumnName1 = ud1.getDisplayColumnName();
+			if (ColumnName1 != null)
+			{
+				int ID1 = 0;
+				if (m_docLine != null)
+					ID1 = m_docLine.getValue(ColumnName1);
+				if (ID1 == 0)
+				{
+					if (m_doc == null)
+						throw new IllegalArgumentException("Document not set yet");
+					ID1 = m_doc.getValue(ColumnName1);
+				}
+				if (ID1 != 0)
+					setUserElement1_ID(ID1);
+			}
+		}
+		MAcctSchemaElement ud2 = m_acctSchema.getAcctSchemaElement(
+				X_C_AcctSchema_Element.ELEMENTTYPE_UserElement2);
+		if (ud2 != null)
+		{
+			String ColumnName2 = ud2.getDisplayColumnName();
+			if (ColumnName2 != null)
+			{
+				int ID2 = 0;
+				if (m_docLine != null)
+					ID2 = m_docLine.getValue(ColumnName2);
+				if (ID2 == 0)
+				{
+					if (m_doc == null)
+						throw new IllegalArgumentException("Document not set yet");
+					ID2 = m_doc.getValue(ColumnName2);
+				}
+				if (ID2 != 0)
+					setUserElement2_ID(ID2);
+			}
+		}
 	}   //  setAccount
 
 	/**
@@ -273,8 +315,7 @@ public final class FactLine extends X_Fact_Acct
 			setUser2_ID (m_docLine.getUser2_ID());
 		if (getUser2_ID() == 0)
 			setUser2_ID (m_doc.getUser2_ID());
-		//	User Defined
-		
+		//	References in setAccount
 	}   //  setDocumentInfo
 
 	/**
