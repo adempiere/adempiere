@@ -35,15 +35,13 @@ import com.qoppa.pdf.*;
  *  @author Jorg Janke
  *  @version $Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $
  *  
- *  globalqss: fix error about null pointer in OnlineHelp.Worker.run
- *             change the URL for online help for connection
  */
 public final class Adempiere
 {
 	/** Timestamp                   */
 	static public final String	ID				= "$Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $";
 	/** Main Version String         */
-	static public final String	MAIN_VERSION	= "Release 3.1.1";
+	static public final String	MAIN_VERSION	= "Release 3.1.2";
 	/** Detail Version as date      Used for Client/Server		*/
 	static public final String	DATE_VERSION	= "2006-11-02";
 	/** Database Version as date    Compared with AD_System		*/
