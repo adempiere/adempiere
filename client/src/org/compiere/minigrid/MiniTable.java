@@ -243,8 +243,6 @@ public class MiniTable extends CTable
 	 */
 	public void addColumn (String header)
 	{
-	//	log.config( "MiniTable.addColumn", header);
-		int index = getColumnCount();
 		if (getModel() instanceof DefaultTableModel)
 		{
 			DefaultTableModel model = (DefaultTableModel)getModel();
@@ -312,7 +310,7 @@ public class MiniTable extends CTable
 			{
 				CCheckBox check = new CCheckBox();
 				check.setMargin(new Insets(0,0,0,0));
-				check.setHorizontalAlignment(JLabel.CENTER);
+				check.setHorizontalAlignment(SwingConstants.CENTER);
 				tc.setCellEditor(new DefaultCellEditor(check));
 			}
 			m_minWidth.add(new Integer(30));

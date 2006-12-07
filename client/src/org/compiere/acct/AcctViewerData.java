@@ -438,7 +438,7 @@ class AcctViewerData
 			rm.addColumn(new RColumn(ctx, "Description", DisplayType.String));
 		}
 		if (PostingType == null || PostingType.length() == 0)
-			rm.addColumn(new RColumn(ctx, RModel.TABLE_ALIAS+".PostingType", DisplayType.List, 
+			rm.addColumn(new RColumn(ctx, "PostingType", DisplayType.List, 
 				MFactAcct.POSTINGTYPE_AD_Reference_ID));
 		return rm;
 	}   //  createRModel

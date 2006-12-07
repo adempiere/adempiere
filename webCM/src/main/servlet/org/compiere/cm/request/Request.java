@@ -118,9 +118,9 @@ public class Request {
 	
 
  		/*
-		 * Durchlauf der Parameter Werte. Dabei werden alle �bergebenen Parameter
+		 * Durchlauf der Parameter Werte. Dabei werden alle übergebenen Parameter
 		 * als Columns in der MColumn gesucht und bei einem Treffer diese Werte
-		 * dann �ber set_ValueOfColumn gesetzt
+		 * dann über set_ValueOfColumn gesetzt
 		 */  		
 /*		MRequest l_newRequest = new MRequest(ctx, 0, l_szTrxName);
 		Enumeration l_eParameterNames = request.getParameterNames();
