@@ -76,6 +76,7 @@ public class CFrame extends JFrame
 	protected void frameInit ()
 	{
 		super.frameInit ();
+		CompiereColor.setBackground(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//
 		Container c = getContentPane();

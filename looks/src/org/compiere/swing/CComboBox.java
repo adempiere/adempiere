@@ -134,6 +134,10 @@ public class CComboBox extends JComboBox
 	 */
 	private void init()
 	{
+		//  overwrite - otherwise Label Font
+		setFont(AdempierePLAF.getFont_Field());
+		setForeground(AdempierePLAF.getTextColor_Normal());
+		setBackground(false);
 		FIELD_HIGHT = getPreferredSize().height;
 	}   //  init
 

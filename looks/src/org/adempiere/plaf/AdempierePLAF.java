@@ -63,6 +63,15 @@ public final class AdempierePLAF
 {
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(AdempierePLAF.class.getName());
+        
+        	/** Version tag */
+	public static final String  VERSION = "R1.4.0";
+	/** Key of Client Property to paint in CompiereColor    */
+	public static final String  BACKGROUND = "AdempiereBackground";
+	/** Key of Client Property for Rectangle Items - if exists, the standard background is used */
+	public static final String  BACKGROUND_FILL = "AdempiereBackgroundFill";
+	/** Key of Client Property for CPanel               */
+	public static final String  TABLEVEL = "AdempiereTabLevel";
 	
 	/****** Background *******************************************************/
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -45,8 +45,6 @@ public class CTable extends JTable
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		getTableHeader().addMouseListener(new CTableMouseListener());
 		setSurrendersFocusOnKeystroke(true);
-		//Default row height too narrow
-		setRowHeight(getFont().getSize() + 8);
 	}	//	CTable
 
 	/** Last model index sorted */
@@ -302,13 +300,5 @@ public class CTable extends JTable
 			sort(mc);
 		}
 	}	//  CTableMouseListener
-
-
-	@Override
-	public void setFont(Font font) {
-		super.setFont(font);
-		//Update row height
-		setRowHeight(getFont().getSize() + 8);
-	}
 
 }	//	CTable

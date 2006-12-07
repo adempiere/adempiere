@@ -152,6 +152,7 @@ public class CDialog extends JDialog
 	protected void dialogInit()
 	{
 		super.dialogInit();
+		CompiereColor.setBackground(this);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle(getTitle());	//	remove Mn
 		//

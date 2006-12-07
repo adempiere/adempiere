@@ -107,6 +107,8 @@ public class CPassword extends JPasswordField implements CEditor
 	 */
 	private void init()
 	{
+		setFont(AdempierePLAF.getFont_Field());
+		setForeground(AdempierePLAF.getTextColor_Normal());
 	}   //  init
 
 	/*************************************************************************/

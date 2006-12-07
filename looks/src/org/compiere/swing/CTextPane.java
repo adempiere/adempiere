@@ -64,6 +64,8 @@ public class CTextPane extends JScrollPane
 		super.setOpaque(false);
 		super.getViewport().setOpaque(false);
 		m_textPane.setContentType("text/html");
+		m_textPane.setFont(AdempierePLAF.getFont_Field());
+		m_textPane.setForeground(AdempierePLAF.getTextColor_Normal());
 	}   //  CTextPane
 
 	private JTextPane m_textPane = null;

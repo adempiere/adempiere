@@ -68,6 +68,7 @@ public class CScrollPane extends JScrollPane
 	public CScrollPane (Component view, int vsbPolicy, int hsbPolicy)
 	{
 		super (view, vsbPolicy, hsbPolicy);
+		setBackgroundColor(null);
 		setOpaque(false);
 		getViewport().setOpaque(false);
 	}	//	CScollPane
@@ -80,8 +81,12 @@ public class CScrollPane extends JScrollPane
 	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = new CompiereColor(AdempierePLAF.getFormBackground());
-		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
+			bg = CompierePanelUI.getDefaultBackground();
+		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+	//	super.setBackground(bg.getFlatColor());
+	//	getViewport().putClientProperty(CompierePLAF.BACKGROUND, bg);
+	//	getViewport().setBackground(bg.getFlatColor());
+	//	getViewport().setOpaque(true);
 	}   //  setBackground
 	
 }	//	CScollPane

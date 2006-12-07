@@ -126,6 +126,11 @@ public class CToggleButton extends JToggleButton implements CEditor
 	public CToggleButton (String text, Icon icon, boolean selected)
 	{
 		super(text, icon, selected);
+		setContentAreaFilled(false);
+		setOpaque(false);
+		//
+		setFont(AdempierePLAF.getFont_Label());
+		setForeground(AdempierePLAF.getTextColor_Label());
 	}
 
 	/*************************************************************************/
@@ -140,6 +145,12 @@ public class CToggleButton extends JToggleButton implements CEditor
 		if (bg.equals(getBackground()))
 			return;
 		super.setBackground( bg);
+		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
+		if (!Trace.getCallerClass(1).startsWith("javax"))
+		{
+			setOpaque(true);
+			setContentAreaFilled(true);
+		}
 	}   //  setBackground
 
 	/**
@@ -165,9 +176,9 @@ public class CToggleButton extends JToggleButton implements CEditor
 	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+			bg = CompiereColor.getDefaultBackground();
 		setOpaque(true);
-		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
+		putClientProperty(AdempierePLAF.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 	}   //  setBackground
 
@@ -179,7 +190,7 @@ public class CToggleButton extends JToggleButton implements CEditor
 	{
 		try
 		{
-			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
+			return (CompiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
 		}
 		catch (Exception e)
 		{

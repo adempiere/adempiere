@@ -104,7 +104,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (JComponent c)
 	{
-		setBackground (c, new CompiereColor(AdempierePLAF.getFormBackground()));
+		setBackground (c, CompierePanelUI.getDefaultBackground());
 	}   //  setBackground
 
 	/**
@@ -114,7 +114,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (JComponent c, CompiereColor cc)
 	{
-		c.putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+		c.putClientProperty(AdempierePLAF.BACKGROUND, cc);
 	}   //  setBackground
 
 	/**
@@ -127,7 +127,7 @@ public class CompiereColor implements Serializable
 		CompiereColor bg = null;
 		try
 		{
-			bg = (CompiereColor)c.getClientProperty(CompiereLookAndFeel.BACKGROUND);
+			bg = (CompiereColor)c.getClientProperty(AdempierePLAF.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -142,7 +142,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (Window win)
 	{
-		setBackground (win, new CompiereColor(AdempierePLAF.getFormBackground()));
+		setBackground (win, CompierePanelUI.getDefaultBackground());
 	}   //  setBackground
 
 	/**
@@ -154,20 +154,30 @@ public class CompiereColor implements Serializable
 	{
 		if (win instanceof JDialog)
 		{
-			((JPanel)((JDialog)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JDialog)win).getContentPane()).putClientProperty(AdempierePLAF.BACKGROUND, cc);
 		//	((JPanel)((JDialog)win).getContentPane()).setName("contentPane");
 		}
 		else if (win instanceof JFrame)
 		{
-			((JPanel)((JFrame)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JFrame)win).getContentPane()).putClientProperty(AdempierePLAF.BACKGROUND, cc);
 		//	((JPanel)((JFrame)win).getContentPane()).setName("contentPane");
 		}
 		else if (win instanceof JWindow)
 		{
-			((JPanel)((JWindow)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JWindow)win).getContentPane()).putClientProperty(AdempierePLAF.BACKGROUND, cc);
 		//	((JPanel)((JWindow)win).getContentPane()).setName("contentPane");
 		}
 	}   //  setBackground
+
+	/**
+	 *  Set Default Background
+	 *  @param bg Background Color
+	 *  @see CompierePanelUI#setDefaultBackground
+	 */
+	public static void setDefaultBackground (CompiereColor bg)
+	{
+		CompierePanelUI.setDefaultBackground(bg);
+	}   //  setDefaultBackground
 
 	/**
 	 *  Get Default Background
@@ -176,11 +186,31 @@ public class CompiereColor implements Serializable
 	 */
 	public static CompiereColor getDefaultBackground()
 	{
-		return new CompiereColor(AdempierePLAF.getFormBackground());
+		return CompierePanelUI.getDefaultBackground();
 	}   //  getDefaultBackground
 
 	/**
-	 *  Parse attributes and return AdempiereColor
+	 *  Set Default Background
+	 *  @param setDefault if true, the background will be set to the default color
+	 *  @see CompierePanelUI#setSetDefault
+	 */
+	public static void setSetDefault (boolean setDefault)
+	{
+		CompierePanelUI.setSetDefault(setDefault);
+	}   //  setSetDefault
+
+	/**
+	 *  Is the Default Background set by default
+	 *  @return true if default background is set
+	 *  @see CompierePanelUI#isSetDefault
+	 */
+	public static boolean isSetDefault()
+	{
+		return CompierePanelUI.isSetDefault();
+	}   //  isSetDefault
+
+	/**
+	 *  Parse attributes and return CompiereColor
 	 *  @param attributes attributes
 	 *  @return AdempiereColor
 	 */
@@ -920,23 +950,23 @@ public class CompiereColor implements Serializable
 		StringBuffer sb = new StringBuffer ("AdempiereColor[");
 		if (isFlat())
 			sb.append("Flat")
-				.append(" ").append(ThemeUtils.getColorAsString(getFlatColor()));
+				.append(" ").append(CompiereTheme.getColorAsString(getFlatColor()));
 		else if (isGradient())
 			sb.append("Gradient")
-				.append(" Upper=").append(ThemeUtils.getColorAsString(getGradientUpperColor()))
-				.append(",Lower=").append(ThemeUtils.getColorAsString(getGradientLowerColor()))
+				.append(" Upper=").append(CompiereTheme.getColorAsString(getGradientUpperColor()))
+				.append(",Lower=").append(CompiereTheme.getColorAsString(getGradientLowerColor()))
 				.append(",Start=").append(getGradientStartPoint())
 				.append(",RDistance=").append(getGradientRepeatDistance());
 		else if (isLine())
 			sb.append("Line")
-				.append(" Color=").append(ThemeUtils.getColorAsString(getLineColor()))
-				.append(",BackColor=").append(ThemeUtils.getColorAsString(getLineBackColor()))
+				.append(" Color=").append(CompiereTheme.getColorAsString(getLineColor()))
+				.append(",BackColor=").append(CompiereTheme.getColorAsString(getLineBackColor()))
 				.append(",Width=").append(getLineWidth())
 				.append(",Distance=").append(getLineDistance());
 		else if (isTexture())
 			sb.append("Texture")
 				.append(" GraphURL=").append(getTextureURL())
-				.append(",Taint=").append(ThemeUtils.getColorAsString(getTextureTaintColor()))
+				.append(",Taint=").append(CompiereTheme.getColorAsString(getTextureTaintColor()))
 				.append(",Alpha=").append(getTextureCompositeAlpha());
 		sb.append("]");
 		return sb.toString();
@@ -951,15 +981,15 @@ public class CompiereColor implements Serializable
 		if (str.indexOf("[Flat ") != -1)
 		{
 			m_type = TYPE_FLAT;
-			m_primaryColor = ThemeUtils.parseColor(str,
+			m_primaryColor = CompiereTheme.parseColor(str,
 				new ColorUIResource(m_primaryColor));
 		}
 		else if (str.indexOf("[Gradient ") != -1)
 		{
 			m_type = TYPE_GRADIENT;
-			m_primaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(" Upper=")+7, str.indexOf(",Lower=")),
+			m_primaryColor = CompiereTheme.parseColor(str.substring(str.indexOf(" Upper=")+7, str.indexOf(",Lower=")),
 				new ColorUIResource(m_primaryColor));
-			m_secondaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",Lower=")+7, str.indexOf(",Start=")),
+			m_secondaryColor = CompiereTheme.parseColor(str.substring(str.indexOf(",Lower=")+7, str.indexOf(",Start=")),
 				new ColorUIResource(m_secondaryColor));
 			m_startPoint = Integer.parseInt(str.substring(str.indexOf(",Start=")+7, str.indexOf(",RDistance=")));
 			setGradientRepeatDistance(str.substring(str.indexOf(",RDistance=")+11, str.lastIndexOf("]")));
@@ -967,9 +997,9 @@ public class CompiereColor implements Serializable
 		else if (str.indexOf("[Line ") != -1)
 		{
 			m_type = TYPE_LINES;
-			m_primaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(" Color=")+7, str.indexOf(",BackColor=")),
+			m_primaryColor = CompiereTheme.parseColor(str.substring(str.indexOf(" Color=")+7, str.indexOf(",BackColor=")),
 				new ColorUIResource(m_primaryColor));
-			m_secondaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",BackColor=")+11, str.indexOf(",Width=")),
+			m_secondaryColor = CompiereTheme.parseColor(str.substring(str.indexOf(",BackColor=")+11, str.indexOf(",Width=")),
 				new ColorUIResource(m_secondaryColor));
 			setLineWidth(str.substring(str.indexOf(",Width=")+7, str.indexOf(",Distance=")));
 			setLineDistance(str.substring(str.indexOf(",Distance=")+10, str.lastIndexOf("]")));
@@ -978,7 +1008,7 @@ public class CompiereColor implements Serializable
 		{
 			m_type = TYPE_TEXTURE;
 			setTextureURL (str.substring(str.indexOf(" GraphURL=")+10, str.indexOf(",Taint=")));
-			m_primaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",Taint=")+7, str.indexOf(",Alpha=")),
+			m_primaryColor = CompiereTheme.parseColor(str.substring(str.indexOf(",Taint=")+7, str.indexOf(",Alpha=")),
 				new ColorUIResource(m_primaryColor));
 			setTextureCompositeAlpha (str.substring(str.indexOf(",Alpha=")+7, str.lastIndexOf("]")));
 		}
