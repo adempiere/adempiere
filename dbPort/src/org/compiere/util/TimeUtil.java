@@ -304,7 +304,7 @@ public class TimeUtil
 			calTwo.setTimeInMillis(two.getTime());
 		if (calOne.get(Calendar.YEAR) == calTwo.get(Calendar.YEAR)
 			&& calOne.get(Calendar.MONTH) == calTwo.get(Calendar.MONTH)
-			&& calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_YEAR))
+			&& calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_MONTH))
 			return true;
 		return false;
 	}	//	isSameDay
@@ -325,7 +325,7 @@ public class TimeUtil
 			calTwo.setTimeInMillis(two.getTime());
 		if (calOne.get(Calendar.YEAR) == calTwo.get(Calendar.YEAR)
 			&& calOne.get(Calendar.MONTH) == calTwo.get(Calendar.MONTH)
-			&& calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_YEAR)
+			&& calOne.get(Calendar.DAY_OF_MONTH) == calTwo.get(Calendar.DAY_OF_MONTH)
 			&& calOne.get(Calendar.HOUR_OF_DAY) == calTwo.get(Calendar.HOUR_OF_DAY))
 			return true;
 		return false;
@@ -665,8 +665,14 @@ public class TimeUtil
 		Timestamp t2 = getDay(02, 02, 02);
 		Timestamp t3 = getDay(03, 03, 03);
 		
+		Timestamp t4 = getDay(01, 01, 01);
+		Timestamp t5 = getDay(02, 02, 02);
+		
 		System.out.println(t1 + " - " + t3);
 		System.out.println(t2 + " - " + isValid (t1,t3, t2));
+		System.out.println(isSameDay(t1, t4) + " == true" );
+		System.out.println(isSameDay(t2, t5) + " == true");
+		System.out.println(isSameDay(t3, t5) + " == false");
 	}	//	main
 	
 }	//	TimeUtil
