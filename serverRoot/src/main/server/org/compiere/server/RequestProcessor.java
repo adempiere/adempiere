@@ -83,7 +83,7 @@ public class RequestProcessor extends AdempiereServer
 		 */
 		String sql = "SELECT * FROM R_Request "
 			+ "WHERE DueType='" + MRequest.DUETYPE_Scheduled + "' AND Processed='N'"
-			+ " AND DateNextAction > SysDate"
+			+ " AND DateNextAction < SysDate"
 			+ " AND AD_Client_ID=?"; 
 		if (m_model.getR_RequestType_ID() != 0)
 			sql += " AND R_RequestType_ID=?";
@@ -137,7 +137,7 @@ public class RequestProcessor extends AdempiereServer
 			+ " AND AD_Client_ID=?"
 			+ " AND EXISTS (SELECT * FROM R_RequestType rt "
 				+ "WHERE r.R_RequestType_ID=rt.R_RequestType_ID"
-				+ " AND (r.DateNextAction+rt.DueDateTolerance) > SysDate)";
+				+ " AND (r.DateNextAction+rt.DueDateTolerance) < SysDate)";
 		if (m_model.getR_RequestType_ID() != 0)
 			sql += " AND r.R_RequestType_ID=?";
 		count = 0;
@@ -189,11 +189,11 @@ public class RequestProcessor extends AdempiereServer
 			sql = "SELECT * FROM R_Request "
 				+ "WHERE Processed='N'"
 				+ " AND AD_Client_ID=?"
-				+ " AND (DateNextAction+" + m_model.getOverdueAlertDays() + ") > SysDate"
+				+ " AND (DateNextAction+" + m_model.getOverdueAlertDays() + ") < SysDate"
 				+ " AND (DateLastAlert IS NULL";
 			if (m_model.getRemindDays() > 0)
 				sql += " OR (DateLastAlert+" + m_model.getRemindDays() 
-					+ ") > SysDate";
+					+ ") < SysDate";
 			sql += ")";
 			if (m_model.getR_RequestType_ID() != 0)
 				sql += " AND R_RequestType_ID=?";
@@ -246,7 +246,7 @@ public class RequestProcessor extends AdempiereServer
 				+ " AND AD_Client_ID=?"
 				+ " AND IsEscalated='N'"
 				+ " AND (DateNextAction+" + m_model.getOverdueAssignDays() 
-					+ ") > SysDate";
+					+ ") < SysDate";
 			if (m_model.getR_RequestType_ID() != 0)
 				sql += " AND R_RequestType_ID=?";
 			count = 0;
@@ -282,7 +282,7 @@ public class RequestProcessor extends AdempiereServer
 			sql = "SELECT * FROM R_Request "
 				+ "WHERE Processed='N'"
 				+ " AND AD_Client_ID=?"
-				+ " AND (Updated+" + m_model.getInactivityAlertDays() + ") > SysDate"
+				+ " AND (Updated+" + m_model.getInactivityAlertDays() + ") < SysDate"
 				+ " AND (DateLastAlert IS NULL";
 			if (m_model.getRemindDays() > 0)
 				sql += " OR (DateLastAlert+" + m_model.getRemindDays() 
