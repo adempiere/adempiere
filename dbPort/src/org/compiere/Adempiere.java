@@ -71,7 +71,7 @@ public final class Adempiere
 	static private String		s_supportEmail	= "";
 
 	/** Subtitle                */
-	static public final String	SUB_TITLE		= "The Open Source Profesional ERP,CRM and SCM  ";
+	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	/** Adempiere is a wordwide registered Trademark
 	 *  - Don't modify this - Program will someday fail unexpectedly	*/
 	static public final String	ADEMPIERE_R		= "Adempiere\u00AE";
