@@ -170,6 +170,9 @@ public class CLogger extends Logger implements Serializable
 	public boolean saveWarning (String AD_Message, String message)
 	{
 		s_lastWarning = new ValueNamePair (AD_Message, message);
+		//  print it
+		if (true) //	issueError
+			warning(AD_Message + " - " + message);
 		return true;
 	}   //  saveWarning
 

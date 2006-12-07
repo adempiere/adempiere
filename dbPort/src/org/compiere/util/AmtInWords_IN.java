@@ -14,6 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.util;
 
 /**
@@ -46,11 +47,15 @@ public class AmtInWords_IN implements AmtInWords
         "Sepuluh",
         "Sebelas",
   };
+  
   private static final long POWER_THREE = 1000L;
   private static final long POWER_SIX = 1000000L;
   private static final long POWER_NINE = 1000000000L;
   private static final long POWER_TWELVE = 1000000000000L;
   private static final long POWER_FIFTEEN = 1000000000000000L;
+  
+	/**	Static Logger				*/
+	private static CLogger	s_log	= CLogger.getCLogger (AmtInWords_IN.class);
 
 //-------------------------- STATIC METHODS --------------------------
 
@@ -60,9 +65,10 @@ public class AmtInWords_IN implements AmtInWords
   * @param number number to say
   * @return said number
   */
-  public static String sayNumber(long number) {
+  public static String sayNumber(double number) {
         StringBuffer result = new StringBuffer();
         sayNumber(result, number);
+        result.append(" Rupiah");
         return result.toString();
   }
 
@@ -74,22 +80,27 @@ public class AmtInWords_IN implements AmtInWords
    * @return said number
    * @throws IllegalArgumentException if the number equals to {@link Long#MIN_VALUE}
    */
-  public static String sayNumber(StringBuffer appendTo, long number)
+  public static String sayNumber(StringBuffer appendTo, double number)
   throws IllegalArgumentException {
-	  if (number == Long.MIN_VALUE) {
+	  if (number == Double.MIN_VALUE) {
 		  throw new IllegalArgumentException("Out of range");
 	  }
 	  if (number < 0) {
 		  appendTo.append("Minus ");
 	  }
-	  long abs = Math.abs(number);
+	  double abs = Math.abs(number);
+	  // s_log.warning("Debug=" + abs);
 	  if (abs < POWER_THREE) {
 		  saySimpleNumber(appendTo, (int) abs);
+	  } else if (abs < 2000) {
+		  int thousand = (int) (abs % POWER_THREE);
+		  appendTo.append("Seribu ");
+		  saySimpleNumber(appendTo, thousand);
 	  } else if (abs < POWER_SIX) {
 		  int thousand = (int) (abs % POWER_SIX / POWER_THREE);
 		  saySimpleNumber(appendTo, thousand);
 		  appendTo.append(" Ribu");
-		  long remainder = abs - thousand * POWER_THREE;
+		  double remainder = abs - thousand * POWER_THREE;
 		  if (remainder > 0) {
 			  appendTo.append(' ');
 			  sayNumber(appendTo, remainder);
@@ -98,7 +109,7 @@ public class AmtInWords_IN implements AmtInWords
 		  int million = (int) (abs % POWER_NINE / POWER_SIX);
 		  saySimpleNumber(appendTo, million);
 		  appendTo.append(" Juta");
-		  long remainder = abs - million * POWER_SIX;
+		  double remainder = abs - million * POWER_SIX;
 		  if (remainder > 0) {
 			  appendTo.append(' ');
 			  sayNumber(appendTo, remainder);
@@ -107,7 +118,7 @@ public class AmtInWords_IN implements AmtInWords
 		  int billion = (int) (abs % POWER_TWELVE / POWER_NINE);
 		  saySimpleNumber(appendTo, billion);
 		  appendTo.append(" Milyar");
-		  long remainder = abs - billion * POWER_NINE;
+		  double remainder = abs - billion * POWER_NINE;
 		  if (remainder > 0) {
 			  appendTo.append(' ');
 			  sayNumber(appendTo, remainder);
@@ -116,28 +127,13 @@ public class AmtInWords_IN implements AmtInWords
 		  int trillion = (int) (abs % POWER_FIFTEEN / POWER_TWELVE);
 		  saySimpleNumber(appendTo, trillion);
 		  appendTo.append(" Trilyun");
-		  long remainder = abs - trillion * POWER_TWELVE;
+		  double remainder = abs - trillion * POWER_TWELVE;
 		  if (remainder > 0) {
 			  appendTo.append(' ');
 			  sayNumber(appendTo, remainder);
 		  }
 	  } else {
-		  int log = (int) Math.floor(Math.log(abs) / Math.log(10));
-		  
-		  // we want to break the number to several billions.
-		  int logWhole = log - log % 12;
-		  
-		  long powerWhole = (long) Math.pow(10, logWhole);
-		  
-		  long part = abs / powerWhole;
-		  sayNumber(appendTo, part);
-		  appendTo.append(" Trilyun");
-		  
-		  long remainder = abs - part * powerWhole;
-		  if (remainder > 0) {
-			  appendTo.append(' ');
-			  sayNumber(appendTo, remainder);
-		  }
+		  appendTo.append("Lebih Dari Seribu Triliun");
 	  }
 	  return appendTo.toString();
   }
@@ -188,7 +184,7 @@ public class AmtInWords_IN implements AmtInWords
                      appendTo.append(' ');
                      saySimpleNumber(appendTo, remainder);
                }
-         }
+         }          
    }
   
 	
@@ -196,18 +192,28 @@ public class AmtInWords_IN implements AmtInWords
 	 * 	Get Amount in Words
 	 * 	@param amount numeric amount (352.80)
 	 * 	@return amount in words (three*five*two 80/100)
-	 * 	@throws Exception
 	 */
 	public String getAmtInWords (String amount) throws Exception
 	{
 		if (amount == null)
 			return amount;
 		//
-		amount = amount.replaceAll (",", "");		
-		float numFloat = Float.parseFloat(amount);
-		long number = 0L;
-		number = (long)numFloat;
-		return AmtInWords_IN.sayNumber(number);
+		StringBuffer result = new StringBuffer();
+		
+		int pos = amount.lastIndexOf ('.');
+		String oldamt = amount;
+		amount = amount.replaceAll (",", "");
+		String cents = pos > 0 ? oldamt.substring (pos + 1):null;
+		double numDouble = Double.parseDouble(amount);
+		sayNumber(result, numDouble);
+		if (cents != null)
+		{	
+			result.append(" Koma ");
+			numDouble = Double.parseDouble(cents);
+			sayNumber(result, numDouble);
+		}
+		result.append(" Rupiah");
+		return result.toString();
 	}	//	getAmtInWords
 
 	/**
@@ -233,16 +239,26 @@ public class AmtInWords_IN implements AmtInWords
 	public static void main (String[] args)
 	{
 		AmtInWords_IN aiw = new AmtInWords_IN();
-		// I doubt decimal support for rupiah is still needed ;)
-		aiw.print (".23");
-		aiw.print ("948,776,477,778,778,778");
-		aiw.print ("1.79");
-	//	aiw.print ("12.345");
-	//	aiw.print ("123.45");
-	//	aiw.print ("1234.56");
-	//	aiw.print ("12345.78");
-	//	aiw.print ("123457.89");
-		aiw.print ("1,234,578.90");
+        aiw.print ("0.00");		
+        aiw.print ("0.23");
+        aiw.print ("1.23876787");
+        aiw.print ("11.45");
+        aiw.print ("121.45");
+        aiw.print ("1231.56");
+        aiw.print ("10341.78");
+        aiw.print ("12341.78");
+        aiw.print ("123451.89");
+        aiw.print ("12234571.90");
+        aiw.print ("123234571.90");
+        aiw.print ("1987234571.90");
+        aiw.print ("11123234571.90");
+        aiw.print ("123123234571.90");
+        aiw.print ("2123123234571.90");
+        aiw.print ("23,123,123,234,571.90");
+        aiw.print ("100,000,000,000,000.90");
+        aiw.print ("111,111,111");
+        aiw.print ("222,222,222,222,222");
+        aiw.print ("222,222,222,222,222,222,222");        
 	}	//	main
 	
 }	//	AmtInWords_IN

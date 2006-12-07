@@ -27,7 +27,7 @@ import org.compiere.interfaces.*;
 import org.compiere.util.*;
 
 /**
- *  Adempiere Connection Descriptor
+ *  Compiere Connection Descriptor
  *
  *  @author     Jorg Janke
  *  @author     Marek Mosiewicz<marek.mosiewicz@jotel.com.pl> - support for RMI over HTTP
@@ -138,7 +138,7 @@ public class CConnection implements Serializable
 	
 
 	/**************************************************************************
-	 *  Adempiere Connection
+	 *  Compiere Connection
 	 *  @param	host optional application/db host
 	 */
 	private CConnection (String host)
@@ -182,9 +182,9 @@ public class CConnection implements Serializable
 	private int 		m_fw_port = 0;
 
 	/** DB User name        */
-	private String 		m_db_uid = "adempiere";
+	private String 		m_db_uid = "compiere";
 	/** DB User password    */
-	private String 		m_db_pwd = "adempiere";
+	private String 		m_db_pwd = "compiere";
 
 	/** Database            */
 	private AdempiereDatabase m_db = null;
@@ -209,9 +209,6 @@ public class CConnection implements Serializable
 	private Server		m_server = null;
 	/** DB Info				*/
 	private String		m_dbInfo = null;
-	
-	/** Had application server been query **/
-	private boolean m_queryAppsServer = false;
 
 	
 	/*************************************************************************
@@ -259,7 +256,6 @@ public class CConnection implements Serializable
 		m_apps_host = apps_host;
 		m_name = toString ();
 		m_okApps = false;
-		m_queryAppsServer = false;
 	}
 
 	/**
@@ -279,7 +275,6 @@ public class CConnection implements Serializable
 	{
 		m_apps_port = apps_port;
 		m_okApps = false;
-		m_queryAppsServer = false;
 	}
 
 	/**
@@ -308,11 +303,9 @@ public class CConnection implements Serializable
 	 */
 	public boolean isAppsServerOK (boolean tryContactAgain)
 	{
-		if (!tryContactAgain && m_queryAppsServer)
+		if (!tryContactAgain)
 			return m_okApps;
 
-		m_queryAppsServer = true;
-		
 		//	Get Context
 		if (m_iContext == null)
 		{
@@ -347,9 +340,8 @@ public class CConnection implements Serializable
 	 */
 	public Exception testAppsServer ()
 	{
-		//if (queryAppsServerInfo ())
-		//	testDatabase (false);
-		queryAppsServerInfo ();
+		if (queryAppsServerInfo ())
+			testDatabase (false);
 		return getAppsServerException ();
 	} 	//  testAppsServer
 
@@ -809,24 +801,11 @@ public class CConnection implements Serializable
 			if (getDbPort () != DB_DB2.DEFAULT_PORT)
 				setDbPort (DB_DB2.DEFAULT_PORT);
 		}
-		else if (isDerby())
+		/*else if (isDerby())
 		{
-//			if (getDbPort () != DB_Derby.DEFAULT_PORT)
-//				setDbPort (DB_Derby.DEFAULT_PORT);
-		}
-                // begin vpj-cd e-evolution 09 ene 2006
-		//  PostgreSQL
-		if (isPostgreSQL ())
-		{
-			if (getDbPort () != DB_PostgreSQL.DEFAULT_PORT)
-				setDbPort (DB_PostgreSQL.DEFAULT_PORT);
-		}
-		//end vpj-cd e-evolution 09 ene 2006
-		if (isFyracle())
-		{
-			if (getDbPort () != DB_Fyracle.DEFAULT_PORT)
-				setDbPort (DB_Fyracle.DEFAULT_PORT);
-		}		
+			if (getDbPort () != DB_Derby.DEFAULT_PORT)
+				setDbPort (DB_Derby.DEFAULT_PORT);
+		}*/
 	} 	//  setType
 
 	/**
@@ -875,16 +854,7 @@ public class CConnection implements Serializable
 		return Database.DB_MSSQLServer.equals (m_type);
 	} 	//  isMSSQLServer
         
- //begin e-evolution vpj-cd 30 nov 2005
-    /**
-     *  Is PostgreSQL DB
-     *  @return true if PostgreSQL
-     */
-//	public boolean isEDB ()
-//	{
-//	return Database.DB_EDB.equals (m_type);
-//	} 	//  isPostgreSQL
-	/**
+        	/**
 	 *  Is PostgreSQL DB
 	 *  @return true if PostgreSQL
 	 */
@@ -902,6 +872,7 @@ public class CConnection implements Serializable
 		return Database.DB_FYRACLE.equals (m_type);
 	} 	//  isPostgreSQL
     //end        
+
 	/**
 	 *  Is Database Connection OK
 	 *  @return true if database connection is OK
@@ -987,9 +958,18 @@ public class CConnection implements Serializable
 			Connection.TRANSACTION_READ_COMMITTED);
 		if (conn != null)
 		{
-			try 
+			try
 			{
-				readInfo(conn);
+				DatabaseMetaData dbmd = conn.getMetaData ();
+				m_info[0] = "Database=" + dbmd.getDatabaseProductName ()
+							+ " - " + dbmd.getDatabaseProductVersion ();
+				m_info[0] = m_info[0].replace ('\n', ' ');
+				m_info[1] = "Driver  =" + dbmd.getDriverName ()
+							+ " - " + dbmd.getDriverVersion ();
+				if (isDataSource())
+					m_info[1] += " - via DataSource";
+				m_info[1] = m_info[1].replace ('\n', ' ');
+				log.config(m_info[0] + " - " + m_info[1]);
 				conn.close ();
 			}
 			catch (Exception e)
@@ -1000,19 +980,20 @@ public class CConnection implements Serializable
 		}
 		return m_dbException; //  from opening
 	} 	//  testDatabase
-
-	public void readInfo(Connection conn) throws SQLException {
-		DatabaseMetaData dbmd = conn.getMetaData ();
-		m_info[0] = "Database=" + dbmd.getDatabaseProductName ()
-					+ " - " + dbmd.getDatabaseProductVersion ();
-		m_info[0] = m_info[0].replace ('\n', ' ');
+        
+         public void readInfo(Connection conn) throws SQLException {
+  		DatabaseMetaData dbmd = conn.getMetaData ();
+  		m_info[0] = "Database=" + dbmd.getDatabaseProductName ()
+  					+ " - " + dbmd.getDatabaseProductVersion ();
+  		m_info[0] = m_info[0].replace ('\n', ' ');
 		m_info[1] = "Driver  =" + dbmd.getDriverName ()
-					+ " - " + dbmd.getDriverVersion ();
-		if (isDataSource())
-			m_info[1] += " - via DataSource";
-		m_info[1] = m_info[1].replace ('\n', ' ');
-		log.config(m_info[0] + " - " + m_info[1]);		
-	}
+  					+ " - " + dbmd.getDriverVersion ();
+  		if (isDataSource())
+  			m_info[1] += " - via DataSource";
+  		m_info[1] = m_info[1].replace ('\n', ' ');
+  		log.config(m_info[0] + " - " + m_info[1]);
+  	}
+
 	
 	/*************************************************************************
 	 *  Short String representation
@@ -1224,7 +1205,15 @@ public class CConnection implements Serializable
 		{
 			try
 			{
-				m_db = Database.getDatabase(m_type);
+				for (int i = 0; i < Database.DB_NAMES.length; i++)
+				{
+					if (Database.DB_NAMES[i].equals (m_type))
+					{
+						m_db = (AdempiereDatabase)Database.DB_CLASSES[i].
+							   newInstance ();
+						break;
+					}
+				}
 			}
 			catch (Exception e)
 			{
@@ -1507,19 +1496,12 @@ public class CConnection implements Serializable
 		log.finer(getAppsHost());
 		long start = System.currentTimeMillis();
 		m_okApps = false;
-		m_queryAppsServer = true;
 		m_appsException = null;
 		//
 		getInitialContext (false);
 		if (m_iContext == null)
 			return m_okApps;	//	false
-		
-		// Carlos Ruiz - globalqss - speed up when jnp://MyAppsServer:1099 is set
-		if (getAppsHost().equalsIgnoreCase("MyAppsServer")) {
-			log.warning (getAppsHost() + " ignored");
-			return m_okApps; // false
-		}
-		
+
 		//	Prevent error trace
 	//	CLogMgtLog4J.enable(false);
 		try
@@ -1642,6 +1624,7 @@ public class CConnection implements Serializable
 		return "<?" + transactionIsolation + "?>";
 	}	//	getTransactionIsolationInfo
 	
+        
 
 	/**************************************************************************
 	 *  Testing
@@ -1664,7 +1647,7 @@ public class CConnection implements Serializable
 			Adempiere.startup(true);
 		//
 		System.out.println ("Connection = ");
-		//	CConnection[name=localhost{dev-dev1-adempiere},AppsHost=localhost,AppsPort=1099,type=Oracle,DBhost=dev,DBport=1521,DBname=dev1,BQ=false,FW=false,FWhost=,FWport=1630,UID=adempiere,PWD=adempiere]
+		//	CConnection[name=localhost{dev-dev1-compiere},AppsHost=localhost,AppsPort=1099,type=Oracle,DBhost=dev,DBport=1521,DBname=dev1,BQ=false,FW=false,FWhost=,FWport=1630,UID=compiere,PWD=compiere]
 		System.out.println (Ini.getProperty (Ini.P_CONNECTION));
 
 		CConnection cc = CConnection.get ();

@@ -335,6 +335,7 @@ public class Login
 		{
 			pstmt = null;
 		}
+		long ms = System.currentTimeMillis () - start;
 		return retValue;
 	}	//	getRoles
 

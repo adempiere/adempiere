@@ -234,7 +234,7 @@ public class MClientShare extends X_AD_ClientShare
 		StringBuffer info = new StringBuffer();
 		String sql = "SELECT AD_Table_ID, TableName "
 			+ "FROM AD_Table t "
-			+ "WHERE AccessLevel='3' AND IsView='N'"  //jz put quote for typing
+			+ "WHERE AccessLevel=3 AND IsView='N'"
 			+ " AND EXISTS (SELECT * FROM AD_Column c "
 				+ "WHERE t.AD_Table_ID=c.AD_Table_ID"
 				+ " AND c.IsParent='Y'"

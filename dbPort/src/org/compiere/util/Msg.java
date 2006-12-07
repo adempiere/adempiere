@@ -306,7 +306,7 @@ public final class Msg
 			else
 			{
 				int start = pos + SEPARATOR.length();
-				int end = retStr.length();
+			//	int end = retStr.length();
 				retStr = retStr.substring (start);
 			}
 		}

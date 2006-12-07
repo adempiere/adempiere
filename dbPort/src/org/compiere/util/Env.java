@@ -62,20 +62,6 @@ public final class Env
 	}	//	close
 
 	/**
-	 * Logout from the system
-	 */
-	public static void logout()
-	{
-		//	End Session
-		MSession session = MSession.get(Env.getCtx(), false);	//	finish
-		if (session != null)
-			session.logout();
-		//
-		reset(true);	// final cache reset
-		//
-	}
-	
-	/**
 	 * 	Reset Cache
 	 * 	@param finalCall everything otherwise login data remains
 	 */
@@ -1279,34 +1265,12 @@ public final class Env
 		URL url = Adempiere.class.getResource("images/" + fileNameInImageDir);
 		if (url == null)
 		{
-			s_log.log(Level.WARNING, "Not found: " +  fileNameInImageDir);
+			s_log.log(Level.SEVERE, "Not found: " +  fileNameInImageDir);
 			return null;
 		}
 		return new ImageIcon(url);
 	}   //  getImageIcon
 
-	/**
-	 *  Get ImageIcon. This method different from getImageIcon
-	 *  where the fileName parameter is without extension. The
-	 *  method will first try .gif and then .png if .gif does not
-	 *  exists.
-	 *
-	 *  @param fileName file name in imgaes folder without the extension(e.g. Bean16)
-	 *  @return image
-	 */
-	public static ImageIcon getImageIcon2 (String fileName)
-	{
-		URL url = Adempiere.class.getResource("images/" + fileName+".gif");
-		if (url == null)
-			url = Adempiere.class.getResource("images/" + fileName+".png");
-		if (url == null)
-		{
-			s_log.log(Level.WARNING, "GIF/PNG Not found: " + fileName);
-			return null;
-		}
-		return new ImageIcon(url);
-	}   //  getImageIcon2
-	
 
 	/***************************************************************************
 	 *  Start Browser
@@ -1382,15 +1346,8 @@ public final class Env
 				window.setVisible(false);
 				s_log.info(window.toString());
 			//	window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_ICONIFIED));
-				if (s_hiddenWindows.size() > 10) {
-					CFrame toClose = s_hiddenWindows.remove(0);		//	sort of lru
-					try {
-						s_closingWindows = true;
-						toClose.dispose();
-					} finally {
-						s_closingWindows = false;
-					}
-				}
+				if (s_hiddenWindows.size() > 10)
+					s_hiddenWindows.remove(0);		//	sort of lru
 				return true;
 			}
 		}
@@ -1402,7 +1359,7 @@ public final class Env
 	 *	@param AD_Window_ID window
 	 *	@return true if window re-displayed
 	 */
-	static public CFrame showWindow (int AD_Window_ID)
+	static public boolean showWindow (int AD_Window_ID)
 	{
 		for (int i = 0; i < s_hiddenWindows.size(); i++)
 		{
@@ -1413,10 +1370,10 @@ public final class Env
 				s_log.info(hidden.toString());
 				hidden.setVisible(true);
 				hidden.toFront();
-				return hidden;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}	//	showWindow
 
 	/**
@@ -1451,46 +1408,6 @@ public final class Env
 		}
 		s_log.info("End");
 	}	//	sleep
-	
-	/**
-	 * Update all windows after look and feel changes.
-	 * @since 2006-11-27 
-	 */
-	public static Set<Window>updateUI() 
-	{
-		Set<Window> updated = new HashSet<Window>();
-		for (Container c : s_windows)
-		{
-			Window w = getFrame(c);
-			if (w == null) continue;
-			if (updated.contains(w)) continue;
-			SwingUtilities.updateComponentTreeUI(w);
-			w.validate();
-			RepaintManager mgr = RepaintManager.currentManager(w);
-			Component childs[] = w.getComponents();
-			for (Component child : childs) {
-				if (child instanceof JComponent)
-					mgr.markCompletelyDirty((JComponent)child);
-			}
-			w.repaint();
-			updated.add(w);
-		}
-		for (Window w : s_hiddenWindows)
-		{
-			if (updated.contains(w)) continue;
-			SwingUtilities.updateComponentTreeUI(w);
-			w.validate();
-			RepaintManager mgr = RepaintManager.currentManager(w);
-			Component childs[] = w.getComponents();
-			for (Component child : childs) {
-				if (child instanceof JComponent)
-					mgr.markCompletelyDirty((JComponent)child);
-			}
-			w.repaint();
-			updated.add(w);
-		}
-		return updated;
-	}
 	
 	
 	/**************************************************************************

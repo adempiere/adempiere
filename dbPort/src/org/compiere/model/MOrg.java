@@ -204,16 +204,9 @@ public class MOrg extends X_AD_Org
 	 */
 	public int getLinkedC_BPartner_ID()
 	{
-		return getLinkedC_BPartner_ID(null);
-	}
-	
-	
-	public int getLinkedC_BPartner_ID(String trxName)
-	{
 		if (m_linkedBPartner == null)
 		{
-			//jz int C_BPartner_ID = DB.getSQLValue(null,
-			int C_BPartner_ID = DB.getSQLValue(trxName,
+			int C_BPartner_ID = DB.getSQLValue(null,
 				"SELECT C_BPartner_ID FROM C_BPartner WHERE AD_OrgBP_ID=?",
 				getAD_Org_ID());
 			if (C_BPartner_ID < 0)	//	not found = -1

@@ -905,5 +905,15 @@ public class CStatement implements Statement
 		}
 		return rowSet;
 	}	//	remote_getRowSet
+        
+       public boolean isPoolable() throws SQLException{ return false;}
+      
+       public void setPoolable(boolean a) throws SQLException{};
+       
+       public boolean isClosed() throws SQLException{ return false;}
+       
+       public boolean isWrapperFor(java.lang.Class c) throws SQLException{ return false;}
+       
+       public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{return null;}
 
 }	//	CStatement

@@ -1,18 +1,17 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Product: Adempiere ERP & CRM Smart Business Solution
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms version 2 of the GNU General Public License as published
+ * by the Free Software Foundation. This program is distributed in the hope
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along 
+ * with this program; if not, write to the Free Software Foundation, Inc., 
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ * You may reach us at: ComPiere, Inc. - http://www.compiere.org/license.html
+ * 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA or info@compiere.org 
  *****************************************************************************/
 package org.compiere.db;
 
@@ -36,8 +35,8 @@ public class LDAP
 {
 	/**
 	 * 	Validate User
-	 *	@param ldapURL provider url - e.g. ldap://dc.adempiere.org
-	 *	@param domain domain name = e.g. adempiere.org
+	 *	@param ldapURL provider url - e.g. ldap://dc.compiere.org
+	 *	@param domain domain name = e.g. compiere.org
 	 *	@param userName user name - e.g. jjanke
 	 *	@param password password 
 	 *	@return true if validated with ldap
@@ -46,10 +45,10 @@ public class LDAP
 	{
 		Hashtable<String,String> env = new Hashtable<String,String>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		//	ldap://dc.adempiere.org
+		//	ldap://dc.compiere.org
 		env.put(Context.PROVIDER_URL, ldapURL);
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		//	jjanke@adempiere.org
+		//	jjanke@compiere.org
 		StringBuffer principal = new StringBuffer (userName)
 			.append("@").append(domain);
 		env.put(Context.SECURITY_PRINCIPAL, principal.toString());
@@ -62,10 +61,11 @@ public class LDAP
 		//	DirContext ctx = new InitialDirContext(env);
 			
 			//	Test - Get the attributes
-		    Attributes answer = ctx.getAttributes("");
+			Attributes answer = ctx.getAttributes("");
 
 		    // Print the answer
-		//	dump (answer);
+		    if (false)
+		    	dump (answer);
 		}
 		catch (AuthenticationException e)
 		{
@@ -128,7 +128,7 @@ public class LDAP
 		// map.put("debugNative", "true");
 		Krb5LoginModule klogin = new Krb5LoginModule ();
 		System.out.println (klogin);
-		map.put ("principal", "username@adempiere.org");
+		map.put ("principal", "username@compiere.org");
 		map.put ("credential", "pass");
 		klogin.initialize (null, null, null, map);
 		System.out.println (klogin.login ());
@@ -188,7 +188,7 @@ public class LDAP
 	{
 		try
 		{
-			validate("ldap://dc.adempiere.org", "adempiere.org", "red1", "ikeepforgetting");
+			validate("ldap://dc.compiere.org", "compiere.org", "jjanke", "ikeepforgetting");
 		}
 		catch (Exception e)
 		{

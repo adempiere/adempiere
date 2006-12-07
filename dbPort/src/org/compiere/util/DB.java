@@ -47,7 +47,7 @@ public final class DB
 	/** Connection Cache r/o            */
 	private static Connection[]		s_connections = null;
 	/** Connection Cache Size           */
-	private static int              s_conCacheSize = Ini.isClient() ? 1 : 3;
+	private static int              s_conCacheSize = Ini.isClient() ? 3 : 3;
 	/** Connection counter              */
 	private static int              s_conCount = 0;
 	/** Connection r/w                  */
@@ -510,7 +510,19 @@ public final class DB
 	 */
 	public static AdempiereDatabase getDatabase(String URL)
 	{
-		return Database.getDatabaseFromURL(URL);
+		if (URL == null)
+		{
+			log.severe("No Database URL");
+			return null;
+		}
+		if (URL.indexOf("oracle") != -1)
+			return new DB_Oracle();
+		/*if (URL.indexOf("derby") != -1)
+			return new DB_Derby();*/
+		if (URL.indexOf("db2") != -1)
+			return new DB_DB2();
+		log.severe("No Database for " + URL);
+		return null;
 	}   //  getDatabase
 
 	/**

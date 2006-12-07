@@ -1066,6 +1066,113 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			throw new RuntimeException (ex);
 		}
 	}	//	remote_executeUpdate
+        
+                public void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
+	    throws SQLException
+        {
+            
+        }
+            
+        //vpj-cd add support java 6    
+        public void setBinaryStream(int parameterIndex, java.io.InputStream x, 
+			 long length) throws SQLException
+        {        
+            
+        }
+        
+        public void setCharacterStream(int parameterIndex,
+       			  java.io.Reader reader,
+			  long length) throws SQLException
+        {
+            
+        }
+            
+        public void setAsciiStream(int parameterIndex, java.io.InputStream x)
+	    throws SQLException
+        {
+            
+        }
+           
+        
+       public void setBinaryStream(int parameterIndex, java.io.InputStream x)
+       throws SQLException
+       {
+                
+       }
+            
+       public void setCharacterStream(int parameterIndex,
+       			  java.io.Reader reader) throws SQLException
+       {
+           
+       }
+        
+       public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException
+       {
+           
+       }        
+       
+       public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException
+       {
+               
+       }
+        
+       public void setClob(int parameterIndex, Reader reader)
+       throws SQLException
+       {
+           
+       }   
+       
+        public void setClob(int parameterIndex, Reader reader, long length)
+       throws SQLException
+        {
+            
+        }
+        
+        public void setNClob(int parameterIndex, NClob value) throws SQLException
+        {
+            
+        }
+
+
+        public void setNClob(int parameterIndex, Reader reader, long length)
+        throws SQLException
+        {
+            
+        }
+        
+        public void setNClob(int parameterIndex, Reader reader)
+       throws SQLException
+        {
+            
+        }
+        
+        public void setBlob(int parameterIndex, InputStream inputStream, long length)
+        throws SQLException
+        {
+            
+        }
+
+           
+       public void setBlob(int parameterIndex, InputStream inputStream)
+       throws SQLException
+       {
+           
+       }        
+            
+
+       
+       
+       public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException
+       {
+           
+       }
+       
+       public void setNString(int parameterIndex, String value) throws SQLException
+       {
+           
+       }
+       
+       public void setRowId(int parameterIndex, RowId x) throws SQLException{}
 
 
 }	//	CPreparedStatement

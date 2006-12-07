@@ -243,7 +243,7 @@ public class MCostElement extends X_M_CostElement
 		if (COSTELEMENTTYPE_Material.equals(getCostElementType())
 			&& (newRecord || is_ValueChanged("CostingMethod")))
 		{
-			String sql = "SELECT  MAX(COALESCE(M_CostElement_ID,0)) FROM M_CostElement "
+			String sql = "SELECT  COALESCE(MAX(M_CostElement_ID),0) FROM M_CostElement "
 				+ "WHERE AD_Client_ID=? AND CostingMethod=?";
 			int id = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID(), getCostingMethod());
 			if (id > 0 && id != get_ID())

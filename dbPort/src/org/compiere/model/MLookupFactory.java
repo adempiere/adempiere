@@ -666,14 +666,8 @@ public class MLookupFactory
 			realSQL.append(" FROM ").append(TableName);
 		}
 
-		//	Order by Display    
-		if (DB.isDerby())  //jz derby restriction 
-		{
-			if (size > 3)
-				realSQL.append(" ORDER BY " + ((LookupDisplayColumn)list.get(2)).ColumnName);
-		}
-		else 
-			realSQL.append(" ORDER BY 3");
+		//	Order by Display
+		realSQL.append(" ORDER BY 3");
 		MQuery zoomQuery = null;	//	corrected in VLookup
 
 		if (CLogMgt.isLevelFinest())

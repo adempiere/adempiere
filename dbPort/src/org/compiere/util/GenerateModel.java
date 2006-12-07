@@ -143,7 +143,9 @@ public class GenerateModel
 			//	Class
 			+ "/** Generated Model for ").append(tableName).append("\n"
 			+ " *  @author Jorg Janke (generated) \n"
-			+ " *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append(" */\n"
+			+ " *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$")
+			//	.append(s_run)	//	Timestamp
+				.append(" */\n"
 			+ "public class ").append(className).append(" extends PO"
 			+ "{"
 			//	Standard Constructor
@@ -387,6 +389,7 @@ public class GenerateModel
 		{
 			sb.append ("throw new IllegalArgumentException (\"").append(columnName).append(" is virtual column\");");
 		}
+		//	Integer
 		else if (clazz.equals(Integer.class))
 		{
 			if (columnName.endsWith("_ID"))
@@ -409,6 +412,7 @@ public class GenerateModel
 			}
 			sb.append(setValue).append(" (\"").append(columnName).append("\", new Integer(").append(columnName).append("));");
 		}
+		//	Boolean
 		else if (clazz.equals(Boolean.class))
 			sb.append(setValue).append(" (\"").append(columnName).append("\", new Boolean(").append(columnName).append("));");
 		else
@@ -562,14 +566,18 @@ public class GenerateModel
 				else
 					statement.append(" || ").append(columnName)
 						.append(".equals(\"").append(value).append("\")");
+				//
 				if (!found)
 				{
 					found = true;
-					sb.append("if (")
-						.append (columnName).append (" == null)"
+					if (!nullable)
+						sb.append("if (")
+							.append (columnName).append (" == null)"
 							+ " throw new IllegalArgumentException (\"")
-						.append(columnName).append(" is mandatory\");");
+							.append(columnName).append(" is mandatory\");");
 				}
+				
+				
 				//	Name (SmallTalkNotation)
 				String name = rs.getString(2);
 				char[] nameArray = name.toCharArray();

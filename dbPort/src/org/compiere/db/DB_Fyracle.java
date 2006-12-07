@@ -624,4 +624,10 @@ class DataSourceImpl implements DataSource {
 		return impl.toString();
 	}
 
+        public boolean isWrapperFor(java.lang.Class<?> iface) throws java.sql.SQLException
+        {
+            return false;
+        }
+        
+        public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{return null;}
 }
