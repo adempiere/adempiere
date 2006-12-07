@@ -193,7 +193,7 @@ public class ConfigDB2 extends Config
 		}
 		catch (Exception e)
 		{
-			log.severe(e.toString());
+			log.warning(e.toString());
 			return false;
 		}
 		return true;
@@ -241,7 +241,7 @@ public class ConfigDB2 extends Config
 		}
 		catch (Exception ex)
 		{
-			log.severe(ex.toString());
+			log.warning(ex.toString());
 		}
 		log.finer(sbOut.toString());
 		if (sbErr.length() > 0)

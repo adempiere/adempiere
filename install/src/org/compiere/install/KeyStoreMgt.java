@@ -263,22 +263,22 @@ public class KeyStoreMgt
 		//
 		if (cn == null || cn.length() == 0)
 		{
-			log.severe("No Common Name (CN)");
+			log.warning("No Common Name (CN)");
 			return null;
 		}
 		if (ou == null || ou.length() == 0)
 		{
-			log.severe("No Organization Unit (OU)");
+			log.warning("No Organization Unit (OU)");
 			return null;
 		}
 		if (o == null || o.length() == 0)
 		{
-			log.severe("No Organization (O)");
+			log.warning("No Organization (O)");
 			return null;
 		}
 		if (c == null || c.length() == 0)
 		{
-			log.severe("No Country (C)");
+			log.warning("No Country (C)");
 			return null;
 		}
 		
@@ -392,7 +392,14 @@ public class KeyStoreMgt
 		String[] args = new String[list.size()];
 		list.toArray(args);
 	//	System.out.println(" args #" + args.length);
+                //vpj-cd add support java 6
+                try
+                {
 		KeyTool.main(args);
+                }
+                catch (Exception e)
+                {                     
+                }
 	}	//	ketyool
 	
 	/**

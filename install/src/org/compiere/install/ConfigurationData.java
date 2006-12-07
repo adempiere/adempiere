@@ -97,8 +97,11 @@ public class ConfigurationData
 	/** 				*/
 	public static final String	ADEMPIERE_KEYSTOREWEBALIAS	= "ADEMPIERE_KEYSTOREWEBALIAS";
 
-	/** 				*/
+	/** DB Type			*/
 	public static final String	ADEMPIERE_DB_TYPE		= "ADEMPIERE_DB_TYPE";
+	/** DB Path			*/
+	public static final String	ADEMPIERE_DB_PATH		= "ADEMPIEREe_DB_PATH";
+	/** 				*/
 	/** 				*/
 	public static final String	ADEMPIERE_DB_SERVER 		= "ADEMPIERE_DB_SERVER";
 	/** 				*/
@@ -164,7 +167,7 @@ public class ConfigurationData
 			}
 			catch (Exception e)
 			{
-				log.severe(e.toString());
+				log.warning(e.toString());
 			}
 			log.info(env.toString());
 			if (p_properties.size() > 5)
@@ -231,10 +234,7 @@ public class ConfigurationData
 			setAppsServer(hostName);
 			//	Database Server
 			initDatabase("");
-			String connectionName = getDatabaseDiscovered();
-			if (connectionName != null) {
-				setDatabaseName(resolveDatabaseName(connectionName));
-			}
+			setDatabaseName(getDatabaseDiscovered());
 			setDatabaseSystemPassword("");
 			setDatabaseServer(hostName);
 			setDatabaseUser("adempiere");
@@ -274,18 +274,6 @@ public class ConfigurationData
 	}	//	load
 	
 	
-	public String resolveDatabaseName(String connectionName) {
-		int index = p_panel.fDatabaseType.getSelectedIndex();
-		if (index < 0 || index >= DBTYPE.length)
-			log.warning("DatabaseType Index invalid: " + index);
-		else if (m_databaseConfig[index] == null)
-			log.warning("DatabaseType Config missing: " + DBTYPE[index]);
-		else
-			return m_databaseConfig[index].getDatabaseName(connectionName);
-		return connectionName;
-	}
-
-
 	/**************************************************************************
 	 * 	test
 	 *	@return true if test ok
@@ -302,7 +290,7 @@ public class ConfigurationData
 		error = testAdempiere();
 		if (error != null)
 		{
-			log.severe(error);
+			log.warning(error);
 			return false;
 		}
 
@@ -310,7 +298,7 @@ public class ConfigurationData
 		error = testAppsServer();
 		if (error != null)
 		{
-			log.severe(error);
+			log.warning(error);
 			return false;
 		}
 		
@@ -318,7 +306,7 @@ public class ConfigurationData
 		error = testDatabase();
 		if (error != null)
 		{
-			log.severe(error);
+			log.warning(error);
 			return false;
 		}
 
@@ -326,7 +314,7 @@ public class ConfigurationData
 		error = testMail();
 		if (error != null)
 		{
-			log.severe(error);
+			log.warning(error);
 			return false;
 		}
 		
@@ -599,7 +587,10 @@ public class ConfigurationData
 		{
 			URLConnection c = url.openConnection();
 			Object o = c.getContent();
-			log.severe("In use=" + url);	//	error
+			if (o == null)
+				log.warning("In use=" + url);	//	error
+			else
+				log.warning("In Use=" + url);	//	error
 		}
 		catch (Exception ex)
 		{
@@ -624,7 +615,7 @@ public class ConfigurationData
 		}
 		catch (Exception ex)
 		{
-			log.severe("Port " + port + ": " + ex.getMessage());
+			log.warning("Port " + port + ": " + ex.getMessage());
 			return false;
 		}
 		return true;
@@ -648,13 +639,13 @@ public class ConfigurationData
 		catch (Exception e)
 		{
 			if (shouldBeUsed)
-				log.severe("Open Socket " + host + ":" + port + " - " + e.getMessage());
+				log.warning("Open Socket " + host + ":" + port + " - " + e.getMessage());
 			else
 				log.fine(host + ":" + port + " - " + e.getMessage());
 			return false;
 		}
 		if (!shouldBeUsed)
-			log.severe("Open Socket " + host + ":" + port + " - " + pingSocket);
+			log.warning("Open Socket " + host + ":" + port + " - " + pingSocket);
 		
 		log.fine(host + ":" + port + " - " + pingSocket);
 		if (pingSocket == null)
@@ -666,7 +657,7 @@ public class ConfigurationData
 		}
 		catch (IOException e)
 		{
-			log.severe("close socket=" + e.toString());
+			log.warning("close socket=" + e.toString());
 		}
 		return true;
 	}	//	testPort
@@ -760,7 +751,7 @@ public class ConfigurationData
 		}
 		if (cc == null)
 		{
-			log.severe("No Connection");
+			log.warning("No Connection");
 			return false;
 		}
 		Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
@@ -1128,9 +1119,11 @@ public class ConfigurationData
 	 *************************************************************************/
 	
 	/** Derby/Cloudscape	*/
-	private static String	DBTYPE_DERBY = "derby";
+	private static String	DBTYPE_DERBY = "<derby>";
 	/** Oracle directory	*/
 	private static String	DBTYPE_ORACLE = "oracle";
+	/** Oracle XP	*/
+	private static String	DBTYPE_ORACLEXE = "oracleXE";
 	/** DB/2				*/
 	private static String	DBTYPE_DB2 = "<db2>";
 	/** MS SQL Server		*/
@@ -1146,7 +1139,7 @@ public class ConfigurationData
 	
 	/** Database Types		*/
 	static String[]	DBTYPE = new String[]
-		{//DBTYPE_DERBY,
+		{DBTYPE_ORACLEXE,
 		DBTYPE_ORACLE, 
 		//DBTYPE_DB2, 
 		//DBTYPE_MS,
@@ -1160,8 +1153,8 @@ public class ConfigurationData
 	/** Database Configs	*/
 	private Config[] m_databaseConfig = new Config[]
 	    {
-		//new ConfigDerby(this), 
-		new ConfigOracle(this), 
+		new ConfigOracle(this,true), 
+		new ConfigOracle(this,false), 
 		//new ConfigDB2(this), 
 		//begin e-evolution vpj-cd 02/07/2005 PostgreSQL
 		//null	
@@ -1193,6 +1186,8 @@ public class ConfigurationData
 			DefaultComboBoxModel model = new DefaultComboBoxModel(databases);
 			p_panel.fDatabaseDiscovered.setModel(model); 
 			p_panel.fDatabaseDiscovered.setEnabled(databases.length != 0);
+			if (databases.length > 0)
+				p_panel.fDatabaseName.setText(databases[0]);
 		}
 	}	//	initDatabase
 	

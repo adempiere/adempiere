@@ -98,6 +98,15 @@ public abstract class Config
 		p_data.p_properties.setProperty(key, value);
 	}	//	setProperty
 
+        	/**
+	 * 	Get Configuration Property
+	 *	@param key key
+	 *	@return value or ""
+	 */
+	protected String getProperty(String key)
+	{
+		return p_data.p_properties.getProperty(key, "");
+	}	//	getProperty
 	
 	/**
 	 * 	UI Signal OK
