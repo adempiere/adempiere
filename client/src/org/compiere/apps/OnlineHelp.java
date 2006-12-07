@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor: Carlos Ruiz - globalqss                                       *
  *****************************************************************************/
 package org.compiere.apps;
 
@@ -33,6 +34,9 @@ import org.compiere.plaf.*;
  *
  *  @author     Jorg Janke
  *  @version    $Id: OnlineHelp.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  globalqss: fix error about null pointer in OnlineHelp.Worker.run
+ *             change the URL for online help for connection
  */
 public class OnlineHelp extends JEditorPane implements HyperlinkListener
 {
@@ -75,7 +79,7 @@ public class OnlineHelp extends JEditorPane implements HyperlinkListener
 	}   //  OnlineHelp
 
 	/** Base of Online Help System      */
-	protected static final String   BASE_URL = "http://www.adempiere.org/help/";
+	protected static final String   BASE_URL = "http://www.adempiere.com/wiki/index.php/OnlineLoginHelp";
 
 	
 	/**************************************************************************
@@ -271,7 +275,7 @@ class Worker extends Thread
 					}
 				}
 
-				if ("Online".equals(as.getAttribute(target)))
+				if (target != null && "Online".equals(as.getAttribute(target)))
 				{
 					//  Format: /help/<AD_Window_ID>/index.html
 					String hrefString = (String)as.getAttribute(href);
