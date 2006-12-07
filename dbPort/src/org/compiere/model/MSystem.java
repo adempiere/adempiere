@@ -178,9 +178,9 @@ public class MSystem extends X_AD_System
 			//jz to avoid data conversion     String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
 			String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
 				+ "||'U'||(SELECT COUNT(*) FROM AD_User)"
-				+ "||'B'||(SELECT COUNT(*)  FROM C_BPartner)"
-				+ "||'P'||(SELECT COUNT(*)  FROM M_Product)"
-				+ "||'I'||(SELECT COUNT(*)  FROM C_Invoice)"
+				+ "||'B'||(SELECT COUNT(*) FROM C_BPartner)"
+				+ "||'P'||(SELECT COUNT(*) FROM M_Product)"
+				+ "||'I'||(SELECT COUNT(*) FROM C_Invoice)"
 				+ "||'M'||(SELECT COUNT(*) FROM M_Transaction)"
 				+ " FROM AD_System";
 			PreparedStatement pstmt = null;

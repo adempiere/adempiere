@@ -162,7 +162,7 @@ public class MQuery implements Serializable
 					else	//	P_Number_To != null
 					{
 						if (P_Number == null)
-							query.addRestriction("TRUNC("+ParameterName+",'DD')", MQuery.LESS_EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+")", MQuery.LESS_EQUAL, 
 								P_Number_To, Name, Info);
 						else
 							query.addRangeRestriction(ParameterName, 
@@ -175,19 +175,19 @@ public class MQuery implements Serializable
 					if (P_Date_To == null)
 					{
 						if (isRange)
-							query.addRestriction("TRUNC("+ParameterName+",'DD')", MQuery.GREATER_EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+")", MQuery.GREATER_EQUAL, 
 								P_Date, Name, Info);
 						else
-							query.addRestriction("TRUNC("+ParameterName+",'DD')", MQuery.EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+")", MQuery.EQUAL, 
 								P_Date, Name, Info);
 					}
 					else	//	P_Date_To != null
 					{
 						if (P_Date == null)
-							query.addRestriction("TRUNC("+ParameterName+",'DD')", MQuery.LESS_EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+")", MQuery.LESS_EQUAL, 
 								P_Date_To, Name, Info);
 						else
-							query.addRangeRestriction("TRUNC("+ParameterName+",'DD')", 
+							query.addRangeRestriction("TRUNC("+ParameterName+")", 
 								P_Date, P_Date_To, Name, Info, Info_To);
 					}
 				}
@@ -912,38 +912,25 @@ class Restriction  implements Serializable
 		}
 		else
 			sb.append(ColumnName);
-		//jz  fix col=null in where
-		if ((Operator.equals("=") || Operator.equals("!="))&&
-			Code instanceof String &&
-						(((String) Code).equals("null") ||((String) Code).equals("NULL") || Code == null))
-			if (Operator.equals("=") )
-				sb.append(" IS NULL ");
-			else
-				sb.append(" IS NOT NULL ");				
+		//
+		sb.append(Operator);
+		if (Code instanceof String)
+			sb.append(DB.TO_STRING(Code.toString()));
+		else if (Code instanceof Timestamp)
+			sb.append(DB.TO_DATE((Timestamp)Code));
 		else
+			sb.append(Code);
+		//	Between
+	//	if (Code_to != null && InfoDisplay_to != null)
+		if (MQuery.BETWEEN.equals(Operator))
 		{
-			//
-			sb.append(Operator);
-			
-			if (Code instanceof String)
-				sb.append(DB.TO_STRING(Code.toString()));
-			else if (Code instanceof Timestamp)
-				sb.append(DB.TO_DATE((Timestamp)Code));
+			sb.append(" AND ");
+			if (Code_to instanceof String)
+				sb.append(DB.TO_STRING(Code_to.toString()));
+			else if (Code_to instanceof Timestamp)
+				sb.append(DB.TO_DATE((Timestamp)Code_to));
 			else
-				sb.append(Code);
-	
-			//	Between
-		//	if (Code_to != null && InfoDisplay_to != null)
-			if (MQuery.BETWEEN.equals(Operator))
-			{
-				sb.append(" AND ");
-				if (Code_to instanceof String)
-					sb.append(DB.TO_STRING(Code_to.toString()));
-				else if (Code_to instanceof Timestamp)
-					sb.append(DB.TO_DATE((Timestamp)Code_to));
-				else
-					sb.append(Code_to);
-			}
+				sb.append(Code_to);
 		}
 		return sb.toString();
 	}	//	getSQL
@@ -954,7 +941,7 @@ class Restriction  implements Serializable
 	 */
 	public String toString()
 	{
-		return getSQL(null);   //jz will it be used to generate update set clause???
+		return getSQL(null);
 	}	//	toString
 
 	/**
