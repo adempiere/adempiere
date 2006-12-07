@@ -894,7 +894,7 @@ public class CConnection implements Serializable
 	} 	//  isPostgreSQL
     //end
 	/**
-	 *  Is PostgreSQL DB
+	 *  Is Fyracle DB
 	 *  @return true if PostgreSQL
 	 */
 	public boolean isFyracle ()
@@ -1224,7 +1224,15 @@ public class CConnection implements Serializable
 		{
 			try
 			{
-				m_db = Database.getDatabase(m_type);
+				         for (int i = 0; i < Database.DB_NAMES.length; i++) 	                                
+	                                 { 	 
+	                                         if (Database.DB_NAMES[i].equals (m_type)) 	 
+	                                         { 	 
+	                                                 m_db = (AdempiereDatabase)Database.DB_CLASSES[i]. 	 
+	                                                            newInstance (); 	 
+	                                                 break; 	 
+	                                         } 	 
+	                                 }
 			}
 			catch (Exception e)
 			{
