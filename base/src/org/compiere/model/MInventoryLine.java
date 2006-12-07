@@ -260,7 +260,7 @@ public class MInventoryLine extends X_M_InventoryLine
 	 * 	Get Parent
 	 *	@return parent
 	 */
-	private MInventory getParent()
+	public MInventory getParent()
 	{
 		if (m_parent == null)
 			m_parent = new MInventory (getCtx(), getM_Inventory_ID(), get_TrxName());

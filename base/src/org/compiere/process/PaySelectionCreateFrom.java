@@ -107,7 +107,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 			//	Discount
 			+ " currencyConvert(paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?)"	//	##3 PayDate
 				+ ",i.C_Currency_ID, ?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID),"	//	##4/5 Currency_To,PayDate
-			+ " PaymentRule, IsSOTrx "
+			+ " PaymentRule, IsSOTrx "		//	4..6
 			+ "FROM C_Invoice i "
 			+ "WHERE IsSOTrx='N' AND IsPaid='N' AND DocStatus IN ('CO','CL')"
 			+ " AND AD_Client_ID=?"				//	##6
@@ -219,7 +219,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "doIt - " + sql, e);
+			log.log(Level.SEVERE, sql, e);
 		}
 		try
 		{

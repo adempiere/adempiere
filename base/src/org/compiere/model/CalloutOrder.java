@@ -103,25 +103,25 @@ public class CalloutOrder extends CalloutEngine
 				
 				//	Delivery Rule
 				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS))
-					mTab.setValue ("DeliveryRule", MOrder.DELIVERYRULE_Force);
+					mTab.setValue ("DeliveryRule", X_C_Order.DELIVERYRULE_Force);
 				else if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_Prepay))
-					mTab.setValue ("DeliveryRule", MOrder.DELIVERYRULE_AfterReceipt);
+					mTab.setValue ("DeliveryRule", X_C_Order.DELIVERYRULE_AfterReceipt);
 				else
-					mTab.setValue ("DeliveryRule", MOrder.DELIVERYRULE_Availability);
+					mTab.setValue ("DeliveryRule", X_C_Order.DELIVERYRULE_Availability);
 				
 				//	Invoice Rule
 				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS)
 					|| DocSubTypeSO.equals(MOrder.DocSubTypeSO_Prepay)
 					|| DocSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) )
-					mTab.setValue ("InvoiceRule", MOrder.INVOICERULE_Immediate);
+					mTab.setValue ("InvoiceRule", X_C_Order.INVOICERULE_Immediate);
 				else
-					mTab.setValue ("InvoiceRule", MOrder.INVOICERULE_AfterDelivery);
+					mTab.setValue ("InvoiceRule", X_C_Order.INVOICERULE_AfterDelivery);
 				
 				//	Payment Rule - POS Order
 				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS))
-					mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_Cash);
+					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
-					mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_OnCredit);
+					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_OnCredit);
 
 				//	IsSOTrx
 				if ("N".equals(rs.getString(8)))
@@ -344,16 +344,16 @@ public class CalloutOrder extends CalloutEngine
 
 				//	Defaults, if not Walkin Receipt or Walkin Invoice
 				String OrderType = Env.getContext(ctx, WindowNo, "OrderType");
-				mTab.setValue("InvoiceRule", MOrder.INVOICERULE_AfterDelivery);
-				mTab.setValue("DeliveryRule", MOrder.DELIVERYRULE_Availability);
-				mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_OnCredit);
+				mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_AfterDelivery);
+				mTab.setValue("DeliveryRule", X_C_Order.DELIVERYRULE_Availability);
+				mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_OnCredit);
 				if (OrderType.equals(MOrder.DocSubTypeSO_Prepay))
 				{
-					mTab.setValue("InvoiceRule", MOrder.INVOICERULE_Immediate);
-					mTab.setValue("DeliveryRule", MOrder.DELIVERYRULE_AfterReceipt);
+					mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_Immediate);
+					mTab.setValue("DeliveryRule", X_C_Order.DELIVERYRULE_AfterReceipt);
 				}
 				else if (OrderType.equals(MOrder.DocSubTypeSO_POS))	//  for POS
-					mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_Cash);
+					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 				{
 					//	PaymentRule
@@ -519,12 +519,12 @@ public class CalloutOrder extends CalloutEngine
 
 				//	Defaults, if not Walkin Receipt or Walkin Invoice
 				String OrderType = Env.getContext(ctx, WindowNo, "OrderType");
-				mTab.setValue("InvoiceRule", MOrder.INVOICERULE_AfterDelivery);
-				mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_OnCredit);
+				mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_AfterDelivery);
+				mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_OnCredit);
 				if (OrderType.equals(MOrder.DocSubTypeSO_Prepay))
-					mTab.setValue("InvoiceRule", MOrder.INVOICERULE_Immediate);
+					mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_Immediate);
 				else if (OrderType.equals(MOrder.DocSubTypeSO_POS))	//  for POS
-					mTab.setValue("PaymentRule", MOrder.PAYMENTRULE_Cash);
+					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 				{
 					//	PaymentRule

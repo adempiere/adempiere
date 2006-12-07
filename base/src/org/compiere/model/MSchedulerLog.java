@@ -38,6 +38,8 @@ public class MSchedulerLog extends X_AD_SchedulerLog
 	public MSchedulerLog (Properties ctx, int AD_SchedulerLog_ID, String trxName)
 	{
 		super (ctx, AD_SchedulerLog_ID, trxName);
+		if (AD_SchedulerLog_ID == 0)
+			setIsError(false);
 	}	//	MSchedulerLog
 
 	/**

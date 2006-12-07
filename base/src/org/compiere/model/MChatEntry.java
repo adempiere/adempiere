@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
-import org.compiere.util.*;
 
 /**
  * 	Chat Entry Model
@@ -37,6 +36,11 @@ public class MChatEntry extends X_CM_ChatEntry
 	public MChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)
 	{
 		super (ctx, CM_ChatEntry_ID, trxName);
+		if (CM_ChatEntry_ID == 0)
+		{
+			setChatEntryType (CHATENTRYTYPE_NoteFlat);	// N
+			setConfidentialType (CONFIDENTIALTYPE_PublicInformation);
+		}
 	}	//	MChatEntry
 
 	/**
@@ -50,6 +54,27 @@ public class MChatEntry extends X_CM_ChatEntry
 		setCM_Chat_ID(chat.getCM_Chat_ID());
 		setConfidentialType(chat.getConfidentialType());
 		setCharacterData(data);
+		setChatEntryType (CHATENTRYTYPE_NoteFlat);	// N
+	}	//	MChatEntry
+
+	/**
+	 * 	Thread Constructor
+	 *	@param entry peer
+	 *	@param data text
+	 */
+	public MChatEntry (MChatEntry peer, String data)
+	{
+		this (peer.getCtx(), 0, peer.get_TrxName());
+		setCM_Chat_ID(peer.getCM_Chat_ID());
+		setCM_ChatEntryParent_ID (peer.getCM_ChatEntryParent_ID());
+		//	Set GrandParent
+		int id = peer.getCM_ChatEntryGrandParent_ID();
+		if (id == 0)
+			id = peer.getCM_ChatEntryParent_ID();
+		setCM_ChatEntryGrandParent_ID (id);
+		setConfidentialType(peer.getConfidentialType());
+		setCharacterData(data);
+		setChatEntryType (CHATENTRYTYPE_ForumThreaded);	
 	}	//	MChatEntry
 
 	/**

@@ -206,6 +206,11 @@ public class DunningPrint extends SvrProcess
 				count++;
 				printed = true;
 			}
+			if (printed)
+			{
+				entry.setProcessed (true);
+				entry.save ();
+			}
 
 		}	//	for all dunning letters
 		if (p_EMailPDF)

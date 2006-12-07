@@ -120,7 +120,6 @@ public class MNewsItem extends X_CM_NewsItem
 	/**
 	 * 	reIndex
 	 *	@param newRecord
-	 *	@throws SQLException
 	 */
 	public void reIndex(boolean newRecord)
 	{

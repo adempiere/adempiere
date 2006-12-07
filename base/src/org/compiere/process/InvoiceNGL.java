@@ -167,7 +167,7 @@ public class InvoiceNGL extends SvrProcess
 		if (no > 0)
 			log.info("Not Paid #" + no);
 
-		sql = "UPDATE T_InvoiceGL SET Percent = ROUND(OpenAmt*100/GrandTotal,4) "
+		sql = "UPDATE T_InvoiceGL SET Percent = ROUND(OpenAmt*100/GrandTotal,6) "
 			+ "WHERE GrandTotal<>OpenAmt AND GrandTotal <> 0 AND AD_PInstance_ID=" + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql, get_TrxName());
 		if (no > 0)

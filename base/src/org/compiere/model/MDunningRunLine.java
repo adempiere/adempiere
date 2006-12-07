@@ -138,6 +138,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param C_Currency_ID
 	 *	@param GrandTotal 
 	 *	@param Open
+	 *  @param FeeAmount 
 	 *	@param DaysDue
 	 *	@param IsInDispute 
 	 *	@param TimesDunned
@@ -145,6 +146,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 */
 	public void setInvoice (int C_Invoice_ID, int C_Currency_ID, 
 		BigDecimal GrandTotal, BigDecimal Open, 
+		BigDecimal FeeAmount, 
 		int DaysDue, boolean IsInDispute, 
 		int TimesDunned, int DaysAfterLast)
 	{
@@ -152,6 +154,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 		m_C_CurrencyFrom_ID = C_Currency_ID;
 		setAmt (GrandTotal);
 		setOpenAmt (Open);
+		setFeeAmt (FeeAmount);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
 			C_Currency_ID, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
 		setIsInDispute(IsInDispute);
@@ -159,6 +162,22 @@ public class MDunningRunLine extends X_C_DunningRunLine
 		setTimesDunned(TimesDunned);
 	}	//	setInvoice
 	
+	
+	/**
+	 * 	Set Fee
+	 *	@param C_Currency_ID
+	 *  @param FeeAmount 
+	 */
+	public void setFee (int C_Currency_ID, 
+		BigDecimal FeeAmount)
+	{
+		m_C_CurrencyFrom_ID = C_Currency_ID;
+		setAmt (FeeAmount);
+		setOpenAmt (FeeAmount);
+		setFeeAmt (FeeAmount);
+		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
+			C_Currency_ID, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+	}	//	setInvoice
 	
 	/**
 	 * 	Get Payment
@@ -262,6 +281,15 @@ public class MDunningRunLine extends X_C_DunningRunLine
 				getC_CurrencyFrom_ID(), getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
 		//	Total
 		setTotalAmt(getConvertedAmt().add(getFeeAmt()).add(getInterestAmt()));
+		// Reset Collection Status only if null
+		if (getInvoice().getInvoiceCollectionType ()==null)
+		{
+			if (m_invoice!=null)
+			{
+				m_invoice.setInvoiceCollectionType (X_C_Invoice.INVOICECOLLECTIONTYPE_Dunning);
+				m_invoice.save ();
+			}
+		}
 		//
 		return true;
 	}	//	beforeSave
@@ -296,10 +324,17 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 */
 	private void updateEntry()
 	{
+		// we do not count the fee line as an item, but it sum it up.
 		String sql = "UPDATE C_DunningRunEntry e "
-			+ "SET (Amt,Qty)=(SELECT SUM(Amt),COUNT(*) FROM C_DunningRunLine l "
-				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID) "
-			+ "WHERE C_DunningRunEntry_ID=" + getC_DunningRunEntry_ID();
+			+ "SET Amt=(SELECT SUM(ConvertedAmt)+SUM(FeeAmt)"
+			+ " FROM C_DunningRunLine l "
+				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID), "
+			+ "QTY=(SELECT COUNT(*)"
+			+ " FROM C_DunningRunLine l "
+				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID "
+				+ " AND (NOT C_Invoice_ID IS NULL OR NOT C_Payment_ID IS NULL))"
+			+ " WHERE C_DunningRunEntry_ID=" + getC_DunningRunEntry_ID();
+		
 		DB.executeUpdate(sql, get_TrxName());
 	}	//	updateEntry
 	

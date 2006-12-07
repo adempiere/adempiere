@@ -59,6 +59,8 @@ public class MChatType extends X_CM_ChatType
 	public MChatType (Properties ctx, int CM_ChatType_ID, String trxName)
 	{
 		super (ctx, CM_ChatType_ID, trxName);
+		if (CM_ChatType_ID == 0)
+			setModerationType (MODERATIONTYPE_NotModerated);
 	}	//	MChatType
 
 	/**

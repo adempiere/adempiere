@@ -18,6 +18,9 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  * 	Web Project Domain
@@ -27,6 +30,12 @@ import java.util.*;
  */
 public class MWebProjectDomain extends X_CM_WebProject_Domain
 {
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 5134789895039452551L;
+
+	/** Logger */
+	private static CLogger s_log = CLogger.getCLogger (MContainer.class);
+
 	/**
 	 * 	Web Project Domain Constructor
 	 *	@param ctx context
@@ -48,5 +57,45 @@ public class MWebProjectDomain extends X_CM_WebProject_Domain
 	{
 		super (ctx, rs, trxName);
 	}	//	MWebProjectDomain
+
+	/**
+	 * 	get WebProjectDomain by Name
+	 *	@param ctx
+	 *	@param ServerName
+	 *	@param trxName
+	 *	@return ContainerElement
+	 */
+	public static MWebProjectDomain get(Properties ctx, String ServerName, String trxName) {
+		MWebProjectDomain thisWebProjectDomain = null;
+		String sql = "SELECT * FROM CM_WebProject_Domain WHERE lower(FQDN) LIKE ? ORDER by CM_WebProject_Domain_ID DESC";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setString(1, ServerName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				thisWebProjectDomain = (new MWebProjectDomain(ctx, rs, trxName));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return thisWebProjectDomain;
+	}
+
 	
 }	//	MWebProjectDomain

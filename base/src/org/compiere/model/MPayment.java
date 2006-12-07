@@ -258,10 +258,17 @@ public final class MPayment extends X_C_Payment
 	 *  @param isReceipt true if receipt
 	 *  @return true if valid
 	 */
-	public boolean setBankACH (int C_BankAccount_ID, boolean isReceipt)
+	public boolean setBankACH (MPaySelectionCheck preparedPayment)
 	{
-		setBankAccountDetails(C_BankAccount_ID);
-		setIsReceipt (isReceipt);
+		//	Our Bank
+		setC_BankAccount_ID(preparedPayment.getParent().getC_BankAccount_ID());
+		//	Target Bank
+		int C_BP_BankAccount_ID = preparedPayment.getC_BP_BankAccount_ID();
+		MBPBankAccount ba = new MBPBankAccount (preparedPayment.getCtx(), C_BP_BankAccount_ID, null);
+		setRoutingNo(ba.getRoutingNo());
+		setAccountNo(ba.getAccountNo());
+		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
+				(preparedPayment.getPaymentRule()));
 		//
 		int check = MPaymentValidate.validateRoutingNo(getRoutingNo()).length()
 			+ MPaymentValidate.validateAccountNo(getAccountNo()).length();
@@ -1216,9 +1223,9 @@ public final class MPayment extends X_C_Payment
 			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Client_ID());
 			if (isReceipt)
-				pstmt.setString(2, MDocType.DOCBASETYPE_ARReceipt);
+				pstmt.setString(2, X_C_DocType.DOCBASETYPE_ARReceipt);
 			else
-				pstmt.setString(2, MDocType.DOCBASETYPE_APPayment);
+				pstmt.setString(2, X_C_DocType.DOCBASETYPE_APPayment);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 				setC_DocType_ID(rs.getInt(1));
@@ -1447,7 +1454,7 @@ public final class MPayment extends X_C_Payment
 	 */
 	public boolean unlockIt()
 	{
-		log.info("unlockIt - " + toString());
+		log.info(toString());
 		setProcessing(false);
 		return true;
 	}	//	unlockIt
@@ -1458,7 +1465,7 @@ public final class MPayment extends X_C_Payment
 	 */
 	public boolean invalidateIt()
 	{
-		log.info("invalidateIt - " + toString());
+		log.info(toString());
 		setDocAction(DOCACTION_Prepare);
 		return true;
 	}	//	invalidateIt
@@ -1477,7 +1484,7 @@ public final class MPayment extends X_C_Payment
 
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getDateAcct(), 
-			isReceipt() ? MDocType.DOCBASETYPE_ARReceipt : MDocType.DOCBASETYPE_APPayment))
+			isReceipt() ? X_C_DocType.DOCBASETYPE_ARReceipt : X_C_DocType.DOCBASETYPE_APPayment))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -1500,9 +1507,10 @@ public final class MPayment extends X_C_Payment
 			if (DOCSTATUS_WaitingPayment.equals(order.getDocStatus()))
 			{
 				order.setC_Payment_ID(getC_Payment_ID());
-				order.setDocAction(MOrder.DOCACTION_WaitComplete);
+				order.setDocAction(X_C_Order.DOCACTION_WaitComplete);
 				order.set_TrxName(get_TrxName());
-				boolean ok = order.processIt (MOrder.DOCACTION_WaitComplete);
+			//	boolean ok = 
+				order.processIt (X_C_Order.DOCACTION_WaitComplete);
 				m_processMsg = order.getProcessMsg();
 				order.save(get_TrxName());
 				//	Set Invoice
@@ -1530,14 +1538,14 @@ public final class MPayment extends X_C_Payment
 		if (!isReceipt())
 		{
 			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
-			if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
+			if (X_C_BPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
 			{
 				m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
 					+ bp.getTotalOpenBalance()
 					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
 				return DocAction.STATUS_Invalid;
 			}
-			if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
+			if (X_C_BPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
 			{
 				m_processMsg = "@BPartnerCreditHold@ - @TotalOpenBalance@=" 
 					+ bp.getTotalOpenBalance()
@@ -1657,7 +1665,7 @@ public final class MPayment extends X_C_Payment
 			return null;
 		
 		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
-		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
+	//	MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
 		log.info("Counter BP=" + counterBP.getName());
 
 		//	Document Type
@@ -2045,7 +2053,7 @@ public final class MPayment extends X_C_Payment
 		//	Std Period open?
 		Timestamp dateAcct = getDateAcct();
 		if (!MPeriod.isOpen(getCtx(), dateAcct, 
-			isReceipt() ? MDocType.DOCBASETYPE_ARReceipt : MDocType.DOCBASETYPE_APPayment))
+			isReceipt() ? X_C_DocType.DOCBASETYPE_ARReceipt : X_C_DocType.DOCBASETYPE_APPayment))
 			dateAcct = new Timestamp(System.currentTimeMillis());
 		
 		//	Auto Reconcile if not on Bank Statement

@@ -206,27 +206,27 @@ public class MPaymentValidate
 		String ccStartList = "";    //  comma separated list of starting numbers
 		String ccLengthList = "";   //  comma separated list of lengths
 		//
-		if (creditCardType.equals(MPayment.CREDITCARDTYPE_MasterCard))
+		if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_MasterCard))
 		{
 			ccStartList = "51,52,53,54,55";
 			ccLengthList = "16";
 		}
-		else if (creditCardType.equals(MPayment.CREDITCARDTYPE_Visa))
+		else if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Visa))
 		{
 			ccStartList = "4";
 			ccLengthList = "13,16";
 		}
-		else if (creditCardType.equals(MPayment.CREDITCARDTYPE_Amex))
+		else if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Amex))
 		{
 			ccStartList = "34,37";
 			ccLengthList = "15";
 		}
-		else if (creditCardType.equals(MPayment.CREDITCARDTYPE_Discover))
+		else if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Discover))
 		{
 			ccStartList = "6011";
 			ccLengthList = "16";
 		}
-		else if (creditCardType.equals(MPayment.CREDITCARDTYPE_Diners))
+		else if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Diners))
 		{
 			ccStartList = "300,301,302,303,304,305,36,38";
 			ccLengthList = "14";
@@ -331,7 +331,7 @@ public class MPaymentValidate
 		int length = checkNumeric(creditCardVV).length();
 
 		//	Amex = 4 digits
-		if (creditCardType.equals(MPayment.CREDITCARDTYPE_Amex))
+		if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Amex))
 		{
 			if (length == 4)
 			{
@@ -349,8 +349,8 @@ public class MPaymentValidate
 			return "CreditCardVVError";
 		}
 		//	Visa & MasterCard - 3 digits
-		if (creditCardType.equals(MPayment.CREDITCARDTYPE_Visa) 
-			|| creditCardType.equals(MPayment.CREDITCARDTYPE_MasterCard))
+		if (creditCardType.equals(X_C_Payment.CREDITCARDTYPE_Visa) 
+			|| creditCardType.equals(X_C_Payment.CREDITCARDTYPE_MasterCard))
 		{
 			if (length == 3)
 			{
@@ -384,7 +384,9 @@ public class MPaymentValidate
 		//  US - length 9
 		//  Germany - length 8
 		//	Japan - 7
-		if (length == 7 || length == 8 || length == 9)
+		//	CH - 5
+		//	Issue: Bank account country
+		if (length > 0)
 			return "";
 		return "PaymentBankRoutingNotValid";
 	}   //  validateBankRoutingNo

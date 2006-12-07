@@ -771,33 +771,36 @@ public class MOrderLine extends X_C_OrderLine
 				|| is_ValueChanged("M_Warehouse_ID")))
 		{
 			MProduct product = getProduct();
-			int M_AttributeSet_ID = product.getM_AttributeSet_ID();
-			boolean isInstance = M_AttributeSet_ID != 0;
-			if (isInstance)
+			if (product.isStocked())
 			{
-				MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
-				isInstance = mas.isInstanceAttribute();
-			}
-			//	Max
-			if (isInstance)
-			{
-				MStorage[] storages = MStorage.getWarehouse(getCtx(), 
-					getM_Warehouse_ID(), getM_Product_ID(), getM_AttributeSetInstance_ID(), 
-					M_AttributeSet_ID, false, null, true, get_TrxName());
-				BigDecimal qty = Env.ZERO;
-				for (int i = 0; i < storages.length; i++)
+				int M_AttributeSet_ID = product.getM_AttributeSet_ID();
+				boolean isInstance = M_AttributeSet_ID != 0;
+				if (isInstance)
 				{
-					if (storages[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID())
-						qty = qty.add(storages[i].getQtyOnHand());
+					MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
+					isInstance = mas.isInstanceAttribute();
 				}
-				if (getQtyOrdered().compareTo(qty) > 0)
+				//	Max
+				if (isInstance)
 				{
-					log.warning("Qty - Stock=" + qty + ", Ordered=" + getQtyOrdered());
-					log.saveError("QtyInsufficient", "=" + qty); 
-					return false;
+					MStorage[] storages = MStorage.getWarehouse(getCtx(), 
+						getM_Warehouse_ID(), getM_Product_ID(), getM_AttributeSetInstance_ID(), 
+						M_AttributeSet_ID, false, null, true, get_TrxName());
+					BigDecimal qty = Env.ZERO;
+					for (int i = 0; i < storages.length; i++)
+					{
+						if (storages[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID())
+							qty = qty.add(storages[i].getQtyOnHand());
+					}
+					if (getQtyOrdered().compareTo(qty) > 0)
+					{
+						log.warning("Qty - Stock=" + qty + ", Ordered=" + getQtyOrdered());
+						log.saveError("QtyInsufficient", "=" + qty); 
+						return false;
+					}
 				}
-			}
-		}
+			}	//	stocked
+		}	//	SO instance
 		
 		//	FreightAmt Not used
 		if (Env.ZERO.compareTo(getFreightAmt()) != 0)

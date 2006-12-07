@@ -112,7 +112,6 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		return m_invoice;
 	}	//	getInvoice
 	
-	
 	/**
 	 * 	Before Save
 	 *	@param newRecord new

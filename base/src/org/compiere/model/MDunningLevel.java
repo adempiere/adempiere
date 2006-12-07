@@ -18,6 +18,9 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 
 /**
@@ -28,6 +31,9 @@ import java.util.*;
  */
 public class MDunningLevel extends X_C_DunningLevel
 {
+	/** Logger								*/
+	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -49,5 +55,63 @@ public class MDunningLevel extends X_C_DunningLevel
 	{
 		super(ctx, rs, trxName);
 	}	//	MDunningLevel
+	
+	private MDunning m_dunning = null;
+	
+	/**
+	 * 	get Parent
+	 *	@return Parent Dunning
+	 */
+	public MDunning getParent() 
+	{
+		if (m_dunning==null) 
+			m_dunning = new MDunning(getCtx(), getC_Dunning_ID(), get_TrxName());
+		return m_dunning;
+	}
+	
+	/**
+	 * 	get Previous Levels
+	 *	@return Array of previous DunningLevels
+	 */
+	public MDunningLevel[] getPreviousLevels() 
+	{
+		// Prevent generation if not Sequentially
+		if (!getParent().isCreateLevelsSequentially ())
+			return null;
+		ArrayList<MDunningLevel> list = new ArrayList<MDunningLevel>();
+		String sql = "SELECT * FROM C_DunningLevel WHERE C_Dunning_ID=? AND DaysAfterDue+DaysBetweenDunning<?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, getParent().get_ID ());
+			int totalDays = getDaysAfterDue ().intValue ()+getDaysBetweenDunning ();
+			pstmt.setInt(2, totalDays);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new MDunningLevel(getCtx(), rs, get_TrxName()));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
 
+		//
+		MDunningLevel[] retValue = new MDunningLevel[list.size()];
+		list.toArray(retValue);
+		return retValue;
+	}
 }	//	MDunningLevel

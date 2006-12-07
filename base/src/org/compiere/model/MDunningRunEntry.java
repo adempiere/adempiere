@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
 import org.compiere.util.*;
 
 /**
@@ -28,6 +29,9 @@ import org.compiere.util.*;
  */
 public class MDunningRunEntry extends X_C_DunningRunEntry
 {
+	/** Logger								*/
+	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -132,5 +136,73 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 		if (SalesRep_ID != 0)
 			setSalesRep_ID (SalesRep_ID);
 	}	//	setBPartner
+	
+	/**
+	 * 	get Lines
+	 *	@return Array of all lines for this Run
+	 */
+	public MDunningRunLine[] getLines() 
+	{
+		ArrayList<MDunningRunLine> list = new ArrayList<MDunningRunLine>();
+		String sql = "SELECT * FROM C_DunningRunLine WHERE C_DunningRunEntry_ID=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, get_ID ());
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new MDunningRunLine(getCtx(), rs, get_TrxName()));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+
+		//
+		MDunningRunLine[] retValue = new MDunningRunLine[list.size()];
+		list.toArray(retValue);
+		return retValue;
+	}
+
+	
+	protected boolean beforeSave (boolean newRecord)
+	{
+		//	Set Amt
+		if (isProcessed ())
+		{
+			MDunningRunLine[] theseLines = getLines();
+			for (int i=0;i<theseLines.length;i++) 
+			{
+				theseLines[i].setProcessed (true);
+				theseLines[i].save (get_TrxName());
+			}
+			if (m_parent.getLevel ().isSetCreditStop () || m_parent.getLevel ().isSetPaymentTerm ()) 
+			{
+				MBPartner thisBPartner = MBPartner.get (getCtx(), getC_BPartner_ID());
+				if (m_parent.getLevel ().isSetCreditStop ())
+					thisBPartner.setSOCreditStatus (X_C_BPartner.SOCREDITSTATUS_CreditStop);
+				if (m_parent.getLevel ().isSetPaymentTerm ())
+					thisBPartner.setC_PaymentTerm_ID (m_parent.getLevel().getC_PaymentTerm_ID ());
+				thisBPartner.save ();
+			}
+		}
+		return true;
+	}	//	beforeSave
+	
+
 	
 }	//	MDunningRunEntry

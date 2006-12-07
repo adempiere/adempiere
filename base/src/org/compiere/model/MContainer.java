@@ -29,7 +29,93 @@ import org.compiere.util.*;
  */
 public class MContainer extends X_CM_Container
 {
-
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 395679572291279730L;
+	
+	/**
+	 * 	get Container by Relative URL
+	 *	@param ctx
+	 *	@param relURL
+	 *	@param CM_WebProject_Id
+	 *	@param trxName
+	 *	@return Container or null if not found
+	 */
+	public static MContainer get(Properties ctx, String relURL, int CM_WebProject_Id, String trxName) {
+		MContainer thisContainer = null;
+		String sql = "SELECT * FROM CM_Container WHERE (RelativeURL LIKE ? OR RelativeURL LIKE ?) AND CM_WebProject_ID=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setString (1,relURL);
+			pstmt.setString (2,relURL+"/");
+			pstmt.setInt(3, CM_WebProject_Id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				thisContainer = (new MContainer(ctx, rs, trxName));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return thisContainer;
+	}
+	
+	
+	/**
+	 * 	get Container
+	 *	@param ctx
+	 *	@param CM_Container_ID
+	 *	@param CM_WebProject_Id
+	 *	@param trxName
+	 *	@return Container or null if not found
+	 */
+	public static MContainer get(Properties ctx, int CM_Container_ID, int CM_WebProject_Id, String trxName) {
+		MContainer thisContainer = null;
+		String sql = "SELECT * FROM CM_Container WHERE CM_Container_ID=? AND CM_WebProject_ID=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setInt(1, CM_Container_ID);
+			pstmt.setInt(2, CM_WebProject_Id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				thisContainer = (new MContainer(ctx, rs, trxName));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return thisContainer;
+	}
+	
 	/**
      * Copy Stage into Container
      * 

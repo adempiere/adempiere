@@ -29,6 +29,51 @@ import org.compiere.util.*;
  */
 public class MContainerElement extends X_CM_Container_Element
 {
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 7230036377422361941L;
+
+	/** Logger */
+	private static CLogger s_log = CLogger.getCLogger (MContainer.class);
+
+	/**
+	 * 	get Container Element by ID
+	 *	@param ctx
+	 *	@param CM_ContainerElement_ID
+	 *	@param trxName
+	 *	@return ContainerElement
+	 */
+	public static MContainerElement get(Properties ctx, int CM_ContainerElement_ID, String trxName) {
+		MContainerElement thisContainerElement = null;
+		String sql = "SELECT * FROM CM_Container_Element WHERE CM_Container_Element_ID=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setInt(1, CM_ContainerElement_ID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				thisContainerElement = (new MContainerElement(ctx, rs, trxName));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return thisContainerElement;
+	}
+
 	/***************************************************************************
      * Standard Constructor
      * 

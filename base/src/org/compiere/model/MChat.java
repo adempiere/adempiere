@@ -97,6 +97,7 @@ public class MChat extends X_CM_Chat
 		//	setAD_Table_ID (0);
 		//	setRecord_ID (0);
 			setConfidentialType (CONFIDENTIALTYPE_PublicInformation);
+			setModerationType (MODERATIONTYPE_NotModerated);
 		//	setDescription (null);
 		}
 	}	//	MChat

@@ -200,7 +200,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		MPaySelectionCheck[] retValue = new MPaySelectionCheck[list.size()];
 		list.toArray(retValue);
 		return retValue;
-	}   //  createPayments
+	}   //  get
 
 	
 	/**************************************************************************
@@ -216,7 +216,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		//  Must be a file
 		if (file.isDirectory())
 		{
-			s_log.log(Level.SEVERE, "exportToFile - file is directory - " + file.getAbsolutePath());
+			s_log.log(Level.WARNING, "File is directory - " + file.getAbsolutePath());
 			return 0;
 		}
 		//  delete if exists
@@ -227,7 +227,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		}
 		catch (Exception e)
 		{
-			s_log.log(Level.SEVERE, "exportToFile - could not delete - " + file.getAbsolutePath(), e);
+			s_log.log(Level.WARNING, "Could not delete - " + file.getAbsolutePath(), e);
 		}
 
 		char x = '"';      //  ease
@@ -375,7 +375,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		}
 		catch (SQLException e)
 		{
-			s_log.log(Level.SEVERE, "getBPartnerInfo", e);
+			s_log.log(Level.SEVERE, sql, e);
 		}
 		return bp;
 	}   //  getBPartnerInfo
@@ -416,8 +416,8 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				else if (check.getPaymentRule().equals(PAYMENTRULE_CreditCard))
 					payment.setTenderType(X_C_Payment.TENDERTYPE_CreditCard);
 				else if (check.getPaymentRule().equals(PAYMENTRULE_DirectDeposit)
-					|| check.getPaymentRule().equals(PAYMENTRULE_DirectDeposit))
-					payment.setBankACH(check.getParent().getC_BankAccount_ID(), false);
+					|| check.getPaymentRule().equals(PAYMENTRULE_DirectDebit))
+					payment.setBankACH(check);
 				else
 				{
 					s_log.log(Level.SEVERE, "Unsupported Payment Rule=" + check.getPaymentRule());
@@ -559,7 +559,35 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		this (line.getCtx(), 0, line.get_TrxName());
 		setClientOrg(line);
 		setC_PaySelection_ID (line.getC_PaySelection_ID());
-		setC_BPartner_ID (line.getInvoice().getC_BPartner_ID());
+		int C_BPartner_ID = line.getInvoice().getC_BPartner_ID();
+		setC_BPartner_ID (C_BPartner_ID);
+		//
+		if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
+		{
+			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner (line.getCtx(), C_BPartner_ID); 
+			for (int i = 0; i < bas.length; i++) 
+			{
+				MBPBankAccount account = bas[i];
+				if (account.isDirectDebit())
+				{
+					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
+					break;
+				}
+			}
+		}
+		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule))
+		{
+			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner (line.getCtx(), C_BPartner_ID); 
+			for (int i = 0; i < bas.length; i++) 
+			{
+				MBPBankAccount account = bas[i];
+				if (account.isDirectDeposit())
+				{
+					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
+					break;
+				}
+			}
+		}
 		setPaymentRule (PaymentRule);
 		//
 		setIsReceipt(line.isSOTrx());
@@ -621,6 +649,27 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		return m_parent;
 	}	//	getParent
 
+	/**
+	 * 	Is this a valid Prepared Payment
+	 *	@return true if valid
+	 */
+	public boolean isValid()
+	{
+		if (getC_BP_BankAccount_ID() != 0)
+			return true;
+		return !isDirect();
+	}	//	isValid
+	
+	/**
+	 * 	Is this a direct Debit or Deposit
+	 *	@return true if direct
+	 */
+	public boolean isDirect()
+	{
+		return (X_C_Order.PAYMENTRULE_DirectDeposit.equals(getPaymentRule())
+			|| X_C_Order.PAYMENTRULE_DirectDebit.equals(getPaymentRule()));
+	}	//	isDirect
+	
 	/**
 	 * 	String Representation
 	 * 	@return info

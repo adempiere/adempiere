@@ -102,7 +102,6 @@ public class MProduct extends X_M_Product
 	 */
 	public static boolean isProductStocked (Properties ctx, int M_Product_ID)
 	{
-		boolean retValue = false;
 		MProduct product = get (ctx, M_Product_ID);
 		return product.isStocked();
 	}	//	isProductStocked
@@ -164,7 +163,7 @@ public class MProduct extends X_M_Product
 	public MProduct (MExpenseType et)
 	{
 		this (et.getCtx(), 0, et.get_TrxName());
-		setProductType(MProduct.PRODUCTTYPE_ExpenseType);
+		setProductType(X_M_Product.PRODUCTTYPE_ExpenseType);
 		setExpenseType(et);
 	}	//	MProduct
 	
@@ -176,7 +175,7 @@ public class MProduct extends X_M_Product
 	public MProduct (MResource resource, MResourceType resourceType)
 	{
 		this (resource.getCtx(), 0, resource.get_TrxName());
-		setProductType(MProduct.PRODUCTTYPE_Resource);
+		setProductType(X_M_Product.PRODUCTTYPE_Resource);
 		setResource(resource);
 		setResource(resourceType);
 	}	//	MProduct
@@ -614,7 +613,7 @@ public class MProduct extends X_M_Product
 		{
 			insert_Accounting("M_Product_Acct", "M_Product_Category_Acct",
 				"p.M_Product_Category_ID=" + getM_Product_Category_ID());
-			insert_Tree(MTree_Base.TREETYPE_Product);
+			insert_Tree(X_AD_Tree.TREETYPE_Product);
 			//
 			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < mass.length; i++)
@@ -626,7 +625,7 @@ public class MProduct extends X_M_Product
 		}
 		
 		//	New Costing
-		if (newRecord || is_ValueChanged("M_Product_Category"))
+		if (newRecord || is_ValueChanged("M_Product_Category_ID"))
 			MCost.create(this);
 
 		return success;
@@ -681,7 +680,7 @@ public class MProduct extends X_M_Product
 	protected boolean afterDelete (boolean success)
 	{
 		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Product);
+			delete_Tree(X_AD_Tree.TREETYPE_Product);
 		return success;
 	}	//	afterDelete
 

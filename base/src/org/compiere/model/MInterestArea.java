@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.*;
 
 import org.compiere.util.*;
 
@@ -32,6 +33,49 @@ import org.compiere.util.*;
  */
 public class MInterestArea extends X_R_InterestArea
 {
+	/**
+	 * 	Get all active interest areas
+	 *	@param ctx context
+	 *	@return interest areas
+	 */
+	public static MInterestArea[] getAll (Properties ctx)
+	{
+		ArrayList<MInterestArea> list = new ArrayList<MInterestArea>();
+		String sql = "SELECT * FROM R_InterestArea WHERE IsActive='Y'";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+			{
+				MInterestArea ia = new MInterestArea (ctx, rs, null);
+				list.add (ia);
+			}
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		MInterestArea[] retValue = new MInterestArea[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getAll
+
+	
 	/**
 	 * 	Get MInterestArea from Cache
 	 *	@param ctx context
@@ -51,7 +95,10 @@ public class MInterestArea extends X_R_InterestArea
 	} //	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MInterestArea> s_cache = new CCache<Integer,MInterestArea>("R_InterestArea", 5);
+	private static CCache<Integer,MInterestArea> s_cache = 
+		new CCache<Integer,MInterestArea>("R_InterestArea", 5);
+	/**	Logger	*/
+	private static CLogger s_log = CLogger.getCLogger (MInterestArea.class);
 	
 	
 	/**
@@ -67,6 +114,7 @@ public class MInterestArea extends X_R_InterestArea
 		{
 		//	setName (null);
 		//	setR_InterestArea_ID (0);
+			setIsSelfService (false);
 		}
 	}	//	MInterestArea
 
@@ -81,6 +129,18 @@ public class MInterestArea extends X_R_InterestArea
 		super(ctx, rs, trxName);
 	}	//	MInterestArea
 
+	
+	/**
+	 * 	Get Value
+	 *	@return value
+	 */
+	public String getValue()
+	{
+		String s = super.getValue ();
+		if (s != null && s.length () > 0)
+			return s;
+		return super.getName();
+	}	//	getValue
 
 	/**
 	 * 	String representation
@@ -92,7 +152,7 @@ public class MInterestArea extends X_R_InterestArea
 			.append (get_ID()).append(" - ").append(getName())
 			.append ("]");
 		return sb.toString ();
-	}
+	}	//	toString
 
 	/*************************************************************************/
 
