@@ -37,7 +37,7 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version $Id: VPAttributeDialog.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
  */
-public class VPAttributeDialog extends CDialog
+public class VPAttributeDialog extends CDialog 
 	implements ActionListener
 {
 	/**
@@ -580,7 +580,6 @@ public class VPAttributeDialog extends CDialog
 			this.setVisible(false);
 			this.setModal (false);	//	otherwise blocked
 			this.setVisible(true);
-			AEnv.addToWindowManager(frame);
 			AEnv.showScreen(frame, SwingConstants.EAST);
 		}
 		//  async window - not able to get feedback
