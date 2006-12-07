@@ -21,11 +21,23 @@ import java.util.*;
 import org.compiere.cm.utils.TreeXML;
 import org.compiere.model.MWebProject;
 
+/**
+ *	Container Tree Cache
+ *	
+ *  @author Yves Sandfort
+ *  @version $Id$
+ */
 public class ContainerTree extends CO {
 	
 	protected Hashtable cacheContainerURL = new Hashtable(cacheSize);
 	
-	public StringBuffer getContainerTree(Properties ctx, int ID, String trxName) {
+	/**
+	 * 	getContainerTree
+	 *	@param ID
+	 *	@param trxName
+	 *	@return XML StringBuffer
+	 */
+	public StringBuffer getContainerTree(int ID, String trxName) {
 		StringBuffer xmlCode = new StringBuffer();
 		if (cache.containsKey("" + ID)) {
 			use("" + ID);

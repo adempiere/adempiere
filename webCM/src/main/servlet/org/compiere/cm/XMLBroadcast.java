@@ -30,6 +30,9 @@ import org.compiere.cm.xml.Generator;
  */
 public class XMLBroadcast extends HttpServletCM
 {
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = -1280320974132533949L;
+
 	/**
 	 * 	Get
 	 *	@param request
@@ -43,8 +46,7 @@ public class XMLBroadcast extends HttpServletCM
 		RequestAnalyzer thisRequest = new RequestAnalyzer (this, request,
 			false, "/xml");
 		// Even if we will only display the XML tree we are forced to build the Media URLs
-		if (getInternalMediaURL () == null)
-			setInternalMediaURL (request);
+		resetInternalMediaURL (request);
 		if (externalMediaURL == null) {
 			if (thisRequest.getWebProject()!=null)
 				externalMediaURL = getExternalMediaURL (thisRequest

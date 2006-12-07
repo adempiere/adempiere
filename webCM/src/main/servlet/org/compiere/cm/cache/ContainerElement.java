@@ -16,29 +16,43 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import org.compiere.model.X_CM_Container_Element;
+import org.compiere.model.MContainerElement;
 
+/**
+ *	Container Element Cache
+ *	
+ *  @author Yves Sandfort
+ *  @version $Id$
+ */
 public class ContainerElement extends CO {
-	public X_CM_Container_Element getCM_Container_Element(int ID, int CM_WebProject_ID) {
-		return getCM_Container_Element(""+ ID, CM_WebProject_ID);
+	/**
+	 * 	getCM_Container_Element
+	 *	@param ID
+	 *	@param CM_WebProject_ID
+	 *	@return Container Element
+	 */
+	public MContainerElement getCM_Container_Element(String ID, int CM_WebProject_ID) {
+		return getCM_Container_Element(Integer.parseInt(ID), CM_WebProject_ID);
 	}
 	
-	public X_CM_Container_Element getCM_Container_Element(String ID, int CM_WebProject_ID) {
+	/**
+	 * 	getCM_Container_Element
+	 *	@param ID
+	 *	@param CM_WebProject_ID
+	 *	@return Container Element
+	 */
+	public MContainerElement getCM_Container_Element(int ID, int CM_WebProject_ID) {
 		if (cache.containsKey(ID)) {
 			use(ID);
-			return (X_CM_Container_Element) cache.get(ID);
+			return (MContainerElement) cache.get(ID);
 		} else {
-			int[] tableKeys = X_CM_Container_Element.getAllIDs("CM_Container_Element", "CM_Container_Element_ID=" + ID, "WebCM");
-			if (tableKeys==null || tableKeys.length==0) {
+			MContainerElement thisContainerElement = MContainerElement.get(ctx, ID, "WebCM");
+			if (thisContainerElement==null) {
 				// No Elements in DB found, needs to get handled
 				return null;
-			} else if (tableKeys.length==1) {
-				X_CM_Container_Element thisContainerElement = new X_CM_Container_Element(ctx, tableKeys[0], "WebCM"); 
+			} else {
 				put ("" + thisContainerElement.get_ID(),thisContainerElement);
 				return thisContainerElement;
-			} else {
-				// More than one result, this is funny, normally this is not possible :-/
-				return null;
 			}
 		}
 	}

@@ -18,7 +18,6 @@ package org.compiere.cm.cache;
 
 import java.util.*;
 
-import org.compiere.model.*;
 import org.compiere.util.CLogger;
 
 /**
@@ -38,17 +37,33 @@ public class CO {
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(this.getClass());
 
+	/**
+	 * 	Cache Object
+	 */
 	public CO () {
 	}
 	
+	/**
+	 * 	set Context
+	 *	@param thisCtx
+	 */
 	public void setCtx(Properties thisCtx) {
 		ctx = thisCtx;
 	}
 	
+	/**
+	 * 	get Context
+	 *	@return Context
+	 */
 	public Properties getCtx() {
 		return ctx;
 	}
 	
+	/**
+	 * 	put
+	 *	@param ID
+	 *	@param thisObject
+	 */
 	public void put(String ID, Object thisObject) {
 		cache.put(ID,thisObject);
 		Long thisLong = new Long(new Date().getTime());
@@ -58,15 +73,27 @@ public class CO {
 		}
 	}
 
+	/**
+	 * 	remove
+	 *	@param ID
+	 */
 	public void remove(String ID) {
 		cache.remove(ID);
 		cacheUsage.remove(ID);
 	}
 	
+	/**
+	 * 	getSize of current cache
+	 *	@return number of cache entries
+	 */
 	public int getSize() {
 		return cache.size();
 	}
 
+	/**
+	 * 	get key enumeration
+	 *	@return key enumeration
+	 */
 	public Enumeration getKeys() {
 		return cache.keys();
 	}
@@ -108,17 +135,37 @@ public class CO {
 		}
 	}
 	
+	/**
+	 * 	Update Usage value for cache optimization
+	 *	@param ID
+	 */
+	public void use(int ID) {
+		Long thisLong = new Long(new java.util.Date().getTime());
+		cacheUsage.put("" + ID, thisLong);
+	}
+	
+	/**
+	 * 	Update Usage value for cache optimization
+	 *	@param ID
+	 */
 	public void use(String ID) {
 		Long thisLong = new Long(new java.util.Date().getTime());
 		cacheUsage.put(ID, thisLong);
 	}
 	
+    /**
+     * 	empty complete Cache
+     */
     public void empty() {
     		cache = new Hashtable(cacheSize);
 		cacheUsage = new Hashtable(cacheSize);
 		log.fine("Cache: " + this.getClass().getName() + " was cleared.");
     }
     
+    /**
+     * 	Show Cache Content
+     *	@return XML String with CacheContent
+     */
     public String show() {
     		StringBuffer tStrHTML = new StringBuffer();
 		Enumeration thisEnum = null;

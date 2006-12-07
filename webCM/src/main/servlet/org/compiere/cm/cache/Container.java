@@ -35,8 +35,8 @@ public class Container extends CO {
 	 * @param CM_WebProject_ID Web Project
 	 * @return Container
 	 */
-	public MContainer getCM_Container(int ID, int CM_WebProject_ID) {
-		return getCM_Container(""+ ID, CM_WebProject_ID);
+	public MContainer getCM_Container(String ID, int CM_WebProject_ID) {
+		return getCM_Container(Integer.parseInt(ID), CM_WebProject_ID);
 	}
 	
 	/**
@@ -45,22 +45,21 @@ public class Container extends CO {
 	 * @param CM_WebProject_ID Web Project
 	 * @return Container
 	 */
-	public MContainer getCM_Container(String ID, int CM_WebProject_ID) {
+	public MContainer getCM_Container(int ID, int CM_WebProject_ID) {
 		if (cache.containsKey(ID)) {
 			use(ID);
 			return (MContainer) cache.get(ID);
 		} else {
-			int[] tableKeys = MContainer.getAllIDs("CM_Container", "CM_Container_ID=" + ID + " AND CM_WebProject_ID=" + CM_WebProject_ID, "WebCM");
-			if (tableKeys.length==0) {
+			MContainer thisContainer = MContainer.get(ctx, ID, CM_WebProject_ID, "WebCM");
+			if (thisContainer==null) 
+			{
 				return getCM_ContainerByURL("/error404.html", CM_WebProject_ID, true);
-			} else if (tableKeys.length==1) {
-				MContainer thisContainer = new MContainer(ctx, tableKeys[0], "WebCM"); 
+			} 
+			else
+			{
 				put ("" + thisContainer.getCM_Container_ID(),thisContainer);
 				cacheContainerURL.put (CM_WebProject_ID + "-" + thisContainer.getRelativeURL(),"" + thisContainer.getCM_Container_ID());
 				return thisContainer;
-			} else {
-				// More than one result, this is funny, normally this is not possible :-/
-				return null;
 			}
 		}
 	}
@@ -69,6 +68,7 @@ public class Container extends CO {
 	 * Get Container from cache by URL
 	 * @param URL URL to look for
 	 * @param CM_WebProject_ID Web Project 
+	 * @param resolveURLErrors 
 	 * @return Container
 	 */
 	public MContainer getCM_ContainerByURL(String URL, int CM_WebProject_ID, boolean resolveURLErrors) {
@@ -82,8 +82,8 @@ public class Container extends CO {
 			return thisContainer;
 		} else {
 			// Let's try to find the URL...
-			int[] tableKeys = MContainer.getAllIDs("CM_Container", "(RelativeURL LIKE '" + URL + "' OR RelativeURL LIKE '" + URL + "/') AND CM_WebProject_ID=" + CM_WebProject_ID, "WebCM");
-			if (tableKeys==null || tableKeys.length==0) {
+			MContainer thisContainer = MContainer.get (ctx, URL, CM_WebProject_ID, "WebCM");
+			if (thisContainer==null) {
 				if (resolveURLErrors) {
 					if (URL.equals("/error404.html")) {
 						// Okay we are already been requested as the error message, so we try the index.html
@@ -98,16 +98,12 @@ public class Container extends CO {
 				} else {
 					return null;
 				}
-			} else if (tableKeys.length==1) {
+			} else {
 				// Found exactly one record, so we return it
-				MContainer thisContainer = getCM_Container("" + tableKeys[0], CM_WebProject_ID);
 				if (thisContainer.isSummary ()) {
 					thisContainer = getCM_ContainerByURL(URL + "/index.html", CM_WebProject_ID, resolveURLErrors);
 				}
 				return thisContainer;
-			} else {
-				// More than one result, this is funny, normally this is not possible :-/
-				return null;
 			}
 		}
 	}

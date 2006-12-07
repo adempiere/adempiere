@@ -17,27 +17,43 @@
 package org.compiere.cm.cache;
 
 import java.util.*;
-import org.compiere.model.X_CM_Chat;
+import org.compiere.model.MChat;
 
+/**
+ *	Chat Cache Object
+ *	
+ *  @author Yves Sandfort
+ *  @version $Id$
+ */
 public class Chat extends CO {
 	
 	protected Hashtable cacheContainerURL = new Hashtable(cacheSize);
 	
-	public X_CM_Chat getCM_Chat(int ID) {
+	/**
+	 * 	getCM_Chat
+	 *	@param ID
+	 *	@return Chat
+	 */
+	public MChat getCM_Chat(int ID) {
 		return getCM_Chat(""+ ID);
 	}
 	
-	public X_CM_Chat getCM_Chat(String ID) {
+	/**
+	 * 	getCM_Chat
+	 *	@param ID
+	 *	@return Chat
+	 */
+	public MChat getCM_Chat(String ID) {
 		if (cache.containsKey(ID)) {
 			use(ID);
-			return (X_CM_Chat) cache.get(ID);
+			return (MChat) cache.get(ID);
 		} else {
-			int[] tableKeys = X_CM_Chat.getAllIDs("CM_Chat", "CM_Chat_ID=" + ID, "WebCM");
+			int[] tableKeys = MChat.getAllIDs("CM_Chat", "CM_Chat_ID=" + ID, "WebCM");
 			if (tableKeys.length==0) {
 				// No Chat entry
 				return null;
 			} else if (tableKeys.length==1) {
-				X_CM_Chat thisChat = new X_CM_Chat(ctx, tableKeys[0], "WebCM"); 
+				MChat thisChat = new MChat(ctx, tableKeys[0], "WebCM"); 
 				put ("" + thisChat.get_ID(),thisChat);
 				return thisChat;
 			} else {

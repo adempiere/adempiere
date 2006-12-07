@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.compiere.cm.request.Request;
-import org.compiere.util.CLogger;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebSessionCtx;
 import org.compiere.util.WebUtil;
@@ -36,8 +35,8 @@ import org.compiere.util.WebUtil;
  *  @version $Id: RequestServlet.java,v 1.1 2006/10/11 06:30:11 comdivision Exp $
  */
 public class RequestServlet extends HttpServletCM {
-	/**	Logging				  				*/
-	private CLogger				log = CLogger.getCLogger(getClass());
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 6979583935052312291L;
 
 	/**
 	 * 	Process Get Request
@@ -53,7 +52,7 @@ public class RequestServlet extends HttpServletCM {
 		HttpSession sess = request.getSession (true);
 		sess.setMaxInactiveInterval (WebEnv.TIMEOUT);
 		
-		Properties ctx = getCtx();
+		ctx = getCtx();
 		
 		if (sess.getAttribute ("ctx")!=null)
 			ctx = (Properties) sess.getAttribute ("ctx");

@@ -48,10 +48,8 @@ public class Broadcast extends HttpServletCM
 		HttpSession sess = request.getSession (true);
 		sess.setMaxInactiveInterval (WebEnv.TIMEOUT);
 		StringBuffer output = new StringBuffer ();
-		// Check whether internalMediaURL is build up, otherwise create it. (can
-        // be started only from a servlet!)
-		if (getInternalMediaURL () == null)
-			setInternalMediaURL (request);
+		// We will reset the Media URL for each request. Should be moved in the session.
+		resetInternalMediaURL (request);
 		if (configLoaded && !fatalError)
 		{
 			String acceptLanguage = request.getHeader ("Accept-Language");

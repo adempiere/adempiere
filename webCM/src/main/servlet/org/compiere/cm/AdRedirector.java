@@ -31,6 +31,10 @@ public class AdRedirector extends HttpServletCM
 {
 	/**
 	 * Process the HTTP Get request
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException 
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
@@ -52,6 +56,10 @@ public class AdRedirector extends HttpServletCM
 	/**
 	 *  Process the HTTP Post request
 	 *  to simplify we reuse the doGet functionality
+	 * @param request 
+	 * @param response 
+	 * @throws ServletException 
+	 * @throws IOException 
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException

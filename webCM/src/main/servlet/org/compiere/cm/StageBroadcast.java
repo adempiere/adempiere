@@ -17,12 +17,9 @@
 package org.compiere.cm;
 
 import java.io.*;
-import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.compiere.Adempiere;
 import org.compiere.util.*;
-import org.compiere.model.*;
 import org.compiere.cm.utils.*;
 import org.compiere.cm.xml.*;
 
@@ -34,6 +31,9 @@ import org.compiere.cm.xml.*;
  */
 public class StageBroadcast extends HttpServletCM
 {
+
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 7348394433516908807L;
 
 	/**
      * Handle Get Request

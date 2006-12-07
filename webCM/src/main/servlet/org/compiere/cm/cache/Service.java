@@ -25,7 +25,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.compiere.cm.*;
 
+/**
+ *	Cache Object Service classes
+ *	
+ *  @author Yves Sandfort
+ *  @version $Id$
+ */
 public class Service extends HttpServletCM {
+	/**	serialVersionUID	*/
+	private static final long serialVersionUID = 167843885331587478L;
+
+	/**
+	 * 	doGet
+	 *	@see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 *	@param request
+	 *	@param response
+	 *	@throws ServletException
+	 *	@throws IOException
+	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException
 	{

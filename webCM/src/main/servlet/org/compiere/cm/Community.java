@@ -51,7 +51,7 @@ public class Community extends HttpServletCM
 		HttpSession sess = request.getSession (true);
 		sess.setMaxInactiveInterval (WebEnv.TIMEOUT);
 		
-		Properties ctx = getCtx();
+		ctx = getCtx();
 		
 		if (sess.getAttribute ("ctx")!=null)
 			ctx = (Properties) sess.getAttribute ("ctx");

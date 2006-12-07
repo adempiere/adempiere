@@ -38,47 +38,17 @@ public class Domain extends CO
 		}
 		else
 		{
-			int[] tableKeys = MWebProjectDomain.getAllIDs (
-				"CM_WebProject_Domain",
-				"lower(FQDN) LIKE '" + serverName + "'", "WebCM");
-			if (tableKeys==null || tableKeys.length == 0)
+			MWebProjectDomain thisWebProjectDomain = MWebProjectDomain.get(ctx, serverName, "WebCM");
+			if (thisWebProjectDomain==null)
 			{
 				// HardCoded to deliver the GardenWorld Site as default
 				return null;
 			}
-			else if (tableKeys.length == 1)
+			else 
 			{
-				MWebProjectDomain thisDomain = new MWebProjectDomain (
-					ctx, tableKeys[0], "WebCM");
-				put (thisDomain.getFQDN (), thisDomain);
-				return thisDomain;
-			}
-			// We found more than one hit, this is bad, so we will try to use the first non system / gardenworld one
-			else if (tableKeys.length>1)
-			{
-				for (int i=0;i<tableKeys.length;i++) {
-					if (tableKeys[i]>=1000000) {
-						MWebProjectDomain thisDomain = new MWebProjectDomain (
-							ctx, tableKeys[i], "WebCM");
-						put (thisDomain.getFQDN (), thisDomain);
-						return thisDomain;
-					}
-				}
-				// We can't find any non system/gardenworld hit, so we will try the first one
-				for (int i=0;i<tableKeys.length;i++) {
-					MWebProjectDomain thisDomain = new MWebProjectDomain (
-						ctx, tableKeys[0], "WebCM");
-					put (thisDomain.getFQDN (), thisDomain);
-					return thisDomain;
-				}
-				// As even this doesn't work we return null
-				return null;
-			}
-			else
-			{
-				return null;
+				put (thisWebProjectDomain.getFQDN (), thisWebProjectDomain);
+				return thisWebProjectDomain;
 			}
 		}
 	}	//	getWebProjectDomain
-	
 }	//	Domain

@@ -36,8 +36,9 @@ public abstract class Extend implements Serializable
 	private String e_redirectURL;
 	
 	/**
-	 * 	Extend
-	 *	@param request
+	 * Extend
+	 * @param request
+	 * @param t_ctx 
 	 */
 	public Extend (HttpServletRequest request, Properties t_ctx) {
 		ctx = t_ctx;

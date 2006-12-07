@@ -126,7 +126,7 @@ public class HttpServletCM extends HttpServlet
      * page deployment) the normal broadcaster will replace this URL with the
      * correct media server for this client
      */
-	protected static String			internalMediaURL	  = null;
+	protected String				internalMediaURL	  = null;
 
 	/**
      * String containing the external media URL
@@ -307,17 +307,14 @@ public class HttpServletCM extends HttpServlet
      * 
      * @param request
      */
-	public void setInternalMediaURL (HttpServletRequest request)
+	public void resetInternalMediaURL (HttpServletRequest request)
 	{
-		if (internalMediaURL == null)
-		{
-			internalMediaURL = request.getRequestURL ().toString ().substring (
-				0,
-				request.getRequestURL ().toString ().indexOf (
-					request.getServerName ())
-					+ request.getServerName ().length ())
-				+ request.getContextPath () + "/media/";
-		}
+		internalMediaURL = request.getRequestURL ().toString ().substring (
+			0,
+			request.getRequestURL ().toString ().indexOf (
+				request.getServerName ())
+				+ request.getServerName ().length ())
+			+ request.getContextPath () + "/media/";
 	}
 
 	/**

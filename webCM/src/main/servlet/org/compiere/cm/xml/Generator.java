@@ -22,13 +22,9 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.compiere.Adempiere;
 import org.compiere.cm.HttpServletCM;
@@ -111,7 +107,7 @@ public class Generator
 	private void generateSystemHeader (HttpServletCM thisServlet)
 	{
 		xmlCode.append ("<system>\n");
-		xmlCode.append ("<adempiere>\n");
+		xmlCode.append ("<compiere>\n");
 		xmlCode.append ("<mainversion>" + Adempiere.MAIN_VERSION
 			+ "</mainversion>\n");
 		xmlCode.append ("<dateversion>" + Adempiere.DATE_VERSION
@@ -238,7 +234,7 @@ public class Generator
 				//genTable("AD_Role", "AD_Role.IsActive='Y' AND AD_Role.AD_Client_ID=" + l_nClientID + "  ORDER BY AD_Role.AD_Role_ID", false, ctx, wi);
 				genTable("C_Activity", "C_Activity.IsActive='Y' AND C_Activity.AD_Client_ID=" + l_nClientID + "  ORDER BY C_Activity.C_Activity_ID", false, ctx, wi);				
 				genTable("C_Campaign", "C_Campaign.IsActive='Y' AND C_Campaign.AD_Client_ID=" + l_nClientID + "  ORDER BY C_Campaign.C_Campaign_ID", false, ctx, wi);
-				genTable("M_Product", "M_Product.IsActive='Y' AND M_Product.AD_Client_ID=" + l_nClientID + "  ORDER BY M_Product.M_Product_ID", false, ctx, wi);
+				genTable("M_Product", "M_Product.IsActive='Y' AND M_Product.AD_Client_ID=" + l_nClientID + " AND M_Product.Value like 'cd_%' ORDER BY M_Product.M_Product_ID", false, ctx, wi);
 				genTable("M_RMA", "M_RMA.IsActive='Y' AND M_RMA.AD_Client_ID=" + l_nClientID + "  ORDER BY M_RMA.M_RMA_ID", false, ctx, wi);
 				genTable("R_Category", "R_Category.IsActive='Y' AND R_Category.AD_Client_ID=" + l_nClientID + "  ORDER BY R_Category.R_Category_ID", false, ctx, wi);
 				genTable("R_Group", "R_Group.IsActive='Y' AND R_Group.AD_Client_ID=" + l_nClientID + "  ORDER BY R_Group.R_Group_ID", false, ctx, wi);
@@ -465,8 +461,10 @@ public class Generator
 
 	private void generateContainerTree (ContainerTree containerTreeCache)
 	{
-		xmlCode.append (containerTreeCache.getContainerTree (containerTreeCache
-			.getCtx (), thisRequest.getWebProject ().get_ID (), null));
+/*		xmlCode.append (containerTreeCache.getContainerTree (containerTreeCache
+			.getCtx (), thisRequest.getWebProject ().get_ID (), null));*/
+		xmlCode.append (containerTreeCache.getContainerTree (
+			thisRequest.getWebProject ().get_ID (), null));
 	}
 
 	/**
