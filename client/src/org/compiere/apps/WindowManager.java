@@ -123,7 +123,7 @@ public class WindowManager {
 		for ( CFrame w : windows ) {
 			if ( w instanceof FormFrame ) {
 				FormFrame ff = (FormFrame)w;
-				//if ( ff.getAD_Form_ID() == AD_FORM_ID )
+				if ( ff.getAD_Form_ID() == AD_FORM_ID )
 					return ff;
 			}
 		}

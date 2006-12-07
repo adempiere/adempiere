@@ -109,7 +109,7 @@ public class CompierePanelUI extends BasicPanelUI
 		CompiereColor bg = null;
 		try
 		{
-			bg = (CompiereColor)c.getClientProperty(AdempierePLAF.BACKGROUND);
+			bg = (CompiereColor)c.getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -132,48 +132,5 @@ public class CompierePanelUI extends BasicPanelUI
 
 	/*************************************************************************/
 
-	/** Default Background      			*/
-	private static CompiereColor    s_default = new CompiereColor();
-	/** Set Background to default setting	*/
-	private static boolean          s_setDefault = false;
 
-
-	/**
-	 *  Set Default Background
-	 *  @param bg Background Color
-	 */
-	public static void setDefaultBackground (CompiereColor bg)
-	{
-		if (bg == null)
-			return;
-		s_default.setColor(bg);
-	}   //  setBackground
-
-	/**
-	 *  Get Default Background
-	 *  @return Background
-	 */
-	public static CompiereColor getDefaultBackground()
-	{
-		return s_default;
-	}   //  getBackground
-
-	/**
-	 *  Set Default Background
-	 *  @param setDefault if true, the background will be set to the default color
-	 */
-	public static void setSetDefault (boolean setDefault)
-	{
-		s_setDefault = setDefault;
-	}   //  setSetDefault
-
-	/**
-	 *  Is the Default Background set by default
-	 *  @return true if default background is set
-	 */
-	public static boolean isSetDefault()
-	{
-		return s_setDefault;
-	}   //  isSetDefault
-
-}   //  CompierePanel
+}   //  AdempierePanel

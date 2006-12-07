@@ -54,7 +54,17 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 
 	/** Paint Round Corners         */
 	protected static boolean ROUND = false;
-
+	
+	/** Key of Client Property to paint in CompiereColor    */
+	public static final String  BACKGROUND = "CompiereBackground";
+	/** Key of Client Property for Rectangle Items - if exists, the standard background is used */
+	public static final String  BACKGROUND_FILL = "CompiereBackgroundFill";
+	/** Key of Client Property for CPanel               */
+	public static final String  TABLEVEL = "CompiereTabLevel";
+	
+	/** Version tag */
+	public static final String  VERSION = "R1.4.0";
+	
 	/**
 	 *  The Name
 	 *  @return Name
@@ -89,7 +99,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	public UIDefaults getDefaults()
 	{
-	//	System.out.println("CompiereLookAndFeel.getDefaults");
 		//  Theme already created/set
 		MetalLookAndFeel.setCurrentTheme(s_theme);
 		UIDefaults defaults = super.getDefaults();  // calls init..Defaults
@@ -105,7 +114,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initClassDefaults(UIDefaults table)
 	{
-	//	System.out.println("CompiereLookAndFeel.initClassDefaults");
 		super.initClassDefaults( table);
 		//  Overwrite
 		putDefault (table, "PanelUI");
@@ -155,11 +163,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initSystemColorDefaults (UIDefaults table)
 	{
-	//	System.out.println("CompiereLookAndFeel.initSystemColorDefaults");
 		super.initSystemColorDefaults( table);
-
-		// we made the color a bit darker
-	//	table.put("textHighlight", CompiereUtils.getTranslucentColor(getTextHighlightColor(), 128));
 	}   //  initSystemColorDefaults
 
 	/**
@@ -168,7 +172,6 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	 */
 	protected void initComponentDefaults (UIDefaults table)
 	{
-	//	System.out.println("CompiereLookAndFeel.initComponentDefaults");
 		super.initComponentDefaults( table);
 
 		//  ComboBox defaults

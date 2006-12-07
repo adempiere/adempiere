@@ -509,6 +509,7 @@ public class WFActivity extends CPanel
 			AWindow frame = new AWindow();
 			if (!frame.initWindow(AD_Window_ID, query))
 				return;
+			AEnv.addToWindowManager(frame);
 			AEnv.showCenterScreen(frame);
 			frame = null;
 		}
@@ -518,6 +519,7 @@ public class WFActivity extends CPanel
 			FormFrame ff = new FormFrame();
 			ff.openForm(AD_Form_ID);
 			ff.pack();
+			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);
 		}
 		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))

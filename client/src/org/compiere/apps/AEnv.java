@@ -257,7 +257,8 @@ public final class AEnv
 		if (iconName == null)
 			iconName = actionName;
 		String text = Msg.getMsg(Env.getCtx(), actionName);
-		CMenuItem mi = new CMenuItem(text, Env.getImageIcon(iconName + "16.gif"));
+		ImageIcon icon = Env.getImageIcon2(iconName + "16");
+		CMenuItem mi = new CMenuItem(text, icon);
 		mi.setActionCommand(actionName);
 		if (ks != null)
 			mi.setAccelerator(ks);
@@ -296,6 +297,11 @@ public final class AEnv
 		{
 			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
 				Env.exitEnv(0);
+		}
+		else if (actionCommand.equals("Logout"))
+		{
+			AMenu aMenu = (AMenu)Env.getWindow(WindowNo);
+			aMenu.logout();
 		}
 
 		//  View Menu   ------------------------
@@ -373,8 +379,9 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Preference"))
 		{
-			if (role.isShowPreference())
+			if (role.isShowPreference()) {
 				AEnv.showCenterScreen(new Preference (Env.getFrame(c), WindowNo));
+			}
 		}
 
 		//  Help Menu   ------------------------
@@ -478,6 +485,7 @@ public final class AEnv
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID)))
 			return;
+		addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	zoom
@@ -528,11 +536,23 @@ public final class AEnv
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
+		addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	zoom
 	
-	
+	/**
+	 * Track open frame in window manager
+	 * @param frame
+	 */
+	public static void addToWindowManager(CFrame frame)
+	{
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			((AMenu)top).getWindowManager().add(frame);
+		}
+	}
 	/**
 	 *	Exit System
 	 *  @param status System exit status (usually 0 for no error)
@@ -552,6 +572,26 @@ public final class AEnv
 		Env.exitEnv(status);
 	}	//	exit
 
+	public static void logout() 
+	{
+		if (s_server != null)
+		{
+			try
+			{
+				s_server.remove();
+			}
+			catch (Exception ex)
+			{
+			}
+		}
+		Env.logout();
+		
+		Splash.getSplash().setVisible(true);
+
+		//reload
+		new AMenu();
+	}
+	
 	/**
 	 * 	Is Workflow Process view enabled.
 	 *	@return true if enabled
@@ -608,7 +648,14 @@ public final class AEnv
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(s_workflow_Window_ID, query))
 			return;
-		AEnv.showCenterScreen(frame);
+		addToWindowManager(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			frame.pack();
+			frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+			frame.setVisible(true);
+			frame.toFront();
+		} else
+			AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	startWorkflowProcess
 	
@@ -861,5 +908,33 @@ public final class AEnv
 			}
 		}
 	}   //  cacheReset
+	
+	/**
+	 * Update all windows after look and feel changes.
+	 * @since 2006-11-27 
+	 */
+	public static void updateUI()
+	{
+		Set<Window> updated = Env.updateUI();
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			CFrame[] frames = ((AMenu)top).getWindowManager().getWindows();
+			for (CFrame f : frames)
+			{
+				if (updated.contains(f)) continue;
+				SwingUtilities.updateComponentTreeUI(f);
+				f.validate();
+				RepaintManager mgr = RepaintManager.currentManager(f);
+				Component childs[] = f.getComponents();
+				for (Component c : childs) {
+					if (c instanceof JComponent)
+						mgr.markCompletelyDirty((JComponent)c);
+				}
+				f.repaint();
+				updated.add(f);
+			}
+		}
+	}
 		
 }	//	AEnv

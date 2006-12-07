@@ -118,15 +118,7 @@ public class CTextField extends JTextField
 	 */
 	private void init()
 	{
-		setFont(AdempierePLAF.getFont_Field());
-		setForeground(AdempierePLAF.getTextColor_Normal());
 		setBackground (false);
-		//	Minimum Size
-		Dimension size = getPreferredSize();
-		if (size != null)
-			size = new Dimension (20,10);
-		size.width = 30;
-		setMinimumSize(size);
 	}   //  init
 
 	/*************************************************************************/

@@ -1067,7 +1067,9 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		}
 	}	//	remote_executeUpdate
         
-                public void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
+	   //remove this commnet if you want use JAVA 6
+        /*	
+        public void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
 	    throws SQLException
         {
             

@@ -22,13 +22,10 @@ import java.net.*;
 import java.util.logging.*;
 import javax.jnlp.*;
 import javax.swing.*;
-
-import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
-
 import com.qoppa.pdf.*;
 
 /**
@@ -42,7 +39,7 @@ public final class Adempiere
 	/** Timestamp                   */
 	static public final String	ID				= "$Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $";
 	/** Main Version String         */
-	static public final String	MAIN_VERSION	= "Release 3.1.2";
+	static public final String	MAIN_VERSION	= "Release 3.1.1";
 	/** Detail Version as date      Used for Client/Server		*/
 	static public final String	DATE_VERSION	= "2006-11-02";
 	/** Database Version as date    Compared with AD_System		*/
@@ -72,7 +69,7 @@ public final class Adempiere
 	static private String		s_supportEmail	= "";
 
 	/** Subtitle                */
-	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM  ";
+	static public final String	SUB_TITLE		= "The Open Source Profesional ERP,CRM and SCM  ";
 	/** Adempiere is a wordwide registered Trademark
 	 *  - Don't modify this - Program will someday fail unexpectedly	*/
 	static public final String	ADEMPIERE_R		= "Adempiere\u00AE";
@@ -456,7 +453,12 @@ public final class Adempiere
 		{
 			if (CLogMgt.isLevelAll())
 				log.log(Level.FINEST, System.getProperties().toString());
-			AdempierePLAF.setPLAF ();
+			//
+                        //begin vpj-cd e-evolution
+			//CompiereTheme.load();
+                        AdempiereThemeInnova.load();
+                        //end vpj-cd e-evolution
+			AdempierePLAF.setPLAF (null);
 		}
 
 		//  Set Default Database Connection from Ini

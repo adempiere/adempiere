@@ -21,7 +21,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import org.compiere.plaf.*;
-import org.adempiere.plaf.*;
 
 /**
  *  Label with Mnemonics interpretation
@@ -175,9 +174,6 @@ public class CLabel extends JLabel
 		setOpaque(false);
 		if (getToolTipText() == null)	//	force Tool Tip
 			setToolTipText(getText());
-		//
-		setForeground(AdempierePLAF.getTextColor_Label());
-		setFont(AdempierePLAF.getFont_Label());
 	}   //  init
 
 

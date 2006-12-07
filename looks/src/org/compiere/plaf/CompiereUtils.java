@@ -52,10 +52,10 @@ public class CompiereUtils
 	{
 		//  Paint in AdempiereColor?
 		CompiereColor cc = null;
-		boolean stdCC = c.getClientProperty(AdempierePLAF.BACKGROUND_FILL) != null;
+		boolean stdCC = c.getClientProperty(CompiereLookAndFeel.BACKGROUND_FILL) != null;
 		try
 		{
-			cc = (CompiereColor)c.getClientProperty(AdempierePLAF.BACKGROUND);
+			cc = (CompiereColor)c.getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -458,7 +458,7 @@ public class CompiereUtils
 			c.setName("C" + String.valueOf(s_no++));
 		System.out.print(c.getName());
 		System.out.print(" - " + c.getClass().getName());
-		System.out.println (" ** " + c.isOpaque() + " bg=" + (c.getClientProperty(AdempierePLAF.BACKGROUND) != null));
+		System.out.println (" ** " + c.isOpaque() + " bg=" + (c.getClientProperty(CompiereLookAndFeel.BACKGROUND) != null));
 		//
 		Container container = c.getParent();
 		while (container != null)
@@ -466,7 +466,7 @@ public class CompiereUtils
 			System.out.print (" - " + container.getName() + " " + container.getClass().getName()
 				+ " ** " + container.isOpaque());
 			if (container instanceof JComponent)
-				System.out.print (" bg=" + (((JComponent)container).getClientProperty(AdempierePLAF.BACKGROUND) != null));
+				System.out.print (" bg=" + (((JComponent)container).getClientProperty(CompiereLookAndFeel.BACKGROUND) != null));
 			System.out.println ();
 			container = container.getParent();
 		}

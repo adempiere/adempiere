@@ -109,8 +109,8 @@ public class CPanel extends JPanel
 			return;
 		super.setBackground (bg);
 		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-			setBackgroundColor (new CompiereColor(bg));
+		//if (!Trace.getCallerClass(1).startsWith("javax"))
+		setBackgroundColor (new CompiereColor(bg));
 	}   //  setBackground
 
 	/**
@@ -120,9 +120,9 @@ public class CPanel extends JPanel
 	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = CompierePanelUI.getDefaultBackground();
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
 		setOpaque(true);	//	not transparent
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 	}   //  setBackground
 
@@ -134,7 +134,7 @@ public class CPanel extends JPanel
 	{
 		try
 		{
-			return (CompiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -154,9 +154,9 @@ public class CPanel extends JPanel
 	public void setTabLevel (int level)
 	{
 		if (level == 0)
-			putClientProperty(AdempierePLAF.TABLEVEL, null);
+			putClientProperty(CompiereLookAndFeel.TABLEVEL, null);
 		else
-			putClientProperty(AdempierePLAF.TABLEVEL, new Integer(level));
+			putClientProperty(CompiereLookAndFeel.TABLEVEL, new Integer(level));
 	}   //  setTabLevel
 
 	/**
@@ -167,7 +167,7 @@ public class CPanel extends JPanel
 	{
 		try
 		{
-			Integer ll = (Integer)getClientProperty(AdempierePLAF.TABLEVEL);
+			Integer ll = (Integer)getClientProperty(CompiereLookAndFeel.TABLEVEL);
 			if (ll != null)
 				return ll.intValue();
 		}

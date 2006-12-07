@@ -97,9 +97,6 @@ public class CTabbedPane extends JTabbedPane
 	 */
 	private void init()
 	{
-		setOpaque(false);
-		setFont(AdempierePLAF.getFont_Label());
-		setForeground(AdempierePLAF.getTextColor_Label());
 	}   //  init
 
 	
@@ -112,9 +109,7 @@ public class CTabbedPane extends JTabbedPane
 		if (bg.equals(getBackground()))
 			return;
 		super.setBackground (bg);
-		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-			setBackgroundColor (new CompiereColor(bg));
+		setBackgroundColor (new CompiereColor(bg));
 	}   //  setBackground
 
 	/**
@@ -132,9 +127,8 @@ public class CTabbedPane extends JTabbedPane
 	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = CompierePanelUI.getDefaultBackground();
-		setOpaque(true);
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 		//
 		repaint();
@@ -148,7 +142,7 @@ public class CTabbedPane extends JTabbedPane
 	{
 		try
 		{
-			return (CompiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -196,10 +190,10 @@ public class CTabbedPane extends JTabbedPane
 		if (component instanceof JPanel)
 		{
 			JPanel p = (JPanel)component;
-			if (p.getClientProperty(AdempierePLAF.BACKGROUND) == null)
+			if (p.getClientProperty(CompiereLookAndFeel.BACKGROUND) == null)
 			{
-				CompiereColor.setBackground(p);
-				p.setOpaque(true);
+				//AdempiereColor.setBackground(p);
+				//p.setOpaque(true);
 			}
 		}
 		//	Set first	

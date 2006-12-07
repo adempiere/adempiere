@@ -135,8 +135,8 @@ public class CCheckBox extends JCheckBox implements CEditor
 	 */
 	private void init()
 	{
-		setFont(AdempierePLAF.getFont_Label());
-		setForeground(AdempierePLAF.getTextColor_Label());
+		//Default to transparent, works better under windows look and feel
+		setOpaque(false);
 	}   //  init
 
 	/*************************************************************************/

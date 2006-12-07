@@ -76,9 +76,9 @@ public final class Ini implements Serializable
 	/** UI Theme			*/
 	public static final String	P_UI_THEME =		"UITheme";
 	
-	/** Flat Color UI*/
+	/** Flat Color UI		
 	public static final String	P_UI_FLAT =			"UIFlat";
-	/*private static final boolean DEFAULT_UI_FLAT =	false;
+	private static final boolean DEFAULT_UI_FLAT =	false;
 	*/
 	
 	/** Auto Save			*/

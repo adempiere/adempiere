@@ -22,7 +22,6 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTableHeaderUI;
-import org.adempiere.plaf.*;
 
 /**
  *  Table Header UI
@@ -53,8 +52,8 @@ public class CompiereTableHeaderUI extends BasicTableHeaderUI
 		super.installUI(c);
 		//  TableHeader is in JViewpoiunt, which is Opaque
 		//  When UI created, TableHeader not added to viewpoint
-		c.setOpaque(true);
-		c.putClientProperty(AdempierePLAF.BACKGROUND_FILL, "Y");
+		//c.setOpaque(true);
+		//c.putClientProperty(AdempierePLAF.BACKGROUND_FILL, "Y");
 	}   //  installUI
 
 	

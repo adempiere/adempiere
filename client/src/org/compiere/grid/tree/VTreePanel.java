@@ -56,6 +56,8 @@ import org.compiere.util.*;
 public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
 {
+	protected boolean m_lookAndFeelChanged = false;
+
 	/**
 	 *  Tree Panel for browsing and editing of a tree.
 	 *  Need to call initTree
@@ -80,8 +82,16 @@ public final class VTreePanel extends CPanel
 			centerSplitPane.setDividerSize(0);
 			popMenuTree.remove(mBarAdd);
 		}
-		else
+		else {
 			centerSplitPane.setDividerLocation(80);
+			UIManager.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					if ("lookAndFeel".equals(evt.getPropertyName()))
+						m_lookAndFeelChanged = true;
+				}
+				
+			});
+		}
 		//  base settings
 		if (editable)
 			tree.setDropTarget(dropTarget);
@@ -115,7 +125,7 @@ public final class VTreePanel extends CPanel
 		//  Shortcut Bar
 		if (m_hasBar)
 		{
-			bar.removeAll();	//	remove all existing buttons
+			toolbar.removeAll();	//	remove all existing buttons
 			Enumeration en = m_root.preorderEnumeration();
 			while (en.hasMoreElements())
 			{
@@ -144,6 +154,7 @@ public final class VTreePanel extends CPanel
 	private CMenuItem mFrom = new CMenuItem();
 	private CMenuItem mTo = new CMenuItem();
 	private CPanel bar = new CPanel();
+	private JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
 	private CMenuItem mBarAdd = new CMenuItem();
 	private CMenuItem mBarRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
@@ -199,6 +210,8 @@ public final class VTreePanel extends CPanel
 		tree.addKeyListener(keyListener);
 		tree.setCellRenderer(new VTreeCellRenderer());
 		treePane.getViewport().add(tree, null);
+		treePane.setBorder(new ShadowBorder());
+		tree.setBorder(BorderFactory.createEmptyBorder());
 //		treePane.setPreferredSize(new Dimension(50,200));
 //		tree.setPreferredSize(new Dimension(100,150));
 		//
@@ -219,8 +232,13 @@ public final class VTreePanel extends CPanel
 		southPanel.add(treeSearch, BorderLayout.EAST);
 		this.add(southPanel, BorderLayout.SOUTH);
 		//
+		centerSplitPane.setOpaque(false);
+		toolbar.setOpaque(false);
 		centerSplitPane.add(treePane, JSplitPane.RIGHT);
 		centerSplitPane.add(bar, JSplitPane.LEFT);
+		centerSplitPane.setBorder(BorderFactory.createEmptyBorder());
+		removeSplitPaneBorder();
+
 		this.add(centerSplitPane, BorderLayout.CENTER);
 		//
 		mFrom.setText(Msg.getMsg(Env.getCtx(), "ItemMove"));
@@ -231,8 +249,15 @@ public final class VTreePanel extends CPanel
 		mTo.setActionCommand("To");
 		mTo.addActionListener(this);
 		//
-		bar.setLayout(new BoxLayout(bar, BoxLayout.Y_AXIS));
 		bar.setMinimumSize(new Dimension (50,50));
+		bar.setBorder(new ShadowBorder());
+		bar.setLayout(new FlowLayout());
+		((FlowLayout)bar.getLayout()).setAlignment(FlowLayout.LEFT);
+		bar.add(toolbar);
+		toolbar.setLayout(new GridBagLayout());
+		toolbar.setFloatable(false);
+		toolbar.setRollover(true);
+		toolbar.setBorder(BorderFactory.createEmptyBorder());
 
 		mBarAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
 		mBarAdd.setActionCommand("BarAdd");
@@ -251,6 +276,16 @@ public final class VTreePanel extends CPanel
 	}   //  jbInit
 
 
+	private void removeSplitPaneBorder() {
+		if (centerSplitPane != null) {
+			SplitPaneUI splitPaneUI = centerSplitPane.getUI();
+	        if (splitPaneUI instanceof BasicSplitPaneUI) {
+	            BasicSplitPaneUI basicUI = (BasicSplitPaneUI) splitPaneUI;
+	            basicUI.getDivider().setBorder(BorderFactory.createEmptyBorder());
+	        }
+		}
+	}
+	
 	/**
 	 * 	Set Divider Location
 	 *	@param location location (80 default)
@@ -839,21 +874,26 @@ public final class VTreePanel extends CPanel
 	//	if (space != -1)
 	//		label = label.substring(0, space);
 
-		CButton button = new CButton(label);		//	Create the button
+		CButton button = new CButton(label);
+		button.setOpaque(false);
+		button.setHorizontalAlignment(JButton.LEFT);
 		button.setToolTipText(nd.getDescription());
 		button.setActionCommand(String.valueOf(nd.getNode_ID()));
 		//
 		button.setMargin(new Insets(0, 0, 0, 0));
 		button.setIcon(nd.getIcon());
-		button.setBorderPainted(false);
-	//	button.setFocusPainted(false);
+		//button.setBorderPainted(false);
 		button.setRequestFocusEnabled(false);
 		//
 		button.addActionListener(this);
 		button.addMouseListener(mouseListener);
 		//
-		bar.add(button);
+		toolbar.add(button,
+			new GridBagConstraints(0, GridBagConstraints.RELATIVE,
+					1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, 
+					GridBagConstraints.HORIZONTAL, new Insets(1,0,1,0), 4,2));
 		bar.validate();
+		
 		if (centerSplitPane.getDividerLocation() == -1)
 			centerSplitPane.setDividerLocation(button.getPreferredSize().width);
 		bar.repaint();
@@ -864,7 +904,7 @@ public final class VTreePanel extends CPanel
 	 */
 	private void barRemove()
 	{
-		bar.remove(m_buttonSelected);
+		toolbar.remove(m_buttonSelected);
 		bar.validate();
 		bar.repaint();
 		barDBupdate(false, Integer.parseInt(m_buttonSelected.getActionCommand()));
@@ -916,6 +956,15 @@ public final class VTreePanel extends CPanel
 				tree.collapseRow(row);
 		}
 	}   //  expandTree
+
+	@Override
+	public void paint(Graphics g) {
+		if (m_lookAndFeelChanged) {
+			m_lookAndFeelChanged = false;
+			if (m_hasBar) removeSplitPaneBorder();
+		}
+		super.paint(g);
+	}
 
 }   //  VTreePanel
 

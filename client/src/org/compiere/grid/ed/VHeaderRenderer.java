@@ -30,6 +30,13 @@ import org.compiere.util.*;
  */
 public final class VHeaderRenderer implements TableCellRenderer
 {
+	public VHeaderRenderer() 
+	{
+		m_button = new CButton();
+		m_button.setMargin(new Insets(0,0,0,0));
+		m_button.putClientProperty("Plastic.is3D", Boolean.FALSE);
+	}
+	
 	/**
 	 *	Constructor
 	 *  @param displayType
@@ -39,16 +46,17 @@ public final class VHeaderRenderer implements TableCellRenderer
 		super();
 		//	Alignment
 		if (DisplayType.isNumeric(displayType))
-			m_button.setHorizontalAlignment(JLabel.RIGHT);
+			m_alignment = JLabel.RIGHT;
 		else if (displayType == DisplayType.YesNo)
-			m_button.setHorizontalAlignment(JLabel.CENTER);
+			m_alignment = JLabel.CENTER;
 		else
-			m_button.setHorizontalAlignment(JLabel.LEFT);
-		m_button.setMargin(new Insets(0,0,0,0));
+			m_alignment = JLabel.LEFT;
 	}	//	VHeaderRenderer
 
 	//  for 3D effect in Windows
-	private CButton m_button = new CButton();
+	private CButton m_button; 
+	
+	private int m_alignment;
 
 	/**
 	 *	Get TableCell RendererComponent
@@ -65,6 +73,25 @@ public final class VHeaderRenderer implements TableCellRenderer
 	{
 	//	Log.trace(this,10, "VHeaderRenderer.getTableCellRendererComponent", value==null ? "null" : value.toString());
 		//  indicator for invisible column
+		
+		TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+		Component headerComponent = headerRenderer == null ? null :
+			headerRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		if (headerComponent != null && headerComponent instanceof JComponent) {
+			if (headerComponent instanceof JLabel ) {
+				JLabel label = (JLabel)headerComponent;
+				label.setHorizontalAlignment(m_alignment);
+				if (value == null) 
+					label.setPreferredSize(new Dimension(0,0));
+				else
+					label.setText(value.toString());
+				return label;
+			}
+			m_button.setBorder(((JComponent)headerComponent).getBorder());
+		} else {
+			m_button.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+		}
+		
 		if (value == null)
 		{
 			m_button.setPreferredSize(new Dimension(0,0));

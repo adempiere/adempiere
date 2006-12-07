@@ -180,7 +180,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 			JPanel jp = (JPanel)comp;
 			try
 			{
-				bg = (CompiereColor)jp.getClientProperty(AdempierePLAF.BACKGROUND);
+				bg = (CompiereColor)jp.getClientProperty(CompiereLookAndFeel.BACKGROUND);
 			}
 			catch (Exception e)
 			{
@@ -373,7 +373,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 			try
 			{
 				if (jc != null)
-					bg = (CompiereColor)jc.getClientProperty(AdempierePLAF.BACKGROUND);
+					bg = (CompiereColor)jc.getClientProperty(CompiereLookAndFeel.BACKGROUND);
 			}
 			catch (Exception e)
 			{
@@ -382,7 +382,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 			if (bg == null)
 			{
 				bg = new CompiereColor(jc.getBackground());
-				jc.putClientProperty(AdempierePLAF.BACKGROUND, bg);
+				jc.putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 			}
 			bg.paintRect(g, jc, x,y, w,h);
 		}
@@ -1023,7 +1023,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 					JComponent jc = (JComponent)comp;
 					try
 					{
-						Integer ll = (Integer)jc.getClientProperty(AdempierePLAF.TABLEVEL);
+						Integer ll = (Integer)jc.getClientProperty(CompiereLookAndFeel.TABLEVEL);
 						if (ll != null)
 							level = ll.intValue();
 					}

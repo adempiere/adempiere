@@ -70,8 +70,6 @@ public class CButton extends JButton implements CEditor
 	public CButton (Action a)
 	{
 		super (a);
-		setContentAreaFilled(false);
-		setOpaque(false);
 	}	//	CButton
 
 	/**
@@ -83,11 +81,6 @@ public class CButton extends JButton implements CEditor
 	public CButton(String text, Icon icon)
 	{
 		super (text, icon);
-		setContentAreaFilled(false);
-		setOpaque(false);
-		//
-		setFont(AdempierePLAF.getFont_Label());
-		setForeground(AdempierePLAF.getTextColor_Label());
 	}   //  CButton
 
 	
@@ -101,12 +94,7 @@ public class CButton extends JButton implements CEditor
 		if (bg.equals(getBackground()))
 			return;
 		super.setBackground (bg);
-		//  ignore calls from javax.swing.LookAndFeel.installColors(LookAndFeel.java:61)
-		if (!Trace.getCallerClass(1).startsWith("javax"))
-		{
-			setOpaque(true);
-			setContentAreaFilled(true);
-		}
+		setBackgroundColor(new CompiereColor(bg));
 		this.repaint();
 	}   //  setBackground
 
@@ -133,9 +121,8 @@ public class CButton extends JButton implements CEditor
 	public void setBackgroundColor (CompiereColor bg)
 	{
 		if (bg == null)
-			bg = CompiereColor.getDefaultBackground();
-		setOpaque(true);
-		putClientProperty(AdempierePLAF.BACKGROUND, bg);
+			bg = new CompiereColor(AdempierePLAF.getFormBackground());
+		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
 		super.setBackground (bg.getFlatColor());
 		this.repaint();
 	}   //  setBackground
@@ -148,7 +135,7 @@ public class CButton extends JButton implements CEditor
 	{
 		try
 		{
-			return (CompiereColor)getClientProperty(AdempierePLAF.BACKGROUND);
+			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
 		}
 		catch (Exception e)
 		{
