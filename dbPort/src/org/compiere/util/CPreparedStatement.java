@@ -1128,12 +1128,6 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
             
         }
         
-        public void setNClob(int parameterIndex, NClob value) throws SQLException
-        {
-            
-        }
-
-
         public void setNClob(int parameterIndex, Reader reader, long length)
         throws SQLException
         {
@@ -1158,22 +1152,26 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
        {
            
        }        
-            
-
-       
-       
-       public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException
-       {
-           
-       }
        
        public void setNString(int parameterIndex, String value) throws SQLException
        {
            
        }
        
-       public void setRowId(int parameterIndex, RowId x) throws SQLException{}
+       /* In order to compile in Java 6 you must add these methods
 
+       public void setNClob(int parameterIndex, NClob value) throws SQLException
+       {
+           
+       }
+
+       public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException
+       {
+           
+       }
+
+       public void setRowId(int parameterIndex, RowId x) throws SQLException{}
+       */
 
 }	//	CPreparedStatement
 
