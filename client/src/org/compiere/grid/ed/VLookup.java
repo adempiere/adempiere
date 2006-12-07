@@ -1134,7 +1134,6 @@ public class VLookup extends JComponent
 		}
 		else
 		{
-			AEnv.addToWindowManager(frame);
 			AEnv.showCenterScreen(frame);
 		}
 			//  async window - not able to get feedback

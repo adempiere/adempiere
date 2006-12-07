@@ -77,45 +77,14 @@ public class ProcessDialog extends CFrame
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
 	//
 
-	private CPanel dialog = new CPanel()
-	{
-		public Dimension getPreferredSize() {
-			Dimension d = super.getPreferredSize();
-			Dimension m = getMinimumSize();
-			if ( d.height < m.height || d.width < m.width ) {
-				Dimension d1 = new Dimension();
-				d1.height = Math.max(d.height, m.height);
-				d1.width = Math.max(d.width, m.width);
-				return d1;
-			} else
-				return d;
-		}
-	};
+	private CPanel dialog = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel southPanel = new CPanel();
 	private CButton bOK = ConfirmPanel.createOKButton(true);
 	private FlowLayout southLayout = new FlowLayout();
-	private JEditorPane message = new JEditorPane()
-	{
-		public Dimension getPreferredSize() {
-			Dimension d = super.getPreferredSize();
-			Dimension m = getMaximumSize();
-			if ( d.height > m.height || d.width > m.width ) {
-				Dimension d1 = new Dimension();
-				d1.height = Math.min(d.height, m.height);
-				d1.width = Math.min(d.width, m.width);
-				return d1;
-			} else
-				return d;
-		}
-	};
+	private JEditorPane message = new JEditorPane();
 	private JScrollPane messagePane = new JScrollPane(message);
 	private CButton bPrint = ConfirmPanel.createPrintButton(true);
-	
-	private CPanel centerPanel = null;
-	private ProcessParameterPanel parameterPanel = null;
-	private JSeparator separator = new JSeparator();
-	private ProcessInfo m_pi = null;
 
 	/**
 	 *	Static Layout
@@ -126,27 +95,21 @@ public class ProcessDialog extends CFrame
 		setIconImage(Env.getImage("mProcess.gif"));
 		//
 		dialog.setLayout(mainLayout);
-		dialog.setMinimumSize(new Dimension(500, 200));
 		bOK.addActionListener(this);
 		bPrint.addActionListener(this);
 		//
 		southPanel.setLayout(southLayout);
 		southLayout.setAlignment(FlowLayout.RIGHT);
+		dialog.setPreferredSize(new Dimension(500, 150));
 		message.setContentType("text/html");
 		message.setEditable(false);
-		message.setBackground(Color.white);
+		message.setBackground(AdempierePLAF.getFieldBackground_Inactive());
 		message.setFocusable(false);
 		getContentPane().add(dialog);
 		dialog.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(bPrint, null);
 		southPanel.add(bOK, null);
-		dialog.add(messagePane, BorderLayout.NORTH);
-		messagePane.setBorder(null);
-		message.setMaximumSize(new Dimension(600, 300));
-		centerPanel = new CPanel();
-		centerPanel.setBorder(null);
-		centerPanel.setLayout(new BorderLayout());
-		dialog.add(centerPanel, BorderLayout.CENTER);
+		dialog.add(messagePane, BorderLayout.CENTER);
 		//
 		this.getRootPane().setDefaultButton(bOK);
 	}	//	jbInit
@@ -159,9 +122,8 @@ public class ProcessDialog extends CFrame
 	public void setVisible (boolean visible)
 	{
 		super.setVisible(visible);
-		if (visible) {
+		if (visible)
 			bOK.requestFocus();
-		}
 	}	//	setVisible
 
 	/**
@@ -238,17 +200,6 @@ public class ProcessDialog extends CFrame
 			return false;		//	don't show
 		}
 		**/
-		//	Similar to APanel.actionButton
-		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
-		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
-		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
-		centerPanel.removeAll();
-		if (parameterPanel.init()) {
-			centerPanel.add(separator, BorderLayout.NORTH);
-			centerPanel.add(parameterPanel, BorderLayout.CENTER);
-		}
-		dialog.revalidate();
 		return true;
 	}	//	init
 
@@ -264,8 +215,14 @@ public class ProcessDialog extends CFrame
 				dispose();
 			else
 			{
+				//	Similar to APanel.actionButton
+				ProcessInfo pi = new ProcessInfo(m_Name, m_AD_Process_ID);
+				pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
+				pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+				m_messageText.append("<p>** ").append(m_Name).append("</p>");
+				message.setText(m_messageText.toString());
 			//	Trx trx = Trx.get(Trx.createTrxName("ProcessDialog"), true);
-				ProcessCtl.process(this, m_WindowNo, parameterPanel, m_pi, null);
+				ProcessCtl.process(this, m_WindowNo, pi, null);
 			}
 		}
 

@@ -548,7 +548,7 @@ public final class Preference extends CDialog
 			{
 				//laf changed
 				AdempierePLAF.setPLAF(laf, theme, true);
-				AEnv.updateUI();
+				//AEnv.updateUI();
 			}
 			else
 			{
@@ -563,7 +563,7 @@ public final class Preference extends CDialog
 								UIManager.getLookAndFeel().getClass().getName(),
 								UIManager.getLookAndFeel().getName());
 						AdempierePLAF.setPLAF(plaf, theme, true);
-						AEnv.updateUI();
+						//AEnv.updateUI();
 					}
 				}
 			}

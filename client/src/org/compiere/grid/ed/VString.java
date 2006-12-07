@@ -319,13 +319,6 @@ public final class VString extends CTextField
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost
-
-	@Override
-	public void setFont(Font f) {
-		super.setFont(f);
-		m_stdFont = f;
-		m_obscureFont = new Font("SansSerif", Font.ITALIC, m_stdFont.getSize());
-	}
 	
 }	//	VString
 

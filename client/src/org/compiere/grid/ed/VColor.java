@@ -113,7 +113,7 @@ public class VColor extends CButton
 		else
 		{
 			setOpaque(false);
-			putClientProperty(CompiereLookAndFeel.BACKGROUND, null);
+			putClientProperty(AdempierePLAF.BACKGROUND, null);
 		}
 		repaint();
 	}   //  setValue

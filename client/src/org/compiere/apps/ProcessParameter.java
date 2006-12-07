@@ -265,16 +265,10 @@ public class ProcessParameter extends CDialog
 		{
 			//	To Label
 			gbc.gridx = 2;
-			gbc.weightx = 0;
-			gbc.fill = GridBagConstraints.NONE;
 			centerPanel.add (new JLabel(" - "), gbc);
 			//  To Field
 			gbc.gridx = 3;
 			gbc.insets = fieldInsetRight;
-			gbc.weightx = 1;
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			gbc.anchor = GridBagConstraints.WEST;
-			
 			//
 			GridFieldVO voF2 = GridFieldVO.createParameter(voF);
 			GridField mField2 = new GridField (voF2);

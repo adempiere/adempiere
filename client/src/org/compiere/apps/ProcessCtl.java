@@ -49,8 +49,8 @@ public class ProcessCtl extends Thread
 	 *  Creates a ProcessCtl instance, which calls
 	 *  lockUI and unlockUI if parent is a ASyncProcess
 	 *  <br>
-	 *	Called from ProcessCtl.startProcess, APanel.cmd_print,  
-	 *  APanel.actionButton, VPaySelect.cmd_generate
+	 *	Called from ProcessCtl.startProcess, ProcessDialog.actionPerformed,
+	 *  APanel.cmd_print, APanel.actionButton, VPaySelect.cmd_generate
 	 *
 	 *  @param parent ASyncProcess & Container
 	 *  @param WindowNo window no

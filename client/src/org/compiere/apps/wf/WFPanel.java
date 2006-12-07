@@ -432,7 +432,6 @@ public class WFPanel extends CPanel
 		AWindow frame = new AWindow();
 		if (!frame.initWindow (AD_Window_ID, query))
 			return;
-		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 	}	//	zoom

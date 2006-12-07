@@ -35,6 +35,7 @@ import org.compiere.grid.tree.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
+
 /**
  *	Application Menu Controller
  *
@@ -57,9 +58,6 @@ public final class AMenu extends CFrame
 		//	Login
 		initSystem (splash);        //	login
 		splash.setText(Msg.getMsg(m_ctx, "Loading"));
-		splash.toFront();
-		splash.paint(splash.getGraphics());
-		
 		//
 		Adempiere.startupEnvironment(true);		//	Load Environment
 		MSession.get (Env.getCtx(), true);		//	Start Session
@@ -135,8 +133,6 @@ public final class AMenu extends CFrame
 	private DecimalFormat	m_memoryFormat = DisplayType.getNumberFormat(DisplayType.Integer);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AMenu.class);
-	
-	private WindowManager windowManager = new WindowManager();
 	
 	
 	/**************************************************************************
@@ -274,7 +270,6 @@ public final class AMenu extends CFrame
 			m_tabActivities++;
 			m_tabWorkflow++;
 		}
-		treePanel.setBorder(BorderFactory.createEmptyBorder(2,3,2,3));
 		centerPane.add(treePanel, Msg.getMsg(m_ctx, "Menu"));
 		centerPane.add(new CScrollPane(wfActivity), Msg.getMsg (m_ctx, "WorkflowActivities") + ": 0");
 		centerPane.add(new CScrollPane(wfPanel), Msg.getMsg (m_ctx, "WorkflowPanel"));
@@ -317,7 +312,6 @@ public final class AMenu extends CFrame
 		AEnv.addMenuItem("PrintScreen", null, KeyStroke.getKeyStroke(KeyEvent.VK_PRINTSCREEN, 0), mFile, this);
 		AEnv.addMenuItem("ScreenShot", null, KeyStroke.getKeyStroke(KeyEvent.VK_PRINTSCREEN, KeyEvent.SHIFT_MASK), mFile, this);
 		mFile.addSeparator();
-		AEnv.addMenuItem("Logout", null, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
 		AEnv.addMenuItem("Exit", null, KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.SHIFT_MASK+Event.ALT_MASK), mFile, this);
 
 		//      View
@@ -351,10 +345,6 @@ public final class AMenu extends CFrame
 			mTools.addSeparator();
 			AEnv.addMenuItem("Preference", null, null, mTools, this);
 		}
-		
-		//Window Menu
-		JMenu mWindow = new WindowMenu(windowManager, this);
-		menuBar.add(mWindow);
 
 		//      Help
 		JMenu mHelp = AEnv.getMenu("Help");
@@ -377,14 +367,6 @@ public final class AMenu extends CFrame
 		super.dispose();
 		AEnv.exit(0);
 	}	//	dispose
-	
-	public void logout()
-	{
-		windowManager.close();
-		Ini.saveProperties(true);
-		super.dispose();
-		AEnv.logout();
-	}
 
 	/**
 	 *  Window Events - requestFocus
@@ -611,9 +593,6 @@ public final class AMenu extends CFrame
 			wfActivity.display();
 	}	//	stateChanged
 
-	public WindowManager getWindowManager() {
-		return windowManager;
-	}
 	
 	/**************************************************************************
 	 * 	Mouse Listener

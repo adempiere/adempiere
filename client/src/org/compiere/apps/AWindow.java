@@ -49,8 +49,7 @@ public class AWindow extends CFrame
 	/** The GlassPane           */
 	private AGlassPane  	m_glassPane = new AGlassPane();
 	/** Application Window  	*/
-	private APanel			m_APanel = new APanel(this);
-	
+	private APanel			m_APanel = new APanel();
 	/**	Logger					*/
 	private static CLogger 	log = CLogger.getCLogger(AWindow.class);
 

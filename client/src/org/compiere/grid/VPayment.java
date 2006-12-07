@@ -193,13 +193,8 @@ public class VPayment extends CDialog
 	private CLabel bCashBookLabel = new CLabel();
 	private CComboBox bCashBookCombo = new CComboBox();
 	private GridBagLayout tPanelLayout = new GridBagLayout();
-	private CButton tOnline = new CButton();
 	private CLabel kStatus = new CLabel();
-	private CTextField tRoutingField = new CTextField();
-	private CTextField tNumberField = new CTextField();
 	private CLabel tStatus = new CLabel();
-	private CLabel tRoutingText = new CLabel();
-	private CLabel tNumberText = new CLabel();
 	private CLabel sStatus = new CLabel();
 
 	/**
@@ -220,7 +215,7 @@ public class VPayment extends CDialog
 		northPanel.add(paymentCombo, null);
 		//
 		centerPanel.setLayout(centerLayout);
-		//
+		//	CreditCard
 		kPanel.setLayout(kLayout);
 		kNumberField.setPreferredSize(new Dimension(120, 21));
 		kExpField.setPreferredSize(new Dimension(40, 21));
@@ -254,14 +249,9 @@ public class VPayment extends CDialog
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		kPanel.add(kOnline, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		//
+		//	DircetDebit/Credit
 		tPanel.setLayout(tPanelLayout);
 		tAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BP_BankAccount_ID"));
-		tRoutingField.setColumns(8);
-		tNumberField.setColumns(10);
-		tRoutingText.setText(Msg.translate(Env.getCtx(), "RoutingNo"));
-		tNumberText.setText(Msg.translate(Env.getCtx(), "AccountNo"));
-		tOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 		tStatus.setText(" ");
 		centerPanel.add(tPanel, "tPanel");
 		centerLayout.addLayoutComponent(tPanel, "tPanel");
@@ -269,18 +259,8 @@ public class VPayment extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		tPanel.add(tAccountCombo, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		tPanel.add(tRoutingField, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
-		tPanel.add(tNumberField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 5), 0, 0));
 		tPanel.add(tStatus, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		tPanel.add(tRoutingText, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
-		tPanel.add(tNumberText, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
-		tPanel.add(tOnline, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//
 		sPanel.setLayout(sPanelLayout);
 		sBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
@@ -374,7 +354,7 @@ public class VPayment extends CDialog
 	 *		S (Check)		(Currency) CheckNo, Routing
 	 *
 	 *	Currencies are shown, if member of EMU
-	 *  @param button button
+	 *  @param button payment type button
 	 *  @return true if init OK
 	 *  @throws Exception
 	 */
@@ -462,8 +442,6 @@ public class VPayment extends CDialog
 				sCheckField.setText(m_mPayment.getCheckNo());
 				sStatus.setText(m_mPayment.getR_PnRef());
 				//  Transfer
-				tRoutingField.setText(m_mPayment.getRoutingNo());
-				tNumberField.setText(m_mPayment.getAccountNo());
 				tStatus.setText(m_mPayment.getR_PnRef());
 			}
 		}
@@ -529,7 +507,13 @@ public class VPayment extends CDialog
 		Object[] a = values.keySet().toArray();
 		for (int i = 0; i < a.length; i++)
 		{
-			String PaymentRule = (String)a[i];
+			String PaymentRule = (String)a[i];		//	used for Panel selection
+			if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule)			//	SO
+				&& !m_isSOTrx)
+				continue;
+			else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule)	//	PO 
+				&& m_isSOTrx)
+				continue;
 			ValueNamePair pp = new ValueNamePair(PaymentRule, (String)values.get(a[i]));
 			paymentCombo.addItem(pp);
 			if (PaymentRule.toString().equals(m_PaymentRule))	//	to select
@@ -762,7 +746,10 @@ public class VPayment extends CDialog
 			ValueNamePair pp = (ValueNamePair)paymentCombo.getSelectedItem();
 			if (pp != null)
 			{
-				String s = pp.getValue().toLowerCase() + "Panel";
+				String s = pp.getValue().toLowerCase();
+				if (X_C_Order.PAYMENTRULE_DirectDebit.equalsIgnoreCase(s))
+					s = X_C_Order.PAYMENTRULE_DirectDeposit.toLowerCase();
+				s += "Panel";	
 				centerLayout.show(centerPanel, s);	//	switch to panel
 			}
 		}
@@ -785,7 +772,7 @@ public class VPayment extends CDialog
 		}
 
 		//  Online
-		else if (e.getSource() == kOnline || e.getSource() == sOnline || e.getSource() == tOnline)
+		else if (e.getSource() == kOnline || e.getSource() == sOnline)
 			processOnline();
 	}	//	actionPerformed
 
@@ -1022,7 +1009,7 @@ public class VPayment extends CDialog
 		/***********************
 		 *  Payments
 		 */
-		if ("KTSD".indexOf(newPaymentRule) != -1)
+		if ("KS".indexOf(newPaymentRule) != -1)
 		{
 			log.fine("Payment - " + newPaymentRule);
 			//  Set Amount
@@ -1032,12 +1019,6 @@ public class VPayment extends CDialog
 				m_mPayment.setCreditCard(MPayment.TRXTYPE_Sales, newCCType,
 					kNumberField.getText(), "", kExpField.getText());
 				m_mPayment.setPaymentProcessor();
-			}
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit)
-				|| newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
-			{
-				m_mPayment.setBankACH(newC_BankAccount_ID, m_isSOTrx, newPaymentRule, 
-					tRoutingField.getText(), tNumberField.getText());
 			}
 			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Check))
 			{
@@ -1168,28 +1149,20 @@ public class VPayment extends CDialog
 		}
 
 		//	T (Transfer)	BPartner_Bank
-		else if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit)
-			|| PaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
+		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDeposit)
+			|| PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDebit))
 		{
-			tAccountCombo.getSelectedItem();
-			String error = MPaymentValidate.validateRoutingNo(tRoutingField.getText());
-			if (error.length() != 0)
+			KeyNamePair bpba = (KeyNamePair)tAccountCombo.getSelectedItem();
+			if (bpba == null)
 			{
-				tRoutingField.setBackground(AdempierePLAF.getFieldBackground_Error());
-				ADialog.error(m_WindowNo, this, error);
+				tAccountCombo.setBackground(AdempierePLAF.getFieldBackground_Error());
+				ADialog.error(m_WindowNo, this, "PaymentBPBankNotFound");
 				dataOK = false;
 			}
-			error = MPaymentValidate.validateAccountNo(tNumberField.getText());
-			if (error.length() != 0)
-			{
-				tNumberField.setBackground(AdempierePLAF.getFieldBackground_Error());
-				ADialog.error(m_WindowNo, this, error);
-				dataOK = false;
-			}
-		}
+		}	//	Direct
 
 		//	P (PaymentTerm)	PaymentTerm
-		else if (PaymentRule.equals(MOrder.PAYMENTRULE_OnCredit))
+		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
 		{
 			KeyNamePair kp = (KeyNamePair)pTermCombo.getSelectedItem();
 			if (kp != null)
@@ -1241,8 +1214,8 @@ public class VPayment extends CDialog
 				tender = MPayment.TENDERTYPE_DirectDebit;
 			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
 				tender = MPayment.TENDERTYPE_Check;
-			//	ACH & Check must have a bank account
-			if (C_BankAccount_ID == 0 && "TS".indexOf(PaymentRule) != -1)
+			//	Check must have a bank account
+			if (C_BankAccount_ID == 0 && "S".equals(PaymentRule))
 			{
 				ADialog.error(m_WindowNo, this, "PaymentNoProcessor");
 				dataOK = false;

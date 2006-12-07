@@ -111,7 +111,7 @@ public class ReportCtl
 			re.print();
 		}
 		else
-			preview(re);
+			new Viewer(re);
 		return true;
 	}	//	startStandardReport
 
@@ -140,7 +140,7 @@ public class ReportCtl
 		PrintInfo info = new PrintInfo(pi);
 
 		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-		preview(re);
+		new Viewer(re);
 		return true;
 	}	//	startFinReport
 
@@ -167,7 +167,7 @@ public class ReportCtl
 			ReportEngine.printConfirm (type, Record_ID);
 		}
 		else
-			preview(re);
+			new Viewer(re);
 		return true;
 	}	//	StartDocumentPrint
 
@@ -193,10 +193,4 @@ public class ReportCtl
 		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, IsDirectPrint);
 	}	//	startCheckPrint
 	
-	private static void preview(ReportEngine re) {
-		Viewer viewer = new Viewer(re);
-		JFrame top = Env.getWindow(0);
-		if (top instanceof AMenu)
-			((AMenu)top).getWindowManager().add(viewer);
-	}
 }	//	ReportCtl

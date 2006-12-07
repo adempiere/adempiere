@@ -132,16 +132,7 @@ public final class VCellEditor extends AbstractCellEditor
 
 		//  Other UI
 		m_editor.setFont(table.getFont());
-		if ( m_editor instanceof VLookup) {
-			VLookup lookup = (VLookup)m_editor;
-			if (lookup.getComponents()[0] instanceof JComboBox) {
-				lookup.setBorder(BorderFactory.createEmptyBorder());
-			} else {
-				lookup.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-			}
-		} else {
-			m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-		}
+		m_editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
 		//
 		return (Component)m_editor;
 	}	//	getTableCellEditorComponent

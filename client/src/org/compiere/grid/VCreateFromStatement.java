@@ -121,7 +121,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Payment_v p ON (p.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Currency c ON (p.C_Currency_ID=c.C_Currency_ID)"
-			+ " INNER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
+			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
 			+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" // Bug 1564453 Added Voided payment to bank statement payement selection
 			+ " AND p.C_BankAccount_ID=?"                              	//  #2
@@ -239,7 +239,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Currency
 				int C_Currency_ID = pp.getKey();
 				BigDecimal TrxAmt = (BigDecimal)model.getValueAt(i, 4); //  4-PayAmt
-				BigDecimal StmtAmt = (BigDecimal)model.getValueAt(i, 5);//  5-Conv Amt
+			//	BigDecimal StmtAmt = (BigDecimal)model.getValueAt(i, 5);//  5-Conv Amt
 				//
 				log.fine("Line Date=" + trxDate
 					+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);

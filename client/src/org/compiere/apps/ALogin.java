@@ -408,7 +408,6 @@ public final class ALogin extends CDialog
 				connectionOK();		//	first ok
 			else
 			{
-				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				m_okPressed = true;
 				defaultsOK();	//	disposes
 			}
@@ -548,7 +547,7 @@ public final class ALogin extends CDialog
 		m_pwd = new String (passwordField.getPassword());
 
 		//	Establish connection
-		connectToDatabase();
+		DB.setDBTarget(CConnection.get());
 		if (!DB.isConnected())
 		{
 			statusBar.setStatusLine(txt_NoDatabase, true);

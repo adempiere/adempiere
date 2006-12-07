@@ -130,7 +130,7 @@ public final class AppsAction extends AbstractAction
 		//
 		if (accelerator != null)
 		{
-			m_button.getInputMap(CButton.WHEN_IN_FOCUSED_WINDOW).put(accelerator, action);
+			m_button.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(accelerator, action);
 			m_button.getActionMap().put(action, this);
 		}
 	}	//	Action
@@ -159,8 +159,8 @@ public final class AppsAction extends AbstractAction
 	 */
 	private ImageIcon getIcon(String name, boolean small)
 	{
-		String fullName = name + (small ? "16" : "24");
-		return Env.getImageIcon2(fullName);
+		String fullName = name + (small ? "16.gif" : "24.gif");
+		return Env.getImageIcon(fullName);
 	}	//	getIcon
 
 	/**

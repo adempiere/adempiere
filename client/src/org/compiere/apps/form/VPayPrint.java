@@ -45,7 +45,7 @@ public class VPayPrint extends CPanel
 	 */
 	public void init (int WindowNo, FormFrame frame)
 	{
-		log.info( "VPayPrint.init");
+		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
 		try
@@ -440,7 +440,8 @@ public class VPayPrint extends CPanel
 
 		if (ADialog.ask(m_WindowNo, this, "VPayPrintSuccess?"))
 		{
-			int lastDocumentNo = MPaySelectionCheck.confirmPrint (m_checks, m_batch);
+		//	int lastDocumentNo = 
+			MPaySelectionCheck.confirmPrint (m_checks, m_batch);
 			//	document No not updated
 		}
 		dispose();
@@ -467,7 +468,6 @@ public class VPayPrint extends CPanel
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
 			return;
-
 
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
@@ -535,7 +535,7 @@ public class VPayPrint extends CPanel
 		//
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		//	get Checks
+		//	get Slecetions
 		m_checks = MPaySelectionCheck.get(C_PaySelection_ID, PaymentRule, startDocumentNo, null);
 
 		this.setCursor(Cursor.getDefaultCursor());

@@ -206,22 +206,11 @@ public class AMenuStartItem extends Thread implements ActionListener
 		 */
 		private void startWindow(int AD_Workbench_ID, int AD_Window_ID)
 		{
-			AWindow frame = (AWindow)Env.showWindow(AD_Window_ID); 
-			if (frame != null) {
-				m_menu.getWindowManager().add(frame);
+			if (Env.showWindow(AD_Window_ID))
 				return;
-			}
-			
-			if (Ini.isPropertyBool(Ini.P_SINGLE_INSTANCE_PER_WINDOW)) {
-				frame = m_menu.getWindowManager().find(AD_Window_ID);
-				if ( frame != null ) {
-					frame.toFront();
-					return;
-				}
-			}
 			
 			SwingUtilities.invokeLater(m_updatePB);			//	1
-			frame = new AWindow();
+			AWindow frame = new AWindow();
 			boolean OK = false;
 			if (AD_Workbench_ID != 0)
 				OK = frame.initWorkbench(AD_Workbench_ID);
@@ -232,19 +221,10 @@ public class AMenuStartItem extends Thread implements ActionListener
 
 			SwingUtilities.invokeLater(m_updatePB);			//	2
 			frame.pack();
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) )
-				frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-			
+
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
-				frame.setVisible(true);
-				frame.toFront();
-			} else
-				AEnv.showCenterScreen(frame);
-			
-			m_menu.getWindowManager().add(frame);
-			
+			AEnv.showCenterScreen(frame);
 //			if (wfPanel.isVisible())
 //				m_WF_Window = frame;            //  maintain one reference
 			frame = null;
@@ -267,11 +247,8 @@ public class AMenuStartItem extends Thread implements ActionListener
 			if (!pd.init())
 				return;
 			m_timer.start();
-			m_menu.getWindowManager().add(pd);
 
 			SwingUtilities.invokeLater(m_updatePB);			//	2
-			pd.getContentPane().invalidate();
-			pd.getContentPane().validate();
 			pd.pack();
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
@@ -306,7 +283,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 			return;
 
 		SwingUtilities.invokeLater(m_updatePB);			//	2
-		m_menu.getWindowManager().add(new ATask(m_name, task));
+		new ATask(m_name, task);
 	//	ATask.start(m_name, task);
 	}	//	startTask
 
@@ -316,29 +293,14 @@ public class AMenuStartItem extends Thread implements ActionListener
 	 */
 	private void startForm (int AD_Form_ID)
 	{
-		FormFrame ff = null;
-		if (Ini.isPropertyBool(Ini.P_SINGLE_INSTANCE_PER_WINDOW)) {
-			ff = m_menu.getWindowManager().findForm(AD_Form_ID);
-			if ( ff != null ) {
-				ff.toFront();
-				return;
-			}
-		}
-		ff = new FormFrame();
-		m_menu.getWindowManager().add(ff);
+		FormFrame ff = new FormFrame();
 		SwingUtilities.invokeLater(m_updatePB);			//	1
 		ff.openForm(AD_Form_ID);
 		SwingUtilities.invokeLater(m_updatePB);			//	2
-		
+		ff.pack();
 		//	Center the window
 		SwingUtilities.invokeLater(m_updatePB);			//	3
-		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
-			ff.pack();
-			ff.setExtendedState(Frame.MAXIMIZED_BOTH);
-			ff.setVisible(true);
-			ff.toFront();
-		} else
-			AEnv.showCenterScreen(ff);
+		AEnv.showCenterScreen(ff);
 	}	//	startForm
 
 }	//	StartItem

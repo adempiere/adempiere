@@ -137,6 +137,7 @@ public class VPaySelect extends CPanel
 		bRefresh.addActionListener(this);
 		labelPayDate.setText(Msg.translate(Env.getCtx(), "PayDate"));
 		labelPaymentRule.setText(Msg.translate(Env.getCtx(), "PaymentRule"));
+		fieldPaymentRule.addActionListener(this);
 		//
 		labelBankBalance.setText(Msg.translate(Env.getCtx(), "CurrentBalance"));
 		labelBalance.setText("0");
@@ -237,8 +238,11 @@ public class VPaySelect extends CPanel
 			"SELECT bp.C_BPartner_ID, bp.Name FROM C_BPartner bp", "bp", 
 			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
 			+ " AND EXISTS (SELECT * FROM C_Invoice i WHERE bp.C_BPartner_ID=i.C_BPartner_ID"
-			  + " AND i.IsSOTrx='N' AND i.IsPaid<>'Y') "
+			//	X_C_Order.PAYMENTRULE_DirectDebit
+			  + " AND (i.IsSOTrx='N' OR (i.IsSOTrx='Y' AND i.PaymentRule='D'))"
+			  + " AND i.IsPaid<>'Y') "
 			+ "ORDER BY 2";
+
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -278,7 +282,7 @@ public class VPaySelect extends CPanel
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 			//  0..4
 			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
-			new ColumnInfo(Msg.translate(ctx, "DateDue"), "i.DateInvoiced+p.NetDays AS DateDue", Timestamp.class, true, true, null),
+			new ColumnInfo(Msg.translate(ctx, "DueDate"), "i.DateInvoiced+p.NetDays AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
 			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
@@ -295,7 +299,7 @@ public class VPaySelect extends CPanel
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID)"
 			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)",
 			//	WHERE
-			"i.IsSOTrx='N' AND IsPaid='N'"
+			"i.IsSOTrx=? AND IsPaid='N'"
 			//	Different Payment Selection 
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
 				+ " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.C_PaySelectionCheck_ID IS NOT NULL)"
@@ -371,6 +375,14 @@ public class VPaySelect extends CPanel
 		log.config("PayDate=" + payDate);
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
 		//
+		String isSOTrx = "N";
+		ValueNamePair vp = (ValueNamePair)fieldPaymentRule.getSelectedItem();
+		if (vp != null && X_C_Order.PAYMENTRULE_DirectDebit.equals(vp.getValue()))
+		{
+			isSOTrx = "Y";
+			sql += " AND i.PaymentRule='" + X_C_Order.PAYMENTRULE_DirectDebit + "'";
+		}
+		//
 		if (onlyDue.isSelected())
 			sql += " AND i.DateInvoiced+p.NetDays <= ?";
 		//
@@ -393,7 +405,8 @@ public class VPaySelect extends CPanel
 			pstmt.setTimestamp(index++, payDate);		//	PayAmt
 			pstmt.setInt(index++, bi.C_Currency_ID);
 			pstmt.setTimestamp(index++, payDate);
-			pstmt.setInt(index++, m_AD_Client_ID);		//	
+			pstmt.setString(index++, isSOTrx);			//	IsSOTrx	
+			pstmt.setInt(index++, m_AD_Client_ID);		//	Client	
 			if (onlyDue.isSelected())
 				pstmt.setTimestamp(index++, payDate);
 			if (C_BPartner_ID != 0)
@@ -513,7 +526,9 @@ public class VPaySelect extends CPanel
 
 		//  Create Header
 		m_ps = new MPaySelection(Env.getCtx(), 0, trxName);
-		m_ps.setName (Msg.getMsg(Env.getCtx(), "VPaySelect") + " - " + fieldPayDate.getTimestamp());
+		m_ps.setName (Msg.getMsg(Env.getCtx(), "VPaySelect")
+				+ " - " + ((ValueNamePair)fieldPaymentRule.getSelectedItem()).getName()
+				+ " - " + fieldPayDate.getTimestamp());
 		m_ps.setPayDate (fieldPayDate.getTimestamp());
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
 		m_ps.setC_BankAccount_ID(bi.C_BankAccount_ID);
@@ -557,9 +572,10 @@ public class VPaySelect extends CPanel
 		if (!ADialog.ask(m_WindowNo, this, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
 			return;
 
-		//  Prepare Process PaySelectionCreateCheck
-		ProcessInfo pi = new ProcessInfo (m_frame.getTitle(), 155,
-			MPaySelection.Table_ID, m_ps.getC_PaySelection_ID());
+		//  Prepare Process 
+		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
+		ProcessInfo pi = new ProcessInfo (m_frame.getTitle(), AD_Proces_ID,
+			X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID());
 		pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 
@@ -606,7 +622,6 @@ public class VPaySelect extends CPanel
 		//
 		ff.pack();
 		this.setVisible(false);
-		AEnv.addToWindowManager(ff);
 		AEnv.showCenterScreen(ff);
 		this.dispose();
 	}   //  unlockUI

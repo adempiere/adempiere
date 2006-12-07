@@ -52,11 +52,9 @@ public final class APanel extends CPanel
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
 	 */
-	public APanel(AWindow window)
+	public APanel()
 	{
 		super();
-		m_window = window;
-		
 		m_ctx = Env.getCtx();
 		//
 		try
@@ -72,8 +70,6 @@ public final class APanel extends CPanel
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(APanel.class);
-	
-	private AWindow m_window;
 	
 	/**
 	 *	Dispose
@@ -148,8 +144,6 @@ public final class APanel extends CPanel
 		this.add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(northLayout);
 		northLayout.setAlignment(FlowLayout.LEFT);
-		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
-		toolBar.setBorderPainted(false);
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
@@ -186,7 +180,6 @@ public final class APanel extends CPanel
 		aPrint = 	addAction("Print",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),	false);
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
-		aLogout = 	addAction("Logout", 		mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), false);
 		aExit =		addAction("Exit",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.SHIFT_MASK+Event.ALT_MASK),	false);
 		//								Edit
 		JMenu mEdit = AEnv.getMenu("Edit");
@@ -256,12 +249,6 @@ public final class APanel extends CPanel
 			mTools.addSeparator();
 			aPreference = addAction("Preference",	mTools, 	null,	false);
 		}
-		
-		//Window
-		AMenu aMenu = (AMenu)Env.getWindow(0);
-		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), m_window);
-		menuBar.add(mWindow);
-		
 		//								Help
 		JMenu mHelp = AEnv.getMenu("Help");
 		menuBar.add(mHelp);
@@ -330,10 +317,10 @@ public final class APanel extends CPanel
 		if (menu != null)
 			menu.add(action.getMenuItem());
 		action.setDelegate(this);
-		AbstractButton b = action.getButton();
-		String s = null;
-		if (b != null)
-			s = b.getToolTipText();
+	//	AbstractButton b = action.getButton();
+	//	String s = null;
+	//	if (b != null)
+	//		s = b.getToolTipText();
 		
 		//	Key Strokes
 		if (accelerator != null)
@@ -634,7 +621,7 @@ public final class APanel extends CPanel
 		}   //  Workbench Loop
 
 		//  stateChanged (<->) triggered
-		toolBar.setName(getTitle());	
+		toolBar.setName(getTitle());
 		m_curTab.getTableModel().setChanged(false);
 		//	Set Detail Button
 		aDetail.setEnabled(0 != m_curWinTab.getTabCount()-1);
@@ -825,7 +812,8 @@ public final class APanel extends CPanel
 		aSave.setEnabled(changed && !readOnly);
 		//
 		//	No Rows
-		if (e.getTotalRows() == 0 && insertRecord) {
+		if (e.getTotalRows() == 0 && insertRecord)
+		{
 			aNew.setEnabled(true);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
@@ -931,8 +919,6 @@ public final class APanel extends CPanel
 		VTabbedPane tp = (VTabbedPane)e.getSource();
 		boolean back = false;
 		boolean isAPanelTab = false;
-		
-		int previousIndex = 0;
 
 		//  Workbench Tab Change
 		if (tp.isWorkbench())
@@ -960,8 +946,6 @@ public final class APanel extends CPanel
 			log.info("Tab=" + tp);
 			m_curWinTab = tp;
 			int tpIndex = m_curWinTab.getSelectedIndex();
-			//	detect no tab change
-			if (tpIndex == m_curTabIndex) return;
 			back = tpIndex < m_curTabIndex;
 			GridController gc = null;
 			if (m_curWinTab.getSelectedComponent() instanceof GridController)
@@ -1017,7 +1001,6 @@ public final class APanel extends CPanel
 		//	if (m_curTabIndex >= 0)
 		//		m_curWinTab.setForegroundAt(m_curTabIndex, AdempierePLAF.getTextColor_Normal());
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
-			previousIndex = m_curTabIndex;
 			m_curTabIndex = tpIndex;
 			if (!isAPanelTab)
 				m_curGC = gc;
@@ -1042,14 +1025,6 @@ public final class APanel extends CPanel
 			{
 				MRole role = MRole.getDefault(); 
 				m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
-				if (m_curGC.isNeedToSaveParent())
-				{
-					// there is a problem, so we go back
-					ADialog.error(m_curWindowNo, this, "SaveParentFirst");
-					m_curWinTab.setSelectedIndex(previousIndex);
-					setBusy(false, true);
-					return;
-				}
 			}
 
 			//  Set initial record
@@ -1262,8 +1237,6 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHelp.getName()))
 				cmd_help();
 			//  General Commands (Environment)
-			else if (cmd.equals(aLogout.getName()))
-				cmd_logout();
 			else if (!AEnv.actionPerformed (e.getActionCommand(), m_curWindowNo, this))
 				log.log(Level.SEVERE, "No action for: " + cmd);
 		}
@@ -1280,15 +1253,6 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		setBusy(false, true);
 	}	//	actionPerformed
-
-	private void cmd_logout() {
-		JFrame top = Env.getWindow(0);
-		if (top instanceof AMenu) {
-			((AMenu)top).logout();
-		}
-		
-	}
-
 
 	/**
 	 *  Create New Record
@@ -1373,7 +1337,8 @@ public final class APanel extends CPanel
 			Arrays.sort(indices);
 			int offset = 0;
 			for (int i = 0; i < indices.length; i++) {
-				m_curTab.setCurrentRow(indices[i]-offset);
+				//m_curTab.setCurrentRow(indices[i]-offset);
+                                m_curTab.navigate(indices[i]-offset);
 				int keyID = m_curTab.getRecord_ID();
 				if (m_curTab.dataDelete()){
 						m_curGC.rowChanged(false, keyID);
@@ -1398,7 +1363,6 @@ public final class APanel extends CPanel
 		log.config("Manual=" + manualCmd);
 		m_errorDisplayed = false;
 		m_curGC.stopEditor(true);
-		boolean saveOK = true;
 
 		if (m_curAPanelTab != null)
 		{
@@ -1578,6 +1542,8 @@ public final class APanel extends CPanel
 		int table_ID = m_curTab.getAD_Table_ID();
 		int record_ID = m_curTab.getRecord_ID();
 		ProcessInfo pi = new ProcessInfo (getTitle(), AD_Process_ID, table_ID, record_ID);
+		pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
+		pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
 
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
 	}   //  cmd_print
@@ -1621,7 +1587,8 @@ public final class APanel extends CPanel
 			return;
 		}
 
-		Attachment va = new Attachment (Env.getFrame(this), m_curWindowNo,
+	//	Attachment va = 
+		new Attachment (Env.getFrame(this), m_curWindowNo,
 			m_curTab.getAD_AttachmentID(), m_curTab.getAD_Table_ID(), record_ID, null);
 		//
 		m_curTab.loadAttachments();				//	reload
@@ -1656,7 +1623,8 @@ public final class APanel extends CPanel
 		}
 		String description = infoName + ": " + infoDisplay;
 		//
-		AChat va = new AChat (Env.getFrame(this), m_curWindowNo,
+	//	AChat va = 
+		new AChat (Env.getFrame(this), m_curWindowNo,
 			m_curTab.getCM_ChatID(), m_curTab.getAD_Table_ID(), record_ID, 
 			description, null);
 		//

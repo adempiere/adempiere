@@ -184,7 +184,6 @@ public class ARequest implements ActionListener
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
-		AEnv.addToWindowManager(frame);
 		//	New - set Table/Record
 		if (e.getSource() == m_new)
 		{

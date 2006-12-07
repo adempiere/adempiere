@@ -379,7 +379,7 @@ public class VLocator extends JComponent
 		if (getOnly_Product_ID() != 0)
 			sql.append(" AND (IsDefault='Y' ")	//	Default Locator
 				.append("OR EXISTS (SELECT * FROM M_Product p ")	//	Product Locator
-				.append("WHERE p.M_Locator_ID=M_Locator.M_Locator_ID AND s.M_Product_ID=?)")
+				.append("WHERE p.M_Locator_ID=M_Locator.M_Locator_ID AND p.M_Product_ID=?)")
 				.append("OR EXISTS (SELECT * FROM M_Storage s ")	//	Storage Locator
 				.append("WHERE s.M_Locator_ID=M_Locator.M_Locator_ID AND s.M_Product_ID=?))");
 		String finalSql = MRole.getDefault(Env.getCtx(), false).addAccessSQL(
@@ -451,7 +451,6 @@ public class VLocator extends JComponent
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, null))
 			return;
-		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
 		setCursor(Cursor.getDefaultCursor());
