@@ -367,7 +367,7 @@ public class ConfigOracle extends Config
 		{
 			String sqlplus = "sqlplus system/" + systemPassword + "@" 
 				+ databaseServer.getHostName() + "/" + databaseName
-				+ "/utils/oracle/Test.sql";
+				+ " @utils/oracle/Test.sql";
 			log.config(sqlplus);
 			pass = testSQL(sqlplus);
 			error = "Error connecting via: " + sqlplus;
