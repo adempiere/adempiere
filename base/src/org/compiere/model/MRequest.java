@@ -929,6 +929,8 @@ public class MRequest extends X_R_Request
 			setR_StandardResponse_ID(0);
 			setR_MailText_ID(0);
 			setResult(null);
+			// globalqss - these fields must be cleared (waiting to open bug in sf)
+		//	setM_ProductSpent_ID(0);
 		//	setQtySpent(null);
 		//	setQtyInvoiced(null);
 		}

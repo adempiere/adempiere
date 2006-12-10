@@ -95,6 +95,9 @@ public class RequestInvoice extends SvrProcess
 			+ " INNER JOIN R_Status s ON (r.R_Status_ID=s.R_Status_ID) "
 			+ "WHERE s.IsClosed='Y'"
 			+ " AND r.R_RequestType_ID=?";
+			// globalqss -- avoid double invoicing
+			// + " AND EXISTS (SELECT 1 FROM R_RequestUpdate ru " +
+			//		"WHERE ru.R_Request_ID=r.R_Request_ID AND NVL(C_InvoiceLine_ID,0)=0";
 		if (p_R_Group_ID != 0)
 			sql += " AND r.R_Group_ID=?";
 		if (p_R_Category_ID != 0)
@@ -204,6 +207,8 @@ public class RequestInvoice extends SvrProcess
 			BigDecimal qty = updates[i].getQtyInvoiced();
 			if (qty == null || qty.signum() == 0)
 				continue;
+			// if (updates[i].getC_InvoiceLine_ID() > 0)
+			//	continue;
 			
 			MInvoiceLine il = new MInvoiceLine(m_invoice);
 			m_linecount++;
@@ -218,6 +223,8 @@ public class RequestInvoice extends SvrProcess
 			//
 			il.setPrice();
 			il.save();
+			// updates[i].setC_InvoiceLine_ID(il.getC_InvoiceLine_ID());
+			// updates[i].save();
 		}
 	}	//	invoiceLine
 	
