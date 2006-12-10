@@ -26,6 +26,9 @@ import com.jgoodies.looks.plastic.theme.*;
  *
  * @author vpj-cd
  * @version $Revision: 1.0 $
+ * @author Low Heng Sin
+ * - Fixed invisible disactive component issue
+ * - Use red instead of green as background for error field
  */
 public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 
@@ -79,13 +82,10 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 	/** Black                   */
 	public final ColorUIResource secondary0 = new ColorUIResource(0, 0, 0);
 	/** Gray 102, 102, 102      */
-	//protected static ColorUIResource secondary1;
 	public static ColorUIResource secondary1= new ColorUIResource(190, 179, 153);
 	/** Gray 153, 153, 153      */
-	//protected static ColorUIResource secondary2;
-	public static ColorUIResource secondary2= new ColorUIResource(246, 239, 224);
+	public static ColorUIResource secondary2= new ColorUIResource(196, 189, 174);
 	/** BlueGray 214, 224, 234 - background */
-	//protected static ColorUIResource secondary3;
 	public static ColorUIResource secondary3=  new ColorUIResource(251, 248, 241);
 	/** White                   */
 	public final ColorUIResource secondary4 = new ColorUIResource(255, 255, 255);
@@ -97,8 +97,9 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 
 	/** Background for mandatory fields */
 	public static ColorUIResource mandatory =  new ColorUIResource(233, 238, 245); // blueish 
-	/** Background for fields in error 180,220,143  */
-	public static ColorUIResource error = new ColorUIResource(220, 241, 203); // green ;
+	/** Background for fields in error */
+	//Gree for error is confusing new ColorUIResource(220, 241, 203); // green ;
+	public static ColorUIResource error = new ColorUIResource(255, 204, 204); //  red-isch
 	/** Background for inactive fields  */
 	public static ColorUIResource inactive = new ColorUIResource(241,239,222); //234, 234, 234); 
 	/** Background for info fields      */
