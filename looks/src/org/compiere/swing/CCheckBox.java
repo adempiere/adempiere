@@ -13,7 +13,6 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- * Contributor(s): kisitomomo                                                 *
  *****************************************************************************/
 package org.compiere.swing;
 
@@ -22,17 +21,14 @@ import java.awt.Color;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
-import org.compiere.plaf.*;
+
+import org.adempiere.plaf.AdempierePLAF;
 
 /**
  *  Adempiere CheckBox
  *
  *  @author     Jorg Janke
  *  @version    $Id: CCheckBox.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
- *  
- *  globalqss: integrate kisitomomo patch
- *     [ 1612136 ] checkbox look and feel improved
- *     https://sourceforge.net/tracker/index.php?func=detail&aid=1612136&group_id=176962&atid=879334
  */
 public class CCheckBox extends JCheckBox implements CEditor
 {
@@ -43,7 +39,6 @@ public class CCheckBox extends JCheckBox implements CEditor
 	{
 		super ();
 		init();
-		setUI(new CompiereCheckBoxUI()); //kisito code	
 	}
 
 	/**
@@ -204,7 +199,6 @@ public class CCheckBox extends JCheckBox implements CEditor
 	 *  Set Background
 	 *  @param bg
 	 */
-	@Override
 	public void setBackground (Color bg)
 	{
 		if (bg.equals(getBackground()))
@@ -299,12 +293,6 @@ public class CCheckBox extends JCheckBox implements CEditor
 		}
 		return text;
 	}   //  createMnemonic
-/*	@Override
-	public Icon  getIcon() {
-		return null;
-	}
-*/
+
 	
 }   //  CCheckBox
-
- 	  	 
