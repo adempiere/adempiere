@@ -192,7 +192,8 @@ public class Secure implements SecureInterface
 			}
 			catch (Exception ex)
 			{
-				log.log(Level.INFO, value, ex);
+				// log.log(Level.INFO, value, ex);
+				log.log(Level.INFO, "Problem encrypting string", ex);
 			}
 		}
 		//	Fallback
@@ -218,7 +219,8 @@ public class Secure implements SecureInterface
 		{
 			if (isEncrypted)
 			{
-				log.info("Failed: " + value);
+				// log.info("Failed: " + value);
+				log.info("Failed");
 				return null;
 			}
 			//	assume not encrypted
@@ -243,7 +245,8 @@ public class Secure implements SecureInterface
 			}
 			catch (Exception ex)
 			{
-				log.info("Failed: " + value + " - " + ex.toString());
+				// log.info("Failed: " + value + " - " + ex.toString());
+				log.info("Failed decrypting " + ex.toString());
 			}
 		}
 		return null;
