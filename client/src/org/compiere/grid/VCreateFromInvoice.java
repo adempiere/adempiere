@@ -188,9 +188,9 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 		//
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT "	//	QtyEntered
-			+ "l.MovementQty-SUM(NVL(mi.Qty,0)),l.QtyEntered/l.MovementQty,"
-			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//  3..4
-			+ " l.M_Product_ID,p.Name, l.M_InOutLine_ID,l.Line,"        //  5..8
+			+ "l.MovementQty-SUM(NVL(mi.Qty, 0)), l.QtyEntered/l.MovementQty,"
+			+ " l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name),"			//  3..4
+			+ " l.M_Product_ID, p.Name, l.M_InOutLine_ID, l.Line,"        //  5..8
 			+ " l.C_OrderLine_ID ");                             		//  9
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
 		{
@@ -204,10 +204,10 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 		}
 		sql.append(" AND l.M_Product_ID=p.M_Product_ID")
 			.append(" AND l.M_InOutLine_ID=mi.M_InOutLine_ID(+)")
-			.append("AND l.M_InOut_ID=? ")					//  #1
-			.append("GROUP BY l.MovementQty,l.QtyEntered/l.MovementQty,"
-				+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"
-				+ "l.M_Product_ID,p.Name, l.M_InOutLine_ID,l.Line,l.C_OrderLine_ID ")
+			.append(" AND l.M_InOut_ID=? ")					//  #1
+			.append("GROUP BY l.MovementQty, l.QtyEntered/l.MovementQty, "
+				+ "l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name), "
+				+ "l.M_Product_ID, p.Name, l.M_InOutLine_ID, l.Line, l.C_OrderLine_ID ")
 			.append("ORDER BY l.Line");
 
 		try
