@@ -272,19 +272,21 @@ public class MSequence extends X_AD_Sequence
 				+ " FOR UPDATE OF AD_Sequence ";						
 			USE_PROCEDURE=false;
 		}	
-		else		
-		//String selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "
-			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "	
-                //end vpj-cd e-evolution 09/02/2005	PostgreSQL
-			+ "FROM AD_Sequence "
-			+ "WHERE Name=?"
-			+ " AND AD_Client_ID IN (0,?)"
-			+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
-		if (!DB.isDerby()&&!DB.isDB2())
-			selectSQL += " ORDER BY AD_Client_ID DESC ";
 		else
-		//	selectSQL += " FOR UPDATE OF CurrentNext, CurrentNextSys ";   //jz for update , no order by, 10.216 no need
-			selectSQL +=  "FOR UPDATE";
+		{
+			//String selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "	
+				//end vpj-cd e-evolution 09/02/2005	PostgreSQL
+				+ "FROM AD_Sequence "
+				+ "WHERE Name=?"
+				+ " AND AD_Client_ID IN (0,?)"
+				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
+			if (!DB.isDerby()&&!DB.isDB2())
+				selectSQL += " ORDER BY AD_Client_ID DESC ";
+			else
+				//	selectSQL += " FOR UPDATE OF CurrentNext, CurrentNextSys ";   //jz for update , no order by, 10.216 no need
+				selectSQL +=  "FOR UPDATE";
+		}
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		Trx trx = trxName == null ? null : Trx.get(trxName, true);
