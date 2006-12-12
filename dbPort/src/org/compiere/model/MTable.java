@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Carlos Ruiz - globalqss                                    *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -573,4 +574,30 @@ public class MTable extends X_AD_Table
 		return sb.toString();
 	}	//	getSQLCreate
 	
+	// globalqss
+	/**
+	 * 	Grant independence to GenerateModel from AD_Table_ID
+	 *	@param String tableName
+	 *	@return int retValue
+	 */
+	public static int getTable_ID(String tableName) {
+		int retValue = 0;
+		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setString(1, tableName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
+
 }	//	MTable

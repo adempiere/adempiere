@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Carlos Ruiz - globalqss                                    *
  *****************************************************************************/
 package org.compiere.util;
 
@@ -28,6 +29,9 @@ import org.compiere.*;
  *
  *  @author Jorg Janke
  *  @version $Id: GenerateModel.java,v 1.5 2006/07/30 00:54:36 jjanke Exp $
+ *  
+ *  globalqss - Grant independence to GenerateModel from AD_Table_ID
+ *  globalqss - Filter by table (LIKE)
  */
 public class GenerateModel
 {
@@ -173,11 +177,15 @@ public class GenerateModel
 			+ "}"	//	Load Constructor End
 			//
 			+ "/** AD_Table_ID=").append(AD_Table_ID).append(" */\n"
-			+ "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
+			// globalqss - Grant independence to GenerateModel from AD_Table_ID
+			// + "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
+			+ "public static final int Table_ID=MTable.getTable_ID(\"").append(tableName).append("\");\n"
 			//	
 			+ "/** TableName=").append(tableName).append(" */\n"
 			+ "public static final String Table_Name=\"").append(tableName).append("\";\n"
-			+ "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");\n"
+			// globalqss
+			// + "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");\n"
+			+ "protected static KeyNamePair Model = new KeyNamePair(Table_ID,\"").append(tableName).append("\");\n" 
 			//	
 			+ "protected BigDecimal accessLevel = new BigDecimal(").append(accessLevel).append(");"
 			+ "/** AccessLevel\n@return ").append(accessLevelInfo).append("\n*/\n"
@@ -764,7 +772,7 @@ public class GenerateModel
 		log.info("Directory: " + directory);
 		
 		//	second parameter
-		String packageName = "adempiere.model";
+		String packageName = "compiere.model";
 		if (args.length > 1)
 			packageName = args[1]; 
 		if (packageName == null || packageName.length() == 0)
@@ -788,12 +796,21 @@ public class GenerateModel
 		log.info(sql.toString());
 		log.info("----------------------------------");
 		
+		// globalqss - add filter LIKE table
+		String tableLike = "'%'";	//	All tables
+		if (args.length > 3)
+			tableLike = args[3];
+		log.info("Table Like: " + tableLike);
+		
 		//	complete sql
 		sql.insert(0, "SELECT AD_Table_ID "
 			+ "FROM AD_Table "
 			+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')"	//	special views
 			+ " OR IsView='N')"
 			+ " AND TableName NOT LIKE '%_Trl' AND ");
+		// globalqss
+		sql.append(" AND TableName LIKE ").append(tableLike);
+		// 
 		sql.append(" ORDER BY TableName");
 		
 		//
