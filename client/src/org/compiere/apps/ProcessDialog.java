@@ -38,6 +38,8 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: ProcessDialog.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author		Low Heng Sin
+ *  - Merge process parameter dialog into process dialog.
  */
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
@@ -306,6 +308,10 @@ public class ProcessDialog extends CFrame
 		bOK.setEnabled(true);
 		this.setEnabled(true);
 		m_isLocked = false;
+		
+		//no longer needed, hide to give more space to display log
+		parameterPanel.setVisible(false);
+		this.pack();
 		//
 		afterProcessTask();
 		//	Close automatically
