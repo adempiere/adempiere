@@ -4,7 +4,7 @@
 	href = "$$context/adempiere.jnlp">  
 	<information>
 		<title>Adempiere Client 3.1.2 $$context</title>
-		<vendor>ComPiere, Inc.</vendor>
+		<vendor>ADempiere, Inc.</vendor>
 		<homepage href = "http://www.adempiere.org"/>
 		<offline-allowed/>
 		<description>Adempiere ERP+CRM ($$context) - Smart Business Solution for Distribution and Service - globally</description>

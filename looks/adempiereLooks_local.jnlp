@@ -6,7 +6,7 @@
 	href="adempiereLooks_local.jnlp">
   <information>
     <title>Adempiere Looks Local</title>
-    <vendor>ComPiere, Inc.</vendor>
+    <vendor>ADempiere, Inc.</vendor>
     <homepage href="http://main/index.html" />
     <offline-allowed />
     <description>Adempiere Looks - Pluggable Look and Feel for Java (Local)</description>
