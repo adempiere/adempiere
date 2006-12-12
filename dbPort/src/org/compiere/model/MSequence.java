@@ -715,7 +715,8 @@ public class MSequence extends X_AD_Sequence
 	/**	Start Number			*/
 	public static final int		INIT_NO = 1000000;	//	1 Mio
 	/**	Start System Number		*/
-	public static final int		INIT_SYS_NO = 100;	
+	// public static final int		INIT_SYS_NO = 100; // start number for Compiere	
+	public static final int		INIT_SYS_NO = 50000;   // start number for Adempiere
 	/** Static Logger			*/
 	private static CLogger 		s_log = CLogger.getCLogger(MSequence.class);
 	
