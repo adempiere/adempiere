@@ -597,7 +597,7 @@ class DataSourceImpl implements DataSource {
 	}
 
 	public void setMaxConnections(int arg0) {
-		impl.setMaxConnections(arg0);
+		impl.setMaxPoolSize(arg0);
 	}
 
 	public void setMaxIdleTime(int arg0) {

@@ -67,7 +67,7 @@ public class PostgresConvertTest
 				" 'ropa de cache para damas' FROM DUAL");
         try
         {
-        	PreparedStatement pstmt = DB.prepareStatement(sql.toString());
+        	PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
         	ResultSet rs = pstmt.executeQuery();
         }
         catch(SQLException e) 

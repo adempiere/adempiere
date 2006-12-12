@@ -82,7 +82,7 @@ public class M_Product_Category_Acct_Copy extends SvrProcess
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -102,7 +102,7 @@ public class M_Product_Category_Acct_Copy extends SvrProcess
 			           +   "AND EXISTS (SELECT * FROM M_Product p "
 			           +     "WHERE p.M_Product_ID=M_Product_Acct.M_Product_ID "
 			           +       "AND p.M_Product_Category_ID= " + rs.getInt("M_PRODUCT_CATEGORY_ID") + ")";
-				cntu = DB.executeUpdate(sqlupd);
+				cntu = DB.executeUpdate(sqlupd, get_TrxName());
 				totu += cntu;
 				// Insert new Products
 				sqlins = "INSERT INTO M_Product_Acct "
@@ -126,7 +126,7 @@ public class M_Product_Category_Acct_Copy extends SvrProcess
 			           +   "AND NOT EXISTS (SELECT * FROM M_Product_Acct pa "
 			           +     "WHERE pa.M_Product_ID=p.M_Product_ID "
 			           +       "AND pa.C_AcctSchema_ID=" + rs.getInt("C_ACCTSCHEMA_ID") + ")";
-				cnti = DB.executeUpdate(sqlins);
+				cnti = DB.executeUpdate(sqlins, get_TrxName());
 				toti += cnti;
 				log.info("Product = " + cntu + " / " + cnti);
 			}
