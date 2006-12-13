@@ -738,7 +738,7 @@ public class MMatchPO extends X_M_MatchPO
 	public static void consolidate(Properties ctx)
 	{
 		String sql = "SELECT * FROM M_MatchPO po "
-			+ "WHERE EXISTS (SELECT * FROM M_MatchPO x "
+			+ "WHERE EXISTS (SELECT 1 FROM M_MatchPO x "
 				+ "WHERE po.C_OrderLine_ID=x.C_OrderLine_ID AND po.Qty=x.Qty "
 				+ "GROUP BY C_OrderLine_ID, Qty "
 				+ "HAVING COUNT(*) = 2) "
