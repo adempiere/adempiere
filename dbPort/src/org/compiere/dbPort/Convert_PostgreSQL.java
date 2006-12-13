@@ -28,7 +28,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.StringTokenizer;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Util;
@@ -1043,10 +1043,10 @@ public class Convert_PostgreSQL extends Convert_SQL92
 	 *  @param sqlStatement
 	 *  @return converted statement
 	 */
-        /*
+        
 	private String convertUpdate(String sqlStatement)
 	{		
-		
+	     //return sqlStatement;
              if(DB.isPostgreSQL())
              {    
                 String sqlUpdate = sqlStatement;		
@@ -1068,17 +1068,20 @@ public class Convert_PostgreSQL extends Convert_SQL92
 				//String firstPart = statement.substring(0,index);
 				
 				begintable = sqlUpdate.indexOf(' ', 6 );
+                               
 				
 				//  begin the opening ' ' begin Alias 
 				begin = sqlUpdate.indexOf(' ', 7 );
 				//statement = statement.substring(begin);
+                              
 				
 				//  end Alias 
 				
 				end = sqlUpdate.toUpperCase().indexOf(" SET", 0 ); //statement.indexOf("SET", 0 )			
 			}		
 			
-			String table = sqlUpdate.substring(begintable,begin).trim();
+			//String table = sqlUpdate.substring(begintable,begin).trim();
+                        String table = sqlUpdate.substring(begin,end).trim();
                        
 			String select = "";
                         
@@ -1143,12 +1146,13 @@ public class Convert_PostgreSQL extends Convert_SQL92
 			//System.out.println("rest: " + rest);
 			String from =s.substring( s.toUpperCase().indexOf(" FROM ") + 6);
                         //System.out.println("from"+ from);
-			String tablejoin = from.substring(0,from.toUpperCase().indexOf(" "));
+			//String tablejoin = from.substring(0,from.toUpperCase().indexOf(" "));
+                        String tablejoin = from.substring(from.toUpperCase().indexOf(" "),from.toUpperCase().indexOf(" WHERE "));
                         //System.out.println("tablejoin"+ tablejoin);                        
 			String tablealias = from.substring(0,from.toUpperCase().indexOf(" WHERE "));
                         //System.out.println("tablealias"+ tablealias);
                         //System.out.println("------------------select.toUpperCase().substring(s_end)" +select.substring(select.substring(s_end).toUpperCase().indexOf(" WHERE ")));    
-                        //String swhere = select.substring(s_end);
+                        String swhere = select.substring(s_end);
                         //s_end = 
                         //System.out.println();
                         ///System.out.println("string end" + swhere);
@@ -1233,6 +1237,7 @@ public class Convert_PostgreSQL extends Convert_SQL92
                                             {    
                                                
                                               result = result + " " + table + "."+ word;   
+                                              //result = result + " " + word;   
                                               //System.out.println("Cadena :"  + word);  
                                             }
                                             else
@@ -1291,10 +1296,10 @@ public class Convert_PostgreSQL extends Convert_SQL92
                 return sqlStatement; 
                  
 	}	//  convertDecode
-         **/
+         
         
         // Two regex's used in convertUpdate 
-private static final Pattern aliasPatternInUpdate = 
+/*private static final Pattern aliasPatternInUpdate = 
 Pattern.compile("(?i)\\s*UPDATE\\s+(\\S+)\\s+(\\S+)\\s+SET\\s.*"); 
 private static final Pattern tupleUpdatePatternInUpdate = 
 Pattern.compile("(?i)\\s*UPDATE\\s+(\\S+)\\s+SET\\s+\\(([^\\)]+)\\)\\s*=\\s*\\(\\s*SELECT\\s(.*?)\\s(FROM\\s.*)"); 
@@ -1476,7 +1481,7 @@ private String convertUpdate(String sqlStatement)
     } // End of: Convert tuple updates with inner SELECT 
 
     return convertedSqlStatement; 
-} // convertUpdate 
+} // convertUpdate */
 
 	/**************************************************************************
 	 *  Converts Decode.
@@ -1509,7 +1514,8 @@ private String convertUpdate(String sqlStatement)
 	 */
 	private String convertAlias(String sqlStatement)
 	{
-		String statement = sqlStatement;
+                return sqlStatement;
+		/*String statement = sqlStatement;
 		int index = 0;
 		int begintable = 0;
 		int begin = 0;
@@ -1567,7 +1573,7 @@ private String convertUpdate(String sqlStatement)
 		//System.out.println("begin Alias:" + begin + " end Alias:" + end );
 		//System.out.println("Alias:" + statement.substring(begin, end).trim());
 		//System.out.println("SQL Alias:"+sqlAlias);
-		return sqlAlias;
+		return sqlAlias;*/
 	}	//  convertDelete
     //	end vpj-cd e-evolution 02/24/2005 PostgreSQL
         
