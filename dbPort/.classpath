@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="/lib/db2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
 	<classpathentry kind="lib" path="/lib/fyracle.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
