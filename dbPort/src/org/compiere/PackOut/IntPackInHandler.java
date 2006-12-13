@@ -415,8 +415,8 @@ public class IntPackInHandler extends DefaultHandler {
 	        //m_Window.setWinHeight(Integer.parseInt(atts.getValue("WinHeight")));
 	        //m_Window.setWinWidth (Integer.parseInt(atts.getValue("WinWidth")));
 	        m_Window.setWindowType (atts.getValue("WindowType"));
-	        m_Window.save();
-	        if (m_Window.save() == true){
+	        m_Window.save(m_trxName);
+	        if (m_Window.save(m_trxName) == true){
 		    	record_log (1, m_Window.getName(),"Window", m_Window.get_ID(),AD_Backup_ID, Object_Status,"AD_Window",get_IDWithColumn("AD_Table", "TableName", "AD_Window"));           		        		
             }
             else{
@@ -445,7 +445,7 @@ public class IntPackInHandler extends DefaultHandler {
 		m_Preference.setAD_Window_ID(windowid);
 		m_Preference.setAttribute(atts.getValue("Attribute"));
 		m_Preference.setValue(atts.getValue("Value"));
-		if (m_Preference.save() == true){		    	
+		if (m_Preference.save(m_trxName) == true){		    	
 	    	record_log (1, m_Preference.getAttribute(),"Preference", m_Preference.get_ID(),AD_Backup_ID, Object_Status,"AD_Preference",get_IDWithColumn("AD_Table", "TableName", "AD_Preference"));           		        		
         }
         else{
@@ -535,7 +535,7 @@ public class IntPackInHandler extends DefaultHandler {
 	        m_Tab.setSeqNo (Integer.parseInt(atts.getValue("SeqNo")));
 	        m_Tab.setTabLevel (Integer.parseInt(atts.getValue("TabLevel")));
 	        m_Tab.setWhereClause (atts.getValue("WhereClause"));
-	        if (m_Tab.save() == true){		    	
+	        if (m_Tab.save(m_trxName) == true){		    	
 		    	record_log (1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn("AD_Table", "TableName", "AD_Tab"));           		        		
             }
             else{
@@ -621,7 +621,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Field.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);	        
 	        m_Field.setSortNo(new BigDecimal(atts.getValue("SortNo")));
 	        m_Field.setDisplayLogic(atts.getValue("DisplayLogic"));
-	        if (m_Field.save() == true){		    	
+	        if (m_Field.save(m_trxName) == true){		    	
 		    	record_log (1, m_Field.getName(),"Field", m_Field.get_ID(),AD_Backup_ID, Object_Status,"AD_Field",get_IDWithColumn("AD_Table", "TableName", "AD_Field"));           		        		
             }
             else{
@@ -682,7 +682,7 @@ log.info("After Column Name ->"+colname);		}
 			m_Process.setStatistic_Seconds(0);
 			m_Process.setValue(atts.getValue("Value"));
 			m_Process.setWorkflowValue(atts.getValue("WorkflowValue"));			
-	        if (m_Process.save() == true){		    	
+	        if (m_Process.save(m_trxName) == true){		    	
 		    	record_log (1, m_Process.getName(),"Process", m_Process.get_ID(),AD_Backup_ID, Object_Status,"AD_Process",get_IDWithColumn("AD_Table", "TableName", "AD_Process"));           		        		
             }
             else{
@@ -763,7 +763,7 @@ log.info("After Column Name ->"+colname);		}
 		    m_Process_para.setIsCentrallyMaintained(Boolean.valueOf(atts.getValue("isCentrallyMaintained")).booleanValue());
 		    m_Process_para.setIsMandatory(Boolean.valueOf(atts.getValue("isMandatory")).booleanValue());
 		    m_Process_para.setIsRange(Boolean.valueOf(atts.getValue("isRange")).booleanValue());
-		    if (m_Process_para.save() == true){		    	
+		    if (m_Process_para.save(m_trxName) == true){		    	
 		    	record_log (1, m_Process_para.getName(),"Process_para", m_Process_para.get_ID(),AD_Backup_ID, Object_Status,"AD_Process_para",get_IDWithColumn("AD_Table", "TableName", "AD_Process_para"));           		        		
             }
             else{
@@ -824,7 +824,7 @@ log.info("After Column Name ->"+colname);		}
             m_Table.setTableName(atts.getValue("TableName"));
 //log.info("in3");
             attsOut.clear();          
-            if (m_Table.save() == true){		    	
+            if (m_Table.save(m_trxName) == true){		    	
 		    	record_log (1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));           		        		
             }
             else{
@@ -943,7 +943,7 @@ log.info("After Column Name ->"+colname);		}
 			element.setPrintName(m_Column.getColumnName());
 			
 			element.setName(m_Column.getColumnName());			
-			if (element.save() == true){            	
+			if (element.save(m_trxName) == true){            	
             	record_log (1, m_Column.getName(),"Element", element.getAD_Element_ID(),AD_Backup_ID, "New","AD_Element",get_IDWithColumn("AD_Table", "TableName", "AD_Element"));
             }
             else{
@@ -953,7 +953,7 @@ log.info("After Column Name ->"+colname);		}
 		    
 		    Object_Status = Object_Status_col;
 		    m_Column.setAD_Element_ID(element.getAD_Element_ID());
-		    if (m_Column.save() == true){		    	
+		    if (m_Column.save(m_trxName) == true){		    	
 		    	record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),AD_Backup_ID, Object_Status,"AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));           		        		
             }
             else{
@@ -1037,7 +1037,7 @@ log.info("After Column Name ->"+colname);		}
 		    m_Role.setPreferenceType(atts.getValue("PreferenceType"));
 		    m_Role.setUserLevel(atts.getValue("UserLevel"));	    
 		     
-	        if (m_Role.save() == true){
+	        if (m_Role.save(m_trxName) == true){
 	        	
 		    	record_log (1, m_Role.getName(),"Role", m_Role.get_ID(),AD_Backup_ID, Object_Status,"AD_Role",get_IDWithColumn("AD_Table", "TableName", "AD_Role"));           		        		
             }
@@ -1441,7 +1441,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Task.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Task.setName(name);
 	        m_Task.setOS_Command(atts.getValue("OS_Command"));		        
-	        if (m_Task.save() == true){		    	
+	        if (m_Task.save(m_trxName) == true){		    	
 		    	record_log (1, m_Task.getName(),"Task", m_Task.get_ID(),AD_Backup_ID, Object_Status,"AD_Task",get_IDWithColumn("AD_Table", "TableName", "AD_Task"));           		        		
             }
             else{
@@ -1474,7 +1474,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Form.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Form.setName(atts.getValue("Name")); 
 
-	        if (m_Form.save() == true){		    	
+	        if (m_Form.save(m_trxName) == true){		    	
 		    	record_log (1, m_Form.getName(),"Form", m_Form.get_ID(),AD_Backup_ID, Object_Status,"AD_Form",get_IDWithColumn("AD_Table", "TableName", "AD_Form"));           		        		
             }
             else{
@@ -1504,8 +1504,8 @@ log.info("After Column Name ->"+colname);		}
 	    m_ImpFormat.setName(atts.getValue("Name"));
 	    m_ImpFormat.setDescription(atts.getValue("Description"));
 	    m_ImpFormat.setFormatType(atts.getValue("FormatType"));
-	    m_ImpFormat.save();
-	    if (m_ImpFormat.save() == true){		    	
+	    m_ImpFormat.save(m_trxName);
+	    if (m_ImpFormat.save(m_trxName) == true){		    	
 	    	record_log (1, m_ImpFormat.getName(),"ImpFormat", m_ImpFormat.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn("AD_Table", "TableName", "AD_ImpFormat"));           		        		
         }
         else{
@@ -1543,8 +1543,8 @@ log.info("After Column Name ->"+colname);		}
 	    m_ImpFormat_row.setScript(atts.getValue("Script"));
 	    m_ImpFormat_row.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 	    m_ImpFormat_row.setStartNo(Integer.parseInt(atts.getValue("StartNo")));	    
-	    m_ImpFormat_row.save();
-	    if (m_ImpFormat_row.save() == true){		    	
+	    m_ImpFormat_row.save(m_trxName);
+	    if (m_ImpFormat_row.save(m_trxName) == true){		    	
 	    	record_log (1, m_ImpFormat_row.getName(),"ImpFormat", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn("AD_Table", "TableName", "m_ImpFormat_row"));           		        		
         }
         else{
@@ -1578,7 +1578,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Workbench.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Workbench.setName(atts.getValue("Name"));
 	        //m_Workbench.setPA_Goal_ID(Integer.parseInt(atts.getValue("PAGoalID")));
-	        if (m_Workbench.save() == true){		    	
+	        if (m_Workbench.save(m_trxName) == true){		    	
 		    	record_log (1, m_Workbench.getName(),"Workbench", m_Workbench.get_ID(),AD_Backup_ID, Object_Status,"AD_Workbench",get_IDWithColumn("AD_Table", "TableName", "AD_Workbench"));           		        		
             }
             else{
@@ -1712,7 +1712,7 @@ log.info("After Column Name ->"+colname);		}
 		//log.info(atts.getValue("ReleaseNo"));
 		//log.info(Compiere.MAIN_VERSION);
 		//Check Release Number
-		if(Adempiere.MAIN_VERSION.equals(releaseNumber)||releaseNumber.equals("all")){			
+		if(releaseNumber==null||Adempiere.MAIN_VERSION.equals(releaseNumber)||releaseNumber.equals("all")){			
 		String sourceName = atts.getValue("name");
 		String sourceDirectory = atts.getValue("sourceDirectory");
 		String targetDirectory = atts.getValue("targetDirectory");
@@ -1864,7 +1864,7 @@ log.info("After Column Name ->"+colname);		}
 		    	m_Table.setAccessLevel("3");
 			    m_Table.setName(Name);			    
 			    m_Table.setTableName(Name);		    
-			    if (m_Table.save() == true){		    	
+			    if (m_Table.save(m_trxName) == true){		    	
 			    	record_log (1, m_Table.getName(),"Table", m_Table.get_ID(),0, "New","AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));
 	            }
 	            else{
@@ -1880,7 +1880,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Reportview.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Reportview.setOrderByClause(atts.getValue("OrderByClause"));
 	        m_Reportview.setWhereClause(atts.getValue("WhereClause"));	        
-	        if (m_Reportview.save() == true){		    	
+	        if (m_Reportview.save(m_trxName) == true){		    	
 		    	record_log (1, m_Reportview.getName(),"Reportview", m_Reportview.get_ID(),AD_Backup_ID, Object_Status,"AD_Reportview",get_IDWithColumn("AD_Table", "TableName", "AD_Reportview"));           		        		
             }
             else{
@@ -1914,7 +1914,7 @@ log.info("After Column Name ->"+colname);		}
 	    	m_Table.setAccessLevel("3");
 		    m_Table.setName(name);			    
 		    m_Table.setTableName(name);		    
-		    if (m_Table.save() == true){		    	
+		    if (m_Table.save(m_trxName) == true){		    	
 		    	record_log (1, m_Table.getName(),"Table", m_Table.get_ID(),0, "New","AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));
             }
             else{
@@ -1953,7 +1953,7 @@ log.info("After Column Name ->"+colname);		}
 	    m_PrintFormat.setIsStandardHeaderFooter(Boolean.valueOf(atts.getValue("isStandardHeader")).booleanValue());
 		
 	    m_PrintFormat.setIsDefault(Boolean.valueOf(atts.getValue("isDefault")).booleanValue());	    
-	    if (m_PrintFormat.save() == true){		    	
+	    if (m_PrintFormat.save(m_trxName) == true){		    	
 	    	record_log (1, m_PrintFormat.getName(),"PrintFormat", m_PrintFormat.get_ID(),AD_Backup_ID, Object_Status,"AD_PrintFormat",get_IDWithColumn("AD_Table", "TableName", "AD_PrintFormat"));           		        		
         }
         else{
@@ -2052,7 +2052,7 @@ log.info("After Column Name ->"+colname);		}
 	    m_PrintFormatItem.setIsVarianceCalc(Boolean.valueOf(atts.getValue("isVarianceCalc")).booleanValue());
 	    m_PrintFormatItem.setIsDeviationCalc(Boolean.valueOf(atts.getValue("isDeviationCalc")).booleanValue());
 		
-	    if (m_PrintFormatItem.save() == true){		    	
+	    if (m_PrintFormatItem.save(m_trxName) == true){		    	
 	    	record_log (1, m_PrintFormatItem.getName(),"PrintFormatItem", m_PrintFormatItem.get_ID(),AD_Backup_ID, Object_Status,"AD_PrintFormatItem",get_IDWithColumn("AD_Table", "TableName", "AD_PrintFormatItem"));           		        		
         }
         else{
@@ -2084,7 +2084,7 @@ log.info("After Column Name ->"+colname);		}
 	        m_Reportview_Col.setFunctionColumn(atts.getValue("ADColumnNameID"));
 	        m_Reportview_Col.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Reportview_Col.setIsGroupFunction(Boolean.valueOf(atts.getValue("ADColumnNameID")).booleanValue());		        
-	        if (m_Reportview_Col.save() == true){		    	
+	        if (m_Reportview_Col.save(m_trxName) == true){		    	
 		    	record_log (1, ""+m_Reportview_Col.getAD_ReportView_ID(),"Reportview_Col", m_Reportview.get_ID(),AD_Backup_ID, Object_Status,"AD_Reportview_Col",get_IDWithColumn("AD_Table", "TableName", "AD_Reportview_Col"));           		        		
             }
             else{
@@ -2140,7 +2140,7 @@ log.info("After Column Name ->"+colname);		}
 	        
 	        //m_Reference.setVFormat(atts.getValue("VFormat"));
 	        m_Reference.setValidationType(atts.getValue("ValidationType"));	        
-	        if (m_Reference.save() == true){
+	        if (m_Reference.save(m_trxName) == true){
 	        	record_log (1, m_Reference.getName(),"Reference", m_Reference.get_ID(),AD_Backup_ID, Object_Status,"AD_Reference",get_IDWithColumn("AD_Table", "TableName", "AD_Reference"));           		        		
             }
             else{
@@ -2173,8 +2173,8 @@ log.info("After Column Name ->"+colname);		}
 	        m_Ref_List.setName(atts.getValue("Name"));
 	        m_Ref_List.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 	        m_Ref_List.setValue(atts.getValue("Value"));
-	        m_Ref_List.save();	        
-	        if (m_Ref_List.save() == true){		    	
+	        m_Ref_List.save(m_trxName);	        
+	        if (m_Ref_List.save(m_trxName) == true){		    	
 		    	record_log (1, m_Ref_List.getName(),"Reference List", m_Ref_List.get_ID(),AD_Backup_ID, Object_Status,"AD_Ref_List",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_List"));           		        		
             }
             else{
@@ -2198,7 +2198,7 @@ log.info("After Column Name ->"+colname);		}
 		    	m_Table.setAccessLevel("3");
 			    m_Table.setName(atts.getValue("ADTableNameID"));			    
 			    m_Table.setTableName(atts.getValue("ADTableNameID"));		    
-			    if (m_Table.save() == true){		    	
+			    if (m_Table.save(m_trxName) == true){		    	
 			    	record_log (1, m_Table.getName(),"Table", m_Table.get_ID(),0, "New","AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));
 	            }
 	            else{
@@ -2215,7 +2215,7 @@ log.info("After Column Name ->"+colname);		}
 		    	m_Column.setColumnName(name);		    	
 		    	m_Column.setName(name);
 		    	m_Column.setAD_Reference_ID(30);
-		    	if (m_Column.save() == true){		    	
+		    	if (m_Column.save(m_trxName) == true){		    	
 			    	record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));
 	            }
 	            else{
@@ -2231,7 +2231,7 @@ log.info("After Column Name ->"+colname);		}
 		    	m_Column.setColumnName(name);
 		    	m_Column.setName(name);
 		    	m_Column.setAD_Reference_ID(30);
-		    	if (m_Column.save() == true){
+		    	if (m_Column.save(m_trxName) == true){
 		    		record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));           		        		
 	            }
 	            else{
@@ -2413,42 +2413,46 @@ log.info("After Column Name ->"+colname);		}
 		    int tableid = get_IDWithColumn("AD_Table", "TableName", d_tablename);
 		    int id =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", columnName, "AD_Table", tableid);
 		    StringBuffer sql = new StringBuffer ("SELECT IsUpdateable FROM AD_column WHERE AD_Column_ID = ?");
-    		String isUpdateable = DB.getSQLValueString(null, sql.toString(),id);
+    		String isUpdateable = DB.getSQLValueString(m_trxName, sql.toString(),id);
 			sql = new StringBuffer ("SELECT IsKey FROM AD_column WHERE AD_Column_ID = ?");
-    		String isKey = DB.getSQLValueString(null, sql.toString(),id);
-			if (isKey.equals("N")){
-    		if (isUpdateable.equals("Y")){
-			if (!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy")) {
-		    if (!atts.getValue("value").equals("null")) {
-			if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
-					|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
-					|| atts.getValue("class").equals("Table")|| atts.getValue("class").equals("Button")
-					|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
-			    genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
-			}
-			else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
-				|| atts.getValue("class").equals("Quantity")|| atts.getValue("class").equals("Costs+Prices")){
-			    genericPO.setValue(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
-			}
-			else if (atts.getValue("class").equals("Integer") || atts.getValue("class").equals("ID")
-					|| atts.getValue("class").equals("Table Direct")|| atts.getValue("class").equals("Table")
-					|| atts.getValue("class").equals("Location (Address)")|| atts.getValue("class").equals("Account")
-					|| atts.getValue("class").equals("Color)")|| atts.getValue("class").equals("Search")						
-					|| atts.getValue("class").equals("Locator (WH)")|| atts.getValue("class").equals("Product Attribute")) {
-			    genericPO.setValue(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
-			}	
-			else if (atts.getValue("class").equals("Boolean")) {
-			    genericPO.setValue(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
-			}
-			else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
-					 || atts.getValue("class").equals("Time")) {
-			    genericPO.setValue(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
-			}//Binary,  Radio, RowID, Image not supported
-			}
-			}			
-			}	
-			}
-	    }
+    		String isKey = DB.getSQLValueString(m_trxName, sql.toString(),id);
+    		if (isKey.equals("N") && 
+    				isUpdateable.equals("Y") &&
+    				(!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy"))) {
+    			if (atts.getValue("value") != null && !atts.getValue("value").equals("null")) {
+    				if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
+    						|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
+    						|| atts.getValue("class").equals("Table")|| atts.getValue("class").equals("Button")
+    						|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
+    					genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
+    				}
+    				else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
+    						|| atts.getValue("class").equals("Quantity")|| atts.getValue("class").equals("Costs+Prices")){
+    					genericPO.setValue(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
+    				}
+    				else if (atts.getValue("class").equals("Integer") || atts.getValue("class").equals("ID")
+    						|| atts.getValue("class").equals("Table Direct")|| atts.getValue("class").equals("Table")
+    						|| atts.getValue("class").equals("Location (Address)")|| atts.getValue("class").equals("Account")
+    						|| atts.getValue("class").equals("Color)")|| atts.getValue("class").equals("Search")						
+    						|| atts.getValue("class").equals("Locator (WH)")|| atts.getValue("class").equals("Product Attribute")) {
+    					genericPO.setValue(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
+    				}	
+    				else if (atts.getValue("class").equals("Boolean")) {
+    					genericPO.setValue(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
+    				}
+    				else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
+    						|| atts.getValue("class").equals("Time")) {
+    					genericPO.setValue(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
+    				}//Binary,  Radio, RowID, Image not supported
+    			} else { // value is null 
+    				if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
+    					// globalqss - bring support from XML2AD to lookupname
+    					String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
+    					genericPO.setValue(atts.getValue("name"), new Integer(getIDbyName(m_tablename, atts.getValue("lookupname"))));
+    				}
+    			}
+    		}			
+	    }	
     }   // startElement
     /**
      * Get ID from Name for a table.
@@ -2615,6 +2619,38 @@ log.info("After Column Name ->"+colname);		}
 	return id;
     }
 
+	/**
+	* Get ID from Name for a table.
+	* TODO: substitute with PO.getAllIDs
+	*
+	* @param tableName
+	* @param name
+	*/
+	public int getIDbyName (String tableName, String name) {
+		int id = 0;
+		String sql = "SELECT "+tableName+"_ID "
+		           + "FROM "+tableName+" "
+				   + "WHERE name=?";
+		if (!tableName.startsWith("AD_"))
+		    sql = sql + " AND AD_Client_ID=?";
+		try {
+		    PreparedStatement pstmt = DB.prepareStatement(sql, m_trxName);
+		    pstmt.setString(1, name);
+		    if (!tableName.startsWith("AD_"))
+		    	pstmt.setInt(2, m_AD_Client_ID);
+		    ResultSet rs = pstmt.executeQuery();
+		    if (rs.next())
+		    	id = rs.getInt(1);
+		    rs.close();
+		    pstmt.close();
+		    pstmt = null;
+		}
+		catch (Exception e) {
+			log.log(Level.SEVERE, "getID:"+e);
+		}
+		return id;
+	}
+	
     /**
      * Set menu tree.
      *
@@ -2667,8 +2703,8 @@ log.info("After Column Name ->"+colname);		}
         m_Menu.setIsSOTrx(Boolean.valueOf(d_menu[i][11]).booleanValue());
         m_Menu.setIsSummary(Boolean.valueOf(d_menu[i][12]).booleanValue());
         m_Menu.setIsActive(Boolean.valueOf(d_menu[i][15]).booleanValue());
-        m_Menu.save();
-        if (m_Menu.save() == true){
+        m_Menu.save(m_trxName);
+        if (m_Menu.save(m_trxName) == true){
 	    	try {				
 	    		idDetail = record_log (1, m_Menu.getName(),"Menu", m_Menu.get_ID(),AD_Backup_ID, Object_Status,"AD_Menu",get_IDWithColumn("AD_Table", "TableName", "AD_Menu"));
 			} catch (SAXException e) {
@@ -3546,8 +3582,8 @@ log.info("After Column Name ->"+colname);		}
 	   **************************************** */
 	// row element, adempieredata
 	else if (elementValue.equals("drow")){		
-		genericPO.save();
-	    if (genericPO.save()== true)
+		genericPO.save(m_trxName);
+	    if (genericPO.save(m_trxName)== true)
 	    	record_log (1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, Object_Status,d_tablename,get_IDWithColumn("AD_Table", "TableName", d_tablename));
         else
         	record_log (0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, Object_Status,d_tablename,get_IDWithColumn("AD_Table", "TableName", d_tablename));

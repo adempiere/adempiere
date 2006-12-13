@@ -145,8 +145,9 @@ public class IntPackIn extends SvrProcess
 	impXML.importXML(dict_file);
 	
 	//Generate Model Classes
-	String args[] = {IntPackIn.getAD_Package_Dir()+"/dbPort/src/org/compiere/model/", "org.compiere.model","'U'"}; 
-	org.compiere.util.GenerateModel.main(args) ;
+	// globalqss - don't call Generate Model must be done manual
+	// String args[] = {IntPackIn.getAD_Package_Dir()+"/dbPort/src/org/compiere/model/", "org.compiere.model","'U'"}; 
+	// org.compiere.util.GenerateModel.main(args) ;
 	
 	
 	return "";
