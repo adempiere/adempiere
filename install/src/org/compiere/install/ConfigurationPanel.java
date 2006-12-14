@@ -544,9 +544,9 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 	 * 	@param saveIt save
 	 *  @return SwingWorker
 	 */
-	private SwingWorker startTest(final boolean saveIt)
+	private org.compiere.apps.SwingWorker startTest(final boolean saveIt)
 	{
-		SwingWorker worker = new SwingWorker()
+		org.compiere.apps.SwingWorker worker = new org.compiere.apps.SwingWorker()
 		{
 			//	Start it
 			public Object construct()

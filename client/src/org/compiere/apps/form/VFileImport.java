@@ -209,7 +209,7 @@ public class VFileImport extends CPanel
 			confirmPanel.setEnabled(false);
 			m_frame.setBusy(true);
 			//
-			SwingWorker worker = new SwingWorker()
+			org.compiere.apps.SwingWorker worker = new org.compiere.apps.SwingWorker()
 			{
 				public Object construct()
 			    {
