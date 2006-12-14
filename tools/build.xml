@@ -325,6 +325,9 @@
     <unjar src="lib/jgraph.jar" dest="${buildClient.dir}"/>
     <!-- Adempeire Look and Feal				-->
     <unjar src="lib/looks-2.0.4.jar" dest="${buildClient.dir}"/>
+  	<!-- jars for 2pack                         -->
+  	<unjar src="lib/ant.jar" dest="${buildClient.dir}"/>
+  	<unjar src="lib/xercesImpl.jar" dest="${buildClient.dir}"/>
 
     <!-- Clean up			-->
     <delete>
