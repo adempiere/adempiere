@@ -110,7 +110,7 @@ public class ConfigOracle extends Config
 					String[] dbNames = getTNS_Names (sb, false);
 					if (tnsnames != null)
 					{
-						for (int i = 0; i < tnsnames.length; i++)
+						for (int i = 0; i < dbNames.length; i++)  //before was: for (int i = 0; i < tnsnames.length; i++)
 						{
 							String tns = tnsnames[i];	//	 is lower case
 							String db = dbNames[i];
