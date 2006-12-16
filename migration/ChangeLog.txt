@@ -1,7 +1,12 @@
 0.7
  * 3.1.1-3.1.2 migration script added
+
+0.6.3
+ * missing AD_Elements added
+
 0.6.2
  * 253b-253d migration script added
+
 0.6.1
  * 253b-253b_XE migration script now only compile dependent procedures and views.
 
