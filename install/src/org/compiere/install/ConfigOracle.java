@@ -91,7 +91,10 @@ public class ConfigOracle extends Config
 		{
 			String serviceName = "xe";
 			if (!list.contains(serviceName))
+			{
 				list.add(serviceName);
+				dblist.add(serviceName);
+			}
 		}
 		
 		String path = System.getenv("ORACLE_HOME");
@@ -108,12 +111,15 @@ public class ConfigOracle extends Config
 					StringBuffer sb = getTNS_File (entries[e].substring(0, entries[e].length()-4));
 					String[] tnsnames = getTNS_Names (sb, true);
 					String[] dbNames = getTNS_Names (sb, false);
+					//fallback to tnsnames
+					if (dbNames == null) dbNames = tnsnames;
 					if (tnsnames != null)
 					{
-						for (int i = 0; i < dbNames.length; i++)  //before was: for (int i = 0; i < tnsnames.length; i++)
+						for (int i = 0; i < tnsnames.length; i++)
 						{
 							String tns = tnsnames[i];	//	 is lower case
-							String db = dbNames[i];
+							//check bound, fallback to tnsname
+							String db = (i < dbNames.length) ? dbNames[i] : tns;
 							if (!tns.equals(def)) {
 								list.add(tns);
 								dblist.add(db);
@@ -132,12 +138,15 @@ public class ConfigOracle extends Config
 			StringBuffer sb = getTNS_File (path);
 			String[] tnsnames = getTNS_Names (sb, true);
 			String[] dbNames = getTNS_Names (sb, false);
+			//fallback to tnsnames
+			if (dbNames == null) dbNames = tnsnames;
 			if (tnsnames != null)
 			{
 				for (int i = 0; i < tnsnames.length; i++)
 				{
 					String tns = tnsnames[i];	//	 is lower case
-					String db = dbNames[i];
+					//check bound, fallback to tnsname
+					String db = (i < dbNames.length) ? dbNames[i] : tns;
 					if (!tns.equals(def)) {
 						list.add(tns);
 						dblist.add(db);
