@@ -17,3 +17,13 @@ A major disadvantage is that it runs the server as root,
 which is necessary to log the output to the
 /var/log/adempiere.log.
 
+------
+
+Date: 2006-12-17 13:10
+Sender: Carlos Ruiz - globalqss
+
+Modified the startup script:
+- now it makes su to adempiere user
+- create the log based on date/time
+- timeout added
+- tested with Fedora Core 4

@@ -5,26 +5,29 @@
 # Vendor:	K.K. Alice
 # Created:	05. April 2004
 # Author:	S. Christians
+# Updated:	Carlos Ruiz - globalqss - tested in Redhat FC4
+#               Carlos Ruiz - globalqss - added timeout review of the log file
 #
 # FileTarget:	/etc/init.d/adempiere
 # FileOwner:	root.root
 # FilePerms:	0755
 #
 # chkconfig:	2345 97 06
-# $Id: serverStart.sh,v 1.2 2004/05/09 04:53:29 jjanke Exp $
+# $Id: adempiere,v 1.1 2006/03/16 05:00:28 cruiz Exp $
 
 # initialization
 # adjust these variables to your environment
-EXECDIR=/opt/adempiere/Adempiere
-ENVFILE=/opt/adempiere/.bash_profile
+EXECDIR=/home/adempiere/Adempiere
+ENVFILE=/home/adempiere/.bash_profile
 
 . /etc/rc.d/init.d/functions
  
 RETVAL=0
 ADEMPIERESTATUS=
+MAXITERATIONS=60 # 2 seconds every iteration, max wait 2 minutes)
 
 getadempierestatus() {
-    ADEMPIERESTATUSSTRING=$(ps -ax | grep -v grep | grep $EXECDIR)
+    ADEMPIERESTATUSSTRING=$(ps ax | grep -v grep | grep $EXECDIR)
     echo $ADEMPIERESTATUSSTRING | grep $EXECDIR &> /dev/null
     ADEMPIERESTATUS=$?
 }
@@ -35,21 +38,32 @@ start () {
 	echo "adempiere is already running"
 	return 1
     fi
-    echo -n "Starting Adempiere ERP: "
+    echo -n "Starting ADempiere ERP: "
     source $ENVFILE 
-    # we need to stay root for logging
-    # (adempiere user has no write access to /var/log/...)
-    su -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2.sh &> /var/log/adempiere.log &"
+    export LOGFILE=$ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_`date +%Y%m%d%H%M%S`.log
+    su adempiere -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2.sh &> $LOGFILE &"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
 	# wait for server to be confirmed as started in logfile
 	STATUSTEST=0
+	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
-	tail -n 1 /var/log/adempiere.log | grep 'INFO.*\[Server\].*Started in' &> /dev/null && STATUSTEST=1
+	    sleep 2
+	    tail -n 5 $LOGFILE | grep 'INFO.*\[Server\].*Started in' &> /dev/null && STATUSTEST=1
+	    echo -n "."
+	    ITERATIONS=`expr $ITERATIONS + 1`
+	    if [ $ITERATIONS -gt $MAXITERATIONS ]
+	    then
+	        break
+	    fi
 	done
-	# avoid race conditions
-	sleep 5
-	echo_success
+	if [ $STATUSTEST -eq 0 ]
+	then
+	    echo "Service hasn't started within the timeout allowed, please review file $LOGFILE to see the status of the service"
+	    echo_warning
+	else
+	    echo_success
+	fi
 	echo
     else
 	echo_failure
@@ -64,19 +78,32 @@ stop () {
 	echo "adempiere is already stopped"
 	return 1
     fi
-    echo -n "Stopping Adempiere ERP: "
+    echo -n "Stopping ADempiere ERP: "
     source $ENVFILE 
-    su -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
+    export LASTLOG=`ls -t $ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_??????????????.log | head -1`
+    su adempiere -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
 	# wait for server to be confirmed as halted in logfile
 	STATUSTEST=0
+	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
-	tail -n 1 /var/log/adempiere.log | grep 'Halting VM' &> /dev/null && STATUSTEST=1
+	    sleep 2
+	    tail -n 5 $LASTLOG | grep 'Halting VM' &> /dev/null && STATUSTEST=1
+	    echo -n "."
+	    ITERATIONS=`expr $ITERATIONS + 1`
+	    if [ $ITERATIONS -gt $MAXITERATIONS ]
+	    then
+	        break
+	    fi
 	done
-	# avoid race conditions
-	sleep 5
-	echo_success
+	if [ $STATUSTEST -eq 0 ]
+	then
+	    echo "Service hasn't stopped within the timeout allowed, please review file $LASTLOG to see the status of the service"
+	    echo_warning
+	else
+	    echo_success
+	fi
 	echo
     else
 	echo_failure
@@ -102,7 +129,7 @@ rhstatus () {
     if [ $ADEMPIERESTATUS -eq 0 ] ; then
 	echo
 	echo "adempiere is running:"
-	ps -ax | grep -v grep | grep $EXECDIR | sed 's/^[[:space:]]*\([[:digit:]]*\).*:[[:digit:]][[:digit:]][[:space:]]\(.*\)/\1 \2/'
+	ps ax | grep -v grep | grep $EXECDIR | sed 's/^[[:space:]]*\([[:digit:]]*\).*:[[:digit:]][[:digit:]][[:space:]]\(.*\)/\1 \2/'
 	echo
     else
 	echo "adempiere is stopped"
@@ -134,4 +161,3 @@ case "$1" in
 esac
  
 exit 0
-
