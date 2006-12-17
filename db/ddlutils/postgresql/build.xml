@@ -1,0 +1,118 @@
+<project name="create-db" default="create" basedir=".">
+	<property file="build.properties" />
+	<path id="lib.path">
+		<fileset dir="../lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<fileset dir="../lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="create" depends="init,create-database,load-functions,create-schema,load-data,load-others">
+	</target>
+	<target name="init">
+		<echo message="============================================================" />
+		<echo message="     PostgreSQL database create tool for Adempiere ERP" />
+		<echo message="	  	Adempiere Licese is GNU GPL License" />
+		<echo message="============================================================" />
+		<echo message="" file="log/psql.log" append="false" />
+		<echo append="false" file="log/build.log" message="#Build log:${line.separator}${line.separator}" />
+	</target>
+	<target name="create-database">
+		<ant antfile="build-ddl.xml" target="createDb" />
+	</target>
+	<target name="create-schema">
+		<echo message="----- Creating tables -----" />
+		<ant antfile="build-ddl.xml" target="writeSchemaSqlToFile" />
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Tables:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/adempiere-schema.sql" />
+		</antcall>
+	</target>
+	<target name="load-data">
+		<echo message="----- Loading Adempiere Seed data -----" />
+		<unjar src="../adempiere-data.jar" dest=".." />
+		<ant antfile="build-ddl.xml" target="writeDataToDb" />
+		<delete file="../adempiere-data.xml" />
+	</target>
+
+	<target name="load-functions">
+		<echo append="false" file="load_sqlj_functions.sql">
+	CREATE SCHEMA adempiere;
+	</echo>
+		<echo append="true" file="load_sqlj_functions.sql">
+	SET search_path TO adempiere,sqlj;
+	</echo>
+		<echo append="true" file="load_sqlj_functions.sql">
+	SELECT sqlj.install_jar('${sqlj.jar.url}', 'sqlj', true);
+	</echo>
+		<echo append="true" file="load_sqlj_functions.sql">
+	SELECT sqlj.set_classpath('adempiere', 'sqlj');
+	</echo>
+
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Functions and Operators:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/load_sqlj_functions.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/init.sql" />
+		</antcall>
+	</target>
+
+	<target name="load-others">
+		<echo message="----- Loading other database objects -----" />
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [2nd Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Sequences:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../sequences">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<ant antfile="build-ddl.xml" target="writeFkSqlToFile" />
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Foreign Keys:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/adempiere-fk.sql" />
+		</antcall>
+	</target>
+
+	<target name="load">
+		<echo message="Loading file ${file.name}" />
+		<exec dir="${postgresql.home}/bin" executable="${postgresql.home}/bin/psql" resultproperty="psql.result" output="log/psql.log" append="true">
+			<arg line="${postgresql.database}" />
+			<arg line="${postgresql.user}" />
+			<arg line="-f ${file.name}" />
+			<env key="PGPASSWORD" value="${postgresql.password}" />
+		</exec>
+		<echo message="File ${file.name} status ${psql.result}" />
+		<echo append="true" file="log/build.log">File ${file.name} status ${psql.result}</echo>
+		<echo append="true" file="log/build.log" message="${line.separator}" />
+	</target>
+
+</project>
+
+

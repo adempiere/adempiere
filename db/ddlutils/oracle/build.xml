@@ -1,0 +1,122 @@
+<project name="create-db" default="create" basedir=".">
+	<property file="build.properties" />
+	<path id="lib.path">
+		<fileset dir="../lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<fileset dir="../lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="create" depends="init,load-functions,create-schema,load-data,load-others">
+	</target>
+	<target name="init">
+		<echo message="============================================================" />
+		<echo message="     Oracle database create tool for Adempiere ERP" />
+		<echo message="	  	Adempiere Licese is GNU GPL License" />
+		<echo message="============================================================" />
+		<echo message="" file="log/sqlplus.log" append="false" />
+		<echo append="false" file="log/build.log" message="#Build log:${line.separator}${line.separator}" />
+	</target>
+	<target name="create-schema">
+		<echo message="----- Creating tables -----" />
+		<ant antfile="build-ddl.xml" target="writeSchemaSqlToFile" />
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Tables:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/adempiere-schema.sql" />
+		</antcall>
+	</target>
+	<target name="load-data">
+		<echo message="----- Loading Adempiere Seed data -----" />
+		<unjar src="../adempiere-data.jar" dest=".." />
+		<ant antfile="build-ddl.xml" target="writeDataToDb" />
+		<delete file="../adempiere-data.xml" />
+	</target>
+
+	<target name="load-functions">
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/init.sql" />
+		</antcall>
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="functions">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Procedures:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="procedures">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+	</target>
+
+	<target name="load-others">
+		<echo message="----- Loading other database objects -----" />
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Temporary Tables:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/temptables.sql" />
+		</antcall>
+
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Views [2nd Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Sequences:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../sequences">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<ant antfile="build-ddl.xml" target="writeFkSqlToFile" />
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Foreign Keys:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/adempiere-fk.sql" />
+		</antcall>
+
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Cleanup and Recompile:${line.separator}${line.separator}" />
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/AfterImport.sql" />
+		</antcall>
+	</target>
+
+	<target name="load">
+		<echo message="Loading file ${file.name}" />
+		<exec dir="${oracle.home}/bin" executable="${oracle.home}/bin/sqlplus" resultproperty="sqlplus.result" output="log/sqlplus.log" append="true">
+			<arg line="${oracle.connect.param}" />
+			<arg line="@${file.name}" />
+		</exec>
+		<echo message="File ${file.name} status ${sqlplus.result}" />
+		<echo append="true" file="log/build.log">File ${file.name} status ${sqlplus.result}</echo>
+		<echo append="true" file="log/build.log" message="${line.separator}" />
+	</target>
+
+</project>
+
+

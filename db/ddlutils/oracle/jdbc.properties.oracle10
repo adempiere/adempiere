@@ -1,0 +1,31 @@
+# JDBC properties for Oracle10
+# Note: Properties starting with "datasource." will be fed into the datasource instance of the
+# class configured via the datasource.class property
+
+# Use this property to choose the Oracle10 platform (instead of the Oracle8 default one)
+ddlutils.platform=Oracle10
+
+#
+# Using the plain DBCP datasource
+#
+
+datasource.class=org.apache.commons.dbcp.BasicDataSource
+datasource.driverClassName=oracle.jdbc.driver.OracleDriver
+datasource.url=jdbc:oracle:thin:@localhost:1521:orcl
+datasource.username=adempiere
+datasource.password=adempiere
+
+#
+# Or the Oracle datasource
+#
+
+#datasource.class=oracle.jdbc.pool.OracleDataSource
+#datasource.URL=jdbc:oracle:thin:@leesf:1521:orcl
+#datasource.user=adempiere
+#datasource.password=adempiere
+#datasource.connectionCachingEnabled=true
+
+
+# For oracle, we should limit the schema to the one of the user
+# Note that Oracle requires this to be uppercase, even when using delimited identifiers
+ddlutils.schema=ADEMPIERE

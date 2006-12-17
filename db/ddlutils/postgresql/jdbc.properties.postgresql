@@ -1,0 +1,34 @@
+# JDBC properties for PostgreSQL
+# Note: Properties starting with "datasource." will be fed into the datasource instance of the
+# class configured via the datasource.class property
+
+# Use this property if ddlutils does not recognize the platform from the settings
+ddlutils.platform=PostgreSQL
+
+#
+# Using the plain DBCP datasource
+#
+
+datasource.class=org.apache.commons.dbcp.BasicDataSource
+datasource.driverClassName=org.postgresql.Driver
+datasource.url=jdbc:postgresql://localhost/adempiere
+datasource.username=adempiere
+datasource.password=adempiere1
+
+#
+# PostgreSQL comes with its own DataSource implementations which can be configured like this:
+#
+
+#datasource.class=org.postgresql.ds.PGSimpleDataSource
+# or this one for pooling:
+#datasource.class=org.postgresql.ds.PGPoolingDataSource
+
+#datasource.serverName=localhost
+#datasource.databaseName=ddlutils
+#datasource.user=
+#datasource.password=
+
+# additional properties for the pooling datasource:
+#datasource.dataSourceName=pooling datasource
+#datasource.initialConnections=5
+#datasource.maxConnections=20
