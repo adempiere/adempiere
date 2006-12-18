@@ -669,8 +669,7 @@ public class GridController extends CPanel
 
 		//  Process Callout
 		GridField mField = m_mTab.getField(col);
-		// Contribution from Teo Sarca; [ 1613848 ] Dependant fields are not processed...
-		if (mField != null && (mField.getCallout().length() > 0 || m_mTab.hasDependants(mField.getColumnName())))
+		if (mField != null && mField.getCallout().length() > 0)
 		{
 			String msg = m_mTab.processFieldChange(mField);     //  Dependencies & Callout
 			if (msg.length() > 0)
