@@ -70,5 +70,12 @@
 	<classpathentry kind="lib" path="derby/derbyclient.jar"/>
 	<classpathentry kind="lib" path="derby/derbynet.jar"/>
 	<classpathentry kind="lib" path="derby/derbytools.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xdoclet-1.2.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xdoclet-ejb-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xdoclet-web-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xdoclet-xdoclet-module-1.2.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/xml-apis.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
