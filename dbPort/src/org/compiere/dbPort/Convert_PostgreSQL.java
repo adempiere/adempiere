@@ -100,14 +100,14 @@ public class Convert_PostgreSQL extends Convert_SQL92
 
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
 			result.addAll(convertView(statement));
-//begin vpj-cd e-evolution 02/24/2005 PostgreSQL
-                else if (cmpString.indexOf("ALTER TABLE") != -1) 
-                {
-                    result.add(convertDDL(statement));
-                }    
-                else if (cmpString.indexOf("ROWNUM") != -1) 
-                {
-                result.add(convertRowNum(convertAlias(converSimpleStatement(statement))));
+//		begin vpj-cd e-evolution 02/24/2005 PostgreSQL
+		else if (cmpString.indexOf("ALTER TABLE") != -1) 
+		{
+			result.add(convertDDL(converSimpleStatement(statement)));
+		}    
+		else if (cmpString.indexOf("ROWNUM") != -1) 
+		{
+			result.add(convertRowNum(convertAlias(converSimpleStatement(statement))));
 		}    
 		else if (cmpString.indexOf("DELETE ") != -1 && cmpString.indexOf("DELETE FROM") == -1)
 		{	
