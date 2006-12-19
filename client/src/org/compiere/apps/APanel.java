@@ -1927,6 +1927,14 @@ public final class APanel extends CPanel
 			if (!cmd_save(true))
 				return;
 
+		// globalqss - Add support for Don't ShowHelp option in Process
+		// this code must be changed if integrated the parameters and help in only one window
+		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
+		if (pr.getShowHelp() != null && pr.getShowHelp().equals("N")) {
+			startWOasking = true;
+		}
+		// end globalqss
+		
 		//	Ask user to start process, if Description and Help is not empty
 		if (!startWOasking && !(vButton.getDescription().equals("") && vButton.getHelp().equals("")))
 			if (!ADialog.ask(m_curWindowNo, this, "StartProcess?", 

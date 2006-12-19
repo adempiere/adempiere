@@ -40,6 +40,8 @@ import org.compiere.util.*;
  *  @version 	$Id: ProcessDialog.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *  @author		Low Heng Sin
  *  - Merge process parameter dialog into process dialog.
+ *  @author     arboleda - globalqss
+ *  - Implement ShowHelp option on processes and reports
  */
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
@@ -75,6 +77,7 @@ public class ProcessDialog extends CFrame
 	private int[]		    m_ids = null;
 	private boolean	        m_isLocked = false;
 	private StringBuffer	m_messageText = new StringBuffer();
+	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
 	//
@@ -185,11 +188,11 @@ public class ProcessDialog extends CFrame
 		log.config("");
 		//
 		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
-		String sql = "SELECT Name, Description, Help, IsReport "
+		String sql = "SELECT Name, Description, Help, IsReport, ShowHelp "
 				+ "FROM AD_Process "
 				+ "WHERE AD_Process_ID=?";
 		if (trl)
-			sql = "SELECT t.Name, t.Description, t.Help, p.IsReport "
+			sql = "SELECT t.Name, t.Description, t.Help, p.IsReport, p.ShowHelp "
 				+ "FROM AD_Process p, AD_Process_Trl t "
 				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
 				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
@@ -204,6 +207,7 @@ public class ProcessDialog extends CFrame
 			{
 				m_Name = rs.getString(1);
 				m_IsReport = rs.getString(4).equals("Y");
+				m_ShowHelp = rs.getString(5);
 				//
 				m_messageText.append("<b>");
 				String s = rs.getString(2);		//	Description
@@ -233,13 +237,6 @@ public class ProcessDialog extends CFrame
 		message.setText(m_messageText.toString());
 		bOK.setText(Msg.getMsg(Env.getCtx(), "Start"));
 
-		/**	Start Reports w/o asking
-		if (m_IsReport)
-		{
-			bOK.doClick();
-			return false;		//	don't show
-		}
-		**/
 		//	Similar to APanel.actionButton
 		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
@@ -247,8 +244,14 @@ public class ProcessDialog extends CFrame
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.removeAll();
 		if (parameterPanel.init()) {
+			// hasfields
 			centerPanel.add(separator, BorderLayout.NORTH);
 			centerPanel.add(parameterPanel, BorderLayout.CENTER);
+		} else {
+			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
+				bOK.doClick();    // don't ask first click
+				// anyway show resulting window
+			}
 		}
 		dialog.revalidate();
 		return true;

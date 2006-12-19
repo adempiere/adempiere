@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.2 - $Id$ */
 public class X_AD_Process extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_Process (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=284 */
-public static final int Table_ID=284;
+public static final int Table_ID=MTable.getTable_ID("AD_Process");
 
 /** TableName=AD_Process */
 public static final String Table_Name="AD_Process";
 
-protected static KeyNamePair Model = new KeyNamePair(284,"AD_Process");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Process");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -369,6 +369,34 @@ set_Value ("ProcedureName", ProcedureName);
 public String getProcedureName() 
 {
 return (String)get_Value("ProcedureName");
+}
+
+/** ShowHelp AD_Reference_ID=50007 */
+public static final int SHOWHELP_AD_Reference_ID=50007;
+/** Ask user (for future use) = A */
+public static final String SHOWHELP_AskUserForFutureUse = "A";
+/** Don't show help = N */
+public static final String SHOWHELP_DonTShowHelp = "N";
+/** Show Help = Y */
+public static final String SHOWHELP_ShowHelp = "Y";
+/** Set Show Help.
+@param ShowHelp To show or hide help for reports / processes */
+public void setShowHelp (String ShowHelp)
+{
+if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("Y"));
+ else throw new IllegalArgumentException ("ShowHelp Invalid value - " + ShowHelp + " - Reference_ID=50007 - A - N - Y");
+if (ShowHelp != null && ShowHelp.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+ShowHelp = ShowHelp.substring(0,0);
+}
+set_Value ("ShowHelp", ShowHelp);
+}
+/** Get Show Help.
+@return To show or hide help for reports / processes */
+public String getShowHelp() 
+{
+return (String)get_Value("ShowHelp");
 }
 /** Set Statistic Count.
 @param Statistic_Count Internal statistics how often the entity was used */
