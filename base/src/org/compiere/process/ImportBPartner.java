@@ -93,7 +93,7 @@ public class ImportBPartner extends SvrProcess
 			+ " CreatedBy = COALESCE (CreatedBy, 0),"
 			+ " Updated = COALESCE (Updated, SysDate),"
 			+ " UpdatedBy = COALESCE (UpdatedBy, 0),"
-			+ " I_ErrorMsg = NULL,"
+			+ " I_ErrorMsg = ' ',"
 			+ " I_IsImported = 'N' "
 			+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -242,6 +242,13 @@ public class ImportBPartner extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Interest Area=" + no);
 
+		// Value is mandatory error
+		sql = new StringBuffer ("UPDATE I_BPartner "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Value is mandatory, ' "
+			+ "WHERE Value IS NULL "
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.config("Value is mandatory=" + no);
 		
 		commit();
 		//	-------------------------------------------------------------------
@@ -279,7 +286,7 @@ public class ImportBPartner extends SvrProcess
 					{
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Insert BPartner")
+							.append("'Cannot Insert BPartner, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -313,7 +320,7 @@ public class ImportBPartner extends SvrProcess
 					{
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Update BPartner")
+							.append("'Cannot Update BPartner, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -364,7 +371,7 @@ public class ImportBPartner extends SvrProcess
 						noInsert--;
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Insert Location")
+							.append("'Cannot Insert Location, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -386,7 +393,7 @@ public class ImportBPartner extends SvrProcess
 						noInsert--;
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Insert BPLocation")
+							.append("'Cannot Insert BPLocation, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -406,7 +413,7 @@ public class ImportBPartner extends SvrProcess
 						noInsert--;
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("BP of User <> BP")
+							.append("'BP of User <> BP, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -445,7 +452,7 @@ public class ImportBPartner extends SvrProcess
 						noInsert--;
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Update BP Contact")
+							.append("'Cannot Update BP Contact, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
@@ -482,7 +489,7 @@ public class ImportBPartner extends SvrProcess
 						noInsert--;
 						sql = new StringBuffer ("UPDATE I_BPartner i "
 							+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-							.append("Cannot Insert BPContact")
+							.append("'Cannot Insert BPContact, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
