@@ -650,7 +650,9 @@ public abstract class PO
 			return false;
 		}
 		//
-		if (!p_info.isColumnUpdateable(index))
+		// globalqss -- Bug 1618469 - is throwing not updateable even on new records
+		// if (!p_info.isColumnUpdateable(index))
+		if ( ( ! p_info.isColumnUpdateable(index) ) && ( ! is_new() ) )
 		{
 			colInfo += " - NewValue=" + value + " - OldValue=" + get_Value(index);
 			log.log(Level.SEVERE, "Column not updateable" + colInfo);
