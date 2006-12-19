@@ -191,10 +191,10 @@ public class IntPackInHandler extends DefaultHandler {
     	String file_document = packageDirectory+fileSeperator+"doc"+fileSeperator+"Importlog_"+fileDate+".xml";		
     	log.info(file_document);
     	try {
-			fw_document = new FileOutputStream (file_document, false);
-		} catch (FileNotFoundException e1) {
-			log.info ("startElement:"+e1);
-			}
+    		fw_document = new FileOutputStream (file_document, false);
+    	} catch (FileNotFoundException e1) {
+    		log.info ("startElement:"+e1);
+    	}
 		streamResult_document = new StreamResult(fw_document);		
 		tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
 		
@@ -202,7 +202,7 @@ public class IntPackInHandler extends DefaultHandler {
 			hd_documemt = tf_document.newTransformerHandler();
 		} catch (TransformerConfigurationException e2) {
 			log.info ("startElement:"+e2);
-			}		
+		}		
 		serializer_document = hd_documemt.getTransformer();		
 		serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
 		serializer_document.setOutputProperty(OutputKeys.INDENT,"yes");		
@@ -212,7 +212,7 @@ public class IntPackInHandler extends DefaultHandler {
 		attsOut.clear();		
 		hd_documemt.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"compiereDocument.css\"");
 		Start_Doc=1;
-    	}
+    }
 	// Check namespace.
 	String elementValue = null;
 	if ("".equals (uri))
@@ -354,8 +354,9 @@ public class IntPackInHandler extends DefaultHandler {
 	else if (elementValue.equals("adempieredata") || elementValue.equals("data")) {
 	    adempieredata = true;
 	    if (atts.getValue("clientname") != null) {
-		m_AD_Client_ID = get_ID("AD_Client", atts.getValue("clientname"));
-		Env.setContext(Env.getCtx(), "AD_Client_ID", m_AD_Client_ID);		
+	    	m_AD_Client_ID = get_ID("AD_Client", atts.getValue("clientname"));
+	    	Env.setContext(Env.getCtx(), "AD_Client_ID", m_AD_Client_ID);
+	    	log.info("adempieredata: client set to "+m_AD_Client_ID+" "+atts.getValue("clientname"));
 	    }
 	}
 	else if (elementValue.equals("menu")) {	 
@@ -2099,12 +2100,12 @@ log.info("After Column Name ->"+colname);		}
 		try {
 			if(DBType.equals("ALL")){				
 				int n = pstmt.executeUpdate();				
-				log.info("Exceuted SQL Statement");
+				log.info("Executed SQL Statement: "+ atts.getValue("statement"));
 			}
 			else if(DB.isOracle() == true & DBType.equals("Oracle")){
 				pstmt.executeUpdate();
-				log.info("Exceuted SQL Statement for Oracle");
-				}
+				log.info("Executed SQL Statement for Oracle: "+ atts.getValue("statement"));
+			}
 /*			else if(DB.isSybase() == true & DBType.equals("Sybase")){
 				pstmt.executeUpdate();
 				log.info("Exceuted SQL Statement for Sybase");
@@ -2310,150 +2311,154 @@ log.info("After Column Name ->"+colname);		}
 	    ctx.setProperty("adempieredataTable_ID", String.valueOf(get_IDWithColumn("AD_Table", "TableName", d_tablename)));	   	    
 	    // name can be null if there are keyXname attributes.
 	    if (!d_rowname.equals("")){
-	    int id = get_ID(d_tablename, d_rowname);
-	    genericPO = new IntGenericPO(Env.getCtx(), id);
-		if (id > 0){
-			AD_Backup_ID = copyRecord(d_tablename,genericPO);
-			Object_Status = "Update";			
+	    	int id = get_ID(d_tablename, d_rowname);
+	    	genericPO = new IntGenericPO(Env.getCtx(), id);
+	    	if (id > 0){
+	    		AD_Backup_ID = copyRecord(d_tablename,genericPO);
+	    		Object_Status = "Update";			
+	    	}
+	    	else{
+	    		Object_Status = "New";
+	    		AD_Backup_ID =0;
+	    	}
 	    }
-	   else{
-			Object_Status = "New";
-			AD_Backup_ID =0;
-	    }
-		}
 	    // keyXname and lookupkeyXname.
 	    else {
-		String sql = "select * from "+d_tablename;
-		String whereand = " where";
-		String t_tablename = null;
-		String CURRENT_KEY = "key1name";		
-		if (!atts.getValue(CURRENT_KEY).equals("")) {		
-		    t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
-		    sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
-		    whereand = " and";
-		}
-		CURRENT_KEY = "key2name";		
-		if (!atts.getValue(CURRENT_KEY).equals("")) {
-		    t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
-		    sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
-		    whereand = " and";
-		}
-		// Load GenericPO from rs, in fact ID could not exist e.g. Attribute Value
-		try {
-		    PreparedStatement pstmt = DB.prepareStatement(sql, m_trxName);
-
-		    ResultSet rs = pstmt.executeQuery();
-		    if (rs.next()) {
-		    Object_Status = "Update";	
-			genericPO = new IntGenericPO(Env.getCtx(), rs);
-			rs.close();
-		    pstmt.close();
-		    pstmt = null;
-		    }
-		    else {
-			genericPO = new IntGenericPO(Env.getCtx(), 0);
-			rs.close();
-		    pstmt.close();
-		    pstmt = null;
-			Object_Status = "New";
-			// set keyXname.
-			CURRENT_KEY = "key1name";
-			if (!atts.getValue(CURRENT_KEY).equals("")) {
-			    t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
-			    genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
-			}
-			CURRENT_KEY = "key2name";
-			if (!atts.getValue(CURRENT_KEY).equals("")) {
-			    t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
-			    genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
-			}
-		    }
-		    
-		}
-		catch (Exception e) {
-		    log.info ("keyXname attribute. init from rs error."+e);
-		}
+	    	String sql = "select * from "+d_tablename;
+	    	String whereand = " where";
+	    	String t_tablename = null;
+	    	String CURRENT_KEY = "key1name";		
+	    	if (!atts.getValue(CURRENT_KEY).equals("")) {		
+	    		t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
+	    		sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
+	    		whereand = " and";
+	    	}
+	    	CURRENT_KEY = "key2name";		
+	    	if (!atts.getValue(CURRENT_KEY).equals("")) {
+	    		t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
+	    		sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
+	    		whereand = " and";
+	    	}
+	    	// Load GenericPO from rs, in fact ID could not exist e.g. Attribute Value
+	    	try {
+	    		PreparedStatement pstmt = DB.prepareStatement(sql, m_trxName);
+	    		
+	    		ResultSet rs = pstmt.executeQuery();
+	    		if (rs.next()) {
+	    			Object_Status = "Update";	
+	    			genericPO = new IntGenericPO(Env.getCtx(), rs);
+	    			rs.close();
+	    			pstmt.close();
+	    			pstmt = null;
+	    		}
+	    		else {
+	    			genericPO = new IntGenericPO(Env.getCtx(), 0);
+	    			rs.close();
+	    			pstmt.close();
+	    			pstmt = null;
+	    			Object_Status = "New";
+	    			// set keyXname.
+	    			CURRENT_KEY = "key1name";
+	    			if (!atts.getValue(CURRENT_KEY).equals("")) {
+	    				t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
+	    				genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
+	    			}
+	    			CURRENT_KEY = "key2name";
+	    			if (!atts.getValue(CURRENT_KEY).equals("")) {
+	    				t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
+	    				genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
+	    			}
+	    		}
+	    		
+	    	}
+	    	catch (Exception e) {
+	    		log.info ("keyXname attribute. init from rs error."+e);
+	    	}
 	    }
 	    // reset Table ID for GenericPO.
 	    ctx.setProperty("adempieredataTable_ID", "0");
 	    // for debug GenericPO.
 	    if (false) {
-		POInfo poInfo = POInfo.getPOInfo(Env.getCtx(), get_ID("AD_Table", d_tablename));
-		if (poInfo == null)
-		log.info("poInfo is null.");
-		for (int i = 0; i < poInfo.getColumnCount(); i++) {
-		log.info(d_tablename+" column: "+poInfo.getColumnName(i));
-		}
+	    	POInfo poInfo = POInfo.getPOInfo(Env.getCtx(), get_ID("AD_Table", d_tablename));
+	    	if (poInfo == null)
+	    		log.info("poInfo is null.");
+	    	for (int i = 0; i < poInfo.getColumnCount(); i++) {
+	    		log.info(d_tablename+" column: "+poInfo.getColumnName(i));
+	    	}
 	    }
+	    // globalqss: set AD_Client_ID to the client setted in adempieredata
+	    if (m_AD_Client_ID > 0)
+	    	genericPO.setValue("AD_Client_ID", m_AD_Client_ID);
 	    // if new. TODO: no defaults for keyXname.
 	    if (!d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
-			log.info("new genericPO, name:"+d_rowname);
+			log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
 			genericPO.setValue("Name", d_rowname);
 			// Set defaults.
 			HashMap thisDefault = (HashMap)defaults.get(d_tablename);
 			if (thisDefault != null) {
-			    Iterator iter = thisDefault.values().iterator();
-			    ArrayList thisValue = null;
-			    while (iter.hasNext()) {
-				thisValue = (ArrayList)iter.next();
-				if (((String)(thisValue.get(2))).equals("String"))
-				    genericPO.setValue((String)thisValue.get(0), (String)thisValue.get(1));
-				else if (((String)(thisValue.get(2))).equals("Integer"))
-				    genericPO.setValue((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
-				else if (((String)(thisValue.get(2))).equals("Boolean"))
-				    genericPO.setValue((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
-			    }
+				Iterator iter = thisDefault.values().iterator();
+				ArrayList thisValue = null;
+				while (iter.hasNext()) {
+					thisValue = (ArrayList)iter.next();
+					if (((String)(thisValue.get(2))).equals("String"))
+						genericPO.setValue((String)thisValue.get(0), (String)thisValue.get(1));
+					else if (((String)(thisValue.get(2))).equals("Integer"))
+						genericPO.setValue((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
+					else if (((String)(thisValue.get(2))).equals("Boolean"))
+						genericPO.setValue((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
+				}
 			}
-		    }
 	    }
-
+	}
+	
 	// column element, adempieredata
-	    else if (elementValue.equals("dcolumn")) {
-	    	String columnName = atts.getValue("name");	    	
-		    int tableid = get_IDWithColumn("AD_Table", "TableName", d_tablename);
-		    int id =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", columnName, "AD_Table", tableid);
-		    StringBuffer sql = new StringBuffer ("SELECT IsUpdateable FROM AD_column WHERE AD_Column_ID = ?");
-    		String isUpdateable = DB.getSQLValueString(m_trxName, sql.toString(),id);
-			sql = new StringBuffer ("SELECT IsKey FROM AD_column WHERE AD_Column_ID = ?");
-    		String isKey = DB.getSQLValueString(m_trxName, sql.toString(),id);
-    		if (isKey.equals("N") && 
-    				isUpdateable.equals("Y") &&
-    				(!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy"))) {
-    			if (atts.getValue("value") != null && !atts.getValue("value").equals("null")) {
-    				if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
-    						|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
-    						|| atts.getValue("class").equals("Table")|| atts.getValue("class").equals("Button")
-    						|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
-    					genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
-    				}
-    				else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
-    						|| atts.getValue("class").equals("Quantity")|| atts.getValue("class").equals("Costs+Prices")){
-    					genericPO.setValue(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
-    				}
-    				else if (atts.getValue("class").equals("Integer") || atts.getValue("class").equals("ID")
-    						|| atts.getValue("class").equals("Table Direct")|| atts.getValue("class").equals("Table")
-    						|| atts.getValue("class").equals("Location (Address)")|| atts.getValue("class").equals("Account")
-    						|| atts.getValue("class").equals("Color)")|| atts.getValue("class").equals("Search")						
-    						|| atts.getValue("class").equals("Locator (WH)")|| atts.getValue("class").equals("Product Attribute")) {
-    					genericPO.setValue(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
-    				}	
-    				else if (atts.getValue("class").equals("Boolean")) {
-    					genericPO.setValue(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
-    				}
-    				else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
-    						|| atts.getValue("class").equals("Time")) {
-    					genericPO.setValue(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
-    				}//Binary,  Radio, RowID, Image not supported
-    			} else { // value is null 
-    				if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
-    					// globalqss - bring support from XML2AD to lookupname
-    					String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
-    					genericPO.setValue(atts.getValue("name"), new Integer(getIDbyName(m_tablename, atts.getValue("lookupname"))));
-    				}
-    			}
-    		}			
-	    }	
+	else if (elementValue.equals("dcolumn")) {
+		String columnName = atts.getValue("name");	    	
+		int tableid = get_IDWithColumn("AD_Table", "TableName", d_tablename);
+		int id =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", columnName, "AD_Table", tableid);
+		StringBuffer sql = new StringBuffer ("SELECT IsUpdateable FROM AD_column WHERE AD_Column_ID = ?");
+		String isUpdateable = DB.getSQLValueString(m_trxName, sql.toString(),id);
+		sql = new StringBuffer ("SELECT IsKey FROM AD_column WHERE AD_Column_ID = ?");
+		String isKey = DB.getSQLValueString(m_trxName, sql.toString(),id);
+		if (isKey.equals("N") && 
+				isUpdateable.equals("Y") &&
+				(!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy"))) {
+			if (atts.getValue("value") != null && !atts.getValue("value").equals("null")) {
+				if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
+						|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
+						|| atts.getValue("class").equals("Table")|| atts.getValue("class").equals("Button")
+						|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
+					genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
+				}
+				else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
+						|| atts.getValue("class").equals("Quantity")|| atts.getValue("class").equals("Costs+Prices")){
+					genericPO.setValue(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
+				}
+				else if (atts.getValue("class").equals("Integer") || atts.getValue("class").equals("ID")
+						|| atts.getValue("class").equals("Table Direct")|| atts.getValue("class").equals("Table")
+						|| atts.getValue("class").equals("Location (Address)")|| atts.getValue("class").equals("Account")
+						|| atts.getValue("class").equals("Color)")|| atts.getValue("class").equals("Search")						
+						|| atts.getValue("class").equals("Locator (WH)")|| atts.getValue("class").equals("Product Attribute")) {
+					genericPO.setValue(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
+				}	
+				else if (atts.getValue("class").equals("Boolean")) {
+					genericPO.setValue(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
+				}
+				else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
+						|| atts.getValue("class").equals("Time")) {
+					genericPO.setValue(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
+				}//Binary,  Radio, RowID, Image not supported
+			} else { // value is null 
+				if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
+					// globalqss - bring support from XML2AD to lookupname
+					String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
+					genericPO.setValue(atts.getValue("name"), new Integer(getIDbyName(m_tablename, atts.getValue("lookupname"))));
+				}
+			}
+		}			
+	}	
     }   // startElement
+    
     /**
      * Get ID from Name for a table.
      * TODO: substitute with PO.getAllIDs
