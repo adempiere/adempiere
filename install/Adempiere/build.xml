@@ -168,7 +168,7 @@
 				<attribute name="Specification-Vendor" value="Adempiere" />
 				<attribute name="Implementation-Title" value="AdempiereCLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-Vendor" value="ComPiere, Inc." />
+				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
 				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
 			</manifest>
 		</jar>
@@ -219,7 +219,7 @@
 				<attribute name="Specification-Vendor" value="Adempiere" />
 				<attribute name="Implementation-Title" value="AdempiereSLib ${ADEMPIERE_MAIN_VERSION}" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-Vendor" value="ComPiere, Inc." />
+				<attribute name="Implementation-Vendor" value="Adempiere, Inc." />
 				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
 			</manifest>
 		</jar>

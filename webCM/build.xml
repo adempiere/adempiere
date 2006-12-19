@@ -86,7 +86,7 @@
       <manifest>
 		<attribute name="Specification-Title" value="AdempiereWebCM"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
-		<attribute name="Specification-Vendor" value="(C) 2006 ComPiere, Inc., (C) 2006 ComDivision GmbH"/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc., (C) 2006 ComDivision GmbH"/>
 		<attribute name="Implementation-Title" value="AdempiereWebCMWar ${env.ADEMPIERE_VERSION}"/>
 		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>

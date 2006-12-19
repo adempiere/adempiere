@@ -31,7 +31,7 @@
       <manifest>
 		<attribute name="Specification-Title" value="AdempiereWebStore"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
-		<attribute name="Specification-Vendor" value="(C) 2006 ComPiere, Inc."/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc."/>
 		<attribute name="Implementation-Title" value="AdempiereWebStore ${env.ADEMPIERE_VERSION}"/>
 		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
