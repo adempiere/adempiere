@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Teo Sarca                                                  *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -32,6 +33,10 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MClient.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
+ *  
+ *  Carlos Ruiz - globalqss
+ *    integrate bug fix reported by Teo Sarca
+ *    [ 1619085 ] Client setup creates duplicate trees
  */
 public class MClient extends X_AD_Client
 {
@@ -296,7 +301,8 @@ public class MClient extends X_AD_Client
 			sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=120 AND IsActive='Y'";
 		else
 			sql = "SELECT l.Value, t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
-				+ "WHERE l.AD_Reference_ID=120 AND l.AD_Ref_List_ID=t.AD_Ref_List_ID AND l.IsActive='Y'";
+				+ "WHERE l.AD_Reference_ID=120 AND l.AD_Ref_List_ID=t.AD_Ref_List_ID AND l.IsActive='Y'"
+				+ " AND t.AD_Language=" + DB.TO_STRING(language);
 
 		//  Tree IDs
 		int AD_Tree_Org_ID=0, AD_Tree_BPartner_ID=0, AD_Tree_Project_ID=0,
