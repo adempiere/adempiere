@@ -14,6 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  * Contributor: phib [ 1566335 ] Report View scrolling (Bug 1566328)          *
+ *              Teo Sarca [ 1619449 ] Minor typo problem                      *
  *****************************************************************************/
 package org.compiere.print;
 
@@ -39,6 +40,8 @@ import com.qoppa.pdf.*;
  * 	@version 	$Id: Viewer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  * globalqss: integrate phib contribution from 
  *   http://sourceforge.net/tracker/index.php?func=detail&aid=1566335&group_id=176962&atid=879334
+ * globalqss: integrate Teo Sarca bug fixing
+ *   	
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -1003,7 +1006,7 @@ public class Viewer extends CFrame
 		String sql = "SELECT Name, AD_Language FROM AD_Language WHERE IsSystemLanguage='Y' ORDER BY 1";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, sql);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new ValueNamePair (rs.getString(2), rs.getString(1)));
