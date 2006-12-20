@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Teo Sarca                                                  *
  *****************************************************************************/
 package org.compiere.model;
  
@@ -26,6 +27,9 @@ import org.compiere.util.*;
  *
  *	@author Eldir Tomassen/Jorg Janke
  *	@version $Id: MBankStatementLine.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  Carlos Ruiz - globalqss - integrate bug fixing from Teo Sarca
+ *    [ 1619076 ] Bank statement's StatementDifference becames NULL
  */
  public class MBankStatementLine extends X_C_BankStatementLine
  {
@@ -205,7 +209,7 @@ import org.compiere.util.*;
 	private void updateHeader()
 	{
 		String sql = "UPDATE C_BankStatement bs"
-			+ " SET StatementDifference=(SELECT SUM(StmtAmt) FROM C_BankStatementLine bsl " 
+			+ " SET StatementDifference=(SELECT COALESCE(SUM(StmtAmt),0) FROM C_BankStatementLine bsl "
 				+ "WHERE bsl.C_BankStatement_ID=bs.C_BankStatement_ID AND bsl.IsActive='Y') "
 			+ "WHERE C_BankStatement_ID=" + getC_BankStatement_ID();
 		DB.executeUpdate(sql, get_TrxName());
