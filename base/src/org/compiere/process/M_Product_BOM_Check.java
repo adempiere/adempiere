@@ -33,12 +33,16 @@ import org.compiere.util.*;
  *	
  *  @author Carlos Ruiz (globalqss)
  *  @version $Id: M_Product_BOM_Check.java,v 1.0 2005/09/17 13:32:00 globalqss Exp $
+ * @author Carlos Ruiz (globalqss)
+ *         Make T_Selection tables permanent         
  */
 public class M_Product_BOM_Check extends SvrProcess
 {
 
 	/** The Record						*/
 	private int		p_Record_ID = 0;
+
+	private int m_AD_PInstance_ID = 0; 
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -55,6 +59,7 @@ public class M_Product_BOM_Check extends SvrProcess
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 		p_Record_ID = getRecord_ID();
+		m_AD_PInstance_ID = getAD_PInstance_ID();
 	}	//	prepare
 
 	/**
@@ -81,14 +86,20 @@ public class M_Product_BOM_Check extends SvrProcess
 		}
 
 		// Table to put all BOMs - duplicate will cause exception
-        sql1 = new StringBuffer("DELETE FROM T_Selection2 WHERE Query_ID = 0");
+        sql1 = new StringBuffer("DELETE FROM T_Selection2 WHERE Query_ID = 0 AND AD_PInstance_ID="+ m_AD_PInstance_ID);
         no = DB.executeUpdate(sql1.toString(), get_TrxName());
-        sql1 = new StringBuffer("INSERT INTO T_Selection2 (Query_ID, T_Selection_ID) VALUES (0, " + p_Record_ID + ")");
+        sql1 = new StringBuffer("INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) VALUES ("
+        		+ m_AD_PInstance_ID
+        		+ ", 0, " 
+        		+ p_Record_ID + ")");
         no = DB.executeUpdate(sql1.toString(), get_TrxName());
 		// Table of root modes
-        sql1 = new StringBuffer("DELETE FROM T_Selection");
+        sql1 = new StringBuffer("DELETE FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID);
         no = DB.executeUpdate(sql1.toString(), get_TrxName());
-        sql1 = new StringBuffer("INSERT INTO T_Selection (T_Selection_ID) VALUES (" + p_Record_ID + ")");
+        sql1 = new StringBuffer("INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) VALUES ("
+        		+ m_AD_PInstance_ID
+        		+ ", " 
+        		+ p_Record_ID + ")");
         no = DB.executeUpdate(sql1.toString(), get_TrxName());
         
         while (true) {
@@ -98,7 +109,7 @@ public class M_Product_BOM_Check extends SvrProcess
     		try
     		{
     			PreparedStatement pstmt = DB.prepareStatement
-    				("SELECT COUNT(*) FROM T_Selection", get_TrxName());
+    				("SELECT COUNT(*) FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID, get_TrxName());
     			ResultSet rs = pstmt.executeQuery();
     			if (rs.next())
     				countno = rs.getInt(1);
@@ -118,21 +129,29 @@ public class M_Product_BOM_Check extends SvrProcess
     		{
     			// if any command fails (no==-1) break and inform failure 
     			// Insert BOM Nodes into "All" table
-    			sql1 = new StringBuffer("INSERT INTO T_Selection2 (Query_ID, T_Selection_ID) SELECT 0, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS (SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection))");
+    			sql1 = new StringBuffer("INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) " 
+    					+ "SELECT " + m_AD_PInstance_ID + ", 0, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS " 
+    					+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN " 
+    					+ "(SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID + "))");
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
     			// Insert BOM Nodes into temporary table
-    			sql1 = new StringBuffer("DELETE FROM T_Selection2 WHERE Query_ID = 1");
+    			sql1 = new StringBuffer("DELETE FROM T_Selection2 WHERE Query_ID = 1 AND AD_PInstance_ID="+ m_AD_PInstance_ID);
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
-    			sql1 = new StringBuffer("INSERT INTO T_Selection2 (Query_ID, T_Selection_ID) SELECT 1, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS (SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection))");
+    			sql1 = new StringBuffer("INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) " 
+    					+ "SELECT " + m_AD_PInstance_ID + ", 1, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS " 
+    					+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN " 
+    					+ "(SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID + "))");
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
     			// Copy into root table
-    			sql1 = new StringBuffer("DELETE FROM T_Selection");
+    			sql1 = new StringBuffer("DELETE FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID);
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
-    			sql1 = new StringBuffer("INSERT INTO T_Selection (T_Selection_ID) SELECT T_Selection_ID FROM T_Selection2 WHERE Query_ID = 1");
+    			sql1 = new StringBuffer("INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) " 
+    					+ "SELECT " + m_AD_PInstance_ID + ", T_Selection_ID " 
+    					+ "FROM T_Selection2 WHERE Query_ID = 1 AND AD_PInstance_ID="+ m_AD_PInstance_ID);
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
     		}

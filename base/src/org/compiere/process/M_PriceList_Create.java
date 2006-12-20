@@ -31,6 +31,8 @@ import org.compiere.util.*;
  * @author Layda Salas (globalqss)
  * @version $Id: M_PriceList_Create,v 1.0 2005/10/09 22:19:00
  *          globalqss Exp $
+ * @author Carlos Ruiz (globalqss)
+ *         Make T_Selection tables permanent         
  */
 public class M_PriceList_Create extends SvrProcess {
 
@@ -38,6 +40,8 @@ public class M_PriceList_Create extends SvrProcess {
 	private int p_PriceList_Version_ID = 0;
 
 	private String p_DeleteOld;
+	
+	private int m_AD_PInstance_ID = 0; 
 
 	/**
 	 * Prepare - e.g., get Parameters.
@@ -54,6 +58,7 @@ public class M_PriceList_Create extends SvrProcess {
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 		p_PriceList_Version_ID = getRecord_ID();
+		m_AD_PInstance_ID = getAD_PInstance_ID();
 	} //*prepare*/
 
 	/**
@@ -262,7 +267,7 @@ public class M_PriceList_Create extends SvrProcess {
 				//
 				//Clear Temporary Table
 				//
-				sqldel = "DELETE FROM T_Selection ";
+				sqldel = "DELETE FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID;
 				cntd = DB.executeUpdate(sqldel, get_TrxName());
 				if (cntd == -1)
 					raiseError(" DELETE	T_Selection ", sqldel);
@@ -276,8 +281,8 @@ public class M_PriceList_Create extends SvrProcess {
 					//
 					//Create Selection from M_Product_PO
 					//
-					sqlins = "INSERT INTO T_Selection (T_Selection_ID) "
-							+ " SELECT DISTINCT po.M_Product_ID "
+					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) "
+							+ " SELECT DISTINCT " + m_AD_PInstance_ID +", po.M_Product_ID "
 							+ " FROM	M_Product p, M_Product_PO po"
 							+ " WHERE	p.M_Product_ID=po.M_Product_ID "
 							+ " AND	(p.AD_Client_ID="
@@ -308,8 +313,8 @@ public class M_PriceList_Create extends SvrProcess {
 					//
 					// Create Selection from existing PriceList
 					//
-					sqlins = "INSERT INTO T_Selection (T_Selection_ID)"
-							+ " SELECT	DISTINCT p.M_Product_ID"
+					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID)"
+							+ " SELECT	DISTINCT " + m_AD_PInstance_ID +", p.M_Product_ID"
 							+ " FROM	M_Product p, M_ProductPrice pp"
 							+ " WHERE	p.M_Product_ID=pp.M_Product_ID"
 							+ " AND	pp.M_PriceList_Version_ID = "
@@ -378,7 +383,8 @@ public class M_PriceList_Create extends SvrProcess {
 					sqldel = "DELETE M_ProductPrice pp"
 							+ " WHERE pp.M_PriceList_Version_ID = "
 							+ p_PriceList_Version_ID
-							+ " AND EXISTS (SELECT t_selection_id  FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID)";
+							+ " AND EXISTS (SELECT t_selection_id FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID" 
+								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
 
 					cntd = DB.executeUpdate(sqldel, get_TrxName());
 					if (cntd == -1)
@@ -462,7 +468,8 @@ public class M_PriceList_Create extends SvrProcess {
 							+ v.getInt("AD_Org_ID")
 							+ "),0)"
 							+ " FROM	M_Product_PO po "
-							+ " WHERE EXISTS (SELECT * FROM T_Selection s WHERE po.M_Product_ID=s.T_Selection_ID) "
+							+ " WHERE EXISTS (SELECT * FROM T_Selection s WHERE po.M_Product_ID=s.T_Selection_ID" 
+								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ") "
 							+ " AND	po.IsCurrentVendor='Y' AND po.IsActive='Y'";
 
 					PreparedStatement pstmt = DB.prepareStatement(sqlins,
@@ -533,7 +540,8 @@ public class M_PriceList_Create extends SvrProcess {
 							+ " INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)"
 							+ " WHERE	pp.M_PriceList_Version_ID="
 							+ v.getInt("M_PriceList_Version_Base_ID")
-							+ " AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID)"
+							+ " AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID" 
+								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")"
 							+ "AND	pp.IsActive='Y'";
 
 					PreparedStatement pstmt = DB.prepareStatement(sqlins,
@@ -571,7 +579,8 @@ public class M_PriceList_Create extends SvrProcess {
 						+ " WHERE	M_PriceList_Version_ID = "
 						+ p_PriceList_Version_ID
 						+ " AND EXISTS	(SELECT * FROM T_Selection s "
-						+ " WHERE s.T_Selection_ID = p.M_Product_ID)";
+						+ " WHERE s.T_Selection_ID = p.M_Product_ID" 
+						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
 				PreparedStatement pstmu = DB.prepareStatement(sqlupd,
 						ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_UPDATABLE, get_TrxName());
@@ -624,7 +633,8 @@ public class M_PriceList_Create extends SvrProcess {
 						+ " WHERE	M_PriceList_Version_ID="
 						+ p_PriceList_Version_ID
 						+ " AND EXISTS	(SELECT * FROM T_Selection s "
-						+ " WHERE s.T_Selection_ID=p.M_Product_ID)";
+						+ " WHERE s.T_Selection_ID=p.M_Product_ID" 
+						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
 				cntu = DB.executeUpdate(sqlupd, get_TrxName());
 				if (cntu == -1)
 					raiseError("Update  M_ProductPrice ", sqlupd);
@@ -648,7 +658,8 @@ public class M_PriceList_Create extends SvrProcess {
 						+ " WHERE	M_PriceList_Version_ID="
 						+ p_PriceList_Version_ID
 						+ " AND EXISTS	(SELECT * FROM T_Selection s"
-						+ " WHERE s.T_Selection_ID=p.M_Product_ID)";
+						+ " WHERE s.T_Selection_ID=p.M_Product_ID" 
+						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
 				cntu = DB.executeUpdate(sqlupd, get_TrxName());
 				if (cntu == -1)
 					raiseError("Update  M_ProductPrice ", sqlupd);
@@ -699,4 +710,3 @@ public class M_PriceList_Create extends SvrProcess {
 	}
 
 } // M_PriceList_Create
-
