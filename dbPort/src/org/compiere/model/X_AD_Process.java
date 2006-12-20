@@ -98,7 +98,7 @@ public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID <= 0) set_Value ("AD_PrintFormat_ID", null);
  else 
-set_Value ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID < 1) throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-set_ValueNoCheck ("AD_Process_ID", new Integer(AD_Process_ID));
+set_ValueNoCheck ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -129,7 +129,7 @@ public void setAD_ReportView_ID (int AD_ReportView_ID)
 {
 if (AD_ReportView_ID <= 0) set_Value ("AD_ReportView_ID", null);
  else 
-set_Value ("AD_ReportView_ID", new Integer(AD_ReportView_ID));
+set_Value ("AD_ReportView_ID", Integer.valueOf(AD_ReportView_ID));
 }
 /** Get Report View.
 @return View used to generate this report */
@@ -145,7 +145,7 @@ public void setAD_Workflow_ID (int AD_Workflow_ID)
 {
 if (AD_Workflow_ID <= 0) set_Value ("AD_Workflow_ID", null);
  else 
-set_Value ("AD_Workflow_ID", new Integer(AD_Workflow_ID));
+set_Value ("AD_Workflow_ID", Integer.valueOf(AD_Workflow_ID));
 }
 /** Get Workflow.
 @return Workflow or combination of tasks */
@@ -267,7 +267,7 @@ return (String)get_Value("Help");
 @param IsBetaFunctionality This functionality is considered Beta */
 public void setIsBetaFunctionality (boolean IsBetaFunctionality)
 {
-set_Value ("IsBetaFunctionality", new Boolean(IsBetaFunctionality));
+set_Value ("IsBetaFunctionality", Boolean.valueOf(IsBetaFunctionality));
 }
 /** Get Beta Functionality.
 @return This functionality is considered Beta */
@@ -285,7 +285,7 @@ return false;
 @param IsDirectPrint Print without dialog */
 public void setIsDirectPrint (boolean IsDirectPrint)
 {
-set_Value ("IsDirectPrint", new Boolean(IsDirectPrint));
+set_Value ("IsDirectPrint", Boolean.valueOf(IsDirectPrint));
 }
 /** Get Direct print.
 @return Print without dialog */
@@ -303,7 +303,7 @@ return false;
 @param IsReport Indicates a Report record */
 public void setIsReport (boolean IsReport)
 {
-set_Value ("IsReport", new Boolean(IsReport));
+set_Value ("IsReport", Boolean.valueOf(IsReport));
 }
 /** Get Report.
 @return Indicates a Report record */
@@ -321,7 +321,7 @@ return false;
 @param IsServerProcess Run this Process on Server only */
 public void setIsServerProcess (boolean IsServerProcess)
 {
-set_Value ("IsServerProcess", new Boolean(IsServerProcess));
+set_Value ("IsServerProcess", Boolean.valueOf(IsServerProcess));
 }
 /** Get Server Process.
 @return Run this Process on Server only */
@@ -402,7 +402,7 @@ return (String)get_Value("ShowHelp");
 @param Statistic_Count Internal statistics how often the entity was used */
 public void setStatistic_Count (int Statistic_Count)
 {
-set_Value ("Statistic_Count", new Integer(Statistic_Count));
+set_Value ("Statistic_Count", Integer.valueOf(Statistic_Count));
 }
 /** Get Statistic Count.
 @return Internal statistics how often the entity was used */
@@ -416,7 +416,7 @@ return ii.intValue();
 @param Statistic_Seconds Internal statistics how many seconds a process took */
 public void setStatistic_Seconds (int Statistic_Seconds)
 {
-set_Value ("Statistic_Seconds", new Integer(Statistic_Seconds));
+set_Value ("Statistic_Seconds", Integer.valueOf(Statistic_Seconds));
 }
 /** Get Statistic Seconds.
 @return Internal statistics how many seconds a process took */

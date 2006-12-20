@@ -14,6 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  * Contributor(s): Carlos Ruiz - globalqss                                    *
+ *                 Teo Sarca
  *****************************************************************************/
 package org.compiere.util;
 
@@ -32,6 +33,8 @@ import org.compiere.*;
  *  
  *  globalqss - Grant independence to GenerateModel from AD_Table_ID
  *  globalqss - Filter by table (LIKE)
+ *  
+ *  globalqss - integrate Teo Sarca hint [ 1617928 ] Ineficient use of Boolean ctor for gen. model
  */
 public class GenerateModel
 {
@@ -418,11 +421,11 @@ public class GenerateModel
 					sb.append("if (").append (columnName).append (" <= 0) ")
 						.append(setValue).append(" (\"").append(columnName).append("\", null); else \n");
 			}
-			sb.append(setValue).append(" (\"").append(columnName).append("\", new Integer(").append(columnName).append("));");
+			sb.append(setValue).append(" (\"").append(columnName).append("\", Integer.valueOf(").append(columnName).append("));");
 		}
 		//	Boolean
 		else if (clazz.equals(Boolean.class))
-			sb.append(setValue).append(" (\"").append(columnName).append("\", new Boolean(").append(columnName).append("));");
+			sb.append(setValue).append(" (\"").append(columnName).append("\", Boolean.valueOf(").append(columnName).append("));");
 		else
 		{
 			if (isMandatory && AD_Reference_ID == 0)	//	does not apply to int/boolean
