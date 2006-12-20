@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Chris Farley - northernbrewer                              *
  *****************************************************************************/
 package org.compiere.process;
 
@@ -29,6 +30,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: ReplenishReport.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  Carlos Ruiz globalqss - integrate bug fixing from Chris Farley
+ *    [ 1619517 ] Replenish report fails when no records in m_storage
  */
 public class ReplenishReport extends SvrProcess
 {
@@ -219,11 +223,11 @@ public class ReplenishReport extends SvrProcess
 		}
 		
 		sql = "UPDATE T_Replenish t SET "
-			+ "QtyOnHand = (SELECT SUM(QtyOnHand) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
+			+ "QtyOnHand = (SELECT COALESCE(SUM(QtyOnHand),0) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
 				+ " AND l.M_Locator_ID=s.M_Locator_ID AND l.M_Warehouse_ID=t.M_Warehouse_ID),"
-			+ "QtyReserved = (SELECT SUM(QtyReserved) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
+			+ "QtyReserved = (SELECT COALESCE(SUM(QtyReserved),0) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
 				+ " AND l.M_Locator_ID=s.M_Locator_ID AND l.M_Warehouse_ID=t.M_Warehouse_ID),"
-			+ "QtyOrdered = (SELECT SUM(QtyOrdered) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
+			+ "QtyOrdered = (SELECT COALESCE(SUM(QtyOrdered),0) FROM M_Storage s, M_Locator l WHERE t.M_Product_ID=s.M_Product_ID"
 				+ " AND l.M_Locator_ID=s.M_Locator_ID AND l.M_Warehouse_ID=t.M_Warehouse_ID)";
 		if (p_C_DocType_ID != 0)
 			sql += ", C_DocType_ID=" + p_C_DocType_ID;
