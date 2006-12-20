@@ -15,7 +15,7 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * _____________________________________________
+ * Contributor(s): Carlos Ruiz - globalqss
  *****************************************************************************/
 package org.compiere.PackOut;
 
@@ -246,15 +246,18 @@ public class PackRoll extends SvrProcess
 							columnIDName = tableName+"_ID";
 						}						
 						//Update columns that are Strings adjusting for single quotes
-						if (v_AD_Reference_ID == 10 || v_AD_Reference_ID == 14 || v_AD_Reference_ID == 34 || v_AD_Reference_ID == 17)							
-									if (rs2.getObject("ColValue").toString().equals("null")){
-										;//Ignore null values 	
-									}
-									else{
-										sqlC = new StringBuffer ("UPDATE " + tableName
-												+ " SET " + columnName + " = "
-												+ "'" + rs2.getObject("ColValue").toString().replaceAll("'","''") + "'"
-												+ " WHERE " + columnIDName+" = "+ recordID);}																			
+						if (v_AD_Reference_ID == 10 || v_AD_Reference_ID == 14 || v_AD_Reference_ID == 34 || v_AD_Reference_ID == 17
+								// Carlos Ruiz globalqss, special treatment for EntityType
+								// it's a Table reference but must be treated as String 
+								|| (v_AD_Reference_ID == 18 && columnName.equalsIgnoreCase("EntityType")))							
+							if (rs2.getObject("ColValue").toString().equals("null")){
+								;//Ignore null values 	
+							}
+							else{
+								sqlC = new StringBuffer ("UPDATE " + tableName
+										+ " SET " + columnName + " = "
+										+ "'" + rs2.getObject("ColValue").toString().replaceAll("'","''") + "'"
+										+ " WHERE " + columnIDName+" = "+ recordID);}																			
 						//Update true/false columns
 						else if (v_AD_Reference_ID == 20|| v_AD_Reference_ID == 28){
 							sqlC = new StringBuffer ("UPDATE " + tableName
@@ -294,7 +297,6 @@ public class PackRoll extends SvrProcess
 								+ " SET Uninstall = 'Y'"					
 								+ " WHERE AD_Package_Imp_Detail_ID = "+ rs.getInt("AD_Package_Imp_Detail_ID"));
 						no = DB.executeUpdate(sqlD.toString(), null);		
-						
 						
 						}
 					}
