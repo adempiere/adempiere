@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Teo Sarca
  *****************************************************************************/
 package org.compiere.model;
 
@@ -29,6 +30,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCost.java,v 1.6 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  Carlos Ruiz - globalqss - integrate bug fix from Teo Sarca
+ *    [ 1619112 ] Posible problem for LastPO costing, Batch/Lot level
  */
 public class MCost extends X_M_Cost
 {
@@ -489,7 +493,7 @@ public class MCost extends X_M_Cost
 		if (AD_Org_ID != 0)
 			sql += " AND ol.AD_Org_ID=?";
 		else if (M_ASI_ID != 0)
-			sql += " AND t.M_AttributeSetInstance_ID=?";
+			sql += " AND ol.M_AttributeSetInstance_ID=?";
 		sql += " ORDER BY o.DateOrdered DESC, ol.Line DESC";
 		//
 		PreparedStatement pstmt = null;
