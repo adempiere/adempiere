@@ -362,6 +362,8 @@ public final class ALogin extends CDialog
 		m_connectionOK = false;
 		validateAppServer();
 		
+		//make sure connecting to new database
+		DB.closeTarget();
 		connectToDatabase();
 		//
 		hostField.setDisplay();
@@ -416,7 +418,7 @@ public final class ALogin extends CDialog
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 			appExit();
 		//
-		else if (e.getSource() == hostField)
+		else if (e.getSource() == hostField) 
 			validateConnection();
 		else if (e.getSource() == languageCombo)
 			languageComboChanged();
