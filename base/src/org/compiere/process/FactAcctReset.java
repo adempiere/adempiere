@@ -114,7 +114,7 @@ public class FactAcctReset extends SvrProcess
 		}
 		//	Balances
 		if (p_DeletePosting)
-			FinBalance.updateBalanceClient(getCtx(), p_AD_Client_ID, true);		//	delete
+			FinBalance.updateBalanceClient(getCtx(), p_AD_Client_ID);		//	delete
 		//
 		return "@Updated@ = " + m_countReset + ", @Deleted@ = " + m_countDelete;
 	}	//	doIt

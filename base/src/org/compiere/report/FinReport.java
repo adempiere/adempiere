@@ -242,7 +242,7 @@ public class FinReport extends SvrProcess
 
 		//	Update AcctSchema Balances
 		if (p_UpdateBalances)
-			FinBalance.updateBalance (m_report.getC_AcctSchema_ID(), false);
+			FinBalance.updateBalance (m_report.getC_AcctSchema_ID());
 
 		//	** Get Data	** Segment Values
 		m_columns = m_report.getColumnSet().getColumns();

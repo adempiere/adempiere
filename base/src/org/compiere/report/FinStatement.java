@@ -30,6 +30,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: FinStatement.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Low Heng Sin
+ *  - Remove update balance option to resolved Feature Request [ 1557707 ] and
+ *    bug [1619917]
  */
 public class FinStatement extends SvrProcess
 {
@@ -233,7 +236,7 @@ public class FinStatement extends SvrProcess
 	{
 		//	Update AcctSchema Balances
 		if (p_UpdateBalances)
-			FinBalance.updateBalance (p_C_AcctSchema_ID, false);
+			FinBalance.updateBalance (p_C_AcctSchema_ID);
 
 		createBalanceLine();
 		createDetailLines();
