@@ -1,17 +1,23 @@
-1. adempiere-model.xml
+XML File
+* adempiere-model.xml
 - DB independent adempiere schema
-
-2. adempiere-data.jar
+* adempiere-data.jar
 - DB independent adempiere seed data
 
-Changes from existing schema
-* Use SQL standard varchar instead of Oracle proprietary nvarchar datatype.
-* Use Integer datatype for _ID field instead of Number(10)
+Datatype difference between Oracle and PostgreSQL
+* ID Field map to Integer in postgreSQL and Number(10) in Oracle.
+* Integer field map to Integer in postgreSQL, Number(10) in Oracle
+  ( Oracle's Integer datatype map to number(38) which is not standard)
+* PostgreSQL have no native support for CLOB and BLOB, BYTEA is use instead.
+* Timestamp field map to Timestamp in PostgreSQL, DATE in Oracle.
 
 Issue
-* Global Temporary Table is different between Oracle and PostgreSQL
-* Integer datatype size is different between Oracle and Postgresql
-- 4 byte in PostgreSQL, Number(38) in Oracle
 * Fyracle script need to be tested by someone with access to the developer kit.
-* Integer datatype for primary key is too small in Java(sqlj) and PostgreSQL
-- 32 bit signed, probably should use bigint in PostgreSQL and long in Java (sqlj)
+* XML model and data file to be separated by table to ease maintenance.
+
+Note
+* SQL standard varchar datatype is use in place of Oracle's non standard nvarchar 
+datatype. This changes means you must create your database to use UTF8 as default
+character set.
+* Integer instead of BigInt will be use as datatype for ID field to maintain compatibility
+with existing schema.
