@@ -145,8 +145,8 @@
 
 	<!-- Lib Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/lib"/>
-	<copy file="${launch.dir}/jlaunch.ico" tofile="${build.dir}/Adempiere/lib/Adempiere.ico"/>
-	<copy file="${launch.dir}/jlaunchs.ico" tofile="${build.dir}/Adempiere/lib/Adempieres.ico"/>
+	<copy file="${launch.dir}/Adempiere.ico" tofile="${build.dir}/Adempiere/lib/Adempiere.ico"/>
+	<!-- copy file="${launch.dir}/jlaunchs.ico" tofile="${build.dir}/Adempiere/lib/Adempieres.ico"/-->
 	<copy todir="${build.dir}/Adempiere/lib">
 	  <fileset dir="${lib.dir}">
 	  	<include name="**/*ar"/>
