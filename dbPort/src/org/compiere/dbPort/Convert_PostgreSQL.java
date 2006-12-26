@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,41 +10,28 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.dbPort;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Util;
 
 /**
- * Convert SQL to Target DB
+ * Convert Oracle SQL to PostgreSQL SQL
  * 
- * @author Jorg Janke, Victor Perez
- * @version $Id: Convert.java,v 1.3 2006/07/30 00:55:04 jjanke Exp $
+ * @author Victor Perez, Low Heng Sin
  */
 public class Convert_PostgreSQL extends Convert_SQL92 {
 	/**
 	 * Cosntructor
-	 * 
-	 * @param type
-	 *            Database.DB_
 	 */
 	public Convert_PostgreSQL() {
 		m_map = ConvertMap_PostgreSQL.getConvertMap();
@@ -970,7 +957,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
 
 	/***************************************************************************
-	 * Converts Decode.
+	 * Converts Update.
 	 * 
 	 * <pre>
 	 *        UPDATE C_Order i SET 
@@ -982,71 +969,136 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 */
 
 	private String convertUpdate(String sqlStatement) {
-		// return sqlStatement;
-
-		String sqlUpdate = sqlStatement;
-		int index = 0;
-		int begintable = 0;
-		int begin = 0;
-		int end = 0;
-		String alias = null;
-
-		end = 0;
-		begin = Util.findIndexOf(sqlUpdate, "SET (");
-		if (begin != -1) {
-
-			if (sqlUpdate.toUpperCase().indexOf("UPDATE ") == 0) {
-				index = sqlUpdate.toUpperCase().indexOf("UPDATE ");
-				// String firstPart = statement.substring(0,index);
-
-				begintable = sqlUpdate.indexOf(' ', 6);
-
-				// begin the opening ' ' begin Alias
-				begin = sqlUpdate.indexOf(' ', 7);
-				// statement = statement.substring(begin);
-
-				// end Alias
-
-				end = sqlUpdate.toUpperCase().indexOf(" SET", 0); // statement.indexOf("SET",
-				// 0 )
-			}
-
-			// String table = sqlUpdate.substring(begintable,begin).trim();
-			String table = sqlUpdate.substring(begin, end).trim();
-
-			String select = "";
-
-			begin = Util.findIndexOf(sqlUpdate, " SET (");
-			end = sqlUpdate.indexOf(")=(");
-			if (end != -1)
-				select = sqlUpdate.substring(end + 2);
-			else {
-				end = sqlUpdate.indexOf(") = (");
-				if (end != -1)
-					select = sqlUpdate.substring(end + 4);
-				else {
-					end = sqlUpdate.indexOf(")= (");
-					if (end != -1)
-						select = sqlUpdate.substring(end + 3);
-					else {
-						end = sqlUpdate.indexOf(") =(");
-						if (end != -1)
-							select = sqlUpdate.substring(end + 3);
+		String targetTable = null;
+		String targetAlias = null;
+		
+		String sqlUpper = sqlStatement.toUpperCase();
+		StringBuffer token = new StringBuffer();
+		String previousToken = null;
+		int charIndex = 0;
+		int sqlLength = sqlUpper.length();
+		int cnt = 0;
+		boolean isUpdate = false;
+		
+		//get target table and alias
+		while (charIndex < sqlLength)
+		{
+			char c = sqlStatement.charAt(charIndex);
+			if (Character.isWhitespace(c))
+			{
+				if (token.length() > 0) {
+					cnt++;
+					if ( cnt == 1)
+						isUpdate = "UPDATE".equalsIgnoreCase(token.toString()); 
+					else if (cnt == 2)
+						targetTable = token.toString();
+					else if (cnt == 3)
+					{
+						targetAlias = token.toString().trim();
+						if ("SET".equalsIgnoreCase(targetAlias)) //no alias
+							targetAlias = targetTable;
 					}
-
+					previousToken = token.toString();
+					token = new StringBuffer();
 				}
 			}
+			else
+			{
+				if ("SET".equalsIgnoreCase(previousToken))
+					break;
+				else
+					token.append(c);
+			}
+			charIndex++;
+		}
+		
+		if (isUpdate && targetTable != null && sqlUpper.charAt(charIndex) == '(') {
+			int updateFieldsBegin = charIndex;
+			String updateFields = null;
+			
+			String select = "";
 
-			int where_begin = -1;
-			String rest = "";
-			// String select = sqlUpdate.substring(end + 2);
-			// System.out.println("SELECT ->" + select);
-			// int s_end = select.indexOf( ")");
-			int s_end = 0;
-			int s_start = select.indexOf("(");
-			String where = null;
+			//get the sub query
+			String beforePreviousToken = null;
+			previousToken = null;
+			token = new StringBuffer();
+			while (charIndex < sqlLength)
+			{
+				char c = sqlUpper.charAt(charIndex);
+				if (Character.isWhitespace(c))
+				{
+					if (token.length() > 0)
+					{
+						String currentToken = token.toString();
+						if ("(".equals(currentToken) || (currentToken != null && currentToken.startsWith("(")))
+						{
+							if (( ")".equals(beforePreviousToken) ||
+								(beforePreviousToken != null && beforePreviousToken.endsWith(")")) ) &&
+								"=".equals(previousToken))
+							{
+								select = sqlStatement.substring(charIndex - currentToken.length());
+								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								break;
+							}
+							else if (")=".equals(previousToken))
+							{
+								select = sqlStatement.substring(charIndex - currentToken.length());
+								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								break;
+							}
+							else if (previousToken != null && previousToken.endsWith(")="))
+							{
+								select = sqlStatement.substring(charIndex - currentToken.length());
+								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								break;
+							}
+							
+						}
+						if (")=(".equals(currentToken))
+						{
+							select = sqlStatement.substring(charIndex - 1);
+							updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+							updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+							break;
+						}
+						else if (currentToken.endsWith(")=(SELECT"))
+						{
+							select = sqlStatement.substring(charIndex - 7);
+							updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+							updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+							break;
+						}
+						else if ("=(".equals(currentToken) || (currentToken != null && currentToken.startsWith("=(")))
+						{
+							if (")".equals(previousToken) || (previousToken != null && previousToken.endsWith(")")))
+							{
+								select = sqlStatement.substring(charIndex - currentToken.length());
+								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								break;
+							}
+						}
+						beforePreviousToken = previousToken;
+						previousToken = token.toString();
+						token = new StringBuffer();
+					}
+				}
+				else{
+					token.append(c);
+				}
+				charIndex++;
+			}
+			if (updateFields != null && updateFields.startsWith("("))
+				updateFields = updateFields.substring(1);
+
+			int subQueryEnd = 0;
+			int subQueryStart = select.indexOf("(");
+			String subWhere = null;
 			int open = -1;
-			for (int i = s_start; i < select.length(); i++) {
+			for (int i = subQueryStart; i < select.length(); i++) {
 				char c = select.charAt(i);
 				if (c == '(')
 					open++;
@@ -1055,297 +1107,261 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					open--;
 
 				if (open == -1) {
-					s_end = i + 1;
+					subQueryEnd = i + 1;
 					break;
 				}
 			}
 
-			where = select.substring(s_end);
-			where = where.substring(where.indexOf(" WHERE ") + 7);
+			String mainWhere = "";
+			String otherUpdateFields = "";
+			//get update where clause
+			token = new StringBuffer();
+			for(int i = subQueryEnd+1; i < select.length(); i++)
+			{
+				char c = select.charAt(i);
+				if (Character.isWhitespace(c))
+				{
+					if (token.length() > 0)
+					{
+						if ("WHERE".equalsIgnoreCase(token.toString()))
+						{
+							otherUpdateFields = select.substring(subQueryEnd+1, i - 5).trim();
+							mainWhere = select.substring(i + 1);
+							break;
+						}
+						token = new StringBuffer();
+					}
+				}
+				else
+				{
+					token.append(c);
+				}
+			}
 
-			String s = select.substring(s_start, s_end);
+			String subQuery = select.substring(subQueryStart, subQueryEnd);
 
-			// System.out.println("s:"+ s);
-
-			// System.out.println("s_end"+ s_end);
-			// System.out.println("rest: " + rest);
-			String from = s.substring(s.toUpperCase().indexOf(" FROM ") + 6);
-			// System.out.println("from"+ from);
-			// String tablejoin =
-			// from.substring(0,from.toUpperCase().indexOf(" "));
-			String tablejoin = from.substring(from.toUpperCase().indexOf(" "),
-					from.toUpperCase().indexOf(" WHERE "));
-			// System.out.println("tablejoin"+ tablejoin);
-			String tablealias = from.substring(0, from.toUpperCase().indexOf(
-					" WHERE "));
-			// System.out.println("tablealias"+ tablealias);
-			// System.out.println("------------------select.toUpperCase().substring(s_end)"
-			// +select.substring(select.substring(s_end).toUpperCase().indexOf("
-			// WHERE ")));
-			String swhere = select.substring(s_end);
-			// s_end =
-			// System.out.println();
-			// /System.out.println("string end" + swhere);
-			// String s_where = "";
-			// System.out.println("string end" +
-			// select.substring(select.substring(s_end).toUpperCase().indexOf("
-			// WHERE "));
-			String s_where = s.substring(
-					s.toUpperCase().indexOf(" WHERE ") + 7, s.length() - 1);
-			// System.out.println("Where before join" + where);
-			// System.out.println("s_where:" + s_where);
-			// System.out.println("where:" + where);
-			// System.out.println("FROM:" + from);
-			// System.out.println("Table Join:" + tablejoin);
-			// System.out.println("Table Alias:" + tablejoin);
-
-			String Update = sqlUpdate.substring(0, begin);
-			Update = Update + " SET ";
-			int f_begin = begin + 6;
-			int f_beginjoin = 0;
-			// System.out.println(" sqlUpdate"+ sqlUpdate);
-			String fields = sqlUpdate.substring(f_begin, end);
-			// System.out.println("------fields" + fields);
-			int beginfrom = select.toUpperCase().indexOf(" FROM ");
-			String fieldsjoin = select.substring(select.toUpperCase().indexOf(
-					"(SELECT ") + 8, beginfrom);
-			// System.out.println("fields"+fields);
-			// System.out.println("fields Joint"+fieldsjoin);
-			int f = fields.length();
-			int fj = fieldsjoin.length();
-			String field = null;
-			String fieldjoin = null;
-			// System.out.println("Update:"+ Update);
+			//get join table and alias
+			String joinTable = null;
+			String joinAlias = null;
+			token = new StringBuffer();
+			previousToken = null;
+			int joinFieldsBegin = 0;
+			String joinFields = null;
+			String joinFromClause = null;
+			int joinFromClauseStart = 0;
+			for (int i = 0; i < subQuery.length(); i++)
+			{
+				char c = subQuery.charAt(i);
+				if (Character.isWhitespace(c))
+				{
+					if (token.length() > 0)
+					{
+						if ("FROM".equalsIgnoreCase(previousToken))
+						{
+							joinTable = token.toString();
+						}
+						if ("WHERE".equalsIgnoreCase(token.toString()))
+						{
+							subWhere = subQuery.substring(i+1, subQuery.length() - 1);
+							joinFromClause = subQuery.substring(joinFromClauseStart, i - 5).trim();
+							break;
+						}
+						if ("FROM".equalsIgnoreCase(token.toString()))
+						{
+							joinFields = subQuery.substring(joinFieldsBegin, i - 4);
+							joinFromClauseStart = i;
+						}
+						if (previousToken != null && previousToken.equals(joinTable))
+						{
+							joinAlias = token.toString();
+						}
+						previousToken = token.toString();
+						token = new StringBuffer();
+					}
+				}
+				else
+				{
+					if (joinFieldsBegin == 0)
+					{
+						if (token.length() == 0 && 
+							( "SELECT".equalsIgnoreCase(previousToken) || 
+							  (previousToken != null && previousToken.toUpperCase().endsWith("SELECT")))) 
+							joinFieldsBegin = i;
+					}
+					token.append(c);
+				}
+			}
+			if (joinFromClause == null) joinFromClause = subQuery.substring(joinFromClauseStart).trim();
+			if (joinAlias == null) joinAlias = joinTable;
+			
+			//construct update clause
+			StringBuffer Update = new StringBuffer("UPDATE ");
+			Update.append(targetTable);
+			if (!targetAlias.equals(targetTable))
+				Update.append(" " + targetAlias);
+			
+			Update.append(" SET ");
+			
+			int f = updateFields.length();
+			int fj = joinFields.length();
+			String updateField = null;
+			String joinField = null;
 
 			while (f > 0) {
-				f = Util.findIndexOf(fields, ',');// fields.indexOf(',');
-				// System.out.println("comman" + c);
+				f = Util.findIndexOf(updateFields, ',');
 				if (f < 0) {
-					// System.out.print("fields:"+fields);
-					field = fields;
-					fieldjoin = fieldsjoin;
-					if (fieldjoin.indexOf(".") < 0) {
-						fieldjoin = tablejoin + "." + fieldjoin;
+					updateField = updateFields;
+					joinField = joinFields.trim();
+					if (joinField.indexOf(".") < 0) {
+						joinField = joinAlias + "." + joinField;
 					}
 
-					// System.out.println("f_begin:" + f_begin + " end :" +
-					// end + " field:" + field);
-					// Update = Update + field.trim() + "=" + tablejoin +
-					// "." + field.trim() + rest + " FROM " + tablealias + "
-					// WHERE " + where ; // + select.substring(s_end + 8);
-					Update = Update + field.trim() + "=" + fieldjoin.trim()
-							+ rest + " FROM " + tablealias + " WHERE "
-							+ s_where; // + select.substring(s_end + 8);
-					// System.out.println("Last Update" + Update);
-					// set alias all field before where
-
-					if (where != null)
-						where = " AND " + where;
+					Update.append(updateField.trim());
+					Update.append("=");
+					Update.append(joinField);
+					Update.append(otherUpdateFields);
+					Update.append(" FROM ");
+					Update.append(joinFromClause);
+					Update.append(" WHERE ");
+					subWhere = addAliasToIdentifier(subWhere, joinAlias);
+					Update.append(subWhere.trim());
+					
+					if (mainWhere != null)
+						mainWhere = " AND " + mainWhere;
 
 					else
-						where = "";
+						mainWhere = "";
 
-					String sqlkey = "AND,OR,FROM,WHERE,JOIN,BY,GROUP,IN,INTO,SELECT,NOT,SET,UPDATE,DELETE,HAVING,IS,NULL,EXISTS";
-					int o = -1;
-					StringTokenizer st = new StringTokenizer(where);
-					String result = "";
-					String word = "";
-					while (true) // make sure there is stuff to get
-					{
-						word = st.nextToken();
-						// System.out.println("Word:" + word);
-						if (sqlkey.indexOf(word) == -1) {
-
-							for (int i = 0; i < word.length(); i++) {
-								char c = word.charAt(i);
-								if (c == '(')
-									o++;
-								if (c == ')')
-									o--;
-							}
-							if (o == -1
-									&& (!word.contains(")") | !word
-											.contains("("))) {
-
-								result = result + " " + table + "." + word;
-								// result = result + " " + word;
-								// System.out.println("Cadena :" + word);
-							} else {
-								result = result + " " + word;
-							}
-
-						} else
-							result = result + " " + word;
-						if (!st.hasMoreElements())
-							break;
-					}
-
-					Update = Update + result;
-					// System.out.println("UPDATE"+ Update);
+					mainWhere = addAliasToIdentifier(mainWhere, targetAlias);
+					Update.append(mainWhere);
 				} else {
 
-					field = fields.substring(0, f);
-					// System.out.println("Field:"+ field);
-					// System.out.println("------fieldsjoin"+ fieldsjoin);
-					fj = Util.findIndexOf(fieldsjoin, ',');// fj =
+					updateField = updateFields.substring(0, f);
+					fj = Util.findIndexOf(joinFields, ',');
 					// fieldsjoin.indexOf(',');
 
-					fieldjoin = fieldsjoin.substring(0, fj);
-					// System.out.println("fields"+ fields);
-					// System.out.println("fieldsjoin"+ fieldsjoin);
-					if (fieldjoin.indexOf(".") < 0 != fieldjoin
+					joinField = joinFields.substring(0, fj).trim();
+					if (joinField.indexOf(".") < 0 != joinField
 							.equals("SysDate")) {
-						fieldjoin = tablejoin + "." + fieldjoin;
+						joinField = joinAlias + "." + joinField;
 					}
-					// System.out.println( " -----> fj" + fj + "fieldjoin "
-					// + fieldjoin);
-					// Update = Update + field + "=" + tablejoin + "." +
-					// field.trim() + ",";
-					Update = Update + field.trim() + "=" + fieldjoin.trim()
-							+ ",";
-					f_beginjoin = fj;
-					fieldsjoin = fieldsjoin.substring(f_beginjoin + 1);
-					// System.out.println("fieldsjoin" + fieldsjoin);
-					f_beginjoin = fj;
+					Update.append(updateField.trim());
+					Update.append("=");
+					Update.append(joinField);
+					Update.append(",");
+					joinFields = joinFields.substring(fj + 1);
 				}
 
-				f_begin = f;
-				fields = fields.substring(f_begin + 1);
+				updateFields = updateFields.substring(f + 1);
 
 				// System.out.println("Update" + Update);
 			}
 
-			sqlUpdate = Update;
+			return Update.toString();
 
 		}
 		// System.out.println("Convert Update:"+sqlUpdate);
-		return sqlUpdate;
+		return sqlStatement;
 
 	} // convertDecode
-
-	// Two regex's used in convertUpdate
-	/*
-	 * private static final Pattern aliasPatternInUpdate =
-	 * Pattern.compile("(?i)\\s*UPDATE\\s+(\\S+)\\s+(\\S+)\\s+SET\\s.*");
-	 * private static final Pattern tupleUpdatePatternInUpdate =
-	 * Pattern.compile("(?i)\\s*UPDATE\\s+(\\S+)\\s+SET\\s+\\(([^\\)]+)\\)\\s*=\\s*\\(\\s*SELECT\\s(.*?)\\s(FROM\\s.*)");
-	 * 
-	 * private String convertUpdate(String sqlStatement) { String
-	 * convertedSqlStatement = sqlStatement; // 1st step: Remove and replace
-	 * alias Matcher aliasMatcher = aliasPatternInUpdate.matcher(sqlStatement);
-	 * if (aliasMatcher.matches()) { // We found an UPDATE-statement with an
-	 * alias => convert // Extract table name and alias String tableName =
-	 * aliasMatcher.group(1); String alias = aliasMatcher.group(2); // remove
-	 * the alias before SET convertedSqlStatement =
-	 * sqlStatement.replaceFirst("\\s+" + alias + "\\s+", " "); // replace the
-	 * alias with the real table name in all other places convertedSqlStatement =
-	 * convertedSqlStatement.replaceAll("\\b" + alias + "\\.", tableName + "."); } //
-	 * End of: Remove and replace alias // 2nd: step: Convert tuple updates with
-	 * inner SELECT Matcher tupleUpdateMatcher =
-	 * tupleUpdatePatternInUpdate.matcher(convertedSqlStatement); if
-	 * (tupleUpdateMatcher.matches()) { // We found an UPDATE-statement with a
-	 * "tuple-update" // of the form UPDATE a SET (b, c) = (SELECT x, y FROM z
-	 * WHERE) WHERE ... // Extract some important parts of the statement String
-	 * tableName = tupleUpdateMatcher.group(1); String columnsTupleString =
-	 * tupleUpdateMatcher.group(2); String innerSelectColumnsTupleString =
-	 * tupleUpdateMatcher.group(3); String innerSelectFromUntilEnd =
-	 * tupleUpdateMatcher.group(4); // columnsArray contains the columns to be
-	 * updated String[] columnsArray = columnsTupleString.split("\\s*,\\s*"); //
-	 * innerSelectColumnsArray contains the corresponding "columns" // of the
-	 * inner SELECT statement String[] innerSelectColumnsArray = new
-	 * String[columnsArray.length]; // split the inner SELECT columns by ',' but
-	 * not within parenthesis char[] innerSelectColumnsCharArray =
-	 * innerSelectColumnsTupleString.toCharArray(); int openParenthesisCount =
-	 * 0; int columnCount = 0; StringBuffer currentInnerSelectColumnSb = new
-	 * StringBuffer(); int innerSelectColumnsCharArrayLength =
-	 * innerSelectColumnsCharArray.length; int
-	 * innerSelectColumnsCharArrayLastIndex= innerSelectColumnsCharArrayLength -
-	 * 1; for (int i=0; i<innerSelectColumnsCharArrayLength; i++) { if
-	 * (openParenthesisCount > 0) { // If inside of a parenthesis pair simply
-	 * append the character
-	 * currentInnerSelectColumnSb.append(innerSelectColumnsCharArray[i]); } else { //
-	 * We're not inside of a parentheses pair if (innerSelectColumnsCharArray[i] ==
-	 * ',') { // A ',' denotes the end of the inner SELECT column
-	 * innerSelectColumnsArray[columnCount] =
-	 * currentInnerSelectColumnSb.toString().trim(); // Start the next "column"
-	 * of the inner SELECT currentInnerSelectColumnSb = new StringBuffer();
-	 * columnCount++; } else if (i == innerSelectColumnsCharArrayLastIndex) { //
-	 * End of String reached => append last character and add last column
-	 * currentInnerSelectColumnSb.append(innerSelectColumnsCharArray[i]);
-	 * innerSelectColumnsArray[columnCount] =
-	 * currentInnerSelectColumnSb.toString().trim(); } else { // We did not find
-	 * a ',' and we did not reach the end of the string // => this is a "normal"
-	 * character; append
-	 * currentInnerSelectColumnSb.append(innerSelectColumnsCharArray[i]); } } //
-	 * Take care of opening and closing parenthesis // to adjust the open
-	 * parenthesis count if (innerSelectColumnsCharArray[i] == '(') {
-	 * openParenthesisCount++; } else if (innerSelectColumnsCharArray[i] == ')') {
-	 * openParenthesisCount--; } } // Split the FROM-until-end-part into // a)
-	 * the inner SELECT FROM-WHERE-Clause (innerSelectFromWhereClauseSb) // b)
-	 * the WHERE-clause of the UPDATE-statement (updateWhereClauseSb) char[]
-	 * innerSelectFromUntilEndCharArray = innerSelectFromUntilEnd.toCharArray();
-	 * openParenthesisCount = 0; int innerSelectFromUntilEndCharArrayLength =
-	 * innerSelectFromUntilEndCharArray.length; StringBuffer
-	 * innerSelectFromWhereClauseSb = new StringBuffer(); StringBuffer
-	 * updateWhereClauseSb = new StringBuffer(); boolean
-	 * endOfinnerSelectFromWhereClauseReached = false; for (int i=0; i<innerSelectFromUntilEndCharArrayLength;
-	 * i++) { if (endOfinnerSelectFromWhereClauseReached) { // if the end of the
-	 * inner SELECT FROM-WHERE-Clause has // already been reached: Append the
-	 * rest to the WHERE-clause of // the update statement
-	 * updateWhereClauseSb.append(innerSelectFromUntilEndCharArray[i]); } else { //
-	 * the end of the inner SELECT FROM-WHERE-Clause has NOT been reached if
-	 * (innerSelectFromUntilEndCharArray[i] == ')') { // decrement the open
-	 * parenthesis count if we found a closing parenthesis
-	 * openParenthesisCount--; if (openParenthesisCount < 0) { // if
-	 * decrementing the open parenthesis count // leads to a value below 0 we
-	 * found the // end of the inner SELECT
-	 * endOfinnerSelectFromWhereClauseReached = true; } else { // End of the
-	 * inner SELECT not reached: // Append closing paranthesis
-	 * innerSelectFromWhereClauseSb.append(')'); } } else if
-	 * (innerSelectFromUntilEndCharArray[i] == '(') { // Found an opening
-	 * parenthesis => increment the open parenthesis count
-	 * openParenthesisCount++; innerSelectFromWhereClauseSb.append('('); } else { //
-	 * Append all other characters
-	 * innerSelectFromWhereClauseSb.append(innerSelectFromUntilEndCharArray[i]); } } } //
-	 * assemble the new UPDATE statement int columnsArrayLength =
-	 * columnsArray.length; int columnsArrayLastIndex = columnsArrayLength - 1;
-	 * StringBuffer newUpdateStatementSb = new StringBuffer("UPDATE ");
-	 * newUpdateStatementSb.append(tableName); newUpdateStatementSb.append(" SET
-	 * "); // We now have: "UPDATE tablename SET " // Now iterate over all
-	 * columns to be updated and add // the SELECT clause for (int i=0; i<columnsArrayLength;
-	 * i++) { newUpdateStatementSb.append(columnsArray[i]); if
-	 * (innerSelectColumnsArray[i]==null) { newUpdateStatementSb.append(" =
-	 * NULL"); } else if
-	 * (innerSelectColumnsArray[i].trim().toUpperCase().equals("NULL")) { // If
-	 * the inner SELECT column is NULL, simply set the target // column to NULL,
-	 * avoiding the SELECT statement; // this circumvents problems in Derby
-	 * where SELECT NULL-statements // are not allowed without an explicit type
-	 * cast newUpdateStatementSb.append(" = NULL"); } else { // If the inner
-	 * SELECT column is not NULL, append the // full new inner SELECT clause
-	 * newUpdateStatementSb.append(" = (SELECT ");
-	 * newUpdateStatementSb.append(innerSelectColumnsArray[i]).append(" ");
-	 * newUpdateStatementSb.append(innerSelectFromWhereClauseSb);
-	 * newUpdateStatementSb.append(")"); }
-	 * 
-	 * if (i == columnsArrayLastIndex) { newUpdateStatementSb.append(" "); }
-	 * else { // If the inner SELECT column is not NULL, append the // full new
-	 * inner SELECT clause newUpdateStatementSb.append(" = (SELECT ");
-	 * newUpdateStatementSb.append(innerSelectColumnsArray[i]).append(" ");
-	 * newUpdateStatementSb.append(innerSelectFromWhereClauseSb);
-	 * newUpdateStatementSb.append(")"); }
-	 * 
-	 * if (i == columnsArrayLastIndex) { newUpdateStatementSb.append(" "); }
-	 * else { newUpdateStatementSb.append(", "); } } // After adding the WHERE
-	 * clause of the UPDATE statement we're done
-	 * newUpdateStatementSb.append(updateWhereClauseSb); convertedSqlStatement =
-	 * newUpdateStatementSb.toString(); } // End of: Convert tuple updates with
-	 * inner SELECT
-	 * 
-	 * return convertedSqlStatement; } // convertUpdate
+	
+	/**
+	 * Add table alias to identifier in where clause
+	 * @param where
+	 * @param alias
+	 * @return converted where clause
 	 */
+	private String addAliasToIdentifier(String where, String alias)
+	{
+		String sqlkey = "AND,OR,FROM,WHERE,JOIN,BY,GROUP,IN,INTO,SELECT,NOT,SET,UPDATE,DELETE,HAVING,IS,NULL,EXISTS,BETWEEN,LIKE,INNER,OUTER";
+		
+		StringTokenizer st = new StringTokenizer(where);
+		String result = "";
+		String token = "";
+		int o = -1;
+		while (true) 
+		{
+			token = st.nextToken();
+			String test = token.startsWith("(") ? token.substring(1) : token;
+			if (sqlkey.indexOf(test) == -1) {
+
+				if (o != -1) {
+					for (int i = 0; i < token.length(); i++) {
+						char c = token.charAt(i);
+						if (c == '(')
+							o++;
+						if (c == ')')
+							o--;
+					}
+				}
+				token = token.trim();
+				//skip subquery, non identifier and fully qualified identifier
+				if (o == -1
+						&& (!token.contains(")") || !token
+								.contains("("))
+						&& isIdentifier(token)
+						&& token.indexOf(".") == - 1) {
+
+					result = result + " " + alias + "." + token;
+				} else {
+					result = result + " " + token;
+				}
+
+			} else {
+				result = result + " " + token;
+				if ("SELECT".equalsIgnoreCase(test)) {
+					o = 0;
+				}
+			}
+			if (!st.hasMoreElements())
+				break;
+		}
+		return result;
+	}
+	
+	/**
+	 * Check if token is a valid sql identifier
+	 * @param token
+	 * @return True if token is a valid sql identifier, false otherwise
+	 */
+	private boolean isIdentifier(String token)
+	{
+		if ("=".equals(token))
+			return false;
+		else if ("<>".equals(token))
+			return false;
+		else if (">".equals(token))
+			return false;
+		else if ("<".equals(token))
+			return false;
+		else if ("<=".equals(token))
+			return false;
+		else if (">=".equals(token))
+			return false;
+		else if ("||".equals(token))
+			return false;
+		else if ("+".equals(token))
+			return false;
+		else if ("-".equals(token))
+			return false;
+		else if ("*".equals(token))
+			return false;
+		else if ("/".equals(token))
+			return false;
+		else if ("!=".equals(token))
+			return false;
+		else 
+		{
+			try {
+				new BigDecimal(token);
+				return false;
+			} catch (NumberFormatException e) {}
+		}
+		return true;
+	}
 
 	/***************************************************************************
-	 * Converts Decode.
+	 * Converts Delete.
 	 * 
 	 * <pre>
 	 *        DELETE C_Order i WHERE  
@@ -1368,52 +1384,43 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 	// begin vpj-cd e-evolution 08/02/2005
 	/***************************************************************************
-	 * convertAlias.
+	 * convertAlias - for compatibility with 8.1
 	 * 
 	 * @param sqlStatement
 	 * @return converted statementf
 	 */
 	private String convertAlias(String sqlStatement) {
-		return sqlStatement;
-		/*
-		 * String statement = sqlStatement; int index = 0; int begintable = 0;
-		 * int begin = 0; int end = 0; String alias = null;
-		 * 
-		 * if (statement.toUpperCase().indexOf("DELETE FROM ") == 0) { index =
-		 * statement.toUpperCase().indexOf("DELETE FROM "); begintable =
-		 * statement.indexOf(' ', 11 ); // begin the opening ' ' begin Alias
-		 * begin = statement.indexOf(' ', 12 ); // end Alias end =
-		 * statement.toUpperCase().indexOf("WHERE", 0 ); } else if
-		 * (statement.toUpperCase().indexOf("UPDATE ") == 0) { index =
-		 * statement.toUpperCase().indexOf("UPDATE "); //String firstPart =
-		 * statement.substring(0,index);
-		 * 
-		 * begintable = statement.indexOf(' ', 6 ); // begin the opening ' '
-		 * begin Alias begin = statement.indexOf(' ', 7 ); //statement =
-		 * statement.substring(begin); // end Alias
-		 * 
-		 * end = statement.toUpperCase().indexOf(" SET" , 0 );
-		 * //statement.indexOf("SET", 0 ); } else { return statement; }
-		 * 
-		 * String sqlAlias = statement ; if (end > begin) { alias =
-		 * statement.substring(begin,end).trim()+"."; String table =
-		 * statement.substring(begintable,begin).trim();
-		 * //System.out.println("Table" + table); statement =
-		 * statement.substring(0,begin) + " " + statement.substring(end); if
-		 * (!alias.equals(".")) { sqlAlias = Util.replace(statement, " " +alias , " " +
-		 * table + "."); sqlAlias = Util.replace(sqlAlias, "=" +alias , "=" +
-		 * table + "."); sqlAlias = Util.replace(sqlAlias, "(" +alias , "(" +
-		 * table + "."); } }
-		 * 
-		 * //sqlDelete = Util.replace(sqlDelete, "DELETE " , "DELETE FROM ");
-		 * //System.out.println("Convertion Alias:" + statement.substring(0,
-		 * begin ) + " " + statement.substring(end));
-		 * //System.out.println("Statement Convert:" + statement);
-		 * //System.out.println("begin Alias:" + begin + " end Alias:" + end );
-		 * //System.out.println("Alias:" + statement.substring(begin,
-		 * end).trim()); //System.out.println("SQL Alias:"+sqlAlias); return
-		 * sqlAlias;
-		 */
+		String[] tokens = sqlStatement.split("\\s");
+		String table = null;
+		String alias = null;
+		if ("UPDATE".equalsIgnoreCase(tokens[0])) {
+			if ("SET".equalsIgnoreCase(tokens[2])) return sqlStatement;
+			table = tokens[1];
+			alias = tokens[2];
+		} else if ("INSERT".equalsIgnoreCase(tokens[0])) {
+			if ("VALUES".equalsIgnoreCase(tokens[3]) || 
+				"SELECT".equalsIgnoreCase(tokens[3])) 
+				return sqlStatement;
+			if (!tokens[3].startsWith("(")) {
+				table = tokens[2];
+				alias = tokens[3];
+			} else {
+				return sqlStatement;
+			}
+		} else if ("DELETE".equalsIgnoreCase(tokens[0])) {
+			if (tokens.length < 4) return sqlStatement;
+			if ("WHERE".equalsIgnoreCase(tokens[3])) return sqlStatement;
+			table = tokens[2];
+			alias = tokens[3];
+		} 
+		if (table != null && alias != null ) {
+			String converted = sqlStatement.replaceFirst("\\s"+alias+"\\s", " ");
+			converted = converted.replaceAll("\\s"+alias+"\\.", " " + table+".");
+			converted = converted.replaceAll(","+alias+"\\.", "," + table+".");
+			return converted;
+		} else {
+			return sqlStatement;
+		}
 	} // convertDelete
 
 	// end vpj-cd e-evolution 02/24/2005 PostgreSQL
@@ -1533,28 +1540,5 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			m = p.matcher(retVar[0]);
 		}
 		return null;
-	}
-
-	public static void main(String[] args) {
-		//financial report, bug [ 1580231 ]
-		String sql = "UPDATE t_report"
-				+ " SET (NAME, description) = (SELECT VALUE, NAME "
-				+ " FROM c_elementvalue"
-				+ " WHERE c_elementvalue_id = record_id) "
-				+ " WHERE record_id <> 0 " + " AND ad_pinstance_id = 1000024 "
-				+ " AND pa_reportline_id = 101 " + " AND fact_acct_id = 0 ";
-		Convert_PostgreSQL convert = new Convert_PostgreSQL();
-		String[] r = convert.convert(sql);
-		System.out.println(r[0]);
-		
-		//from victor's test
-		sql = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE ROWNUM=1 AND I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11";
-		r = convert.convert(sql);
-		System.out.println(r[0]);
-		
-		sql = "UPDATE I_Order o SET (C_BPartner_ID,AD_User_ID)=(SELECT C_BPartner_ID,AD_User_ID FROM AD_User u WHERE o.ContactName=u.Name AND o.AD_Client_ID=u.AD_Client_ID AND u.C_BPartner_ID IS NOT NULL) WHERE C_BPartner_ID IS NULL AND ContactName IS NOT NULL AND EXISTS (SELECT Name FROM AD_User u WHERE o.ContactName=u.Name AND o.AD_Client_ID=u.AD_Client_ID AND u.C_BPartner_ID IS NOT NULL GROUP BY Name HAVING COUNT(*)=1) AND I_IsImported<>'Y' AND AD_Client_ID=11";
-		r = convert.convert(sql);
-		System.out.println(r[0]);
-		
 	}
 } // Convert
