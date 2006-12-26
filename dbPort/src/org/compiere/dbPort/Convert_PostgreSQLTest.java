@@ -117,6 +117,13 @@ public final class Convert_PostgreSQLTest {
 			+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=0";
 		r = convert.convert(sql);
 		verify(sql, r, "UPDATE T_Report SET Name=e.Name,Description=fa.Description FROM Fact_Acct fa INNER JOIN AD_Table t ON (fa.AD_Table_ID=t.AD_Table_ID) INNER JOIN AD_Element e ON (t.TableName||'_ID'=e.ColumnName) WHERE T_Report.Fact_Acct_ID=fa.Fact_Acct_ID AND T_Report.Fact_Acct_ID <> 0 AND T_Report.AD_PInstance_ID=0");
+		
+		//MInOutLineMa bug [ 1622302 ] 
+		sql = "DELETE FROM M_InOutLineMA ma WHERE EXISTS "
+			+ "(SELECT * FROM M_InOutLine l WHERE l.M_InOutLine_ID=ma.M_InOutLine_ID"
+			+ " AND M_InOut_ID=0)";
+		r = convert.convert(sql);
+		verify(sql, r, "DELETE FROM M_InOutLineMA WHERE EXISTS (SELECT * FROM M_InOutLine l WHERE l.M_InOutLine_ID=M_InOutLineMA.M_InOutLine_ID AND M_InOut_ID=0)");
 	}
 	
 	private void verify(String original, String[] converted, String expected) {
