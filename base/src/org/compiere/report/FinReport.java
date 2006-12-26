@@ -502,15 +502,15 @@ public class FinReport extends SvrProcess
 				{
 					if (col > 0)
 						sb.append(",");
-					sb.append ("COALESCE(SUM(Col_").append (col).append("),0)");
+					sb.append ("COALESCE(SUM(r2.Col_").append (col).append("),0)");
 				}
-				sb.append(" FROM T_Report WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
-					.append(" AND PA_ReportLine_ID IN (");
+				sb.append(" FROM T_Report r2 WHERE r2.AD_PInstance_ID=").append(getAD_PInstance_ID())
+					.append(" AND r2.PA_ReportLine_ID IN (");
 				if (m_lines[line].isCalculationTypeAdd())
 					sb.append(oper_1).append(",").append(oper_2);
 				else
 					sb.append(getLineIDs (oper_1, oper_2));		//	list of columns to add up
-				sb.append(") AND ABS(LevelNo)<1) "		//	0=Line 1=Acct
+				sb.append(") AND ABS(r2.LevelNo)<1) "		//	0=Line 1=Acct
 					+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
 					.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
 					.append(" AND ABS(LevelNo)<1");		//	not trx
@@ -972,7 +972,7 @@ public class FinReport extends SvrProcess
 
 		//	Set Name,Description
 		StringBuffer sql = new StringBuffer ("UPDATE T_Report SET (Name,Description)=(")
-			.append(m_lines[line].getSourceValueQuery()).append("Record_ID) "
+			.append(m_lines[line].getSourceValueQuery()).append("T_Report.Record_ID) "
 			//
 			+ "WHERE Record_ID <> 0 AND AD_PInstance_ID=").append(getAD_PInstance_ID())
 			.append(" AND PA_ReportLine_ID=").append(m_lines[line].getPA_ReportLine_ID())
