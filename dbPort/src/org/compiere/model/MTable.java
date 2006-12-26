@@ -123,6 +123,7 @@ public class MTable extends X_AD_Table
 	
 	/**	Packages for Model Classes	*/
 	private static final String[]	s_packages = new String[] {
+		"compiere.model",			//	globalqss allow compatibility with other plugins 	
 		"adempiere.model",			//	Extensions	
 		"org.compiere.model", "org.compiere.wf", 
 		"org.compiere.print", "org.compiere.impexp"
