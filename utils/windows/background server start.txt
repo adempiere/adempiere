@@ -1,6 +1,0 @@
-Please find a suggestion on how to start the adempiere server in background 
-(as a windows service)
-If you have a better one or suggestions for improvement, 
-please file a support request!
-
-NOTE: When starting the server with this utility, the dispaly of 8/16 bit character sets might not be correct.  Works fine if started via bat file.
