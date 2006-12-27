@@ -130,13 +130,14 @@ public class WebDoc
 		
 		//	css, js
 		if (javaClient)
-			m_head.addElement(new link("http://www.adempiere.org/standard.css", link.REL_STYLESHEET, link.TYPE_CSS));
+			m_head.addElement(new link("http://www.adempiere.com/standard.css", link.REL_STYLESHEET, link.TYPE_CSS));
 		else
 		{
 			m_head.addElement(new link(WebEnv.getStylesheetURL(), link.REL_STYLESHEET, link.TYPE_CSS));
 			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("standard.js")));
 		}
-		m_head.addElement(new meta().setHttpEquiv("Content-Type", "text/html; charset=UTF-8"));
+		// globalqss - problems with java 6 reported by kisitomomo
+		// m_head.addElement(new meta().setHttpEquiv("Content-Type", "text/html; charset=UTF-8"));
 		m_head.addElement(new meta().setName("description", "adempiere HTML UI"));
 
 		m_table = new table("0", "2", "0", "100%", null);	//	spacing 2
@@ -150,12 +151,9 @@ public class WebDoc
 		m_topRow.addElement(m_topLeft);
 		//	Logo
 		m_topRight = new td().setAlign("right");
-		/** Removing/modifying the adempiere logo is a violation of the license	*/
 		if (javaClient)
-			m_topRight.addElement(new img("http://www.adempiere.org/images/adempiere64x32.png")
-				//	Changing the copyright notice in any way violates the license 
-				//	and you'll be held liable for any damage claims
-				.setAlign(AlignType.RIGHT).setAlt("&copy; Jorg Janke/adempiere"));
+			m_topRight.addElement(new img("http://www.adempiere.com/images/adempiere64x32.png")
+				.setAlign(AlignType.RIGHT).setAlt("Adempiere Inc."));
 		else
 			m_topRight.addElement(WebEnv.getLogo());
 		m_topRow.addElement(m_topRight);
