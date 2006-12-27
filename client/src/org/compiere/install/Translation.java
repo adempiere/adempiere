@@ -48,7 +48,7 @@ public class Translation
 	}	//	Translation
 	
 	/**	DTD						*/
-	public static final String DTD = "<!DOCTYPE adempiereTrl PUBLIC \"-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN\" \"http://www.adempiere.org/dtd/adempiereTrl.dtd\">";
+	public static final String DTD = "<!DOCTYPE adempiereTrl PUBLIC \"-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN\" \"http://www.adempiere.com/dtd/adempiereTrl.dtd\">";
 	/**	XML Element Tag			*/
 	public static final String	XML_TAG = "adempiereTrl";
 	public static final String	XML_TAG2 = "compiereTrl";

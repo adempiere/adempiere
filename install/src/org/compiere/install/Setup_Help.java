@@ -121,7 +121,7 @@ public class Setup_Help extends JDialog implements ActionListener
 	{
 		try
 		{
-			editorPane.setPage("http://www.adempiere.org/help/serverSetup.html");
+			editorPane.setPage("http://www.adempiere.com/wiki/index.php/ServerSetupHelp");
 		}
 		catch (IOException ex)
 		{

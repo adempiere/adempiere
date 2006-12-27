@@ -442,7 +442,7 @@ public class PLAFEditor extends JDialog
 		}
 		else if (e.getSource() == bHelp)
 		{
-			new MiniBrowser("http://www.adempiere.org/looks/help.html");
+			new MiniBrowser("http://www.adempiere.com/wiki/index.php/LooksHelp");
 		}
 
 		//  Look & Feel changed
