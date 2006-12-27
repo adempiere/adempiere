@@ -175,6 +175,7 @@
 	<!-- Data Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/data"/>
 	<unjar src="${data.dir}/seed/Adempiere.jar" dest="${build.dir}/Adempiere/data"/>
+	<unjar src="${data.dir}/seed/Adempiere_pg.jar" dest="${build.dir}/Adempiere/data"/>
 	<mkdir dir="${build.dir}/Adempiere/data/import"/>
 	<copy todir="${build.dir}/Adempiere/data/import">
 	  <fileset dir="${data.dir}/import">
