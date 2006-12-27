@@ -3,7 +3,7 @@
 	codebase = "$$context/adempiereHome" 
 	href = "$$context/adempiere.jnlp">  
 	<information>
-		<title>Adempiere Client 3.1.2 $$context</title>
+		<title>Adempiere Client 3.1.3 $$context</title>
 		<vendor>ADempiere, Inc.</vendor>
 		<homepage href = "http://www.adempiere.org"/>
 		<offline-allowed/>
@@ -14,7 +14,7 @@
 		<icon href = "$$context/C32.gif"/>
 		<shortcut online="true">
 			<desktop/>
-			<menu submenu="Adempiere 3.1.2 $$context"/>
+			<menu submenu="Adempiere 3.1.3 $$context"/>
 		</shortcut>
 	</information>  
 	<resources>
