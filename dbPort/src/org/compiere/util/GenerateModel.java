@@ -190,7 +190,7 @@ public class GenerateModel
 			// + "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");\n"
 			+ "protected static KeyNamePair Model = new KeyNamePair(Table_ID,\"").append(tableName).append("\");\n" 
 			//	
-			+ "protected BigDecimal accessLevel = new BigDecimal(").append(accessLevel).append(");"
+			+ "protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");"
 			+ "/** AccessLevel\n@return ").append(accessLevelInfo).append("\n*/\n"
 			+ "protected int get_AccessLevel()"
 			+ "{"
