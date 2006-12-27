@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ_TopicSubscriber
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQ_TopicSubscriber extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_RfQ_TopicSubscriber (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=670 */
-public static final int Table_ID=670;
+public static final int Table_ID=MTable.getTable_ID("C_RfQ_TopicSubscriber");
 
 /** TableName=C_RfQ_TopicSubscriber */
 public static final String Table_Name="C_RfQ_TopicSubscriber";
 
-protected static KeyNamePair Model = new KeyNamePair(670,"C_RfQ_TopicSubscriber");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQ_TopicSubscriber");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
 {
 if (C_RfQ_TopicSubscriber_ID < 1) throw new IllegalArgumentException ("C_RfQ_TopicSubscriber_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_TopicSubscriber_ID", new Integer(C_RfQ_TopicSubscriber_ID));
+set_ValueNoCheck ("C_RfQ_TopicSubscriber_ID", Integer.valueOf(C_RfQ_TopicSubscriber_ID));
 }
 /** Get RfQ Subscriber.
 @return Request for Quotation Topic Subscriber */
@@ -154,7 +154,7 @@ return ii.intValue();
 public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
 {
 if (C_RfQ_Topic_ID < 1) throw new IllegalArgumentException ("C_RfQ_Topic_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_Topic_ID", new Integer(C_RfQ_Topic_ID));
+set_ValueNoCheck ("C_RfQ_Topic_ID", Integer.valueOf(C_RfQ_Topic_ID));
 }
 /** Get RfQ Topic.
 @return Topic for Request for Quotations */

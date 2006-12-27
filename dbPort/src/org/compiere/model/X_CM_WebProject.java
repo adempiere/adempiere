@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebProject
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_WebProject extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_CM_WebProject (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=853 */
-public static final int Table_ID=853;
+public static final int Table_ID=MTable.getTable_ID("CM_WebProject");
 
 /** TableName=CM_WebProject */
 public static final String Table_Name="CM_WebProject";
 
-protected static KeyNamePair Model = new KeyNamePair(853,"CM_WebProject");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WebProject");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -101,7 +101,7 @@ public void setAD_TreeCMC_ID (int AD_TreeCMC_ID)
 {
 if (AD_TreeCMC_ID <= 0) set_ValueNoCheck ("AD_TreeCMC_ID", null);
  else 
-set_ValueNoCheck ("AD_TreeCMC_ID", new Integer(AD_TreeCMC_ID));
+set_ValueNoCheck ("AD_TreeCMC_ID", Integer.valueOf(AD_TreeCMC_ID));
 }
 /** Get Container Tree.
 @return Container Tree */
@@ -120,7 +120,7 @@ public void setAD_TreeCMM_ID (int AD_TreeCMM_ID)
 {
 if (AD_TreeCMM_ID <= 0) set_ValueNoCheck ("AD_TreeCMM_ID", null);
  else 
-set_ValueNoCheck ("AD_TreeCMM_ID", new Integer(AD_TreeCMM_ID));
+set_ValueNoCheck ("AD_TreeCMM_ID", Integer.valueOf(AD_TreeCMM_ID));
 }
 /** Get Media Tree.
 @return Media Tree */
@@ -139,7 +139,7 @@ public void setAD_TreeCMS_ID (int AD_TreeCMS_ID)
 {
 if (AD_TreeCMS_ID <= 0) set_ValueNoCheck ("AD_TreeCMS_ID", null);
  else 
-set_ValueNoCheck ("AD_TreeCMS_ID", new Integer(AD_TreeCMS_ID));
+set_ValueNoCheck ("AD_TreeCMS_ID", Integer.valueOf(AD_TreeCMS_ID));
 }
 /** Get Stage Tree.
 @return Stage Tree */
@@ -158,7 +158,7 @@ public void setAD_TreeCMT_ID (int AD_TreeCMT_ID)
 {
 if (AD_TreeCMT_ID <= 0) set_ValueNoCheck ("AD_TreeCMT_ID", null);
  else 
-set_ValueNoCheck ("AD_TreeCMT_ID", new Integer(AD_TreeCMT_ID));
+set_ValueNoCheck ("AD_TreeCMT_ID", Integer.valueOf(AD_TreeCMT_ID));
 }
 /** Get Template Tree.
 @return Template Tree */
@@ -173,7 +173,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */

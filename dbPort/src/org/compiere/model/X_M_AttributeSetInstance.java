@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSetInstance
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeSetInstance extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_AttributeSetInstance (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=559 */
-public static final int Table_ID=559;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeSetInstance");
 
 /** TableName=M_AttributeSetInstance */
 public static final String Table_Name="M_AttributeSetInstance";
 
-protected static KeyNamePair Model = new KeyNamePair(559,"M_AttributeSetInstance");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeSetInstance");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -137,7 +137,7 @@ return (String)get_Value("Lot");
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -158,7 +158,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()))
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 {
 if (M_AttributeSet_ID < 0) throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-set_Value ("M_AttributeSet_ID", new Integer(M_AttributeSet_ID));
+set_Value ("M_AttributeSet_ID", Integer.valueOf(M_AttributeSet_ID));
 }
 /** Get Attribute Set.
 @return Product Attribute Set */
@@ -174,7 +174,7 @@ public void setM_Lot_ID (int M_Lot_ID)
 {
 if (M_Lot_ID <= 0) set_Value ("M_Lot_ID", null);
  else 
-set_Value ("M_Lot_ID", new Integer(M_Lot_ID));
+set_Value ("M_Lot_ID", Integer.valueOf(M_Lot_ID));
 }
 /** Get Lot.
 @return Product Lot Definition */

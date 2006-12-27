@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_NodeNext
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WF_NodeNext extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_WF_NodeNext (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=131 */
-public static final int Table_ID=131;
+public static final int Table_ID=MTable.getTable_ID("AD_WF_NodeNext");
 
 /** TableName=AD_WF_NodeNext */
 public static final String Table_Name="AD_WF_NodeNext";
 
-protected static KeyNamePair Model = new KeyNamePair(131,"AD_WF_NodeNext");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WF_NodeNext");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -98,7 +98,7 @@ public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 public void setAD_WF_Next_ID (int AD_WF_Next_ID)
 {
 if (AD_WF_Next_ID < 1) throw new IllegalArgumentException ("AD_WF_Next_ID is mandatory.");
-set_Value ("AD_WF_Next_ID", new Integer(AD_WF_Next_ID));
+set_Value ("AD_WF_Next_ID", Integer.valueOf(AD_WF_Next_ID));
 }
 /** Get Next Node.
 @return Next Node in workflow */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
 {
 if (AD_WF_NodeNext_ID < 1) throw new IllegalArgumentException ("AD_WF_NodeNext_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_NodeNext_ID", new Integer(AD_WF_NodeNext_ID));
+set_ValueNoCheck ("AD_WF_NodeNext_ID", Integer.valueOf(AD_WF_NodeNext_ID));
 }
 /** Get Node Transition.
 @return Workflow Node Transition */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 {
 if (AD_WF_Node_ID < 1) throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_Node_ID", new Integer(AD_WF_Node_ID));
+set_ValueNoCheck ("AD_WF_Node_ID", Integer.valueOf(AD_WF_Node_ID));
 }
 /** Get Node.
 @return Workflow Node (activity), step or process */
@@ -187,7 +187,7 @@ return (String)get_Value("EntityType");
 @param IsStdUserWorkflow Standard Manual User Approval Workflow */
 public void setIsStdUserWorkflow (boolean IsStdUserWorkflow)
 {
-set_Value ("IsStdUserWorkflow", new Boolean(IsStdUserWorkflow));
+set_Value ("IsStdUserWorkflow", Boolean.valueOf(IsStdUserWorkflow));
 }
 /** Get Std User Workflow.
 @return Standard Manual User Approval Workflow */
@@ -206,7 +206,7 @@ return false;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

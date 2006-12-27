@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Field
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Field extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_AD_Field (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=107 */
-public static final int Table_ID=107;
+public static final int Table_ID=MTable.getTable_ID("AD_Field");
 
 /** TableName=AD_Field */
 public static final String Table_Name="AD_Field";
 
-protected static KeyNamePair Model = new KeyNamePair(107,"AD_Field");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Field");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -117,7 +117,7 @@ public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
 {
 if (AD_FieldGroup_ID <= 0) set_Value ("AD_FieldGroup_ID", null);
  else 
-set_Value ("AD_FieldGroup_ID", new Integer(AD_FieldGroup_ID));
+set_Value ("AD_FieldGroup_ID", Integer.valueOf(AD_FieldGroup_ID));
 }
 /** Get Field Group.
 @return Logical grouping of fields */
@@ -132,7 +132,7 @@ return ii.intValue();
 public void setAD_Field_ID (int AD_Field_ID)
 {
 if (AD_Field_ID < 1) throw new IllegalArgumentException ("AD_Field_ID is mandatory.");
-set_ValueNoCheck ("AD_Field_ID", new Integer(AD_Field_ID));
+set_ValueNoCheck ("AD_Field_ID", Integer.valueOf(AD_Field_ID));
 }
 /** Get Field.
 @return Field on a database table */
@@ -151,7 +151,7 @@ public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID <= 0) set_Value ("AD_Reference_ID", null);
  else 
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -166,7 +166,7 @@ return ii.intValue();
 public void setAD_Tab_ID (int AD_Tab_ID)
 {
 if (AD_Tab_ID < 1) throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-set_ValueNoCheck ("AD_Tab_ID", new Integer(AD_Tab_ID));
+set_ValueNoCheck ("AD_Tab_ID", Integer.valueOf(AD_Tab_ID));
 }
 /** Get Tab.
 @return Tab within a Window */
@@ -197,7 +197,7 @@ return (String)get_Value("Description");
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
 {
-set_Value ("DisplayLength", new Integer(DisplayLength));
+set_Value ("DisplayLength", Integer.valueOf(DisplayLength));
 }
 /** Get Display Length.
 @return Length of the display in characters */
@@ -267,7 +267,7 @@ return (String)get_Value("Help");
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
 {
-set_Value ("IsCentrallyMaintained", new Boolean(IsCentrallyMaintained));
+set_Value ("IsCentrallyMaintained", Boolean.valueOf(IsCentrallyMaintained));
 }
 /** Get Centrally maintained.
 @return Information maintained in System Element table */
@@ -285,7 +285,7 @@ return false;
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
 {
-set_Value ("IsDisplayed", new Boolean(IsDisplayed));
+set_Value ("IsDisplayed", Boolean.valueOf(IsDisplayed));
 }
 /** Get Displayed.
 @return Determines, if this field is displayed */
@@ -303,7 +303,7 @@ return false;
 @param IsEncrypted Display or Storage is encrypted */
 public void setIsEncrypted (boolean IsEncrypted)
 {
-set_Value ("IsEncrypted", new Boolean(IsEncrypted));
+set_Value ("IsEncrypted", Boolean.valueOf(IsEncrypted));
 }
 /** Get Encrypted.
 @return Display or Storage is encrypted */
@@ -321,7 +321,7 @@ return false;
 @param IsFieldOnly Label is not displayed */
 public void setIsFieldOnly (boolean IsFieldOnly)
 {
-set_Value ("IsFieldOnly", new Boolean(IsFieldOnly));
+set_Value ("IsFieldOnly", Boolean.valueOf(IsFieldOnly));
 }
 /** Get Field Only.
 @return Label is not displayed */
@@ -339,7 +339,7 @@ return false;
 @param IsHeading Field without Column - Only label is displayed */
 public void setIsHeading (boolean IsHeading)
 {
-set_Value ("IsHeading", new Boolean(IsHeading));
+set_Value ("IsHeading", Boolean.valueOf(IsHeading));
 }
 /** Get Heading only.
 @return Field without Column - Only label is displayed */
@@ -383,7 +383,7 @@ return (String)get_Value("IsMandatory");
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -401,7 +401,7 @@ return false;
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
 {
-set_Value ("IsSameLine", new Boolean(IsSameLine));
+set_Value ("IsSameLine", Boolean.valueOf(IsSameLine));
 }
 /** Get Same Line.
 @return Displayed on same line as previous field */
@@ -474,7 +474,7 @@ return (String)get_Value("ObscureType");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

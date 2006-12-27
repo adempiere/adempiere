@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Synonym
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_Synonym extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_K_Synonym (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=608 */
-public static final int Table_ID=608;
+public static final int Table_ID=MTable.getTable_ID("K_Synonym");
 
 /** TableName=K_Synonym */
 public static final String Table_Name="K_Synonym";
 
-protected static KeyNamePair Model = new KeyNamePair(608,"K_Synonym");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Synonym");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -113,7 +113,7 @@ return (String)get_Value("AD_Language");
 public void setK_Synonym_ID (int K_Synonym_ID)
 {
 if (K_Synonym_ID < 1) throw new IllegalArgumentException ("K_Synonym_ID is mandatory.");
-set_ValueNoCheck ("K_Synonym_ID", new Integer(K_Synonym_ID));
+set_ValueNoCheck ("K_Synonym_ID", Integer.valueOf(K_Synonym_ID));
 }
 /** Get Knowledge Synonym.
 @return Knowlege Keyword Synonym */

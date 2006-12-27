@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DistributionList
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DistributionList extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_DistributionList (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=666 */
-public static final int Table_ID=666;
+public static final int Table_ID=MTable.getTable_ID("M_DistributionList");
 
 /** TableName=M_DistributionList */
 public static final String Table_Name="M_DistributionList";
 
-protected static KeyNamePair Model = new KeyNamePair(666,"M_DistributionList");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DistributionList");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("Help");
 public void setM_DistributionList_ID (int M_DistributionList_ID)
 {
 if (M_DistributionList_ID < 1) throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionList_ID", new Integer(M_DistributionList_ID));
+set_ValueNoCheck ("M_DistributionList_ID", Integer.valueOf(M_DistributionList_ID));
 }
 /** Get Distribution List.
 @return Distribution Lists allow to distribute products to a selected list of partners */
@@ -163,7 +163,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

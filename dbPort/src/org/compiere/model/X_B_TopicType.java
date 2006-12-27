@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_TopicType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_B_TopicType extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_B_TopicType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=690 */
-public static final int Table_ID=690;
+public static final int Table_ID=MTable.getTable_ID("B_TopicType");
 
 /** TableName=B_TopicType */
 public static final String Table_Name="B_TopicType";
 
-protected static KeyNamePair Model = new KeyNamePair(690,"B_TopicType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"B_TopicType");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -113,7 +113,7 @@ return (String)get_Value("AuctionType");
 public void setB_TopicType_ID (int B_TopicType_ID)
 {
 if (B_TopicType_ID < 1) throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-set_ValueNoCheck ("B_TopicType_ID", new Integer(B_TopicType_ID));
+set_ValueNoCheck ("B_TopicType_ID", Integer.valueOf(B_TopicType_ID));
 }
 /** Get Topic Type.
 @return Auction Topic Type */
@@ -162,7 +162,7 @@ return (String)get_Value("Help");
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -180,7 +180,7 @@ public static final int M_PRODUCTMEMBER_ID_AD_Reference_ID=162;
 public void setM_ProductMember_ID (int M_ProductMember_ID)
 {
 if (M_ProductMember_ID < 1) throw new IllegalArgumentException ("M_ProductMember_ID is mandatory.");
-set_Value ("M_ProductMember_ID", new Integer(M_ProductMember_ID));
+set_Value ("M_ProductMember_ID", Integer.valueOf(M_ProductMember_ID));
 }
 /** Get Membership.
 @return Product used to deternine the price of the membership for the topic type */
@@ -195,7 +195,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Jorg Janke (generated) 
- *  @version Release 3.1.2 - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO
 {
 /** Standard Constructor
@@ -53,7 +53,7 @@ public X_AD_Package_Imp_Proc (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=1000008 */
+/** AD_Table_ID=50008 */
 public static final int Table_ID=MTable.getTable_ID("AD_Package_Imp_Proc");
 
 /** TableName=AD_Package_Imp_Proc */
@@ -90,7 +90,7 @@ return sb.toString();
 @param AD_Override_Dict AD_Override_Dict */
 public void setAD_Override_Dict (boolean AD_Override_Dict)
 {
-set_Value ("AD_Override_Dict", new Boolean(AD_Override_Dict));
+set_Value ("AD_Override_Dict", Boolean.valueOf(AD_Override_Dict));
 }
 /** Get AD_Override_Dict.
 @return AD_Override_Dict */
@@ -105,7 +105,7 @@ if (oo != null)
 return false;
 }
 /** Set AD_Package_Dir.
-@param AD_Package_Dir AD_Package_Dir */
+@param AD_Package_Dir Where the package directory is located */
 public void setAD_Package_Dir (String AD_Package_Dir)
 {
 if (AD_Package_Dir != null && AD_Package_Dir.length() > 255)
@@ -116,7 +116,7 @@ AD_Package_Dir = AD_Package_Dir.substring(0,254);
 set_Value ("AD_Package_Dir", AD_Package_Dir);
 }
 /** Get AD_Package_Dir.
-@return AD_Package_Dir */
+@return Where the package directory is located */
 public String getAD_Package_Dir() 
 {
 return (String)get_Value("AD_Package_Dir");
@@ -126,7 +126,7 @@ return (String)get_Value("AD_Package_Dir");
 public void setAD_Package_Imp_Proc_ID (int AD_Package_Imp_Proc_ID)
 {
 if (AD_Package_Imp_Proc_ID < 1) throw new IllegalArgumentException ("AD_Package_Imp_Proc_ID is mandatory.");
-set_ValueNoCheck ("AD_Package_Imp_Proc_ID", new Integer(AD_Package_Imp_Proc_ID));
+set_ValueNoCheck ("AD_Package_Imp_Proc_ID", Integer.valueOf(AD_Package_Imp_Proc_ID));
 }
 /** Get AD_Package_Imp_Proc_ID.
 @return AD_Package_Imp_Proc_ID */
@@ -137,7 +137,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set AD_Package_Source.
-@param AD_Package_Source AD_Package_Source */
+@param AD_Package_Source Where the package is located */
 public void setAD_Package_Source (String AD_Package_Source)
 {
 if (AD_Package_Source != null && AD_Package_Source.length() > 255)
@@ -148,14 +148,14 @@ AD_Package_Source = AD_Package_Source.substring(0,254);
 set_Value ("AD_Package_Source", AD_Package_Source);
 }
 /** Get AD_Package_Source.
-@return AD_Package_Source */
+@return Where the package is located */
 public String getAD_Package_Source() 
 {
 return (String)get_Value("AD_Package_Source");
 }
 
-/** AD_Package_Source_Type AD_Reference_ID=1000005 */
-public static final int AD_PACKAGE_SOURCE_TYPE_AD_Reference_ID=1000005;
+/** AD_Package_Source_Type AD_Reference_ID=50005 */
+public static final int AD_PACKAGE_SOURCE_TYPE_AD_Reference_ID=50005;
 /** File = File */
 public static final String AD_PACKAGE_SOURCE_TYPE_File = "File";
 /** WebService = WS */
@@ -166,7 +166,7 @@ public void setAD_Package_Source_Type (String AD_Package_Source_Type)
 {
 if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Package_Source_Type is mandatory");
 if (AD_Package_Source_Type.equals("File") || AD_Package_Source_Type.equals("WS"));
- else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=1000005 - File - WS");
+ else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=50005 - File - WS");
 if (AD_Package_Source_Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");
@@ -180,14 +180,14 @@ public String getAD_Package_Source_Type()
 {
 return (String)get_Value("AD_Package_Source_Type");
 }
-/** Set Process Now.
-@param Processing Process Now */
+/** Set Processing.
+@param Processing Start the import process */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Process Now.
-@return Process Now */
+/** Get Processing.
+@return Start the import process */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");

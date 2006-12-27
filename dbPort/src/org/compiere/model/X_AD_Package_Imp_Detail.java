@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Jorg Janke (generated) 
- *  @version Release 3.1.2 - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO
 {
 /** Standard Constructor
@@ -54,7 +54,7 @@ public X_AD_Package_Imp_Detail (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=1000004 */
+/** AD_Table_ID=50004 */
 public static final int Table_ID=MTable.getTable_ID("AD_Package_Imp_Detail");
 
 /** TableName=AD_Package_Imp_Detail */
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Original_ID (int AD_Original_ID)
 {
 if (AD_Original_ID < 1) throw new IllegalArgumentException ("AD_Original_ID is mandatory.");
-set_Value ("AD_Original_ID", new Integer(AD_Original_ID));
+set_Value ("AD_Original_ID", Integer.valueOf(AD_Original_ID));
 }
 /** Get AD_Original_ID.
 @return AD_Original_ID */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
 {
 if (AD_Package_Imp_Detail_ID < 1) throw new IllegalArgumentException ("AD_Package_Imp_Detail_ID is mandatory.");
-set_ValueNoCheck ("AD_Package_Imp_Detail_ID", new Integer(AD_Package_Imp_Detail_ID));
+set_ValueNoCheck ("AD_Package_Imp_Detail_ID", Integer.valueOf(AD_Package_Imp_Detail_ID));
 }
 /** Get AD_Package_Imp_Detail_ID.
 @return AD_Package_Imp_Detail_ID */
@@ -122,7 +122,7 @@ return ii.intValue();
 public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 {
 if (AD_Package_Imp_ID < 1) throw new IllegalArgumentException ("AD_Package_Imp_ID is mandatory.");
-set_ValueNoCheck ("AD_Package_Imp_ID", new Integer(AD_Package_Imp_ID));
+set_ValueNoCheck ("AD_Package_Imp_ID", Integer.valueOf(AD_Package_Imp_ID));
 }
 /** Get AD_Package_Imp_ID.
 @return AD_Package_Imp_ID */
@@ -132,16 +132,16 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Table.
-@param AD_Table_ID Database Table information */
+/** Set AD_Table_ID.
+@param AD_Table_ID AD_Table_ID */
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
-/** Get Table.
-@return Database Table information */
+/** Get AD_Table_ID.
+@return AD_Table_ID */
 public int getAD_Table_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Table_ID");
@@ -149,7 +149,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Action.
-@param Action Indicates the Action to be performed */
+@param Action Action */
 public void setAction (String Action)
 {
 if (Action != null && Action.length() > 20)
@@ -160,7 +160,7 @@ Action = Action.substring(0,19);
 set_Value ("Action", Action);
 }
 /** Get Action.
-@return Indicates the Action to be performed */
+@return Action */
 public String getAction() 
 {
 return (String)get_Value("Action");
@@ -171,7 +171,7 @@ public void setAd_Backup_ID (int Ad_Backup_ID)
 {
 if (Ad_Backup_ID <= 0) set_Value ("Ad_Backup_ID", null);
  else 
-set_Value ("Ad_Backup_ID", new Integer(Ad_Backup_ID));
+set_Value ("Ad_Backup_ID", Integer.valueOf(Ad_Backup_ID));
 }
 /** Get Ad_Backup_ID.
 @return Ad_Backup_ID */
@@ -182,7 +182,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Name.
-@param Name Alphanumeric identifier of the entity */
+@param Name Name */
 public void setName (String Name)
 {
 if (Name != null && Name.length() > 60)
@@ -193,13 +193,13 @@ Name = Name.substring(0,59);
 set_Value ("Name", Name);
 }
 /** Get Name.
-@return Alphanumeric identifier of the entity */
+@return Name */
 public String getName() 
 {
 return (String)get_Value("Name");
 }
 /** Set Success.
-@param Success Success */
+@param Success Indicates Success */
 public void setSuccess (String Success)
 {
 if (Success != null && Success.length() > 20)
@@ -210,13 +210,13 @@ Success = Success.substring(0,19);
 set_Value ("Success", Success);
 }
 /** Get Success.
-@return Success */
+@return Indicates Success */
 public String getSuccess() 
 {
 return (String)get_Value("Success");
 }
-/** Set DB Table Name.
-@param TableName Name of the table in the database */
+/** Set TableName.
+@param TableName TableName */
 public void setTableName (String TableName)
 {
 if (TableName != null && TableName.length() > 60)
@@ -226,14 +226,14 @@ TableName = TableName.substring(0,59);
 }
 set_Value ("TableName", TableName);
 }
-/** Get DB Table Name.
-@return Name of the table in the database */
+/** Get TableName.
+@return TableName */
 public String getTableName() 
 {
 return (String)get_Value("TableName");
 }
 /** Set Type.
-@param Type Type of Validation (SQL, Java Script, Java Language) */
+@param Type Type */
 public void setType (String Type)
 {
 if (Type != null && Type.length() > 60)
@@ -244,19 +244,19 @@ Type = Type.substring(0,59);
 set_Value ("Type", Type);
 }
 /** Get Type.
-@return Type of Validation (SQL, Java Script, Java Language) */
+@return Type */
 public String getType() 
 {
 return (String)get_Value("Type");
 }
 /** Set Uninstall.
-@param Uninstall Uninstall */
+@param Uninstall Indicates if an object has been uninstalled or reversed */
 public void setUninstall (boolean Uninstall)
 {
-set_ValueNoCheck ("Uninstall", new Boolean(Uninstall));
+set_ValueNoCheck ("Uninstall", Boolean.valueOf(Uninstall));
 }
 /** Get Uninstall.
-@return Uninstall */
+@return Indicates if an object has been uninstalled or reversed */
 public boolean isUninstall() 
 {
 Object oo = get_Value("Uninstall");

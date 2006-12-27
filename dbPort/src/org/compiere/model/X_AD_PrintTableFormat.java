@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintTableFormat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintTableFormat extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_PrintTableFormat (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=523 */
-public static final int Table_ID=523;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintTableFormat");
 
 /** TableName=AD_PrintTableFormat */
 public static final String Table_Name="AD_PrintTableFormat";
 
-protected static KeyNamePair Model = new KeyNamePair(523,"AD_PrintTableFormat");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintTableFormat");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
 {
 if (AD_PrintTableFormat_ID < 1) throw new IllegalArgumentException ("AD_PrintTableFormat_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintTableFormat_ID", new Integer(AD_PrintTableFormat_ID));
+set_ValueNoCheck ("AD_PrintTableFormat_ID", Integer.valueOf(AD_PrintTableFormat_ID));
 }
 /** Get Print Table Format.
 @return Table Format in Reports */
@@ -184,7 +184,7 @@ public void setFunctBG_PrintColor_ID (int FunctBG_PrintColor_ID)
 {
 if (FunctBG_PrintColor_ID <= 0) set_Value ("FunctBG_PrintColor_ID", null);
  else 
-set_Value ("FunctBG_PrintColor_ID", new Integer(FunctBG_PrintColor_ID));
+set_Value ("FunctBG_PrintColor_ID", Integer.valueOf(FunctBG_PrintColor_ID));
 }
 /** Get Function BG Color.
 @return Function Background Color */
@@ -203,7 +203,7 @@ public void setFunctFG_PrintColor_ID (int FunctFG_PrintColor_ID)
 {
 if (FunctFG_PrintColor_ID <= 0) set_Value ("FunctFG_PrintColor_ID", null);
  else 
-set_Value ("FunctFG_PrintColor_ID", new Integer(FunctFG_PrintColor_ID));
+set_Value ("FunctFG_PrintColor_ID", Integer.valueOf(FunctFG_PrintColor_ID));
 }
 /** Get Function Color.
 @return Function Foreground Color */
@@ -222,7 +222,7 @@ public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
 {
 if (Funct_PrintFont_ID <= 0) set_Value ("Funct_PrintFont_ID", null);
  else 
-set_Value ("Funct_PrintFont_ID", new Integer(Funct_PrintFont_ID));
+set_Value ("Funct_PrintFont_ID", Integer.valueOf(Funct_PrintFont_ID));
 }
 /** Get Function Font.
 @return Function row Font */
@@ -241,7 +241,7 @@ public void setHdrLine_PrintColor_ID (int HdrLine_PrintColor_ID)
 {
 if (HdrLine_PrintColor_ID <= 0) set_Value ("HdrLine_PrintColor_ID", null);
  else 
-set_Value ("HdrLine_PrintColor_ID", new Integer(HdrLine_PrintColor_ID));
+set_Value ("HdrLine_PrintColor_ID", Integer.valueOf(HdrLine_PrintColor_ID));
 }
 /** Get Header Line Color.
 @return Table header row line color */
@@ -304,7 +304,7 @@ public void setHdrTextBG_PrintColor_ID (int HdrTextBG_PrintColor_ID)
 {
 if (HdrTextBG_PrintColor_ID <= 0) set_Value ("HdrTextBG_PrintColor_ID", null);
  else 
-set_Value ("HdrTextBG_PrintColor_ID", new Integer(HdrTextBG_PrintColor_ID));
+set_Value ("HdrTextBG_PrintColor_ID", Integer.valueOf(HdrTextBG_PrintColor_ID));
 }
 /** Get Header Row BG Color.
 @return Background color of header row */
@@ -323,7 +323,7 @@ public void setHdrTextFG_PrintColor_ID (int HdrTextFG_PrintColor_ID)
 {
 if (HdrTextFG_PrintColor_ID <= 0) set_Value ("HdrTextFG_PrintColor_ID", null);
  else 
-set_Value ("HdrTextFG_PrintColor_ID", new Integer(HdrTextFG_PrintColor_ID));
+set_Value ("HdrTextFG_PrintColor_ID", Integer.valueOf(HdrTextFG_PrintColor_ID));
 }
 /** Get Header Row Color.
 @return Foreground color if the table header row */
@@ -342,7 +342,7 @@ public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
 {
 if (Hdr_PrintFont_ID <= 0) set_Value ("Hdr_PrintFont_ID", null);
  else 
-set_Value ("Hdr_PrintFont_ID", new Integer(Hdr_PrintFont_ID));
+set_Value ("Hdr_PrintFont_ID", Integer.valueOf(Hdr_PrintFont_ID));
 }
 /** Get Header Row Font.
 @return Header row Font */
@@ -407,7 +407,7 @@ return (String)get_Value("HeaderRight");
 @param ImageIsAttached The image to be printed is attached to the record */
 public void setImageIsAttached (boolean ImageIsAttached)
 {
-set_Value ("ImageIsAttached", new Boolean(ImageIsAttached));
+set_Value ("ImageIsAttached", Boolean.valueOf(ImageIsAttached));
 }
 /** Get Image attached.
 @return The image to be printed is attached to the record */
@@ -442,7 +442,7 @@ return (String)get_Value("ImageURL");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -460,7 +460,7 @@ return false;
 @param IsPaintBoundaryLines Paint table boundary lines */
 public void setIsPaintBoundaryLines (boolean IsPaintBoundaryLines)
 {
-set_Value ("IsPaintBoundaryLines", new Boolean(IsPaintBoundaryLines));
+set_Value ("IsPaintBoundaryLines", Boolean.valueOf(IsPaintBoundaryLines));
 }
 /** Get Paint Boundary Lines.
 @return Paint table boundary lines */
@@ -478,7 +478,7 @@ return false;
 @param IsPaintHLines Paint horizontal lines */
 public void setIsPaintHLines (boolean IsPaintHLines)
 {
-set_Value ("IsPaintHLines", new Boolean(IsPaintHLines));
+set_Value ("IsPaintHLines", Boolean.valueOf(IsPaintHLines));
 }
 /** Get Paint Horizontal Lines.
 @return Paint horizontal lines */
@@ -496,7 +496,7 @@ return false;
 @param IsPaintHeaderLines Paint Lines over/under the Header Line  */
 public void setIsPaintHeaderLines (boolean IsPaintHeaderLines)
 {
-set_Value ("IsPaintHeaderLines", new Boolean(IsPaintHeaderLines));
+set_Value ("IsPaintHeaderLines", Boolean.valueOf(IsPaintHeaderLines));
 }
 /** Get Paint Header Lines.
 @return Paint Lines over/under the Header Line  */
@@ -514,7 +514,7 @@ return false;
 @param IsPaintVLines Paint vertical lines */
 public void setIsPaintVLines (boolean IsPaintVLines)
 {
-set_Value ("IsPaintVLines", new Boolean(IsPaintVLines));
+set_Value ("IsPaintVLines", Boolean.valueOf(IsPaintVLines));
 }
 /** Get Paint Vertical Lines.
 @return Paint vertical lines */
@@ -532,7 +532,7 @@ return false;
 @param IsPrintFunctionSymbols Print Symbols for Functions (Sum, Average, Count) */
 public void setIsPrintFunctionSymbols (boolean IsPrintFunctionSymbols)
 {
-set_Value ("IsPrintFunctionSymbols", new Boolean(IsPrintFunctionSymbols));
+set_Value ("IsPrintFunctionSymbols", Boolean.valueOf(IsPrintFunctionSymbols));
 }
 /** Get Print Function Symbols.
 @return Print Symbols for Functions (Sum, Average, Count) */
@@ -599,7 +599,7 @@ public void setLine_PrintColor_ID (int Line_PrintColor_ID)
 {
 if (Line_PrintColor_ID <= 0) set_Value ("Line_PrintColor_ID", null);
  else 
-set_Value ("Line_PrintColor_ID", new Integer(Line_PrintColor_ID));
+set_Value ("Line_PrintColor_ID", Integer.valueOf(Line_PrintColor_ID));
 }
 /** Get Line Color.
 @return Table line color */

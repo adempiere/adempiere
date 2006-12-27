@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Achievement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Achievement extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_PA_Achievement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=438 */
-public static final int Table_ID=438;
+public static final int Table_ID=MTable.getTable_ID("PA_Achievement");
 
 /** TableName=PA_Achievement */
 public static final String Table_Name="PA_Achievement";
 
-protected static KeyNamePair Model = new KeyNamePair(438,"PA_Achievement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Achievement");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -123,7 +123,7 @@ return (String)get_Value("Description");
 @param IsAchieved The goal is achieved */
 public void setIsAchieved (boolean IsAchieved)
 {
-set_Value ("IsAchieved", new Boolean(IsAchieved));
+set_Value ("IsAchieved", Boolean.valueOf(IsAchieved));
 }
 /** Get Achieved.
 @return The goal is achieved */
@@ -198,7 +198,7 @@ return (String)get_Value("Note");
 public void setPA_Achievement_ID (int PA_Achievement_ID)
 {
 if (PA_Achievement_ID < 1) throw new IllegalArgumentException ("PA_Achievement_ID is mandatory.");
-set_ValueNoCheck ("PA_Achievement_ID", new Integer(PA_Achievement_ID));
+set_ValueNoCheck ("PA_Achievement_ID", Integer.valueOf(PA_Achievement_ID));
 }
 /** Get Achievement.
 @return Performance Achievement */
@@ -213,7 +213,7 @@ return ii.intValue();
 public void setPA_Measure_ID (int PA_Measure_ID)
 {
 if (PA_Measure_ID < 1) throw new IllegalArgumentException ("PA_Measure_ID is mandatory.");
-set_ValueNoCheck ("PA_Measure_ID", new Integer(PA_Measure_ID));
+set_ValueNoCheck ("PA_Measure_ID", Integer.valueOf(PA_Measure_ID));
 }
 /** Get Measure.
 @return Concrete Performance Measurement */
@@ -228,7 +228,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessProfile
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_AccessProfile extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_CM_AccessProfile (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=885 */
-public static final int Table_ID=885;
+public static final int Table_ID=MTable.getTable_ID("CM_AccessProfile");
 
 /** TableName=CM_AccessProfile */
 public static final String Table_Name="CM_AccessProfile";
 
-protected static KeyNamePair Model = new KeyNamePair(885,"CM_AccessProfile");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_AccessProfile");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 {
 if (CM_AccessProfile_ID < 1) throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-set_ValueNoCheck ("CM_AccessProfile_ID", new Integer(CM_AccessProfile_ID));
+set_ValueNoCheck ("CM_AccessProfile_ID", Integer.valueOf(CM_AccessProfile_ID));
 }
 /** Get Web Access Profile.
 @return Web Access Profile */
@@ -140,7 +140,7 @@ return (String)get_Value("Help");
 @param IsExclude Exclude access to the data - if not selected Include access to the data */
 public void setIsExclude (boolean IsExclude)
 {
-set_Value ("IsExclude", new Boolean(IsExclude));
+set_Value ("IsExclude", Boolean.valueOf(IsExclude));
 }
 /** Get Exclude.
 @return Exclude access to the data - if not selected Include access to the data */

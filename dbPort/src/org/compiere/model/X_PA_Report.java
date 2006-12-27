@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Report
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Report extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_PA_Report (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=445 */
-public static final int Table_ID=445;
+public static final int Table_ID=MTable.getTable_ID("PA_Report");
 
 /** TableName=PA_Report */
 public static final String Table_Name="PA_Report";
 
-protected static KeyNamePair Model = new KeyNamePair(445,"PA_Report");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Report");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID <= 0) set_Value ("AD_PrintFormat_ID", null);
  else 
-set_Value ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setC_Calendar_ID (int C_Calendar_ID)
 {
 if (C_Calendar_ID < 1) throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-set_Value ("C_Calendar_ID", new Integer(C_Calendar_ID));
+set_Value ("C_Calendar_ID", Integer.valueOf(C_Calendar_ID));
 }
 /** Get Calendar.
 @return Accounting Calendar Name */
@@ -160,7 +160,7 @@ return (String)get_Value("Description");
 @param ListSources List Report Line Sources */
 public void setListSources (boolean ListSources)
 {
-set_Value ("ListSources", new Boolean(ListSources));
+set_Value ("ListSources", Boolean.valueOf(ListSources));
 }
 /** Get List Sources.
 @return List Report Line Sources */
@@ -178,7 +178,7 @@ return false;
 @param ListTrx List the report transactions */
 public void setListTrx (boolean ListTrx)
 {
-set_Value ("ListTrx", new Boolean(ListTrx));
+set_Value ("ListTrx", Boolean.valueOf(ListTrx));
 }
 /** Get List Transactions.
 @return List the report transactions */
@@ -221,7 +221,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 {
 if (PA_ReportColumnSet_ID < 1) throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-set_Value ("PA_ReportColumnSet_ID", new Integer(PA_ReportColumnSet_ID));
+set_Value ("PA_ReportColumnSet_ID", Integer.valueOf(PA_ReportColumnSet_ID));
 }
 /** Get Report Column Set.
 @return Collection of Columns for Report */
@@ -236,7 +236,7 @@ return ii.intValue();
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 {
 if (PA_ReportLineSet_ID < 1) throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-set_Value ("PA_ReportLineSet_ID", new Integer(PA_ReportLineSet_ID));
+set_Value ("PA_ReportLineSet_ID", Integer.valueOf(PA_ReportLineSet_ID));
 }
 /** Get Report Line Set.
 @return Report Line Set */
@@ -251,7 +251,7 @@ return ii.intValue();
 public void setPA_Report_ID (int PA_Report_ID)
 {
 if (PA_Report_ID < 1) throw new IllegalArgumentException ("PA_Report_ID is mandatory.");
-set_ValueNoCheck ("PA_Report_ID", new Integer(PA_Report_ID));
+set_ValueNoCheck ("PA_Report_ID", Integer.valueOf(PA_Report_ID));
 }
 /** Get Financial Report.
 @return Financial Report */
@@ -265,7 +265,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

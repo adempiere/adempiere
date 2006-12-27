@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_SubscriptionType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_SubscriptionType extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_SubscriptionType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=668 */
-public static final int Table_ID=668;
+public static final int Table_ID=MTable.getTable_ID("C_SubscriptionType");
 
 /** TableName=C_SubscriptionType */
 public static final String Table_Name="C_SubscriptionType";
 
-protected static KeyNamePair Model = new KeyNamePair(668,"C_SubscriptionType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_SubscriptionType");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 {
 if (C_SubscriptionType_ID < 1) throw new IllegalArgumentException ("C_SubscriptionType_ID is mandatory.");
-set_ValueNoCheck ("C_SubscriptionType_ID", new Integer(C_SubscriptionType_ID));
+set_ValueNoCheck ("C_SubscriptionType_ID", Integer.valueOf(C_SubscriptionType_ID));
 }
 /** Get Subscription Type.
 @return Type of subscription */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */

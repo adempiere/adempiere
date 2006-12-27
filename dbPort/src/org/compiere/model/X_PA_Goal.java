@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Goal
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Goal extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_PA_Goal (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=440 */
-public static final int Table_ID=440;
+public static final int Table_ID=MTable.getTable_ID("PA_Goal");
 
 /** TableName=PA_Goal */
 public static final String Table_Name="PA_Goal";
 
-protected static KeyNamePair Model = new KeyNamePair(440,"PA_Goal");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Goal");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID <= 0) set_Value ("AD_Role_ID", null);
  else 
-set_Value ("AD_Role_ID", new Integer(AD_Role_ID));
+set_Value ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -116,7 +116,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -198,7 +198,7 @@ return bd;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -357,7 +357,7 @@ return (String)get_Value("Note");
 public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
 {
 if (PA_ColorSchema_ID < 1) throw new IllegalArgumentException ("PA_ColorSchema_ID is mandatory.");
-set_Value ("PA_ColorSchema_ID", new Integer(PA_ColorSchema_ID));
+set_Value ("PA_ColorSchema_ID", Integer.valueOf(PA_ColorSchema_ID));
 }
 /** Get Color Schema.
 @return Performance Color Schema */
@@ -376,7 +376,7 @@ public void setPA_GoalParent_ID (int PA_GoalParent_ID)
 {
 if (PA_GoalParent_ID <= 0) set_Value ("PA_GoalParent_ID", null);
  else 
-set_Value ("PA_GoalParent_ID", new Integer(PA_GoalParent_ID));
+set_Value ("PA_GoalParent_ID", Integer.valueOf(PA_GoalParent_ID));
 }
 /** Get Parent Goal.
 @return Parent Goal */
@@ -391,7 +391,7 @@ return ii.intValue();
 public void setPA_Goal_ID (int PA_Goal_ID)
 {
 if (PA_Goal_ID < 1) throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
-set_ValueNoCheck ("PA_Goal_ID", new Integer(PA_Goal_ID));
+set_ValueNoCheck ("PA_Goal_ID", Integer.valueOf(PA_Goal_ID));
 }
 /** Get Goal.
 @return Performance Goal */
@@ -407,7 +407,7 @@ public void setPA_Measure_ID (int PA_Measure_ID)
 {
 if (PA_Measure_ID <= 0) set_Value ("PA_Measure_ID", null);
  else 
-set_Value ("PA_Measure_ID", new Integer(PA_Measure_ID));
+set_Value ("PA_Measure_ID", Integer.valueOf(PA_Measure_ID));
 }
 /** Get Measure.
 @return Concrete Performance Measurement */
@@ -437,7 +437,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

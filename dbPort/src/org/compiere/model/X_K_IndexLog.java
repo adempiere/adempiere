@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_IndexLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_IndexLog extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_K_IndexLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=899 */
-public static final int Table_ID=899;
+public static final int Table_ID=MTable.getTable_ID("K_IndexLog");
 
 /** TableName=K_IndexLog */
 public static final String Table_Name="K_IndexLog";
 
-protected static KeyNamePair Model = new KeyNamePair(899,"K_IndexLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_IndexLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -116,7 +116,7 @@ return new KeyNamePair(get_ID(), getIndexQuery());
 @param IndexQueryResult Result of the text query */
 public void setIndexQueryResult (int IndexQueryResult)
 {
-set_ValueNoCheck ("IndexQueryResult", new Integer(IndexQueryResult));
+set_ValueNoCheck ("IndexQueryResult", Integer.valueOf(IndexQueryResult));
 }
 /** Get Query Result.
 @return Result of the text query */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setK_IndexLog_ID (int K_IndexLog_ID)
 {
 if (K_IndexLog_ID < 1) throw new IllegalArgumentException ("K_IndexLog_ID is mandatory.");
-set_ValueNoCheck ("K_IndexLog_ID", new Integer(K_IndexLog_ID));
+set_ValueNoCheck ("K_IndexLog_ID", Integer.valueOf(K_IndexLog_ID));
 }
 /** Get Index Log.
 @return Text search log */

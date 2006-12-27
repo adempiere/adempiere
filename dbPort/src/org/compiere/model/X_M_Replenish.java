@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Replenish
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Replenish extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_Replenish (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=249 */
-public static final int Table_ID=249;
+public static final int Table_ID=MTable.getTable_ID("M_Replenish");
 
 /** TableName=M_Replenish */
 public static final String Table_Name="M_Replenish";
 
-protected static KeyNamePair Model = new KeyNamePair(249,"M_Replenish");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Replenish");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -124,7 +124,7 @@ return bd;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -143,7 +143,7 @@ public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 {
 if (M_WarehouseSource_ID <= 0) set_Value ("M_WarehouseSource_ID", null);
  else 
-set_Value ("M_WarehouseSource_ID", new Integer(M_WarehouseSource_ID));
+set_Value ("M_WarehouseSource_ID", Integer.valueOf(M_WarehouseSource_ID));
 }
 /** Get Source Warehouse.
 @return Optional Warehouse to replenish from */
@@ -158,7 +158,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_ValueNoCheck ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_ValueNoCheck ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */

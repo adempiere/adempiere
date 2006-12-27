@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Payment
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Payment extends PO
 {
 /** Standard Constructor
@@ -76,12 +76,12 @@ public X_C_Payment (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=335 */
-public static final int Table_ID=335;
+public static final int Table_ID=MTable.getTable_ID("C_Payment");
 
 /** TableName=C_Payment */
 public static final String Table_Name="C_Payment";
 
-protected static KeyNamePair Model = new KeyNamePair(335,"C_Payment");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Payment");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -117,7 +117,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -303,7 +303,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -319,7 +319,7 @@ public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 {
 if (C_BP_BankAccount_ID <= 0) set_Value ("C_BP_BankAccount_ID", null);
  else 
-set_Value ("C_BP_BankAccount_ID", new Integer(C_BP_BankAccount_ID));
+set_Value ("C_BP_BankAccount_ID", Integer.valueOf(C_BP_BankAccount_ID));
 }
 /** Get Partner Bank Account.
 @return Bank Account of the Business Partner */
@@ -334,7 +334,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -349,7 +349,7 @@ return ii.intValue();
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_Value ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_Value ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -365,7 +365,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -381,7 +381,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -397,7 +397,7 @@ public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID <= 0) set_Value ("C_ConversionType_ID", null);
  else 
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -412,7 +412,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -427,7 +427,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -443,7 +443,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -459,7 +459,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -475,7 +475,7 @@ public void setC_PaymentBatch_ID (int C_PaymentBatch_ID)
 {
 if (C_PaymentBatch_ID <= 0) set_Value ("C_PaymentBatch_ID", null);
  else 
-set_Value ("C_PaymentBatch_ID", new Integer(C_PaymentBatch_ID));
+set_Value ("C_PaymentBatch_ID", Integer.valueOf(C_PaymentBatch_ID));
 }
 /** Get Payment Batch.
 @return Payment batch for EFT */
@@ -490,7 +490,7 @@ return ii.intValue();
 public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID < 1) throw new IllegalArgumentException ("C_Payment_ID is mandatory.");
-set_ValueNoCheck ("C_Payment_ID", new Integer(C_Payment_ID));
+set_ValueNoCheck ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -506,7 +506,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -551,7 +551,7 @@ return (String)get_Value("CheckNo");
 @param CreditCardExpMM Expiry Month */
 public void setCreditCardExpMM (int CreditCardExpMM)
 {
-set_Value ("CreditCardExpMM", new Integer(CreditCardExpMM));
+set_Value ("CreditCardExpMM", Integer.valueOf(CreditCardExpMM));
 }
 /** Get Exp. Month.
 @return Expiry Month */
@@ -565,7 +565,7 @@ return ii.intValue();
 @param CreditCardExpYY Expiry Year */
 public void setCreditCardExpYY (int CreditCardExpYY)
 {
-set_Value ("CreditCardExpYY", new Integer(CreditCardExpYY));
+set_Value ("CreditCardExpYY", Integer.valueOf(CreditCardExpYY));
 }
 /** Get Exp. Year.
 @return Expiry Year */
@@ -828,7 +828,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsAllocated Indicates if the payment has been allocated */
 public void setIsAllocated (boolean IsAllocated)
 {
-set_Value ("IsAllocated", new Boolean(IsAllocated));
+set_Value ("IsAllocated", Boolean.valueOf(IsAllocated));
 }
 /** Get Allocated.
 @return Indicates if the payment has been allocated */
@@ -846,7 +846,7 @@ return false;
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_ValueNoCheck ("IsApproved", new Boolean(IsApproved));
+set_ValueNoCheck ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -864,7 +864,7 @@ return false;
 @param IsDelayedCapture Charge after Shipment */
 public void setIsDelayedCapture (boolean IsDelayedCapture)
 {
-set_Value ("IsDelayedCapture", new Boolean(IsDelayedCapture));
+set_Value ("IsDelayedCapture", Boolean.valueOf(IsDelayedCapture));
 }
 /** Get Delayed Capture.
 @return Charge after Shipment */
@@ -882,7 +882,7 @@ return false;
 @param IsOnline Can be accessed online  */
 public void setIsOnline (boolean IsOnline)
 {
-set_Value ("IsOnline", new Boolean(IsOnline));
+set_Value ("IsOnline", Boolean.valueOf(IsOnline));
 }
 /** Get Online Access.
 @return Can be accessed online  */
@@ -900,7 +900,7 @@ return false;
 @param IsOverUnderPayment Over-Payment (unallocated) or Under-Payment (partial payment) */
 public void setIsOverUnderPayment (boolean IsOverUnderPayment)
 {
-set_Value ("IsOverUnderPayment", new Boolean(IsOverUnderPayment));
+set_Value ("IsOverUnderPayment", Boolean.valueOf(IsOverUnderPayment));
 }
 /** Get Over/Under Payment.
 @return Over-Payment (unallocated) or Under-Payment (partial payment) */
@@ -918,7 +918,7 @@ return false;
 @param IsPrepayment The Payment/Receipt is a Prepayment */
 public void setIsPrepayment (boolean IsPrepayment)
 {
-set_Value ("IsPrepayment", new Boolean(IsPrepayment));
+set_Value ("IsPrepayment", Boolean.valueOf(IsPrepayment));
 }
 /** Get Prepayment.
 @return The Payment/Receipt is a Prepayment */
@@ -936,7 +936,7 @@ return false;
 @param IsReceipt This is a sales transaction (receipt) */
 public void setIsReceipt (boolean IsReceipt)
 {
-set_Value ("IsReceipt", new Boolean(IsReceipt));
+set_Value ("IsReceipt", Boolean.valueOf(IsReceipt));
 }
 /** Get Receipt.
 @return This is a sales transaction (receipt) */
@@ -954,7 +954,7 @@ return false;
 @param IsReconciled Payment is reconciled with bank statement */
 public void setIsReconciled (boolean IsReconciled)
 {
-set_Value ("IsReconciled", new Boolean(IsReconciled));
+set_Value ("IsReconciled", Boolean.valueOf(IsReconciled));
 }
 /** Get Reconciled.
 @return Payment is reconciled with bank statement */
@@ -972,7 +972,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -1087,7 +1087,7 @@ return bd;
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_Value ("Posted", new Boolean(Posted));
+set_Value ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -1105,7 +1105,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -1123,7 +1123,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -1231,7 +1231,7 @@ return (String)get_Value("R_AvsZip");
 @param R_CVV2Match Credit Card Verification Code Match */
 public void setR_CVV2Match (boolean R_CVV2Match)
 {
-set_ValueNoCheck ("R_CVV2Match", new Boolean(R_CVV2Match));
+set_ValueNoCheck ("R_CVV2Match", Boolean.valueOf(R_CVV2Match));
 }
 /** Get CVV Match.
 @return Credit Card Verification Code Match */
@@ -1339,7 +1339,7 @@ public void setRef_Payment_ID (int Ref_Payment_ID)
 {
 if (Ref_Payment_ID <= 0) set_ValueNoCheck ("Ref_Payment_ID", null);
  else 
-set_ValueNoCheck ("Ref_Payment_ID", new Integer(Ref_Payment_ID));
+set_ValueNoCheck ("Ref_Payment_ID", Integer.valueOf(Ref_Payment_ID));
 }
 /** Get Referenced Payment.
 @return Referenced Payment */
@@ -1472,7 +1472,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -1491,7 +1491,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

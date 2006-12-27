@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchemaBreak
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DiscountSchemaBreak extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_DiscountSchemaBreak (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=476 */
-public static final int Table_ID=476;
+public static final int Table_ID=MTable.getTable_ID("M_DiscountSchemaBreak");
 
 /** TableName=M_DiscountSchemaBreak */
 public static final String Table_Name="M_DiscountSchemaBreak";
 
-protected static KeyNamePair Model = new KeyNamePair(476,"M_DiscountSchemaBreak");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DiscountSchemaBreak");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -124,7 +124,7 @@ return bd;
 @param IsBPartnerFlatDiscount Use flat discount defined on Business Partner Level */
 public void setIsBPartnerFlatDiscount (boolean IsBPartnerFlatDiscount)
 {
-set_Value ("IsBPartnerFlatDiscount", new Boolean(IsBPartnerFlatDiscount));
+set_Value ("IsBPartnerFlatDiscount", Boolean.valueOf(IsBPartnerFlatDiscount));
 }
 /** Get B.Partner Flat Discount.
 @return Use flat discount defined on Business Partner Level */
@@ -143,7 +143,7 @@ return false;
 public void setM_DiscountSchemaBreak_ID (int M_DiscountSchemaBreak_ID)
 {
 if (M_DiscountSchemaBreak_ID < 1) throw new IllegalArgumentException ("M_DiscountSchemaBreak_ID is mandatory.");
-set_ValueNoCheck ("M_DiscountSchemaBreak_ID", new Integer(M_DiscountSchemaBreak_ID));
+set_ValueNoCheck ("M_DiscountSchemaBreak_ID", Integer.valueOf(M_DiscountSchemaBreak_ID));
 }
 /** Get Discount Schema Break.
 @return Trade Discount Break */
@@ -158,7 +158,7 @@ return ii.intValue();
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID < 1) throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-set_ValueNoCheck ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_ValueNoCheck ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -174,7 +174,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -190,7 +190,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -205,7 +205,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

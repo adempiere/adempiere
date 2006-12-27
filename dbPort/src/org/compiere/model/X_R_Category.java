@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Category
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_Category extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_Category (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=772 */
-public static final int Table_ID=772;
+public static final int Table_ID=MTable.getTable_ID("R_Category");
 
 /** TableName=R_Category */
 public static final String Table_Name="R_Category";
 
-protected static KeyNamePair Model = new KeyNamePair(772,"R_Category");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_Category");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -126,7 +126,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -165,7 +165,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_Category_ID (int R_Category_ID)
 {
 if (R_Category_ID < 1) throw new IllegalArgumentException ("R_Category_ID is mandatory.");
-set_ValueNoCheck ("R_Category_ID", new Integer(R_Category_ID));
+set_ValueNoCheck ("R_Category_ID", Integer.valueOf(R_Category_ID));
 }
 /** Get Category.
 @return Request Category */

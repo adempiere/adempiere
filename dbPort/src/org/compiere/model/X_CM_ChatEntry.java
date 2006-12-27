@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_ChatEntry
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_ChatEntry extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_CM_ChatEntry (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=877 */
-public static final int Table_ID=877;
+public static final int Table_ID=MTable.getTable_ID("CM_ChatEntry");
 
 /** TableName=CM_ChatEntry */
 public static final String Table_Name="CM_ChatEntry";
 
-protected static KeyNamePair Model = new KeyNamePair(877,"CM_ChatEntry");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_ChatEntry");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -114,7 +114,7 @@ public void setCM_ChatEntryGrandParent_ID (int CM_ChatEntryGrandParent_ID)
 {
 if (CM_ChatEntryGrandParent_ID <= 0) set_Value ("CM_ChatEntryGrandParent_ID", null);
  else 
-set_Value ("CM_ChatEntryGrandParent_ID", new Integer(CM_ChatEntryGrandParent_ID));
+set_Value ("CM_ChatEntryGrandParent_ID", Integer.valueOf(CM_ChatEntryGrandParent_ID));
 }
 /** Get Chat Entry Grandparent.
 @return Link to Grand Parent (root level) */
@@ -133,7 +133,7 @@ public void setCM_ChatEntryParent_ID (int CM_ChatEntryParent_ID)
 {
 if (CM_ChatEntryParent_ID <= 0) set_Value ("CM_ChatEntryParent_ID", null);
  else 
-set_Value ("CM_ChatEntryParent_ID", new Integer(CM_ChatEntryParent_ID));
+set_Value ("CM_ChatEntryParent_ID", Integer.valueOf(CM_ChatEntryParent_ID));
 }
 /** Get Chat Entry Parent.
 @return Link to direct Parent */
@@ -148,7 +148,7 @@ return ii.intValue();
 public void setCM_ChatEntry_ID (int CM_ChatEntry_ID)
 {
 if (CM_ChatEntry_ID < 1) throw new IllegalArgumentException ("CM_ChatEntry_ID is mandatory.");
-set_ValueNoCheck ("CM_ChatEntry_ID", new Integer(CM_ChatEntry_ID));
+set_ValueNoCheck ("CM_ChatEntry_ID", Integer.valueOf(CM_ChatEntry_ID));
 }
 /** Get Chat Entry.
 @return Individual Chat / Discussion Entry */
@@ -169,7 +169,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
 public void setCM_Chat_ID (int CM_Chat_ID)
 {
 if (CM_Chat_ID < 1) throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-set_ValueNoCheck ("CM_Chat_ID", new Integer(CM_Chat_ID));
+set_ValueNoCheck ("CM_Chat_ID", Integer.valueOf(CM_Chat_ID));
 }
 /** Get Chat.
 @return Chat or discussion thread */

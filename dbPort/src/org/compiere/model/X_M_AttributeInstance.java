@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeInstance
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeInstance extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_AttributeInstance (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=561 */
-public static final int Table_ID=561;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeInstance");
 
 /** TableName=M_AttributeInstance */
 public static final String Table_Name="M_AttributeInstance";
 
-protected static KeyNamePair Model = new KeyNamePair(561,"M_AttributeInstance");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeInstance");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -107,7 +107,7 @@ public void setM_AttributeValue_ID (int M_AttributeValue_ID)
 {
 if (M_AttributeValue_ID <= 0) set_Value ("M_AttributeValue_ID", null);
  else 
-set_Value ("M_AttributeValue_ID", new Integer(M_AttributeValue_ID));
+set_Value ("M_AttributeValue_ID", Integer.valueOf(M_AttributeValue_ID));
 }
 /** Get Attribute Value.
 @return Product Attribute Value */
@@ -128,7 +128,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeValue_ID()));
 public void setM_Attribute_ID (int M_Attribute_ID)
 {
 if (M_Attribute_ID < 1) throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-set_ValueNoCheck ("M_Attribute_ID", new Integer(M_Attribute_ID));
+set_ValueNoCheck ("M_Attribute_ID", Integer.valueOf(M_Attribute_ID));
 }
 /** Get Attribute.
 @return Product Attribute */

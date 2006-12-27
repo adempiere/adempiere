@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DistributionRun
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DistributionRun extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_DistributionRun (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=712 */
-public static final int Table_ID=712;
+public static final int Table_ID=MTable.getTable_ID("M_DistributionRun");
 
 /** TableName=M_DistributionRun */
 public static final String Table_Name="M_DistributionRun";
 
-protected static KeyNamePair Model = new KeyNamePair(712,"M_DistributionRun");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DistributionRun");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -109,7 +109,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -140,7 +140,7 @@ return (String)get_Value("Description");
 @param IsCreateSingleOrder For all shipments create one Order */
 public void setIsCreateSingleOrder (boolean IsCreateSingleOrder)
 {
-set_Value ("IsCreateSingleOrder", new Boolean(IsCreateSingleOrder));
+set_Value ("IsCreateSingleOrder", Boolean.valueOf(IsCreateSingleOrder));
 }
 /** Get Create Single Order.
 @return For all shipments create one Order */
@@ -159,7 +159,7 @@ return false;
 public void setM_DistributionRun_ID (int M_DistributionRun_ID)
 {
 if (M_DistributionRun_ID < 1) throw new IllegalArgumentException ("M_DistributionRun_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionRun_ID", new Integer(M_DistributionRun_ID));
+set_ValueNoCheck ("M_DistributionRun_ID", Integer.valueOf(M_DistributionRun_ID));
 }
 /** Get Distribution Run.
 @return Distribution Run create Orders to distribute products to a selected list of partners */
@@ -197,7 +197,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

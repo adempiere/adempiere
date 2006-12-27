@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Transaction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_Transaction extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_T_Transaction (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=758 */
-public static final int Table_ID=758;
+public static final int Table_ID=MTable.getTable_ID("T_Transaction");
 
 /** TableName=T_Transaction */
 public static final String Table_Name="T_Transaction";
 
-protected static KeyNamePair Model = new KeyNamePair(758,"T_Transaction");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_Transaction");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_Value ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_Value ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -113,7 +113,7 @@ public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 {
 if (C_ProjectIssue_ID <= 0) set_Value ("C_ProjectIssue_ID", null);
  else 
-set_Value ("C_ProjectIssue_ID", new Integer(C_ProjectIssue_ID));
+set_Value ("C_ProjectIssue_ID", Integer.valueOf(C_ProjectIssue_ID));
 }
 /** Get Project Issue.
 @return Project Issues (Material, Labor) */
@@ -129,7 +129,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -144,7 +144,7 @@ return ii.intValue();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -160,7 +160,7 @@ public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID <= 0) set_Value ("M_InOutLine_ID", null);
  else 
-set_Value ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_Value ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -176,7 +176,7 @@ public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID <= 0) set_Value ("M_InOut_ID", null);
  else 
-set_Value ("M_InOut_ID", new Integer(M_InOut_ID));
+set_Value ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -192,7 +192,7 @@ public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID <= 0) set_Value ("M_InventoryLine_ID", null);
  else 
-set_Value ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_Value ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -208,7 +208,7 @@ public void setM_Inventory_ID (int M_Inventory_ID)
 {
 if (M_Inventory_ID <= 0) set_Value ("M_Inventory_ID", null);
  else 
-set_Value ("M_Inventory_ID", new Integer(M_Inventory_ID));
+set_Value ("M_Inventory_ID", Integer.valueOf(M_Inventory_ID));
 }
 /** Get Phys.Inventory.
 @return Parameters for a Physical Inventory */
@@ -223,7 +223,7 @@ return ii.intValue();
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -239,7 +239,7 @@ public void setM_MovementLine_ID (int M_MovementLine_ID)
 {
 if (M_MovementLine_ID <= 0) set_Value ("M_MovementLine_ID", null);
  else 
-set_Value ("M_MovementLine_ID", new Integer(M_MovementLine_ID));
+set_Value ("M_MovementLine_ID", Integer.valueOf(M_MovementLine_ID));
 }
 /** Get Move Line.
 @return Inventory Move document Line */
@@ -255,7 +255,7 @@ public void setM_Movement_ID (int M_Movement_ID)
 {
 if (M_Movement_ID <= 0) set_Value ("M_Movement_ID", null);
  else 
-set_Value ("M_Movement_ID", new Integer(M_Movement_ID));
+set_Value ("M_Movement_ID", Integer.valueOf(M_Movement_ID));
 }
 /** Get Inventory Move.
 @return Movement of Inventory */
@@ -270,7 +270,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -286,7 +286,7 @@ public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 {
 if (M_ProductionLine_ID <= 0) set_Value ("M_ProductionLine_ID", null);
  else 
-set_Value ("M_ProductionLine_ID", new Integer(M_ProductionLine_ID));
+set_Value ("M_ProductionLine_ID", Integer.valueOf(M_ProductionLine_ID));
 }
 /** Get Production Line.
 @return Document Line representing a production */
@@ -302,7 +302,7 @@ public void setM_Production_ID (int M_Production_ID)
 {
 if (M_Production_ID <= 0) set_Value ("M_Production_ID", null);
  else 
-set_Value ("M_Production_ID", new Integer(M_Production_ID));
+set_Value ("M_Production_ID", Integer.valueOf(M_Production_ID));
 }
 /** Get Production.
 @return Plan for producing a product */
@@ -317,7 +317,7 @@ return ii.intValue();
 public void setM_Transaction_ID (int M_Transaction_ID)
 {
 if (M_Transaction_ID < 1) throw new IllegalArgumentException ("M_Transaction_ID is mandatory.");
-set_Value ("M_Transaction_ID", new Integer(M_Transaction_ID));
+set_Value ("M_Transaction_ID", Integer.valueOf(M_Transaction_ID));
 }
 /** Get Inventory Transaction.
 @return Inventory Transaction */
@@ -411,7 +411,7 @@ public void setSearch_InOut_ID (int Search_InOut_ID)
 {
 if (Search_InOut_ID <= 0) set_Value ("Search_InOut_ID", null);
  else 
-set_Value ("Search_InOut_ID", new Integer(Search_InOut_ID));
+set_Value ("Search_InOut_ID", Integer.valueOf(Search_InOut_ID));
 }
 /** Get Search Shipment/Receipt.
 @return Material Shipment Document */
@@ -430,7 +430,7 @@ public void setSearch_Invoice_ID (int Search_Invoice_ID)
 {
 if (Search_Invoice_ID <= 0) set_Value ("Search_Invoice_ID", null);
  else 
-set_Value ("Search_Invoice_ID", new Integer(Search_Invoice_ID));
+set_Value ("Search_Invoice_ID", Integer.valueOf(Search_Invoice_ID));
 }
 /** Get Search Invoice.
 @return Search Invoice Identifier */
@@ -449,7 +449,7 @@ public void setSearch_Order_ID (int Search_Order_ID)
 {
 if (Search_Order_ID <= 0) set_Value ("Search_Order_ID", null);
  else 
-set_Value ("Search_Order_ID", new Integer(Search_Order_ID));
+set_Value ("Search_Order_ID", Integer.valueOf(Search_Order_ID));
 }
 /** Get Search Order.
 @return Order Identifier */

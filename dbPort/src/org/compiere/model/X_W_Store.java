@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Store
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_Store extends PO
 {
 /** Standard Constructor
@@ -71,12 +71,12 @@ public X_W_Store (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=778 */
-public static final int Table_ID=778;
+public static final int Table_ID=MTable.getTable_ID("W_Store");
 
 /** TableName=W_Store */
 public static final String Table_Name="W_Store";
 
-protected static KeyNamePair Model = new KeyNamePair(778,"W_Store");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_Store");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -108,7 +108,7 @@ return sb.toString();
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID < 1) throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_Value ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -190,7 +190,7 @@ return (String)get_Value("Help");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -208,7 +208,7 @@ return false;
 @param IsMenuAssets Show Menu Assets */
 public void setIsMenuAssets (boolean IsMenuAssets)
 {
-set_Value ("IsMenuAssets", new Boolean(IsMenuAssets));
+set_Value ("IsMenuAssets", Boolean.valueOf(IsMenuAssets));
 }
 /** Get Menu Assets.
 @return Show Menu Assets */
@@ -226,7 +226,7 @@ return false;
 @param IsMenuContact Show Menu Contact */
 public void setIsMenuContact (boolean IsMenuContact)
 {
-set_Value ("IsMenuContact", new Boolean(IsMenuContact));
+set_Value ("IsMenuContact", Boolean.valueOf(IsMenuContact));
 }
 /** Get Menu Contact.
 @return Show Menu Contact */
@@ -244,7 +244,7 @@ return false;
 @param IsMenuInterests Show Menu Interests */
 public void setIsMenuInterests (boolean IsMenuInterests)
 {
-set_Value ("IsMenuInterests", new Boolean(IsMenuInterests));
+set_Value ("IsMenuInterests", Boolean.valueOf(IsMenuInterests));
 }
 /** Get Menu Interests.
 @return Show Menu Interests */
@@ -262,7 +262,7 @@ return false;
 @param IsMenuInvoices Show Menu Invoices */
 public void setIsMenuInvoices (boolean IsMenuInvoices)
 {
-set_Value ("IsMenuInvoices", new Boolean(IsMenuInvoices));
+set_Value ("IsMenuInvoices", Boolean.valueOf(IsMenuInvoices));
 }
 /** Get Menu Invoices.
 @return Show Menu Invoices */
@@ -280,7 +280,7 @@ return false;
 @param IsMenuOrders Show Menu Orders */
 public void setIsMenuOrders (boolean IsMenuOrders)
 {
-set_Value ("IsMenuOrders", new Boolean(IsMenuOrders));
+set_Value ("IsMenuOrders", Boolean.valueOf(IsMenuOrders));
 }
 /** Get Menu Orders.
 @return Show Menu Orders */
@@ -298,7 +298,7 @@ return false;
 @param IsMenuPayments Show Menu Payments */
 public void setIsMenuPayments (boolean IsMenuPayments)
 {
-set_Value ("IsMenuPayments", new Boolean(IsMenuPayments));
+set_Value ("IsMenuPayments", Boolean.valueOf(IsMenuPayments));
 }
 /** Get Menu Payments.
 @return Show Menu Payments */
@@ -316,7 +316,7 @@ return false;
 @param IsMenuRegistrations Show Menu Registrations */
 public void setIsMenuRegistrations (boolean IsMenuRegistrations)
 {
-set_Value ("IsMenuRegistrations", new Boolean(IsMenuRegistrations));
+set_Value ("IsMenuRegistrations", Boolean.valueOf(IsMenuRegistrations));
 }
 /** Get Menu Registrations.
 @return Show Menu Registrations */
@@ -334,7 +334,7 @@ return false;
 @param IsMenuRequests Show Menu Requests */
 public void setIsMenuRequests (boolean IsMenuRequests)
 {
-set_Value ("IsMenuRequests", new Boolean(IsMenuRequests));
+set_Value ("IsMenuRequests", Boolean.valueOf(IsMenuRequests));
 }
 /** Get Menu Requests.
 @return Show Menu Requests */
@@ -352,7 +352,7 @@ return false;
 @param IsMenuRfQs Show Menu RfQs */
 public void setIsMenuRfQs (boolean IsMenuRfQs)
 {
-set_Value ("IsMenuRfQs", new Boolean(IsMenuRfQs));
+set_Value ("IsMenuRfQs", Boolean.valueOf(IsMenuRfQs));
 }
 /** Get Menu RfQs.
 @return Show Menu RfQs */
@@ -370,7 +370,7 @@ return false;
 @param IsMenuShipments Show Menu Shipments */
 public void setIsMenuShipments (boolean IsMenuShipments)
 {
-set_Value ("IsMenuShipments", new Boolean(IsMenuShipments));
+set_Value ("IsMenuShipments", Boolean.valueOf(IsMenuShipments));
 }
 /** Get Menu Shipments.
 @return Show Menu Shipments */
@@ -389,7 +389,7 @@ return false;
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -404,7 +404,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -446,7 +446,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */
@@ -474,7 +474,7 @@ public String getStylesheet()
 return (String)get_Value("Stylesheet");
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.compiere.org */
+@param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
 {
 if (URL == null) throw new IllegalArgumentException ("URL is mandatory.");
@@ -486,7 +486,7 @@ URL = URL.substring(0,119);
 set_Value ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.compiere.org */
+@return Full URL address - e.g. http://www.adempiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");
@@ -547,7 +547,7 @@ return (String)get_Value("WStoreUserPW");
 public void setW_Store_ID (int W_Store_ID)
 {
 if (W_Store_ID < 1) throw new IllegalArgumentException ("W_Store_ID is mandatory.");
-set_ValueNoCheck ("W_Store_ID", new Integer(W_Store_ID));
+set_ValueNoCheck ("W_Store_ID", Integer.valueOf(W_Store_ID));
 }
 /** Get Web Store.
 @return A Web Store of the Client */

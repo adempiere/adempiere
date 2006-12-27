@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Table_Access
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Table_Access extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_AD_Table_Access (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=565 */
-public static final int Table_ID=565;
+public static final int Table_ID=MTable.getTable_ID("AD_Table_Access");
 
 /** TableName=AD_Table_Access */
 public static final String Table_Name="AD_Table_Access";
 
-protected static KeyNamePair Model = new KeyNamePair(565,"AD_Table_Access");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Table_Access");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID < 0) throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+set_ValueNoCheck ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -160,7 +160,7 @@ return (String)get_Value("AccessTypeRule");
 @param IsCanExport Users with this role can export data */
 public void setIsCanExport (boolean IsCanExport)
 {
-set_Value ("IsCanExport", new Boolean(IsCanExport));
+set_Value ("IsCanExport", Boolean.valueOf(IsCanExport));
 }
 /** Get Can Export.
 @return Users with this role can export data */
@@ -178,7 +178,7 @@ return false;
 @param IsCanReport Users with this role can create reports */
 public void setIsCanReport (boolean IsCanReport)
 {
-set_Value ("IsCanReport", new Boolean(IsCanReport));
+set_Value ("IsCanReport", Boolean.valueOf(IsCanReport));
 }
 /** Get Can Report.
 @return Users with this role can create reports */
@@ -196,7 +196,7 @@ return false;
 @param IsExclude Exclude access to the data - if not selected Include access to the data */
 public void setIsExclude (boolean IsExclude)
 {
-set_Value ("IsExclude", new Boolean(IsExclude));
+set_Value ("IsExclude", Boolean.valueOf(IsExclude));
 }
 /** Get Exclude.
 @return Exclude access to the data - if not selected Include access to the data */
@@ -214,7 +214,7 @@ return false;
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */

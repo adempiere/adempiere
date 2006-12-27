@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserQuery
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_UserQuery extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_UserQuery (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=814 */
-public static final int Table_ID=814;
+public static final int Table_ID=MTable.getTable_ID("AD_UserQuery");
 
 /** TableName=AD_UserQuery */
 public static final String Table_Name="AD_UserQuery";
 
-protected static KeyNamePair Model = new KeyNamePair(814,"AD_UserQuery");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_UserQuery");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_UserQuery_ID (int AD_UserQuery_ID)
 {
 if (AD_UserQuery_ID < 1) throw new IllegalArgumentException ("AD_UserQuery_ID is mandatory.");
-set_ValueNoCheck ("AD_UserQuery_ID", new Integer(AD_UserQuery_ID));
+set_ValueNoCheck ("AD_UserQuery_ID", Integer.valueOf(AD_UserQuery_ID));
 }
 /** Get User Query.
 @return Saved User Query */
@@ -123,7 +123,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */

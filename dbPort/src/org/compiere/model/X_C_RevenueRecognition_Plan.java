@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition_Plan
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RevenueRecognition_Plan extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_RevenueRecognition_Plan (Properties ctx, ResultSet rs, String trxName
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=443 */
-public static final int Table_ID=443;
+public static final int Table_ID=MTable.getTable_ID("C_RevenueRecognition_Plan");
 
 /** TableName=C_RevenueRecognition_Plan */
 public static final String Table_Name="C_RevenueRecognition_Plan";
 
-protected static KeyNamePair Model = new KeyNamePair(443,"C_RevenueRecognition_Plan");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RevenueRecognition_Plan");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID < 1) throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -143,7 +143,7 @@ return ii.intValue();
 public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 {
 if (C_RevenueRecognition_ID < 1) throw new IllegalArgumentException ("C_RevenueRecognition_ID is mandatory.");
-set_ValueNoCheck ("C_RevenueRecognition_ID", new Integer(C_RevenueRecognition_ID));
+set_ValueNoCheck ("C_RevenueRecognition_ID", Integer.valueOf(C_RevenueRecognition_ID));
 }
 /** Get Revenue Recognition.
 @return Method for recording revenue */
@@ -164,7 +164,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_RevenueRecognition_ID()));
 public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
 {
 if (C_RevenueRecognition_Plan_ID < 1) throw new IllegalArgumentException ("C_RevenueRecognition_Plan_ID is mandatory.");
-set_ValueNoCheck ("C_RevenueRecognition_Plan_ID", new Integer(C_RevenueRecognition_Plan_ID));
+set_ValueNoCheck ("C_RevenueRecognition_Plan_ID", Integer.valueOf(C_RevenueRecognition_Plan_ID));
 }
 /** Get Revenue Recognition Plan.
 @return Plan for recognizing or recording revenue */
@@ -178,7 +178,7 @@ return ii.intValue();
 @param P_Revenue_Acct Account for Product Revenue (Sales Account) */
 public void setP_Revenue_Acct (int P_Revenue_Acct)
 {
-set_ValueNoCheck ("P_Revenue_Acct", new Integer(P_Revenue_Acct));
+set_ValueNoCheck ("P_Revenue_Acct", Integer.valueOf(P_Revenue_Acct));
 }
 /** Get Product Revenue.
 @return Account for Product Revenue (Sales Account) */
@@ -222,7 +222,7 @@ return bd;
 @param UnEarnedRevenue_Acct Account for unearned revenue */
 public void setUnEarnedRevenue_Acct (int UnEarnedRevenue_Acct)
 {
-set_ValueNoCheck ("UnEarnedRevenue_Acct", new Integer(UnEarnedRevenue_Acct));
+set_ValueNoCheck ("UnEarnedRevenue_Acct", Integer.valueOf(UnEarnedRevenue_Acct));
 }
 /** Get Unearned Revenue.
 @return Account for unearned revenue */

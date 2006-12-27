@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema_Default
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AcctSchema_Default extends PO
 {
 /** Standard Constructor
@@ -113,12 +113,12 @@ public X_C_AcctSchema_Default (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=315 */
-public static final int Table_ID=315;
+public static final int Table_ID=MTable.getTable_ID("C_AcctSchema_Default");
 
 /** TableName=C_AcctSchema_Default */
 public static final String Table_Name="C_AcctSchema_Default";
 
-protected static KeyNamePair Model = new KeyNamePair(315,"C_AcctSchema_Default");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AcctSchema_Default");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -149,7 +149,7 @@ return sb.toString();
 @param B_Asset_Acct Bank Asset Account */
 public void setB_Asset_Acct (int B_Asset_Acct)
 {
-set_Value ("B_Asset_Acct", new Integer(B_Asset_Acct));
+set_Value ("B_Asset_Acct", Integer.valueOf(B_Asset_Acct));
 }
 /** Get Bank Asset.
 @return Bank Asset Account */
@@ -163,7 +163,7 @@ return ii.intValue();
 @param B_Expense_Acct Bank Expense Account */
 public void setB_Expense_Acct (int B_Expense_Acct)
 {
-set_Value ("B_Expense_Acct", new Integer(B_Expense_Acct));
+set_Value ("B_Expense_Acct", Integer.valueOf(B_Expense_Acct));
 }
 /** Get Bank Expense.
 @return Bank Expense Account */
@@ -177,7 +177,7 @@ return ii.intValue();
 @param B_InTransit_Acct Bank In Transit Account */
 public void setB_InTransit_Acct (int B_InTransit_Acct)
 {
-set_Value ("B_InTransit_Acct", new Integer(B_InTransit_Acct));
+set_Value ("B_InTransit_Acct", Integer.valueOf(B_InTransit_Acct));
 }
 /** Get Bank In Transit.
 @return Bank In Transit Account */
@@ -191,7 +191,7 @@ return ii.intValue();
 @param B_InterestExp_Acct Bank Interest Expense Account */
 public void setB_InterestExp_Acct (int B_InterestExp_Acct)
 {
-set_Value ("B_InterestExp_Acct", new Integer(B_InterestExp_Acct));
+set_Value ("B_InterestExp_Acct", Integer.valueOf(B_InterestExp_Acct));
 }
 /** Get Bank Interest Expense.
 @return Bank Interest Expense Account */
@@ -205,7 +205,7 @@ return ii.intValue();
 @param B_InterestRev_Acct Bank Interest Revenue Account */
 public void setB_InterestRev_Acct (int B_InterestRev_Acct)
 {
-set_Value ("B_InterestRev_Acct", new Integer(B_InterestRev_Acct));
+set_Value ("B_InterestRev_Acct", Integer.valueOf(B_InterestRev_Acct));
 }
 /** Get Bank Interest Revenue.
 @return Bank Interest Revenue Account */
@@ -219,7 +219,7 @@ return ii.intValue();
 @param B_PaymentSelect_Acct AP Payment Selection Clearing Account */
 public void setB_PaymentSelect_Acct (int B_PaymentSelect_Acct)
 {
-set_Value ("B_PaymentSelect_Acct", new Integer(B_PaymentSelect_Acct));
+set_Value ("B_PaymentSelect_Acct", Integer.valueOf(B_PaymentSelect_Acct));
 }
 /** Get Payment Selection.
 @return AP Payment Selection Clearing Account */
@@ -233,7 +233,7 @@ return ii.intValue();
 @param B_RevaluationGain_Acct Bank Revaluation Gain Account */
 public void setB_RevaluationGain_Acct (int B_RevaluationGain_Acct)
 {
-set_Value ("B_RevaluationGain_Acct", new Integer(B_RevaluationGain_Acct));
+set_Value ("B_RevaluationGain_Acct", Integer.valueOf(B_RevaluationGain_Acct));
 }
 /** Get Bank Revaluation Gain.
 @return Bank Revaluation Gain Account */
@@ -247,7 +247,7 @@ return ii.intValue();
 @param B_RevaluationLoss_Acct Bank Revaluation Loss Account */
 public void setB_RevaluationLoss_Acct (int B_RevaluationLoss_Acct)
 {
-set_Value ("B_RevaluationLoss_Acct", new Integer(B_RevaluationLoss_Acct));
+set_Value ("B_RevaluationLoss_Acct", Integer.valueOf(B_RevaluationLoss_Acct));
 }
 /** Get Bank Revaluation Loss.
 @return Bank Revaluation Loss Account */
@@ -261,7 +261,7 @@ return ii.intValue();
 @param B_SettlementGain_Acct Bank Settlement Gain Account */
 public void setB_SettlementGain_Acct (int B_SettlementGain_Acct)
 {
-set_Value ("B_SettlementGain_Acct", new Integer(B_SettlementGain_Acct));
+set_Value ("B_SettlementGain_Acct", Integer.valueOf(B_SettlementGain_Acct));
 }
 /** Get Bank Settlement Gain.
 @return Bank Settlement Gain Account */
@@ -275,7 +275,7 @@ return ii.intValue();
 @param B_SettlementLoss_Acct Bank Settlement Loss Account */
 public void setB_SettlementLoss_Acct (int B_SettlementLoss_Acct)
 {
-set_Value ("B_SettlementLoss_Acct", new Integer(B_SettlementLoss_Acct));
+set_Value ("B_SettlementLoss_Acct", Integer.valueOf(B_SettlementLoss_Acct));
 }
 /** Get Bank Settlement Loss.
 @return Bank Settlement Loss Account */
@@ -289,7 +289,7 @@ return ii.intValue();
 @param B_UnallocatedCash_Acct Unallocated Cash Clearing Account */
 public void setB_UnallocatedCash_Acct (int B_UnallocatedCash_Acct)
 {
-set_Value ("B_UnallocatedCash_Acct", new Integer(B_UnallocatedCash_Acct));
+set_Value ("B_UnallocatedCash_Acct", Integer.valueOf(B_UnallocatedCash_Acct));
 }
 /** Get Unallocated Cash.
 @return Unallocated Cash Clearing Account */
@@ -303,7 +303,7 @@ return ii.intValue();
 @param B_Unidentified_Acct Bank Unidentified Receipts Account */
 public void setB_Unidentified_Acct (int B_Unidentified_Acct)
 {
-set_Value ("B_Unidentified_Acct", new Integer(B_Unidentified_Acct));
+set_Value ("B_Unidentified_Acct", Integer.valueOf(B_Unidentified_Acct));
 }
 /** Get Bank Unidentified Receipts.
 @return Bank Unidentified Receipts Account */
@@ -317,7 +317,7 @@ return ii.intValue();
 @param CB_Asset_Acct Cash Book Asset Account */
 public void setCB_Asset_Acct (int CB_Asset_Acct)
 {
-set_Value ("CB_Asset_Acct", new Integer(CB_Asset_Acct));
+set_Value ("CB_Asset_Acct", Integer.valueOf(CB_Asset_Acct));
 }
 /** Get Cash Book Asset.
 @return Cash Book Asset Account */
@@ -331,7 +331,7 @@ return ii.intValue();
 @param CB_CashTransfer_Acct Cash Transfer Clearing Account */
 public void setCB_CashTransfer_Acct (int CB_CashTransfer_Acct)
 {
-set_Value ("CB_CashTransfer_Acct", new Integer(CB_CashTransfer_Acct));
+set_Value ("CB_CashTransfer_Acct", Integer.valueOf(CB_CashTransfer_Acct));
 }
 /** Get Cash Transfer.
 @return Cash Transfer Clearing Account */
@@ -345,7 +345,7 @@ return ii.intValue();
 @param CB_Differences_Acct Cash Book Differences Account */
 public void setCB_Differences_Acct (int CB_Differences_Acct)
 {
-set_Value ("CB_Differences_Acct", new Integer(CB_Differences_Acct));
+set_Value ("CB_Differences_Acct", Integer.valueOf(CB_Differences_Acct));
 }
 /** Get Cash Book Differences.
 @return Cash Book Differences Account */
@@ -359,7 +359,7 @@ return ii.intValue();
 @param CB_Expense_Acct Cash Book Expense Account */
 public void setCB_Expense_Acct (int CB_Expense_Acct)
 {
-set_Value ("CB_Expense_Acct", new Integer(CB_Expense_Acct));
+set_Value ("CB_Expense_Acct", Integer.valueOf(CB_Expense_Acct));
 }
 /** Get Cash Book Expense.
 @return Cash Book Expense Account */
@@ -373,7 +373,7 @@ return ii.intValue();
 @param CB_Receipt_Acct Cash Book Receipts Account */
 public void setCB_Receipt_Acct (int CB_Receipt_Acct)
 {
-set_Value ("CB_Receipt_Acct", new Integer(CB_Receipt_Acct));
+set_Value ("CB_Receipt_Acct", Integer.valueOf(CB_Receipt_Acct));
 }
 /** Get Cash Book Receipt.
 @return Cash Book Receipts Account */
@@ -388,7 +388,7 @@ return ii.intValue();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -408,7 +408,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
 @param C_Prepayment_Acct Account for customer prepayments */
 public void setC_Prepayment_Acct (int C_Prepayment_Acct)
 {
-set_Value ("C_Prepayment_Acct", new Integer(C_Prepayment_Acct));
+set_Value ("C_Prepayment_Acct", Integer.valueOf(C_Prepayment_Acct));
 }
 /** Get Customer Prepayment.
 @return Account for customer prepayments */
@@ -422,7 +422,7 @@ return ii.intValue();
 @param C_Receivable_Acct Account for Customer Receivables */
 public void setC_Receivable_Acct (int C_Receivable_Acct)
 {
-set_Value ("C_Receivable_Acct", new Integer(C_Receivable_Acct));
+set_Value ("C_Receivable_Acct", Integer.valueOf(C_Receivable_Acct));
 }
 /** Get Customer Receivables.
 @return Account for Customer Receivables */
@@ -436,7 +436,7 @@ return ii.intValue();
 @param C_Receivable_Services_Acct Customer Accounts Receivables Services Account */
 public void setC_Receivable_Services_Acct (int C_Receivable_Services_Acct)
 {
-set_Value ("C_Receivable_Services_Acct", new Integer(C_Receivable_Services_Acct));
+set_Value ("C_Receivable_Services_Acct", Integer.valueOf(C_Receivable_Services_Acct));
 }
 /** Get Receivable Services.
 @return Customer Accounts Receivables Services Account */
@@ -450,7 +450,7 @@ return ii.intValue();
 @param Ch_Expense_Acct Charge Expense Account */
 public void setCh_Expense_Acct (int Ch_Expense_Acct)
 {
-set_Value ("Ch_Expense_Acct", new Integer(Ch_Expense_Acct));
+set_Value ("Ch_Expense_Acct", Integer.valueOf(Ch_Expense_Acct));
 }
 /** Get Charge Expense.
 @return Charge Expense Account */
@@ -464,7 +464,7 @@ return ii.intValue();
 @param Ch_Revenue_Acct Charge Revenue Account */
 public void setCh_Revenue_Acct (int Ch_Revenue_Acct)
 {
-set_Value ("Ch_Revenue_Acct", new Integer(Ch_Revenue_Acct));
+set_Value ("Ch_Revenue_Acct", Integer.valueOf(Ch_Revenue_Acct));
 }
 /** Get Charge Revenue.
 @return Charge Revenue Account */
@@ -478,7 +478,7 @@ return ii.intValue();
 @param E_Expense_Acct Account for Employee Expenses */
 public void setE_Expense_Acct (int E_Expense_Acct)
 {
-set_Value ("E_Expense_Acct", new Integer(E_Expense_Acct));
+set_Value ("E_Expense_Acct", Integer.valueOf(E_Expense_Acct));
 }
 /** Get Employee Expense.
 @return Account for Employee Expenses */
@@ -492,7 +492,7 @@ return ii.intValue();
 @param E_Prepayment_Acct Account for Employee Expense Prepayments */
 public void setE_Prepayment_Acct (int E_Prepayment_Acct)
 {
-set_Value ("E_Prepayment_Acct", new Integer(E_Prepayment_Acct));
+set_Value ("E_Prepayment_Acct", Integer.valueOf(E_Prepayment_Acct));
 }
 /** Get Employee Prepayment.
 @return Account for Employee Expense Prepayments */
@@ -506,7 +506,7 @@ return ii.intValue();
 @param NotInvoicedReceipts_Acct Account for not-invoiced Material Receipts */
 public void setNotInvoicedReceipts_Acct (int NotInvoicedReceipts_Acct)
 {
-set_Value ("NotInvoicedReceipts_Acct", new Integer(NotInvoicedReceipts_Acct));
+set_Value ("NotInvoicedReceipts_Acct", Integer.valueOf(NotInvoicedReceipts_Acct));
 }
 /** Get Not-invoiced Receipts.
 @return Account for not-invoiced Material Receipts */
@@ -520,7 +520,7 @@ return ii.intValue();
 @param NotInvoicedReceivables_Acct Account for not invoiced Receivables */
 public void setNotInvoicedReceivables_Acct (int NotInvoicedReceivables_Acct)
 {
-set_Value ("NotInvoicedReceivables_Acct", new Integer(NotInvoicedReceivables_Acct));
+set_Value ("NotInvoicedReceivables_Acct", Integer.valueOf(NotInvoicedReceivables_Acct));
 }
 /** Get Not-invoiced Receivables.
 @return Account for not invoiced Receivables */
@@ -534,7 +534,7 @@ return ii.intValue();
 @param NotInvoicedRevenue_Acct Account for not invoiced Revenue */
 public void setNotInvoicedRevenue_Acct (int NotInvoicedRevenue_Acct)
 {
-set_Value ("NotInvoicedRevenue_Acct", new Integer(NotInvoicedRevenue_Acct));
+set_Value ("NotInvoicedRevenue_Acct", Integer.valueOf(NotInvoicedRevenue_Acct));
 }
 /** Get Not-invoiced Revenue.
 @return Account for not invoiced Revenue */
@@ -548,7 +548,7 @@ return ii.intValue();
 @param PJ_Asset_Acct Project Asset Account */
 public void setPJ_Asset_Acct (int PJ_Asset_Acct)
 {
-set_Value ("PJ_Asset_Acct", new Integer(PJ_Asset_Acct));
+set_Value ("PJ_Asset_Acct", Integer.valueOf(PJ_Asset_Acct));
 }
 /** Get Project Asset.
 @return Project Asset Account */
@@ -562,7 +562,7 @@ return ii.intValue();
 @param PJ_WIP_Acct Account for Work in Progress */
 public void setPJ_WIP_Acct (int PJ_WIP_Acct)
 {
-set_Value ("PJ_WIP_Acct", new Integer(PJ_WIP_Acct));
+set_Value ("PJ_WIP_Acct", Integer.valueOf(PJ_WIP_Acct));
 }
 /** Get Work In Progress.
 @return Account for Work in Progress */
@@ -576,7 +576,7 @@ return ii.intValue();
 @param P_Asset_Acct Account for Product Asset (Inventory) */
 public void setP_Asset_Acct (int P_Asset_Acct)
 {
-set_Value ("P_Asset_Acct", new Integer(P_Asset_Acct));
+set_Value ("P_Asset_Acct", Integer.valueOf(P_Asset_Acct));
 }
 /** Get Product Asset.
 @return Account for Product Asset (Inventory) */
@@ -590,7 +590,7 @@ return ii.intValue();
 @param P_COGS_Acct Account for Cost of Goods Sold */
 public void setP_COGS_Acct (int P_COGS_Acct)
 {
-set_Value ("P_COGS_Acct", new Integer(P_COGS_Acct));
+set_Value ("P_COGS_Acct", Integer.valueOf(P_COGS_Acct));
 }
 /** Get Product COGS.
 @return Account for Cost of Goods Sold */
@@ -604,7 +604,7 @@ return ii.intValue();
 @param P_CostAdjustment_Acct Product Cost Adjustment Account */
 public void setP_CostAdjustment_Acct (int P_CostAdjustment_Acct)
 {
-set_Value ("P_CostAdjustment_Acct", new Integer(P_CostAdjustment_Acct));
+set_Value ("P_CostAdjustment_Acct", Integer.valueOf(P_CostAdjustment_Acct));
 }
 /** Get Cost Adjustment.
 @return Product Cost Adjustment Account */
@@ -618,7 +618,7 @@ return ii.intValue();
 @param P_Expense_Acct Account for Product Expense */
 public void setP_Expense_Acct (int P_Expense_Acct)
 {
-set_Value ("P_Expense_Acct", new Integer(P_Expense_Acct));
+set_Value ("P_Expense_Acct", Integer.valueOf(P_Expense_Acct));
 }
 /** Get Product Expense.
 @return Account for Product Expense */
@@ -632,7 +632,7 @@ return ii.intValue();
 @param P_InventoryClearing_Acct Product Inventory Clearing Account */
 public void setP_InventoryClearing_Acct (int P_InventoryClearing_Acct)
 {
-set_Value ("P_InventoryClearing_Acct", new Integer(P_InventoryClearing_Acct));
+set_Value ("P_InventoryClearing_Acct", Integer.valueOf(P_InventoryClearing_Acct));
 }
 /** Get Inventory Clearing.
 @return Product Inventory Clearing Account */
@@ -646,7 +646,7 @@ return ii.intValue();
 @param P_InvoicePriceVariance_Acct Difference between Costs and Invoice Price (IPV) */
 public void setP_InvoicePriceVariance_Acct (int P_InvoicePriceVariance_Acct)
 {
-set_Value ("P_InvoicePriceVariance_Acct", new Integer(P_InvoicePriceVariance_Acct));
+set_Value ("P_InvoicePriceVariance_Acct", Integer.valueOf(P_InvoicePriceVariance_Acct));
 }
 /** Get Invoice Price Variance.
 @return Difference between Costs and Invoice Price (IPV) */
@@ -660,7 +660,7 @@ return ii.intValue();
 @param P_PurchasePriceVariance_Acct Difference between Standard Cost and Purchase Price (PPV) */
 public void setP_PurchasePriceVariance_Acct (int P_PurchasePriceVariance_Acct)
 {
-set_Value ("P_PurchasePriceVariance_Acct", new Integer(P_PurchasePriceVariance_Acct));
+set_Value ("P_PurchasePriceVariance_Acct", Integer.valueOf(P_PurchasePriceVariance_Acct));
 }
 /** Get Purchase Price Variance.
 @return Difference between Standard Cost and Purchase Price (PPV) */
@@ -674,7 +674,7 @@ return ii.intValue();
 @param P_Revenue_Acct Account for Product Revenue (Sales Account) */
 public void setP_Revenue_Acct (int P_Revenue_Acct)
 {
-set_Value ("P_Revenue_Acct", new Integer(P_Revenue_Acct));
+set_Value ("P_Revenue_Acct", Integer.valueOf(P_Revenue_Acct));
 }
 /** Get Product Revenue.
 @return Account for Product Revenue (Sales Account) */
@@ -688,7 +688,7 @@ return ii.intValue();
 @param P_TradeDiscountGrant_Acct Trade Discount Granted Account */
 public void setP_TradeDiscountGrant_Acct (int P_TradeDiscountGrant_Acct)
 {
-set_Value ("P_TradeDiscountGrant_Acct", new Integer(P_TradeDiscountGrant_Acct));
+set_Value ("P_TradeDiscountGrant_Acct", Integer.valueOf(P_TradeDiscountGrant_Acct));
 }
 /** Get Trade Discount Granted.
 @return Trade Discount Granted Account */
@@ -702,7 +702,7 @@ return ii.intValue();
 @param P_TradeDiscountRec_Acct Trade Discount Receivable Account */
 public void setP_TradeDiscountRec_Acct (int P_TradeDiscountRec_Acct)
 {
-set_Value ("P_TradeDiscountRec_Acct", new Integer(P_TradeDiscountRec_Acct));
+set_Value ("P_TradeDiscountRec_Acct", Integer.valueOf(P_TradeDiscountRec_Acct));
 }
 /** Get Trade Discount Received.
 @return Trade Discount Receivable Account */
@@ -716,7 +716,7 @@ return ii.intValue();
 @param PayDiscount_Exp_Acct Payment Discount Expense Account */
 public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct)
 {
-set_Value ("PayDiscount_Exp_Acct", new Integer(PayDiscount_Exp_Acct));
+set_Value ("PayDiscount_Exp_Acct", Integer.valueOf(PayDiscount_Exp_Acct));
 }
 /** Get Payment Discount Expense.
 @return Payment Discount Expense Account */
@@ -730,7 +730,7 @@ return ii.intValue();
 @param PayDiscount_Rev_Acct Payment Discount Revenue Account */
 public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct)
 {
-set_Value ("PayDiscount_Rev_Acct", new Integer(PayDiscount_Rev_Acct));
+set_Value ("PayDiscount_Rev_Acct", Integer.valueOf(PayDiscount_Rev_Acct));
 }
 /** Get Payment Discount Revenue.
 @return Payment Discount Revenue Account */
@@ -744,7 +744,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -762,7 +762,7 @@ return false;
 @param RealizedGain_Acct Realized Gain Account */
 public void setRealizedGain_Acct (int RealizedGain_Acct)
 {
-set_Value ("RealizedGain_Acct", new Integer(RealizedGain_Acct));
+set_Value ("RealizedGain_Acct", Integer.valueOf(RealizedGain_Acct));
 }
 /** Get Realized Gain Acct.
 @return Realized Gain Account */
@@ -776,7 +776,7 @@ return ii.intValue();
 @param RealizedLoss_Acct Realized Loss Account */
 public void setRealizedLoss_Acct (int RealizedLoss_Acct)
 {
-set_Value ("RealizedLoss_Acct", new Integer(RealizedLoss_Acct));
+set_Value ("RealizedLoss_Acct", Integer.valueOf(RealizedLoss_Acct));
 }
 /** Get Realized Loss Acct.
 @return Realized Loss Account */
@@ -790,7 +790,7 @@ return ii.intValue();
 @param T_Credit_Acct Account for Tax you can reclaim */
 public void setT_Credit_Acct (int T_Credit_Acct)
 {
-set_Value ("T_Credit_Acct", new Integer(T_Credit_Acct));
+set_Value ("T_Credit_Acct", Integer.valueOf(T_Credit_Acct));
 }
 /** Get Tax Credit.
 @return Account for Tax you can reclaim */
@@ -804,7 +804,7 @@ return ii.intValue();
 @param T_Due_Acct Account for Tax you have to pay */
 public void setT_Due_Acct (int T_Due_Acct)
 {
-set_Value ("T_Due_Acct", new Integer(T_Due_Acct));
+set_Value ("T_Due_Acct", Integer.valueOf(T_Due_Acct));
 }
 /** Get Tax Due.
 @return Account for Tax you have to pay */
@@ -818,7 +818,7 @@ return ii.intValue();
 @param T_Expense_Acct Account for paid tax you cannot reclaim */
 public void setT_Expense_Acct (int T_Expense_Acct)
 {
-set_Value ("T_Expense_Acct", new Integer(T_Expense_Acct));
+set_Value ("T_Expense_Acct", Integer.valueOf(T_Expense_Acct));
 }
 /** Get Tax Expense.
 @return Account for paid tax you cannot reclaim */
@@ -832,7 +832,7 @@ return ii.intValue();
 @param T_Liability_Acct Account for Tax declaration liability */
 public void setT_Liability_Acct (int T_Liability_Acct)
 {
-set_Value ("T_Liability_Acct", new Integer(T_Liability_Acct));
+set_Value ("T_Liability_Acct", Integer.valueOf(T_Liability_Acct));
 }
 /** Get Tax Liability.
 @return Account for Tax declaration liability */
@@ -846,7 +846,7 @@ return ii.intValue();
 @param T_Receivables_Acct Account for Tax credit after tax declaration */
 public void setT_Receivables_Acct (int T_Receivables_Acct)
 {
-set_Value ("T_Receivables_Acct", new Integer(T_Receivables_Acct));
+set_Value ("T_Receivables_Acct", Integer.valueOf(T_Receivables_Acct));
 }
 /** Get Tax Receivables.
 @return Account for Tax credit after tax declaration */
@@ -860,7 +860,7 @@ return ii.intValue();
 @param UnEarnedRevenue_Acct Account for unearned revenue */
 public void setUnEarnedRevenue_Acct (int UnEarnedRevenue_Acct)
 {
-set_Value ("UnEarnedRevenue_Acct", new Integer(UnEarnedRevenue_Acct));
+set_Value ("UnEarnedRevenue_Acct", Integer.valueOf(UnEarnedRevenue_Acct));
 }
 /** Get Unearned Revenue.
 @return Account for unearned revenue */
@@ -874,7 +874,7 @@ return ii.intValue();
 @param UnrealizedGain_Acct Unrealized Gain Account for currency revaluation */
 public void setUnrealizedGain_Acct (int UnrealizedGain_Acct)
 {
-set_Value ("UnrealizedGain_Acct", new Integer(UnrealizedGain_Acct));
+set_Value ("UnrealizedGain_Acct", Integer.valueOf(UnrealizedGain_Acct));
 }
 /** Get Unrealized Gain Acct.
 @return Unrealized Gain Account for currency revaluation */
@@ -888,7 +888,7 @@ return ii.intValue();
 @param UnrealizedLoss_Acct Unrealized Loss Account for currency revaluation */
 public void setUnrealizedLoss_Acct (int UnrealizedLoss_Acct)
 {
-set_Value ("UnrealizedLoss_Acct", new Integer(UnrealizedLoss_Acct));
+set_Value ("UnrealizedLoss_Acct", Integer.valueOf(UnrealizedLoss_Acct));
 }
 /** Get Unrealized Loss Acct.
 @return Unrealized Loss Account for currency revaluation */
@@ -902,7 +902,7 @@ return ii.intValue();
 @param V_Liability_Acct Account for Vendor Liability */
 public void setV_Liability_Acct (int V_Liability_Acct)
 {
-set_Value ("V_Liability_Acct", new Integer(V_Liability_Acct));
+set_Value ("V_Liability_Acct", Integer.valueOf(V_Liability_Acct));
 }
 /** Get Vendor Liability.
 @return Account for Vendor Liability */
@@ -916,7 +916,7 @@ return ii.intValue();
 @param V_Liability_Services_Acct Account for Vender Service Liability */
 public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
 {
-set_Value ("V_Liability_Services_Acct", new Integer(V_Liability_Services_Acct));
+set_Value ("V_Liability_Services_Acct", Integer.valueOf(V_Liability_Services_Acct));
 }
 /** Get Vendor Service Liability.
 @return Account for Vender Service Liability */
@@ -930,7 +930,7 @@ return ii.intValue();
 @param V_Prepayment_Acct Account for Vendor Prepayments */
 public void setV_Prepayment_Acct (int V_Prepayment_Acct)
 {
-set_Value ("V_Prepayment_Acct", new Integer(V_Prepayment_Acct));
+set_Value ("V_Prepayment_Acct", Integer.valueOf(V_Prepayment_Acct));
 }
 /** Get Vendor Prepayment.
 @return Account for Vendor Prepayments */
@@ -944,7 +944,7 @@ return ii.intValue();
 @param W_Differences_Acct Warehouse Differences Account */
 public void setW_Differences_Acct (int W_Differences_Acct)
 {
-set_Value ("W_Differences_Acct", new Integer(W_Differences_Acct));
+set_Value ("W_Differences_Acct", Integer.valueOf(W_Differences_Acct));
 }
 /** Get Warehouse Differences.
 @return Warehouse Differences Account */
@@ -958,7 +958,7 @@ return ii.intValue();
 @param W_InvActualAdjust_Acct Account for Inventory value adjustments for Actual Costing */
 public void setW_InvActualAdjust_Acct (int W_InvActualAdjust_Acct)
 {
-set_Value ("W_InvActualAdjust_Acct", new Integer(W_InvActualAdjust_Acct));
+set_Value ("W_InvActualAdjust_Acct", Integer.valueOf(W_InvActualAdjust_Acct));
 }
 /** Get Inventory Adjustment.
 @return Account for Inventory value adjustments for Actual Costing */
@@ -972,7 +972,7 @@ return ii.intValue();
 @param W_Inventory_Acct Warehouse Inventory Asset Account - Currently not used */
 public void setW_Inventory_Acct (int W_Inventory_Acct)
 {
-set_Value ("W_Inventory_Acct", new Integer(W_Inventory_Acct));
+set_Value ("W_Inventory_Acct", Integer.valueOf(W_Inventory_Acct));
 }
 /** Get (Not Used).
 @return Warehouse Inventory Asset Account - Currently not used */
@@ -986,7 +986,7 @@ return ii.intValue();
 @param W_Revaluation_Acct Account for Inventory Revaluation */
 public void setW_Revaluation_Acct (int W_Revaluation_Acct)
 {
-set_Value ("W_Revaluation_Acct", new Integer(W_Revaluation_Acct));
+set_Value ("W_Revaluation_Acct", Integer.valueOf(W_Revaluation_Acct));
 }
 /** Get Inventory Revaluation.
 @return Account for Inventory Revaluation */
@@ -1000,7 +1000,7 @@ return ii.intValue();
 @param Withholding_Acct Account for Withholdings */
 public void setWithholding_Acct (int Withholding_Acct)
 {
-set_Value ("Withholding_Acct", new Integer(Withholding_Acct));
+set_Value ("Withholding_Acct", Integer.valueOf(Withholding_Acct));
 }
 /** Get Withholding.
 @return Account for Withholdings */
@@ -1014,7 +1014,7 @@ return ii.intValue();
 @param WriteOff_Acct Account for Receivables write-off */
 public void setWriteOff_Acct (int WriteOff_Acct)
 {
-set_Value ("WriteOff_Acct", new Integer(WriteOff_Acct));
+set_Value ("WriteOff_Acct", Integer.valueOf(WriteOff_Acct));
 }
 /** Get Write-off.
 @return Account for Receivables write-off */

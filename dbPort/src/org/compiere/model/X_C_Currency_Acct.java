@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Currency_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Currency_Acct extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_Currency_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=638 */
-public static final int Table_ID=638;
+public static final int Table_ID=MTable.getTable_ID("C_Currency_Acct");
 
 /** TableName=C_Currency_Acct */
 public static final String Table_Name="C_Currency_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(638,"C_Currency_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Currency_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -124,7 +124,7 @@ return ii.intValue();
 @param RealizedGain_Acct Realized Gain Account */
 public void setRealizedGain_Acct (int RealizedGain_Acct)
 {
-set_Value ("RealizedGain_Acct", new Integer(RealizedGain_Acct));
+set_Value ("RealizedGain_Acct", Integer.valueOf(RealizedGain_Acct));
 }
 /** Get Realized Gain Acct.
 @return Realized Gain Account */
@@ -138,7 +138,7 @@ return ii.intValue();
 @param RealizedLoss_Acct Realized Loss Account */
 public void setRealizedLoss_Acct (int RealizedLoss_Acct)
 {
-set_Value ("RealizedLoss_Acct", new Integer(RealizedLoss_Acct));
+set_Value ("RealizedLoss_Acct", Integer.valueOf(RealizedLoss_Acct));
 }
 /** Get Realized Loss Acct.
 @return Realized Loss Account */
@@ -152,7 +152,7 @@ return ii.intValue();
 @param UnrealizedGain_Acct Unrealized Gain Account for currency revaluation */
 public void setUnrealizedGain_Acct (int UnrealizedGain_Acct)
 {
-set_Value ("UnrealizedGain_Acct", new Integer(UnrealizedGain_Acct));
+set_Value ("UnrealizedGain_Acct", Integer.valueOf(UnrealizedGain_Acct));
 }
 /** Get Unrealized Gain Acct.
 @return Unrealized Gain Account for currency revaluation */
@@ -166,7 +166,7 @@ return ii.intValue();
 @param UnrealizedLoss_Acct Unrealized Loss Account for currency revaluation */
 public void setUnrealizedLoss_Acct (int UnrealizedLoss_Acct)
 {
-set_Value ("UnrealizedLoss_Acct", new Integer(UnrealizedLoss_Acct));
+set_Value ("UnrealizedLoss_Acct", Integer.valueOf(UnrealizedLoss_Acct));
 }
 /** Get Unrealized Loss Acct.
 @return Unrealized Loss Account for currency revaluation */

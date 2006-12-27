@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Conversion_Rate
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Conversion_Rate extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_Conversion_Rate (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=140 */
-public static final int Table_ID=140;
+public static final int Table_ID=MTable.getTable_ID("C_Conversion_Rate");
 
 /** TableName=C_Conversion_Rate */
 public static final String Table_Name="C_Conversion_Rate";
 
-protected static KeyNamePair Model = new KeyNamePair(140,"C_Conversion_Rate");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Conversion_Rate");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID < 1) throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
 {
 if (C_Conversion_Rate_ID < 1) throw new IllegalArgumentException ("C_Conversion_Rate_ID is mandatory.");
-set_ValueNoCheck ("C_Conversion_Rate_ID", new Integer(C_Conversion_Rate_ID));
+set_ValueNoCheck ("C_Conversion_Rate_ID", Integer.valueOf(C_Conversion_Rate_ID));
 }
 /** Get Conversion Rate.
 @return Rate used for converting currencies */
@@ -135,7 +135,7 @@ public static final int C_CURRENCY_ID_AD_Reference_ID=112;
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -152,7 +152,7 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 @param C_Currency_ID_To Target currency */
 public void setC_Currency_ID_To (int C_Currency_ID_To)
 {
-set_Value ("C_Currency_ID_To", new Integer(C_Currency_ID_To));
+set_Value ("C_Currency_ID_To", Integer.valueOf(C_Currency_ID_To));
 }
 /** Get Currency To.
 @return Target currency */

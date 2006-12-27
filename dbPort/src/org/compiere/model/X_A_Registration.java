@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Registration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_Registration extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_A_Registration (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=651 */
-public static final int Table_ID=651;
+public static final int Table_ID=MTable.getTable_ID("A_Registration");
 
 /** TableName=A_Registration */
 public static final String Table_Name="A_Registration";
 
-protected static KeyNamePair Model = new KeyNamePair(651,"A_Registration");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Registration");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -112,7 +112,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_Value ("A_Asset_ID", null);
  else 
-set_Value ("A_Asset_ID", new Integer(A_Asset_ID));
+set_Value ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setA_Registration_ID (int A_Registration_ID)
 {
 if (A_Registration_ID < 1) throw new IllegalArgumentException ("A_Registration_ID is mandatory.");
-set_ValueNoCheck ("A_Registration_ID", new Integer(A_Registration_ID));
+set_ValueNoCheck ("A_Registration_ID", Integer.valueOf(A_Registration_ID));
 }
 /** Get Registration.
 @return User Asset Registration */
@@ -156,7 +156,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -204,7 +204,7 @@ return (String)get_Value("Help");
 @param IsAllowPublish You allow to publish the information, not just statistical summary info */
 public void setIsAllowPublish (boolean IsAllowPublish)
 {
-set_Value ("IsAllowPublish", new Boolean(IsAllowPublish));
+set_Value ("IsAllowPublish", Boolean.valueOf(IsAllowPublish));
 }
 /** Get Allowed to be Published.
 @return You allow to publish the information, not just statistical summary info */
@@ -222,7 +222,7 @@ return false;
 @param IsInProduction The system is in production */
 public void setIsInProduction (boolean IsInProduction)
 {
-set_Value ("IsInProduction", new Boolean(IsInProduction));
+set_Value ("IsInProduction", Boolean.valueOf(IsInProduction));
 }
 /** Get In Production.
 @return The system is in production */
@@ -240,7 +240,7 @@ return false;
 @param IsRegistered The application is registered. */
 public void setIsRegistered (boolean IsRegistered)
 {
-set_Value ("IsRegistered", new Boolean(IsRegistered));
+set_Value ("IsRegistered", Boolean.valueOf(IsRegistered));
 }
 /** Get Registered.
 @return The application is registered. */
@@ -260,7 +260,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -315,7 +315,7 @@ return (String)get_Value("Note");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

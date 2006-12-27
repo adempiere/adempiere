@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintPaper
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintPaper extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_AD_PrintPaper (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=492 */
-public static final int Table_ID=492;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintPaper");
 
 /** TableName=AD_PrintPaper */
 public static final String Table_Name="AD_PrintPaper";
 
-protected static KeyNamePair Model = new KeyNamePair(492,"AD_PrintPaper");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintPaper");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setAD_PrintPaper_ID (int AD_PrintPaper_ID)
 {
 if (AD_PrintPaper_ID < 1) throw new IllegalArgumentException ("AD_PrintPaper_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintPaper_ID", new Integer(AD_PrintPaper_ID));
+set_ValueNoCheck ("AD_PrintPaper_ID", Integer.valueOf(AD_PrintPaper_ID));
 }
 /** Get Print Paper.
 @return Printer paper definition */
@@ -173,7 +173,7 @@ return (String)get_Value("DimensionUnits");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -191,7 +191,7 @@ return false;
 @param IsLandscape Landscape orientation */
 public void setIsLandscape (boolean IsLandscape)
 {
-set_Value ("IsLandscape", new Boolean(IsLandscape));
+set_Value ("IsLandscape", Boolean.valueOf(IsLandscape));
 }
 /** Get Landscape.
 @return Landscape orientation */
@@ -209,7 +209,7 @@ return false;
 @param MarginBottom Bottom Space in 1/72 inch */
 public void setMarginBottom (int MarginBottom)
 {
-set_Value ("MarginBottom", new Integer(MarginBottom));
+set_Value ("MarginBottom", Integer.valueOf(MarginBottom));
 }
 /** Get Bottom Margin.
 @return Bottom Space in 1/72 inch */
@@ -223,7 +223,7 @@ return ii.intValue();
 @param MarginLeft Left Space in 1/72 inch */
 public void setMarginLeft (int MarginLeft)
 {
-set_Value ("MarginLeft", new Integer(MarginLeft));
+set_Value ("MarginLeft", Integer.valueOf(MarginLeft));
 }
 /** Get Left Margin.
 @return Left Space in 1/72 inch */
@@ -237,7 +237,7 @@ return ii.intValue();
 @param MarginRight Right Space in 1/72 inch */
 public void setMarginRight (int MarginRight)
 {
-set_Value ("MarginRight", new Integer(MarginRight));
+set_Value ("MarginRight", Integer.valueOf(MarginRight));
 }
 /** Get Right Margin.
 @return Right Space in 1/72 inch */
@@ -251,7 +251,7 @@ return ii.intValue();
 @param MarginTop Top Space in 1/72 inch */
 public void setMarginTop (int MarginTop)
 {
-set_Value ("MarginTop", new Integer(MarginTop));
+set_Value ("MarginTop", Integer.valueOf(MarginTop));
 }
 /** Get Top Margin.
 @return Top Space in 1/72 inch */
@@ -289,7 +289,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutConfirm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_InOutConfirm extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_InOutConfirm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=727 */
-public static final int Table_ID=727;
+public static final int Table_ID=MTable.getTable_ID("M_InOutConfirm");
 
 /** TableName=M_InOutConfirm */
 public static final String Table_Name="M_InOutConfirm";
 
-protected static KeyNamePair Model = new KeyNamePair(727,"M_InOutConfirm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutConfirm");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -114,7 +114,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -334,7 +334,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -352,7 +352,7 @@ return false;
 @param IsCancelled The transaction was cancelled */
 public void setIsCancelled (boolean IsCancelled)
 {
-set_Value ("IsCancelled", new Boolean(IsCancelled));
+set_Value ("IsCancelled", Boolean.valueOf(IsCancelled));
 }
 /** Get Cancelled.
 @return The transaction was cancelled */
@@ -370,7 +370,7 @@ return false;
 @param IsInDispute Document is in dispute */
 public void setIsInDispute (boolean IsInDispute)
 {
-set_Value ("IsInDispute", new Boolean(IsInDispute));
+set_Value ("IsInDispute", Boolean.valueOf(IsInDispute));
 }
 /** Get In Dispute.
 @return Document is in dispute */
@@ -389,7 +389,7 @@ return false;
 public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
 {
 if (M_InOutConfirm_ID < 1) throw new IllegalArgumentException ("M_InOutConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_InOutConfirm_ID", new Integer(M_InOutConfirm_ID));
+set_ValueNoCheck ("M_InOutConfirm_ID", Integer.valueOf(M_InOutConfirm_ID));
 }
 /** Get Ship/Receipt Confirmation.
 @return Material Shipment or Receipt Confirmation */
@@ -404,7 +404,7 @@ return ii.intValue();
 public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID < 1) throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-set_ValueNoCheck ("M_InOut_ID", new Integer(M_InOut_ID));
+set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -420,7 +420,7 @@ public void setM_Inventory_ID (int M_Inventory_ID)
 {
 if (M_Inventory_ID <= 0) set_Value ("M_Inventory_ID", null);
  else 
-set_Value ("M_Inventory_ID", new Integer(M_Inventory_ID));
+set_Value ("M_Inventory_ID", Integer.valueOf(M_Inventory_ID));
 }
 /** Get Phys.Inventory.
 @return Parameters for a Physical Inventory */
@@ -434,7 +434,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -452,7 +452,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

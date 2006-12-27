@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserDef_Tab
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_UserDef_Tab extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_AD_UserDef_Tab (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=466 */
-public static final int Table_ID=466;
+public static final int Table_ID=MTable.getTable_ID("AD_UserDef_Tab");
 
 /** TableName=AD_UserDef_Tab */
 public static final String Table_Name="AD_UserDef_Tab";
 
-protected static KeyNamePair Model = new KeyNamePair(466,"AD_UserDef_Tab");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_UserDef_Tab");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setAD_Tab_ID (int AD_Tab_ID)
 {
 if (AD_Tab_ID < 1) throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-set_Value ("AD_Tab_ID", new Integer(AD_Tab_ID));
+set_Value ("AD_Tab_ID", Integer.valueOf(AD_Tab_ID));
 }
 /** Get Tab.
 @return Tab within a Window */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
 {
 if (AD_UserDef_Tab_ID < 1) throw new IllegalArgumentException ("AD_UserDef_Tab_ID is mandatory.");
-set_ValueNoCheck ("AD_UserDef_Tab_ID", new Integer(AD_UserDef_Tab_ID));
+set_ValueNoCheck ("AD_UserDef_Tab_ID", Integer.valueOf(AD_UserDef_Tab_ID));
 }
 /** Get User defined Tab.
 @return User defined Tab */
@@ -126,7 +126,7 @@ return ii.intValue();
 public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID)
 {
 if (AD_UserDef_Win_ID < 1) throw new IllegalArgumentException ("AD_UserDef_Win_ID is mandatory.");
-set_ValueNoCheck ("AD_UserDef_Win_ID", new Integer(AD_UserDef_Win_ID));
+set_ValueNoCheck ("AD_UserDef_Win_ID", Integer.valueOf(AD_UserDef_Win_ID));
 }
 /** Get User defined Window.
 @return User defined Window */
@@ -174,7 +174,7 @@ return (String)get_Value("Help");
 @param IsMultiRowOnly This applies to Multi-Row view only */
 public void setIsMultiRowOnly (boolean IsMultiRowOnly)
 {
-set_Value ("IsMultiRowOnly", new Boolean(IsMultiRowOnly));
+set_Value ("IsMultiRowOnly", Boolean.valueOf(IsMultiRowOnly));
 }
 /** Get Multi Row Only.
 @return This applies to Multi-Row view only */
@@ -192,7 +192,7 @@ return false;
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -210,7 +210,7 @@ return false;
 @param IsSingleRow Default for toggle between Single- and Multi-Row (Grid) Layout */
 public void setIsSingleRow (boolean IsSingleRow)
 {
-set_Value ("IsSingleRow", new Boolean(IsSingleRow));
+set_Value ("IsSingleRow", Boolean.valueOf(IsSingleRow));
 }
 /** Get Single Row Layout.
 @return Default for toggle between Single- and Multi-Row (Grid) Layout */

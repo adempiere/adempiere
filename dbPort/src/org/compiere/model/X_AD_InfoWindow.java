@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_InfoWindow
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_InfoWindow extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_InfoWindow (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=895 */
-public static final int Table_ID=895;
+public static final int Table_ID=MTable.getTable_ID("AD_InfoWindow");
 
 /** TableName=AD_InfoWindow */
 public static final String Table_Name="AD_InfoWindow";
 
-protected static KeyNamePair Model = new KeyNamePair(895,"AD_InfoWindow");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_InfoWindow");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_InfoWindow_ID (int AD_InfoWindow_ID)
 {
 if (AD_InfoWindow_ID < 1) throw new IllegalArgumentException ("AD_InfoWindow_ID is mandatory.");
-set_ValueNoCheck ("AD_InfoWindow_ID", new Integer(AD_InfoWindow_ID));
+set_ValueNoCheck ("AD_InfoWindow_ID", Integer.valueOf(AD_InfoWindow_ID));
 }
 /** Get Info Window.
 @return Info and search/select Window */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -238,7 +238,7 @@ return (String)get_Value("OtherClause");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

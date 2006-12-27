@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CashLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CashLine extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_CashLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=410 */
-public static final int Table_ID=410;
+public static final int Table_ID=MTable.getTable_ID("C_CashLine");
 
 /** TableName=C_CashLine */
 public static final String Table_Name="C_CashLine";
 
-protected static KeyNamePair Model = new KeyNamePair(410,"C_CashLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CashLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -111,7 +111,7 @@ public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID <= 0) set_Value ("C_BankAccount_ID", null);
  else 
-set_Value ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_Value ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -126,7 +126,7 @@ return ii.intValue();
 public void setC_CashLine_ID (int C_CashLine_ID)
 {
 if (C_CashLine_ID < 1) throw new IllegalArgumentException ("C_CashLine_ID is mandatory.");
-set_ValueNoCheck ("C_CashLine_ID", new Integer(C_CashLine_ID));
+set_ValueNoCheck ("C_CashLine_ID", Integer.valueOf(C_CashLine_ID));
 }
 /** Get Cash Journal Line.
 @return Cash Journal Line */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setC_Cash_ID (int C_Cash_ID)
 {
 if (C_Cash_ID < 1) throw new IllegalArgumentException ("C_Cash_ID is mandatory.");
-set_ValueNoCheck ("C_Cash_ID", new Integer(C_Cash_ID));
+set_ValueNoCheck ("C_Cash_ID", Integer.valueOf(C_Cash_ID));
 }
 /** Get Cash Journal.
 @return Cash Journal */
@@ -163,7 +163,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -179,7 +179,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_ValueNoCheck ("C_Currency_ID", null);
  else 
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -195,7 +195,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -275,7 +275,7 @@ return bd;
 @param IsGenerated This Line is generated */
 public void setIsGenerated (boolean IsGenerated)
 {
-set_ValueNoCheck ("IsGenerated", new Boolean(IsGenerated));
+set_ValueNoCheck ("IsGenerated", Boolean.valueOf(IsGenerated));
 }
 /** Get Generated.
 @return This Line is generated */
@@ -293,7 +293,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -307,7 +307,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Status
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_Status extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_R_Status (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=776 */
-public static final int Table_ID=776;
+public static final int Table_ID=MTable.getTable_ID("R_Status");
 
 /** TableName=R_Status */
 public static final String Table_Name="R_Status";
 
-protected static KeyNamePair Model = new KeyNamePair(776,"R_Status");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_Status");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -132,7 +132,7 @@ return (String)get_Value("Help");
 @param IsClosed The status is closed */
 public void setIsClosed (boolean IsClosed)
 {
-set_Value ("IsClosed", new Boolean(IsClosed));
+set_Value ("IsClosed", Boolean.valueOf(IsClosed));
 }
 /** Get Closed Status.
 @return The status is closed */
@@ -150,7 +150,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -168,7 +168,7 @@ return false;
 @param IsFinalClose Entries with Final Close cannot be re-opened */
 public void setIsFinalClose (boolean IsFinalClose)
 {
-set_Value ("IsFinalClose", new Boolean(IsFinalClose));
+set_Value ("IsFinalClose", Boolean.valueOf(IsFinalClose));
 }
 /** Get Final Close.
 @return Entries with Final Close cannot be re-opened */
@@ -186,7 +186,7 @@ return false;
 @param IsOpen The status is closed */
 public void setIsOpen (boolean IsOpen)
 {
-set_Value ("IsOpen", new Boolean(IsOpen));
+set_Value ("IsOpen", Boolean.valueOf(IsOpen));
 }
 /** Get Open Status.
 @return The status is closed */
@@ -204,7 +204,7 @@ return false;
 @param IsWebCanUpdate Entry can be updated from the Web */
 public void setIsWebCanUpdate (boolean IsWebCanUpdate)
 {
-set_Value ("IsWebCanUpdate", new Boolean(IsWebCanUpdate));
+set_Value ("IsWebCanUpdate", Boolean.valueOf(IsWebCanUpdate));
 }
 /** Get Web Can Update.
 @return Entry can be updated from the Web */
@@ -245,7 +245,7 @@ public void setNext_Status_ID (int Next_Status_ID)
 {
 if (Next_Status_ID <= 0) set_Value ("Next_Status_ID", null);
  else 
-set_Value ("Next_Status_ID", new Integer(Next_Status_ID));
+set_Value ("Next_Status_ID", Integer.valueOf(Next_Status_ID));
 }
 /** Get Next Status.
 @return Move to next status automatically after timeout */
@@ -260,7 +260,7 @@ return ii.intValue();
 public void setR_StatusCategory_ID (int R_StatusCategory_ID)
 {
 if (R_StatusCategory_ID < 1) throw new IllegalArgumentException ("R_StatusCategory_ID is mandatory.");
-set_Value ("R_StatusCategory_ID", new Integer(R_StatusCategory_ID));
+set_Value ("R_StatusCategory_ID", Integer.valueOf(R_StatusCategory_ID));
 }
 /** Get Status Category.
 @return Request Status Category */
@@ -275,7 +275,7 @@ return ii.intValue();
 public void setR_Status_ID (int R_Status_ID)
 {
 if (R_Status_ID < 1) throw new IllegalArgumentException ("R_Status_ID is mandatory.");
-set_ValueNoCheck ("R_Status_ID", new Integer(R_Status_ID));
+set_ValueNoCheck ("R_Status_ID", Integer.valueOf(R_Status_ID));
 }
 /** Get Status.
 @return Request Status */
@@ -290,7 +290,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -311,7 +311,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 @param TimeoutDays Timeout in Days to change Status automatically */
 public void setTimeoutDays (int TimeoutDays)
 {
-set_Value ("TimeoutDays", new Integer(TimeoutDays));
+set_Value ("TimeoutDays", Integer.valueOf(TimeoutDays));
 }
 /** Get Timeout in Days.
 @return Timeout in Days to change Status automatically */
@@ -330,7 +330,7 @@ public void setUpdate_Status_ID (int Update_Status_ID)
 {
 if (Update_Status_ID <= 0) set_Value ("Update_Status_ID", null);
  else 
-set_Value ("Update_Status_ID", new Integer(Update_Status_ID));
+set_Value ("Update_Status_ID", Integer.valueOf(Update_Status_ID));
 }
 /** Get Update Status.
 @return Automatically change the status after entry from web */

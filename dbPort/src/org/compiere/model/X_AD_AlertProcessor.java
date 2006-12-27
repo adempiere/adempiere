@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_AlertProcessor extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_AlertProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=700 */
-public static final int Table_ID=700;
+public static final int Table_ID=MTable.getTable_ID("AD_AlertProcessor");
 
 /** TableName=AD_AlertProcessor */
 public static final String Table_Name="AD_AlertProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(700,"AD_AlertProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_AlertProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_AlertProcessor_ID (int AD_AlertProcessor_ID)
 {
 if (AD_AlertProcessor_ID < 1) throw new IllegalArgumentException ("AD_AlertProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_AlertProcessor_ID", new Integer(AD_AlertProcessor_ID));
+set_ValueNoCheck ("AD_AlertProcessor_ID", Integer.valueOf(AD_AlertProcessor_ID));
 }
 /** Get Alert Processor.
 @return Alert Processor/Server Parameter */
@@ -150,7 +150,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -193,7 +193,7 @@ return (String)get_Value("FrequencyType");
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -231,7 +231,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -253,7 +253,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

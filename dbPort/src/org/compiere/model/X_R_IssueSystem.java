@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueSystem
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_IssueSystem extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_IssueSystem (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=843 */
-public static final int Table_ID=843;
+public static final int Table_ID=MTable.getTable_ID("R_IssueSystem");
 
 /** TableName=R_IssueSystem */
 public static final String Table_Name="R_IssueSystem";
 
-protected static KeyNamePair Model = new KeyNamePair(843,"R_IssueSystem");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueSystem");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_Value ("A_Asset_ID", null);
  else 
-set_Value ("A_Asset_ID", new Integer(A_Asset_ID));
+set_Value ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -149,7 +149,7 @@ return (String)get_Value("ProfileInfo");
 public void setR_IssueSystem_ID (int R_IssueSystem_ID)
 {
 if (R_IssueSystem_ID < 1) throw new IllegalArgumentException ("R_IssueSystem_ID is mandatory.");
-set_ValueNoCheck ("R_IssueSystem_ID", new Integer(R_IssueSystem_ID));
+set_ValueNoCheck ("R_IssueSystem_ID", Integer.valueOf(R_IssueSystem_ID));
 }
 /** Get Issue System.
 @return System creating the issue */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Charge
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Charge extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_Charge (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=313 */
-public static final int Table_ID=313;
+public static final int Table_ID=MTable.getTable_ID("C_Charge");
 
 /** TableName=C_Charge */
 public static final String Table_Name="C_Charge";
 
-protected static KeyNamePair Model = new KeyNamePair(313,"C_Charge");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Charge");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID < 1) throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-set_ValueNoCheck ("C_Charge_ID", new Integer(C_Charge_ID));
+set_ValueNoCheck ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_Value ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_Value ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -173,7 +173,7 @@ return (String)get_Value("Description");
 @param IsSameCurrency Same Currency */
 public void setIsSameCurrency (boolean IsSameCurrency)
 {
-set_Value ("IsSameCurrency", new Boolean(IsSameCurrency));
+set_Value ("IsSameCurrency", Boolean.valueOf(IsSameCurrency));
 }
 /** Get Same Currency.
 @return Same Currency */
@@ -191,7 +191,7 @@ return false;
 @param IsSameTax Use the same tax as the main transaction */
 public void setIsSameTax (boolean IsSameTax)
 {
-set_Value ("IsSameTax", new Boolean(IsSameTax));
+set_Value ("IsSameTax", Boolean.valueOf(IsSameTax));
 }
 /** Get Same Tax.
 @return Use the same tax as the main transaction */
@@ -209,7 +209,7 @@ return false;
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
 {
-set_Value ("IsTaxIncluded", new Boolean(IsTaxIncluded));
+set_Value ("IsTaxIncluded", Boolean.valueOf(IsTaxIncluded));
 }
 /** Get Price includes Tax.
 @return Tax is included in the price  */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_System
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_System extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_AD_System (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=531 */
-public static final int Table_ID=531;
+public static final int Table_ID=MTable.getTable_ID("AD_System");
 
 /** TableName=AD_System */
 public static final String Table_Name="AD_System";
 
-protected static KeyNamePair Model = new KeyNamePair(531,"AD_System");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_System");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -99,7 +99,7 @@ return sb.toString();
 public void setAD_System_ID (int AD_System_ID)
 {
 if (AD_System_ID < 1) throw new IllegalArgumentException ("AD_System_ID is mandatory.");
-set_ValueNoCheck ("AD_System_ID", new Integer(AD_System_ID));
+set_ValueNoCheck ("AD_System_ID", Integer.valueOf(AD_System_ID));
 }
 /** Get System.
 @return System Definition */
@@ -244,7 +244,7 @@ return (String)get_Value("Info");
 @param IsAllowStatistics Maintain general statistics */
 public void setIsAllowStatistics (boolean IsAllowStatistics)
 {
-set_Value ("IsAllowStatistics", new Boolean(IsAllowStatistics));
+set_Value ("IsAllowStatistics", Boolean.valueOf(IsAllowStatistics));
 }
 /** Get Maintain Statistics.
 @return Maintain general statistics */
@@ -262,7 +262,7 @@ return false;
 @param IsAutoErrorReport Automatically report Errors */
 public void setIsAutoErrorReport (boolean IsAutoErrorReport)
 {
-set_Value ("IsAutoErrorReport", new Boolean(IsAutoErrorReport));
+set_Value ("IsAutoErrorReport", Boolean.valueOf(IsAutoErrorReport));
 }
 /** Get Error Reporting.
 @return Automatically report Errors */
@@ -280,7 +280,7 @@ return false;
 @param IsJustMigrated Value set by Migration for post-Migation tasks. */
 public void setIsJustMigrated (boolean IsJustMigrated)
 {
-set_Value ("IsJustMigrated", new Boolean(IsJustMigrated));
+set_Value ("IsJustMigrated", Boolean.valueOf(IsJustMigrated));
 }
 /** Get Just Migrated.
 @return Value set by Migration for post-Migation tasks. */
@@ -295,7 +295,7 @@ if (oo != null)
 return false;
 }
 /** Set LDAP Domain.
-@param LDAPDomain Directory service domain name - e.g. compiere.org */
+@param LDAPDomain Directory service domain name - e.g. adempiere.org */
 public void setLDAPDomain (String LDAPDomain)
 {
 if (LDAPDomain != null && LDAPDomain.length() > 255)
@@ -306,7 +306,7 @@ LDAPDomain = LDAPDomain.substring(0,254);
 set_Value ("LDAPDomain", LDAPDomain);
 }
 /** Get LDAP Domain.
-@return Directory service domain name - e.g. compiere.org */
+@return Directory service domain name - e.g. adempiere.org */
 public String getLDAPDomain() 
 {
 return (String)get_Value("LDAPDomain");
@@ -356,7 +356,7 @@ return new KeyNamePair(get_ID(), getName());
 @param NoProcessors Number of Database Processors */
 public void setNoProcessors (int NoProcessors)
 {
-set_Value ("NoProcessors", new Integer(NoProcessors));
+set_Value ("NoProcessors", Integer.valueOf(NoProcessors));
 }
 /** Get Processors.
 @return Number of Database Processors */
@@ -405,7 +405,7 @@ return (String)get_Value("Password");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -442,7 +442,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_Value ("Record_ID", null);
  else 
-set_Value ("Record_ID", new Integer(Record_ID));
+set_Value ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -550,25 +550,25 @@ public String getSupportEMail()
 return (String)get_Value("SupportEMail");
 }
 /** Set Support Expires.
-@param SupportExpDate Date when the Compiere support expires */
+@param SupportExpDate Date when the Adempiere support expires */
 public void setSupportExpDate (Timestamp SupportExpDate)
 {
 set_ValueNoCheck ("SupportExpDate", SupportExpDate);
 }
 /** Get Support Expires.
-@return Date when the Compiere support expires */
+@return Date when the Adempiere support expires */
 public Timestamp getSupportExpDate() 
 {
 return (Timestamp)get_Value("SupportExpDate");
 }
 /** Set Internal Users.
-@param SupportUnits Number of Internal Users for ComPiere Support */
+@param SupportUnits Number of Internal Users for Adempiere Support */
 public void setSupportUnits (int SupportUnits)
 {
-set_ValueNoCheck ("SupportUnits", new Integer(SupportUnits));
+set_ValueNoCheck ("SupportUnits", Integer.valueOf(SupportUnits));
 }
 /** Get Internal Users.
-@return Number of Internal Users for ComPiere Support */
+@return Number of Internal Users for Adempiere Support */
 public int getSupportUnits() 
 {
 Integer ii = (Integer)get_Value("SupportUnits");

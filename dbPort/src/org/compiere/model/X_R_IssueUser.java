@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueUser
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_IssueUser extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_IssueUser (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=841 */
-public static final int Table_ID=841;
+public static final int Table_ID=MTable.getTable_ID("R_IssueUser");
 
 /** TableName=R_IssueUser */
 public static final String Table_Name="R_IssueUser";
 
-protected static KeyNamePair Model = new KeyNamePair(841,"R_IssueUser");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueUser");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 public void setR_IssueUser_ID (int R_IssueUser_ID)
 {
 if (R_IssueUser_ID < 1) throw new IllegalArgumentException ("R_IssueUser_ID is mandatory.");
-set_ValueNoCheck ("R_IssueUser_ID", new Integer(R_IssueUser_ID));
+set_ValueNoCheck ("R_IssueUser_ID", Integer.valueOf(R_IssueUser_ID));
 }
 /** Get IssueUser.
 @return User who reported issues */

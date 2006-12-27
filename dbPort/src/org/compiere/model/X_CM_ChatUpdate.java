@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_ChatUpdate
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_ChatUpdate extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_CM_ChatUpdate (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=878 */
-public static final int Table_ID=878;
+public static final int Table_ID=MTable.getTable_ID("CM_ChatUpdate");
 
 /** TableName=CM_ChatUpdate */
 public static final String Table_Name="CM_ChatUpdate";
 
-protected static KeyNamePair Model = new KeyNamePair(878,"CM_ChatUpdate");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_ChatUpdate");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setCM_Chat_ID (int CM_Chat_ID)
 {
 if (CM_Chat_ID < 1) throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-set_ValueNoCheck ("CM_Chat_ID", new Integer(CM_Chat_ID));
+set_ValueNoCheck ("CM_Chat_ID", Integer.valueOf(CM_Chat_ID));
 }
 /** Get Chat.
 @return Chat or discussion thread */
@@ -121,7 +121,7 @@ return ii.intValue();
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */

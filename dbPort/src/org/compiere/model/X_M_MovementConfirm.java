@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementConfirm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MovementConfirm extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_MovementConfirm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=738 */
-public static final int Table_ID=738;
+public static final int Table_ID=MTable.getTable_ID("M_MovementConfirm");
 
 /** TableName=M_MovementConfirm */
 public static final String Table_Name="M_MovementConfirm";
 
-protected static KeyNamePair Model = new KeyNamePair(738,"M_MovementConfirm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MovementConfirm");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -248,7 +248,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -268,7 +268,7 @@ public void setM_Inventory_ID (int M_Inventory_ID)
 {
 if (M_Inventory_ID <= 0) set_Value ("M_Inventory_ID", null);
  else 
-set_Value ("M_Inventory_ID", new Integer(M_Inventory_ID));
+set_Value ("M_Inventory_ID", Integer.valueOf(M_Inventory_ID));
 }
 /** Get Phys.Inventory.
 @return Parameters for a Physical Inventory */
@@ -283,7 +283,7 @@ return ii.intValue();
 public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
 {
 if (M_MovementConfirm_ID < 1) throw new IllegalArgumentException ("M_MovementConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_MovementConfirm_ID", new Integer(M_MovementConfirm_ID));
+set_ValueNoCheck ("M_MovementConfirm_ID", Integer.valueOf(M_MovementConfirm_ID));
 }
 /** Get Move Confirm.
 @return Inventory Move Confirmation */
@@ -298,7 +298,7 @@ return ii.intValue();
 public void setM_Movement_ID (int M_Movement_ID)
 {
 if (M_Movement_ID < 1) throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-set_Value ("M_Movement_ID", new Integer(M_Movement_ID));
+set_Value ("M_Movement_ID", Integer.valueOf(M_Movement_ID));
 }
 /** Get Inventory Move.
 @return Movement of Inventory */
@@ -312,7 +312,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -330,7 +330,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

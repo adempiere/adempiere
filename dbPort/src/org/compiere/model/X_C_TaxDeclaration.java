@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxDeclaration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_TaxDeclaration extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_TaxDeclaration (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=818 */
-public static final int Table_ID=818;
+public static final int Table_ID=MTable.getTable_ID("C_TaxDeclaration");
 
 /** TableName=C_TaxDeclaration */
 public static final String Table_Name="C_TaxDeclaration";
 
-protected static KeyNamePair Model = new KeyNamePair(818,"C_TaxDeclaration");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_TaxDeclaration");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 {
 if (C_TaxDeclaration_ID < 1) throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-set_ValueNoCheck ("C_TaxDeclaration_ID", new Integer(C_TaxDeclaration_ID));
+set_ValueNoCheck ("C_TaxDeclaration_ID", Integer.valueOf(C_TaxDeclaration_ID));
 }
 /** Get Tax Declaration.
 @return Define the declaration to the tax authorities */
@@ -189,7 +189,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -207,7 +207,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

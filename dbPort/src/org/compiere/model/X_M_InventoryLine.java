@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InventoryLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_InventoryLine extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_M_InventoryLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=322 */
-public static final int Table_ID=322;
+public static final int Table_ID=MTable.getTable_ID("M_InventoryLine");
 
 /** TableName=M_InventoryLine */
 public static final String Table_Name="M_InventoryLine";
 
-protected static KeyNamePair Model = new KeyNamePair(322,"M_InventoryLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InventoryLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -157,7 +157,7 @@ return (String)get_Value("InventoryType");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -178,7 +178,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -193,7 +193,7 @@ return ii.intValue();
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID < 1) throw new IllegalArgumentException ("M_InventoryLine_ID is mandatory.");
-set_ValueNoCheck ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_ValueNoCheck ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -208,7 +208,7 @@ return ii.intValue();
 public void setM_Inventory_ID (int M_Inventory_ID)
 {
 if (M_Inventory_ID < 1) throw new IllegalArgumentException ("M_Inventory_ID is mandatory.");
-set_ValueNoCheck ("M_Inventory_ID", new Integer(M_Inventory_ID));
+set_ValueNoCheck ("M_Inventory_ID", Integer.valueOf(M_Inventory_ID));
 }
 /** Get Phys.Inventory.
 @return Parameters for a Physical Inventory */
@@ -223,7 +223,7 @@ return ii.intValue();
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -241,7 +241,7 @@ public static final int M_PRODUCT_ID_AD_Reference_ID=171;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -255,7 +255,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

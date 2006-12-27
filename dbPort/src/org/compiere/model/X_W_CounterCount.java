@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_CounterCount
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_CounterCount extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_W_CounterCount (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=552 */
-public static final int Table_ID=552;
+public static final int Table_ID=MTable.getTable_ID("W_CounterCount");
 
 /** TableName=W_CounterCount */
 public static final String Table_Name="W_CounterCount";
 
-protected static KeyNamePair Model = new KeyNamePair(552,"W_CounterCount");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_CounterCount");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -184,7 +184,7 @@ return (String)get_Value("PageURL");
 public void setW_CounterCount_ID (int W_CounterCount_ID)
 {
 if (W_CounterCount_ID < 1) throw new IllegalArgumentException ("W_CounterCount_ID is mandatory.");
-set_ValueNoCheck ("W_CounterCount_ID", new Integer(W_CounterCount_ID));
+set_ValueNoCheck ("W_CounterCount_ID", Integer.valueOf(W_CounterCount_ID));
 }
 /** Get Counter Count.
 @return Web Counter Count Management */

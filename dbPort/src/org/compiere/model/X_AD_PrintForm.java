@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintForm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintForm extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_PrintForm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=454 */
-public static final int Table_ID=454;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintForm");
 
 /** TableName=AD_PrintForm */
 public static final String Table_Name="AD_PrintForm";
 
-protected static KeyNamePair Model = new KeyNamePair(454,"AD_PrintForm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintForm");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_PrintForm_ID (int AD_PrintForm_ID)
 {
 if (AD_PrintForm_ID < 1) throw new IllegalArgumentException ("AD_PrintForm_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintForm_ID", new Integer(AD_PrintForm_ID));
+set_ValueNoCheck ("AD_PrintForm_ID", Integer.valueOf(AD_PrintForm_ID));
 }
 /** Get Print Form.
 @return Form */
@@ -127,7 +127,7 @@ public void setInvoice_MailText_ID (int Invoice_MailText_ID)
 {
 if (Invoice_MailText_ID <= 0) set_Value ("Invoice_MailText_ID", null);
  else 
-set_Value ("Invoice_MailText_ID", new Integer(Invoice_MailText_ID));
+set_Value ("Invoice_MailText_ID", Integer.valueOf(Invoice_MailText_ID));
 }
 /** Get Invoice Mail Text.
 @return Email text used for sending invoices */
@@ -146,7 +146,7 @@ public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 {
 if (Invoice_PrintFormat_ID <= 0) set_Value ("Invoice_PrintFormat_ID", null);
  else 
-set_Value ("Invoice_PrintFormat_ID", new Integer(Invoice_PrintFormat_ID));
+set_Value ("Invoice_PrintFormat_ID", Integer.valueOf(Invoice_PrintFormat_ID));
 }
 /** Get Invoice Print Format.
 @return Print Format for printing Invoices */
@@ -189,7 +189,7 @@ public void setOrder_MailText_ID (int Order_MailText_ID)
 {
 if (Order_MailText_ID <= 0) set_Value ("Order_MailText_ID", null);
  else 
-set_Value ("Order_MailText_ID", new Integer(Order_MailText_ID));
+set_Value ("Order_MailText_ID", Integer.valueOf(Order_MailText_ID));
 }
 /** Get Order Mail Text.
 @return Email text used for sending order acknowledgements or quotations */
@@ -208,7 +208,7 @@ public void setOrder_PrintFormat_ID (int Order_PrintFormat_ID)
 {
 if (Order_PrintFormat_ID <= 0) set_Value ("Order_PrintFormat_ID", null);
  else 
-set_Value ("Order_PrintFormat_ID", new Integer(Order_PrintFormat_ID));
+set_Value ("Order_PrintFormat_ID", Integer.valueOf(Order_PrintFormat_ID));
 }
 /** Get Order Print Format.
 @return Print Format for Orders, Quotes, Offers */
@@ -227,7 +227,7 @@ public void setProject_MailText_ID (int Project_MailText_ID)
 {
 if (Project_MailText_ID <= 0) set_Value ("Project_MailText_ID", null);
  else 
-set_Value ("Project_MailText_ID", new Integer(Project_MailText_ID));
+set_Value ("Project_MailText_ID", Integer.valueOf(Project_MailText_ID));
 }
 /** Get Project Mail Text.
 @return Standard text for Project EMails */
@@ -246,7 +246,7 @@ public void setProject_PrintFormat_ID (int Project_PrintFormat_ID)
 {
 if (Project_PrintFormat_ID <= 0) set_Value ("Project_PrintFormat_ID", null);
  else 
-set_Value ("Project_PrintFormat_ID", new Integer(Project_PrintFormat_ID));
+set_Value ("Project_PrintFormat_ID", Integer.valueOf(Project_PrintFormat_ID));
 }
 /** Get Project Print Format.
 @return Standard Project Print Format */
@@ -265,7 +265,7 @@ public void setRemittance_MailText_ID (int Remittance_MailText_ID)
 {
 if (Remittance_MailText_ID <= 0) set_Value ("Remittance_MailText_ID", null);
  else 
-set_Value ("Remittance_MailText_ID", new Integer(Remittance_MailText_ID));
+set_Value ("Remittance_MailText_ID", Integer.valueOf(Remittance_MailText_ID));
 }
 /** Get Remittance Mail Text.
 @return Email text used for sending payment remittances */
@@ -284,7 +284,7 @@ public void setRemittance_PrintFormat_ID (int Remittance_PrintFormat_ID)
 {
 if (Remittance_PrintFormat_ID <= 0) set_Value ("Remittance_PrintFormat_ID", null);
  else 
-set_Value ("Remittance_PrintFormat_ID", new Integer(Remittance_PrintFormat_ID));
+set_Value ("Remittance_PrintFormat_ID", Integer.valueOf(Remittance_PrintFormat_ID));
 }
 /** Get Remittance Print Format.
 @return Print Format for separate Remittances */
@@ -303,7 +303,7 @@ public void setShipment_MailText_ID (int Shipment_MailText_ID)
 {
 if (Shipment_MailText_ID <= 0) set_Value ("Shipment_MailText_ID", null);
  else 
-set_Value ("Shipment_MailText_ID", new Integer(Shipment_MailText_ID));
+set_Value ("Shipment_MailText_ID", Integer.valueOf(Shipment_MailText_ID));
 }
 /** Get Shipment Mail Text.
 @return Email text used for sending delivery notes */
@@ -322,7 +322,7 @@ public void setShipment_PrintFormat_ID (int Shipment_PrintFormat_ID)
 {
 if (Shipment_PrintFormat_ID <= 0) set_Value ("Shipment_PrintFormat_ID", null);
  else 
-set_Value ("Shipment_PrintFormat_ID", new Integer(Shipment_PrintFormat_ID));
+set_Value ("Shipment_PrintFormat_ID", Integer.valueOf(Shipment_PrintFormat_ID));
 }
 /** Get Shipment Print Format.
 @return Print Format for Shipments, Receipts, Pick Lists */

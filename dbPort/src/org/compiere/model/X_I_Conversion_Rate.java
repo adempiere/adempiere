@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Conversion_Rate
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_Conversion_Rate extends PO
 {
 /** Standard Constructor
@@ -53,12 +53,12 @@ public X_I_Conversion_Rate (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=641 */
-public static final int Table_ID=641;
+public static final int Table_ID=MTable.getTable_ID("I_Conversion_Rate");
 
 /** TableName=I_Conversion_Rate */
 public static final String Table_Name="I_Conversion_Rate";
 
-protected static KeyNamePair Model = new KeyNamePair(641,"I_Conversion_Rate");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_Conversion_Rate");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID <= 0) set_Value ("C_ConversionType_ID", null);
  else 
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -107,7 +107,7 @@ public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
 {
 if (C_Conversion_Rate_ID <= 0) set_Value ("C_Conversion_Rate_ID", null);
  else 
-set_Value ("C_Conversion_Rate_ID", new Integer(C_Conversion_Rate_ID));
+set_Value ("C_Conversion_Rate_ID", Integer.valueOf(C_Conversion_Rate_ID));
 }
 /** Get Conversion Rate.
 @return Rate used for converting currencies */
@@ -123,7 +123,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -140,7 +140,7 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 @param C_Currency_ID_To Target currency */
 public void setC_Currency_ID_To (int C_Currency_ID_To)
 {
-set_Value ("C_Currency_ID_To", new Integer(C_Currency_ID_To));
+set_Value ("C_Currency_ID_To", Integer.valueOf(C_Currency_ID_To));
 }
 /** Get Currency To.
 @return Target currency */
@@ -171,7 +171,7 @@ return (String)get_Value("ConversionTypeValue");
 @param CreateReciprocalRate Create Reciprocal Rate from current information */
 public void setCreateReciprocalRate (boolean CreateReciprocalRate)
 {
-set_Value ("CreateReciprocalRate", new Boolean(CreateReciprocalRate));
+set_Value ("CreateReciprocalRate", Boolean.valueOf(CreateReciprocalRate));
 }
 /** Get Create Reciprocal Rate.
 @return Create Reciprocal Rate from current information */
@@ -238,7 +238,7 @@ return (String)get_Value("ISO_Code_To");
 public void setI_Conversion_Rate_ID (int I_Conversion_Rate_ID)
 {
 if (I_Conversion_Rate_ID < 1) throw new IllegalArgumentException ("I_Conversion_Rate_ID is mandatory.");
-set_ValueNoCheck ("I_Conversion_Rate_ID", new Integer(I_Conversion_Rate_ID));
+set_ValueNoCheck ("I_Conversion_Rate_ID", Integer.valueOf(I_Conversion_Rate_ID));
 }
 /** Get Import Conversion Rate.
 @return Import Currency Conversion Rate */
@@ -275,7 +275,7 @@ return (String)get_Value("I_ErrorMsg");
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -307,7 +307,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -325,7 +325,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

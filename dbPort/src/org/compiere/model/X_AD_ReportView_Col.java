@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ReportView_Col
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_ReportView_Col extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_ReportView_Col (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=428 */
-public static final int Table_ID=428;
+public static final int Table_ID=MTable.getTable_ID("AD_ReportView_Col");
 
 /** TableName=AD_ReportView_Col */
 public static final String Table_Name="AD_ReportView_Col";
 
-protected static KeyNamePair Model = new KeyNamePair(428,"AD_ReportView_Col");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_ReportView_Col");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setAD_ReportView_Col_ID (int AD_ReportView_Col_ID)
 {
 if (AD_ReportView_Col_ID < 1) throw new IllegalArgumentException ("AD_ReportView_Col_ID is mandatory.");
-set_ValueNoCheck ("AD_ReportView_Col_ID", new Integer(AD_ReportView_Col_ID));
+set_ValueNoCheck ("AD_ReportView_Col_ID", Integer.valueOf(AD_ReportView_Col_ID));
 }
 /** Get Report view Column.
 @return Report view Column */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setAD_ReportView_ID (int AD_ReportView_ID)
 {
 if (AD_ReportView_ID < 1) throw new IllegalArgumentException ("AD_ReportView_ID is mandatory.");
-set_ValueNoCheck ("AD_ReportView_ID", new Integer(AD_ReportView_ID));
+set_ValueNoCheck ("AD_ReportView_ID", Integer.valueOf(AD_ReportView_ID));
 }
 /** Get Report View.
 @return View used to generate this report */
@@ -162,7 +162,7 @@ return (String)get_Value("FunctionColumn");
 @param IsGroupFunction This function will generate a Group By Clause */
 public void setIsGroupFunction (boolean IsGroupFunction)
 {
-set_Value ("IsGroupFunction", new Boolean(IsGroupFunction));
+set_Value ("IsGroupFunction", Boolean.valueOf(IsGroupFunction));
 }
 /** Get SQL Group Function.
 @return This function will generate a Group By Clause */

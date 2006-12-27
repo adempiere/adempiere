@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PriceList
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_PriceList extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_M_PriceList (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=255 */
-public static final int Table_ID=255;
+public static final int Table_ID=MTable.getTable_ID("M_PriceList");
 
 /** TableName=M_PriceList */
 public static final String Table_Name="M_PriceList";
 
-protected static KeyNamePair Model = new KeyNamePair(255,"M_PriceList");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_PriceList");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -101,7 +101,7 @@ public void setBasePriceList_ID (int BasePriceList_ID)
 {
 if (BasePriceList_ID <= 0) set_Value ("BasePriceList_ID", null);
  else 
-set_Value ("BasePriceList_ID", new Integer(BasePriceList_ID));
+set_Value ("BasePriceList_ID", Integer.valueOf(BasePriceList_ID));
 }
 /** Get Base Pricelist.
 @return Pricelist to be used, if product not found on this pricelist */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -147,7 +147,7 @@ return (String)get_Value("Description");
 @param EnforcePriceLimit Do not allow prices below the limit price */
 public void setEnforcePriceLimit (boolean EnforcePriceLimit)
 {
-set_Value ("EnforcePriceLimit", new Boolean(EnforcePriceLimit));
+set_Value ("EnforcePriceLimit", Boolean.valueOf(EnforcePriceLimit));
 }
 /** Get Enforce price limit.
 @return Do not allow prices below the limit price */
@@ -165,7 +165,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -183,7 +183,7 @@ return false;
 @param IsSOPriceList This is a Sales Price List */
 public void setIsSOPriceList (boolean IsSOPriceList)
 {
-set_Value ("IsSOPriceList", new Boolean(IsSOPriceList));
+set_Value ("IsSOPriceList", Boolean.valueOf(IsSOPriceList));
 }
 /** Get Sales Price list.
 @return This is a Sales Price List */
@@ -201,7 +201,7 @@ return false;
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
 {
-set_Value ("IsTaxIncluded", new Boolean(IsTaxIncluded));
+set_Value ("IsTaxIncluded", Boolean.valueOf(IsTaxIncluded));
 }
 /** Get Price includes Tax.
 @return Tax is included in the price  */
@@ -220,7 +220,7 @@ return false;
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_ValueNoCheck ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_ValueNoCheck ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */

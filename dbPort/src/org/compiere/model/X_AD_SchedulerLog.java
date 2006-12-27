@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_SchedulerLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_SchedulerLog extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_SchedulerLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=687 */
-public static final int Table_ID=687;
+public static final int Table_ID=MTable.getTable_ID("AD_SchedulerLog");
 
 /** TableName=AD_SchedulerLog */
 public static final String Table_Name="AD_SchedulerLog";
 
-protected static KeyNamePair Model = new KeyNamePair(687,"AD_SchedulerLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_SchedulerLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID)
 {
 if (AD_SchedulerLog_ID < 1) throw new IllegalArgumentException ("AD_SchedulerLog_ID is mandatory.");
-set_ValueNoCheck ("AD_SchedulerLog_ID", new Integer(AD_SchedulerLog_ID));
+set_ValueNoCheck ("AD_SchedulerLog_ID", Integer.valueOf(AD_SchedulerLog_ID));
 }
 /** Get Scheduler Log.
 @return Result of the execution of the Scheduler */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 {
 if (AD_Scheduler_ID < 1) throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-set_ValueNoCheck ("AD_Scheduler_ID", new Integer(AD_Scheduler_ID));
+set_ValueNoCheck ("AD_Scheduler_ID", Integer.valueOf(AD_Scheduler_ID));
 }
 /** Get Scheduler.
 @return Schedule Processes */
@@ -150,7 +150,7 @@ return (String)get_Value("Description");
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
 {
-set_Value ("IsError", new Boolean(IsError));
+set_Value ("IsError", Boolean.valueOf(IsError));
 }
 /** Get Error.
 @return An Error occured in the execution */

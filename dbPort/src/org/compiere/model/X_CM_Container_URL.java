@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Container_URL
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Container_URL extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_CM_Container_URL (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=865 */
-public static final int Table_ID=865;
+public static final int Table_ID=MTable.getTable_ID("CM_Container_URL");
 
 /** TableName=CM_Container_URL */
 public static final String Table_Name="CM_Container_URL";
 
-protected static KeyNamePair Model = new KeyNamePair(865,"CM_Container_URL");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Container_URL");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setCM_Container_ID (int CM_Container_ID)
 {
 if (CM_Container_ID < 1) throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-set_Value ("CM_Container_ID", new Integer(CM_Container_ID));
+set_Value ("CM_Container_ID", Integer.valueOf(CM_Container_ID));
 }
 /** Get Web Container.
 @return Web Container contains content like images, text etc. */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setCM_Container_URL_ID (int CM_Container_URL_ID)
 {
 if (CM_Container_URL_ID < 1) throw new IllegalArgumentException ("CM_Container_URL_ID is mandatory.");
-set_ValueNoCheck ("CM_Container_URL_ID", new Integer(CM_Container_URL_ID));
+set_ValueNoCheck ("CM_Container_URL_ID", Integer.valueOf(CM_Container_URL_ID));
 }
 /** Get Container URL.
 @return Contains info on used URLs */

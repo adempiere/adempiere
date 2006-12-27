@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestUpdates
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestUpdates extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_RequestUpdates (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=783 */
-public static final int Table_ID=783;
+public static final int Table_ID=MTable.getTable_ID("R_RequestUpdates");
 
 /** TableName=R_RequestUpdates */
 public static final String Table_Name="R_RequestUpdates";
 
-protected static KeyNamePair Model = new KeyNamePair(783,"R_RequestUpdates");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestUpdates");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -106,7 +106,7 @@ return ii.intValue();
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -125,7 +125,7 @@ return false;
 public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID < 1) throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-set_ValueNoCheck ("R_Request_ID", new Integer(R_Request_ID));
+set_ValueNoCheck ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */

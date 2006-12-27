@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Year
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Year extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_Year (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=177 */
-public static final int Table_ID=177;
+public static final int Table_ID=MTable.getTable_ID("C_Year");
 
 /** TableName=C_Year */
 public static final String Table_Name="C_Year";
 
-protected static KeyNamePair Model = new KeyNamePair(177,"C_Year");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Year");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_Calendar_ID (int C_Calendar_ID)
 {
 if (C_Calendar_ID < 1) throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-set_ValueNoCheck ("C_Calendar_ID", new Integer(C_Calendar_ID));
+set_ValueNoCheck ("C_Calendar_ID", Integer.valueOf(C_Calendar_ID));
 }
 /** Get Calendar.
 @return Accounting Calendar Name */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setC_Year_ID (int C_Year_ID)
 {
 if (C_Year_ID < 1) throw new IllegalArgumentException ("C_Year_ID is mandatory.");
-set_ValueNoCheck ("C_Year_ID", new Integer(C_Year_ID));
+set_ValueNoCheck ("C_Year_ID", Integer.valueOf(C_Year_ID));
 }
 /** Get Year.
 @return Calendar Year */
@@ -162,7 +162,7 @@ return new KeyNamePair(get_ID(), getFiscalYear());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

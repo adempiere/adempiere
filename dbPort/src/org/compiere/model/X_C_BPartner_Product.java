@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BPartner_Product
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BPartner_Product extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BPartner_Product (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=632 */
-public static final int Table_ID=632;
+public static final int Table_ID=MTable.getTable_ID("C_BPartner_Product");
 
 /** TableName=C_BPartner_Product */
 public static final String Table_Name="C_BPartner_Product";
 
-protected static KeyNamePair Model = new KeyNamePair(632,"C_BPartner_Product");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BPartner_Product");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -125,7 +125,7 @@ return (String)get_Value("Description");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -170,7 +170,7 @@ return bd;
 @param ShelfLifeMinDays Minimum Shelf Life in days based on Product Instance Guarantee Date */
 public void setShelfLifeMinDays (int ShelfLifeMinDays)
 {
-set_Value ("ShelfLifeMinDays", new Integer(ShelfLifeMinDays));
+set_Value ("ShelfLifeMinDays", Integer.valueOf(ShelfLifeMinDays));
 }
 /** Get Min Shelf Life Days.
 @return Minimum Shelf Life in days based on Product Instance Guarantee Date */
@@ -184,7 +184,7 @@ return ii.intValue();
 @param ShelfLifeMinPct Minimum Shelf Life in percent based on Product Instance Guarantee Date */
 public void setShelfLifeMinPct (int ShelfLifeMinPct)
 {
-set_Value ("ShelfLifeMinPct", new Integer(ShelfLifeMinPct));
+set_Value ("ShelfLifeMinPct", Integer.valueOf(ShelfLifeMinPct));
 }
 /** Get Min Shelf Life %.
 @return Minimum Shelf Life in percent based on Product Instance Guarantee Date */

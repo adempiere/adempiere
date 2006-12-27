@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSearch
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeSearch extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_AttributeSearch (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=564 */
-public static final int Table_ID=564;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeSearch");
 
 /** TableName=M_AttributeSearch */
 public static final String Table_Name="M_AttributeSearch";
 
-protected static KeyNamePair Model = new KeyNamePair(564,"M_AttributeSearch");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeSearch");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -108,7 +108,7 @@ return (String)get_Value("Description");
 public void setM_AttributeSearch_ID (int M_AttributeSearch_ID)
 {
 if (M_AttributeSearch_ID < 1) throw new IllegalArgumentException ("M_AttributeSearch_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSearch_ID", new Integer(M_AttributeSearch_ID));
+set_ValueNoCheck ("M_AttributeSearch_ID", Integer.valueOf(M_AttributeSearch_ID));
 }
 /** Get Attribute Search.
 @return Common Search Attribute  */

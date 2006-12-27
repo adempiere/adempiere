@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Resolution
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_Resolution extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_Resolution (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=774 */
-public static final int Table_ID=774;
+public static final int Table_ID=MTable.getTable_ID("R_Resolution");
 
 /** TableName=R_Resolution */
 public static final String Table_Name="R_Resolution";
 
-protected static KeyNamePair Model = new KeyNamePair(774,"R_Resolution");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_Resolution");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -149,7 +149,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_Resolution_ID (int R_Resolution_ID)
 {
 if (R_Resolution_ID < 1) throw new IllegalArgumentException ("R_Resolution_ID is mandatory.");
-set_ValueNoCheck ("R_Resolution_ID", new Integer(R_Resolution_ID));
+set_ValueNoCheck ("R_Resolution_ID", Integer.valueOf(R_Resolution_ID));
 }
 /** Get Resolution.
 @return Request Resolution */

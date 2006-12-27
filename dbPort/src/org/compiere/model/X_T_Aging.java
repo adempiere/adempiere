@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Aging
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_Aging extends PO
 {
 /** Standard Constructor
@@ -82,12 +82,12 @@ public X_T_Aging (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=631 */
-public static final int Table_ID=631;
+public static final int Table_ID=MTable.getTable_ID("T_Aging");
 
 /** TableName=T_Aging */
 public static final String Table_Name="T_Aging";
 
-protected static KeyNamePair Model = new KeyNamePair(631,"T_Aging");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_Aging");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -119,7 +119,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -135,7 +135,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -150,7 +150,7 @@ return ii.intValue();
 public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID < 1) throw new IllegalArgumentException ("C_BP_Group_ID is mandatory.");
-set_Value ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_Value ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -165,7 +165,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -181,7 +181,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -196,7 +196,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -212,7 +212,7 @@ public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
 {
 if (C_InvoicePaySchedule_ID <= 0) set_Value ("C_InvoicePaySchedule_ID", null);
  else 
-set_Value ("C_InvoicePaySchedule_ID", new Integer(C_InvoicePaySchedule_ID));
+set_Value ("C_InvoicePaySchedule_ID", Integer.valueOf(C_InvoicePaySchedule_ID));
 }
 /** Get Invoice Payment Schedule.
 @return Invoice Payment Schedule */
@@ -228,7 +228,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -244,7 +244,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -258,7 +258,7 @@ return ii.intValue();
 @param DaysDue Number of days due (negative: due in number of days) */
 public void setDaysDue (int DaysDue)
 {
-set_Value ("DaysDue", new Integer(DaysDue));
+set_Value ("DaysDue", Integer.valueOf(DaysDue));
 }
 /** Get Days due.
 @return Number of days due (negative: due in number of days) */
@@ -465,7 +465,7 @@ return bd;
 @param IsListInvoices Include List of Invoices */
 public void setIsListInvoices (boolean IsListInvoices)
 {
-set_Value ("IsListInvoices", new Boolean(IsListInvoices));
+set_Value ("IsListInvoices", Boolean.valueOf(IsListInvoices));
 }
 /** Get List Invoices.
 @return Include List of Invoices */
@@ -483,7 +483,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MatchInv
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MatchInv extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_MatchInv (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=472 */
-public static final int Table_ID=472;
+public static final int Table_ID=MTable.getTable_ID("M_MatchInv");
 
 /** TableName=M_MatchInv */
 public static final String Table_Name="M_MatchInv";
 
-protected static KeyNamePair Model = new KeyNamePair(472,"M_MatchInv");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MatchInv");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ return sb.toString();
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID < 1) throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -181,7 +181,7 @@ public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID <= 0) set_ValueNoCheck ("M_AttributeSetInstance_ID", null);
  else 
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -196,7 +196,7 @@ return ii.intValue();
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -211,7 +211,7 @@ return ii.intValue();
 public void setM_MatchInv_ID (int M_MatchInv_ID)
 {
 if (M_MatchInv_ID < 1) throw new IllegalArgumentException ("M_MatchInv_ID is mandatory.");
-set_ValueNoCheck ("M_MatchInv_ID", new Integer(M_MatchInv_ID));
+set_ValueNoCheck ("M_MatchInv_ID", Integer.valueOf(M_MatchInv_ID));
 }
 /** Get Match Invoice.
 @return Match Shipment/Receipt to Invoice */
@@ -226,7 +226,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -240,7 +240,7 @@ return ii.intValue();
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_ValueNoCheck ("Posted", new Boolean(Posted));
+set_ValueNoCheck ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -258,7 +258,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -276,7 +276,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

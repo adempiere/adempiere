@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSetExclude
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeSetExclude extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_AttributeSetExclude (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=809 */
-public static final int Table_ID=809;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeSetExclude");
 
 /** TableName=M_AttributeSetExclude */
 public static final String Table_Name="M_AttributeSetExclude";
 
-protected static KeyNamePair Model = new KeyNamePair(809,"M_AttributeSetExclude");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeSetExclude");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -107,7 +107,7 @@ return ii.intValue();
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -126,7 +126,7 @@ return false;
 public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID)
 {
 if (M_AttributeSetExclude_ID < 1) throw new IllegalArgumentException ("M_AttributeSetExclude_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetExclude_ID", new Integer(M_AttributeSetExclude_ID));
+set_ValueNoCheck ("M_AttributeSetExclude_ID", Integer.valueOf(M_AttributeSetExclude_ID));
 }
 /** Get Exclude Attribute Set.
 @return Exclude the ability to enter Attribute Sets */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 {
 if (M_AttributeSet_ID < 0) throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSet_ID", new Integer(M_AttributeSet_ID));
+set_ValueNoCheck ("M_AttributeSet_ID", Integer.valueOf(M_AttributeSet_ID));
 }
 /** Get Attribute Set.
 @return Product Attribute Set */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Warehouse_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Warehouse_Acct extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_Warehouse_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=191 */
-public static final int Table_ID=191;
+public static final int Table_ID=MTable.getTable_ID("M_Warehouse_Acct");
 
 /** TableName=M_Warehouse_Acct */
 public static final String Table_Name="M_Warehouse_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(191,"M_Warehouse_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Warehouse_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_ValueNoCheck ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_ValueNoCheck ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -124,7 +124,7 @@ return ii.intValue();
 @param W_Differences_Acct Warehouse Differences Account */
 public void setW_Differences_Acct (int W_Differences_Acct)
 {
-set_Value ("W_Differences_Acct", new Integer(W_Differences_Acct));
+set_Value ("W_Differences_Acct", Integer.valueOf(W_Differences_Acct));
 }
 /** Get Warehouse Differences.
 @return Warehouse Differences Account */
@@ -138,7 +138,7 @@ return ii.intValue();
 @param W_InvActualAdjust_Acct Account for Inventory value adjustments for Actual Costing */
 public void setW_InvActualAdjust_Acct (int W_InvActualAdjust_Acct)
 {
-set_Value ("W_InvActualAdjust_Acct", new Integer(W_InvActualAdjust_Acct));
+set_Value ("W_InvActualAdjust_Acct", Integer.valueOf(W_InvActualAdjust_Acct));
 }
 /** Get Inventory Adjustment.
 @return Account for Inventory value adjustments for Actual Costing */
@@ -152,7 +152,7 @@ return ii.intValue();
 @param W_Inventory_Acct Warehouse Inventory Asset Account - Currently not used */
 public void setW_Inventory_Acct (int W_Inventory_Acct)
 {
-set_Value ("W_Inventory_Acct", new Integer(W_Inventory_Acct));
+set_Value ("W_Inventory_Acct", Integer.valueOf(W_Inventory_Acct));
 }
 /** Get (Not Used).
 @return Warehouse Inventory Asset Account - Currently not used */
@@ -166,7 +166,7 @@ return ii.intValue();
 @param W_Revaluation_Acct Account for Inventory Revaluation */
 public void setW_Revaluation_Acct (int W_Revaluation_Acct)
 {
-set_Value ("W_Revaluation_Acct", new Integer(W_Revaluation_Acct));
+set_Value ("W_Revaluation_Acct", Integer.valueOf(W_Revaluation_Acct));
 }
 /** Get Inventory Revaluation.
 @return Account for Inventory Revaluation */

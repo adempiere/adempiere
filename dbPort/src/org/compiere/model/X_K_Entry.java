@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Entry
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_Entry extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_K_Entry (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=612 */
-public static final int Table_ID=612;
+public static final int Table_ID=MTable.getTable_ID("K_Entry");
 
 /** TableName=K_Entry */
 public static final String Table_Name="K_Entry";
 
-protected static KeyNamePair Model = new KeyNamePair(612,"K_Entry");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Entry");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_Session_ID (int AD_Session_ID)
 {
 if (AD_Session_ID <= 0) set_ValueNoCheck ("AD_Session_ID", null);
  else 
-set_ValueNoCheck ("AD_Session_ID", new Integer(AD_Session_ID));
+set_ValueNoCheck ("AD_Session_ID", Integer.valueOf(AD_Session_ID));
 }
 /** Get Session.
 @return User Session Online or Web */
@@ -127,7 +127,7 @@ return (String)get_Value("DescriptionURL");
 @param IsPublic Public can read entry */
 public void setIsPublic (boolean IsPublic)
 {
-set_Value ("IsPublic", new Boolean(IsPublic));
+set_Value ("IsPublic", Boolean.valueOf(IsPublic));
 }
 /** Get Public.
 @return Public can read entry */
@@ -146,7 +146,7 @@ return false;
 public void setK_Entry_ID (int K_Entry_ID)
 {
 if (K_Entry_ID < 1) throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-set_ValueNoCheck ("K_Entry_ID", new Integer(K_Entry_ID));
+set_ValueNoCheck ("K_Entry_ID", Integer.valueOf(K_Entry_ID));
 }
 /** Get Entry.
 @return Knowledge Entry */
@@ -162,7 +162,7 @@ public void setK_Source_ID (int K_Source_ID)
 {
 if (K_Source_ID <= 0) set_Value ("K_Source_ID", null);
  else 
-set_Value ("K_Source_ID", new Integer(K_Source_ID));
+set_Value ("K_Source_ID", Integer.valueOf(K_Source_ID));
 }
 /** Get Knowledge Source.
 @return Source of a Knowledge Entry */
@@ -177,7 +177,7 @@ return ii.intValue();
 public void setK_Topic_ID (int K_Topic_ID)
 {
 if (K_Topic_ID < 1) throw new IllegalArgumentException ("K_Topic_ID is mandatory.");
-set_ValueNoCheck ("K_Topic_ID", new Integer(K_Topic_ID));
+set_ValueNoCheck ("K_Topic_ID", Integer.valueOf(K_Topic_ID));
 }
 /** Get Knowledge Topic.
 @return Knowledge Topic */
@@ -232,7 +232,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Rating Classification or Importance */
 public void setRating (int Rating)
 {
-set_Value ("Rating", new Integer(Rating));
+set_Value ("Rating", Integer.valueOf(Rating));
 }
 /** Get Rating.
 @return Classification or Importance */

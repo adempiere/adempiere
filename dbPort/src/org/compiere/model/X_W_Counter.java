@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Counter
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_Counter extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_W_Counter (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=403 */
-public static final int Table_ID=403;
+public static final int Table_ID=MTable.getTable_ID("W_Counter");
 
 /** TableName=W_Counter */
 public static final String Table_Name="W_Counter";
 
-protected static KeyNamePair Model = new KeyNamePair(403,"W_Counter");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_Counter");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -161,7 +161,7 @@ return (String)get_Value("PageURL");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -257,7 +257,7 @@ public void setW_CounterCount_ID (int W_CounterCount_ID)
 {
 if (W_CounterCount_ID <= 0) set_ValueNoCheck ("W_CounterCount_ID", null);
  else 
-set_ValueNoCheck ("W_CounterCount_ID", new Integer(W_CounterCount_ID));
+set_ValueNoCheck ("W_CounterCount_ID", Integer.valueOf(W_CounterCount_ID));
 }
 /** Get Counter Count.
 @return Web Counter Count Management */
@@ -272,7 +272,7 @@ return ii.intValue();
 public void setW_Counter_ID (int W_Counter_ID)
 {
 if (W_Counter_ID < 1) throw new IllegalArgumentException ("W_Counter_ID is mandatory.");
-set_ValueNoCheck ("W_Counter_ID", new Integer(W_Counter_ID));
+set_ValueNoCheck ("W_Counter_ID", Integer.valueOf(W_Counter_ID));
 }
 /** Get Web Counter.
 @return Individual Count hit */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessor_Route
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestProcessor_Route extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_R_RequestProcessor_Route (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=474 */
-public static final int Table_ID=474;
+public static final int Table_ID=MTable.getTable_ID("R_RequestProcessor_Route");
 
 /** TableName=R_RequestProcessor_Route */
 public static final String Table_Name="R_RequestProcessor_Route";
 
-protected static KeyNamePair Model = new KeyNamePair(474,"R_RequestProcessor_Route");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestProcessor_Route");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -125,7 +125,7 @@ return (String)get_Value("Keyword");
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 {
 if (R_RequestProcessor_ID < 1) throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-set_ValueNoCheck ("R_RequestProcessor_ID", new Integer(R_RequestProcessor_ID));
+set_ValueNoCheck ("R_RequestProcessor_ID", Integer.valueOf(R_RequestProcessor_ID));
 }
 /** Get Request Processor.
 @return Processor for Requests */
@@ -140,7 +140,7 @@ return ii.intValue();
 public void setR_RequestProcessor_Route_ID (int R_RequestProcessor_Route_ID)
 {
 if (R_RequestProcessor_Route_ID < 1) throw new IllegalArgumentException ("R_RequestProcessor_Route_ID is mandatory.");
-set_ValueNoCheck ("R_RequestProcessor_Route_ID", new Integer(R_RequestProcessor_Route_ID));
+set_ValueNoCheck ("R_RequestProcessor_Route_ID", Integer.valueOf(R_RequestProcessor_Route_ID));
 }
 /** Get Request Routing.
 @return Automatic routing of requests */
@@ -156,7 +156,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_Value ("R_RequestType_ID", null);
  else 
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */
@@ -171,7 +171,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

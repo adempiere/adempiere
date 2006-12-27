@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_LdapAccess
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_LdapAccess extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_LdapAccess (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=904 */
-public static final int Table_ID=904;
+public static final int Table_ID=MTable.getTable_ID("AD_LdapAccess");
 
 /** TableName=AD_LdapAccess */
 public static final String Table_Name="AD_LdapAccess";
 
-protected static KeyNamePair Model = new KeyNamePair(904,"AD_LdapAccess");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_LdapAccess");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_LdapAccess_ID (int AD_LdapAccess_ID)
 {
 if (AD_LdapAccess_ID < 1) throw new IllegalArgumentException ("AD_LdapAccess_ID is mandatory.");
-set_ValueNoCheck ("AD_LdapAccess_ID", new Integer(AD_LdapAccess_ID));
+set_ValueNoCheck ("AD_LdapAccess_ID", Integer.valueOf(AD_LdapAccess_ID));
 }
 /** Get Ldap Access.
 @return Ldap Access Log */
@@ -103,14 +103,14 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Ldap Processor.
-@param AD_LdapProcessor_ID LDAP Server to authenticate and authorize external systems based on Compiere */
+@param AD_LdapProcessor_ID LDAP Server to authenticate and authorize external systems based on Adempiere */
 public void setAD_LdapProcessor_ID (int AD_LdapProcessor_ID)
 {
 if (AD_LdapProcessor_ID < 1) throw new IllegalArgumentException ("AD_LdapProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_LdapProcessor_ID", new Integer(AD_LdapProcessor_ID));
+set_ValueNoCheck ("AD_LdapProcessor_ID", Integer.valueOf(AD_LdapProcessor_ID));
 }
 /** Get Ldap Processor.
-@return LDAP Server to authenticate and authorize external systems based on Compiere */
+@return LDAP Server to authenticate and authorize external systems based on Adempiere */
 public int getAD_LdapProcessor_ID() 
 {
 Integer ii = (Integer)get_Value("AD_LdapProcessor_ID");
@@ -123,7 +123,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_ValueNoCheck ("AD_User_ID", null);
  else 
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -160,7 +160,7 @@ return (String)get_Value("Description");
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
 {
-set_ValueNoCheck ("IsError", new Boolean(IsError));
+set_ValueNoCheck ("IsError", Boolean.valueOf(IsError));
 }
 /** Get Error.
 @return An Error occured in the execution */
@@ -180,7 +180,7 @@ public void setR_InterestArea_ID (int R_InterestArea_ID)
 {
 if (R_InterestArea_ID <= 0) set_ValueNoCheck ("R_InterestArea_ID", null);
  else 
-set_ValueNoCheck ("R_InterestArea_ID", new Integer(R_InterestArea_ID));
+set_ValueNoCheck ("R_InterestArea_ID", Integer.valueOf(R_InterestArea_ID));
 }
 /** Get Interest Area.
 @return Interest Area or Topic */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MatchPO
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MatchPO extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_MatchPO (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=473 */
-public static final int Table_ID=473;
+public static final int Table_ID=MTable.getTable_ID("M_MatchPO");
 
 /** TableName=M_MatchPO */
 public static final String Table_Name="M_MatchPO";
 
-protected static KeyNamePair Model = new KeyNamePair(473,"M_MatchPO");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MatchPO");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_ValueNoCheck ("C_InvoiceLine_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID < 1) throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
-set_ValueNoCheck ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_ValueNoCheck ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */
@@ -195,7 +195,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -215,7 +215,7 @@ public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID <= 0) set_ValueNoCheck ("M_AttributeSetInstance_ID", null);
  else 
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -230,7 +230,7 @@ return ii.intValue();
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -245,7 +245,7 @@ return ii.intValue();
 public void setM_MatchPO_ID (int M_MatchPO_ID)
 {
 if (M_MatchPO_ID < 1) throw new IllegalArgumentException ("M_MatchPO_ID is mandatory.");
-set_ValueNoCheck ("M_MatchPO_ID", new Integer(M_MatchPO_ID));
+set_ValueNoCheck ("M_MatchPO_ID", Integer.valueOf(M_MatchPO_ID));
 }
 /** Get Match PO.
 @return Match Purchase Order to Shipment/Receipt and Invoice */
@@ -260,7 +260,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -274,7 +274,7 @@ return ii.intValue();
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_ValueNoCheck ("Posted", new Boolean(Posted));
+set_ValueNoCheck ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -306,7 +306,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -324,7 +324,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

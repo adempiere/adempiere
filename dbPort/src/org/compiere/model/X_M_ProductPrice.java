@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ProductPrice
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_ProductPrice extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_ProductPrice (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=251 */
-public static final int Table_ID=251;
+public static final int Table_ID=MTable.getTable_ID("M_ProductPrice");
 
 /** TableName=M_ProductPrice */
 public static final String Table_Name="M_ProductPrice";
 
-protected static KeyNamePair Model = new KeyNamePair(251,"M_ProductPrice");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ProductPrice");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 {
 if (M_PriceList_Version_ID < 1) throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-set_ValueNoCheck ("M_PriceList_Version_ID", new Integer(M_PriceList_Version_ID));
+set_ValueNoCheck ("M_PriceList_Version_ID", Integer.valueOf(M_PriceList_Version_ID));
 }
 /** Get Price List Version.
 @return Identifies a unique instance of a Price List */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Costing
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Product_Costing extends PO
 {
 /** Standard Constructor
@@ -68,12 +68,12 @@ public X_M_Product_Costing (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=327 */
-public static final int Table_ID=327;
+public static final int Table_ID=MTable.getTable_ID("M_Product_Costing");
 
 /** TableName=M_Product_Costing */
 public static final String Table_Name="M_Product_Costing";
 
-protected static KeyNamePair Model = new KeyNamePair(327,"M_Product_Costing");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Product_Costing");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -105,7 +105,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -270,7 +270,7 @@ return bd;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

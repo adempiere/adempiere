@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_InOutLine extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_M_InOutLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=320 */
-public static final int Table_ID=320;
+public static final int Table_ID=MTable.getTable_ID("M_InOutLine");
 
 /** TableName=M_InOutLine */
 public static final String Table_Name="M_InOutLine";
 
-protected static KeyNamePair Model = new KeyNamePair(320,"M_InOutLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -104,7 +104,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -120,7 +120,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -136,7 +136,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -152,7 +152,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -168,7 +168,7 @@ public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID <= 0) set_ValueNoCheck ("C_OrderLine_ID", null);
  else 
-set_ValueNoCheck ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_ValueNoCheck ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */
@@ -184,7 +184,7 @@ public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 {
 if (C_ProjectPhase_ID <= 0) set_Value ("C_ProjectPhase_ID", null);
  else 
-set_Value ("C_ProjectPhase_ID", new Integer(C_ProjectPhase_ID));
+set_Value ("C_ProjectPhase_ID", Integer.valueOf(C_ProjectPhase_ID));
 }
 /** Get Project Phase.
 @return Phase of a Project */
@@ -200,7 +200,7 @@ public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 {
 if (C_ProjectTask_ID <= 0) set_Value ("C_ProjectTask_ID", null);
  else 
-set_Value ("C_ProjectTask_ID", new Integer(C_ProjectTask_ID));
+set_Value ("C_ProjectTask_ID", Integer.valueOf(C_ProjectTask_ID));
 }
 /** Get Project Task.
 @return Actual Project Task in a Phase */
@@ -216,7 +216,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -231,7 +231,7 @@ return ii.intValue();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_ValueNoCheck ("C_UOM_ID", new Integer(C_UOM_ID));
+set_ValueNoCheck ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -276,7 +276,7 @@ return (String)get_Value("Description");
 @param IsDescription if true, the line is just description and no transaction */
 public void setIsDescription (boolean IsDescription)
 {
-set_Value ("IsDescription", new Boolean(IsDescription));
+set_Value ("IsDescription", Boolean.valueOf(IsDescription));
 }
 /** Get Description Only.
 @return if true, the line is just description and no transaction */
@@ -294,7 +294,7 @@ return false;
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
 {
-set_Value ("IsInvoiced", new Boolean(IsInvoiced));
+set_Value ("IsInvoiced", Boolean.valueOf(IsInvoiced));
 }
 /** Get Invoiced.
 @return Is this invoiced? */
@@ -312,7 +312,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -333,7 +333,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -348,7 +348,7 @@ return ii.intValue();
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -363,7 +363,7 @@ return ii.intValue();
 public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID < 1) throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-set_ValueNoCheck ("M_InOut_ID", new Integer(M_InOut_ID));
+set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -378,7 +378,7 @@ return ii.intValue();
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -394,7 +394,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -437,7 +437,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -472,7 +472,7 @@ public void setRef_InOutLine_ID (int Ref_InOutLine_ID)
 {
 if (Ref_InOutLine_ID <= 0) set_Value ("Ref_InOutLine_ID", null);
  else 
-set_Value ("Ref_InOutLine_ID", new Integer(Ref_InOutLine_ID));
+set_Value ("Ref_InOutLine_ID", Integer.valueOf(Ref_InOutLine_ID));
 }
 /** Get Referenced Shipment Line.
 @return Referenced Shipment Line */
@@ -519,7 +519,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -538,7 +538,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

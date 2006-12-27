@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_JobRemuneration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_JobRemuneration extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_JobRemuneration (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=793 */
-public static final int Table_ID=793;
+public static final int Table_ID=MTable.getTable_ID("C_JobRemuneration");
 
 /** TableName=C_JobRemuneration */
 public static final String Table_Name="C_JobRemuneration";
 
-protected static KeyNamePair Model = new KeyNamePair(793,"C_JobRemuneration");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_JobRemuneration");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
 {
 if (C_JobRemuneration_ID < 1) throw new IllegalArgumentException ("C_JobRemuneration_ID is mandatory.");
-set_ValueNoCheck ("C_JobRemuneration_ID", new Integer(C_JobRemuneration_ID));
+set_ValueNoCheck ("C_JobRemuneration_ID", Integer.valueOf(C_JobRemuneration_ID));
 }
 /** Get Position Remuneration.
 @return Remuneration for the Position */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_Job_ID (int C_Job_ID)
 {
 if (C_Job_ID < 1) throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-set_ValueNoCheck ("C_Job_ID", new Integer(C_Job_ID));
+set_ValueNoCheck ("C_Job_ID", Integer.valueOf(C_Job_ID));
 }
 /** Get Position.
 @return Job Position */
@@ -129,7 +129,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
 public void setC_Remuneration_ID (int C_Remuneration_ID)
 {
 if (C_Remuneration_ID < 1) throw new IllegalArgumentException ("C_Remuneration_ID is mandatory.");
-set_ValueNoCheck ("C_Remuneration_ID", new Integer(C_Remuneration_ID));
+set_ValueNoCheck ("C_Remuneration_ID", Integer.valueOf(C_Remuneration_ID));
 }
 /** Get Remuneration.
 @return Wage or Salary */

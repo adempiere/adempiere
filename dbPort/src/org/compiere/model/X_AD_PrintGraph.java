@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintGraph
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintGraph extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_PrintGraph (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=521 */
-public static final int Table_ID=521;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintGraph");
 
 /** TableName=AD_PrintGraph */
 public static final String Table_Name="AD_PrintGraph";
 
-protected static KeyNamePair Model = new KeyNamePair(521,"AD_PrintGraph");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintGraph");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID < 1) throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-set_Value ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
 {
 if (AD_PrintGraph_ID < 1) throw new IllegalArgumentException ("AD_PrintGraph_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintGraph_ID", new Integer(AD_PrintGraph_ID));
+set_ValueNoCheck ("AD_PrintGraph_ID", Integer.valueOf(AD_PrintGraph_ID));
 }
 /** Get Graph.
 @return Graph included in Reports */
@@ -129,7 +129,7 @@ public void setData1_PrintFormatItem_ID (int Data1_PrintFormatItem_ID)
 {
 if (Data1_PrintFormatItem_ID <= 0) set_Value ("Data1_PrintFormatItem_ID", null);
  else 
-set_Value ("Data1_PrintFormatItem_ID", new Integer(Data1_PrintFormatItem_ID));
+set_Value ("Data1_PrintFormatItem_ID", Integer.valueOf(Data1_PrintFormatItem_ID));
 }
 /** Get Data Column 2.
 @return Data Column for Line Charts */
@@ -148,7 +148,7 @@ public void setData2_PrintFormatItem_ID (int Data2_PrintFormatItem_ID)
 {
 if (Data2_PrintFormatItem_ID <= 0) set_Value ("Data2_PrintFormatItem_ID", null);
  else 
-set_Value ("Data2_PrintFormatItem_ID", new Integer(Data2_PrintFormatItem_ID));
+set_Value ("Data2_PrintFormatItem_ID", Integer.valueOf(Data2_PrintFormatItem_ID));
 }
 /** Get Data Column 3.
 @return Data Column for Line Charts */
@@ -167,7 +167,7 @@ public void setData3_PrintFormatItem_ID (int Data3_PrintFormatItem_ID)
 {
 if (Data3_PrintFormatItem_ID <= 0) set_Value ("Data3_PrintFormatItem_ID", null);
  else 
-set_Value ("Data3_PrintFormatItem_ID", new Integer(Data3_PrintFormatItem_ID));
+set_Value ("Data3_PrintFormatItem_ID", Integer.valueOf(Data3_PrintFormatItem_ID));
 }
 /** Get Data Column 4.
 @return Data Column for Line Charts */
@@ -186,7 +186,7 @@ public void setData4_PrintFormatItem_ID (int Data4_PrintFormatItem_ID)
 {
 if (Data4_PrintFormatItem_ID <= 0) set_Value ("Data4_PrintFormatItem_ID", null);
  else 
-set_Value ("Data4_PrintFormatItem_ID", new Integer(Data4_PrintFormatItem_ID));
+set_Value ("Data4_PrintFormatItem_ID", Integer.valueOf(Data4_PrintFormatItem_ID));
 }
 /** Get Data Column 5.
 @return Data Column for Line Charts */
@@ -204,7 +204,7 @@ public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
 {
 if (Data_PrintFormatItem_ID < 1) throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
-set_Value ("Data_PrintFormatItem_ID", new Integer(Data_PrintFormatItem_ID));
+set_Value ("Data_PrintFormatItem_ID", Integer.valueOf(Data_PrintFormatItem_ID));
 }
 /** Get Data Column.
 @return Data Column for Pie and Line Charts */
@@ -239,7 +239,7 @@ public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 public void setDescription_PrintFormatItem_ID (int Description_PrintFormatItem_ID)
 {
 if (Description_PrintFormatItem_ID < 1) throw new IllegalArgumentException ("Description_PrintFormatItem_ID is mandatory.");
-set_Value ("Description_PrintFormatItem_ID", new Integer(Description_PrintFormatItem_ID));
+set_Value ("Description_PrintFormatItem_ID", Integer.valueOf(Description_PrintFormatItem_ID));
 }
 /** Get Description Column.
 @return Description Column for Pie/Line/Bar Charts */

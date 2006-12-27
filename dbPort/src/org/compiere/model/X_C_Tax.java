@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Tax
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Tax extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_Tax (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=261 */
-public static final int Table_ID=261;
+public static final int Table_ID=MTable.getTable_ID("C_Tax");
 
 /** TableName=C_Tax */
 public static final String Table_Name="C_Tax";
 
-protected static KeyNamePair Model = new KeyNamePair(261,"C_Tax");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Tax");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -105,7 +105,7 @@ public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID <= 0) set_Value ("C_Country_ID", null);
  else 
-set_Value ("C_Country_ID", new Integer(C_Country_ID));
+set_Value ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -124,7 +124,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_Value ("C_Region_ID", null);
  else 
-set_Value ("C_Region_ID", new Integer(C_Region_ID));
+set_Value ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_Value ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_Value ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -154,7 +154,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_ValueNoCheck ("C_Tax_ID", new Integer(C_Tax_ID));
+set_ValueNoCheck ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */
@@ -185,7 +185,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -203,7 +203,7 @@ return false;
 @param IsDocumentLevel Tax is calculated on document level (rather than line by line) */
 public void setIsDocumentLevel (boolean IsDocumentLevel)
 {
-set_Value ("IsDocumentLevel", new Boolean(IsDocumentLevel));
+set_Value ("IsDocumentLevel", Boolean.valueOf(IsDocumentLevel));
 }
 /** Get Document Level.
 @return Tax is calculated on document level (rather than line by line) */
@@ -221,7 +221,7 @@ return false;
 @param IsSalesTax This is a sales tax (i.e. not a value added tax) */
 public void setIsSalesTax (boolean IsSalesTax)
 {
-set_Value ("IsSalesTax", new Boolean(IsSalesTax));
+set_Value ("IsSalesTax", Boolean.valueOf(IsSalesTax));
 }
 /** Get Sales Tax.
 @return This is a sales tax (i.e. not a value added tax) */
@@ -239,7 +239,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -257,7 +257,7 @@ return false;
 @param IsTaxExempt Business partner is exempt from tax */
 public void setIsTaxExempt (boolean IsTaxExempt)
 {
-set_Value ("IsTaxExempt", new Boolean(IsTaxExempt));
+set_Value ("IsTaxExempt", Boolean.valueOf(IsTaxExempt));
 }
 /** Get Tax exempt.
 @return Business partner is exempt from tax */
@@ -304,7 +304,7 @@ public void setParent_Tax_ID (int Parent_Tax_ID)
 {
 if (Parent_Tax_ID <= 0) set_Value ("Parent_Tax_ID", null);
  else 
-set_Value ("Parent_Tax_ID", new Integer(Parent_Tax_ID));
+set_Value ("Parent_Tax_ID", Integer.valueOf(Parent_Tax_ID));
 }
 /** Get Parent Tax.
 @return Parent Tax indicates a tax that is made up of multiple taxes */
@@ -333,7 +333,7 @@ return bd;
 @param RequiresTaxCertificate This tax rate requires the Business Partner to be tax exempt */
 public void setRequiresTaxCertificate (boolean RequiresTaxCertificate)
 {
-set_Value ("RequiresTaxCertificate", new Boolean(RequiresTaxCertificate));
+set_Value ("RequiresTaxCertificate", Boolean.valueOf(RequiresTaxCertificate));
 }
 /** Get Requires Tax Certificate.
 @return This tax rate requires the Business Partner to be tax exempt */
@@ -402,7 +402,7 @@ public void setTo_Country_ID (int To_Country_ID)
 {
 if (To_Country_ID <= 0) set_Value ("To_Country_ID", null);
  else 
-set_Value ("To_Country_ID", new Integer(To_Country_ID));
+set_Value ("To_Country_ID", Integer.valueOf(To_Country_ID));
 }
 /** Get To.
 @return Receiving Country */
@@ -421,7 +421,7 @@ public void setTo_Region_ID (int To_Region_ID)
 {
 if (To_Region_ID <= 0) set_Value ("To_Region_ID", null);
  else 
-set_Value ("To_Region_ID", new Integer(To_Region_ID));
+set_Value ("To_Region_ID", Integer.valueOf(To_Region_ID));
 }
 /** Get To.
 @return Receiving Region */

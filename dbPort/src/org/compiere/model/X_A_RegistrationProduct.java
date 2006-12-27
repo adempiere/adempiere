@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_RegistrationProduct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_RegistrationProduct extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_A_RegistrationProduct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=715 */
-public static final int Table_ID=715;
+public static final int Table_ID=MTable.getTable_ID("A_RegistrationProduct");
 
 /** TableName=A_RegistrationProduct */
 public static final String Table_Name="A_RegistrationProduct";
 
-protected static KeyNamePair Model = new KeyNamePair(715,"A_RegistrationProduct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_RegistrationProduct");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 {
 if (A_RegistrationAttribute_ID < 1) throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-set_ValueNoCheck ("A_RegistrationAttribute_ID", new Integer(A_RegistrationAttribute_ID));
+set_ValueNoCheck ("A_RegistrationAttribute_ID", Integer.valueOf(A_RegistrationAttribute_ID));
 }
 /** Get Registration Attribute.
 @return Asset Registration Attribute */
@@ -123,7 +123,7 @@ return (String)get_Value("Description");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

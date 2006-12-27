@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Issue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Issue extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_Issue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=828 */
-public static final int Table_ID=828;
+public static final int Table_ID=MTable.getTable_ID("AD_Issue");
 
 /** TableName=AD_Issue */
 public static final String Table_Name="AD_Issue";
 
-protected static KeyNamePair Model = new KeyNamePair(828,"AD_Issue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Issue");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -98,7 +98,7 @@ public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID <= 0) set_Value ("AD_Form_ID", null);
  else 
-set_Value ("AD_Form_ID", new Integer(AD_Form_ID));
+set_Value ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
 /** Get Special Form.
 @return Special Form */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_Issue_ID (int AD_Issue_ID)
 {
 if (AD_Issue_ID < 1) throw new IllegalArgumentException ("AD_Issue_ID is mandatory.");
-set_ValueNoCheck ("AD_Issue_ID", new Integer(AD_Issue_ID));
+set_ValueNoCheck ("AD_Issue_ID", Integer.valueOf(AD_Issue_ID));
 }
 /** Get System Issue.
 @return Automatically created or manually entered System Issue */
@@ -129,7 +129,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -145,7 +145,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -161,7 +161,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_ValueNoCheck ("A_Asset_ID", null);
  else 
-set_ValueNoCheck ("A_Asset_ID", new Integer(A_Asset_ID));
+set_ValueNoCheck ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -372,7 +372,7 @@ return (String)get_Value("JavaInfo");
 @param LineNo Line No */
 public void setLineNo (int LineNo)
 {
-set_Value ("LineNo", new Integer(LineNo));
+set_Value ("LineNo", Integer.valueOf(LineNo));
 }
 /** Get Line.
 @return Line No */
@@ -455,7 +455,7 @@ return (String)get_Value("OperatingSystemInfo");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -473,7 +473,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -510,7 +510,7 @@ public void setR_IssueKnown_ID (int R_IssueKnown_ID)
 {
 if (R_IssueKnown_ID <= 0) set_Value ("R_IssueKnown_ID", null);
  else 
-set_Value ("R_IssueKnown_ID", new Integer(R_IssueKnown_ID));
+set_Value ("R_IssueKnown_ID", Integer.valueOf(R_IssueKnown_ID));
 }
 /** Get Known Issue.
 @return Known Issue */
@@ -526,7 +526,7 @@ public void setR_IssueProject_ID (int R_IssueProject_ID)
 {
 if (R_IssueProject_ID <= 0) set_Value ("R_IssueProject_ID", null);
  else 
-set_Value ("R_IssueProject_ID", new Integer(R_IssueProject_ID));
+set_Value ("R_IssueProject_ID", Integer.valueOf(R_IssueProject_ID));
 }
 /** Get Issue Project.
 @return Implementation Projects */
@@ -542,7 +542,7 @@ public void setR_IssueSystem_ID (int R_IssueSystem_ID)
 {
 if (R_IssueSystem_ID <= 0) set_Value ("R_IssueSystem_ID", null);
  else 
-set_Value ("R_IssueSystem_ID", new Integer(R_IssueSystem_ID));
+set_Value ("R_IssueSystem_ID", Integer.valueOf(R_IssueSystem_ID));
 }
 /** Get Issue System.
 @return System creating the issue */
@@ -558,7 +558,7 @@ public void setR_IssueUser_ID (int R_IssueUser_ID)
 {
 if (R_IssueUser_ID <= 0) set_Value ("R_IssueUser_ID", null);
  else 
-set_Value ("R_IssueUser_ID", new Integer(R_IssueUser_ID));
+set_Value ("R_IssueUser_ID", Integer.valueOf(R_IssueUser_ID));
 }
 /** Get IssueUser.
 @return User who reported issues */
@@ -574,7 +574,7 @@ public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID <= 0) set_ValueNoCheck ("R_Request_ID", null);
  else 
-set_ValueNoCheck ("R_Request_ID", new Integer(R_Request_ID));
+set_ValueNoCheck ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */
@@ -590,7 +590,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_ValueNoCheck ("Record_ID", null);
  else 
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -670,7 +670,7 @@ public String getRemote_Host()
 return (String)get_Value("Remote_Host");
 }
 /** Set Request Document No.
-@param RequestDocumentNo Compiere Request Document No */
+@param RequestDocumentNo Adempiere Request Document No */
 public void setRequestDocumentNo (String RequestDocumentNo)
 {
 if (RequestDocumentNo != null && RequestDocumentNo.length() > 30)
@@ -681,7 +681,7 @@ RequestDocumentNo = RequestDocumentNo.substring(0,29);
 set_ValueNoCheck ("RequestDocumentNo", RequestDocumentNo);
 }
 /** Get Request Document No.
-@return Compiere Request Document No */
+@return Adempiere Request Document No */
 public String getRequestDocumentNo() 
 {
 return (String)get_Value("RequestDocumentNo");

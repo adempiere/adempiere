@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for Test
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_Test extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_Test (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=135 */
-public static final int Table_ID=135;
+public static final int Table_ID=MTable.getTable_ID("Test");
 
 /** TableName=Test */
 public static final String Table_Name="Test";
 
-protected static KeyNamePair Model = new KeyNamePair(135,"Test");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"Test");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -90,7 +90,7 @@ return sb.toString();
 @param Account_Acct Account_Acct */
 public void setAccount_Acct (int Account_Acct)
 {
-set_Value ("Account_Acct", new Integer(Account_Acct));
+set_Value ("Account_Acct", Integer.valueOf(Account_Acct));
 }
 /** Get Account_Acct.
 @return Account_Acct */
@@ -104,7 +104,7 @@ return ii.intValue();
 @param BinaryData Binary Data */
 public void setBinaryData (int BinaryData)
 {
-set_Value ("BinaryData", new Integer(BinaryData));
+set_Value ("BinaryData", Integer.valueOf(BinaryData));
 }
 /** Get BinaryData.
 @return Binary Data */
@@ -120,7 +120,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -136,7 +136,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -152,7 +152,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -168,7 +168,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -184,7 +184,7 @@ public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID <= 0) set_Value ("C_UOM_ID", null);
  else 
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -246,7 +246,7 @@ public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID <= 0) set_Value ("M_Locator_ID", null);
  else 
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -262,7 +262,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -300,7 +300,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -318,7 +318,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -374,7 +374,7 @@ return (Timestamp)get_Value("T_DateTime");
 @param T_Integer Integer */
 public void setT_Integer (int T_Integer)
 {
-set_Value ("T_Integer", new Integer(T_Integer));
+set_Value ("T_Integer", Integer.valueOf(T_Integer));
 }
 /** Get Integer.
 @return Integer */
@@ -417,7 +417,7 @@ return bd;
 public void setTest_ID (int Test_ID)
 {
 if (Test_ID < 1) throw new IllegalArgumentException ("Test_ID is mandatory.");
-set_ValueNoCheck ("Test_ID", new Integer(Test_ID));
+set_ValueNoCheck ("Test_ID", Integer.valueOf(Test_ID));
 }
 /** Get Test ID.
 @return Test ID */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Group
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_Asset_Group extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_A_Asset_Group (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=542 */
-public static final int Table_ID=542;
+public static final int Table_ID=MTable.getTable_ID("A_Asset_Group");
 
 /** TableName=A_Asset_Group */
 public static final String Table_Name="A_Asset_Group";
 
-protected static KeyNamePair Model = new KeyNamePair(542,"A_Asset_Group");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Asset_Group");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 {
 if (A_Asset_Group_ID < 1) throw new IllegalArgumentException ("A_Asset_Group_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_Group_ID", new Integer(A_Asset_Group_ID));
+set_ValueNoCheck ("A_Asset_Group_ID", Integer.valueOf(A_Asset_Group_ID));
 }
 /** Get Asset Group.
 @return Group of Assets */
@@ -144,7 +144,7 @@ return (String)get_Value("Help");
 @param IsCreateAsActive Create Asset and activate it */
 public void setIsCreateAsActive (boolean IsCreateAsActive)
 {
-set_Value ("IsCreateAsActive", new Boolean(IsCreateAsActive));
+set_Value ("IsCreateAsActive", Boolean.valueOf(IsCreateAsActive));
 }
 /** Get Create As Active.
 @return Create Asset and activate it */
@@ -162,7 +162,7 @@ return false;
 @param IsDepreciated The asset will be depreciated */
 public void setIsDepreciated (boolean IsDepreciated)
 {
-set_Value ("IsDepreciated", new Boolean(IsDepreciated));
+set_Value ("IsDepreciated", Boolean.valueOf(IsDepreciated));
 }
 /** Get Depreciate.
 @return The asset will be depreciated */
@@ -180,7 +180,7 @@ return false;
 @param IsOneAssetPerUOM Create one asset per UOM */
 public void setIsOneAssetPerUOM (boolean IsOneAssetPerUOM)
 {
-set_Value ("IsOneAssetPerUOM", new Boolean(IsOneAssetPerUOM));
+set_Value ("IsOneAssetPerUOM", Boolean.valueOf(IsOneAssetPerUOM));
 }
 /** Get One Asset Per UOM.
 @return Create one asset per UOM */
@@ -198,7 +198,7 @@ return false;
 @param IsOwned The asset is owned by the organization */
 public void setIsOwned (boolean IsOwned)
 {
-set_Value ("IsOwned", new Boolean(IsOwned));
+set_Value ("IsOwned", Boolean.valueOf(IsOwned));
 }
 /** Get Owned.
 @return The asset is owned by the organization */
@@ -216,7 +216,7 @@ return false;
 @param IsTrackIssues Enable tracking issues for this asset */
 public void setIsTrackIssues (boolean IsTrackIssues)
 {
-set_Value ("IsTrackIssues", new Boolean(IsTrackIssues));
+set_Value ("IsTrackIssues", Boolean.valueOf(IsTrackIssues));
 }
 /** Get Track Issues.
 @return Enable tracking issues for this asset */

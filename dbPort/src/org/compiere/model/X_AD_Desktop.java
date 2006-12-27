@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Desktop
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Desktop extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_Desktop (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=458 */
-public static final int Table_ID=458;
+public static final int Table_ID=MTable.getTable_ID("AD_Desktop");
 
 /** TableName=AD_Desktop */
 public static final String Table_Name="AD_Desktop";
 
-protected static KeyNamePair Model = new KeyNamePair(458,"AD_Desktop");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Desktop");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -103,7 +103,7 @@ return get_Value("AD_Color_ID");
 public void setAD_Desktop_ID (int AD_Desktop_ID)
 {
 if (AD_Desktop_ID < 1) throw new IllegalArgumentException ("AD_Desktop_ID is mandatory.");
-set_ValueNoCheck ("AD_Desktop_ID", new Integer(AD_Desktop_ID));
+set_ValueNoCheck ("AD_Desktop_ID", Integer.valueOf(AD_Desktop_ID));
 }
 /** Get Desktop.
 @return Collection of Workbenches */
@@ -119,7 +119,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */

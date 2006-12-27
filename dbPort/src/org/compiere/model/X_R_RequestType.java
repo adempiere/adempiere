@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestType extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_R_RequestType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=529 */
-public static final int Table_ID=529;
+public static final int Table_ID=MTable.getTable_ID("R_RequestType");
 
 /** TableName=R_RequestType */
 public static final String Table_Name="R_RequestType";
 
-protected static KeyNamePair Model = new KeyNamePair(529,"R_RequestType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestType");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -100,7 +100,7 @@ return sb.toString();
 @param AutoDueDateDays Automatic Due Date Days */
 public void setAutoDueDateDays (int AutoDueDateDays)
 {
-set_Value ("AutoDueDateDays", new Integer(AutoDueDateDays));
+set_Value ("AutoDueDateDays", Integer.valueOf(AutoDueDateDays));
 }
 /** Get Auto Due Date Days.
 @return Automatic Due Date Days */
@@ -162,7 +162,7 @@ return (String)get_Value("Description");
 @param DueDateTolerance Tolerance in days between the Date Next Action and the date the request is regarded as overdue */
 public void setDueDateTolerance (int DueDateTolerance)
 {
-set_Value ("DueDateTolerance", new Integer(DueDateTolerance));
+set_Value ("DueDateTolerance", Integer.valueOf(DueDateTolerance));
 }
 /** Get Due Date Tolerance.
 @return Tolerance in days between the Date Next Action and the date the request is regarded as overdue */
@@ -176,7 +176,7 @@ return ii.intValue();
 @param IsAutoChangeRequest Automatically create BOM (Engineering) Change Request */
 public void setIsAutoChangeRequest (boolean IsAutoChangeRequest)
 {
-set_Value ("IsAutoChangeRequest", new Boolean(IsAutoChangeRequest));
+set_Value ("IsAutoChangeRequest", Boolean.valueOf(IsAutoChangeRequest));
 }
 /** Get Create Change Request.
 @return Automatically create BOM (Engineering) Change Request */
@@ -194,7 +194,7 @@ return false;
 @param IsConfidentialInfo Can enter confidential information */
 public void setIsConfidentialInfo (boolean IsConfidentialInfo)
 {
-set_Value ("IsConfidentialInfo", new Boolean(IsConfidentialInfo));
+set_Value ("IsConfidentialInfo", Boolean.valueOf(IsConfidentialInfo));
 }
 /** Get Confidential Info.
 @return Can enter confidential information */
@@ -212,7 +212,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -230,7 +230,7 @@ return false;
 @param IsEMailWhenDue Send EMail when Request becomes due */
 public void setIsEMailWhenDue (boolean IsEMailWhenDue)
 {
-set_Value ("IsEMailWhenDue", new Boolean(IsEMailWhenDue));
+set_Value ("IsEMailWhenDue", Boolean.valueOf(IsEMailWhenDue));
 }
 /** Get EMail when Due.
 @return Send EMail when Request becomes due */
@@ -248,7 +248,7 @@ return false;
 @param IsEMailWhenOverdue Send EMail when Request becomes overdue */
 public void setIsEMailWhenOverdue (boolean IsEMailWhenOverdue)
 {
-set_Value ("IsEMailWhenOverdue", new Boolean(IsEMailWhenOverdue));
+set_Value ("IsEMailWhenOverdue", Boolean.valueOf(IsEMailWhenOverdue));
 }
 /** Get EMail when Overdue.
 @return Send EMail when Request becomes overdue */
@@ -266,7 +266,7 @@ return false;
 @param IsIndexed Index the document for the internal search engine */
 public void setIsIndexed (boolean IsIndexed)
 {
-set_Value ("IsIndexed", new Boolean(IsIndexed));
+set_Value ("IsIndexed", Boolean.valueOf(IsIndexed));
 }
 /** Get Indexed.
 @return Index the document for the internal search engine */
@@ -284,7 +284,7 @@ return false;
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
 {
-set_Value ("IsInvoiced", new Boolean(IsInvoiced));
+set_Value ("IsInvoiced", Boolean.valueOf(IsInvoiced));
 }
 /** Get Invoiced.
 @return Is this invoiced? */
@@ -302,7 +302,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -345,7 +345,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID < 1) throw new IllegalArgumentException ("R_RequestType_ID is mandatory.");
-set_ValueNoCheck ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_ValueNoCheck ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */
@@ -360,7 +360,7 @@ return ii.intValue();
 public void setR_StatusCategory_ID (int R_StatusCategory_ID)
 {
 if (R_StatusCategory_ID < 1) throw new IllegalArgumentException ("R_StatusCategory_ID is mandatory.");
-set_Value ("R_StatusCategory_ID", new Integer(R_StatusCategory_ID));
+set_Value ("R_StatusCategory_ID", Integer.valueOf(R_StatusCategory_ID));
 }
 /** Get Status Category.
 @return Request Status Category */

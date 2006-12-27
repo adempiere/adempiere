@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRunLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DunningRunLine extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_DunningRunLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=524 */
-public static final int Table_ID=524;
+public static final int Table_ID=MTable.getTable_ID("C_DunningRunLine");
 
 /** TableName=C_DunningRunLine */
 public static final String Table_Name="C_DunningRunLine";
 
-protected static KeyNamePair Model = new KeyNamePair(524,"C_DunningRunLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DunningRunLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -116,7 +116,7 @@ return bd;
 public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
 {
 if (C_DunningRunEntry_ID < 1) throw new IllegalArgumentException ("C_DunningRunEntry_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRunEntry_ID", new Integer(C_DunningRunEntry_ID));
+set_ValueNoCheck ("C_DunningRunEntry_ID", Integer.valueOf(C_DunningRunEntry_ID));
 }
 /** Get Dunning Run Entry.
 @return Dunning Run Entry */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setC_DunningRunLine_ID (int C_DunningRunLine_ID)
 {
 if (C_DunningRunLine_ID < 1) throw new IllegalArgumentException ("C_DunningRunLine_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRunLine_ID", new Integer(C_DunningRunLine_ID));
+set_ValueNoCheck ("C_DunningRunLine_ID", Integer.valueOf(C_DunningRunLine_ID));
 }
 /** Get Dunning Run Line.
 @return Dunning Run Line */
@@ -147,7 +147,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -169,7 +169,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -198,7 +198,7 @@ return bd;
 @param DaysDue Number of days due (negative: due in number of days) */
 public void setDaysDue (int DaysDue)
 {
-set_Value ("DaysDue", new Integer(DaysDue));
+set_Value ("DaysDue", Integer.valueOf(DaysDue));
 }
 /** Get Days due.
 @return Number of days due (negative: due in number of days) */
@@ -242,7 +242,7 @@ return bd;
 @param IsInDispute Document is in dispute */
 public void setIsInDispute (boolean IsInDispute)
 {
-set_Value ("IsInDispute", new Boolean(IsInDispute));
+set_Value ("IsInDispute", Boolean.valueOf(IsInDispute));
 }
 /** Get In Dispute.
 @return Document is in dispute */
@@ -275,7 +275,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -293,7 +293,7 @@ return false;
 @param TimesDunned Number of times dunned previously */
 public void setTimesDunned (int TimesDunned)
 {
-set_Value ("TimesDunned", new Integer(TimesDunned));
+set_Value ("TimesDunned", Integer.valueOf(TimesDunned));
 }
 /** Get Times Dunned.
 @return Number of times dunned previously */

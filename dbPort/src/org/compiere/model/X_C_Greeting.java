@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Greeting
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Greeting extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_Greeting (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=346 */
-public static final int Table_ID=346;
+public static final int Table_ID=MTable.getTable_ID("C_Greeting");
 
 /** TableName=C_Greeting */
 public static final String Table_Name="C_Greeting";
 
-protected static KeyNamePair Model = new KeyNamePair(346,"C_Greeting");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Greeting");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_Greeting_ID (int C_Greeting_ID)
 {
 if (C_Greeting_ID < 1) throw new IllegalArgumentException ("C_Greeting_ID is mandatory.");
-set_ValueNoCheck ("C_Greeting_ID", new Integer(C_Greeting_ID));
+set_ValueNoCheck ("C_Greeting_ID", Integer.valueOf(C_Greeting_ID));
 }
 /** Get Greeting.
 @return Greeting to print on correspondence */
@@ -142,7 +142,7 @@ return (String)get_Value("Greeting");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -160,7 +160,7 @@ return false;
 @param IsFirstNameOnly Print only the first name in greetings */
 public void setIsFirstNameOnly (boolean IsFirstNameOnly)
 {
-set_Value ("IsFirstNameOnly", new Boolean(IsFirstNameOnly));
+set_Value ("IsFirstNameOnly", Boolean.valueOf(IsFirstNameOnly));
 }
 /** Get First name only.
 @return Print only the first name in greetings */

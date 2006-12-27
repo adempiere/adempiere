@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Tree
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Tree extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_Tree (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=288 */
-public static final int Table_ID=288;
+public static final int Table_ID=MTable.getTable_ID("AD_Tree");
 
 /** TableName=AD_Tree */
 public static final String Table_Name="AD_Tree";
 
-protected static KeyNamePair Model = new KeyNamePair(288,"AD_Tree");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Tree");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_Tree_ID (int AD_Tree_ID)
 {
 if (AD_Tree_ID < 1) throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-set_ValueNoCheck ("AD_Tree_ID", new Integer(AD_Tree_ID));
+set_ValueNoCheck ("AD_Tree_ID", Integer.valueOf(AD_Tree_ID));
 }
 /** Get Tree.
 @return Identifies a Tree */
@@ -125,7 +125,7 @@ return (String)get_Value("Description");
 @param IsAllNodes All Nodes are included (Complete Tree) */
 public void setIsAllNodes (boolean IsAllNodes)
 {
-set_Value ("IsAllNodes", new Boolean(IsAllNodes));
+set_Value ("IsAllNodes", Boolean.valueOf(IsAllNodes));
 }
 /** Get All Nodes.
 @return All Nodes are included (Complete Tree) */
@@ -143,7 +143,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -185,7 +185,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

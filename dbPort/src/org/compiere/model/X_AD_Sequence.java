@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Sequence
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Sequence extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_AD_Sequence (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=115 */
-public static final int Table_ID=115;
+public static final int Table_ID=MTable.getTable_ID("AD_Sequence");
 
 /** TableName=AD_Sequence */
 public static final String Table_Name="AD_Sequence";
 
-protected static KeyNamePair Model = new KeyNamePair(115,"AD_Sequence");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Sequence");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setAD_Sequence_ID (int AD_Sequence_ID)
 {
 if (AD_Sequence_ID < 1) throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-set_ValueNoCheck ("AD_Sequence_ID", new Integer(AD_Sequence_ID));
+set_ValueNoCheck ("AD_Sequence_ID", Integer.valueOf(AD_Sequence_ID));
 }
 /** Get Sequence.
 @return Document Sequence */
@@ -110,7 +110,7 @@ return ii.intValue();
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
 {
-set_Value ("CurrentNext", new Integer(CurrentNext));
+set_Value ("CurrentNext", Integer.valueOf(CurrentNext));
 }
 /** Get Current Next.
 @return The next number to be used */
@@ -124,7 +124,7 @@ return ii.intValue();
 @param CurrentNextSys Next sequence for system use */
 public void setCurrentNextSys (int CurrentNextSys)
 {
-set_Value ("CurrentNextSys", new Integer(CurrentNextSys));
+set_Value ("CurrentNextSys", Integer.valueOf(CurrentNextSys));
 }
 /** Get Current Next (System).
 @return Next sequence for system use */
@@ -155,7 +155,7 @@ return (String)get_Value("Description");
 @param IncrementNo The number to increment the last document number by */
 public void setIncrementNo (int IncrementNo)
 {
-set_Value ("IncrementNo", new Integer(IncrementNo));
+set_Value ("IncrementNo", Integer.valueOf(IncrementNo));
 }
 /** Get Increment.
 @return The number to increment the last document number by */
@@ -169,7 +169,7 @@ return ii.intValue();
 @param IsAudited Activate Audit Trail of what numbers are generated */
 public void setIsAudited (boolean IsAudited)
 {
-set_Value ("IsAudited", new Boolean(IsAudited));
+set_Value ("IsAudited", Boolean.valueOf(IsAudited));
 }
 /** Get Activate Audit.
 @return Activate Audit Trail of what numbers are generated */
@@ -187,7 +187,7 @@ return false;
 @param IsAutoSequence Automatically assign the next number */
 public void setIsAutoSequence (boolean IsAutoSequence)
 {
-set_Value ("IsAutoSequence", new Boolean(IsAutoSequence));
+set_Value ("IsAutoSequence", Boolean.valueOf(IsAutoSequence));
 }
 /** Get Auto numbering.
 @return Automatically assign the next number */
@@ -205,7 +205,7 @@ return false;
 @param IsTableID The document number  will be used as the record key */
 public void setIsTableID (boolean IsTableID)
 {
-set_Value ("IsTableID", new Boolean(IsTableID));
+set_Value ("IsTableID", Boolean.valueOf(IsTableID));
 }
 /** Get Used for Record ID.
 @return The document number  will be used as the record key */
@@ -264,7 +264,7 @@ return (String)get_Value("Prefix");
 @param StartNewYear Restart the sequence with Start on every 1/1 */
 public void setStartNewYear (boolean StartNewYear)
 {
-set_Value ("StartNewYear", new Boolean(StartNewYear));
+set_Value ("StartNewYear", Boolean.valueOf(StartNewYear));
 }
 /** Get Restart sequence every Year.
 @return Restart the sequence with Start on every 1/1 */
@@ -282,7 +282,7 @@ return false;
 @param StartNo Starting number/position */
 public void setStartNo (int StartNo)
 {
-set_Value ("StartNo", new Integer(StartNo));
+set_Value ("StartNo", Integer.valueOf(StartNo));
 }
 /** Get Start No.
 @return Starting number/position */

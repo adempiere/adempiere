@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Preference
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Preference extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_Preference (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=195 */
-public static final int Table_ID=195;
+public static final int Table_ID=MTable.getTable_ID("AD_Preference");
 
 /** TableName=AD_Preference */
 public static final String Table_Name="AD_Preference";
 
-protected static KeyNamePair Model = new KeyNamePair(195,"AD_Preference");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Preference");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Preference_ID (int AD_Preference_ID)
 {
 if (AD_Preference_ID < 1) throw new IllegalArgumentException ("AD_Preference_ID is mandatory.");
-set_ValueNoCheck ("AD_Preference_ID", new Integer(AD_Preference_ID));
+set_ValueNoCheck ("AD_Preference_ID", Integer.valueOf(AD_Preference_ID));
 }
 /** Get Preference.
 @return Personal Value Preference */
@@ -108,7 +108,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -124,7 +124,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */

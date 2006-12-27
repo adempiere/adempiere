@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Template
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Template extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_CM_Template (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=854 */
-public static final int Table_ID=854;
+public static final int Table_ID=MTable.getTable_ID("CM_Template");
 
 /** TableName=CM_Template */
 public static final String Table_Name="CM_Template";
 
-protected static KeyNamePair Model = new KeyNamePair(854,"CM_Template");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Template");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setCM_Template_ID (int CM_Template_ID)
 {
 if (CM_Template_ID < 1) throw new IllegalArgumentException ("CM_Template_ID is mandatory.");
-set_ValueNoCheck ("CM_Template_ID", new Integer(CM_Template_ID));
+set_ValueNoCheck ("CM_Template_ID", Integer.valueOf(CM_Template_ID));
 }
 /** Get Template.
 @return Template defines how content is displayed */
@@ -113,7 +113,7 @@ public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID <= 0) set_ValueNoCheck ("CM_WebProject_ID", null);
  else 
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -178,7 +178,7 @@ return (String)get_Value("Help");
 @param IsInclude Defines whether this content / template is included into another one */
 public void setIsInclude (boolean IsInclude)
 {
-set_Value ("IsInclude", new Boolean(IsInclude));
+set_Value ("IsInclude", Boolean.valueOf(IsInclude));
 }
 /** Get Included.
 @return Defines whether this content / template is included into another one */
@@ -196,7 +196,7 @@ return false;
 @param IsNews Template or container uses news channels */
 public void setIsNews (boolean IsNews)
 {
-set_Value ("IsNews", new Boolean(IsNews));
+set_Value ("IsNews", Boolean.valueOf(IsNews));
 }
 /** Get Uses News.
 @return Template or container uses news channels */
@@ -214,7 +214,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -232,7 +232,7 @@ return false;
 @param IsUseAd Whether or not this templates uses Ad's */
 public void setIsUseAd (boolean IsUseAd)
 {
-set_Value ("IsUseAd", new Boolean(IsUseAd));
+set_Value ("IsUseAd", Boolean.valueOf(IsUseAd));
 }
 /** Get Use Ad.
 @return Whether or not this templates uses Ad's */
@@ -250,7 +250,7 @@ return false;
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -292,7 +292,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

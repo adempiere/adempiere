@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_StandardResponse
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_StandardResponse extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_StandardResponse (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=775 */
-public static final int Table_ID=775;
+public static final int Table_ID=MTable.getTable_ID("R_StandardResponse");
 
 /** TableName=R_StandardResponse */
 public static final String Table_Name="R_StandardResponse";
 
-protected static KeyNamePair Model = new KeyNamePair(775,"R_StandardResponse");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_StandardResponse");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -116,7 +116,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_StandardResponse_ID (int R_StandardResponse_ID)
 {
 if (R_StandardResponse_ID < 1) throw new IllegalArgumentException ("R_StandardResponse_ID is mandatory.");
-set_ValueNoCheck ("R_StandardResponse_ID", new Integer(R_StandardResponse_ID));
+set_ValueNoCheck ("R_StandardResponse_ID", Integer.valueOf(R_StandardResponse_ID));
 }
 /** Get Standard Response.
 @return Request Standard Response  */

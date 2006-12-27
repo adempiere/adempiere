@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process_Para
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Process_Para extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_AD_Process_Para (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=285 */
-public static final int Table_ID=285;
+public static final int Table_ID=MTable.getTable_ID("AD_Process_Para");
 
 /** TableName=AD_Process_Para */
 public static final String Table_Name="AD_Process_Para";
 
-protected static KeyNamePair Model = new KeyNamePair(285,"AD_Process_Para");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Process_Para");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -101,7 +101,7 @@ public void setAD_Element_ID (int AD_Element_ID)
 {
 if (AD_Element_ID <= 0) set_Value ("AD_Element_ID", null);
  else 
-set_Value ("AD_Element_ID", new Integer(AD_Element_ID));
+set_Value ("AD_Element_ID", Integer.valueOf(AD_Element_ID));
 }
 /** Get System Element.
 @return System Element enables the central maintenance of column description and help. */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID < 1) throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-set_ValueNoCheck ("AD_Process_ID", new Integer(AD_Process_ID));
+set_ValueNoCheck ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 {
 if (AD_Process_Para_ID < 1) throw new IllegalArgumentException ("AD_Process_Para_ID is mandatory.");
-set_ValueNoCheck ("AD_Process_Para_ID", new Integer(AD_Process_Para_ID));
+set_ValueNoCheck ("AD_Process_Para_ID", Integer.valueOf(AD_Process_Para_ID));
 }
 /** Get Process Parameter.
 @return Process Parameter */
@@ -149,7 +149,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -168,7 +168,7 @@ public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 {
 if (AD_Reference_Value_ID <= 0) set_Value ("AD_Reference_Value_ID", null);
  else 
-set_Value ("AD_Reference_Value_ID", new Integer(AD_Reference_Value_ID));
+set_Value ("AD_Reference_Value_ID", Integer.valueOf(AD_Reference_Value_ID));
 }
 /** Get Reference Key.
 @return Required to specify, if data type is Table or List */
@@ -184,7 +184,7 @@ public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 {
 if (AD_Val_Rule_ID <= 0) set_Value ("AD_Val_Rule_ID", null);
  else 
-set_Value ("AD_Val_Rule_ID", new Integer(AD_Val_Rule_ID));
+set_Value ("AD_Val_Rule_ID", Integer.valueOf(AD_Val_Rule_ID));
 }
 /** Get Dynamic Validation.
 @return Dynamic Validation Rule */
@@ -293,7 +293,7 @@ return (String)get_Value("EntityType");
 @param FieldLength Length of the column in the database */
 public void setFieldLength (int FieldLength)
 {
-set_Value ("FieldLength", new Integer(FieldLength));
+set_Value ("FieldLength", Integer.valueOf(FieldLength));
 }
 /** Get Length.
 @return Length of the column in the database */
@@ -324,7 +324,7 @@ return (String)get_Value("Help");
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
 {
-set_Value ("IsCentrallyMaintained", new Boolean(IsCentrallyMaintained));
+set_Value ("IsCentrallyMaintained", Boolean.valueOf(IsCentrallyMaintained));
 }
 /** Get Centrally maintained.
 @return Information maintained in System Element table */
@@ -342,7 +342,7 @@ return false;
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
 {
-set_Value ("IsMandatory", new Boolean(IsMandatory));
+set_Value ("IsMandatory", Boolean.valueOf(IsMandatory));
 }
 /** Get Mandatory.
 @return Data entry is required in this column */
@@ -360,7 +360,7 @@ return false;
 @param IsRange The parameter is a range of values */
 public void setIsRange (boolean IsRange)
 {
-set_Value ("IsRange", new Boolean(IsRange));
+set_Value ("IsRange", Boolean.valueOf(IsRange));
 }
 /** Get Range.
 @return The parameter is a range of values */
@@ -403,7 +403,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

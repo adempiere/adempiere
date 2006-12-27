@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_InfoColumn
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_InfoColumn extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_AD_InfoColumn (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=897 */
-public static final int Table_ID=897;
+public static final int Table_ID=MTable.getTable_ID("AD_InfoColumn");
 
 /** TableName=AD_InfoColumn */
 public static final String Table_Name="AD_InfoColumn";
 
-protected static KeyNamePair Model = new KeyNamePair(897,"AD_InfoColumn");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_InfoColumn");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setAD_Element_ID (int AD_Element_ID)
 {
 if (AD_Element_ID <= 0) set_Value ("AD_Element_ID", null);
  else 
-set_Value ("AD_Element_ID", new Integer(AD_Element_ID));
+set_Value ("AD_Element_ID", Integer.valueOf(AD_Element_ID));
 }
 /** Get System Element.
 @return System Element enables the central maintenance of column description and help. */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setAD_InfoColumn_ID (int AD_InfoColumn_ID)
 {
 if (AD_InfoColumn_ID < 1) throw new IllegalArgumentException ("AD_InfoColumn_ID is mandatory.");
-set_ValueNoCheck ("AD_InfoColumn_ID", new Integer(AD_InfoColumn_ID));
+set_ValueNoCheck ("AD_InfoColumn_ID", Integer.valueOf(AD_InfoColumn_ID));
 }
 /** Get Info Column.
 @return Info Window Column */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setAD_InfoWindow_ID (int AD_InfoWindow_ID)
 {
 if (AD_InfoWindow_ID < 1) throw new IllegalArgumentException ("AD_InfoWindow_ID is mandatory.");
-set_ValueNoCheck ("AD_InfoWindow_ID", new Integer(AD_InfoWindow_ID));
+set_ValueNoCheck ("AD_InfoWindow_ID", Integer.valueOf(AD_InfoWindow_ID));
 }
 /** Get Info Window.
 @return Info and search/select Window */
@@ -147,7 +147,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -217,7 +217,7 @@ return (String)get_Value("Help");
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
 {
-set_Value ("IsDisplayed", new Boolean(IsDisplayed));
+set_Value ("IsDisplayed", Boolean.valueOf(IsDisplayed));
 }
 /** Get Displayed.
 @return Determines, if this field is displayed */
@@ -235,7 +235,7 @@ return false;
 @param IsQueryCriteria The column is also used as a query criteria */
 public void setIsQueryCriteria (boolean IsQueryCriteria)
 {
-set_Value ("IsQueryCriteria", new Boolean(IsQueryCriteria));
+set_Value ("IsQueryCriteria", Boolean.valueOf(IsQueryCriteria));
 }
 /** Get Query Criteria.
 @return The column is also used as a query criteria */
@@ -296,7 +296,7 @@ return (String)get_Value("SelectClause");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Substitute
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Substitute extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_Substitute (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=213 */
-public static final int Table_ID=213;
+public static final int Table_ID=MTable.getTable_ID("M_Substitute");
 
 /** TableName=M_Substitute */
 public static final String Table_Name="M_Substitute";
 
-protected static KeyNamePair Model = new KeyNamePair(213,"M_Substitute");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Substitute");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -109,7 +109,7 @@ return (String)get_Value("Description");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -151,7 +151,7 @@ public static final int SUBSTITUTE_ID_AD_Reference_ID=162;
 public void setSubstitute_ID (int Substitute_ID)
 {
 if (Substitute_ID < 1) throw new IllegalArgumentException ("Substitute_ID is mandatory.");
-set_ValueNoCheck ("Substitute_ID", new Integer(Substitute_ID));
+set_ValueNoCheck ("Substitute_ID", Integer.valueOf(Substitute_ID));
 }
 /** Get Substitute.
 @return Entity which can be used in place of this entity */

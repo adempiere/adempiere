@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueKnown
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_IssueKnown extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_IssueKnown (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=839 */
-public static final int Table_ID=839;
+public static final int Table_ID=MTable.getTable_ID("R_IssueKnown");
 
 /** TableName=R_IssueKnown */
 public static final String Table_Name="R_IssueKnown";
 
-protected static KeyNamePair Model = new KeyNamePair(839,"R_IssueKnown");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueKnown");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -143,7 +143,7 @@ return (String)get_Value("IssueSummary");
 @param LineNo Line No */
 public void setLineNo (int LineNo)
 {
-set_Value ("LineNo", new Integer(LineNo));
+set_Value ("LineNo", Integer.valueOf(LineNo));
 }
 /** Get Line.
 @return Line No */
@@ -174,7 +174,7 @@ return (String)get_Value("LoggerName");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -193,7 +193,7 @@ return false;
 public void setR_IssueKnown_ID (int R_IssueKnown_ID)
 {
 if (R_IssueKnown_ID < 1) throw new IllegalArgumentException ("R_IssueKnown_ID is mandatory.");
-set_ValueNoCheck ("R_IssueKnown_ID", new Integer(R_IssueKnown_ID));
+set_ValueNoCheck ("R_IssueKnown_ID", Integer.valueOf(R_IssueKnown_ID));
 }
 /** Get Known Issue.
 @return Known Issue */
@@ -209,7 +209,7 @@ public void setR_IssueRecommendation_ID (int R_IssueRecommendation_ID)
 {
 if (R_IssueRecommendation_ID <= 0) set_Value ("R_IssueRecommendation_ID", null);
  else 
-set_Value ("R_IssueRecommendation_ID", new Integer(R_IssueRecommendation_ID));
+set_Value ("R_IssueRecommendation_ID", Integer.valueOf(R_IssueRecommendation_ID));
 }
 /** Get Issue Recommendation.
 @return Recommendations how to fix an Issue */
@@ -225,7 +225,7 @@ public void setR_IssueStatus_ID (int R_IssueStatus_ID)
 {
 if (R_IssueStatus_ID <= 0) set_Value ("R_IssueStatus_ID", null);
  else 
-set_Value ("R_IssueStatus_ID", new Integer(R_IssueStatus_ID));
+set_Value ("R_IssueStatus_ID", Integer.valueOf(R_IssueStatus_ID));
 }
 /** Get Issue Status.
 @return Status of an Issue */
@@ -241,7 +241,7 @@ public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID <= 0) set_Value ("R_Request_ID", null);
  else 
-set_Value ("R_Request_ID", new Integer(R_Request_ID));
+set_Value ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */

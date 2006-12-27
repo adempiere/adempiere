@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Training_Class
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_Training_Class extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_S_Training_Class (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=537 */
-public static final int Table_ID=537;
+public static final int Table_ID=MTable.getTable_ID("S_Training_Class");
 
 /** TableName=S_Training_Class */
 public static final String Table_Name="S_Training_Class";
 
-protected static KeyNamePair Model = new KeyNamePair(537,"S_Training_Class");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_Training_Class");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -107,7 +107,7 @@ return (Timestamp)get_Value("EndDate");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -122,7 +122,7 @@ return ii.intValue();
 public void setS_Training_Class_ID (int S_Training_Class_ID)
 {
 if (S_Training_Class_ID < 1) throw new IllegalArgumentException ("S_Training_Class_ID is mandatory.");
-set_ValueNoCheck ("S_Training_Class_ID", new Integer(S_Training_Class_ID));
+set_ValueNoCheck ("S_Training_Class_ID", Integer.valueOf(S_Training_Class_ID));
 }
 /** Get Training Class.
 @return The actual training class instance */
@@ -137,7 +137,7 @@ return ii.intValue();
 public void setS_Training_ID (int S_Training_ID)
 {
 if (S_Training_ID < 1) throw new IllegalArgumentException ("S_Training_ID is mandatory.");
-set_ValueNoCheck ("S_Training_ID", new Integer(S_Training_ID));
+set_ValueNoCheck ("S_Training_ID", Integer.valueOf(S_Training_ID));
 }
 /** Get Training.
 @return Repeated Training */

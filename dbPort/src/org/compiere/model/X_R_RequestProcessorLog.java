@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessorLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestProcessorLog extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_RequestProcessorLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=659 */
-public static final int Table_ID=659;
+public static final int Table_ID=MTable.getTable_ID("R_RequestProcessorLog");
 
 /** TableName=R_RequestProcessorLog */
 public static final String Table_Name="R_RequestProcessorLog";
 
-protected static KeyNamePair Model = new KeyNamePair(659,"R_RequestProcessorLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestProcessorLog");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -120,7 +120,7 @@ return (String)get_Value("Description");
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
 {
-set_Value ("IsError", new Boolean(IsError));
+set_Value ("IsError", Boolean.valueOf(IsError));
 }
 /** Get Error.
 @return An Error occured in the execution */
@@ -139,7 +139,7 @@ return false;
 public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID)
 {
 if (R_RequestProcessorLog_ID < 1) throw new IllegalArgumentException ("R_RequestProcessorLog_ID is mandatory.");
-set_ValueNoCheck ("R_RequestProcessorLog_ID", new Integer(R_RequestProcessorLog_ID));
+set_ValueNoCheck ("R_RequestProcessorLog_ID", Integer.valueOf(R_RequestProcessorLog_ID));
 }
 /** Get Request Processor Log.
 @return Result of the execution of the Request Processor */
@@ -154,7 +154,7 @@ return ii.intValue();
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 {
 if (R_RequestProcessor_ID < 1) throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-set_ValueNoCheck ("R_RequestProcessor_ID", new Integer(R_RequestProcessor_ID));
+set_ValueNoCheck ("R_RequestProcessor_ID", Integer.valueOf(R_RequestProcessor_ID));
 }
 /** Get Request Processor.
 @return Processor for Requests */

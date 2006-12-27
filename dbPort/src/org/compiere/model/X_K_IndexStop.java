@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_IndexStop
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_IndexStop extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_K_IndexStop (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=901 */
-public static final int Table_ID=901;
+public static final int Table_ID=MTable.getTable_ID("K_IndexStop");
 
 /** TableName=K_IndexStop */
 public static final String Table_Name="K_IndexStop";
 
-protected static KeyNamePair Model = new KeyNamePair(901,"K_IndexStop");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_IndexStop");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID <= 0) set_Value ("CM_WebProject_ID", null);
  else 
-set_Value ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_Value ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -109,7 +109,7 @@ public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID <= 0) set_Value ("C_DocType_ID", null);
  else 
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -123,7 +123,7 @@ return ii.intValue();
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -142,7 +142,7 @@ return false;
 public void setK_IndexStop_ID (int K_IndexStop_ID)
 {
 if (K_IndexStop_ID < 1) throw new IllegalArgumentException ("K_IndexStop_ID is mandatory.");
-set_ValueNoCheck ("K_IndexStop_ID", new Integer(K_IndexStop_ID));
+set_ValueNoCheck ("K_IndexStop_ID", Integer.valueOf(K_IndexStop_ID));
 }
 /** Get Index Stop.
 @return Keyword not to be indexed */
@@ -182,7 +182,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_Value ("R_RequestType_ID", null);
  else 
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */

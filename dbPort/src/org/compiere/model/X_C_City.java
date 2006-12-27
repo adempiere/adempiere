@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_City
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_City extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_City (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=186 */
-public static final int Table_ID=186;
+public static final int Table_ID=MTable.getTable_ID("C_City");
 
 /** TableName=C_City */
 public static final String Table_Name="C_City";
 
-protected static KeyNamePair Model = new KeyNamePair(186,"C_City");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_City");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -108,7 +108,7 @@ return (String)get_Value("AreaCode");
 public void setC_City_ID (int C_City_ID)
 {
 if (C_City_ID < 1) throw new IllegalArgumentException ("C_City_ID is mandatory.");
-set_ValueNoCheck ("C_City_ID", new Integer(C_City_ID));
+set_ValueNoCheck ("C_City_ID", Integer.valueOf(C_City_ID));
 }
 /** Get City.
 @return City */
@@ -124,7 +124,7 @@ public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID <= 0) set_ValueNoCheck ("C_Country_ID", null);
  else 
-set_ValueNoCheck ("C_Country_ID", new Integer(C_Country_ID));
+set_ValueNoCheck ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -143,7 +143,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_Value ("C_Region_ID", null);
  else 
-set_Value ("C_Region_ID", new Integer(C_Region_ID));
+set_Value ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */

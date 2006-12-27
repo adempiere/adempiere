@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceSchedule
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_InvoiceSchedule extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_InvoiceSchedule (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=257 */
-public static final int Table_ID=257;
+public static final int Table_ID=MTable.getTable_ID("C_InvoiceSchedule");
 
 /** TableName=C_InvoiceSchedule */
 public static final String Table_Name="C_InvoiceSchedule";
 
-protected static KeyNamePair Model = new KeyNamePair(257,"C_InvoiceSchedule");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InvoiceSchedule");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -112,7 +112,7 @@ return bd;
 public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 {
 if (C_InvoiceSchedule_ID < 1) throw new IllegalArgumentException ("C_InvoiceSchedule_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceSchedule_ID", new Integer(C_InvoiceSchedule_ID));
+set_ValueNoCheck ("C_InvoiceSchedule_ID", Integer.valueOf(C_InvoiceSchedule_ID));
 }
 /** Get Invoice Schedule.
 @return Schedule for generating Invoices */
@@ -143,7 +143,7 @@ return (String)get_Value("Description");
 @param EvenInvoiceWeek Send invoices on even weeks */
 public void setEvenInvoiceWeek (boolean EvenInvoiceWeek)
 {
-set_Value ("EvenInvoiceWeek", new Boolean(EvenInvoiceWeek));
+set_Value ("EvenInvoiceWeek", Boolean.valueOf(EvenInvoiceWeek));
 }
 /** Get Invoice on even weeks.
 @return Send invoices on even weeks */
@@ -161,7 +161,7 @@ return false;
 @param InvoiceDay Day of Invoice Generation */
 public void setInvoiceDay (int InvoiceDay)
 {
-set_Value ("InvoiceDay", new Integer(InvoiceDay));
+set_Value ("InvoiceDay", Integer.valueOf(InvoiceDay));
 }
 /** Get Invoice Day.
 @return Day of Invoice Generation */
@@ -175,7 +175,7 @@ return ii.intValue();
 @param InvoiceDayCutoff Last day for including shipments */
 public void setInvoiceDayCutoff (int InvoiceDayCutoff)
 {
-set_Value ("InvoiceDayCutoff", new Integer(InvoiceDayCutoff));
+set_Value ("InvoiceDayCutoff", Integer.valueOf(InvoiceDayCutoff));
 }
 /** Get Invoice day cut-off.
 @return Last day for including shipments */
@@ -293,7 +293,7 @@ return (String)get_Value("InvoiceWeekDayCutoff");
 @param IsAmount Send invoices only if the amount exceeds the limit */
 public void setIsAmount (boolean IsAmount)
 {
-set_Value ("IsAmount", new Boolean(IsAmount));
+set_Value ("IsAmount", Boolean.valueOf(IsAmount));
 }
 /** Get Amount Limit.
 @return Send invoices only if the amount exceeds the limit */
@@ -311,7 +311,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

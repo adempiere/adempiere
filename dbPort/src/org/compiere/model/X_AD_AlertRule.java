@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertRule
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_AlertRule extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_AlertRule (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=593 */
-public static final int Table_ID=593;
+public static final int Table_ID=MTable.getTable_ID("AD_AlertRule");
 
 /** TableName=AD_AlertRule */
 public static final String Table_Name="AD_AlertRule";
 
-protected static KeyNamePair Model = new KeyNamePair(593,"AD_AlertRule");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_AlertRule");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_AlertRule_ID (int AD_AlertRule_ID)
 {
 if (AD_AlertRule_ID < 1) throw new IllegalArgumentException ("AD_AlertRule_ID is mandatory.");
-set_ValueNoCheck ("AD_AlertRule_ID", new Integer(AD_AlertRule_ID));
+set_ValueNoCheck ("AD_AlertRule_ID", Integer.valueOf(AD_AlertRule_ID));
 }
 /** Get Alert Rule.
 @return Definition of the alert element */
@@ -106,14 +106,14 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Alert.
-@param AD_Alert_ID Compiere Alert */
+@param AD_Alert_ID Adempiere Alert */
 public void setAD_Alert_ID (int AD_Alert_ID)
 {
 if (AD_Alert_ID < 1) throw new IllegalArgumentException ("AD_Alert_ID is mandatory.");
-set_ValueNoCheck ("AD_Alert_ID", new Integer(AD_Alert_ID));
+set_ValueNoCheck ("AD_Alert_ID", Integer.valueOf(AD_Alert_ID));
 }
 /** Get Alert.
-@return Compiere Alert */
+@return Adempiere Alert */
 public int getAD_Alert_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Alert_ID");
@@ -126,7 +126,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -175,7 +175,7 @@ return (String)get_Value("FromClause");
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */

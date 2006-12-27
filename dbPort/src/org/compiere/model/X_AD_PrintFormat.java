@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintFormat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintFormat extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_AD_PrintFormat (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=493 */
-public static final int Table_ID=493;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintFormat");
 
 /** TableName=AD_PrintFormat */
 public static final String Table_Name="AD_PrintFormat";
 
-protected static KeyNamePair Model = new KeyNamePair(493,"AD_PrintFormat");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintFormat");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID < 1) throw new IllegalArgumentException ("AD_PrintColor_ID is mandatory.");
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setAD_PrintFont_ID (int AD_PrintFont_ID)
 {
 if (AD_PrintFont_ID < 1) throw new IllegalArgumentException ("AD_PrintFont_ID is mandatory.");
-set_Value ("AD_PrintFont_ID", new Integer(AD_PrintFont_ID));
+set_Value ("AD_PrintFont_ID", Integer.valueOf(AD_PrintFont_ID));
 }
 /** Get Print Font.
 @return Maintain Print Font */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID < 1) throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_ValueNoCheck ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -146,7 +146,7 @@ return ii.intValue();
 public void setAD_PrintPaper_ID (int AD_PrintPaper_ID)
 {
 if (AD_PrintPaper_ID < 1) throw new IllegalArgumentException ("AD_PrintPaper_ID is mandatory.");
-set_Value ("AD_PrintPaper_ID", new Integer(AD_PrintPaper_ID));
+set_Value ("AD_PrintPaper_ID", Integer.valueOf(AD_PrintPaper_ID));
 }
 /** Get Print Paper.
 @return Printer paper definition */
@@ -162,7 +162,7 @@ public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
 {
 if (AD_PrintTableFormat_ID <= 0) set_Value ("AD_PrintTableFormat_ID", null);
  else 
-set_Value ("AD_PrintTableFormat_ID", new Integer(AD_PrintTableFormat_ID));
+set_Value ("AD_PrintTableFormat_ID", Integer.valueOf(AD_PrintTableFormat_ID));
 }
 /** Get Print Table Format.
 @return Table Format in Reports */
@@ -178,7 +178,7 @@ public void setAD_ReportView_ID (int AD_ReportView_ID)
 {
 if (AD_ReportView_ID <= 0) set_ValueNoCheck ("AD_ReportView_ID", null);
  else 
-set_ValueNoCheck ("AD_ReportView_ID", new Integer(AD_ReportView_ID));
+set_ValueNoCheck ("AD_ReportView_ID", Integer.valueOf(AD_ReportView_ID));
 }
 /** Get Report View.
 @return View used to generate this report */
@@ -193,7 +193,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -241,7 +241,7 @@ return (String)get_Value("Description");
 @param FooterMargin Margin of the Footer in 1/72 of an inch */
 public void setFooterMargin (int FooterMargin)
 {
-set_Value ("FooterMargin", new Integer(FooterMargin));
+set_Value ("FooterMargin", Integer.valueOf(FooterMargin));
 }
 /** Get Footer Margin.
 @return Margin of the Footer in 1/72 of an inch */
@@ -255,7 +255,7 @@ return ii.intValue();
 @param HeaderMargin Margin of the Header in 1/72 of an inch */
 public void setHeaderMargin (int HeaderMargin)
 {
-set_Value ("HeaderMargin", new Integer(HeaderMargin));
+set_Value ("HeaderMargin", Integer.valueOf(HeaderMargin));
 }
 /** Get Header Margin.
 @return Margin of the Header in 1/72 of an inch */
@@ -269,7 +269,7 @@ return ii.intValue();
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -287,7 +287,7 @@ return false;
 @param IsForm If Selected, a Form is printed, if not selected a columnar List report */
 public void setIsForm (boolean IsForm)
 {
-set_Value ("IsForm", new Boolean(IsForm));
+set_Value ("IsForm", Boolean.valueOf(IsForm));
 }
 /** Get Form.
 @return If Selected, a Form is printed, if not selected a columnar List report */
@@ -305,7 +305,7 @@ return false;
 @param IsStandardHeaderFooter The standard Header and Footer is used */
 public void setIsStandardHeaderFooter (boolean IsStandardHeaderFooter)
 {
-set_Value ("IsStandardHeaderFooter", new Boolean(IsStandardHeaderFooter));
+set_Value ("IsStandardHeaderFooter", Boolean.valueOf(IsStandardHeaderFooter));
 }
 /** Get Standard Header/Footer.
 @return The standard Header and Footer is used */
@@ -323,7 +323,7 @@ return false;
 @param IsTableBased Table based List Reporting */
 public void setIsTableBased (boolean IsTableBased)
 {
-set_ValueNoCheck ("IsTableBased", new Boolean(IsTableBased));
+set_ValueNoCheck ("IsTableBased", Boolean.valueOf(IsTableBased));
 }
 /** Get Table Based.
 @return Table based List Reporting */

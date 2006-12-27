@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Group
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_Group extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_Group (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=773 */
-public static final int Table_ID=773;
+public static final int Table_ID=MTable.getTable_ID("R_Group");
 
 /** TableName=R_Group */
 public static final String Table_Name="R_Group";
 
-protected static KeyNamePair Model = new KeyNamePair(773,"R_Group");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_Group");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -126,7 +126,7 @@ public void setM_BOM_ID (int M_BOM_ID)
 {
 if (M_BOM_ID <= 0) set_Value ("M_BOM_ID", null);
  else 
-set_Value ("M_BOM_ID", new Integer(M_BOM_ID));
+set_Value ("M_BOM_ID", Integer.valueOf(M_BOM_ID));
 }
 /** Get BOM.
 @return Bill of Material */
@@ -142,7 +142,7 @@ public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 {
 if (M_ChangeNotice_ID <= 0) set_Value ("M_ChangeNotice_ID", null);
  else 
-set_Value ("M_ChangeNotice_ID", new Integer(M_ChangeNotice_ID));
+set_Value ("M_ChangeNotice_ID", Integer.valueOf(M_ChangeNotice_ID));
 }
 /** Get Change Notice.
 @return Bill of Materials (Engineering) Change Notice (Version) */
@@ -181,7 +181,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_Group_ID (int R_Group_ID)
 {
 if (R_Group_ID < 1) throw new IllegalArgumentException ("R_Group_ID is mandatory.");
-set_ValueNoCheck ("R_Group_ID", new Integer(R_Group_ID));
+set_ValueNoCheck ("R_Group_ID", Integer.valueOf(R_Group_ID));
 }
 /** Get Group.
 @return Request Group */

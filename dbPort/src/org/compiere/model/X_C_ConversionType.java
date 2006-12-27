@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ConversionType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ConversionType extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_ConversionType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=637 */
-public static final int Table_ID=637;
+public static final int Table_ID=MTable.getTable_ID("C_ConversionType");
 
 /** TableName=C_ConversionType */
 public static final String Table_Name="C_ConversionType";
 
-protected static KeyNamePair Model = new KeyNamePair(637,"C_ConversionType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ConversionType");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID < 1) throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-set_ValueNoCheck ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_ValueNoCheck ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

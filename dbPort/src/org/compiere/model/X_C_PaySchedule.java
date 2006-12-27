@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySchedule
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaySchedule extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_PaySchedule (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=548 */
-public static final int Table_ID=548;
+public static final int Table_ID=MTable.getTable_ID("C_PaySchedule");
 
 /** TableName=C_PaySchedule */
 public static final String Table_Name="C_PaySchedule";
 
-protected static KeyNamePair Model = new KeyNamePair(548,"C_PaySchedule");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaySchedule");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 {
 if (C_PaySchedule_ID < 1) throw new IllegalArgumentException ("C_PaySchedule_ID is mandatory.");
-set_ValueNoCheck ("C_PaySchedule_ID", new Integer(C_PaySchedule_ID));
+set_ValueNoCheck ("C_PaySchedule_ID", Integer.valueOf(C_PaySchedule_ID));
 }
 /** Get Payment Schedule.
 @return Payment Schedule Template */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID < 1) throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-set_ValueNoCheck ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_ValueNoCheck ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -147,7 +147,7 @@ return bd;
 @param DiscountDays Number of days from invoice date to be eligible for discount */
 public void setDiscountDays (int DiscountDays)
 {
-set_Value ("DiscountDays", new Integer(DiscountDays));
+set_Value ("DiscountDays", Integer.valueOf(DiscountDays));
 }
 /** Get Discount Days.
 @return Number of days from invoice date to be eligible for discount */
@@ -161,7 +161,7 @@ return ii.intValue();
 @param GraceDays Days after due date to send first dunning letter */
 public void setGraceDays (int GraceDays)
 {
-set_Value ("GraceDays", new Integer(GraceDays));
+set_Value ("GraceDays", Integer.valueOf(GraceDays));
 }
 /** Get Grace Days.
 @return Days after due date to send first dunning letter */
@@ -175,7 +175,7 @@ return ii.intValue();
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -229,7 +229,7 @@ return (String)get_Value("NetDay");
 @param NetDays Net Days in which payment is due */
 public void setNetDays (int NetDays)
 {
-set_Value ("NetDays", new Integer(NetDays));
+set_Value ("NetDays", Integer.valueOf(NetDays));
 }
 /** Get Net Days.
 @return Net Days in which payment is due */

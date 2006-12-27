@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ImpFormat_Row
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_ImpFormat_Row extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_ImpFormat_Row (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=382 */
-public static final int Table_ID=382;
+public static final int Table_ID=MTable.getTable_ID("AD_ImpFormat_Row");
 
 /** TableName=AD_ImpFormat_Row */
 public static final String Table_Name="AD_ImpFormat_Row";
 
-protected static KeyNamePair Model = new KeyNamePair(382,"AD_ImpFormat_Row");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_ImpFormat_Row");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 {
 if (AD_ImpFormat_ID < 1) throw new IllegalArgumentException ("AD_ImpFormat_ID is mandatory.");
-set_ValueNoCheck ("AD_ImpFormat_ID", new Integer(AD_ImpFormat_ID));
+set_ValueNoCheck ("AD_ImpFormat_ID", Integer.valueOf(AD_ImpFormat_ID));
 }
 /** Get Import Format.
 @return Import Format */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setAD_ImpFormat_Row_ID (int AD_ImpFormat_Row_ID)
 {
 if (AD_ImpFormat_Row_ID < 1) throw new IllegalArgumentException ("AD_ImpFormat_Row_ID is mandatory.");
-set_ValueNoCheck ("AD_ImpFormat_Row_ID", new Integer(AD_ImpFormat_Row_ID));
+set_ValueNoCheck ("AD_ImpFormat_Row_ID", Integer.valueOf(AD_ImpFormat_Row_ID));
 }
 /** Get Format Field.
 @return Format Field */
@@ -241,7 +241,7 @@ return (String)get_Value("DecimalPoint");
 @param DivideBy100 Divide number by 100 to get correct amount */
 public void setDivideBy100 (boolean DivideBy100)
 {
-set_Value ("DivideBy100", new Boolean(DivideBy100));
+set_Value ("DivideBy100", Boolean.valueOf(DivideBy100));
 }
 /** Get Divide by 100.
 @return Divide number by 100 to get correct amount */
@@ -259,7 +259,7 @@ return false;
 @param EndNo End No */
 public void setEndNo (int EndNo)
 {
-set_Value ("EndNo", new Integer(EndNo));
+set_Value ("EndNo", Integer.valueOf(EndNo));
 }
 /** Get End No.
 @return End No */
@@ -315,7 +315,7 @@ return (String)get_Value("Script");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -330,7 +330,7 @@ return ii.intValue();
 @param StartNo Starting number/position */
 public void setStartNo (int StartNo)
 {
-set_Value ("StartNo", new Integer(StartNo));
+set_Value ("StartNo", Integer.valueOf(StartNo));
 }
 /** Get Start No.
 @return Starting number/position */

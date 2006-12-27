@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workbench
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Workbench extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_Workbench (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=468 */
-public static final int Table_ID=468;
+public static final int Table_ID=MTable.getTable_ID("AD_Workbench");
 
 /** TableName=AD_Workbench */
 public static final String Table_Name="AD_Workbench";
 
-protected static KeyNamePair Model = new KeyNamePair(468,"AD_Workbench");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Workbench");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -108,7 +108,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -124,7 +124,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID < 1) throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-set_ValueNoCheck ("AD_Workbench_ID", new Integer(AD_Workbench_ID));
+set_ValueNoCheck ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
 /** Get Workbench.
 @return Collection of windows, reports */

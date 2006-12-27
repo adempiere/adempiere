@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ReplicationTable
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_ReplicationTable extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_ReplicationTable (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=601 */
-public static final int Table_ID=601;
+public static final int Table_ID=MTable.getTable_ID("AD_ReplicationTable");
 
 /** TableName=AD_ReplicationTable */
 public static final String Table_Name="AD_ReplicationTable";
 
-protected static KeyNamePair Model = new KeyNamePair(601,"AD_ReplicationTable");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_ReplicationTable");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 {
 if (AD_ReplicationStrategy_ID < 1) throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-set_ValueNoCheck ("AD_ReplicationStrategy_ID", new Integer(AD_ReplicationStrategy_ID));
+set_ValueNoCheck ("AD_ReplicationStrategy_ID", Integer.valueOf(AD_ReplicationStrategy_ID));
 }
 /** Get Replication Strategy.
 @return Data Replication Strategy */
@@ -115,7 +115,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_ReplicationStrategy_ID()))
 public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
 {
 if (AD_ReplicationTable_ID < 1) throw new IllegalArgumentException ("AD_ReplicationTable_ID is mandatory.");
-set_ValueNoCheck ("AD_ReplicationTable_ID", new Integer(AD_ReplicationTable_ID));
+set_ValueNoCheck ("AD_ReplicationTable_ID", Integer.valueOf(AD_ReplicationTable_ID));
 }
 /** Get Replication Table.
 @return Data Replication Strategy Table Info */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Distribution
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_Distribution extends PO
 {
 /** Standard Constructor
@@ -70,12 +70,12 @@ public X_GL_Distribution (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=708 */
-public static final int Table_ID=708;
+public static final int Table_ID=MTable.getTable_ID("GL_Distribution");
 
 /** TableName=GL_Distribution */
 public static final String Table_Name="GL_Distribution";
 
-protected static KeyNamePair Model = new KeyNamePair(708,"GL_Distribution");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_Distribution");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -111,7 +111,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -130,7 +130,7 @@ public void setAccount_ID (int Account_ID)
 {
 if (Account_ID <= 0) set_Value ("Account_ID", null);
  else 
-set_Value ("Account_ID", new Integer(Account_ID));
+set_Value ("Account_ID", Integer.valueOf(Account_ID));
 }
 /** Get Account.
 @return Account used */
@@ -144,7 +144,7 @@ return ii.intValue();
 @param AnyAcct Match any value of the Account segment */
 public void setAnyAcct (boolean AnyAcct)
 {
-set_Value ("AnyAcct", new Boolean(AnyAcct));
+set_Value ("AnyAcct", Boolean.valueOf(AnyAcct));
 }
 /** Get Any Account.
 @return Match any value of the Account segment */
@@ -162,7 +162,7 @@ return false;
 @param AnyActivity Match any value of the Activity segment */
 public void setAnyActivity (boolean AnyActivity)
 {
-set_Value ("AnyActivity", new Boolean(AnyActivity));
+set_Value ("AnyActivity", Boolean.valueOf(AnyActivity));
 }
 /** Get Any Activity.
 @return Match any value of the Activity segment */
@@ -180,7 +180,7 @@ return false;
 @param AnyBPartner Match any value of the Business Partner segment */
 public void setAnyBPartner (boolean AnyBPartner)
 {
-set_Value ("AnyBPartner", new Boolean(AnyBPartner));
+set_Value ("AnyBPartner", Boolean.valueOf(AnyBPartner));
 }
 /** Get Any Bus.Partner.
 @return Match any value of the Business Partner segment */
@@ -198,7 +198,7 @@ return false;
 @param AnyCampaign Match any value of the Campaign segment */
 public void setAnyCampaign (boolean AnyCampaign)
 {
-set_Value ("AnyCampaign", new Boolean(AnyCampaign));
+set_Value ("AnyCampaign", Boolean.valueOf(AnyCampaign));
 }
 /** Get Any Campaign.
 @return Match any value of the Campaign segment */
@@ -216,7 +216,7 @@ return false;
 @param AnyLocFrom Match any value of the Location From segment */
 public void setAnyLocFrom (boolean AnyLocFrom)
 {
-set_Value ("AnyLocFrom", new Boolean(AnyLocFrom));
+set_Value ("AnyLocFrom", Boolean.valueOf(AnyLocFrom));
 }
 /** Get Any Location From.
 @return Match any value of the Location From segment */
@@ -234,7 +234,7 @@ return false;
 @param AnyLocTo Match any value of the Location To segment */
 public void setAnyLocTo (boolean AnyLocTo)
 {
-set_Value ("AnyLocTo", new Boolean(AnyLocTo));
+set_Value ("AnyLocTo", Boolean.valueOf(AnyLocTo));
 }
 /** Get Any Location To.
 @return Match any value of the Location To segment */
@@ -252,7 +252,7 @@ return false;
 @param AnyOrg Match any value of the Organization segment */
 public void setAnyOrg (boolean AnyOrg)
 {
-set_Value ("AnyOrg", new Boolean(AnyOrg));
+set_Value ("AnyOrg", Boolean.valueOf(AnyOrg));
 }
 /** Get Any Organization.
 @return Match any value of the Organization segment */
@@ -270,7 +270,7 @@ return false;
 @param AnyOrgTrx Match any value of the Transaction Organization segment */
 public void setAnyOrgTrx (boolean AnyOrgTrx)
 {
-set_Value ("AnyOrgTrx", new Boolean(AnyOrgTrx));
+set_Value ("AnyOrgTrx", Boolean.valueOf(AnyOrgTrx));
 }
 /** Get Any Trx Organization.
 @return Match any value of the Transaction Organization segment */
@@ -288,7 +288,7 @@ return false;
 @param AnyProduct Match any value of the Product segment */
 public void setAnyProduct (boolean AnyProduct)
 {
-set_Value ("AnyProduct", new Boolean(AnyProduct));
+set_Value ("AnyProduct", Boolean.valueOf(AnyProduct));
 }
 /** Get Any Product.
 @return Match any value of the Product segment */
@@ -306,7 +306,7 @@ return false;
 @param AnyProject Match any value of the Project segment */
 public void setAnyProject (boolean AnyProject)
 {
-set_Value ("AnyProject", new Boolean(AnyProject));
+set_Value ("AnyProject", Boolean.valueOf(AnyProject));
 }
 /** Get Any Project.
 @return Match any value of the Project segment */
@@ -324,7 +324,7 @@ return false;
 @param AnySalesRegion Match any value of the Sales Region segment */
 public void setAnySalesRegion (boolean AnySalesRegion)
 {
-set_Value ("AnySalesRegion", new Boolean(AnySalesRegion));
+set_Value ("AnySalesRegion", Boolean.valueOf(AnySalesRegion));
 }
 /** Get Any Sales Region.
 @return Match any value of the Sales Region segment */
@@ -342,7 +342,7 @@ return false;
 @param AnyUser1 Match any value of the User 1 segment */
 public void setAnyUser1 (boolean AnyUser1)
 {
-set_Value ("AnyUser1", new Boolean(AnyUser1));
+set_Value ("AnyUser1", Boolean.valueOf(AnyUser1));
 }
 /** Get Any User 1.
 @return Match any value of the User 1 segment */
@@ -360,7 +360,7 @@ return false;
 @param AnyUser2 Match any value of the User 2 segment */
 public void setAnyUser2 (boolean AnyUser2)
 {
-set_Value ("AnyUser2", new Boolean(AnyUser2));
+set_Value ("AnyUser2", Boolean.valueOf(AnyUser2));
 }
 /** Get Any User 2.
 @return Match any value of the User 2 segment */
@@ -379,7 +379,7 @@ return false;
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -395,7 +395,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -411,7 +411,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -427,7 +427,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -443,7 +443,7 @@ public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID <= 0) set_Value ("C_DocType_ID", null);
  else 
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -462,7 +462,7 @@ public void setC_LocFrom_ID (int C_LocFrom_ID)
 {
 if (C_LocFrom_ID <= 0) set_Value ("C_LocFrom_ID", null);
  else 
-set_Value ("C_LocFrom_ID", new Integer(C_LocFrom_ID));
+set_Value ("C_LocFrom_ID", Integer.valueOf(C_LocFrom_ID));
 }
 /** Get Location From.
 @return Location that inventory was moved from */
@@ -481,7 +481,7 @@ public void setC_LocTo_ID (int C_LocTo_ID)
 {
 if (C_LocTo_ID <= 0) set_Value ("C_LocTo_ID", null);
  else 
-set_Value ("C_LocTo_ID", new Integer(C_LocTo_ID));
+set_Value ("C_LocTo_ID", Integer.valueOf(C_LocTo_ID));
 }
 /** Get Location To.
 @return Location that inventory was moved to */
@@ -497,7 +497,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -513,7 +513,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -545,7 +545,7 @@ return (String)get_Value("Description");
 public void setGL_Distribution_ID (int GL_Distribution_ID)
 {
 if (GL_Distribution_ID < 1) throw new IllegalArgumentException ("GL_Distribution_ID is mandatory.");
-set_ValueNoCheck ("GL_Distribution_ID", new Integer(GL_Distribution_ID));
+set_ValueNoCheck ("GL_Distribution_ID", Integer.valueOf(GL_Distribution_ID));
 }
 /** Get GL Distribution.
 @return General Ledger Distribution */
@@ -576,7 +576,7 @@ return (String)get_Value("Help");
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -596,7 +596,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -639,7 +639,7 @@ public void setOrg_ID (int Org_ID)
 {
 if (Org_ID <= 0) set_Value ("Org_ID", null);
  else 
-set_Value ("Org_ID", new Integer(Org_ID));
+set_Value ("Org_ID", Integer.valueOf(Org_ID));
 }
 /** Get Organization.
 @return Organizational entity within client */
@@ -700,7 +700,7 @@ return (String)get_Value("PostingType");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -723,7 +723,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -742,7 +742,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

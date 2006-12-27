@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchema
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DiscountSchema extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_DiscountSchema (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=475 */
-public static final int Table_ID=475;
+public static final int Table_ID=MTable.getTable_ID("M_DiscountSchema");
 
 /** TableName=M_DiscountSchema */
 public static final String Table_Name="M_DiscountSchema";
 
-protected static KeyNamePair Model = new KeyNamePair(475,"M_DiscountSchema");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DiscountSchema");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -180,7 +180,7 @@ return bd;
 @param IsBPartnerFlatDiscount Use flat discount defined on Business Partner Level */
 public void setIsBPartnerFlatDiscount (boolean IsBPartnerFlatDiscount)
 {
-set_Value ("IsBPartnerFlatDiscount", new Boolean(IsBPartnerFlatDiscount));
+set_Value ("IsBPartnerFlatDiscount", Boolean.valueOf(IsBPartnerFlatDiscount));
 }
 /** Get B.Partner Flat Discount.
 @return Use flat discount defined on Business Partner Level */
@@ -198,7 +198,7 @@ return false;
 @param IsQuantityBased Trade discount break level based on Quantity (not value) */
 public void setIsQuantityBased (boolean IsQuantityBased)
 {
-set_Value ("IsQuantityBased", new Boolean(IsQuantityBased));
+set_Value ("IsQuantityBased", Boolean.valueOf(IsQuantityBased));
 }
 /** Get Quantity based.
 @return Trade discount break level based on Quantity (not value) */
@@ -217,7 +217,7 @@ return false;
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID < 1) throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-set_ValueNoCheck ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_ValueNoCheck ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -255,7 +255,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

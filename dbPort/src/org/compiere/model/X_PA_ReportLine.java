@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_ReportLine extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_PA_ReportLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=448 */
-public static final int Table_ID=448;
+public static final int Table_ID=MTable.getTable_ID("PA_ReportLine");
 
 /** TableName=PA_ReportLine */
 public static final String Table_Name="PA_ReportLine";
 
-protected static KeyNamePair Model = new KeyNamePair(448,"PA_ReportLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -189,7 +189,7 @@ public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID <= 0) set_Value ("GL_Budget_ID", null);
  else 
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -203,7 +203,7 @@ return ii.intValue();
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -277,7 +277,7 @@ public void setOper_1_ID (int Oper_1_ID)
 {
 if (Oper_1_ID <= 0) set_Value ("Oper_1_ID", null);
  else 
-set_Value ("Oper_1_ID", new Integer(Oper_1_ID));
+set_Value ("Oper_1_ID", Integer.valueOf(Oper_1_ID));
 }
 /** Get Operand 1.
 @return First operand for calculation */
@@ -296,7 +296,7 @@ public void setOper_2_ID (int Oper_2_ID)
 {
 if (Oper_2_ID <= 0) set_Value ("Oper_2_ID", null);
  else 
-set_Value ("Oper_2_ID", new Integer(Oper_2_ID));
+set_Value ("Oper_2_ID", Integer.valueOf(Oper_2_ID));
 }
 /** Get Operand 2.
 @return Second operand for calculation */
@@ -311,7 +311,7 @@ return ii.intValue();
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 {
 if (PA_ReportLineSet_ID < 1) throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportLineSet_ID", new Integer(PA_ReportLineSet_ID));
+set_ValueNoCheck ("PA_ReportLineSet_ID", Integer.valueOf(PA_ReportLineSet_ID));
 }
 /** Get Report Line Set.
 @return Report Line Set */
@@ -326,7 +326,7 @@ return ii.intValue();
 public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 {
 if (PA_ReportLine_ID < 1) throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportLine_ID", new Integer(PA_ReportLine_ID));
+set_ValueNoCheck ("PA_ReportLine_ID", Integer.valueOf(PA_ReportLine_ID));
 }
 /** Get Report Line.
 @return Report Line */
@@ -373,7 +373,7 @@ return (String)get_Value("PostingType");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Category
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_Category extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_GL_Category (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=218 */
-public static final int Table_ID=218;
+public static final int Table_ID=MTable.getTable_ID("GL_Category");
 
 /** TableName=GL_Category */
 public static final String Table_Name="GL_Category";
 
-protected static KeyNamePair Model = new KeyNamePair(218,"GL_Category");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_Category");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -141,7 +141,7 @@ return (String)get_Value("Description");
 public void setGL_Category_ID (int GL_Category_ID)
 {
 if (GL_Category_ID < 1) throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-set_ValueNoCheck ("GL_Category_ID", new Integer(GL_Category_ID));
+set_ValueNoCheck ("GL_Category_ID", Integer.valueOf(GL_Category_ID));
 }
 /** Get GL Category.
 @return General Ledger Category */
@@ -155,7 +155,7 @@ return ii.intValue();
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_ChatType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_ChatType extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_CM_ChatType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=874 */
-public static final int Table_ID=874;
+public static final int Table_ID=MTable.getTable_ID("CM_ChatType");
 
 /** TableName=CM_ChatType */
 public static final String Table_Name="CM_ChatType";
 
-protected static KeyNamePair Model = new KeyNamePair(874,"CM_ChatType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_ChatType");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setCM_ChatType_ID (int CM_ChatType_ID)
 {
 if (CM_ChatType_ID < 1) throw new IllegalArgumentException ("CM_ChatType_ID is mandatory.");
-set_ValueNoCheck ("CM_ChatType_ID", new Integer(CM_ChatType_ID));
+set_ValueNoCheck ("CM_ChatType_ID", Integer.valueOf(CM_ChatType_ID));
 }
 /** Get Chat Type.
 @return Type of discussion / chat */

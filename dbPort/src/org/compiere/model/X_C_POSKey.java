@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_POSKey
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_POSKey extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_POSKey (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=750 */
-public static final int Table_ID=750;
+public static final int Table_ID=MTable.getTable_ID("C_POSKey");
 
 /** TableName=C_POSKey */
 public static final String Table_Name="C_POSKey";
 
-protected static KeyNamePair Model = new KeyNamePair(750,"C_POSKey");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_POSKey");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
 {
 if (C_POSKeyLayout_ID < 1) throw new IllegalArgumentException ("C_POSKeyLayout_ID is mandatory.");
-set_ValueNoCheck ("C_POSKeyLayout_ID", new Integer(C_POSKeyLayout_ID));
+set_ValueNoCheck ("C_POSKeyLayout_ID", Integer.valueOf(C_POSKeyLayout_ID));
 }
 /** Get POS Key Layout.
 @return POS Function Key Layout */
@@ -126,7 +126,7 @@ return ii.intValue();
 public void setC_POSKey_ID (int C_POSKey_ID)
 {
 if (C_POSKey_ID < 1) throw new IllegalArgumentException ("C_POSKey_ID is mandatory.");
-set_ValueNoCheck ("C_POSKey_ID", new Integer(C_POSKey_ID));
+set_ValueNoCheck ("C_POSKey_ID", Integer.valueOf(C_POSKey_ID));
 }
 /** Get POS Key.
 @return POS Function Key */
@@ -158,7 +158,7 @@ return (String)get_Value("Description");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -212,7 +212,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

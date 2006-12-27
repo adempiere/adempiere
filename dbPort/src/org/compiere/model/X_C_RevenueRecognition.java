@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RevenueRecognition extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_RevenueRecognition (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=336 */
-public static final int Table_ID=336;
+public static final int Table_ID=MTable.getTable_ID("C_RevenueRecognition");
 
 /** TableName=C_RevenueRecognition */
 public static final String Table_Name="C_RevenueRecognition";
 
-protected static KeyNamePair Model = new KeyNamePair(336,"C_RevenueRecognition");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RevenueRecognition");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 {
 if (C_RevenueRecognition_ID < 1) throw new IllegalArgumentException ("C_RevenueRecognition_ID is mandatory.");
-set_ValueNoCheck ("C_RevenueRecognition_ID", new Integer(C_RevenueRecognition_ID));
+set_ValueNoCheck ("C_RevenueRecognition_ID", Integer.valueOf(C_RevenueRecognition_ID));
 }
 /** Get Revenue Recognition.
 @return Method for recording revenue */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 @param IsTimeBased Time based Revenue Recognition rather than Service Level based */
 public void setIsTimeBased (boolean IsTimeBased)
 {
-set_Value ("IsTimeBased", new Boolean(IsTimeBased));
+set_Value ("IsTimeBased", Boolean.valueOf(IsTimeBased));
 }
 /** Get Time based.
 @return Time based Revenue Recognition rather than Service Level based */
@@ -166,7 +166,7 @@ return new KeyNamePair(get_ID(), getName());
 @param NoMonths Number of Months */
 public void setNoMonths (int NoMonths)
 {
-set_Value ("NoMonths", new Integer(NoMonths));
+set_Value ("NoMonths", Integer.valueOf(NoMonths));
 }
 /** Get Number of Months.
 @return Number of Months */

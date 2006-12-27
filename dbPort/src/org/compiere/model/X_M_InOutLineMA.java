@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLineMA
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_InOutLineMA extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_InOutLineMA (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=762 */
-public static final int Table_ID=762;
+public static final int Table_ID=MTable.getTable_ID("M_InOutLineMA");
 
 /** TableName=M_InOutLineMA */
 public static final String Table_Name="M_InOutLineMA";
 
-protected static KeyNamePair Model = new KeyNamePair(762,"M_InOutLineMA");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutLineMA");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */

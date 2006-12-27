@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_TaxDeclarationAcct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=820 */
-public static final int Table_ID=820;
+public static final int Table_ID=MTable.getTable_ID("C_TaxDeclarationAcct");
 
 /** TableName=C_TaxDeclarationAcct */
 public static final String Table_Name="C_TaxDeclarationAcct";
 
-protected static KeyNamePair Model = new KeyNamePair(820,"C_TaxDeclarationAcct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_TaxDeclarationAcct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -166,7 +166,7 @@ return bd;
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -209,7 +209,7 @@ return ii.intValue();
 public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
 {
 if (C_TaxDeclarationAcct_ID < 1) throw new IllegalArgumentException ("C_TaxDeclarationAcct_ID is mandatory.");
-set_ValueNoCheck ("C_TaxDeclarationAcct_ID", new Integer(C_TaxDeclarationAcct_ID));
+set_ValueNoCheck ("C_TaxDeclarationAcct_ID", Integer.valueOf(C_TaxDeclarationAcct_ID));
 }
 /** Get Tax Declaration Accounting.
 @return Tax Accounting Reconciliation  */
@@ -224,7 +224,7 @@ return ii.intValue();
 public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 {
 if (C_TaxDeclaration_ID < 1) throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-set_ValueNoCheck ("C_TaxDeclaration_ID", new Integer(C_TaxDeclaration_ID));
+set_ValueNoCheck ("C_TaxDeclaration_ID", Integer.valueOf(C_TaxDeclaration_ID));
 }
 /** Get Tax Declaration.
 @return Define the declaration to the tax authorities */
@@ -282,7 +282,7 @@ return (String)get_Value("Description");
 public void setFact_Acct_ID (int Fact_Acct_ID)
 {
 if (Fact_Acct_ID < 1) throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-set_ValueNoCheck ("Fact_Acct_ID", new Integer(Fact_Acct_ID));
+set_ValueNoCheck ("Fact_Acct_ID", Integer.valueOf(Fact_Acct_ID));
 }
 /** Get Accounting Fact.
 @return Accounting Fact */
@@ -296,7 +296,7 @@ return ii.intValue();
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */

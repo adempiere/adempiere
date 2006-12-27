@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_POS
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_POS extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_POS (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=748 */
-public static final int Table_ID=748;
+public static final int Table_ID=MTable.getTable_ID("C_POS");
 
 /** TableName=C_POS */
 public static final String Table_Name="C_POS";
 
-protected static KeyNamePair Model = new KeyNamePair(748,"C_POS");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_POS");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
 {
 if (C_BPartnerCashTrx_ID <= 0) set_Value ("C_BPartnerCashTrx_ID", null);
  else 
-set_Value ("C_BPartnerCashTrx_ID", new Integer(C_BPartnerCashTrx_ID));
+set_Value ("C_BPartnerCashTrx_ID", Integer.valueOf(C_BPartnerCashTrx_ID));
 }
 /** Get Template B.Partner.
 @return Business Partner used for creating new Business Partners on the fly */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setC_CashBook_ID (int C_CashBook_ID)
 {
 if (C_CashBook_ID < 1) throw new IllegalArgumentException ("C_CashBook_ID is mandatory.");
-set_Value ("C_CashBook_ID", new Integer(C_CashBook_ID));
+set_Value ("C_CashBook_ID", Integer.valueOf(C_CashBook_ID));
 }
 /** Get Cash Book.
 @return Cash Book for recording petty cash transactions */
@@ -131,7 +131,7 @@ public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID <= 0) set_Value ("C_DocType_ID", null);
  else 
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -147,7 +147,7 @@ public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
 {
 if (C_POSKeyLayout_ID <= 0) set_Value ("C_POSKeyLayout_ID", null);
  else 
-set_Value ("C_POSKeyLayout_ID", new Integer(C_POSKeyLayout_ID));
+set_Value ("C_POSKeyLayout_ID", Integer.valueOf(C_POSKeyLayout_ID));
 }
 /** Get POS Key Layout.
 @return POS Function Key Layout */
@@ -162,7 +162,7 @@ return ii.intValue();
 public void setC_POS_ID (int C_POS_ID)
 {
 if (C_POS_ID < 1) throw new IllegalArgumentException ("C_POS_ID is mandatory.");
-set_ValueNoCheck ("C_POS_ID", new Integer(C_POS_ID));
+set_ValueNoCheck ("C_POS_ID", Integer.valueOf(C_POS_ID));
 }
 /** Get POS Terminal.
 @return Point of Sales Terminal */
@@ -210,7 +210,7 @@ return (String)get_Value("Help");
 @param IsModifyPrice Allow modifying the price */
 public void setIsModifyPrice (boolean IsModifyPrice)
 {
-set_Value ("IsModifyPrice", new Boolean(IsModifyPrice));
+set_Value ("IsModifyPrice", Boolean.valueOf(IsModifyPrice));
 }
 /** Get Modify Price.
 @return Allow modifying the price */
@@ -229,7 +229,7 @@ return false;
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -244,7 +244,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -303,7 +303,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

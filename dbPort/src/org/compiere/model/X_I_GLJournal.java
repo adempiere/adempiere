@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_GLJournal
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_GLJournal extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_GLJournal (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=599 */
-public static final int Table_ID=599;
+public static final int Table_ID=MTable.getTable_ID("I_GLJournal");
 
 /** TableName=I_GLJournal */
 public static final String Table_Name="I_GLJournal";
 
-protected static KeyNamePair Model = new KeyNamePair(599,"I_GLJournal");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_GLJournal");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_OrgDoc_ID (int AD_OrgDoc_ID)
 {
 if (AD_OrgDoc_ID <= 0) set_Value ("AD_OrgDoc_ID", null);
  else 
-set_Value ("AD_OrgDoc_ID", new Integer(AD_OrgDoc_ID));
+set_Value ("AD_OrgDoc_ID", Integer.valueOf(AD_OrgDoc_ID));
 }
 /** Get Document Org.
 @return Document Organization (independent from account organization) */
@@ -114,7 +114,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -150,7 +150,7 @@ public void setAccount_ID (int Account_ID)
 {
 if (Account_ID <= 0) set_Value ("Account_ID", null);
  else 
-set_Value ("Account_ID", new Integer(Account_ID));
+set_Value ("Account_ID", Integer.valueOf(Account_ID));
 }
 /** Get Account.
 @return Account used */
@@ -290,7 +290,7 @@ public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID <= 0) set_Value ("C_AcctSchema_ID", null);
  else 
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -306,7 +306,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -322,7 +322,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -338,7 +338,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -354,7 +354,7 @@ public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID <= 0) set_Value ("C_ConversionType_ID", null);
  else 
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -370,7 +370,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -386,7 +386,7 @@ public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID <= 0) set_Value ("C_DocType_ID", null);
  else 
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -405,7 +405,7 @@ public void setC_LocFrom_ID (int C_LocFrom_ID)
 {
 if (C_LocFrom_ID <= 0) set_Value ("C_LocFrom_ID", null);
  else 
-set_Value ("C_LocFrom_ID", new Integer(C_LocFrom_ID));
+set_Value ("C_LocFrom_ID", Integer.valueOf(C_LocFrom_ID));
 }
 /** Get Location From.
 @return Location that inventory was moved from */
@@ -424,7 +424,7 @@ public void setC_LocTo_ID (int C_LocTo_ID)
 {
 if (C_LocTo_ID <= 0) set_Value ("C_LocTo_ID", null);
  else 
-set_Value ("C_LocTo_ID", new Integer(C_LocTo_ID));
+set_Value ("C_LocTo_ID", Integer.valueOf(C_LocTo_ID));
 }
 /** Get Location To.
 @return Location that inventory was moved to */
@@ -440,7 +440,7 @@ public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID <= 0) set_Value ("C_Period_ID", null);
  else 
-set_Value ("C_Period_ID", new Integer(C_Period_ID));
+set_Value ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -456,7 +456,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -472,7 +472,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -488,7 +488,7 @@ public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID <= 0) set_Value ("C_UOM_ID", null);
  else 
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -504,7 +504,7 @@ public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 {
 if (C_ValidCombination_ID <= 0) set_Value ("C_ValidCombination_ID", null);
  else 
-set_Value ("C_ValidCombination_ID", new Integer(C_ValidCombination_ID));
+set_Value ("C_ValidCombination_ID", Integer.valueOf(C_ValidCombination_ID));
 }
 /** Get Combination.
 @return Valid Account Combination */
@@ -631,7 +631,7 @@ public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID <= 0) set_Value ("GL_Budget_ID", null);
  else 
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -647,7 +647,7 @@ public void setGL_Category_ID (int GL_Category_ID)
 {
 if (GL_Category_ID <= 0) set_Value ("GL_Category_ID", null);
  else 
-set_Value ("GL_Category_ID", new Integer(GL_Category_ID));
+set_Value ("GL_Category_ID", Integer.valueOf(GL_Category_ID));
 }
 /** Get GL Category.
 @return General Ledger Category */
@@ -663,7 +663,7 @@ public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 {
 if (GL_JournalBatch_ID <= 0) set_Value ("GL_JournalBatch_ID", null);
  else 
-set_Value ("GL_JournalBatch_ID", new Integer(GL_JournalBatch_ID));
+set_Value ("GL_JournalBatch_ID", Integer.valueOf(GL_JournalBatch_ID));
 }
 /** Get Journal Batch.
 @return General Ledger Journal Batch */
@@ -679,7 +679,7 @@ public void setGL_JournalLine_ID (int GL_JournalLine_ID)
 {
 if (GL_JournalLine_ID <= 0) set_Value ("GL_JournalLine_ID", null);
  else 
-set_Value ("GL_JournalLine_ID", new Integer(GL_JournalLine_ID));
+set_Value ("GL_JournalLine_ID", Integer.valueOf(GL_JournalLine_ID));
 }
 /** Get Journal Line.
 @return General Ledger Journal Line */
@@ -695,7 +695,7 @@ public void setGL_Journal_ID (int GL_Journal_ID)
 {
 if (GL_Journal_ID <= 0) set_Value ("GL_Journal_ID", null);
  else 
-set_Value ("GL_Journal_ID", new Integer(GL_Journal_ID));
+set_Value ("GL_Journal_ID", Integer.valueOf(GL_Journal_ID));
 }
 /** Get Journal.
 @return General Ledger Journal */
@@ -744,7 +744,7 @@ return (String)get_Value("I_ErrorMsg");
 public void setI_GLJournal_ID (int I_GLJournal_ID)
 {
 if (I_GLJournal_ID < 1) throw new IllegalArgumentException ("I_GLJournal_ID is mandatory.");
-set_ValueNoCheck ("I_GLJournal_ID", new Integer(I_GLJournal_ID));
+set_ValueNoCheck ("I_GLJournal_ID", Integer.valueOf(I_GLJournal_ID));
 }
 /** Get Import GL Journal.
 @return Import General Ledger Journal */
@@ -764,7 +764,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getI_GLJournal_ID()));
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -782,7 +782,7 @@ return false;
 @param IsCreateNewBatch If selected a new batch is created */
 public void setIsCreateNewBatch (boolean IsCreateNewBatch)
 {
-set_Value ("IsCreateNewBatch", new Boolean(IsCreateNewBatch));
+set_Value ("IsCreateNewBatch", Boolean.valueOf(IsCreateNewBatch));
 }
 /** Get Create New Batch.
 @return If selected a new batch is created */
@@ -800,7 +800,7 @@ return false;
 @param IsCreateNewJournal If selected a new journal within the batch is created */
 public void setIsCreateNewJournal (boolean IsCreateNewJournal)
 {
-set_Value ("IsCreateNewJournal", new Boolean(IsCreateNewJournal));
+set_Value ("IsCreateNewJournal", Boolean.valueOf(IsCreateNewJournal));
 }
 /** Get Create New Journal.
 @return If selected a new journal within the batch is created */
@@ -835,7 +835,7 @@ return (String)get_Value("JournalDocumentNo");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -851,7 +851,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -931,7 +931,7 @@ return (String)get_Value("PostingType");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -949,7 +949,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -1054,7 +1054,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -1073,7 +1073,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

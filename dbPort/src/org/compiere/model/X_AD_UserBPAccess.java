@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserBPAccess
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_UserBPAccess extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_UserBPAccess (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=813 */
-public static final int Table_ID=813;
+public static final int Table_ID=MTable.getTable_ID("AD_UserBPAccess");
 
 /** TableName=AD_UserBPAccess */
 public static final String Table_Name="AD_UserBPAccess";
 
-protected static KeyNamePair Model = new KeyNamePair(813,"AD_UserBPAccess");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_UserBPAccess");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID)
 {
 if (AD_UserBPAccess_ID < 1) throw new IllegalArgumentException ("AD_UserBPAccess_ID is mandatory.");
-set_ValueNoCheck ("AD_UserBPAccess_ID", new Integer(AD_UserBPAccess_ID));
+set_ValueNoCheck ("AD_UserBPAccess_ID", Integer.valueOf(AD_UserBPAccess_ID));
 }
 /** Get User BP Access.
 @return User/concat access to Business Partner information and resources */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -220,7 +220,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_Value ("R_RequestType_ID", null);
  else 
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */

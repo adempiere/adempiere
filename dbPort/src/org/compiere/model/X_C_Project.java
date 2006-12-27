@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Project
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Project extends PO
 {
 /** Standard Constructor
@@ -70,12 +70,12 @@ public X_C_Project (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=203 */
-public static final int Table_ID=203;
+public static final int Table_ID=MTable.getTable_ID("C_Project");
 
 /** TableName=C_Project */
 public static final String Table_Name="C_Project";
 
-protected static KeyNamePair Model = new KeyNamePair(203,"C_Project");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Project");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -108,7 +108,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -127,7 +127,7 @@ public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 {
 if (C_BPartnerSR_ID <= 0) set_Value ("C_BPartnerSR_ID", null);
  else 
-set_Value ("C_BPartnerSR_ID", new Integer(C_BPartnerSR_ID));
+set_Value ("C_BPartnerSR_ID", Integer.valueOf(C_BPartnerSR_ID));
 }
 /** Get BPartner (Agent).
 @return Business Partner (Agent or Sales Rep) */
@@ -143,7 +143,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -159,7 +159,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -175,7 +175,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -190,7 +190,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -206,7 +206,7 @@ public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID <= 0) set_Value ("C_PaymentTerm_ID", null);
  else 
-set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_Value ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -222,7 +222,7 @@ public void setC_Phase_ID (int C_Phase_ID)
 {
 if (C_Phase_ID <= 0) set_Value ("C_Phase_ID", null);
  else 
-set_Value ("C_Phase_ID", new Integer(C_Phase_ID));
+set_Value ("C_Phase_ID", Integer.valueOf(C_Phase_ID));
 }
 /** Get Standard Phase.
 @return Standard Phase of the Project Type */
@@ -254,7 +254,7 @@ return (String)get_Value("C_ProjectType_ID");
 public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID < 1) throw new IllegalArgumentException ("C_Project_ID is mandatory.");
-set_ValueNoCheck ("C_Project_ID", new Integer(C_Project_ID));
+set_ValueNoCheck ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -403,7 +403,7 @@ return bd;
 @param IsCommitCeiling The commitment amount/quantity is the chargeable ceiling  */
 public void setIsCommitCeiling (boolean IsCommitCeiling)
 {
-set_Value ("IsCommitCeiling", new Boolean(IsCommitCeiling));
+set_Value ("IsCommitCeiling", Boolean.valueOf(IsCommitCeiling));
 }
 /** Get Commitment is Ceiling.
 @return The commitment amount/quantity is the chargeable ceiling  */
@@ -421,7 +421,7 @@ return false;
 @param IsCommitment Is this document a (legal) commitment? */
 public void setIsCommitment (boolean IsCommitment)
 {
-set_Value ("IsCommitment", new Boolean(IsCommitment));
+set_Value ("IsCommitment", Boolean.valueOf(IsCommitment));
 }
 /** Get Commitment.
 @return Is this document a (legal) commitment? */
@@ -439,7 +439,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -459,7 +459,7 @@ public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 {
 if (M_PriceList_Version_ID <= 0) set_Value ("M_PriceList_Version_ID", null);
  else 
-set_Value ("M_PriceList_Version_ID", new Integer(M_PriceList_Version_ID));
+set_Value ("M_PriceList_Version_ID", Integer.valueOf(M_PriceList_Version_ID));
 }
 /** Get Price List Version.
 @return Identifies a unique instance of a Price List */
@@ -475,7 +475,7 @@ public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID <= 0) set_Value ("M_Warehouse_ID", null);
  else 
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -586,7 +586,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -604,7 +604,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -734,7 +734,7 @@ public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID <= 0) set_Value ("SalesRep_ID", null);
  else 
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

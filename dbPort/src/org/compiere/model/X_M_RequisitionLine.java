@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RequisitionLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_RequisitionLine extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_RequisitionLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=703 */
-public static final int Table_ID=703;
+public static final int Table_ID=MTable.getTable_ID("M_RequisitionLine");
 
 /** TableName=M_RequisitionLine */
 public static final String Table_Name="M_RequisitionLine";
 
-protected static KeyNamePair Model = new KeyNamePair(703,"M_RequisitionLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RequisitionLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -112,7 +112,7 @@ public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID <= 0) set_Value ("C_OrderLine_ID", null);
  else 
-set_Value ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_Value ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */
@@ -143,7 +143,7 @@ return (String)get_Value("Description");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -180,7 +180,7 @@ public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID <= 0) set_Value ("M_AttributeSetInstance_ID", null);
  else 
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -196,7 +196,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -211,7 +211,7 @@ return ii.intValue();
 public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
 {
 if (M_RequisitionLine_ID < 1) throw new IllegalArgumentException ("M_RequisitionLine_ID is mandatory.");
-set_ValueNoCheck ("M_RequisitionLine_ID", new Integer(M_RequisitionLine_ID));
+set_ValueNoCheck ("M_RequisitionLine_ID", Integer.valueOf(M_RequisitionLine_ID));
 }
 /** Get Requisition Line.
 @return Material Requisition Line */
@@ -226,7 +226,7 @@ return ii.intValue();
 public void setM_Requisition_ID (int M_Requisition_ID)
 {
 if (M_Requisition_ID < 1) throw new IllegalArgumentException ("M_Requisition_ID is mandatory.");
-set_ValueNoCheck ("M_Requisition_ID", new Integer(M_Requisition_ID));
+set_ValueNoCheck ("M_Requisition_ID", Integer.valueOf(M_Requisition_ID));
 }
 /** Get Requisition.
 @return Material Requisition */

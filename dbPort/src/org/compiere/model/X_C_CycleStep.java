@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CycleStep
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CycleStep extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_CycleStep (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=590 */
-public static final int Table_ID=590;
+public static final int Table_ID=MTable.getTable_ID("C_CycleStep");
 
 /** TableName=C_CycleStep */
 public static final String Table_Name="C_CycleStep";
 
-protected static KeyNamePair Model = new KeyNamePair(590,"C_CycleStep");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CycleStep");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_CycleStep_ID (int C_CycleStep_ID)
 {
 if (C_CycleStep_ID < 1) throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
-set_ValueNoCheck ("C_CycleStep_ID", new Integer(C_CycleStep_ID));
+set_ValueNoCheck ("C_CycleStep_ID", Integer.valueOf(C_CycleStep_ID));
 }
 /** Get Cycle Step.
 @return The step for this Cycle */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_Cycle_ID (int C_Cycle_ID)
 {
 if (C_Cycle_ID < 1) throw new IllegalArgumentException ("C_Cycle_ID is mandatory.");
-set_ValueNoCheck ("C_Cycle_ID", new Integer(C_Cycle_ID));
+set_ValueNoCheck ("C_Cycle_ID", Integer.valueOf(C_Cycle_ID));
 }
 /** Get Project Cycle.
 @return Identifier for this Project Reporting Cycle */
@@ -163,7 +163,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

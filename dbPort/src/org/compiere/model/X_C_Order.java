@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Order
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Order extends PO
 {
 /** Standard Constructor
@@ -92,12 +92,12 @@ public X_C_Order (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=259 */
-public static final int Table_ID=259;
+public static final int Table_ID=MTable.getTable_ID("C_Order");
 
 /** TableName=C_Order */
 public static final String Table_Name="C_Order";
 
-protected static KeyNamePair Model = new KeyNamePair(259,"C_Order");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Order");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -133,7 +133,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -149,7 +149,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -168,7 +168,7 @@ public void setBill_BPartner_ID (int Bill_BPartner_ID)
 {
 if (Bill_BPartner_ID <= 0) set_Value ("Bill_BPartner_ID", null);
  else 
-set_Value ("Bill_BPartner_ID", new Integer(Bill_BPartner_ID));
+set_Value ("Bill_BPartner_ID", Integer.valueOf(Bill_BPartner_ID));
 }
 /** Get Invoice Partner.
 @return Business Partner to be invoiced */
@@ -187,7 +187,7 @@ public void setBill_Location_ID (int Bill_Location_ID)
 {
 if (Bill_Location_ID <= 0) set_Value ("Bill_Location_ID", null);
  else 
-set_Value ("Bill_Location_ID", new Integer(Bill_Location_ID));
+set_Value ("Bill_Location_ID", Integer.valueOf(Bill_Location_ID));
 }
 /** Get Invoice Location.
 @return Business Partner Location for invoicing */
@@ -206,7 +206,7 @@ public void setBill_User_ID (int Bill_User_ID)
 {
 if (Bill_User_ID <= 0) set_Value ("Bill_User_ID", null);
  else 
-set_Value ("Bill_User_ID", new Integer(Bill_User_ID));
+set_Value ("Bill_User_ID", Integer.valueOf(Bill_User_ID));
 }
 /** Get Invoice Contact.
 @return Business Partner Contact for invoicing */
@@ -222,7 +222,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -237,7 +237,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -252,7 +252,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -268,7 +268,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -284,7 +284,7 @@ public void setC_CashLine_ID (int C_CashLine_ID)
 {
 if (C_CashLine_ID <= 0) set_Value ("C_CashLine_ID", null);
  else 
-set_Value ("C_CashLine_ID", new Integer(C_CashLine_ID));
+set_Value ("C_CashLine_ID", Integer.valueOf(C_CashLine_ID));
 }
 /** Get Cash Journal Line.
 @return Cash Journal Line */
@@ -303,7 +303,7 @@ public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
  else 
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -319,7 +319,7 @@ public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID <= 0) set_Value ("C_ConversionType_ID", null);
  else 
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -334,7 +334,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -352,7 +352,7 @@ public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=170;
 public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 {
 if (C_DocTypeTarget_ID < 1) throw new IllegalArgumentException ("C_DocTypeTarget_ID is mandatory.");
-set_Value ("C_DocTypeTarget_ID", new Integer(C_DocTypeTarget_ID));
+set_Value ("C_DocTypeTarget_ID", Integer.valueOf(C_DocTypeTarget_ID));
 }
 /** Get Target Document Type.
 @return Target document type for conversing documents */
@@ -370,7 +370,7 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_ValueNoCheck ("C_DocType_ID", new Integer(C_DocType_ID));
+set_ValueNoCheck ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -385,7 +385,7 @@ return ii.intValue();
 public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID < 1) throw new IllegalArgumentException ("C_Order_ID is mandatory.");
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -400,7 +400,7 @@ return ii.intValue();
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID < 1) throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_Value ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -416,7 +416,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -432,7 +432,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -823,7 +823,7 @@ return (String)get_Value("InvoiceRule");
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_ValueNoCheck ("IsApproved", new Boolean(IsApproved));
+set_ValueNoCheck ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -841,7 +841,7 @@ return false;
 @param IsCreditApproved Credit  has been approved */
 public void setIsCreditApproved (boolean IsCreditApproved)
 {
-set_ValueNoCheck ("IsCreditApproved", new Boolean(IsCreditApproved));
+set_ValueNoCheck ("IsCreditApproved", Boolean.valueOf(IsCreditApproved));
 }
 /** Get Credit Approved.
 @return Credit  has been approved */
@@ -859,7 +859,7 @@ return false;
 @param IsDelivered Delivered */
 public void setIsDelivered (boolean IsDelivered)
 {
-set_ValueNoCheck ("IsDelivered", new Boolean(IsDelivered));
+set_ValueNoCheck ("IsDelivered", Boolean.valueOf(IsDelivered));
 }
 /** Get Delivered.
 @return Delivered */
@@ -877,7 +877,7 @@ return false;
 @param IsDiscountPrinted Print Discount on Invoice and Order */
 public void setIsDiscountPrinted (boolean IsDiscountPrinted)
 {
-set_Value ("IsDiscountPrinted", new Boolean(IsDiscountPrinted));
+set_Value ("IsDiscountPrinted", Boolean.valueOf(IsDiscountPrinted));
 }
 /** Get Discount Printed.
 @return Print Discount on Invoice and Order */
@@ -895,7 +895,7 @@ return false;
 @param IsDropShip Drop Shipments are sent from the Vendor directly to the Customer */
 public void setIsDropShip (boolean IsDropShip)
 {
-set_ValueNoCheck ("IsDropShip", new Boolean(IsDropShip));
+set_ValueNoCheck ("IsDropShip", Boolean.valueOf(IsDropShip));
 }
 /** Get Drop Shipment.
 @return Drop Shipments are sent from the Vendor directly to the Customer */
@@ -913,7 +913,7 @@ return false;
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
 {
-set_ValueNoCheck ("IsInvoiced", new Boolean(IsInvoiced));
+set_ValueNoCheck ("IsInvoiced", Boolean.valueOf(IsInvoiced));
 }
 /** Get Invoiced.
 @return Is this invoiced? */
@@ -931,7 +931,7 @@ return false;
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_ValueNoCheck ("IsPrinted", new Boolean(IsPrinted));
+set_ValueNoCheck ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -949,7 +949,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -967,7 +967,7 @@ return false;
 @param IsSelected Selected */
 public void setIsSelected (boolean IsSelected)
 {
-set_Value ("IsSelected", new Boolean(IsSelected));
+set_Value ("IsSelected", Boolean.valueOf(IsSelected));
 }
 /** Get Selected.
 @return Selected */
@@ -985,7 +985,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -1003,7 +1003,7 @@ return false;
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
 {
-set_Value ("IsTaxIncluded", new Boolean(IsTaxIncluded));
+set_Value ("IsTaxIncluded", Boolean.valueOf(IsTaxIncluded));
 }
 /** Get Price includes Tax.
 @return Tax is included in the price  */
@@ -1021,7 +1021,7 @@ return false;
 @param IsTransferred Transferred to General Ledger (i.e. accounted) */
 public void setIsTransferred (boolean IsTransferred)
 {
-set_ValueNoCheck ("IsTransferred", new Boolean(IsTransferred));
+set_ValueNoCheck ("IsTransferred", Boolean.valueOf(IsTransferred));
 }
 /** Get Transferred.
 @return Transferred to General Ledger (i.e. accounted) */
@@ -1040,7 +1040,7 @@ return false;
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -1056,7 +1056,7 @@ public void setM_Shipper_ID (int M_Shipper_ID)
 {
 if (M_Shipper_ID <= 0) set_Value ("M_Shipper_ID", null);
  else 
-set_Value ("M_Shipper_ID", new Integer(M_Shipper_ID));
+set_Value ("M_Shipper_ID", Integer.valueOf(M_Shipper_ID));
 }
 /** Get Shipper.
 @return Method or manner of product delivery */
@@ -1071,7 +1071,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -1104,7 +1104,7 @@ public void setPay_BPartner_ID (int Pay_BPartner_ID)
 {
 if (Pay_BPartner_ID <= 0) set_Value ("Pay_BPartner_ID", null);
  else 
-set_Value ("Pay_BPartner_ID", new Integer(Pay_BPartner_ID));
+set_Value ("Pay_BPartner_ID", Integer.valueOf(Pay_BPartner_ID));
 }
 /** Get Payment BPartner.
 @return Business Partner responsible for the payment */
@@ -1120,7 +1120,7 @@ public void setPay_Location_ID (int Pay_Location_ID)
 {
 if (Pay_Location_ID <= 0) set_Value ("Pay_Location_ID", null);
  else 
-set_Value ("Pay_Location_ID", new Integer(Pay_Location_ID));
+set_Value ("Pay_Location_ID", Integer.valueOf(Pay_Location_ID));
 }
 /** Get Payment Location.
 @return Location of the Business Partner responsible for the payment */
@@ -1169,7 +1169,7 @@ return (String)get_Value("PaymentRule");
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_Value ("Posted", new Boolean(Posted));
+set_Value ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -1220,7 +1220,7 @@ return (String)get_Value("PriorityRule");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -1238,7 +1238,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -1261,7 +1261,7 @@ public void setRef_Order_ID (int Ref_Order_ID)
 {
 if (Ref_Order_ID <= 0) set_Value ("Ref_Order_ID", null);
  else 
-set_Value ("Ref_Order_ID", new Integer(Ref_Order_ID));
+set_Value ("Ref_Order_ID", Integer.valueOf(Ref_Order_ID));
 }
 /** Get Referenced Order.
 @return Reference to corresponding Sales/Purchase Order */
@@ -1279,7 +1279,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */
@@ -1293,7 +1293,7 @@ return ii.intValue();
 @param SendEMail Enable sending Document EMail */
 public void setSendEMail (boolean SendEMail)
 {
-set_Value ("SendEMail", new Boolean(SendEMail));
+set_Value ("SendEMail", Boolean.valueOf(SendEMail));
 }
 /** Get Send EMail.
 @return Enable sending Document EMail */
@@ -1331,7 +1331,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -1350,7 +1350,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

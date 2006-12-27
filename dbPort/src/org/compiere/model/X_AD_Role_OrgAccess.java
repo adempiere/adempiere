@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Role_OrgAccess
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Role_OrgAccess extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_Role_OrgAccess (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=422 */
-public static final int Table_ID=422;
+public static final int Table_ID=MTable.getTable_ID("AD_Role_OrgAccess");
 
 /** TableName=AD_Role_OrgAccess */
 public static final String Table_Name="AD_Role_OrgAccess";
 
-protected static KeyNamePair Model = new KeyNamePair(422,"AD_Role_OrgAccess");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Role_OrgAccess");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID < 0) throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+set_ValueNoCheck ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -105,7 +105,7 @@ return ii.intValue();
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RMAType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_RMAType extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_RMAType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=729 */
-public static final int Table_ID=729;
+public static final int Table_ID=MTable.getTable_ID("M_RMAType");
 
 /** TableName=M_RMAType */
 public static final String Table_Name="M_RMAType";
 
-protected static KeyNamePair Model = new KeyNamePair(729,"M_RMAType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RMAType");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("Help");
 public void setM_RMAType_ID (int M_RMAType_ID)
 {
 if (M_RMAType_ID < 1) throw new IllegalArgumentException ("M_RMAType_ID is mandatory.");
-set_ValueNoCheck ("M_RMAType_ID", new Integer(M_RMAType_ID));
+set_ValueNoCheck ("M_RMAType_ID", Integer.valueOf(M_RMAType_ID));
 }
 /** Get RMA Type.
 @return Return Material Authorization Type */

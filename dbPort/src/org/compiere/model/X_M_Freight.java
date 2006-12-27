@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Freight
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Freight extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_Freight (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=596 */
-public static final int Table_ID=596;
+public static final int Table_ID=MTable.getTable_ID("M_Freight");
 
 /** TableName=M_Freight */
 public static final String Table_Name="M_Freight";
 
-protected static KeyNamePair Model = new KeyNamePair(596,"M_Freight");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Freight");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID <= 0) set_Value ("C_Country_ID", null);
  else 
-set_Value ("C_Country_ID", new Integer(C_Country_ID));
+set_Value ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -127,7 +127,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_Value ("C_Region_ID", null);
  else 
-set_Value ("C_Region_ID", new Integer(C_Region_ID));
+set_Value ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */
@@ -157,7 +157,7 @@ return bd;
 public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 {
 if (M_FreightCategory_ID < 1) throw new IllegalArgumentException ("M_FreightCategory_ID is mandatory.");
-set_Value ("M_FreightCategory_ID", new Integer(M_FreightCategory_ID));
+set_Value ("M_FreightCategory_ID", Integer.valueOf(M_FreightCategory_ID));
 }
 /** Get Freight Category.
 @return Category of the Freight */
@@ -172,7 +172,7 @@ return ii.intValue();
 public void setM_Freight_ID (int M_Freight_ID)
 {
 if (M_Freight_ID < 1) throw new IllegalArgumentException ("M_Freight_ID is mandatory.");
-set_ValueNoCheck ("M_Freight_ID", new Integer(M_Freight_ID));
+set_ValueNoCheck ("M_Freight_ID", Integer.valueOf(M_Freight_ID));
 }
 /** Get Freight.
 @return Freight Rate */
@@ -187,7 +187,7 @@ return ii.intValue();
 public void setM_Shipper_ID (int M_Shipper_ID)
 {
 if (M_Shipper_ID < 1) throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-set_ValueNoCheck ("M_Shipper_ID", new Integer(M_Shipper_ID));
+set_ValueNoCheck ("M_Shipper_ID", Integer.valueOf(M_Shipper_ID));
 }
 /** Get Shipper.
 @return Method or manner of product delivery */
@@ -212,7 +212,7 @@ public void setTo_Country_ID (int To_Country_ID)
 {
 if (To_Country_ID <= 0) set_Value ("To_Country_ID", null);
  else 
-set_Value ("To_Country_ID", new Integer(To_Country_ID));
+set_Value ("To_Country_ID", Integer.valueOf(To_Country_ID));
 }
 /** Get To.
 @return Receiving Country */
@@ -231,7 +231,7 @@ public void setTo_Region_ID (int To_Region_ID)
 {
 if (To_Region_ID <= 0) set_Value ("To_Region_ID", null);
  else 
-set_Value ("To_Region_ID", new Integer(To_Region_ID));
+set_Value ("To_Region_ID", Integer.valueOf(To_Region_ID));
 }
 /** Get To.
 @return Receiving Region */

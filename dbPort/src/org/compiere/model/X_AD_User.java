@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_User
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_User extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_User (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=114 */
-public static final int Table_ID=114;
+public static final int Table_ID=MTable.getTable_ID("AD_User");
 
 /** TableName=AD_User */
 public static final String Table_Name="AD_User";
 
-protected static KeyNamePair Model = new KeyNamePair(114,"AD_User");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_User");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -140,7 +140,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -156,7 +156,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -172,7 +172,7 @@ public void setC_Greeting_ID (int C_Greeting_ID)
 {
 if (C_Greeting_ID <= 0) set_Value ("C_Greeting_ID", null);
  else 
-set_Value ("C_Greeting_ID", new Integer(C_Greeting_ID));
+set_Value ("C_Greeting_ID", Integer.valueOf(C_Greeting_ID));
 }
 /** Get Greeting.
 @return Greeting to print on correspondence */
@@ -188,7 +188,7 @@ public void setC_Job_ID (int C_Job_ID)
 {
 if (C_Job_ID <= 0) set_Value ("C_Job_ID", null);
  else 
-set_Value ("C_Job_ID", new Integer(C_Job_ID));
+set_Value ("C_Job_ID", Integer.valueOf(C_Job_ID));
 }
 /** Get Position.
 @return Job Position */
@@ -363,7 +363,7 @@ return (String)get_Value("Fax");
 @param IsFullBPAccess The user/concat has full access to Business Partner information and resources */
 public void setIsFullBPAccess (boolean IsFullBPAccess)
 {
-set_Value ("IsFullBPAccess", new Boolean(IsFullBPAccess));
+set_Value ("IsFullBPAccess", Boolean.valueOf(IsFullBPAccess));
 }
 /** Get Full BP Access.
 @return The user/concat has full access to Business Partner information and resources */
@@ -533,7 +533,7 @@ return (String)get_Value("Phone2");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -556,7 +556,7 @@ public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID <= 0) set_Value ("Supervisor_ID", null);
  else 
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

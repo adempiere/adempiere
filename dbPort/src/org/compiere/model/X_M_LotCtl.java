@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_LotCtl
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_LotCtl extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_LotCtl (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=556 */
-public static final int Table_ID=556;
+public static final int Table_ID=MTable.getTable_ID("M_LotCtl");
 
 /** TableName=M_LotCtl */
 public static final String Table_Name="M_LotCtl";
 
-protected static KeyNamePair Model = new KeyNamePair(556,"M_LotCtl");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_LotCtl");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
 {
-set_Value ("CurrentNext", new Integer(CurrentNext));
+set_Value ("CurrentNext", Integer.valueOf(CurrentNext));
 }
 /** Get Current Next.
 @return The next number to be used */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 @param IncrementNo The number to increment the last document number by */
 public void setIncrementNo (int IncrementNo)
 {
-set_Value ("IncrementNo", new Integer(IncrementNo));
+set_Value ("IncrementNo", Integer.valueOf(IncrementNo));
 }
 /** Get Increment.
 @return The number to increment the last document number by */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setM_LotCtl_ID (int M_LotCtl_ID)
 {
 if (M_LotCtl_ID < 1) throw new IllegalArgumentException ("M_LotCtl_ID is mandatory.");
-set_ValueNoCheck ("M_LotCtl_ID", new Integer(M_LotCtl_ID));
+set_ValueNoCheck ("M_LotCtl_ID", Integer.valueOf(M_LotCtl_ID));
 }
 /** Get Lot Control.
 @return Product Lot Control */
@@ -194,7 +194,7 @@ return (String)get_Value("Prefix");
 @param StartNo Starting number/position */
 public void setStartNo (int StartNo)
 {
-set_Value ("StartNo", new Integer(StartNo));
+set_Value ("StartNo", Integer.valueOf(StartNo));
 }
 /** Get Start No.
 @return Starting number/position */

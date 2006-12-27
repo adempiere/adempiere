@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatementLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankStatementLine extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_C_BankStatementLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=393 */
-public static final int Table_ID=393;
+public static final int Table_ID=MTable.getTable_ID("C_BankStatementLine");
 
 /** TableName=C_BankStatementLine */
 public static final String Table_Name="C_BankStatementLine";
 
-protected static KeyNamePair Model = new KeyNamePair(393,"C_BankStatementLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankStatementLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -105,7 +105,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -120,7 +120,7 @@ return ii.intValue();
 public void setC_BankStatementLine_ID (int C_BankStatementLine_ID)
 {
 if (C_BankStatementLine_ID < 1) throw new IllegalArgumentException ("C_BankStatementLine_ID is mandatory.");
-set_ValueNoCheck ("C_BankStatementLine_ID", new Integer(C_BankStatementLine_ID));
+set_ValueNoCheck ("C_BankStatementLine_ID", Integer.valueOf(C_BankStatementLine_ID));
 }
 /** Get Bank statement line.
 @return Line on a statement from this Bank */
@@ -135,7 +135,7 @@ return ii.intValue();
 public void setC_BankStatement_ID (int C_BankStatement_ID)
 {
 if (C_BankStatement_ID < 1) throw new IllegalArgumentException ("C_BankStatement_ID is mandatory.");
-set_ValueNoCheck ("C_BankStatement_ID", new Integer(C_BankStatement_ID));
+set_ValueNoCheck ("C_BankStatement_ID", Integer.valueOf(C_BankStatement_ID));
 }
 /** Get Bank Statement.
 @return Bank Statement of account */
@@ -150,7 +150,7 @@ return ii.intValue();
 public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID < 1) throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -165,7 +165,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -181,7 +181,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -197,7 +197,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -462,7 +462,7 @@ return bd;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -480,7 +480,7 @@ return false;
 @param IsReversal This is a reversing transaction */
 public void setIsReversal (boolean IsReversal)
 {
-set_Value ("IsReversal", new Boolean(IsReversal));
+set_Value ("IsReversal", Boolean.valueOf(IsReversal));
 }
 /** Get Reversal.
 @return This is a reversing transaction */
@@ -498,7 +498,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -552,7 +552,7 @@ return (String)get_Value("Memo");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

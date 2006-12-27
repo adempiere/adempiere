@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Inventory
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_Inventory extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_Inventory (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=572 */
-public static final int Table_ID=572;
+public static final int Table_ID=MTable.getTable_ID("I_Inventory");
 
 /** TableName=I_Inventory */
 public static final String Table_Name="I_Inventory";
 
-protected static KeyNamePair Model = new KeyNamePair(572,"I_Inventory");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_Inventory");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("I_ErrorMsg");
 public void setI_Inventory_ID (int I_Inventory_ID)
 {
 if (I_Inventory_ID < 1) throw new IllegalArgumentException ("I_Inventory_ID is mandatory.");
-set_ValueNoCheck ("I_Inventory_ID", new Integer(I_Inventory_ID));
+set_ValueNoCheck ("I_Inventory_ID", Integer.valueOf(I_Inventory_ID));
 }
 /** Get Import Inventory.
 @return Import Inventory Transactions */
@@ -145,7 +145,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getI_Inventory_ID()));
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -199,7 +199,7 @@ public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID <= 0) set_Value ("M_InventoryLine_ID", null);
  else 
-set_Value ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_Value ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -215,7 +215,7 @@ public void setM_Inventory_ID (int M_Inventory_ID)
 {
 if (M_Inventory_ID <= 0) set_Value ("M_Inventory_ID", null);
  else 
-set_Value ("M_Inventory_ID", new Integer(M_Inventory_ID));
+set_Value ("M_Inventory_ID", Integer.valueOf(M_Inventory_ID));
 }
 /** Get Phys.Inventory.
 @return Parameters for a Physical Inventory */
@@ -231,7 +231,7 @@ public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID <= 0) set_Value ("M_Locator_ID", null);
  else 
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -247,7 +247,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -263,7 +263,7 @@ public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID <= 0) set_Value ("M_Warehouse_ID", null);
  else 
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -289,7 +289,7 @@ return (Timestamp)get_Value("MovementDate");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -307,7 +307,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_SchedulerRecipient
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_SchedulerRecipient extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_SchedulerRecipient (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=704 */
-public static final int Table_ID=704;
+public static final int Table_ID=MTable.getTable_ID("AD_SchedulerRecipient");
 
 /** TableName=AD_SchedulerRecipient */
 public static final String Table_Name="AD_SchedulerRecipient";
 
-protected static KeyNamePair Model = new KeyNamePair(704,"AD_SchedulerRecipient");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_SchedulerRecipient");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID <= 0) set_Value ("AD_Role_ID", null);
  else 
-set_Value ("AD_Role_ID", new Integer(AD_Role_ID));
+set_Value ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID)
 {
 if (AD_SchedulerRecipient_ID < 1) throw new IllegalArgumentException ("AD_SchedulerRecipient_ID is mandatory.");
-set_ValueNoCheck ("AD_SchedulerRecipient_ID", new Integer(AD_SchedulerRecipient_ID));
+set_ValueNoCheck ("AD_SchedulerRecipient_ID", Integer.valueOf(AD_SchedulerRecipient_ID));
 }
 /** Get Scheduler Recipient.
 @return Recipient of the Scheduler Notification */
@@ -122,7 +122,7 @@ return ii.intValue();
 public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 {
 if (AD_Scheduler_ID < 1) throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-set_ValueNoCheck ("AD_Scheduler_ID", new Integer(AD_Scheduler_ID));
+set_ValueNoCheck ("AD_Scheduler_ID", Integer.valueOf(AD_Scheduler_ID));
 }
 /** Get Scheduler.
 @return Schedule Processes */
@@ -138,7 +138,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */

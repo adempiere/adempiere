@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRunEntry
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DunningRunEntry extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_DunningRunEntry (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=527 */
-public static final int Table_ID=527;
+public static final int Table_ID=MTable.getTable_ID("C_DunningRunEntry");
 
 /** TableName=C_DunningRunEntry */
 public static final String Table_Name="C_DunningRunEntry";
 
-protected static KeyNamePair Model = new KeyNamePair(527,"C_DunningRunEntry");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DunningRunEntry");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -129,7 +129,7 @@ return bd;
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -144,7 +144,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -159,7 +159,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -174,7 +174,7 @@ return ii.intValue();
 public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
 {
 if (C_DunningRunEntry_ID < 1) throw new IllegalArgumentException ("C_DunningRunEntry_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRunEntry_ID", new Integer(C_DunningRunEntry_ID));
+set_ValueNoCheck ("C_DunningRunEntry_ID", Integer.valueOf(C_DunningRunEntry_ID));
 }
 /** Get Dunning Run Entry.
 @return Dunning Run Entry */
@@ -189,7 +189,7 @@ return ii.intValue();
 public void setC_DunningRun_ID (int C_DunningRun_ID)
 {
 if (C_DunningRun_ID < 1) throw new IllegalArgumentException ("C_DunningRun_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRun_ID", new Integer(C_DunningRun_ID));
+set_ValueNoCheck ("C_DunningRun_ID", Integer.valueOf(C_DunningRun_ID));
 }
 /** Get Dunning Run.
 @return Dunning Run */
@@ -226,7 +226,7 @@ return (String)get_Value("Note");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -263,7 +263,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

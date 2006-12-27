@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Language
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Language extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Language (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=111 */
-public static final int Table_ID=111;
+public static final int Table_ID=MTable.getTable_ID("AD_Language");
 
 /** TableName=AD_Language */
 public static final String Table_Name="AD_Language";
 
-protected static KeyNamePair Model = new KeyNamePair(111,"AD_Language");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Language");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -113,7 +113,7 @@ return (String)get_Value("AD_Language");
 public void setAD_Language_ID (int AD_Language_ID)
 {
 if (AD_Language_ID < 1) throw new IllegalArgumentException ("AD_Language_ID is mandatory.");
-set_ValueNoCheck ("AD_Language_ID", new Integer(AD_Language_ID));
+set_ValueNoCheck ("AD_Language_ID", Integer.valueOf(AD_Language_ID));
 }
 /** Get Language ID.
 @return Language ID */
@@ -161,7 +161,7 @@ return (String)get_Value("DatePattern");
 @param IsBaseLanguage The system information is maintained in this language */
 public void setIsBaseLanguage (boolean IsBaseLanguage)
 {
-set_ValueNoCheck ("IsBaseLanguage", new Boolean(IsBaseLanguage));
+set_ValueNoCheck ("IsBaseLanguage", Boolean.valueOf(IsBaseLanguage));
 }
 /** Get Base Language.
 @return The system information is maintained in this language */
@@ -179,7 +179,7 @@ return false;
 @param IsDecimalPoint The number notation has a decimal point (no decimal comma) */
 public void setIsDecimalPoint (boolean IsDecimalPoint)
 {
-set_Value ("IsDecimalPoint", new Boolean(IsDecimalPoint));
+set_Value ("IsDecimalPoint", Boolean.valueOf(IsDecimalPoint));
 }
 /** Get Decimal Point.
 @return The number notation has a decimal point (no decimal comma) */
@@ -197,7 +197,7 @@ return false;
 @param IsSystemLanguage The screens, etc. are maintained in this Language */
 public void setIsSystemLanguage (boolean IsSystemLanguage)
 {
-set_Value ("IsSystemLanguage", new Boolean(IsSystemLanguage));
+set_Value ("IsSystemLanguage", Boolean.valueOf(IsSystemLanguage));
 }
 /** Get System Language.
 @return The screens, etc. are maintained in this Language */
@@ -256,7 +256,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CashBook_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CashBook_Acct extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_CashBook_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=409 */
-public static final int Table_ID=409;
+public static final int Table_ID=MTable.getTable_ID("C_CashBook_Acct");
 
 /** TableName=C_CashBook_Acct */
 public static final String Table_Name="C_CashBook_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(409,"C_CashBook_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CashBook_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 @param CB_Asset_Acct Cash Book Asset Account */
 public void setCB_Asset_Acct (int CB_Asset_Acct)
 {
-set_Value ("CB_Asset_Acct", new Integer(CB_Asset_Acct));
+set_Value ("CB_Asset_Acct", Integer.valueOf(CB_Asset_Acct));
 }
 /** Get Cash Book Asset.
 @return Cash Book Asset Account */
@@ -109,7 +109,7 @@ return ii.intValue();
 @param CB_CashTransfer_Acct Cash Transfer Clearing Account */
 public void setCB_CashTransfer_Acct (int CB_CashTransfer_Acct)
 {
-set_Value ("CB_CashTransfer_Acct", new Integer(CB_CashTransfer_Acct));
+set_Value ("CB_CashTransfer_Acct", Integer.valueOf(CB_CashTransfer_Acct));
 }
 /** Get Cash Transfer.
 @return Cash Transfer Clearing Account */
@@ -123,7 +123,7 @@ return ii.intValue();
 @param CB_Differences_Acct Cash Book Differences Account */
 public void setCB_Differences_Acct (int CB_Differences_Acct)
 {
-set_Value ("CB_Differences_Acct", new Integer(CB_Differences_Acct));
+set_Value ("CB_Differences_Acct", Integer.valueOf(CB_Differences_Acct));
 }
 /** Get Cash Book Differences.
 @return Cash Book Differences Account */
@@ -137,7 +137,7 @@ return ii.intValue();
 @param CB_Expense_Acct Cash Book Expense Account */
 public void setCB_Expense_Acct (int CB_Expense_Acct)
 {
-set_Value ("CB_Expense_Acct", new Integer(CB_Expense_Acct));
+set_Value ("CB_Expense_Acct", Integer.valueOf(CB_Expense_Acct));
 }
 /** Get Cash Book Expense.
 @return Cash Book Expense Account */
@@ -151,7 +151,7 @@ return ii.intValue();
 @param CB_Receipt_Acct Cash Book Receipts Account */
 public void setCB_Receipt_Acct (int CB_Receipt_Acct)
 {
-set_Value ("CB_Receipt_Acct", new Integer(CB_Receipt_Acct));
+set_Value ("CB_Receipt_Acct", Integer.valueOf(CB_Receipt_Acct));
 }
 /** Get Cash Book Receipt.
 @return Cash Book Receipts Account */
@@ -166,7 +166,7 @@ return ii.intValue();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -181,7 +181,7 @@ return ii.intValue();
 public void setC_CashBook_ID (int C_CashBook_ID)
 {
 if (C_CashBook_ID < 1) throw new IllegalArgumentException ("C_CashBook_ID is mandatory.");
-set_ValueNoCheck ("C_CashBook_ID", new Integer(C_CashBook_ID));
+set_ValueNoCheck ("C_CashBook_ID", Integer.valueOf(C_CashBook_ID));
 }
 /** Get Cash Book.
 @return Cash Book for recording petty cash transactions */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Journal
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_Journal extends PO
 {
 /** Standard Constructor
@@ -72,12 +72,12 @@ public X_GL_Journal (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=224 */
-public static final int Table_ID=224;
+public static final int Table_ID=MTable.getTable_ID("GL_Journal");
 
 /** TableName=GL_Journal */
 public static final String Table_Name="GL_Journal";
 
-protected static KeyNamePair Model = new KeyNamePair(224,"GL_Journal");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_Journal");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -109,7 +109,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID < 1) throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -154,7 +154,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -172,7 +172,7 @@ public static final int C_PERIOD_ID_AD_Reference_ID=275;
 public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID < 1) throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-set_Value ("C_Period_ID", new Integer(C_Period_ID));
+set_Value ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -383,7 +383,7 @@ public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID <= 0) set_Value ("GL_Budget_ID", null);
  else 
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -398,7 +398,7 @@ return ii.intValue();
 public void setGL_Category_ID (int GL_Category_ID)
 {
 if (GL_Category_ID < 1) throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-set_Value ("GL_Category_ID", new Integer(GL_Category_ID));
+set_Value ("GL_Category_ID", Integer.valueOf(GL_Category_ID));
 }
 /** Get GL Category.
 @return General Ledger Category */
@@ -414,7 +414,7 @@ public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 {
 if (GL_JournalBatch_ID <= 0) set_ValueNoCheck ("GL_JournalBatch_ID", null);
  else 
-set_ValueNoCheck ("GL_JournalBatch_ID", new Integer(GL_JournalBatch_ID));
+set_ValueNoCheck ("GL_JournalBatch_ID", Integer.valueOf(GL_JournalBatch_ID));
 }
 /** Get Journal Batch.
 @return General Ledger Journal Batch */
@@ -429,7 +429,7 @@ return ii.intValue();
 public void setGL_Journal_ID (int GL_Journal_ID)
 {
 if (GL_Journal_ID < 1) throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-set_ValueNoCheck ("GL_Journal_ID", new Integer(GL_Journal_ID));
+set_ValueNoCheck ("GL_Journal_ID", Integer.valueOf(GL_Journal_ID));
 }
 /** Get Journal.
 @return General Ledger Journal */
@@ -443,7 +443,7 @@ return ii.intValue();
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_ValueNoCheck ("IsApproved", new Boolean(IsApproved));
+set_ValueNoCheck ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -461,7 +461,7 @@ return false;
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_ValueNoCheck ("IsPrinted", new Boolean(IsPrinted));
+set_ValueNoCheck ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -479,7 +479,7 @@ return false;
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_ValueNoCheck ("Posted", new Boolean(Posted));
+set_ValueNoCheck ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -530,7 +530,7 @@ return (String)get_Value("PostingType");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -548,7 +548,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

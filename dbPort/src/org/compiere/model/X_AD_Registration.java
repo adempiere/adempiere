@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Registration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Registration extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Registration (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=625 */
-public static final int Table_ID=625;
+public static final int Table_ID=MTable.getTable_ID("AD_Registration");
 
 /** TableName=AD_Registration */
 public static final String Table_Name="AD_Registration";
 
-protected static KeyNamePair Model = new KeyNamePair(625,"AD_Registration");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Registration");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_Registration_ID (int AD_Registration_ID)
 {
 if (AD_Registration_ID < 1) throw new IllegalArgumentException ("AD_Registration_ID is mandatory.");
-set_ValueNoCheck ("AD_Registration_ID", new Integer(AD_Registration_ID));
+set_ValueNoCheck ("AD_Registration_ID", Integer.valueOf(AD_Registration_ID));
 }
 /** Get System Registration.
 @return System Registration */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setAD_System_ID (int AD_System_ID)
 {
 if (AD_System_ID < 1) throw new IllegalArgumentException ("AD_System_ID is mandatory.");
-set_ValueNoCheck ("AD_System_ID", new Integer(AD_System_ID));
+set_ValueNoCheck ("AD_System_ID", Integer.valueOf(AD_System_ID));
 }
 /** Get System.
 @return System Definition */
@@ -126,7 +126,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -142,7 +142,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -190,7 +190,7 @@ return (String)get_Value("IndustryInfo");
 @param IsAllowPublish You allow to publish the information, not just statistical summary info */
 public void setIsAllowPublish (boolean IsAllowPublish)
 {
-set_Value ("IsAllowPublish", new Boolean(IsAllowPublish));
+set_Value ("IsAllowPublish", Boolean.valueOf(IsAllowPublish));
 }
 /** Get Allowed to be Published.
 @return You allow to publish the information, not just statistical summary info */
@@ -208,7 +208,7 @@ return false;
 @param IsAllowStatistics Maintain general statistics */
 public void setIsAllowStatistics (boolean IsAllowStatistics)
 {
-set_Value ("IsAllowStatistics", new Boolean(IsAllowStatistics));
+set_Value ("IsAllowStatistics", Boolean.valueOf(IsAllowStatistics));
 }
 /** Get Maintain Statistics.
 @return Maintain general statistics */
@@ -226,7 +226,7 @@ return false;
 @param IsInProduction The system is in production */
 public void setIsInProduction (boolean IsInProduction)
 {
-set_Value ("IsInProduction", new Boolean(IsInProduction));
+set_Value ("IsInProduction", Boolean.valueOf(IsInProduction));
 }
 /** Get In Production.
 @return The system is in production */
@@ -244,7 +244,7 @@ return false;
 @param IsRegistered The application is registered. */
 public void setIsRegistered (boolean IsRegistered)
 {
-set_ValueNoCheck ("IsRegistered", new Boolean(IsRegistered));
+set_ValueNoCheck ("IsRegistered", Boolean.valueOf(IsRegistered));
 }
 /** Get Registered.
 @return The application is registered. */
@@ -262,7 +262,7 @@ return false;
 @param NumberEmployees Number of employees */
 public void setNumberEmployees (int NumberEmployees)
 {
-set_Value ("NumberEmployees", new Integer(NumberEmployees));
+set_Value ("NumberEmployees", Integer.valueOf(NumberEmployees));
 }
 /** Get Employees.
 @return Number of employees */
@@ -293,7 +293,7 @@ return (String)get_Value("PlatformInfo");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -313,7 +313,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_ValueNoCheck ("Record_ID", null);
  else 
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -361,7 +361,7 @@ return (String)get_Value("Remote_Host");
 @param SalesVolume Total Volume of Sales in Thousands of Currency */
 public void setSalesVolume (int SalesVolume)
 {
-set_Value ("SalesVolume", new Integer(SalesVolume));
+set_Value ("SalesVolume", Integer.valueOf(SalesVolume));
 }
 /** Get Sales Volume in 1.000.
 @return Total Volume of Sales in Thousands of Currency */
@@ -372,13 +372,13 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Start Implementation/Production.
-@param StartProductionDate The day you started the implementation (if implementing) - or production (went life) with Compiere */
+@param StartProductionDate The day you started the implementation (if implementing) - or production (went life) with Adempiere */
 public void setStartProductionDate (Timestamp StartProductionDate)
 {
 set_Value ("StartProductionDate", StartProductionDate);
 }
 /** Get Start Implementation/Production.
-@return The day you started the implementation (if implementing) - or production (went life) with Compiere */
+@return The day you started the implementation (if implementing) - or production (went life) with Adempiere */
 public Timestamp getStartProductionDate() 
 {
 return (Timestamp)get_Value("StartProductionDate");

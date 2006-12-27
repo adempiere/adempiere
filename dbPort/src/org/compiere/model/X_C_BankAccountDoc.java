@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankAccountDoc
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankAccountDoc extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_BankAccountDoc (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=455 */
-public static final int Table_ID=455;
+public static final int Table_ID=MTable.getTable_ID("C_BankAccountDoc");
 
 /** TableName=C_BankAccountDoc */
 public static final String Table_Name="C_BankAccountDoc";
 
-protected static KeyNamePair Model = new KeyNamePair(455,"C_BankAccountDoc");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankAccountDoc");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID)
 {
 if (C_BankAccountDoc_ID < 1) throw new IllegalArgumentException ("C_BankAccountDoc_ID is mandatory.");
-set_ValueNoCheck ("C_BankAccountDoc_ID", new Integer(C_BankAccountDoc_ID));
+set_ValueNoCheck ("C_BankAccountDoc_ID", Integer.valueOf(C_BankAccountDoc_ID));
 }
 /** Get Bank Account Document.
 @return Checks, Transfers, etc. */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_ValueNoCheck ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_ValueNoCheck ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -128,7 +128,7 @@ public void setCheck_PrintFormat_ID (int Check_PrintFormat_ID)
 {
 if (Check_PrintFormat_ID <= 0) set_Value ("Check_PrintFormat_ID", null);
  else 
-set_Value ("Check_PrintFormat_ID", new Integer(Check_PrintFormat_ID));
+set_Value ("Check_PrintFormat_ID", Integer.valueOf(Check_PrintFormat_ID));
 }
 /** Get Check Print Format.
 @return Print Format for printing Checks */
@@ -142,7 +142,7 @@ return ii.intValue();
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
 {
-set_Value ("CurrentNext", new Integer(CurrentNext));
+set_Value ("CurrentNext", Integer.valueOf(CurrentNext));
 }
 /** Get Current Next.
 @return The next number to be used */

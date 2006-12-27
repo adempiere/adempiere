@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQLineQty
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQLineQty extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_RfQLineQty (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=675 */
-public static final int Table_ID=675;
+public static final int Table_ID=MTable.getTable_ID("C_RfQLineQty");
 
 /** TableName=C_RfQLineQty */
 public static final String Table_Name="C_RfQLineQty";
 
-protected static KeyNamePair Model = new KeyNamePair(675,"C_RfQLineQty");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQLineQty");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -126,7 +126,7 @@ return bd;
 public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
 {
 if (C_RfQLineQty_ID < 1) throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
-set_ValueNoCheck ("C_RfQLineQty_ID", new Integer(C_RfQLineQty_ID));
+set_ValueNoCheck ("C_RfQLineQty_ID", Integer.valueOf(C_RfQLineQty_ID));
 }
 /** Get RfQ Line Quantity.
 @return Request for Quotation Line Quantity */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setC_RfQLine_ID (int C_RfQLine_ID)
 {
 if (C_RfQLine_ID < 1) throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-set_ValueNoCheck ("C_RfQLine_ID", new Integer(C_RfQLine_ID));
+set_ValueNoCheck ("C_RfQLine_ID", Integer.valueOf(C_RfQLine_ID));
 }
 /** Get RfQ Line.
 @return Request for Quotation Line */
@@ -156,7 +156,7 @@ return ii.intValue();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -176,7 +176,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_ID()));
 @param IsOfferQty This quantity is used in the Offer to the Customer */
 public void setIsOfferQty (boolean IsOfferQty)
 {
-set_Value ("IsOfferQty", new Boolean(IsOfferQty));
+set_Value ("IsOfferQty", Boolean.valueOf(IsOfferQty));
 }
 /** Get Offer Quantity.
 @return This quantity is used in the Offer to the Customer */
@@ -194,7 +194,7 @@ return false;
 @param IsPurchaseQty This quantity is used in the Purchase Order to the Supplier */
 public void setIsPurchaseQty (boolean IsPurchaseQty)
 {
-set_Value ("IsPurchaseQty", new Boolean(IsPurchaseQty));
+set_Value ("IsPurchaseQty", Boolean.valueOf(IsPurchaseQty));
 }
 /** Get Purchase Quantity.
 @return This quantity is used in the Purchase Order to the Supplier */
@@ -212,7 +212,7 @@ return false;
 @param IsRfQQty The quantity is used when generating RfQ Responses */
 public void setIsRfQQty (boolean IsRfQQty)
 {
-set_Value ("IsRfQQty", new Boolean(IsRfQQty));
+set_Value ("IsRfQQty", Boolean.valueOf(IsRfQQty));
 }
 /** Get RfQ Quantity.
 @return The quantity is used when generating RfQ Responses */

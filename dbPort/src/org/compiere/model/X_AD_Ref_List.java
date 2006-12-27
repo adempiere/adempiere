@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Ref_List
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Ref_List extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_Ref_List (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=104 */
-public static final int Table_ID=104;
+public static final int Table_ID=MTable.getTable_ID("AD_Ref_List");
 
 /** TableName=AD_Ref_List */
 public static final String Table_Name="AD_Ref_List";
 
-protected static KeyNamePair Model = new KeyNamePair(104,"AD_Ref_List");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Ref_List");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_Ref_List_ID (int AD_Ref_List_ID)
 {
 if (AD_Ref_List_ID < 1) throw new IllegalArgumentException ("AD_Ref_List_ID is mandatory.");
-set_ValueNoCheck ("AD_Ref_List_ID", new Integer(AD_Ref_List_ID));
+set_ValueNoCheck ("AD_Ref_List_ID", Integer.valueOf(AD_Ref_List_ID));
 }
 /** Get Reference List.
 @return Reference List based on Table */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_ValueNoCheck ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_ValueNoCheck ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */

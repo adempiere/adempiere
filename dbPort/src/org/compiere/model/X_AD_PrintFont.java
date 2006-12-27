@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintFont
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintFont extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_PrintFont (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=491 */
-public static final int Table_ID=491;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintFont");
 
 /** TableName=AD_PrintFont */
 public static final String Table_Name="AD_PrintFont";
 
-protected static KeyNamePair Model = new KeyNamePair(491,"AD_PrintFont");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintFont");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_PrintFont_ID (int AD_PrintFont_ID)
 {
 if (AD_PrintFont_ID < 1) throw new IllegalArgumentException ("AD_PrintFont_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintFont_ID", new Integer(AD_PrintFont_ID));
+set_ValueNoCheck ("AD_PrintFont_ID", Integer.valueOf(AD_PrintFont_ID));
 }
 /** Get Print Font.
 @return Maintain Print Font */
@@ -125,7 +125,7 @@ return (String)get_Value("Code");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

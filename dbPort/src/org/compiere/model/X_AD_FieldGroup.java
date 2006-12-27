@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_FieldGroup
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_FieldGroup extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_FieldGroup (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=414 */
-public static final int Table_ID=414;
+public static final int Table_ID=MTable.getTable_ID("AD_FieldGroup");
 
 /** TableName=AD_FieldGroup */
 public static final String Table_Name="AD_FieldGroup";
 
-protected static KeyNamePair Model = new KeyNamePair(414,"AD_FieldGroup");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_FieldGroup");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
 {
 if (AD_FieldGroup_ID < 1) throw new IllegalArgumentException ("AD_FieldGroup_ID is mandatory.");
-set_ValueNoCheck ("AD_FieldGroup_ID", new Integer(AD_FieldGroup_ID));
+set_ValueNoCheck ("AD_FieldGroup_ID", Integer.valueOf(AD_FieldGroup_ID));
 }
 /** Get Field Group.
 @return Logical grouping of fields */

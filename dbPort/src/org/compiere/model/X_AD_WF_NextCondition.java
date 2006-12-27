@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_NextCondition
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WF_NextCondition extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_WF_NextCondition (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=706 */
-public static final int Table_ID=706;
+public static final int Table_ID=MTable.getTable_ID("AD_WF_NextCondition");
 
 /** TableName=AD_WF_NextCondition */
 public static final String Table_Name="AD_WF_NextCondition";
 
-protected static KeyNamePair Model = new KeyNamePair(706,"AD_WF_NextCondition");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WF_NextCondition");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setAD_WF_NextCondition_ID (int AD_WF_NextCondition_ID)
 {
 if (AD_WF_NextCondition_ID < 1) throw new IllegalArgumentException ("AD_WF_NextCondition_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_NextCondition_ID", new Integer(AD_WF_NextCondition_ID));
+set_ValueNoCheck ("AD_WF_NextCondition_ID", Integer.valueOf(AD_WF_NextCondition_ID));
 }
 /** Get Transition Condition.
 @return Workflow Node Transition Condition */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
 {
 if (AD_WF_NodeNext_ID < 1) throw new IllegalArgumentException ("AD_WF_NodeNext_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_NodeNext_ID", new Integer(AD_WF_NodeNext_ID));
+set_ValueNoCheck ("AD_WF_NodeNext_ID", Integer.valueOf(AD_WF_NodeNext_ID));
 }
 /** Get Node Transition.
 @return Workflow Node Transition */
@@ -232,7 +232,7 @@ return (String)get_Value("Operation");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

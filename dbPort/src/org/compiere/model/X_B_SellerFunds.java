@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_SellerFunds
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_B_SellerFunds extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_B_SellerFunds (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=680 */
-public static final int Table_ID=680;
+public static final int Table_ID=MTable.getTable_ID("B_SellerFunds");
 
 /** TableName=B_SellerFunds */
 public static final String Table_Name="B_SellerFunds";
 
-protected static KeyNamePair Model = new KeyNamePair(680,"B_SellerFunds");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"B_SellerFunds");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -114,7 +114,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 public void setB_SellerFunds_ID (int B_SellerFunds_ID)
 {
 if (B_SellerFunds_ID < 1) throw new IllegalArgumentException ("B_SellerFunds_ID is mandatory.");
-set_ValueNoCheck ("B_SellerFunds_ID", new Integer(B_SellerFunds_ID));
+set_ValueNoCheck ("B_SellerFunds_ID", Integer.valueOf(B_SellerFunds_ID));
 }
 /** Get Seller Funds.
 @return Seller Funds from Offers on Topics */
@@ -130,7 +130,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -146,7 +146,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */

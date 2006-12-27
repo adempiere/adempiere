@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionRun
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CommissionRun extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_CommissionRun (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=436 */
-public static final int Table_ID=436;
+public static final int Table_ID=MTable.getTable_ID("C_CommissionRun");
 
 /** TableName=C_CommissionRun */
 public static final String Table_Name="C_CommissionRun";
 
-protected static KeyNamePair Model = new KeyNamePair(436,"C_CommissionRun");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CommissionRun");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_CommissionRun_ID (int C_CommissionRun_ID)
 {
 if (C_CommissionRun_ID < 1) throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionRun_ID", new Integer(C_CommissionRun_ID));
+set_ValueNoCheck ("C_CommissionRun_ID", Integer.valueOf(C_CommissionRun_ID));
 }
 /** Get Commission Run.
 @return Commission Run or Process */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_Commission_ID (int C_Commission_ID)
 {
 if (C_Commission_ID < 1) throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-set_ValueNoCheck ("C_Commission_ID", new Integer(C_Commission_ID));
+set_ValueNoCheck ("C_Commission_ID", Integer.valueOf(C_Commission_ID));
 }
 /** Get Commission.
 @return Commission */
@@ -180,7 +180,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -198,7 +198,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

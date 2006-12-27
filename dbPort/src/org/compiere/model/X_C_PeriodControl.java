@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PeriodControl
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PeriodControl extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_PeriodControl (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=229 */
-public static final int Table_ID=229;
+public static final int Table_ID=MTable.getTable_ID("C_PeriodControl");
 
 /** TableName=C_PeriodControl */
 public static final String Table_Name="C_PeriodControl";
 
-protected static KeyNamePair Model = new KeyNamePair(229,"C_PeriodControl");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PeriodControl");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_PeriodControl_ID (int C_PeriodControl_ID)
 {
 if (C_PeriodControl_ID < 1) throw new IllegalArgumentException ("C_PeriodControl_ID is mandatory.");
-set_ValueNoCheck ("C_PeriodControl_ID", new Integer(C_PeriodControl_ID));
+set_ValueNoCheck ("C_PeriodControl_ID", Integer.valueOf(C_PeriodControl_ID));
 }
 /** Get Period Control.
 @return Period Control */
@@ -114,7 +114,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
 public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID < 1) throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-set_ValueNoCheck ("C_Period_ID", new Integer(C_Period_ID));
+set_ValueNoCheck ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -258,7 +258,7 @@ return (String)get_Value("PeriodStatus");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

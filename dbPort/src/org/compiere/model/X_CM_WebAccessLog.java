@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebAccessLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_WebAccessLog extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_CM_WebAccessLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=894 */
-public static final int Table_ID=894;
+public static final int Table_ID=MTable.getTable_ID("CM_WebAccessLog");
 
 /** TableName=CM_WebAccessLog */
 public static final String Table_Name="CM_WebAccessLog";
 
-protected static KeyNamePair Model = new KeyNamePair(894,"CM_WebAccessLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WebAccessLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -128,7 +128,7 @@ public void setCM_BroadcastServer_ID (int CM_BroadcastServer_ID)
 {
 if (CM_BroadcastServer_ID <= 0) set_Value ("CM_BroadcastServer_ID", null);
  else 
-set_Value ("CM_BroadcastServer_ID", new Integer(CM_BroadcastServer_ID));
+set_Value ("CM_BroadcastServer_ID", Integer.valueOf(CM_BroadcastServer_ID));
 }
 /** Get Broadcast Server.
 @return Web Broadcast Server */
@@ -144,7 +144,7 @@ public void setCM_Media_ID (int CM_Media_ID)
 {
 if (CM_Media_ID <= 0) set_Value ("CM_Media_ID", null);
  else 
-set_Value ("CM_Media_ID", new Integer(CM_Media_ID));
+set_Value ("CM_Media_ID", Integer.valueOf(CM_Media_ID));
 }
 /** Get Media Item.
 @return Contains media content like images, flash movies etc. */
@@ -159,7 +159,7 @@ return ii.intValue();
 public void setCM_WebAccessLog_ID (int CM_WebAccessLog_ID)
 {
 if (CM_WebAccessLog_ID < 1) throw new IllegalArgumentException ("CM_WebAccessLog_ID is mandatory.");
-set_ValueNoCheck ("CM_WebAccessLog_ID", new Integer(CM_WebAccessLog_ID));
+set_ValueNoCheck ("CM_WebAccessLog_ID", Integer.valueOf(CM_WebAccessLog_ID));
 }
 /** Get Web Access Log.
 @return Web Access Log Information */
@@ -175,7 +175,7 @@ public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID <= 0) set_Value ("CM_WebProject_ID", null);
  else 
-set_Value ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_Value ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -371,7 +371,7 @@ return (String)get_Value("RequestType");
 @param StatusCode Status Code */
 public void setStatusCode (int StatusCode)
 {
-set_Value ("StatusCode", new Integer(StatusCode));
+set_Value ("StatusCode", Integer.valueOf(StatusCode));
 }
 /** Get Status Code.
 @return Status Code */

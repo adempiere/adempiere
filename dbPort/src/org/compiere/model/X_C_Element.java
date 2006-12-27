@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Element
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Element extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_Element (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=142 */
-public static final int Table_ID=142;
+public static final int Table_ID=MTable.getTable_ID("C_Element");
 
 /** TableName=C_Element */
 public static final String Table_Name="C_Element";
 
-protected static KeyNamePair Model = new KeyNamePair(142,"C_Element");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Element");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_Tree_ID (int AD_Tree_ID)
 {
 if (AD_Tree_ID < 1) throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-set_ValueNoCheck ("AD_Tree_ID", new Integer(AD_Tree_ID));
+set_ValueNoCheck ("AD_Tree_ID", Integer.valueOf(AD_Tree_ID));
 }
 /** Get Tree.
 @return Identifies a Tree */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_Element_ID (int C_Element_ID)
 {
 if (C_Element_ID < 1) throw new IllegalArgumentException ("C_Element_ID is mandatory.");
-set_ValueNoCheck ("C_Element_ID", new Integer(C_Element_ID));
+set_ValueNoCheck ("C_Element_ID", Integer.valueOf(C_Element_ID));
 }
 /** Get Element.
 @return Accounting Element */
@@ -168,7 +168,7 @@ return (String)get_Value("ElementType");
 @param IsBalancing All transactions within an element value must balance (e.g. cost centers) */
 public void setIsBalancing (boolean IsBalancing)
 {
-set_Value ("IsBalancing", new Boolean(IsBalancing));
+set_Value ("IsBalancing", Boolean.valueOf(IsBalancing));
 }
 /** Get Balancing.
 @return All transactions within an element value must balance (e.g. cost centers) */
@@ -186,7 +186,7 @@ return false;
 @param IsNaturalAccount The primary natural account */
 public void setIsNaturalAccount (boolean IsNaturalAccount)
 {
-set_Value ("IsNaturalAccount", new Boolean(IsNaturalAccount));
+set_Value ("IsNaturalAccount", Boolean.valueOf(IsNaturalAccount));
 }
 /** Get Natural Account.
 @return The primary natural account */

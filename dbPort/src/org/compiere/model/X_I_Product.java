@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Product
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_Product extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_Product (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=532 */
-public static final int Table_ID=532;
+public static final int Table_ID=MTable.getTable_ID("I_Product");
 
 /** TableName=I_Product */
 public static final String Table_Name="I_Product";
 
-protected static KeyNamePair Model = new KeyNamePair(532,"I_Product");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_Product");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -109,7 +109,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -125,7 +125,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -141,7 +141,7 @@ public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID <= 0) set_Value ("C_UOM_ID", null);
  else 
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -186,7 +186,7 @@ return bd;
 @param DeliveryTime_Promised Promised days between order and delivery */
 public void setDeliveryTime_Promised (int DeliveryTime_Promised)
 {
-set_Value ("DeliveryTime_Promised", new Integer(DeliveryTime_Promised));
+set_Value ("DeliveryTime_Promised", Integer.valueOf(DeliveryTime_Promised));
 }
 /** Get Promised Delivery Time.
 @return Promised days between order and delivery */
@@ -234,7 +234,7 @@ return (String)get_Value("DescriptionURL");
 @param Discontinued This product is no longer available */
 public void setDiscontinued (boolean Discontinued)
 {
-set_Value ("Discontinued", new Boolean(Discontinued));
+set_Value ("Discontinued", Boolean.valueOf(Discontinued));
 }
 /** Get Discontinued.
 @return This product is no longer available */
@@ -332,7 +332,7 @@ return (String)get_Value("I_ErrorMsg");
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -351,7 +351,7 @@ return false;
 public void setI_Product_ID (int I_Product_ID)
 {
 if (I_Product_ID < 1) throw new IllegalArgumentException ("I_Product_ID is mandatory.");
-set_ValueNoCheck ("I_Product_ID", new Integer(I_Product_ID));
+set_ValueNoCheck ("I_Product_ID", Integer.valueOf(I_Product_ID));
 }
 /** Get Import Product.
 @return Import Item or Service */
@@ -384,7 +384,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -400,7 +400,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -448,7 +448,7 @@ return (String)get_Value("Name");
 @param Order_Min Minimum order quantity in UOM */
 public void setOrder_Min (int Order_Min)
 {
-set_Value ("Order_Min", new Integer(Order_Min));
+set_Value ("Order_Min", Integer.valueOf(Order_Min));
 }
 /** Get Minimum Order Qty.
 @return Minimum order quantity in UOM */
@@ -462,7 +462,7 @@ return ii.intValue();
 @param Order_Pack Package order size in UOM (e.g. order set of 5 units) */
 public void setOrder_Pack (int Order_Pack)
 {
-set_Value ("Order_Pack", new Integer(Order_Pack));
+set_Value ("Order_Pack", Integer.valueOf(Order_Pack));
 }
 /** Get Order Pack Qty.
 @return Package order size in UOM (e.g. order set of 5 units) */
@@ -544,7 +544,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -562,7 +562,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -660,7 +660,7 @@ return (String)get_Value("SKU");
 @param ShelfDepth Shelf depth required */
 public void setShelfDepth (int ShelfDepth)
 {
-set_Value ("ShelfDepth", new Integer(ShelfDepth));
+set_Value ("ShelfDepth", Integer.valueOf(ShelfDepth));
 }
 /** Get Shelf Depth.
 @return Shelf depth required */
@@ -674,7 +674,7 @@ return ii.intValue();
 @param ShelfHeight Shelf height required */
 public void setShelfHeight (int ShelfHeight)
 {
-set_Value ("ShelfHeight", new Integer(ShelfHeight));
+set_Value ("ShelfHeight", Integer.valueOf(ShelfHeight));
 }
 /** Get Shelf Height.
 @return Shelf height required */
@@ -688,7 +688,7 @@ return ii.intValue();
 @param ShelfWidth Shelf width required */
 public void setShelfWidth (int ShelfWidth)
 {
-set_Value ("ShelfWidth", new Integer(ShelfWidth));
+set_Value ("ShelfWidth", Integer.valueOf(ShelfWidth));
 }
 /** Get Shelf Width.
 @return Shelf width required */
@@ -719,7 +719,7 @@ return (String)get_Value("UPC");
 @param UnitsPerPallet Units Per Pallet */
 public void setUnitsPerPallet (int UnitsPerPallet)
 {
-set_Value ("UnitsPerPallet", new Integer(UnitsPerPallet));
+set_Value ("UnitsPerPallet", Integer.valueOf(UnitsPerPallet));
 }
 /** Get Units Per Pallet.
 @return Units Per Pallet */
@@ -790,7 +790,7 @@ return (String)get_Value("VendorProductNo");
 @param Volume Volume of a product */
 public void setVolume (int Volume)
 {
-set_Value ("Volume", new Integer(Volume));
+set_Value ("Volume", Integer.valueOf(Volume));
 }
 /** Get Volume.
 @return Volume of a product */
@@ -804,7 +804,7 @@ return ii.intValue();
 @param Weight Weight of a product */
 public void setWeight (int Weight)
 {
-set_Value ("Weight", new Integer(Weight));
+set_Value ("Weight", Integer.valueOf(Weight));
 }
 /** Get Weight.
 @return Weight of a product */

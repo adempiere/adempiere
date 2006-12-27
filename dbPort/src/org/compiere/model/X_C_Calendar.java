@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Calendar
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Calendar extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_Calendar (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=139 */
-public static final int Table_ID=139;
+public static final int Table_ID=MTable.getTable_ID("C_Calendar");
 
 /** TableName=C_Calendar */
 public static final String Table_Name="C_Calendar";
 
-protected static KeyNamePair Model = new KeyNamePair(139,"C_Calendar");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Calendar");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setC_Calendar_ID (int C_Calendar_ID)
 {
 if (C_Calendar_ID < 1) throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-set_ValueNoCheck ("C_Calendar_ID", new Integer(C_Calendar_ID));
+set_ValueNoCheck ("C_Calendar_ID", Integer.valueOf(C_Calendar_ID));
 }
 /** Get Calendar.
 @return Accounting Calendar Name */

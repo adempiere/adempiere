@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_Topic
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_B_Topic extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_B_Topic (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=679 */
-public static final int Table_ID=679;
+public static final int Table_ID=MTable.getTable_ID("B_Topic");
 
 /** TableName=B_Topic */
 public static final String Table_Name="B_Topic";
 
-protected static KeyNamePair Model = new KeyNamePair(679,"B_Topic");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"B_Topic");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ return sb.toString();
 public void setB_TopicCategory_ID (int B_TopicCategory_ID)
 {
 if (B_TopicCategory_ID < 1) throw new IllegalArgumentException ("B_TopicCategory_ID is mandatory.");
-set_ValueNoCheck ("B_TopicCategory_ID", new Integer(B_TopicCategory_ID));
+set_ValueNoCheck ("B_TopicCategory_ID", Integer.valueOf(B_TopicCategory_ID));
 }
 /** Get Topic Category.
 @return Auction Topic Category */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setB_TopicType_ID (int B_TopicType_ID)
 {
 if (B_TopicType_ID < 1) throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-set_ValueNoCheck ("B_TopicType_ID", new Integer(B_TopicType_ID));
+set_ValueNoCheck ("B_TopicType_ID", Integer.valueOf(B_TopicType_ID));
 }
 /** Get Topic Type.
 @return Auction Topic Type */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setB_Topic_ID (int B_Topic_ID)
 {
 if (B_Topic_ID < 1) throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-set_ValueNoCheck ("B_Topic_ID", new Integer(B_Topic_ID));
+set_ValueNoCheck ("B_Topic_ID", Integer.valueOf(B_Topic_ID));
 }
 /** Get Topic.
 @return Auction Topic */
@@ -191,7 +191,7 @@ return (String)get_Value("DocumentNo");
 @param IsPublished The Topic is published and can be viewed */
 public void setIsPublished (boolean IsPublished)
 {
-set_Value ("IsPublished", new Boolean(IsPublished));
+set_Value ("IsPublished", Boolean.valueOf(IsPublished));
 }
 /** Get Published.
 @return The Topic is published and can be viewed */
@@ -233,7 +233,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -251,7 +251,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_CategoryValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_CategoryValue extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_K_CategoryValue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=614 */
-public static final int Table_ID=614;
+public static final int Table_ID=MTable.getTable_ID("K_CategoryValue");
 
 /** TableName=K_CategoryValue */
 public static final String Table_Name="K_CategoryValue";
 
-protected static KeyNamePair Model = new KeyNamePair(614,"K_CategoryValue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_CategoryValue");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -109,7 +109,7 @@ return (String)get_Value("Description");
 public void setK_CategoryValue_ID (int K_CategoryValue_ID)
 {
 if (K_CategoryValue_ID < 1) throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
-set_ValueNoCheck ("K_CategoryValue_ID", new Integer(K_CategoryValue_ID));
+set_ValueNoCheck ("K_CategoryValue_ID", Integer.valueOf(K_CategoryValue_ID));
 }
 /** Get Category Value.
 @return The value of the category */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setK_Category_ID (int K_Category_ID)
 {
 if (K_Category_ID < 1) throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-set_ValueNoCheck ("K_Category_ID", new Integer(K_Category_ID));
+set_ValueNoCheck ("K_Category_ID", Integer.valueOf(K_Category_ID));
 }
 /** Get Knowledge Category.
 @return Knowledge Category */

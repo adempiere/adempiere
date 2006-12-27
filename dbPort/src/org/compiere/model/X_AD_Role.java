@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Role
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Role extends PO
 {
 /** Standard Constructor
@@ -69,12 +69,12 @@ public X_AD_Role (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=156 */
-public static final int Table_ID=156;
+public static final int Table_ID=MTable.getTable_ID("AD_Role");
 
 /** TableName=AD_Role */
 public static final String Table_Name="AD_Role";
 
-protected static KeyNamePair Model = new KeyNamePair(156,"AD_Role");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Role");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -106,7 +106,7 @@ return sb.toString();
 public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID < 0) throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+set_ValueNoCheck ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -125,7 +125,7 @@ public void setAD_Tree_Menu_ID (int AD_Tree_Menu_ID)
 {
 if (AD_Tree_Menu_ID <= 0) set_Value ("AD_Tree_Menu_ID", null);
  else 
-set_Value ("AD_Tree_Menu_ID", new Integer(AD_Tree_Menu_ID));
+set_Value ("AD_Tree_Menu_ID", Integer.valueOf(AD_Tree_Menu_ID));
 }
 /** Get Menu Tree.
 @return Tree of the menu */
@@ -144,7 +144,7 @@ public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 {
 if (AD_Tree_Org_ID <= 0) set_Value ("AD_Tree_Org_ID", null);
  else 
-set_Value ("AD_Tree_Org_ID", new Integer(AD_Tree_Org_ID));
+set_Value ("AD_Tree_Org_ID", Integer.valueOf(AD_Tree_Org_ID));
 }
 /** Get Organization Tree.
 @return Tree to determine organizational hierarchy */
@@ -174,7 +174,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -188,7 +188,7 @@ return ii.intValue();
 @param ConfirmQueryRecords Require Confirmation if more records will be returned by the query (If not defined 500) */
 public void setConfirmQueryRecords (int ConfirmQueryRecords)
 {
-set_Value ("ConfirmQueryRecords", new Integer(ConfirmQueryRecords));
+set_Value ("ConfirmQueryRecords", Integer.valueOf(ConfirmQueryRecords));
 }
 /** Get Confirm Query Records.
 @return Require Confirmation if more records will be returned by the query (If not defined 500) */
@@ -249,7 +249,7 @@ return (String)get_Value("Description");
 @param IsAccessAllOrgs Access all Organizations (no org access control) of the client */
 public void setIsAccessAllOrgs (boolean IsAccessAllOrgs)
 {
-set_Value ("IsAccessAllOrgs", new Boolean(IsAccessAllOrgs));
+set_Value ("IsAccessAllOrgs", Boolean.valueOf(IsAccessAllOrgs));
 }
 /** Get Access all Orgs.
 @return Access all Organizations (no org access control) of the client */
@@ -267,7 +267,7 @@ return false;
 @param IsCanApproveOwnDoc Users with this role can approve their own documents */
 public void setIsCanApproveOwnDoc (boolean IsCanApproveOwnDoc)
 {
-set_Value ("IsCanApproveOwnDoc", new Boolean(IsCanApproveOwnDoc));
+set_Value ("IsCanApproveOwnDoc", Boolean.valueOf(IsCanApproveOwnDoc));
 }
 /** Get Approve own Documents.
 @return Users with this role can approve their own documents */
@@ -285,7 +285,7 @@ return false;
 @param IsCanExport Users with this role can export data */
 public void setIsCanExport (boolean IsCanExport)
 {
-set_Value ("IsCanExport", new Boolean(IsCanExport));
+set_Value ("IsCanExport", Boolean.valueOf(IsCanExport));
 }
 /** Get Can Export.
 @return Users with this role can export data */
@@ -303,7 +303,7 @@ return false;
 @param IsCanReport Users with this role can create reports */
 public void setIsCanReport (boolean IsCanReport)
 {
-set_Value ("IsCanReport", new Boolean(IsCanReport));
+set_Value ("IsCanReport", Boolean.valueOf(IsCanReport));
 }
 /** Get Can Report.
 @return Users with this role can create reports */
@@ -321,7 +321,7 @@ return false;
 @param IsChangeLog Maintain a log of changes */
 public void setIsChangeLog (boolean IsChangeLog)
 {
-set_Value ("IsChangeLog", new Boolean(IsChangeLog));
+set_Value ("IsChangeLog", Boolean.valueOf(IsChangeLog));
 }
 /** Get Maintain Change Log.
 @return Maintain a log of changes */
@@ -339,7 +339,7 @@ return false;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -357,7 +357,7 @@ return false;
 @param IsPersonalAccess Allow access to all personal records */
 public void setIsPersonalAccess (boolean IsPersonalAccess)
 {
-set_Value ("IsPersonalAccess", new Boolean(IsPersonalAccess));
+set_Value ("IsPersonalAccess", Boolean.valueOf(IsPersonalAccess));
 }
 /** Get Personal Access.
 @return Allow access to all personal records */
@@ -375,7 +375,7 @@ return false;
 @param IsPersonalLock Allow users with role to lock access to personal records */
 public void setIsPersonalLock (boolean IsPersonalLock)
 {
-set_Value ("IsPersonalLock", new Boolean(IsPersonalLock));
+set_Value ("IsPersonalLock", Boolean.valueOf(IsPersonalLock));
 }
 /** Get Personal Lock.
 @return Allow users with role to lock access to personal records */
@@ -393,7 +393,7 @@ return false;
 @param IsShowAcct Users with this role can see accounting information */
 public void setIsShowAcct (boolean IsShowAcct)
 {
-set_Value ("IsShowAcct", new Boolean(IsShowAcct));
+set_Value ("IsShowAcct", Boolean.valueOf(IsShowAcct));
 }
 /** Get Show Accounting.
 @return Users with this role can see accounting information */
@@ -411,7 +411,7 @@ return false;
 @param IsUseUserOrgAccess Use Org Access defined by user instead of Role Org Access */
 public void setIsUseUserOrgAccess (boolean IsUseUserOrgAccess)
 {
-set_Value ("IsUseUserOrgAccess", new Boolean(IsUseUserOrgAccess));
+set_Value ("IsUseUserOrgAccess", Boolean.valueOf(IsUseUserOrgAccess));
 }
 /** Get Use User Org Access.
 @return Use Org Access defined by user instead of Role Org Access */
@@ -429,7 +429,7 @@ return false;
 @param MaxQueryRecords If defined, you cannot query more records as defined - the query criteria needs to be changed to query less records */
 public void setMaxQueryRecords (int MaxQueryRecords)
 {
-set_Value ("MaxQueryRecords", new Integer(MaxQueryRecords));
+set_Value ("MaxQueryRecords", Integer.valueOf(MaxQueryRecords));
 }
 /** Get Max Query Records.
 @return If defined, you cannot query more records as defined - the query criteria needs to be changed to query less records */
@@ -467,7 +467,7 @@ return new KeyNamePair(get_ID(), getName());
 @param OverwritePriceLimit Overwrite Price Limit if the Price List  enforces the Price Limit */
 public void setOverwritePriceLimit (boolean OverwritePriceLimit)
 {
-set_Value ("OverwritePriceLimit", new Boolean(OverwritePriceLimit));
+set_Value ("OverwritePriceLimit", Boolean.valueOf(OverwritePriceLimit));
 }
 /** Get Overwrite Price Limit.
 @return Overwrite Price Limit if the Price List  enforces the Price Limit */
@@ -521,7 +521,7 @@ public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID <= 0) set_Value ("Supervisor_ID", null);
  else 
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

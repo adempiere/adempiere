@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Note
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Note extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_Note (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=389 */
-public static final int Table_ID=389;
+public static final int Table_ID=MTable.getTable_ID("AD_Note");
 
 /** TableName=AD_Note */
 public static final String Table_Name="AD_Note";
 
-protected static KeyNamePair Model = new KeyNamePair(389,"AD_Note");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Note");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -94,7 +94,7 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 public void setAD_Message_ID (int AD_Message_ID)
 {
 if (AD_Message_ID < 1) throw new IllegalArgumentException ("AD_Message_ID is mandatory.");
-set_ValueNoCheck ("AD_Message_ID", new Integer(AD_Message_ID));
+set_ValueNoCheck ("AD_Message_ID", Integer.valueOf(AD_Message_ID));
 }
 /** Get Message.
 @return System Message */
@@ -115,7 +115,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Message_ID()));
 public void setAD_Note_ID (int AD_Note_ID)
 {
 if (AD_Note_ID < 1) throw new IllegalArgumentException ("AD_Note_ID is mandatory.");
-set_ValueNoCheck ("AD_Note_ID", new Integer(AD_Note_ID));
+set_ValueNoCheck ("AD_Note_ID", Integer.valueOf(AD_Note_ID));
 }
 /** Get Notice.
 @return System Notice */
@@ -131,7 +131,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_ValueNoCheck ("AD_Table_ID", null);
  else 
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -147,7 +147,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -163,7 +163,7 @@ public void setAD_WF_Activity_ID (int AD_WF_Activity_ID)
 {
 if (AD_WF_Activity_ID <= 0) set_Value ("AD_WF_Activity_ID", null);
  else 
-set_Value ("AD_WF_Activity_ID", new Integer(AD_WF_Activity_ID));
+set_Value ("AD_WF_Activity_ID", Integer.valueOf(AD_WF_Activity_ID));
 }
 /** Get Workflow Activity.
 @return Workflow Activity */
@@ -194,7 +194,7 @@ return (String)get_Value("Description");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -212,7 +212,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -232,7 +232,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_ValueNoCheck ("Record_ID", null);
  else 
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

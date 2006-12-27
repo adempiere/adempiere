@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_Asset extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_A_Asset (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=539 */
-public static final int Table_ID=539;
+public static final int Table_ID=MTable.getTable_ID("A_Asset");
 
 /** TableName=A_Asset */
 public static final String Table_Name="A_Asset";
 
-protected static KeyNamePair Model = new KeyNamePair(539,"A_Asset");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Asset");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 {
 if (A_Asset_Group_ID < 1) throw new IllegalArgumentException ("A_Asset_Group_ID is mandatory.");
-set_Value ("A_Asset_Group_ID", new Integer(A_Asset_Group_ID));
+set_Value ("A_Asset_Group_ID", Integer.valueOf(A_Asset_Group_ID));
 }
 /** Get Asset Group.
 @return Group of Assets */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID < 1) throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_ID", new Integer(A_Asset_ID));
+set_ValueNoCheck ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -185,7 +185,7 @@ public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 {
 if (C_BPartnerSR_ID <= 0) set_Value ("C_BPartnerSR_ID", null);
  else 
-set_Value ("C_BPartnerSR_ID", new Integer(C_BPartnerSR_ID));
+set_Value ("C_BPartnerSR_ID", Integer.valueOf(C_BPartnerSR_ID));
 }
 /** Get BPartner (Agent).
 @return Business Partner (Agent or Sales Rep) */
@@ -201,7 +201,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -217,7 +217,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -233,7 +233,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -249,7 +249,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -309,7 +309,7 @@ return (String)get_Value("Help");
 @param IsDepreciated The asset will be depreciated */
 public void setIsDepreciated (boolean IsDepreciated)
 {
-set_Value ("IsDepreciated", new Boolean(IsDepreciated));
+set_Value ("IsDepreciated", Boolean.valueOf(IsDepreciated));
 }
 /** Get Depreciate.
 @return The asset will be depreciated */
@@ -327,7 +327,7 @@ return false;
 @param IsDisposed The asset is disposed */
 public void setIsDisposed (boolean IsDisposed)
 {
-set_Value ("IsDisposed", new Boolean(IsDisposed));
+set_Value ("IsDisposed", Boolean.valueOf(IsDisposed));
 }
 /** Get Disposed.
 @return The asset is disposed */
@@ -345,7 +345,7 @@ return false;
 @param IsFullyDepreciated The asset is fully depreciated */
 public void setIsFullyDepreciated (boolean IsFullyDepreciated)
 {
-set_ValueNoCheck ("IsFullyDepreciated", new Boolean(IsFullyDepreciated));
+set_ValueNoCheck ("IsFullyDepreciated", Boolean.valueOf(IsFullyDepreciated));
 }
 /** Get Fully depreciated.
 @return The asset is fully depreciated */
@@ -363,7 +363,7 @@ return false;
 @param IsInPosession The asset is in the possession of the organization */
 public void setIsInPosession (boolean IsInPosession)
 {
-set_Value ("IsInPosession", new Boolean(IsInPosession));
+set_Value ("IsInPosession", Boolean.valueOf(IsInPosession));
 }
 /** Get In Possession.
 @return The asset is in the possession of the organization */
@@ -381,7 +381,7 @@ return false;
 @param IsOwned The asset is owned by the organization */
 public void setIsOwned (boolean IsOwned)
 {
-set_Value ("IsOwned", new Boolean(IsOwned));
+set_Value ("IsOwned", Boolean.valueOf(IsOwned));
 }
 /** Get Owned.
 @return The asset is owned by the organization */
@@ -428,7 +428,7 @@ return (String)get_Value("LastMaintenanceNote");
 @param LastMaintenanceUnit Last Maintenance Unit */
 public void setLastMaintenanceUnit (int LastMaintenanceUnit)
 {
-set_Value ("LastMaintenanceUnit", new Integer(LastMaintenanceUnit));
+set_Value ("LastMaintenanceUnit", Integer.valueOf(LastMaintenanceUnit));
 }
 /** Get Last Unit.
 @return Last Maintenance Unit */
@@ -459,7 +459,7 @@ public void setLease_BPartner_ID (int Lease_BPartner_ID)
 {
 if (Lease_BPartner_ID <= 0) set_Value ("Lease_BPartner_ID", null);
  else 
-set_Value ("Lease_BPartner_ID", new Integer(Lease_BPartner_ID));
+set_Value ("Lease_BPartner_ID", Integer.valueOf(Lease_BPartner_ID));
 }
 /** Get Lessor.
 @return The Business Partner who rents or leases */
@@ -473,7 +473,7 @@ return ii.intValue();
 @param LifeUseUnits Units of use until the asset is not usable anymore */
 public void setLifeUseUnits (int LifeUseUnits)
 {
-set_Value ("LifeUseUnits", new Integer(LifeUseUnits));
+set_Value ("LifeUseUnits", Integer.valueOf(LifeUseUnits));
 }
 /** Get Life use.
 @return Units of use until the asset is not usable anymore */
@@ -522,7 +522,7 @@ return (String)get_Value("Lot");
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -538,7 +538,7 @@ public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID <= 0) set_Value ("M_InOutLine_ID", null);
  else 
-set_Value ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_Value ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -554,7 +554,7 @@ public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID <= 0) set_Value ("M_Locator_ID", null);
  else 
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -570,7 +570,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_ValueNoCheck ("M_Product_ID", null);
  else 
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -620,7 +620,7 @@ return (Timestamp)get_Value("NextMaintenenceDate");
 @param NextMaintenenceUnit Next Maintenence Unit */
 public void setNextMaintenenceUnit (int NextMaintenenceUnit)
 {
-set_Value ("NextMaintenenceUnit", new Integer(NextMaintenenceUnit));
+set_Value ("NextMaintenenceUnit", Integer.valueOf(NextMaintenenceUnit));
 }
 /** Get Next Unit.
 @return Next Maintenence Unit */
@@ -665,7 +665,7 @@ return (String)get_Value("SerNo");
 @param UseLifeMonths Months of the usable life of the asset */
 public void setUseLifeMonths (int UseLifeMonths)
 {
-set_Value ("UseLifeMonths", new Integer(UseLifeMonths));
+set_Value ("UseLifeMonths", Integer.valueOf(UseLifeMonths));
 }
 /** Get Usable Life - Months.
 @return Months of the usable life of the asset */
@@ -679,7 +679,7 @@ return ii.intValue();
 @param UseLifeYears Years of the usable life of the asset */
 public void setUseLifeYears (int UseLifeYears)
 {
-set_Value ("UseLifeYears", new Integer(UseLifeYears));
+set_Value ("UseLifeYears", Integer.valueOf(UseLifeYears));
 }
 /** Get Usable Life - Years.
 @return Years of the usable life of the asset */
@@ -693,7 +693,7 @@ return ii.intValue();
 @param UseUnits Currently used units of the assets */
 public void setUseUnits (int UseUnits)
 {
-set_ValueNoCheck ("UseUnits", new Integer(UseUnits));
+set_ValueNoCheck ("UseUnits", Integer.valueOf(UseUnits));
 }
 /** Get Use units.
 @return Currently used units of the assets */

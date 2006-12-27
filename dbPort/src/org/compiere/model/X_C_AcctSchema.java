@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AcctSchema extends PO
 {
 /** Standard Constructor
@@ -71,12 +71,12 @@ public X_C_AcctSchema (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=265 */
-public static final int Table_ID=265;
+public static final int Table_ID=MTable.getTable_ID("C_AcctSchema");
 
 /** TableName=C_AcctSchema */
 public static final String Table_Name="C_AcctSchema";
 
-protected static KeyNamePair Model = new KeyNamePair(265,"C_AcctSchema");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AcctSchema");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -112,7 +112,7 @@ public void setAD_OrgOnly_ID (int AD_OrgOnly_ID)
 {
 if (AD_OrgOnly_ID <= 0) set_Value ("AD_OrgOnly_ID", null);
  else 
-set_Value ("AD_OrgOnly_ID", new Integer(AD_OrgOnly_ID));
+set_Value ("AD_OrgOnly_ID", Integer.valueOf(AD_OrgOnly_ID));
 }
 /** Get Only Organization.
 @return Create posting entries only for this organization */
@@ -126,7 +126,7 @@ return ii.intValue();
 @param AutoPeriodControl If selected, the periods are automatically opened and closed */
 public void setAutoPeriodControl (boolean AutoPeriodControl)
 {
-set_Value ("AutoPeriodControl", new Boolean(AutoPeriodControl));
+set_Value ("AutoPeriodControl", Boolean.valueOf(AutoPeriodControl));
 }
 /** Get Automatic Period Control.
 @return If selected, the periods are automatically opened and closed */
@@ -145,7 +145,7 @@ return false;
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -176,7 +176,7 @@ public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID <= 0) set_ValueNoCheck ("C_Period_ID", null);
  else 
-set_ValueNoCheck ("C_Period_ID", new Integer(C_Period_ID));
+set_ValueNoCheck ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -339,7 +339,7 @@ return (String)get_Value("GAAP");
 @param HasAlias Ability to select (partial) account combinations by an Alias */
 public void setHasAlias (boolean HasAlias)
 {
-set_Value ("HasAlias", new Boolean(HasAlias));
+set_Value ("HasAlias", Boolean.valueOf(HasAlias));
 }
 /** Get Use Account Alias.
 @return Ability to select (partial) account combinations by an Alias */
@@ -357,7 +357,7 @@ return false;
 @param HasCombination Combination of account elements are checked */
 public void setHasCombination (boolean HasCombination)
 {
-set_Value ("HasCombination", new Boolean(HasCombination));
+set_Value ("HasCombination", Boolean.valueOf(HasCombination));
 }
 /** Get Use Account Combination Control.
 @return Combination of account elements are checked */
@@ -375,7 +375,7 @@ return false;
 @param IsAccrual Indicates if Accrual or Cash Based accounting will be used */
 public void setIsAccrual (boolean IsAccrual)
 {
-set_Value ("IsAccrual", new Boolean(IsAccrual));
+set_Value ("IsAccrual", Boolean.valueOf(IsAccrual));
 }
 /** Get Accrual.
 @return Indicates if Accrual or Cash Based accounting will be used */
@@ -393,7 +393,7 @@ return false;
 @param IsAdjustCOGS Adjust Cost of Good Sold */
 public void setIsAdjustCOGS (boolean IsAdjustCOGS)
 {
-set_Value ("IsAdjustCOGS", new Boolean(IsAdjustCOGS));
+set_Value ("IsAdjustCOGS", Boolean.valueOf(IsAdjustCOGS));
 }
 /** Get Adjust COGS.
 @return Adjust Cost of Good Sold */
@@ -411,7 +411,7 @@ return false;
 @param IsDiscountCorrectsTax Correct the tax for payment discount and charges */
 public void setIsDiscountCorrectsTax (boolean IsDiscountCorrectsTax)
 {
-set_Value ("IsDiscountCorrectsTax", new Boolean(IsDiscountCorrectsTax));
+set_Value ("IsDiscountCorrectsTax", Boolean.valueOf(IsDiscountCorrectsTax));
 }
 /** Get Correct tax for Discounts/Charges.
 @return Correct the tax for payment discount and charges */
@@ -429,7 +429,7 @@ return false;
 @param IsExplicitCostAdjustment Post the cost adjustment explicitly */
 public void setIsExplicitCostAdjustment (boolean IsExplicitCostAdjustment)
 {
-set_Value ("IsExplicitCostAdjustment", new Boolean(IsExplicitCostAdjustment));
+set_Value ("IsExplicitCostAdjustment", Boolean.valueOf(IsExplicitCostAdjustment));
 }
 /** Get Explicit Cost Adjustment.
 @return Post the cost adjustment explicitly */
@@ -447,7 +447,7 @@ return false;
 @param IsPostServices Differentiate between Services and Product Receivable/Payables */
 public void setIsPostServices (boolean IsPostServices)
 {
-set_Value ("IsPostServices", new Boolean(IsPostServices));
+set_Value ("IsPostServices", Boolean.valueOf(IsPostServices));
 }
 /** Get Post Services Separately.
 @return Differentiate between Services and Product Receivable/Payables */
@@ -465,7 +465,7 @@ return false;
 @param IsTradeDiscountPosted Generate postings for trade discounts */
 public void setIsTradeDiscountPosted (boolean IsTradeDiscountPosted)
 {
-set_Value ("IsTradeDiscountPosted", new Boolean(IsTradeDiscountPosted));
+set_Value ("IsTradeDiscountPosted", Boolean.valueOf(IsTradeDiscountPosted));
 }
 /** Get Post Trade Discount.
 @return Generate postings for trade discounts */
@@ -484,7 +484,7 @@ return false;
 public void setM_CostType_ID (int M_CostType_ID)
 {
 if (M_CostType_ID < 1) throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-set_Value ("M_CostType_ID", new Integer(M_CostType_ID));
+set_Value ("M_CostType_ID", Integer.valueOf(M_CostType_ID));
 }
 /** Get Cost Type.
 @return Type of Cost (e.g. Current, Plan, Future) */
@@ -522,7 +522,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Period_OpenFuture Number of days to be able to post to a future date (based on system date) */
 public void setPeriod_OpenFuture (int Period_OpenFuture)
 {
-set_Value ("Period_OpenFuture", new Integer(Period_OpenFuture));
+set_Value ("Period_OpenFuture", Integer.valueOf(Period_OpenFuture));
 }
 /** Get Future Days.
 @return Number of days to be able to post to a future date (based on system date) */
@@ -536,7 +536,7 @@ return ii.intValue();
 @param Period_OpenHistory Number of days to be able to post in the past (based on system date) */
 public void setPeriod_OpenHistory (int Period_OpenHistory)
 {
-set_Value ("Period_OpenHistory", new Integer(Period_OpenHistory));
+set_Value ("Period_OpenHistory", Integer.valueOf(Period_OpenHistory));
 }
 /** Get History Days.
 @return Number of days to be able to post in the past (based on system date) */
@@ -550,7 +550,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

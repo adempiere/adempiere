@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Ratio
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Ratio extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_PA_Ratio (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=835 */
-public static final int Table_ID=835;
+public static final int Table_ID=MTable.getTable_ID("PA_Ratio");
 
 /** TableName=PA_Ratio */
 public static final String Table_Name="PA_Ratio";
 
-protected static KeyNamePair Model = new KeyNamePair(835,"PA_Ratio");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Ratio");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -165,7 +165,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_Ratio_ID (int PA_Ratio_ID)
 {
 if (PA_Ratio_ID < 1) throw new IllegalArgumentException ("PA_Ratio_ID is mandatory.");
-set_ValueNoCheck ("PA_Ratio_ID", new Integer(PA_Ratio_ID));
+set_ValueNoCheck ("PA_Ratio_ID", Integer.valueOf(PA_Ratio_ID));
 }
 /** Get Ratio.
 @return Performace Ratio */

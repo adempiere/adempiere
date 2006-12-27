@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Task
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Task extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Task (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=118 */
-public static final int Table_ID=118;
+public static final int Table_ID=MTable.getTable_ID("AD_Task");
 
 /** TableName=AD_Task */
 public static final String Table_Name="AD_Task";
 
-protected static KeyNamePair Model = new KeyNamePair(118,"AD_Task");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Task");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID < 1) throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-set_ValueNoCheck ("AD_Task_ID", new Integer(AD_Task_ID));
+set_ValueNoCheck ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */
@@ -200,7 +200,7 @@ return (String)get_Value("Help");
 @param IsServerProcess Run this Process on Server only */
 public void setIsServerProcess (boolean IsServerProcess)
 {
-set_Value ("IsServerProcess", new Boolean(IsServerProcess));
+set_Value ("IsServerProcess", Boolean.valueOf(IsServerProcess));
 }
 /** Get Server Process.
 @return Run this Process on Server only */

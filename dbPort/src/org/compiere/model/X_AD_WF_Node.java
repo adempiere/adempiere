@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_Node
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WF_Node extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_AD_WF_Node (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=129 */
-public static final int Table_ID=129;
+public static final int Table_ID=MTable.getTable_ID("AD_WF_Node");
 
 /** TableName=AD_WF_Node */
 public static final String Table_Name="AD_WF_Node";
 
-protected static KeyNamePair Model = new KeyNamePair(129,"AD_WF_Node");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WF_Node");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -105,7 +105,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -121,7 +121,7 @@ public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID <= 0) set_Value ("AD_Form_ID", null);
  else 
-set_Value ("AD_Form_ID", new Integer(AD_Form_ID));
+set_Value ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
 /** Get Special Form.
 @return Special Form */
@@ -137,7 +137,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -153,7 +153,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -169,7 +169,7 @@ public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID <= 0) set_Value ("AD_Task_ID", null);
  else 
-set_Value ("AD_Task_ID", new Integer(AD_Task_ID));
+set_Value ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */
@@ -185,7 +185,7 @@ public void setAD_WF_Block_ID (int AD_WF_Block_ID)
 {
 if (AD_WF_Block_ID <= 0) set_Value ("AD_WF_Block_ID", null);
  else 
-set_Value ("AD_WF_Block_ID", new Integer(AD_WF_Block_ID));
+set_Value ("AD_WF_Block_ID", Integer.valueOf(AD_WF_Block_ID));
 }
 /** Get Workflow Block.
 @return Workflow Transaction Execution Block */
@@ -200,7 +200,7 @@ return ii.intValue();
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 {
 if (AD_WF_Node_ID < 1) throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_Node_ID", new Integer(AD_WF_Node_ID));
+set_ValueNoCheck ("AD_WF_Node_ID", Integer.valueOf(AD_WF_Node_ID));
 }
 /** Get Node.
 @return Workflow Node (activity), step or process */
@@ -216,7 +216,7 @@ public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 {
 if (AD_WF_Responsible_ID <= 0) set_Value ("AD_WF_Responsible_ID", null);
  else 
-set_Value ("AD_WF_Responsible_ID", new Integer(AD_WF_Responsible_ID));
+set_Value ("AD_WF_Responsible_ID", Integer.valueOf(AD_WF_Responsible_ID));
 }
 /** Get Workflow Responsible.
 @return Responsible for Workflow Execution */
@@ -232,7 +232,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -247,7 +247,7 @@ return ii.intValue();
 public void setAD_Workflow_ID (int AD_Workflow_ID)
 {
 if (AD_Workflow_ID < 1) throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-set_ValueNoCheck ("AD_Workflow_ID", new Integer(AD_Workflow_ID));
+set_ValueNoCheck ("AD_Workflow_ID", Integer.valueOf(AD_Workflow_ID));
 }
 /** Get Workflow.
 @return Workflow or combination of tasks */
@@ -424,7 +424,7 @@ return (String)get_Value("DocAction");
 @param Duration Normal Duration in Duration Unit */
 public void setDuration (int Duration)
 {
-set_Value ("Duration", new Integer(Duration));
+set_Value ("Duration", Integer.valueOf(Duration));
 }
 /** Get Duration.
 @return Normal Duration in Duration Unit */
@@ -590,7 +590,7 @@ return (String)get_Value("Help");
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
 {
-set_Value ("IsCentrallyMaintained", new Boolean(IsCentrallyMaintained));
+set_Value ("IsCentrallyMaintained", Boolean.valueOf(IsCentrallyMaintained));
 }
 /** Get Centrally maintained.
 @return Information maintained in System Element table */
@@ -635,7 +635,7 @@ return (String)get_Value("JoinElement");
 @param Limit Maximum Duration in Duration Unit */
 public void setLimit (int Limit)
 {
-set_Value ("Limit", new Integer(Limit));
+set_Value ("Limit", Integer.valueOf(Limit));
 }
 /** Get Duration Limit.
 @return Maximum Duration in Duration Unit */
@@ -673,7 +673,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Priority Indicates if this request is of a high, medium or low priority. */
 public void setPriority (int Priority)
 {
-set_Value ("Priority", new Integer(Priority));
+set_Value ("Priority", Integer.valueOf(Priority));
 }
 /** Get Priority.
 @return Indicates if this request is of a high, medium or low priority. */
@@ -689,7 +689,7 @@ public void setR_MailText_ID (int R_MailText_ID)
 {
 if (R_MailText_ID <= 0) set_Value ("R_MailText_ID", null);
  else 
-set_Value ("R_MailText_ID", new Integer(R_MailText_ID));
+set_Value ("R_MailText_ID", Integer.valueOf(R_MailText_ID));
 }
 /** Get Mail Template.
 @return Text templates for mailings */
@@ -800,7 +800,7 @@ return (String)get_Value("Value");
 @param WaitTime Time in minutes to wait (sleep) */
 public void setWaitTime (int WaitTime)
 {
-set_Value ("WaitTime", new Integer(WaitTime));
+set_Value ("WaitTime", Integer.valueOf(WaitTime));
 }
 /** Get Wait Time.
 @return Time in minutes to wait (sleep) */
@@ -814,7 +814,7 @@ return ii.intValue();
 @param WaitingTime Workflow Simulation Waiting time */
 public void setWaitingTime (int WaitingTime)
 {
-set_Value ("WaitingTime", new Integer(WaitingTime));
+set_Value ("WaitingTime", Integer.valueOf(WaitingTime));
 }
 /** Get Waiting Time.
 @return Workflow Simulation Waiting time */
@@ -833,7 +833,7 @@ public void setWorkflow_ID (int Workflow_ID)
 {
 if (Workflow_ID <= 0) set_Value ("Workflow_ID", null);
  else 
-set_Value ("Workflow_ID", new Integer(Workflow_ID));
+set_Value ("Workflow_ID", Integer.valueOf(Workflow_ID));
 }
 /** Get Workflow.
 @return Workflow or tasks */
@@ -847,7 +847,7 @@ return ii.intValue();
 @param WorkingTime Workflow Simulation Execution Time */
 public void setWorkingTime (int WorkingTime)
 {
-set_Value ("WorkingTime", new Integer(WorkingTime));
+set_Value ("WorkingTime", Integer.valueOf(WorkingTime));
 }
 /** Get Working Time.
 @return Workflow Simulation Execution Time */
@@ -861,7 +861,7 @@ return ii.intValue();
 @param XPosition Absolute X (horizontal) position in 1/72 of an inch */
 public void setXPosition (int XPosition)
 {
-set_Value ("XPosition", new Integer(XPosition));
+set_Value ("XPosition", Integer.valueOf(XPosition));
 }
 /** Get X Position.
 @return Absolute X (horizontal) position in 1/72 of an inch */
@@ -875,7 +875,7 @@ return ii.intValue();
 @param YPosition Absolute Y (vertical) position in 1/72 of an inch */
 public void setYPosition (int YPosition)
 {
-set_Value ("YPosition", new Integer(YPosition));
+set_Value ("YPosition", Integer.valueOf(YPosition));
 }
 /** Get Y Position.
 @return Absolute Y (vertical) position in 1/72 of an inch */

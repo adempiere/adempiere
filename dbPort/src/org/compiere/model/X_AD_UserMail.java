@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserMail
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_UserMail extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_UserMail (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=782 */
-public static final int Table_ID=782;
+public static final int Table_ID=MTable.getTable_ID("AD_UserMail");
 
 /** TableName=AD_UserMail */
 public static final String Table_Name="AD_UserMail";
 
-protected static KeyNamePair Model = new KeyNamePair(782,"AD_UserMail");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_UserMail");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_UserMail_ID (int AD_UserMail_ID)
 {
 if (AD_UserMail_ID < 1) throw new IllegalArgumentException ("AD_UserMail_ID is mandatory.");
-set_ValueNoCheck ("AD_UserMail_ID", new Integer(AD_UserMail_ID));
+set_ValueNoCheck ("AD_UserMail_ID", Integer.valueOf(AD_UserMail_ID));
 }
 /** Get User Mail.
 @return Mail sent to the user */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -205,7 +205,7 @@ public void setR_MailText_ID (int R_MailText_ID)
 {
 if (R_MailText_ID <= 0) set_ValueNoCheck ("R_MailText_ID", null);
  else 
-set_ValueNoCheck ("R_MailText_ID", new Integer(R_MailText_ID));
+set_ValueNoCheck ("R_MailText_ID", Integer.valueOf(R_MailText_ID));
 }
 /** Get Mail Template.
 @return Text templates for mailings */
@@ -238,7 +238,7 @@ public void setW_MailMsg_ID (int W_MailMsg_ID)
 {
 if (W_MailMsg_ID <= 0) set_ValueNoCheck ("W_MailMsg_ID", null);
  else 
-set_ValueNoCheck ("W_MailMsg_ID", new Integer(W_MailMsg_ID));
+set_ValueNoCheck ("W_MailMsg_ID", Integer.valueOf(W_MailMsg_ID));
 }
 /** Get Mail Message.
 @return Web Store Mail Message Template */

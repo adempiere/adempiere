@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CyclePhase
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CyclePhase extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_CyclePhase (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=433 */
-public static final int Table_ID=433;
+public static final int Table_ID=MTable.getTable_ID("C_CyclePhase");
 
 /** TableName=C_CyclePhase */
 public static final String Table_Name="C_CyclePhase";
 
-protected static KeyNamePair Model = new KeyNamePair(433,"C_CyclePhase");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CyclePhase");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setC_CycleStep_ID (int C_CycleStep_ID)
 {
 if (C_CycleStep_ID < 1) throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
-set_ValueNoCheck ("C_CycleStep_ID", new Integer(C_CycleStep_ID));
+set_ValueNoCheck ("C_CycleStep_ID", Integer.valueOf(C_CycleStep_ID));
 }
 /** Get Cycle Step.
 @return The step for this Cycle */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setC_Phase_ID (int C_Phase_ID)
 {
 if (C_Phase_ID < 1) throw new IllegalArgumentException ("C_Phase_ID is mandatory.");
-set_ValueNoCheck ("C_Phase_ID", new Integer(C_Phase_ID));
+set_ValueNoCheck ("C_Phase_ID", Integer.valueOf(C_Phase_ID));
 }
 /** Get Standard Phase.
 @return Standard Phase of the Project Type */

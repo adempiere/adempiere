@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessMedia
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_AccessMedia extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_CM_AccessMedia (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=890 */
-public static final int Table_ID=890;
+public static final int Table_ID=MTable.getTable_ID("CM_AccessMedia");
 
 /** TableName=CM_AccessMedia */
 public static final String Table_Name="CM_AccessMedia";
 
-protected static KeyNamePair Model = new KeyNamePair(890,"CM_AccessMedia");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_AccessMedia");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 {
 if (CM_AccessProfile_ID < 1) throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-set_ValueNoCheck ("CM_AccessProfile_ID", new Integer(CM_AccessProfile_ID));
+set_ValueNoCheck ("CM_AccessProfile_ID", Integer.valueOf(CM_AccessProfile_ID));
 }
 /** Get Web Access Profile.
 @return Web Access Profile */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setCM_Media_ID (int CM_Media_ID)
 {
 if (CM_Media_ID < 1) throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-set_ValueNoCheck ("CM_Media_ID", new Integer(CM_Media_ID));
+set_ValueNoCheck ("CM_Media_ID", Integer.valueOf(CM_Media_ID));
 }
 /** Get Media Item.
 @return Contains media content like images, flash movies etc. */

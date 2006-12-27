@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AccessLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_AccessLog extends PO
 {
 /** Standard Constructor
@@ -53,12 +53,12 @@ public X_AD_AccessLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=717 */
-public static final int Table_ID=717;
+public static final int Table_ID=MTable.getTable_ID("AD_AccessLog");
 
 /** TableName=AD_AccessLog */
 public static final String Table_Name="AD_AccessLog";
 
-protected static KeyNamePair Model = new KeyNamePair(717,"AD_AccessLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_AccessLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -90,7 +90,7 @@ return sb.toString();
 public void setAD_AccessLog_ID (int AD_AccessLog_ID)
 {
 if (AD_AccessLog_ID < 1) throw new IllegalArgumentException ("AD_AccessLog_ID is mandatory.");
-set_ValueNoCheck ("AD_AccessLog_ID", new Integer(AD_AccessLog_ID));
+set_ValueNoCheck ("AD_AccessLog_ID", Integer.valueOf(AD_AccessLog_ID));
 }
 /** Get Access Log.
 @return Log of Access to the System */
@@ -112,7 +112,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -128,7 +128,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -161,7 +161,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_Value ("Record_ID", null);
  else 
-set_Value ("Record_ID", new Integer(Record_ID));
+set_Value ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ_TopicSubscriberOnly
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQ_TopicSubscriberOnly extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_RfQ_TopicSubscriberOnly (Properties ctx, ResultSet rs, String trxName
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=747 */
-public static final int Table_ID=747;
+public static final int Table_ID=MTable.getTable_ID("C_RfQ_TopicSubscriberOnly");
 
 /** TableName=C_RfQ_TopicSubscriberOnly */
 public static final String Table_Name="C_RfQ_TopicSubscriberOnly";
 
-protected static KeyNamePair Model = new KeyNamePair(747,"C_RfQ_TopicSubscriberOnly");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQ_TopicSubscriberOnly");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID)
 {
 if (C_RfQ_TopicSubscriberOnly_ID < 1) throw new IllegalArgumentException ("C_RfQ_TopicSubscriberOnly_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_TopicSubscriberOnly_ID", new Integer(C_RfQ_TopicSubscriberOnly_ID));
+set_ValueNoCheck ("C_RfQ_TopicSubscriberOnly_ID", Integer.valueOf(C_RfQ_TopicSubscriberOnly_ID));
 }
 /** Get RfQ Topic Subscriber Restriction.
 @return Include Subscriber only for certain products or product categories */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
 {
 if (C_RfQ_TopicSubscriber_ID < 1) throw new IllegalArgumentException ("C_RfQ_TopicSubscriber_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_TopicSubscriber_ID", new Integer(C_RfQ_TopicSubscriber_ID));
+set_ValueNoCheck ("C_RfQ_TopicSubscriber_ID", Integer.valueOf(C_RfQ_TopicSubscriber_ID));
 }
 /** Get RfQ Subscriber.
 @return Request for Quotation Topic Subscriber */
@@ -139,7 +139,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -161,7 +161,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

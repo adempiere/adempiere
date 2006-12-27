@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Location
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Location extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_Location (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=162 */
-public static final int Table_ID=162;
+public static final int Table_ID=MTable.getTable_ID("C_Location");
 
 /** TableName=C_Location */
 public static final String Table_Name="C_Location";
 
-protected static KeyNamePair Model = new KeyNamePair(162,"C_Location");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Location");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -160,7 +160,7 @@ public void setC_City_ID (int C_City_ID)
 {
 if (C_City_ID <= 0) set_Value ("C_City_ID", null);
  else 
-set_Value ("C_City_ID", new Integer(C_City_ID));
+set_Value ("C_City_ID", Integer.valueOf(C_City_ID));
 }
 /** Get City.
 @return City */
@@ -175,7 +175,7 @@ return ii.intValue();
 public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID < 1) throw new IllegalArgumentException ("C_Country_ID is mandatory.");
-set_Value ("C_Country_ID", new Integer(C_Country_ID));
+set_Value ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -190,7 +190,7 @@ return ii.intValue();
 public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID < 1) throw new IllegalArgumentException ("C_Location_ID is mandatory.");
-set_ValueNoCheck ("C_Location_ID", new Integer(C_Location_ID));
+set_ValueNoCheck ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -206,7 +206,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_Value ("C_Region_ID", null);
  else 
-set_Value ("C_Region_ID", new Integer(C_Region_ID));
+set_Value ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */

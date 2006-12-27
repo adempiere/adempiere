@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AllocationHdr
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AllocationHdr extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_AllocationHdr (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=735 */
-public static final int Table_ID=735;
+public static final int Table_ID=MTable.getTable_ID("C_AllocationHdr");
 
 /** TableName=C_AllocationHdr */
 public static final String Table_Name="C_AllocationHdr";
 
-protected static KeyNamePair Model = new KeyNamePair(735,"C_AllocationHdr");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AllocationHdr");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -116,7 +116,7 @@ return bd;
 public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
 {
 if (C_AllocationHdr_ID < 1) throw new IllegalArgumentException ("C_AllocationHdr_ID is mandatory.");
-set_ValueNoCheck ("C_AllocationHdr_ID", new Integer(C_AllocationHdr_ID));
+set_ValueNoCheck ("C_AllocationHdr_ID", Integer.valueOf(C_AllocationHdr_ID));
 }
 /** Get Allocation.
 @return Payment allocation */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -310,7 +310,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -328,7 +328,7 @@ return false;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -346,7 +346,7 @@ return false;
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_Value ("Posted", new Boolean(Posted));
+set_Value ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -364,7 +364,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -382,7 +382,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

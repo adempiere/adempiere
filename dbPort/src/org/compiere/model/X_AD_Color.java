@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Color
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Color extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_AD_Color (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=457 */
-public static final int Table_ID=457;
+public static final int Table_ID=MTable.getTable_ID("AD_Color");
 
 /** TableName=AD_Color */
 public static final String Table_Name="AD_Color";
 
-protected static KeyNamePair Model = new KeyNamePair(457,"AD_Color");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Color");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setAD_Color_ID (int AD_Color_ID)
 {
 if (AD_Color_ID < 1) throw new IllegalArgumentException ("AD_Color_ID is mandatory.");
-set_ValueNoCheck ("AD_Color_ID", new Integer(AD_Color_ID));
+set_ValueNoCheck ("AD_Color_ID", Integer.valueOf(AD_Color_ID));
 }
 /** Get System Color.
 @return Color for backgrounds or indicators */
@@ -114,7 +114,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -128,7 +128,7 @@ return ii.intValue();
 @param Alpha Color Alpha value 0-255 */
 public void setAlpha (int Alpha)
 {
-set_Value ("Alpha", new Integer(Alpha));
+set_Value ("Alpha", Integer.valueOf(Alpha));
 }
 /** Get Alpha.
 @return Color Alpha value 0-255 */
@@ -142,7 +142,7 @@ return ii.intValue();
 @param Alpha_1 Alpha value for second color */
 public void setAlpha_1 (int Alpha_1)
 {
-set_Value ("Alpha_1", new Integer(Alpha_1));
+set_Value ("Alpha_1", Integer.valueOf(Alpha_1));
 }
 /** Get 2nd Alpha.
 @return Alpha value for second color */
@@ -156,7 +156,7 @@ return ii.intValue();
 @param Blue Color RGB blue value */
 public void setBlue (int Blue)
 {
-set_Value ("Blue", new Integer(Blue));
+set_Value ("Blue", Integer.valueOf(Blue));
 }
 /** Get Blue.
 @return Color RGB blue value */
@@ -170,7 +170,7 @@ return ii.intValue();
 @param Blue_1 RGB value for second color */
 public void setBlue_1 (int Blue_1)
 {
-set_Value ("Blue_1", new Integer(Blue_1));
+set_Value ("Blue_1", Integer.valueOf(Blue_1));
 }
 /** Get 2nd Blue.
 @return RGB value for second color */
@@ -210,7 +210,7 @@ return get_Value("ColorType");
 @param Green RGB value  */
 public void setGreen (int Green)
 {
-set_Value ("Green", new Integer(Green));
+set_Value ("Green", Integer.valueOf(Green));
 }
 /** Get Green.
 @return RGB value  */
@@ -224,7 +224,7 @@ return ii.intValue();
 @param Green_1 RGB value for second color */
 public void setGreen_1 (int Green_1)
 {
-set_Value ("Green_1", new Integer(Green_1));
+set_Value ("Green_1", Integer.valueOf(Green_1));
 }
 /** Get 2nd Green.
 @return RGB value for second color */
@@ -253,7 +253,7 @@ return bd;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -271,7 +271,7 @@ return false;
 @param LineDistance Distance between lines */
 public void setLineDistance (int LineDistance)
 {
-set_Value ("LineDistance", new Integer(LineDistance));
+set_Value ("LineDistance", Integer.valueOf(LineDistance));
 }
 /** Get Line Distance.
 @return Distance between lines */
@@ -285,7 +285,7 @@ return ii.intValue();
 @param LineWidth Width of the lines */
 public void setLineWidth (int LineWidth)
 {
-set_Value ("LineWidth", new Integer(LineWidth));
+set_Value ("LineWidth", Integer.valueOf(LineWidth));
 }
 /** Get Line Width.
 @return Width of the lines */
@@ -323,7 +323,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Red RGB value */
 public void setRed (int Red)
 {
-set_Value ("Red", new Integer(Red));
+set_Value ("Red", Integer.valueOf(Red));
 }
 /** Get Red.
 @return RGB value */
@@ -337,7 +337,7 @@ return ii.intValue();
 @param Red_1 RGB value for second color */
 public void setRed_1 (int Red_1)
 {
-set_Value ("Red_1", new Integer(Red_1));
+set_Value ("Red_1", Integer.valueOf(Red_1));
 }
 /** Get 2nd Red.
 @return RGB value for second color */
@@ -351,7 +351,7 @@ return ii.intValue();
 @param RepeatDistance Distance in points to repeat gradient color - or zero */
 public void setRepeatDistance (int RepeatDistance)
 {
-set_Value ("RepeatDistance", new Integer(RepeatDistance));
+set_Value ("RepeatDistance", Integer.valueOf(RepeatDistance));
 }
 /** Get Repeat Distance.
 @return Distance in points to repeat gradient color - or zero */

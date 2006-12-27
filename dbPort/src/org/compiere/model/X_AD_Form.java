@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Form
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Form extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_Form (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=376 */
-public static final int Table_ID=376;
+public static final int Table_ID=MTable.getTable_ID("AD_Form");
 
 /** TableName=AD_Form */
 public static final String Table_Name="AD_Form";
 
-protected static KeyNamePair Model = new KeyNamePair(376,"AD_Form");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Form");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID < 1) throw new IllegalArgumentException ("AD_Form_ID is mandatory.");
-set_ValueNoCheck ("AD_Form_ID", new Integer(AD_Form_ID));
+set_ValueNoCheck ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
 /** Get Special Form.
 @return Special Form */
@@ -216,7 +216,7 @@ return (String)get_Value("Help");
 @param IsBetaFunctionality This functionality is considered Beta */
 public void setIsBetaFunctionality (boolean IsBetaFunctionality)
 {
-set_Value ("IsBetaFunctionality", new Boolean(IsBetaFunctionality));
+set_Value ("IsBetaFunctionality", Boolean.valueOf(IsBetaFunctionality));
 }
 /** Get Beta Functionality.
 @return This functionality is considered Beta */

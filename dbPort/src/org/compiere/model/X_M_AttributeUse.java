@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeUse
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeUse extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_AttributeUse (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=563 */
-public static final int Table_ID=563;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeUse");
 
 /** TableName=M_AttributeUse */
 public static final String Table_Name="M_AttributeUse";
 
-protected static KeyNamePair Model = new KeyNamePair(563,"M_AttributeUse");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeUse");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 {
 if (M_AttributeSet_ID < 0) throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSet_ID", new Integer(M_AttributeSet_ID));
+set_ValueNoCheck ("M_AttributeSet_ID", Integer.valueOf(M_AttributeSet_ID));
 }
 /** Get Attribute Set.
 @return Product Attribute Set */
@@ -113,7 +113,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSet_ID()));
 public void setM_Attribute_ID (int M_Attribute_ID)
 {
 if (M_Attribute_ID < 1) throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-set_ValueNoCheck ("M_Attribute_ID", new Integer(M_Attribute_ID));
+set_ValueNoCheck ("M_Attribute_ID", Integer.valueOf(M_Attribute_ID));
 }
 /** Get Attribute.
 @return Product Attribute */
@@ -128,7 +128,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

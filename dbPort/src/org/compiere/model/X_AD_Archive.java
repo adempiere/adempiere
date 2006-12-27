@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Archive
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Archive extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_Archive (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=754 */
-public static final int Table_ID=754;
+public static final int Table_ID=MTable.getTable_ID("AD_Archive");
 
 /** TableName=AD_Archive */
 public static final String Table_Name="AD_Archive";
 
-protected static KeyNamePair Model = new KeyNamePair(754,"AD_Archive");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Archive");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Archive_ID (int AD_Archive_ID)
 {
 if (AD_Archive_ID < 1) throw new IllegalArgumentException ("AD_Archive_ID is mandatory.");
-set_ValueNoCheck ("AD_Archive_ID", new Integer(AD_Archive_ID));
+set_ValueNoCheck ("AD_Archive_ID", Integer.valueOf(AD_Archive_ID));
 }
 /** Get Archive.
 @return Document and Report Archive */
@@ -109,7 +109,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -125,7 +125,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -154,7 +154,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -202,7 +202,7 @@ return (String)get_Value("Help");
 @param IsReport Indicates a Report record */
 public void setIsReport (boolean IsReport)
 {
-set_Value ("IsReport", new Boolean(IsReport));
+set_Value ("IsReport", Boolean.valueOf(IsReport));
 }
 /** Get Report.
 @return Indicates a Report record */
@@ -246,7 +246,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_Value ("Record_ID", null);
  else 
-set_Value ("Record_ID", new Integer(Record_ID));
+set_Value ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

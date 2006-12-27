@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentAllocate
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaymentAllocate extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_PaymentAllocate (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=812 */
-public static final int Table_ID=812;
+public static final int Table_ID=MTable.getTable_ID("C_PaymentAllocate");
 
 /** TableName=C_PaymentAllocate */
 public static final String Table_Name="C_PaymentAllocate";
 
-protected static KeyNamePair Model = new KeyNamePair(812,"C_PaymentAllocate");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaymentAllocate");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -112,7 +112,7 @@ public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 {
 if (C_AllocationLine_ID <= 0) set_Value ("C_AllocationLine_ID", null);
  else 
-set_Value ("C_AllocationLine_ID", new Integer(C_AllocationLine_ID));
+set_Value ("C_AllocationLine_ID", Integer.valueOf(C_AllocationLine_ID));
 }
 /** Get Allocation Line.
 @return Allocation Line */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID < 1) throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -148,7 +148,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
 public void setC_PaymentAllocate_ID (int C_PaymentAllocate_ID)
 {
 if (C_PaymentAllocate_ID < 1) throw new IllegalArgumentException ("C_PaymentAllocate_ID is mandatory.");
-set_ValueNoCheck ("C_PaymentAllocate_ID", new Integer(C_PaymentAllocate_ID));
+set_ValueNoCheck ("C_PaymentAllocate_ID", Integer.valueOf(C_PaymentAllocate_ID));
 }
 /** Get Allocate Payment.
 @return Allocate Payment to Invoices */
@@ -163,7 +163,7 @@ return ii.intValue();
 public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID < 1) throw new IllegalArgumentException ("C_Payment_ID is mandatory.");
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */

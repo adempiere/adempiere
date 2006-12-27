@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Movement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Movement extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_Movement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=323 */
-public static final int Table_ID=323;
+public static final int Table_ID=MTable.getTable_ID("M_Movement");
 
 /** TableName=M_Movement */
 public static final String Table_Name="M_Movement";
 
-protected static KeyNamePair Model = new KeyNamePair(323,"M_Movement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Movement");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -103,7 +103,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -133,7 +133,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -149,7 +149,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -164,7 +164,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -180,7 +180,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -345,7 +345,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -363,7 +363,7 @@ return false;
 @param IsInTransit Movement is in transit */
 public void setIsInTransit (boolean IsInTransit)
 {
-set_Value ("IsInTransit", new Boolean(IsInTransit));
+set_Value ("IsInTransit", Boolean.valueOf(IsInTransit));
 }
 /** Get In Transit.
 @return Movement is in transit */
@@ -382,7 +382,7 @@ return false;
 public void setM_Movement_ID (int M_Movement_ID)
 {
 if (M_Movement_ID < 1) throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-set_ValueNoCheck ("M_Movement_ID", new Integer(M_Movement_ID));
+set_ValueNoCheck ("M_Movement_ID", Integer.valueOf(M_Movement_ID));
 }
 /** Get Inventory Move.
 @return Movement of Inventory */
@@ -409,7 +409,7 @@ return (Timestamp)get_Value("MovementDate");
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_Value ("Posted", new Boolean(Posted));
+set_Value ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -427,7 +427,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -445,7 +445,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -468,7 +468,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -487,7 +487,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

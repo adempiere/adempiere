@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_UOM_Conversion
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_UOM_Conversion extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_UOM_Conversion (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=175 */
-public static final int Table_ID=175;
+public static final int Table_ID=MTable.getTable_ID("C_UOM_Conversion");
 
 /** TableName=C_UOM_Conversion */
 public static final String Table_Name="C_UOM_Conversion";
 
-protected static KeyNamePair Model = new KeyNamePair(175,"C_UOM_Conversion");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_UOM_Conversion");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_UOM_Conversion_ID (int C_UOM_Conversion_ID)
 {
 if (C_UOM_Conversion_ID < 1) throw new IllegalArgumentException ("C_UOM_Conversion_ID is mandatory.");
-set_ValueNoCheck ("C_UOM_Conversion_ID", new Integer(C_UOM_Conversion_ID));
+set_ValueNoCheck ("C_UOM_Conversion_ID", Integer.valueOf(C_UOM_Conversion_ID));
 }
 /** Get UOM Conversion.
 @return Unit of Measure Conversion */
@@ -118,7 +118,7 @@ public static final int C_UOM_ID_AD_Reference_ID=114;
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -136,7 +136,7 @@ public static final int C_UOM_TO_ID_AD_Reference_ID=114;
 public void setC_UOM_To_ID (int C_UOM_To_ID)
 {
 if (C_UOM_To_ID < 1) throw new IllegalArgumentException ("C_UOM_To_ID is mandatory.");
-set_Value ("C_UOM_To_ID", new Integer(C_UOM_To_ID));
+set_Value ("C_UOM_To_ID", Integer.valueOf(C_UOM_To_ID));
 }
 /** Get UoM To.
 @return Target or destination Unit of Measure */
@@ -167,7 +167,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

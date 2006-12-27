@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_GoalRestriction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_GoalRestriction extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_PA_GoalRestriction (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=832 */
-public static final int Table_ID=832;
+public static final int Table_ID=MTable.getTable_ID("PA_GoalRestriction");
 
 /** TableName=PA_GoalRestriction */
 public static final String Table_Name="PA_GoalRestriction";
 
-protected static KeyNamePair Model = new KeyNamePair(832,"PA_GoalRestriction");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_GoalRestriction");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID <= 0) set_Value ("C_BP_Group_ID", null);
  else 
-set_Value ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_Value ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -110,7 +110,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -159,7 +159,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -175,7 +175,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -218,7 +218,7 @@ public void setOrg_ID (int Org_ID)
 {
 if (Org_ID <= 0) set_Value ("Org_ID", null);
  else 
-set_Value ("Org_ID", new Integer(Org_ID));
+set_Value ("Org_ID", Integer.valueOf(Org_ID));
 }
 /** Get Organization.
 @return Organizational entity within client */
@@ -233,7 +233,7 @@ return ii.intValue();
 public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
 {
 if (PA_GoalRestriction_ID < 1) throw new IllegalArgumentException ("PA_GoalRestriction_ID is mandatory.");
-set_ValueNoCheck ("PA_GoalRestriction_ID", new Integer(PA_GoalRestriction_ID));
+set_ValueNoCheck ("PA_GoalRestriction_ID", Integer.valueOf(PA_GoalRestriction_ID));
 }
 /** Get Goal Restriction.
 @return Performance Goal Restriction */
@@ -248,7 +248,7 @@ return ii.intValue();
 public void setPA_Goal_ID (int PA_Goal_ID)
 {
 if (PA_Goal_ID < 1) throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
-set_Value ("PA_Goal_ID", new Integer(PA_Goal_ID));
+set_Value ("PA_Goal_ID", Integer.valueOf(PA_Goal_ID));
 }
 /** Get Goal.
 @return Performance Goal */

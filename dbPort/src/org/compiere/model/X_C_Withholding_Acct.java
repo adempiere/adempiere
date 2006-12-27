@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Withholding_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Withholding_Acct extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_Withholding_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=400 */
-public static final int Table_ID=400;
+public static final int Table_ID=MTable.getTable_ID("C_Withholding_Acct");
 
 /** TableName=C_Withholding_Acct */
 public static final String Table_Name="C_Withholding_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(400,"C_Withholding_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Withholding_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setC_Withholding_ID (int C_Withholding_ID)
 {
 if (C_Withholding_ID < 1) throw new IllegalArgumentException ("C_Withholding_ID is mandatory.");
-set_ValueNoCheck ("C_Withholding_ID", new Integer(C_Withholding_ID));
+set_ValueNoCheck ("C_Withholding_ID", Integer.valueOf(C_Withholding_ID));
 }
 /** Get Withholding.
 @return Withholding type defined */
@@ -121,7 +121,7 @@ return ii.intValue();
 @param Withholding_Acct Account for Withholdings */
 public void setWithholding_Acct (int Withholding_Acct)
 {
-set_Value ("Withholding_Acct", new Integer(Withholding_Acct));
+set_Value ("Withholding_Acct", Integer.valueOf(Withholding_Acct));
 }
 /** Get Withholding.
 @return Account for Withholdings */

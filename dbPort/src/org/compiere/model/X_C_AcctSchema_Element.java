@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema_Element
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AcctSchema_Element extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_AcctSchema_Element (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=279 */
-public static final int Table_ID=279;
+public static final int Table_ID=MTable.getTable_ID("C_AcctSchema_Element");
 
 /** TableName=C_AcctSchema_Element */
 public static final String Table_Name="C_AcctSchema_Element";
 
-protected static KeyNamePair Model = new KeyNamePair(279,"C_AcctSchema_Element");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AcctSchema_Element");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setC_AcctSchema_Element_ID (int C_AcctSchema_Element_ID)
 {
 if (C_AcctSchema_Element_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_Element_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_Element_ID", new Integer(C_AcctSchema_Element_ID));
+set_ValueNoCheck ("C_AcctSchema_Element_ID", Integer.valueOf(C_AcctSchema_Element_ID));
 }
 /** Get Acct.Schema Element.
 @return Acct.Schema Element */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -145,7 +145,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -161,7 +161,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -177,7 +177,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -193,7 +193,7 @@ public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID <= 0) set_Value ("C_ElementValue_ID", null);
  else 
-set_Value ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_Value ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -208,7 +208,7 @@ return ii.intValue();
 public void setC_Element_ID (int C_Element_ID)
 {
 if (C_Element_ID < 1) throw new IllegalArgumentException ("C_Element_ID is mandatory.");
-set_Value ("C_Element_ID", new Integer(C_Element_ID));
+set_Value ("C_Element_ID", Integer.valueOf(C_Element_ID));
 }
 /** Get Element.
 @return Accounting Element */
@@ -224,7 +224,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -240,7 +240,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -256,7 +256,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -325,7 +325,7 @@ return (String)get_Value("ElementType");
 @param IsBalanced Balanced */
 public void setIsBalanced (boolean IsBalanced)
 {
-set_Value ("IsBalanced", new Boolean(IsBalanced));
+set_Value ("IsBalanced", Boolean.valueOf(IsBalanced));
 }
 /** Get Balanced.
 @return Balanced */
@@ -343,7 +343,7 @@ return false;
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
 {
-set_Value ("IsMandatory", new Boolean(IsMandatory));
+set_Value ("IsMandatory", Boolean.valueOf(IsMandatory));
 }
 /** Get Mandatory.
 @return Data entry is required in this column */
@@ -363,7 +363,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -405,7 +405,7 @@ public static final int ORG_ID_AD_Reference_ID=130;
 public void setOrg_ID (int Org_ID)
 {
 if (Org_ID < 1) throw new IllegalArgumentException ("Org_ID is mandatory.");
-set_Value ("Org_ID", new Integer(Org_ID));
+set_Value ("Org_ID", Integer.valueOf(Org_ID));
 }
 /** Get Organization.
 @return Organizational entity within client */
@@ -420,7 +420,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

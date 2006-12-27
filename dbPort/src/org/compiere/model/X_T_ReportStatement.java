@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_ReportStatement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_ReportStatement extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_T_ReportStatement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=545 */
-public static final int Table_ID=545;
+public static final int Table_ID=MTable.getTable_ID("T_ReportStatement");
 
 /** TableName=T_ReportStatement */
 public static final String Table_Name="T_ReportStatement";
 
-protected static KeyNamePair Model = new KeyNamePair(545,"T_ReportStatement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_ReportStatement");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -180,7 +180,7 @@ return (String)get_Value("Description");
 public void setFact_Acct_ID (int Fact_Acct_ID)
 {
 if (Fact_Acct_ID < 1) throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-set_ValueNoCheck ("Fact_Acct_ID", new Integer(Fact_Acct_ID));
+set_ValueNoCheck ("Fact_Acct_ID", Integer.valueOf(Fact_Acct_ID));
 }
 /** Get Accounting Fact.
 @return Accounting Fact */
@@ -194,7 +194,7 @@ return ii.intValue();
 @param LevelNo Level no */
 public void setLevelNo (int LevelNo)
 {
-set_ValueNoCheck ("LevelNo", new Integer(LevelNo));
+set_ValueNoCheck ("LevelNo", Integer.valueOf(LevelNo));
 }
 /** Get Level no.
 @return Level no */

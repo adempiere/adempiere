@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Category
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Product_Category extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_Product_Category (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=209 */
-public static final int Table_ID=209;
+public static final int Table_ID=MTable.getTable_ID("M_Product_Category");
 
 /** TableName=M_Product_Category */
 public static final String Table_Name="M_Product_Category";
 
-protected static KeyNamePair Model = new KeyNamePair(209,"M_Product_Category");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Product_Category");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -113,7 +113,7 @@ public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 {
 if (A_Asset_Group_ID <= 0) set_Value ("A_Asset_Group_ID", null);
  else 
-set_Value ("A_Asset_Group_ID", new Integer(A_Asset_Group_ID));
+set_Value ("A_Asset_Group_ID", Integer.valueOf(A_Asset_Group_ID));
 }
 /** Get Asset Group.
 @return Group of Assets */
@@ -144,7 +144,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -162,7 +162,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -208,7 +208,7 @@ return (String)get_Value("MMPolicy");
 public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID < 1) throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-set_ValueNoCheck ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_ValueNoCheck ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */

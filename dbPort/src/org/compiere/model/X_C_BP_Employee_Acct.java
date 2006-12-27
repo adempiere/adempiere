@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Employee_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Employee_Acct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BP_Employee_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=184 */
-public static final int Table_ID=184;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Employee_Acct");
 
 /** TableName=C_BP_Employee_Acct */
 public static final String Table_Name="C_BP_Employee_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(184,"C_BP_Employee_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Employee_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -122,7 +122,7 @@ return ii.intValue();
 @param E_Expense_Acct Account for Employee Expenses */
 public void setE_Expense_Acct (int E_Expense_Acct)
 {
-set_Value ("E_Expense_Acct", new Integer(E_Expense_Acct));
+set_Value ("E_Expense_Acct", Integer.valueOf(E_Expense_Acct));
 }
 /** Get Employee Expense.
 @return Account for Employee Expenses */
@@ -136,7 +136,7 @@ return ii.intValue();
 @param E_Prepayment_Acct Account for Employee Expense Prepayments */
 public void setE_Prepayment_Acct (int E_Prepayment_Acct)
 {
-set_Value ("E_Prepayment_Acct", new Integer(E_Prepayment_Acct));
+set_Value ("E_Prepayment_Acct", Integer.valueOf(E_Prepayment_Acct));
 }
 /** Get Employee Prepayment.
 @return Account for Employee Expense Prepayments */

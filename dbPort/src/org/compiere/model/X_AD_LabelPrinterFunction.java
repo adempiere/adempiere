@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_LabelPrinterFunction (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=624 */
-public static final int Table_ID=624;
+public static final int Table_ID=MTable.getTable_ID("AD_LabelPrinterFunction");
 
 /** TableName=AD_LabelPrinterFunction */
 public static final String Table_Name="AD_LabelPrinterFunction";
 
-protected static KeyNamePair Model = new KeyNamePair(624,"AD_LabelPrinterFunction");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_LabelPrinterFunction");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
 {
 if (AD_LabelPrinterFunction_ID < 1) throw new IllegalArgumentException ("AD_LabelPrinterFunction_ID is mandatory.");
-set_ValueNoCheck ("AD_LabelPrinterFunction_ID", new Integer(AD_LabelPrinterFunction_ID));
+set_ValueNoCheck ("AD_LabelPrinterFunction_ID", Integer.valueOf(AD_LabelPrinterFunction_ID));
 }
 /** Get Label printer Function.
 @return Function of Label Printer */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setAD_LabelPrinter_ID (int AD_LabelPrinter_ID)
 {
 if (AD_LabelPrinter_ID < 1) throw new IllegalArgumentException ("AD_LabelPrinter_ID is mandatory.");
-set_ValueNoCheck ("AD_LabelPrinter_ID", new Integer(AD_LabelPrinter_ID));
+set_ValueNoCheck ("AD_LabelPrinter_ID", Integer.valueOf(AD_LabelPrinter_ID));
 }
 /** Get Label printer.
 @return Label Printer Definition */
@@ -173,7 +173,7 @@ return (String)get_Value("FunctionSuffix");
 @param IsXYPosition The Function is XY position */
 public void setIsXYPosition (boolean IsXYPosition)
 {
-set_Value ("IsXYPosition", new Boolean(IsXYPosition));
+set_Value ("IsXYPosition", Boolean.valueOf(IsXYPosition));
 }
 /** Get XY Position.
 @return The Function is XY position */

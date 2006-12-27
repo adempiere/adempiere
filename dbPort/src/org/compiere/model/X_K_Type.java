@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Type
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_Type extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_K_Type (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=606 */
-public static final int Table_ID=606;
+public static final int Table_ID=MTable.getTable_ID("K_Type");
 
 /** TableName=K_Type */
 public static final String Table_Name="K_Type";
 
-protected static KeyNamePair Model = new KeyNamePair(606,"K_Type");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Type");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -126,7 +126,7 @@ return (String)get_Value("Help");
 @param IsPublic Public can read entry */
 public void setIsPublic (boolean IsPublic)
 {
-set_Value ("IsPublic", new Boolean(IsPublic));
+set_Value ("IsPublic", Boolean.valueOf(IsPublic));
 }
 /** Get Public.
 @return Public can read entry */
@@ -144,7 +144,7 @@ return false;
 @param IsPublicWrite Public can write entries */
 public void setIsPublicWrite (boolean IsPublicWrite)
 {
-set_Value ("IsPublicWrite", new Boolean(IsPublicWrite));
+set_Value ("IsPublicWrite", Boolean.valueOf(IsPublicWrite));
 }
 /** Get Public Write.
 @return Public can write entries */
@@ -163,7 +163,7 @@ return false;
 public void setK_Type_ID (int K_Type_ID)
 {
 if (K_Type_ID < 1) throw new IllegalArgumentException ("K_Type_ID is mandatory.");
-set_ValueNoCheck ("K_Type_ID", new Integer(K_Type_ID));
+set_ValueNoCheck ("K_Type_ID", Integer.valueOf(K_Type_ID));
 }
 /** Get Knowldge Type.
 @return Knowledge Type */

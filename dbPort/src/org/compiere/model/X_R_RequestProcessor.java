@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestProcessor extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_R_RequestProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=420 */
-public static final int Table_ID=420;
+public static final int Table_ID=MTable.getTable_ID("R_RequestProcessor");
 
 /** TableName=R_RequestProcessor */
 public static final String Table_Name="R_RequestProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(420,"R_RequestProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -139,7 +139,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -182,7 +182,7 @@ return (String)get_Value("FrequencyType");
 @param InactivityAlertDays Send Alert when there is no activity after days (0= no alert) */
 public void setInactivityAlertDays (int InactivityAlertDays)
 {
-set_Value ("InactivityAlertDays", new Integer(InactivityAlertDays));
+set_Value ("InactivityAlertDays", Integer.valueOf(InactivityAlertDays));
 }
 /** Get Inactivity Alert Days.
 @return Send Alert when there is no activity after days (0= no alert) */
@@ -196,7 +196,7 @@ return ii.intValue();
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -234,7 +234,7 @@ return new KeyNamePair(get_ID(), getName());
 @param OverdueAlertDays Send email alert after number of days due (0=no alerts) */
 public void setOverdueAlertDays (int OverdueAlertDays)
 {
-set_Value ("OverdueAlertDays", new Integer(OverdueAlertDays));
+set_Value ("OverdueAlertDays", Integer.valueOf(OverdueAlertDays));
 }
 /** Get Alert after Days Due.
 @return Send email alert after number of days due (0=no alerts) */
@@ -248,7 +248,7 @@ return ii.intValue();
 @param OverdueAssignDays Escalation to superior after number of due days (0 = no) */
 public void setOverdueAssignDays (int OverdueAssignDays)
 {
-set_Value ("OverdueAssignDays", new Integer(OverdueAssignDays));
+set_Value ("OverdueAssignDays", Integer.valueOf(OverdueAssignDays));
 }
 /** Get Escalate after Days Due.
 @return Escalation to superior after number of due days (0 = no) */
@@ -262,7 +262,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -281,7 +281,7 @@ return false;
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 {
 if (R_RequestProcessor_ID < 1) throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-set_ValueNoCheck ("R_RequestProcessor_ID", new Integer(R_RequestProcessor_ID));
+set_ValueNoCheck ("R_RequestProcessor_ID", Integer.valueOf(R_RequestProcessor_ID));
 }
 /** Get Request Processor.
 @return Processor for Requests */
@@ -297,7 +297,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_Value ("R_RequestType_ID", null);
  else 
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */
@@ -311,7 +311,7 @@ return ii.intValue();
 @param RemindDays Days between sending Reminder Emails for a due or inactive Document */
 public void setRemindDays (int RemindDays)
 {
-set_Value ("RemindDays", new Integer(RemindDays));
+set_Value ("RemindDays", Integer.valueOf(RemindDays));
 }
 /** Get Reminder Days.
 @return Days between sending Reminder Emails for a due or inactive Document */
@@ -329,7 +329,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Attachment
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Attachment extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_Attachment (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=254 */
-public static final int Table_ID=254;
+public static final int Table_ID=MTable.getTable_ID("AD_Attachment");
 
 /** TableName=AD_Attachment */
 public static final String Table_Name="AD_Attachment";
 
-protected static KeyNamePair Model = new KeyNamePair(254,"AD_Attachment");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Attachment");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Attachment_ID (int AD_Attachment_ID)
 {
 if (AD_Attachment_ID < 1) throw new IllegalArgumentException ("AD_Attachment_ID is mandatory.");
-set_ValueNoCheck ("AD_Attachment_ID", new Integer(AD_Attachment_ID));
+set_ValueNoCheck ("AD_Attachment_ID", Integer.valueOf(AD_Attachment_ID));
 }
 /** Get Attachment.
 @return Attachment for the document */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -135,7 +135,7 @@ return (byte[])get_Value("BinaryData");
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

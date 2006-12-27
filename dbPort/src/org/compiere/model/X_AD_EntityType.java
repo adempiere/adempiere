@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_EntityType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_EntityType extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_EntityType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=882 */
-public static final int Table_ID=882;
+public static final int Table_ID=MTable.getTable_ID("AD_EntityType");
 
 /** TableName=AD_EntityType */
 public static final String Table_Name="AD_EntityType";
 
-protected static KeyNamePair Model = new KeyNamePair(882,"AD_EntityType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_EntityType");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_EntityType_ID (int AD_EntityType_ID)
 {
 if (AD_EntityType_ID < 1) throw new IllegalArgumentException ("AD_EntityType_ID is mandatory.");
-set_ValueNoCheck ("AD_EntityType_ID", new Integer(AD_EntityType_ID));
+set_ValueNoCheck ("AD_EntityType_ID", Integer.valueOf(AD_EntityType_ID));
 }
 /** Get Entity Type.
 @return System Entity Type */
@@ -218,7 +218,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Shipper
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Shipper extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_Shipper (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=253 */
-public static final int Table_ID=253;
+public static final int Table_ID=MTable.getTable_ID("M_Shipper");
 
 /** TableName=M_Shipper */
 public static final String Table_Name="M_Shipper";
 
-protected static KeyNamePair Model = new KeyNamePair(253,"M_Shipper");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Shipper");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -124,7 +124,7 @@ return (String)get_Value("Description");
 public void setM_Shipper_ID (int M_Shipper_ID)
 {
 if (M_Shipper_ID < 1) throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-set_ValueNoCheck ("M_Shipper_ID", new Integer(M_Shipper_ID));
+set_ValueNoCheck ("M_Shipper_ID", Integer.valueOf(M_Shipper_ID));
 }
 /** Get Shipper.
 @return Method or manner of product delivery */

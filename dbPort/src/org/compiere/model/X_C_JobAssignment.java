@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_JobAssignment
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_JobAssignment extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_JobAssignment (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=791 */
-public static final int Table_ID=791;
+public static final int Table_ID=MTable.getTable_ID("C_JobAssignment");
 
 /** TableName=C_JobAssignment */
 public static final String Table_Name="C_JobAssignment";
 
-protected static KeyNamePair Model = new KeyNamePair(791,"C_JobAssignment");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_JobAssignment");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_JobAssignment_ID (int C_JobAssignment_ID)
 {
 if (C_JobAssignment_ID < 1) throw new IllegalArgumentException ("C_JobAssignment_ID is mandatory.");
-set_ValueNoCheck ("C_JobAssignment_ID", new Integer(C_JobAssignment_ID));
+set_ValueNoCheck ("C_JobAssignment_ID", Integer.valueOf(C_JobAssignment_ID));
 }
 /** Get Position Assignment.
 @return Assignemt of Employee (User) to Job Position */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setC_Job_ID (int C_Job_ID)
 {
 if (C_Job_ID < 1) throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-set_ValueNoCheck ("C_Job_ID", new Integer(C_Job_ID));
+set_ValueNoCheck ("C_Job_ID", Integer.valueOf(C_Job_ID));
 }
 /** Get Position.
 @return Job Position */

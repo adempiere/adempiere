@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintLabel
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintLabel extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_AD_PrintLabel (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=570 */
-public static final int Table_ID=570;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintLabel");
 
 /** TableName=AD_PrintLabel */
 public static final String Table_Name="AD_PrintLabel";
 
-protected static KeyNamePair Model = new KeyNamePair(570,"AD_PrintLabel");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintLabel");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setAD_LabelPrinter_ID (int AD_LabelPrinter_ID)
 {
 if (AD_LabelPrinter_ID < 1) throw new IllegalArgumentException ("AD_LabelPrinter_ID is mandatory.");
-set_Value ("AD_LabelPrinter_ID", new Integer(AD_LabelPrinter_ID));
+set_Value ("AD_LabelPrinter_ID", Integer.valueOf(AD_LabelPrinter_ID));
 }
 /** Get Label printer.
 @return Label Printer Definition */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
 {
 if (AD_PrintLabel_ID < 1) throw new IllegalArgumentException ("AD_PrintLabel_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintLabel_ID", new Integer(AD_PrintLabel_ID));
+set_ValueNoCheck ("AD_PrintLabel_ID", Integer.valueOf(AD_PrintLabel_ID));
 }
 /** Get Print Label.
 @return Label Format to print */
@@ -126,7 +126,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -157,7 +157,7 @@ return (String)get_Value("Description");
 @param IsLandscape Landscape orientation */
 public void setIsLandscape (boolean IsLandscape)
 {
-set_Value ("IsLandscape", new Boolean(IsLandscape));
+set_Value ("IsLandscape", Boolean.valueOf(IsLandscape));
 }
 /** Get Landscape.
 @return Landscape orientation */
@@ -175,7 +175,7 @@ return false;
 @param LabelHeight Height of the label */
 public void setLabelHeight (int LabelHeight)
 {
-set_Value ("LabelHeight", new Integer(LabelHeight));
+set_Value ("LabelHeight", Integer.valueOf(LabelHeight));
 }
 /** Get Label Height.
 @return Height of the label */
@@ -189,7 +189,7 @@ return ii.intValue();
 @param LabelWidth Width of the Label */
 public void setLabelWidth (int LabelWidth)
 {
-set_Value ("LabelWidth", new Integer(LabelWidth));
+set_Value ("LabelWidth", Integer.valueOf(LabelWidth));
 }
 /** Get Label Width.
 @return Width of the Label */

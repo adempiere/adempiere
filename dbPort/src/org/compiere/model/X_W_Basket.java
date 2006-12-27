@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Basket
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_Basket extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_W_Basket (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=402 */
-public static final int Table_ID=402;
+public static final int Table_ID=MTable.getTable_ID("W_Basket");
 
 /** TableName=W_Basket */
 public static final String Table_Name="W_Basket";
 
-protected static KeyNamePair Model = new KeyNamePair(402,"W_Basket");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_Basket");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -108,7 +108,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -141,7 +141,7 @@ public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID <= 0) set_Value ("M_PriceList_ID", null);
  else 
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -156,7 +156,7 @@ return ii.intValue();
 public void setSession_ID (int Session_ID)
 {
 if (Session_ID < 1) throw new IllegalArgumentException ("Session_ID is mandatory.");
-set_Value ("Session_ID", new Integer(Session_ID));
+set_Value ("Session_ID", Integer.valueOf(Session_ID));
 }
 /** Get Session ID.
 @return Session ID */
@@ -177,7 +177,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getSession_ID()));
 public void setW_Basket_ID (int W_Basket_ID)
 {
 if (W_Basket_ID < 1) throw new IllegalArgumentException ("W_Basket_ID is mandatory.");
-set_ValueNoCheck ("W_Basket_ID", new Integer(W_Basket_ID));
+set_ValueNoCheck ("W_Basket_ID", Integer.valueOf(W_Basket_ID));
 }
 /** Get W_Basket_ID.
 @return Web Basket */

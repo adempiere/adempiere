@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_OrgInfo
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_OrgInfo extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_OrgInfo (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=228 */
-public static final int Table_ID=228;
+public static final int Table_ID=MTable.getTable_ID("AD_OrgInfo");
 
 /** TableName=AD_OrgInfo */
 public static final String Table_Name="AD_OrgInfo";
 
-protected static KeyNamePair Model = new KeyNamePair(228,"AD_OrgInfo");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_OrgInfo");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_OrgType_ID (int AD_OrgType_ID)
 {
 if (AD_OrgType_ID <= 0) set_Value ("AD_OrgType_ID", null);
  else 
-set_Value ("AD_OrgType_ID", new Integer(AD_OrgType_ID));
+set_Value ("AD_OrgType_ID", Integer.valueOf(AD_OrgType_ID));
 }
 /** Get Organization Type.
 @return Organization Type allows you to categorize your organizations */
@@ -108,7 +108,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -142,7 +142,7 @@ public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID <= 0) set_Value ("M_Warehouse_ID", null);
  else 
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -161,7 +161,7 @@ public void setParent_Org_ID (int Parent_Org_ID)
 {
 if (Parent_Org_ID <= 0) set_Value ("Parent_Org_ID", null);
  else 
-set_Value ("Parent_Org_ID", new Integer(Parent_Org_ID));
+set_Value ("Parent_Org_ID", Integer.valueOf(Parent_Org_ID));
 }
 /** Get Parent Organization.
 @return Parent (superior) Organization  */
@@ -180,7 +180,7 @@ public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID <= 0) set_Value ("Supervisor_ID", null);
  else 
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

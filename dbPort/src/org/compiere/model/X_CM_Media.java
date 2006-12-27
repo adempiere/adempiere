@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Media
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Media extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_Media (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=857 */
-public static final int Table_ID=857;
+public static final int Table_ID=MTable.getTable_ID("CM_Media");
 
 /** TableName=CM_Media */
 public static final String Table_Name="CM_Media";
 
-protected static KeyNamePair Model = new KeyNamePair(857,"CM_Media");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Media");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setCM_Media_ID (int CM_Media_ID)
 {
 if (CM_Media_ID < 1) throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-set_ValueNoCheck ("CM_Media_ID", new Integer(CM_Media_ID));
+set_ValueNoCheck ("CM_Media_ID", Integer.valueOf(CM_Media_ID));
 }
 /** Get Media Item.
 @return Contains media content like images, flash movies etc. */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -201,7 +201,7 @@ return (String)get_Value("Help");
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */

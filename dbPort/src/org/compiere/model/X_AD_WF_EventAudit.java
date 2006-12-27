@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_EventAudit
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WF_EventAudit extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_AD_WF_EventAudit (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=649 */
-public static final int Table_ID=649;
+public static final int Table_ID=MTable.getTable_ID("AD_WF_EventAudit");
 
 /** TableName=AD_WF_EventAudit */
 public static final String Table_Name="AD_WF_EventAudit";
 
-protected static KeyNamePair Model = new KeyNamePair(649,"AD_WF_EventAudit");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WF_EventAudit");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -117,7 +117,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -132,7 +132,7 @@ return ii.intValue();
 public void setAD_WF_EventAudit_ID (int AD_WF_EventAudit_ID)
 {
 if (AD_WF_EventAudit_ID < 1) throw new IllegalArgumentException ("AD_WF_EventAudit_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_EventAudit_ID", new Integer(AD_WF_EventAudit_ID));
+set_ValueNoCheck ("AD_WF_EventAudit_ID", Integer.valueOf(AD_WF_EventAudit_ID));
 }
 /** Get Workflow Event Audit.
 @return Workflow Process Activity Event Audit Information */
@@ -153,7 +153,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_EventAudit_ID()));
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 {
 if (AD_WF_Node_ID < 1) throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-set_Value ("AD_WF_Node_ID", new Integer(AD_WF_Node_ID));
+set_Value ("AD_WF_Node_ID", Integer.valueOf(AD_WF_Node_ID));
 }
 /** Get Node.
 @return Workflow Node (activity), step or process */
@@ -168,7 +168,7 @@ return ii.intValue();
 public void setAD_WF_Process_ID (int AD_WF_Process_ID)
 {
 if (AD_WF_Process_ID < 1) throw new IllegalArgumentException ("AD_WF_Process_ID is mandatory.");
-set_Value ("AD_WF_Process_ID", new Integer(AD_WF_Process_ID));
+set_Value ("AD_WF_Process_ID", Integer.valueOf(AD_WF_Process_ID));
 }
 /** Get Workflow Process.
 @return Actual Workflow Process Instance */
@@ -183,7 +183,7 @@ return ii.intValue();
 public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 {
 if (AD_WF_Responsible_ID < 1) throw new IllegalArgumentException ("AD_WF_Responsible_ID is mandatory.");
-set_Value ("AD_WF_Responsible_ID", new Integer(AD_WF_Responsible_ID));
+set_Value ("AD_WF_Responsible_ID", Integer.valueOf(AD_WF_Responsible_ID));
 }
 /** Get Workflow Responsible.
 @return Responsible for Workflow Execution */
@@ -310,7 +310,7 @@ return (String)get_Value("OldValue");
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_Value ("Record_ID", new Integer(Record_ID));
+set_Value ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

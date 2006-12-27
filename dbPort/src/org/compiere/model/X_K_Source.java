@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Source
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_Source extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_K_Source (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=609 */
-public static final int Table_ID=609;
+public static final int Table_ID=MTable.getTable_ID("K_Source");
 
 /** TableName=K_Source */
 public static final String Table_Name="K_Source";
 
-protected static KeyNamePair Model = new KeyNamePair(609,"K_Source");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Source");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -108,7 +108,7 @@ return (String)get_Value("DescriptionURL");
 public void setK_Source_ID (int K_Source_ID)
 {
 if (K_Source_ID < 1) throw new IllegalArgumentException ("K_Source_ID is mandatory.");
-set_ValueNoCheck ("K_Source_ID", new Integer(K_Source_ID));
+set_ValueNoCheck ("K_Source_ID", Integer.valueOf(K_Source_ID));
 }
 /** Get Knowledge Source.
 @return Source of a Knowledge Entry */

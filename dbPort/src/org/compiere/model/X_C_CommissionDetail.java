@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionDetail
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CommissionDetail extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_CommissionDetail (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=437 */
-public static final int Table_ID=437;
+public static final int Table_ID=MTable.getTable_ID("C_CommissionDetail");
 
 /** TableName=C_CommissionDetail */
 public static final String Table_Name="C_CommissionDetail";
 
-protected static KeyNamePair Model = new KeyNamePair(437,"C_CommissionDetail");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CommissionDetail");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -125,7 +125,7 @@ return bd;
 public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
 {
 if (C_CommissionAmt_ID < 1) throw new IllegalArgumentException ("C_CommissionAmt_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionAmt_ID", new Integer(C_CommissionAmt_ID));
+set_ValueNoCheck ("C_CommissionAmt_ID", Integer.valueOf(C_CommissionAmt_ID));
 }
 /** Get Commission Amount.
 @return Generated Commission Amount  */
@@ -140,7 +140,7 @@ return ii.intValue();
 public void setC_CommissionDetail_ID (int C_CommissionDetail_ID)
 {
 if (C_CommissionDetail_ID < 1) throw new IllegalArgumentException ("C_CommissionDetail_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionDetail_ID", new Integer(C_CommissionDetail_ID));
+set_ValueNoCheck ("C_CommissionDetail_ID", Integer.valueOf(C_CommissionDetail_ID));
 }
 /** Get Commission Detail.
 @return Supporting information for Commission Amounts */
@@ -155,7 +155,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -171,7 +171,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_ValueNoCheck ("C_InvoiceLine_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -187,7 +187,7 @@ public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID <= 0) set_ValueNoCheck ("C_OrderLine_ID", null);
  else 
-set_ValueNoCheck ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_ValueNoCheck ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */

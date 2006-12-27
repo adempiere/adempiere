@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_JournalBatch
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_JournalBatch extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_GL_JournalBatch (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=225 */
-public static final int Table_ID=225;
+public static final int Table_ID=MTable.getTable_ID("GL_JournalBatch");
 
 /** TableName=GL_JournalBatch */
 public static final String Table_Name="GL_JournalBatch";
 
-protected static KeyNamePair Model = new KeyNamePair(225,"GL_JournalBatch");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_JournalBatch");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -101,7 +101,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -135,7 +135,7 @@ public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID <= 0) set_Value ("C_Period_ID", null);
  else 
-set_Value ("C_Period_ID", new Integer(C_Period_ID));
+set_Value ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -346,7 +346,7 @@ public void setGL_Category_ID (int GL_Category_ID)
 {
 if (GL_Category_ID <= 0) set_Value ("GL_Category_ID", null);
  else 
-set_Value ("GL_Category_ID", new Integer(GL_Category_ID));
+set_Value ("GL_Category_ID", Integer.valueOf(GL_Category_ID));
 }
 /** Get GL Category.
 @return General Ledger Category */
@@ -361,7 +361,7 @@ return ii.intValue();
 public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 {
 if (GL_JournalBatch_ID < 1) throw new IllegalArgumentException ("GL_JournalBatch_ID is mandatory.");
-set_ValueNoCheck ("GL_JournalBatch_ID", new Integer(GL_JournalBatch_ID));
+set_ValueNoCheck ("GL_JournalBatch_ID", Integer.valueOf(GL_JournalBatch_ID));
 }
 /** Get Journal Batch.
 @return General Ledger Journal Batch */
@@ -375,7 +375,7 @@ return ii.intValue();
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -426,7 +426,7 @@ return (String)get_Value("PostingType");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -444,7 +444,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

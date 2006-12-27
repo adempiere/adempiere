@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MovementLine extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_MovementLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=324 */
-public static final int Table_ID=324;
+public static final int Table_ID=MTable.getTable_ID("M_MovementLine");
 
 /** TableName=M_MovementLine */
 public static final String Table_Name="M_MovementLine";
 
-protected static KeyNamePair Model = new KeyNamePair(324,"M_MovementLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MovementLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -129,7 +129,7 @@ return (String)get_Value("Description");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -151,7 +151,7 @@ public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
 {
 if (M_AttributeSetInstanceTo_ID <= 0) set_ValueNoCheck ("M_AttributeSetInstanceTo_ID", null);
  else 
-set_ValueNoCheck ("M_AttributeSetInstanceTo_ID", new Integer(M_AttributeSetInstanceTo_ID));
+set_ValueNoCheck ("M_AttributeSetInstanceTo_ID", Integer.valueOf(M_AttributeSetInstanceTo_ID));
 }
 /** Get Attribute Set Instance To.
 @return Target Product Attribute Set Instance */
@@ -166,7 +166,7 @@ return ii.intValue();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -184,7 +184,7 @@ public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
 public void setM_LocatorTo_ID (int M_LocatorTo_ID)
 {
 if (M_LocatorTo_ID < 1) throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
-set_Value ("M_LocatorTo_ID", new Integer(M_LocatorTo_ID));
+set_Value ("M_LocatorTo_ID", Integer.valueOf(M_LocatorTo_ID));
 }
 /** Get Locator To.
 @return Location inventory is moved to */
@@ -199,7 +199,7 @@ return ii.intValue();
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -214,7 +214,7 @@ return ii.intValue();
 public void setM_MovementLine_ID (int M_MovementLine_ID)
 {
 if (M_MovementLine_ID < 1) throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-set_ValueNoCheck ("M_MovementLine_ID", new Integer(M_MovementLine_ID));
+set_ValueNoCheck ("M_MovementLine_ID", Integer.valueOf(M_MovementLine_ID));
 }
 /** Get Move Line.
 @return Inventory Move document Line */
@@ -229,7 +229,7 @@ return ii.intValue();
 public void setM_Movement_ID (int M_Movement_ID)
 {
 if (M_Movement_ID < 1) throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-set_ValueNoCheck ("M_Movement_ID", new Integer(M_Movement_ID));
+set_ValueNoCheck ("M_Movement_ID", Integer.valueOf(M_Movement_ID));
 }
 /** Get Inventory Move.
 @return Movement of Inventory */
@@ -247,7 +247,7 @@ public static final int M_PRODUCT_ID_AD_Reference_ID=171;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -276,7 +276,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

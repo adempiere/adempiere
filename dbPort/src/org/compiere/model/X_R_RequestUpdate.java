@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestUpdate
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestUpdate extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_RequestUpdate (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=802 */
-public static final int Table_ID=802;
+public static final int Table_ID=MTable.getTable_ID("R_RequestUpdate");
 
 /** TableName=R_RequestUpdate */
 public static final String Table_Name="R_RequestUpdate";
 
-protected static KeyNamePair Model = new KeyNamePair(802,"R_RequestUpdate");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestUpdate");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -139,7 +139,7 @@ public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 {
 if (M_ProductSpent_ID <= 0) set_Value ("M_ProductSpent_ID", null);
  else 
-set_Value ("M_ProductSpent_ID", new Integer(M_ProductSpent_ID));
+set_Value ("M_ProductSpent_ID", Integer.valueOf(M_ProductSpent_ID));
 }
 /** Get Product Used.
 @return Product/Resource/Service used in Request */
@@ -182,7 +182,7 @@ return bd;
 public void setR_RequestUpdate_ID (int R_RequestUpdate_ID)
 {
 if (R_RequestUpdate_ID < 1) throw new IllegalArgumentException ("R_RequestUpdate_ID is mandatory.");
-set_ValueNoCheck ("R_RequestUpdate_ID", new Integer(R_RequestUpdate_ID));
+set_ValueNoCheck ("R_RequestUpdate_ID", Integer.valueOf(R_RequestUpdate_ID));
 }
 /** Get Request Update.
 @return Request Updates */
@@ -203,7 +203,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
 public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID < 1) throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-set_ValueNoCheck ("R_Request_ID", new Integer(R_Request_ID));
+set_ValueNoCheck ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */

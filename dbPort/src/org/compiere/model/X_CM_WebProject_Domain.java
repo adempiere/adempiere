@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebProject_Domain
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_WebProject_Domain extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_WebProject_Domain (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=873 */
-public static final int Table_ID=873;
+public static final int Table_ID=MTable.getTable_ID("CM_WebProject_Domain");
 
 /** TableName=CM_WebProject_Domain */
 public static final String Table_Name="CM_WebProject_Domain";
 
-protected static KeyNamePair Model = new KeyNamePair(873,"CM_WebProject_Domain");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WebProject_Domain");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setCM_Container_ID (int CM_Container_ID)
 {
 if (CM_Container_ID <= 0) set_Value ("CM_Container_ID", null);
  else 
-set_Value ("CM_Container_ID", new Integer(CM_Container_ID));
+set_Value ("CM_Container_ID", Integer.valueOf(CM_Container_ID));
 }
 /** Get Web Container.
 @return Web Container contains content like images, text etc. */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setCM_WebProject_Domain_ID (int CM_WebProject_Domain_ID)
 {
 if (CM_WebProject_Domain_ID < 1) throw new IllegalArgumentException ("CM_WebProject_Domain_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_Domain_ID", new Integer(CM_WebProject_Domain_ID));
+set_ValueNoCheck ("CM_WebProject_Domain_ID", Integer.valueOf(CM_WebProject_Domain_ID));
 }
 /** Get WebProject Domain.
 @return Definition of Domainhandling */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */

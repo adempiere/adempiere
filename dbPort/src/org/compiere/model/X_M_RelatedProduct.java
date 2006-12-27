@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RelatedProduct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_RelatedProduct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_RelatedProduct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=662 */
-public static final int Table_ID=662;
+public static final int Table_ID=MTable.getTable_ID("M_RelatedProduct");
 
 /** TableName=M_RelatedProduct */
 public static final String Table_Name="M_RelatedProduct";
 
-protected static KeyNamePair Model = new KeyNamePair(662,"M_RelatedProduct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RelatedProduct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -110,7 +110,7 @@ return (String)get_Value("Description");
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -175,7 +175,7 @@ public static final int RELATEDPRODUCT_ID_AD_Reference_ID=162;
 public void setRelatedProduct_ID (int RelatedProduct_ID)
 {
 if (RelatedProduct_ID < 1) throw new IllegalArgumentException ("RelatedProduct_ID is mandatory.");
-set_ValueNoCheck ("RelatedProduct_ID", new Integer(RelatedProduct_ID));
+set_ValueNoCheck ("RelatedProduct_ID", Integer.valueOf(RelatedProduct_ID));
 }
 /** Get Related Product.
 @return Related Product */

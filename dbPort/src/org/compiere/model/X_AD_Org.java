@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Org
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Org extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_Org (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=155 */
-public static final int Table_ID=155;
+public static final int Table_ID=MTable.getTable_ID("AD_Org");
 
 /** TableName=AD_Org */
 public static final String Table_Name="AD_Org";
 
-protected static KeyNamePair Model = new KeyNamePair(155,"AD_Org");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Org");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -108,7 +108,7 @@ return (String)get_Value("Description");
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */

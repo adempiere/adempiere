@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Bank
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Bank extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_Bank (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=296 */
-public static final int Table_ID=296;
+public static final int Table_ID=MTable.getTable_ID("C_Bank");
 
 /** TableName=C_Bank */
 public static final String Table_Name="C_Bank";
 
-protected static KeyNamePair Model = new KeyNamePair(296,"C_Bank");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Bank");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_Bank_ID (int C_Bank_ID)
 {
 if (C_Bank_ID < 1) throw new IllegalArgumentException ("C_Bank_ID is mandatory.");
-set_ValueNoCheck ("C_Bank_ID", new Integer(C_Bank_ID));
+set_ValueNoCheck ("C_Bank_ID", Integer.valueOf(C_Bank_ID));
 }
 /** Get Bank.
 @return Bank */
@@ -109,7 +109,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -140,7 +140,7 @@ return (String)get_Value("Description");
 @param IsOwnBank Bank for this Organization */
 public void setIsOwnBank (boolean IsOwnBank)
 {
-set_Value ("IsOwnBank", new Boolean(IsOwnBank));
+set_Value ("IsOwnBank", Boolean.valueOf(IsOwnBank));
 }
 /** Get Own Bank.
 @return Bank for this Organization */

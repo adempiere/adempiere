@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserDef_Field
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_UserDef_Field extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_AD_UserDef_Field (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=464 */
-public static final int Table_ID=464;
+public static final int Table_ID=MTable.getTable_ID("AD_UserDef_Field");
 
 /** TableName=AD_UserDef_Field */
 public static final String Table_Name="AD_UserDef_Field";
 
-protected static KeyNamePair Model = new KeyNamePair(464,"AD_UserDef_Field");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_UserDef_Field");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setAD_Field_ID (int AD_Field_ID)
 {
 if (AD_Field_ID < 1) throw new IllegalArgumentException ("AD_Field_ID is mandatory.");
-set_Value ("AD_Field_ID", new Integer(AD_Field_ID));
+set_Value ("AD_Field_ID", Integer.valueOf(AD_Field_ID));
 }
 /** Get Field.
 @return Field on a database table */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_UserDef_Field_ID (int AD_UserDef_Field_ID)
 {
 if (AD_UserDef_Field_ID < 1) throw new IllegalArgumentException ("AD_UserDef_Field_ID is mandatory.");
-set_ValueNoCheck ("AD_UserDef_Field_ID", new Integer(AD_UserDef_Field_ID));
+set_ValueNoCheck ("AD_UserDef_Field_ID", Integer.valueOf(AD_UserDef_Field_ID));
 }
 /** Get User defined Field.
 @return User defined Field */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
 {
 if (AD_UserDef_Tab_ID < 1) throw new IllegalArgumentException ("AD_UserDef_Tab_ID is mandatory.");
-set_ValueNoCheck ("AD_UserDef_Tab_ID", new Integer(AD_UserDef_Tab_ID));
+set_ValueNoCheck ("AD_UserDef_Tab_ID", Integer.valueOf(AD_UserDef_Tab_ID));
 }
 /** Get User defined Tab.
 @return User defined Tab */
@@ -179,7 +179,7 @@ return (String)get_Value("Description");
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
 {
-set_Value ("DisplayLength", new Integer(DisplayLength));
+set_Value ("DisplayLength", Integer.valueOf(DisplayLength));
 }
 /** Get Display Length.
 @return Length of the display in characters */
@@ -227,7 +227,7 @@ return (String)get_Value("Help");
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
 {
-set_Value ("IsDisplayed", new Boolean(IsDisplayed));
+set_Value ("IsDisplayed", Boolean.valueOf(IsDisplayed));
 }
 /** Get Displayed.
 @return Determines, if this field is displayed */
@@ -245,7 +245,7 @@ return false;
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -263,7 +263,7 @@ return false;
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
 {
-set_Value ("IsSameLine", new Boolean(IsSameLine));
+set_Value ("IsSameLine", Boolean.valueOf(IsSameLine));
 }
 /** Get Same Line.
 @return Displayed on same line as previous field */
@@ -281,7 +281,7 @@ return false;
 @param IsUpdateable Determines, if the field can be updated */
 public void setIsUpdateable (boolean IsUpdateable)
 {
-set_Value ("IsUpdateable", new Boolean(IsUpdateable));
+set_Value ("IsUpdateable", Boolean.valueOf(IsUpdateable));
 }
 /** Get Updateable.
 @return Determines, if the field can be updated */
@@ -324,7 +324,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -339,7 +339,7 @@ return ii.intValue();
 @param SortNo Determines in what order the records are displayed */
 public void setSortNo (int SortNo)
 {
-set_Value ("SortNo", new Integer(SortNo));
+set_Value ("SortNo", Integer.valueOf(SortNo));
 }
 /** Get Record Sort No.
 @return Determines in what order the records are displayed */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ReportLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_ReportLine extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_ReportLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=535 */
-public static final int Table_ID=535;
+public static final int Table_ID=MTable.getTable_ID("I_ReportLine");
 
 /** TableName=I_ReportLine */
 public static final String Table_Name="I_ReportLine";
 
-protected static KeyNamePair Model = new KeyNamePair(535,"I_ReportLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_ReportLine");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -138,7 +138,7 @@ public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID <= 0) set_Value ("C_ElementValue_ID", null);
  else 
-set_Value ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_Value ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -233,7 +233,7 @@ return (String)get_Value("I_ErrorMsg");
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -252,7 +252,7 @@ return false;
 public void setI_ReportLine_ID (int I_ReportLine_ID)
 {
 if (I_ReportLine_ID < 1) throw new IllegalArgumentException ("I_ReportLine_ID is mandatory.");
-set_ValueNoCheck ("I_ReportLine_ID", new Integer(I_ReportLine_ID));
+set_ValueNoCheck ("I_ReportLine_ID", Integer.valueOf(I_ReportLine_ID));
 }
 /** Get Import Report Line Set.
 @return Import Report Line Set values */
@@ -266,7 +266,7 @@ return ii.intValue();
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -284,7 +284,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -353,7 +353,7 @@ public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 {
 if (PA_ReportLineSet_ID <= 0) set_Value ("PA_ReportLineSet_ID", null);
  else 
-set_Value ("PA_ReportLineSet_ID", new Integer(PA_ReportLineSet_ID));
+set_Value ("PA_ReportLineSet_ID", Integer.valueOf(PA_ReportLineSet_ID));
 }
 /** Get Report Line Set.
 @return Report Line Set */
@@ -369,7 +369,7 @@ public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 {
 if (PA_ReportLine_ID <= 0) set_Value ("PA_ReportLine_ID", null);
  else 
-set_Value ("PA_ReportLine_ID", new Integer(PA_ReportLine_ID));
+set_Value ("PA_ReportLine_ID", Integer.valueOf(PA_ReportLine_ID));
 }
 /** Get Report Line.
 @return Report Line */
@@ -385,7 +385,7 @@ public void setPA_ReportSource_ID (int PA_ReportSource_ID)
 {
 if (PA_ReportSource_ID <= 0) set_Value ("PA_ReportSource_ID", null);
  else 
-set_Value ("PA_ReportSource_ID", new Integer(PA_ReportSource_ID));
+set_Value ("PA_ReportSource_ID", Integer.valueOf(PA_ReportSource_ID));
 }
 /** Get Report Source.
 @return Restriction of what will be shown in Report Line */
@@ -431,7 +431,7 @@ return (String)get_Value("PostingType");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -449,7 +449,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -485,7 +485,7 @@ return (String)get_Value("ReportLineSetName");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

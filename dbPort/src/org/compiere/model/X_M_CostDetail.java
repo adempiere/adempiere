@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostDetail
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_CostDetail extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_M_CostDetail (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=808 */
-public static final int Table_ID=808;
+public static final int Table_ID=MTable.getTable_ID("M_CostDetail");
 
 /** TableName=M_CostDetail */
 public static final String Table_Name="M_CostDetail";
 
-protected static KeyNamePair Model = new KeyNamePair(808,"M_CostDetail");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_CostDetail");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -112,7 +112,7 @@ return bd;
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -128,7 +128,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_ValueNoCheck ("C_InvoiceLine_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -144,7 +144,7 @@ public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID <= 0) set_ValueNoCheck ("C_OrderLine_ID", null);
  else 
-set_ValueNoCheck ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_ValueNoCheck ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */
@@ -160,7 +160,7 @@ public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 {
 if (C_ProjectIssue_ID <= 0) set_Value ("C_ProjectIssue_ID", null);
  else 
-set_Value ("C_ProjectIssue_ID", new Integer(C_ProjectIssue_ID));
+set_Value ("C_ProjectIssue_ID", Integer.valueOf(C_ProjectIssue_ID));
 }
 /** Get Project Issue.
 @return Project Issues (Material, Labor) */
@@ -219,7 +219,7 @@ return (String)get_Value("Description");
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -238,7 +238,7 @@ return false;
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -253,7 +253,7 @@ return ii.intValue();
 public void setM_CostDetail_ID (int M_CostDetail_ID)
 {
 if (M_CostDetail_ID < 1) throw new IllegalArgumentException ("M_CostDetail_ID is mandatory.");
-set_ValueNoCheck ("M_CostDetail_ID", new Integer(M_CostDetail_ID));
+set_ValueNoCheck ("M_CostDetail_ID", Integer.valueOf(M_CostDetail_ID));
 }
 /** Get Cost Detail.
 @return Cost Detail Information */
@@ -269,7 +269,7 @@ public void setM_CostElement_ID (int M_CostElement_ID)
 {
 if (M_CostElement_ID <= 0) set_ValueNoCheck ("M_CostElement_ID", null);
  else 
-set_ValueNoCheck ("M_CostElement_ID", new Integer(M_CostElement_ID));
+set_ValueNoCheck ("M_CostElement_ID", Integer.valueOf(M_CostElement_ID));
 }
 /** Get Cost Element.
 @return Product Cost Element */
@@ -285,7 +285,7 @@ public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID <= 0) set_ValueNoCheck ("M_InOutLine_ID", null);
  else 
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -301,7 +301,7 @@ public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID <= 0) set_Value ("M_InventoryLine_ID", null);
  else 
-set_Value ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_Value ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -317,7 +317,7 @@ public void setM_MovementLine_ID (int M_MovementLine_ID)
 {
 if (M_MovementLine_ID <= 0) set_Value ("M_MovementLine_ID", null);
  else 
-set_Value ("M_MovementLine_ID", new Integer(M_MovementLine_ID));
+set_Value ("M_MovementLine_ID", Integer.valueOf(M_MovementLine_ID));
 }
 /** Get Move Line.
 @return Inventory Move document Line */
@@ -332,7 +332,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -348,7 +348,7 @@ public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 {
 if (M_ProductionLine_ID <= 0) set_Value ("M_ProductionLine_ID", null);
  else 
-set_Value ("M_ProductionLine_ID", new Integer(M_ProductionLine_ID));
+set_Value ("M_ProductionLine_ID", Integer.valueOf(M_ProductionLine_ID));
 }
 /** Get Production Line.
 @return Document Line representing a production */
@@ -376,7 +376,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

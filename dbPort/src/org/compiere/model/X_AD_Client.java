@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Client
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Client extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_AD_Client (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=112 */
-public static final int Table_ID=112;
+public static final int Table_ID=MTable.getTable_ID("AD_Client");
 
 /** TableName=AD_Client */
 public static final String Table_Name="AD_Client";
 
-protected static KeyNamePair Model = new KeyNamePair(112,"AD_Client");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Client");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -200,7 +200,7 @@ return (String)get_Value("EMailTest");
 @param IsCostImmediate Update Costs immediately for testing */
 public void setIsCostImmediate (boolean IsCostImmediate)
 {
-set_Value ("IsCostImmediate", new Boolean(IsCostImmediate));
+set_Value ("IsCostImmediate", Boolean.valueOf(IsCostImmediate));
 }
 /** Get Cost Immediately.
 @return Update Costs immediately for testing */
@@ -218,7 +218,7 @@ return false;
 @param IsMultiLingualDocument Documents are Multi Lingual */
 public void setIsMultiLingualDocument (boolean IsMultiLingualDocument)
 {
-set_Value ("IsMultiLingualDocument", new Boolean(IsMultiLingualDocument));
+set_Value ("IsMultiLingualDocument", Boolean.valueOf(IsMultiLingualDocument));
 }
 /** Get Multi Lingual Documents.
 @return Documents are Multi Lingual */
@@ -236,7 +236,7 @@ return false;
 @param IsPostImmediate Post the accounting immediately for testing */
 public void setIsPostImmediate (boolean IsPostImmediate)
 {
-set_Value ("IsPostImmediate", new Boolean(IsPostImmediate));
+set_Value ("IsPostImmediate", Boolean.valueOf(IsPostImmediate));
 }
 /** Get Post Immediately.
 @return Post the accounting immediately for testing */
@@ -254,7 +254,7 @@ return false;
 @param IsServerEMail Send EMail from Server */
 public void setIsServerEMail (boolean IsServerEMail)
 {
-set_Value ("IsServerEMail", new Boolean(IsServerEMail));
+set_Value ("IsServerEMail", Boolean.valueOf(IsServerEMail));
 }
 /** Get Server EMail.
 @return Send EMail from Server */
@@ -272,7 +272,7 @@ return false;
 @param IsSmtpAuthorization Your mail server requires Authentication */
 public void setIsSmtpAuthorization (boolean IsSmtpAuthorization)
 {
-set_Value ("IsSmtpAuthorization", new Boolean(IsSmtpAuthorization));
+set_Value ("IsSmtpAuthorization", Boolean.valueOf(IsSmtpAuthorization));
 }
 /** Get SMTP Authentication.
 @return Your mail server requires Authentication */
@@ -290,7 +290,7 @@ return false;
 @param IsUseBetaFunctions Enable the use of Beta Functionality */
 public void setIsUseBetaFunctions (boolean IsUseBetaFunctions)
 {
-set_Value ("IsUseBetaFunctions", new Boolean(IsUseBetaFunctions));
+set_Value ("IsUseBetaFunctions", Boolean.valueOf(IsUseBetaFunctions));
 }
 /** Get Use Beta Functions.
 @return Enable the use of Beta Functionality */

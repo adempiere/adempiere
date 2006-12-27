@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_MailText
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_MailText extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_R_MailText (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=416 */
-public static final int Table_ID=416;
+public static final int Table_ID=MTable.getTable_ID("R_MailText");
 
 /** TableName=R_MailText */
 public static final String Table_Name="R_MailText";
 
-protected static KeyNamePair Model = new KeyNamePair(416,"R_MailText");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_MailText");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 @param IsHtml Text has HTML tags */
 public void setIsHtml (boolean IsHtml)
 {
-set_Value ("IsHtml", new Boolean(IsHtml));
+set_Value ("IsHtml", Boolean.valueOf(IsHtml));
 }
 /** Get HTML.
 @return Text has HTML tags */
@@ -204,7 +204,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_MailText_ID (int R_MailText_ID)
 {
 if (R_MailText_ID < 1) throw new IllegalArgumentException ("R_MailText_ID is mandatory.");
-set_ValueNoCheck ("R_MailText_ID", new Integer(R_MailText_ID));
+set_ValueNoCheck ("R_MailText_ID", Integer.valueOf(R_MailText_ID));
 }
 /** Get Mail Template.
 @return Text templates for mailings */

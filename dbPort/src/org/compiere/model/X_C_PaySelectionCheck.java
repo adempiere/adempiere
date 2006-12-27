@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelectionCheck
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaySelectionCheck extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_C_PaySelectionCheck (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=525 */
-public static final int Table_ID=525;
+public static final int Table_ID=MTable.getTable_ID("C_PaySelectionCheck");
 
 /** TableName=C_PaySelectionCheck */
 public static final String Table_Name="C_PaySelectionCheck";
 
-protected static KeyNamePair Model = new KeyNamePair(525,"C_PaySelectionCheck");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaySelectionCheck");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 {
 if (C_BP_BankAccount_ID <= 0) set_Value ("C_BP_BankAccount_ID", null);
  else 
-set_Value ("C_BP_BankAccount_ID", new Integer(C_BP_BankAccount_ID));
+set_Value ("C_BP_BankAccount_ID", Integer.valueOf(C_BP_BankAccount_ID));
 }
 /** Get Partner Bank Account.
 @return Bank Account of the Business Partner */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
 {
 if (C_PaySelectionCheck_ID < 1) throw new IllegalArgumentException ("C_PaySelectionCheck_ID is mandatory.");
-set_ValueNoCheck ("C_PaySelectionCheck_ID", new Integer(C_PaySelectionCheck_ID));
+set_ValueNoCheck ("C_PaySelectionCheck_ID", Integer.valueOf(C_PaySelectionCheck_ID));
 }
 /** Get Pay Selection Check.
 @return Payment Selection Check */
@@ -145,7 +145,7 @@ return ii.intValue();
 public void setC_PaySelection_ID (int C_PaySelection_ID)
 {
 if (C_PaySelection_ID < 1) throw new IllegalArgumentException ("C_PaySelection_ID is mandatory.");
-set_ValueNoCheck ("C_PaySelection_ID", new Integer(C_PaySelection_ID));
+set_ValueNoCheck ("C_PaySelection_ID", Integer.valueOf(C_PaySelection_ID));
 }
 /** Get Payment Selection.
 @return Payment Selection */
@@ -161,7 +161,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -207,7 +207,7 @@ return (String)get_Value("DocumentNo");
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -225,7 +225,7 @@ return false;
 @param IsReceipt This is a sales transaction (receipt) */
 public void setIsReceipt (boolean IsReceipt)
 {
-set_Value ("IsReceipt", new Boolean(IsReceipt));
+set_Value ("IsReceipt", Boolean.valueOf(IsReceipt));
 }
 /** Get Receipt.
 @return This is a sales transaction (receipt) */
@@ -293,7 +293,7 @@ return (String)get_Value("PaymentRule");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -311,7 +311,7 @@ return false;
 @param Qty Quantity */
 public void setQty (int Qty)
 {
-set_Value ("Qty", new Integer(Qty));
+set_Value ("Qty", Integer.valueOf(Qty));
 }
 /** Get Quantity.
 @return Quantity */

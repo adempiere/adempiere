@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Tab
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Tab extends PO
 {
 /** Standard Constructor
@@ -66,12 +66,12 @@ public X_AD_Tab (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=106 */
-public static final int Table_ID=106;
+public static final int Table_ID=MTable.getTable_ID("AD_Tab");
 
 /** TableName=AD_Tab */
 public static final String Table_Name="AD_Tab";
 
-protected static KeyNamePair Model = new KeyNamePair(106,"AD_Tab");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Tab");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -107,7 +107,7 @@ public void setAD_ColumnSortOrder_ID (int AD_ColumnSortOrder_ID)
 {
 if (AD_ColumnSortOrder_ID <= 0) set_Value ("AD_ColumnSortOrder_ID", null);
  else 
-set_Value ("AD_ColumnSortOrder_ID", new Integer(AD_ColumnSortOrder_ID));
+set_Value ("AD_ColumnSortOrder_ID", Integer.valueOf(AD_ColumnSortOrder_ID));
 }
 /** Get Order Column.
 @return Column determining the order */
@@ -126,7 +126,7 @@ public void setAD_ColumnSortYesNo_ID (int AD_ColumnSortYesNo_ID)
 {
 if (AD_ColumnSortYesNo_ID <= 0) set_Value ("AD_ColumnSortYesNo_ID", null);
  else 
-set_Value ("AD_ColumnSortYesNo_ID", new Integer(AD_ColumnSortYesNo_ID));
+set_Value ("AD_ColumnSortYesNo_ID", Integer.valueOf(AD_ColumnSortYesNo_ID));
 }
 /** Get Included Column.
 @return Column determining if a Table Column is included in Ordering */
@@ -142,7 +142,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -158,7 +158,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -174,7 +174,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -189,7 +189,7 @@ return ii.intValue();
 public void setAD_Tab_ID (int AD_Tab_ID)
 {
 if (AD_Tab_ID < 1) throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-set_ValueNoCheck ("AD_Tab_ID", new Integer(AD_Tab_ID));
+set_ValueNoCheck ("AD_Tab_ID", Integer.valueOf(AD_Tab_ID));
 }
 /** Get Tab.
 @return Tab within a Window */
@@ -204,7 +204,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -219,7 +219,7 @@ return ii.intValue();
 public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID < 1) throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-set_ValueNoCheck ("AD_Window_ID", new Integer(AD_Window_ID));
+set_ValueNoCheck ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -306,7 +306,7 @@ return (String)get_Value("EntityType");
 @param HasTree Window has Tree Graph */
 public void setHasTree (boolean HasTree)
 {
-set_Value ("HasTree", new Boolean(HasTree));
+set_Value ("HasTree", Boolean.valueOf(HasTree));
 }
 /** Get Has Tree.
 @return Window has Tree Graph */
@@ -363,7 +363,7 @@ public void setIncluded_Tab_ID (int Included_Tab_ID)
 {
 if (Included_Tab_ID <= 0) set_Value ("Included_Tab_ID", null);
  else 
-set_Value ("Included_Tab_ID", new Integer(Included_Tab_ID));
+set_Value ("Included_Tab_ID", Integer.valueOf(Included_Tab_ID));
 }
 /** Get Included Tab.
 @return Included Tab in this Tab (Master Dateail) */
@@ -377,7 +377,7 @@ return ii.intValue();
 @param IsAdvancedTab This Tab contains advanced Functionality */
 public void setIsAdvancedTab (boolean IsAdvancedTab)
 {
-set_Value ("IsAdvancedTab", new Boolean(IsAdvancedTab));
+set_Value ("IsAdvancedTab", Boolean.valueOf(IsAdvancedTab));
 }
 /** Get Advanced Tab.
 @return This Tab contains advanced Functionality */
@@ -395,7 +395,7 @@ return false;
 @param IsInfoTab This Tab contains accounting information */
 public void setIsInfoTab (boolean IsInfoTab)
 {
-set_Value ("IsInfoTab", new Boolean(IsInfoTab));
+set_Value ("IsInfoTab", Boolean.valueOf(IsInfoTab));
 }
 /** Get Accounting Tab.
 @return This Tab contains accounting information */
@@ -413,7 +413,7 @@ return false;
 @param IsInsertRecord The user can insert a new Record */
 public void setIsInsertRecord (boolean IsInsertRecord)
 {
-set_Value ("IsInsertRecord", new Boolean(IsInsertRecord));
+set_Value ("IsInsertRecord", Boolean.valueOf(IsInsertRecord));
 }
 /** Get Insert Record.
 @return The user can insert a new Record */
@@ -431,7 +431,7 @@ return false;
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -449,7 +449,7 @@ return false;
 @param IsSingleRow Default for toggle between Single- and Multi-Row (Grid) Layout */
 public void setIsSingleRow (boolean IsSingleRow)
 {
-set_Value ("IsSingleRow", new Boolean(IsSingleRow));
+set_Value ("IsSingleRow", Boolean.valueOf(IsSingleRow));
 }
 /** Get Single Row Layout.
 @return Default for toggle between Single- and Multi-Row (Grid) Layout */
@@ -467,7 +467,7 @@ return false;
 @param IsSortTab The Tab determines the Order */
 public void setIsSortTab (boolean IsSortTab)
 {
-set_Value ("IsSortTab", new Boolean(IsSortTab));
+set_Value ("IsSortTab", Boolean.valueOf(IsSortTab));
 }
 /** Get Order Tab.
 @return The Tab determines the Order */
@@ -485,7 +485,7 @@ return false;
 @param IsTranslationTab This Tab contains translation information */
 public void setIsTranslationTab (boolean IsTranslationTab)
 {
-set_Value ("IsTranslationTab", new Boolean(IsTranslationTab));
+set_Value ("IsTranslationTab", Boolean.valueOf(IsTranslationTab));
 }
 /** Get TranslationTab.
 @return This Tab contains translation information */
@@ -544,7 +544,7 @@ return (String)get_Value("OrderByClause");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -580,7 +580,7 @@ return (String)get_Value("ReadOnlyLogic");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -595,7 +595,7 @@ return ii.intValue();
 @param TabLevel Hierarchical Tab Level (0 = top) */
 public void setTabLevel (int TabLevel)
 {
-set_Value ("TabLevel", new Integer(TabLevel));
+set_Value ("TabLevel", Integer.valueOf(TabLevel));
 }
 /** Get Tab Level.
 @return Hierarchical Tab Level (0 = top) */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance_Para
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PInstance_Para extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_PInstance_Para (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=283 */
-public static final int Table_ID=283;
+public static final int Table_ID=MTable.getTable_ID("AD_PInstance_Para");
 
 /** TableName=AD_PInstance_Para */
 public static final String Table_Name="AD_PInstance_Para";
 
-protected static KeyNamePair Model = new KeyNamePair(283,"AD_PInstance_Para");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PInstance_Para");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -249,7 +249,7 @@ return new KeyNamePair(get_ID(), getParameterName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_ValueNoCheck ("SeqNo", new Integer(SeqNo));
+set_ValueNoCheck ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

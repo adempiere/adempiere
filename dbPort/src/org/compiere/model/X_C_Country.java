@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Country
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Country extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_Country (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=170 */
-public static final int Table_ID=170;
+public static final int Table_ID=MTable.getTable_ID("C_Country");
 
 /** TableName=C_Country */
 public static final String Table_Name="C_Country";
 
-protected static KeyNamePair Model = new KeyNamePair(170,"C_Country");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Country");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -117,7 +117,7 @@ return (String)get_Value("AD_Language");
 public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID < 1) throw new IllegalArgumentException ("C_Country_ID is mandatory.");
-set_ValueNoCheck ("C_Country_ID", new Integer(C_Country_ID));
+set_ValueNoCheck ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -133,7 +133,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -308,7 +308,7 @@ return (String)get_Value("ExpressionPostal_Add");
 @param HasPostal_Add Has Additional Postal Code */
 public void setHasPostal_Add (boolean HasPostal_Add)
 {
-set_Value ("HasPostal_Add", new Boolean(HasPostal_Add));
+set_Value ("HasPostal_Add", Boolean.valueOf(HasPostal_Add));
 }
 /** Get Additional Postal code.
 @return Has Additional Postal Code */
@@ -326,7 +326,7 @@ return false;
 @param HasRegion Country contains Regions */
 public void setHasRegion (boolean HasRegion)
 {
-set_Value ("HasRegion", new Boolean(HasRegion));
+set_Value ("HasRegion", Boolean.valueOf(HasRegion));
 }
 /** Get Country has Region.
 @return Country contains Regions */
@@ -344,7 +344,7 @@ return false;
 @param IsAddressLinesLocalReverse Print Local Address in reverse Order */
 public void setIsAddressLinesLocalReverse (boolean IsAddressLinesLocalReverse)
 {
-set_Value ("IsAddressLinesLocalReverse", new Boolean(IsAddressLinesLocalReverse));
+set_Value ("IsAddressLinesLocalReverse", Boolean.valueOf(IsAddressLinesLocalReverse));
 }
 /** Get Reverse Local Address Lines.
 @return Print Local Address in reverse Order */
@@ -362,7 +362,7 @@ return false;
 @param IsAddressLinesReverse Print Address in reverse Order */
 public void setIsAddressLinesReverse (boolean IsAddressLinesReverse)
 {
-set_Value ("IsAddressLinesReverse", new Boolean(IsAddressLinesReverse));
+set_Value ("IsAddressLinesReverse", Boolean.valueOf(IsAddressLinesReverse));
 }
 /** Get Reverse Address Lines.
 @return Print Address in reverse Order */

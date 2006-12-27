@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_EDI
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_EDI extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_M_EDI (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=367 */
-public static final int Table_ID=367;
+public static final int Table_ID=MTable.getTable_ID("M_EDI");
 
 /** TableName=M_EDI */
 public static final String Table_Name="M_EDI";
 
-protected static KeyNamePair Model = new KeyNamePair(367,"M_EDI");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_EDI");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 public void setC_BP_EDI_ID (int C_BP_EDI_ID)
 {
 if (C_BP_EDI_ID < 1) throw new IllegalArgumentException ("C_BP_EDI_ID is mandatory.");
-set_Value ("C_BP_EDI_ID", new Integer(C_BP_EDI_ID));
+set_Value ("C_BP_EDI_ID", Integer.valueOf(C_BP_EDI_ID));
 }
 /** Get EDI Definition.
 @return Electronic Data Interchange */
@@ -170,7 +170,7 @@ return (String)get_Value("EDIStatus");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -185,7 +185,7 @@ return ii.intValue();
 public void setM_EDI_ID (int M_EDI_ID)
 {
 if (M_EDI_ID < 1) throw new IllegalArgumentException ("M_EDI_ID is mandatory.");
-set_ValueNoCheck ("M_EDI_ID", new Integer(M_EDI_ID));
+set_ValueNoCheck ("M_EDI_ID", Integer.valueOf(M_EDI_ID));
 }
 /** Get EDI Transaction.
 @return EDI Transaction */
@@ -200,7 +200,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -215,7 +215,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -229,7 +229,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

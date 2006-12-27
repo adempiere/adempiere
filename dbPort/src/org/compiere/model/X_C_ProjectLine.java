@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ProjectLine extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_C_ProjectLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=434 */
-public static final int Table_ID=434;
+public static final int Table_ID=MTable.getTable_ID("C_ProjectLine");
 
 /** TableName=C_ProjectLine */
 public static final String Table_Name="C_ProjectLine";
 
-protected static KeyNamePair Model = new KeyNamePair(434,"C_ProjectLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ProjectLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -104,7 +104,7 @@ public void setC_OrderPO_ID (int C_OrderPO_ID)
 {
 if (C_OrderPO_ID <= 0) set_ValueNoCheck ("C_OrderPO_ID", null);
  else 
-set_ValueNoCheck ("C_OrderPO_ID", new Integer(C_OrderPO_ID));
+set_ValueNoCheck ("C_OrderPO_ID", Integer.valueOf(C_OrderPO_ID));
 }
 /** Get Purchase Order.
 @return Purchase Order */
@@ -120,7 +120,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_ValueNoCheck ("C_Order_ID", null);
  else 
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -136,7 +136,7 @@ public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 {
 if (C_ProjectIssue_ID <= 0) set_ValueNoCheck ("C_ProjectIssue_ID", null);
  else 
-set_ValueNoCheck ("C_ProjectIssue_ID", new Integer(C_ProjectIssue_ID));
+set_ValueNoCheck ("C_ProjectIssue_ID", Integer.valueOf(C_ProjectIssue_ID));
 }
 /** Get Project Issue.
 @return Project Issues (Material, Labor) */
@@ -151,7 +151,7 @@ return ii.intValue();
 public void setC_ProjectLine_ID (int C_ProjectLine_ID)
 {
 if (C_ProjectLine_ID < 1) throw new IllegalArgumentException ("C_ProjectLine_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectLine_ID", new Integer(C_ProjectLine_ID));
+set_ValueNoCheck ("C_ProjectLine_ID", Integer.valueOf(C_ProjectLine_ID));
 }
 /** Get Project Line.
 @return Task or step in a project */
@@ -167,7 +167,7 @@ public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 {
 if (C_ProjectPhase_ID <= 0) set_Value ("C_ProjectPhase_ID", null);
  else 
-set_Value ("C_ProjectPhase_ID", new Integer(C_ProjectPhase_ID));
+set_Value ("C_ProjectPhase_ID", Integer.valueOf(C_ProjectPhase_ID));
 }
 /** Get Project Phase.
 @return Phase of a Project */
@@ -183,7 +183,7 @@ public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 {
 if (C_ProjectTask_ID <= 0) set_Value ("C_ProjectTask_ID", null);
  else 
-set_Value ("C_ProjectTask_ID", new Integer(C_ProjectTask_ID));
+set_Value ("C_ProjectTask_ID", Integer.valueOf(C_ProjectTask_ID));
 }
 /** Get Project Task.
 @return Actual Project Task in a Phase */
@@ -198,7 +198,7 @@ return ii.intValue();
 public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID < 1) throw new IllegalArgumentException ("C_Project_ID is mandatory.");
-set_ValueNoCheck ("C_Project_ID", new Integer(C_Project_ID));
+set_ValueNoCheck ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -304,7 +304,7 @@ return bd;
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -322,7 +322,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -344,7 +344,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -360,7 +360,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -434,7 +434,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

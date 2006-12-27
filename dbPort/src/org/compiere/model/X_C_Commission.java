@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Commission
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Commission extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_Commission (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=429 */
-public static final int Table_ID=429;
+public static final int Table_ID=MTable.getTable_ID("C_Commission");
 
 /** TableName=C_Commission */
 public static final String Table_Name="C_Commission";
 
-protected static KeyNamePair Model = new KeyNamePair(429,"C_Commission");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Commission");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID < 1) throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setC_Commission_ID (int C_Commission_ID)
 {
 if (C_Commission_ID < 1) throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-set_ValueNoCheck ("C_Commission_ID", new Integer(C_Commission_ID));
+set_ValueNoCheck ("C_Commission_ID", Integer.valueOf(C_Commission_ID));
 }
 /** Get Commission.
 @return Commission */
@@ -145,7 +145,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -265,7 +265,7 @@ return (String)get_Value("FrequencyType");
 @param ListDetails List document details */
 public void setListDetails (boolean ListDetails)
 {
-set_Value ("ListDetails", new Boolean(ListDetails));
+set_Value ("ListDetails", Boolean.valueOf(ListDetails));
 }
 /** Get List Details.
 @return List document details */
@@ -307,7 +307,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

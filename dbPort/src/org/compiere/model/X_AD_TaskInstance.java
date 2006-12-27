@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_TaskInstance
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_TaskInstance extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_TaskInstance (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=125 */
-public static final int Table_ID=125;
+public static final int Table_ID=MTable.getTable_ID("AD_TaskInstance");
 
 /** TableName=AD_TaskInstance */
 public static final String Table_Name="AD_TaskInstance";
 
-protected static KeyNamePair Model = new KeyNamePair(125,"AD_TaskInstance");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_TaskInstance");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_TaskInstance_ID (int AD_TaskInstance_ID)
 {
 if (AD_TaskInstance_ID < 1) throw new IllegalArgumentException ("AD_TaskInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_TaskInstance_ID", new Integer(AD_TaskInstance_ID));
+set_ValueNoCheck ("AD_TaskInstance_ID", Integer.valueOf(AD_TaskInstance_ID));
 }
 /** Get Task Instance.
 @return Task Instance */
@@ -112,7 +112,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_TaskInstance_ID()));
 public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID < 1) throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-set_Value ("AD_Task_ID", new Integer(AD_Task_ID));
+set_Value ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */

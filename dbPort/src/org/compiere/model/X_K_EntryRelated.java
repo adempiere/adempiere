@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_EntryRelated
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_EntryRelated extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_K_EntryRelated (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=610 */
-public static final int Table_ID=610;
+public static final int Table_ID=MTable.getTable_ID("K_EntryRelated");
 
 /** TableName=K_EntryRelated */
 public static final String Table_Name="K_EntryRelated";
 
-protected static KeyNamePair Model = new KeyNamePair(610,"K_EntryRelated");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_EntryRelated");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ public static final int K_ENTRYRELATED_ID_AD_Reference_ID=285;
 public void setK_EntryRelated_ID (int K_EntryRelated_ID)
 {
 if (K_EntryRelated_ID < 1) throw new IllegalArgumentException ("K_EntryRelated_ID is mandatory.");
-set_ValueNoCheck ("K_EntryRelated_ID", new Integer(K_EntryRelated_ID));
+set_ValueNoCheck ("K_EntryRelated_ID", Integer.valueOf(K_EntryRelated_ID));
 }
 /** Get Related Entry.
 @return Related Entry for this Enntry */
@@ -115,7 +115,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getK_EntryRelated_ID()));
 public void setK_Entry_ID (int K_Entry_ID)
 {
 if (K_Entry_ID < 1) throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-set_ValueNoCheck ("K_Entry_ID", new Integer(K_Entry_ID));
+set_ValueNoCheck ("K_Entry_ID", Integer.valueOf(K_Entry_ID));
 }
 /** Get Entry.
 @return Knowledge Entry */

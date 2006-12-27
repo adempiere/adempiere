@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_BPartner
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_BPartner extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_BPartner (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=533 */
-public static final int Table_ID=533;
+public static final int Table_ID=MTable.getTable_ID("I_BPartner");
 
 /** TableName=I_BPartner */
 public static final String Table_Name="I_BPartner";
 
-protected static KeyNamePair Model = new KeyNamePair(533,"I_BPartner");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_BPartner");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -171,7 +171,7 @@ public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID <= 0) set_Value ("C_BP_Group_ID", null);
  else 
-set_Value ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_Value ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -187,7 +187,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -203,7 +203,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -219,7 +219,7 @@ public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID <= 0) set_Value ("C_Country_ID", null);
  else 
-set_Value ("C_Country_ID", new Integer(C_Country_ID));
+set_Value ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -235,7 +235,7 @@ public void setC_Greeting_ID (int C_Greeting_ID)
 {
 if (C_Greeting_ID <= 0) set_Value ("C_Greeting_ID", null);
  else 
-set_Value ("C_Greeting_ID", new Integer(C_Greeting_ID));
+set_Value ("C_Greeting_ID", Integer.valueOf(C_Greeting_ID));
 }
 /** Get Greeting.
 @return Greeting to print on correspondence */
@@ -251,7 +251,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_Value ("C_Region_ID", null);
  else 
-set_Value ("C_Region_ID", new Integer(C_Region_ID));
+set_Value ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */
@@ -436,7 +436,7 @@ return (String)get_Value("GroupValue");
 public void setI_BPartner_ID (int I_BPartner_ID)
 {
 if (I_BPartner_ID < 1) throw new IllegalArgumentException ("I_BPartner_ID is mandatory.");
-set_ValueNoCheck ("I_BPartner_ID", new Integer(I_BPartner_ID));
+set_ValueNoCheck ("I_BPartner_ID", Integer.valueOf(I_BPartner_ID));
 }
 /** Get Import Business Partner.
 @return Import Business Partner */
@@ -467,7 +467,7 @@ return (String)get_Value("I_ErrorMsg");
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -638,7 +638,7 @@ return (String)get_Value("Postal_Add");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -656,7 +656,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -676,7 +676,7 @@ public void setR_InterestArea_ID (int R_InterestArea_ID)
 {
 if (R_InterestArea_ID <= 0) set_Value ("R_InterestArea_ID", null);
  else 
-set_Value ("R_InterestArea_ID", new Integer(R_InterestArea_ID));
+set_Value ("R_InterestArea_ID", Integer.valueOf(R_InterestArea_ID));
 }
 /** Get Interest Area.
 @return Interest Area or Topic */

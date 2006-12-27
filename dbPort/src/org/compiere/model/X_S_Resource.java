@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Resource
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_Resource extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_S_Resource (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=487 */
-public static final int Table_ID=487;
+public static final int Table_ID=MTable.getTable_ID("S_Resource");
 
 /** TableName=S_Resource */
 public static final String Table_Name="S_Resource";
 
-protected static KeyNamePair Model = new KeyNamePair(487,"S_Resource");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_Resource");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -141,7 +141,7 @@ return (String)get_Value("Description");
 @param IsAvailable Resource is available */
 public void setIsAvailable (boolean IsAvailable)
 {
-set_Value ("IsAvailable", new Boolean(IsAvailable));
+set_Value ("IsAvailable", Boolean.valueOf(IsAvailable));
 }
 /** Get Available.
 @return Resource is available */
@@ -160,7 +160,7 @@ return false;
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -199,7 +199,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setS_ResourceType_ID (int S_ResourceType_ID)
 {
 if (S_ResourceType_ID < 1) throw new IllegalArgumentException ("S_ResourceType_ID is mandatory.");
-set_Value ("S_ResourceType_ID", new Integer(S_ResourceType_ID));
+set_Value ("S_ResourceType_ID", Integer.valueOf(S_ResourceType_ID));
 }
 /** Get Resource Type.
 @return Resource Type */
@@ -214,7 +214,7 @@ return ii.intValue();
 public void setS_Resource_ID (int S_Resource_ID)
 {
 if (S_Resource_ID < 1) throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-set_ValueNoCheck ("S_Resource_ID", new Integer(S_Resource_ID));
+set_ValueNoCheck ("S_Resource_ID", Integer.valueOf(S_Resource_ID));
 }
 /** Get Resource.
 @return Resource */

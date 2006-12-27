@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Replication_Log
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Replication_Log extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_Replication_Log (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=604 */
-public static final int Table_ID=604;
+public static final int Table_ID=MTable.getTable_ID("AD_Replication_Log");
 
 /** TableName=AD_Replication_Log */
 public static final String Table_Name="AD_Replication_Log";
 
-protected static KeyNamePair Model = new KeyNamePair(604,"AD_Replication_Log");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Replication_Log");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
 {
 if (AD_ReplicationTable_ID <= 0) set_Value ("AD_ReplicationTable_ID", null);
  else 
-set_Value ("AD_ReplicationTable_ID", new Integer(AD_ReplicationTable_ID));
+set_Value ("AD_ReplicationTable_ID", Integer.valueOf(AD_ReplicationTable_ID));
 }
 /** Get Replication Table.
 @return Data Replication Strategy Table Info */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setAD_Replication_Log_ID (int AD_Replication_Log_ID)
 {
 if (AD_Replication_Log_ID < 1) throw new IllegalArgumentException ("AD_Replication_Log_ID is mandatory.");
-set_ValueNoCheck ("AD_Replication_Log_ID", new Integer(AD_Replication_Log_ID));
+set_ValueNoCheck ("AD_Replication_Log_ID", Integer.valueOf(AD_Replication_Log_ID));
 }
 /** Get Replication Log.
 @return Data Replication Log Details */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setAD_Replication_Run_ID (int AD_Replication_Run_ID)
 {
 if (AD_Replication_Run_ID < 1) throw new IllegalArgumentException ("AD_Replication_Run_ID is mandatory.");
-set_ValueNoCheck ("AD_Replication_Run_ID", new Integer(AD_Replication_Run_ID));
+set_ValueNoCheck ("AD_Replication_Run_ID", Integer.valueOf(AD_Replication_Run_ID));
 }
 /** Get Replication Run.
 @return Data Replication Run */
@@ -143,7 +143,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
 @param IsReplicated The data is successfully replicated */
 public void setIsReplicated (boolean IsReplicated)
 {
-set_Value ("IsReplicated", new Boolean(IsReplicated));
+set_Value ("IsReplicated", Boolean.valueOf(IsReplicated));
 }
 /** Get Replicated.
 @return The data is successfully replicated */

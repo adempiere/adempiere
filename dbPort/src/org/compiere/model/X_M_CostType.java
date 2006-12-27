@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_CostType extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_CostType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=586 */
-public static final int Table_ID=586;
+public static final int Table_ID=MTable.getTable_ID("M_CostType");
 
 /** TableName=M_CostType */
 public static final String Table_Name="M_CostType";
 
-protected static KeyNamePair Model = new KeyNamePair(586,"M_CostType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_CostType");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("Help");
 public void setM_CostType_ID (int M_CostType_ID)
 {
 if (M_CostType_ID < 1) throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-set_ValueNoCheck ("M_CostType_ID", new Integer(M_CostType_ID));
+set_ValueNoCheck ("M_CostType_ID", Integer.valueOf(M_CostType_ID));
 }
 /** Get Cost Type.
 @return Type of Cost (e.g. Current, Plan, Future) */

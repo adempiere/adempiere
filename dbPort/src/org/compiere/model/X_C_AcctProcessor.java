@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AcctProcessor extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_AcctProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=695 */
-public static final int Table_ID=695;
+public static final int Table_ID=MTable.getTable_ID("C_AcctProcessor");
 
 /** TableName=C_AcctProcessor */
 public static final String Table_Name="C_AcctProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(695,"C_AcctProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AcctProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_AcctProcessor_ID (int C_AcctProcessor_ID)
 {
 if (C_AcctProcessor_ID < 1) throw new IllegalArgumentException ("C_AcctProcessor_ID is mandatory.");
-set_ValueNoCheck ("C_AcctProcessor_ID", new Integer(C_AcctProcessor_ID));
+set_ValueNoCheck ("C_AcctProcessor_ID", Integer.valueOf(C_AcctProcessor_ID));
 }
 /** Get Accounting Processor.
 @return Accounting Processor/Server Parameters */
@@ -127,7 +127,7 @@ public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID <= 0) set_Value ("C_AcctSchema_ID", null);
  else 
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -182,7 +182,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -225,7 +225,7 @@ return (String)get_Value("FrequencyType");
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -263,7 +263,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -285,7 +285,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

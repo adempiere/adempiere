@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ProductionPlan
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_ProductionPlan extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_ProductionPlan (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=385 */
-public static final int Table_ID=385;
+public static final int Table_ID=MTable.getTable_ID("M_ProductionPlan");
 
 /** TableName=M_ProductionPlan */
 public static final String Table_Name="M_ProductionPlan";
 
-protected static KeyNamePair Model = new KeyNamePair(385,"M_ProductionPlan");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ProductionPlan");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -112,7 +112,7 @@ return (String)get_Value("Description");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -133,7 +133,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -151,7 +151,7 @@ public static final int M_PRODUCT_ID_AD_Reference_ID=211;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -166,7 +166,7 @@ return ii.intValue();
 public void setM_ProductionPlan_ID (int M_ProductionPlan_ID)
 {
 if (M_ProductionPlan_ID < 1) throw new IllegalArgumentException ("M_ProductionPlan_ID is mandatory.");
-set_ValueNoCheck ("M_ProductionPlan_ID", new Integer(M_ProductionPlan_ID));
+set_ValueNoCheck ("M_ProductionPlan_ID", Integer.valueOf(M_ProductionPlan_ID));
 }
 /** Get Production Plan.
 @return Plan for how a product is produced */
@@ -181,7 +181,7 @@ return ii.intValue();
 public void setM_Production_ID (int M_Production_ID)
 {
 if (M_Production_ID < 1) throw new IllegalArgumentException ("M_Production_ID is mandatory.");
-set_ValueNoCheck ("M_Production_ID", new Integer(M_Production_ID));
+set_ValueNoCheck ("M_Production_ID", Integer.valueOf(M_Production_ID));
 }
 /** Get Production.
 @return Plan for producing a product */
@@ -195,7 +195,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

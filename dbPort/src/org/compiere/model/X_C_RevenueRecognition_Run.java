@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition_Run
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RevenueRecognition_Run extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_RevenueRecognition_Run (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=444 */
-public static final int Table_ID=444;
+public static final int Table_ID=MTable.getTable_ID("C_RevenueRecognition_Run");
 
 /** TableName=C_RevenueRecognition_Run */
 public static final String Table_Name="C_RevenueRecognition_Run";
 
-protected static KeyNamePair Model = new KeyNamePair(444,"C_RevenueRecognition_Run");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RevenueRecognition_Run");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
 {
 if (C_RevenueRecognition_Plan_ID < 1) throw new IllegalArgumentException ("C_RevenueRecognition_Plan_ID is mandatory.");
-set_ValueNoCheck ("C_RevenueRecognition_Plan_ID", new Integer(C_RevenueRecognition_Plan_ID));
+set_ValueNoCheck ("C_RevenueRecognition_Plan_ID", Integer.valueOf(C_RevenueRecognition_Plan_ID));
 }
 /** Get Revenue Recognition Plan.
 @return Plan for recognizing or recording revenue */
@@ -114,7 +114,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_RevenueRecognition_Plan_ID(
 public void setC_RevenueRecognition_Run_ID (int C_RevenueRecognition_Run_ID)
 {
 if (C_RevenueRecognition_Run_ID < 1) throw new IllegalArgumentException ("C_RevenueRecognition_Run_ID is mandatory.");
-set_ValueNoCheck ("C_RevenueRecognition_Run_ID", new Integer(C_RevenueRecognition_Run_ID));
+set_ValueNoCheck ("C_RevenueRecognition_Run_ID", Integer.valueOf(C_RevenueRecognition_Run_ID));
 }
 /** Get Revenue Recognition Run.
 @return Revenue Recognition Run or Process */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setGL_Journal_ID (int GL_Journal_ID)
 {
 if (GL_Journal_ID < 1) throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-set_ValueNoCheck ("GL_Journal_ID", new Integer(GL_Journal_ID));
+set_ValueNoCheck ("GL_Journal_ID", Integer.valueOf(GL_Journal_ID));
 }
 /** Get Journal.
 @return General Ledger Journal */

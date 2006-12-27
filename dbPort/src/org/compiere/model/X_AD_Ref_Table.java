@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Ref_Table
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Ref_Table extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Ref_Table (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=103 */
-public static final int Table_ID=103;
+public static final int Table_ID=MTable.getTable_ID("AD_Ref_Table");
 
 /** TableName=AD_Ref_Table */
 public static final String Table_Name="AD_Ref_Table";
 
-protected static KeyNamePair Model = new KeyNamePair(103,"AD_Ref_Table");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Ref_Table");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -97,7 +97,7 @@ public static final int AD_DISPLAY_AD_Reference_ID=3;
 @param AD_Display Column that will display */
 public void setAD_Display (int AD_Display)
 {
-set_Value ("AD_Display", new Integer(AD_Display));
+set_Value ("AD_Display", Integer.valueOf(AD_Display));
 }
 /** Get Display column.
 @return Column that will display */
@@ -114,7 +114,7 @@ public static final int AD_KEY_AD_Reference_ID=3;
 @param AD_Key Unique identifier of a record */
 public void setAD_Key (int AD_Key)
 {
-set_Value ("AD_Key", new Integer(AD_Key));
+set_Value ("AD_Key", Integer.valueOf(AD_Key));
 }
 /** Get Key column.
 @return Unique identifier of a record */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_ValueNoCheck ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_ValueNoCheck ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -150,7 +150,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Reference_ID()));
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -186,7 +186,7 @@ return (String)get_Value("EntityType");
 @param IsValueDisplayed Displays Value column with the Display column */
 public void setIsValueDisplayed (boolean IsValueDisplayed)
 {
-set_Value ("IsValueDisplayed", new Boolean(IsValueDisplayed));
+set_Value ("IsValueDisplayed", Boolean.valueOf(IsValueDisplayed));
 }
 /** Get Display Value.
 @return Displays Value column with the Display column */

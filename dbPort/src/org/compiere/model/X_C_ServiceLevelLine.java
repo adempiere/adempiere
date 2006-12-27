@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ServiceLevelLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ServiceLevelLine extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_ServiceLevelLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=338 */
-public static final int Table_ID=338;
+public static final int Table_ID=MTable.getTable_ID("C_ServiceLevelLine");
 
 /** TableName=C_ServiceLevelLine */
 public static final String Table_Name="C_ServiceLevelLine";
 
-protected static KeyNamePair Model = new KeyNamePair(338,"C_ServiceLevelLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ServiceLevelLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
 {
 if (C_ServiceLevelLine_ID < 1) throw new IllegalArgumentException ("C_ServiceLevelLine_ID is mandatory.");
-set_ValueNoCheck ("C_ServiceLevelLine_ID", new Integer(C_ServiceLevelLine_ID));
+set_ValueNoCheck ("C_ServiceLevelLine_ID", Integer.valueOf(C_ServiceLevelLine_ID));
 }
 /** Get Service Level Line.
 @return Product Revenue Recognition Service Level Line */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_ServiceLevel_ID (int C_ServiceLevel_ID)
 {
 if (C_ServiceLevel_ID < 1) throw new IllegalArgumentException ("C_ServiceLevel_ID is mandatory.");
-set_ValueNoCheck ("C_ServiceLevel_ID", new Integer(C_ServiceLevel_ID));
+set_ValueNoCheck ("C_ServiceLevel_ID", Integer.valueOf(C_ServiceLevel_ID));
 }
 /** Get Service Level.
 @return Product Revenue Recognition Service Level  */
@@ -139,7 +139,7 @@ return (String)get_Value("Description");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

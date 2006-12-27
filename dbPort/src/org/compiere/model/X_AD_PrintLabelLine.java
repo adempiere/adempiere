@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintLabelLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintLabelLine extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_PrintLabelLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=569 */
-public static final int Table_ID=569;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintLabelLine");
 
 /** TableName=AD_PrintLabelLine */
 public static final String Table_Name="AD_PrintLabelLine";
 
-protected static KeyNamePair Model = new KeyNamePair(569,"AD_PrintLabelLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintLabelLine");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -98,7 +98,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
 {
 if (AD_LabelPrinterFunction_ID < 1) throw new IllegalArgumentException ("AD_LabelPrinterFunction_ID is mandatory.");
-set_Value ("AD_LabelPrinterFunction_ID", new Integer(AD_LabelPrinterFunction_ID));
+set_Value ("AD_LabelPrinterFunction_ID", Integer.valueOf(AD_LabelPrinterFunction_ID));
 }
 /** Get Label printer Function.
 @return Function of Label Printer */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
 {
 if (AD_PrintLabelLine_ID < 1) throw new IllegalArgumentException ("AD_PrintLabelLine_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintLabelLine_ID", new Integer(AD_PrintLabelLine_ID));
+set_ValueNoCheck ("AD_PrintLabelLine_ID", Integer.valueOf(AD_PrintLabelLine_ID));
 }
 /** Get Print Label Line.
 @return Print Label Line Format */
@@ -143,7 +143,7 @@ return ii.intValue();
 public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
 {
 if (AD_PrintLabel_ID < 1) throw new IllegalArgumentException ("AD_PrintLabel_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintLabel_ID", new Integer(AD_PrintLabel_ID));
+set_ValueNoCheck ("AD_PrintLabel_ID", Integer.valueOf(AD_PrintLabel_ID));
 }
 /** Get Print Label.
 @return Label Format to print */
@@ -220,7 +220,7 @@ return (String)get_Value("PrintName");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -241,7 +241,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 @param XPosition Absolute X (horizontal) position in 1/72 of an inch */
 public void setXPosition (int XPosition)
 {
-set_Value ("XPosition", new Integer(XPosition));
+set_Value ("XPosition", Integer.valueOf(XPosition));
 }
 /** Get X Position.
 @return Absolute X (horizontal) position in 1/72 of an inch */
@@ -255,7 +255,7 @@ return ii.intValue();
 @param YPosition Absolute Y (vertical) position in 1/72 of an inch */
 public void setYPosition (int YPosition)
 {
-set_Value ("YPosition", new Integer(YPosition));
+set_Value ("YPosition", Integer.valueOf(YPosition));
 }
 /** Get Y Position.
 @return Absolute Y (vertical) position in 1/72 of an inch */

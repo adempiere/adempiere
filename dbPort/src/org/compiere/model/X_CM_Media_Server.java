@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Media_Server
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Media_Server extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_Media_Server (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=859 */
-public static final int Table_ID=859;
+public static final int Table_ID=MTable.getTable_ID("CM_Media_Server");
 
 /** TableName=CM_Media_Server */
 public static final String Table_Name="CM_Media_Server";
 
-protected static KeyNamePair Model = new KeyNamePair(859,"CM_Media_Server");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Media_Server");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setCM_Media_Server_ID (int CM_Media_Server_ID)
 {
 if (CM_Media_Server_ID < 1) throw new IllegalArgumentException ("CM_Media_Server_ID is mandatory.");
-set_ValueNoCheck ("CM_Media_Server_ID", new Integer(CM_Media_Server_ID));
+set_ValueNoCheck ("CM_Media_Server_ID", Integer.valueOf(CM_Media_Server_ID));
 }
 /** Get Media Server.
 @return Media Server list to which content should get transfered */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -190,7 +190,7 @@ return (String)get_Value("IP_Address");
 @param IsPassive FTP passive transfer */
 public void setIsPassive (boolean IsPassive)
 {
-set_Value ("IsPassive", new Boolean(IsPassive));
+set_Value ("IsPassive", Boolean.valueOf(IsPassive));
 }
 /** Get Transfer passive.
 @return FTP passive transfer */
@@ -246,7 +246,7 @@ public String getPassword()
 return (String)get_Value("Password");
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.compiere.org */
+@param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
 {
 if (URL != null && URL.length() > 120)
@@ -257,7 +257,7 @@ URL = URL.substring(0,119);
 set_Value ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.compiere.org */
+@return Full URL address - e.g. http://www.adempiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");

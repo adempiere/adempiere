@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Category
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_K_Category extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_K_Category (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=615 */
-public static final int Table_ID=615;
+public static final int Table_ID=MTable.getTable_ID("K_Category");
 
 /** TableName=K_Category */
 public static final String Table_Name="K_Category";
 
-protected static KeyNamePair Model = new KeyNamePair(615,"K_Category");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Category");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("Help");
 public void setK_Category_ID (int K_Category_ID)
 {
 if (K_Category_ID < 1) throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-set_ValueNoCheck ("K_Category_ID", new Integer(K_Category_ID));
+set_ValueNoCheck ("K_Category_ID", Integer.valueOf(K_Category_ID));
 }
 /** Get Knowledge Category.
 @return Knowledge Category */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Recurring
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Recurring extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_Recurring (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=574 */
-public static final int Table_ID=574;
+public static final int Table_ID=MTable.getTable_ID("C_Recurring");
 
 /** TableName=C_Recurring */
 public static final String Table_Name="C_Recurring";
 
-protected static KeyNamePair Model = new KeyNamePair(574,"C_Recurring");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Recurring");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -113,7 +113,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -129,7 +129,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -145,7 +145,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setC_Recurring_ID (int C_Recurring_ID)
 {
 if (C_Recurring_ID < 1) throw new IllegalArgumentException ("C_Recurring_ID is mandatory.");
-set_ValueNoCheck ("C_Recurring_ID", new Integer(C_Recurring_ID));
+set_ValueNoCheck ("C_Recurring_ID", Integer.valueOf(C_Recurring_ID));
 }
 /** Get Recurring.
 @return Recurring Document */
@@ -216,7 +216,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -263,7 +263,7 @@ public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 {
 if (GL_JournalBatch_ID <= 0) set_Value ("GL_JournalBatch_ID", null);
  else 
-set_Value ("GL_JournalBatch_ID", new Integer(GL_JournalBatch_ID));
+set_Value ("GL_JournalBatch_ID", Integer.valueOf(GL_JournalBatch_ID));
 }
 /** Get Journal Batch.
 @return General Ledger Journal Batch */
@@ -318,7 +318,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -367,7 +367,7 @@ return (String)get_Value("RecurringType");
 @param RunsMax Number of recurring runs */
 public void setRunsMax (int RunsMax)
 {
-set_Value ("RunsMax", new Integer(RunsMax));
+set_Value ("RunsMax", Integer.valueOf(RunsMax));
 }
 /** Get Maximum Runs.
 @return Number of recurring runs */
@@ -381,7 +381,7 @@ return ii.intValue();
 @param RunsRemaining Number of recurring runs remaining */
 public void setRunsRemaining (int RunsRemaining)
 {
-set_ValueNoCheck ("RunsRemaining", new Integer(RunsRemaining));
+set_ValueNoCheck ("RunsRemaining", Integer.valueOf(RunsRemaining));
 }
 /** Get Remaining Runs.
 @return Number of recurring runs remaining */

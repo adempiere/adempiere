@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Campaign
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Campaign extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_Campaign (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=274 */
-public static final int Table_ID=274;
+public static final int Table_ID=MTable.getTable_ID("C_Campaign");
 
 /** TableName=C_Campaign */
 public static final String Table_Name="C_Campaign";
 
-protected static KeyNamePair Model = new KeyNamePair(274,"C_Campaign");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Campaign");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID < 1) throw new IllegalArgumentException ("C_Campaign_ID is mandatory.");
-set_ValueNoCheck ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_ValueNoCheck ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -110,7 +110,7 @@ public void setC_Channel_ID (int C_Channel_ID)
 {
 if (C_Channel_ID <= 0) set_Value ("C_Channel_ID", null);
  else 
-set_Value ("C_Channel_ID", new Integer(C_Channel_ID));
+set_Value ("C_Channel_ID", Integer.valueOf(C_Channel_ID));
 }
 /** Get Channel.
 @return Sales Channel */
@@ -168,7 +168,7 @@ return (Timestamp)get_Value("EndDate");
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */

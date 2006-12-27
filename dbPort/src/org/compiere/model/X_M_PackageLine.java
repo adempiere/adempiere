@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PackageLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_PackageLine extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_PackageLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=663 */
-public static final int Table_ID=663;
+public static final int Table_ID=MTable.getTable_ID("M_PackageLine");
 
 /** TableName=M_PackageLine */
 public static final String Table_Name="M_PackageLine";
 
-protected static KeyNamePair Model = new KeyNamePair(663,"M_PackageLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_PackageLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -110,7 +110,7 @@ return (String)get_Value("Description");
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -125,7 +125,7 @@ return ii.intValue();
 public void setM_PackageLine_ID (int M_PackageLine_ID)
 {
 if (M_PackageLine_ID < 1) throw new IllegalArgumentException ("M_PackageLine_ID is mandatory.");
-set_ValueNoCheck ("M_PackageLine_ID", new Integer(M_PackageLine_ID));
+set_ValueNoCheck ("M_PackageLine_ID", Integer.valueOf(M_PackageLine_ID));
 }
 /** Get Package Line.
 @return The detail content of the Package */
@@ -140,7 +140,7 @@ return ii.intValue();
 public void setM_Package_ID (int M_Package_ID)
 {
 if (M_Package_ID < 1) throw new IllegalArgumentException ("M_Package_ID is mandatory.");
-set_ValueNoCheck ("M_Package_ID", new Integer(M_Package_ID));
+set_ValueNoCheck ("M_Package_ID", Integer.valueOf(M_Package_ID));
 }
 /** Get Package.
 @return Shipment Package */

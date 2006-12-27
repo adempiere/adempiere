@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionAmt
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CommissionAmt extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_CommissionAmt (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=430 */
-public static final int Table_ID=430;
+public static final int Table_ID=MTable.getTable_ID("C_CommissionAmt");
 
 /** TableName=C_CommissionAmt */
 public static final String Table_Name="C_CommissionAmt";
 
-protected static KeyNamePair Model = new KeyNamePair(430,"C_CommissionAmt");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CommissionAmt");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -110,7 +110,7 @@ return bd;
 public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
 {
 if (C_CommissionAmt_ID < 1) throw new IllegalArgumentException ("C_CommissionAmt_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionAmt_ID", new Integer(C_CommissionAmt_ID));
+set_ValueNoCheck ("C_CommissionAmt_ID", Integer.valueOf(C_CommissionAmt_ID));
 }
 /** Get Commission Amount.
 @return Generated Commission Amount  */
@@ -125,7 +125,7 @@ return ii.intValue();
 public void setC_CommissionLine_ID (int C_CommissionLine_ID)
 {
 if (C_CommissionLine_ID < 1) throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
-set_Value ("C_CommissionLine_ID", new Integer(C_CommissionLine_ID));
+set_Value ("C_CommissionLine_ID", Integer.valueOf(C_CommissionLine_ID));
 }
 /** Get Commission Line.
 @return Commission Line */
@@ -140,7 +140,7 @@ return ii.intValue();
 public void setC_CommissionRun_ID (int C_CommissionRun_ID)
 {
 if (C_CommissionRun_ID < 1) throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionRun_ID", new Integer(C_CommissionRun_ID));
+set_ValueNoCheck ("C_CommissionRun_ID", Integer.valueOf(C_CommissionRun_ID));
 }
 /** Get Commission Run.
 @return Commission Run or Process */

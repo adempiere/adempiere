@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_RatioElement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_RatioElement extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_PA_RatioElement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=836 */
-public static final int Table_ID=836;
+public static final int Table_ID=MTable.getTable_ID("PA_RatioElement");
 
 /** TableName=PA_RatioElement */
 public static final String Table_Name="PA_RatioElement";
 
-protected static KeyNamePair Model = new KeyNamePair(836,"PA_RatioElement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_RatioElement");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setAccount_ID (int Account_ID)
 {
 if (Account_ID <= 0) set_Value ("Account_ID", null);
  else 
-set_Value ("Account_ID", new Integer(Account_ID));
+set_Value ("Account_ID", Integer.valueOf(Account_ID));
 }
 /** Get Account.
 @return Account used */
@@ -164,7 +164,7 @@ public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 {
 if (PA_MeasureCalc_ID <= 0) set_Value ("PA_MeasureCalc_ID", null);
  else 
-set_Value ("PA_MeasureCalc_ID", new Integer(PA_MeasureCalc_ID));
+set_Value ("PA_MeasureCalc_ID", Integer.valueOf(PA_MeasureCalc_ID));
 }
 /** Get Measure Calculation.
 @return Calculation method for measuring performance */
@@ -179,7 +179,7 @@ return ii.intValue();
 public void setPA_RatioElement_ID (int PA_RatioElement_ID)
 {
 if (PA_RatioElement_ID < 1) throw new IllegalArgumentException ("PA_RatioElement_ID is mandatory.");
-set_ValueNoCheck ("PA_RatioElement_ID", new Integer(PA_RatioElement_ID));
+set_ValueNoCheck ("PA_RatioElement_ID", Integer.valueOf(PA_RatioElement_ID));
 }
 /** Get Ratio Element.
 @return Performance Ratio Element */
@@ -198,7 +198,7 @@ public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
 {
 if (PA_RatioUsed_ID <= 0) set_Value ("PA_RatioUsed_ID", null);
  else 
-set_Value ("PA_RatioUsed_ID", new Integer(PA_RatioUsed_ID));
+set_Value ("PA_RatioUsed_ID", Integer.valueOf(PA_RatioUsed_ID));
 }
 /** Get Ratio Used.
 @return Performace Ratio Used */
@@ -213,7 +213,7 @@ return ii.intValue();
 public void setPA_Ratio_ID (int PA_Ratio_ID)
 {
 if (PA_Ratio_ID < 1) throw new IllegalArgumentException ("PA_Ratio_ID is mandatory.");
-set_ValueNoCheck ("PA_Ratio_ID", new Integer(PA_Ratio_ID));
+set_ValueNoCheck ("PA_Ratio_ID", Integer.valueOf(PA_Ratio_ID));
 }
 /** Get Ratio.
 @return Performace Ratio */
@@ -322,7 +322,7 @@ return (String)get_Value("RatioOperand");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

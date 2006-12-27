@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQLine extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_RfQLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=676 */
-public static final int Table_ID=676;
+public static final int Table_ID=MTable.getTable_ID("C_RfQLine");
 
 /** TableName=C_RfQLine */
 public static final String Table_Name="C_RfQLine";
 
-protected static KeyNamePair Model = new KeyNamePair(676,"C_RfQLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_RfQLine_ID (int C_RfQLine_ID)
 {
 if (C_RfQLine_ID < 1) throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-set_ValueNoCheck ("C_RfQLine_ID", new Integer(C_RfQLine_ID));
+set_ValueNoCheck ("C_RfQLine_ID", Integer.valueOf(C_RfQLine_ID));
 }
 /** Get RfQ Line.
 @return Request for Quotation Line */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_RfQ_ID (int C_RfQ_ID)
 {
 if (C_RfQ_ID < 1) throw new IllegalArgumentException ("C_RfQ_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_ID", new Integer(C_RfQ_ID));
+set_ValueNoCheck ("C_RfQ_ID", Integer.valueOf(C_RfQ_ID));
 }
 /** Get RfQ.
 @return Request for Quotation */
@@ -152,7 +152,7 @@ return (Timestamp)get_Value("DateWorkStart");
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
 {
-set_Value ("DeliveryDays", new Integer(DeliveryDays));
+set_Value ("DeliveryDays", Integer.valueOf(DeliveryDays));
 }
 /** Get Delivery Days.
 @return Number of Days (planned) until Delivery */
@@ -200,7 +200,7 @@ return (String)get_Value("Help");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -215,7 +215,7 @@ return ii.intValue();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -231,7 +231,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

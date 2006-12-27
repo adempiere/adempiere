@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Subscription_Delivery
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Subscription_Delivery extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_Subscription_Delivery (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=667 */
-public static final int Table_ID=667;
+public static final int Table_ID=MTable.getTable_ID("C_Subscription_Delivery");
 
 /** TableName=C_Subscription_Delivery */
 public static final String Table_Name="C_Subscription_Delivery";
 
-protected static KeyNamePair Model = new KeyNamePair(667,"C_Subscription_Delivery");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Subscription_Delivery");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setC_Subscription_Delivery_ID (int C_Subscription_Delivery_ID)
 {
 if (C_Subscription_Delivery_ID < 1) throw new IllegalArgumentException ("C_Subscription_Delivery_ID is mandatory.");
-set_ValueNoCheck ("C_Subscription_Delivery_ID", new Integer(C_Subscription_Delivery_ID));
+set_ValueNoCheck ("C_Subscription_Delivery_ID", Integer.valueOf(C_Subscription_Delivery_ID));
 }
 /** Get Subscription Delivery.
 @return Optional Delivery Record for a Subscription */
@@ -112,7 +112,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Subscription_Delivery_ID())
 public void setC_Subscription_ID (int C_Subscription_ID)
 {
 if (C_Subscription_ID < 1) throw new IllegalArgumentException ("C_Subscription_ID is mandatory.");
-set_ValueNoCheck ("C_Subscription_ID", new Integer(C_Subscription_ID));
+set_ValueNoCheck ("C_Subscription_ID", Integer.valueOf(C_Subscription_ID));
 }
 /** Get Subscription.
 @return Subscription of a Business Partner of a Product to renew */

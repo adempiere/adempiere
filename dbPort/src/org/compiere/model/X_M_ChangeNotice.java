@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ChangeNotice
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_ChangeNotice extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_ChangeNotice (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=799 */
-public static final int Table_ID=799;
+public static final int Table_ID=MTable.getTable_ID("M_ChangeNotice");
 
 /** TableName=M_ChangeNotice */
 public static final String Table_Name="M_ChangeNotice";
 
-protected static KeyNamePair Model = new KeyNamePair(799,"M_ChangeNotice");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ChangeNotice");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -138,7 +138,7 @@ return (String)get_Value("Help");
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -157,7 +157,7 @@ return false;
 public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 {
 if (M_ChangeNotice_ID < 1) throw new IllegalArgumentException ("M_ChangeNotice_ID is mandatory.");
-set_ValueNoCheck ("M_ChangeNotice_ID", new Integer(M_ChangeNotice_ID));
+set_ValueNoCheck ("M_ChangeNotice_ID", Integer.valueOf(M_ChangeNotice_ID));
 }
 /** Get Change Notice.
 @return Bill of Materials (Engineering) Change Notice (Version) */
@@ -195,7 +195,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -213,7 +213,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

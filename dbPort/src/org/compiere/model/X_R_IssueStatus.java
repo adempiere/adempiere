@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueStatus
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_IssueStatus extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_IssueStatus (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=838 */
-public static final int Table_ID=838;
+public static final int Table_ID=MTable.getTable_ID("R_IssueStatus");
 
 /** TableName=R_IssueStatus */
 public static final String Table_Name="R_IssueStatus";
 
-protected static KeyNamePair Model = new KeyNamePair(838,"R_IssueStatus");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueStatus");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -132,7 +132,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_IssueStatus_ID (int R_IssueStatus_ID)
 {
 if (R_IssueStatus_ID < 1) throw new IllegalArgumentException ("R_IssueStatus_ID is mandatory.");
-set_ValueNoCheck ("R_IssueStatus_ID", new Integer(R_IssueStatus_ID));
+set_ValueNoCheck ("R_IssueStatus_ID", Integer.valueOf(R_IssueStatus_ID));
 }
 /** Get Issue Status.
 @return Status of an Issue */

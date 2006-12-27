@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Scheduler
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Scheduler extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_Scheduler (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=688 */
-public static final int Table_ID=688;
+public static final int Table_ID=MTable.getTable_ID("AD_Scheduler");
 
 /** TableName=AD_Scheduler */
 public static final String Table_Name="AD_Scheduler";
 
-protected static KeyNamePair Model = new KeyNamePair(688,"AD_Scheduler");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Scheduler");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID < 1) throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-set_ValueNoCheck ("AD_Process_ID", new Integer(AD_Process_ID));
+set_ValueNoCheck ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 {
 if (AD_Scheduler_ID < 1) throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-set_ValueNoCheck ("AD_Scheduler_ID", new Integer(AD_Scheduler_ID));
+set_ValueNoCheck ("AD_Scheduler_ID", Integer.valueOf(AD_Scheduler_ID));
 }
 /** Get Scheduler.
 @return Schedule Processes */
@@ -167,7 +167,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -210,7 +210,7 @@ return (String)get_Value("FrequencyType");
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -224,7 +224,7 @@ return ii.intValue();
 @param MonthDay Day of the month 1 to 28/29/30/31 */
 public void setMonthDay (int MonthDay)
 {
-set_Value ("MonthDay", new Integer(MonthDay));
+set_Value ("MonthDay", Integer.valueOf(MonthDay));
 }
 /** Get Day of the Month.
 @return Day of the month 1 to 28/29/30/31 */
@@ -262,7 +262,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -313,7 +313,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

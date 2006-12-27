@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workflow
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Workflow extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_AD_Workflow (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=117 */
-public static final int Table_ID=117;
+public static final int Table_ID=MTable.getTable_ID("AD_Workflow");
 
 /** TableName=AD_Workflow */
 public static final String Table_Name="AD_Workflow";
 
-protected static KeyNamePair Model = new KeyNamePair(117,"AD_Workflow");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Workflow");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -105,7 +105,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -121,7 +121,7 @@ public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 {
 if (AD_WF_Node_ID <= 0) set_Value ("AD_WF_Node_ID", null);
  else 
-set_Value ("AD_WF_Node_ID", new Integer(AD_WF_Node_ID));
+set_Value ("AD_WF_Node_ID", Integer.valueOf(AD_WF_Node_ID));
 }
 /** Get Node.
 @return Workflow Node (activity), step or process */
@@ -137,7 +137,7 @@ public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 {
 if (AD_WF_Responsible_ID <= 0) set_Value ("AD_WF_Responsible_ID", null);
  else 
-set_Value ("AD_WF_Responsible_ID", new Integer(AD_WF_Responsible_ID));
+set_Value ("AD_WF_Responsible_ID", Integer.valueOf(AD_WF_Responsible_ID));
 }
 /** Get Workflow Responsible.
 @return Responsible for Workflow Execution */
@@ -153,7 +153,7 @@ public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 {
 if (AD_WorkflowProcessor_ID <= 0) set_Value ("AD_WorkflowProcessor_ID", null);
  else 
-set_Value ("AD_WorkflowProcessor_ID", new Integer(AD_WorkflowProcessor_ID));
+set_Value ("AD_WorkflowProcessor_ID", Integer.valueOf(AD_WorkflowProcessor_ID));
 }
 /** Get Workflow Processor.
 @return Workflow Processor Server */
@@ -168,7 +168,7 @@ return ii.intValue();
 public void setAD_Workflow_ID (int AD_Workflow_ID)
 {
 if (AD_Workflow_ID < 1) throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-set_ValueNoCheck ("AD_Workflow_ID", new Integer(AD_Workflow_ID));
+set_ValueNoCheck ("AD_Workflow_ID", Integer.valueOf(AD_Workflow_ID));
 }
 /** Get Workflow.
 @return Workflow or combination of tasks */
@@ -235,7 +235,7 @@ return (String)get_Value("Author");
 @param Cost Cost information */
 public void setCost (int Cost)
 {
-set_Value ("Cost", new Integer(Cost));
+set_Value ("Cost", Integer.valueOf(Cost));
 }
 /** Get Cost.
 @return Cost information */
@@ -283,7 +283,7 @@ return (String)get_Value("DocValueLogic");
 @param Duration Normal Duration in Duration Unit */
 public void setDuration (int Duration)
 {
-set_Value ("Duration", new Integer(Duration));
+set_Value ("Duration", Integer.valueOf(Duration));
 }
 /** Get Duration.
 @return Normal Duration in Duration Unit */
@@ -370,7 +370,7 @@ return (String)get_Value("Help");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -388,7 +388,7 @@ return false;
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -406,7 +406,7 @@ return false;
 @param Limit Maximum Duration in Duration Unit */
 public void setLimit (int Limit)
 {
-set_Value ("Limit", new Integer(Limit));
+set_Value ("Limit", Integer.valueOf(Limit));
 }
 /** Get Duration Limit.
 @return Maximum Duration in Duration Unit */
@@ -444,7 +444,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Priority Indicates if this request is of a high, medium or low priority. */
 public void setPriority (int Priority)
 {
-set_Value ("Priority", new Integer(Priority));
+set_Value ("Priority", Integer.valueOf(Priority));
 }
 /** Get Priority.
 @return Indicates if this request is of a high, medium or low priority. */
@@ -548,7 +548,7 @@ return (String)get_Value("Value");
 @param Version Version of the table definition */
 public void setVersion (int Version)
 {
-set_Value ("Version", new Integer(Version));
+set_Value ("Version", Integer.valueOf(Version));
 }
 /** Get Version.
 @return Version of the table definition */
@@ -562,7 +562,7 @@ return ii.intValue();
 @param WaitingTime Workflow Simulation Waiting time */
 public void setWaitingTime (int WaitingTime)
 {
-set_Value ("WaitingTime", new Integer(WaitingTime));
+set_Value ("WaitingTime", Integer.valueOf(WaitingTime));
 }
 /** Get Waiting Time.
 @return Workflow Simulation Waiting time */
@@ -605,7 +605,7 @@ return (String)get_Value("WorkflowType");
 @param WorkingTime Workflow Simulation Execution Time */
 public void setWorkingTime (int WorkingTime)
 {
-set_Value ("WorkingTime", new Integer(WorkingTime));
+set_Value ("WorkingTime", Integer.valueOf(WorkingTime));
 }
 /** Get Working Time.
 @return Workflow Simulation Execution Time */

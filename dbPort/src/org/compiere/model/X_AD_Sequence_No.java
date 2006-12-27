@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Sequence_No
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Sequence_No extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_Sequence_No (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=122 */
-public static final int Table_ID=122;
+public static final int Table_ID=MTable.getTable_ID("AD_Sequence_No");
 
 /** TableName=AD_Sequence_No */
 public static final String Table_Name="AD_Sequence_No";
 
-protected static KeyNamePair Model = new KeyNamePair(122,"AD_Sequence_No");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Sequence_No");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Sequence_ID (int AD_Sequence_ID)
 {
 if (AD_Sequence_ID < 1) throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-set_ValueNoCheck ("AD_Sequence_ID", new Integer(AD_Sequence_ID));
+set_ValueNoCheck ("AD_Sequence_ID", Integer.valueOf(AD_Sequence_ID));
 }
 /** Get Sequence.
 @return Document Sequence */
@@ -124,7 +124,7 @@ return (String)get_Value("CalendarYear");
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
 {
-set_Value ("CurrentNext", new Integer(CurrentNext));
+set_Value ("CurrentNext", Integer.valueOf(CurrentNext));
 }
 /** Get Current Next.
 @return The next number to be used */

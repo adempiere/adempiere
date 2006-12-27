@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Lot
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Lot extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_Lot (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=557 */
-public static final int Table_ID=557;
+public static final int Table_ID=MTable.getTable_ID("M_Lot");
 
 /** TableName=M_Lot */
 public static final String Table_Name="M_Lot";
 
-protected static KeyNamePair Model = new KeyNamePair(557,"M_Lot");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Lot");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -151,7 +151,7 @@ public void setM_LotCtl_ID (int M_LotCtl_ID)
 {
 if (M_LotCtl_ID <= 0) set_ValueNoCheck ("M_LotCtl_ID", null);
  else 
-set_ValueNoCheck ("M_LotCtl_ID", new Integer(M_LotCtl_ID));
+set_ValueNoCheck ("M_LotCtl_ID", Integer.valueOf(M_LotCtl_ID));
 }
 /** Get Lot Control.
 @return Product Lot Control */
@@ -166,7 +166,7 @@ return ii.intValue();
 public void setM_Lot_ID (int M_Lot_ID)
 {
 if (M_Lot_ID < 1) throw new IllegalArgumentException ("M_Lot_ID is mandatory.");
-set_ValueNoCheck ("M_Lot_ID", new Integer(M_Lot_ID));
+set_ValueNoCheck ("M_Lot_ID", Integer.valueOf(M_Lot_ID));
 }
 /** Get Lot.
 @return Product Lot Definition */
@@ -181,7 +181,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

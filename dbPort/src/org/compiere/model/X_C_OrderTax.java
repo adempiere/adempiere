@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_OrderTax
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_OrderTax extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_OrderTax (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=314 */
-public static final int Table_ID=314;
+public static final int Table_ID=MTable.getTable_ID("C_OrderTax");
 
 /** TableName=C_OrderTax */
 public static final String Table_Name="C_OrderTax";
 
-protected static KeyNamePair Model = new KeyNamePair(314,"C_OrderTax");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_OrderTax");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID < 1) throw new IllegalArgumentException ("C_Order_ID is mandatory.");
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_ValueNoCheck ("C_Tax_ID", new Integer(C_Tax_ID));
+set_ValueNoCheck ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */
@@ -124,7 +124,7 @@ return ii.intValue();
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
 {
-set_Value ("IsTaxIncluded", new Boolean(IsTaxIncluded));
+set_Value ("IsTaxIncluded", Boolean.valueOf(IsTaxIncluded));
 }
 /** Get Price includes Tax.
 @return Tax is included in the price  */
@@ -142,7 +142,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

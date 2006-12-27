@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Attribute_Value
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Attribute_Value extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_Attribute_Value (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=406 */
-public static final int Table_ID=406;
+public static final int Table_ID=MTable.getTable_ID("AD_Attribute_Value");
 
 /** TableName=AD_Attribute_Value */
 public static final String Table_Name="AD_Attribute_Value";
 
-protected static KeyNamePair Model = new KeyNamePair(406,"AD_Attribute_Value");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Attribute_Value");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_Attribute_ID (int AD_Attribute_ID)
 {
 if (AD_Attribute_ID < 1) throw new IllegalArgumentException ("AD_Attribute_ID is mandatory.");
-set_ValueNoCheck ("AD_Attribute_ID", new Integer(AD_Attribute_ID));
+set_ValueNoCheck ("AD_Attribute_ID", Integer.valueOf(AD_Attribute_ID));
 }
 /** Get System Attribute.
 @return System Attribute */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectTask
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ProjectTask extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_ProjectTask (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=584 */
-public static final int Table_ID=584;
+public static final int Table_ID=MTable.getTable_ID("C_ProjectTask");
 
 /** TableName=C_ProjectTask */
 public static final String Table_Name="C_ProjectTask";
 
-protected static KeyNamePair Model = new KeyNamePair(584,"C_ProjectTask");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ProjectTask");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 {
 if (C_ProjectPhase_ID < 1) throw new IllegalArgumentException ("C_ProjectPhase_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectPhase_ID", new Integer(C_ProjectPhase_ID));
+set_ValueNoCheck ("C_ProjectPhase_ID", Integer.valueOf(C_ProjectPhase_ID));
 }
 /** Get Project Phase.
 @return Phase of a Project */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 {
 if (C_ProjectTask_ID < 1) throw new IllegalArgumentException ("C_ProjectTask_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectTask_ID", new Integer(C_ProjectTask_ID));
+set_ValueNoCheck ("C_ProjectTask_ID", Integer.valueOf(C_ProjectTask_ID));
 }
 /** Get Project Task.
 @return Actual Project Task in a Phase */
@@ -127,7 +127,7 @@ public void setC_Task_ID (int C_Task_ID)
 {
 if (C_Task_ID <= 0) set_ValueNoCheck ("C_Task_ID", null);
  else 
-set_ValueNoCheck ("C_Task_ID", new Integer(C_Task_ID));
+set_ValueNoCheck ("C_Task_ID", Integer.valueOf(C_Task_ID));
 }
 /** Get Standard Task.
 @return Standard Project Type Task */
@@ -192,7 +192,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -287,7 +287,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

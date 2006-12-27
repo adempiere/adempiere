@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_BOM
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Product_BOM extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_Product_BOM (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=383 */
-public static final int Table_ID=383;
+public static final int Table_ID=MTable.getTable_ID("M_Product_BOM");
 
 /** TableName=M_Product_BOM */
 public static final String Table_Name="M_Product_BOM";
 
-protected static KeyNamePair Model = new KeyNamePair(383,"M_Product_BOM");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Product_BOM");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -169,7 +169,7 @@ return (String)get_Value("Description");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -187,7 +187,7 @@ public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
 public void setM_ProductBOM_ID (int M_ProductBOM_ID)
 {
 if (M_ProductBOM_ID < 1) throw new IllegalArgumentException ("M_ProductBOM_ID is mandatory.");
-set_Value ("M_ProductBOM_ID", new Integer(M_ProductBOM_ID));
+set_Value ("M_ProductBOM_ID", Integer.valueOf(M_ProductBOM_ID));
 }
 /** Get BOM Product.
 @return Bill of Material Component Product */
@@ -208,7 +208,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
 public void setM_Product_BOM_ID (int M_Product_BOM_ID)
 {
 if (M_Product_BOM_ID < 1) throw new IllegalArgumentException ("M_Product_BOM_ID is mandatory.");
-set_ValueNoCheck ("M_Product_BOM_ID", new Integer(M_Product_BOM_ID));
+set_ValueNoCheck ("M_Product_BOM_ID", Integer.valueOf(M_Product_BOM_ID));
 }
 /** Get BOM Line.
 @return BOM Line */
@@ -223,7 +223,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

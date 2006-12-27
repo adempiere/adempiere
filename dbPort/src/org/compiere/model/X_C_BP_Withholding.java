@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Withholding
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Withholding extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BP_Withholding (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=299 */
-public static final int Table_ID=299;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Withholding");
 
 /** TableName=C_BP_Withholding */
 public static final String Table_Name="C_BP_Withholding";
 
-protected static KeyNamePair Model = new KeyNamePair(299,"C_BP_Withholding");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Withholding");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_Withholding_ID (int C_Withholding_ID)
 {
 if (C_Withholding_ID < 1) throw new IllegalArgumentException ("C_Withholding_ID is mandatory.");
-set_ValueNoCheck ("C_Withholding_ID", new Integer(C_Withholding_ID));
+set_ValueNoCheck ("C_Withholding_ID", Integer.valueOf(C_Withholding_ID));
 }
 /** Get Withholding.
 @return Withholding type defined */
@@ -139,7 +139,7 @@ return (String)get_Value("ExemptReason");
 @param IsMandatoryWithholding Monies must be withheld */
 public void setIsMandatoryWithholding (boolean IsMandatoryWithholding)
 {
-set_Value ("IsMandatoryWithholding", new Boolean(IsMandatoryWithholding));
+set_Value ("IsMandatoryWithholding", Boolean.valueOf(IsMandatoryWithholding));
 }
 /** Get Mandatory Withholding.
 @return Monies must be withheld */
@@ -157,7 +157,7 @@ return false;
 @param IsTemporaryExempt Temporarily do not withhold taxes */
 public void setIsTemporaryExempt (boolean IsTemporaryExempt)
 {
-set_Value ("IsTemporaryExempt", new Boolean(IsTemporaryExempt));
+set_Value ("IsTemporaryExempt", Boolean.valueOf(IsTemporaryExempt));
 }
 /** Get Temporary exempt.
 @return Temporarily do not withhold taxes */

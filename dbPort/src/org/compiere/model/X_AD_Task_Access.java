@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Task_Access
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Task_Access extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_Task_Access (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=199 */
-public static final int Table_ID=199;
+public static final int Table_ID=MTable.getTable_ID("AD_Task_Access");
 
 /** TableName=AD_Task_Access */
 public static final String Table_Name="AD_Task_Access";
 
-protected static KeyNamePair Model = new KeyNamePair(199,"AD_Task_Access");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Task_Access");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID < 0) throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+set_ValueNoCheck ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID < 1) throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-set_ValueNoCheck ("AD_Task_ID", new Integer(AD_Task_ID));
+set_ValueNoCheck ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */
@@ -121,7 +121,7 @@ return ii.intValue();
 @param IsReadWrite Field is read / write */
 public void setIsReadWrite (boolean IsReadWrite)
 {
-set_Value ("IsReadWrite", new Boolean(IsReadWrite));
+set_Value ("IsReadWrite", Boolean.valueOf(IsReadWrite));
 }
 /** Get Read Write.
 @return Field is read / write */

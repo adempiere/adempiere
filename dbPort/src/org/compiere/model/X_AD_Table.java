@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Table
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Table extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_AD_Table (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=100 */
-public static final int Table_ID=100;
+public static final int Table_ID=MTable.getTable_ID("AD_Table");
 
 /** TableName=AD_Table */
 public static final String Table_Name="AD_Table";
 
-protected static KeyNamePair Model = new KeyNamePair(100,"AD_Table");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Table");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -100,7 +100,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -116,7 +116,7 @@ public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 {
 if (AD_Val_Rule_ID <= 0) set_Value ("AD_Val_Rule_ID", null);
  else 
-set_Value ("AD_Val_Rule_ID", new Integer(AD_Val_Rule_ID));
+set_Value ("AD_Val_Rule_ID", Integer.valueOf(AD_Val_Rule_ID));
 }
 /** Get Dynamic Validation.
 @return Dynamic Validation Rule */
@@ -132,7 +132,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -254,7 +254,7 @@ return (String)get_Value("ImportTable");
 @param IsChangeLog Maintain a log of changes */
 public void setIsChangeLog (boolean IsChangeLog)
 {
-set_Value ("IsChangeLog", new Boolean(IsChangeLog));
+set_Value ("IsChangeLog", Boolean.valueOf(IsChangeLog));
 }
 /** Get Maintain Change Log.
 @return Maintain a log of changes */
@@ -272,7 +272,7 @@ return false;
 @param IsDeleteable Indicates if records can be deleted from the database */
 public void setIsDeleteable (boolean IsDeleteable)
 {
-set_Value ("IsDeleteable", new Boolean(IsDeleteable));
+set_Value ("IsDeleteable", Boolean.valueOf(IsDeleteable));
 }
 /** Get Records deleteable.
 @return Indicates if records can be deleted from the database */
@@ -290,7 +290,7 @@ return false;
 @param IsHighVolume Use Search instead of Pick list */
 public void setIsHighVolume (boolean IsHighVolume)
 {
-set_Value ("IsHighVolume", new Boolean(IsHighVolume));
+set_Value ("IsHighVolume", Boolean.valueOf(IsHighVolume));
 }
 /** Get High Volume.
 @return Use Search instead of Pick list */
@@ -308,7 +308,7 @@ return false;
 @param IsSecurityEnabled If security is enabled, user access to data can be restricted via Roles */
 public void setIsSecurityEnabled (boolean IsSecurityEnabled)
 {
-set_Value ("IsSecurityEnabled", new Boolean(IsSecurityEnabled));
+set_Value ("IsSecurityEnabled", Boolean.valueOf(IsSecurityEnabled));
 }
 /** Get Security enabled.
 @return If security is enabled, user access to data can be restricted via Roles */
@@ -326,7 +326,7 @@ return false;
 @param IsView This is a view */
 public void setIsView (boolean IsView)
 {
-set_Value ("IsView", new Boolean(IsView));
+set_Value ("IsView", Boolean.valueOf(IsView));
 }
 /** Get View.
 @return This is a view */
@@ -344,7 +344,7 @@ return false;
 @param LoadSeq Sequence */
 public void setLoadSeq (int LoadSeq)
 {
-set_ValueNoCheck ("LoadSeq", new Integer(LoadSeq));
+set_ValueNoCheck ("LoadSeq", Integer.valueOf(LoadSeq));
 }
 /** Get Sequence.
 @return Sequence */
@@ -381,7 +381,7 @@ public void setPO_Window_ID (int PO_Window_ID)
 {
 if (PO_Window_ID <= 0) set_Value ("PO_Window_ID", null);
  else 
-set_Value ("PO_Window_ID", new Integer(PO_Window_ID));
+set_Value ("PO_Window_ID", Integer.valueOf(PO_Window_ID));
 }
 /** Get PO Window.
 @return Purchase Order Window */

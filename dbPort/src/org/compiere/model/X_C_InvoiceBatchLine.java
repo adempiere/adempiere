@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceBatchLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_InvoiceBatchLine extends PO
 {
 /** Standard Constructor
@@ -72,12 +72,12 @@ public X_C_InvoiceBatchLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=768 */
-public static final int Table_ID=768;
+public static final int Table_ID=MTable.getTable_ID("C_InvoiceBatchLine");
 
 /** TableName=C_InvoiceBatchLine */
 public static final String Table_Name="C_InvoiceBatchLine";
 
-protected static KeyNamePair Model = new KeyNamePair(768,"C_InvoiceBatchLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InvoiceBatchLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -113,7 +113,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -129,7 +129,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -145,7 +145,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -175,7 +175,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -190,7 +190,7 @@ return ii.intValue();
 public void setC_Charge_ID (int C_Charge_ID)
 {
 if (C_Charge_ID < 1) throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-set_Value ("C_Charge_ID", new Integer(C_Charge_ID));
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
 }
 /** Get Charge.
 @return Additional document charges */
@@ -205,7 +205,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -220,7 +220,7 @@ return ii.intValue();
 public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID)
 {
 if (C_InvoiceBatchLine_ID < 1) throw new IllegalArgumentException ("C_InvoiceBatchLine_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceBatchLine_ID", new Integer(C_InvoiceBatchLine_ID));
+set_ValueNoCheck ("C_InvoiceBatchLine_ID", Integer.valueOf(C_InvoiceBatchLine_ID));
 }
 /** Get Invoice Batch Line.
 @return Expense Invoice Batch Line */
@@ -235,7 +235,7 @@ return ii.intValue();
 public void setC_InvoiceBatch_ID (int C_InvoiceBatch_ID)
 {
 if (C_InvoiceBatch_ID < 1) throw new IllegalArgumentException ("C_InvoiceBatch_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceBatch_ID", new Integer(C_InvoiceBatch_ID));
+set_ValueNoCheck ("C_InvoiceBatch_ID", Integer.valueOf(C_InvoiceBatch_ID));
 }
 /** Get Invoice Batch.
 @return Expense Invoice Batch Header */
@@ -251,7 +251,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_ValueNoCheck ("C_InvoiceLine_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -267,7 +267,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -283,7 +283,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -298,7 +298,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_Value ("C_Tax_ID", new Integer(C_Tax_ID));
+set_Value ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */
@@ -373,7 +373,7 @@ return (String)get_Value("DocumentNo");
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
 {
-set_Value ("IsTaxIncluded", new Boolean(IsTaxIncluded));
+set_Value ("IsTaxIncluded", Boolean.valueOf(IsTaxIncluded));
 }
 /** Get Price includes Tax.
 @return Tax is included in the price  */
@@ -391,7 +391,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -456,7 +456,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -509,7 +509,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -528,7 +528,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */

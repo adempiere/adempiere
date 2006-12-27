@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_InterestArea
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_InterestArea extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_R_InterestArea (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=530 */
-public static final int Table_ID=530;
+public static final int Table_ID=MTable.getTable_ID("R_InterestArea");
 
 /** TableName=R_InterestArea */
 public static final String Table_Name="R_InterestArea";
 
-protected static KeyNamePair Model = new KeyNamePair(530,"R_InterestArea");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_InterestArea");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -109,7 +109,7 @@ return (String)get_Value("Description");
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -152,7 +152,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setR_InterestArea_ID (int R_InterestArea_ID)
 {
 if (R_InterestArea_ID < 1) throw new IllegalArgumentException ("R_InterestArea_ID is mandatory.");
-set_ValueNoCheck ("R_InterestArea_ID", new Integer(R_InterestArea_ID));
+set_ValueNoCheck ("R_InterestArea_ID", Integer.valueOf(R_InterestArea_ID));
 }
 /** Get Interest Area.
 @return Interest Area or Topic */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ForecastLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_ForecastLine extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_ForecastLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=722 */
-public static final int Table_ID=722;
+public static final int Table_ID=MTable.getTable_ID("M_ForecastLine");
 
 /** TableName=M_ForecastLine */
 public static final String Table_Name="M_ForecastLine";
 
-protected static KeyNamePair Model = new KeyNamePair(722,"M_ForecastLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ForecastLine");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_Period_ID (int C_Period_ID)
 {
 if (C_Period_ID < 1) throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-set_ValueNoCheck ("C_Period_ID", new Integer(C_Period_ID));
+set_ValueNoCheck ("C_Period_ID", Integer.valueOf(C_Period_ID));
 }
 /** Get Period.
 @return Period of the Calendar */
@@ -116,7 +116,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Period_ID()));
 public void setM_ForecastLine_ID (int M_ForecastLine_ID)
 {
 if (M_ForecastLine_ID < 1) throw new IllegalArgumentException ("M_ForecastLine_ID is mandatory.");
-set_ValueNoCheck ("M_ForecastLine_ID", new Integer(M_ForecastLine_ID));
+set_ValueNoCheck ("M_ForecastLine_ID", Integer.valueOf(M_ForecastLine_ID));
 }
 /** Get Forecast Line.
 @return Forecast Line */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setM_Forecast_ID (int M_Forecast_ID)
 {
 if (M_Forecast_ID < 1) throw new IllegalArgumentException ("M_Forecast_ID is mandatory.");
-set_ValueNoCheck ("M_Forecast_ID", new Integer(M_Forecast_ID));
+set_ValueNoCheck ("M_Forecast_ID", Integer.valueOf(M_Forecast_ID));
 }
 /** Get Forecast.
 @return Material Forecast */
@@ -146,7 +146,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

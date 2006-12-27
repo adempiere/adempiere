@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_SLA_Criteria
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_SLA_Criteria extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_PA_SLA_Criteria (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=744 */
-public static final int Table_ID=744;
+public static final int Table_ID=MTable.getTable_ID("PA_SLA_Criteria");
 
 /** TableName=PA_SLA_Criteria */
 public static final String Table_Name="PA_SLA_Criteria";
 
-protected static KeyNamePair Model = new KeyNamePair(744,"PA_SLA_Criteria");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_SLA_Criteria");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -142,7 +142,7 @@ return (String)get_Value("Help");
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -185,7 +185,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_SLA_Criteria_ID (int PA_SLA_Criteria_ID)
 {
 if (PA_SLA_Criteria_ID < 1) throw new IllegalArgumentException ("PA_SLA_Criteria_ID is mandatory.");
-set_ValueNoCheck ("PA_SLA_Criteria_ID", new Integer(PA_SLA_Criteria_ID));
+set_ValueNoCheck ("PA_SLA_Criteria_ID", Integer.valueOf(PA_SLA_Criteria_ID));
 }
 /** Get SLA Criteria.
 @return Service Level Agreement Criteria */

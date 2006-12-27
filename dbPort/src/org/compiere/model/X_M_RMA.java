@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RMA
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_RMA extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_M_RMA (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=661 */
-public static final int Table_ID=661;
+public static final int Table_ID=MTable.getTable_ID("M_RMA");
 
 /** TableName=M_RMA */
 public static final String Table_Name="M_RMA";
 
-protected static KeyNamePair Model = new KeyNamePair(661,"M_RMA");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RMA");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -115,7 +115,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -131,7 +131,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -149,7 +149,7 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=321;
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -165,7 +165,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_ValueNoCheck ("C_Order_ID", null);
  else 
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -335,7 +335,7 @@ return (String)get_Value("Help");
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -354,7 +354,7 @@ return false;
 public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID < 1) throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-set_ValueNoCheck ("M_InOut_ID", new Integer(M_InOut_ID));
+set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -369,7 +369,7 @@ return ii.intValue();
 public void setM_RMAType_ID (int M_RMAType_ID)
 {
 if (M_RMAType_ID < 1) throw new IllegalArgumentException ("M_RMAType_ID is mandatory.");
-set_Value ("M_RMAType_ID", new Integer(M_RMAType_ID));
+set_Value ("M_RMAType_ID", Integer.valueOf(M_RMAType_ID));
 }
 /** Get RMA Type.
 @return Return Material Authorization Type */
@@ -384,7 +384,7 @@ return ii.intValue();
 public void setM_RMA_ID (int M_RMA_ID)
 {
 if (M_RMA_ID < 1) throw new IllegalArgumentException ("M_RMA_ID is mandatory.");
-set_ValueNoCheck ("M_RMA_ID", new Integer(M_RMA_ID));
+set_ValueNoCheck ("M_RMA_ID", Integer.valueOf(M_RMA_ID));
 }
 /** Get RMA.
 @return Return Material Authorization */
@@ -416,7 +416,7 @@ return (String)get_Value("Name");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -434,7 +434,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -456,7 +456,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

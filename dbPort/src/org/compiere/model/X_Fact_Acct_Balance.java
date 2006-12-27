@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for Fact_Acct_Balance
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_Fact_Acct_Balance extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_Fact_Acct_Balance (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=547 */
-public static final int Table_ID=547;
+public static final int Table_ID=MTable.getTable_ID("Fact_Acct_Balance");
 
 /** TableName=Fact_Acct_Balance */
 public static final String Table_Name="Fact_Acct_Balance";
 
-protected static KeyNamePair Model = new KeyNamePair(547,"Fact_Acct_Balance");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"Fact_Acct_Balance");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_Value ("AD_OrgTrx_ID", null);
  else 
-set_Value ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_Value ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -118,7 +118,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=182;
 public void setAccount_ID (int Account_ID)
 {
 if (Account_ID < 1) throw new IllegalArgumentException ("Account_ID is mandatory.");
-set_Value ("Account_ID", new Integer(Account_ID));
+set_Value ("Account_ID", Integer.valueOf(Account_ID));
 }
 /** Get Account.
 @return Account used */
@@ -163,7 +163,7 @@ return bd;
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -185,7 +185,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -201,7 +201,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -217,7 +217,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -236,7 +236,7 @@ public void setC_LocFrom_ID (int C_LocFrom_ID)
 {
 if (C_LocFrom_ID <= 0) set_Value ("C_LocFrom_ID", null);
  else 
-set_Value ("C_LocFrom_ID", new Integer(C_LocFrom_ID));
+set_Value ("C_LocFrom_ID", Integer.valueOf(C_LocFrom_ID));
 }
 /** Get Location From.
 @return Location that inventory was moved from */
@@ -255,7 +255,7 @@ public void setC_LocTo_ID (int C_LocTo_ID)
 {
 if (C_LocTo_ID <= 0) set_Value ("C_LocTo_ID", null);
  else 
-set_Value ("C_LocTo_ID", new Integer(C_LocTo_ID));
+set_Value ("C_LocTo_ID", Integer.valueOf(C_LocTo_ID));
 }
 /** Get Location To.
 @return Location that inventory was moved to */
@@ -271,7 +271,7 @@ public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 {
 if (C_ProjectPhase_ID <= 0) set_ValueNoCheck ("C_ProjectPhase_ID", null);
  else 
-set_ValueNoCheck ("C_ProjectPhase_ID", new Integer(C_ProjectPhase_ID));
+set_ValueNoCheck ("C_ProjectPhase_ID", Integer.valueOf(C_ProjectPhase_ID));
 }
 /** Get Project Phase.
 @return Phase of a Project */
@@ -287,7 +287,7 @@ public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 {
 if (C_ProjectTask_ID <= 0) set_ValueNoCheck ("C_ProjectTask_ID", null);
  else 
-set_ValueNoCheck ("C_ProjectTask_ID", new Integer(C_ProjectTask_ID));
+set_ValueNoCheck ("C_ProjectTask_ID", Integer.valueOf(C_ProjectTask_ID));
 }
 /** Get Project Task.
 @return Actual Project Task in a Phase */
@@ -303,7 +303,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -319,7 +319,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -335,7 +335,7 @@ public void setC_SubAcct_ID (int C_SubAcct_ID)
 {
 if (C_SubAcct_ID <= 0) set_ValueNoCheck ("C_SubAcct_ID", null);
  else 
-set_ValueNoCheck ("C_SubAcct_ID", new Integer(C_SubAcct_ID));
+set_ValueNoCheck ("C_SubAcct_ID", Integer.valueOf(C_SubAcct_ID));
 }
 /** Get Sub Account.
 @return Sub account for Element Value */
@@ -364,7 +364,7 @@ public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID <= 0) set_Value ("GL_Budget_ID", null);
  else 
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -380,7 +380,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -447,7 +447,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_Value ("User1_ID", null);
  else 
-set_Value ("User1_ID", new Integer(User1_ID));
+set_Value ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -466,7 +466,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_Value ("User2_ID", null);
  else 
-set_Value ("User2_ID", new Integer(User2_ID));
+set_Value ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */
@@ -482,7 +482,7 @@ public void setUserElement1_ID (int UserElement1_ID)
 {
 if (UserElement1_ID <= 0) set_Value ("UserElement1_ID", null);
  else 
-set_Value ("UserElement1_ID", new Integer(UserElement1_ID));
+set_Value ("UserElement1_ID", Integer.valueOf(UserElement1_ID));
 }
 /** Get User Element 1.
 @return User defined accounting Element */
@@ -498,7 +498,7 @@ public void setUserElement2_ID (int UserElement2_ID)
 {
 if (UserElement2_ID <= 0) set_Value ("UserElement2_ID", null);
  else 
-set_Value ("UserElement2_ID", new Integer(UserElement2_ID));
+set_Value ("UserElement2_ID", Integer.valueOf(UserElement2_ID));
 }
 /** Get User Element 2.
 @return User defined accounting Element */

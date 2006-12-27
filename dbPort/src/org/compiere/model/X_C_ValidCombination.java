@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ValidCombination
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ValidCombination extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_ValidCombination (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=176 */
-public static final int Table_ID=176;
+public static final int Table_ID=MTable.getTable_ID("C_ValidCombination");
 
 /** TableName=C_ValidCombination */
 public static final String Table_Name="C_ValidCombination";
 
-protected static KeyNamePair Model = new KeyNamePair(176,"C_ValidCombination");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ValidCombination");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_ValueNoCheck ("AD_OrgTrx_ID", null);
  else 
-set_ValueNoCheck ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_ValueNoCheck ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -115,7 +115,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=362;
 public void setAccount_ID (int Account_ID)
 {
 if (Account_ID < 1) throw new IllegalArgumentException ("Account_ID is mandatory.");
-set_ValueNoCheck ("Account_ID", new Integer(Account_ID));
+set_ValueNoCheck ("Account_ID", Integer.valueOf(Account_ID));
 }
 /** Get Account.
 @return Account used */
@@ -147,7 +147,7 @@ return (String)get_Value("Alias");
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -166,7 +166,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_ValueNoCheck ("C_Activity_ID", null);
  else 
-set_ValueNoCheck ("C_Activity_ID", new Integer(C_Activity_ID));
+set_ValueNoCheck ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -185,7 +185,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_ValueNoCheck ("C_BPartner_ID", null);
  else 
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -204,7 +204,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_ValueNoCheck ("C_Campaign_ID", null);
  else 
-set_ValueNoCheck ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_ValueNoCheck ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -223,7 +223,7 @@ public void setC_LocFrom_ID (int C_LocFrom_ID)
 {
 if (C_LocFrom_ID <= 0) set_ValueNoCheck ("C_LocFrom_ID", null);
  else 
-set_ValueNoCheck ("C_LocFrom_ID", new Integer(C_LocFrom_ID));
+set_ValueNoCheck ("C_LocFrom_ID", Integer.valueOf(C_LocFrom_ID));
 }
 /** Get Location From.
 @return Location that inventory was moved from */
@@ -242,7 +242,7 @@ public void setC_LocTo_ID (int C_LocTo_ID)
 {
 if (C_LocTo_ID <= 0) set_ValueNoCheck ("C_LocTo_ID", null);
  else 
-set_ValueNoCheck ("C_LocTo_ID", new Integer(C_LocTo_ID));
+set_ValueNoCheck ("C_LocTo_ID", Integer.valueOf(C_LocTo_ID));
 }
 /** Get Location To.
 @return Location that inventory was moved to */
@@ -261,7 +261,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_ValueNoCheck ("C_Project_ID", null);
  else 
-set_ValueNoCheck ("C_Project_ID", new Integer(C_Project_ID));
+set_ValueNoCheck ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -280,7 +280,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_ValueNoCheck ("C_SalesRegion_ID", null);
  else 
-set_ValueNoCheck ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_ValueNoCheck ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -296,7 +296,7 @@ public void setC_SubAcct_ID (int C_SubAcct_ID)
 {
 if (C_SubAcct_ID <= 0) set_ValueNoCheck ("C_SubAcct_ID", null);
  else 
-set_ValueNoCheck ("C_SubAcct_ID", new Integer(C_SubAcct_ID));
+set_ValueNoCheck ("C_SubAcct_ID", Integer.valueOf(C_SubAcct_ID));
 }
 /** Get Sub Account.
 @return Sub account for Element Value */
@@ -311,7 +311,7 @@ return ii.intValue();
 public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 {
 if (C_ValidCombination_ID < 1) throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
-set_ValueNoCheck ("C_ValidCombination_ID", new Integer(C_ValidCombination_ID));
+set_ValueNoCheck ("C_ValidCombination_ID", Integer.valueOf(C_ValidCombination_ID));
 }
 /** Get Combination.
 @return Valid Account Combination */
@@ -365,7 +365,7 @@ return (String)get_Value("Description");
 @param IsFullyQualified This account is fully qualified */
 public void setIsFullyQualified (boolean IsFullyQualified)
 {
-set_ValueNoCheck ("IsFullyQualified", new Boolean(IsFullyQualified));
+set_ValueNoCheck ("IsFullyQualified", Boolean.valueOf(IsFullyQualified));
 }
 /** Get Fully Qualified.
 @return This account is fully qualified */
@@ -388,7 +388,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_ValueNoCheck ("M_Product_ID", null);
  else 
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -407,7 +407,7 @@ public void setUser1_ID (int User1_ID)
 {
 if (User1_ID <= 0) set_ValueNoCheck ("User1_ID", null);
  else 
-set_ValueNoCheck ("User1_ID", new Integer(User1_ID));
+set_ValueNoCheck ("User1_ID", Integer.valueOf(User1_ID));
 }
 /** Get User List 1.
 @return User defined list element #1 */
@@ -426,7 +426,7 @@ public void setUser2_ID (int User2_ID)
 {
 if (User2_ID <= 0) set_ValueNoCheck ("User2_ID", null);
  else 
-set_ValueNoCheck ("User2_ID", new Integer(User2_ID));
+set_ValueNoCheck ("User2_ID", Integer.valueOf(User2_ID));
 }
 /** Get User List 2.
 @return User defined list element #2 */
@@ -442,7 +442,7 @@ public void setUserElement1_ID (int UserElement1_ID)
 {
 if (UserElement1_ID <= 0) set_Value ("UserElement1_ID", null);
  else 
-set_Value ("UserElement1_ID", new Integer(UserElement1_ID));
+set_Value ("UserElement1_ID", Integer.valueOf(UserElement1_ID));
 }
 /** Get User Element 1.
 @return User defined accounting Element */
@@ -458,7 +458,7 @@ public void setUserElement2_ID (int UserElement2_ID)
 {
 if (UserElement2_ID <= 0) set_Value ("UserElement2_ID", null);
  else 
-set_Value ("UserElement2_ID", new Integer(UserElement2_ID));
+set_Value ("UserElement2_ID", Integer.valueOf(UserElement2_ID));
 }
 /** Get User Element 2.
 @return User defined accounting Element */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ColorSchema
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_ColorSchema extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_PA_ColorSchema (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=831 */
-public static final int Table_ID=831;
+public static final int Table_ID=MTable.getTable_ID("PA_ColorSchema");
 
 /** TableName=PA_ColorSchema */
 public static final String Table_Name="PA_ColorSchema";
 
-protected static KeyNamePair Model = new KeyNamePair(831,"PA_ColorSchema");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ColorSchema");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -99,7 +99,7 @@ public static final int AD_PRINTCOLOR1_ID_AD_Reference_ID=266;
 public void setAD_PrintColor1_ID (int AD_PrintColor1_ID)
 {
 if (AD_PrintColor1_ID < 1) throw new IllegalArgumentException ("AD_PrintColor1_ID is mandatory.");
-set_Value ("AD_PrintColor1_ID", new Integer(AD_PrintColor1_ID));
+set_Value ("AD_PrintColor1_ID", Integer.valueOf(AD_PrintColor1_ID));
 }
 /** Get Color 1.
 @return First color used */
@@ -117,7 +117,7 @@ public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
 public void setAD_PrintColor2_ID (int AD_PrintColor2_ID)
 {
 if (AD_PrintColor2_ID < 1) throw new IllegalArgumentException ("AD_PrintColor2_ID is mandatory.");
-set_Value ("AD_PrintColor2_ID", new Integer(AD_PrintColor2_ID));
+set_Value ("AD_PrintColor2_ID", Integer.valueOf(AD_PrintColor2_ID));
 }
 /** Get Color 2.
 @return Second color used */
@@ -136,7 +136,7 @@ public void setAD_PrintColor3_ID (int AD_PrintColor3_ID)
 {
 if (AD_PrintColor3_ID <= 0) set_Value ("AD_PrintColor3_ID", null);
  else 
-set_Value ("AD_PrintColor3_ID", new Integer(AD_PrintColor3_ID));
+set_Value ("AD_PrintColor3_ID", Integer.valueOf(AD_PrintColor3_ID));
 }
 /** Get Color 3.
 @return Third color used */
@@ -155,7 +155,7 @@ public void setAD_PrintColor4_ID (int AD_PrintColor4_ID)
 {
 if (AD_PrintColor4_ID <= 0) set_Value ("AD_PrintColor4_ID", null);
  else 
-set_Value ("AD_PrintColor4_ID", new Integer(AD_PrintColor4_ID));
+set_Value ("AD_PrintColor4_ID", Integer.valueOf(AD_PrintColor4_ID));
 }
 /** Get Color 4.
 @return Forth color used */
@@ -208,7 +208,7 @@ return (String)get_Value("EntityType");
 @param Mark1Percent Percentage up to this color is used */
 public void setMark1Percent (int Mark1Percent)
 {
-set_Value ("Mark1Percent", new Integer(Mark1Percent));
+set_Value ("Mark1Percent", Integer.valueOf(Mark1Percent));
 }
 /** Get Mark 1 Percent.
 @return Percentage up to this color is used */
@@ -222,7 +222,7 @@ return ii.intValue();
 @param Mark2Percent Percentage up to this color is used */
 public void setMark2Percent (int Mark2Percent)
 {
-set_Value ("Mark2Percent", new Integer(Mark2Percent));
+set_Value ("Mark2Percent", Integer.valueOf(Mark2Percent));
 }
 /** Get Mark 2 Percent.
 @return Percentage up to this color is used */
@@ -236,7 +236,7 @@ return ii.intValue();
 @param Mark3Percent Percentage up to this color is used */
 public void setMark3Percent (int Mark3Percent)
 {
-set_Value ("Mark3Percent", new Integer(Mark3Percent));
+set_Value ("Mark3Percent", Integer.valueOf(Mark3Percent));
 }
 /** Get Mark 3 Percent.
 @return Percentage up to this color is used */
@@ -250,7 +250,7 @@ return ii.intValue();
 @param Mark4Percent Percentage up to this color is used */
 public void setMark4Percent (int Mark4Percent)
 {
-set_Value ("Mark4Percent", new Integer(Mark4Percent));
+set_Value ("Mark4Percent", Integer.valueOf(Mark4Percent));
 }
 /** Get Mark 4 Percent.
 @return Percentage up to this color is used */
@@ -289,7 +289,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
 {
 if (PA_ColorSchema_ID < 1) throw new IllegalArgumentException ("PA_ColorSchema_ID is mandatory.");
-set_ValueNoCheck ("PA_ColorSchema_ID", new Integer(PA_ColorSchema_ID));
+set_ValueNoCheck ("PA_ColorSchema_ID", Integer.valueOf(PA_ColorSchema_ID));
 }
 /** Get Color Schema.
 @return Performance Color Schema */

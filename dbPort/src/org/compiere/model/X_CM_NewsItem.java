@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_NewsItem
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_NewsItem extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_CM_NewsItem (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=871 */
-public static final int Table_ID=871;
+public static final int Table_ID=MTable.getTable_ID("CM_NewsItem");
 
 /** TableName=CM_NewsItem */
 public static final String Table_Name="CM_NewsItem";
 
-protected static KeyNamePair Model = new KeyNamePair(871,"CM_NewsItem");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_NewsItem");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -108,7 +108,7 @@ return (String)get_Value("Author");
 public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
 {
 if (CM_NewsChannel_ID < 1) throw new IllegalArgumentException ("CM_NewsChannel_ID is mandatory.");
-set_Value ("CM_NewsChannel_ID", new Integer(CM_NewsChannel_ID));
+set_Value ("CM_NewsChannel_ID", Integer.valueOf(CM_NewsChannel_ID));
 }
 /** Get News Channel.
 @return News channel for rss feed */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setCM_NewsItem_ID (int CM_NewsItem_ID)
 {
 if (CM_NewsItem_ID < 1) throw new IllegalArgumentException ("CM_NewsItem_ID is mandatory.");
-set_ValueNoCheck ("CM_NewsItem_ID", new Integer(CM_NewsItem_ID));
+set_ValueNoCheck ("CM_NewsItem_ID", Integer.valueOf(CM_NewsItem_ID));
 }
 /** Get News Item / Article.
 @return News item or article defines base content */

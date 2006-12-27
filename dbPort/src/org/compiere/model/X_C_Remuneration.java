@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Remuneration
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Remuneration extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_Remuneration (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=792 */
-public static final int Table_ID=792;
+public static final int Table_ID=MTable.getTable_ID("C_Remuneration");
 
 /** TableName=C_Remuneration */
 public static final String Table_Name="C_Remuneration";
 
-protected static KeyNamePair Model = new KeyNamePair(792,"C_Remuneration");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Remuneration");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_Remuneration_ID (int C_Remuneration_ID)
 {
 if (C_Remuneration_ID < 1) throw new IllegalArgumentException ("C_Remuneration_ID is mandatory.");
-set_ValueNoCheck ("C_Remuneration_ID", new Integer(C_Remuneration_ID));
+set_ValueNoCheck ("C_Remuneration_ID", Integer.valueOf(C_Remuneration_ID));
 }
 /** Get Remuneration.
 @return Wage or Salary */
@@ -264,7 +264,7 @@ return (String)get_Value("RemunerationType");
 @param StandardHours Standard Work Hours based on Remuneration Type */
 public void setStandardHours (int StandardHours)
 {
-set_Value ("StandardHours", new Integer(StandardHours));
+set_Value ("StandardHours", Integer.valueOf(StandardHours));
 }
 /** Get Standard Hours.
 @return Standard Work Hours based on Remuneration Type */

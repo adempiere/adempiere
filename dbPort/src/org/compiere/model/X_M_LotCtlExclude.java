@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_LotCtlExclude
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_LotCtlExclude extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_LotCtlExclude (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=810 */
-public static final int Table_ID=810;
+public static final int Table_ID=MTable.getTable_ID("M_LotCtlExclude");
 
 /** TableName=M_LotCtlExclude */
 public static final String Table_Name="M_LotCtlExclude";
 
-protected static KeyNamePair Model = new KeyNamePair(810,"M_LotCtlExclude");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_LotCtlExclude");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -107,7 +107,7 @@ return ii.intValue();
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -126,7 +126,7 @@ return false;
 public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID)
 {
 if (M_LotCtlExclude_ID < 1) throw new IllegalArgumentException ("M_LotCtlExclude_ID is mandatory.");
-set_ValueNoCheck ("M_LotCtlExclude_ID", new Integer(M_LotCtlExclude_ID));
+set_ValueNoCheck ("M_LotCtlExclude_ID", Integer.valueOf(M_LotCtlExclude_ID));
 }
 /** Get Exclude Lot.
 @return Exclude the ability to create Lots in Attribute Sets */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setM_LotCtl_ID (int M_LotCtl_ID)
 {
 if (M_LotCtl_ID < 1) throw new IllegalArgumentException ("M_LotCtl_ID is mandatory.");
-set_ValueNoCheck ("M_LotCtl_ID", new Integer(M_LotCtl_ID));
+set_ValueNoCheck ("M_LotCtl_ID", Integer.valueOf(M_LotCtl_ID));
 }
 /** Get Lot Control.
 @return Product Lot Control */

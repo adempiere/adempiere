@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponseLineQty
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQResponseLineQty extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_RfQResponseLineQty (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=672 */
-public static final int Table_ID=672;
+public static final int Table_ID=MTable.getTable_ID("C_RfQResponseLineQty");
 
 /** TableName=C_RfQResponseLineQty */
 public static final String Table_Name="C_RfQResponseLineQty";
 
-protected static KeyNamePair Model = new KeyNamePair(672,"C_RfQResponseLineQty");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQResponseLineQty");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
 {
 if (C_RfQLineQty_ID < 1) throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
-set_ValueNoCheck ("C_RfQLineQty_ID", new Integer(C_RfQLineQty_ID));
+set_ValueNoCheck ("C_RfQLineQty_ID", Integer.valueOf(C_RfQLineQty_ID));
 }
 /** Get RfQ Line Quantity.
 @return Request for Quotation Line Quantity */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID)
 {
 if (C_RfQResponseLineQty_ID < 1) throw new IllegalArgumentException ("C_RfQResponseLineQty_ID is mandatory.");
-set_ValueNoCheck ("C_RfQResponseLineQty_ID", new Integer(C_RfQResponseLineQty_ID));
+set_ValueNoCheck ("C_RfQResponseLineQty_ID", Integer.valueOf(C_RfQResponseLineQty_ID));
 }
 /** Get RfQ Response Line Qty.
 @return Request for Quotation Response Line Quantity */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
 {
 if (C_RfQResponseLine_ID < 1) throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
-set_ValueNoCheck ("C_RfQResponseLine_ID", new Integer(C_RfQResponseLine_ID));
+set_ValueNoCheck ("C_RfQResponseLine_ID", Integer.valueOf(C_RfQResponseLine_ID));
 }
 /** Get RfQ Response Line.
 @return Request for Quotation Response Line */
@@ -172,7 +172,7 @@ return bd;
 @param Ranking Relative Rank Number */
 public void setRanking (int Ranking)
 {
-set_Value ("Ranking", new Integer(Ranking));
+set_Value ("Ranking", Integer.valueOf(Ranking));
 }
 /** Get Ranking.
 @return Relative Rank Number */

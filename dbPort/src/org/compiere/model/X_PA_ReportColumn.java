@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportColumn
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_ReportColumn extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_PA_ReportColumn (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=446 */
-public static final int Table_ID=446;
+public static final int Table_ID=MTable.getTable_ID("PA_ReportColumn");
 
 /** TableName=PA_ReportColumn */
 public static final String Table_Name="PA_ReportColumn";
 
-protected static KeyNamePair Model = new KeyNamePair(446,"PA_ReportColumn");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportColumn");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -143,7 +143,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -159,7 +159,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -175,7 +175,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -191,7 +191,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -207,7 +207,7 @@ public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID <= 0) set_Value ("C_ElementValue_ID", null);
  else 
-set_Value ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_Value ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -223,7 +223,7 @@ public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID <= 0) set_Value ("C_Location_ID", null);
  else 
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -239,7 +239,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -255,7 +255,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -427,7 +427,7 @@ public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID <= 0) set_Value ("GL_Budget_ID", null);
  else 
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -441,7 +441,7 @@ return ii.intValue();
 @param IsAdhocConversion Perform conversion for all amounts to currency */
 public void setIsAdhocConversion (boolean IsAdhocConversion)
 {
-set_Value ("IsAdhocConversion", new Boolean(IsAdhocConversion));
+set_Value ("IsAdhocConversion", Boolean.valueOf(IsAdhocConversion));
 }
 /** Get Adhoc Conversion.
 @return Perform conversion for all amounts to currency */
@@ -459,7 +459,7 @@ return false;
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -479,7 +479,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -522,7 +522,7 @@ public void setOper_1_ID (int Oper_1_ID)
 {
 if (Oper_1_ID <= 0) set_Value ("Oper_1_ID", null);
  else 
-set_Value ("Oper_1_ID", new Integer(Oper_1_ID));
+set_Value ("Oper_1_ID", Integer.valueOf(Oper_1_ID));
 }
 /** Get Operand 1.
 @return First operand for calculation */
@@ -541,7 +541,7 @@ public void setOper_2_ID (int Oper_2_ID)
 {
 if (Oper_2_ID <= 0) set_Value ("Oper_2_ID", null);
  else 
-set_Value ("Oper_2_ID", new Integer(Oper_2_ID));
+set_Value ("Oper_2_ID", Integer.valueOf(Oper_2_ID));
 }
 /** Get Operand 2.
 @return Second operand for calculation */
@@ -560,7 +560,7 @@ public void setOrg_ID (int Org_ID)
 {
 if (Org_ID <= 0) set_Value ("Org_ID", null);
  else 
-set_Value ("Org_ID", new Integer(Org_ID));
+set_Value ("Org_ID", Integer.valueOf(Org_ID));
 }
 /** Get Organization.
 @return Organizational entity within client */
@@ -575,7 +575,7 @@ return ii.intValue();
 public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 {
 if (PA_ReportColumnSet_ID < 1) throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportColumnSet_ID", new Integer(PA_ReportColumnSet_ID));
+set_ValueNoCheck ("PA_ReportColumnSet_ID", Integer.valueOf(PA_ReportColumnSet_ID));
 }
 /** Get Report Column Set.
 @return Collection of Columns for Report */
@@ -590,7 +590,7 @@ return ii.intValue();
 public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
 {
 if (PA_ReportColumn_ID < 1) throw new IllegalArgumentException ("PA_ReportColumn_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportColumn_ID", new Integer(PA_ReportColumn_ID));
+set_ValueNoCheck ("PA_ReportColumn_ID", Integer.valueOf(PA_ReportColumn_ID));
 }
 /** Get Report Column.
 @return Column in Report */
@@ -652,7 +652,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

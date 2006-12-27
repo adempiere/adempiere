@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintFormatItem
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PrintFormatItem extends PO
 {
 /** Standard Constructor
@@ -92,12 +92,12 @@ public X_AD_PrintFormatItem (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=489 */
-public static final int Table_ID=489;
+public static final int Table_ID=MTable.getTable_ID("AD_PrintFormatItem");
 
 /** TableName=AD_PrintFormatItem */
 public static final String Table_Name="AD_PrintFormatItem";
 
-protected static KeyNamePair Model = new KeyNamePair(489,"AD_PrintFormatItem");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintFormatItem");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -129,7 +129,7 @@ return sb.toString();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -145,7 +145,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -161,7 +161,7 @@ public void setAD_PrintFont_ID (int AD_PrintFont_ID)
 {
 if (AD_PrintFont_ID <= 0) set_Value ("AD_PrintFont_ID", null);
  else 
-set_Value ("AD_PrintFont_ID", new Integer(AD_PrintFont_ID));
+set_Value ("AD_PrintFont_ID", Integer.valueOf(AD_PrintFont_ID));
 }
 /** Get Print Font.
 @return Maintain Print Font */
@@ -179,7 +179,7 @@ public static final int AD_PRINTFORMATCHILD_ID_AD_Reference_ID=259;
 public void setAD_PrintFormatChild_ID (int AD_PrintFormatChild_ID)
 {
 if (AD_PrintFormatChild_ID < 1) throw new IllegalArgumentException ("AD_PrintFormatChild_ID is mandatory.");
-set_Value ("AD_PrintFormatChild_ID", new Integer(AD_PrintFormatChild_ID));
+set_Value ("AD_PrintFormatChild_ID", Integer.valueOf(AD_PrintFormatChild_ID));
 }
 /** Get Included Print Format.
 @return Print format that is included here. */
@@ -194,7 +194,7 @@ return ii.intValue();
 public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
 {
 if (AD_PrintFormatItem_ID < 1) throw new IllegalArgumentException ("AD_PrintFormatItem_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintFormatItem_ID", new Integer(AD_PrintFormatItem_ID));
+set_ValueNoCheck ("AD_PrintFormatItem_ID", Integer.valueOf(AD_PrintFormatItem_ID));
 }
 /** Get Print Format Item.
 @return Item/Column in the Print format */
@@ -209,7 +209,7 @@ return ii.intValue();
 public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID < 1) throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-set_ValueNoCheck ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_ValueNoCheck ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -225,7 +225,7 @@ public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
 {
 if (AD_PrintGraph_ID <= 0) set_Value ("AD_PrintGraph_ID", null);
  else 
-set_Value ("AD_PrintGraph_ID", new Integer(AD_PrintGraph_ID));
+set_Value ("AD_PrintGraph_ID", Integer.valueOf(AD_PrintGraph_ID));
 }
 /** Get Graph.
 @return Graph included in Reports */
@@ -239,7 +239,7 @@ return ii.intValue();
 @param ArcDiameter Arc Diameter for rounded Rectangles */
 public void setArcDiameter (int ArcDiameter)
 {
-set_Value ("ArcDiameter", new Integer(ArcDiameter));
+set_Value ("ArcDiameter", Integer.valueOf(ArcDiameter));
 }
 /** Get Arc Diameter.
 @return Arc Diameter for rounded Rectangles */
@@ -321,7 +321,7 @@ return (String)get_Value("BarcodeType");
 @param BelowColumn Print this column below the column index entered */
 public void setBelowColumn (int BelowColumn)
 {
-set_Value ("BelowColumn", new Integer(BelowColumn));
+set_Value ("BelowColumn", Integer.valueOf(BelowColumn));
 }
 /** Get Below Column.
 @return Print this column below the column index entered */
@@ -368,7 +368,7 @@ return (String)get_Value("FieldAlignmentType");
 @param ImageIsAttached The image to be printed is attached to the record */
 public void setImageIsAttached (boolean ImageIsAttached)
 {
-set_Value ("ImageIsAttached", new Boolean(ImageIsAttached));
+set_Value ("ImageIsAttached", Boolean.valueOf(ImageIsAttached));
 }
 /** Get Image attached.
 @return The image to be printed is attached to the record */
@@ -403,7 +403,7 @@ return (String)get_Value("ImageURL");
 @param IsAveraged Calculate Average of numeric content or length */
 public void setIsAveraged (boolean IsAveraged)
 {
-set_Value ("IsAveraged", new Boolean(IsAveraged));
+set_Value ("IsAveraged", Boolean.valueOf(IsAveraged));
 }
 /** Get Calculate Mean (?).
 @return Calculate Average of numeric content or length */
@@ -421,7 +421,7 @@ return false;
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
 {
-set_Value ("IsCentrallyMaintained", new Boolean(IsCentrallyMaintained));
+set_Value ("IsCentrallyMaintained", Boolean.valueOf(IsCentrallyMaintained));
 }
 /** Get Centrally maintained.
 @return Information maintained in System Element table */
@@ -439,7 +439,7 @@ return false;
 @param IsCounted Count number of not empty elements */
 public void setIsCounted (boolean IsCounted)
 {
-set_Value ("IsCounted", new Boolean(IsCounted));
+set_Value ("IsCounted", Boolean.valueOf(IsCounted));
 }
 /** Get Calculate Count (?).
 @return Count number of not empty elements */
@@ -457,7 +457,7 @@ return false;
 @param IsDeviationCalc Calculate Standard Deviation */
 public void setIsDeviationCalc (boolean IsDeviationCalc)
 {
-set_Value ("IsDeviationCalc", new Boolean(IsDeviationCalc));
+set_Value ("IsDeviationCalc", Boolean.valueOf(IsDeviationCalc));
 }
 /** Get Calculate Deviation (?).
 @return Calculate Standard Deviation */
@@ -475,7 +475,7 @@ return false;
 @param IsFilledRectangle Fill the shape with the color selected */
 public void setIsFilledRectangle (boolean IsFilledRectangle)
 {
-set_Value ("IsFilledRectangle", new Boolean(IsFilledRectangle));
+set_Value ("IsFilledRectangle", Boolean.valueOf(IsFilledRectangle));
 }
 /** Get Fill Shape.
 @return Fill the shape with the color selected */
@@ -493,7 +493,7 @@ return false;
 @param IsFixedWidth Column has a fixed width */
 public void setIsFixedWidth (boolean IsFixedWidth)
 {
-set_Value ("IsFixedWidth", new Boolean(IsFixedWidth));
+set_Value ("IsFixedWidth", Boolean.valueOf(IsFixedWidth));
 }
 /** Get Fixed Width.
 @return Column has a fixed width */
@@ -511,7 +511,7 @@ return false;
 @param IsGroupBy After a group change, totals, etc. are printed */
 public void setIsGroupBy (boolean IsGroupBy)
 {
-set_Value ("IsGroupBy", new Boolean(IsGroupBy));
+set_Value ("IsGroupBy", Boolean.valueOf(IsGroupBy));
 }
 /** Get Group by.
 @return After a group change, totals, etc. are printed */
@@ -529,7 +529,7 @@ return false;
 @param IsHeightOneLine If selected, only one line is printed */
 public void setIsHeightOneLine (boolean IsHeightOneLine)
 {
-set_Value ("IsHeightOneLine", new Boolean(IsHeightOneLine));
+set_Value ("IsHeightOneLine", Boolean.valueOf(IsHeightOneLine));
 }
 /** Get One Line Only.
 @return If selected, only one line is printed */
@@ -547,7 +547,7 @@ return false;
 @param IsImageField The image is retrieved from the data column */
 public void setIsImageField (boolean IsImageField)
 {
-set_Value ("IsImageField", new Boolean(IsImageField));
+set_Value ("IsImageField", Boolean.valueOf(IsImageField));
 }
 /** Get Image Field.
 @return The image is retrieved from the data column */
@@ -565,7 +565,7 @@ return false;
 @param IsMaxCalc Calculate the maximim amount */
 public void setIsMaxCalc (boolean IsMaxCalc)
 {
-set_Value ("IsMaxCalc", new Boolean(IsMaxCalc));
+set_Value ("IsMaxCalc", Boolean.valueOf(IsMaxCalc));
 }
 /** Get Calculate Maximim (?).
 @return Calculate the maximim amount */
@@ -583,7 +583,7 @@ return false;
 @param IsMinCalc Calculate the minimum amount */
 public void setIsMinCalc (boolean IsMinCalc)
 {
-set_Value ("IsMinCalc", new Boolean(IsMinCalc));
+set_Value ("IsMinCalc", Boolean.valueOf(IsMinCalc));
 }
 /** Get Calculate Minimum (?).
 @return Calculate the minimum amount */
@@ -601,7 +601,7 @@ return false;
 @param IsNextLine Print item on next line */
 public void setIsNextLine (boolean IsNextLine)
 {
-set_Value ("IsNextLine", new Boolean(IsNextLine));
+set_Value ("IsNextLine", Boolean.valueOf(IsNextLine));
 }
 /** Get Next Line.
 @return Print item on next line */
@@ -619,7 +619,7 @@ return false;
 @param IsNextPage The column is printed on the next page */
 public void setIsNextPage (boolean IsNextPage)
 {
-set_Value ("IsNextPage", new Boolean(IsNextPage));
+set_Value ("IsNextPage", Boolean.valueOf(IsNextPage));
 }
 /** Get Next Page.
 @return The column is printed on the next page */
@@ -637,7 +637,7 @@ return false;
 @param IsOrderBy Include in sort order */
 public void setIsOrderBy (boolean IsOrderBy)
 {
-set_Value ("IsOrderBy", new Boolean(IsOrderBy));
+set_Value ("IsOrderBy", Boolean.valueOf(IsOrderBy));
 }
 /** Get Order by.
 @return Include in sort order */
@@ -655,7 +655,7 @@ return false;
 @param IsPageBreak Start with new page */
 public void setIsPageBreak (boolean IsPageBreak)
 {
-set_Value ("IsPageBreak", new Boolean(IsPageBreak));
+set_Value ("IsPageBreak", Boolean.valueOf(IsPageBreak));
 }
 /** Get Page break.
 @return Start with new page */
@@ -673,7 +673,7 @@ return false;
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
 {
-set_Value ("IsPrinted", new Boolean(IsPrinted));
+set_Value ("IsPrinted", Boolean.valueOf(IsPrinted));
 }
 /** Get Printed.
 @return Indicates if this document / line is printed */
@@ -691,7 +691,7 @@ return false;
 @param IsRelativePosition The item is relative positioned (not absolute) */
 public void setIsRelativePosition (boolean IsRelativePosition)
 {
-set_Value ("IsRelativePosition", new Boolean(IsRelativePosition));
+set_Value ("IsRelativePosition", Boolean.valueOf(IsRelativePosition));
 }
 /** Get Relative Position.
 @return The item is relative positioned (not absolute) */
@@ -709,7 +709,7 @@ return false;
 @param IsRunningTotal Create a running total (sum) */
 public void setIsRunningTotal (boolean IsRunningTotal)
 {
-set_Value ("IsRunningTotal", new Boolean(IsRunningTotal));
+set_Value ("IsRunningTotal", Boolean.valueOf(IsRunningTotal));
 }
 /** Get Running Total.
 @return Create a running total (sum) */
@@ -727,7 +727,7 @@ return false;
 @param IsSetNLPosition Set New Line Position */
 public void setIsSetNLPosition (boolean IsSetNLPosition)
 {
-set_Value ("IsSetNLPosition", new Boolean(IsSetNLPosition));
+set_Value ("IsSetNLPosition", Boolean.valueOf(IsSetNLPosition));
 }
 /** Get Set NL Position.
 @return Set New Line Position */
@@ -745,7 +745,7 @@ return false;
 @param IsSummarized Calculate the Sum of numeric content or length */
 public void setIsSummarized (boolean IsSummarized)
 {
-set_Value ("IsSummarized", new Boolean(IsSummarized));
+set_Value ("IsSummarized", Boolean.valueOf(IsSummarized));
 }
 /** Get Calculate Sum (?).
 @return Calculate the Sum of numeric content or length */
@@ -763,7 +763,7 @@ return false;
 @param IsSuppressNull Suppress columns or elements with NULL value */
 public void setIsSuppressNull (boolean IsSuppressNull)
 {
-set_Value ("IsSuppressNull", new Boolean(IsSuppressNull));
+set_Value ("IsSuppressNull", Boolean.valueOf(IsSuppressNull));
 }
 /** Get Suppress Null.
 @return Suppress columns or elements with NULL value */
@@ -777,13 +777,13 @@ if (oo != null)
 }
 return false;
 }
-/** Set Calculate Variance (?²).
+/** Set Calculate Variance (??).
 @param IsVarianceCalc Calculate Variance */
 public void setIsVarianceCalc (boolean IsVarianceCalc)
 {
-set_Value ("IsVarianceCalc", new Boolean(IsVarianceCalc));
+set_Value ("IsVarianceCalc", Boolean.valueOf(IsVarianceCalc));
 }
-/** Get Calculate Variance (?²).
+/** Get Calculate Variance (??).
 @return Calculate Variance */
 public boolean isVarianceCalc() 
 {
@@ -830,7 +830,7 @@ return (String)get_Value("LineAlignmentType");
 @param LineWidth Width of the lines */
 public void setLineWidth (int LineWidth)
 {
-set_Value ("LineWidth", new Integer(LineWidth));
+set_Value ("LineWidth", Integer.valueOf(LineWidth));
 }
 /** Get Line Width.
 @return Width of the lines */
@@ -844,7 +844,7 @@ return ii.intValue();
 @param MaxHeight Maximum Height in 1/72 if an inch - 0 = no restriction */
 public void setMaxHeight (int MaxHeight)
 {
-set_Value ("MaxHeight", new Integer(MaxHeight));
+set_Value ("MaxHeight", Integer.valueOf(MaxHeight));
 }
 /** Get Max Height.
 @return Maximum Height in 1/72 if an inch - 0 = no restriction */
@@ -858,7 +858,7 @@ return ii.intValue();
 @param MaxWidth Maximum Width in 1/72 if an inch - 0 = no restriction */
 public void setMaxWidth (int MaxWidth)
 {
-set_Value ("MaxWidth", new Integer(MaxWidth));
+set_Value ("MaxWidth", Integer.valueOf(MaxWidth));
 }
 /** Get Max Width.
 @return Maximum Width in 1/72 if an inch - 0 = no restriction */
@@ -994,7 +994,7 @@ return (String)get_Value("PrintNameSuffix");
 @param RunningTotalLines Create Running Total Lines (page break) every x lines */
 public void setRunningTotalLines (int RunningTotalLines)
 {
-set_Value ("RunningTotalLines", new Integer(RunningTotalLines));
+set_Value ("RunningTotalLines", Integer.valueOf(RunningTotalLines));
 }
 /** Get Running Total Lines.
 @return Create Running Total Lines (page break) every x lines */
@@ -1009,7 +1009,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;
@@ -1054,7 +1054,7 @@ return (String)get_Value("ShapeType");
 @param SortNo Determines in what order the records are displayed */
 public void setSortNo (int SortNo)
 {
-set_Value ("SortNo", new Integer(SortNo));
+set_Value ("SortNo", Integer.valueOf(SortNo));
 }
 /** Get Record Sort No.
 @return Determines in what order the records are displayed */
@@ -1068,7 +1068,7 @@ return ii.intValue();
 @param XPosition Absolute X (horizontal) position in 1/72 of an inch */
 public void setXPosition (int XPosition)
 {
-set_Value ("XPosition", new Integer(XPosition));
+set_Value ("XPosition", Integer.valueOf(XPosition));
 }
 /** Get X Position.
 @return Absolute X (horizontal) position in 1/72 of an inch */
@@ -1082,7 +1082,7 @@ return ii.intValue();
 @param XSpace Relative X (horizontal) space in 1/72 of an inch */
 public void setXSpace (int XSpace)
 {
-set_Value ("XSpace", new Integer(XSpace));
+set_Value ("XSpace", Integer.valueOf(XSpace));
 }
 /** Get X Space.
 @return Relative X (horizontal) space in 1/72 of an inch */
@@ -1096,7 +1096,7 @@ return ii.intValue();
 @param YPosition Absolute Y (vertical) position in 1/72 of an inch */
 public void setYPosition (int YPosition)
 {
-set_Value ("YPosition", new Integer(YPosition));
+set_Value ("YPosition", Integer.valueOf(YPosition));
 }
 /** Get Y Position.
 @return Absolute Y (vertical) position in 1/72 of an inch */
@@ -1110,7 +1110,7 @@ return ii.intValue();
 @param YSpace Relative Y (vertical) space in 1/72 of an inch */
 public void setYSpace (int YSpace)
 {
-set_Value ("YSpace", new Integer(YSpace));
+set_Value ("YSpace", Integer.valueOf(YSpace));
 }
 /** Get Y Space.
 @return Relative Y (vertical) space in 1/72 of an inch */

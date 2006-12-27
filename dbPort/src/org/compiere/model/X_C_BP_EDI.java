@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_EDI
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_EDI extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_C_BP_EDI (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=366 */
-public static final int Table_ID=366;
+public static final int Table_ID=MTable.getTable_ID("C_BP_EDI");
 
 /** TableName=C_BP_EDI */
 public static final String Table_Name="C_BP_EDI";
 
-protected static KeyNamePair Model = new KeyNamePair(366,"C_BP_EDI");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_EDI");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -107,7 +107,7 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 public void setAD_Sequence_ID (int AD_Sequence_ID)
 {
 if (AD_Sequence_ID < 1) throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-set_Value ("AD_Sequence_ID", new Integer(AD_Sequence_ID));
+set_Value ("AD_Sequence_ID", Integer.valueOf(AD_Sequence_ID));
 }
 /** Get Sequence.
 @return Document Sequence */
@@ -122,7 +122,7 @@ return ii.intValue();
 public void setC_BP_EDI_ID (int C_BP_EDI_ID)
 {
 if (C_BP_EDI_ID < 1) throw new IllegalArgumentException ("C_BP_EDI_ID is mandatory.");
-set_ValueNoCheck ("C_BP_EDI_ID", new Integer(C_BP_EDI_ID));
+set_ValueNoCheck ("C_BP_EDI_ID", Integer.valueOf(C_BP_EDI_ID));
 }
 /** Get EDI Definition.
 @return Electronic Data Interchange */
@@ -137,7 +137,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -319,7 +319,7 @@ return (String)get_Value("EMail_To");
 @param IsAudited Activate Audit Trail of what numbers are generated */
 public void setIsAudited (boolean IsAudited)
 {
-set_Value ("IsAudited", new Boolean(IsAudited));
+set_Value ("IsAudited", Boolean.valueOf(IsAudited));
 }
 /** Get Activate Audit.
 @return Activate Audit Trail of what numbers are generated */
@@ -337,7 +337,7 @@ return false;
 @param IsInfoSent Send informational messages and copies */
 public void setIsInfoSent (boolean IsInfoSent)
 {
-set_Value ("IsInfoSent", new Boolean(IsInfoSent));
+set_Value ("IsInfoSent", Boolean.valueOf(IsInfoSent));
 }
 /** Get Send Info.
 @return Send informational messages and copies */
@@ -356,7 +356,7 @@ return false;
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -394,7 +394,7 @@ return new KeyNamePair(get_ID(), getName());
 @param ReceiveInquiryReply Received Inquiry Reply */
 public void setReceiveInquiryReply (boolean ReceiveInquiryReply)
 {
-set_Value ("ReceiveInquiryReply", new Boolean(ReceiveInquiryReply));
+set_Value ("ReceiveInquiryReply", Boolean.valueOf(ReceiveInquiryReply));
 }
 /** Get Received Inquiry Reply.
 @return Received Inquiry Reply */
@@ -412,7 +412,7 @@ return false;
 @param ReceiveOrderReply Receive Order Reply */
 public void setReceiveOrderReply (boolean ReceiveOrderReply)
 {
-set_Value ("ReceiveOrderReply", new Boolean(ReceiveOrderReply));
+set_Value ("ReceiveOrderReply", Boolean.valueOf(ReceiveOrderReply));
 }
 /** Get Receive Order Reply.
 @return Receive Order Reply */
@@ -430,7 +430,7 @@ return false;
 @param SendInquiry Quantity Availability Inquiry */
 public void setSendInquiry (boolean SendInquiry)
 {
-set_Value ("SendInquiry", new Boolean(SendInquiry));
+set_Value ("SendInquiry", Boolean.valueOf(SendInquiry));
 }
 /** Get Send Inquiry.
 @return Quantity Availability Inquiry */
@@ -448,7 +448,7 @@ return false;
 @param SendOrder Send Order */
 public void setSendOrder (boolean SendOrder)
 {
-set_Value ("SendOrder", new Boolean(SendOrder));
+set_Value ("SendOrder", Boolean.valueOf(SendOrder));
 }
 /** Get Send Order.
 @return Send Order */

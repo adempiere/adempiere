@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoicePaySchedule
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_InvoicePaySchedule extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_InvoicePaySchedule (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=551 */
-public static final int Table_ID=551;
+public static final int Table_ID=MTable.getTable_ID("C_InvoicePaySchedule");
 
 /** TableName=C_InvoicePaySchedule */
 public static final String Table_Name="C_InvoicePaySchedule";
 
-protected static KeyNamePair Model = new KeyNamePair(551,"C_InvoicePaySchedule");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InvoicePaySchedule");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
 {
 if (C_InvoicePaySchedule_ID < 1) throw new IllegalArgumentException ("C_InvoicePaySchedule_ID is mandatory.");
-set_ValueNoCheck ("C_InvoicePaySchedule_ID", new Integer(C_InvoicePaySchedule_ID));
+set_ValueNoCheck ("C_InvoicePaySchedule_ID", Integer.valueOf(C_InvoicePaySchedule_ID));
 }
 /** Get Invoice Payment Schedule.
 @return Invoice Payment Schedule */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID < 1) throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -128,7 +128,7 @@ public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 {
 if (C_PaySchedule_ID <= 0) set_ValueNoCheck ("C_PaySchedule_ID", null);
  else 
-set_ValueNoCheck ("C_PaySchedule_ID", new Integer(C_PaySchedule_ID));
+set_ValueNoCheck ("C_PaySchedule_ID", Integer.valueOf(C_PaySchedule_ID));
 }
 /** Get Payment Schedule.
 @return Payment Schedule Template */
@@ -204,7 +204,7 @@ return (Timestamp)get_Value("DueDate");
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -222,7 +222,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -240,7 +240,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

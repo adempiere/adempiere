@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportColumnSet
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_ReportColumnSet extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_PA_ReportColumnSet (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=447 */
-public static final int Table_ID=447;
+public static final int Table_ID=MTable.getTable_ID("PA_ReportColumnSet");
 
 /** TableName=PA_ReportColumnSet */
 public static final String Table_Name="PA_ReportColumnSet";
 
-protected static KeyNamePair Model = new KeyNamePair(447,"PA_ReportColumnSet");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportColumnSet");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -133,7 +133,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 {
 if (PA_ReportColumnSet_ID < 1) throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportColumnSet_ID", new Integer(PA_ReportColumnSet_ID));
+set_ValueNoCheck ("PA_ReportColumnSet_ID", Integer.valueOf(PA_ReportColumnSet_ID));
 }
 /** Get Report Column Set.
 @return Collection of Columns for Report */
@@ -147,7 +147,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

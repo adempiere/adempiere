@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DistributionListLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DistributionListLine extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_DistributionListLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=665 */
-public static final int Table_ID=665;
+public static final int Table_ID=MTable.getTable_ID("M_DistributionListLine");
 
 /** TableName=M_DistributionListLine */
 public static final String Table_Name="M_DistributionListLine";
 
-protected static KeyNamePair Model = new KeyNamePair(665,"M_DistributionListLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DistributionListLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -141,7 +141,7 @@ return (String)get_Value("Description");
 public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
 {
 if (M_DistributionListLine_ID < 1) throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionListLine_ID", new Integer(M_DistributionListLine_ID));
+set_ValueNoCheck ("M_DistributionListLine_ID", Integer.valueOf(M_DistributionListLine_ID));
 }
 /** Get Distribution List Line.
 @return Distribution List Line with Business Partner and Quantity/Percentage */
@@ -156,7 +156,7 @@ return ii.intValue();
 public void setM_DistributionList_ID (int M_DistributionList_ID)
 {
 if (M_DistributionList_ID < 1) throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionList_ID", new Integer(M_DistributionList_ID));
+set_ValueNoCheck ("M_DistributionList_ID", Integer.valueOf(M_DistributionList_ID));
 }
 /** Get Distribution List.
 @return Distribution Lists allow to distribute products to a selected list of partners */

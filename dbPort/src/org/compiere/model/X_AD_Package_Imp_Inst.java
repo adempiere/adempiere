@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Inst
  *  @author Jorg Janke (generated) 
- *  @version Release 3.1.2 - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Package_Imp_Inst extends PO
 {
 /** Standard Constructor
@@ -52,7 +52,7 @@ public X_AD_Package_Imp_Inst (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=1000001 */
+/** AD_Table_ID=50001 */
 public static final int Table_ID=MTable.getTable_ID("AD_Package_Imp_Inst");
 
 /** TableName=AD_Package_Imp_Inst */
@@ -90,7 +90,7 @@ return sb.toString();
 public void setAD_PACKAGE_IMP_INST_ID (int AD_PACKAGE_IMP_INST_ID)
 {
 if (AD_PACKAGE_IMP_INST_ID < 1) throw new IllegalArgumentException ("AD_PACKAGE_IMP_INST_ID is mandatory.");
-set_ValueNoCheck ("AD_PACKAGE_IMP_INST_ID", new Integer(AD_PACKAGE_IMP_INST_ID));
+set_ValueNoCheck ("AD_PACKAGE_IMP_INST_ID", Integer.valueOf(AD_PACKAGE_IMP_INST_ID));
 }
 /** Get AD_PACKAGE_IMP_INST_ID.
 @return AD_PACKAGE_IMP_INST_ID */
@@ -229,7 +229,7 @@ return (String)get_Value("PK_Version");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -247,7 +247,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -282,7 +282,7 @@ return (String)get_Value("ReleaseNo");
 @param Uninstall Uninstall */
 public void setUninstall (boolean Uninstall)
 {
-set_Value ("Uninstall", new Boolean(Uninstall));
+set_Value ("Uninstall", Boolean.valueOf(Uninstall));
 }
 /** Get Uninstall.
 @return Uninstall */

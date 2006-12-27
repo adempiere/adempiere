@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_DesktopWorkbench
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_DesktopWorkbench extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_DesktopWorkbench (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=459 */
-public static final int Table_ID=459;
+public static final int Table_ID=MTable.getTable_ID("AD_DesktopWorkbench");
 
 /** TableName=AD_DesktopWorkbench */
 public static final String Table_Name="AD_DesktopWorkbench";
 
-protected static KeyNamePair Model = new KeyNamePair(459,"AD_DesktopWorkbench");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_DesktopWorkbench");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID)
 {
 if (AD_DesktopWorkbench_ID < 1) throw new IllegalArgumentException ("AD_DesktopWorkbench_ID is mandatory.");
-set_ValueNoCheck ("AD_DesktopWorkbench_ID", new Integer(AD_DesktopWorkbench_ID));
+set_ValueNoCheck ("AD_DesktopWorkbench_ID", Integer.valueOf(AD_DesktopWorkbench_ID));
 }
 /** Get Desktop Workbench.
 @return Desktop Workbench */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setAD_Desktop_ID (int AD_Desktop_ID)
 {
 if (AD_Desktop_ID < 1) throw new IllegalArgumentException ("AD_Desktop_ID is mandatory.");
-set_ValueNoCheck ("AD_Desktop_ID", new Integer(AD_Desktop_ID));
+set_ValueNoCheck ("AD_Desktop_ID", Integer.valueOf(AD_Desktop_ID));
 }
 /** Get Desktop.
 @return Collection of Workbenches */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID < 1) throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-set_Value ("AD_Workbench_ID", new Integer(AD_Workbench_ID));
+set_Value ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
 /** Get Workbench.
 @return Collection of windows, reports */
@@ -144,7 +144,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Workbench_ID()));
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

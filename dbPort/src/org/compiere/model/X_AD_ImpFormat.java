@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ImpFormat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_ImpFormat extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_ImpFormat (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=381 */
-public static final int Table_ID=381;
+public static final int Table_ID=MTable.getTable_ID("AD_ImpFormat");
 
 /** TableName=AD_ImpFormat */
 public static final String Table_Name="AD_ImpFormat";
 
-protected static KeyNamePair Model = new KeyNamePair(381,"AD_ImpFormat");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_ImpFormat");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 {
 if (AD_ImpFormat_ID < 1) throw new IllegalArgumentException ("AD_ImpFormat_ID is mandatory.");
-set_ValueNoCheck ("AD_ImpFormat_ID", new Integer(AD_ImpFormat_ID));
+set_ValueNoCheck ("AD_ImpFormat_ID", Integer.valueOf(AD_ImpFormat_ID));
 }
 /** Get Import Format.
 @return Import Format */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -195,7 +195,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

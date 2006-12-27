@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CommissionLine extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_CommissionLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=431 */
-public static final int Table_ID=431;
+public static final int Table_ID=MTable.getTable_ID("C_CommissionLine");
 
 /** TableName=C_CommissionLine */
 public static final String Table_Name="C_CommissionLine";
 
-protected static KeyNamePair Model = new KeyNamePair(431,"C_CommissionLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CommissionLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -129,7 +129,7 @@ public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID <= 0) set_Value ("C_BP_Group_ID", null);
  else 
-set_Value ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_Value ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -145,7 +145,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setC_CommissionLine_ID (int C_CommissionLine_ID)
 {
 if (C_CommissionLine_ID < 1) throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
-set_ValueNoCheck ("C_CommissionLine_ID", new Integer(C_CommissionLine_ID));
+set_ValueNoCheck ("C_CommissionLine_ID", Integer.valueOf(C_CommissionLine_ID));
 }
 /** Get Commission Line.
 @return Commission Line */
@@ -175,7 +175,7 @@ return ii.intValue();
 public void setC_Commission_ID (int C_Commission_ID)
 {
 if (C_Commission_ID < 1) throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-set_ValueNoCheck ("C_Commission_ID", new Integer(C_Commission_ID));
+set_ValueNoCheck ("C_Commission_ID", Integer.valueOf(C_Commission_ID));
 }
 /** Get Commission.
 @return Commission */
@@ -197,7 +197,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -211,7 +211,7 @@ return ii.intValue();
 @param CommissionOrders Commission only Orders or Invoices, where this Sales Rep is entered */
 public void setCommissionOrders (boolean CommissionOrders)
 {
-set_Value ("CommissionOrders", new Boolean(CommissionOrders));
+set_Value ("CommissionOrders", Boolean.valueOf(CommissionOrders));
 }
 /** Get Commission only specified Orders.
 @return Commission only Orders or Invoices, where this Sales Rep is entered */
@@ -246,7 +246,7 @@ return (String)get_Value("Description");
 @param IsPositiveOnly Do not generate negative commissions */
 public void setIsPositiveOnly (boolean IsPositiveOnly)
 {
-set_Value ("IsPositiveOnly", new Boolean(IsPositiveOnly));
+set_Value ("IsPositiveOnly", Boolean.valueOf(IsPositiveOnly));
 }
 /** Get Positive only.
 @return Do not generate negative commissions */
@@ -264,7 +264,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -280,7 +280,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -296,7 +296,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -315,7 +315,7 @@ public void setOrg_ID (int Org_ID)
 {
 if (Org_ID <= 0) set_Value ("Org_ID", null);
  else 
-set_Value ("Org_ID", new Integer(Org_ID));
+set_Value ("Org_ID", Integer.valueOf(Org_ID));
 }
 /** Get Organization.
 @return Organizational entity within client */

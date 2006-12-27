@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DocType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DocType extends PO
 {
 /** Standard Constructor
@@ -69,12 +69,12 @@ public X_C_DocType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=217 */
-public static final int Table_ID=217;
+public static final int Table_ID=MTable.getTable_ID("C_DocType");
 
 /** TableName=C_DocType */
 public static final String Table_Name="C_DocType";
 
-protected static KeyNamePair Model = new KeyNamePair(217,"C_DocType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DocType");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -107,7 +107,7 @@ public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID <= 0) set_Value ("AD_PrintFormat_ID", null);
  else 
-set_Value ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -126,7 +126,7 @@ public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID)
 {
 if (C_DocTypeDifference_ID <= 0) set_Value ("C_DocTypeDifference_ID", null);
  else 
-set_Value ("C_DocTypeDifference_ID", new Integer(C_DocTypeDifference_ID));
+set_Value ("C_DocTypeDifference_ID", Integer.valueOf(C_DocTypeDifference_ID));
 }
 /** Get Difference Document.
 @return Document type for generating in dispute Shipments */
@@ -145,7 +145,7 @@ public void setC_DocTypeInvoice_ID (int C_DocTypeInvoice_ID)
 {
 if (C_DocTypeInvoice_ID <= 0) set_Value ("C_DocTypeInvoice_ID", null);
  else 
-set_Value ("C_DocTypeInvoice_ID", new Integer(C_DocTypeInvoice_ID));
+set_Value ("C_DocTypeInvoice_ID", Integer.valueOf(C_DocTypeInvoice_ID));
 }
 /** Get Document Type for Invoice.
 @return Document type used for invoices generated from this sales document */
@@ -164,7 +164,7 @@ public void setC_DocTypeProforma_ID (int C_DocTypeProforma_ID)
 {
 if (C_DocTypeProforma_ID <= 0) set_Value ("C_DocTypeProforma_ID", null);
  else 
-set_Value ("C_DocTypeProforma_ID", new Integer(C_DocTypeProforma_ID));
+set_Value ("C_DocTypeProforma_ID", Integer.valueOf(C_DocTypeProforma_ID));
 }
 /** Get Document Type for ProForma.
 @return Document type used for pro forma invoices generated from this sales document */
@@ -183,7 +183,7 @@ public void setC_DocTypeShipment_ID (int C_DocTypeShipment_ID)
 {
 if (C_DocTypeShipment_ID <= 0) set_Value ("C_DocTypeShipment_ID", null);
  else 
-set_Value ("C_DocTypeShipment_ID", new Integer(C_DocTypeShipment_ID));
+set_Value ("C_DocTypeShipment_ID", Integer.valueOf(C_DocTypeShipment_ID));
 }
 /** Get Document Type for Shipment.
 @return Document type used for shipments generated from this sales document */
@@ -198,7 +198,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_ValueNoCheck ("C_DocType_ID", new Integer(C_DocType_ID));
+set_ValueNoCheck ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -303,7 +303,7 @@ public void setDocNoSequence_ID (int DocNoSequence_ID)
 {
 if (DocNoSequence_ID <= 0) set_Value ("DocNoSequence_ID", null);
  else 
-set_Value ("DocNoSequence_ID", new Integer(DocNoSequence_ID));
+set_Value ("DocNoSequence_ID", Integer.valueOf(DocNoSequence_ID));
 }
 /** Get Document Sequence.
 @return Document sequence determines the numbering of documents */
@@ -355,7 +355,7 @@ return (String)get_Value("DocSubTypeSO");
 @param DocumentCopies Number of copies to be printed */
 public void setDocumentCopies (int DocumentCopies)
 {
-set_Value ("DocumentCopies", new Integer(DocumentCopies));
+set_Value ("DocumentCopies", Integer.valueOf(DocumentCopies));
 }
 /** Get Document Copies.
 @return Number of copies to be printed */
@@ -387,7 +387,7 @@ return (String)get_Value("DocumentNote");
 public void setGL_Category_ID (int GL_Category_ID)
 {
 if (GL_Category_ID < 1) throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-set_Value ("GL_Category_ID", new Integer(GL_Category_ID));
+set_Value ("GL_Category_ID", Integer.valueOf(GL_Category_ID));
 }
 /** Get GL Category.
 @return General Ledger Category */
@@ -401,7 +401,7 @@ return ii.intValue();
 @param HasCharges Charges can be added to the document */
 public void setHasCharges (boolean HasCharges)
 {
-set_Value ("HasCharges", new Boolean(HasCharges));
+set_Value ("HasCharges", Boolean.valueOf(HasCharges));
 }
 /** Get Charges.
 @return Charges can be added to the document */
@@ -419,7 +419,7 @@ return false;
 @param HasProforma Indicates if Pro Forma Invoices can be generated from this document */
 public void setHasProforma (boolean HasProforma)
 {
-set_Value ("HasProforma", new Boolean(HasProforma));
+set_Value ("HasProforma", Boolean.valueOf(HasProforma));
 }
 /** Get Pro forma Invoice.
 @return Indicates if Pro Forma Invoices can be generated from this document */
@@ -437,7 +437,7 @@ return false;
 @param IsCreateCounter Create Counter Document */
 public void setIsCreateCounter (boolean IsCreateCounter)
 {
-set_Value ("IsCreateCounter", new Boolean(IsCreateCounter));
+set_Value ("IsCreateCounter", Boolean.valueOf(IsCreateCounter));
 }
 /** Get Create Counter Document.
 @return Create Counter Document */
@@ -455,7 +455,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -473,7 +473,7 @@ return false;
 @param IsDefaultCounterDoc The document type is the default counter document type */
 public void setIsDefaultCounterDoc (boolean IsDefaultCounterDoc)
 {
-set_Value ("IsDefaultCounterDoc", new Boolean(IsDefaultCounterDoc));
+set_Value ("IsDefaultCounterDoc", Boolean.valueOf(IsDefaultCounterDoc));
 }
 /** Get Default Counter Document.
 @return The document type is the default counter document type */
@@ -491,7 +491,7 @@ return false;
 @param IsDocNoControlled The document has a document sequence */
 public void setIsDocNoControlled (boolean IsDocNoControlled)
 {
-set_Value ("IsDocNoControlled", new Boolean(IsDocNoControlled));
+set_Value ("IsDocNoControlled", Boolean.valueOf(IsDocNoControlled));
 }
 /** Get Document is Number Controlled.
 @return The document has a document sequence */
@@ -509,7 +509,7 @@ return false;
 @param IsInTransit Movement is in transit */
 public void setIsInTransit (boolean IsInTransit)
 {
-set_Value ("IsInTransit", new Boolean(IsInTransit));
+set_Value ("IsInTransit", Boolean.valueOf(IsInTransit));
 }
 /** Get In Transit.
 @return Movement is in transit */
@@ -527,7 +527,7 @@ return false;
 @param IsIndexed Index the document for the internal search engine */
 public void setIsIndexed (boolean IsIndexed)
 {
-set_Value ("IsIndexed", new Boolean(IsIndexed));
+set_Value ("IsIndexed", Boolean.valueOf(IsIndexed));
 }
 /** Get Indexed.
 @return Index the document for the internal search engine */
@@ -545,7 +545,7 @@ return false;
 @param IsPickQAConfirm Require Pick or QA Confirmation before processing */
 public void setIsPickQAConfirm (boolean IsPickQAConfirm)
 {
-set_Value ("IsPickQAConfirm", new Boolean(IsPickQAConfirm));
+set_Value ("IsPickQAConfirm", Boolean.valueOf(IsPickQAConfirm));
 }
 /** Get Pick/QA Confirmation.
 @return Require Pick or QA Confirmation before processing */
@@ -563,7 +563,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -581,7 +581,7 @@ return false;
 @param IsShipConfirm Require Ship or Receipt Confirmation before processing */
 public void setIsShipConfirm (boolean IsShipConfirm)
 {
-set_Value ("IsShipConfirm", new Boolean(IsShipConfirm));
+set_Value ("IsShipConfirm", Boolean.valueOf(IsShipConfirm));
 }
 /** Get Ship/Receipt Confirmation.
 @return Require Ship or Receipt Confirmation before processing */
@@ -599,7 +599,7 @@ return false;
 @param IsSplitWhenDifference Split document when there is a difference */
 public void setIsSplitWhenDifference (boolean IsSplitWhenDifference)
 {
-set_Value ("IsSplitWhenDifference", new Boolean(IsSplitWhenDifference));
+set_Value ("IsSplitWhenDifference", Boolean.valueOf(IsSplitWhenDifference));
 }
 /** Get Split when Difference.
 @return Split document when there is a difference */

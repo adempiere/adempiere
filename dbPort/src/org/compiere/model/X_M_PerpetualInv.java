@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PerpetualInv
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_PerpetualInv extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_PerpetualInv (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=342 */
-public static final int Table_ID=342;
+public static final int Table_ID=MTable.getTable_ID("M_PerpetualInv");
 
 /** TableName=M_PerpetualInv */
 public static final String Table_Name="M_PerpetualInv";
 
-protected static KeyNamePair Model = new KeyNamePair(342,"M_PerpetualInv");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_PerpetualInv");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 @param CountHighMovement Count High Movement products */
 public void setCountHighMovement (boolean CountHighMovement)
 {
-set_Value ("CountHighMovement", new Boolean(CountHighMovement));
+set_Value ("CountHighMovement", Boolean.valueOf(CountHighMovement));
 }
 /** Get Count high turnover items.
 @return Count High Movement products */
@@ -156,7 +156,7 @@ return (String)get_Value("Description");
 public void setM_PerpetualInv_ID (int M_PerpetualInv_ID)
 {
 if (M_PerpetualInv_ID < 1) throw new IllegalArgumentException ("M_PerpetualInv_ID is mandatory.");
-set_ValueNoCheck ("M_PerpetualInv_ID", new Integer(M_PerpetualInv_ID));
+set_ValueNoCheck ("M_PerpetualInv_ID", Integer.valueOf(M_PerpetualInv_ID));
 }
 /** Get Perpetual Inventory.
 @return Rules for generating physical inventory */
@@ -172,7 +172,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -188,7 +188,7 @@ public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID <= 0) set_Value ("M_Warehouse_ID", null);
  else 
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -226,7 +226,7 @@ return new KeyNamePair(get_ID(), getName());
 @param NoInventoryCount Frequency of inventory counts per year */
 public void setNoInventoryCount (int NoInventoryCount)
 {
-set_Value ("NoInventoryCount", new Integer(NoInventoryCount));
+set_Value ("NoInventoryCount", Integer.valueOf(NoInventoryCount));
 }
 /** Get Number of Inventory counts.
 @return Frequency of inventory counts per year */
@@ -240,7 +240,7 @@ return ii.intValue();
 @param NoProductCount Frequency of product counts per year */
 public void setNoProductCount (int NoProductCount)
 {
-set_Value ("NoProductCount", new Integer(NoProductCount));
+set_Value ("NoProductCount", Integer.valueOf(NoProductCount));
 }
 /** Get Number of Product counts.
 @return Frequency of product counts per year */
@@ -254,7 +254,7 @@ return ii.intValue();
 @param NumberOfRuns Frequency of processing Perpetual Inventory */
 public void setNumberOfRuns (int NumberOfRuns)
 {
-set_Value ("NumberOfRuns", new Integer(NumberOfRuns));
+set_Value ("NumberOfRuns", Integer.valueOf(NumberOfRuns));
 }
 /** Get Number of runs.
 @return Frequency of processing Perpetual Inventory */
@@ -268,7 +268,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

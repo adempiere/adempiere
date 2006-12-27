@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ_Topic
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQ_Topic extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_RfQ_Topic (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=671 */
-public static final int Table_ID=671;
+public static final int Table_ID=MTable.getTable_ID("C_RfQ_Topic");
 
 /** TableName=C_RfQ_Topic */
 public static final String Table_Name="C_RfQ_Topic";
 
-protected static KeyNamePair Model = new KeyNamePair(671,"C_RfQ_Topic");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQ_Topic");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 {
 if (AD_PrintFormat_ID <= 0) set_Value ("AD_PrintFormat_ID", null);
  else 
-set_Value ("AD_PrintFormat_ID", new Integer(AD_PrintFormat_ID));
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
 }
 /** Get Print Format.
 @return Data Print Format */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
 {
 if (C_RfQ_Topic_ID < 1) throw new IllegalArgumentException ("C_RfQ_Topic_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_Topic_ID", new Integer(C_RfQ_Topic_ID));
+set_ValueNoCheck ("C_RfQ_Topic_ID", Integer.valueOf(C_RfQ_Topic_ID));
 }
 /** Get RfQ Topic.
 @return Topic for Request for Quotations */
@@ -139,7 +139,7 @@ return (String)get_Value("Description");
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Activity
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Activity extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_Activity (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=316 */
-public static final int Table_ID=316;
+public static final int Table_ID=MTable.getTable_ID("C_Activity");
 
 /** TableName=C_Activity */
 public static final String Table_Name="C_Activity";
 
-protected static KeyNamePair Model = new KeyNamePair(316,"C_Activity");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Activity");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID < 1) throw new IllegalArgumentException ("C_Activity_ID is mandatory.");
-set_ValueNoCheck ("C_Activity_ID", new Integer(C_Activity_ID));
+set_ValueNoCheck ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -141,7 +141,7 @@ return (String)get_Value("Help");
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Product extends PO
 {
 /** Standard Constructor
@@ -72,12 +72,12 @@ public X_M_Product (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=208 */
-public static final int Table_ID=208;
+public static final int Table_ID=MTable.getTable_ID("M_Product");
 
 /** TableName=M_Product */
 public static final String Table_Name="M_Product";
 
-protected static KeyNamePair Model = new KeyNamePair(208,"M_Product");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Product");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -110,7 +110,7 @@ public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 {
 if (C_RevenueRecognition_ID <= 0) set_Value ("C_RevenueRecognition_ID", null);
  else 
-set_Value ("C_RevenueRecognition_ID", new Integer(C_RevenueRecognition_ID));
+set_Value ("C_RevenueRecognition_ID", Integer.valueOf(C_RevenueRecognition_ID));
 }
 /** Get Revenue Recognition.
 @return Method for recording revenue */
@@ -126,7 +126,7 @@ public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 {
 if (C_SubscriptionType_ID <= 0) set_Value ("C_SubscriptionType_ID", null);
  else 
-set_Value ("C_SubscriptionType_ID", new Integer(C_SubscriptionType_ID));
+set_Value ("C_SubscriptionType_ID", Integer.valueOf(C_SubscriptionType_ID));
 }
 /** Get Subscription Type.
 @return Type of subscription */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_Value ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_Value ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -156,7 +156,7 @@ return ii.intValue();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -221,7 +221,7 @@ return (String)get_Value("DescriptionURL");
 @param Discontinued This product is no longer available */
 public void setDiscontinued (boolean Discontinued)
 {
-set_Value ("Discontinued", new Boolean(Discontinued));
+set_Value ("Discontinued", Boolean.valueOf(Discontinued));
 }
 /** Get Discontinued.
 @return This product is no longer available */
@@ -268,7 +268,7 @@ return (String)get_Value("DocumentNote");
 @param GuaranteeDays Number of days the product is guaranteed or available */
 public void setGuaranteeDays (int GuaranteeDays)
 {
-set_Value ("GuaranteeDays", new Integer(GuaranteeDays));
+set_Value ("GuaranteeDays", Integer.valueOf(GuaranteeDays));
 }
 /** Get Guarantee Days.
 @return Number of days the product is guaranteed or available */
@@ -282,7 +282,7 @@ return ii.intValue();
 @param GuaranteeDaysMin Minumum number of guarantee days */
 public void setGuaranteeDaysMin (int GuaranteeDaysMin)
 {
-set_Value ("GuaranteeDaysMin", new Integer(GuaranteeDaysMin));
+set_Value ("GuaranteeDaysMin", Integer.valueOf(GuaranteeDaysMin));
 }
 /** Get Min Guarantee Days.
 @return Minumum number of guarantee days */
@@ -330,7 +330,7 @@ return (String)get_Value("ImageURL");
 @param IsBOM Bill of Materials */
 public void setIsBOM (boolean IsBOM)
 {
-set_Value ("IsBOM", new Boolean(IsBOM));
+set_Value ("IsBOM", Boolean.valueOf(IsBOM));
 }
 /** Get Bill of Materials.
 @return Bill of Materials */
@@ -348,7 +348,7 @@ return false;
 @param IsDropShip Drop Shipments are sent from the Vendor directly to the Customer */
 public void setIsDropShip (boolean IsDropShip)
 {
-set_Value ("IsDropShip", new Boolean(IsDropShip));
+set_Value ("IsDropShip", Boolean.valueOf(IsDropShip));
 }
 /** Get Drop Shipment.
 @return Drop Shipments are sent from the Vendor directly to the Customer */
@@ -366,7 +366,7 @@ return false;
 @param IsExcludeAutoDelivery Exclude from automatic Delivery */
 public void setIsExcludeAutoDelivery (boolean IsExcludeAutoDelivery)
 {
-set_Value ("IsExcludeAutoDelivery", new Boolean(IsExcludeAutoDelivery));
+set_Value ("IsExcludeAutoDelivery", Boolean.valueOf(IsExcludeAutoDelivery));
 }
 /** Get Exclude Auto Delivery.
 @return Exclude from automatic Delivery */
@@ -384,7 +384,7 @@ return false;
 @param IsInvoicePrintDetails Print detail BOM elements on the invoice */
 public void setIsInvoicePrintDetails (boolean IsInvoicePrintDetails)
 {
-set_Value ("IsInvoicePrintDetails", new Boolean(IsInvoicePrintDetails));
+set_Value ("IsInvoicePrintDetails", Boolean.valueOf(IsInvoicePrintDetails));
 }
 /** Get Print detail records on invoice .
 @return Print detail BOM elements on the invoice */
@@ -402,7 +402,7 @@ return false;
 @param IsPickListPrintDetails Print detail BOM elements on the pick list */
 public void setIsPickListPrintDetails (boolean IsPickListPrintDetails)
 {
-set_Value ("IsPickListPrintDetails", new Boolean(IsPickListPrintDetails));
+set_Value ("IsPickListPrintDetails", Boolean.valueOf(IsPickListPrintDetails));
 }
 /** Get Print detail records on pick list.
 @return Print detail BOM elements on the pick list */
@@ -420,7 +420,7 @@ return false;
 @param IsPurchased Organization purchases this product */
 public void setIsPurchased (boolean IsPurchased)
 {
-set_Value ("IsPurchased", new Boolean(IsPurchased));
+set_Value ("IsPurchased", Boolean.valueOf(IsPurchased));
 }
 /** Get Purchased.
 @return Organization purchases this product */
@@ -438,7 +438,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -456,7 +456,7 @@ return false;
 @param IsSold Organization sells this product */
 public void setIsSold (boolean IsSold)
 {
-set_Value ("IsSold", new Boolean(IsSold));
+set_Value ("IsSold", Boolean.valueOf(IsSold));
 }
 /** Get Sold.
 @return Organization sells this product */
@@ -474,7 +474,7 @@ return false;
 @param IsStocked Organization stocks this product */
 public void setIsStocked (boolean IsStocked)
 {
-set_Value ("IsStocked", new Boolean(IsStocked));
+set_Value ("IsStocked", Boolean.valueOf(IsStocked));
 }
 /** Get Stocked.
 @return Organization stocks this product */
@@ -492,7 +492,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -510,7 +510,7 @@ return false;
 @param IsVerified The BOM configuration has been verified */
 public void setIsVerified (boolean IsVerified)
 {
-set_ValueNoCheck ("IsVerified", new Boolean(IsVerified));
+set_ValueNoCheck ("IsVerified", Boolean.valueOf(IsVerified));
 }
 /** Get Verified.
 @return The BOM configuration has been verified */
@@ -528,7 +528,7 @@ return false;
 @param IsWebStoreFeatured If selected, the product is displayed in the inital or any empy search */
 public void setIsWebStoreFeatured (boolean IsWebStoreFeatured)
 {
-set_Value ("IsWebStoreFeatured", new Boolean(IsWebStoreFeatured));
+set_Value ("IsWebStoreFeatured", Boolean.valueOf(IsWebStoreFeatured));
 }
 /** Get Featured in Web Store.
 @return If selected, the product is displayed in the inital or any empy search */
@@ -547,7 +547,7 @@ return false;
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -563,7 +563,7 @@ public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 {
 if (M_AttributeSet_ID <= 0) set_Value ("M_AttributeSet_ID", null);
  else 
-set_Value ("M_AttributeSet_ID", new Integer(M_AttributeSet_ID));
+set_Value ("M_AttributeSet_ID", Integer.valueOf(M_AttributeSet_ID));
 }
 /** Get Attribute Set.
 @return Product Attribute Set */
@@ -579,7 +579,7 @@ public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 {
 if (M_FreightCategory_ID <= 0) set_Value ("M_FreightCategory_ID", null);
  else 
-set_Value ("M_FreightCategory_ID", new Integer(M_FreightCategory_ID));
+set_Value ("M_FreightCategory_ID", Integer.valueOf(M_FreightCategory_ID));
 }
 /** Get Freight Category.
 @return Category of the Freight */
@@ -595,7 +595,7 @@ public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID <= 0) set_Value ("M_Locator_ID", null);
  else 
-set_Value ("M_Locator_ID", new Integer(M_Locator_ID));
+set_Value ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -613,7 +613,7 @@ public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
 public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID < 1) throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -628,7 +628,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -666,7 +666,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -719,7 +719,7 @@ public void setR_MailText_ID (int R_MailText_ID)
 {
 if (R_MailText_ID <= 0) set_Value ("R_MailText_ID", null);
  else 
-set_Value ("R_MailText_ID", new Integer(R_MailText_ID));
+set_Value ("R_MailText_ID", Integer.valueOf(R_MailText_ID));
 }
 /** Get Mail Template.
 @return Text templates for mailings */
@@ -752,7 +752,7 @@ public void setS_ExpenseType_ID (int S_ExpenseType_ID)
 {
 if (S_ExpenseType_ID <= 0) set_ValueNoCheck ("S_ExpenseType_ID", null);
  else 
-set_ValueNoCheck ("S_ExpenseType_ID", new Integer(S_ExpenseType_ID));
+set_ValueNoCheck ("S_ExpenseType_ID", Integer.valueOf(S_ExpenseType_ID));
 }
 /** Get Expense Type.
 @return Expense report type */
@@ -768,7 +768,7 @@ public void setS_Resource_ID (int S_Resource_ID)
 {
 if (S_Resource_ID <= 0) set_ValueNoCheck ("S_Resource_ID", null);
  else 
-set_ValueNoCheck ("S_Resource_ID", new Integer(S_Resource_ID));
+set_ValueNoCheck ("S_Resource_ID", Integer.valueOf(S_Resource_ID));
 }
 /** Get Resource.
 @return Resource */
@@ -787,7 +787,7 @@ public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID <= 0) set_Value ("SalesRep_ID", null);
  else 
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */
@@ -801,7 +801,7 @@ return ii.intValue();
 @param ShelfDepth Shelf depth required */
 public void setShelfDepth (int ShelfDepth)
 {
-set_Value ("ShelfDepth", new Integer(ShelfDepth));
+set_Value ("ShelfDepth", Integer.valueOf(ShelfDepth));
 }
 /** Get Shelf Depth.
 @return Shelf depth required */
@@ -815,7 +815,7 @@ return ii.intValue();
 @param ShelfHeight Shelf height required */
 public void setShelfHeight (int ShelfHeight)
 {
-set_Value ("ShelfHeight", new Integer(ShelfHeight));
+set_Value ("ShelfHeight", Integer.valueOf(ShelfHeight));
 }
 /** Get Shelf Height.
 @return Shelf height required */
@@ -829,7 +829,7 @@ return ii.intValue();
 @param ShelfWidth Shelf width required */
 public void setShelfWidth (int ShelfWidth)
 {
-set_Value ("ShelfWidth", new Integer(ShelfWidth));
+set_Value ("ShelfWidth", Integer.valueOf(ShelfWidth));
 }
 /** Get Shelf Width.
 @return Shelf width required */
@@ -860,7 +860,7 @@ return (String)get_Value("UPC");
 @param UnitsPerPallet Units Per Pallet */
 public void setUnitsPerPallet (int UnitsPerPallet)
 {
-set_Value ("UnitsPerPallet", new Integer(UnitsPerPallet));
+set_Value ("UnitsPerPallet", Integer.valueOf(UnitsPerPallet));
 }
 /** Get Units Per Pallet.
 @return Units Per Pallet */

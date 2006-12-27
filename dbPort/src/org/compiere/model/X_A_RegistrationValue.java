@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_RegistrationValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_RegistrationValue extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_A_RegistrationValue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=653 */
-public static final int Table_ID=653;
+public static final int Table_ID=MTable.getTable_ID("A_RegistrationValue");
 
 /** TableName=A_RegistrationValue */
 public static final String Table_Name="A_RegistrationValue";
 
-protected static KeyNamePair Model = new KeyNamePair(653,"A_RegistrationValue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_RegistrationValue");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 {
 if (A_RegistrationAttribute_ID < 1) throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-set_ValueNoCheck ("A_RegistrationAttribute_ID", new Integer(A_RegistrationAttribute_ID));
+set_ValueNoCheck ("A_RegistrationAttribute_ID", Integer.valueOf(A_RegistrationAttribute_ID));
 }
 /** Get Registration Attribute.
 @return Asset Registration Attribute */
@@ -113,7 +113,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID())
 public void setA_Registration_ID (int A_Registration_ID)
 {
 if (A_Registration_ID < 1) throw new IllegalArgumentException ("A_Registration_ID is mandatory.");
-set_ValueNoCheck ("A_Registration_ID", new Integer(A_Registration_ID));
+set_ValueNoCheck ("A_Registration_ID", Integer.valueOf(A_Registration_ID));
 }
 /** Get Registration.
 @return User Asset Registration */

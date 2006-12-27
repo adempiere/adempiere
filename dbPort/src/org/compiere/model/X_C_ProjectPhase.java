@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectPhase
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ProjectPhase extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_ProjectPhase (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=576 */
-public static final int Table_ID=576;
+public static final int Table_ID=MTable.getTable_ID("C_ProjectPhase");
 
 /** TableName=C_ProjectPhase */
 public static final String Table_Name="C_ProjectPhase";
 
-protected static KeyNamePair Model = new KeyNamePair(576,"C_ProjectPhase");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ProjectPhase");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_ValueNoCheck ("C_Order_ID", null);
  else 
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -115,7 +115,7 @@ public void setC_Phase_ID (int C_Phase_ID)
 {
 if (C_Phase_ID <= 0) set_ValueNoCheck ("C_Phase_ID", null);
  else 
-set_ValueNoCheck ("C_Phase_ID", new Integer(C_Phase_ID));
+set_ValueNoCheck ("C_Phase_ID", Integer.valueOf(C_Phase_ID));
 }
 /** Get Standard Phase.
 @return Standard Phase of the Project Type */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 {
 if (C_ProjectPhase_ID < 1) throw new IllegalArgumentException ("C_ProjectPhase_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectPhase_ID", new Integer(C_ProjectPhase_ID));
+set_ValueNoCheck ("C_ProjectPhase_ID", Integer.valueOf(C_ProjectPhase_ID));
 }
 /** Get Project Phase.
 @return Phase of a Project */
@@ -145,7 +145,7 @@ return ii.intValue();
 public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID < 1) throw new IllegalArgumentException ("C_Project_ID is mandatory.");
-set_ValueNoCheck ("C_Project_ID", new Integer(C_Project_ID));
+set_ValueNoCheck ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -237,7 +237,7 @@ return (String)get_Value("Help");
 @param IsCommitCeiling The commitment amount/quantity is the chargeable ceiling  */
 public void setIsCommitCeiling (boolean IsCommitCeiling)
 {
-set_Value ("IsCommitCeiling", new Boolean(IsCommitCeiling));
+set_Value ("IsCommitCeiling", Boolean.valueOf(IsCommitCeiling));
 }
 /** Get Commitment is Ceiling.
 @return The commitment amount/quantity is the chargeable ceiling  */
@@ -255,7 +255,7 @@ return false;
 @param IsComplete It is complete */
 public void setIsComplete (boolean IsComplete)
 {
-set_Value ("IsComplete", new Boolean(IsComplete));
+set_Value ("IsComplete", Boolean.valueOf(IsComplete));
 }
 /** Get Complete.
 @return It is complete */
@@ -275,7 +275,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -384,7 +384,7 @@ return bd;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Jorg Janke (generated) 
- *  @version Release 3.1.2 - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO
 {
 /** Standard Constructor
@@ -57,7 +57,7 @@ public X_AD_Package_Exp_Detail (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=1000006 */
+/** AD_Table_ID=50006 */
 public static final int Table_ID=MTable.getTable_ID("AD_Package_Exp_Detail");
 
 /** TableName=AD_Package_Exp_Detail */
@@ -90,32 +90,32 @@ public String toString()
 StringBuffer sb = new StringBuffer ("X_AD_Package_Exp_Detail[").append(get_ID()).append("]");
 return sb.toString();
 }
-/** Set Special Form.
-@param AD_Form_ID Special Form */
+/** Set AD_Form_ID.
+@param AD_Form_ID AD_Form_ID */
 public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID <= 0) set_Value ("AD_Form_ID", null);
  else 
-set_Value ("AD_Form_ID", new Integer(AD_Form_ID));
+set_Value ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
-/** Get Special Form.
-@return Special Form */
+/** Get AD_Form_ID.
+@return AD_Form_ID */
 public int getAD_Form_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Form_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Import Format.
-@param AD_ImpFormat_ID Import Format */
+/** Set AD_ImpFormat_ID.
+@param AD_ImpFormat_ID AD_ImpFormat_ID */
 public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 {
 if (AD_ImpFormat_ID <= 0) set_Value ("AD_ImpFormat_ID", null);
  else 
-set_Value ("AD_ImpFormat_ID", new Integer(AD_ImpFormat_ID));
+set_Value ("AD_ImpFormat_ID", Integer.valueOf(AD_ImpFormat_ID));
 }
-/** Get Import Format.
-@return Import Format */
+/** Get AD_ImpFormat_ID.
+@return AD_ImpFormat_ID */
 public int getAD_ImpFormat_ID() 
 {
 Integer ii = (Integer)get_Value("AD_ImpFormat_ID");
@@ -125,16 +125,16 @@ return ii.intValue();
 
 /** AD_Menu_ID AD_Reference_ID=105 */
 public static final int AD_MENU_ID_AD_Reference_ID=105;
-/** Set Menu.
-@param AD_Menu_ID Identifies a Menu */
+/** Set AD_Menu_ID.
+@param AD_Menu_ID AD_Menu_ID */
 public void setAD_Menu_ID (int AD_Menu_ID)
 {
 if (AD_Menu_ID <= 0) set_Value ("AD_Menu_ID", null);
  else 
-set_Value ("AD_Menu_ID", new Integer(AD_Menu_ID));
+set_Value ("AD_Menu_ID", Integer.valueOf(AD_Menu_ID));
 }
-/** Get Menu.
-@return Identifies a Menu */
+/** Get AD_Menu_ID.
+@return AD_Menu_ID */
 public int getAD_Menu_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Menu_ID");
@@ -180,7 +180,7 @@ return (String)get_Value("AD_Package_Code_Old");
 public void setAD_Package_Exp_Detail_ID (int AD_Package_Exp_Detail_ID)
 {
 if (AD_Package_Exp_Detail_ID < 1) throw new IllegalArgumentException ("AD_Package_Exp_Detail_ID is mandatory.");
-set_Value ("AD_Package_Exp_Detail_ID", new Integer(AD_Package_Exp_Detail_ID));
+set_Value ("AD_Package_Exp_Detail_ID", Integer.valueOf(AD_Package_Exp_Detail_ID));
 }
 /** Get AD_Package_Exp_Detail_ID.
 @return AD_Package_Exp_Detail_ID */
@@ -201,7 +201,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Detail_ID()));
 public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 {
 if (AD_Package_Exp_ID < 1) throw new IllegalArgumentException ("AD_Package_Exp_ID is mandatory.");
-set_Value ("AD_Package_Exp_ID", new Integer(AD_Package_Exp_ID));
+set_Value ("AD_Package_Exp_ID", Integer.valueOf(AD_Package_Exp_ID));
 }
 /** Get AD_Package_Exp_ID.
 @return AD_Package_Exp_ID */
@@ -211,112 +211,112 @@ Integer ii = (Integer)get_Value("AD_Package_Exp_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Process.
-@param AD_Process_ID Process or Report */
+/** Set AD_Process_ID.
+@param AD_Process_ID AD_Process_ID */
 public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
-/** Get Process.
-@return Process or Report */
+/** Get AD_Process_ID.
+@return AD_Process_ID */
 public int getAD_Process_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Report View.
-@param AD_ReportView_ID View used to generate this report */
+/** Set AD_ReportView_ID.
+@param AD_ReportView_ID Contain the Report View ID */
 public void setAD_ReportView_ID (int AD_ReportView_ID)
 {
 if (AD_ReportView_ID <= 0) set_Value ("AD_ReportView_ID", null);
  else 
-set_Value ("AD_ReportView_ID", new Integer(AD_ReportView_ID));
+set_Value ("AD_ReportView_ID", Integer.valueOf(AD_ReportView_ID));
 }
-/** Get Report View.
-@return View used to generate this report */
+/** Get AD_ReportView_ID.
+@return Contain the Report View ID */
 public int getAD_ReportView_ID() 
 {
 Integer ii = (Integer)get_Value("AD_ReportView_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Role.
-@param AD_Role_ID Responsibility Role */
+/** Set AD_Role_ID.
+@param AD_Role_ID Role */
 public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID <= 0) set_Value ("AD_Role_ID", null);
  else 
-set_Value ("AD_Role_ID", new Integer(AD_Role_ID));
+set_Value ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
-/** Get Role.
-@return Responsibility Role */
+/** Get AD_Role_ID.
+@return Role */
 public int getAD_Role_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Table.
-@param AD_Table_ID Database Table information */
+/** Set AD_Table_ID.
+@param AD_Table_ID AD_Table_ID */
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
-/** Get Table.
-@return Database Table information */
+/** Get AD_Table_ID.
+@return AD_Table_ID */
 public int getAD_Table_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Window.
-@param AD_Window_ID Data entry or display window */
+/** Set AD_Window_ID.
+@param AD_Window_ID AD_Window_ID */
 public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
-/** Get Window.
-@return Data entry or display window */
+/** Get AD_Window_ID.
+@return AD_Window_ID */
 public int getAD_Window_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Workbench.
-@param AD_Workbench_ID Collection of windows, reports */
+/** Set AD_Workbench_ID.
+@param AD_Workbench_ID AD_Workbench_ID */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID <= 0) set_Value ("AD_Workbench_ID", null);
  else 
-set_Value ("AD_Workbench_ID", new Integer(AD_Workbench_ID));
+set_Value ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
-/** Get Workbench.
-@return Collection of windows, reports */
+/** Get AD_Workbench_ID.
+@return AD_Workbench_ID */
 public int getAD_Workbench_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Workbench_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Workflow.
-@param AD_Workflow_ID Workflow or combination of tasks */
+/** Set AD_Workflow_ID.
+@param AD_Workflow_ID AD_Workflow_ID */
 public void setAD_Workflow_ID (int AD_Workflow_ID)
 {
 if (AD_Workflow_ID <= 0) set_Value ("AD_Workflow_ID", null);
  else 
-set_Value ("AD_Workflow_ID", new Integer(AD_Workflow_ID));
+set_Value ("AD_Workflow_ID", Integer.valueOf(AD_Workflow_ID));
 }
-/** Get Workflow.
-@return Workflow or combination of tasks */
+/** Get AD_Workflow_ID.
+@return AD_Workflow_ID */
 public int getAD_Workflow_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Workflow_ID");
@@ -324,8 +324,8 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 
-/** DBType AD_Reference_ID=1000003 */
-public static final int DBTYPE_AD_Reference_ID=1000003;
+/** DBType AD_Reference_ID=50003 */
+public static final int DBTYPE_AD_Reference_ID=50003;
 /** All Database Types = ALL */
 public static final String DBTYPE_AllDatabaseTypes = "ALL";
 /** DB2 = DB2 */
@@ -343,11 +343,11 @@ public static final String DBTYPE_SQLServer = "SQL";
 /** Sybase = Sybase */
 public static final String DBTYPE_Sybase = "Sybase";
 /** Set DBType.
-@param DBType DBType */
+@param DBType Indicates type of database */
 public void setDBType (String DBType)
 {
 if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase"));
- else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=1000003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");
+ else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");
 if (DBType != null && DBType.length() > 22)
 {
 log.warning("Length > 22 - truncated");
@@ -356,13 +356,13 @@ DBType = DBType.substring(0,21);
 set_Value ("DBType", DBType);
 }
 /** Get DBType.
-@return DBType */
+@return Indicates type of database */
 public String getDBType() 
 {
 return (String)get_Value("DBType");
 }
 /** Set Description.
-@param Description Optional short description of the record */
+@param Description Description */
 public void setDescription (String Description)
 {
 if (Description == null) throw new IllegalArgumentException ("Description is mandatory.");
@@ -374,7 +374,7 @@ Description = Description.substring(0,999);
 set_Value ("Description", Description);
 }
 /** Get Description.
-@return Optional short description of the record */
+@return Description */
 public String getDescription() 
 {
 return (String)get_Value("Description");
@@ -413,8 +413,8 @@ public String getDestination_FileName()
 {
 return (String)get_Value("Destination_FileName");
 }
-/** Set File Name.
-@param FileName Name of the local file or URL */
+/** Set FileName.
+@param FileName FileName */
 public void setFileName (String FileName)
 {
 if (FileName != null && FileName.length() > 255)
@@ -424,8 +424,8 @@ FileName = FileName.substring(0,254);
 }
 set_Value ("FileName", FileName);
 }
-/** Get File Name.
-@return Name of the local file or URL */
+/** Get FileName.
+@return FileName */
 public String getFileName() 
 {
 return (String)get_Value("FileName");
@@ -447,22 +447,22 @@ public String getFile_Directory()
 {
 return (String)get_Value("File_Directory");
 }
-/** Set Line No.
-@param Line Unique line for this document */
+/** Set Line.
+@param Line Line */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
-/** Get Line No.
-@return Unique line for this document */
+/** Get Line.
+@return Line */
 public int getLine() 
 {
 Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Name 2.
-@param Name2 Additional Name */
+/** Set Name2.
+@param Name2 Name2 */
 public void setName2 (String Name2)
 {
 if (Name2 != null && Name2.length() > 60)
@@ -472,14 +472,14 @@ Name2 = Name2.substring(0,59);
 }
 set_Value ("Name2", Name2);
 }
-/** Get Name 2.
-@return Additional Name */
+/** Get Name2.
+@return Name2 */
 public String getName2() 
 {
 return (String)get_Value("Name2");
 }
 /** Set PK_Name.
-@param PK_Name PK_Name */
+@param PK_Name Name of package */
 public void setPK_Name (String PK_Name)
 {
 if (PK_Name == null) throw new IllegalArgumentException ("PK_Name is mandatory.");
@@ -491,19 +491,19 @@ PK_Name = PK_Name.substring(0,59);
 set_Value ("PK_Name", PK_Name);
 }
 /** Get PK_Name.
-@return PK_Name */
+@return Name of package */
 public String getPK_Name() 
 {
 return (String)get_Value("PK_Name");
 }
 /** Set Processed.
-@param Processed The document has been processed */
+@param Processed Processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
-@return The document has been processed */
+@return Processed */
 public boolean isProcessed() 
 {
 Object oo = get_Value("Processed");
@@ -514,14 +514,14 @@ if (oo != null)
 }
 return false;
 }
-/** Set Process Now.
-@param Processing Process Now */
+/** Set Processing.
+@param Processing Processing */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Process Now.
-@return Process Now */
+/** Get Processing.
+@return Processing */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");
@@ -533,8 +533,8 @@ if (oo != null)
 return false;
 }
 
-/** ReleaseNo AD_Reference_ID=1000002 */
-public static final int RELEASENO_AD_Reference_ID=1000002;
+/** ReleaseNo AD_Reference_ID=50002 */
+public static final int RELEASENO_AD_Reference_ID=50002;
 /** Release 2.5.2a = Release 2.5.2a */
 public static final String RELEASENO_Release252a = "Release 2.5.2a";
 /** Release 2.5.2b = Release 2.5.2b */
@@ -551,12 +551,12 @@ public static final String RELEASENO_Release253a = "Release 2.5.3a";
 public static final String RELEASENO_Release253b = "Release 2.5.3b";
 /** No specific release = all */
 public static final String RELEASENO_NoSpecificRelease = "all";
-/** Set Release No.
-@param ReleaseNo Internal Release Number */
+/** Set ReleaseNo.
+@param ReleaseNo ReleaseNo */
 public void setReleaseNo (String ReleaseNo)
 {
 if (ReleaseNo == null || ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all"));
- else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=1000002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");
+ else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");
 if (ReleaseNo != null && ReleaseNo.length() > 20)
 {
 log.warning("Length > 20 - truncated");
@@ -564,8 +564,8 @@ ReleaseNo = ReleaseNo.substring(0,19);
 }
 set_Value ("ReleaseNo", ReleaseNo);
 }
-/** Get Release No.
-@return Internal Release Number */
+/** Get ReleaseNo.
+@return ReleaseNo */
 public String getReleaseNo() 
 {
 return (String)get_Value("ReleaseNo");
@@ -588,7 +588,7 @@ public String getSQLStatement()
 return (String)get_Value("SQLStatement");
 }
 /** Set Target_Directory.
-@param Target_Directory Target_Directory */
+@param Target_Directory Directory where the file to be distributed will be copied to */
 public void setTarget_Directory (String Target_Directory)
 {
 if (Target_Directory != null && Target_Directory.length() > 255)
@@ -599,14 +599,14 @@ Target_Directory = Target_Directory.substring(0,254);
 set_Value ("Target_Directory", Target_Directory);
 }
 /** Get Target_Directory.
-@return Target_Directory */
+@return Directory where the file to be distributed will be copied to */
 public String getTarget_Directory() 
 {
 return (String)get_Value("Target_Directory");
 }
 
-/** Type AD_Reference_ID=1000004 */
-public static final int TYPE_AD_Reference_ID=1000004;
+/** Type AD_Reference_ID=50004 */
+public static final int TYPE_AD_Reference_ID=50004;
 /** Workbench = B */
 public static final String TYPE_Workbench = "B";
 /** File - Code or other = C */
@@ -636,12 +636,12 @@ public static final String TYPE_Window = "W";
 /** Form = X */
 public static final String TYPE_Form = "X";
 /** Set Type.
-@param Type Type of Validation (SQL, Java Script, Java Language) */
+@param Type Type */
 public void setType (String Type)
 {
 if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
 if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=1000004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X");
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X");
 if (Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");
@@ -650,7 +650,7 @@ Type = Type.substring(0,9);
 set_Value ("Type", Type);
 }
 /** Get Type.
-@return Type of Validation (SQL, Java Script, Java Language) */
+@return Type */
 public String getType() 
 {
 return (String)get_Value("Type");

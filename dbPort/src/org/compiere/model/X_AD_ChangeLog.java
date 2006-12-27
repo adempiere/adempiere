@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ChangeLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_ChangeLog extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_ChangeLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=580 */
-public static final int Table_ID=580;
+public static final int Table_ID=MTable.getTable_ID("AD_ChangeLog");
 
 /** TableName=AD_ChangeLog */
 public static final String Table_Name="AD_ChangeLog";
 
-protected static KeyNamePair Model = new KeyNamePair(580,"AD_ChangeLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_ChangeLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_ChangeLog_ID (int AD_ChangeLog_ID)
 {
 if (AD_ChangeLog_ID < 1) throw new IllegalArgumentException ("AD_ChangeLog_ID is mandatory.");
-set_ValueNoCheck ("AD_ChangeLog_ID", new Integer(AD_ChangeLog_ID));
+set_ValueNoCheck ("AD_ChangeLog_ID", Integer.valueOf(AD_ChangeLog_ID));
 }
 /** Get Change Log.
 @return Log of data changes */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_ValueNoCheck ("AD_Column_ID", new Integer(AD_Column_ID));
+set_ValueNoCheck ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -125,7 +125,7 @@ return ii.intValue();
 public void setAD_Session_ID (int AD_Session_ID)
 {
 if (AD_Session_ID < 1) throw new IllegalArgumentException ("AD_Session_ID is mandatory.");
-set_ValueNoCheck ("AD_Session_ID", new Integer(AD_Session_ID));
+set_ValueNoCheck ("AD_Session_ID", Integer.valueOf(AD_Session_ID));
 }
 /** Get Session.
 @return User Session Online or Web */
@@ -146,7 +146,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -177,7 +177,7 @@ return (String)get_Value("Description");
 @param IsCustomization The change is a customization of the data dictionary and can be applied after Migration */
 public void setIsCustomization (boolean IsCustomization)
 {
-set_Value ("IsCustomization", new Boolean(IsCustomization));
+set_Value ("IsCustomization", Boolean.valueOf(IsCustomization));
 }
 /** Get Customization.
 @return The change is a customization of the data dictionary and can be applied after Migration */
@@ -230,7 +230,7 @@ return (String)get_Value("OldValue");
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_JournalLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_JournalLine extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_GL_JournalLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=226 */
-public static final int Table_ID=226;
+public static final int Table_ID=MTable.getTable_ID("GL_JournalLine");
 
 /** TableName=GL_JournalLine */
 public static final String Table_Name="GL_JournalLine";
 
-protected static KeyNamePair Model = new KeyNamePair(226,"GL_JournalLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_JournalLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -164,7 +164,7 @@ return bd;
 public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID < 1) throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -179,7 +179,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -195,7 +195,7 @@ public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID <= 0) set_Value ("C_UOM_ID", null);
  else 
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -210,7 +210,7 @@ return ii.intValue();
 public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 {
 if (C_ValidCombination_ID < 1) throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
-set_Value ("C_ValidCombination_ID", new Integer(C_ValidCombination_ID));
+set_Value ("C_ValidCombination_ID", Integer.valueOf(C_ValidCombination_ID));
 }
 /** Get Combination.
 @return Valid Account Combination */
@@ -270,7 +270,7 @@ return (String)get_Value("Description");
 public void setGL_JournalLine_ID (int GL_JournalLine_ID)
 {
 if (GL_JournalLine_ID < 1) throw new IllegalArgumentException ("GL_JournalLine_ID is mandatory.");
-set_ValueNoCheck ("GL_JournalLine_ID", new Integer(GL_JournalLine_ID));
+set_ValueNoCheck ("GL_JournalLine_ID", Integer.valueOf(GL_JournalLine_ID));
 }
 /** Get Journal Line.
 @return General Ledger Journal Line */
@@ -285,7 +285,7 @@ return ii.intValue();
 public void setGL_Journal_ID (int GL_Journal_ID)
 {
 if (GL_Journal_ID < 1) throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-set_ValueNoCheck ("GL_Journal_ID", new Integer(GL_Journal_ID));
+set_ValueNoCheck ("GL_Journal_ID", Integer.valueOf(GL_Journal_ID));
 }
 /** Get Journal.
 @return General Ledger Journal */
@@ -299,7 +299,7 @@ return ii.intValue();
 @param IsGenerated This Line is generated */
 public void setIsGenerated (boolean IsGenerated)
 {
-set_ValueNoCheck ("IsGenerated", new Boolean(IsGenerated));
+set_ValueNoCheck ("IsGenerated", Boolean.valueOf(IsGenerated));
 }
 /** Get Generated.
 @return This Line is generated */
@@ -317,7 +317,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -337,7 +337,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

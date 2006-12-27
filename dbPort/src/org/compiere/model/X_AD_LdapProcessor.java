@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_LdapProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_LdapProcessor extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_LdapProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=902 */
-public static final int Table_ID=902;
+public static final int Table_ID=MTable.getTable_ID("AD_LdapProcessor");
 
 /** TableName=AD_LdapProcessor */
 public static final String Table_Name="AD_LdapProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(902,"AD_LdapProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_LdapProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -90,14 +90,14 @@ StringBuffer sb = new StringBuffer ("X_AD_LdapProcessor[").append(get_ID()).appe
 return sb.toString();
 }
 /** Set Ldap Processor.
-@param AD_LdapProcessor_ID LDAP Server to authenticate and authorize external systems based on Compiere */
+@param AD_LdapProcessor_ID LDAP Server to authenticate and authorize external systems based on Adempiere */
 public void setAD_LdapProcessor_ID (int AD_LdapProcessor_ID)
 {
 if (AD_LdapProcessor_ID < 1) throw new IllegalArgumentException ("AD_LdapProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_LdapProcessor_ID", new Integer(AD_LdapProcessor_ID));
+set_ValueNoCheck ("AD_LdapProcessor_ID", Integer.valueOf(AD_LdapProcessor_ID));
 }
 /** Get Ldap Processor.
-@return LDAP Server to authenticate and authorize external systems based on Compiere */
+@return LDAP Server to authenticate and authorize external systems based on Adempiere */
 public int getAD_LdapProcessor_ID() 
 {
 Integer ii = (Integer)get_Value("AD_LdapProcessor_ID");
@@ -149,7 +149,7 @@ return (String)get_Value("Description");
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -163,7 +163,7 @@ return ii.intValue();
 @param LdapPort The port the server is listening */
 public void setLdapPort (int LdapPort)
 {
-set_Value ("LdapPort", new Integer(LdapPort));
+set_Value ("LdapPort", Integer.valueOf(LdapPort));
 }
 /** Get Ldap Port.
 @return The port the server is listening */
@@ -201,7 +201,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -223,7 +223,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

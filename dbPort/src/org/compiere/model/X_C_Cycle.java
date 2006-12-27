@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Cycle
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Cycle extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_Cycle (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=432 */
-public static final int Table_ID=432;
+public static final int Table_ID=MTable.getTable_ID("C_Cycle");
 
 /** TableName=C_Cycle */
 public static final String Table_Name="C_Cycle";
 
-protected static KeyNamePair Model = new KeyNamePair(432,"C_Cycle");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Cycle");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setC_Cycle_ID (int C_Cycle_ID)
 {
 if (C_Cycle_ID < 1) throw new IllegalArgumentException ("C_Cycle_ID is mandatory.");
-set_ValueNoCheck ("C_Cycle_ID", new Integer(C_Cycle_ID));
+set_ValueNoCheck ("C_Cycle_ID", Integer.valueOf(C_Cycle_ID));
 }
 /** Get Project Cycle.
 @return Identifier for this Project Reporting Cycle */

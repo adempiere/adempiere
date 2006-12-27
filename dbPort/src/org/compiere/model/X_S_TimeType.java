@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_TimeType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_TimeType extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_S_TimeType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=581 */
-public static final int Table_ID=581;
+public static final int Table_ID=MTable.getTable_ID("S_TimeType");
 
 /** TableName=S_TimeType */
 public static final String Table_Name="S_TimeType";
 
-protected static KeyNamePair Model = new KeyNamePair(581,"S_TimeType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_TimeType");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -149,7 +149,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setS_TimeType_ID (int S_TimeType_ID)
 {
 if (S_TimeType_ID < 1) throw new IllegalArgumentException ("S_TimeType_ID is mandatory.");
-set_ValueNoCheck ("S_TimeType_ID", new Integer(S_TimeType_ID));
+set_ValueNoCheck ("S_TimeType_ID", Integer.valueOf(S_TimeType_ID));
 }
 /** Get Time Type.
 @return Type of time recorded */

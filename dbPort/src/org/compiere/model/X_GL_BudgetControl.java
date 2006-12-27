@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_BudgetControl
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_BudgetControl extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_GL_BudgetControl (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=822 */
-public static final int Table_ID=822;
+public static final int Table_ID=MTable.getTable_ID("GL_BudgetControl");
 
 /** TableName=GL_BudgetControl */
 public static final String Table_Name="GL_BudgetControl";
 
-protected static KeyNamePair Model = new KeyNamePair(822,"GL_BudgetControl");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_BudgetControl");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -125,7 +125,7 @@ return (String)get_Value("BudgetControlScope");
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_Value ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_Value ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -186,7 +186,7 @@ return (String)get_Value("Description");
 public void setGL_BudgetControl_ID (int GL_BudgetControl_ID)
 {
 if (GL_BudgetControl_ID < 1) throw new IllegalArgumentException ("GL_BudgetControl_ID is mandatory.");
-set_ValueNoCheck ("GL_BudgetControl_ID", new Integer(GL_BudgetControl_ID));
+set_ValueNoCheck ("GL_BudgetControl_ID", Integer.valueOf(GL_BudgetControl_ID));
 }
 /** Get Budget Control.
 @return Budget Control */
@@ -201,7 +201,7 @@ return ii.intValue();
 public void setGL_Budget_ID (int GL_Budget_ID)
 {
 if (GL_Budget_ID < 1) throw new IllegalArgumentException ("GL_Budget_ID is mandatory.");
-set_Value ("GL_Budget_ID", new Integer(GL_Budget_ID));
+set_Value ("GL_Budget_ID", Integer.valueOf(GL_Budget_ID));
 }
 /** Get Budget.
 @return General Ledger Budget */
@@ -232,7 +232,7 @@ return (String)get_Value("Help");
 @param IsBeforeApproval The Check is before the (manual) approval */
 public void setIsBeforeApproval (boolean IsBeforeApproval)
 {
-set_Value ("IsBeforeApproval", new Boolean(IsBeforeApproval));
+set_Value ("IsBeforeApproval", Boolean.valueOf(IsBeforeApproval));
 }
 /** Get Before Approval.
 @return The Check is before the (manual) approval */

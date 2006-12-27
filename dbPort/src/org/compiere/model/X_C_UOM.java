@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_UOM
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_UOM extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_UOM (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=146 */
-public static final int Table_ID=146;
+public static final int Table_ID=MTable.getTable_ID("C_UOM");
 
 /** TableName=C_UOM */
 public static final String Table_Name="C_UOM";
 
-protected static KeyNamePair Model = new KeyNamePair(146,"C_UOM");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_UOM");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_ValueNoCheck ("C_UOM_ID", new Integer(C_UOM_ID));
+set_ValueNoCheck ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -109,7 +109,7 @@ return ii.intValue();
 @param CostingPrecision Rounding used costing calculations */
 public void setCostingPrecision (int CostingPrecision)
 {
-set_Value ("CostingPrecision", new Integer(CostingPrecision));
+set_Value ("CostingPrecision", Integer.valueOf(CostingPrecision));
 }
 /** Get Costing Precision.
 @return Rounding used costing calculations */
@@ -140,7 +140,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -182,7 +182,7 @@ return new KeyNamePair(get_ID(), getName());
 @param StdPrecision Rule for rounding  calculated amounts */
 public void setStdPrecision (int StdPrecision)
 {
-set_Value ("StdPrecision", new Integer(StdPrecision));
+set_Value ("StdPrecision", Integer.valueOf(StdPrecision));
 }
 /** Get Standard Precision.
 @return Rule for rounding  calculated amounts */

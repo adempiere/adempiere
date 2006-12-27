@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Container
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Container extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_CM_Container (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=855 */
-public static final int Table_ID=855;
+public static final int Table_ID=MTable.getTable_ID("CM_Container");
 
 /** TableName=CM_Container */
 public static final String Table_Name="CM_Container";
 
-protected static KeyNamePair Model = new KeyNamePair(855,"CM_Container");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Container");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -105,7 +105,7 @@ public void setCM_ContainerLink_ID (int CM_ContainerLink_ID)
 {
 if (CM_ContainerLink_ID <= 0) set_Value ("CM_ContainerLink_ID", null);
  else 
-set_Value ("CM_ContainerLink_ID", new Integer(CM_ContainerLink_ID));
+set_Value ("CM_ContainerLink_ID", Integer.valueOf(CM_ContainerLink_ID));
 }
 /** Get Container Link.
 @return Link to another Container in the Web Project */
@@ -120,7 +120,7 @@ return ii.intValue();
 public void setCM_Container_ID (int CM_Container_ID)
 {
 if (CM_Container_ID < 1) throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-set_ValueNoCheck ("CM_Container_ID", new Integer(CM_Container_ID));
+set_ValueNoCheck ("CM_Container_ID", Integer.valueOf(CM_Container_ID));
 }
 /** Get Web Container.
 @return Web Container contains content like images, text etc. */
@@ -135,7 +135,7 @@ return ii.intValue();
 public void setCM_Template_ID (int CM_Template_ID)
 {
 if (CM_Template_ID < 1) throw new IllegalArgumentException ("CM_Template_ID is mandatory.");
-set_ValueNoCheck ("CM_Template_ID", new Integer(CM_Template_ID));
+set_ValueNoCheck ("CM_Template_ID", Integer.valueOf(CM_Template_ID));
 }
 /** Get Template.
 @return Template defines how content is displayed */
@@ -150,7 +150,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_ValueNoCheck ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_ValueNoCheck ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */
@@ -261,7 +261,7 @@ return (String)get_Value("Help");
 @param IsIndexed Index the document for the internal search engine */
 public void setIsIndexed (boolean IsIndexed)
 {
-set_Value ("IsIndexed", new Boolean(IsIndexed));
+set_Value ("IsIndexed", Boolean.valueOf(IsIndexed));
 }
 /** Get Indexed.
 @return Index the document for the internal search engine */
@@ -279,7 +279,7 @@ return false;
 @param IsSecure Defines whether content needs to get encrypted */
 public void setIsSecure (boolean IsSecure)
 {
-set_Value ("IsSecure", new Boolean(IsSecure));
+set_Value ("IsSecure", Boolean.valueOf(IsSecure));
 }
 /** Get Secure content.
 @return Defines whether content needs to get encrypted */
@@ -297,7 +297,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_ValueNoCheck ("IsSummary", new Boolean(IsSummary));
+set_ValueNoCheck ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -315,7 +315,7 @@ return false;
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -515,7 +515,7 @@ return (String)get_Value("Notice");
 @param Priority Indicates if this request is of a high, medium or low priority. */
 public void setPriority (int Priority)
 {
-set_Value ("Priority", new Integer(Priority));
+set_Value ("Priority", Integer.valueOf(Priority));
 }
 /** Get Priority.
 @return Indicates if this request is of a high, medium or low priority. */

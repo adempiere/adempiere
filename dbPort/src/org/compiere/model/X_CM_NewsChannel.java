@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_NewsChannel
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_NewsChannel extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_NewsChannel (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=870 */
-public static final int Table_ID=870;
+public static final int Table_ID=MTable.getTable_ID("CM_NewsChannel");
 
 /** TableName=CM_NewsChannel */
 public static final String Table_Name="CM_NewsChannel";
 
-protected static KeyNamePair Model = new KeyNamePair(870,"CM_NewsChannel");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_NewsChannel");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -113,7 +113,7 @@ return (String)get_Value("AD_Language");
 public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
 {
 if (CM_NewsChannel_ID < 1) throw new IllegalArgumentException ("CM_NewsChannel_ID is mandatory.");
-set_ValueNoCheck ("CM_NewsChannel_ID", new Integer(CM_NewsChannel_ID));
+set_ValueNoCheck ("CM_NewsChannel_ID", Integer.valueOf(CM_NewsChannel_ID));
 }
 /** Get News Channel.
 @return News channel for rss feed */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setCM_WebProject_ID (int CM_WebProject_ID)
 {
 if (CM_WebProject_ID < 1) throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-set_Value ("CM_WebProject_ID", new Integer(CM_WebProject_ID));
+set_Value ("CM_WebProject_ID", Integer.valueOf(CM_WebProject_ID));
 }
 /** Get Web Project.
 @return A web project is the main data container for Containers, URLs, Ads, Media etc. */

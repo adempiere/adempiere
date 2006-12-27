@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Hierarchy
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Hierarchy extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_PA_Hierarchy (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=821 */
-public static final int Table_ID=821;
+public static final int Table_ID=MTable.getTable_ID("PA_Hierarchy");
 
 /** TableName=PA_Hierarchy */
 public static final String Table_Name="PA_Hierarchy";
 
-protected static KeyNamePair Model = new KeyNamePair(821,"PA_Hierarchy");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Hierarchy");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -102,7 +102,7 @@ public static final int AD_TREE_ACCOUNT_ID_AD_Reference_ID=184;
 public void setAD_Tree_Account_ID (int AD_Tree_Account_ID)
 {
 if (AD_Tree_Account_ID < 1) throw new IllegalArgumentException ("AD_Tree_Account_ID is mandatory.");
-set_Value ("AD_Tree_Account_ID", new Integer(AD_Tree_Account_ID));
+set_Value ("AD_Tree_Account_ID", Integer.valueOf(AD_Tree_Account_ID));
 }
 /** Get Account Tree.
 @return Tree for Natural Account Tree */
@@ -120,7 +120,7 @@ public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
 public void setAD_Tree_Activity_ID (int AD_Tree_Activity_ID)
 {
 if (AD_Tree_Activity_ID < 1) throw new IllegalArgumentException ("AD_Tree_Activity_ID is mandatory.");
-set_Value ("AD_Tree_Activity_ID", new Integer(AD_Tree_Activity_ID));
+set_Value ("AD_Tree_Activity_ID", Integer.valueOf(AD_Tree_Activity_ID));
 }
 /** Get Activity Tree.
 @return Tree to determine activity hierarchy */
@@ -138,7 +138,7 @@ public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
 public void setAD_Tree_BPartner_ID (int AD_Tree_BPartner_ID)
 {
 if (AD_Tree_BPartner_ID < 1) throw new IllegalArgumentException ("AD_Tree_BPartner_ID is mandatory.");
-set_Value ("AD_Tree_BPartner_ID", new Integer(AD_Tree_BPartner_ID));
+set_Value ("AD_Tree_BPartner_ID", Integer.valueOf(AD_Tree_BPartner_ID));
 }
 /** Get BPartner Tree.
 @return Tree to determine business partner hierarchy */
@@ -156,7 +156,7 @@ public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
 public void setAD_Tree_Campaign_ID (int AD_Tree_Campaign_ID)
 {
 if (AD_Tree_Campaign_ID < 1) throw new IllegalArgumentException ("AD_Tree_Campaign_ID is mandatory.");
-set_Value ("AD_Tree_Campaign_ID", new Integer(AD_Tree_Campaign_ID));
+set_Value ("AD_Tree_Campaign_ID", Integer.valueOf(AD_Tree_Campaign_ID));
 }
 /** Get Campaign Tree.
 @return Tree to determine marketing campaign hierarchy */
@@ -174,7 +174,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 {
 if (AD_Tree_Org_ID < 1) throw new IllegalArgumentException ("AD_Tree_Org_ID is mandatory.");
-set_Value ("AD_Tree_Org_ID", new Integer(AD_Tree_Org_ID));
+set_Value ("AD_Tree_Org_ID", Integer.valueOf(AD_Tree_Org_ID));
 }
 /** Get Organization Tree.
 @return Tree to determine organizational hierarchy */
@@ -192,7 +192,7 @@ public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
 public void setAD_Tree_Product_ID (int AD_Tree_Product_ID)
 {
 if (AD_Tree_Product_ID < 1) throw new IllegalArgumentException ("AD_Tree_Product_ID is mandatory.");
-set_Value ("AD_Tree_Product_ID", new Integer(AD_Tree_Product_ID));
+set_Value ("AD_Tree_Product_ID", Integer.valueOf(AD_Tree_Product_ID));
 }
 /** Get Product Tree.
 @return Tree to determine product hierarchy */
@@ -210,7 +210,7 @@ public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
 public void setAD_Tree_Project_ID (int AD_Tree_Project_ID)
 {
 if (AD_Tree_Project_ID < 1) throw new IllegalArgumentException ("AD_Tree_Project_ID is mandatory.");
-set_Value ("AD_Tree_Project_ID", new Integer(AD_Tree_Project_ID));
+set_Value ("AD_Tree_Project_ID", Integer.valueOf(AD_Tree_Project_ID));
 }
 /** Get Project Tree.
 @return Tree to determine project hierarchy */
@@ -228,7 +228,7 @@ public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 public void setAD_Tree_SalesRegion_ID (int AD_Tree_SalesRegion_ID)
 {
 if (AD_Tree_SalesRegion_ID < 1) throw new IllegalArgumentException ("AD_Tree_SalesRegion_ID is mandatory.");
-set_Value ("AD_Tree_SalesRegion_ID", new Integer(AD_Tree_SalesRegion_ID));
+set_Value ("AD_Tree_SalesRegion_ID", Integer.valueOf(AD_Tree_SalesRegion_ID));
 }
 /** Get Sales Region Tree.
 @return Tree to determine sales regional hierarchy */
@@ -301,7 +301,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
 {
 if (PA_Hierarchy_ID < 1) throw new IllegalArgumentException ("PA_Hierarchy_ID is mandatory.");
-set_ValueNoCheck ("PA_Hierarchy_ID", new Integer(PA_Hierarchy_ID));
+set_ValueNoCheck ("PA_Hierarchy_ID", Integer.valueOf(PA_Hierarchy_ID));
 }
 /** Get Reporting Hierarchy.
 @return Optional Reporting Hierarchy - If not selected the default hierarchy trees are used. */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_InvoiceGL
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_InvoiceGL extends PO
 {
 /** Standard Constructor
@@ -66,12 +66,12 @@ public X_T_InvoiceGL (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=803 */
-public static final int Table_ID=803;
+public static final int Table_ID=MTable.getTable_ID("T_InvoiceGL");
 
 /** TableName=T_InvoiceGL */
 public static final String Table_Name="T_InvoiceGL";
 
-protected static KeyNamePair Model = new KeyNamePair(803,"T_InvoiceGL");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_InvoiceGL");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -103,7 +103,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_Value ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_Value ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -239,7 +239,7 @@ public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
 public void setC_ConversionTypeReval_ID (int C_ConversionTypeReval_ID)
 {
 if (C_ConversionTypeReval_ID < 1) throw new IllegalArgumentException ("C_ConversionTypeReval_ID is mandatory.");
-set_Value ("C_ConversionTypeReval_ID", new Integer(C_ConversionTypeReval_ID));
+set_Value ("C_ConversionTypeReval_ID", Integer.valueOf(C_ConversionTypeReval_ID));
 }
 /** Get Revaluation Conversion Type.
 @return Revaluation Currency Conversion Type */
@@ -258,7 +258,7 @@ public void setC_DocTypeReval_ID (int C_DocTypeReval_ID)
 {
 if (C_DocTypeReval_ID <= 0) set_Value ("C_DocTypeReval_ID", null);
  else 
-set_Value ("C_DocTypeReval_ID", new Integer(C_DocTypeReval_ID));
+set_Value ("C_DocTypeReval_ID", Integer.valueOf(C_DocTypeReval_ID));
 }
 /** Get Revaluation Document Type.
 @return Document Type for Revaluation Journal */
@@ -273,7 +273,7 @@ return ii.intValue();
 public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID < 1) throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -301,7 +301,7 @@ return (Timestamp)get_Value("DateReval");
 public void setFact_Acct_ID (int Fact_Acct_ID)
 {
 if (Fact_Acct_ID < 1) throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-set_ValueNoCheck ("Fact_Acct_ID", new Integer(Fact_Acct_ID));
+set_ValueNoCheck ("Fact_Acct_ID", Integer.valueOf(Fact_Acct_ID));
 }
 /** Get Accounting Fact.
 @return Accounting Fact */
@@ -330,7 +330,7 @@ return bd;
 @param IsAllCurrencies Report not just foreign currency Invoices */
 public void setIsAllCurrencies (boolean IsAllCurrencies)
 {
-set_Value ("IsAllCurrencies", new Boolean(IsAllCurrencies));
+set_Value ("IsAllCurrencies", Boolean.valueOf(IsAllCurrencies));
 }
 /** Get Include All Currencies.
 @return Report not just foreign currency Invoices */

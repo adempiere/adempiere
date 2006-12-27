@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WorkflowProcessorLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WorkflowProcessorLog extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_WorkflowProcessorLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=696 */
-public static final int Table_ID=696;
+public static final int Table_ID=MTable.getTable_ID("AD_WorkflowProcessorLog");
 
 /** TableName=AD_WorkflowProcessorLog */
 public static final String Table_Name="AD_WorkflowProcessorLog";
 
-protected static KeyNamePair Model = new KeyNamePair(696,"AD_WorkflowProcessorLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WorkflowProcessorLog");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID)
 {
 if (AD_WorkflowProcessorLog_ID < 1) throw new IllegalArgumentException ("AD_WorkflowProcessorLog_ID is mandatory.");
-set_ValueNoCheck ("AD_WorkflowProcessorLog_ID", new Integer(AD_WorkflowProcessorLog_ID));
+set_ValueNoCheck ("AD_WorkflowProcessorLog_ID", Integer.valueOf(AD_WorkflowProcessorLog_ID));
 }
 /** Get Workflow Processorl Log.
 @return Result of the execution of the Workflow Processor */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 {
 if (AD_WorkflowProcessor_ID < 1) throw new IllegalArgumentException ("AD_WorkflowProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_WorkflowProcessor_ID", new Integer(AD_WorkflowProcessor_ID));
+set_ValueNoCheck ("AD_WorkflowProcessor_ID", Integer.valueOf(AD_WorkflowProcessor_ID));
 }
 /** Get Workflow Processor.
 @return Workflow Processor Server */
@@ -150,7 +150,7 @@ return (String)get_Value("Description");
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
 {
-set_Value ("IsError", new Boolean(IsError));
+set_Value ("IsError", Boolean.valueOf(IsError));
 }
 /** Get Error.
 @return An Error occured in the execution */

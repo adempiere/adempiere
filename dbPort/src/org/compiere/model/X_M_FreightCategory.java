@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_FreightCategory
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_FreightCategory extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_FreightCategory (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=595 */
-public static final int Table_ID=595;
+public static final int Table_ID=MTable.getTable_ID("M_FreightCategory");
 
 /** TableName=M_FreightCategory */
 public static final String Table_Name="M_FreightCategory";
 
-protected static KeyNamePair Model = new KeyNamePair(595,"M_FreightCategory");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_FreightCategory");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -126,7 +126,7 @@ return (String)get_Value("Help");
 public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 {
 if (M_FreightCategory_ID < 1) throw new IllegalArgumentException ("M_FreightCategory_ID is mandatory.");
-set_ValueNoCheck ("M_FreightCategory_ID", new Integer(M_FreightCategory_ID));
+set_ValueNoCheck ("M_FreightCategory_ID", Integer.valueOf(M_FreightCategory_ID));
 }
 /** Get Freight Category.
 @return Category of the Freight */

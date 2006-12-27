@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_InventoryValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_InventoryValue extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_T_InventoryValue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=478 */
-public static final int Table_ID=478;
+public static final int Table_ID=MTable.getTable_ID("T_InventoryValue");
 
 /** TableName=T_InventoryValue */
 public static final String Table_Name="T_InventoryValue";
 
-protected static KeyNamePair Model = new KeyNamePair(478,"T_InventoryValue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_InventoryValue");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -109,7 +109,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -192,7 +192,7 @@ return (Timestamp)get_Value("DateValue");
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -208,7 +208,7 @@ public void setM_CostElement_ID (int M_CostElement_ID)
 {
 if (M_CostElement_ID <= 0) set_Value ("M_CostElement_ID", null);
  else 
-set_Value ("M_CostElement_ID", new Integer(M_CostElement_ID));
+set_Value ("M_CostElement_ID", Integer.valueOf(M_CostElement_ID));
 }
 /** Get Cost Element.
 @return Product Cost Element */
@@ -224,7 +224,7 @@ public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 {
 if (M_PriceList_Version_ID <= 0) set_Value ("M_PriceList_Version_ID", null);
  else 
-set_Value ("M_PriceList_Version_ID", new Integer(M_PriceList_Version_ID));
+set_Value ("M_PriceList_Version_ID", Integer.valueOf(M_PriceList_Version_ID));
 }
 /** Get Price List Version.
 @return Identifies a unique instance of a Price List */
@@ -239,7 +239,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -254,7 +254,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_Value ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_Value ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CashBook
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_CashBook extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_CashBook (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=408 */
-public static final int Table_ID=408;
+public static final int Table_ID=MTable.getTable_ID("C_CashBook");
 
 /** TableName=C_CashBook */
 public static final String Table_Name="C_CashBook";
 
-protected static KeyNamePair Model = new KeyNamePair(408,"C_CashBook");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_CashBook");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_CashBook_ID (int C_CashBook_ID)
 {
 if (C_CashBook_ID < 1) throw new IllegalArgumentException ("C_CashBook_ID is mandatory.");
-set_ValueNoCheck ("C_CashBook_ID", new Integer(C_CashBook_ID));
+set_ValueNoCheck ("C_CashBook_ID", Integer.valueOf(C_CashBook_ID));
 }
 /** Get Cash Book.
 @return Cash Book for recording petty cash transactions */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -139,7 +139,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

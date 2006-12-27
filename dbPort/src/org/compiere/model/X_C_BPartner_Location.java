@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BPartner_Location
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BPartner_Location extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_BPartner_Location (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=293 */
-public static final int Table_ID=293;
+public static final int Table_ID=MTable.getTable_ID("C_BPartner_Location");
 
 /** TableName=C_BPartner_Location */
 public static final String Table_Name="C_BPartner_Location";
 
-protected static KeyNamePair Model = new KeyNamePair(293,"C_BPartner_Location");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BPartner_Location");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_ValueNoCheck ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setC_Location_ID (int C_Location_ID)
 {
 if (C_Location_ID < 1) throw new IllegalArgumentException ("C_Location_ID is mandatory.");
-set_Value ("C_Location_ID", new Integer(C_Location_ID));
+set_Value ("C_Location_ID", Integer.valueOf(C_Location_ID));
 }
 /** Get Address.
 @return Location or Address */
@@ -143,7 +143,7 @@ public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 {
 if (C_SalesRegion_ID <= 0) set_Value ("C_SalesRegion_ID", null);
  else 
-set_Value ("C_SalesRegion_ID", new Integer(C_SalesRegion_ID));
+set_Value ("C_SalesRegion_ID", Integer.valueOf(C_SalesRegion_ID));
 }
 /** Get Sales Region.
 @return Sales coverage region */
@@ -191,7 +191,7 @@ return (String)get_Value("ISDN");
 @param IsBillTo Business Partner Invoice/Bill Address */
 public void setIsBillTo (boolean IsBillTo)
 {
-set_Value ("IsBillTo", new Boolean(IsBillTo));
+set_Value ("IsBillTo", Boolean.valueOf(IsBillTo));
 }
 /** Get Invoice Address.
 @return Business Partner Invoice/Bill Address */
@@ -209,7 +209,7 @@ return false;
 @param IsPayFrom Business Partner pays from that address and we'll send dunning letters there */
 public void setIsPayFrom (boolean IsPayFrom)
 {
-set_Value ("IsPayFrom", new Boolean(IsPayFrom));
+set_Value ("IsPayFrom", Boolean.valueOf(IsPayFrom));
 }
 /** Get Pay-From Address.
 @return Business Partner pays from that address and we'll send dunning letters there */
@@ -227,7 +227,7 @@ return false;
 @param IsRemitTo Business Partner payment address */
 public void setIsRemitTo (boolean IsRemitTo)
 {
-set_Value ("IsRemitTo", new Boolean(IsRemitTo));
+set_Value ("IsRemitTo", Boolean.valueOf(IsRemitTo));
 }
 /** Get Remit-To Address.
 @return Business Partner payment address */
@@ -245,7 +245,7 @@ return false;
 @param IsShipTo Business Partner Shipment Address */
 public void setIsShipTo (boolean IsShipTo)
 {
-set_Value ("IsShipTo", new Boolean(IsShipTo));
+set_Value ("IsShipTo", Boolean.valueOf(IsShipTo));
 }
 /** Get Ship Address.
 @return Business Partner Shipment Address */

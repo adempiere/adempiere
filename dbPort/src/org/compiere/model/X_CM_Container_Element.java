@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Container_Element
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Container_Element extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_CM_Container_Element (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=860 */
-public static final int Table_ID=860;
+public static final int Table_ID=MTable.getTable_ID("CM_Container_Element");
 
 /** TableName=CM_Container_Element */
 public static final String Table_Name="CM_Container_Element";
 
-protected static KeyNamePair Model = new KeyNamePair(860,"CM_Container_Element");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Container_Element");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setCM_Container_Element_ID (int CM_Container_Element_ID)
 {
 if (CM_Container_Element_ID < 1) throw new IllegalArgumentException ("CM_Container_Element_ID is mandatory.");
-set_ValueNoCheck ("CM_Container_Element_ID", new Integer(CM_Container_Element_ID));
+set_ValueNoCheck ("CM_Container_Element_ID", Integer.valueOf(CM_Container_Element_ID));
 }
 /** Get Container Element.
 @return Container element i.e. Headline, Content, Footer etc. */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setCM_Container_ID (int CM_Container_ID)
 {
 if (CM_Container_ID < 1) throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-set_ValueNoCheck ("CM_Container_ID", new Integer(CM_Container_ID));
+set_ValueNoCheck ("CM_Container_ID", Integer.valueOf(CM_Container_ID));
 }
 /** Get Web Container.
 @return Web Container contains content like images, text etc. */
@@ -167,7 +167,7 @@ return (String)get_Value("Help");
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */

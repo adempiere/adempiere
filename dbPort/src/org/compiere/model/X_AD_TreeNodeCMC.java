@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_TreeNodeCMC
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_TreeNodeCMC extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_TreeNodeCMC (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=845 */
-public static final int Table_ID=845;
+public static final int Table_ID=MTable.getTable_ID("AD_TreeNodeCMC");
 
 /** TableName=AD_TreeNodeCMC */
 public static final String Table_Name="AD_TreeNodeCMC";
 
-protected static KeyNamePair Model = new KeyNamePair(845,"AD_TreeNodeCMC");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_TreeNodeCMC");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Tree_ID (int AD_Tree_ID)
 {
 if (AD_Tree_ID < 1) throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-set_ValueNoCheck ("AD_Tree_ID", new Integer(AD_Tree_ID));
+set_ValueNoCheck ("AD_Tree_ID", Integer.valueOf(AD_Tree_ID));
 }
 /** Get Tree.
 @return Identifies a Tree */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setNode_ID (int Node_ID)
 {
 if (Node_ID < 0) throw new IllegalArgumentException ("Node_ID is mandatory.");
-set_ValueNoCheck ("Node_ID", new Integer(Node_ID));
+set_ValueNoCheck ("Node_ID", Integer.valueOf(Node_ID));
 }
 /** Get Node_ID.
 @return Node_ID */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setParent_ID (int Parent_ID)
 {
 if (Parent_ID < 1) throw new IllegalArgumentException ("Parent_ID is mandatory.");
-set_Value ("Parent_ID", new Integer(Parent_ID));
+set_Value ("Parent_ID", Integer.valueOf(Parent_ID));
 }
 /** Get Parent.
 @return Parent of Entity */
@@ -138,7 +138,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

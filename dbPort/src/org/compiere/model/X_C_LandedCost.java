@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_LandedCost
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_LandedCost extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_LandedCost (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=759 */
-public static final int Table_ID=759;
+public static final int Table_ID=MTable.getTable_ID("C_LandedCost");
 
 /** TableName=C_LandedCost */
 public static final String Table_Name="C_LandedCost";
 
-protected static KeyNamePair Model = new KeyNamePair(759,"C_LandedCost");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_LandedCost");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID < 1) throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -114,7 +114,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_InvoiceLine_ID()));
 public void setC_LandedCost_ID (int C_LandedCost_ID)
 {
 if (C_LandedCost_ID < 1) throw new IllegalArgumentException ("C_LandedCost_ID is mandatory.");
-set_ValueNoCheck ("C_LandedCost_ID", new Integer(C_LandedCost_ID));
+set_ValueNoCheck ("C_LandedCost_ID", Integer.valueOf(C_LandedCost_ID));
 }
 /** Get Landed Cost.
 @return Landed cost to be allocated to material receipts */
@@ -179,7 +179,7 @@ return (String)get_Value("LandedCostDistribution");
 public void setM_CostElement_ID (int M_CostElement_ID)
 {
 if (M_CostElement_ID < 1) throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-set_Value ("M_CostElement_ID", new Integer(M_CostElement_ID));
+set_Value ("M_CostElement_ID", Integer.valueOf(M_CostElement_ID));
 }
 /** Get Cost Element.
 @return Product Cost Element */
@@ -195,7 +195,7 @@ public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID <= 0) set_Value ("M_InOutLine_ID", null);
  else 
-set_Value ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_Value ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -211,7 +211,7 @@ public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID <= 0) set_Value ("M_InOut_ID", null);
  else 
-set_Value ("M_InOut_ID", new Integer(M_InOut_ID));
+set_Value ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -227,7 +227,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -241,7 +241,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

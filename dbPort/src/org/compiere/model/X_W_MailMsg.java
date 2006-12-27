@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_MailMsg
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_MailMsg extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_W_MailMsg (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=780 */
-public static final int Table_ID=780;
+public static final int Table_ID=MTable.getTable_ID("W_MailMsg");
 
 /** TableName=W_MailMsg */
 public static final String Table_Name="W_MailMsg";
 
-protected static KeyNamePair Model = new KeyNamePair(780,"W_MailMsg");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_MailMsg");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -247,7 +247,7 @@ return (String)get_Value("Subject");
 public void setW_MailMsg_ID (int W_MailMsg_ID)
 {
 if (W_MailMsg_ID < 1) throw new IllegalArgumentException ("W_MailMsg_ID is mandatory.");
-set_ValueNoCheck ("W_MailMsg_ID", new Integer(W_MailMsg_ID));
+set_ValueNoCheck ("W_MailMsg_ID", Integer.valueOf(W_MailMsg_ID));
 }
 /** Get Mail Message.
 @return Web Store Mail Message Template */
@@ -262,7 +262,7 @@ return ii.intValue();
 public void setW_Store_ID (int W_Store_ID)
 {
 if (W_Store_ID < 1) throw new IllegalArgumentException ("W_Store_ID is mandatory.");
-set_Value ("W_Store_ID", new Integer(W_Store_ID));
+set_Value ("W_Store_ID", Integer.valueOf(W_Store_ID));
 }
 /** Get Web Store.
 @return A Web Store of the Client */

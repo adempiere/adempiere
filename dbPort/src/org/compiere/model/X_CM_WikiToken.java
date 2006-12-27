@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WikiToken
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_WikiToken extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_CM_WikiToken (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=905 */
-public static final int Table_ID=905;
+public static final int Table_ID=MTable.getTable_ID("CM_WikiToken");
 
 /** TableName=CM_WikiToken */
 public static final String Table_Name="CM_WikiToken";
 
-protected static KeyNamePair Model = new KeyNamePair(905,"CM_WikiToken");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WikiToken");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_ValueNoCheck ("AD_Table_ID", null);
  else 
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setCM_WikiToken_ID (int CM_WikiToken_ID)
 {
 if (CM_WikiToken_ID < 1) throw new IllegalArgumentException ("CM_WikiToken_ID is mandatory.");
-set_ValueNoCheck ("CM_WikiToken_ID", new Integer(CM_WikiToken_ID));
+set_ValueNoCheck ("CM_WikiToken_ID", Integer.valueOf(CM_WikiToken_ID));
 }
 /** Get Wiki Token.
 @return Wiki Token */

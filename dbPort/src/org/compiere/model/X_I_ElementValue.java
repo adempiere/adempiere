@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ElementValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_ElementValue extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_I_ElementValue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=534 */
-public static final int Table_ID=534;
+public static final int Table_ID=MTable.getTable_ID("I_ElementValue");
 
 /** TableName=I_ElementValue */
 public static final String Table_Name="I_ElementValue";
 
-protected static KeyNamePair Model = new KeyNamePair(534,"I_ElementValue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_ElementValue");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -173,7 +173,7 @@ public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID <= 0) set_Value ("C_ElementValue_ID", null);
  else 
-set_Value ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_Value ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -189,7 +189,7 @@ public void setC_Element_ID (int C_Element_ID)
 {
 if (C_Element_ID <= 0) set_Value ("C_Element_ID", null);
  else 
-set_Value ("C_Element_ID", new Integer(C_Element_ID));
+set_Value ("C_Element_ID", Integer.valueOf(C_Element_ID));
 }
 /** Get Element.
 @return Accounting Element */
@@ -255,7 +255,7 @@ return (String)get_Value("ElementName");
 public void setI_ElementValue_ID (int I_ElementValue_ID)
 {
 if (I_ElementValue_ID < 1) throw new IllegalArgumentException ("I_ElementValue_ID is mandatory.");
-set_ValueNoCheck ("I_ElementValue_ID", new Integer(I_ElementValue_ID));
+set_ValueNoCheck ("I_ElementValue_ID", Integer.valueOf(I_ElementValue_ID));
 }
 /** Get Import Account.
 @return Import Account Value */
@@ -286,7 +286,7 @@ return (String)get_Value("I_ErrorMsg");
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -304,7 +304,7 @@ return false;
 @param IsDocControlled Control account - If an account is controlled by a document, you cannot post manually to it */
 public void setIsDocControlled (boolean IsDocControlled)
 {
-set_Value ("IsDocControlled", new Boolean(IsDocControlled));
+set_Value ("IsDocControlled", Boolean.valueOf(IsDocControlled));
 }
 /** Get Document Controlled.
 @return Control account - If an account is controlled by a document, you cannot post manually to it */
@@ -322,7 +322,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -362,7 +362,7 @@ public void setParentElementValue_ID (int ParentElementValue_ID)
 {
 if (ParentElementValue_ID <= 0) set_Value ("ParentElementValue_ID", null);
  else 
-set_Value ("ParentElementValue_ID", new Integer(ParentElementValue_ID));
+set_Value ("ParentElementValue_ID", Integer.valueOf(ParentElementValue_ID));
 }
 /** Get Parent Account.
 @return The parent (summary) account */
@@ -393,7 +393,7 @@ return (String)get_Value("ParentValue");
 @param PostActual Actual Values can be posted */
 public void setPostActual (boolean PostActual)
 {
-set_Value ("PostActual", new Boolean(PostActual));
+set_Value ("PostActual", Boolean.valueOf(PostActual));
 }
 /** Get Post Actual.
 @return Actual Values can be posted */
@@ -411,7 +411,7 @@ return false;
 @param PostBudget Budget values can be posted */
 public void setPostBudget (boolean PostBudget)
 {
-set_Value ("PostBudget", new Boolean(PostBudget));
+set_Value ("PostBudget", Boolean.valueOf(PostBudget));
 }
 /** Get Post Budget.
 @return Budget values can be posted */
@@ -429,7 +429,7 @@ return false;
 @param PostEncumbrance Post commitments to this account */
 public void setPostEncumbrance (boolean PostEncumbrance)
 {
-set_Value ("PostEncumbrance", new Boolean(PostEncumbrance));
+set_Value ("PostEncumbrance", Boolean.valueOf(PostEncumbrance));
 }
 /** Get Post Encumbrance.
 @return Post commitments to this account */
@@ -447,7 +447,7 @@ return false;
 @param PostStatistical Post statistical quantities to this account? */
 public void setPostStatistical (boolean PostStatistical)
 {
-set_Value ("PostStatistical", new Boolean(PostStatistical));
+set_Value ("PostStatistical", Boolean.valueOf(PostStatistical));
 }
 /** Get Post Statistical.
 @return Post statistical quantities to this account? */
@@ -465,7 +465,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -483,7 +483,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

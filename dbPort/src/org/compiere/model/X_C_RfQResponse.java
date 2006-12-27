@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponse
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQResponse extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_C_RfQResponse (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=674 */
-public static final int Table_ID=674;
+public static final int Table_ID=MTable.getTable_ID("C_RfQResponse");
 
 /** TableName=C_RfQResponse */
 public static final String Table_Name="C_RfQResponse";
 
-protected static KeyNamePair Model = new KeyNamePair(674,"C_RfQResponse");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQResponse");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -101,7 +101,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_ValueNoCheck ("AD_User_ID", null);
  else 
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -146,7 +146,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -162,7 +162,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -177,7 +177,7 @@ return ii.intValue();
 public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 {
 if (C_RfQResponse_ID < 1) throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
-set_ValueNoCheck ("C_RfQResponse_ID", new Integer(C_RfQResponse_ID));
+set_ValueNoCheck ("C_RfQResponse_ID", Integer.valueOf(C_RfQResponse_ID));
 }
 /** Get RfQ Response.
 @return Request for Quotation Response from a potential Vendor */
@@ -192,7 +192,7 @@ return ii.intValue();
 public void setC_RfQ_ID (int C_RfQ_ID)
 {
 if (C_RfQ_ID < 1) throw new IllegalArgumentException ("C_RfQ_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_ID", new Integer(C_RfQ_ID));
+set_ValueNoCheck ("C_RfQ_ID", Integer.valueOf(C_RfQ_ID));
 }
 /** Get RfQ.
 @return Request for Quotation */
@@ -271,7 +271,7 @@ return (Timestamp)get_Value("DateWorkStart");
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
 {
-set_Value ("DeliveryDays", new Integer(DeliveryDays));
+set_Value ("DeliveryDays", Integer.valueOf(DeliveryDays));
 }
 /** Get Delivery Days.
 @return Number of Days (planned) until Delivery */
@@ -319,7 +319,7 @@ return (String)get_Value("Help");
 @param IsComplete It is complete */
 public void setIsComplete (boolean IsComplete)
 {
-set_Value ("IsComplete", new Boolean(IsComplete));
+set_Value ("IsComplete", Boolean.valueOf(IsComplete));
 }
 /** Get Complete.
 @return It is complete */
@@ -337,7 +337,7 @@ return false;
 @param IsSelectedWinner The resonse is the selected winner */
 public void setIsSelectedWinner (boolean IsSelectedWinner)
 {
-set_Value ("IsSelectedWinner", new Boolean(IsSelectedWinner));
+set_Value ("IsSelectedWinner", Boolean.valueOf(IsSelectedWinner));
 }
 /** Get Selected Winner.
 @return The resonse is the selected winner */
@@ -355,7 +355,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -412,7 +412,7 @@ return bd;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -430,7 +430,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -448,7 +448,7 @@ return false;
 @param Ranking Relative Rank Number */
 public void setRanking (int Ranking)
 {
-set_Value ("Ranking", new Integer(Ranking));
+set_Value ("Ranking", Integer.valueOf(Ranking));
 }
 /** Get Ranking.
 @return Relative Rank Number */

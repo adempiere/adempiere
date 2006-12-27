@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema_GL
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AcctSchema_GL extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_C_AcctSchema_GL (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=266 */
-public static final int Table_ID=266;
+public static final int Table_ID=MTable.getTable_ID("C_AcctSchema_GL");
 
 /** TableName=C_AcctSchema_GL */
 public static final String Table_Name="C_AcctSchema_GL";
 
-protected static KeyNamePair Model = new KeyNamePair(266,"C_AcctSchema_GL");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AcctSchema_GL");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -99,7 +99,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -119,7 +119,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
 @param CommitmentOffset_Acct Budgetary Commitment Offset Account */
 public void setCommitmentOffset_Acct (int CommitmentOffset_Acct)
 {
-set_Value ("CommitmentOffset_Acct", new Integer(CommitmentOffset_Acct));
+set_Value ("CommitmentOffset_Acct", Integer.valueOf(CommitmentOffset_Acct));
 }
 /** Get Commitment Offset.
 @return Budgetary Commitment Offset Account */
@@ -133,7 +133,7 @@ return ii.intValue();
 @param CurrencyBalancing_Acct Account used when a currency is out of balance */
 public void setCurrencyBalancing_Acct (int CurrencyBalancing_Acct)
 {
-set_Value ("CurrencyBalancing_Acct", new Integer(CurrencyBalancing_Acct));
+set_Value ("CurrencyBalancing_Acct", Integer.valueOf(CurrencyBalancing_Acct));
 }
 /** Get Currency Balancing Acct.
 @return Account used when a currency is out of balance */
@@ -147,7 +147,7 @@ return ii.intValue();
 @param IncomeSummary_Acct Income Summary Account  */
 public void setIncomeSummary_Acct (int IncomeSummary_Acct)
 {
-set_Value ("IncomeSummary_Acct", new Integer(IncomeSummary_Acct));
+set_Value ("IncomeSummary_Acct", Integer.valueOf(IncomeSummary_Acct));
 }
 /** Get Income Summary Acct.
 @return Income Summary Account  */
@@ -161,7 +161,7 @@ return ii.intValue();
 @param IntercompanyDueFrom_Acct Intercompany Due From / Receivables Account */
 public void setIntercompanyDueFrom_Acct (int IntercompanyDueFrom_Acct)
 {
-set_Value ("IntercompanyDueFrom_Acct", new Integer(IntercompanyDueFrom_Acct));
+set_Value ("IntercompanyDueFrom_Acct", Integer.valueOf(IntercompanyDueFrom_Acct));
 }
 /** Get Intercompany Due From Acct.
 @return Intercompany Due From / Receivables Account */
@@ -175,7 +175,7 @@ return ii.intValue();
 @param IntercompanyDueTo_Acct Intercompany Due To / Payable Account */
 public void setIntercompanyDueTo_Acct (int IntercompanyDueTo_Acct)
 {
-set_Value ("IntercompanyDueTo_Acct", new Integer(IntercompanyDueTo_Acct));
+set_Value ("IntercompanyDueTo_Acct", Integer.valueOf(IntercompanyDueTo_Acct));
 }
 /** Get Intercompany Due To Acct.
 @return Intercompany Due To / Payable Account */
@@ -189,7 +189,7 @@ return ii.intValue();
 @param PPVOffset_Acct Purchase Price Variance Offset Account */
 public void setPPVOffset_Acct (int PPVOffset_Acct)
 {
-set_Value ("PPVOffset_Acct", new Integer(PPVOffset_Acct));
+set_Value ("PPVOffset_Acct", Integer.valueOf(PPVOffset_Acct));
 }
 /** Get PPV Offset.
 @return Purchase Price Variance Offset Account */
@@ -203,7 +203,7 @@ return ii.intValue();
 @param RetainedEarning_Acct Retained Earning Acct */
 public void setRetainedEarning_Acct (int RetainedEarning_Acct)
 {
-set_Value ("RetainedEarning_Acct", new Integer(RetainedEarning_Acct));
+set_Value ("RetainedEarning_Acct", Integer.valueOf(RetainedEarning_Acct));
 }
 /** Get Retained Earning Acct.
 @return Retained Earning Acct */
@@ -217,7 +217,7 @@ return ii.intValue();
 @param SuspenseBalancing_Acct Suspense Balancing Acct */
 public void setSuspenseBalancing_Acct (int SuspenseBalancing_Acct)
 {
-set_Value ("SuspenseBalancing_Acct", new Integer(SuspenseBalancing_Acct));
+set_Value ("SuspenseBalancing_Acct", Integer.valueOf(SuspenseBalancing_Acct));
 }
 /** Get Suspense Balancing Acct.
 @return Suspense Balancing Acct */
@@ -231,7 +231,7 @@ return ii.intValue();
 @param SuspenseError_Acct Suspense Error Acct */
 public void setSuspenseError_Acct (int SuspenseError_Acct)
 {
-set_Value ("SuspenseError_Acct", new Integer(SuspenseError_Acct));
+set_Value ("SuspenseError_Acct", Integer.valueOf(SuspenseError_Acct));
 }
 /** Get Suspense Error Acct.
 @return Suspense Error Acct */
@@ -245,7 +245,7 @@ return ii.intValue();
 @param UseCurrencyBalancing Use Currency Balancing */
 public void setUseCurrencyBalancing (boolean UseCurrencyBalancing)
 {
-set_Value ("UseCurrencyBalancing", new Boolean(UseCurrencyBalancing));
+set_Value ("UseCurrencyBalancing", Boolean.valueOf(UseCurrencyBalancing));
 }
 /** Get Use Currency Balancing.
 @return Use Currency Balancing */
@@ -263,7 +263,7 @@ return false;
 @param UseSuspenseBalancing Use Suspense Balancing */
 public void setUseSuspenseBalancing (boolean UseSuspenseBalancing)
 {
-set_Value ("UseSuspenseBalancing", new Boolean(UseSuspenseBalancing));
+set_Value ("UseSuspenseBalancing", Boolean.valueOf(UseSuspenseBalancing));
 }
 /** Get Use Suspense Balancing.
 @return Use Suspense Balancing */
@@ -281,7 +281,7 @@ return false;
 @param UseSuspenseError Use Suspense Error */
 public void setUseSuspenseError (boolean UseSuspenseError)
 {
-set_Value ("UseSuspenseError", new Boolean(UseSuspenseError));
+set_Value ("UseSuspenseError", Boolean.valueOf(UseSuspenseError));
 }
 /** Get Use Suspense Error.
 @return Use Suspense Error */

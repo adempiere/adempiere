@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementLineMA
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MovementLineMA extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_MovementLineMA (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=764 */
-public static final int Table_ID=764;
+public static final int Table_ID=MTable.getTable_ID("M_MovementLineMA");
 
 /** TableName=M_MovementLineMA */
 public static final String Table_Name="M_MovementLineMA";
 
-protected static KeyNamePair Model = new KeyNamePair(764,"M_MovementLineMA");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MovementLineMA");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setM_MovementLine_ID (int M_MovementLine_ID)
 {
 if (M_MovementLine_ID < 1) throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-set_ValueNoCheck ("M_MovementLine_ID", new Integer(M_MovementLine_ID));
+set_ValueNoCheck ("M_MovementLine_ID", Integer.valueOf(M_MovementLine_ID));
 }
 /** Get Move Line.
 @return Inventory Move document Line */

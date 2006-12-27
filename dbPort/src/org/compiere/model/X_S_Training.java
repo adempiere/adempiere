@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Training
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_Training extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_S_Training (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=538 */
-public static final int Table_ID=538;
+public static final int Table_ID=MTable.getTable_ID("S_Training");
 
 /** TableName=S_Training */
 public static final String Table_Name="S_Training";
 
-protected static KeyNamePair Model = new KeyNamePair(538,"S_Training");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_Training");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_Value ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_Value ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -209,7 +209,7 @@ return (String)get_Value("ImageURL");
 public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID < 1) throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -247,7 +247,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -266,7 +266,7 @@ return false;
 public void setS_Training_ID (int S_Training_ID)
 {
 if (S_Training_ID < 1) throw new IllegalArgumentException ("S_Training_ID is mandatory.");
-set_ValueNoCheck ("S_Training_ID", new Integer(S_Training_ID));
+set_ValueNoCheck ("S_Training_ID", Integer.valueOf(S_Training_ID));
 }
 /** Get Training.
 @return Repeated Training */

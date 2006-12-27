@@ -275,54 +275,36 @@ public abstract class Doc
 	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName)
 	{
 		Doc doc = null;
-		switch (AD_Table_ID)
-		{
-			case    MInvoice.Table_ID:
-				doc = new Doc_Invoice (ass, rs, trxName);
-				break;
-			case    MAllocationHdr.Table_ID:
-				doc = new Doc_Allocation (ass, rs, trxName);
-				break;
-			case    MCash.Table_ID:
-				doc = new Doc_Cash (ass, rs, trxName);
-				break;
-			case    MBankStatement.Table_ID:
-				doc = new Doc_Bank (ass, rs, trxName);
-				break;
-			case    MOrder.Table_ID:
-				doc = new Doc_Order (ass, rs, trxName);
-				break;
-			case    MPayment.Table_ID:
-				doc = new Doc_Payment (ass, rs, trxName);
-				break;
-			case    MInOut.Table_ID:
-				doc = new Doc_InOut (ass, rs, trxName);
-				break;
-			case    MInventory.Table_ID:
-				doc = new Doc_Inventory (ass, rs, trxName);
-				break;
-			case    MMovement.Table_ID:
-				doc = new Doc_Movement (ass, rs, trxName);
-				break;
-			case    X_M_Production.Table_ID:
-				doc = new Doc_Production (ass, rs, trxName);
-				break;
-			case    MJournal.Table_ID:
-				doc = new Doc_GLJournal (ass, rs, trxName);
-				break;
-			case    MMatchInv.Table_ID:
-				doc = new Doc_MatchInv (ass, rs, trxName);
-				break;
-			case    MMatchPO.Table_ID:
-				doc = new Doc_MatchPO (ass, rs, trxName);
-				break;
-			case    MProjectIssue.Table_ID:
-				doc = new Doc_ProjectIssue (ass, rs, trxName);
-				break;
-			case    MRequisition.Table_ID:
-				doc = new Doc_Requisition (ass, rs, trxName);
-				break;
-		}
+		if (AD_Table_ID ==  MInvoice.Table_ID)
+			doc = new Doc_Invoice (ass, rs, trxName);
+		else if (AD_Table_ID == MAllocationHdr.Table_ID)
+			doc = new Doc_Allocation (ass, rs, trxName);
+		else if (AD_Table_ID == MCash.Table_ID)
+			doc = new Doc_Cash (ass, rs, trxName);
+		else if (AD_Table_ID == MBankStatement.Table_ID)
+			doc = new Doc_Bank (ass, rs, trxName);
+		else if (AD_Table_ID == MOrder.Table_ID)
+			doc = new Doc_Order (ass, rs, trxName);
+		else if (AD_Table_ID == MPayment.Table_ID)
+			doc = new Doc_Payment (ass, rs, trxName);
+		else if (AD_Table_ID == MInOut.Table_ID)
+			doc = new Doc_InOut (ass, rs, trxName);
+		else if (AD_Table_ID == MInventory.Table_ID)
+			doc = new Doc_Inventory (ass, rs, trxName);
+		else if (AD_Table_ID == MMovement.Table_ID)
+			doc = new Doc_Movement (ass, rs, trxName);
+		else if (AD_Table_ID == X_M_Production.Table_ID)
+			doc = new Doc_Production (ass, rs, trxName);
+		else if (AD_Table_ID == MJournal.Table_ID)
+			doc = new Doc_GLJournal (ass, rs, trxName);
+		else if (AD_Table_ID == MMatchInv.Table_ID)
+			doc = new Doc_MatchInv (ass, rs, trxName);
+		else if (AD_Table_ID == MMatchPO.Table_ID)
+			doc = new Doc_MatchPO (ass, rs, trxName);
+		else if (AD_Table_ID == MProjectIssue.Table_ID)
+			doc = new Doc_ProjectIssue (ass, rs, trxName);
+		else if (AD_Table_ID == MRequisition.Table_ID)
+			doc = new Doc_Requisition (ass, rs, trxName);
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;

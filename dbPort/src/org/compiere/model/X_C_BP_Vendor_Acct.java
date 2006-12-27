@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Vendor_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Vendor_Acct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BP_Vendor_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=185 */
-public static final int Table_ID=185;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Vendor_Acct");
 
 /** TableName=C_BP_Vendor_Acct */
 public static final String Table_Name="C_BP_Vendor_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(185,"C_BP_Vendor_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Vendor_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -122,7 +122,7 @@ return ii.intValue();
 @param V_Liability_Acct Account for Vendor Liability */
 public void setV_Liability_Acct (int V_Liability_Acct)
 {
-set_Value ("V_Liability_Acct", new Integer(V_Liability_Acct));
+set_Value ("V_Liability_Acct", Integer.valueOf(V_Liability_Acct));
 }
 /** Get Vendor Liability.
 @return Account for Vendor Liability */
@@ -136,7 +136,7 @@ return ii.intValue();
 @param V_Liability_Services_Acct Account for Vender Service Liability */
 public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
 {
-set_Value ("V_Liability_Services_Acct", new Integer(V_Liability_Services_Acct));
+set_Value ("V_Liability_Services_Acct", Integer.valueOf(V_Liability_Services_Acct));
 }
 /** Get Vendor Service Liability.
 @return Account for Vender Service Liability */
@@ -150,7 +150,7 @@ return ii.intValue();
 @param V_Prepayment_Acct Account for Vendor Prepayments */
 public void setV_Prepayment_Acct (int V_Prepayment_Acct)
 {
-set_Value ("V_Prepayment_Acct", new Integer(V_Prepayment_Acct));
+set_Value ("V_Prepayment_Acct", Integer.valueOf(V_Prepayment_Acct));
 }
 /** Get Vendor Prepayment.
 @return Account for Vendor Prepayments */

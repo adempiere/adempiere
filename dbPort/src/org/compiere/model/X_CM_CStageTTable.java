@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_CStageTTable
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_CStageTTable extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_CStageTTable (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=881 */
-public static final int Table_ID=881;
+public static final int Table_ID=MTable.getTable_ID("CM_CStageTTable");
 
 /** TableName=CM_CStageTTable */
 public static final String Table_Name="CM_CStageTTable";
 
-protected static KeyNamePair Model = new KeyNamePair(881,"CM_CStageTTable");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_CStageTTable");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
 {
 if (CM_CStageTTable_ID < 1) throw new IllegalArgumentException ("CM_CStageTTable_ID is mandatory.");
-set_ValueNoCheck ("CM_CStageTTable_ID", new Integer(CM_CStageTTable_ID));
+set_ValueNoCheck ("CM_CStageTTable_ID", Integer.valueOf(CM_CStageTTable_ID));
 }
 /** Get Stage T.Table.
 @return Containet Stage Template Table */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setCM_CStage_ID (int CM_CStage_ID)
 {
 if (CM_CStage_ID < 1) throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-set_ValueNoCheck ("CM_CStage_ID", new Integer(CM_CStage_ID));
+set_ValueNoCheck ("CM_CStage_ID", Integer.valueOf(CM_CStage_ID));
 }
 /** Get Web Container Stage.
 @return Web Container Stage contains the staging content like images, text etc. */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
 {
 if (CM_TemplateTable_ID < 1) throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
-set_ValueNoCheck ("CM_TemplateTable_ID", new Integer(CM_TemplateTable_ID));
+set_ValueNoCheck ("CM_TemplateTable_ID", Integer.valueOf(CM_TemplateTable_ID));
 }
 /** Get Template Table.
 @return CM Template Table Link */
@@ -197,7 +197,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_ValueNoCheck ("Record_ID", null);
  else 
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

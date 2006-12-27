@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostQueue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_CostQueue extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_M_CostQueue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=817 */
-public static final int Table_ID=817;
+public static final int Table_ID=MTable.getTable_ID("M_CostQueue");
 
 /** TableName=M_CostQueue */
 public static final String Table_Name="M_CostQueue";
 
-protected static KeyNamePair Model = new KeyNamePair(817,"M_CostQueue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_CostQueue");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -142,7 +142,7 @@ return bd;
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -157,7 +157,7 @@ return ii.intValue();
 public void setM_CostElement_ID (int M_CostElement_ID)
 {
 if (M_CostElement_ID < 1) throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-set_ValueNoCheck ("M_CostElement_ID", new Integer(M_CostElement_ID));
+set_ValueNoCheck ("M_CostElement_ID", Integer.valueOf(M_CostElement_ID));
 }
 /** Get Cost Element.
 @return Product Cost Element */
@@ -172,7 +172,7 @@ return ii.intValue();
 public void setM_CostQueue_ID (int M_CostQueue_ID)
 {
 if (M_CostQueue_ID < 1) throw new IllegalArgumentException ("M_CostQueue_ID is mandatory.");
-set_ValueNoCheck ("M_CostQueue_ID", new Integer(M_CostQueue_ID));
+set_ValueNoCheck ("M_CostQueue_ID", Integer.valueOf(M_CostQueue_ID));
 }
 /** Get Cost Queue.
 @return FiFo/LiFo Cost Queue */
@@ -187,7 +187,7 @@ return ii.intValue();
 public void setM_CostType_ID (int M_CostType_ID)
 {
 if (M_CostType_ID < 1) throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-set_ValueNoCheck ("M_CostType_ID", new Integer(M_CostType_ID));
+set_ValueNoCheck ("M_CostType_ID", Integer.valueOf(M_CostType_ID));
 }
 /** Get Cost Type.
 @return Type of Cost (e.g. Current, Plan, Future) */
@@ -202,7 +202,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

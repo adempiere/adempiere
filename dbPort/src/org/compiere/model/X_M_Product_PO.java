@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_PO
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Product_PO extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_Product_PO (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=210 */
-public static final int Table_ID=210;
+public static final int Table_ID=MTable.getTable_ID("M_Product_PO");
 
 /** TableName=M_Product_PO */
 public static final String Table_Name="M_Product_PO";
 
-protected static KeyNamePair Model = new KeyNamePair(210,"M_Product_PO");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Product_PO");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -109,7 +109,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -125,7 +125,7 @@ public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID <= 0) set_Value ("C_UOM_ID", null);
  else 
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -153,7 +153,7 @@ return bd;
 @param DeliveryTime_Actual Actual days between order and delivery */
 public void setDeliveryTime_Actual (int DeliveryTime_Actual)
 {
-set_Value ("DeliveryTime_Actual", new Integer(DeliveryTime_Actual));
+set_Value ("DeliveryTime_Actual", Integer.valueOf(DeliveryTime_Actual));
 }
 /** Get Actual Delivery Time.
 @return Actual days between order and delivery */
@@ -167,7 +167,7 @@ return ii.intValue();
 @param DeliveryTime_Promised Promised days between order and delivery */
 public void setDeliveryTime_Promised (int DeliveryTime_Promised)
 {
-set_Value ("DeliveryTime_Promised", new Integer(DeliveryTime_Promised));
+set_Value ("DeliveryTime_Promised", Integer.valueOf(DeliveryTime_Promised));
 }
 /** Get Promised Delivery Time.
 @return Promised days between order and delivery */
@@ -181,7 +181,7 @@ return ii.intValue();
 @param Discontinued This product is no longer available */
 public void setDiscontinued (boolean Discontinued)
 {
-set_Value ("Discontinued", new Boolean(Discontinued));
+set_Value ("Discontinued", Boolean.valueOf(Discontinued));
 }
 /** Get Discontinued.
 @return This product is no longer available */
@@ -211,7 +211,7 @@ return (Timestamp)get_Value("DiscontinuedBy");
 @param IsCurrentVendor Use this Vendor for pricing and stock replenishment */
 public void setIsCurrentVendor (boolean IsCurrentVendor)
 {
-set_Value ("IsCurrentVendor", new Boolean(IsCurrentVendor));
+set_Value ("IsCurrentVendor", Boolean.valueOf(IsCurrentVendor));
 }
 /** Get Current vendor.
 @return Use this Vendor for pricing and stock replenishment */
@@ -230,7 +230,7 @@ return false;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -357,7 +357,7 @@ return bd;
 @param QualityRating Method for rating vendors */
 public void setQualityRating (int QualityRating)
 {
-set_Value ("QualityRating", new Integer(QualityRating));
+set_Value ("QualityRating", Integer.valueOf(QualityRating));
 }
 /** Get Quality Rating.
 @return Method for rating vendors */

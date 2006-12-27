@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DistributionRunLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DistributionRunLine extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_DistributionRunLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=713 */
-public static final int Table_ID=713;
+public static final int Table_ID=MTable.getTable_ID("M_DistributionRunLine");
 
 /** TableName=M_DistributionRunLine */
 public static final String Table_Name="M_DistributionRunLine";
 
-protected static KeyNamePair Model = new KeyNamePair(713,"M_DistributionRunLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DistributionRunLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -112,7 +112,7 @@ return (String)get_Value("Description");
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -127,7 +127,7 @@ return ii.intValue();
 public void setM_DistributionList_ID (int M_DistributionList_ID)
 {
 if (M_DistributionList_ID < 1) throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-set_Value ("M_DistributionList_ID", new Integer(M_DistributionList_ID));
+set_Value ("M_DistributionList_ID", Integer.valueOf(M_DistributionList_ID));
 }
 /** Get Distribution List.
 @return Distribution Lists allow to distribute products to a selected list of partners */
@@ -142,7 +142,7 @@ return ii.intValue();
 public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
 {
 if (M_DistributionRunLine_ID < 1) throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionRunLine_ID", new Integer(M_DistributionRunLine_ID));
+set_ValueNoCheck ("M_DistributionRunLine_ID", Integer.valueOf(M_DistributionRunLine_ID));
 }
 /** Get Distribution Run Line.
 @return Distribution Run Lines define Distribution List, the Product and Quantiries */
@@ -157,7 +157,7 @@ return ii.intValue();
 public void setM_DistributionRun_ID (int M_DistributionRun_ID)
 {
 if (M_DistributionRun_ID < 1) throw new IllegalArgumentException ("M_DistributionRun_ID is mandatory.");
-set_ValueNoCheck ("M_DistributionRun_ID", new Integer(M_DistributionRun_ID));
+set_ValueNoCheck ("M_DistributionRun_ID", Integer.valueOf(M_DistributionRun_ID));
 }
 /** Get Distribution Run.
 @return Distribution Run create Orders to distribute products to a selected list of partners */
@@ -178,7 +178,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

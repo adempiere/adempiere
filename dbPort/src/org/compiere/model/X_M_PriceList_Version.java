@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PriceList_Version
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_PriceList_Version extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_PriceList_Version (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=295 */
-public static final int Table_ID=295;
+public static final int Table_ID=MTable.getTable_ID("M_PriceList_Version");
 
 /** TableName=M_PriceList_Version */
 public static final String Table_Name="M_PriceList_Version";
 
-protected static KeyNamePair Model = new KeyNamePair(295,"M_PriceList_Version");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_PriceList_Version");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -111,7 +111,7 @@ return (String)get_Value("Description");
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID < 1) throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-set_Value ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_Value ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -126,7 +126,7 @@ return ii.intValue();
 public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID < 1) throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-set_ValueNoCheck ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_ValueNoCheck ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 {
 if (M_PriceList_Version_ID < 1) throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-set_ValueNoCheck ("M_PriceList_Version_ID", new Integer(M_PriceList_Version_ID));
+set_ValueNoCheck ("M_PriceList_Version_ID", Integer.valueOf(M_PriceList_Version_ID));
 }
 /** Get Price List Version.
 @return Identifies a unique instance of a Price List */
@@ -160,7 +160,7 @@ public void setM_Pricelist_Version_Base_ID (int M_Pricelist_Version_Base_ID)
 {
 if (M_Pricelist_Version_Base_ID <= 0) set_Value ("M_Pricelist_Version_Base_ID", null);
  else 
-set_Value ("M_Pricelist_Version_Base_ID", new Integer(M_Pricelist_Version_Base_ID));
+set_Value ("M_Pricelist_Version_Base_ID", Integer.valueOf(M_Pricelist_Version_Base_ID));
 }
 /** Get Base Price List.
 @return Source for Price list calculations */

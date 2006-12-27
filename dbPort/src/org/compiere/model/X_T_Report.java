@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Report
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_T_Report extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_T_Report (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=544 */
-public static final int Table_ID=544;
+public static final int Table_ID=MTable.getTable_ID("T_Report");
 
 /** TableName=T_Report */
 public static final String Table_Name="T_Report";
 
-protected static KeyNamePair Model = new KeyNamePair(544,"T_Report");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"T_Report");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -419,7 +419,7 @@ return (String)get_Value("Description");
 public void setFact_Acct_ID (int Fact_Acct_ID)
 {
 if (Fact_Acct_ID < 1) throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-set_ValueNoCheck ("Fact_Acct_ID", new Integer(Fact_Acct_ID));
+set_ValueNoCheck ("Fact_Acct_ID", Integer.valueOf(Fact_Acct_ID));
 }
 /** Get Accounting Fact.
 @return Accounting Fact */
@@ -433,7 +433,7 @@ return ii.intValue();
 @param LevelNo Level no */
 public void setLevelNo (int LevelNo)
 {
-set_ValueNoCheck ("LevelNo", new Integer(LevelNo));
+set_ValueNoCheck ("LevelNo", Integer.valueOf(LevelNo));
 }
 /** Get Level no.
 @return Level no */
@@ -471,7 +471,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 {
 if (PA_ReportLine_ID < 1) throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportLine_ID", new Integer(PA_ReportLine_ID));
+set_ValueNoCheck ("PA_ReportLine_ID", Integer.valueOf(PA_ReportLine_ID));
 }
 /** Get Report Line.
 @return Report Line */
@@ -486,7 +486,7 @@ return ii.intValue();
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -501,7 +501,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_ValueNoCheck ("SeqNo", new Integer(SeqNo));
+set_ValueNoCheck ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

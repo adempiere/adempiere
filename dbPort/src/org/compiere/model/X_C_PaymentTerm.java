@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentTerm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaymentTerm extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_PaymentTerm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=113 */
-public static final int Table_ID=113;
+public static final int Table_ID=MTable.getTable_ID("C_PaymentTerm");
 
 /** TableName=C_PaymentTerm */
 public static final String Table_Name="C_PaymentTerm";
 
-protected static KeyNamePair Model = new KeyNamePair(113,"C_PaymentTerm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaymentTerm");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ return sb.toString();
 @param AfterDelivery Due after delivery rather than after invoicing */
 public void setAfterDelivery (boolean AfterDelivery)
 {
-set_Value ("AfterDelivery", new Boolean(AfterDelivery));
+set_Value ("AfterDelivery", Boolean.valueOf(AfterDelivery));
 }
 /** Get After Delivery.
 @return Due after delivery rather than after invoicing */
@@ -119,7 +119,7 @@ return false;
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID < 1) throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-set_ValueNoCheck ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_ValueNoCheck ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -180,7 +180,7 @@ return bd;
 @param DiscountDays Number of days from invoice date to be eligible for discount */
 public void setDiscountDays (int DiscountDays)
 {
-set_Value ("DiscountDays", new Integer(DiscountDays));
+set_Value ("DiscountDays", Integer.valueOf(DiscountDays));
 }
 /** Get Discount Days.
 @return Number of days from invoice date to be eligible for discount */
@@ -194,7 +194,7 @@ return ii.intValue();
 @param DiscountDays2 Number of days from invoice date to be eligible for discount */
 public void setDiscountDays2 (int DiscountDays2)
 {
-set_Value ("DiscountDays2", new Integer(DiscountDays2));
+set_Value ("DiscountDays2", Integer.valueOf(DiscountDays2));
 }
 /** Get Discount Days 2.
 @return Number of days from invoice date to be eligible for discount */
@@ -225,7 +225,7 @@ return (String)get_Value("DocumentNote");
 @param FixMonthCutoff Last day to include for next due date */
 public void setFixMonthCutoff (int FixMonthCutoff)
 {
-set_Value ("FixMonthCutoff", new Integer(FixMonthCutoff));
+set_Value ("FixMonthCutoff", Integer.valueOf(FixMonthCutoff));
 }
 /** Get Fix month cutoff.
 @return Last day to include for next due date */
@@ -239,7 +239,7 @@ return ii.intValue();
 @param FixMonthDay Day of the month of the due date */
 public void setFixMonthDay (int FixMonthDay)
 {
-set_Value ("FixMonthDay", new Integer(FixMonthDay));
+set_Value ("FixMonthDay", Integer.valueOf(FixMonthDay));
 }
 /** Get Fix month day.
 @return Day of the month of the due date */
@@ -253,7 +253,7 @@ return ii.intValue();
 @param FixMonthOffset Number of months (0=same, 1=following) */
 public void setFixMonthOffset (int FixMonthOffset)
 {
-set_Value ("FixMonthOffset", new Integer(FixMonthOffset));
+set_Value ("FixMonthOffset", Integer.valueOf(FixMonthOffset));
 }
 /** Get Fix month offset.
 @return Number of months (0=same, 1=following) */
@@ -267,7 +267,7 @@ return ii.intValue();
 @param GraceDays Days after due date to send first dunning letter */
 public void setGraceDays (int GraceDays)
 {
-set_Value ("GraceDays", new Integer(GraceDays));
+set_Value ("GraceDays", Integer.valueOf(GraceDays));
 }
 /** Get Grace Days.
 @return Days after due date to send first dunning letter */
@@ -281,7 +281,7 @@ return ii.intValue();
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -299,7 +299,7 @@ return false;
 @param IsDueFixed Payment is due on a fixed date */
 public void setIsDueFixed (boolean IsDueFixed)
 {
-set_Value ("IsDueFixed", new Boolean(IsDueFixed));
+set_Value ("IsDueFixed", Boolean.valueOf(IsDueFixed));
 }
 /** Get Fixed due date.
 @return Payment is due on a fixed date */
@@ -317,7 +317,7 @@ return false;
 @param IsNextBusinessDay Payment due on the next business day */
 public void setIsNextBusinessDay (boolean IsNextBusinessDay)
 {
-set_Value ("IsNextBusinessDay", new Boolean(IsNextBusinessDay));
+set_Value ("IsNextBusinessDay", Boolean.valueOf(IsNextBusinessDay));
 }
 /** Get Next Business Day.
 @return Payment due on the next business day */
@@ -335,7 +335,7 @@ return false;
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -413,7 +413,7 @@ return (String)get_Value("NetDay");
 @param NetDays Net Days in which payment is due */
 public void setNetDays (int NetDays)
 {
-set_Value ("NetDays", new Integer(NetDays));
+set_Value ("NetDays", Integer.valueOf(NetDays));
 }
 /** Get Net Days.
 @return Net Days in which payment is due */
@@ -427,7 +427,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

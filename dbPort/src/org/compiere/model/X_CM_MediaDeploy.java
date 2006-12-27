@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_MediaDeploy
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_MediaDeploy extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_CM_MediaDeploy (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=892 */
-public static final int Table_ID=892;
+public static final int Table_ID=MTable.getTable_ID("CM_MediaDeploy");
 
 /** TableName=CM_MediaDeploy */
 public static final String Table_Name="CM_MediaDeploy";
 
-protected static KeyNamePair Model = new KeyNamePair(892,"CM_MediaDeploy");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_MediaDeploy");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID)
 {
 if (CM_MediaDeploy_ID < 1) throw new IllegalArgumentException ("CM_MediaDeploy_ID is mandatory.");
-set_ValueNoCheck ("CM_MediaDeploy_ID", new Integer(CM_MediaDeploy_ID));
+set_ValueNoCheck ("CM_MediaDeploy_ID", Integer.valueOf(CM_MediaDeploy_ID));
 }
 /** Get Media Deploy.
 @return Media Deployment Log */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setCM_Media_ID (int CM_Media_ID)
 {
 if (CM_Media_ID < 1) throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-set_ValueNoCheck ("CM_Media_ID", new Integer(CM_Media_ID));
+set_ValueNoCheck ("CM_Media_ID", Integer.valueOf(CM_Media_ID));
 }
 /** Get Media Item.
 @return Contains media content like images, flash movies etc. */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setCM_Media_Server_ID (int CM_Media_Server_ID)
 {
 if (CM_Media_Server_ID < 1) throw new IllegalArgumentException ("CM_Media_Server_ID is mandatory.");
-set_ValueNoCheck ("CM_Media_Server_ID", new Integer(CM_Media_Server_ID));
+set_ValueNoCheck ("CM_Media_Server_ID", Integer.valueOf(CM_Media_Server_ID));
 }
 /** Get Media Server.
 @return Media Server list to which content should get transfered */
@@ -154,7 +154,7 @@ return (String)get_Value("Description");
 @param IsDeployed Entity is deployed */
 public void setIsDeployed (boolean IsDeployed)
 {
-set_Value ("IsDeployed", new Boolean(IsDeployed));
+set_Value ("IsDeployed", Boolean.valueOf(IsDeployed));
 }
 /** Get Deployed.
 @return Entity is deployed */

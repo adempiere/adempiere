@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSet
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeSet extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_M_AttributeSet (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=560 */
-public static final int Table_ID=560;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeSet");
 
 /** TableName=M_AttributeSet */
 public static final String Table_Name="M_AttributeSet";
 
-protected static KeyNamePair Model = new KeyNamePair(560,"M_AttributeSet");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeSet");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -115,7 +115,7 @@ return (String)get_Value("Description");
 @param GuaranteeDays Number of days the product is guaranteed or available */
 public void setGuaranteeDays (int GuaranteeDays)
 {
-set_Value ("GuaranteeDays", new Integer(GuaranteeDays));
+set_Value ("GuaranteeDays", Integer.valueOf(GuaranteeDays));
 }
 /** Get Guarantee Days.
 @return Number of days the product is guaranteed or available */
@@ -129,7 +129,7 @@ return ii.intValue();
 @param IsGuaranteeDate Product has Guarantee or Expiry Date */
 public void setIsGuaranteeDate (boolean IsGuaranteeDate)
 {
-set_Value ("IsGuaranteeDate", new Boolean(IsGuaranteeDate));
+set_Value ("IsGuaranteeDate", Boolean.valueOf(IsGuaranteeDate));
 }
 /** Get Guarantee Date.
 @return Product has Guarantee or Expiry Date */
@@ -147,7 +147,7 @@ return false;
 @param IsGuaranteeDateMandatory The entry of a Guarantee Date is mandatory when creating a Product Instance */
 public void setIsGuaranteeDateMandatory (boolean IsGuaranteeDateMandatory)
 {
-set_Value ("IsGuaranteeDateMandatory", new Boolean(IsGuaranteeDateMandatory));
+set_Value ("IsGuaranteeDateMandatory", Boolean.valueOf(IsGuaranteeDateMandatory));
 }
 /** Get Mandatory Guarantee Date.
 @return The entry of a Guarantee Date is mandatory when creating a Product Instance */
@@ -165,7 +165,7 @@ return false;
 @param IsInstanceAttribute The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
 public void setIsInstanceAttribute (boolean IsInstanceAttribute)
 {
-set_Value ("IsInstanceAttribute", new Boolean(IsInstanceAttribute));
+set_Value ("IsInstanceAttribute", Boolean.valueOf(IsInstanceAttribute));
 }
 /** Get Instance Attribute.
 @return The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
@@ -183,7 +183,7 @@ return false;
 @param IsLot The product instances have a Lot Number */
 public void setIsLot (boolean IsLot)
 {
-set_Value ("IsLot", new Boolean(IsLot));
+set_Value ("IsLot", Boolean.valueOf(IsLot));
 }
 /** Get Lot.
 @return The product instances have a Lot Number */
@@ -201,7 +201,7 @@ return false;
 @param IsLotMandatory The entry of Lot info is mandatory when creating a Product Instance */
 public void setIsLotMandatory (boolean IsLotMandatory)
 {
-set_Value ("IsLotMandatory", new Boolean(IsLotMandatory));
+set_Value ("IsLotMandatory", Boolean.valueOf(IsLotMandatory));
 }
 /** Get Mandatory Lot.
 @return The entry of Lot info is mandatory when creating a Product Instance */
@@ -219,7 +219,7 @@ return false;
 @param IsSerNo The product instances have Serial Numbers */
 public void setIsSerNo (boolean IsSerNo)
 {
-set_Value ("IsSerNo", new Boolean(IsSerNo));
+set_Value ("IsSerNo", Boolean.valueOf(IsSerNo));
 }
 /** Get Serial No.
 @return The product instances have Serial Numbers */
@@ -237,7 +237,7 @@ return false;
 @param IsSerNoMandatory The entry of a Serial No is mandatory when creating a Product Instance */
 public void setIsSerNoMandatory (boolean IsSerNoMandatory)
 {
-set_Value ("IsSerNoMandatory", new Boolean(IsSerNoMandatory));
+set_Value ("IsSerNoMandatory", Boolean.valueOf(IsSerNoMandatory));
 }
 /** Get Mandatory Serial No.
 @return The entry of a Serial No is mandatory when creating a Product Instance */
@@ -290,7 +290,7 @@ return (String)get_Value("LotCharSOverwrite");
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 {
 if (M_AttributeSet_ID < 0) throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSet_ID", new Integer(M_AttributeSet_ID));
+set_ValueNoCheck ("M_AttributeSet_ID", Integer.valueOf(M_AttributeSet_ID));
 }
 /** Get Attribute Set.
 @return Product Attribute Set */
@@ -306,7 +306,7 @@ public void setM_LotCtl_ID (int M_LotCtl_ID)
 {
 if (M_LotCtl_ID <= 0) set_Value ("M_LotCtl_ID", null);
  else 
-set_Value ("M_LotCtl_ID", new Integer(M_LotCtl_ID));
+set_Value ("M_LotCtl_ID", Integer.valueOf(M_LotCtl_ID));
 }
 /** Get Lot Control.
 @return Product Lot Control */
@@ -322,7 +322,7 @@ public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
 {
 if (M_SerNoCtl_ID <= 0) set_Value ("M_SerNoCtl_ID", null);
  else 
-set_Value ("M_SerNoCtl_ID", new Integer(M_SerNoCtl_ID));
+set_Value ("M_SerNoCtl_ID", Integer.valueOf(M_SerNoCtl_ID));
 }
 /** Get Serial No Control.
 @return Product Serial Number Control */

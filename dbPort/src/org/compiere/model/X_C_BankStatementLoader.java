@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatementLoader
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankStatementLoader extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_BankStatementLoader (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=640 */
-public static final int Table_ID=640;
+public static final int Table_ID=MTable.getTable_ID("C_BankStatementLoader");
 
 /** TableName=C_BankStatementLoader */
 public static final String Table_Name="C_BankStatementLoader";
 
-protected static KeyNamePair Model = new KeyNamePair(640,"C_BankStatementLoader");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankStatementLoader");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -126,7 +126,7 @@ return (String)get_Value("BranchID");
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_ValueNoCheck ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_ValueNoCheck ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -141,7 +141,7 @@ return ii.intValue();
 public void setC_BankStatementLoader_ID (int C_BankStatementLoader_ID)
 {
 if (C_BankStatementLoader_ID < 1) throw new IllegalArgumentException ("C_BankStatementLoader_ID is mandatory.");
-set_ValueNoCheck ("C_BankStatementLoader_ID", new Integer(C_BankStatementLoader_ID));
+set_ValueNoCheck ("C_BankStatementLoader_ID", Integer.valueOf(C_BankStatementLoader_ID));
 }
 /** Get Bank Statement Loader.
 @return Definition of Bank Statement Loader (SWIFT, OFX) */
@@ -252,7 +252,7 @@ return (String)get_Value("HostAddress");
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
 {
-set_Value ("HostPort", new Integer(HostPort));
+set_Value ("HostPort", Integer.valueOf(HostPort));
 }
 /** Get Host port.
 @return Host Communication Port */
@@ -375,7 +375,7 @@ return (String)get_Value("ProxyPassword");
 @param ProxyPort Port of your proxy server */
 public void setProxyPort (int ProxyPort)
 {
-set_Value ("ProxyPort", new Integer(ProxyPort));
+set_Value ("ProxyPort", Integer.valueOf(ProxyPort));
 }
 /** Get Proxy port.
 @return Port of your proxy server */

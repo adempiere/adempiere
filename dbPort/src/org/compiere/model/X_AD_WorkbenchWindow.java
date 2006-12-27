@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WorkbenchWindow
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WorkbenchWindow extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_AD_WorkbenchWindow (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=469 */
-public static final int Table_ID=469;
+public static final int Table_ID=MTable.getTable_ID("AD_WorkbenchWindow");
 
 /** TableName=AD_WorkbenchWindow */
 public static final String Table_Name="AD_WorkbenchWindow";
 
-protected static KeyNamePair Model = new KeyNamePair(469,"AD_WorkbenchWindow");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WorkbenchWindow");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID <= 0) set_Value ("AD_Form_ID", null);
  else 
-set_Value ("AD_Form_ID", new Integer(AD_Form_ID));
+set_Value ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
 /** Get Special Form.
 @return Special Form */
@@ -111,7 +111,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -127,7 +127,7 @@ public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID <= 0) set_Value ("AD_Task_ID", null);
  else 
-set_Value ("AD_Task_ID", new Integer(AD_Task_ID));
+set_Value ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */
@@ -143,7 +143,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -158,7 +158,7 @@ return ii.intValue();
 public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
 {
 if (AD_WorkbenchWindow_ID < 1) throw new IllegalArgumentException ("AD_WorkbenchWindow_ID is mandatory.");
-set_ValueNoCheck ("AD_WorkbenchWindow_ID", new Integer(AD_WorkbenchWindow_ID));
+set_ValueNoCheck ("AD_WorkbenchWindow_ID", Integer.valueOf(AD_WorkbenchWindow_ID));
 }
 /** Get Workbench Window.
 @return Workbench Window */
@@ -179,7 +179,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
 public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID < 1) throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-set_ValueNoCheck ("AD_Workbench_ID", new Integer(AD_Workbench_ID));
+set_ValueNoCheck ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
 /** Get Workbench.
 @return Collection of windows, reports */
@@ -215,7 +215,7 @@ return (String)get_Value("EntityType");
 @param IsPrimary Indicates if this is the primary budget */
 public void setIsPrimary (boolean IsPrimary)
 {
-set_Value ("IsPrimary", new Boolean(IsPrimary));
+set_Value ("IsPrimary", Boolean.valueOf(IsPrimary));
 }
 /** Get Primary.
 @return Indicates if this is the primary budget */
@@ -234,7 +234,7 @@ return false;
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

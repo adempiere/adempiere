@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelection
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaySelection extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_PaySelection (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=426 */
-public static final int Table_ID=426;
+public static final int Table_ID=MTable.getTable_ID("C_PaySelection");
 
 /** TableName=C_PaySelection */
 public static final String Table_Name="C_PaySelection";
 
-protected static KeyNamePair Model = new KeyNamePair(426,"C_PaySelection");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaySelection");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_Value ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_Value ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setC_PaySelection_ID (int C_PaySelection_ID)
 {
 if (C_PaySelection_ID < 1) throw new IllegalArgumentException ("C_PaySelection_ID is mandatory.");
-set_ValueNoCheck ("C_PaySelection_ID", new Integer(C_PaySelection_ID));
+set_ValueNoCheck ("C_PaySelection_ID", Integer.valueOf(C_PaySelection_ID));
 }
 /** Get Payment Selection.
 @return Payment Selection */
@@ -160,7 +160,7 @@ return (String)get_Value("Description");
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -215,7 +215,7 @@ return (Timestamp)get_Value("PayDate");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -233,7 +233,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

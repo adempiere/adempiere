@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueProject
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_IssueProject extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_R_IssueProject (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=842 */
-public static final int Table_ID=842;
+public static final int Table_ID=MTable.getTable_ID("R_IssueProject");
 
 /** TableName=R_IssueProject */
 public static final String Table_Name="R_IssueProject";
 
-protected static KeyNamePair Model = new KeyNamePair(842,"R_IssueProject");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueProject");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_Value ("A_Asset_ID", null);
  else 
-set_Value ("A_Asset_ID", new Integer(A_Asset_ID));
+set_Value ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -109,7 +109,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -182,7 +182,7 @@ return (String)get_Value("ProfileInfo");
 public void setR_IssueProject_ID (int R_IssueProject_ID)
 {
 if (R_IssueProject_ID < 1) throw new IllegalArgumentException ("R_IssueProject_ID is mandatory.");
-set_ValueNoCheck ("R_IssueProject_ID", new Integer(R_IssueProject_ID));
+set_ValueNoCheck ("R_IssueProject_ID", Integer.valueOf(R_IssueProject_ID));
 }
 /** Get Issue Project.
 @return Implementation Projects */

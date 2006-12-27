@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceBatch
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_InvoiceBatch extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_InvoiceBatch (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=767 */
-public static final int Table_ID=767;
+public static final int Table_ID=MTable.getTable_ID("C_InvoiceBatch");
 
 /** TableName=C_InvoiceBatch */
 public static final String Table_Name="C_InvoiceBatch";
 
-protected static KeyNamePair Model = new KeyNamePair(767,"C_InvoiceBatch");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InvoiceBatch");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -99,7 +99,7 @@ public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID <= 0) set_Value ("C_ConversionType_ID", null);
  else 
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setC_InvoiceBatch_ID (int C_InvoiceBatch_ID)
 {
 if (C_InvoiceBatch_ID < 1) throw new IllegalArgumentException ("C_InvoiceBatch_ID is mandatory.");
-set_ValueNoCheck ("C_InvoiceBatch_ID", new Integer(C_InvoiceBatch_ID));
+set_ValueNoCheck ("C_InvoiceBatch_ID", Integer.valueOf(C_InvoiceBatch_ID));
 }
 /** Get Invoice Batch.
 @return Expense Invoice Batch Header */
@@ -227,7 +227,7 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -245,7 +245,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -263,7 +263,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -285,7 +285,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

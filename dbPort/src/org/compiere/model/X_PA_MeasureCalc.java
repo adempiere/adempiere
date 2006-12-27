@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_MeasureCalc
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_MeasureCalc extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_PA_MeasureCalc (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=442 */
-public static final int Table_ID=442;
+public static final int Table_ID=MTable.getTable_ID("PA_MeasureCalc");
 
 /** TableName=PA_MeasureCalc */
 public static final String Table_Name="PA_MeasureCalc";
 
-protected static KeyNamePair Model = new KeyNamePair(442,"PA_MeasureCalc");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_MeasureCalc");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -247,7 +247,7 @@ return (String)get_Value("OrgColumn");
 public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 {
 if (PA_MeasureCalc_ID < 1) throw new IllegalArgumentException ("PA_MeasureCalc_ID is mandatory.");
-set_ValueNoCheck ("PA_MeasureCalc_ID", new Integer(PA_MeasureCalc_ID));
+set_ValueNoCheck ("PA_MeasureCalc_ID", Integer.valueOf(PA_MeasureCalc_ID));
 }
 /** Get Measure Calculation.
 @return Calculation method for measuring performance */

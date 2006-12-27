@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Attribute
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Attribute extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_AD_Attribute (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=405 */
-public static final int Table_ID=405;
+public static final int Table_ID=MTable.getTable_ID("AD_Attribute");
 
 /** TableName=AD_Attribute */
 public static final String Table_Name="AD_Attribute";
 
-protected static KeyNamePair Model = new KeyNamePair(405,"AD_Attribute");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Attribute");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -100,7 +100,7 @@ return sb.toString();
 public void setAD_Attribute_ID (int AD_Attribute_ID)
 {
 if (AD_Attribute_ID < 1) throw new IllegalArgumentException ("AD_Attribute_ID is mandatory.");
-set_ValueNoCheck ("AD_Attribute_ID", new Integer(AD_Attribute_ID));
+set_ValueNoCheck ("AD_Attribute_ID", Integer.valueOf(AD_Attribute_ID));
 }
 /** Get System Attribute.
 @return System Attribute */
@@ -118,7 +118,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -137,7 +137,7 @@ public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 {
 if (AD_Reference_Value_ID <= 0) set_Value ("AD_Reference_Value_ID", null);
  else 
-set_Value ("AD_Reference_Value_ID", new Integer(AD_Reference_Value_ID));
+set_Value ("AD_Reference_Value_ID", Integer.valueOf(AD_Reference_Value_ID));
 }
 /** Get Reference Key.
 @return Required to specify, if data type is Table or List */
@@ -152,7 +152,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -168,7 +168,7 @@ public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 {
 if (AD_Val_Rule_ID <= 0) set_Value ("AD_Val_Rule_ID", null);
  else 
-set_Value ("AD_Val_Rule_ID", new Integer(AD_Val_Rule_ID));
+set_Value ("AD_Val_Rule_ID", Integer.valueOf(AD_Val_Rule_ID));
 }
 /** Get Dynamic Validation.
 @return Dynamic Validation Rule */
@@ -235,7 +235,7 @@ return (String)get_Value("Description");
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
 {
-set_Value ("DisplayLength", new Integer(DisplayLength));
+set_Value ("DisplayLength", Integer.valueOf(DisplayLength));
 }
 /** Get Display Length.
 @return Length of the display in characters */
@@ -266,7 +266,7 @@ return (String)get_Value("DisplayLogic");
 @param FieldLength Length of the column in the database */
 public void setFieldLength (int FieldLength)
 {
-set_Value ("FieldLength", new Integer(FieldLength));
+set_Value ("FieldLength", Integer.valueOf(FieldLength));
 }
 /** Get Length.
 @return Length of the column in the database */
@@ -297,7 +297,7 @@ return (String)get_Value("Help");
 @param IsEncrypted Display or Storage is encrypted */
 public void setIsEncrypted (boolean IsEncrypted)
 {
-set_Value ("IsEncrypted", new Boolean(IsEncrypted));
+set_Value ("IsEncrypted", Boolean.valueOf(IsEncrypted));
 }
 /** Get Encrypted.
 @return Display or Storage is encrypted */
@@ -315,7 +315,7 @@ return false;
 @param IsFieldOnly Label is not displayed */
 public void setIsFieldOnly (boolean IsFieldOnly)
 {
-set_Value ("IsFieldOnly", new Boolean(IsFieldOnly));
+set_Value ("IsFieldOnly", Boolean.valueOf(IsFieldOnly));
 }
 /** Get Field Only.
 @return Label is not displayed */
@@ -333,7 +333,7 @@ return false;
 @param IsHeading Field without Column - Only label is displayed */
 public void setIsHeading (boolean IsHeading)
 {
-set_Value ("IsHeading", new Boolean(IsHeading));
+set_Value ("IsHeading", Boolean.valueOf(IsHeading));
 }
 /** Get Heading only.
 @return Field without Column - Only label is displayed */
@@ -351,7 +351,7 @@ return false;
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
 {
-set_Value ("IsMandatory", new Boolean(IsMandatory));
+set_Value ("IsMandatory", Boolean.valueOf(IsMandatory));
 }
 /** Get Mandatory.
 @return Data entry is required in this column */
@@ -369,7 +369,7 @@ return false;
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -387,7 +387,7 @@ return false;
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
 {
-set_Value ("IsSameLine", new Boolean(IsSameLine));
+set_Value ("IsSameLine", Boolean.valueOf(IsSameLine));
 }
 /** Get Same Line.
 @return Displayed on same line as previous field */
@@ -405,7 +405,7 @@ return false;
 @param IsUpdateable Determines, if the field can be updated */
 public void setIsUpdateable (boolean IsUpdateable)
 {
-set_Value ("IsUpdateable", new Boolean(IsUpdateable));
+set_Value ("IsUpdateable", Boolean.valueOf(IsUpdateable));
 }
 /** Get Updateable.
 @return Determines, if the field can be updated */
@@ -448,7 +448,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

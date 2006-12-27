@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQ extends PO
 {
 /** Standard Constructor
@@ -66,12 +66,12 @@ public X_C_RfQ (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=677 */
-public static final int Table_ID=677;
+public static final int Table_ID=MTable.getTable_ID("C_RfQ");
 
 /** TableName=C_RfQ */
 public static final String Table_Name="C_RfQ";
 
-protected static KeyNamePair Model = new KeyNamePair(677,"C_RfQ");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQ");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -104,7 +104,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -120,7 +120,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -136,7 +136,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -151,7 +151,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -167,7 +167,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -182,7 +182,7 @@ return ii.intValue();
 public void setC_RfQ_ID (int C_RfQ_ID)
 {
 if (C_RfQ_ID < 1) throw new IllegalArgumentException ("C_RfQ_ID is mandatory.");
-set_ValueNoCheck ("C_RfQ_ID", new Integer(C_RfQ_ID));
+set_ValueNoCheck ("C_RfQ_ID", Integer.valueOf(C_RfQ_ID));
 }
 /** Get RfQ.
 @return Request for Quotation */
@@ -197,7 +197,7 @@ return ii.intValue();
 public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
 {
 if (C_RfQ_Topic_ID < 1) throw new IllegalArgumentException ("C_RfQ_Topic_ID is mandatory.");
-set_Value ("C_RfQ_Topic_ID", new Integer(C_RfQ_Topic_ID));
+set_Value ("C_RfQ_Topic_ID", Integer.valueOf(C_RfQ_Topic_ID));
 }
 /** Get RfQ Topic.
 @return Topic for Request for Quotations */
@@ -299,7 +299,7 @@ return (Timestamp)get_Value("DateWorkStart");
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
 {
-set_Value ("DeliveryDays", new Integer(DeliveryDays));
+set_Value ("DeliveryDays", Integer.valueOf(DeliveryDays));
 }
 /** Get Delivery Days.
 @return Number of Days (planned) until Delivery */
@@ -371,7 +371,7 @@ return (String)get_Value("Help");
 @param IsInvitedVendorsOnly Only invited vendors can respond to an RfQ */
 public void setIsInvitedVendorsOnly (boolean IsInvitedVendorsOnly)
 {
-set_Value ("IsInvitedVendorsOnly", new Boolean(IsInvitedVendorsOnly));
+set_Value ("IsInvitedVendorsOnly", Boolean.valueOf(IsInvitedVendorsOnly));
 }
 /** Get Invited Vendors Only.
 @return Only invited vendors can respond to an RfQ */
@@ -389,7 +389,7 @@ return false;
 @param IsQuoteAllQty Suppliers are requested to provide responses for all quantities */
 public void setIsQuoteAllQty (boolean IsQuoteAllQty)
 {
-set_Value ("IsQuoteAllQty", new Boolean(IsQuoteAllQty));
+set_Value ("IsQuoteAllQty", Boolean.valueOf(IsQuoteAllQty));
 }
 /** Get Quote All Quantities.
 @return Suppliers are requested to provide responses for all quantities */
@@ -407,7 +407,7 @@ return false;
 @param IsQuoteTotalAmt The respnse can have just the total amount for the RfQ */
 public void setIsQuoteTotalAmt (boolean IsQuoteTotalAmt)
 {
-set_Value ("IsQuoteTotalAmt", new Boolean(IsQuoteTotalAmt));
+set_Value ("IsQuoteTotalAmt", Boolean.valueOf(IsQuoteTotalAmt));
 }
 /** Get Quote Total Amt.
 @return The respnse can have just the total amount for the RfQ */
@@ -425,7 +425,7 @@ return false;
 @param IsRfQResponseAccepted Are Resonses to the Request for Quotation accepted */
 public void setIsRfQResponseAccepted (boolean IsRfQResponseAccepted)
 {
-set_Value ("IsRfQResponseAccepted", new Boolean(IsRfQResponseAccepted));
+set_Value ("IsRfQResponseAccepted", Boolean.valueOf(IsRfQResponseAccepted));
 }
 /** Get Responses Accepted.
 @return Are Resonses to the Request for Quotation accepted */
@@ -443,7 +443,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -493,7 +493,7 @@ return (String)get_Value("Name");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -511,7 +511,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -596,7 +596,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DemandDetail
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DemandDetail extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_M_DemandDetail (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=721 */
-public static final int Table_ID=721;
+public static final int Table_ID=MTable.getTable_ID("M_DemandDetail");
 
 /** TableName=M_DemandDetail */
 public static final String Table_Name="M_DemandDetail";
 
-protected static KeyNamePair Model = new KeyNamePair(721,"M_DemandDetail");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DemandDetail");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setC_OrderLine_ID (int C_OrderLine_ID)
 {
 if (C_OrderLine_ID <= 0) set_Value ("C_OrderLine_ID", null);
  else 
-set_Value ("C_OrderLine_ID", new Integer(C_OrderLine_ID));
+set_Value ("C_OrderLine_ID", Integer.valueOf(C_OrderLine_ID));
 }
 /** Get Sales Order Line.
 @return Sales Order Line */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setM_DemandDetail_ID (int M_DemandDetail_ID)
 {
 if (M_DemandDetail_ID < 1) throw new IllegalArgumentException ("M_DemandDetail_ID is mandatory.");
-set_ValueNoCheck ("M_DemandDetail_ID", new Integer(M_DemandDetail_ID));
+set_ValueNoCheck ("M_DemandDetail_ID", Integer.valueOf(M_DemandDetail_ID));
 }
 /** Get Demand Detail.
 @return Material Demand Line Source Detail */
@@ -128,7 +128,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_DemandDetail_ID()));
 public void setM_DemandLine_ID (int M_DemandLine_ID)
 {
 if (M_DemandLine_ID < 1) throw new IllegalArgumentException ("M_DemandLine_ID is mandatory.");
-set_ValueNoCheck ("M_DemandLine_ID", new Integer(M_DemandLine_ID));
+set_ValueNoCheck ("M_DemandLine_ID", Integer.valueOf(M_DemandLine_ID));
 }
 /** Get Demand Line.
 @return Material Demand Line */
@@ -144,7 +144,7 @@ public void setM_ForecastLine_ID (int M_ForecastLine_ID)
 {
 if (M_ForecastLine_ID <= 0) set_Value ("M_ForecastLine_ID", null);
  else 
-set_Value ("M_ForecastLine_ID", new Integer(M_ForecastLine_ID));
+set_Value ("M_ForecastLine_ID", Integer.valueOf(M_ForecastLine_ID));
 }
 /** Get Forecast Line.
 @return Forecast Line */
@@ -160,7 +160,7 @@ public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
 {
 if (M_RequisitionLine_ID <= 0) set_Value ("M_RequisitionLine_ID", null);
  else 
-set_Value ("M_RequisitionLine_ID", new Integer(M_RequisitionLine_ID));
+set_Value ("M_RequisitionLine_ID", Integer.valueOf(M_RequisitionLine_ID));
 }
 /** Get Requisition Line.
 @return Material Requisition Line */

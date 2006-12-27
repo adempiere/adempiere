@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_FundRestriction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_GL_FundRestriction extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_GL_FundRestriction (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=824 */
-public static final int Table_ID=824;
+public static final int Table_ID=MTable.getTable_ID("GL_FundRestriction");
 
 /** TableName=GL_FundRestriction */
 public static final String Table_Name="GL_FundRestriction";
 
-protected static KeyNamePair Model = new KeyNamePair(824,"GL_FundRestriction");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_FundRestriction");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID < 1) throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-set_Value ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_Value ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -125,7 +125,7 @@ return (String)get_Value("Description");
 public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
 {
 if (GL_FundRestriction_ID < 1) throw new IllegalArgumentException ("GL_FundRestriction_ID is mandatory.");
-set_ValueNoCheck ("GL_FundRestriction_ID", new Integer(GL_FundRestriction_ID));
+set_ValueNoCheck ("GL_FundRestriction_ID", Integer.valueOf(GL_FundRestriction_ID));
 }
 /** Get Fund Restriction.
 @return Restriction of Funds */
@@ -140,7 +140,7 @@ return ii.intValue();
 public void setGL_Fund_ID (int GL_Fund_ID)
 {
 if (GL_Fund_ID < 1) throw new IllegalArgumentException ("GL_Fund_ID is mandatory.");
-set_ValueNoCheck ("GL_Fund_ID", new Integer(GL_Fund_ID));
+set_ValueNoCheck ("GL_Fund_ID", Integer.valueOf(GL_Fund_ID));
 }
 /** Get GL Fund.
 @return General Ledger Funds Control */

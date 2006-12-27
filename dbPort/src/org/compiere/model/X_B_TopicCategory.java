@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_TopicCategory
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_B_TopicCategory extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_B_TopicCategory (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=691 */
-public static final int Table_ID=691;
+public static final int Table_ID=MTable.getTable_ID("B_TopicCategory");
 
 /** TableName=B_TopicCategory */
 public static final String Table_Name="B_TopicCategory";
 
-protected static KeyNamePair Model = new KeyNamePair(691,"B_TopicCategory");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"B_TopicCategory");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setB_TopicCategory_ID (int B_TopicCategory_ID)
 {
 if (B_TopicCategory_ID < 1) throw new IllegalArgumentException ("B_TopicCategory_ID is mandatory.");
-set_ValueNoCheck ("B_TopicCategory_ID", new Integer(B_TopicCategory_ID));
+set_ValueNoCheck ("B_TopicCategory_ID", Integer.valueOf(B_TopicCategory_ID));
 }
 /** Get Topic Category.
 @return Auction Topic Category */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setB_TopicType_ID (int B_TopicType_ID)
 {
 if (B_TopicType_ID < 1) throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-set_ValueNoCheck ("B_TopicType_ID", new Integer(B_TopicType_ID));
+set_ValueNoCheck ("B_TopicType_ID", Integer.valueOf(B_TopicType_ID));
 }
 /** Get Topic Type.
 @return Auction Topic Type */

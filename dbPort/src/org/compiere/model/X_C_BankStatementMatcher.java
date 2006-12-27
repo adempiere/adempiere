@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatementMatcher
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankStatementMatcher extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BankStatementMatcher (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=658 */
-public static final int Table_ID=658;
+public static final int Table_ID=MTable.getTable_ID("C_BankStatementMatcher");
 
 /** TableName=C_BankStatementMatcher */
 public static final String Table_Name="C_BankStatementMatcher";
 
-protected static KeyNamePair Model = new KeyNamePair(658,"C_BankStatementMatcher");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankStatementMatcher");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_BankStatementMatcher_ID (int C_BankStatementMatcher_ID)
 {
 if (C_BankStatementMatcher_ID < 1) throw new IllegalArgumentException ("C_BankStatementMatcher_ID is mandatory.");
-set_ValueNoCheck ("C_BankStatementMatcher_ID", new Integer(C_BankStatementMatcher_ID));
+set_ValueNoCheck ("C_BankStatementMatcher_ID", Integer.valueOf(C_BankStatementMatcher_ID));
 }
 /** Get Bank Statement Matcher.
 @return Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments */
@@ -167,7 +167,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Dunning
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Dunning extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_Dunning (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=301 */
-public static final int Table_ID=301;
+public static final int Table_ID=MTable.getTable_ID("C_Dunning");
 
 /** TableName=C_Dunning */
 public static final String Table_Name="C_Dunning";
 
-protected static KeyNamePair Model = new KeyNamePair(301,"C_Dunning");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Dunning");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_Dunning_ID (int C_Dunning_ID)
 {
 if (C_Dunning_ID < 1) throw new IllegalArgumentException ("C_Dunning_ID is mandatory.");
-set_ValueNoCheck ("C_Dunning_ID", new Integer(C_Dunning_ID));
+set_ValueNoCheck ("C_Dunning_ID", Integer.valueOf(C_Dunning_ID));
 }
 /** Get Dunning.
 @return Dunning Rules for overdue invoices */
@@ -108,7 +108,7 @@ return ii.intValue();
 @param CreateLevelsSequentially Create Dunning Letter by level sequentially */
 public void setCreateLevelsSequentially (boolean CreateLevelsSequentially)
 {
-set_Value ("CreateLevelsSequentially", new Boolean(CreateLevelsSequentially));
+set_Value ("CreateLevelsSequentially", Boolean.valueOf(CreateLevelsSequentially));
 }
 /** Get Create levels sequentially.
 @return Create Dunning Letter by level sequentially */
@@ -143,7 +143,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -185,7 +185,7 @@ return new KeyNamePair(get_ID(), getName());
 @param SendDunningLetter Indicates if dunning letters will be sent */
 public void setSendDunningLetter (boolean SendDunningLetter)
 {
-set_Value ("SendDunningLetter", new Boolean(SendDunningLetter));
+set_Value ("SendDunningLetter", Boolean.valueOf(SendDunningLetter));
 }
 /** Get Send dunning letters.
 @return Indicates if dunning letters will be sent */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Relation
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Relation extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_BP_Relation (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=678 */
-public static final int Table_ID=678;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Relation");
 
 /** TableName=C_BP_Relation */
 public static final String Table_Name="C_BP_Relation";
 
-protected static KeyNamePair Model = new KeyNamePair(678,"C_BP_Relation");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Relation");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setC_BP_Relation_ID (int C_BP_Relation_ID)
 {
 if (C_BP_Relation_ID < 1) throw new IllegalArgumentException ("C_BP_Relation_ID is mandatory.");
-set_ValueNoCheck ("C_BP_Relation_ID", new Integer(C_BP_Relation_ID));
+set_ValueNoCheck ("C_BP_Relation_ID", Integer.valueOf(C_BP_Relation_ID));
 }
 /** Get Partner Relation.
 @return Business Partner Relation */
@@ -116,7 +116,7 @@ public static final int C_BPARTNERRELATION_ID_AD_Reference_ID=138;
 public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID)
 {
 if (C_BPartnerRelation_ID < 1) throw new IllegalArgumentException ("C_BPartnerRelation_ID is mandatory.");
-set_Value ("C_BPartnerRelation_ID", new Integer(C_BPartnerRelation_ID));
+set_Value ("C_BPartnerRelation_ID", Integer.valueOf(C_BPartnerRelation_ID));
 }
 /** Get Related Partner.
 @return Related Business Partner */
@@ -134,7 +134,7 @@ public static final int C_BPARTNERRELATION_LOCATION_ID_AD_Reference_ID=159;
 public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID)
 {
 if (C_BPartnerRelation_Location_ID < 1) throw new IllegalArgumentException ("C_BPartnerRelation_Location_ID is mandatory.");
-set_Value ("C_BPartnerRelation_Location_ID", new Integer(C_BPartnerRelation_Location_ID));
+set_Value ("C_BPartnerRelation_Location_ID", Integer.valueOf(C_BPartnerRelation_Location_ID));
 }
 /** Get Related Partner Location.
 @return Location of the related Business Partner */
@@ -149,7 +149,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -165,7 +165,7 @@ public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID <= 0) set_Value ("C_BPartner_Location_ID", null);
  else 
-set_Value ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_Value ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -196,7 +196,7 @@ return (String)get_Value("Description");
 @param IsBillTo Business Partner Invoice/Bill Address */
 public void setIsBillTo (boolean IsBillTo)
 {
-set_Value ("IsBillTo", new Boolean(IsBillTo));
+set_Value ("IsBillTo", Boolean.valueOf(IsBillTo));
 }
 /** Get Invoice Address.
 @return Business Partner Invoice/Bill Address */
@@ -214,7 +214,7 @@ return false;
 @param IsPayFrom Business Partner pays from that address and we'll send dunning letters there */
 public void setIsPayFrom (boolean IsPayFrom)
 {
-set_Value ("IsPayFrom", new Boolean(IsPayFrom));
+set_Value ("IsPayFrom", Boolean.valueOf(IsPayFrom));
 }
 /** Get Pay-From Address.
 @return Business Partner pays from that address and we'll send dunning letters there */
@@ -232,7 +232,7 @@ return false;
 @param IsRemitTo Business Partner payment address */
 public void setIsRemitTo (boolean IsRemitTo)
 {
-set_Value ("IsRemitTo", new Boolean(IsRemitTo));
+set_Value ("IsRemitTo", Boolean.valueOf(IsRemitTo));
 }
 /** Get Remit-To Address.
 @return Business Partner payment address */
@@ -250,7 +250,7 @@ return false;
 @param IsShipTo Business Partner Shipment Address */
 public void setIsShipTo (boolean IsShipTo)
 {
-set_ValueNoCheck ("IsShipTo", new Boolean(IsShipTo));
+set_ValueNoCheck ("IsShipTo", Boolean.valueOf(IsShipTo));
 }
 /** Get Ship Address.
 @return Business Partner Shipment Address */

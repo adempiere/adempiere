@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertProcessorLog
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_AlertProcessorLog extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_AlertProcessorLog (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=699 */
-public static final int Table_ID=699;
+public static final int Table_ID=MTable.getTable_ID("AD_AlertProcessorLog");
 
 /** TableName=AD_AlertProcessorLog */
 public static final String Table_Name="AD_AlertProcessorLog";
 
-protected static KeyNamePair Model = new KeyNamePair(699,"AD_AlertProcessorLog");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_AlertProcessorLog");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID)
 {
 if (AD_AlertProcessorLog_ID < 1) throw new IllegalArgumentException ("AD_AlertProcessorLog_ID is mandatory.");
-set_ValueNoCheck ("AD_AlertProcessorLog_ID", new Integer(AD_AlertProcessorLog_ID));
+set_ValueNoCheck ("AD_AlertProcessorLog_ID", Integer.valueOf(AD_AlertProcessorLog_ID));
 }
 /** Get Alert Processor Log.
 @return Result of the execution of the Alert Processor */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setAD_AlertProcessor_ID (int AD_AlertProcessor_ID)
 {
 if (AD_AlertProcessor_ID < 1) throw new IllegalArgumentException ("AD_AlertProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_AlertProcessor_ID", new Integer(AD_AlertProcessor_ID));
+set_ValueNoCheck ("AD_AlertProcessor_ID", Integer.valueOf(AD_AlertProcessor_ID));
 }
 /** Get Alert Processor.
 @return Alert Processor/Server Parameter */
@@ -150,7 +150,7 @@ return (String)get_Value("Description");
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
 {
-set_Value ("IsError", new Boolean(IsError));
+set_Value ("IsError", Boolean.valueOf(IsError));
 }
 /** Get Error.
 @return An Error occured in the execution */

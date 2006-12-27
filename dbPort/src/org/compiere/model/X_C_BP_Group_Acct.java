@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Group_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Group_Acct extends PO
 {
 /** Standard Constructor
@@ -67,12 +67,12 @@ public X_C_BP_Group_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=395 */
-public static final int Table_ID=395;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Group_Acct");
 
 /** TableName=C_BP_Group_Acct */
 public static final String Table_Name="C_BP_Group_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(395,"C_BP_Group_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Group_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -104,7 +104,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -119,7 +119,7 @@ return ii.intValue();
 public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID < 1) throw new IllegalArgumentException ("C_BP_Group_ID is mandatory.");
-set_ValueNoCheck ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_ValueNoCheck ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -139,7 +139,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_BP_Group_ID()));
 @param C_Prepayment_Acct Account for customer prepayments */
 public void setC_Prepayment_Acct (int C_Prepayment_Acct)
 {
-set_Value ("C_Prepayment_Acct", new Integer(C_Prepayment_Acct));
+set_Value ("C_Prepayment_Acct", Integer.valueOf(C_Prepayment_Acct));
 }
 /** Get Customer Prepayment.
 @return Account for customer prepayments */
@@ -153,7 +153,7 @@ return ii.intValue();
 @param C_Receivable_Acct Account for Customer Receivables */
 public void setC_Receivable_Acct (int C_Receivable_Acct)
 {
-set_Value ("C_Receivable_Acct", new Integer(C_Receivable_Acct));
+set_Value ("C_Receivable_Acct", Integer.valueOf(C_Receivable_Acct));
 }
 /** Get Customer Receivables.
 @return Account for Customer Receivables */
@@ -167,7 +167,7 @@ return ii.intValue();
 @param C_Receivable_Services_Acct Customer Accounts Receivables Services Account */
 public void setC_Receivable_Services_Acct (int C_Receivable_Services_Acct)
 {
-set_Value ("C_Receivable_Services_Acct", new Integer(C_Receivable_Services_Acct));
+set_Value ("C_Receivable_Services_Acct", Integer.valueOf(C_Receivable_Services_Acct));
 }
 /** Get Receivable Services.
 @return Customer Accounts Receivables Services Account */
@@ -181,7 +181,7 @@ return ii.intValue();
 @param NotInvoicedReceipts_Acct Account for not-invoiced Material Receipts */
 public void setNotInvoicedReceipts_Acct (int NotInvoicedReceipts_Acct)
 {
-set_Value ("NotInvoicedReceipts_Acct", new Integer(NotInvoicedReceipts_Acct));
+set_Value ("NotInvoicedReceipts_Acct", Integer.valueOf(NotInvoicedReceipts_Acct));
 }
 /** Get Not-invoiced Receipts.
 @return Account for not-invoiced Material Receipts */
@@ -195,7 +195,7 @@ return ii.intValue();
 @param NotInvoicedReceivables_Acct Account for not invoiced Receivables */
 public void setNotInvoicedReceivables_Acct (int NotInvoicedReceivables_Acct)
 {
-set_Value ("NotInvoicedReceivables_Acct", new Integer(NotInvoicedReceivables_Acct));
+set_Value ("NotInvoicedReceivables_Acct", Integer.valueOf(NotInvoicedReceivables_Acct));
 }
 /** Get Not-invoiced Receivables.
 @return Account for not invoiced Receivables */
@@ -209,7 +209,7 @@ return ii.intValue();
 @param NotInvoicedRevenue_Acct Account for not invoiced Revenue */
 public void setNotInvoicedRevenue_Acct (int NotInvoicedRevenue_Acct)
 {
-set_Value ("NotInvoicedRevenue_Acct", new Integer(NotInvoicedRevenue_Acct));
+set_Value ("NotInvoicedRevenue_Acct", Integer.valueOf(NotInvoicedRevenue_Acct));
 }
 /** Get Not-invoiced Revenue.
 @return Account for not invoiced Revenue */
@@ -223,7 +223,7 @@ return ii.intValue();
 @param PayDiscount_Exp_Acct Payment Discount Expense Account */
 public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct)
 {
-set_Value ("PayDiscount_Exp_Acct", new Integer(PayDiscount_Exp_Acct));
+set_Value ("PayDiscount_Exp_Acct", Integer.valueOf(PayDiscount_Exp_Acct));
 }
 /** Get Payment Discount Expense.
 @return Payment Discount Expense Account */
@@ -237,7 +237,7 @@ return ii.intValue();
 @param PayDiscount_Rev_Acct Payment Discount Revenue Account */
 public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct)
 {
-set_Value ("PayDiscount_Rev_Acct", new Integer(PayDiscount_Rev_Acct));
+set_Value ("PayDiscount_Rev_Acct", Integer.valueOf(PayDiscount_Rev_Acct));
 }
 /** Get Payment Discount Revenue.
 @return Payment Discount Revenue Account */
@@ -251,7 +251,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -269,7 +269,7 @@ return false;
 @param UnEarnedRevenue_Acct Account for unearned revenue */
 public void setUnEarnedRevenue_Acct (int UnEarnedRevenue_Acct)
 {
-set_Value ("UnEarnedRevenue_Acct", new Integer(UnEarnedRevenue_Acct));
+set_Value ("UnEarnedRevenue_Acct", Integer.valueOf(UnEarnedRevenue_Acct));
 }
 /** Get Unearned Revenue.
 @return Account for unearned revenue */
@@ -283,7 +283,7 @@ return ii.intValue();
 @param V_Liability_Acct Account for Vendor Liability */
 public void setV_Liability_Acct (int V_Liability_Acct)
 {
-set_Value ("V_Liability_Acct", new Integer(V_Liability_Acct));
+set_Value ("V_Liability_Acct", Integer.valueOf(V_Liability_Acct));
 }
 /** Get Vendor Liability.
 @return Account for Vendor Liability */
@@ -297,7 +297,7 @@ return ii.intValue();
 @param V_Liability_Services_Acct Account for Vender Service Liability */
 public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
 {
-set_Value ("V_Liability_Services_Acct", new Integer(V_Liability_Services_Acct));
+set_Value ("V_Liability_Services_Acct", Integer.valueOf(V_Liability_Services_Acct));
 }
 /** Get Vendor Service Liability.
 @return Account for Vender Service Liability */
@@ -311,7 +311,7 @@ return ii.intValue();
 @param V_Prepayment_Acct Account for Vendor Prepayments */
 public void setV_Prepayment_Acct (int V_Prepayment_Acct)
 {
-set_Value ("V_Prepayment_Acct", new Integer(V_Prepayment_Acct));
+set_Value ("V_Prepayment_Acct", Integer.valueOf(V_Prepayment_Acct));
 }
 /** Get Vendor Prepayment.
 @return Account for Vendor Prepayments */
@@ -325,7 +325,7 @@ return ii.intValue();
 @param WriteOff_Acct Account for Receivables write-off */
 public void setWriteOff_Acct (int WriteOff_Acct)
 {
-set_Value ("WriteOff_Acct", new Integer(WriteOff_Acct));
+set_Value ("WriteOff_Acct", Integer.valueOf(WriteOff_Acct));
 }
 /** Get Write-off.
 @return Account for Receivables write-off */

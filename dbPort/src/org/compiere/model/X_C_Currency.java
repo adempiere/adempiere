@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Currency
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Currency extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_Currency (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=141 */
-public static final int Table_ID=141;
+public static final int Table_ID=MTable.getTable_ID("C_Currency");
 
 /** TableName=C_Currency */
 public static final String Table_Name="C_Currency";
 
-protected static KeyNamePair Model = new KeyNamePair(141,"C_Currency");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Currency");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -110,7 +110,7 @@ return ii.intValue();
 @param CostingPrecision Rounding used costing calculations */
 public void setCostingPrecision (int CostingPrecision)
 {
-set_Value ("CostingPrecision", new Integer(CostingPrecision));
+set_Value ("CostingPrecision", Integer.valueOf(CostingPrecision));
 }
 /** Get Costing Precision.
 @return Rounding used costing calculations */
@@ -209,7 +209,7 @@ return new KeyNamePair(get_ID(), getISO_Code());
 @param IsEMUMember This currency is member if the European Monetary Union */
 public void setIsEMUMember (boolean IsEMUMember)
 {
-set_Value ("IsEMUMember", new Boolean(IsEMUMember));
+set_Value ("IsEMUMember", Boolean.valueOf(IsEMUMember));
 }
 /** Get EMU Member.
 @return This currency is member if the European Monetary Union */
@@ -227,7 +227,7 @@ return false;
 @param IsEuro This currency is the Euro */
 public void setIsEuro (boolean IsEuro)
 {
-set_Value ("IsEuro", new Boolean(IsEuro));
+set_Value ("IsEuro", Boolean.valueOf(IsEuro));
 }
 /** Get The Euro Currency.
 @return This currency is the Euro */
@@ -245,7 +245,7 @@ return false;
 @param StdPrecision Rule for rounding  calculated amounts */
 public void setStdPrecision (int StdPrecision)
 {
-set_Value ("StdPrecision", new Integer(StdPrecision));
+set_Value ("StdPrecision", Integer.valueOf(StdPrecision));
 }
 /** Get Standard Precision.
 @return Rule for rounding  calculated amounts */

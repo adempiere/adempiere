@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_BOM
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_BOM extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_BOM (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=798 */
-public static final int Table_ID=798;
+public static final int Table_ID=MTable.getTable_ID("M_BOM");
 
 /** TableName=M_BOM */
 public static final String Table_Name="M_BOM";
 
-protected static KeyNamePair Model = new KeyNamePair(798,"M_BOM");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_BOM");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -196,7 +196,7 @@ return (String)get_Value("Help");
 public void setM_BOM_ID (int M_BOM_ID)
 {
 if (M_BOM_ID < 1) throw new IllegalArgumentException ("M_BOM_ID is mandatory.");
-set_ValueNoCheck ("M_BOM_ID", new Integer(M_BOM_ID));
+set_ValueNoCheck ("M_BOM_ID", Integer.valueOf(M_BOM_ID));
 }
 /** Get BOM.
 @return Bill of Material */
@@ -212,7 +212,7 @@ public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 {
 if (M_ChangeNotice_ID <= 0) set_Value ("M_ChangeNotice_ID", null);
  else 
-set_Value ("M_ChangeNotice_ID", new Integer(M_ChangeNotice_ID));
+set_Value ("M_ChangeNotice_ID", Integer.valueOf(M_ChangeNotice_ID));
 }
 /** Get Change Notice.
 @return Bill of Materials (Engineering) Change Notice (Version) */
@@ -227,7 +227,7 @@ return ii.intValue();
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -265,7 +265,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

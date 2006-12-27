@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance_Log
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PInstance_Log extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_PInstance_Log (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=578 */
-public static final int Table_ID=578;
+public static final int Table_ID=MTable.getTable_ID("AD_PInstance_Log");
 
 /** TableName=AD_PInstance_Log */
 public static final String Table_Name="AD_PInstance_Log";
 
-protected static KeyNamePair Model = new KeyNamePair(578,"AD_PInstance_Log");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PInstance_Log");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -106,7 +106,7 @@ return ii.intValue();
 public void setLog_ID (int Log_ID)
 {
 if (Log_ID < 1) throw new IllegalArgumentException ("Log_ID is mandatory.");
-set_ValueNoCheck ("Log_ID", new Integer(Log_ID));
+set_ValueNoCheck ("Log_ID", Integer.valueOf(Log_ID));
 }
 /** Get Log.
 @return Log */
@@ -134,7 +134,7 @@ public void setP_ID (int P_ID)
 {
 if (P_ID <= 0) set_ValueNoCheck ("P_ID", null);
  else 
-set_ValueNoCheck ("P_ID", new Integer(P_ID));
+set_ValueNoCheck ("P_ID", Integer.valueOf(P_ID));
 }
 /** Get Process ID.
 @return Process ID */

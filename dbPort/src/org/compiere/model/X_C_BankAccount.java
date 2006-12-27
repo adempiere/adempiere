@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankAccount
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankAccount extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_BankAccount (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=297 */
-public static final int Table_ID=297;
+public static final int Table_ID=MTable.getTable_ID("C_BankAccount");
 
 /** TableName=C_BankAccount */
 public static final String Table_Name="C_BankAccount";
 
-protected static KeyNamePair Model = new KeyNamePair(297,"C_BankAccount");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankAccount");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -159,7 +159,7 @@ return (String)get_Value("BankAccountType");
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_ValueNoCheck ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_ValueNoCheck ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -174,7 +174,7 @@ return ii.intValue();
 public void setC_Bank_ID (int C_Bank_ID)
 {
 if (C_Bank_ID < 1) throw new IllegalArgumentException ("C_Bank_ID is mandatory.");
-set_ValueNoCheck ("C_Bank_ID", new Integer(C_Bank_ID));
+set_ValueNoCheck ("C_Bank_ID", Integer.valueOf(C_Bank_ID));
 }
 /** Get Bank.
 @return Bank */
@@ -195,7 +195,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -273,7 +273,7 @@ return (String)get_Value("IBAN");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

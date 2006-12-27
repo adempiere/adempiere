@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxCategory
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_TaxCategory extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_TaxCategory (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=252 */
-public static final int Table_ID=252;
+public static final int Table_ID=MTable.getTable_ID("C_TaxCategory");
 
 /** TableName=C_TaxCategory */
 public static final String Table_Name="C_TaxCategory";
 
-protected static KeyNamePair Model = new KeyNamePair(252,"C_TaxCategory");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_TaxCategory");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_ValueNoCheck ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_ValueNoCheck ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -140,7 +140,7 @@ return (String)get_Value("Description");
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */

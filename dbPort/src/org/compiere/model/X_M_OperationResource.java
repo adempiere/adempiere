@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_OperationResource
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_OperationResource extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_OperationResource (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=797 */
-public static final int Table_ID=797;
+public static final int Table_ID=MTable.getTable_ID("M_OperationResource");
 
 /** TableName=M_OperationResource */
 public static final String Table_Name="M_OperationResource";
 
-protected static KeyNamePair Model = new KeyNamePair(797,"M_OperationResource");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_OperationResource");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_Value ("A_Asset_ID", null);
  else 
-set_Value ("A_Asset_ID", new Integer(A_Asset_ID));
+set_Value ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -112,7 +112,7 @@ public void setC_Job_ID (int C_Job_ID)
 {
 if (C_Job_ID <= 0) set_Value ("C_Job_ID", null);
  else 
-set_Value ("C_Job_ID", new Integer(C_Job_ID));
+set_Value ("C_Job_ID", Integer.valueOf(C_Job_ID));
 }
 /** Get Position.
 @return Job Position */
@@ -161,7 +161,7 @@ return (String)get_Value("Help");
 public void setM_OperationResource_ID (int M_OperationResource_ID)
 {
 if (M_OperationResource_ID < 1) throw new IllegalArgumentException ("M_OperationResource_ID is mandatory.");
-set_ValueNoCheck ("M_OperationResource_ID", new Integer(M_OperationResource_ID));
+set_ValueNoCheck ("M_OperationResource_ID", Integer.valueOf(M_OperationResource_ID));
 }
 /** Get Operation Resource.
 @return Product Operation Resource */
@@ -176,7 +176,7 @@ return ii.intValue();
 public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 {
 if (M_ProductOperation_ID < 1) throw new IllegalArgumentException ("M_ProductOperation_ID is mandatory.");
-set_ValueNoCheck ("M_ProductOperation_ID", new Integer(M_ProductOperation_ID));
+set_ValueNoCheck ("M_ProductOperation_ID", Integer.valueOf(M_ProductOperation_ID));
 }
 /** Get Product Operation.
 @return Product Manufacturing Operation */

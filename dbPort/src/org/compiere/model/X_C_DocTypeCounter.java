@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DocTypeCounter
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DocTypeCounter extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_C_DocTypeCounter (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=718 */
-public static final int Table_ID=718;
+public static final int Table_ID=MTable.getTable_ID("C_DocTypeCounter");
 
 /** TableName=C_DocTypeCounter */
 public static final String Table_Name="C_DocTypeCounter";
 
-protected static KeyNamePair Model = new KeyNamePair(718,"C_DocTypeCounter");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DocTypeCounter");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setC_DocTypeCounter_ID (int C_DocTypeCounter_ID)
 {
 if (C_DocTypeCounter_ID < 1) throw new IllegalArgumentException ("C_DocTypeCounter_ID is mandatory.");
-set_ValueNoCheck ("C_DocTypeCounter_ID", new Integer(C_DocTypeCounter_ID));
+set_ValueNoCheck ("C_DocTypeCounter_ID", Integer.valueOf(C_DocTypeCounter_ID));
 }
 /** Get Counter Document.
 @return Counter Document Relationship */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_DocType_ID (int C_DocType_ID)
 {
 if (C_DocType_ID < 0) throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-set_Value ("C_DocType_ID", new Integer(C_DocType_ID));
+set_Value ("C_DocType_ID", Integer.valueOf(C_DocType_ID));
 }
 /** Get Document Type.
 @return Document type or rules */
@@ -128,7 +128,7 @@ public static final int COUNTER_C_DOCTYPE_ID_AD_Reference_ID=170;
 public void setCounter_C_DocType_ID (int Counter_C_DocType_ID)
 {
 if (Counter_C_DocType_ID < 1) throw new IllegalArgumentException ("Counter_C_DocType_ID is mandatory.");
-set_Value ("Counter_C_DocType_ID", new Integer(Counter_C_DocType_ID));
+set_Value ("Counter_C_DocType_ID", Integer.valueOf(Counter_C_DocType_ID));
 }
 /** Get Counter Document Type.
 @return Generated Counter Document Type (To) */
@@ -209,7 +209,7 @@ return (String)get_Value("DocAction");
 @param IsCreateCounter Create Counter Document */
 public void setIsCreateCounter (boolean IsCreateCounter)
 {
-set_Value ("IsCreateCounter", new Boolean(IsCreateCounter));
+set_Value ("IsCreateCounter", Boolean.valueOf(IsCreateCounter));
 }
 /** Get Create Counter Document.
 @return Create Counter Document */
@@ -227,7 +227,7 @@ return false;
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
 {
-set_Value ("IsValid", new Boolean(IsValid));
+set_Value ("IsValid", Boolean.valueOf(IsValid));
 }
 /** Get Valid.
 @return Element is valid */
@@ -269,7 +269,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

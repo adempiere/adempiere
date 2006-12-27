@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxDeclarationLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_TaxDeclarationLine extends PO
 {
 /** Standard Constructor
@@ -62,12 +62,12 @@ public X_C_TaxDeclarationLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=819 */
-public static final int Table_ID=819;
+public static final int Table_ID=MTable.getTable_ID("C_TaxDeclarationLine");
 
 /** TableName=C_TaxDeclarationLine */
 public static final String Table_Name="C_TaxDeclarationLine";
 
-protected static KeyNamePair Model = new KeyNamePair(819,"C_TaxDeclarationLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_TaxDeclarationLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -100,7 +100,7 @@ public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 {
 if (C_AllocationLine_ID <= 0) set_ValueNoCheck ("C_AllocationLine_ID", null);
  else 
-set_ValueNoCheck ("C_AllocationLine_ID", new Integer(C_AllocationLine_ID));
+set_ValueNoCheck ("C_AllocationLine_ID", Integer.valueOf(C_AllocationLine_ID));
 }
 /** Get Allocation Line.
 @return Allocation Line */
@@ -115,7 +115,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID < 1) throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-set_ValueNoCheck ("C_Currency_ID", new Integer(C_Currency_ID));
+set_ValueNoCheck ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -146,7 +146,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_ValueNoCheck ("C_InvoiceLine_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_ValueNoCheck ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -162,7 +162,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -177,7 +177,7 @@ return ii.intValue();
 public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID)
 {
 if (C_TaxDeclarationLine_ID < 1) throw new IllegalArgumentException ("C_TaxDeclarationLine_ID is mandatory.");
-set_ValueNoCheck ("C_TaxDeclarationLine_ID", new Integer(C_TaxDeclarationLine_ID));
+set_ValueNoCheck ("C_TaxDeclarationLine_ID", Integer.valueOf(C_TaxDeclarationLine_ID));
 }
 /** Get Tax Declaration Line.
 @return Tax Declaration Document Information */
@@ -192,7 +192,7 @@ return ii.intValue();
 public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 {
 if (C_TaxDeclaration_ID < 1) throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-set_ValueNoCheck ("C_TaxDeclaration_ID", new Integer(C_TaxDeclaration_ID));
+set_ValueNoCheck ("C_TaxDeclaration_ID", Integer.valueOf(C_TaxDeclaration_ID));
 }
 /** Get Tax Declaration.
 @return Define the declaration to the tax authorities */
@@ -207,7 +207,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_ValueNoCheck ("C_Tax_ID", new Integer(C_Tax_ID));
+set_ValueNoCheck ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */
@@ -251,7 +251,7 @@ return (String)get_Value("Description");
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_ValueNoCheck ("IsManual", new Boolean(IsManual));
+set_ValueNoCheck ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -269,7 +269,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */

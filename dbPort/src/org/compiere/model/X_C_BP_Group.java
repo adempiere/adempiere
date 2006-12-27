@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Group
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_Group extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_BP_Group (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=394 */
-public static final int Table_ID=394;
+public static final int Table_ID=MTable.getTable_ID("C_BP_Group");
 
 /** TableName=C_BP_Group */
 public static final String Table_Name="C_BP_Group";
 
-protected static KeyNamePair Model = new KeyNamePair(394,"C_BP_Group");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_Group");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -110,7 +110,7 @@ return ii.intValue();
 public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID < 1) throw new IllegalArgumentException ("C_BP_Group_ID is mandatory.");
-set_ValueNoCheck ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_ValueNoCheck ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -126,7 +126,7 @@ public void setC_Dunning_ID (int C_Dunning_ID)
 {
 if (C_Dunning_ID <= 0) set_Value ("C_Dunning_ID", null);
  else 
-set_Value ("C_Dunning_ID", new Integer(C_Dunning_ID));
+set_Value ("C_Dunning_ID", Integer.valueOf(C_Dunning_ID));
 }
 /** Get Dunning.
 @return Dunning Rules for overdue invoices */
@@ -171,7 +171,7 @@ return (String)get_Value("Description");
 @param IsConfidentialInfo Can enter confidential information */
 public void setIsConfidentialInfo (boolean IsConfidentialInfo)
 {
-set_Value ("IsConfidentialInfo", new Boolean(IsConfidentialInfo));
+set_Value ("IsConfidentialInfo", Boolean.valueOf(IsConfidentialInfo));
 }
 /** Get Confidential Info.
 @return Can enter confidential information */
@@ -189,7 +189,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -212,7 +212,7 @@ public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID <= 0) set_Value ("M_DiscountSchema_ID", null);
  else 
-set_Value ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_Value ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -228,7 +228,7 @@ public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID <= 0) set_Value ("M_PriceList_ID", null);
  else 
-set_Value ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_Value ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -271,7 +271,7 @@ public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 {
 if (PO_DiscountSchema_ID <= 0) set_Value ("PO_DiscountSchema_ID", null);
  else 
-set_Value ("PO_DiscountSchema_ID", new Integer(PO_DiscountSchema_ID));
+set_Value ("PO_DiscountSchema_ID", Integer.valueOf(PO_DiscountSchema_ID));
 }
 /** Get PO Discount Schema.
 @return Schema to calculate the purchase trade discount percentage */
@@ -290,7 +290,7 @@ public void setPO_PriceList_ID (int PO_PriceList_ID)
 {
 if (PO_PriceList_ID <= 0) set_Value ("PO_PriceList_ID", null);
  else 
-set_Value ("PO_PriceList_ID", new Integer(PO_PriceList_ID));
+set_Value ("PO_PriceList_ID", Integer.valueOf(PO_PriceList_ID));
 }
 /** Get Purchase Pricelist.
 @return Price List used by this Business Partner */

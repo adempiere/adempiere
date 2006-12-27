@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_Node_Para
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WF_Node_Para extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_AD_WF_Node_Para (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=643 */
-public static final int Table_ID=643;
+public static final int Table_ID=MTable.getTable_ID("AD_WF_Node_Para");
 
 /** TableName=AD_WF_Node_Para */
 public static final String Table_Name="AD_WF_Node_Para";
 
-protected static KeyNamePair Model = new KeyNamePair(643,"AD_WF_Node_Para");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WF_Node_Para");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 {
 if (AD_Process_Para_ID <= 0) set_Value ("AD_Process_Para_ID", null);
  else 
-set_Value ("AD_Process_Para_ID", new Integer(AD_Process_Para_ID));
+set_Value ("AD_Process_Para_ID", Integer.valueOf(AD_Process_Para_ID));
 }
 /** Get Process Parameter.
 @return Process Parameter */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 {
 if (AD_WF_Node_ID < 1) throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_Node_ID", new Integer(AD_WF_Node_ID));
+set_ValueNoCheck ("AD_WF_Node_ID", Integer.valueOf(AD_WF_Node_ID));
 }
 /** Get Node.
 @return Workflow Node (activity), step or process */
@@ -129,7 +129,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Node_ID()));
 public void setAD_WF_Node_Para_ID (int AD_WF_Node_Para_ID)
 {
 if (AD_WF_Node_Para_ID < 1) throw new IllegalArgumentException ("AD_WF_Node_Para_ID is mandatory.");
-set_ValueNoCheck ("AD_WF_Node_Para_ID", new Integer(AD_WF_Node_Para_ID));
+set_ValueNoCheck ("AD_WF_Node_Para_ID", Integer.valueOf(AD_WF_Node_Para_ID));
 }
 /** Get Workflow Node Parameter.
 @return Workflow Node Execution Parameter */

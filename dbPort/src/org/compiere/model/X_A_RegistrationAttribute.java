@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_RegistrationAttribute
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_RegistrationAttribute extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_A_RegistrationAttribute (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=652 */
-public static final int Table_ID=652;
+public static final int Table_ID=MTable.getTable_ID("A_RegistrationAttribute");
 
 /** TableName=A_RegistrationAttribute */
 public static final String Table_Name="A_RegistrationAttribute";
 
-protected static KeyNamePair Model = new KeyNamePair(652,"A_RegistrationAttribute");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_RegistrationAttribute");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -97,7 +97,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -116,7 +116,7 @@ public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 {
 if (AD_Reference_Value_ID <= 0) set_Value ("AD_Reference_Value_ID", null);
  else 
-set_Value ("AD_Reference_Value_ID", new Integer(AD_Reference_Value_ID));
+set_Value ("AD_Reference_Value_ID", Integer.valueOf(AD_Reference_Value_ID));
 }
 /** Get Reference Key.
 @return Required to specify, if data type is Table or List */
@@ -131,7 +131,7 @@ return ii.intValue();
 public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 {
 if (A_RegistrationAttribute_ID < 1) throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-set_ValueNoCheck ("A_RegistrationAttribute_ID", new Integer(A_RegistrationAttribute_ID));
+set_ValueNoCheck ("A_RegistrationAttribute_ID", Integer.valueOf(A_RegistrationAttribute_ID));
 }
 /** Get Registration Attribute.
 @return Asset Registration Attribute */
@@ -179,7 +179,7 @@ return (String)get_Value("Description");
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -222,7 +222,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

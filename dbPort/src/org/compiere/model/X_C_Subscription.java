@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Subscription
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Subscription extends PO
 {
 /** Standard Constructor
@@ -61,12 +61,12 @@ public X_C_Subscription (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=669 */
-public static final int Table_ID=669;
+public static final int Table_ID=MTable.getTable_ID("C_Subscription");
 
 /** TableName=C_Subscription */
 public static final String Table_Name="C_Subscription";
 
-protected static KeyNamePair Model = new KeyNamePair(669,"C_Subscription");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Subscription");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -98,7 +98,7 @@ return sb.toString();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 {
 if (C_SubscriptionType_ID < 1) throw new IllegalArgumentException ("C_SubscriptionType_ID is mandatory.");
-set_Value ("C_SubscriptionType_ID", new Integer(C_SubscriptionType_ID));
+set_Value ("C_SubscriptionType_ID", Integer.valueOf(C_SubscriptionType_ID));
 }
 /** Get Subscription Type.
 @return Type of subscription */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setC_Subscription_ID (int C_Subscription_ID)
 {
 if (C_Subscription_ID < 1) throw new IllegalArgumentException ("C_Subscription_ID is mandatory.");
-set_ValueNoCheck ("C_Subscription_ID", new Integer(C_Subscription_ID));
+set_ValueNoCheck ("C_Subscription_ID", Integer.valueOf(C_Subscription_ID));
 }
 /** Get Subscription.
 @return Subscription of a Business Partner of a Product to renew */
@@ -142,7 +142,7 @@ return ii.intValue();
 @param IsDue Subscription Renewal is Due */
 public void setIsDue (boolean IsDue)
 {
-set_Value ("IsDue", new Boolean(IsDue));
+set_Value ("IsDue", Boolean.valueOf(IsDue));
 }
 /** Get Due.
 @return Subscription Renewal is Due */
@@ -161,7 +161,7 @@ return false;
 public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */

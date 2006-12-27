@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeValue
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_AttributeValue extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_AttributeValue (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=558 */
-public static final int Table_ID=558;
+public static final int Table_ID=MTable.getTable_ID("M_AttributeValue");
 
 /** TableName=M_AttributeValue */
 public static final String Table_Name="M_AttributeValue";
 
-protected static KeyNamePair Model = new KeyNamePair(558,"M_AttributeValue");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeValue");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -110,7 +110,7 @@ return (String)get_Value("Description");
 public void setM_AttributeValue_ID (int M_AttributeValue_ID)
 {
 if (M_AttributeValue_ID < 1) throw new IllegalArgumentException ("M_AttributeValue_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeValue_ID", new Integer(M_AttributeValue_ID));
+set_ValueNoCheck ("M_AttributeValue_ID", Integer.valueOf(M_AttributeValue_ID));
 }
 /** Get Attribute Value.
 @return Product Attribute Value */
@@ -125,7 +125,7 @@ return ii.intValue();
 public void setM_Attribute_ID (int M_Attribute_ID)
 {
 if (M_Attribute_ID < 1) throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-set_ValueNoCheck ("M_Attribute_ID", new Integer(M_Attribute_ID));
+set_ValueNoCheck ("M_Attribute_ID", Integer.valueOf(M_Attribute_ID));
 }
 /** Get Attribute.
 @return Product Attribute */

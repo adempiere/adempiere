@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Measure
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Measure extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_PA_Measure (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=441 */
-public static final int Table_ID=441;
+public static final int Table_ID=MTable.getTable_ID("PA_Measure");
 
 /** TableName=PA_Measure */
 public static final String Table_Name="PA_Measure";
 
-protected static KeyNamePair Model = new KeyNamePair(441,"PA_Measure");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Measure");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setC_ProjectType_ID (int C_ProjectType_ID)
 {
 if (C_ProjectType_ID <= 0) set_Value ("C_ProjectType_ID", null);
  else 
-set_Value ("C_ProjectType_ID", new Integer(C_ProjectType_ID));
+set_Value ("C_ProjectType_ID", Integer.valueOf(C_ProjectType_ID));
 }
 /** Get Project Type.
 @return Type of the project */
@@ -263,7 +263,7 @@ public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 {
 if (PA_Benchmark_ID <= 0) set_Value ("PA_Benchmark_ID", null);
  else 
-set_Value ("PA_Benchmark_ID", new Integer(PA_Benchmark_ID));
+set_Value ("PA_Benchmark_ID", Integer.valueOf(PA_Benchmark_ID));
 }
 /** Get Benchmark.
 @return Performance Benchmark */
@@ -279,7 +279,7 @@ public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
 {
 if (PA_Hierarchy_ID <= 0) set_Value ("PA_Hierarchy_ID", null);
  else 
-set_Value ("PA_Hierarchy_ID", new Integer(PA_Hierarchy_ID));
+set_Value ("PA_Hierarchy_ID", Integer.valueOf(PA_Hierarchy_ID));
 }
 /** Get Reporting Hierarchy.
 @return Optional Reporting Hierarchy - If not selected the default hierarchy trees are used. */
@@ -295,7 +295,7 @@ public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 {
 if (PA_MeasureCalc_ID <= 0) set_Value ("PA_MeasureCalc_ID", null);
  else 
-set_Value ("PA_MeasureCalc_ID", new Integer(PA_MeasureCalc_ID));
+set_Value ("PA_MeasureCalc_ID", Integer.valueOf(PA_MeasureCalc_ID));
 }
 /** Get Measure Calculation.
 @return Calculation method for measuring performance */
@@ -310,7 +310,7 @@ return ii.intValue();
 public void setPA_Measure_ID (int PA_Measure_ID)
 {
 if (PA_Measure_ID < 1) throw new IllegalArgumentException ("PA_Measure_ID is mandatory.");
-set_ValueNoCheck ("PA_Measure_ID", new Integer(PA_Measure_ID));
+set_ValueNoCheck ("PA_Measure_ID", Integer.valueOf(PA_Measure_ID));
 }
 /** Get Measure.
 @return Concrete Performance Measurement */
@@ -326,7 +326,7 @@ public void setPA_Ratio_ID (int PA_Ratio_ID)
 {
 if (PA_Ratio_ID <= 0) set_Value ("PA_Ratio_ID", null);
  else 
-set_Value ("PA_Ratio_ID", new Integer(PA_Ratio_ID));
+set_Value ("PA_Ratio_ID", Integer.valueOf(PA_Ratio_ID));
 }
 /** Get Ratio.
 @return Performace Ratio */
@@ -342,7 +342,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_Value ("R_RequestType_ID", null);
  else 
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */

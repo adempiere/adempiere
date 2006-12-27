@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportLineSet
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_ReportLineSet extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_PA_ReportLineSet (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=449 */
-public static final int Table_ID=449;
+public static final int Table_ID=MTable.getTable_ID("PA_ReportLineSet");
 
 /** TableName=PA_ReportLineSet */
 public static final String Table_Name="PA_ReportLineSet";
 
-protected static KeyNamePair Model = new KeyNamePair(449,"PA_ReportLineSet");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportLineSet");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -133,7 +133,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 {
 if (PA_ReportLineSet_ID < 1) throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-set_ValueNoCheck ("PA_ReportLineSet_ID", new Integer(PA_ReportLineSet_ID));
+set_ValueNoCheck ("PA_ReportLineSet_ID", Integer.valueOf(PA_ReportLineSet_ID));
 }
 /** Get Report Line Set.
 @return Report Line Set */
@@ -147,7 +147,7 @@ return ii.intValue();
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

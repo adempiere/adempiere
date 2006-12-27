@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaymentProcessor extends PO
 {
 /** Standard Constructor
@@ -72,12 +72,12 @@ public X_C_PaymentProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=398 */
-public static final int Table_ID=398;
+public static final int Table_ID=MTable.getTable_ID("C_PaymentProcessor");
 
 /** TableName=C_PaymentProcessor */
 public static final String Table_Name="C_PaymentProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(398,"C_PaymentProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaymentProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -113,7 +113,7 @@ public void setAD_Sequence_ID (int AD_Sequence_ID)
 {
 if (AD_Sequence_ID <= 0) set_Value ("AD_Sequence_ID", null);
  else 
-set_Value ("AD_Sequence_ID", new Integer(AD_Sequence_ID));
+set_Value ("AD_Sequence_ID", Integer.valueOf(AD_Sequence_ID));
 }
 /** Get Sequence.
 @return Document Sequence */
@@ -127,7 +127,7 @@ return ii.intValue();
 @param AcceptAMEX Accept American Express Card */
 public void setAcceptAMEX (boolean AcceptAMEX)
 {
-set_Value ("AcceptAMEX", new Boolean(AcceptAMEX));
+set_Value ("AcceptAMEX", Boolean.valueOf(AcceptAMEX));
 }
 /** Get Accept AMEX.
 @return Accept American Express Card */
@@ -145,7 +145,7 @@ return false;
 @param AcceptATM Accept Bank ATM Card */
 public void setAcceptATM (boolean AcceptATM)
 {
-set_Value ("AcceptATM", new Boolean(AcceptATM));
+set_Value ("AcceptATM", Boolean.valueOf(AcceptATM));
 }
 /** Get Accept ATM.
 @return Accept Bank ATM Card */
@@ -163,7 +163,7 @@ return false;
 @param AcceptCheck Accept ECheck (Electronic Checks) */
 public void setAcceptCheck (boolean AcceptCheck)
 {
-set_Value ("AcceptCheck", new Boolean(AcceptCheck));
+set_Value ("AcceptCheck", Boolean.valueOf(AcceptCheck));
 }
 /** Get Accept Electronic Check.
 @return Accept ECheck (Electronic Checks) */
@@ -181,7 +181,7 @@ return false;
 @param AcceptCorporate Accept Corporate Purchase Cards */
 public void setAcceptCorporate (boolean AcceptCorporate)
 {
-set_Value ("AcceptCorporate", new Boolean(AcceptCorporate));
+set_Value ("AcceptCorporate", Boolean.valueOf(AcceptCorporate));
 }
 /** Get Accept Corporate.
 @return Accept Corporate Purchase Cards */
@@ -199,7 +199,7 @@ return false;
 @param AcceptDiners Accept Diner's Club */
 public void setAcceptDiners (boolean AcceptDiners)
 {
-set_Value ("AcceptDiners", new Boolean(AcceptDiners));
+set_Value ("AcceptDiners", Boolean.valueOf(AcceptDiners));
 }
 /** Get Accept Diners.
 @return Accept Diner's Club */
@@ -217,7 +217,7 @@ return false;
 @param AcceptDirectDebit Accept Direct Debits (vendor initiated) */
 public void setAcceptDirectDebit (boolean AcceptDirectDebit)
 {
-set_Value ("AcceptDirectDebit", new Boolean(AcceptDirectDebit));
+set_Value ("AcceptDirectDebit", Boolean.valueOf(AcceptDirectDebit));
 }
 /** Get Accept Direct Debit.
 @return Accept Direct Debits (vendor initiated) */
@@ -235,7 +235,7 @@ return false;
 @param AcceptDirectDeposit Accept Direct Deposit (payee initiated) */
 public void setAcceptDirectDeposit (boolean AcceptDirectDeposit)
 {
-set_Value ("AcceptDirectDeposit", new Boolean(AcceptDirectDeposit));
+set_Value ("AcceptDirectDeposit", Boolean.valueOf(AcceptDirectDeposit));
 }
 /** Get Accept Direct Deposit.
 @return Accept Direct Deposit (payee initiated) */
@@ -253,7 +253,7 @@ return false;
 @param AcceptDiscover Accept Discover Card */
 public void setAcceptDiscover (boolean AcceptDiscover)
 {
-set_Value ("AcceptDiscover", new Boolean(AcceptDiscover));
+set_Value ("AcceptDiscover", Boolean.valueOf(AcceptDiscover));
 }
 /** Get Accept Discover.
 @return Accept Discover Card */
@@ -271,7 +271,7 @@ return false;
 @param AcceptMC Accept Master Card */
 public void setAcceptMC (boolean AcceptMC)
 {
-set_Value ("AcceptMC", new Boolean(AcceptMC));
+set_Value ("AcceptMC", Boolean.valueOf(AcceptMC));
 }
 /** Get Accept MasterCard.
 @return Accept Master Card */
@@ -289,7 +289,7 @@ return false;
 @param AcceptVisa Accept Visa Cards */
 public void setAcceptVisa (boolean AcceptVisa)
 {
-set_Value ("AcceptVisa", new Boolean(AcceptVisa));
+set_Value ("AcceptVisa", Boolean.valueOf(AcceptVisa));
 }
 /** Get Accept Visa.
 @return Accept Visa Cards */
@@ -308,7 +308,7 @@ return false;
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_ValueNoCheck ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_ValueNoCheck ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -324,7 +324,7 @@ public void setC_Currency_ID (int C_Currency_ID)
 {
 if (C_Currency_ID <= 0) set_Value ("C_Currency_ID", null);
  else 
-set_Value ("C_Currency_ID", new Integer(C_Currency_ID));
+set_Value ("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 }
 /** Get Currency.
 @return The Currency for this record */
@@ -339,7 +339,7 @@ return ii.intValue();
 public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
 {
 if (C_PaymentProcessor_ID < 1) throw new IllegalArgumentException ("C_PaymentProcessor_ID is mandatory.");
-set_ValueNoCheck ("C_PaymentProcessor_ID", new Integer(C_PaymentProcessor_ID));
+set_ValueNoCheck ("C_PaymentProcessor_ID", Integer.valueOf(C_PaymentProcessor_ID));
 }
 /** Get Payment Processor.
 @return Payment processor for electronic payments */
@@ -418,7 +418,7 @@ return (String)get_Value("HostAddress");
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
 {
-set_Value ("HostPort", new Integer(HostPort));
+set_Value ("HostPort", Integer.valueOf(HostPort));
 }
 /** Get Host port.
 @return Host Communication Port */
@@ -573,7 +573,7 @@ return (String)get_ValueE("ProxyPassword");
 @param ProxyPort Port of your proxy server */
 public void setProxyPort (int ProxyPort)
 {
-set_Value ("ProxyPort", new Integer(ProxyPort));
+set_Value ("ProxyPort", Integer.valueOf(ProxyPort));
 }
 /** Get Proxy port.
 @return Port of your proxy server */
@@ -587,7 +587,7 @@ return ii.intValue();
 @param RequireVV Require 3/4 digit Credit Verification Code */
 public void setRequireVV (boolean RequireVV)
 {
-set_Value ("RequireVV", new Boolean(RequireVV));
+set_Value ("RequireVV", Boolean.valueOf(RequireVV));
 }
 /** Get Require CreditCard Verification Code.
 @return Require 3/4 digit Credit Verification Code */

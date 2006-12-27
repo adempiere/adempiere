@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Session
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Session extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_Session (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=566 */
-public static final int Table_ID=566;
+public static final int Table_ID=MTable.getTable_ID("AD_Session");
 
 /** TableName=AD_Session */
 public static final String Table_Name="AD_Session";
 
-protected static KeyNamePair Model = new KeyNamePair(566,"AD_Session");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Session");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_Session_ID (int AD_Session_ID)
 {
 if (AD_Session_ID < 1) throw new IllegalArgumentException ("AD_Session_ID is mandatory.");
-set_ValueNoCheck ("AD_Session_ID", new Integer(AD_Session_ID));
+set_ValueNoCheck ("AD_Session_ID", Integer.valueOf(AD_Session_ID));
 }
 /** Get Session.
 @return User Session Online or Web */
@@ -111,7 +111,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_ValueNoCheck ("Processed", new Boolean(Processed));
+set_ValueNoCheck ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

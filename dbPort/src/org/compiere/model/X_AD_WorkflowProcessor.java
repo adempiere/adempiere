@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WorkflowProcessor
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_WorkflowProcessor extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_WorkflowProcessor (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=697 */
-public static final int Table_ID=697;
+public static final int Table_ID=MTable.getTable_ID("AD_WorkflowProcessor");
 
 /** TableName=AD_WorkflowProcessor */
 public static final String Table_Name="AD_WorkflowProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(697,"AD_WorkflowProcessor");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_WorkflowProcessor");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 {
 if (AD_WorkflowProcessor_ID < 1) throw new IllegalArgumentException ("AD_WorkflowProcessor_ID is mandatory.");
-set_ValueNoCheck ("AD_WorkflowProcessor_ID", new Integer(AD_WorkflowProcessor_ID));
+set_ValueNoCheck ("AD_WorkflowProcessor_ID", Integer.valueOf(AD_WorkflowProcessor_ID));
 }
 /** Get Workflow Processor.
 @return Workflow Processor Server */
@@ -109,7 +109,7 @@ return ii.intValue();
 @param AlertOverPriority Send alert email when over priority */
 public void setAlertOverPriority (int AlertOverPriority)
 {
-set_Value ("AlertOverPriority", new Integer(AlertOverPriority));
+set_Value ("AlertOverPriority", Integer.valueOf(AlertOverPriority));
 }
 /** Get Alert over Priority.
 @return Send alert email when over priority */
@@ -164,7 +164,7 @@ return (String)get_Value("Description");
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
 {
-set_Value ("Frequency", new Integer(Frequency));
+set_Value ("Frequency", Integer.valueOf(Frequency));
 }
 /** Get Frequency.
 @return Frequency of events */
@@ -207,7 +207,7 @@ return (String)get_Value("FrequencyType");
 @param InactivityAlertDays Send Alert when there is no activity after days (0= no alert) */
 public void setInactivityAlertDays (int InactivityAlertDays)
 {
-set_Value ("InactivityAlertDays", new Integer(InactivityAlertDays));
+set_Value ("InactivityAlertDays", Integer.valueOf(InactivityAlertDays));
 }
 /** Get Inactivity Alert Days.
 @return Send Alert when there is no activity after days (0= no alert) */
@@ -221,7 +221,7 @@ return ii.intValue();
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
 {
-set_Value ("KeepLogDays", new Integer(KeepLogDays));
+set_Value ("KeepLogDays", Integer.valueOf(KeepLogDays));
 }
 /** Get Days to keep Log.
 @return Number of days to keep the log entries */
@@ -259,7 +259,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -277,7 +277,7 @@ return false;
 @param RemindDays Days between sending Reminder Emails for a due or inactive Document */
 public void setRemindDays (int RemindDays)
 {
-set_Value ("RemindDays", new Integer(RemindDays));
+set_Value ("RemindDays", Integer.valueOf(RemindDays));
 }
 /** Get Reminder Days.
 @return Days between sending Reminder Emails for a due or inactive Document */
@@ -295,7 +295,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID < 1) throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-set_Value ("Supervisor_ID", new Integer(Supervisor_ID));
+set_Value ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for RV_BPartner
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_RV_BPartner extends PO
 {
 /** Standard Constructor
@@ -70,12 +70,12 @@ public X_RV_BPartner (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=520 */
-public static final int Table_ID=520;
+public static final int Table_ID=MTable.getTable_ID("RV_BPartner");
 
 /** TableName=RV_BPartner */
 public static final String Table_Name="RV_BPartner";
 
-protected static KeyNamePair Model = new KeyNamePair(520,"RV_BPartner");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"RV_BPartner");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -131,7 +131,7 @@ public void setAD_OrgBP_ID (int AD_OrgBP_ID)
 {
 if (AD_OrgBP_ID <= 0) set_ValueNoCheck ("AD_OrgBP_ID", null);
  else 
-set_ValueNoCheck ("AD_OrgBP_ID", new Integer(AD_OrgBP_ID));
+set_ValueNoCheck ("AD_OrgBP_ID", Integer.valueOf(AD_OrgBP_ID));
 }
 /** Get Linked Organization.
 @return The Business Partner is another Organization for explicit Inter-Org transactions */
@@ -150,7 +150,7 @@ public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 {
 if (AD_OrgTrx_ID <= 0) set_ValueNoCheck ("AD_OrgTrx_ID", null);
  else 
-set_ValueNoCheck ("AD_OrgTrx_ID", new Integer(AD_OrgTrx_ID));
+set_ValueNoCheck ("AD_OrgTrx_ID", Integer.valueOf(AD_OrgTrx_ID));
 }
 /** Get Trx Organization.
 @return Performing or initiating organization */
@@ -166,7 +166,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_ValueNoCheck ("AD_User_ID", null);
  else 
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -262,7 +262,7 @@ public static final int BPCONTACTGREETING_AD_Reference_ID=356;
 @param BPContactGreeting Greeting for Business Partner Contact */
 public void setBPContactGreeting (int BPContactGreeting)
 {
-set_ValueNoCheck ("BPContactGreeting", new Integer(BPContactGreeting));
+set_ValueNoCheck ("BPContactGreeting", Integer.valueOf(BPContactGreeting));
 }
 /** Get BP Contact Greeting.
 @return Greeting for Business Partner Contact */
@@ -281,7 +281,7 @@ public void setBPartner_Parent_ID (int BPartner_Parent_ID)
 {
 if (BPartner_Parent_ID <= 0) set_ValueNoCheck ("BPartner_Parent_ID", null);
  else 
-set_ValueNoCheck ("BPartner_Parent_ID", new Integer(BPartner_Parent_ID));
+set_ValueNoCheck ("BPartner_Parent_ID", Integer.valueOf(BPartner_Parent_ID));
 }
 /** Get Partner Parent.
 @return Business Partner Parent */
@@ -308,7 +308,7 @@ return (Timestamp)get_Value("Birthday");
 public void setC_BP_Group_ID (int C_BP_Group_ID)
 {
 if (C_BP_Group_ID < 1) throw new IllegalArgumentException ("C_BP_Group_ID is mandatory.");
-set_ValueNoCheck ("C_BP_Group_ID", new Integer(C_BP_Group_ID));
+set_ValueNoCheck ("C_BP_Group_ID", Integer.valueOf(C_BP_Group_ID));
 }
 /** Get Business Partner Group.
 @return Business Partner Group */
@@ -323,7 +323,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -338,7 +338,7 @@ return ii.intValue();
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 {
 if (C_BPartner_Location_ID < 1) throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_Location_ID", new Integer(C_BPartner_Location_ID));
+set_ValueNoCheck ("C_BPartner_Location_ID", Integer.valueOf(C_BPartner_Location_ID));
 }
 /** Get Partner Location.
 @return Identifies the (ship to) address for this Business Partner */
@@ -353,7 +353,7 @@ return ii.intValue();
 public void setC_Country_ID (int C_Country_ID)
 {
 if (C_Country_ID < 1) throw new IllegalArgumentException ("C_Country_ID is mandatory.");
-set_ValueNoCheck ("C_Country_ID", new Integer(C_Country_ID));
+set_ValueNoCheck ("C_Country_ID", Integer.valueOf(C_Country_ID));
 }
 /** Get Country.
 @return Country  */
@@ -369,7 +369,7 @@ public void setC_Dunning_ID (int C_Dunning_ID)
 {
 if (C_Dunning_ID <= 0) set_ValueNoCheck ("C_Dunning_ID", null);
  else 
-set_ValueNoCheck ("C_Dunning_ID", new Integer(C_Dunning_ID));
+set_ValueNoCheck ("C_Dunning_ID", Integer.valueOf(C_Dunning_ID));
 }
 /** Get Dunning.
 @return Dunning Rules for overdue invoices */
@@ -385,7 +385,7 @@ public void setC_Greeting_ID (int C_Greeting_ID)
 {
 if (C_Greeting_ID <= 0) set_ValueNoCheck ("C_Greeting_ID", null);
  else 
-set_ValueNoCheck ("C_Greeting_ID", new Integer(C_Greeting_ID));
+set_ValueNoCheck ("C_Greeting_ID", Integer.valueOf(C_Greeting_ID));
 }
 /** Get Greeting.
 @return Greeting to print on correspondence */
@@ -401,7 +401,7 @@ public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 {
 if (C_InvoiceSchedule_ID <= 0) set_ValueNoCheck ("C_InvoiceSchedule_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceSchedule_ID", new Integer(C_InvoiceSchedule_ID));
+set_ValueNoCheck ("C_InvoiceSchedule_ID", Integer.valueOf(C_InvoiceSchedule_ID));
 }
 /** Get Invoice Schedule.
 @return Schedule for generating Invoices */
@@ -417,7 +417,7 @@ public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID <= 0) set_ValueNoCheck ("C_PaymentTerm_ID", null);
  else 
-set_ValueNoCheck ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_ValueNoCheck ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -433,7 +433,7 @@ public void setC_Region_ID (int C_Region_ID)
 {
 if (C_Region_ID <= 0) set_ValueNoCheck ("C_Region_ID", null);
  else 
-set_ValueNoCheck ("C_Region_ID", new Integer(C_Region_ID));
+set_ValueNoCheck ("C_Region_ID", Integer.valueOf(C_Region_ID));
 }
 /** Get Region.
 @return Identifies a geographical Region */
@@ -630,7 +630,7 @@ return (String)get_Value("Description");
 @param DocumentCopies Number of copies to be printed */
 public void setDocumentCopies (int DocumentCopies)
 {
-set_ValueNoCheck ("DocumentCopies", new Integer(DocumentCopies));
+set_ValueNoCheck ("DocumentCopies", Integer.valueOf(DocumentCopies));
 }
 /** Get Document Copies.
 @return Number of copies to be printed */
@@ -815,7 +815,7 @@ public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 {
 if (Invoice_PrintFormat_ID <= 0) set_ValueNoCheck ("Invoice_PrintFormat_ID", null);
  else 
-set_ValueNoCheck ("Invoice_PrintFormat_ID", new Integer(Invoice_PrintFormat_ID));
+set_ValueNoCheck ("Invoice_PrintFormat_ID", Integer.valueOf(Invoice_PrintFormat_ID));
 }
 /** Get Invoice Print Format.
 @return Print Format for printing Invoices */
@@ -829,7 +829,7 @@ return ii.intValue();
 @param IsCustomer Indicates if this Business Partner is a Customer */
 public void setIsCustomer (boolean IsCustomer)
 {
-set_ValueNoCheck ("IsCustomer", new Boolean(IsCustomer));
+set_ValueNoCheck ("IsCustomer", Boolean.valueOf(IsCustomer));
 }
 /** Get Customer.
 @return Indicates if this Business Partner is a Customer */
@@ -847,7 +847,7 @@ return false;
 @param IsDiscountPrinted Print Discount on Invoice and Order */
 public void setIsDiscountPrinted (boolean IsDiscountPrinted)
 {
-set_ValueNoCheck ("IsDiscountPrinted", new Boolean(IsDiscountPrinted));
+set_ValueNoCheck ("IsDiscountPrinted", Boolean.valueOf(IsDiscountPrinted));
 }
 /** Get Discount Printed.
 @return Print Discount on Invoice and Order */
@@ -865,7 +865,7 @@ return false;
 @param IsEmployee Indicates if  this Business Partner is an employee */
 public void setIsEmployee (boolean IsEmployee)
 {
-set_ValueNoCheck ("IsEmployee", new Boolean(IsEmployee));
+set_ValueNoCheck ("IsEmployee", Boolean.valueOf(IsEmployee));
 }
 /** Get Employee.
 @return Indicates if  this Business Partner is an employee */
@@ -883,7 +883,7 @@ return false;
 @param IsOneTime One time transaction */
 public void setIsOneTime (boolean IsOneTime)
 {
-set_ValueNoCheck ("IsOneTime", new Boolean(IsOneTime));
+set_ValueNoCheck ("IsOneTime", Boolean.valueOf(IsOneTime));
 }
 /** Get One time transaction.
 @return One time transaction */
@@ -901,7 +901,7 @@ return false;
 @param IsProspect Indicates this is a Prospect */
 public void setIsProspect (boolean IsProspect)
 {
-set_ValueNoCheck ("IsProspect", new Boolean(IsProspect));
+set_ValueNoCheck ("IsProspect", Boolean.valueOf(IsProspect));
 }
 /** Get Prospect.
 @return Indicates this is a Prospect */
@@ -919,7 +919,7 @@ return false;
 @param IsSalesRep Indicates if  the business partner is a sales representative or company agent */
 public void setIsSalesRep (boolean IsSalesRep)
 {
-set_ValueNoCheck ("IsSalesRep", new Boolean(IsSalesRep));
+set_ValueNoCheck ("IsSalesRep", Boolean.valueOf(IsSalesRep));
 }
 /** Get Sales Representative.
 @return Indicates if  the business partner is a sales representative or company agent */
@@ -937,7 +937,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_ValueNoCheck ("IsSummary", new Boolean(IsSummary));
+set_ValueNoCheck ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */
@@ -955,7 +955,7 @@ return false;
 @param IsTaxExempt Business partner is exempt from tax */
 public void setIsTaxExempt (boolean IsTaxExempt)
 {
-set_ValueNoCheck ("IsTaxExempt", new Boolean(IsTaxExempt));
+set_ValueNoCheck ("IsTaxExempt", Boolean.valueOf(IsTaxExempt));
 }
 /** Get Tax exempt.
 @return Business partner is exempt from tax */
@@ -973,7 +973,7 @@ return false;
 @param IsVendor Indicates if this Business Partner is a Vendor */
 public void setIsVendor (boolean IsVendor)
 {
-set_ValueNoCheck ("IsVendor", new Boolean(IsVendor));
+set_ValueNoCheck ("IsVendor", Boolean.valueOf(IsVendor));
 }
 /** Get Vendor.
 @return Indicates if this Business Partner is a Vendor */
@@ -991,7 +991,7 @@ return false;
 @param LDAPUser User Name used for authorization via LDAP (directory) services */
 public void setLDAPUser (boolean LDAPUser)
 {
-set_ValueNoCheck ("LDAPUser", new Boolean(LDAPUser));
+set_ValueNoCheck ("LDAPUser", Boolean.valueOf(LDAPUser));
 }
 /** Get LDAP User Name.
 @return User Name used for authorization via LDAP (directory) services */
@@ -1040,7 +1040,7 @@ public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID <= 0) set_ValueNoCheck ("M_DiscountSchema_ID", null);
  else 
-set_ValueNoCheck ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_ValueNoCheck ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -1056,7 +1056,7 @@ public void setM_PriceList_ID (int M_PriceList_ID)
 {
 if (M_PriceList_ID <= 0) set_ValueNoCheck ("M_PriceList_ID", null);
  else 
-set_ValueNoCheck ("M_PriceList_ID", new Integer(M_PriceList_ID));
+set_ValueNoCheck ("M_PriceList_ID", Integer.valueOf(M_PriceList_ID));
 }
 /** Get Price List.
 @return Unique identifier of a Price List */
@@ -1153,7 +1153,7 @@ return (String)get_Value("NotificationType");
 @param NumberEmployees Number of employees */
 public void setNumberEmployees (int NumberEmployees)
 {
-set_ValueNoCheck ("NumberEmployees", new Integer(NumberEmployees));
+set_ValueNoCheck ("NumberEmployees", Integer.valueOf(NumberEmployees));
 }
 /** Get Employees.
 @return Number of employees */
@@ -1189,7 +1189,7 @@ public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 {
 if (PO_DiscountSchema_ID <= 0) set_ValueNoCheck ("PO_DiscountSchema_ID", null);
  else 
-set_ValueNoCheck ("PO_DiscountSchema_ID", new Integer(PO_DiscountSchema_ID));
+set_ValueNoCheck ("PO_DiscountSchema_ID", Integer.valueOf(PO_DiscountSchema_ID));
 }
 /** Get PO Discount Schema.
 @return Schema to calculate the purchase trade discount percentage */
@@ -1208,7 +1208,7 @@ public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID)
 {
 if (PO_PaymentTerm_ID <= 0) set_ValueNoCheck ("PO_PaymentTerm_ID", null);
  else 
-set_ValueNoCheck ("PO_PaymentTerm_ID", new Integer(PO_PaymentTerm_ID));
+set_ValueNoCheck ("PO_PaymentTerm_ID", Integer.valueOf(PO_PaymentTerm_ID));
 }
 /** Get PO Payment Term.
 @return Payment rules for a purchase order */
@@ -1227,7 +1227,7 @@ public void setPO_PriceList_ID (int PO_PriceList_ID)
 {
 if (PO_PriceList_ID <= 0) set_ValueNoCheck ("PO_PriceList_ID", null);
  else 
-set_ValueNoCheck ("PO_PriceList_ID", new Integer(PO_PriceList_ID));
+set_ValueNoCheck ("PO_PriceList_ID", Integer.valueOf(PO_PriceList_ID));
 }
 /** Get Purchase Pricelist.
 @return Price List used by this Business Partner */
@@ -1521,7 +1521,7 @@ public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID <= 0) set_ValueNoCheck ("SalesRep_ID", null);
  else 
-set_ValueNoCheck ("SalesRep_ID", new Integer(SalesRep_ID));
+set_ValueNoCheck ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */
@@ -1549,7 +1549,7 @@ return bd;
 @param SendEMail Enable sending Document EMail */
 public void setSendEMail (boolean SendEMail)
 {
-set_ValueNoCheck ("SendEMail", new Boolean(SendEMail));
+set_ValueNoCheck ("SendEMail", Boolean.valueOf(SendEMail));
 }
 /** Get Send EMail.
 @return Enable sending Document EMail */
@@ -1567,7 +1567,7 @@ return false;
 @param ShareOfCustomer Share of Customer's business as a percentage */
 public void setShareOfCustomer (int ShareOfCustomer)
 {
-set_ValueNoCheck ("ShareOfCustomer", new Integer(ShareOfCustomer));
+set_ValueNoCheck ("ShareOfCustomer", Integer.valueOf(ShareOfCustomer));
 }
 /** Get Share.
 @return Share of Customer's business as a percentage */
@@ -1581,7 +1581,7 @@ return ii.intValue();
 @param ShelfLifeMinPct Minimum Shelf Life in percent based on Product Instance Guarantee Date */
 public void setShelfLifeMinPct (int ShelfLifeMinPct)
 {
-set_ValueNoCheck ("ShelfLifeMinPct", new Integer(ShelfLifeMinPct));
+set_ValueNoCheck ("ShelfLifeMinPct", Integer.valueOf(ShelfLifeMinPct));
 }
 /** Get Min Shelf Life %.
 @return Minimum Shelf Life in percent based on Product Instance Guarantee Date */
@@ -1600,7 +1600,7 @@ public void setSupervisor_ID (int Supervisor_ID)
 {
 if (Supervisor_ID <= 0) set_ValueNoCheck ("Supervisor_ID", null);
  else 
-set_ValueNoCheck ("Supervisor_ID", new Integer(Supervisor_ID));
+set_ValueNoCheck ("Supervisor_ID", Integer.valueOf(Supervisor_ID));
 }
 /** Get Supervisor.
 @return Supervisor for this user/organization - used for escalation and approval */
@@ -1659,7 +1659,7 @@ if (bd == null) return Env.ZERO;
 return bd;
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.compiere.org */
+@param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
 {
 if (URL != null && URL.length() > 120)
@@ -1670,7 +1670,7 @@ URL = URL.substring(0,119);
 set_ValueNoCheck ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.compiere.org */
+@return Full URL address - e.g. http://www.adempiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");

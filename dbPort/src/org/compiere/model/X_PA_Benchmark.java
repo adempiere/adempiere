@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Benchmark
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_Benchmark extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_PA_Benchmark (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=833 */
-public static final int Table_ID=833;
+public static final int Table_ID=MTable.getTable_ID("PA_Benchmark");
 
 /** TableName=PA_Benchmark */
 public static final String Table_Name="PA_Benchmark";
 
-protected static KeyNamePair Model = new KeyNamePair(833,"PA_Benchmark");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Benchmark");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -177,7 +177,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 {
 if (PA_Benchmark_ID < 1) throw new IllegalArgumentException ("PA_Benchmark_ID is mandatory.");
-set_ValueNoCheck ("PA_Benchmark_ID", new Integer(PA_Benchmark_ID));
+set_ValueNoCheck ("PA_Benchmark_ID", Integer.valueOf(PA_Benchmark_ID));
 }
 /** Get Benchmark.
 @return Performance Benchmark */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Retirement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_Asset_Retirement extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_A_Asset_Retirement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=540 */
-public static final int Table_ID=540;
+public static final int Table_ID=MTable.getTable_ID("A_Asset_Retirement");
 
 /** TableName=A_Asset_Retirement */
 public static final String Table_Name="A_Asset_Retirement";
 
-protected static KeyNamePair Model = new KeyNamePair(540,"A_Asset_Retirement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Asset_Retirement");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID < 1) throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_ID", new Integer(A_Asset_ID));
+set_ValueNoCheck ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setA_Asset_Retirement_ID (int A_Asset_Retirement_ID)
 {
 if (A_Asset_Retirement_ID < 1) throw new IllegalArgumentException ("A_Asset_Retirement_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_Retirement_ID", new Integer(A_Asset_Retirement_ID));
+set_ValueNoCheck ("A_Asset_Retirement_ID", Integer.valueOf(A_Asset_Retirement_ID));
 }
 /** Get Asset Retirement.
 @return Internally used asset is not longer used. */
@@ -160,7 +160,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_Value ("C_InvoiceLine_ID", null);
  else 
-set_Value ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_Value ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */

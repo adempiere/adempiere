@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Menu
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Menu extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Menu (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=116 */
-public static final int Table_ID=116;
+public static final int Table_ID=MTable.getTable_ID("AD_Menu");
 
 /** TableName=AD_Menu */
 public static final String Table_Name="AD_Menu";
 
-protected static KeyNamePair Model = new KeyNamePair(116,"AD_Menu");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Menu");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setAD_Form_ID (int AD_Form_ID)
 {
 if (AD_Form_ID <= 0) set_Value ("AD_Form_ID", null);
  else 
-set_Value ("AD_Form_ID", new Integer(AD_Form_ID));
+set_Value ("AD_Form_ID", Integer.valueOf(AD_Form_ID));
 }
 /** Get Special Form.
 @return Special Form */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setAD_Menu_ID (int AD_Menu_ID)
 {
 if (AD_Menu_ID < 1) throw new IllegalArgumentException ("AD_Menu_ID is mandatory.");
-set_ValueNoCheck ("AD_Menu_ID", new Integer(AD_Menu_ID));
+set_ValueNoCheck ("AD_Menu_ID", Integer.valueOf(AD_Menu_ID));
 }
 /** Get Menu.
 @return Identifies a Menu */
@@ -127,7 +127,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -143,7 +143,7 @@ public void setAD_Task_ID (int AD_Task_ID)
 {
 if (AD_Task_ID <= 0) set_Value ("AD_Task_ID", null);
  else 
-set_Value ("AD_Task_ID", new Integer(AD_Task_ID));
+set_Value ("AD_Task_ID", Integer.valueOf(AD_Task_ID));
 }
 /** Get OS Task.
 @return Operation System Task */
@@ -159,7 +159,7 @@ public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID <= 0) set_Value ("AD_Window_ID", null);
  else 
-set_Value ("AD_Window_ID", new Integer(AD_Window_ID));
+set_Value ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -175,7 +175,7 @@ public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID <= 0) set_Value ("AD_Workbench_ID", null);
  else 
-set_Value ("AD_Workbench_ID", new Integer(AD_Workbench_ID));
+set_Value ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
 /** Get Workbench.
 @return Collection of windows, reports */
@@ -191,7 +191,7 @@ public void setAD_Workflow_ID (int AD_Workflow_ID)
 {
 if (AD_Workflow_ID <= 0) set_Value ("AD_Workflow_ID", null);
  else 
-set_Value ("AD_Workflow_ID", new Integer(AD_Workflow_ID));
+set_Value ("AD_Workflow_ID", Integer.valueOf(AD_Workflow_ID));
 }
 /** Get Workflow.
 @return Workflow or combination of tasks */
@@ -280,7 +280,7 @@ return (String)get_Value("EntityType");
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
 {
-set_Value ("IsReadOnly", new Boolean(IsReadOnly));
+set_Value ("IsReadOnly", Boolean.valueOf(IsReadOnly));
 }
 /** Get Read Only.
 @return Field is read only */
@@ -298,7 +298,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -316,7 +316,7 @@ return false;
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
 {
-set_Value ("IsSummary", new Boolean(IsSummary));
+set_Value ("IsSummary", Boolean.valueOf(IsSummary));
 }
 /** Get Summary Level.
 @return This is a summary entity */

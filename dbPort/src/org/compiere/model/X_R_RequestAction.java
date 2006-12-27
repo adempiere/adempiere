@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestAction
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_RequestAction extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_R_RequestAction (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=418 */
-public static final int Table_ID=418;
+public static final int Table_ID=MTable.getTable_ID("R_RequestAction");
 
 /** TableName=R_RequestAction */
 public static final String Table_Name="R_RequestAction";
 
-protected static KeyNamePair Model = new KeyNamePair(418,"R_RequestAction");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestAction");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID <= 0) set_ValueNoCheck ("AD_Role_ID", null);
  else 
-set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+set_ValueNoCheck ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -108,7 +108,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_ValueNoCheck ("AD_User_ID", null);
  else 
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -124,7 +124,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_ValueNoCheck ("A_Asset_ID", null);
  else 
-set_ValueNoCheck ("A_Asset_ID", new Integer(A_Asset_ID));
+set_ValueNoCheck ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -140,7 +140,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_ValueNoCheck ("C_Activity_ID", null);
  else 
-set_ValueNoCheck ("C_Activity_ID", new Integer(C_Activity_ID));
+set_ValueNoCheck ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -156,7 +156,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_ValueNoCheck ("C_BPartner_ID", null);
  else 
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -172,7 +172,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -188,7 +188,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_ValueNoCheck ("C_Order_ID", null);
  else 
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -204,7 +204,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_ValueNoCheck ("C_Payment_ID", null);
  else 
-set_ValueNoCheck ("C_Payment_ID", new Integer(C_Payment_ID));
+set_ValueNoCheck ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -220,7 +220,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_ValueNoCheck ("C_Project_ID", null);
  else 
-set_ValueNoCheck ("C_Project_ID", new Integer(C_Project_ID));
+set_ValueNoCheck ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -392,7 +392,7 @@ public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID <= 0) set_ValueNoCheck ("M_InOut_ID", null);
  else 
-set_ValueNoCheck ("M_InOut_ID", new Integer(M_InOut_ID));
+set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -411,7 +411,7 @@ public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 {
 if (M_ProductSpent_ID <= 0) set_Value ("M_ProductSpent_ID", null);
  else 
-set_Value ("M_ProductSpent_ID", new Integer(M_ProductSpent_ID));
+set_Value ("M_ProductSpent_ID", Integer.valueOf(M_ProductSpent_ID));
 }
 /** Get Product Used.
 @return Product/Resource/Service used in Request */
@@ -427,7 +427,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_ValueNoCheck ("M_Product_ID", null);
  else 
-set_ValueNoCheck ("M_Product_ID", new Integer(M_Product_ID));
+set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -443,7 +443,7 @@ public void setM_RMA_ID (int M_RMA_ID)
 {
 if (M_RMA_ID <= 0) set_ValueNoCheck ("M_RMA_ID", null);
  else 
-set_ValueNoCheck ("M_RMA_ID", new Integer(M_RMA_ID));
+set_ValueNoCheck ("M_RMA_ID", Integer.valueOf(M_RMA_ID));
 }
 /** Get RMA.
 @return Return Material Authorization */
@@ -582,7 +582,7 @@ public void setR_Category_ID (int R_Category_ID)
 {
 if (R_Category_ID <= 0) set_ValueNoCheck ("R_Category_ID", null);
  else 
-set_ValueNoCheck ("R_Category_ID", new Integer(R_Category_ID));
+set_ValueNoCheck ("R_Category_ID", Integer.valueOf(R_Category_ID));
 }
 /** Get Category.
 @return Request Category */
@@ -598,7 +598,7 @@ public void setR_Group_ID (int R_Group_ID)
 {
 if (R_Group_ID <= 0) set_ValueNoCheck ("R_Group_ID", null);
  else 
-set_ValueNoCheck ("R_Group_ID", new Integer(R_Group_ID));
+set_ValueNoCheck ("R_Group_ID", Integer.valueOf(R_Group_ID));
 }
 /** Get Group.
 @return Request Group */
@@ -613,7 +613,7 @@ return ii.intValue();
 public void setR_RequestAction_ID (int R_RequestAction_ID)
 {
 if (R_RequestAction_ID < 1) throw new IllegalArgumentException ("R_RequestAction_ID is mandatory.");
-set_ValueNoCheck ("R_RequestAction_ID", new Integer(R_RequestAction_ID));
+set_ValueNoCheck ("R_RequestAction_ID", Integer.valueOf(R_RequestAction_ID));
 }
 /** Get Request History.
 @return Request has been changed */
@@ -629,7 +629,7 @@ public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID <= 0) set_ValueNoCheck ("R_RequestType_ID", null);
  else 
-set_ValueNoCheck ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_ValueNoCheck ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */
@@ -644,7 +644,7 @@ return ii.intValue();
 public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID < 1) throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-set_ValueNoCheck ("R_Request_ID", new Integer(R_Request_ID));
+set_ValueNoCheck ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */
@@ -660,7 +660,7 @@ public void setR_Resolution_ID (int R_Resolution_ID)
 {
 if (R_Resolution_ID <= 0) set_ValueNoCheck ("R_Resolution_ID", null);
  else 
-set_ValueNoCheck ("R_Resolution_ID", new Integer(R_Resolution_ID));
+set_ValueNoCheck ("R_Resolution_ID", Integer.valueOf(R_Resolution_ID));
 }
 /** Get Resolution.
 @return Request Resolution */
@@ -676,7 +676,7 @@ public void setR_Status_ID (int R_Status_ID)
 {
 if (R_Status_ID <= 0) set_ValueNoCheck ("R_Status_ID", null);
  else 
-set_ValueNoCheck ("R_Status_ID", new Integer(R_Status_ID));
+set_ValueNoCheck ("R_Status_ID", Integer.valueOf(R_Status_ID));
 }
 /** Get Status.
 @return Request Status */
@@ -695,7 +695,7 @@ public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID <= 0) set_ValueNoCheck ("SalesRep_ID", null);
  else 
-set_ValueNoCheck ("SalesRep_ID", new Integer(SalesRep_ID));
+set_ValueNoCheck ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

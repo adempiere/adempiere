@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Window
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Window extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_AD_Window (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=105 */
-public static final int Table_ID=105;
+public static final int Table_ID=MTable.getTable_ID("AD_Window");
 
 /** TableName=AD_Window */
 public static final String Table_Name="AD_Window";
 
-protected static KeyNamePair Model = new KeyNamePair(105,"AD_Window");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Window");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -97,7 +97,7 @@ public void setAD_Color_ID (int AD_Color_ID)
 {
 if (AD_Color_ID <= 0) set_Value ("AD_Color_ID", null);
  else 
-set_Value ("AD_Color_ID", new Integer(AD_Color_ID));
+set_Value ("AD_Color_ID", Integer.valueOf(AD_Color_ID));
 }
 /** Get System Color.
 @return Color for backgrounds or indicators */
@@ -113,7 +113,7 @@ public void setAD_Image_ID (int AD_Image_ID)
 {
 if (AD_Image_ID <= 0) set_Value ("AD_Image_ID", null);
  else 
-set_Value ("AD_Image_ID", new Integer(AD_Image_ID));
+set_Value ("AD_Image_ID", Integer.valueOf(AD_Image_ID));
 }
 /** Get Image.
 @return Image or Icon */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setAD_Window_ID (int AD_Window_ID)
 {
 if (AD_Window_ID < 1) throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-set_ValueNoCheck ("AD_Window_ID", new Integer(AD_Window_ID));
+set_ValueNoCheck ("AD_Window_ID", Integer.valueOf(AD_Window_ID));
 }
 /** Get Window.
 @return Data entry or display window */
@@ -198,7 +198,7 @@ return (String)get_Value("Help");
 @param IsBetaFunctionality This functionality is considered Beta */
 public void setIsBetaFunctionality (boolean IsBetaFunctionality)
 {
-set_Value ("IsBetaFunctionality", new Boolean(IsBetaFunctionality));
+set_Value ("IsBetaFunctionality", Boolean.valueOf(IsBetaFunctionality));
 }
 /** Get Beta Functionality.
 @return This functionality is considered Beta */
@@ -216,7 +216,7 @@ return false;
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -234,7 +234,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -276,7 +276,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -294,7 +294,7 @@ return false;
 @param WinHeight Window Height */
 public void setWinHeight (int WinHeight)
 {
-set_Value ("WinHeight", new Integer(WinHeight));
+set_Value ("WinHeight", Integer.valueOf(WinHeight));
 }
 /** Get Window Height.
 @return Window Height */
@@ -308,7 +308,7 @@ return ii.intValue();
 @param WinWidth Window Width */
 public void setWinWidth (int WinWidth)
 {
-set_Value ("WinWidth", new Integer(WinWidth));
+set_Value ("WinWidth", Integer.valueOf(WinWidth));
 }
 /** Get Window Width.
 @return Window Width */

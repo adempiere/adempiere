@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchemaLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_DiscountSchemaLine extends PO
 {
 /** Standard Constructor
@@ -75,12 +75,12 @@ public X_M_DiscountSchemaLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=477 */
-public static final int Table_ID=477;
+public static final int Table_ID=MTable.getTable_ID("M_DiscountSchemaLine");
 
 /** TableName=M_DiscountSchemaLine */
 public static final String Table_Name="M_DiscountSchemaLine";
 
-protected static KeyNamePair Model = new KeyNamePair(477,"M_DiscountSchemaLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_DiscountSchemaLine");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -113,7 +113,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -128,7 +128,7 @@ return ii.intValue();
 public void setC_ConversionType_ID (int C_ConversionType_ID)
 {
 if (C_ConversionType_ID < 1) throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-set_Value ("C_ConversionType_ID", new Integer(C_ConversionType_ID));
+set_Value ("C_ConversionType_ID", Integer.valueOf(C_ConversionType_ID));
 }
 /** Get Currency Type.
 @return Currency Conversion Rate Type */
@@ -444,7 +444,7 @@ return (String)get_Value("List_Rounding");
 public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
 {
 if (M_DiscountSchemaLine_ID < 1) throw new IllegalArgumentException ("M_DiscountSchemaLine_ID is mandatory.");
-set_ValueNoCheck ("M_DiscountSchemaLine_ID", new Integer(M_DiscountSchemaLine_ID));
+set_ValueNoCheck ("M_DiscountSchemaLine_ID", Integer.valueOf(M_DiscountSchemaLine_ID));
 }
 /** Get Discount Pricelist.
 @return Line of the pricelist trade discount schema */
@@ -459,7 +459,7 @@ return ii.intValue();
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 {
 if (M_DiscountSchema_ID < 1) throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-set_ValueNoCheck ("M_DiscountSchema_ID", new Integer(M_DiscountSchema_ID));
+set_ValueNoCheck ("M_DiscountSchema_ID", Integer.valueOf(M_DiscountSchema_ID));
 }
 /** Get Discount Schema.
 @return Schema to calculate the trade discount percentage */
@@ -475,7 +475,7 @@ public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID <= 0) set_Value ("M_Product_Category_ID", null);
  else 
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -491,7 +491,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -506,7 +506,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

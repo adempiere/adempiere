@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Replication
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Replication extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_AD_Replication (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=605 */
-public static final int Table_ID=605;
+public static final int Table_ID=MTable.getTable_ID("AD_Replication");
 
 /** TableName=AD_Replication */
 public static final String Table_Name="AD_Replication";
 
-protected static KeyNamePair Model = new KeyNamePair(605,"AD_Replication");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Replication");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -97,7 +97,7 @@ return sb.toString();
 public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 {
 if (AD_ReplicationStrategy_ID < 1) throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-set_Value ("AD_ReplicationStrategy_ID", new Integer(AD_ReplicationStrategy_ID));
+set_Value ("AD_ReplicationStrategy_ID", Integer.valueOf(AD_ReplicationStrategy_ID));
 }
 /** Get Replication Strategy.
 @return Data Replication Strategy */
@@ -112,7 +112,7 @@ return ii.intValue();
 public void setAD_Replication_ID (int AD_Replication_ID)
 {
 if (AD_Replication_ID < 1) throw new IllegalArgumentException ("AD_Replication_ID is mandatory.");
-set_ValueNoCheck ("AD_Replication_ID", new Integer(AD_Replication_ID));
+set_ValueNoCheck ("AD_Replication_ID", Integer.valueOf(AD_Replication_ID));
 }
 /** Get Replication.
 @return Data Replication Target */
@@ -190,7 +190,7 @@ return (String)get_Value("HostAddress");
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
 {
-set_Value ("HostPort", new Integer(HostPort));
+set_Value ("HostPort", Integer.valueOf(HostPort));
 }
 /** Get Host port.
 @return Host Communication Port */
@@ -232,7 +232,7 @@ return bd;
 @param IsRMIoverHTTP Connect to Server via HTTP Tunnel */
 public void setIsRMIoverHTTP (boolean IsRMIoverHTTP)
 {
-set_Value ("IsRMIoverHTTP", new Boolean(IsRMIoverHTTP));
+set_Value ("IsRMIoverHTTP", Boolean.valueOf(IsRMIoverHTTP));
 }
 /** Get Tunnel via HTTP.
 @return Connect to Server via HTTP Tunnel */
@@ -291,7 +291,7 @@ return (String)get_Value("Prefix");
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -313,7 +313,7 @@ public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
 public void setRemote_Client_ID (int Remote_Client_ID)
 {
 if (Remote_Client_ID < 1) throw new IllegalArgumentException ("Remote_Client_ID is mandatory.");
-set_ValueNoCheck ("Remote_Client_ID", new Integer(Remote_Client_ID));
+set_ValueNoCheck ("Remote_Client_ID", Integer.valueOf(Remote_Client_ID));
 }
 /** Get Remote Client.
 @return Remote Client to be used to replicate / synchronize data with. */
@@ -331,7 +331,7 @@ public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
 public void setRemote_Org_ID (int Remote_Org_ID)
 {
 if (Remote_Org_ID < 1) throw new IllegalArgumentException ("Remote_Org_ID is mandatory.");
-set_ValueNoCheck ("Remote_Org_ID", new Integer(Remote_Org_ID));
+set_ValueNoCheck ("Remote_Org_ID", Integer.valueOf(Remote_Org_ID));
 }
 /** Get Remote Organization.
 @return Remote Organization to be used to replicate / synchronize data with. */

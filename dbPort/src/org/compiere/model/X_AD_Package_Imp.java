@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp
  *  @author Jorg Janke (generated) 
- *  @version Release 3.1.2 - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Package_Imp extends PO
 {
 /** Standard Constructor
@@ -55,7 +55,7 @@ public X_AD_Package_Imp (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=1000003 */
+/** AD_Table_ID=50003 */
 public static final int Table_ID=MTable.getTable_ID("AD_Package_Imp");
 
 /** TableName=AD_Package_Imp */
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 {
 if (AD_Package_Imp_ID < 1) throw new IllegalArgumentException ("AD_Package_Imp_ID is mandatory.");
-set_ValueNoCheck ("AD_Package_Imp_ID", new Integer(AD_Package_Imp_ID));
+set_ValueNoCheck ("AD_Package_Imp_ID", Integer.valueOf(AD_Package_Imp_ID));
 }
 /** Get AD_Package_Imp_ID.
 @return AD_Package_Imp_ID */
@@ -144,7 +144,7 @@ public String getCreatorContact()
 return (String)get_Value("CreatorContact");
 }
 /** Set Description.
-@param Description Optional short description of the record */
+@param Description Description */
 public void setDescription (String Description)
 {
 if (Description == null) throw new IllegalArgumentException ("Description is mandatory.");
@@ -156,13 +156,13 @@ Description = Description.substring(0,999);
 set_Value ("Description", Description);
 }
 /** Get Description.
-@return Optional short description of the record */
+@return Description */
 public String getDescription() 
 {
 return (String)get_Value("Description");
 }
-/** Set EMail Address.
-@param EMail Electronic Mail Address */
+/** Set EMail.
+@param EMail EMail */
 public void setEMail (String EMail)
 {
 if (EMail != null && EMail.length() > 60)
@@ -172,14 +172,14 @@ EMail = EMail.substring(0,59);
 }
 set_Value ("EMail", EMail);
 }
-/** Get EMail Address.
-@return Electronic Mail Address */
+/** Get EMail.
+@return EMail */
 public String getEMail() 
 {
 return (String)get_Value("EMail");
 }
 /** Set Name.
-@param Name Alphanumeric identifier of the entity */
+@param Name Name */
 public void setName (String Name)
 {
 if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
@@ -191,13 +191,13 @@ Name = Name.substring(0,59);
 set_Value ("Name", Name);
 }
 /** Get Name.
-@return Alphanumeric identifier of the entity */
+@return Name */
 public String getName() 
 {
 return (String)get_Value("Name");
 }
 /** Set PK_Status.
-@param PK_Status PK_Status */
+@param PK_Status Status of package installation */
 public void setPK_Status (String PK_Status)
 {
 if (PK_Status != null && PK_Status.length() > 22)
@@ -208,7 +208,7 @@ PK_Status = PK_Status.substring(0,21);
 set_Value ("PK_Status", PK_Status);
 }
 /** Get PK_Status.
-@return PK_Status */
+@return Status of package installation */
 public String getPK_Status() 
 {
 return (String)get_Value("PK_Status");
@@ -231,13 +231,13 @@ public String getPK_Version()
 return (String)get_Value("PK_Version");
 }
 /** Set Processed.
-@param Processed The document has been processed */
+@param Processed Processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
-@return The document has been processed */
+@return Processed */
 public boolean isProcessed() 
 {
 Object oo = get_Value("Processed");
@@ -248,14 +248,14 @@ if (oo != null)
 }
 return false;
 }
-/** Set Process Now.
-@param Processing Process Now */
+/** Set Processing.
+@param Processing Processing */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Process Now.
-@return Process Now */
+/** Get Processing.
+@return Processing */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");
@@ -266,8 +266,8 @@ if (oo != null)
 }
 return false;
 }
-/** Set Release No.
-@param ReleaseNo Internal Release Number */
+/** Set ReleaseNo.
+@param ReleaseNo ReleaseNo */
 public void setReleaseNo (String ReleaseNo)
 {
 if (ReleaseNo != null && ReleaseNo.length() > 20)
@@ -277,8 +277,8 @@ ReleaseNo = ReleaseNo.substring(0,19);
 }
 set_Value ("ReleaseNo", ReleaseNo);
 }
-/** Get Release No.
-@return Internal Release Number */
+/** Get ReleaseNo.
+@return ReleaseNo */
 public String getReleaseNo() 
 {
 return (String)get_Value("ReleaseNo");
@@ -287,7 +287,7 @@ return (String)get_Value("ReleaseNo");
 @param Uninstall Uninstall */
 public void setUninstall (boolean Uninstall)
 {
-set_Value ("Uninstall", new Boolean(Uninstall));
+set_Value ("Uninstall", Boolean.valueOf(Uninstall));
 }
 /** Get Uninstall.
 @return Uninstall */
@@ -302,7 +302,7 @@ if (oo != null)
 return false;
 }
 /** Set Version.
-@param Version Version of the table definition */
+@param Version Version */
 public void setVersion (String Version)
 {
 if (Version != null && Version.length() > 20)
@@ -313,7 +313,7 @@ Version = Version.substring(0,19);
 set_Value ("Version", Version);
 }
 /** Get Version.
-@return Version of the table definition */
+@return Version */
 public String getVersion() 
 {
 return (String)get_Value("Version");

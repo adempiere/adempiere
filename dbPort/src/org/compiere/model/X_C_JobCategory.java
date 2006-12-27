@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_JobCategory
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_JobCategory extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_JobCategory (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=790 */
-public static final int Table_ID=790;
+public static final int Table_ID=MTable.getTable_ID("C_JobCategory");
 
 /** TableName=C_JobCategory */
 public static final String Table_Name="C_JobCategory";
 
-protected static KeyNamePair Model = new KeyNamePair(790,"C_JobCategory");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_JobCategory");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setC_JobCategory_ID (int C_JobCategory_ID)
 {
 if (C_JobCategory_ID < 1) throw new IllegalArgumentException ("C_JobCategory_ID is mandatory.");
-set_ValueNoCheck ("C_JobCategory_ID", new Integer(C_JobCategory_ID));
+set_ValueNoCheck ("C_JobCategory_ID", Integer.valueOf(C_JobCategory_ID));
 }
 /** Get Position Category.
 @return Job Position Category */

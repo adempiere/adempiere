@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_OrgType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_OrgType extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_AD_OrgType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=689 */
-public static final int Table_ID=689;
+public static final int Table_ID=MTable.getTable_ID("AD_OrgType");
 
 /** TableName=AD_OrgType */
 public static final String Table_Name="AD_OrgType";
 
-protected static KeyNamePair Model = new KeyNamePair(689,"AD_OrgType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_OrgType");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -91,7 +91,7 @@ return sb.toString();
 public void setAD_OrgType_ID (int AD_OrgType_ID)
 {
 if (AD_OrgType_ID < 1) throw new IllegalArgumentException ("AD_OrgType_ID is mandatory.");
-set_ValueNoCheck ("AD_OrgType_ID", new Integer(AD_OrgType_ID));
+set_ValueNoCheck ("AD_OrgType_ID", Integer.valueOf(AD_OrgType_ID));
 }
 /** Get Organization Type.
 @return Organization Type allows you to categorize your organizations */
@@ -107,7 +107,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */

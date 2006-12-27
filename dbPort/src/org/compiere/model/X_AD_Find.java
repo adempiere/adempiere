@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Find
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Find extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_AD_Find (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=404 */
-public static final int Table_ID=404;
+public static final int Table_ID=MTable.getTable_ID("AD_Find");
 
 /** TableName=AD_Find */
 public static final String Table_Name="AD_Find";
 
-protected static KeyNamePair Model = new KeyNamePair(404,"AD_Find");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Find");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -98,7 +98,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_Value ("AD_Column_ID", new Integer(AD_Column_ID));
+set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -113,7 +113,7 @@ return ii.intValue();
 public void setAD_Find_ID (int AD_Find_ID)
 {
 if (AD_Find_ID < 1) throw new IllegalArgumentException ("AD_Find_ID is mandatory.");
-set_ValueNoCheck ("AD_Find_ID", new Integer(AD_Find_ID));
+set_ValueNoCheck ("AD_Find_ID", Integer.valueOf(AD_Find_ID));
 }
 /** Get Find.
 @return Find */

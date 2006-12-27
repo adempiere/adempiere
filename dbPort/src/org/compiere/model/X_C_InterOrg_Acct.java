@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InterOrg_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_InterOrg_Acct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_InterOrg_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=397 */
-public static final int Table_ID=397;
+public static final int Table_ID=MTable.getTable_ID("C_InterOrg_Acct");
 
 /** TableName=C_InterOrg_Acct */
 public static final String Table_Name="C_InterOrg_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(397,"C_InterOrg_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InterOrg_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ public static final int AD_ORGTO_ID_AD_Reference_ID=130;
 public void setAD_OrgTo_ID (int AD_OrgTo_ID)
 {
 if (AD_OrgTo_ID < 1) throw new IllegalArgumentException ("AD_OrgTo_ID is mandatory.");
-set_ValueNoCheck ("AD_OrgTo_ID", new Integer(AD_OrgTo_ID));
+set_ValueNoCheck ("AD_OrgTo_ID", Integer.valueOf(AD_OrgTo_ID));
 }
 /** Get Inter-Organization.
 @return Organization valid for intercompany documents */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -125,7 +125,7 @@ return ii.intValue();
 @param IntercompanyDueFrom_Acct Intercompany Due From / Receivables Account */
 public void setIntercompanyDueFrom_Acct (int IntercompanyDueFrom_Acct)
 {
-set_Value ("IntercompanyDueFrom_Acct", new Integer(IntercompanyDueFrom_Acct));
+set_Value ("IntercompanyDueFrom_Acct", Integer.valueOf(IntercompanyDueFrom_Acct));
 }
 /** Get Intercompany Due From Acct.
 @return Intercompany Due From / Receivables Account */
@@ -139,7 +139,7 @@ return ii.intValue();
 @param IntercompanyDueTo_Acct Intercompany Due To / Payable Account */
 public void setIntercompanyDueTo_Acct (int IntercompanyDueTo_Acct)
 {
-set_Value ("IntercompanyDueTo_Acct", new Integer(IntercompanyDueTo_Acct));
+set_Value ("IntercompanyDueTo_Acct", Integer.valueOf(IntercompanyDueTo_Acct));
 }
 /** Get Intercompany Due To Acct.
 @return Intercompany Due To / Payable Account */

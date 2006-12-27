@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ResourceUnAvailable
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_ResourceUnAvailable extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_S_ResourceUnAvailable (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=482 */
-public static final int Table_ID=482;
+public static final int Table_ID=MTable.getTable_ID("S_ResourceUnAvailable");
 
 /** TableName=S_ResourceUnAvailable */
 public static final String Table_Name="S_ResourceUnAvailable";
 
-protected static KeyNamePair Model = new KeyNamePair(482,"S_ResourceUnAvailable");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_ResourceUnAvailable");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -134,7 +134,7 @@ return (String)get_Value("Description");
 public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID)
 {
 if (S_ResourceUnAvailable_ID < 1) throw new IllegalArgumentException ("S_ResourceUnAvailable_ID is mandatory.");
-set_ValueNoCheck ("S_ResourceUnAvailable_ID", new Integer(S_ResourceUnAvailable_ID));
+set_ValueNoCheck ("S_ResourceUnAvailable_ID", Integer.valueOf(S_ResourceUnAvailable_ID));
 }
 /** Get Resource Unavailability.
 @return Resource Unavailability */
@@ -149,7 +149,7 @@ return ii.intValue();
 public void setS_Resource_ID (int S_Resource_ID)
 {
 if (S_Resource_ID < 1) throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-set_ValueNoCheck ("S_Resource_ID", new Integer(S_Resource_ID));
+set_ValueNoCheck ("S_Resource_ID", Integer.valueOf(S_Resource_ID));
 }
 /** Get Resource.
 @return Resource */

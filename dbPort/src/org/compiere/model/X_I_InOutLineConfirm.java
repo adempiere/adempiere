@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_InOutLineConfirm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_I_InOutLineConfirm extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_I_InOutLineConfirm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=740 */
-public static final int Table_ID=740;
+public static final int Table_ID=MTable.getTable_ID("I_InOutLineConfirm");
 
 /** TableName=I_InOutLineConfirm */
 public static final String Table_Name="I_InOutLineConfirm";
 
-protected static KeyNamePair Model = new KeyNamePair(740,"I_InOutLineConfirm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_InOutLineConfirm");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -178,7 +178,7 @@ return (String)get_Value("I_ErrorMsg");
 public void setI_InOutLineConfirm_ID (int I_InOutLineConfirm_ID)
 {
 if (I_InOutLineConfirm_ID < 1) throw new IllegalArgumentException ("I_InOutLineConfirm_ID is mandatory.");
-set_ValueNoCheck ("I_InOutLineConfirm_ID", new Integer(I_InOutLineConfirm_ID));
+set_ValueNoCheck ("I_InOutLineConfirm_ID", Integer.valueOf(I_InOutLineConfirm_ID));
 }
 /** Get Ship/Receipt Confirmation Import Line.
 @return Material Shipment or Receipt Confirmation Import Line */
@@ -198,7 +198,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getI_InOutLineConfirm_ID()));
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
 {
-set_Value ("I_IsImported", new Boolean(I_IsImported));
+set_Value ("I_IsImported", Boolean.valueOf(I_IsImported));
 }
 /** Get Imported.
 @return Has this import been processed */
@@ -217,7 +217,7 @@ return false;
 public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
 {
 if (M_InOutLineConfirm_ID < 1) throw new IllegalArgumentException ("M_InOutLineConfirm_ID is mandatory.");
-set_Value ("M_InOutLineConfirm_ID", new Integer(M_InOutLineConfirm_ID));
+set_Value ("M_InOutLineConfirm_ID", Integer.valueOf(M_InOutLineConfirm_ID));
 }
 /** Get Ship/Receipt Confirmation Line.
 @return Material Shipment or Receipt Confirmation Line */
@@ -231,7 +231,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -249,7 +249,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

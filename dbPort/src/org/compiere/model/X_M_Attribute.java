@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Attribute
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Attribute extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_Attribute (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=562 */
-public static final int Table_ID=562;
+public static final int Table_ID=MTable.getTable_ID("M_Attribute");
 
 /** TableName=M_Attribute */
 public static final String Table_Name="M_Attribute";
 
-protected static KeyNamePair Model = new KeyNamePair(562,"M_Attribute");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Attribute");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -139,7 +139,7 @@ return (String)get_Value("Description");
 @param IsInstanceAttribute The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
 public void setIsInstanceAttribute (boolean IsInstanceAttribute)
 {
-set_Value ("IsInstanceAttribute", new Boolean(IsInstanceAttribute));
+set_Value ("IsInstanceAttribute", Boolean.valueOf(IsInstanceAttribute));
 }
 /** Get Instance Attribute.
 @return The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
@@ -157,7 +157,7 @@ return false;
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
 {
-set_Value ("IsMandatory", new Boolean(IsMandatory));
+set_Value ("IsMandatory", Boolean.valueOf(IsMandatory));
 }
 /** Get Mandatory.
 @return Data entry is required in this column */
@@ -177,7 +177,7 @@ public void setM_AttributeSearch_ID (int M_AttributeSearch_ID)
 {
 if (M_AttributeSearch_ID <= 0) set_Value ("M_AttributeSearch_ID", null);
  else 
-set_Value ("M_AttributeSearch_ID", new Integer(M_AttributeSearch_ID));
+set_Value ("M_AttributeSearch_ID", Integer.valueOf(M_AttributeSearch_ID));
 }
 /** Get Attribute Search.
 @return Common Search Attribute  */
@@ -192,7 +192,7 @@ return ii.intValue();
 public void setM_Attribute_ID (int M_Attribute_ID)
 {
 if (M_Attribute_ID < 1) throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-set_ValueNoCheck ("M_Attribute_ID", new Integer(M_Attribute_ID));
+set_ValueNoCheck ("M_Attribute_ID", Integer.valueOf(M_Attribute_ID));
 }
 /** Get Attribute.
 @return Product Attribute */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Column
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_Column extends PO
 {
 /** Standard Constructor
@@ -69,12 +69,12 @@ public X_AD_Column (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=101 */
-public static final int Table_ID=101;
+public static final int Table_ID=MTable.getTable_ID("AD_Column");
 
 /** TableName=AD_Column */
 public static final String Table_Name="AD_Column";
 
-protected static KeyNamePair Model = new KeyNamePair(101,"AD_Column");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Column");
 
 protected BigDecimal accessLevel = new BigDecimal(4);
 /** AccessLevel
@@ -106,7 +106,7 @@ return sb.toString();
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID < 1) throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-set_ValueNoCheck ("AD_Column_ID", new Integer(AD_Column_ID));
+set_ValueNoCheck ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
 /** Get Column.
 @return Column in the table */
@@ -121,7 +121,7 @@ return ii.intValue();
 public void setAD_Element_ID (int AD_Element_ID)
 {
 if (AD_Element_ID < 1) throw new IllegalArgumentException ("AD_Element_ID is mandatory.");
-set_Value ("AD_Element_ID", new Integer(AD_Element_ID));
+set_Value ("AD_Element_ID", Integer.valueOf(AD_Element_ID));
 }
 /** Get System Element.
 @return System Element enables the central maintenance of column description and help. */
@@ -137,7 +137,7 @@ public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID <= 0) set_Value ("AD_Process_ID", null);
  else 
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -155,7 +155,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID < 1) throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-set_Value ("AD_Reference_ID", new Integer(AD_Reference_ID));
+set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
 /** Get Reference.
 @return System Reference and Validation */
@@ -174,7 +174,7 @@ public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 {
 if (AD_Reference_Value_ID <= 0) set_Value ("AD_Reference_Value_ID", null);
  else 
-set_Value ("AD_Reference_Value_ID", new Integer(AD_Reference_Value_ID));
+set_Value ("AD_Reference_Value_ID", Integer.valueOf(AD_Reference_Value_ID));
 }
 /** Get Reference Key.
 @return Required to specify, if data type is Table or List */
@@ -189,7 +189,7 @@ return ii.intValue();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -205,7 +205,7 @@ public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 {
 if (AD_Val_Rule_ID <= 0) set_Value ("AD_Val_Rule_ID", null);
  else 
-set_Value ("AD_Val_Rule_ID", new Integer(AD_Val_Rule_ID));
+set_Value ("AD_Val_Rule_ID", Integer.valueOf(AD_Val_Rule_ID));
 }
 /** Get Dynamic Validation.
 @return Dynamic Validation Rule */
@@ -335,7 +335,7 @@ return (String)get_Value("EntityType");
 @param FieldLength Length of the column in the database */
 public void setFieldLength (int FieldLength)
 {
-set_Value ("FieldLength", new Integer(FieldLength));
+set_Value ("FieldLength", Integer.valueOf(FieldLength));
 }
 /** Get Length.
 @return Length of the column in the database */
@@ -366,7 +366,7 @@ return (String)get_Value("Help");
 @param IsAlwaysUpdateable The column is always updateable, even if the record is not active or processed */
 public void setIsAlwaysUpdateable (boolean IsAlwaysUpdateable)
 {
-set_Value ("IsAlwaysUpdateable", new Boolean(IsAlwaysUpdateable));
+set_Value ("IsAlwaysUpdateable", Boolean.valueOf(IsAlwaysUpdateable));
 }
 /** Get Always Updateable.
 @return The column is always updateable, even if the record is not active or processed */
@@ -411,7 +411,7 @@ return (String)get_Value("IsEncrypted");
 @param IsIdentifier This column is part of the record identifier */
 public void setIsIdentifier (boolean IsIdentifier)
 {
-set_Value ("IsIdentifier", new Boolean(IsIdentifier));
+set_Value ("IsIdentifier", Boolean.valueOf(IsIdentifier));
 }
 /** Get Identifier.
 @return This column is part of the record identifier */
@@ -429,7 +429,7 @@ return false;
 @param IsKey This column is the key in this table */
 public void setIsKey (boolean IsKey)
 {
-set_Value ("IsKey", new Boolean(IsKey));
+set_Value ("IsKey", Boolean.valueOf(IsKey));
 }
 /** Get Key column.
 @return This column is the key in this table */
@@ -447,7 +447,7 @@ return false;
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
 {
-set_Value ("IsMandatory", new Boolean(IsMandatory));
+set_Value ("IsMandatory", Boolean.valueOf(IsMandatory));
 }
 /** Get Mandatory.
 @return Data entry is required in this column */
@@ -465,7 +465,7 @@ return false;
 @param IsParent This column is a link to the parent table (e.g. header from lines) - incl. Association key columns */
 public void setIsParent (boolean IsParent)
 {
-set_Value ("IsParent", new Boolean(IsParent));
+set_Value ("IsParent", Boolean.valueOf(IsParent));
 }
 /** Get Parent link column.
 @return This column is a link to the parent table (e.g. header from lines) - incl. Association key columns */
@@ -483,7 +483,7 @@ return false;
 @param IsSelectionColumn Is this column used for finding rows in windows */
 public void setIsSelectionColumn (boolean IsSelectionColumn)
 {
-set_Value ("IsSelectionColumn", new Boolean(IsSelectionColumn));
+set_Value ("IsSelectionColumn", Boolean.valueOf(IsSelectionColumn));
 }
 /** Get Selection Column.
 @return Is this column used for finding rows in windows */
@@ -518,7 +518,7 @@ return (String)get_Value("IsSyncDatabase");
 @param IsTranslated This column is translated */
 public void setIsTranslated (boolean IsTranslated)
 {
-set_Value ("IsTranslated", new Boolean(IsTranslated));
+set_Value ("IsTranslated", Boolean.valueOf(IsTranslated));
 }
 /** Get Translated.
 @return This column is translated */
@@ -536,7 +536,7 @@ return false;
 @param IsUpdateable Determines, if the field can be updated */
 public void setIsUpdateable (boolean IsUpdateable)
 {
-set_Value ("IsUpdateable", new Boolean(IsUpdateable));
+set_Value ("IsUpdateable", Boolean.valueOf(IsUpdateable));
 }
 /** Get Updateable.
 @return Determines, if the field can be updated */
@@ -590,7 +590,7 @@ return (String)get_Value("ReadOnlyLogic");
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

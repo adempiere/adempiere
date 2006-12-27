@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponseLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_RfQResponseLine extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_RfQResponseLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=673 */
-public static final int Table_ID=673;
+public static final int Table_ID=MTable.getTable_ID("C_RfQResponseLine");
 
 /** TableName=C_RfQResponseLine */
 public static final String Table_Name="C_RfQResponseLine";
 
-protected static KeyNamePair Model = new KeyNamePair(673,"C_RfQResponseLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQResponseLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_RfQLine_ID (int C_RfQLine_ID)
 {
 if (C_RfQLine_ID < 1) throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-set_ValueNoCheck ("C_RfQLine_ID", new Integer(C_RfQLine_ID));
+set_ValueNoCheck ("C_RfQLine_ID", Integer.valueOf(C_RfQLine_ID));
 }
 /** Get RfQ Line.
 @return Request for Quotation Line */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
 {
 if (C_RfQResponseLine_ID < 1) throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
-set_ValueNoCheck ("C_RfQResponseLine_ID", new Integer(C_RfQResponseLine_ID));
+set_ValueNoCheck ("C_RfQResponseLine_ID", Integer.valueOf(C_RfQResponseLine_ID));
 }
 /** Get RfQ Response Line.
 @return Request for Quotation Response Line */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 {
 if (C_RfQResponse_ID < 1) throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
-set_ValueNoCheck ("C_RfQResponse_ID", new Integer(C_RfQResponse_ID));
+set_ValueNoCheck ("C_RfQResponse_ID", Integer.valueOf(C_RfQResponse_ID));
 }
 /** Get RfQ Response.
 @return Request for Quotation Response from a potential Vendor */
@@ -162,7 +162,7 @@ return (Timestamp)get_Value("DateWorkStart");
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
 {
-set_Value ("DeliveryDays", new Integer(DeliveryDays));
+set_Value ("DeliveryDays", Integer.valueOf(DeliveryDays));
 }
 /** Get Delivery Days.
 @return Number of Days (planned) until Delivery */
@@ -210,7 +210,7 @@ return (String)get_Value("Help");
 @param IsSelectedWinner The resonse is the selected winner */
 public void setIsSelectedWinner (boolean IsSelectedWinner)
 {
-set_Value ("IsSelectedWinner", new Boolean(IsSelectedWinner));
+set_Value ("IsSelectedWinner", Boolean.valueOf(IsSelectedWinner));
 }
 /** Get Selected Winner.
 @return The resonse is the selected winner */
@@ -228,7 +228,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */

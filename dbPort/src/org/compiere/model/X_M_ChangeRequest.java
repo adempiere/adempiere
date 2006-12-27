@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ChangeRequest
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_ChangeRequest extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_M_ChangeRequest (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=800 */
-public static final int Table_ID=800;
+public static final int Table_ID=MTable.getTable_ID("M_ChangeRequest");
 
 /** TableName=M_ChangeRequest */
 public static final String Table_Name="M_ChangeRequest";
 
-protected static KeyNamePair Model = new KeyNamePair(800,"M_ChangeRequest");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ChangeRequest");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -163,7 +163,7 @@ return (String)get_Value("Help");
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -183,7 +183,7 @@ public void setM_BOM_ID (int M_BOM_ID)
 {
 if (M_BOM_ID <= 0) set_ValueNoCheck ("M_BOM_ID", null);
  else 
-set_ValueNoCheck ("M_BOM_ID", new Integer(M_BOM_ID));
+set_ValueNoCheck ("M_BOM_ID", Integer.valueOf(M_BOM_ID));
 }
 /** Get BOM.
 @return Bill of Material */
@@ -199,7 +199,7 @@ public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 {
 if (M_ChangeNotice_ID <= 0) set_ValueNoCheck ("M_ChangeNotice_ID", null);
  else 
-set_ValueNoCheck ("M_ChangeNotice_ID", new Integer(M_ChangeNotice_ID));
+set_ValueNoCheck ("M_ChangeNotice_ID", Integer.valueOf(M_ChangeNotice_ID));
 }
 /** Get Change Notice.
 @return Bill of Materials (Engineering) Change Notice (Version) */
@@ -214,7 +214,7 @@ return ii.intValue();
 public void setM_ChangeRequest_ID (int M_ChangeRequest_ID)
 {
 if (M_ChangeRequest_ID < 1) throw new IllegalArgumentException ("M_ChangeRequest_ID is mandatory.");
-set_ValueNoCheck ("M_ChangeRequest_ID", new Integer(M_ChangeRequest_ID));
+set_ValueNoCheck ("M_ChangeRequest_ID", Integer.valueOf(M_ChangeRequest_ID));
 }
 /** Get Change Request.
 @return BOM (Engineering) Change Request */
@@ -233,7 +233,7 @@ public void setM_FixChangeNotice_ID (int M_FixChangeNotice_ID)
 {
 if (M_FixChangeNotice_ID <= 0) set_ValueNoCheck ("M_FixChangeNotice_ID", null);
  else 
-set_ValueNoCheck ("M_FixChangeNotice_ID", new Integer(M_FixChangeNotice_ID));
+set_ValueNoCheck ("M_FixChangeNotice_ID", Integer.valueOf(M_FixChangeNotice_ID));
 }
 /** Get Fixed in.
 @return Fixed in Change Notice */
@@ -265,7 +265,7 @@ return (String)get_Value("Name");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

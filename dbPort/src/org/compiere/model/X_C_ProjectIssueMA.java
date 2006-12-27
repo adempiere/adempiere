@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectIssueMA
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_ProjectIssueMA extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_ProjectIssueMA (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=761 */
-public static final int Table_ID=761;
+public static final int Table_ID=MTable.getTable_ID("C_ProjectIssueMA");
 
 /** TableName=C_ProjectIssueMA */
 public static final String Table_Name="C_ProjectIssueMA";
 
-protected static KeyNamePair Model = new KeyNamePair(761,"C_ProjectIssueMA");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_ProjectIssueMA");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 {
 if (C_ProjectIssue_ID < 1) throw new IllegalArgumentException ("C_ProjectIssue_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectIssue_ID", new Integer(C_ProjectIssue_ID));
+set_ValueNoCheck ("C_ProjectIssue_ID", Integer.valueOf(C_ProjectIssue_ID));
 }
 /** Get Project Issue.
 @return Project Issues (Material, Labor) */
@@ -113,7 +113,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_ProjectIssue_ID()));
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID < 0) throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-set_ValueNoCheck ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_ValueNoCheck ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */

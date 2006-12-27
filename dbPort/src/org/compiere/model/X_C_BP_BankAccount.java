@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_BankAccount
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BP_BankAccount extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_BP_BankAccount (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=298 */
-public static final int Table_ID=298;
+public static final int Table_ID=MTable.getTable_ID("C_BP_BankAccount");
 
 /** TableName=C_BP_BankAccount */
 public static final String Table_Name="C_BP_BankAccount";
 
-protected static KeyNamePair Model = new KeyNamePair(298,"C_BP_BankAccount");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BP_BankAccount");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -336,7 +336,7 @@ return (String)get_Value("BankAccountType");
 public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 {
 if (C_BP_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BP_BankAccount_ID is mandatory.");
-set_ValueNoCheck ("C_BP_BankAccount_ID", new Integer(C_BP_BankAccount_ID));
+set_ValueNoCheck ("C_BP_BankAccount_ID", Integer.valueOf(C_BP_BankAccount_ID));
 }
 /** Get Partner Bank Account.
 @return Bank Account of the Business Partner */
@@ -351,7 +351,7 @@ return ii.intValue();
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -367,7 +367,7 @@ public void setC_Bank_ID (int C_Bank_ID)
 {
 if (C_Bank_ID <= 0) set_Value ("C_Bank_ID", null);
  else 
-set_Value ("C_Bank_ID", new Integer(C_Bank_ID));
+set_Value ("C_Bank_ID", Integer.valueOf(C_Bank_ID));
 }
 /** Get Bank.
 @return Bank */
@@ -387,7 +387,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
 @param CreditCardExpMM Expiry Month */
 public void setCreditCardExpMM (int CreditCardExpMM)
 {
-set_Value ("CreditCardExpMM", new Integer(CreditCardExpMM));
+set_Value ("CreditCardExpMM", Integer.valueOf(CreditCardExpMM));
 }
 /** Get Exp. Month.
 @return Expiry Month */
@@ -401,7 +401,7 @@ return ii.intValue();
 @param CreditCardExpYY Expiry Year */
 public void setCreditCardExpYY (int CreditCardExpYY)
 {
-set_Value ("CreditCardExpYY", new Integer(CreditCardExpYY));
+set_Value ("CreditCardExpYY", Integer.valueOf(CreditCardExpYY));
 }
 /** Get Exp. Year.
 @return Expiry Year */
@@ -485,7 +485,7 @@ return (String)get_Value("CreditCardVV");
 @param IsACH Automatic Clearing House */
 public void setIsACH (boolean IsACH)
 {
-set_Value ("IsACH", new Boolean(IsACH));
+set_Value ("IsACH", Boolean.valueOf(IsACH));
 }
 /** Get ACH.
 @return Automatic Clearing House */

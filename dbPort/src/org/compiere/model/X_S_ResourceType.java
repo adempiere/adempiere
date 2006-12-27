@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ResourceType
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_S_ResourceType extends PO
 {
 /** Standard Constructor
@@ -69,12 +69,12 @@ public X_S_ResourceType (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=480 */
-public static final int Table_ID=480;
+public static final int Table_ID=MTable.getTable_ID("S_ResourceType");
 
 /** TableName=S_ResourceType */
 public static final String Table_Name="S_ResourceType";
 
-protected static KeyNamePair Model = new KeyNamePair(480,"S_ResourceType");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_ResourceType");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -105,7 +105,7 @@ return sb.toString();
 @param AllowUoMFractions Allow Unit of Measure Fractions */
 public void setAllowUoMFractions (boolean AllowUoMFractions)
 {
-set_Value ("AllowUoMFractions", new Boolean(AllowUoMFractions));
+set_Value ("AllowUoMFractions", Boolean.valueOf(AllowUoMFractions));
 }
 /** Get Allow UoM Fractions.
 @return Allow Unit of Measure Fractions */
@@ -124,7 +124,7 @@ return false;
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 {
 if (C_TaxCategory_ID < 1) throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-set_Value ("C_TaxCategory_ID", new Integer(C_TaxCategory_ID));
+set_Value ("C_TaxCategory_ID", Integer.valueOf(C_TaxCategory_ID));
 }
 /** Get Tax Category.
 @return Tax Category */
@@ -139,7 +139,7 @@ return ii.intValue();
 public void setC_UOM_ID (int C_UOM_ID)
 {
 if (C_UOM_ID < 1) throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-set_Value ("C_UOM_ID", new Integer(C_UOM_ID));
+set_Value ("C_UOM_ID", Integer.valueOf(C_UOM_ID));
 }
 /** Get UOM.
 @return Unit of Measure */
@@ -153,7 +153,7 @@ return ii.intValue();
 @param ChargeableQty Chargeable Quantity */
 public void setChargeableQty (int ChargeableQty)
 {
-set_Value ("ChargeableQty", new Integer(ChargeableQty));
+set_Value ("ChargeableQty", Integer.valueOf(ChargeableQty));
 }
 /** Get Chargeable Quantity.
 @return Chargeable Quantity */
@@ -184,7 +184,7 @@ return (String)get_Value("Description");
 @param IsDateSlot Resource has day slot availability */
 public void setIsDateSlot (boolean IsDateSlot)
 {
-set_Value ("IsDateSlot", new Boolean(IsDateSlot));
+set_Value ("IsDateSlot", Boolean.valueOf(IsDateSlot));
 }
 /** Get Day Slot.
 @return Resource has day slot availability */
@@ -202,7 +202,7 @@ return false;
 @param IsSingleAssignment Only one assignment at a time (no double-booking or overlapping) */
 public void setIsSingleAssignment (boolean IsSingleAssignment)
 {
-set_Value ("IsSingleAssignment", new Boolean(IsSingleAssignment));
+set_Value ("IsSingleAssignment", Boolean.valueOf(IsSingleAssignment));
 }
 /** Get Single Assignment only.
 @return Only one assignment at a time (no double-booking or overlapping) */
@@ -220,7 +220,7 @@ return false;
 @param IsTimeSlot Resource has time slot availability */
 public void setIsTimeSlot (boolean IsTimeSlot)
 {
-set_Value ("IsTimeSlot", new Boolean(IsTimeSlot));
+set_Value ("IsTimeSlot", Boolean.valueOf(IsTimeSlot));
 }
 /** Get Time Slot.
 @return Resource has time slot availability */
@@ -239,7 +239,7 @@ return false;
 public void setM_Product_Category_ID (int M_Product_Category_ID)
 {
 if (M_Product_Category_ID < 1) throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-set_Value ("M_Product_Category_ID", new Integer(M_Product_Category_ID));
+set_Value ("M_Product_Category_ID", Integer.valueOf(M_Product_Category_ID));
 }
 /** Get Product Category.
 @return Category of a Product */
@@ -277,7 +277,7 @@ return new KeyNamePair(get_ID(), getName());
 @param OnFriday Available on Fridays */
 public void setOnFriday (boolean OnFriday)
 {
-set_Value ("OnFriday", new Boolean(OnFriday));
+set_Value ("OnFriday", Boolean.valueOf(OnFriday));
 }
 /** Get Friday.
 @return Available on Fridays */
@@ -295,7 +295,7 @@ return false;
 @param OnMonday Available on Mondays */
 public void setOnMonday (boolean OnMonday)
 {
-set_Value ("OnMonday", new Boolean(OnMonday));
+set_Value ("OnMonday", Boolean.valueOf(OnMonday));
 }
 /** Get Monday.
 @return Available on Mondays */
@@ -313,7 +313,7 @@ return false;
 @param OnSaturday Available on Saturday */
 public void setOnSaturday (boolean OnSaturday)
 {
-set_Value ("OnSaturday", new Boolean(OnSaturday));
+set_Value ("OnSaturday", Boolean.valueOf(OnSaturday));
 }
 /** Get Saturday.
 @return Available on Saturday */
@@ -331,7 +331,7 @@ return false;
 @param OnSunday Available on Sundays */
 public void setOnSunday (boolean OnSunday)
 {
-set_Value ("OnSunday", new Boolean(OnSunday));
+set_Value ("OnSunday", Boolean.valueOf(OnSunday));
 }
 /** Get Sunday.
 @return Available on Sundays */
@@ -349,7 +349,7 @@ return false;
 @param OnThursday Available on Thursdays */
 public void setOnThursday (boolean OnThursday)
 {
-set_Value ("OnThursday", new Boolean(OnThursday));
+set_Value ("OnThursday", Boolean.valueOf(OnThursday));
 }
 /** Get Thursday.
 @return Available on Thursdays */
@@ -367,7 +367,7 @@ return false;
 @param OnTuesday Available on Tuesdays */
 public void setOnTuesday (boolean OnTuesday)
 {
-set_Value ("OnTuesday", new Boolean(OnTuesday));
+set_Value ("OnTuesday", Boolean.valueOf(OnTuesday));
 }
 /** Get Tuesday.
 @return Available on Tuesdays */
@@ -385,7 +385,7 @@ return false;
 @param OnWednesday Available on Wednesdays */
 public void setOnWednesday (boolean OnWednesday)
 {
-set_Value ("OnWednesday", new Boolean(OnWednesday));
+set_Value ("OnWednesday", Boolean.valueOf(OnWednesday));
 }
 /** Get Wednesday.
 @return Available on Wednesdays */
@@ -404,7 +404,7 @@ return false;
 public void setS_ResourceType_ID (int S_ResourceType_ID)
 {
 if (S_ResourceType_ID < 1) throw new IllegalArgumentException ("S_ResourceType_ID is mandatory.");
-set_ValueNoCheck ("S_ResourceType_ID", new Integer(S_ResourceType_ID));
+set_ValueNoCheck ("S_ResourceType_ID", Integer.valueOf(S_ResourceType_ID));
 }
 /** Get Resource Type.
 @return Resource Type */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_BOMProduct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_BOMProduct extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_M_BOMProduct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=801 */
-public static final int Table_ID=801;
+public static final int Table_ID=MTable.getTable_ID("M_BOMProduct");
 
 /** TableName=M_BOMProduct */
 public static final String Table_Name="M_BOMProduct";
 
-protected static KeyNamePair Model = new KeyNamePair(801,"M_BOMProduct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_BOMProduct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -177,7 +177,7 @@ return (String)get_Value("Help");
 @param IsPhantom Phantom Component */
 public void setIsPhantom (boolean IsPhantom)
 {
-set_Value ("IsPhantom", new Boolean(IsPhantom));
+set_Value ("IsPhantom", Boolean.valueOf(IsPhantom));
 }
 /** Get Phantom.
 @return Phantom Component */
@@ -195,7 +195,7 @@ return false;
 @param LeadTimeOffset Optional Lead Time offest before starting production */
 public void setLeadTimeOffset (int LeadTimeOffset)
 {
-set_Value ("LeadTimeOffset", new Integer(LeadTimeOffset));
+set_Value ("LeadTimeOffset", Integer.valueOf(LeadTimeOffset));
 }
 /** Get Lead Time Offset.
 @return Optional Lead Time offest before starting production */
@@ -209,7 +209,7 @@ return ii.intValue();
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -231,7 +231,7 @@ public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 {
 if (M_AttributeSetInstance_ID <= 0) set_Value ("M_AttributeSetInstance_ID", null);
  else 
-set_Value ("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+set_Value ("M_AttributeSetInstance_ID", Integer.valueOf(M_AttributeSetInstance_ID));
 }
 /** Get Attribute Set Instance.
 @return Product Attribute Set Instance */
@@ -247,7 +247,7 @@ public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
 {
 if (M_BOMAlternative_ID <= 0) set_Value ("M_BOMAlternative_ID", null);
  else 
-set_Value ("M_BOMAlternative_ID", new Integer(M_BOMAlternative_ID));
+set_Value ("M_BOMAlternative_ID", Integer.valueOf(M_BOMAlternative_ID));
 }
 /** Get Alternative Group.
 @return Product BOM Alternative Group */
@@ -262,7 +262,7 @@ return ii.intValue();
 public void setM_BOMProduct_ID (int M_BOMProduct_ID)
 {
 if (M_BOMProduct_ID < 1) throw new IllegalArgumentException ("M_BOMProduct_ID is mandatory.");
-set_ValueNoCheck ("M_BOMProduct_ID", new Integer(M_BOMProduct_ID));
+set_ValueNoCheck ("M_BOMProduct_ID", Integer.valueOf(M_BOMProduct_ID));
 }
 /** Get BOM Component.
 @return Bill of Material Component (Product) */
@@ -277,7 +277,7 @@ return ii.intValue();
 public void setM_BOM_ID (int M_BOM_ID)
 {
 if (M_BOM_ID < 1) throw new IllegalArgumentException ("M_BOM_ID is mandatory.");
-set_ValueNoCheck ("M_BOM_ID", new Integer(M_BOM_ID));
+set_ValueNoCheck ("M_BOM_ID", Integer.valueOf(M_BOM_ID));
 }
 /** Get BOM.
 @return Bill of Material */
@@ -293,7 +293,7 @@ public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 {
 if (M_ChangeNotice_ID <= 0) set_Value ("M_ChangeNotice_ID", null);
  else 
-set_Value ("M_ChangeNotice_ID", new Integer(M_ChangeNotice_ID));
+set_Value ("M_ChangeNotice_ID", Integer.valueOf(M_ChangeNotice_ID));
 }
 /** Get Change Notice.
 @return Bill of Materials (Engineering) Change Notice (Version) */
@@ -312,7 +312,7 @@ public void setM_ProductBOM_ID (int M_ProductBOM_ID)
 {
 if (M_ProductBOM_ID <= 0) set_Value ("M_ProductBOM_ID", null);
  else 
-set_Value ("M_ProductBOM_ID", new Integer(M_ProductBOM_ID));
+set_Value ("M_ProductBOM_ID", Integer.valueOf(M_ProductBOM_ID));
 }
 /** Get BOM Product.
 @return Bill of Material Component Product */
@@ -328,7 +328,7 @@ public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 {
 if (M_ProductOperation_ID <= 0) set_Value ("M_ProductOperation_ID", null);
  else 
-set_Value ("M_ProductOperation_ID", new Integer(M_ProductOperation_ID));
+set_Value ("M_ProductOperation_ID", Integer.valueOf(M_ProductOperation_ID));
 }
 /** Get Product Operation.
 @return Product Manufacturing Operation */
@@ -343,7 +343,7 @@ return ii.intValue();
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

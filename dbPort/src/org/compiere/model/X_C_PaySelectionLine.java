@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelectionLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_PaySelectionLine extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_PaySelectionLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=427 */
-public static final int Table_ID=427;
+public static final int Table_ID=MTable.getTable_ID("C_PaySelectionLine");
 
 /** TableName=C_PaySelectionLine */
 public static final String Table_Name="C_PaySelectionLine";
 
-protected static KeyNamePair Model = new KeyNamePair(427,"C_PaySelectionLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaySelectionLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID < 1) throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -117,7 +117,7 @@ public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
 {
 if (C_PaySelectionCheck_ID <= 0) set_Value ("C_PaySelectionCheck_ID", null);
  else 
-set_Value ("C_PaySelectionCheck_ID", new Integer(C_PaySelectionCheck_ID));
+set_Value ("C_PaySelectionCheck_ID", Integer.valueOf(C_PaySelectionCheck_ID));
 }
 /** Get Pay Selection Check.
 @return Payment Selection Check */
@@ -132,7 +132,7 @@ return ii.intValue();
 public void setC_PaySelectionLine_ID (int C_PaySelectionLine_ID)
 {
 if (C_PaySelectionLine_ID < 1) throw new IllegalArgumentException ("C_PaySelectionLine_ID is mandatory.");
-set_ValueNoCheck ("C_PaySelectionLine_ID", new Integer(C_PaySelectionLine_ID));
+set_ValueNoCheck ("C_PaySelectionLine_ID", Integer.valueOf(C_PaySelectionLine_ID));
 }
 /** Get Payment Selection Line.
 @return Payment Selection Line */
@@ -153,7 +153,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getC_PaySelectionLine_ID()));
 public void setC_PaySelection_ID (int C_PaySelection_ID)
 {
 if (C_PaySelection_ID < 1) throw new IllegalArgumentException ("C_PaySelection_ID is mandatory.");
-set_ValueNoCheck ("C_PaySelection_ID", new Integer(C_PaySelection_ID));
+set_ValueNoCheck ("C_PaySelection_ID", Integer.valueOf(C_PaySelection_ID));
 }
 /** Get Payment Selection.
 @return Payment Selection */
@@ -214,7 +214,7 @@ return bd;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -232,7 +232,7 @@ return false;
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
 {
-set_Value ("IsSOTrx", new Boolean(IsSOTrx));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
 /** Get Sales Transaction.
 @return This is a Sales Transaction */
@@ -250,7 +250,7 @@ return false;
 @param Line Unique line for this document */
 public void setLine (int Line)
 {
-set_Value ("Line", new Integer(Line));
+set_Value ("Line", Integer.valueOf(Line));
 }
 /** Get Line No.
 @return Unique line for this document */
@@ -329,7 +329,7 @@ return (String)get_Value("PaymentRule");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

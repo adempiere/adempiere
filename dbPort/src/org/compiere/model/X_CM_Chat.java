@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Chat
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Chat extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_CM_Chat (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=876 */
-public static final int Table_ID=876;
+public static final int Table_ID=MTable.getTable_ID("CM_Chat");
 
 /** TableName=CM_Chat */
 public static final String Table_Name="CM_Chat";
 
-protected static KeyNamePair Model = new KeyNamePair(876,"CM_Chat");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Chat");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -110,7 +110,7 @@ public void setCM_ChatType_ID (int CM_ChatType_ID)
 {
 if (CM_ChatType_ID <= 0) set_Value ("CM_ChatType_ID", null);
  else 
-set_Value ("CM_ChatType_ID", new Integer(CM_ChatType_ID));
+set_Value ("CM_ChatType_ID", Integer.valueOf(CM_ChatType_ID));
 }
 /** Get Chat Type.
 @return Type of discussion / chat */
@@ -125,7 +125,7 @@ return ii.intValue();
 public void setCM_Chat_ID (int CM_Chat_ID)
 {
 if (CM_Chat_ID < 1) throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-set_ValueNoCheck ("CM_Chat_ID", new Integer(CM_Chat_ID));
+set_ValueNoCheck ("CM_Chat_ID", Integer.valueOf(CM_Chat_ID));
 }
 /** Get Chat.
 @return Chat or discussion thread */
@@ -223,7 +223,7 @@ return (String)get_Value("ModerationType");
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

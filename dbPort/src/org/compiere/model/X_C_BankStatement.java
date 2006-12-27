@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_BankStatement extends PO
 {
 /** Standard Constructor
@@ -63,12 +63,12 @@ public X_C_BankStatement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=392 */
-public static final int Table_ID=392;
+public static final int Table_ID=MTable.getTable_ID("C_BankStatement");
 
 /** TableName=C_BankStatement */
 public static final String Table_Name="C_BankStatement";
 
-protected static KeyNamePair Model = new KeyNamePair(392,"C_BankStatement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_BankStatement");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -114,7 +114,7 @@ return bd;
 public void setC_BankAccount_ID (int C_BankAccount_ID)
 {
 if (C_BankAccount_ID < 1) throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-set_Value ("C_BankAccount_ID", new Integer(C_BankAccount_ID));
+set_Value ("C_BankAccount_ID", Integer.valueOf(C_BankAccount_ID));
 }
 /** Get Bank Account.
 @return Account at the Bank */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setC_BankStatement_ID (int C_BankStatement_ID)
 {
 if (C_BankStatement_ID < 1) throw new IllegalArgumentException ("C_BankStatement_ID is mandatory.");
-set_ValueNoCheck ("C_BankStatement_ID", new Integer(C_BankStatement_ID));
+set_ValueNoCheck ("C_BankStatement_ID", Integer.valueOf(C_BankStatement_ID));
 }
 /** Get Bank Statement.
 @return Bank Statement of account */
@@ -319,7 +319,7 @@ return bd;
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
 {
-set_Value ("IsApproved", new Boolean(IsApproved));
+set_Value ("IsApproved", Boolean.valueOf(IsApproved));
 }
 /** Get Approved.
 @return Indicates if this document requires approval */
@@ -337,7 +337,7 @@ return false;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_Value ("IsManual", new Boolean(IsManual));
+set_Value ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */
@@ -396,7 +396,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Posted Posting status */
 public void setPosted (boolean Posted)
 {
-set_Value ("Posted", new Boolean(Posted));
+set_Value ("Posted", Boolean.valueOf(Posted));
 }
 /** Get Posted.
 @return Posting status */
@@ -414,7 +414,7 @@ return false;
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -432,7 +432,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

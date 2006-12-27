@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxPostal
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_TaxPostal extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_C_TaxPostal (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=701 */
-public static final int Table_ID=701;
+public static final int Table_ID=MTable.getTable_ID("C_TaxPostal");
 
 /** TableName=C_TaxPostal */
 public static final String Table_Name="C_TaxPostal";
 
-protected static KeyNamePair Model = new KeyNamePair(701,"C_TaxPostal");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_TaxPostal");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -92,7 +92,7 @@ return sb.toString();
 public void setC_TaxPostal_ID (int C_TaxPostal_ID)
 {
 if (C_TaxPostal_ID < 1) throw new IllegalArgumentException ("C_TaxPostal_ID is mandatory.");
-set_ValueNoCheck ("C_TaxPostal_ID", new Integer(C_TaxPostal_ID));
+set_ValueNoCheck ("C_TaxPostal_ID", Integer.valueOf(C_TaxPostal_ID));
 }
 /** Get Tax ZIP.
 @return Tax Postal/ZIP */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_ValueNoCheck ("C_Tax_ID", new Integer(C_Tax_ID));
+set_ValueNoCheck ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */

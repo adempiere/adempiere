@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Delivery
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_A_Asset_Delivery extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_A_Asset_Delivery (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=541 */
-public static final int Table_ID=541;
+public static final int Table_ID=MTable.getTable_ID("A_Asset_Delivery");
 
 /** TableName=A_Asset_Delivery */
 public static final String Table_Name="A_Asset_Delivery";
 
-protected static KeyNamePair Model = new KeyNamePair(541,"A_Asset_Delivery");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Asset_Delivery");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_ValueNoCheck ("AD_User_ID", null);
  else 
-set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+set_ValueNoCheck ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setA_Asset_Delivery_ID (int A_Asset_Delivery_ID)
 {
 if (A_Asset_Delivery_ID < 1) throw new IllegalArgumentException ("A_Asset_Delivery_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_Delivery_ID", new Integer(A_Asset_Delivery_ID));
+set_ValueNoCheck ("A_Asset_Delivery_ID", Integer.valueOf(A_Asset_Delivery_ID));
 }
 /** Get Asset Delivery.
 @return Delivery of Asset */
@@ -123,7 +123,7 @@ return ii.intValue();
 public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID < 1) throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-set_ValueNoCheck ("A_Asset_ID", new Integer(A_Asset_ID));
+set_ValueNoCheck ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -207,7 +207,7 @@ public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID <= 0) set_ValueNoCheck ("M_InOutLine_ID", null);
  else 
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -223,7 +223,7 @@ public void setM_ProductDownload_ID (int M_ProductDownload_ID)
 {
 if (M_ProductDownload_ID <= 0) set_Value ("M_ProductDownload_ID", null);
  else 
-set_Value ("M_ProductDownload_ID", new Integer(M_ProductDownload_ID));
+set_Value ("M_ProductDownload_ID", Integer.valueOf(M_ProductDownload_ID));
 }
 /** Get Product Download.
 @return Product downloads */
@@ -338,7 +338,7 @@ public String getSerNo()
 return (String)get_Value("SerNo");
 }
 /** Set URL.
-@param URL Full URL address - e.g. http://www.compiere.org */
+@param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
 {
 if (URL != null && URL.length() > 120)
@@ -349,7 +349,7 @@ URL = URL.substring(0,119);
 set_ValueNoCheck ("URL", URL);
 }
 /** Get URL.
-@return Full URL address - e.g. http://www.compiere.org */
+@return Full URL address - e.g. http://www.adempiere.org */
 public String getURL() 
 {
 return (String)get_Value("URL");

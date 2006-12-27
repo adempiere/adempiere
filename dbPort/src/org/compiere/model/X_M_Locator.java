@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Locator
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Locator extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_M_Locator (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=207 */
-public static final int Table_ID=207;
+public static final int Table_ID=MTable.getTable_ID("M_Locator");
 
 /** TableName=M_Locator */
 public static final String Table_Name="M_Locator";
 
-protected static KeyNamePair Model = new KeyNamePair(207,"M_Locator");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Locator");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
 {
-set_Value ("IsDefault", new Boolean(IsDefault));
+set_Value ("IsDefault", Boolean.valueOf(IsDefault));
 }
 /** Get Default.
 @return Default value */
@@ -115,7 +115,7 @@ return false;
 public void setM_Locator_ID (int M_Locator_ID)
 {
 if (M_Locator_ID < 1) throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-set_ValueNoCheck ("M_Locator_ID", new Integer(M_Locator_ID));
+set_ValueNoCheck ("M_Locator_ID", Integer.valueOf(M_Locator_ID));
 }
 /** Get Locator.
 @return Warehouse Locator */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setM_Warehouse_ID (int M_Warehouse_ID)
 {
 if (M_Warehouse_ID < 1) throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-set_ValueNoCheck ("M_Warehouse_ID", new Integer(M_Warehouse_ID));
+set_ValueNoCheck ("M_Warehouse_ID", Integer.valueOf(M_Warehouse_ID));
 }
 /** Get Warehouse.
 @return Storage Warehouse and Service Point */
@@ -144,7 +144,7 @@ return ii.intValue();
 @param PriorityNo Where inventory should be picked from first */
 public void setPriorityNo (int PriorityNo)
 {
-set_Value ("PriorityNo", new Integer(PriorityNo));
+set_Value ("PriorityNo", Integer.valueOf(PriorityNo));
 }
 /** Get Relative Priority.
 @return Where inventory should be picked from first */

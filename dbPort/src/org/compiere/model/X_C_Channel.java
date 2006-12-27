@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Channel
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Channel extends PO
 {
 /** Standard Constructor
@@ -54,12 +54,12 @@ public X_C_Channel (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=275 */
-public static final int Table_ID=275;
+public static final int Table_ID=MTable.getTable_ID("C_Channel");
 
 /** TableName=C_Channel */
 public static final String Table_Name="C_Channel";
 
-protected static KeyNamePair Model = new KeyNamePair(275,"C_Channel");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Channel");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -92,7 +92,7 @@ public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 {
 if (AD_PrintColor_ID <= 0) set_Value ("AD_PrintColor_ID", null);
  else 
-set_Value ("AD_PrintColor_ID", new Integer(AD_PrintColor_ID));
+set_Value ("AD_PrintColor_ID", Integer.valueOf(AD_PrintColor_ID));
 }
 /** Get Print Color.
 @return Color used for printing and display */
@@ -107,7 +107,7 @@ return ii.intValue();
 public void setC_Channel_ID (int C_Channel_ID)
 {
 if (C_Channel_ID < 1) throw new IllegalArgumentException ("C_Channel_ID is mandatory.");
-set_ValueNoCheck ("C_Channel_ID", new Integer(C_Channel_ID));
+set_ValueNoCheck ("C_Channel_ID", Integer.valueOf(C_Channel_ID));
 }
 /** Get Channel.
 @return Sales Channel */

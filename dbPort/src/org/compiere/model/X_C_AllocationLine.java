@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AllocationLine
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_AllocationLine extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_AllocationLine (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=390 */
-public static final int Table_ID=390;
+public static final int Table_ID=MTable.getTable_ID("C_AllocationLine");
 
 /** TableName=C_AllocationLine */
 public static final String Table_Name="C_AllocationLine";
 
-protected static KeyNamePair Model = new KeyNamePair(390,"C_AllocationLine");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_AllocationLine");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -109,7 +109,7 @@ return bd;
 public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
 {
 if (C_AllocationHdr_ID < 1) throw new IllegalArgumentException ("C_AllocationHdr_ID is mandatory.");
-set_ValueNoCheck ("C_AllocationHdr_ID", new Integer(C_AllocationHdr_ID));
+set_ValueNoCheck ("C_AllocationHdr_ID", Integer.valueOf(C_AllocationHdr_ID));
 }
 /** Get Allocation.
 @return Payment allocation */
@@ -124,7 +124,7 @@ return ii.intValue();
 public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 {
 if (C_AllocationLine_ID < 1) throw new IllegalArgumentException ("C_AllocationLine_ID is mandatory.");
-set_ValueNoCheck ("C_AllocationLine_ID", new Integer(C_AllocationLine_ID));
+set_ValueNoCheck ("C_AllocationLine_ID", Integer.valueOf(C_AllocationLine_ID));
 }
 /** Get Allocation Line.
 @return Allocation Line */
@@ -140,7 +140,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_ValueNoCheck ("C_BPartner_ID", null);
  else 
-set_ValueNoCheck ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_ValueNoCheck ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -156,7 +156,7 @@ public void setC_CashLine_ID (int C_CashLine_ID)
 {
 if (C_CashLine_ID <= 0) set_ValueNoCheck ("C_CashLine_ID", null);
  else 
-set_ValueNoCheck ("C_CashLine_ID", new Integer(C_CashLine_ID));
+set_ValueNoCheck ("C_CashLine_ID", Integer.valueOf(C_CashLine_ID));
 }
 /** Get Cash Journal Line.
 @return Cash Journal Line */
@@ -172,7 +172,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_ValueNoCheck ("C_Invoice_ID", null);
  else 
-set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_ValueNoCheck ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -194,7 +194,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_ValueNoCheck ("C_Order_ID", null);
  else 
-set_ValueNoCheck ("C_Order_ID", new Integer(C_Order_ID));
+set_ValueNoCheck ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -210,7 +210,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_ValueNoCheck ("C_Payment_ID", null);
  else 
-set_ValueNoCheck ("C_Payment_ID", new Integer(C_Payment_ID));
+set_ValueNoCheck ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -251,7 +251,7 @@ return bd;
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
 {
-set_ValueNoCheck ("IsManual", new Boolean(IsManual));
+set_ValueNoCheck ("IsManual", Boolean.valueOf(IsManual));
 }
 /** Get Manual.
 @return This is a manual process */

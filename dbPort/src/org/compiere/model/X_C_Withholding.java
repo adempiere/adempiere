@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Withholding
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Withholding extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_C_Withholding (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=304 */
-public static final int Table_ID=304;
+public static final int Table_ID=MTable.getTable_ID("C_Withholding");
 
 /** TableName=C_Withholding */
 public static final String Table_Name="C_Withholding";
 
-protected static KeyNamePair Model = new KeyNamePair(304,"C_Withholding");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Withholding");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -99,7 +99,7 @@ public static final int BENEFICIARY_AD_Reference_ID=138;
 @param Beneficiary Business Partner to whom payment is made */
 public void setBeneficiary (int Beneficiary)
 {
-set_Value ("Beneficiary", new Integer(Beneficiary));
+set_Value ("Beneficiary", Integer.valueOf(Beneficiary));
 }
 /** Get Beneficiary.
 @return Business Partner to whom payment is made */
@@ -114,7 +114,7 @@ return ii.intValue();
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID < 1) throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_Value ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -129,7 +129,7 @@ return ii.intValue();
 public void setC_Withholding_ID (int C_Withholding_ID)
 {
 if (C_Withholding_ID < 1) throw new IllegalArgumentException ("C_Withholding_ID is mandatory.");
-set_ValueNoCheck ("C_Withholding_ID", new Integer(C_Withholding_ID));
+set_ValueNoCheck ("C_Withholding_ID", Integer.valueOf(C_Withholding_ID));
 }
 /** Get Withholding.
 @return Withholding type defined */
@@ -174,7 +174,7 @@ return bd;
 @param IsPaidTo3Party Amount paid to someone other than the Business Partner */
 public void setIsPaidTo3Party (boolean IsPaidTo3Party)
 {
-set_Value ("IsPaidTo3Party", new Boolean(IsPaidTo3Party));
+set_Value ("IsPaidTo3Party", Boolean.valueOf(IsPaidTo3Party));
 }
 /** Get Paid to third party.
 @return Amount paid to someone other than the Business Partner */
@@ -192,7 +192,7 @@ return false;
 @param IsPercentWithholding Withholding amount is a percentage of the invoice amount */
 public void setIsPercentWithholding (boolean IsPercentWithholding)
 {
-set_Value ("IsPercentWithholding", new Boolean(IsPercentWithholding));
+set_Value ("IsPercentWithholding", Boolean.valueOf(IsPercentWithholding));
 }
 /** Get Percent withholding.
 @return Withholding amount is a percentage of the invoice amount */
@@ -210,7 +210,7 @@ return false;
 @param IsTaxProrated Tax is Prorated */
 public void setIsTaxProrated (boolean IsTaxProrated)
 {
-set_Value ("IsTaxProrated", new Boolean(IsTaxProrated));
+set_Value ("IsTaxProrated", Boolean.valueOf(IsTaxProrated));
 }
 /** Get Prorate tax.
 @return Tax is Prorated */
@@ -228,7 +228,7 @@ return false;
 @param IsTaxWithholding This is a tax related withholding */
 public void setIsTaxWithholding (boolean IsTaxWithholding)
 {
-set_Value ("IsTaxWithholding", new Boolean(IsTaxWithholding));
+set_Value ("IsTaxWithholding", Boolean.valueOf(IsTaxWithholding));
 }
 /** Get Tax withholding.
 @return This is a tax related withholding */

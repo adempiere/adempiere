@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_BenchmarkData
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_BenchmarkData extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_PA_BenchmarkData (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=834 */
-public static final int Table_ID=834;
+public static final int Table_ID=MTable.getTable_ID("PA_BenchmarkData");
 
 /** TableName=PA_BenchmarkData */
 public static final String Table_Name="PA_BenchmarkData";
 
-protected static KeyNamePair Model = new KeyNamePair(834,"PA_BenchmarkData");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_BenchmarkData");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -163,7 +163,7 @@ return new KeyNamePair(get_ID(), getName());
 public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID)
 {
 if (PA_BenchmarkData_ID < 1) throw new IllegalArgumentException ("PA_BenchmarkData_ID is mandatory.");
-set_ValueNoCheck ("PA_BenchmarkData_ID", new Integer(PA_BenchmarkData_ID));
+set_ValueNoCheck ("PA_BenchmarkData_ID", Integer.valueOf(PA_BenchmarkData_ID));
 }
 /** Get Benchmark Data.
 @return Performance Benchmark Data Point */
@@ -178,7 +178,7 @@ return ii.intValue();
 public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 {
 if (PA_Benchmark_ID < 1) throw new IllegalArgumentException ("PA_Benchmark_ID is mandatory.");
-set_ValueNoCheck ("PA_Benchmark_ID", new Integer(PA_Benchmark_ID));
+set_ValueNoCheck ("PA_Benchmark_ID", Integer.valueOf(PA_Benchmark_ID));
 }
 /** Get Benchmark.
 @return Performance Benchmark */

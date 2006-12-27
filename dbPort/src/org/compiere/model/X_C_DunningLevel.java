@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningLevel
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DunningLevel extends PO
 {
 /** Standard Constructor
@@ -64,12 +64,12 @@ public X_C_DunningLevel (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=331 */
-public static final int Table_ID=331;
+public static final int Table_ID=MTable.getTable_ID("C_DunningLevel");
 
 /** TableName=C_DunningLevel */
 public static final String Table_Name="C_DunningLevel";
 
-protected static KeyNamePair Model = new KeyNamePair(331,"C_DunningLevel");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DunningLevel");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 {
 if (C_DunningLevel_ID < 1) throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
-set_ValueNoCheck ("C_DunningLevel_ID", new Integer(C_DunningLevel_ID));
+set_ValueNoCheck ("C_DunningLevel_ID", Integer.valueOf(C_DunningLevel_ID));
 }
 /** Get Dunning Level.
 @return Dunning Level */
@@ -116,7 +116,7 @@ return ii.intValue();
 public void setC_Dunning_ID (int C_Dunning_ID)
 {
 if (C_Dunning_ID < 1) throw new IllegalArgumentException ("C_Dunning_ID is mandatory.");
-set_ValueNoCheck ("C_Dunning_ID", new Integer(C_Dunning_ID));
+set_ValueNoCheck ("C_Dunning_ID", Integer.valueOf(C_Dunning_ID));
 }
 /** Get Dunning.
 @return Dunning Rules for overdue invoices */
@@ -132,7 +132,7 @@ public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 {
 if (C_PaymentTerm_ID <= 0) set_Value ("C_PaymentTerm_ID", null);
  else 
-set_Value ("C_PaymentTerm_ID", new Integer(C_PaymentTerm_ID));
+set_Value ("C_PaymentTerm_ID", Integer.valueOf(C_PaymentTerm_ID));
 }
 /** Get Payment Term.
 @return The terms of Payment (timing, discount) */
@@ -146,7 +146,7 @@ return ii.intValue();
 @param ChargeFee Indicates if fees will be charged for overdue invoices */
 public void setChargeFee (boolean ChargeFee)
 {
-set_Value ("ChargeFee", new Boolean(ChargeFee));
+set_Value ("ChargeFee", Boolean.valueOf(ChargeFee));
 }
 /** Get Charge fee.
 @return Indicates if fees will be charged for overdue invoices */
@@ -164,7 +164,7 @@ return false;
 @param ChargeInterest Indicates if interest will be charged on overdue invoices */
 public void setChargeInterest (boolean ChargeInterest)
 {
-set_Value ("ChargeInterest", new Boolean(ChargeInterest));
+set_Value ("ChargeInterest", Boolean.valueOf(ChargeInterest));
 }
 /** Get Charge Interest.
 @return Indicates if interest will be charged on overdue invoices */
@@ -197,7 +197,7 @@ return bd;
 @param DaysBetweenDunning Days between sending dunning notices */
 public void setDaysBetweenDunning (int DaysBetweenDunning)
 {
-set_Value ("DaysBetweenDunning", new Integer(DaysBetweenDunning));
+set_Value ("DaysBetweenDunning", Integer.valueOf(DaysBetweenDunning));
 }
 /** Get Days between dunning.
 @return Days between sending dunning notices */
@@ -233,7 +233,7 @@ public void setDunning_PrintFormat_ID (int Dunning_PrintFormat_ID)
 {
 if (Dunning_PrintFormat_ID <= 0) set_Value ("Dunning_PrintFormat_ID", null);
  else 
-set_Value ("Dunning_PrintFormat_ID", new Integer(Dunning_PrintFormat_ID));
+set_Value ("Dunning_PrintFormat_ID", Integer.valueOf(Dunning_PrintFormat_ID));
 }
 /** Get Dunning Print Format.
 @return Print Format for printing Dunning Letters */
@@ -275,7 +275,7 @@ return bd;
 @param IsSetCreditStop Set the business partner to credit stop */
 public void setIsSetCreditStop (boolean IsSetCreditStop)
 {
-set_Value ("IsSetCreditStop", new Boolean(IsSetCreditStop));
+set_Value ("IsSetCreditStop", Boolean.valueOf(IsSetCreditStop));
 }
 /** Get Credit Stop.
 @return Set the business partner to credit stop */
@@ -293,7 +293,7 @@ return false;
 @param IsSetPaymentTerm Set the payment term of the Business Partner */
 public void setIsSetPaymentTerm (boolean IsSetPaymentTerm)
 {
-set_Value ("IsSetPaymentTerm", new Boolean(IsSetPaymentTerm));
+set_Value ("IsSetPaymentTerm", Boolean.valueOf(IsSetPaymentTerm));
 }
 /** Get Set Payment Term.
 @return Set the payment term of the Business Partner */
@@ -311,7 +311,7 @@ return false;
 @param IsShowAllDue Show/print all due invoices */
 public void setIsShowAllDue (boolean IsShowAllDue)
 {
-set_Value ("IsShowAllDue", new Boolean(IsShowAllDue));
+set_Value ("IsShowAllDue", Boolean.valueOf(IsShowAllDue));
 }
 /** Get Show All Due.
 @return Show/print all due invoices */
@@ -329,7 +329,7 @@ return false;
 @param IsShowNotDue Show/print all invoices which are not due (yet). */
 public void setIsShowNotDue (boolean IsShowNotDue)
 {
-set_Value ("IsShowNotDue", new Boolean(IsShowNotDue));
+set_Value ("IsShowNotDue", Boolean.valueOf(IsShowNotDue));
 }
 /** Get Show Not Due.
 @return Show/print all invoices which are not due (yet). */

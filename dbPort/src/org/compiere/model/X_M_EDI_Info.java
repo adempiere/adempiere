@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_EDI_Info
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_EDI_Info extends PO
 {
 /** Standard Constructor
@@ -55,12 +55,12 @@ public X_M_EDI_Info (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=368 */
-public static final int Table_ID=368;
+public static final int Table_ID=MTable.getTable_ID("M_EDI_Info");
 
 /** TableName=M_EDI_Info */
 public static final String Table_Name="M_EDI_Info";
 
-protected static KeyNamePair Model = new KeyNamePair(368,"M_EDI_Info");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_EDI_Info");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -110,7 +110,7 @@ return (String)get_Value("Info");
 public void setM_EDI_ID (int M_EDI_ID)
 {
 if (M_EDI_ID < 1) throw new IllegalArgumentException ("M_EDI_ID is mandatory.");
-set_ValueNoCheck ("M_EDI_ID", new Integer(M_EDI_ID));
+set_ValueNoCheck ("M_EDI_ID", Integer.valueOf(M_EDI_ID));
 }
 /** Get EDI Transaction.
 @return EDI Transaction */
@@ -131,7 +131,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_EDI_ID()));
 public void setM_EDI_Info_ID (int M_EDI_Info_ID)
 {
 if (M_EDI_Info_ID < 1) throw new IllegalArgumentException ("M_EDI_Info_ID is mandatory.");
-set_ValueNoCheck ("M_EDI_Info_ID", new Integer(M_EDI_Info_ID));
+set_ValueNoCheck ("M_EDI_Info_ID", Integer.valueOf(M_EDI_Info_ID));
 }
 /** Get EDI Log.
 @return EDI Log */

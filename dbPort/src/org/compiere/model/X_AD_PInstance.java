@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_AD_PInstance extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_AD_PInstance (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=282 */
-public static final int Table_ID=282;
+public static final int Table_ID=MTable.getTable_ID("AD_PInstance");
 
 /** TableName=AD_PInstance */
 public static final String Table_Name="AD_PInstance";
 
-protected static KeyNamePair Model = new KeyNamePair(282,"AD_PInstance");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PInstance");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setAD_PInstance_ID (int AD_PInstance_ID)
 {
 if (AD_PInstance_ID < 1) throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-set_ValueNoCheck ("AD_PInstance_ID", new Integer(AD_PInstance_ID));
+set_ValueNoCheck ("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID));
 }
 /** Get Process Instance.
 @return Instance of the process */
@@ -114,7 +114,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getAD_PInstance_ID()));
 public void setAD_Process_ID (int AD_Process_ID)
 {
 if (AD_Process_ID < 1) throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-set_Value ("AD_Process_ID", new Integer(AD_Process_ID));
+set_Value ("AD_Process_ID", Integer.valueOf(AD_Process_ID));
 }
 /** Get Process.
 @return Process or Report */
@@ -130,7 +130,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -161,7 +161,7 @@ return (String)get_Value("ErrorMsg");
 @param IsProcessing Processing */
 public void setIsProcessing (boolean IsProcessing)
 {
-set_Value ("IsProcessing", new Boolean(IsProcessing));
+set_Value ("IsProcessing", Boolean.valueOf(IsProcessing));
 }
 /** Get Processing.
 @return Processing */
@@ -180,7 +180,7 @@ return false;
 public void setRecord_ID (int Record_ID)
 {
 if (Record_ID < 0) throw new IllegalArgumentException ("Record_ID is mandatory.");
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -194,7 +194,7 @@ return ii.intValue();
 @param Result Result of the action taken */
 public void setResult (int Result)
 {
-set_Value ("Result", new Integer(Result));
+set_Value ("Result", Integer.valueOf(Result));
 }
 /** Get Result.
 @return Result of the action taken */

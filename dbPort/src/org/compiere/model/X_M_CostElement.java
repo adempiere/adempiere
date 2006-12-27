@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostElement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_CostElement extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_CostElement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=770 */
-public static final int Table_ID=770;
+public static final int Table_ID=MTable.getTable_ID("M_CostElement");
 
 /** TableName=M_CostElement */
 public static final String Table_Name="M_CostElement";
 
-protected static KeyNamePair Model = new KeyNamePair(770,"M_CostElement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_CostElement");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -182,7 +182,7 @@ return (String)get_Value("Description");
 @param IsCalculated The value is calculated by the system */
 public void setIsCalculated (boolean IsCalculated)
 {
-set_Value ("IsCalculated", new Boolean(IsCalculated));
+set_Value ("IsCalculated", Boolean.valueOf(IsCalculated));
 }
 /** Get Calculated.
 @return The value is calculated by the system */
@@ -201,7 +201,7 @@ return false;
 public void setM_CostElement_ID (int M_CostElement_ID)
 {
 if (M_CostElement_ID < 1) throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-set_ValueNoCheck ("M_CostElement_ID", new Integer(M_CostElement_ID));
+set_ValueNoCheck ("M_CostElement_ID", Integer.valueOf(M_CostElement_ID));
 }
 /** Get Cost Element.
 @return Product Cost Element */

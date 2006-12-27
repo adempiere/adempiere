@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementLineConfirm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_MovementLineConfirm extends PO
 {
 /** Standard Constructor
@@ -60,12 +60,12 @@ public X_M_MovementLineConfirm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=737 */
-public static final int Table_ID=737;
+public static final int Table_ID=MTable.getTable_ID("M_MovementLineConfirm");
 
 /** TableName=M_MovementLineConfirm */
 public static final String Table_Name="M_MovementLineConfirm";
 
-protected static KeyNamePair Model = new KeyNamePair(737,"M_MovementLineConfirm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MovementLineConfirm");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -145,7 +145,7 @@ public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID <= 0) set_Value ("M_InventoryLine_ID", null);
  else 
-set_Value ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_Value ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
 {
 if (M_MovementConfirm_ID < 1) throw new IllegalArgumentException ("M_MovementConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_MovementConfirm_ID", new Integer(M_MovementConfirm_ID));
+set_ValueNoCheck ("M_MovementConfirm_ID", Integer.valueOf(M_MovementConfirm_ID));
 }
 /** Get Move Confirm.
 @return Inventory Move Confirmation */
@@ -181,7 +181,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getM_MovementConfirm_ID()));
 public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID)
 {
 if (M_MovementLineConfirm_ID < 1) throw new IllegalArgumentException ("M_MovementLineConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_MovementLineConfirm_ID", new Integer(M_MovementLineConfirm_ID));
+set_ValueNoCheck ("M_MovementLineConfirm_ID", Integer.valueOf(M_MovementLineConfirm_ID));
 }
 /** Get Move Line Confirm.
 @return Inventory Move Line Confirmation */
@@ -196,7 +196,7 @@ return ii.intValue();
 public void setM_MovementLine_ID (int M_MovementLine_ID)
 {
 if (M_MovementLine_ID < 1) throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-set_Value ("M_MovementLine_ID", new Integer(M_MovementLine_ID));
+set_Value ("M_MovementLine_ID", Integer.valueOf(M_MovementLine_ID));
 }
 /** Get Move Line.
 @return Inventory Move document Line */
@@ -210,7 +210,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

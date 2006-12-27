@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Job
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Job extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_Job (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=789 */
-public static final int Table_ID=789;
+public static final int Table_ID=MTable.getTable_ID("C_Job");
 
 /** TableName=C_Job */
 public static final String Table_Name="C_Job";
 
-protected static KeyNamePair Model = new KeyNamePair(789,"C_Job");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Job");
 
 protected BigDecimal accessLevel = new BigDecimal(2);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_JobCategory_ID (int C_JobCategory_ID)
 {
 if (C_JobCategory_ID < 1) throw new IllegalArgumentException ("C_JobCategory_ID is mandatory.");
-set_Value ("C_JobCategory_ID", new Integer(C_JobCategory_ID));
+set_Value ("C_JobCategory_ID", Integer.valueOf(C_JobCategory_ID));
 }
 /** Get Position Category.
 @return Job Position Category */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_Job_ID (int C_Job_ID)
 {
 if (C_Job_ID < 1) throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-set_ValueNoCheck ("C_Job_ID", new Integer(C_Job_ID));
+set_ValueNoCheck ("C_Job_ID", Integer.valueOf(C_Job_ID));
 }
 /** Get Position.
 @return Job Position */
@@ -156,7 +156,7 @@ return (String)get_Value("Help");
 @param IsEmployee Indicates if  this Business Partner is an employee */
 public void setIsEmployee (boolean IsEmployee)
 {
-set_Value ("IsEmployee", new Boolean(IsEmployee));
+set_Value ("IsEmployee", Boolean.valueOf(IsEmployee));
 }
 /** Get Employee.
 @return Indicates if  this Business Partner is an employee */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Phase
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Phase extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_C_Phase (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=577 */
-public static final int Table_ID=577;
+public static final int Table_ID=MTable.getTable_ID("C_Phase");
 
 /** TableName=C_Phase */
 public static final String Table_Name="C_Phase";
 
-protected static KeyNamePair Model = new KeyNamePair(577,"C_Phase");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Phase");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -94,7 +94,7 @@ return sb.toString();
 public void setC_Phase_ID (int C_Phase_ID)
 {
 if (C_Phase_ID < 1) throw new IllegalArgumentException ("C_Phase_ID is mandatory.");
-set_ValueNoCheck ("C_Phase_ID", new Integer(C_Phase_ID));
+set_ValueNoCheck ("C_Phase_ID", Integer.valueOf(C_Phase_ID));
 }
 /** Get Standard Phase.
 @return Standard Phase of the Project Type */
@@ -109,7 +109,7 @@ return ii.intValue();
 public void setC_ProjectType_ID (int C_ProjectType_ID)
 {
 if (C_ProjectType_ID < 1) throw new IllegalArgumentException ("C_ProjectType_ID is mandatory.");
-set_ValueNoCheck ("C_ProjectType_ID", new Integer(C_ProjectType_ID));
+set_ValueNoCheck ("C_ProjectType_ID", Integer.valueOf(C_ProjectType_ID));
 }
 /** Get Project Type.
 @return Type of the project */
@@ -159,7 +159,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -198,7 +198,7 @@ return new KeyNamePair(get_ID(), getName());
  lowest number comes first */
 public void setSeqNo (int SeqNo)
 {
-set_Value ("SeqNo", new Integer(SeqNo));
+set_Value ("SeqNo", Integer.valueOf(SeqNo));
 }
 /** Get Sequence.
 @return Method of ordering records;

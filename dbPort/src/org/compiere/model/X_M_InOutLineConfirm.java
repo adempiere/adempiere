@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLineConfirm
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_InOutLineConfirm extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_M_InOutLineConfirm (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=728 */
-public static final int Table_ID=728;
+public static final int Table_ID=MTable.getTable_ID("M_InOutLineConfirm");
 
 /** TableName=M_InOutLineConfirm */
 public static final String Table_Name="M_InOutLineConfirm";
 
-protected static KeyNamePair Model = new KeyNamePair(728,"M_InOutLineConfirm");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutLineConfirm");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -96,7 +96,7 @@ public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 {
 if (C_InvoiceLine_ID <= 0) set_Value ("C_InvoiceLine_ID", null);
  else 
-set_Value ("C_InvoiceLine_ID", new Integer(C_InvoiceLine_ID));
+set_Value ("C_InvoiceLine_ID", Integer.valueOf(C_InvoiceLine_ID));
 }
 /** Get Invoice Line.
 @return Invoice Detail Line */
@@ -174,7 +174,7 @@ return bd;
 public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
 {
 if (M_InOutConfirm_ID < 1) throw new IllegalArgumentException ("M_InOutConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_InOutConfirm_ID", new Integer(M_InOutConfirm_ID));
+set_ValueNoCheck ("M_InOutConfirm_ID", Integer.valueOf(M_InOutConfirm_ID));
 }
 /** Get Ship/Receipt Confirmation.
 @return Material Shipment or Receipt Confirmation */
@@ -189,7 +189,7 @@ return ii.intValue();
 public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
 {
 if (M_InOutLineConfirm_ID < 1) throw new IllegalArgumentException ("M_InOutLineConfirm_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLineConfirm_ID", new Integer(M_InOutLineConfirm_ID));
+set_ValueNoCheck ("M_InOutLineConfirm_ID", Integer.valueOf(M_InOutLineConfirm_ID));
 }
 /** Get Ship/Receipt Confirmation Line.
 @return Material Shipment or Receipt Confirmation Line */
@@ -204,7 +204,7 @@ return ii.intValue();
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
 if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-set_ValueNoCheck ("M_InOutLine_ID", new Integer(M_InOutLine_ID));
+set_ValueNoCheck ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
 @return Line on Shipment or Receipt document */
@@ -226,7 +226,7 @@ public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 {
 if (M_InventoryLine_ID <= 0) set_Value ("M_InventoryLine_ID", null);
  else 
-set_Value ("M_InventoryLine_ID", new Integer(M_InventoryLine_ID));
+set_Value ("M_InventoryLine_ID", Integer.valueOf(M_InventoryLine_ID));
 }
 /** Get Phys.Inventory Line.
 @return Unique line in an Inventory document */
@@ -240,7 +240,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */

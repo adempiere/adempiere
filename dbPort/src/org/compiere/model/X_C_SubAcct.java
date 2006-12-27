@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_SubAcct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_SubAcct extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_SubAcct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=825 */
-public static final int Table_ID=825;
+public static final int Table_ID=MTable.getTable_ID("C_SubAcct");
 
 /** TableName=C_SubAcct */
 public static final String Table_Name="C_SubAcct";
 
-protected static KeyNamePair Model = new KeyNamePair(825,"C_SubAcct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_SubAcct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_ElementValue_ID (int C_ElementValue_ID)
 {
 if (C_ElementValue_ID < 1) throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-set_ValueNoCheck ("C_ElementValue_ID", new Integer(C_ElementValue_ID));
+set_ValueNoCheck ("C_ElementValue_ID", Integer.valueOf(C_ElementValue_ID));
 }
 /** Get Account Element.
 @return Account Element */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_SubAcct_ID (int C_SubAcct_ID)
 {
 if (C_SubAcct_ID < 1) throw new IllegalArgumentException ("C_SubAcct_ID is mandatory.");
-set_ValueNoCheck ("C_SubAcct_ID", new Integer(C_SubAcct_ID));
+set_ValueNoCheck ("C_SubAcct_ID", Integer.valueOf(C_SubAcct_ID));
 }
 /** Get Sub Account.
 @return Sub account for Element Value */

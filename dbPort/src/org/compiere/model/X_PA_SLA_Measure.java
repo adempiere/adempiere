@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_SLA_Measure
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_PA_SLA_Measure extends PO
 {
 /** Standard Constructor
@@ -57,12 +57,12 @@ public X_PA_SLA_Measure (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=743 */
-public static final int Table_ID=743;
+public static final int Table_ID=MTable.getTable_ID("PA_SLA_Measure");
 
 /** TableName=PA_SLA_Measure */
 public static final String Table_Name="PA_SLA_Measure";
 
-protected static KeyNamePair Model = new KeyNamePair(743,"PA_SLA_Measure");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_SLA_Measure");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
-set_Value ("AD_Table_ID", new Integer(AD_Table_ID));
+set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -161,7 +161,7 @@ return bd;
 public void setPA_SLA_Goal_ID (int PA_SLA_Goal_ID)
 {
 if (PA_SLA_Goal_ID < 1) throw new IllegalArgumentException ("PA_SLA_Goal_ID is mandatory.");
-set_ValueNoCheck ("PA_SLA_Goal_ID", new Integer(PA_SLA_Goal_ID));
+set_ValueNoCheck ("PA_SLA_Goal_ID", Integer.valueOf(PA_SLA_Goal_ID));
 }
 /** Get SLA Goal.
 @return Service Level Agreement Goal */
@@ -176,7 +176,7 @@ return ii.intValue();
 public void setPA_SLA_Measure_ID (int PA_SLA_Measure_ID)
 {
 if (PA_SLA_Measure_ID < 1) throw new IllegalArgumentException ("PA_SLA_Measure_ID is mandatory.");
-set_ValueNoCheck ("PA_SLA_Measure_ID", new Integer(PA_SLA_Measure_ID));
+set_ValueNoCheck ("PA_SLA_Measure_ID", Integer.valueOf(PA_SLA_Measure_ID));
 }
 /** Get SLA Measure.
 @return Service Level Agreement Measure */
@@ -190,7 +190,7 @@ return ii.intValue();
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -208,7 +208,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -228,7 +228,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_Value ("Record_ID", null);
  else 
-set_Value ("Record_ID", new Integer(Record_ID));
+set_Value ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */

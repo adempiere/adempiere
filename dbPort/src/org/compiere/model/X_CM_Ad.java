@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Ad
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_CM_Ad extends PO
 {
 /** Standard Constructor
@@ -65,12 +65,12 @@ public X_CM_Ad (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=858 */
-public static final int Table_ID=858;
+public static final int Table_ID=MTable.getTable_ID("CM_Ad");
 
 /** TableName=CM_Ad */
 public static final String Table_Name="CM_Ad";
 
-protected static KeyNamePair Model = new KeyNamePair(858,"CM_Ad");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Ad");
 
 protected BigDecimal accessLevel = new BigDecimal(6);
 /** AccessLevel
@@ -101,7 +101,7 @@ return sb.toString();
 @param ActualClick How many clicks have been counted */
 public void setActualClick (int ActualClick)
 {
-set_Value ("ActualClick", new Integer(ActualClick));
+set_Value ("ActualClick", Integer.valueOf(ActualClick));
 }
 /** Get Actual Click Count.
 @return How many clicks have been counted */
@@ -115,7 +115,7 @@ return ii.intValue();
 @param ActualImpression How many impressions have been counted */
 public void setActualImpression (int ActualImpression)
 {
-set_Value ("ActualImpression", new Integer(ActualImpression));
+set_Value ("ActualImpression", Integer.valueOf(ActualImpression));
 }
 /** Get Actual Impression Count.
 @return How many impressions have been counted */
@@ -130,7 +130,7 @@ return ii.intValue();
 public void setCM_Ad_Cat_ID (int CM_Ad_Cat_ID)
 {
 if (CM_Ad_Cat_ID < 1) throw new IllegalArgumentException ("CM_Ad_Cat_ID is mandatory.");
-set_ValueNoCheck ("CM_Ad_Cat_ID", new Integer(CM_Ad_Cat_ID));
+set_ValueNoCheck ("CM_Ad_Cat_ID", Integer.valueOf(CM_Ad_Cat_ID));
 }
 /** Get Advertisement Category.
 @return Advertisement Category like Banner Homepage  */
@@ -145,7 +145,7 @@ return ii.intValue();
 public void setCM_Ad_ID (int CM_Ad_ID)
 {
 if (CM_Ad_ID < 1) throw new IllegalArgumentException ("CM_Ad_ID is mandatory.");
-set_ValueNoCheck ("CM_Ad_ID", new Integer(CM_Ad_ID));
+set_ValueNoCheck ("CM_Ad_ID", Integer.valueOf(CM_Ad_ID));
 }
 /** Get Advertisement.
 @return An Advertisement is something like a banner */
@@ -160,7 +160,7 @@ return ii.intValue();
 public void setCM_Media_ID (int CM_Media_ID)
 {
 if (CM_Media_ID < 1) throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-set_Value ("CM_Media_ID", new Integer(CM_Media_ID));
+set_Value ("CM_Media_ID", Integer.valueOf(CM_Media_ID));
 }
 /** Get Media Item.
 @return Contains media content like images, flash movies etc. */
@@ -237,7 +237,7 @@ return (String)get_Value("Help");
 @param IsAdFlag Do we need to specially mention this ad? */
 public void setIsAdFlag (boolean IsAdFlag)
 {
-set_Value ("IsAdFlag", new Boolean(IsAdFlag));
+set_Value ("IsAdFlag", Boolean.valueOf(IsAdFlag));
 }
 /** Get Special AD Flag.
 @return Do we need to specially mention this ad? */
@@ -255,7 +255,7 @@ return false;
 @param IsLogged Do we need to log the banner impressions and clicks? (needs much performance) */
 public void setIsLogged (boolean IsLogged)
 {
-set_Value ("IsLogged", new Boolean(IsLogged));
+set_Value ("IsLogged", Boolean.valueOf(IsLogged));
 }
 /** Get Logging.
 @return Do we need to log the banner impressions and clicks? (needs much performance) */
@@ -273,7 +273,7 @@ return false;
 @param MaxClick Maximum Click Count until banner is deactivated */
 public void setMaxClick (int MaxClick)
 {
-set_Value ("MaxClick", new Integer(MaxClick));
+set_Value ("MaxClick", Integer.valueOf(MaxClick));
 }
 /** Get Max Click Count.
 @return Maximum Click Count until banner is deactivated */
@@ -287,7 +287,7 @@ return ii.intValue();
 @param MaxImpression Maximum Impression Count until banner is deactivated */
 public void setMaxImpression (int MaxImpression)
 {
-set_Value ("MaxImpression", new Integer(MaxImpression));
+set_Value ("MaxImpression", Integer.valueOf(MaxImpression));
 }
 /** Get Max Impression Count.
 @return Maximum Impression Count until banner is deactivated */
@@ -338,7 +338,7 @@ return (Timestamp)get_Value("StartDate");
 @param StartImpression For rotation we need a start count */
 public void setStartImpression (int StartImpression)
 {
-set_Value ("StartImpression", new Integer(StartImpression));
+set_Value ("StartImpression", Integer.valueOf(StartImpression));
 }
 /** Get Start Count Impression.
 @return For rotation we need a start count */

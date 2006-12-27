@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Request
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_R_Request extends PO
 {
 /** Standard Constructor
@@ -66,12 +66,12 @@ public X_R_Request (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=417 */
-public static final int Table_ID=417;
+public static final int Table_ID=MTable.getTable_ID("R_Request");
 
 /** TableName=R_Request */
 public static final String Table_Name="R_Request";
 
-protected static KeyNamePair Model = new KeyNamePair(417,"R_Request");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_Request");
 
 protected BigDecimal accessLevel = new BigDecimal(7);
 /** AccessLevel
@@ -104,7 +104,7 @@ public void setAD_Role_ID (int AD_Role_ID)
 {
 if (AD_Role_ID <= 0) set_Value ("AD_Role_ID", null);
  else 
-set_Value ("AD_Role_ID", new Integer(AD_Role_ID));
+set_Value ("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 }
 /** Get Role.
 @return Responsibility Role */
@@ -120,7 +120,7 @@ public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_ValueNoCheck ("AD_Table_ID", null);
  else 
-set_ValueNoCheck ("AD_Table_ID", new Integer(AD_Table_ID));
+set_ValueNoCheck ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
 @return Database Table information */
@@ -136,7 +136,7 @@ public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID <= 0) set_Value ("AD_User_ID", null);
  else 
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -152,7 +152,7 @@ public void setA_Asset_ID (int A_Asset_ID)
 {
 if (A_Asset_ID <= 0) set_Value ("A_Asset_ID", null);
  else 
-set_Value ("A_Asset_ID", new Integer(A_Asset_ID));
+set_Value ("A_Asset_ID", Integer.valueOf(A_Asset_ID));
 }
 /** Get Asset.
 @return Asset used internally or by customers */
@@ -168,7 +168,7 @@ public void setC_Activity_ID (int C_Activity_ID)
 {
 if (C_Activity_ID <= 0) set_Value ("C_Activity_ID", null);
  else 
-set_Value ("C_Activity_ID", new Integer(C_Activity_ID));
+set_Value ("C_Activity_ID", Integer.valueOf(C_Activity_ID));
 }
 /** Get Activity.
 @return Business Activity */
@@ -184,7 +184,7 @@ public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID <= 0) set_Value ("C_BPartner_ID", null);
  else 
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -200,7 +200,7 @@ public void setC_Campaign_ID (int C_Campaign_ID)
 {
 if (C_Campaign_ID <= 0) set_Value ("C_Campaign_ID", null);
  else 
-set_Value ("C_Campaign_ID", new Integer(C_Campaign_ID));
+set_Value ("C_Campaign_ID", Integer.valueOf(C_Campaign_ID));
 }
 /** Get Campaign.
 @return Marketing Campaign */
@@ -219,7 +219,7 @@ public void setC_InvoiceRequest_ID (int C_InvoiceRequest_ID)
 {
 if (C_InvoiceRequest_ID <= 0) set_ValueNoCheck ("C_InvoiceRequest_ID", null);
  else 
-set_ValueNoCheck ("C_InvoiceRequest_ID", new Integer(C_InvoiceRequest_ID));
+set_ValueNoCheck ("C_InvoiceRequest_ID", Integer.valueOf(C_InvoiceRequest_ID));
 }
 /** Get Request Invoice.
 @return The generated invoice for this request */
@@ -235,7 +235,7 @@ public void setC_Invoice_ID (int C_Invoice_ID)
 {
 if (C_Invoice_ID <= 0) set_Value ("C_Invoice_ID", null);
  else 
-set_Value ("C_Invoice_ID", new Integer(C_Invoice_ID));
+set_Value ("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
 }
 /** Get Invoice.
 @return Invoice Identifier */
@@ -251,7 +251,7 @@ public void setC_Order_ID (int C_Order_ID)
 {
 if (C_Order_ID <= 0) set_Value ("C_Order_ID", null);
  else 
-set_Value ("C_Order_ID", new Integer(C_Order_ID));
+set_Value ("C_Order_ID", Integer.valueOf(C_Order_ID));
 }
 /** Get Order.
 @return Order */
@@ -267,7 +267,7 @@ public void setC_Payment_ID (int C_Payment_ID)
 {
 if (C_Payment_ID <= 0) set_Value ("C_Payment_ID", null);
  else 
-set_Value ("C_Payment_ID", new Integer(C_Payment_ID));
+set_Value ("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 }
 /** Get Payment.
 @return Payment identifier */
@@ -283,7 +283,7 @@ public void setC_Project_ID (int C_Project_ID)
 {
 if (C_Project_ID <= 0) set_Value ("C_Project_ID", null);
  else 
-set_Value ("C_Project_ID", new Integer(C_Project_ID));
+set_Value ("C_Project_ID", Integer.valueOf(C_Project_ID));
 }
 /** Get Project.
 @return Financial Project */
@@ -496,7 +496,7 @@ return (Timestamp)get_Value("EndTime");
 @param IsEscalated This request has been escalated */
 public void setIsEscalated (boolean IsEscalated)
 {
-set_Value ("IsEscalated", new Boolean(IsEscalated));
+set_Value ("IsEscalated", Boolean.valueOf(IsEscalated));
 }
 /** Get Escalated.
 @return This request has been escalated */
@@ -514,7 +514,7 @@ return false;
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
 {
-set_Value ("IsInvoiced", new Boolean(IsInvoiced));
+set_Value ("IsInvoiced", Boolean.valueOf(IsInvoiced));
 }
 /** Get Invoiced.
 @return Is this invoiced? */
@@ -532,7 +532,7 @@ return false;
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_ValueNoCheck ("IsSelfService", new Boolean(IsSelfService));
+set_ValueNoCheck ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -569,7 +569,7 @@ public void setM_ChangeRequest_ID (int M_ChangeRequest_ID)
 {
 if (M_ChangeRequest_ID <= 0) set_Value ("M_ChangeRequest_ID", null);
  else 
-set_Value ("M_ChangeRequest_ID", new Integer(M_ChangeRequest_ID));
+set_Value ("M_ChangeRequest_ID", Integer.valueOf(M_ChangeRequest_ID));
 }
 /** Get Change Request.
 @return BOM (Engineering) Change Request */
@@ -588,7 +588,7 @@ public void setM_FixChangeNotice_ID (int M_FixChangeNotice_ID)
 {
 if (M_FixChangeNotice_ID <= 0) set_Value ("M_FixChangeNotice_ID", null);
  else 
-set_Value ("M_FixChangeNotice_ID", new Integer(M_FixChangeNotice_ID));
+set_Value ("M_FixChangeNotice_ID", Integer.valueOf(M_FixChangeNotice_ID));
 }
 /** Get Fixed in.
 @return Fixed in Change Notice */
@@ -604,7 +604,7 @@ public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID <= 0) set_Value ("M_InOut_ID", null);
  else 
-set_Value ("M_InOut_ID", new Integer(M_InOut_ID));
+set_Value ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -623,7 +623,7 @@ public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 {
 if (M_ProductSpent_ID <= 0) set_Value ("M_ProductSpent_ID", null);
  else 
-set_Value ("M_ProductSpent_ID", new Integer(M_ProductSpent_ID));
+set_Value ("M_ProductSpent_ID", Integer.valueOf(M_ProductSpent_ID));
 }
 /** Get Product Used.
 @return Product/Resource/Service used in Request */
@@ -639,7 +639,7 @@ public void setM_Product_ID (int M_Product_ID)
 {
 if (M_Product_ID <= 0) set_Value ("M_Product_ID", null);
  else 
-set_Value ("M_Product_ID", new Integer(M_Product_ID));
+set_Value ("M_Product_ID", Integer.valueOf(M_Product_ID));
 }
 /** Get Product.
 @return Product, Service, Item */
@@ -655,7 +655,7 @@ public void setM_RMA_ID (int M_RMA_ID)
 {
 if (M_RMA_ID <= 0) set_Value ("M_RMA_ID", null);
  else 
-set_Value ("M_RMA_ID", new Integer(M_RMA_ID));
+set_Value ("M_RMA_ID", Integer.valueOf(M_RMA_ID));
 }
 /** Get RMA.
 @return Return Material Authorization */
@@ -760,7 +760,7 @@ return (String)get_Value("PriorityUser");
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -822,7 +822,7 @@ public void setR_Category_ID (int R_Category_ID)
 {
 if (R_Category_ID <= 0) set_Value ("R_Category_ID", null);
  else 
-set_Value ("R_Category_ID", new Integer(R_Category_ID));
+set_Value ("R_Category_ID", Integer.valueOf(R_Category_ID));
 }
 /** Get Category.
 @return Request Category */
@@ -838,7 +838,7 @@ public void setR_Group_ID (int R_Group_ID)
 {
 if (R_Group_ID <= 0) set_Value ("R_Group_ID", null);
  else 
-set_Value ("R_Group_ID", new Integer(R_Group_ID));
+set_Value ("R_Group_ID", Integer.valueOf(R_Group_ID));
 }
 /** Get Group.
 @return Request Group */
@@ -854,7 +854,7 @@ public void setR_MailText_ID (int R_MailText_ID)
 {
 if (R_MailText_ID <= 0) set_Value ("R_MailText_ID", null);
  else 
-set_Value ("R_MailText_ID", new Integer(R_MailText_ID));
+set_Value ("R_MailText_ID", Integer.valueOf(R_MailText_ID));
 }
 /** Get Mail Template.
 @return Text templates for mailings */
@@ -873,7 +873,7 @@ public void setR_RequestRelated_ID (int R_RequestRelated_ID)
 {
 if (R_RequestRelated_ID <= 0) set_Value ("R_RequestRelated_ID", null);
  else 
-set_Value ("R_RequestRelated_ID", new Integer(R_RequestRelated_ID));
+set_Value ("R_RequestRelated_ID", Integer.valueOf(R_RequestRelated_ID));
 }
 /** Get Related Request.
 @return Related Request (Master Issue, ..) */
@@ -888,7 +888,7 @@ return ii.intValue();
 public void setR_RequestType_ID (int R_RequestType_ID)
 {
 if (R_RequestType_ID < 1) throw new IllegalArgumentException ("R_RequestType_ID is mandatory.");
-set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+set_Value ("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 }
 /** Get Request Type.
 @return Type of request (e.g. Inquiry, Complaint, ..) */
@@ -903,7 +903,7 @@ return ii.intValue();
 public void setR_Request_ID (int R_Request_ID)
 {
 if (R_Request_ID < 1) throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-set_ValueNoCheck ("R_Request_ID", new Integer(R_Request_ID));
+set_ValueNoCheck ("R_Request_ID", Integer.valueOf(R_Request_ID));
 }
 /** Get Request.
 @return Request from a Business Partner or Prospect */
@@ -919,7 +919,7 @@ public void setR_Resolution_ID (int R_Resolution_ID)
 {
 if (R_Resolution_ID <= 0) set_Value ("R_Resolution_ID", null);
  else 
-set_Value ("R_Resolution_ID", new Integer(R_Resolution_ID));
+set_Value ("R_Resolution_ID", Integer.valueOf(R_Resolution_ID));
 }
 /** Get Resolution.
 @return Request Resolution */
@@ -935,7 +935,7 @@ public void setR_StandardResponse_ID (int R_StandardResponse_ID)
 {
 if (R_StandardResponse_ID <= 0) set_Value ("R_StandardResponse_ID", null);
  else 
-set_Value ("R_StandardResponse_ID", new Integer(R_StandardResponse_ID));
+set_Value ("R_StandardResponse_ID", Integer.valueOf(R_StandardResponse_ID));
 }
 /** Get Standard Response.
 @return Request Standard Response  */
@@ -951,7 +951,7 @@ public void setR_Status_ID (int R_Status_ID)
 {
 if (R_Status_ID <= 0) set_Value ("R_Status_ID", null);
  else 
-set_Value ("R_Status_ID", new Integer(R_Status_ID));
+set_Value ("R_Status_ID", Integer.valueOf(R_Status_ID));
 }
 /** Get Status.
 @return Request Status */
@@ -967,7 +967,7 @@ public void setRecord_ID (int Record_ID)
 {
 if (Record_ID <= 0) set_ValueNoCheck ("Record_ID", null);
  else 
-set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+set_ValueNoCheck ("Record_ID", Integer.valueOf(Record_ID));
 }
 /** Get Record ID.
 @return Direct internal record ID */
@@ -1017,7 +1017,7 @@ public static final int SALESREP_ID_AD_Reference_ID=286;
 public void setSalesRep_ID (int SalesRep_ID)
 {
 if (SalesRep_ID < 1) throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-set_Value ("SalesRep_ID", new Integer(SalesRep_ID));
+set_Value ("SalesRep_ID", Integer.valueOf(SalesRep_ID));
 }
 /** Get Sales Representative.
 @return Sales Representative or Company Agent */

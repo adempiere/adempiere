@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Tax_Acct
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_Tax_Acct extends PO
 {
 /** Standard Constructor
@@ -59,12 +59,12 @@ public X_C_Tax_Acct (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=399 */
-public static final int Table_ID=399;
+public static final int Table_ID=MTable.getTable_ID("C_Tax_Acct");
 
 /** TableName=C_Tax_Acct */
 public static final String Table_Name="C_Tax_Acct";
 
-protected static KeyNamePair Model = new KeyNamePair(399,"C_Tax_Acct");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Tax_Acct");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -96,7 +96,7 @@ return sb.toString();
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 {
 if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", new Integer(C_AcctSchema_ID));
+set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
 }
 /** Get Accounting Schema.
 @return Rules for accounting */
@@ -111,7 +111,7 @@ return ii.intValue();
 public void setC_Tax_ID (int C_Tax_ID)
 {
 if (C_Tax_ID < 1) throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-set_ValueNoCheck ("C_Tax_ID", new Integer(C_Tax_ID));
+set_ValueNoCheck ("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 }
 /** Get Tax.
 @return Tax identifier */
@@ -125,7 +125,7 @@ return ii.intValue();
 @param T_Credit_Acct Account for Tax you can reclaim */
 public void setT_Credit_Acct (int T_Credit_Acct)
 {
-set_Value ("T_Credit_Acct", new Integer(T_Credit_Acct));
+set_Value ("T_Credit_Acct", Integer.valueOf(T_Credit_Acct));
 }
 /** Get Tax Credit.
 @return Account for Tax you can reclaim */
@@ -139,7 +139,7 @@ return ii.intValue();
 @param T_Due_Acct Account for Tax you have to pay */
 public void setT_Due_Acct (int T_Due_Acct)
 {
-set_Value ("T_Due_Acct", new Integer(T_Due_Acct));
+set_Value ("T_Due_Acct", Integer.valueOf(T_Due_Acct));
 }
 /** Get Tax Due.
 @return Account for Tax you have to pay */
@@ -153,7 +153,7 @@ return ii.intValue();
 @param T_Expense_Acct Account for paid tax you cannot reclaim */
 public void setT_Expense_Acct (int T_Expense_Acct)
 {
-set_Value ("T_Expense_Acct", new Integer(T_Expense_Acct));
+set_Value ("T_Expense_Acct", Integer.valueOf(T_Expense_Acct));
 }
 /** Get Tax Expense.
 @return Account for paid tax you cannot reclaim */
@@ -167,7 +167,7 @@ return ii.intValue();
 @param T_Liability_Acct Account for Tax declaration liability */
 public void setT_Liability_Acct (int T_Liability_Acct)
 {
-set_Value ("T_Liability_Acct", new Integer(T_Liability_Acct));
+set_Value ("T_Liability_Acct", Integer.valueOf(T_Liability_Acct));
 }
 /** Get Tax Liability.
 @return Account for Tax declaration liability */
@@ -181,7 +181,7 @@ return ii.intValue();
 @param T_Receivables_Acct Account for Tax credit after tax declaration */
 public void setT_Receivables_Acct (int T_Receivables_Acct)
 {
-set_Value ("T_Receivables_Acct", new Integer(T_Receivables_Acct));
+set_Value ("T_Receivables_Acct", Integer.valueOf(T_Receivables_Acct));
 }
 /** Get Tax Receivables.
 @return Account for Tax credit after tax declaration */

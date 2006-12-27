@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRun
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_C_DunningRun extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_C_DunningRun (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=526 */
-public static final int Table_ID=526;
+public static final int Table_ID=MTable.getTable_ID("C_DunningRun");
 
 /** TableName=C_DunningRun */
 public static final String Table_Name="C_DunningRun";
 
-protected static KeyNamePair Model = new KeyNamePair(526,"C_DunningRun");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DunningRun");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -93,7 +93,7 @@ return sb.toString();
 public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 {
 if (C_DunningLevel_ID < 1) throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
-set_ValueNoCheck ("C_DunningLevel_ID", new Integer(C_DunningLevel_ID));
+set_ValueNoCheck ("C_DunningLevel_ID", Integer.valueOf(C_DunningLevel_ID));
 }
 /** Get Dunning Level.
 @return Dunning Level */
@@ -108,7 +108,7 @@ return ii.intValue();
 public void setC_DunningRun_ID (int C_DunningRun_ID)
 {
 if (C_DunningRun_ID < 1) throw new IllegalArgumentException ("C_DunningRun_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRun_ID", new Integer(C_DunningRun_ID));
+set_ValueNoCheck ("C_DunningRun_ID", Integer.valueOf(C_DunningRun_ID));
 }
 /** Get Dunning Run.
 @return Dunning Run */
@@ -158,7 +158,7 @@ return new KeyNamePair(get_ID(), String.valueOf(getDunningDate()));
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
-set_Value ("Processed", new Boolean(Processed));
+set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
 @return The document has been processed */
@@ -176,7 +176,7 @@ return false;
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */

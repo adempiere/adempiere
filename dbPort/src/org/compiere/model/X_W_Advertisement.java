@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Advertisement
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_W_Advertisement extends PO
 {
 /** Standard Constructor
@@ -58,12 +58,12 @@ public X_W_Advertisement (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=579 */
-public static final int Table_ID=579;
+public static final int Table_ID=MTable.getTable_ID("W_Advertisement");
 
 /** TableName=W_Advertisement */
 public static final String Table_Name="W_Advertisement";
 
-protected static KeyNamePair Model = new KeyNamePair(579,"W_Advertisement");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_Advertisement");
 
 protected BigDecimal accessLevel = new BigDecimal(3);
 /** AccessLevel
@@ -95,7 +95,7 @@ return sb.toString();
 public void setAD_User_ID (int AD_User_ID)
 {
 if (AD_User_ID < 1) throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-set_Value ("AD_User_ID", new Integer(AD_User_ID));
+set_Value ("AD_User_ID", Integer.valueOf(AD_User_ID));
 }
 /** Get User/Contact.
 @return User within the system - Internal or Business Partner Contact */
@@ -130,7 +130,7 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 public void setC_BPartner_ID (int C_BPartner_ID)
 {
 if (C_BPartner_ID < 1) throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-set_Value ("C_BPartner_ID", new Integer(C_BPartner_ID));
+set_Value ("C_BPartner_ID", Integer.valueOf(C_BPartner_ID));
 }
 /** Get Business Partner .
 @return Identifies a Business Partner */
@@ -195,7 +195,7 @@ return (String)get_Value("ImageURL");
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
 {
-set_Value ("IsSelfService", new Boolean(IsSelfService));
+set_Value ("IsSelfService", Boolean.valueOf(IsSelfService));
 }
 /** Get Self-Service.
 @return This is a Self-Service entry or this entry can be changed via Self-Service */
@@ -237,7 +237,7 @@ return new KeyNamePair(get_ID(), getName());
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
-set_Value ("Processing", new Boolean(Processing));
+set_Value ("Processing", Boolean.valueOf(Processing));
 }
 /** Get Process Now.
 @return Process Now */
@@ -310,7 +310,7 @@ return (Timestamp)get_Value("ValidTo");
 @param Version Version of the table definition */
 public void setVersion (int Version)
 {
-set_Value ("Version", new Integer(Version));
+set_Value ("Version", Integer.valueOf(Version));
 }
 /** Get Version.
 @return Version of the table definition */
@@ -325,7 +325,7 @@ return ii.intValue();
 public void setW_Advertisement_ID (int W_Advertisement_ID)
 {
 if (W_Advertisement_ID < 1) throw new IllegalArgumentException ("W_Advertisement_ID is mandatory.");
-set_ValueNoCheck ("W_Advertisement_ID", new Integer(W_Advertisement_ID));
+set_ValueNoCheck ("W_Advertisement_ID", Integer.valueOf(W_Advertisement_ID));
 }
 /** Get Advertisement.
 @return Web Advertisement */
@@ -341,7 +341,7 @@ public void setW_ClickCount_ID (int W_ClickCount_ID)
 {
 if (W_ClickCount_ID <= 0) set_Value ("W_ClickCount_ID", null);
  else 
-set_Value ("W_ClickCount_ID", new Integer(W_ClickCount_ID));
+set_Value ("W_ClickCount_ID", Integer.valueOf(W_ClickCount_ID));
 }
 /** Get Click Count.
 @return Web Click Management */
@@ -357,7 +357,7 @@ public void setW_CounterCount_ID (int W_CounterCount_ID)
 {
 if (W_CounterCount_ID <= 0) set_Value ("W_CounterCount_ID", null);
  else 
-set_Value ("W_CounterCount_ID", new Integer(W_CounterCount_ID));
+set_Value ("W_CounterCount_ID", Integer.valueOf(W_CounterCount_ID));
 }
 /** Get Counter Count.
 @return Web Counter Count Management */

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Package
  *  @author Jorg Janke (generated) 
- *  @version Release 2.6.0a - $Id$ */
+ *  @version Release 3.1.3 - $Id$ */
 public class X_M_Package extends PO
 {
 /** Standard Constructor
@@ -56,12 +56,12 @@ public X_M_Package (Properties ctx, ResultSet rs, String trxName)
 super (ctx, rs, trxName);
 }
 /** AD_Table_ID=664 */
-public static final int Table_ID=664;
+public static final int Table_ID=MTable.getTable_ID("M_Package");
 
 /** TableName=M_Package */
 public static final String Table_Name="M_Package";
 
-protected static KeyNamePair Model = new KeyNamePair(664,"M_Package");
+protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Package");
 
 protected BigDecimal accessLevel = new BigDecimal(1);
 /** AccessLevel
@@ -140,7 +140,7 @@ return (String)get_Value("DocumentNo");
 public void setM_InOut_ID (int M_InOut_ID)
 {
 if (M_InOut_ID < 1) throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-set_ValueNoCheck ("M_InOut_ID", new Integer(M_InOut_ID));
+set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
 }
 /** Get Shipment/Receipt.
 @return Material Shipment Document */
@@ -155,7 +155,7 @@ return ii.intValue();
 public void setM_Package_ID (int M_Package_ID)
 {
 if (M_Package_ID < 1) throw new IllegalArgumentException ("M_Package_ID is mandatory.");
-set_ValueNoCheck ("M_Package_ID", new Integer(M_Package_ID));
+set_ValueNoCheck ("M_Package_ID", Integer.valueOf(M_Package_ID));
 }
 /** Get Package.
 @return Shipment Package */
@@ -170,7 +170,7 @@ return ii.intValue();
 public void setM_Shipper_ID (int M_Shipper_ID)
 {
 if (M_Shipper_ID < 1) throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-set_Value ("M_Shipper_ID", new Integer(M_Shipper_ID));
+set_Value ("M_Shipper_ID", Integer.valueOf(M_Shipper_ID));
 }
 /** Get Shipper.
 @return Method or manner of product delivery */
