@@ -100,7 +100,7 @@ public class ConfigurationData
 	/** DB Type			*/
 	public static final String	ADEMPIERE_DB_TYPE		= "ADEMPIERE_DB_TYPE";
 	/** DB Path			*/
-	public static final String	ADEMPIERE_DB_PATH		= "ADEMPIEREe_DB_PATH";
+	public static final String	ADEMPIERE_DB_PATH		= "ADEMPIERE_DB_PATH";
 	/** 				*/
 	/** 				*/
 	public static final String	ADEMPIERE_DB_SERVER 		= "ADEMPIERE_DB_SERVER";
