@@ -93,6 +93,7 @@ public class ConfigPostgreSQL extends Config
 		log.info("OK: Database Server = " + databaseServer);
 		setProperty(ConfigurationData.ADEMPIERE_DB_SERVER, databaseServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_DB_TYPE, p_data.getDatabaseType());
+		setProperty(ConfigurationData.ADEMPIERE_DB_PATH, p_data.getDatabaseType());
 
 		//	Database Port
 		int databasePort = p_data.getDatabasePort();

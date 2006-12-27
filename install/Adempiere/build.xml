@@ -46,32 +46,8 @@
 		<condition property="isAppsTomcat">
 			<equals arg1="tomcatOnly" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<condition property="isPostgresql80">
-			<equals arg1="postgresql80" arg2="${ADEMPIERE_DB_TYPE}" />
-		</condition>
-		<condition property="isPostgresql81">
-			<equals arg1="postgresql81" arg2="${ADEMPIERE_DB_TYPE}" />
-		</condition>
 		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Tomcat=${isAppsTomcat}" />
 
-	</target>
-
-	<!-- ==================================================== -->
-	<!-- unpack Postgresql db dump for postgresql 8.0         -->
-	<!-- Kinamo (pelgrim)                                     -->
-	<!-- ==================================================== -->
-	<target name="InitDBdumppg80" depends="setupInit" if="isPostgresql80" 
-		description="Deploy Database dump postgresql 8.0">
-		<unjar src="data/adempiere310_pgsql80.jar" dest="data"/>
-	</target>
-
-	<!-- ==================================================== -->
-	<!-- unpack Postgresql db dump for postgresql 8.1         -->
-	<!-- Kinamo (pelgrim)                                     -->
-	<!-- ==================================================== -->
-	<target name="InitDBdumppg81" depends="setupInit" if="isPostgresql81" 
-		description="Deploy Database dump postgresql 8.1">
-		<unjar src="data/adempiere310_pgsql81.jar" dest="data"/>
 	</target>
 
 	<!-- ==================================================== -->
@@ -201,12 +177,12 @@
 		<unjar src="lib/CSTools.jar" dest="buildSLib" />
 		<unjar src="lib/freepdf.jar" dest="buildSLib" />
 		<!-- Selected Database	-->
-                 <!--begin vpj-cd e-evolution-->
+        <!--begin vpj-cd e-evolution-->
 		<!--unjar src="lib/${ADEMPIERE_DB_TYPE}.jar" dest="buildSLib" /-->
-                <unjar src="lib/oracle.jar" dest="buildSLib" />
-                <unjar src="lib/postgresql.jar" dest="buildSLib" />
-                <unjar src="lib/db2.jar" dest="buildSLib" />
-                <!--end vpj-cd e-evolution-->
+        <unjar src="lib/oracle.jar" dest="buildSLib" />
+        <unjar src="lib/postgresql.jar" dest="buildSLib" />
+        <unjar src="lib/db2.jar" dest="buildSLib" />
+        <!--end vpj-cd e-evolution-->
         <unjar src="lib/fyracle.jar" dest="buildSLib" />
 
 
