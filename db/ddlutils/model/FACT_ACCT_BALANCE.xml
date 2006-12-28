@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="FACT_ACCT_BALANCE">
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ACCOUNT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" default="0" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" default="0" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_SUBACCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_FACTACCTBAL">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_FACTACCTBAL">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_FACTACCTBAL">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_FACTACCTBAL">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_FACTACCTBAL">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_FACTACCTBAL">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_FACTACCTBAL">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCT_FACTACCTBAL">
+        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_FACTACCTBAL">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_FACTACCTBAL">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_FACTACCTBALANCE">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_FACTACCTBAL">
+        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_FACTACCTBAL">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_FACTACCTBALANCE">
+        <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_FACTACCTBALANCE">
+        <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_FACTACCTBAL">
+        <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_FACTACCTBALANCE">
+        <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_FACTACCTBAL">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <unique name="FACT_ACCT_BALANCE_AKEY">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="AD_ORG_ID"/>
+        <unique-column name="C_ACCTSCHEMA_ID"/>
+        <unique-column name="DATEACCT"/>
+        <unique-column name="ACCOUNT_ID"/>
+        <unique-column name="POSTINGTYPE"/>
+        <unique-column name="M_PRODUCT_ID"/>
+        <unique-column name="C_BPARTNER_ID"/>
+        <unique-column name="C_PROJECT_ID"/>
+        <unique-column name="AD_ORGTRX_ID"/>
+        <unique-column name="C_SALESREGION_ID"/>
+        <unique-column name="C_ACTIVITY_ID"/>
+        <unique-column name="C_CAMPAIGN_ID"/>
+        <unique-column name="C_LOCTO_ID"/>
+        <unique-column name="C_LOCFROM_ID"/>
+        <unique-column name="USER1_ID"/>
+        <unique-column name="USER2_ID"/>
+        <unique-column name="GL_BUDGET_ID"/>
+      </unique>
+    </table>
+  </database>

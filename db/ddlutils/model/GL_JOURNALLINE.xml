@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="GL_JOURNALLINE">
+      <column name="GL_JOURNALLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="GL_JOURNAL_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="ISGENERATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AMTSOURCEDR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="AMTSOURCECR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CURRENCYRATE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_VALIDCOMBINATION_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_GLJOURNALLINE">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_GLJOURNALLINE">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_GLJOURNALLINE">
+        <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNALLINE">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_GLJOURNALLINE">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="CVC_GLJOURNALLINE">
+        <reference local="C_VALIDCOMBINATION_ID" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="GL_JOURNAL" name="GLJOURNAL_GLJOURNALLINE">
+        <reference local="GL_JOURNAL_ID" foreign="GL_JOURNAL_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsGenerated in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="CM_AD">
+      <column name="CM_AD_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="CM_AD_CAT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CM_MEDIA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TARGETURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="TARGET_FRAME" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ACTUALCLICK" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="MAXCLICK" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="ACTUALIMPRESSION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="MAXIMPRESSION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="STARTIMPRESSION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="STARTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CONTENTHTML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISADFLAG" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISLOGGED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="CM_AD_CAT" name="CMADCAT_CMAD">
+        <reference local="CM_AD_CAT_ID" foreign="CM_AD_CAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="CM_MEDIA" name="CMMEDIA_CMAD">
+        <reference local="CM_MEDIA_ID" foreign="CM_MEDIA_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAdFlag in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsLogged in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="CM_CHATENTRY">
+      <column name="CM_CHATENTRY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CM_CHAT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CONFIDENTIALTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CHARACTERDATA" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
+      <column name="CM_CHATENTRYPARENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CM_CHATENTRYGRANDPARENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CHATENTRYTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="MODERATORSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SUBJECT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CMCHATENTRY">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CHCHATENTRY">
+        <reference local="CM_CHAT_ID" foreign="CM_CHAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="CM_CHATENTRY" name="CMCHATENTRY_GRANDPARENT">
+        <reference local="CM_CHATENTRYGRANDPARENT_ID" foreign="CM_CHATENTRY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="CM_CHATENTRY" name="CMENTRTY_CMENTRYPARENT">
+        <reference local="CM_CHATENTRYPARENT_ID" foreign="CM_CHATENTRY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
