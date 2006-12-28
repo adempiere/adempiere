@@ -170,6 +170,13 @@
 	  <fileset dir="${dbStartup.dir}/oracle" includes="*.sql"/>
 	  <fileset dir="../sqlj/oracle/"/>
 	</copy>
+	<copy todir="${build.dir}/Adempiere/utils/postgresql">
+	  <fileset dir="${dbStartup.dir}/postgresql" includes="*.sql"/>
+	  <fileset dir="../sqlj/postgresql/"/>
+	</copy>
+	<copy todir="${build.dir}/Adempiere/utils/oracleXE">
+	  <fileset dir="${dbStartup.dir}/oracleXE" includes="*.sql"/>
+	</copy>
 
 
 	<!-- Data Directory			-->

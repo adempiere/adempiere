@@ -1,6 +1,5 @@
-echo	Adempiere Database Import		$Revision: 1.2 $
-
-# $Id: ImportAdempiere.sh,v 1.2 2005/01/22 21:59:15 jjanke Exp $
+# $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
+echo	Adempiere Database Import		$Revision: 1.10 $
 
 echo	Importing Adempiere DB from $ADEMPIERE_HOME/data/Adempiere.dmp 
 
@@ -20,17 +19,22 @@ fi
 
 
 echo -------------------------------------
-echo Re-Create DB user
+echo Recreate user and database
 echo -------------------------------------
-sqlplus $1@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/CreateUser.sql $2 $3
+dropdb -U postgres $ADEMPIERE_DB_NAME
+
+dropuser -U postgres $ADEMPIERE_DB_USER
+
+createuser -U postgres -a -d $ADEMPIERE_DB_USER
+
+createdb $ADEMPIERE_DB_NAME -E UNICODE -O $ADEMPIERE_DB_USER -U $ADEMPIERE_DB_USER
 
 echo -------------------------------------
-echo Import Adempiere.dmp
+echo Import Adempiere_pg.dmp
 echo -------------------------------------
-imp $1@$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Adempiere.dmp FROMUSER=($2) TOUSER=$2 
+psql -d $ADEMPIERE_DB_NAME -U $ADEMPIERE_DB_USER -f $ADEMPIERE_HOME/data/Adempiere_pg.dmp
 
 echo -------------------------------------
-echo Check System
-echo Import may show some warnings. This is OK as long as the following does not show errors
+echo Create SQLJ 
 echo -------------------------------------
-sqlplus $2/$3@$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/AfterImport.sql
+# $ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/create.sh $ADEMPIERE_DB_USER/$ADEMPIERE_DB_PASSWORD
