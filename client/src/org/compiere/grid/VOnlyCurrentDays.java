@@ -117,7 +117,7 @@ public class VOnlyCurrentDays extends CDialog
 		else if (e.getSource() == bShowMonth)
 			m_days = 31;
 		else if (e.getSource() == bShowYear)
-			m_days = 356;
+			m_days = 365;
 		else
 			m_days = 0;		//	all
 		dispose();
