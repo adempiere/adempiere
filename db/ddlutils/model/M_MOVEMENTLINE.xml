@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_MOVEMENTLINE">
+      <column name="M_MOVEMENTLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_MOVEMENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_LOCATOR_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_LOCATORTO_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" default="0" autoIncrement="false"/>
+      <column name="CONFIRMEDQTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SCRAPPEDQTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="TARGETQTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCETO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MMOVEMENTLINE">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATORTO_MMOVEMENTLINE">
+        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MOVEMENTLINE">
+        <reference local="M_LOCATORTO_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTLINE">
+        <reference local="M_MOVEMENT_ID" foreign="M_MOVEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMOVEMENTLINE">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <index name="M_MOVEMENTLINE_MOVEMENT">
+        <index-column name="M_MOVEMENT_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PRODUCT">
+      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DOCUMENTNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSTOCKED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISPURCHASED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISSOLD" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISBOM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINVOICEPRINTDETAILS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPICKLISTPRINTDETAILS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISVERIFIED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_REVENUERECOGNITION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CLASSIFICATION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="VOLUME" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="WEIGHT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SHELFWIDTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="SHELFHEIGHT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="SHELFDEPTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="UNITSPERPALLET" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="C_TAXCATEGORY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="S_RESOURCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DISCONTINUED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DISCONTINUEDBY" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="S_EXPENSETYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRODUCTTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="I" autoIncrement="false"/>
+      <column name="IMAGEURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="DESCRIPTIONURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="GUARANTEEDAYS" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VERSIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" default="0" autoIncrement="false"/>
+      <column name="DOWNLOADURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="M_FREIGHTCATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_LOCATOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="GUARANTEEDAYSMIN" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISWEBSTOREFEATURED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_SUBSCRIPTIONTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISEXCLUDEAUTODELIVERY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MPRODUCT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="AD_ORG_MPRODUCT">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVRECOGNITION_MPRODUCT">
+        <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_SUBSCRIPTIONTYPE" name="CSUBSCRIPTIONTYPE_MPRODUCT">
+        <reference local="C_SUBSCRIPTIONTYPE_ID" foreign="C_SUBSCRIPTIONTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_MPRODUCT">
+        <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_MPRODUCT">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MPRODUCT">
+        <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MPRODUCT">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_FREIGHTCATEGORY" name="MFREIGHTCATEGORY_MPRODUCT">
+        <reference local="M_FREIGHTCATEGORY_ID" foreign="M_FREIGHTCATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MPRODUCT">
+        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCT_MPRODUCTCATEGORY">
+        <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_MPRODUCT">
+        <reference local="R_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="S_EXPENSETYPE" name="SEXPENSETYPE_MPRODUCT">
+        <reference local="S_EXPENSETYPE_ID" foreign="S_EXPENSETYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_MPRODUCT">
+        <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
+      </foreign-key>
+      <unique name="M_PRODUCT_VALUE">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="VALUE"/>
+      </unique>
+      <index name="M_PRODUCT_NAME">
+        <index-column name="NAME"/>
+      </index>
+      <index name="M_PRODUCT_PRODUCTCATEGORY">
+        <index-column name="M_PRODUCT_CATEGORY_ID"/>
+      </index>
+      <unique name="M_PRODUCT_RESOURCE">
+        <unique-column name="S_RESOURCE_ID"/>
+      </unique>
+      <unique name="M_PRODUCT_EXPENSETYPE">
+        <unique-column name="S_EXPENSETYPE_ID"/>
+      </unique>
+      <index name="M_PRODUCT_UPC">
+        <index-column name="UPC"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsStocked in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPurchased in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSold in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsBOM in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInvoicePrintDetails in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPickListPrintDetails in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsVerified in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Discontinued in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

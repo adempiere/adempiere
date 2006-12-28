@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_INOUTLINECONFIRM">
+      <column name="M_INOUTLINECONFIRM_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_INOUTCONFIRM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_INOUTLINE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TARGETQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="CONFIRMEDQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DIFFERENCEQTY" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="SCRAPPEDQTY" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="M_INVENTORYLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CONFIRMATIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <foreign-key foreignTable="M_INOUTCONFIRM" name="MINOUTCONFIRM_MINOUTLINECONF">
+        <reference local="M_INOUTCONFIRM_ID" foreign="M_INOUTCONFIRM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MINOUTCONFIRM">
+        <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

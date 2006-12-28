@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_PRODUCT_COSTING">
+      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="FUTURECOSTPRICE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTSTANDARD" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTSTANDARDPOQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTSTANDARDPOAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTSTANDARDCUMQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTSTANDARDCUMAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTAVERAGE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTAVERAGECUMQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTAVERAGECUMAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICELASTPO" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICELASTINV" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="TOTALINVQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="TOTALINVAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODUCTCOSTING">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTCOSTING">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
