@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_ATTRIBUTE_VALUE">
+      <column name="AD_ATTRIBUTE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="RECORD_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="V_NUMBER" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="V_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="V_STRING" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ATTRIBUTE" name="ADATTRIBUTE_ADATTRIBUTEVALUE">
+        <reference local="AD_ATTRIBUTE_ID" foreign="AD_ATTRIBUTE_ID"/>
+      </foreign-key>
+    </table>
+  </database>

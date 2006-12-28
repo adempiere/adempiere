@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_CLIENTINFO">
+      <column name="AD_CLIENT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISDISCOUNTLINEAMT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_CALENDAR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_UOM_VOLUME_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_UOM_WEIGHT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_UOM_LENGTH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_UOM_TIME_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_MENU_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCTFREIGHT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNERCASHTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="KEEPLOGDAYS" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="AD_TREE_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TREE_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADCLIENTINFO">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEPRODUCT_ADCLIENTINFO">
+        <reference local="AD_TREE_PRODUCT_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEORG_ADCLIENTINFO">
+        <reference local="AD_TREE_ORG_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEMENU_ADCLIENTINFO">
+        <reference local="AD_TREE_MENU_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREESALESREG_ADCLIENTINFO">
+        <reference local="AD_TREE_SALESREGION_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEPROJECT_ADCLIENTINFO">
+        <reference local="AD_TREE_PROJECT_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREEBPARTNER_ADCLIENTINFO">
+        <reference local="AD_TREE_BPARTNER_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA1_ADCLIENTINFO">
+        <reference local="C_ACCTSCHEMA1_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CALENDAR" name="CCALENDAR_ADCLIENTINFO">
+        <reference local="C_CALENDAR_ID" foreign="C_CALENDAR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_VOLUME_AD_CLIENTINFO">
+        <reference local="C_UOM_VOLUME_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_TIME_AD_CLIENTINFO">
+        <reference local="C_UOM_TIME_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_LENGTH_AD_CLIENTINFO">
+        <reference local="C_UOM_LENGTH_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="C_UOM_WEIGHT_AD_CLIENTINFO">
+        <reference local="C_UOM_WEIGHT_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDiscountLineAmt in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

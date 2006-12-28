@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_CLIENT">
+      <column name="AD_CLIENT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="SMTPHOST" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="REQUESTEMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="REQUESTUSER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="REQUESTUSERPW" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="REQUESTFOLDER" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="AD_LANGUAGE" primaryKey="false" required="false" type="VARCHAR" size="6" autoIncrement="false"/>
+      <column name="ISMULTILINGUALDOCUMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSMTPAUTHORIZATION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISUSEBETAFUNCTIONS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="LDAPQUERY" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="MODELVALIDATIONCLASSES" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AUTOARCHIVE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="MMPOLICY" primaryKey="false" required="true" type="CHAR" size="1" default="F" autoIncrement="false"/>
+      <column name="EMAILTEST" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISSERVEREMAIL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DOCUMENTDIR" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISPOSTIMMEDIATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISCOSTIMMEDIATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <unique name="AD_CLIENT_NAME">
+        <unique-column name="NAME"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

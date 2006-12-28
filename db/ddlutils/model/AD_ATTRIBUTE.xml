@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_ATTRIBUTE">
+      <column name="AD_ATTRIBUTE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_REFERENCE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_REFERENCE_VALUE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_VAL_RULE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CALLOUT" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="VALUEMIN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="VALUEMAX" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="DEFAULTVALUE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISUPDATEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMANDATORY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISENCRYPTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="FIELDLENGTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="DISPLAYLENGTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="DISPLAYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="VFORMAT" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISSAMELINE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISHEADING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISFIELDONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADATTRIBUTE">
+        <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADATTRIBUTE">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADATTRIBUTE">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_ADATTRIBUTE">
+        <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUpdateable in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMandatory in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEncrypted in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSameLine in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsHeading in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsFieldOnly in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

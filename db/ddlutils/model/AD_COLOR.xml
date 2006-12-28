@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_COLOR">
+      <column name="AD_COLOR_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="COLORTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="RED" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="GREEN" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="BLUE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="ALPHA" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="IMAGEALPHA" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="RED_1" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="GREEN_1" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="BLUE_1" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ALPHA_1" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LINEWIDTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LINEDISTANCE" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="STARTPOINT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="REPEATDISTANCE" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADCOLOR">
+        <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
