@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_BPARTNER">
+      <column name="C_BPARTNER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="NAME2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_BP_GROUP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISONETIME" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPROSPECT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISVENDOR" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISCUSTOMER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISEMPLOYEE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSALESREP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="REFERENCENO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="DUNS" primaryKey="false" required="false" type="CHAR" size="11" autoIncrement="false"/>
+      <column name="URL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="AD_LANGUAGE" primaryKey="false" required="false" type="VARCHAR" size="6" autoIncrement="false"/>
+      <column name="TAXID" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ISTAXEXEMPT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_INVOICESCHEDULE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="RATING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SALESVOLUME" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="NUMBEREMPLOYEES" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="NAICS" primaryKey="false" required="false" type="CHAR" size="6" autoIncrement="false"/>
+      <column name="FIRSTSALE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ACQUSITIONCOST" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="POTENTIALLIFETIMEVALUE" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ACTUALLIFETIMEVALUE" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SHAREOFCUSTOMER" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="PAYMENTRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SO_CREDITLIMIT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SO_CREDITUSED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_DISCOUNTSCHEMA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DUNNING_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDISCOUNTPRINTED" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="SO_DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="POREFERENCE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="PAYMENTRULEPO" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PO_PRICELIST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PO_DISCOUNTSCHEMA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PO_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTCOPIES" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="C_GREETING_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="INVOICERULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DELIVERYRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="FREIGHTCOSTRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DELIVERYVIARULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SENDEMAIL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="BPARTNER_PARENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="INVOICE_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SOCREDITSTATUS" primaryKey="false" required="false" type="CHAR" size="1" default="O" autoIncrement="false"/>
+      <column name="SHELFLIFEMINPCT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="AD_ORGBP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="FLATDISCOUNT" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="TOTALOPENBALANCE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CBPARTNER">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER">
+        <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG">
+        <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER">
+        <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_CBPARTNER">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPBARTNERPARENT">
+        <reference local="BPARTNER_PARENT_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_CBPARTNER">
+        <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CBPARTNER">
+        <reference local="C_DUNNING_ID" foreign="C_DUNNING_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_GREETING" name="CGREETING_CBPARTNER">
+        <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER">
+        <reference local="C_INVOICESCHEDULE_ID" foreign="C_INVOICESCHEDULE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER">
+        <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER">
+        <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER">
+        <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER">
+        <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CBPARTNER">
+        <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <unique name="C_BPARTNER_VALUE">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="VALUE"/>
+      </unique>
+      <index name="C_BPARTNER_NAME">
+        <index-column name="NAME"/>
+      </index>
+      <index name="C_BPARTNER_BPORG">
+        <index-column name="AD_ORGBP_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSummary in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOneTime in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsProspect in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsVendor in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCustomer in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEmployee in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSalesRep in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTaxExempt in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDiscountPrinted in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

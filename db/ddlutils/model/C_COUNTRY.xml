@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_COUNTRY">
+      <column name="C_COUNTRY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="COUNTRYCODE" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="HASREGION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="REGIONNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="EXPRESSIONPHONE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="DISPLAYSEQUENCE" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="EXPRESSIONPOSTAL" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="HASPOSTAL_ADD" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="EXPRESSIONPOSTAL_ADD" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="AD_LANGUAGE" primaryKey="false" required="false" type="VARCHAR" size="6" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DISPLAYSEQUENCELOCAL" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ISADDRESSLINESREVERSE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISADDRESSLINESLOCALREVERSE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="EXPRESSIONBANKROUTINGNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="EXPRESSIONBANKACCOUNTNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="MEDIASIZE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="C_COUNTRYCLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CCOUNTRY">
+        <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="C_COUNTRYORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOUNTRY">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <unique name="C_COUNTRYCODE">
+        <unique-column name="COUNTRYCODE"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[HasRegion in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[HasPostal_Add in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_ACCTSCHEMA_DEFAULT">
+      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="W_INVENTORY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="W_INVACTUALADJUST_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="W_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="W_REVALUATION_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_PURCHASEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_INVOICEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTREC_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_COGS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_RECEIVABLE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="V_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="V_LIABILITY_SERVICES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="V_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PAYDISCOUNT_EXP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="WRITEOFF_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PAYDISCOUNT_REV_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UNREALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UNREALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="REALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="REALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="WITHHOLDING_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="E_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="E_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PJ_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PJ_WIP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="T_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="T_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="T_RECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="T_DUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="T_CREDIT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_INTRANSIT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_INTERESTREV_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_INTERESTEXP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_UNIDENTIFIED_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_UNALLOCATEDCASH_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_PAYMENTSELECT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_SETTLEMENTGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_SETTLEMENTLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_REVALUATIONGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="B_REVALUATIONLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CH_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CH_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UNEARNEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NOTINVOICEDRECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NOTINVOICEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NOTINVOICEDRECEIPTS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CB_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CB_CASHTRANSFER_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CB_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CB_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CB_RECEIPT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="C_RECEIVABLE_SERVICES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_DEFAULT">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT">
+        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CSCHEMADEFAULT">
+        <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CSCHEMADEFAULT">
+        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CSCHEMADEFAULT">
+        <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CSCHEMADEFAULT">
+        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CSCHEMADEFAULT">
+        <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CSCHEMADEFA">
+        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CSCHEMADEFAU">
+        <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CSCHEMADEFAU">
+        <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITYSERVICES_CSCHEMAD">
+        <reference local="V_LIABILITY_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CSCHEMADEFAULT">
+        <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CSCHEMADEFAULT">
+        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WDIFFERENCES_CSCHEMADEFAULT">
+        <reference local="W_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVACTUALADJUST_CSCHEMADEF">
+        <reference local="W_INVACTUALADJUST_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_CSCHEMADEFAULT">
+        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WITHHOLDING_CSCHEMADEFAULT">
+        <reference local="WITHHOLDING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WREVALUATION_CSCHEMADEFAULT">
+        <reference local="W_REVALUATION_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WRITEOFF_CSCHEMADEFAULT">
+        <reference local="WRITEOFF_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BASSET_CSCHEMADEFAULT">
+        <reference local="B_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BEXPENSE_CSCHEMADEFAULT">
+        <reference local="B_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTEXP_CSCHEMADEFAULT">
+        <reference local="B_INTERESTEXP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTREV_CSCHEMADEFAULT">
+        <reference local="B_INTERESTREV_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTRANSIT_CSCHEMADEFAULT">
+        <reference local="B_INTRANSIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BPAYMENTSELECT_CSCHEMADEFAU">
+        <reference local="B_PAYMENTSELECT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONGAIN_CSCHEMADEF">
+        <reference local="B_REVALUATIONGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONLOSS_CSCHEMADEF">
+        <reference local="B_REVALUATIONLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTGAIN_CSCHEMADEFA">
+        <reference local="B_SETTLEMENTGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTLOSS_CSCHEMADEFA">
+        <reference local="B_SETTLEMENTLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNALLOCATEDCASH_CSCHEMADEF">
+        <reference local="B_UNALLOCATEDCASH_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNIDENTIFIED_CSCHEMADEFAUL">
+        <reference local="B_UNIDENTIFIED_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBASSET_CSCHEMADEFAULT">
+        <reference local="CB_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBCASHTRANSFER_CSCHEMADEFAU">
+        <reference local="CB_CASHTRANSFER_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBDIFFERENCES_CSCHEMADEFAUL">
+        <reference local="CB_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBEXPENSE_CSCHEMADEFAULT">
+        <reference local="CB_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBRECEIPT_CSCHEMADEFAULT">
+        <reference local="CB_RECEIPT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHEXPENSE_CSCHEMADEFAULT">
+        <reference local="CH_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHREVENUE_CSCHEMADEFAULT">
+        <reference local="CH_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CSCHEMADEFAULT">
+        <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CSCHEMADEFAULT">
+        <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EEXPENSE_CSCHEMADEFAULT">
+        <reference local="E_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EPREPAYMENT_CSCHEMADEFAULT">
+        <reference local="E_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDRECEIPTS_CSCHEMA">
+        <reference local="NOTINVOICEDRECEIPTS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDREC_CSCHEMADEFAU">
+        <reference local="NOTINVOICEDRECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDREVENUE_CSCHEMAD">
+        <reference local="NOTINVOICEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_CSCHEMADEFAULT">
+        <reference local="P_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PAYDISCOUNTEXP_CSCHEMADEFAU">
+        <reference local="PAYDISCOUNT_EXP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PAYDISCOUNTREV_CSCHEMADEFAU">
+        <reference local="PAYDISCOUNT_REV_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PCOGS_CSCHEMADEFAULT">
+        <reference local="P_COGS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_CSCHEMADEFAULT">
+        <reference local="P_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_CSCHEMADEFAULT">
+        <reference local="P_INVOICEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PJASSET_CSCHEMADEFAULT">
+        <reference local="PJ_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PJWIP_CSCHEMADEFAULT">
+        <reference local="PJ_WIP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPURCHASEPV_CSCHEMADEFAULT">
+        <reference local="P_PURCHASEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CSCHEMADEFAULT">
+        <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTGRANT_CSCHEMADEFA">
+        <reference local="P_TRADEDISCOUNTGRANT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_CSCHEMADEFAUL">
+        <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT">
+        <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_BP_BANKACCOUNT">
+      <column name="C_BP_BANKACCOUNT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BANK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISACH" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="BANKACCOUNTTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ROUTINGNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ACCOUNTNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="CREDITCARDTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREDITCARDNUMBER" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="CREDITCARDVV" primaryKey="false" required="false" type="VARCHAR" size="4" autoIncrement="false"/>
+      <column name="CREDITCARDEXPMM" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="CREDITCARDEXPYY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="A_NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_STREET" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_CITY" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_STATE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="A_ZIP" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_IDENT_DL" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_IDENT_SSN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="R_AVSADDR" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_AVSZIP" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="A_COUNTRY" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="BPBANKACCTUSE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CBPBANKACCOUNT">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANK" name="CBANK_CBPBANKACCOUNT">
+        <reference local="C_BANK_ID" foreign="C_BANK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPBANKACCOUNT">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <index name="C_BPBANKACCT_BPARTNER">
+        <index-column name="C_BPARTNER_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsACH in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

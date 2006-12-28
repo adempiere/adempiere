@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_BANKSTATEMENTLINE">
+      <column name="C_BANKSTATEMENTLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BANKSTATEMENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISREVERSAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VALUTADATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TRXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="STMTAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="INTERESTAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="MEMO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="REFERENCENO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISMANUAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="EFTTRXID" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="EFTTRXTYPE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="EFTMEMO" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="EFTPAYEE" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="EFTPAYEEACCOUNT" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="CREATEPAYMENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="STATEMENTLINEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="EFTSTATEMENTLINEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="EFTVALUTADATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="EFTREFERENCE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="EFTCURRENCY" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="EFTAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="EFTCHECKNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="MATCHSTATEMENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BANKSTATEMENT" name="CBSTATEMENT_CBSTATEMENTLINE">
+        <reference local="C_BANKSTATEMENT_ID" foreign="C_BANKSTATEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBANKSTATEMENTLINE">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CBANKSTMTLIME">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CBANKSTMTLINE">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CBANKSTATEMENTLINE">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CBANKSTMTLINE">
+        <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
+      </foreign-key>
+      <index name="C_BANKSTMTLINE_BANKSTMT">
+        <index-column name="C_BANKSTATEMENT_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReversal in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

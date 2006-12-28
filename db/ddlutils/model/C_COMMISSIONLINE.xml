@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_COMMISSIONLINE">
+      <column name="C_COMMISSIONLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_COMMISSION_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="AMTSUBTRACT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="AMTMULTIPLIER" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="QTYSUBTRACT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="QTYMULTIPLIER" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="ISPOSITIVEONLY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="COMMISSIONORDERS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CCOMMISSIONLINE">
+        <reference local="ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCOMMISSIONLINE">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_COMMISSIONLINE">
+        <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONLINE">
+        <reference local="C_COMMISSION_ID" foreign="C_COMMISSION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_CCOMMISSIONLINE">
+        <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CCOMMISSIONLINE">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_CCOMMISSIONLINE">
+        <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
+      </foreign-key>
+      <index name="C_COMMISSIONLINE_COMMISSION">
+        <index-column name="C_COMMISSION_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPositiveOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[CommissionOrders in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
