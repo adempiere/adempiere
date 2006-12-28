@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_INVOICEBATCHLINE">
+      <column name="C_INVOICEBATCHLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICEBATCH_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="DATEINVOICED" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="QTYENTERED" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICEENTERED" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="LINENETAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_TAX_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LINETOTALAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICEBATCHLINE">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICEBATCHLINE">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCHLINE">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CINVOICEBATCHLINE">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CINVOICEBATCHLINE">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CINVOICEBLINE">
+        <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CINVOICEBATCHLINE">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CINVOICEBATCHLINE">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_CINVOICEBLINE">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_CINVOICEBLINE">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICEBATCHLINE">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICEBATCH" name="CINVOICEBATCH_CINVOICEBLINE">
+        <reference local="C_INVOICEBATCH_ID" foreign="C_INVOICEBATCH_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CINVOICEBLINE">
+        <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CINVOICEBATCHLINE">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICEBATCHLINE">
+        <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTaxIncluded in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

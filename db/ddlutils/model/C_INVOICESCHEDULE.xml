@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_INVOICESCHEDULE">
+      <column name="C_INVOICESCHEDULE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISAMOUNT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="INVOICEFREQUENCY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="INVOICEWEEKDAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="INVOICEWEEKDAYCUTOFF" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="EVENINVOICEWEEK" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="INVOICEDAY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="INVOICEDAYCUTOFF" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAmount in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[EvenInvoiceWeek in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
