@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PREFERENCE">
+      <column name="AD_PREFERENCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ATTRIBUTE" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="AD_PREFERENCE_CLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="AD_PREFERENCE_ORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="AD_USER_PREFERENCE">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_PREFERENCE">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <unique name="AD_PREFERENCE_ATTRIBUTE">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="AD_ORG_ID"/>
+        <unique-column name="AD_WINDOW_ID"/>
+        <unique-column name="AD_USER_ID"/>
+        <unique-column name="ATTRIBUTE"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

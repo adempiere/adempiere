@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PRINTTABLEFORMAT">
+      <column name="AD_PRINTTABLEFORMAT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="HDR_PRINTFONT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="HDRTEXTFG_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="HDRTEXTBG_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="HDRLINE_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="FUNCT_PRINTFONT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="FUNCTBG_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="FUNCTFG_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="LINE_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISPAINTBOUNDARYLINES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPAINTHLINES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPAINTVLINES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPRINTFUNCTIONSYMBOLS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="IMAGEURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="HEADERLEFT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HEADERCENTER" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HEADERRIGHT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="FOOTERLEFT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="FOOTERCENTER" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="FOOTERRIGHT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="IMAGEISATTACHED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="HDRSTROKE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="LINESTROKE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="HDRSTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LINESTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPAINTHEADERLINES" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTBG">
+        <reference local="FUNCTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTFG">
+        <reference local="FUNCTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRLINE">
+        <reference local="HDRLINE_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTBG">
+        <reference local="HDRTEXTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTFG">
+        <reference local="HDRTEXTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLELINE">
+        <reference local="LINE_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEFORMATFUNC">
+        <reference local="FUNCT_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEHDR">
+        <reference local="HDR_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PRINTFORMAT">
+      <column name="AD_PRINTFORMAT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISTABLEBASED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISFORM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTPAPER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTFONT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISSTANDARDHEADERFOOTER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="HEADERMARGIN" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="FOOTERMARGIN" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="CREATECOPY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_REPORTVIEW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTTABLEFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRINTERNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMAT">
+        <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFONT" name="AD_PRINTFONT_ADPRINTFORMAT">
+        <reference local="AD_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTPAPER" name="ADPRINTPAPER_ADPRINTFORMAT">
+        <reference local="AD_PRINTPAPER_ID" foreign="AD_PRINTPAPER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTTABLEFORMAT" name="ADPRINTFORMATTABLE_FORMAT">
+        <reference local="AD_PRINTTABLEFORMAT_ID" foreign="AD_PRINTTABLEFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REPORTVIEW" name="ADPRINTVIEW_ADPRINTFORMAT">
+        <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADPRINTFORMAT">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
+      <unique name="AD_PRINTFORMAT_NAME">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="AD_TABLE_ID"/>
+        <unique-column name="NAME"/>
+      </unique>
+      <index name="AD_PRINTFORMAT_TABLE">
+        <index-column name="AD_TABLE_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTableBased in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsForm in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsStandardHeaderFooter in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

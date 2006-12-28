@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PROCESS">
+      <column name="AD_PROCESS_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="PROCEDURENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ISREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISDIRECTPRINT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_REPORTVIEW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="STATISTIC_COUNT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="STATISTIC_SECONDS" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="WORKFLOWVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISBETAFUNCTIONALITY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSERVERPROCESS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SHOWHELP" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPROCESS">
+        <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_ADPROCESS">
+        <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReport in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDirectPrint in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

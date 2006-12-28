@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PACKAGE_IMP_INST">
+      <column name="AD_PACKAGE_IMP_INST_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="240" autoIncrement="false"/>
+      <column name="PK_STATUS" primaryKey="false" required="false" type="VARCHAR" size="44" autoIncrement="false"/>
+      <column name="RELEASENO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="PK_VERSION" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="VERSION" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="CREATOR" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="CREATORCONTACT" primaryKey="false" required="false" type="VARCHAR" size="510" autoIncrement="false"/>
+      <column name="CREATEDDATE" primaryKey="false" required="false" type="VARCHAR" size="50" autoIncrement="false"/>
+      <column name="UPDATEDDATE" primaryKey="false" required="false" type="VARCHAR" size="50" autoIncrement="false"/>
+      <column name="UNINSTALL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+    </table>
+  </database>

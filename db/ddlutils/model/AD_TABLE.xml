@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_TABLE">
+      <column name="AD_TABLE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="TABLENAME" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISVIEW" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_VAL_RULE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="LOADSEQ" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISSECURITYENABLED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISDELETEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISHIGHVOLUME" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="IMPORTTABLE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISCHANGELOG" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
+      <column name="PO_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="TABLECLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="TABLEORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_TABLE">
+        <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE">
+        <reference local="PO_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <unique name="AD_TABLE_NAME">
+        <unique-column name="TABLENAME"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsView in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSecurityEnabled in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDeleteable in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsHighVolume in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

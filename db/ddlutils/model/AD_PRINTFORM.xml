@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_PRINTFORM">
+      <column name="AD_PRINTFORM_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="INVOICE_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ORDER_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="REMITTANCE_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SHIPMENT_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="INVOICE_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ORDER_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="REMITTANCE_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SHIPMENT_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROJECT_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROJECT_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADPRINTFORM">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMPROJECT">
+        <reference local="PROJECT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMORDER">
+        <reference local="ORDER_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMINVOICE">
+        <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMREMITTANCE">
+        <reference local="REMITTANCE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMSHIPMENT">
+        <reference local="SHIPMENT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_SHIPADPRINTFORM">
+        <reference local="SHIPMENT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_REMITADPRINTFORM">
+        <reference local="REMITTANCE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_PROJECTADPRINTFORM">
+        <reference local="PROJECT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ORDERADPRINTFORM">
+        <reference local="ORDER_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_INVOICEADPRINTFORM">
+        <reference local="INVOICE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <unique name="AD_PRINTFORM_CLIENT">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="AD_ORG_ID"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

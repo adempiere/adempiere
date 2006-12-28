@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_TAB">
+      <column name="AD_TAB_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="TABLEVEL" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="ISSINGLEROW" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISINFOTAB" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISTRANSLATIONTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="HASTREE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="WHERECLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ORDERBYCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="COMMITWARNING" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="IMPORTFIELDS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_COLUMNSORTORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_COLUMNSORTYESNO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISSORTTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="INCLUDED_TAB_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="READONLYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="DISPLAYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISINSERTRECORD" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISADVANCEDTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="TABCLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER">
+        <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO">
+        <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB">
+        <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADTAB">
+        <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="TABORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADTAB">
+        <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TAB" name="ADTAB_INCLUDED">
+        <reference local="INCLUDED_TAB_ID" foreign="AD_TAB_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_TAB">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TAB">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <index name="AD_TAB_TABLE">
+        <index-column name="AD_TABLE_ID"/>
+      </index>
+      <index name="AD_TAB_WINDOW">
+        <index-column name="AD_WINDOW_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSingleRow in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInfoTab in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTranslationTab in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[HasTree in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_SCHEDULER_PARA">
+      <column name="AD_SCHEDULER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PROCESS_PARA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PARAMETERDEFAULT" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADSCHEDULERPARA">
+        <reference local="AD_PROCESS_PARA_ID" foreign="AD_PROCESS_PARA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_SCHEDULER" name="ADSCHEDULER_ADSCHEDULERPARA">
+        <reference local="AD_SCHEDULER_ID" foreign="AD_SCHEDULER_ID"/>
+      </foreign-key>
+    </table>
+  </database>

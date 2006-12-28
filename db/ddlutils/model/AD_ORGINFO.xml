@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_ORGINFO">
+      <column name="AD_ORG_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DUNS" primaryKey="false" required="true" type="CHAR" size="11" autoIncrement="false"/>
+      <column name="TAXID" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="PA_GOAL_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SUPERVISOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PARENT_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGPARENT_ADORGINFO">
+        <reference local="PARENT_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_ADORGINFO">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORGTYPE" name="ADORGTYPE_ADORGINFO">
+        <reference local="AD_ORGTYPE_ID" foreign="AD_ORGTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADORGINFO">
+        <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_AD_ORGINFO">
+        <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_ADORGINFO">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
