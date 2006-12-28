@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_WITHHOLDING">
+      <column name="C_WITHHOLDING_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISTAXWITHHOLDING" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISTAXPRORATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPAIDTO3PARTY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="BENEFICIARY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISPERCENTWITHHOLDING" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="PERCENT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="FIXAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="THRESHOLDMIN" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="THRESHOLDMAX" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="MINAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="MAXAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CWITHHOLDING">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTaxWithholding in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTaxProrated in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPaidTo3Party in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPercentWithholding in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

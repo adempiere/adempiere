@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_VALIDCOMBINATION">
+      <column name="C_VALIDCOMBINATION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ALIAS" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="COMBINATION" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISFULLYQUALIFIED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ACCOUNT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SUBACCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_VC">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_VC">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_VC">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CVALIDCOMBINATION">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CVALIDCOMBINATION">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_VC">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_VC">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCOUNT_VC">
+        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC">
+        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_VC">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_VC">
+        <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_VC">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <index name="C_VALIDCOMBINATION_ALIAS">
+        <index-column name="AD_CLIENT_ID"/>
+        <index-column name="ALIAS"/>
+      </index>
+      <unique name="C_VALIDCOMBINATION_ALT">
+        <unique-column name="C_ACCTSCHEMA_ID"/>
+        <unique-column name="AD_ORG_ID"/>
+        <unique-column name="ACCOUNT_ID"/>
+        <unique-column name="C_SUBACCT_ID"/>
+        <unique-column name="M_PRODUCT_ID"/>
+        <unique-column name="C_BPARTNER_ID"/>
+        <unique-column name="AD_ORGTRX_ID"/>
+        <unique-column name="C_LOCFROM_ID"/>
+        <unique-column name="C_LOCTO_ID"/>
+        <unique-column name="C_SALESREGION_ID"/>
+        <unique-column name="C_PROJECT_ID"/>
+        <unique-column name="C_CAMPAIGN_ID"/>
+        <unique-column name="C_ACTIVITY_ID"/>
+        <unique-column name="USER1_ID"/>
+        <unique-column name="USER2_ID"/>
+        <unique-column name="USERELEMENT1_ID"/>
+        <unique-column name="USERELEMENT2_ID"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsFullyQualified in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
