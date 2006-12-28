@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <AD_ALERTRULE AD_ALERTRULE_ID="100" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2004-09-04 00:14:57.0" CREATEDBY="0" UPDATED="2000-01-02 00:00:00.0" UPDATEDBY="0" NAME="Space Info" AD_ALERT_ID="100" FROMCLAUSE="DBA_Free_Space" ISVALID="Y" OTHERCLAUSE="GROUP BY Tablespace_Name">
+    <SELECTCLAUSE><![CDATA[Tablespace_Name, 
+COUNT (*) AS Pieces, 
+SUM (bytes)/1024/1024 Free_MB, 
+MAX (bytes)/1024 Largest_kB, 
+ROUND(MAX (bytes) / SUM (bytes),2) * 100 Ratio,
+SUM (blocks) Free_Blocks,
+MAX (blocks) Largest_Blocks,
+ROUND(SQRT (MAX (blocks) / SUM (blocks)) * (100 / SQRT (SQRT (COUNT (blocks)))),2) Fragmentation_Index]]></SELECTCLAUSE>
+  </AD_ALERTRULE>
+</data>
