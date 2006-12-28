@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_ATTRIBUTESETEXCLUDE">
+      <column name="M_ATTRIBUTESETEXCLUDE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESET_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_MATTRIBUTESETEXCLUDE">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MASEXCLUDE">
+        <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="K_INDEXSTOP">
+      <column name="K_INDEXSTOP_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="KEYWORD" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISMANUAL" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_KINDEXSTOP">
+        <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_KINDEXSTOP">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_KINDEXSTOP">
+        <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
+      </foreign-key>
+      <index name="K_INDEXSTOP_KEYWORD">
+        <index-column name="AD_CLIENT_ID"/>
+        <index-column name="KEYWORD"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsManual in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

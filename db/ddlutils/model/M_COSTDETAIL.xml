@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_COSTDETAIL">
+      <column name="M_COSTDETAIL_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_COSTELEMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_MOVEMENTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INVENTORYLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCTIONLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECTISSUE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DELTAAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DELTAQTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOSTDETAIL">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_MCOSTDETAIL">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MCOSTDETAIL">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICELINE" name="MINVOICELINE_MCOSTDETAIL">
+        <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MCOSTDETAIL">
+        <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_MCOSTDETAIL">
+        <reference local="C_PROJECTISSUE_ID" foreign="C_PROJECTISSUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MCOSTDETAIL">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MCOSTDETAIL">
+        <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MCOSTDETAIL">
+        <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MCOSTDETAIL">
+        <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_MCOSTDETAIL">
+        <reference local="M_MOVEMENTLINE_ID" foreign="M_MOVEMENTLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MCOSTDETAIL">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_MCOSTDETAIL">
+        <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
+      </foreign-key>
+      <index name="M_COSTDETAIL_PRODUCT">
+        <index-column name="AD_ORG_ID"/>
+        <index-column name="M_PRODUCT_ID"/>
+        <index-column name="M_ATTRIBUTESETINSTANCE_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

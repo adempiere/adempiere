@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="K_COMMENT">
+      <column name="K_COMMENT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="K_ENTRY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="RATING" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="ISPUBLIC" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="AD_SESSION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="TEXTMSG" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_KCOMMENT">
+        <reference local="AD_SESSION_ID" foreign="AD_SESSION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KCOMMENT">
+        <reference local="K_ENTRY_ID" foreign="K_ENTRY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPublic in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

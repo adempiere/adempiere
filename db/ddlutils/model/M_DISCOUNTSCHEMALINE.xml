@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_DISCOUNTSCHEMALINE">
+      <column name="M_DISCOUNTSCHEMALINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_DISCOUNTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CONVERSIONDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="LIST_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LIST_ADDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIST_DISCOUNT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="LIST_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LIST_MINAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIST_MAXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIST_FIXED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="STD_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="STD_ADDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="STD_DISCOUNT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="STD_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="STD_MINAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="STD_MAXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="STD_FIXED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIMIT_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LIMIT_ADDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIMIT_DISCOUNT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="LIMIT_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LIMIT_MINAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIMIT_MAXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LIMIT_FIXED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISCOUNTSLINE">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_MDISCSCHLINE">
+        <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSCHEMA_MDSLINE">
+        <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MDISCOUNTSLINE">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_MDISCOUNTSLINE">
+        <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

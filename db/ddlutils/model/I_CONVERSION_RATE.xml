@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="I_CONVERSION_RATE">
+      <column name="I_CONVERSION_RATE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CONVERSION_RATE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISO_CODE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISO_CODE_TO" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID_TO" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="CONVERSIONTYPEVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="MULTIPLYRATE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="DIVIDERATE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="CREATERECIPROCALRATE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="I_ISIMPORTED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVTYPE_ICONVRATE">
+        <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CONVERSION_RATE" name="CCONVERSIONRATE_ICONVRATE">
+        <reference local="C_CONVERSION_RATE_ID" foreign="C_CONVERSION_RATE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATETO">
+        <reference local="C_CURRENCY_ID_TO" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATE">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[CreateReciprocalRate in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

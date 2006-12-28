@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="M_BOMPRODUCT">
+      <column name="M_BOMPRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="M_BOM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="BOMPRODUCTTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ISPHANTOM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_PRODUCTBOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_CHANGENOTICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_BOMALTERNATIVE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="BOMQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="M_PRODUCTOPERATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="LEADTIMEOFFSET" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MBOMPRODUCT">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_BOM" name="MBOM_MBOMPRODUCT">
+        <reference local="M_BOM_ID" foreign="M_BOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_BOMALTERNATIVE" name="MBOMALTERNATIVE_MBOMPRODUCT">
+        <reference local="M_BOMALTERNATIVE_ID" foreign="M_BOMALTERNATIVE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MBOMPRODUCT">
+        <reference local="M_CHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MBOMPRODUCT">
+        <reference local="M_PRODUCTBOM_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCTOPERATION" name="MPRODUCTOP_MBOMPRODUCT">
+        <reference local="M_PRODUCTOPERATION_ID" foreign="M_PRODUCTOPERATION_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPhantom in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

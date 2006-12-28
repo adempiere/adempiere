@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="I_ORDER">
+      <column name="I_ORDER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="I_ISIMPORTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_SHIPPER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISSOTRX" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="BPARTNERVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="BILLTO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ADDRESS1" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ADDRESS2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="POSTAL" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
+      <column name="CITY" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="REGIONNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_COUNTRY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="COUNTRYCODE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CONTACTNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PHONE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DOCTYPENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PAYMENTTERMVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="DATEORDERED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRODUCTVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="C_TAX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="5" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="QTYORDERED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICEACTUAL" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="FREIGHTAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IORDER">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_IORDER">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IORDER">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IORDER">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IORDER">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCBILLTO_IORDER">
+        <reference local="BILLTO_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBOLOCATION_IORDER">
+        <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IORDER">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IORDER">
+        <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IORDER">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IORDER">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_IORDER">
+        <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_IORDER">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_IORDER">
+        <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_IORDER">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_IORDER">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_REGION" name="CREGION_IORDER">
+        <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_TAX" name="CTAX_IORDER">
+        <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_IORDER">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_IORDER">
+        <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_IORDER">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_IORDER">
+        <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_IORDER">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

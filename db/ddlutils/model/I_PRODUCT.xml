@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="I_PRODUCT">
+      <column name="I_PRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="I_ISIMPORTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DOCUMENTNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="X12DE355" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRODUCTCATEGORY_VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRODUCTTYPE" primaryKey="false" required="false" type="CHAR" size="1" default="I" autoIncrement="false"/>
+      <column name="CLASSIFICATION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="VOLUME" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="WEIGHT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SHELFWIDTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="SHELFHEIGHT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="SHELFDEPTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="UNITSPERPALLET" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="DISCONTINUED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="DISCONTINUEDBY" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="IMAGEURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="DESCRIPTIONURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
+      <column name="BPARTNER_VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISO_CODE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRICELIST" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICEPO" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ROYALTYAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICEEFFECTIVE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VENDORPRODUCTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="ORDER_MIN" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ORDER_PACK" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COSTPERORDER" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DELIVERYTIME_PROMISED" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PRICESTD" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="PRICELIMIT" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPRODUCT">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IPRODUCT">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_IPRODUCT">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_IPRODUCT">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCATEGORY_IPRODUCT">
+        <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Discontinued in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
