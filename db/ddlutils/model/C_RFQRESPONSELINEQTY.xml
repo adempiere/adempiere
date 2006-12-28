@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_RFQRESPONSELINEQTY">
+      <column name="C_RFQRESPONSELINEQTY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_RFQRESPONSELINE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_RFQLINEQTY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PRICE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DISCOUNT" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="RANKING" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_RFQLINEQTY" name="CRFQLINEQTY_CRFQRESPLINEQTY">
+        <reference local="C_RFQLINEQTY_ID" foreign="C_RFQLINEQTY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_RFQRESPONSELINE" name="CRFQRESONSELINE_QTY">
+        <reference local="C_RFQRESPONSELINE_ID" foreign="C_RFQRESPONSELINE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

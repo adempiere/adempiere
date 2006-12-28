@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_SALESREGION">
+      <column name="C_SALESREGION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <unique name="C_SALESREGION_VALUE">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="VALUE"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

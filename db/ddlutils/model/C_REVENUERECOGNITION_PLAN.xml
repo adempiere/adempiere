@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_REVENUERECOGNITION_PLAN">
+      <column name="C_REVENUERECOGNITION_PLAN_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_REVENUERECOGNITION_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UNEARNEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TOTALAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="RECOGNIZEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CREVRECPLAN">
+        <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CREVENUERECPLAN">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CREVENUERECPLAN">
+        <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVENUERECOGNITION_PLAN">
+        <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CREVENUERECOGNITIO">
+        <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CREVENUEREC">
+        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

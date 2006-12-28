@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_RFQLINEQTY">
+      <column name="C_RFQLINEQTY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_RFQLINE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="MARGIN" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="ISPURCHASEQTY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="BESTRESPONSEAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ISOFFERQTY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="OFFERAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="BENCHMARKPRICE" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ISRFQQTY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQLINEQTY">
+        <reference local="C_RFQLINE_ID" foreign="C_RFQLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_CRFQLINEQTY">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsPurchaseQty in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOfferQty in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

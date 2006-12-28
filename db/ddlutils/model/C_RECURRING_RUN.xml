@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_RECURRING_RUN">
+      <column name="C_RECURRING_RUN_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="GL_JOURNALBATCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_RECURRING_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DATEDOC" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CRECURRINGRUN">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CRECURRINGRUN">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CRECURRINGRUN">
+        <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CRECURRINGRUN">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_RECURRING" name="CRECURRING_CRECURRINGRUN">
+        <reference local="C_RECURRING_ID" foreign="C_RECURRING_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="GL_JOURNALBATCH" name="GLJOURNALBATCH_CRECURRINGRUN">
+        <reference local="GL_JOURNALBATCH_ID" foreign="GL_JOURNALBATCH_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
