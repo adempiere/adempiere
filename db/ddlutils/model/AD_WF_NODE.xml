@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_WF_NODE">
+      <column name="AD_WF_NODE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACTION" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="WORKFLOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TASK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="XPOSITION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="YPOSITION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="AD_WF_BLOCK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SUBFLOWEXECUTION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="STARTMODE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="FINISHMODE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="LIMIT" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="DURATION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="COST" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="WORKINGTIME" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="WAITINGTIME" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="AD_WF_RESPONSIBLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="JOINELEMENT" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SPLITELEMENT" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="WAITTIME" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ATTRIBUTENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ATTRIBUTEVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DOCACTION" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="DYNPRIORITYUNIT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DYNPRIORITYCHANGE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="EMAILRECIPIENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="WF_NODECLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADWFNODE">
+        <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWFNODE">
+        <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="WF_NODEORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADWFNODE">
+        <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADWFNODE">
+        <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_BLOCK" name="ADWFBLOCK_ADWFNODE">
+        <reference local="AD_WF_BLOCK_ID" foreign="AD_WF_BLOCK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFNODE">
+        <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWFNODE">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODE">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODESUBFLOW">
+        <reference local="WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <index name="AD_WF_NODE_WORKFLOW">
+        <index-column name="AD_WORKFLOW_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCentrallyMaintained in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

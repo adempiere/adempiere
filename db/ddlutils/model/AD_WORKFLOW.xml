@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_WORKFLOW">
+      <column name="AD_WORKFLOW_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ACCESSLEVEL" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_WF_NODE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="DURATIONUNIT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AUTHOR" primaryKey="false" required="true" type="VARCHAR" size="20" default="ComPiere" autoIncrement="false"/>
+      <column name="VERSION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LIMIT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="DURATION" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="COST" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="WORKINGTIME" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="WAITINGTIME" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="AD_WF_RESPONSIBLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PUBLISHSTATUS" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_WORKFLOWPROCESSOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="VALIDATEWORKFLOW" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="WORKFLOWTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="G" autoIncrement="false"/>
+      <column name="DOCVALUELOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="WORKFLOWCLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="WORKFLOWORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWORKFLOW">
+        <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOWPROCESSOR" name="ADWORKFLOWPROCESSOR_ADWF">
+        <reference local="AD_WORKFLOWPROCESSOR_ID" foreign="AD_WORKFLOWPROCESSOR_ID"/>
+      </foreign-key>
+      <unique name="AD_WORKFLOW_NAME">
+        <unique-column name="AD_CLIENT_ID"/>
+        <unique-column name="NAME"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_USERDEF_FIELD">
+      <column name="AD_USERDEF_FIELD_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_USERDEF_TAB_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_FIELD_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISDISPLAYED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSAMELINE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISUPDATEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="DISPLAYLENGTH" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="DISPLAYLOGIC" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="DEFAULTVALUE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="SORTNO" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_FIELD" name="ADFIELD_ADUSERDEFFIELD">
+        <reference local="AD_FIELD_ID" foreign="AD_FIELD_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USERDEF_TAB" name="ADUSERDEFTAB_ADUSERDEFFIELD">
+        <reference local="AD_USERDEF_TAB_ID" foreign="AD_USERDEF_TAB_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSameLine in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsUpdateable in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDisplayed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
