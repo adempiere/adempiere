@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_FIELD">
+      <column name="AD_FIELD_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="AD_TAB_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_FIELDGROUP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDISPLAYED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="DISPLAYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="DISPLAYLENGTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="SORTNO" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="ISSAMELINE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISHEADING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISFIELDONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISENCRYPTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="OBSCURETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
+      <column name="AD_REFERENCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISMANDATORY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="FIELDCLIENT">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_FIELD">
+        <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_FIELDGROUP" name="ADFIELDGROUP_ADFIELD">
+        <reference local="AD_FIELDGROUP_ID" foreign="AD_FIELDGROUP_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="FIELDORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TAB" name="AD_TAB_FIELD">
+        <reference local="AD_TAB_ID" foreign="AD_TAB_ID"/>
+      </foreign-key>
+      <unique name="AD_FIELD_COLUMN">
+        <unique-column name="AD_TAB_ID"/>
+        <unique-column name="AD_COLUMN_ID"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsCentrallyMaintained in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDisplayed in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSameLine in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsHeading in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsFieldOnly in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEncrypted in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

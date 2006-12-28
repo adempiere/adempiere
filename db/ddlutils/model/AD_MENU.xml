@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_MENU">
+      <column name="AD_MENU_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ACTION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TASK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADMENU">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADMENU">
+        <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="AD_MENU_ORG">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADMENU">
+        <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADMENU">
+        <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADMENU">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKBENCH" name="ADMENU_ADWORKBENCH">
+        <reference local="AD_WORKBENCH_ID" foreign="AD_WORKBENCH_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADMENU">
+        <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="AD_INFOCOLUMN">
+      <column name="AD_INFOCOLUMN_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_INFOWINDOW_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <column name="SELECTCLAUSE" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="ISDISPLAYED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISQUERYCRITERIA" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="AD_ELEMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_REFERENCE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADINFOCOLUMN">
+        <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_INFOWINDOW" name="ADINFOWINDOW_ADINFOCOLUMN">
+        <reference local="AD_INFOWINDOW_ID" foreign="AD_INFOWINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADINFOCOLUMN">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDisplayed in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsQueryCriteria in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
