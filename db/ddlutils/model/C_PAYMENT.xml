@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_PAYMENT">
+      <column name="C_PAYMENT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="DATETRX" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISRECEIPT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TRXTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="C_BANKACCOUNT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BP_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PAYMENTBATCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="TENDERTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREDITCARDTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="CREDITCARDNUMBER" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="CREDITCARDVV" primaryKey="false" required="false" type="VARCHAR" size="4" autoIncrement="false"/>
+      <column name="CREDITCARDEXPMM" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="CREDITCARDEXPYY" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="MICR" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ROUTINGNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ACCOUNTNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="CHECKNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_STREET" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_CITY" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="A_STATE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="A_ZIP" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_IDENT_DL" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_IDENT_SSN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="A_EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="VOICEAUTHCODE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="ORIG_TRXID" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="PONUM" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PAYAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="DISCOUNTAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="WRITEOFFAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="R_PNREF" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="R_RESULT" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="R_RESPMSG" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="R_AUTHCODE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="R_AVSADDR" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_AVSZIP" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_INFO" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="OPROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="ISRECONCILED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISALLOCATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISONLINE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISOVERUNDERPAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="OVERUNDERAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="A_COUNTRY" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDELAYEDCAPTURE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="R_AUTHCODE_DC" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="R_CVV2MATCH" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_PNREF_DC" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="SWIPE" primaryKey="false" required="false" type="VARCHAR" size="80" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISPREPAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="REF_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CPAYMENT">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CPAYMENT">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CPAYMENT">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMENT">
+        <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYMENT">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BP_BANKACCOUNT" name="CBPBANKACCT_CPAYMENT">
+        <reference local="C_BP_BANKACCOUNT_ID" foreign="C_BP_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CPAYMENT">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CPAYMENT">
+        <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CPAYMENT">
+        <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENT">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CPAYMENT">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CPAYMENT">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CPAYMENT">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTBATCH" name="CPAYMENTBATCH_CPAYMENT">
+        <reference local="C_PAYMENTBATCH_ID" foreign="C_PAYMENTBATCH_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPAYMENT">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <index name="C_PAYMENT_BANKACCOUNT">
+        <index-column name="C_BANKACCOUNT_ID"/>
+      </index>
+      <index name="C_PAYMENT_BPARTNER">
+        <index-column name="C_BPARTNER_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReceipt in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsApproved in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsReconciled in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsAllocated in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOnline in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

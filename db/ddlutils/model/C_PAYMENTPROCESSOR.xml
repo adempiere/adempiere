@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_PAYMENTPROCESSOR">
+      <column name="C_PAYMENTPROCESSOR_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="C_BANKACCOUNT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_SEQUENCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PAYPROCESSORCLASS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="USERID" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PASSWORD" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="HOSTADDRESS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="HOSTPORT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="PROXYADDRESS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PROXYPORT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="PROXYLOGON" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="PROXYPASSWORD" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="ACCEPTVISA" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTMC" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTAMEX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTDINERS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTDISCOVER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTCORPORATE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTCHECK" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ACCEPTATM" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="REQUIREVV" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="COSTPERTRX" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="COMMISSION" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="PARTNERID" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="VENDORID" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="MINIMUMAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ACCEPTDIRECTDEBIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ACCEPTDIRECTDEPOSIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CPAYMENTPROCESSOR">
+        <reference local="AD_SEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMTPROCESSOR">
+        <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENTPROCESSOR">
+        <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptVisa in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptMC in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptAmex in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptDiners in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptDiscover in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptCorporate in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptCheck in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AcceptATM in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[RequireVV in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

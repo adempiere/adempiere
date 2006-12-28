@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_ORDERTAX">
+      <column name="C_ORDER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_TAX_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="TAXBASEAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CORDERTAX">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_TAX" name="CTAX_CORDERTAX">
+        <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

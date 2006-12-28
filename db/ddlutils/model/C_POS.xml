@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_POS">
+      <column name="C_POS_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_CASHBOOK_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PRINTERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_POSKEYLAYOUT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISMODIFYPRICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_BPARTNERCASHTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CPOS">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_CPOS">
+        <reference local="C_CASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_POSKEYLAYOUT" name="CPOSKEYLAYOUT_CPOS">
+        <reference local="C_POSKEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CPOS">
+        <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CPOS">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

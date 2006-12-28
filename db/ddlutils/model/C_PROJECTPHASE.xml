@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="C_PROJECTPHASE">
+      <column name="C_PROJECT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISCOMPLETE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRICEACTUAL" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="GENERATEORDER" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PHASE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECTPHASE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ISCOMMITCEILING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PROJINVOICERULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PLANNEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTPHASE">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PHASE" name="CPHASE_CPROJECTPHASE">
+        <reference local="C_PHASE_ID" foreign="C_PHASE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTPHASE">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTPHASE">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+    </table>
+  </database>
