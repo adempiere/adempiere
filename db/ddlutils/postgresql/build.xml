@@ -36,9 +36,7 @@
 	</target>
 	<target name="load-data">
 		<echo message="----- Loading Adempiere Seed data -----" />
-		<unjar src="../adempiere-data.jar" dest=".." />
 		<ant antfile="build-ddl.xml" target="writeDataToDb" />
-		<delete file="../adempiere-data.xml" />
 	</target>
 
 	<target name="load-functions">

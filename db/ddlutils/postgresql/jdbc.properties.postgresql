@@ -32,3 +32,5 @@ datasource.password=adempiere1
 #datasource.dataSourceName=pooling datasource
 #datasource.initialConnections=5
 #datasource.maxConnections=20
+
+ddlutils.schema=adempiere
