@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="R_ISSUEKNOWN">
+      <column name="R_ISSUEKNOWN_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISSUESUMMARY" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="RELEASENO" primaryKey="false" required="true" type="CHAR" size="4" autoIncrement="false"/>
+      <column name="SOURCECLASSNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="SOURCEMETHODNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="LOGGERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="LINENO" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISSUESTATUS" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="R_ISSUESTATUS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_REQUEST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_ISSUERECOMMENDATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="R_ISSUESTATUS" name="RISSUESTATUS_RISSUEKNOWN">
+        <reference local="R_ISSUESTATUS_ID" foreign="R_ISSUESTATUS_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RISSUEKNOWN">
+        <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
+      </foreign-key>
+      <unique name="R_KNOWNISSUE_ALT">
+        <unique-column name="ISSUESUMMARY"/>
+        <unique-column name="RELEASENO"/>
+        <unique-column name="SOURCECLASSNAME"/>
+        <unique-column name="SOURCEMETHODNAME"/>
+        <unique-column name="LOGGERNAME"/>
+        <unique-column name="LINENO"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

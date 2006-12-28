@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="PA_GOAL">
+      <column name="PA_GOAL_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PA_COLORSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="PA_GOALPARENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PA_MEASURE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="RELATIVEWEIGHT" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="MEASURETARGET" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="MEASURESCOPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="MEASUREDISPLAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DATEFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATETO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="MEASUREACTUAL" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="GOALPERFORMANCE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_PAGOAL">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_COLORSCHEMA" name="PACOLORSCHEMA_PAGOAL">
+        <reference local="PA_COLORSCHEMA_ID" foreign="PA_COLORSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_GOAL" name="PAGOALPARENT_PAGOAL">
+        <reference local="PA_GOALPARENT_ID" foreign="PA_GOAL_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAGOAL">
+        <reference local="PA_MEASURE_ID" foreign="PA_MEASURE_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>
