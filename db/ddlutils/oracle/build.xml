@@ -33,23 +33,18 @@
 	</target>
 	<target name="load-data">
 		<echo message="----- Loading Adempiere Seed data -----" />
-		<unjar src="../adempiere-data.jar" dest=".." />
 		<ant antfile="build-ddl.xml" target="writeDataToDb" />
-		<delete file="../adempiere-data.xml" />
 	</target>
 
 	<target name="load-functions">
-		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Initialise DB:${line.separator}${line.separator}" />
 		<antcall target="load">
 			<param name="file.name" value="${basedir}/init.sql" />
 		</antcall>
-		<foreach param="file.name" target="load">
-			<path>
-				<fileset dir="functions">
-					<include name="**" />
-				</fileset>
-			</path>
-		</foreach>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions-decl.sql" />
+		</antcall>
+		
 		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Procedures:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
@@ -62,11 +57,6 @@
 
 	<target name="load-others">
 		<echo message="----- Loading other database objects -----" />
-		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Temporary Tables:${line.separator}${line.separator}" />
-		<antcall target="load">
-			<param name="file.name" value="${basedir}/temptables.sql" />
-		</antcall>
-
 		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
@@ -75,11 +65,20 @@
 				</fileset>
 			</path>
 		</foreach>
-
+		
 		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Views [2nd Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
 				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+		
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="functions">
 					<include name="**" />
 				</fileset>
 			</path>

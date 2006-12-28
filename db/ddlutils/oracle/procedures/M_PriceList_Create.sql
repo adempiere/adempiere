@@ -4,10 +4,10 @@ CREATE OR REPLACE PROCEDURE M_PriceList_Create
 )
 AS
 /*************************************************************************
- * The contents of this file are subject to the Adempiere License.  You may
- * obtain a copy of the License at    http://www.adempiere.org/license.html
+ * The contents of this file are subject to the Compiere License.  You may
+ * obtain a copy of the License at    http://www.compiere.org/license.html
  * Software is on an  "AS IS" basis,  WITHOUT WARRANTY OF ANY KIND, either
- * express or implied. See the License for details. Code: Adempiere ERP+CRM
+ * express or implied. See the License for details. Code: Compiere ERP+CRM
  * Copyright (C) 1999-2003 Jorg Janke, ComPiere, Inc. All Rights Reserved.
  *************************************************************************
  * $Id: M_PriceList_Create.sql,v 1.1 2006/04/21 17:51:58 jjanke Exp $
@@ -16,6 +16,7 @@ AS
  * Description:
  *		Create PriceList by copying purchase prices (M_Product_PO) 
  *		and applying product category discounts (M_CategoryDiscount)
+ *  Carlos Ruiz - globalqss - Make T_Selection tables permanent
  ************************************************************************/
 	--	Logistice
 	ResultStr						VARCHAR2(2000);
@@ -173,15 +174,15 @@ BEGIN
 	--	DBMS_OUTPUT.PUT_LINE(ResultStr);
 
 		--	Clear Temporary Table
-		DELETE FROM T_Selection;
+		DELETE FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID;
 
 		--	-----------------------------------
 		--	Create Selection in temporary table
 		--	-----------------------------------
 		IF (v_PriceList_Version_Base_ID IS NULL) THEN
 		--	Create Selection from M_Product_PO
-			INSERT INTO T_Selection (T_Selection_ID)
-			SELECT	DISTINCT po.M_Product_ID 
+			INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID)
+			SELECT	DISTINCT PInstance_ID, po.M_Product_ID 
 			FROM	M_Product p, M_Product_PO po
 			WHERE	p.M_Product_ID=po.M_Product_ID
 			  AND	(p.AD_Client_ID=v_Client_ID OR p.AD_Client_ID=0)
@@ -192,8 +193,8 @@ BEGIN
 			  AND (dl.M_Product_ID IS NULL OR p.M_Product_ID=dl.M_Product_ID);
 		ELSE
 		--	Create Selection from existing PriceList
-			INSERT INTO T_Selection (T_Selection_ID)
-			SELECT	DISTINCT p.M_Product_ID 
+			INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID)
+			SELECT	DISTINCT PInstance_ID, p.M_Product_ID 
 			FROM	M_Product p, M_ProductPrice pp
 			WHERE	p.M_Product_ID=pp.M_Product_ID
 			  AND	pp.M_PriceList_Version_ID=v_PriceList_Version_Base_ID
@@ -213,7 +214,8 @@ BEGIN
 			ResultStr := ResultStr || ', Delete';
 			DELETE	M_ProductPrice pp
 			WHERE	pp.M_PriceList_Version_ID = p_PriceList_Version_ID
-			  AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID);
+			  AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID
+			                       AND s.AD_PInstance_ID = PInstance_ID);
 			Message := ', @Deleted@=' || SQL%ROWCOUNT;
 		END IF;
 
@@ -243,7 +245,8 @@ BEGIN
 				COALESCE(currencyConvert(po.PricePO,
 						po.C_Currency_ID, v_Currency_ID, dl.ConversionDate, dl.C_ConversionType_ID, v_Client_ID, v_Org_ID),0)
 			FROM	M_Product_PO po
-			WHERE EXISTS (SELECT * FROM T_Selection s WHERE po.M_Product_ID=s.T_Selection_ID)
+			WHERE EXISTS (SELECT * FROM T_Selection s WHERE po.M_Product_ID=s.T_Selection_ID
+			                       AND s.AD_PInstance_ID = PInstance_ID)
 			  AND	po.IsCurrentVendor='Y' AND po.IsActive='Y';
 		ELSE
 		--	Copy and Convert from other PriceList_Version
@@ -268,7 +271,8 @@ BEGIN
                 INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)
                 INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)
 			WHERE	pp.M_PriceList_Version_ID=v_PriceList_Version_Base_ID
-			  AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID)
+			  AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID
+			                       AND s.AD_PInstance_ID = PInstance_ID)
 			  AND	pp.IsActive='Y';
 		END IF;
 		Message := Message || ', @Inserted@=' || SQL%ROWCOUNT;
@@ -286,7 +290,8 @@ BEGIN
 					+ dl.Limit_AddAmt) * (1 - dl.Limit_Discount/100)
 		WHERE	M_PriceList_Version_ID=p_PriceList_Version_ID
 		  AND EXISTS	(SELECT * FROM T_Selection s
-						WHERE s.T_Selection_ID=p.M_Product_ID);
+						WHERE s.T_Selection_ID=p.M_Product_ID
+			                       AND s.AD_PInstance_ID = PInstance_ID);
 
 		--	--------
 		-- 	Rounding	(AD_Reference_ID=155)
@@ -319,7 +324,8 @@ BEGIN
 					ROUND(PriceLimit, v_StdPrecision))--	Currency
 		WHERE	M_PriceList_Version_ID=p_PriceList_Version_ID
 		  AND EXISTS	(SELECT * FROM T_Selection s
-						WHERE s.T_Selection_ID=p.M_Product_ID);
+						WHERE s.T_Selection_ID=p.M_Product_ID
+			                      AND s.AD_PInstance_ID = PInstance_ID);
 		Message := Message || ', @Updated@=' || SQL%ROWCOUNT;
 
 		--	Fixed Price overwrite
@@ -330,7 +336,8 @@ BEGIN
 				PriceLimit = DECODE(dl.Limit_Base, 'F', dl.Limit_Fixed, PriceLimit) 
 		WHERE	M_PriceList_Version_ID=p_PriceList_Version_ID
 		  AND EXISTS	(SELECT * FROM T_Selection s
-						WHERE s.T_Selection_ID=p.M_Product_ID);
+						WHERE s.T_Selection_ID=p.M_Product_ID
+			                       AND s.AD_PInstance_ID = PInstance_ID);
 
 		--	Log Info
 		INSERT INTO AD_PInstance_Log	(AD_PInstance_ID, Log_ID, P_ID, P_NUMBER, P_MSG)
@@ -341,7 +348,7 @@ BEGIN
 	END LOOP;	--	For all DiscountLines
 
 	--	Delete Temporary Selection
-	DELETE FROM T_Selection;
+	DELETE FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID;
 
 
 <<FINISH_PROCESS>>

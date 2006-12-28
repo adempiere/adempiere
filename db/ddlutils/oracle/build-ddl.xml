@@ -45,8 +45,8 @@
 	<target name="writeSchemaToDb">
 		<ddlToDatabase validatexml="false" usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
 			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
-			<fileset dir="..">
-				<include name="${schemafiles}" />
+			<fileset dir="../model">
+				<include name="**/*.xml" />
 			</fileset>
 
 			<writeschematodatabase alterdatabase="${alterdatabase}" dodrops="false" failonerror="false" />
@@ -56,8 +56,8 @@
 	<target name="writeSchemaSqlToFile">
 		<ddlToDatabase validatexml="false" usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
 			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
-			<fileset dir="..">
-				<include name="${schemafiles}" />
+			<fileset dir="../model">
+				<include name="**/*.xml" />
 			</fileset>
 
 			<writeschemasqltofile alterdatabase="${alterdatabase}" dodrops="false" failonerror="false" createtables="true" createforeignkeys="false" outputfile="${sqloutputfile}" />
@@ -67,8 +67,8 @@
 	<target name="writeFkSqlToFile">
 		<ddlToDatabase validatexml="false" usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
 			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
-			<fileset dir="..">
-				<include name="${schemafiles}" />
+			<fileset dir="../model">
+				<include name="**/*.xml" />
 			</fileset>
 
 			<writeschemasqltofile alterdatabase="${alterdatabase}" dodrops="false" failonerror="false" createtables="false" createforeignkeys="true" outputfile="${fkoutputfile}" />
@@ -93,11 +93,37 @@
 	<target name="writeDataToDb">
 		<ddlToDatabase usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
 			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
+			<fileset dir="../model">
+				<include name="**/*.xml" />
+			</fileset>
+
+			<writedatatodatabase usebatchmode="false" ensureForeignKeyOrder="false" >
+				<fileset dir="../data">
+					<include name="**/*.xml" />
+				</fileset>
+			</writedatatodatabase>
+		</ddlToDatabase>
+	</target>
+
+	<target name="splitSchemaFileByTable">
+		<ddlToDatabase usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
+			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
 			<fileset dir="..">
 				<include name="${schemafiles}" />
 			</fileset>
 
-			<writedatatodatabase datafile="${datafile}" usebatchmode="false" ensureForeignKeyOrder="false" />
+			<splitSchemaFileByTable destination="../model"/>
+		</ddlToDatabase>
+	</target>
+
+	<target name="splitDataFileByTable">
+		<ddlToDatabase usedelimitedsqlidentifiers="${delimitedsqlidentifiers}" catalogpattern="${catalogpattern}" schemapattern="${schemapattern}" databasetype="${platform}">
+			<database driverclassname="${datasource.driverClassName}" url="${datasource.url}" username="${datasource.username}" password="${datasource.password}" />
+			<fileset dir="../model">
+				<include name="**/*.xml" />
+			</fileset>
+
+			<splitDataFileByTable destination="../data" datafile="${datafile}"/>
 		</ddlToDatabase>
 	</target>
 </project>

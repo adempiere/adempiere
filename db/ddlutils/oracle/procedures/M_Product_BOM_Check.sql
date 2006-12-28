@@ -3,10 +3,10 @@ CREATE OR REPLACE PROCEDURE M_Product_BOM_Check
 	PInstance_ID    		IN NUMBER
 )
 /*************************************************************************
- * The contents of this file are subject to the Adempiere License.  You may
- * obtain a copy of the License at    http://www.adempiere.org/license.html
+ * The contents of this file are subject to the Compiere License.  You may
+ * obtain a copy of the License at    http://www.compiere.org/license.html
  * Software is on an  "AS IS" basis,  WITHOUT WARRANTY OF ANY KIND, either
- * express or implied. See the License for details. Code: Adempiere ERP+CRM
+ * express or implied. See the License for details. Code: Compiere ERP+CRM
  * Copyright (C) 1999-2001 Jorg Janke, ComPiere, Inc. All Rights Reserved.
  *************************************************************************
  * $Id: M_Product_BOM_Check.sql,v 1.1 2006/04/21 17:51:58 jjanke Exp $
@@ -66,43 +66,44 @@ BEGIN
 	--	Checking BOM Structure
 	ResultStr := 'InsertingRoot';
 	--	Table to put all BOMs - duplicate will cause exception
-	DELETE FROM T_Selection2 WHERE Query_ID = 0;
-	INSERT INTO T_Selection2 (Query_ID, T_Selection_ID) VALUES (0, Record_ID);
+	DELETE FROM T_Selection2 WHERE Query_ID = 0 AND AD_PInstance_ID = PInstance_ID;
+	INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) VALUES (PInstance_ID, 0, Record_ID);
 	--	Table of root modes
-	DELETE FROM T_Selection;
-	INSERT INTO T_Selection (T_Selection_ID) VALUES (Record_ID);
+	DELETE FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID;
+	INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) VALUES (PInstance_ID, Record_ID);
 
 	LOOP
 		--	How many do we have?
 		SELECT 	COUNT(*) 
 		  INTO	CountNo
-		FROM	T_Selection;
+		FROM	T_Selection 
+		WHERE AD_PInstance_ID = PInstance_ID;
 		--	Nothing to do
 		EXIT WHEN (CountNo = 0);
 
 		--	Insert BOM Nodes into "All" table
-		INSERT INTO T_Selection2 (Query_ID, T_Selection_ID)
-		SELECT 0, p.M_Product_ID
+		INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID)
+		SELECT PInstance_ID, 0, p.M_Product_ID
 		FROM M_Product p
 		WHERE IsBOM='Y' 
 		  AND EXISTS (SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID
-		  	AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection));
+		  	AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID));
 
 		--	Insert BOM Nodes into temporary table
-		DELETE FROM T_Selection2 WHERE Query_ID = 1;
-		INSERT INTO T_Selection2 (Query_ID, T_Selection_ID)
-		SELECT 1, p.M_Product_ID
+		DELETE FROM T_Selection2 WHERE Query_ID = 1 AND AD_PInstance_ID = PInstance_ID;
+		INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID)
+		SELECT PInstance_ID, 1, p.M_Product_ID
 		FROM M_Product p
 		WHERE IsBOM='Y' 
 		  AND EXISTS (SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID
-		  	AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection));
+		  	AND b.M_Product_ID IN (SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID));
 
 		--	Copy into root table
-		DELETE FROM T_Selection;
-		INSERT INTO T_Selection (T_Selection_ID) 
-		SELECT 	T_Selection_ID
+		DELETE FROM T_Selection WHERE AD_PInstance_ID = PInstance_ID;
+		INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) 
+		SELECT 	PInstance_ID, T_Selection_ID
 		FROM	T_Selection2
-		WHERE Query_ID = 1;
+		WHERE Query_ID = 1 AND AD_PInstance_ID = PInstance_ID;
 
 	END LOOP;
 
