@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="R_REQUEST">
+      <column name="R_REQUEST_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
+      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="R_GROUP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_CATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_STATUS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_RESOLUTION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_REQUESTRELATED_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="PRIORITYUSER" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DUETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="SUMMARY" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="CONFIDENTIALTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="C" autoIncrement="false"/>
+      <column name="ISESCALATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DATELASTACTION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATELASTALERT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="LASTRESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISINVOICED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INOUT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_RMA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="RECORD_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="REQUESTAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="RESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="CONFIDENTIALTYPEENTRY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="R_STANDARDRESPONSE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="NEXTACTION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="DATENEXTACTION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="STARTTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ENDTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="QTYSPENT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="CLOSEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="C_INVOICEREQUEST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_CHANGEREQUEST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="TASKSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="QTYPLAN" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="DATECOMPLETEPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUEST">
+        <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_RREQUEST">
+        <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUEST">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUEST">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUEST">
+        <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_RREQUEST">
+        <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="C_BPARTNER_RREQUEST">
+        <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_RREQUEST">
+        <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="RINVOICE_RREQUEST">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICEREQUEST_RREQUEST">
+        <reference local="C_INVOICEREQUEST_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_RREQUEST">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_RREQUEST">
+        <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_RREQUEST">
+        <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MFIXCHANGENOTICE_RREQUEST">
+        <reference local="M_FIXCHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_RREQUEST">
+        <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCTSPENT_RREQUEST">
+        <reference local="M_PRODUCTSPENT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_RREQUEST">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_RMA" name="MRMA_RREQUEST">
+        <reference local="M_RMA_ID" foreign="M_RMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_CATEGORY" name="RCATEGORY_RREQUEST">
+        <reference local="R_CATEGORY_ID" foreign="R_CATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_GROUP" name="RGROUP_RREQUEST">
+        <reference local="R_GROUP_ID" foreign="R_GROUP_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_RREQUEST">
+        <reference local="R_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RELATED">
+        <reference local="R_REQUESTRELATED_ID" foreign="R_REQUEST_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RREQUEST">
+        <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_RESOLUTION" name="RRESOLUTION_RREQUEST">
+        <reference local="R_RESOLUTION_ID" foreign="R_RESOLUTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_STANDARDRESPONSE" name="RSTANDARDRESPONSE_RREQUEST">
+        <reference local="R_STANDARDRESPONSE_ID" foreign="R_STANDARDRESPONSE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_STATUS" name="RSTATUS_RREQUEST">
+        <reference local="R_STATUS_ID" foreign="R_STATUS_ID"/>
+      </foreign-key>
+      <index name="R_REQUEST_BPARTNER">
+        <index-column name="C_BPARTNER_ID"/>
+      </index>
+      <index name="R_REQUEST_USER">
+        <index-column name="AD_USER_ID"/>
+      </index>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsEscalated in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSelfService in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsInvoiced in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="S_RESOURCETYPE">
+      <column name="S_RESOURCETYPE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="ISSINGLEASSIGNMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ALLOWUOMFRACTIONS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="TIMESLOTSTART" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="TIMESLOTEND" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="ISTIMESLOT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISDATESLOT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ONSUNDAY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ONMONDAY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ONTUESDAY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ONWEDNESDAY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ONTHURSDAY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ONFRIDAY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ONSATURDAY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_TAXCATEGORY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_SRESOURCETYPE">
+        <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_SRESOURCETYPE">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_SRESOURCETYPE">
+        <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsSingleAssignment in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[AllowUOMFractions in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsTimeSlot in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDateSlot in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnSunday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnMonday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnTuesday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnWednesday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnThursday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnFriday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnSaturday in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

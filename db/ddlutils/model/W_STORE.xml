@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="W_STORE">
+      <column name="W_STORE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WSTOREEMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="WSTOREUSER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="WSTOREUSERPW" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="WEBINFO" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM1" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM3" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM4" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM5" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="WEBPARAM6" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="ISMENUASSETS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUORDERS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUINVOICES" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUSHIPMENTS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUPAYMENTS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENURFQS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUREQUESTS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUINTERESTS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUREGISTRATIONS" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ISMENUCONTACT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="EMAILHEADER" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="EMAILFOOTER" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="WEBCONTEXT" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="WEBORDEREMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="URL" primaryKey="false" required="true" type="VARCHAR" size="120" default="http://localhost" autoIncrement="false"/>
+      <column name="STYLESHEET" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_WSTORE">
+        <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
+      </foreign-key>
+      <unique name="W_STORE_WEBCONTEXT">
+        <unique-column name="WEBCONTEXT"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuAssets in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuOrders in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuInvoices in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[ISMENUSHIPMENTS='Y' OR ISMENUSHIPMENTS='N']]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[ISMENUPAYMENTS='Y' OR ISMENUPAYMENTS='N']]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuRFQs in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuRequests in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuInterests in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuRegistrations in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuContact in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

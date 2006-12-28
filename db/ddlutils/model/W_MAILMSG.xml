@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="W_MAILMSG">
+      <column name="W_MAILMSG_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="W_STORE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="MAILMSGTYPE" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="SUBJECT" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="MESSAGE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="MESSAGE2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="MESSAGE3" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <foreign-key foreignTable="W_STORE" name="WSTORE_WMAILMSG">
+        <reference local="W_STORE_ID" foreign="W_STORE_ID"/>
+      </foreign-key>
+      <unique name="W_MAILMSG_WSTORE">
+        <unique-column name="W_STORE_ID"/>
+        <unique-column name="MAILMSGTYPE"/>
+      </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

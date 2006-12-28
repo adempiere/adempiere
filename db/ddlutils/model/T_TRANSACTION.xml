@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="T_TRANSACTION">
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_TRANSACTION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="MOVEMENTTYPE" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
+      <column name="M_LOCATOR_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="MOVEMENTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
+      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INOUT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_MOVEMENTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_MOVEMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INVENTORYLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INVENTORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCTIONLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCTION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECTISSUE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SEARCH_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SEARCH_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SEARCH_INOUT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TTRANSACTION">
+        <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_TTRANSACTION">
+        <reference local="C_PROJECTISSUE_ID" foreign="C_PROJECTISSUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_TTRANSACTION">
+        <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_TTRANSACTION">
+        <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_TTRANSACTION">
+        <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_TTRANSACTION">
+        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_TTRANSACTION">
+        <reference local="M_MOVEMENTLINE_ID" foreign="M_MOVEMENTLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TTRANSACTION">
+        <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_TTRANSACTION">
+        <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_TRANSACTION" name="MTRANSACTION_TTRANSACTION">
+        <reference local="M_TRANSACTION_ID" foreign="M_TRANSACTION_ID"/>
+      </foreign-key>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+    </table>
+  </database>

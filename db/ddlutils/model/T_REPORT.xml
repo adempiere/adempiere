@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="T_REPORT">
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="PA_REPORTLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="RECORD_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="FACT_ACCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="LEVELNO" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="COL_0" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_2" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_1" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_3" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_4" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_5" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_6" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_7" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_8" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_9" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_10" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_11" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_12" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_13" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_14" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_15" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_16" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_17" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_18" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_19" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="COL_20" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORT">
+        <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_TREPORT">
+        <reference local="PA_REPORTLINE_ID" foreign="PA_REPORTLINE_ID"/>
+      </foreign-key>
+    </table>
+  </database>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="default" defaultIdMethod="none">
+    <table name="T_SPOOL">
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="true" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="MSGTEXT" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TSPOOL">
+        <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
+      </foreign-key>
+    </table>
+  </database>
