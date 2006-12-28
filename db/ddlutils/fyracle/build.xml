@@ -35,6 +35,9 @@
 		<antcall target="load">
 			<param name="file.name" value="${basedir}/init.sql" />
 		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="../oracle/functions-decl.sql" />
+		</antcall>
 	</target>
 	<target name="create-schema">
 		<echo message="----- Creating tables -----" />
@@ -44,14 +47,6 @@
 		</antcall>
 	</target>
 	<target name="load-functions">
-		<echo file="log/plsql.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
-		<foreach param="file.name" target="load">
-			<path>
-				<fileset dir="../oracle/functions">
-					<include name="**" />
-				</fileset>
-			</path>
-		</foreach>
 		<echo file="log/plsql.log" append="true" message="${line.separator}#Create Procedures:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
@@ -63,18 +58,12 @@
 	</target>
 	<target name="load-data">
 		<echo message="----- Loading Adempiere Seed data -----" />
-		<unjar src="../adempiere-data.jar" dest=".." />
 		<ant antfile="build-ddl.xml" target="writeDataToDb" />
-		<delete file="../adempiere-data.xml" />
 	</target>
 
 	<target name="load-others">
 		<echo message="----- Loading other database object -----" />
-		<echo file="log/plsql.log" append="true" message="${line.separator}#Create Temporary Tables:${line.separator}${line.separator}" />
-		<antcall target="load">
-			<param name="file.name" value="${basedir}/temptables.sql" />
-		</antcall>
-
+		
 		<echo file="log/plsql.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
@@ -88,6 +77,15 @@
 		<foreach param="file.name" target="load">
 			<path>
 				<fileset dir="../views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+		
+		<echo file="log/plsql.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="../oracle/functions">
 					<include name="**" />
 				</fileset>
 			</path>
