@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <M_COSTTYPE M_COSTTYPE_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2005-04-25 00:50:53.0" CREATEDBY="100" UPDATED="2005-05-30 20:42:24.0" UPDATEDBY="100" NAME="Default" DESCRIPTION="Note: Default Cost Type - define additional for Plan, History, etc." />
+</data>

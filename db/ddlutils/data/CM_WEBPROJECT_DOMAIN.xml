@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <CM_WEBPROJECT_DOMAIN CM_WEBPROJECT_DOMAIN_ID="101" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-04-20 16:06:06.0" CREATEDBY="100" UPDATED="2006-04-20 16:07:27.0" UPDATEDBY="100" NAME="localhost (internal use)" DESCRIPTION="This is only for reference and internal test. " HELP="You should create an entry with your real server domain name if you wanna get your page reached." CM_WEBPROJECT_ID="102" FQDN="localhost" />
+</data>

@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <CM_MEDIA_SERVER CM_MEDIA_SERVER_ID="101" AD_CLIENT_ID="11" AD_ORG_ID="0" CREATED="2006-04-20 16:42:40.0" CREATEDBY="100" UPDATED="2006-04-20 16:42:40.0" UPDATEDBY="100" ISACTIVE="Y" NAME="localhost" HELP="You need to setup a server for media. It should get connected for upload via FTP and accessible from the outsite via HTTP." CM_WEBPROJECT_ID="102" ISPASSIVE="Y" URL="http://localhost/media" IP_ADDRESS="127.0.0.1" USERNAME="myone" PASSWORD="nopass" FOLDER="/media" />
+</data>
