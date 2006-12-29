@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <AD_TASK AD_TASK_ID="102" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="1999-12-05 23:21:20.0" CREATEDBY="0" UPDATED="2000-01-02 00:00:00.0" UPDATEDBY="0" NAME="Java Version" DESCRIPTION="Displays the version of the default Java VM" HELP="The java version used by the application might be different." ACCESSLEVEL="4" OS_COMMAND="java -version" ENTITYTYPE="D" ISSERVERPROCESS="N" />
+  <AD_TASK AD_TASK_ID="103" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2001-10-17 17:45:58.0" CREATEDBY="0" UPDATED="2006-05-31 12:16:01.0" UPDATEDBY="100" NAME="Database export" DESCRIPTION="Export (save) the database" HELP="Run this command from the server" ACCESSLEVEL="4" OS_COMMAND="@ADEMPIERE_HOME@@/@utils@/@RUN_DBExport.@bat@" ENTITYTYPE="D" ISSERVERPROCESS="N" />
+  <AD_TASK AD_TASK_ID="104" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2001-10-17 17:46:51.0" CREATEDBY="0" UPDATED="2006-05-31 12:16:15.0" UPDATEDBY="100" NAME="Database transfer" DESCRIPTION="Transfer the database" HELP="Run this command from the server" ACCESSLEVEL="4" OS_COMMAND="@ADEMPIERE_HOME@@/@utils@/@RUN_PutAdempiere.@sh@" ENTITYTYPE="D" ISSERVERPROCESS="N" />
+</data>

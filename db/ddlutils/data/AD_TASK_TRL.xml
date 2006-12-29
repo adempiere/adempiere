@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <AD_TASK_TRL AD_TASK_ID="102" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:13:26.0" UPDATEDBY="100" NAME="Version Java" DESCRIPTION="Despliega la versión de la Máquina Virtual Java Predeterminada" HELP="La versión java usada por la aplicación puede ser diferente" ISTRANSLATED="Y" />
+  <AD_TASK_TRL AD_TASK_ID="103" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:13:26.0" UPDATEDBY="100" NAME="Exporta la base de datos" DESCRIPTION="Exporta (Guardar) la base de datos" HELP="Ejecutar este comando desde el servidor" ISTRANSLATED="Y" />
+  <AD_TASK_TRL AD_TASK_ID="104" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:13:26.0" UPDATEDBY="100" NAME="Transferencia de la base de datos" DESCRIPTION="Transfiere la base de datos" HELP="Ejecutar este comando desde el servidor" ISTRANSLATED="Y" />
+</data>
