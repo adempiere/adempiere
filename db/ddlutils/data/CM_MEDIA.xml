@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <CM_MEDIA CM_MEDIA_ID="109" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-06 22:07:47.0" CREATEDBY="100" UPDATED="2006-08-08 20:08:00.0" UPDATEDBY="100" MEDIATYPE="CSS" NAME="Main CSS Sheet" ISSUMMARY="N" CM_WEBPROJECT_ID="102">
+    <CONTENTTEXT><![CDATA[/** Compiere CM */
+/** $Id$ */
+
+html{
+	overflow-y: hidden;
+	overflow-x: hidden;
+	overflow: auto;
+}
+body{
+	font-family: Times New Roman, serif;
+	color: #333333;
+	margin: 0px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	overflow-y: auto;
+	overflow-x: auto;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+#page{
+	background-color: #CC0000;
+}
+#main {
+    background-color: #CC0000;
+	clear: both;
+	width: 100%;
+	border: 0px;
+	border-collapse: collapse;
+	margin-top: -5px;
+    
+}
+#menu{
+	vertical-align: top;
+	text-align: center;
+	color: #CCCCCC;
+	background-color:#CC0000;
+	background-image: url("/media/111.jpg");
+	background-repeat: repeat;
+	width: 165px;
+	float: right;
+	padding-top: 5px;
+	overflow: hidden;
+	margin-top: 0px;
+}
+#content {
+	vertical-align: top;
+	left: 0px;
+	right: 165px;
+	margin-right: 0px;
+	background-color: #FFFFCC;
+	border-width: 0px;
+	padding: 5px;
+	position: absolute;
+	min-width: 730px;
+	border-left: 5px solid #CC0000;
+	border-top: 5px solid #CC0000;
+}
+#footer{
+	color: #CCCCCC;
+	background-color:#CC0000;
+	background-image: url("/media/111.jpg");
+	background-repeat: repeat;
+	width: 100%;
+	height: 80px;
+	border: 0px;
+	border-collapse: collapse;
+	padding: 3px;
+	white-space: nowrap;
+	min-width: 730px;
+}
+#header{
+	background-color:#CCCCCC;
+	background-image: url("/media/110.jpg");
+	background-repeat: repeat;
+	height: 75px;
+	display: block;
+}
+#headerContent {
+	text-align: left;
+	color: #FFFFFF;
+	font-weight: bold;
+	white-space: nowrap;
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	height: 51px;
+	padding: 4px;
+}
+a {
+	color: #003366;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+h1 {
+	color: #003366;
+	font-size: x-large;
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+h2 {
+	color: #333333;
+	font-size: large;
+	font-style: italic;
+}
+h3 {
+	color: #006699;
+	font-size: medium;
+	font-style: normal;
+	font-weight: bold;
+}
+h4 {
+	color: #6600CC;
+	font-size: medium;
+	font-style: italic;
+}
+h5 {
+	color: #660099;
+	font-size: medium;
+	font-weight: normal;
+}
+h6 {
+	font-size: larger;
+	font-weight: bold;
+}
+hr {
+	padding-bottom: 0;
+	padding-top: 0;
+	width: 90%;
+	margin-left: 5%;
+}
+p {
+	text-align: justify;
+}
+th {
+	color: #EEEEEE;
+	border: 1px;
+    border-color: #CCCCCC;
+    border-style: outset;
+	background-color: #CC0000;
+	text-align: left;
+    vertical-align: top;
+}
+.menuDetail{
+	color: #006699;
+	font-family: Times New Roman,serif;
+	font-size: 12px;
+	padding-bottom: 0;
+	padding-left: 20px;
+	padding-top: 0;
+	text-decoration: none;
+}
+.menuDetail:hover{
+	color: #006699;
+	font-family: Times New Roman,serif;
+	font-size: 12px;
+	padding-bottom: 0;
+	padding-left: 20px;
+	padding-top: 0;
+	text-decoration: underline;
+}
+.menuMain{
+	color: #FFFFFF;
+	font-weight: bold;
+	font-family: Times New Roman,serif;
+	font-size: 16px;
+	text-align: left;
+	text-decoration: none;
+	padding-left: 5px;
+	background-color: #CC0000;
+}
+.menuMain:hover{
+	color: #CC0000;
+	font-family: Times New Roman,serif;
+	font-size: 16px;
+	text-align: left;
+	text-decoration: underline;
+	background-color: #FFFFCC;
+	padding-left: 5px;
+}
+.menuSub{
+	color: #FFFFFF;
+	font-family: Times New Roman,serif;
+	font-size: 14px;
+	padding-left: 10px;
+	text-align: left;
+	text-decoration: none;
+}
+.menuSub:hover{
+	color: #CC0000;
+	font-family: Times New Roman,serif;
+	font-size: 14px;
+	padding-left: 10px;
+	text-align: left;
+	text-decoration: underline;
+	background-color: #FFFFCC;
+}
+.nobr{
+    white-space: nowrap;
+}
+.wideText{
+    width:100%;
+}
+.emphasized{
+    font-weight: bold;
+}]]></CONTENTTEXT>
+  </CM_MEDIA>
+  <CM_MEDIA CM_MEDIA_ID="110" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-08 16:34:25.0" CREATEDBY="100" UPDATED="2006-08-08 16:34:25.0" UPDATEDBY="100" MEDIATYPE="JPG" NAME="Header Image" ISSUMMARY="N" CM_WEBPROJECT_ID="102" AD_IMAGE_ID="109" DIRECTDEPLOY="N" />
+  <CM_MEDIA CM_MEDIA_ID="111" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-08 16:34:48.0" CREATEDBY="100" UPDATED="2006-08-08 16:34:48.0" UPDATEDBY="100" MEDIATYPE="JPG" NAME="BG Title" ISSUMMARY="N" CM_WEBPROJECT_ID="102" AD_IMAGE_ID="110" DIRECTDEPLOY="N" />
+</data>
