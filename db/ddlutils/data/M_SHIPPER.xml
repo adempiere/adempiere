@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <M_SHIPPER M_SHIPPER_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="11" ISACTIVE="Y" CREATED="2003-06-07 23:48:27.0" CREATEDBY="100" UPDATED="2003-06-07 23:50:58.0" UPDATEDBY="100" NAME="UPS" TRACKINGURL="http://wwwapps.ups.com/WebTracking/processInputRequest?InquiryNumber1=@TrackingNo@" />
+</data>

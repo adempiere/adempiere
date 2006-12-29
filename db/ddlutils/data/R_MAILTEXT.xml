@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <R_MAILTEXT R_MAILTEXT_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="11" ISACTIVE="Y" CREATED="2003-01-28 18:52:01.0" CREATEDBY="100" UPDATED="2005-07-07 11:35:58.0" UPDATEDBY="100" NAME="Order Confirmation" ISHTML="N" MAILHEADER="Order Confirmation" MAILTEXT="Dear @Name@,&#xa;&#xa;Thank you for your order.&#xa;&#xa;Best regards,&#xa;  The GardenWorld Team" />
+</data>

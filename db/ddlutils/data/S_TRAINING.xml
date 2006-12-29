@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <S_TRAINING S_TRAINING_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="11" ISACTIVE="Y" CREATED="2003-01-24 00:26:26.0" CREATEDBY="100" UPDATEDBY="0" UPDATED="2003-01-24 00:26:26.0" NAME="When to plant what" DESCRIPTION="Public Training class on when to plant what" M_PRODUCT_CATEGORY_ID="112" C_TAXCATEGORY_ID="107" C_UOM_ID="100" PROCESSING="N" />
+</data>

@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <R_REQUESTUPDATE R_REQUESTUPDATE_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="11" ISACTIVE="Y" CREATED="2005-07-18 19:52:48.0" CREATEDBY="100" UPDATED="2005-07-18 19:52:48.0" UPDATEDBY="100" R_REQUEST_ID="100" CONFIDENTIALTYPEENTRY="C" QTYSPENT="0" QTYINVOICED="0" RESULT="Some Unicode test: Some Extended Characters: ������ European Characters: ���-�������aracters > 100h: ?? Greek: ????? Cyrillic: ????????? Arabic: ??????" />
+</data>
