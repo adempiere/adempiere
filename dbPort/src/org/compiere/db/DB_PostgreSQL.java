@@ -17,7 +17,9 @@ package org.compiere.db;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
@@ -592,7 +594,40 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		//jz temp, modify later
 	}
 	
-	
+	/**
+	 * Dump table lock info to console for current transaction
+	 * @param conn
+	 */
+	public static void dumpLocks(Connection conn)
+	{
+		Statement stmt = null;
+		try {
+			String sql = "select pg_class.relname,pg_locks.* from pg_class,pg_locks where pg_class.relfilenode=pg_locks.relation order by 1";
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			int cnt = rs.getMetaData().getColumnCount();
+			System.out.println();
+			while (rs.next()) 
+			{
+				for(int i = 0; i < cnt; i++)
+				{
+					Object value = rs.getObject(i+1);
+					if (i > 0)
+						System.out.print(", ");
+					System.out.print(value != null ? value.toString() : "");
+				}
+				System.out.println();
+			}
+			System.out.println();
+		} catch (Exception e) {
+			
+		} finally {
+			try{
+				if (stmt != null)
+					stmt.close();
+			} catch (Exception e) {}
+		}
+	}
 	
 	/**
 	 * 	Test
