@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Teo Sarca
  *****************************************************************************/
 package org.compiere.impexp;
 
@@ -28,6 +29,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: ImpFormatRow.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  globalqss: integrate Teo Sarca bug fix [ 1623817 ] Minor bug on importing calendar date
  */
 public final class ImpFormatRow
 {
@@ -244,6 +247,7 @@ public final class ImpFormatRow
 			m_dataFormat = "";
 		else
 			m_dataFormat = dataFormat;
+		m_dformat = null; // ADD THIS LINE TO RESET date format
 		//	number
 		if (decimalPoint == null || !decimalPoint.equals(","))
 			m_decimalPoint = ".";
