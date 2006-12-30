@@ -102,7 +102,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		} else if (cmpString.indexOf("DELETE FROM") != -1) {
 
 			result.add(converSimpleStatement(convertAlias(statement)));
-		} else if (cmpString.indexOf("UPDATE") != -1) {
+		} else if (cmpString.indexOf("UPDATE ") != -1) {
 			result
 					.add(converSimpleStatement(convertUpdate(convertAlias(statement))));
 		} else {
@@ -1401,7 +1401,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			if ("VALUES".equalsIgnoreCase(tokens[3]) || 
 				"SELECT".equalsIgnoreCase(tokens[3])) 
 				return sqlStatement;
-			if (!tokens[3].startsWith("(")) {
+			if (tokens[2].indexOf("(") > 0) 
+				return sqlStatement;
+			else if ((tokens[3].indexOf("(") < 0) ||
+					tokens[3].indexOf("(") > 0) {
 				table = tokens[2];
 				alias = tokens[3];
 			} else {
@@ -1414,6 +1417,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			alias = tokens[3];
 		} 
 		if (table != null && alias != null ) {
+			if (alias.indexOf("(") > 0) alias = alias.substring(0, alias.indexOf("("));
 			String converted = sqlStatement.replaceFirst("\\s"+alias+"\\s", " ");
 			converted = converted.replaceAll("\\s"+alias+"\\.", " " + table+".");
 			converted = converted.replaceAll(","+alias+"\\.", "," + table+".");

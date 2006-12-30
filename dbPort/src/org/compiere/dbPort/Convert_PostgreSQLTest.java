@@ -124,6 +124,21 @@ public final class Convert_PostgreSQLTest {
 			+ " AND M_InOut_ID=0)";
 		r = convert.convert(sql);
 		verify(sql, r, "DELETE FROM M_InOutLineMA WHERE EXISTS (SELECT * FROM M_InOutLine l WHERE l.M_InOutLine_ID=M_InOutLineMA.M_InOutLine_ID AND M_InOut_ID=0)");
+		
+		//MLanguage.addTable
+		sql = "INSERT INTO " + "AD_Column_Trl"
+		+ "(AD_Language,IsTranslated, AD_Client_ID,AD_Org_ID, "
+		+ "Createdby,UpdatedBy, "
+		+ "AD_Column_ID,Name) "
+		+ "SELECT '" + "es_MX" + "','N', AD_Client_ID,AD_Org_ID, "
+		+ 100 + "," + 100 + ", "
+		+ "AD_Column_ID,Name"
+		+ " FROM " + "AD_Column"
+		+ " WHERE " + "AD_Column_ID" + " NOT IN (SELECT " + "AD_Column_ID"
+			+ " FROM " + "AD_Column_Trl"
+			+ " WHERE AD_Language='" + "es_MX" + "')";
+		r = convert.convert(sql);
+		verify(sql, r, "INSERT INTO AD_Column_Trl(AD_Language,IsTranslated, AD_Client_ID,AD_Org_ID, Createdby,UpdatedBy, AD_Column_ID,Name) SELECT 'es_MX','N', AD_Client_ID,AD_Org_ID, 100,100, AD_Column_ID,Name FROM AD_Column WHERE AD_Column_ID NOT IN (SELECT AD_Column_ID FROM AD_Column_Trl WHERE AD_Language='es_MX')");
 	}
 	
 	private void verify(String original, String[] converted, String expected) {
