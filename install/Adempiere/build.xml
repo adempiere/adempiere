@@ -154,6 +154,14 @@
 		<signjar jar="lib/AdempiereCLib.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
 
+		<!-- Sign customization Jar 		-->
+		<signjar jar="lib/customization.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+
+		<!-- Sign patches Jar 		-->
+		<signjar jar="lib/patches.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+				
 		<!-- Sign Adempiere Jar 		-->
 		<copy file="lib/Adempiere.jar" tofile="buildCLib/Adempiere1.jar" overwrite="yes" />
 		<signjar jar="buildCLib/Adempiere1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
@@ -236,7 +244,7 @@
 			<zipfileset dir="utils" prefix="Adempiere" 
 				includes="WinEnv.js" />
 			<zipfileset dir="lib" prefix="Adempiere/lib" 
-				includes="Adempiere.exe,*.ico,Adempiere.jar,AdempiereCLib.jar,adempiereDirect.jnlp,index.html,*.0" />
+				includes="Adempiere.exe,*.ico,customization.jar,patches.jar,Adempiere.jar,AdempiereCLib.jar,adempiereDirect.jnlp,index.html,*.0" />
 		</zip>
 
 		<!--	Save properties		-->
