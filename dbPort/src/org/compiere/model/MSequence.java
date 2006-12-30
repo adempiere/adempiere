@@ -61,7 +61,7 @@ public class MSequence extends X_AD_Sequence
 		String selectSQL = null;
 		if (DB.isPostgreSQL())
 		{	
-			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID, OID "
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
 				+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
@@ -263,7 +263,7 @@ public class MSequence extends X_AD_Sequence
 		String selectSQL = null;
 		if (DB.isPostgreSQL())
 		{	
-			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID , OID "	
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "	
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
 				+ " AND AD_Client_ID IN (0,?)"
@@ -442,7 +442,7 @@ public class MSequence extends X_AD_Sequence
 		String selectSQL = null;
 		if (DB.isPostgreSQL())
 		{	
-			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID, OID "
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
 				+ "WHERE AD_Sequence_ID=?"
 				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
