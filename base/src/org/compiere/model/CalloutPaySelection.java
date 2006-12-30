@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Teo Sarca
  *****************************************************************************/
 package org.compiere.model;
 
@@ -28,6 +29,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutPaySelection.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  globalqss - integrate Teo Sarca bug fix 
+ *    [ 1623598 ] Payment Selection Line problem when selecting invoice
  */
 public class CalloutPaySelection extends CalloutEngine
 {
@@ -88,7 +92,8 @@ public class CalloutPaySelection extends CalloutEngine
 		if (C_Invoice_ID == 0)
 			return "";
 		int C_BankAccount_ID = Env.getContextAsInt(ctx, WindowNo, "C_BankAccount_ID");
-		Timestamp PayDate = Env.getContextAsDate(ctx, "PayDate");
+		Timestamp PayDate = Env.getContextAsDate(ctx, WindowNo, "PayDate");
+		/* ARHIPAC: TEO: BEGIN: END ------------------------------------------------------------------------------------------ */
 		if (PayDate == null)
 			PayDate = new Timestamp(System.currentTimeMillis());
 		setCalloutActive(true);
@@ -104,9 +109,9 @@ public class CalloutPaySelection extends CalloutEngine
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_Invoice_ID);
-			pstmt.setInt(2, C_BankAccount_ID);
-			pstmt.setTimestamp(3, PayDate);
+			pstmt.setInt(2, C_Invoice_ID);
+			pstmt.setInt(3, C_BankAccount_ID);
+			pstmt.setTimestamp(1, PayDate);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
