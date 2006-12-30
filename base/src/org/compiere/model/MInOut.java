@@ -1071,7 +1071,8 @@ public class MInOut extends X_M_InOut implements DocAction
 						&& ((isSOTrx() && mas.isMandatory())
 							|| (!isSOTrx() && mas.isMandatoryAlways())) )
 					{
-						m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@";
+						m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
+							", @M_Product_ID@=" + product.getValue() + ")";
 						return DocAction.STATUS_Invalid;
 					}
 				}
