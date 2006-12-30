@@ -259,7 +259,7 @@
 			<zipfileset src="${basedir}/lib/adempiereRootBase.war" />
 			<!-- copy to adempiereHome	-->
 			<zipfileset dir="${basedir}/lib" 
-				includes="AdempiereClient.zip,Adempiere.jar,AdempiereCLib.jar,*.jnlp,*.0,*.html" 
+				includes="customization.jar,patches.jar,AdempiereClient.zip,Adempiere.jar,AdempiereCLib.jar,*.jnlp,*.0,*.html" 
 				prefix="adempiereHome" />
 		</zip>
 
