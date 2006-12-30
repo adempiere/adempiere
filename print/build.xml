@@ -25,6 +25,8 @@
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../dbPort/dbPort.jar"/>
     <pathelement path="../lib/freepdf.jar"/>
+    <pathelement path="../lib/customization.jar"/>
+    <pathelement path="../lib/patches.jar"/>
   </path>
 
 

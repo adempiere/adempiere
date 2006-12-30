@@ -265,7 +265,7 @@
 
 		<!-- Build adempiereRoot ear		-->
 		<ear destfile="${basedir}/lib/adempiereRoot.ear" appxml="${basedir}/lib/adempiereRoot.xml">
-			<fileset dir="${basedir}/lib" includes="adempiereRoot.jar,adempiereRoot.war,Adempiere.jar,AdempiereSLib.jar" />
+			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereRoot.jar,adempiereRoot.war,Adempiere.jar,AdempiereSLib.jar" />
 			<manifest>
 				<attribute name="Specification-Title" value="AdempiereRoot" />
 				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
@@ -273,13 +273,13 @@
 				<attribute name="Implementation-Title" value="AdempiereRoot" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="adempiereRoot.jar Adempiere.jar AdempiereSLib.jar" />
+				<attribute name="Class-Path" value="customization.jar patches.jar adempiereRoot.jar Adempiere.jar AdempiereSLib.jar" />
 			</manifest>
 		</ear>
 
 		<!-- Build adempiereApps ear		-->
 		<ear destfile="${basedir}/lib/adempiereApps.ear" appxml="${basedir}/lib/adempiereApps.xml">
-			<fileset dir="${basedir}/lib" includes="adempiereApps.jar,adempiereApps.war,Adempiere.jar,AdempiereSLib.jar" />
+			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereApps.jar,adempiereApps.war,Adempiere.jar,AdempiereSLib.jar" />
 			<manifest>
 				<attribute name="Specification-Title" value="AdempiereApps" />
 				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
@@ -287,13 +287,13 @@
 				<attribute name="Implementation-Title" value="AdempiereApps" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
+				<attribute name="Class-Path" value="customization.jar patches.jar Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
 			</manifest>
 		</ear>
 
 		<!-- Build adempiereWebStore ear		-->
 		<ear destfile="${basedir}/lib/adempiereWebStore.ear" appxml="${basedir}/lib/adempiereWebStore.xml">
-			<fileset dir="${basedir}/lib" includes="adempiereWebStore.war,Adempiere.jar,AdempiereSLib.jar,adempiereApps.jar" />
+			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereWebStore.war,Adempiere.jar,AdempiereSLib.jar,adempiereApps.jar" />
 			<manifest>
 				<attribute name="Specification-Title" value="AdempiereWebStore" />
 				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
@@ -301,7 +301,7 @@
 				<attribute name="Implementation-Title" value="AdempiereWebStore" />
 				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
+				<attribute name="Class-Path" value="customization.jar patches.jar Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
 			</manifest>
 		</ear>
 

@@ -27,6 +27,8 @@
     <pathelement path="../print/Print.jar"/>
     <pathelement path="../dbPort/dbPort.jar"/>
     <pathelement path="../lib/freepdf.jar"/>
+    <pathelement path="../lib/customization.jar"/>
+    <pathelement path="../lib/patches.jar"/>
     <pathelement path="../lib/jcommon-1.0.5.jar"/>
     <pathelement path="../lib/jfreechart-1.0.2.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
