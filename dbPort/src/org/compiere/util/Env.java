@@ -97,7 +97,14 @@ public final class Env
 				win.removeAll();
 		}
 		**/
-		s_windows.clear();
+		//bug [ 1574630 ]
+		if (!finalCall) {
+			Container c = s_windows.get(0);
+			s_windows.clear();
+			createWindowNo(c);
+		} else {
+			s_windows.clear();
+		}
 
 		//	Clear all Context
 		if (finalCall)
