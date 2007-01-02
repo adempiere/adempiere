@@ -12,20 +12,17 @@
 @if (%3) == () goto usage
 
 @echo -------------------------------------
-@echo Re-Create DB user
+@echo Re-Create user and database
 @echo -------------------------------------
-@sqlplus %1@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\CreateUser.sql %2 %3
+@dropdb -U postgres %ADEMPIERE_DB_NAME%
+@dropuser -U postgres %ADEMPIERE_DB_USER%
+@createuser -U postgres -a -d %ADEMPIERE_DB_USER%
+@createdb %ADEMPIERE_DB_NAME% -E UNICODE -O %ADEMPIERE_DB_USER% -U %ADEMPIERE_DB_USER%
 
 @echo -------------------------------------
-@echo Import Adempiere.dmp
+@echo Import Adempiere_pg.dmp
 @echo -------------------------------------
-@imp %1@%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\Adempiere.dmp FROMUSER=(%2) TOUSER=%2 
-
-@echo -------------------------------------
-@echo Check System
-@echo Import may show some warnings. This is OK as long as the following does not show errors
-@echo -------------------------------------
-@sqlplus %2/%3@%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\Utils\AfterImport.sql
+@psql -d %ADEMPIERE_DB_NAME% -U %ADEMPIERE_DB_USER% -f %ADEMPIERE_HOME%/data/Adempiere_pg.dmp
 
 @goto end
 
