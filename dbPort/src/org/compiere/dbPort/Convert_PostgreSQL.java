@@ -1116,7 +1116,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String otherUpdateFields = "";
 			//get update where clause
 			token = new StringBuffer();
-			for(int i = subQueryEnd+1; i < select.length(); i++)
+			for(int i = subQueryEnd; i < select.length(); i++)
 			{
 				char c = select.charAt(i);
 				if (Character.isWhitespace(c))
@@ -1125,7 +1125,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					{
 						if ("WHERE".equalsIgnoreCase(token.toString()))
 						{
-							otherUpdateFields = select.substring(subQueryEnd+1, i - 5).trim();
+							otherUpdateFields = select.substring(subQueryEnd, i - 5).trim();
 							mainWhere = select.substring(i + 1);
 							break;
 						}
@@ -1206,6 +1206,14 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			int fj = joinFields.length();
 			String updateField = null;
 			String joinField = null;
+			
+			boolean useSubQuery = false;
+			String joinFieldsUpper = joinFields.toUpperCase(); 
+			if (joinFieldsUpper.indexOf("SUM(") >=0 || joinFieldsUpper.indexOf("SUM (") >= 0
+				|| joinFieldsUpper.indexOf("MAX(") >=0 || joinFieldsUpper.indexOf("MAX (") >= 0
+				|| joinFieldsUpper.indexOf("MIN(") >=0 || joinFieldsUpper.indexOf("MIN (") >= 0
+				|| joinFieldsUpper.indexOf("COUNT(") >=0 || joinFieldsUpper.indexOf("COUNT (") >= 0)
+				useSubQuery = true;
 
 			while (f > 0) {
 				f = Util.findIndexOf(updateFields, ',');
@@ -1218,22 +1226,41 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 					Update.append(updateField.trim());
 					Update.append("=");
-					Update.append(joinField);
-					Update.append(otherUpdateFields);
-					Update.append(" FROM ");
-					Update.append(joinFromClause);
-					Update.append(" WHERE ");
-					subWhere = addAliasToIdentifier(subWhere, joinAlias);
-					Update.append(subWhere.trim());
-					
-					if (mainWhere != null)
-						mainWhere = " AND " + mainWhere;
-
+					if (useSubQuery)
+					{
+						Update.append("( SELECT ");
+						Update.append(joinField);
+						Update.append(" FROM ");
+						Update.append(joinFromClause);
+						Update.append(" WHERE ");
+						Update.append(subWhere.trim());
+						Update.append(" ) ");
+						Update.append(otherUpdateFields);
+						if (mainWhere != null)
+						{
+							Update.append(" WHERE ");
+							Update.append(mainWhere);
+						}
+					}
 					else
-						mainWhere = "";
-
-					mainWhere = addAliasToIdentifier(mainWhere, targetAlias);
-					Update.append(mainWhere);
+					{
+						Update.append(joinField);
+						Update.append(otherUpdateFields);
+						Update.append(" FROM ");
+						Update.append(joinFromClause);
+						Update.append(" WHERE ");
+						subWhere = addAliasToIdentifier(subWhere, joinAlias);
+						Update.append(subWhere.trim());
+						
+						if (mainWhere != null)
+							mainWhere = " AND " + mainWhere;
+	
+						else
+							mainWhere = "";
+	
+						mainWhere = addAliasToIdentifier(mainWhere, targetAlias);
+						Update.append(mainWhere);
+					}
 				} else {
 
 					updateField = updateFields.substring(0, f);
@@ -1247,7 +1274,20 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					}
 					Update.append(updateField.trim());
 					Update.append("=");
-					Update.append(joinField);
+					if (useSubQuery)
+					{
+						Update.append("( SELECT ");
+						Update.append(joinField);
+						Update.append(" FROM ");
+						Update.append(joinFromClause);
+						Update.append(" WHERE ");
+						Update.append(subWhere.trim());
+						Update.append(" ) ");
+					}
+					else
+					{
+						Update.append(joinField);
+					}
 					Update.append(",");
 					joinFields = joinFields.substring(fj + 1);
 				}
@@ -1285,6 +1325,46 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String test = token.startsWith("(") ? token.substring(1) : token;
 			if (sqlkey.indexOf(test) == -1) {
 
+				token = token.trim();
+				//skip subquery, non identifier and fully qualified identifier
+				if (o != -1)
+					result = result + " " + token;
+				else 
+				{
+					result = result + " ";
+					StringBuffer t = new StringBuffer();
+					for (int i = 0; i < token.length(); i++) {
+						char c = token.charAt(i);
+						if(isOperator(c))
+						{
+							if (t.length() > 0)
+							{
+								if (c == '(')
+									result = result + t.toString();
+								else if (isIdentifier(t.toString()) &&
+									t.toString().indexOf(".") == -1)
+									result = result + alias + "." + t.toString();
+								else
+									result = result + t.toString();
+								t = new StringBuffer();
+							}
+							result = result + c;
+						}
+						else
+						{
+							t.append(c);
+						}
+					}
+					if (t.length() > 0)
+					{
+						if (isIdentifier(t.toString()) &&
+							t.toString().indexOf(".") == -1)
+							result = result + alias + "." + t.toString();
+						else
+							result = result + t.toString();
+					}
+				}
+				
 				if (o != -1) {
 					for (int i = 0; i < token.length(); i++) {
 						char c = token.charAt(i);
@@ -1293,18 +1373,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						if (c == ')')
 							o--;
 					}
-				}
-				token = token.trim();
-				//skip subquery, non identifier and fully qualified identifier
-				if (o == -1
-						&& (!token.contains(")") || !token
-								.contains("("))
-						&& isIdentifier(token)
-						&& token.indexOf(".") == - 1) {
-
-					result = result + " " + alias + "." + token;
-				} else {
-					result = result + " " + token;
 				}
 
 			} else {
@@ -1319,6 +1387,65 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return result;
 	}
 	
+	private boolean isOperator(char c)
+	{
+		if ('=' == c)
+			return true;
+		else if ('<' == c)
+			return true;
+		else if ('>' == c)
+			return true;
+		else if ('|' == c)
+			return true;
+		else if ('(' == c)
+			return true;
+		else if (')' == c)
+			return true;
+		else if ('+' == c)
+			return true;
+		else if ('-' == c)
+			return true;
+		else if ('*' == c)
+			return true;
+		else if ('/' == c)
+			return true;
+		else if ('!' == c)
+			return true;
+		else if (',' == c)
+			return true;
+		else
+			return false;
+	}
+	
+	private boolean isOperator(String token)
+	{
+		if ("=".equals(token))
+			return true;
+		else if ("<>".equals(token))
+			return true;
+		else if (">".equals(token))
+			return true;
+		else if ("<".equals(token))
+			return true;
+		else if ("<=".equals(token))
+			return true;
+		else if (">=".equals(token))
+			return true;
+		else if ("||".equals(token))
+			return true;
+		else if ("+".equals(token))
+			return true;
+		else if ("-".equals(token))
+			return true;
+		else if ("*".equals(token))
+			return true;
+		else if ("/".equals(token))
+			return true;
+		else if ("!=".equals(token))
+			return true;
+		else
+			return false;
+	}
 	/**
 	 * Check if token is a valid sql identifier
 	 * @param token
@@ -1326,29 +1453,9 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 */
 	private boolean isIdentifier(String token)
 	{
-		if ("=".equals(token))
+		if (isOperator(token))
 			return false;
-		else if ("<>".equals(token))
-			return false;
-		else if (">".equals(token))
-			return false;
-		else if ("<".equals(token))
-			return false;
-		else if ("<=".equals(token))
-			return false;
-		else if (">=".equals(token))
-			return false;
-		else if ("||".equals(token))
-			return false;
-		else if ("+".equals(token))
-			return false;
-		else if ("-".equals(token))
-			return false;
-		else if ("*".equals(token))
-			return false;
-		else if ("/".equals(token))
-			return false;
-		else if ("!=".equals(token))
+		else if (token.startsWith("'") && token.startsWith("'"))
 			return false;
 		else 
 		{

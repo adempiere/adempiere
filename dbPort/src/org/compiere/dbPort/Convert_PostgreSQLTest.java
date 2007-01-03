@@ -139,6 +139,30 @@ public final class Convert_PostgreSQLTest {
 			+ " WHERE AD_Language='" + "es_MX" + "')";
 		r = convert.convert(sql);
 		verify(sql, r, "INSERT INTO AD_Column_Trl(AD_Language,IsTranslated, AD_Client_ID,AD_Org_ID, Createdby,UpdatedBy, AD_Column_ID,Name) SELECT 'es_MX','N', AD_Client_ID,AD_Org_ID, 100,100, AD_Column_ID,Name FROM AD_Column WHERE AD_Column_ID NOT IN (SELECT AD_Column_ID FROM AD_Column_Trl WHERE AD_Language='es_MX')");
+		
+		//https://sourceforge.net/forum/message.php?msg_id=4083672
+		sql=" 	UPDATE AD_COLUMN c"
+			+" 		SET	(ColumnName, Name, Description, Help) =" 
+			+" 	           (SELECT ColumnName, Name, Description, Help" 
+			+" 	            FROM AD_ELEMENT e WHERE c.AD_Element_ID=e.AD_Element_ID),"
+			+" 			Updated = SYSDATE"
+			+" 	WHERE EXISTS (SELECT 1 FROM AD_ELEMENT e "
+			+" 				WHERE c.AD_Element_ID=e.AD_Element_ID"
+			+" 				  AND (c.ColumnName <> e.ColumnName OR c.Name <> e.Name "
+			+" 					OR NVL(c.Description,' ') <> NVL(e.Description,' ') OR NVL(c.Help,' ') <> NVL(e.Help,' ')))";
+		r = convert.convert(sql);
+		verify(sql, r, "UPDATE AD_COLUMN SET ColumnName=e.ColumnName,Name=e.Name,Description=e.Description,Help=e.Help, Updated = CURRENT_TIMESTAMP FROM AD_ELEMENT e WHERE AD_COLUMN.AD_Element_ID=e.AD_Element_ID AND EXISTS (SELECT 1 FROM AD_ELEMENT e WHERE AD_COLUMN.AD_Element_ID=e.AD_Element_ID AND (AD_COLUMN.ColumnName <> e.ColumnName OR AD_COLUMN.Name <> e.Name OR COALESCE(AD_COLUMN.Description,' ') <> COALESCE(e.Description,' ') OR COALESCE(AD_COLUMN.Help,' ') <> COALESCE(e.Help,' ')))");
+		
+		sql="UPDATE AD_WF_NODE n"
+			+" SET (Name, Description, Help) = (SELECT f.Name, f.Description, f.Help" 
+			+" 		FROM AD_PROCESS f"
+			+" 		WHERE f.AD_Process_ID=n.AD_Process_ID)"
+			+" WHERE n.IsCentrallyMaintained = 'Y'"
+			+" AND EXISTS  (SELECT 1 FROM AD_PROCESS f"
+			+" 		WHERE f.AD_Process_ID=n.AD_Process_ID"
+			+" 		  AND (f.Name <> n.Name OR NVL(f.Description,' ') <> NVL(n.Description,' ') OR NVL(f.Help,' ') <> NVL(n.Help,' ')))";
+		r = convert.convert(sql);
+		verify(sql, r, "UPDATE AD_WF_NODE SET Name=f.Name,Description=f.Description,Help=f.Help FROM AD_PROCESS f WHERE f.AD_Process_ID=AD_WF_NODE.AD_Process_ID AND AD_WF_NODE.IsCentrallyMaintained = 'Y' AND EXISTS (SELECT 1 FROM AD_PROCESS f WHERE f.AD_Process_ID=AD_WF_NODE.AD_Process_ID AND (f.Name <> AD_WF_NODE.Name OR COALESCE(f.Description,' ') <> COALESCE(AD_WF_NODE.Description,' ') OR COALESCE(f.Help,' ') <> COALESCE(AD_WF_NODE.Help,' ')))");
 	}
 	
 	private void verify(String original, String[] converted, String expected) {
