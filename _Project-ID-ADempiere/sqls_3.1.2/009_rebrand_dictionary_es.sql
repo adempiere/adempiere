@@ -1,3 +1,4 @@
+SET DEFINE OFF;
 UPDATE ad_element_trl
    SET description =
           'LDAP Server to authenticate and authorize external systems based on Adempiere'

@@ -1,3 +1,4 @@
+SET DEFINE OFF;
 UPDATE ad_alert
    SET alertmessage =
                    'Check that the Adempiere Database has sufficient space:
