@@ -30,6 +30,8 @@ import java.util.logging.*;
  *	- close();
  *	
  *  @author Jorg Janke
+ *  @author Low Heng Sin
+ *  - added rollback(boolean) and commit(boolean) [20070105]
  *  @version $Id$
  */
 public class Trx implements VetoableChangeListener
@@ -220,9 +222,10 @@ public class Trx implements VetoableChangeListener
 
 	/**
 	 * 	Rollback
-	 *	@return true if success
+	 *  @param throwException if true, re-throws exception
+	 *	@return true if success, false if failed or transaction already rollback
 	 */
-	public boolean rollback()
+	public boolean rollback(boolean throwException) throws SQLException
 	{
 		try
 		{
@@ -241,11 +244,30 @@ public class Trx implements VetoableChangeListener
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, m_trxName, e);
+			if (throwException)
+			{
+				m_savepoint = null;
+				m_active = false;
+				throw e;
+			}
 		}		
 		m_savepoint = null;
 		m_active = false;
 		return false;
 	}	//	rollback
+	
+	/**
+	 * Rollback 
+	 * @return true if success, false if failed or transaction already rollback
+	 */
+	public boolean rollback()
+	{
+		try {
+			return rollback(false);
+		} catch (SQLException e) {
+			return false;
+		}
+	}
 
 	/**
 	 * 	Release savepoint
@@ -274,9 +296,11 @@ public class Trx implements VetoableChangeListener
 	}	//	release
 
 	/**
-	 * 	Commit
+	 * Commit
+	 * @param throwException if true, re-throws exception
+	 * @return true if success
 	 **/
-	public boolean commit()
+	public boolean commit(boolean throwException) throws SQLException
 	{
 		try
 		{
@@ -292,11 +316,34 @@ public class Trx implements VetoableChangeListener
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, m_trxName, e);
+			if (throwException) 
+			{
+				m_savepoint = null;
+				m_active = false;
+				throw e;
+			}
 		}
 		m_savepoint = null;
 		m_active = false;
 		return false;
 	}	//	commit
+	
+	/**
+	 * Commit
+	 * @return true if success
+	 */
+	public boolean commit()
+	{
+		try 
+		{
+			return commit(false);
+		} 
+		catch(SQLException e) 
+		{
+			return false;
+		}
+	}
+	
 
 	/**
 	 * 	End Transaction and Close Connection
