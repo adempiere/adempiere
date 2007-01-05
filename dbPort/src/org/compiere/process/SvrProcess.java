@@ -86,7 +86,17 @@ public abstract class SvrProcess implements ProcessCall
 		if (localTrx)
 		{
 			if (success)
-				m_trx.commit();
+			{
+				try 
+				{
+					m_trx.commit(true);
+				} catch (SQLException e)
+				{
+					log.log(Level.SEVERE, "Commit failed.", e);
+					m_pi.addSummary("Commit Failed.");
+					m_pi.setError(true);
+				}
+			}
 			else
 				m_trx.rollback();
 			m_trx.close();
