@@ -715,7 +715,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
 			//end vpj-cd e-evolution 03/08/2005 PostgreSQL
 			/****	Trx End		****/
-			m_trx.commit();
+			m_trx.commit(true);
 			m_trx.close();
 			m_trx = null;
                         //begin vpj-cd e-evolution 03/08/2005 PostgreSQL

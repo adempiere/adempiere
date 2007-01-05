@@ -171,7 +171,7 @@ public class AllocationReset extends SvrProcess
 			success = true;
 		}
 		if (success)
-			m_trx.commit();
+			success = m_trx.commit();
 		else
 			m_trx.rollback();
 		return success;

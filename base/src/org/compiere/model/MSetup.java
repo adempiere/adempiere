@@ -1312,10 +1312,10 @@ public final class MSetup
 		else
 			log.log(Level.SEVERE, "CashBook NOT inserted");
 		//
-		m_trx.commit();
+		boolean success = m_trx.commit();
 		m_trx.close();
-		log.info("fini");
-		return true;
+		log.info("finish");
+		return success;
 	}   //  createEntities
 
 	/**
