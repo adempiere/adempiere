@@ -261,7 +261,7 @@ public class ServerBean implements SessionBean
 		{
 			boolean ok = process.startProcess (ctx, pi, trx);
 			pi = process.getProcessInfo();
-			trx.commit();
+			trx.commit(true);
 			trx.close();
 		}
 		catch (Exception ex1)
