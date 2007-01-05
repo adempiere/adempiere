@@ -723,7 +723,7 @@ public class CStatement implements Statement
 			if (db == null)
 				throw new NullPointerException("Remote - No Database");
 			//
-			Statement pstmt = local_getStatement (false, null);	//	shared connection
+			Statement pstmt = local_getStatement (false, p_vo.getTrxName());	
 			int result = pstmt.executeUpdate(p_vo.getSql());
 			pstmt.close();
 			//
@@ -838,7 +838,7 @@ public class CStatement implements Statement
 	//	return null;
 	 	**/
 		//	Shared Connection
-		Connection conn = local_getConnection (null);
+		Connection conn = local_getConnection (p_vo.getTrxName());
 		PreparedStatement pstmt = null;
 		RowSet rowSet = null;
 		try

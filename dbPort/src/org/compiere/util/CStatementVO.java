@@ -61,6 +61,8 @@ public class CStatementVO implements Serializable
 	private String 				m_sql;
 	/** Parameters		*/
 	private ArrayList<Object>	m_parameters = new ArrayList<Object>();
+	/** Transaction Name **/
+	private String				m_trxName = null;
 
 	/**
 	 * 	String representation
@@ -190,6 +192,23 @@ public class CStatementVO implements Serializable
 	public void setResultSetConcurrency(int resultSetConcurrency)
 	{
 		m_resultSetConcurrency = resultSetConcurrency;
+	}
+	
+	/**
+	 * @return transaction name
+	 */
+	public String getTrxName() 
+	{
+		return m_trxName;
+	}
+	
+	/**
+	 * Set transaction name
+	 * @param trxName
+	 */
+	public void setTrxName(String trxName)
+	{
+		m_trxName = trxName;
 	}
 
 }	//	CStatementVO

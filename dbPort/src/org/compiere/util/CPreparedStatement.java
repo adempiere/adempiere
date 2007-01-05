@@ -52,6 +52,8 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		p_vo = new CStatementVO (resultSetType, resultSetConcurrency,
 			DB.getDatabase().convertStatement(sql0));
 
+		p_vo.setTrxName(trxName);
+		
 		//	Local access
 		if (!DB.isRemoteObjects())
 		{
@@ -972,7 +974,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 	//	return null;
 	 	**/
 		//	shared connection
-		Connection conn = local_getConnection (null);
+		Connection conn = local_getConnection (p_vo.getTrxName());
 		PreparedStatement pstmt = null;
 		RowSet rowSet = null;
 		try
@@ -1054,7 +1056,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			if (db == null)
 				throw new NullPointerException("Remote - No Database");
 			//
-			PreparedStatement pstmt = local_getPreparedStatement (false, null);	//	shared connection
+			PreparedStatement pstmt = local_getPreparedStatement (false, p_vo.getTrxName());	
 			int result = pstmt.executeUpdate();
 			pstmt.close();
 			//
