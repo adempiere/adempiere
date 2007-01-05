@@ -59,7 +59,7 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(LOGLEVEL, TableName + " - AdempiereSys=" + adempiereSys  + " [" + trxName + "]");
 		  //begin vpj-cd e-evolution 09/02/2005 PostgreSQL
 		String selectSQL = null;
-		if (DB.isPostgreSQL())
+		if (DB.isOracle() == false)
 		{	
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
@@ -110,7 +110,12 @@ public class MSequence extends X_AD_Sequence
 				{
 					int AD_Sequence_ID = rs.getInt(4);
 					//
-					if (DB.isFyracle()) {
+					if (USE_PROCEDURE)
+					{
+						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
+					}
+					else
+					{
 						PreparedStatement updateSQL;
 						int incrementNo = rs.getInt(3);
 						if (adempiereSys) {
@@ -125,28 +130,8 @@ public class MSequence extends X_AD_Sequence
 						updateSQL.setInt(1, incrementNo);
 						updateSQL.setInt(2, AD_Sequence_ID);
 						updateSQL.executeUpdate();
-					} else 	if (USE_PROCEDURE)
-					{
-						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
-					}
-					else
-					{
-						int incrementNo = rs.getInt(3);
-						if (adempiereSys)
-						{
-							//jz return a increased value
-							//retValue = rs.getInt(2);
-							//rs.updateInt(2, retValue + incrementNo);
-							retValue = rs.getInt(2)+ incrementNo;
-							rs.updateInt(2, retValue);
-						}
-						else
-						{
-							retValue = rs.getInt(1) + incrementNo;
-							rs.updateInt(1, retValue);
-						}
-						rs.updateRow();
-					}
+					} 
+					
 					if (trx == null)
 						conn.commit();
 				}
@@ -261,7 +246,7 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(LOGLEVEL, TableName + " - AdempiereSys=" + adempiereSys  + " [" + trxName + "]");
 		  //begin vpj-cd e-evolution 09/02/2005 PostgreSQL
 		String selectSQL = null;
-		if (DB.isPostgreSQL())
+		if (DB.isOracle() == false)
 		{	
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "	
 				+ "FROM AD_Sequence "
@@ -320,7 +305,12 @@ public class MSequence extends X_AD_Sequence
 				prefix = rs.getString(4);
 				suffix = rs.getString(5);
 				incrementNo = rs.getInt(3);
-				if (DB.isFyracle()) {
+				if (USE_PROCEDURE)
+				{
+					next = nextID(conn, AD_Sequence_ID, adempiereSys);
+				}
+				else
+				{
 					PreparedStatement updateSQL;
 					if (adempiereSys) {
 						updateSQL = conn
@@ -334,25 +324,7 @@ public class MSequence extends X_AD_Sequence
 					updateSQL.setInt(1, incrementNo);
 					updateSQL.setInt(2, AD_Sequence_ID);
 					updateSQL.executeUpdate();
-				} else	
-				if (USE_PROCEDURE)
-				{
-					next = nextID(conn, AD_Sequence_ID, adempiereSys);
-				}
-				else
-				{
-					if (adempiereSys)
-					{
-						next = rs.getInt(2);
-						rs.updateInt(2, next + incrementNo);
-					}
-					else
-					{
-						next = rs.getInt(1);
-						rs.updateInt(1, next + incrementNo);
-					}
-					rs.updateRow();
-				}
+				} 
 			}
 			else
 			{
@@ -440,7 +412,7 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(LOGLEVEL, "DocType_ID=" + C_DocType_ID + " [" + trxName + "]");
 		   //begin vpj-cd e-evolution 09/02/2005 PostgreSQL
 		String selectSQL = null;
-		if (DB.isPostgreSQL())
+		if (DB.isOracle() == false)
 		{	
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
@@ -493,7 +465,12 @@ public class MSequence extends X_AD_Sequence
 					adempiereSys = false;
 				AD_Sequence_ID = rs.getInt(7);
 				
-				if (DB.isFyracle()) {
+				if (USE_PROCEDURE)
+				{
+					next = nextID(conn, AD_Sequence_ID, adempiereSys);
+				}
+				else
+				{
 					PreparedStatement updateSQL;
 					if (adempiereSys) {
 						updateSQL = conn
@@ -507,23 +484,6 @@ public class MSequence extends X_AD_Sequence
 					updateSQL.setInt(1, incrementNo);
 					updateSQL.setInt(2, AD_Sequence_ID);
 					updateSQL.executeUpdate();
-				}else if (USE_PROCEDURE)
-				{
-					next = nextID(conn, AD_Sequence_ID, adempiereSys);
-				}
-				else
-				{
-					if (adempiereSys)
-					{
-						next = rs.getInt(2);
-						rs.updateInt(2, next + incrementNo);
-					}
-					else
-					{
-						next = rs.getInt(1);
-						rs.updateInt(1, next + incrementNo);
-					}
-					rs.updateRow();
 				}
 			}
 			else
