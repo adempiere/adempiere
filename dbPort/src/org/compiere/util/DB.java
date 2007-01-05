@@ -1047,11 +1047,11 @@ public final class DB
 			Connection conn = null;
 			Trx trx = trxName == null ? null : Trx.get(trxName, true);
 			if (trx != null)
-				conn = trx.getConnection();
+				return trx.commit(true);
 			else
 				conn = DB.getConnectionRW ();
-		//	if (!conn.getAutoCommit())
-			conn.commit();
+			if (conn != null && !conn.getAutoCommit())
+				conn.commit();
 		}
 		catch (SQLException e)
 		{
@@ -1078,11 +1078,11 @@ public final class DB
 			Connection conn = null;
 			Trx trx = trxName == null ? null : Trx.get(trxName, true);
 			if (trx != null)
-				conn = trx.getConnection();
+				return trx.rollback(true);
 			else
 				conn = DB.getConnectionRW ();
-		//	if (!conn.getAutoCommit())
-			conn.rollback();
+			if (conn != null && !conn.getAutoCommit())
+				conn.rollback();
 		}
 		catch (SQLException e)
 		{
@@ -1578,14 +1578,14 @@ public final class DB
 	 */
 	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
 	{
-		if ((trxName == null || trxName.length() == 0) && isRemoteObjects())
+		if (isRemoteObjects())
 		{
 			Server server = CConnection.get().getServer();
 			try
 			{
 				if (server != null)
 				{	//	See ServerBean
-					int id = server.getNextID(AD_Client_ID, TableName, null);
+					int id = server.getNextID(AD_Client_ID, TableName, trxName);
 					log.finest("server => " + id);
 					if (id < 0)
 						throw new DBException("No NextID");
@@ -1613,7 +1613,7 @@ public final class DB
 	 */
 	public static String getDocumentNo(int C_DocType_ID, String trxName)
 	{
-		if ((trxName == null || trxName.length() == 0) && isRemoteObjects())
+		if (isRemoteObjects())
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -1651,7 +1651,7 @@ public final class DB
 	 */
 	public static String getDocumentNo (int AD_Client_ID, String TableName, String trxName)
 	{
-		if ((trxName == null || trxName.length() == 0) && isRemoteObjects())
+		if (isRemoteObjects())
 		{
 			Server server = CConnection.get().getServer();
 			try
