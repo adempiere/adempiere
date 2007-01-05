@@ -33,12 +33,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
-CREATE OR REPLACE FUNCTION adempiere.addDays (day TIMESTAMP WITH TIME ZONE, days INTEGER)
-RETURNS TIMESTAMP WITH TIME ZONE AS $$
-BEGIN
-    RETURN adempiere.addDays(day,Idays);
-END;
-$$ LANGUAGE plpgsql VOLATILE;
+CREATE OR REPLACE FUNCTION adddays("day" timestamp with time zone, days integer) RETURNS timestamp with time zone
+    AS $$org.compiere.sqlj.Adempiere.addDays(java.sql.Timestamp,int)$$
+    LANGUAGE java;
 
 
 CREATE OR REPLACE FUNCTION adempiere.subtractdays (day TIMESTAMP WITH TIME ZONE, days INTEGER)
