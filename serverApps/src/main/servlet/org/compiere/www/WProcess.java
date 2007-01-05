@@ -242,7 +242,7 @@ public class WProcess extends HttpServlet
 			try
 			{
 				processOK = process.processIt(pi, trx);
-				trx.commit();
+				trx.commit(true);
 				trx.close();
 			}
 			catch (Throwable t)
