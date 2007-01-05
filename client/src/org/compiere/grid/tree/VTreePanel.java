@@ -511,7 +511,7 @@ public final class VTreePanel extends CPanel
                                         //end vpj-cd e-evolution 07/12/2005 PostgreSQL
 				}
 			//	COMMIT          *********************
-			trx.commit();
+			trx.commit(true);
 			//begin vpj-cd e-evolution 07/12/2005 PostgreSQL     
 			//stmt.close();
                         //end vpj-cd e-evolution 07/12/2005 PostgreSQL

@@ -499,7 +499,7 @@ public class ProcessCtl extends Thread
 					myObject.startProcess(Env.getCtx(), m_pi, m_trx);
 				if (m_trx != null)
 				{
-					m_trx.commit();
+					m_trx.commit(true);
 					m_trx.close();
 				}
 			}
