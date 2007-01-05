@@ -68,7 +68,7 @@ public class Scheduler extends AdempiereServer
 				m_summary.append(runReport(process));
 			else
 				m_summary.append(runProcess(process));
-			m_trx.commit();
+			m_trx.commit(true);
 		}
 		catch (Exception e)
 		{

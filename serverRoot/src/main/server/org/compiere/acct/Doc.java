@@ -794,7 +794,7 @@ public abstract class Doc
 				return STATUS_Error;
 			}
 			//	Success
-			trx.commit();
+			trx.commit(true);
 			trx.close();
 			trx = null;
 		//  *** Transaction End         ***
