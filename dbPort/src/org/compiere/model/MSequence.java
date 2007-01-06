@@ -44,7 +44,7 @@ public class MSequence extends X_AD_Sequence
 	 * 	@param trxName optional Transaction Name
 	 *  @return next no or (-1=not found, -2=error)
 	 */
-	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
+	public static synchronized int getNextID (int AD_Client_ID, String TableName, String trxName)
 	{
 		if (TableName == null || TableName.length() == 0)
 			throw new IllegalArgumentException("TableName missing");
