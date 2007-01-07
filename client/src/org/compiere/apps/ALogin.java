@@ -550,8 +550,10 @@ public final class ALogin extends CDialog
 		m_pwd = new String (passwordField.getPassword());
 
 		//	Establish connection
-		connectToDatabase();
-		if (!DB.isConnected())
+		if (!DB.isConnected(false))
+			validateConnection();
+		
+		if (!DB.isConnected(false))
 		{
 			statusBar.setStatusLine(txt_NoDatabase, true);
 			hostField.setBackground(AdempierePLAF.getFieldBackground_Error());
