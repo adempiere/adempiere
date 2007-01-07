@@ -243,6 +243,9 @@ public final class DB
 	 * @return True if success, false otherwise
 	 */
 	public static boolean connect() {
+		//wan profile
+		if (DB.isRemoteObjects()) return true;
+		
 		boolean success =false;
 		try 
 		{
@@ -258,11 +261,23 @@ public final class DB
 	}
 	
 	/**
-	 *  Is there a connection to the database ?
-	 *  @return true, if connected to database
+	 * @return true, if connected to database
 	 */
 	public static boolean isConnected()
 	{
+		return isConnected(true);
+	}
+	
+	/**
+	 *  Is there a connection to the database ?
+	 *  @param createNew If true, try to connect it not already connected
+	 *  @return true, if connected to database
+	 */
+	public static boolean isConnected(boolean createNew)
+	{
+		//wan profile
+		if (DB.isRemoteObjects()) return true;
+		
 		boolean success = false;
 		CLogErrorBuffer eb = CLogErrorBuffer.get(false);
 		if (eb != null && eb.isIssueError())
@@ -271,7 +286,7 @@ public final class DB
 			eb = null;	//	don't reset
 		try
 		{
-			success = getConnectionRW() != null;	//	try to get a connection
+			success = getConnectionRW(createNew) != null;	//	try to get a connection
 		}
 		catch (Exception e)
 		{
@@ -283,12 +298,24 @@ public final class DB
 	}   //  isConnected
 
 	/**
+	 * @return Connection (r/w)
+	 */
+	public static Connection getConnectionRW()
+	{
+		return getConnectionRW(true);
+	}
+	
+	/**
 	 *	Return (pooled) r/w AutoCommit, Serializable connection.
 	 *	For Transaction control use Trx.getConnection()
+	 *  @param createNew If true, try to create new connection if no existing connection
 	 *  @return Connection (r/w)
 	 */
-	public static Connection getConnectionRW ()
+	public static Connection getConnectionRW (boolean createNew)
 	{
+		//wan profile
+		if (DB.isRemoteObjects()) return null;
+		
 		//	check health of connection
 		try
 		{
@@ -317,10 +344,13 @@ public final class DB
 		//	Get new
 		if (s_connectionRW == null)
 		{
-			s_connectionRW = s_cc.getConnection (true, Connection.TRANSACTION_READ_COMMITTED);
-			log.finest("Con=" + s_connectionRW);
+			if (createNew)
+			{
+				s_connectionRW = s_cc.getConnection (true, Connection.TRANSACTION_READ_COMMITTED);
+				log.finest("Con=" + s_connectionRW);
+			}
 		}
-		if (s_connectionRW == null)
+		if (s_connectionRW == null && createNew)
 			throw new UnsupportedOperationException("No DBConnection");
 		//
 	//	System.err.println ("DB.getConnectionRW - " + s_connectionRW); 
@@ -335,6 +365,9 @@ public final class DB
 	 */
 	public static Connection getConnectionID ()
 	{
+		//wan profile
+		if (DB.isRemoteObjects()) return null;
+		
 		if (s_connectionID != null)
 		{
 			try
@@ -363,6 +396,9 @@ public final class DB
 	 */
 	public static Connection getConnectionRO ()
 	{
+		//wan profile
+		if (DB.isRemoteObjects()) return null;
+		
 		try
 		{
 			synchronized (s_cc)    //  use as mutex as s_connection is null the first time
