@@ -159,4 +159,18 @@ public interface Server
    public java.lang.String getStatus(  )
       throws java.rmi.RemoteException;
 
+   /**
+    * Commit the named transaction on server
+    * @param trxName
+    * @return true if success, false otherwise    */
+   public boolean commit( java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
+   /**
+    * Rollback the named transaction on server
+    * @param trxName
+    * @return true if success, false otherwise    */
+   public boolean rollback( java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
 }

@@ -142,4 +142,16 @@ public interface ServerLocal
     * @return Debugging information about the instance and its content    */
    public java.lang.String getStatus(  ) ;
 
+   /**
+    * Commit the named transaction on server
+    * @param trxName
+    * @return true if success, false otherwise    */
+   public boolean commit( java.lang.String trxName ) ;
+
+   /**
+    * Rollback the named transaction on server
+    * @param trxName
+    * @return true if success, false otherwise    */
+   public boolean rollback( java.lang.String trxName ) ;
+
 }
