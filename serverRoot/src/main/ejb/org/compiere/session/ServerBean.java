@@ -527,6 +527,62 @@ public class ServerBean implements SessionBean
 
 
 	/**
+	 * Commit the named transaction on server
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 * @return true if success, false otherwise
+	 */
+	public boolean commit(String trxName)
+	{
+		boolean success = false;
+		Trx trx = Trx.get(trxName, false);
+		if (trx != null) 
+		{
+			try 
+			{
+				success = trx.commit(true);
+			} 
+			catch (SQLException e) 
+			{
+				throw new RuntimeException(e);
+			} 
+			finally 
+			{
+				trx.close();
+			}
+		}
+		return success;
+	}
+	
+	/**
+	 * Rollback the named transaction on server
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 * @return true if success, false otherwise
+	 */
+	public boolean rollback(String trxName)
+	{
+		boolean success = false;
+		Trx trx = Trx.get(trxName, false);
+		if (trx != null)
+		{
+			try 
+			{
+				success = trx.rollback(true);
+			} 
+			catch (SQLException e) 
+			{
+				throw new RuntimeException(e);
+			}
+			finally 
+			{
+				trx.close();
+			}
+		}
+		return success;
+	}
+	
+	/**
 	 * 	String Representation
 	 * 	@return info
 	 */
