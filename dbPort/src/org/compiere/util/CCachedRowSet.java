@@ -213,4 +213,30 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 	{
 		return super.toCollection (column);
 	}
+
+	@Override
+	public int getInt(int idx) throws SQLException {
+		//CachedRowSetImpl throw null pointer exception converting 
+		//decimal value to integer
+		try {
+			return super.getInt(idx);
+		} catch (NullPointerException e) {
+			String s = getString(idx);
+			if ( s == null ) return 0;
+			return Double.valueOf(s).intValue();
+		}
+	}
+
+	@Override
+	public int getInt(String column) throws SQLException {
+		//CachedRowSetImpl throw null pointer exception converting 
+		//decimal value to integer
+		try {
+			return super.getInt(column);
+		} catch (NullPointerException e) {
+			String s = getString(column);
+			if ( s == null ) return 0;
+			return Double.valueOf(s).intValue();
+		}	
+	}
 }	//	CCachedRowSet
