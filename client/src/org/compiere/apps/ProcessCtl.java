@@ -245,7 +245,7 @@ public class ProcessCtl extends Thread
 			rs.close();
 			pstmt.close();
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoProcedure") + " " + e.getLocalizedMessage(), true);
 			unlock();
@@ -447,7 +447,11 @@ public class ProcessCtl extends Thread
 	{
 		log.fine(m_pi.toString());
 		boolean started = false;
-		if (DB.isRemoteProcess())
+		
+		//CacheReset must execute on client
+		boolean resetCache = CacheReset.class.getName().equals(m_pi.getClassName());
+		
+		if (DB.isRemoteProcess() && !resetCache)
 		{
 			Server server = CConnection.get().getServer();
 			try
