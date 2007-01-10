@@ -1333,7 +1333,25 @@ public final class APanel extends CPanel
 		int noOfRows = m_curTab.getRowCount();
 		for(int i=0; i<noOfRows; i++){
 			StringBuffer displayValue = new StringBuffer();
-			displayValue = displayValue.append(m_curTab.getValue(i,m_curTab.getKeyColumnName()));
+			if("".equals(m_curTab.getKeyColumnName())){
+				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
+				for (Iterator iter = parentColumnNames.iterator(); iter.hasNext();) {
+					String columnName = (String) iter.next();
+					GridField field = m_curTab.getField(columnName);
+					if(field.isLookup()){
+						Lookup lookup = field.getLookup();
+						if (lookup != null){
+							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
+						} else {
+							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
+						}
+					} else {
+						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
+					}
+				}
+			} else {
+				displayValue = displayValue.append(m_curTab.getValue(i,m_curTab.getKeyColumnName()));
+			}
 			if(m_curTab.getField("DocumentNo")!=null){
 				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "DocumentNo"));
 			}
@@ -1349,6 +1367,7 @@ public final class APanel extends CPanel
 			data.add(displayValue.toString());
 		}
 		list.setListData(data);
+	
 		
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		messagePanel.add(scrollPane);
