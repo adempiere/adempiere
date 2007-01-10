@@ -93,6 +93,7 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 			ResultSet rs = stmt.executeQuery(sql);
 			OracleCachedRowSet crs = new OracleCachedRowSet();
 			crs.populate(rs);
+			rs.close();
 			stmt.close();
 			return crs;
 		}

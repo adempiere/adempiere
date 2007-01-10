@@ -134,9 +134,9 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		}
 		//	Try locally
 		log.warning("Execute locally");
-		PreparedStatement pstmt = local_getPreparedStatement (false, null);	// shared connection
+		p_stmt = local_getPreparedStatement (false, null);	// shared connection
 		p_vo.clearParameters();		//	re-use of result set
-		ResultSet rs = pstmt.executeQuery();
+		ResultSet rs = ((PreparedStatement)p_stmt).executeQuery();
 		return rs;
 	}	//	executeQuery
 
@@ -191,9 +191,9 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		}
 		//	Try locally
 		log.warning("execute locally");
-		PreparedStatement pstmt = local_getPreparedStatement (false, null);	//	shared connection
+		p_stmt = local_getPreparedStatement (false, null);	//	shared connection
 		p_vo.clearParameters();		//	re-use of result set
-		return pstmt.executeUpdate();
+		return ((PreparedStatement)p_stmt).executeUpdate();
 	}	//	executeUpdate
 
 	/**
@@ -908,6 +908,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			//
 			ResultSet rs = pstmt.executeQuery();
 			rowSet = CCachedRowSet.getRowSet(rs);
+			rs.close();
 			pstmt.close();
 			pstmt = null;
 			conn.close();
@@ -1023,6 +1024,8 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			rowSet = CCachedRowSet.getRowSet(rs);
 			pstmt.close();
 			pstmt = null;
+			rs.close();
+			rs = null;
 		}
 		catch (Exception ex)
 		{
@@ -1050,15 +1053,15 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 	public int remote_executeUpdate()
 	{
 		log.finest("Update");
+		PreparedStatement pstmt = null;
 		try
 		{
 			AdempiereDatabase db = CConnection.get().getDatabase();
 			if (db == null)
 				throw new NullPointerException("Remote - No Database");
 			//
-			PreparedStatement pstmt = local_getPreparedStatement (false, p_vo.getTrxName());	
+			pstmt = local_getPreparedStatement (false, p_vo.getTrxName());	
 			int result = pstmt.executeUpdate();
-			pstmt.close();
 			//
 			return result;
 		}
@@ -1066,6 +1069,14 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		{
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
+		}
+		finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {}
+				pstmt = null;
+			}
 		}
 	}	//	remote_executeUpdate
         

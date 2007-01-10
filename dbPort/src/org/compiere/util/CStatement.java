@@ -145,8 +145,8 @@ public class CStatement implements Statement
 		}
 		//	Try locally
 		log.warning("execute locally");
-		Statement stmt = local_getStatement (false, null);	// shared connection
-		return stmt.executeQuery(p_vo.getSql());
+		p_stmt = local_getStatement (false, null);	// shared connection
+		return p_stmt.executeQuery(p_vo.getSql());
 	}	//	executeQuery
 
 
@@ -191,8 +191,8 @@ public class CStatement implements Statement
 		}
 		//	Try locally
 		log.warning("execute locally");
-		Statement pstmt = local_getStatement (false, null);	//	shared connection
-		return pstmt.executeUpdate(p_vo.getSql());
+		p_stmt = local_getStatement (false, null);	//	shared connection
+		return p_stmt.executeUpdate(p_vo.getSql());
 	}	//	executeUpdate
 
 	/**
@@ -717,15 +717,15 @@ public class CStatement implements Statement
 	public int remote_executeUpdate()
 	{
 		log.finest("");
+		Statement pstmt = null;
 		try
 		{
 			AdempiereDatabase db = CConnection.get().getDatabase();
 			if (db == null)
 				throw new NullPointerException("Remote - No Database");
 			//
-			Statement pstmt = local_getStatement (false, p_vo.getTrxName());	
+			pstmt = local_getStatement (false, p_vo.getTrxName());	
 			int result = pstmt.executeUpdate(p_vo.getSql());
-			pstmt.close();
 			//
 			return result;
 		}
@@ -733,6 +733,16 @@ public class CStatement implements Statement
 		{
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
+		} 
+		finally {
+			if (pstmt != null)
+			{
+				try 
+				{
+					pstmt.close();
+				} catch (SQLException e){}
+				pstmt = null;
+			}
 		}
 	}	//	remote_executeUpdate
 
@@ -884,6 +894,7 @@ public class CStatement implements Statement
 			//
 			ResultSet rs = pstmt.executeQuery();
 			rowSet = CCachedRowSet.getRowSet(rs);
+			rs.close();
 			pstmt.close();
 			pstmt = null;
 		}
