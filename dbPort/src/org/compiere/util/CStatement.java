@@ -21,7 +21,9 @@ import java.rmi.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.sql.*;
+
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 
@@ -44,26 +46,35 @@ public class CStatement implements Statement
 		String trxName)
 	{
 		p_vo = new CStatementVO (resultSetType, resultSetConcurrency);
+		p_vo.setTrxName(trxName);
 
-		//	Local access
+		init();
+	}	//	CPreparedStatement
+
+	/**
+	 * Initialise the statement wrapper object 
+	 */
+	protected void init()
+	{
+		//Local access
 		if (!DB.isRemoteObjects())
 		{
 			try
 			{
 				Connection conn = null;
-				Trx trx = trxName == null ? null : Trx.get(trxName, true);
+				Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), true);
 				if (trx != null)
 					conn = trx.getConnection();
 				else
 				{
-					if (resultSetConcurrency == ResultSet.CONCUR_UPDATABLE)
+					if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
 						conn = DB.getConnectionRW ();
 					else
 						conn = DB.getConnectionRO();
 				}
 				if (conn == null)
 					throw new DBException("No Connection");
-				p_stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+				p_stmt = conn.createStatement(p_vo.getResultSetType(), p_vo.getResultSetConcurrency());
 				return;
 			}
 			catch (SQLException e)
@@ -71,8 +82,8 @@ public class CStatement implements Statement
 				log.log(Level.SEVERE, "CStatement", e);
 			}
 		}
-	}	//	CPreparedStatement
-
+	}
+	
 	/**
 	 * 	Minimum Constructor for sub classes
 	 */
@@ -88,6 +99,7 @@ public class CStatement implements Statement
 	public CStatement (CStatementVO vo)
 	{
 		p_vo = vo;
+		init();
 	}	//	CPreparedStatement
 
 
@@ -809,90 +821,66 @@ public class CStatement implements Statement
 		return conn;
 	}	//	local_getConnection
 
-	/*************************************************************************
-	 * 	Get Result as RowSet for Remote.
-	 * 	Get shared connection for RMI!
-	 * 	If RowSet is transfred via RMI, closing the RowSet does not close the connection
-	 *	@return result as RowSet
+	/**
+	 * 	Execute Query
+	 * 	@return ResultSet or RowSet
+	 * 	@throws SQLException
+	 * @see java.sql.PreparedStatement#executeQuery()
 	 */
-	public RowSet remote_getRowSet()
+	public RowSet getRowSet()
 	{
-		log.finest("remote");
-		/**
+		if (p_stmt != null)	//	local
+			return local_getRowSet();
+		//
+		//	Client -> remote sever
+		log.finest("server => " + p_vo + ", Remote=" + DB.isRemoteObjects());
 		try
 		{
-			AdempiereDatabase db = CConnection.get().getDatabase();
-			if (db == null)
+			boolean remote = DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false);
+			if (remote && p_remoteErrors > 1)
+				remote = CConnection.get().isAppsServerOK(true);
+			if (remote)
 			{
-				log.log(Level.SEVERE, "No Database");
-				throw new NullPointerException("Remote - No Database");
+				Server server = CConnection.get().getServer();
+				if (server != null)
+				{
+					RowSet rs = server.stmt_getRowSet (p_vo);
+					p_vo.clearParameters();		//	re-use of result set
+					if (rs == null)
+						log.warning("RowSet is null - " + p_vo);
+					else
+						p_remoteErrors = 0;
+					return rs;
+				}
+				log.log(Level.SEVERE, "AppsServer not found");
+				p_remoteErrors++;
 			}
-			//
-			Statement stmt = local_getStatement (false, null);	// shared connection
-			ResultSet rs = stmt.executeQuery(p_vo.getSql());
-			RowSet rowSet = db.getRowSet (rs);
-			rs.close();
-			stmt.close();
-			//
-			if (rowSet != null)
-				return rowSet;
-			else
-				log.log(Level.SEVERE, "No RowSet");
-			throw new NullPointerException("Remore - No RowSet");
 		}
 		catch (Exception ex)
 		{
-			log.log(Level.SEVERE, p_vo.toString(), ex);
-			throw new RuntimeException (ex);
+			log.log(Level.SEVERE, "AppsServer error", ex);
+			p_remoteErrors++;
 		}
-	//	return null;
-	 	**/
-		//	Shared Connection
-		Connection conn = local_getConnection (p_vo.getTrxName());
-		PreparedStatement pstmt = null;
+		//	Try locally
+		log.warning("Execute locally");
+		p_stmt = local_getStatement(false, null);	// shared connection
+		p_vo.clearParameters();		//	re-use of result set
+		return local_getRowSet();
+	}
+	
+	/*************************************************************************
+	 * 	Get Result as RowSet for Remote.
+	 * 	Note that close the oracle OracleCachedRowSet also close connection!
+	 *	@return result as RowSet
+	 */
+	protected RowSet local_getRowSet()
+	{
+		log.finest("remote");
+		Statement pstmt = p_stmt;
 		RowSet rowSet = null;
 		try
 		{
-			pstmt = conn.prepareStatement(p_vo.getSql(),
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			//	Set Parameters
-			ArrayList parameters = p_vo.getParameters();
-			for (int i = 0; i < parameters.size(); i++)
-			{
-				Object o = parameters.get(i);
-				if (o == null)
-					throw new IllegalArgumentException ("Null Parameter #" + i);
-				else if (o instanceof NullParameter)
-				{
-					int type = ((NullParameter)o).getType();
-					pstmt.setNull(i+1, type);
-					log.finest("#" + (i+1) + " - Null");
-				}
-				else if (o instanceof Integer)
-				{
-					pstmt.setInt(i+1, ((Integer)o).intValue());
-					log.finest("#" + (i+1) + " - int=" + o);
-				}
-				else if (o instanceof String)
-				{
-					pstmt.setString(i+1, (String)o);
-					log.finest("#" + (i+1) + " - String=" + o);
-				}
-				else if (o instanceof Timestamp)
-				{
-					pstmt.setTimestamp(i+1, (Timestamp)o);
-					log.finest("#" + (i+1) + " - Timestamp=" + o);
-				}
-				else if (o instanceof BigDecimal)
-				{
-					pstmt.setBigDecimal(i+1, (BigDecimal)o);
-					log.finest("#" + (i+1) + " - BigDecimal=" + o);
-				}
-				else
-					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
-			}
-			//
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery(p_vo.getSql());
 			rowSet = CCachedRowSet.getRowSet(rs);
 			rs.close();
 			pstmt.close();
@@ -915,7 +903,7 @@ public class CStatement implements Statement
 			log.log(Level.SEVERE, "close pstmt", e);
 		}
 		return rowSet;
-	}	//	remote_getRowSet
+	}	//	local_getRowSet
         
        public boolean isPoolable() throws SQLException{ return false;}
       

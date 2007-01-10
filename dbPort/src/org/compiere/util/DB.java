@@ -233,7 +233,8 @@ public final class DB
 			s_connectionRW = null;
 			s_connectionID = null;
 		}
-		s_cc.setDataSource();
+		if ( isRemoteObjects() == false)
+			s_cc.setDataSource();
 		log.config(s_cc + " - DS=" + s_cc.isDataSource());
 	//	Trace.printStack();
 	}   //  setDBTarget
@@ -477,6 +478,9 @@ public final class DB
 	 */
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
+		//wan and vpn
+		if (isRemoteObjects()) return null;
+		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 		if (CLogMgt.isLevelFinest())
 		{
@@ -1138,7 +1142,7 @@ public final class DB
 	 *	@param local local RowSet (own connection)
 	 *	@return row set or null
 	 */
-	public static RowSet getRowSet (String sql, boolean local)
+	public static RowSet getRowSet (String sql)
 	{
 		RowSet retValue = null;
 		              // Bugfix Gunther Hoppe, 02.09.2005 add vpj-cd e-evolution
@@ -1148,14 +1152,7 @@ public final class DB
 		CStatementVO info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
                 // End add vpj-cd e-evolution
 		CPreparedStatement stmt = new CPreparedStatement(info);
-		if (local)
-		{
-			retValue = stmt.local_getRowSet();
-		}
-		else
-		{
-			retValue = stmt.remote_getRowSet();
-		}
+		retValue = stmt.getRowSet();
 		return retValue;
 	}	//	getRowSet
 
