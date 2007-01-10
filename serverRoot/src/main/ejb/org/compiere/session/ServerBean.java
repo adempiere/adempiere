@@ -127,7 +127,7 @@ public class ServerBean implements SessionBean
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CPreparedStatement pstmt = new CPreparedStatement(info);
-		return pstmt.remote_getRowSet();
+		return pstmt.getRowSet();
 	}	//	pstmt_getRowSet
 
 	/**
@@ -142,7 +142,7 @@ public class ServerBean implements SessionBean
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CStatement stmt = new CStatement(info);
-		return stmt.remote_getRowSet();
+		return stmt.getRowSet();
 	}	//	stmt_getRowSet
 
 	/**
