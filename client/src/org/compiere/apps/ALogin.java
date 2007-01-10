@@ -351,7 +351,8 @@ public final class ALogin extends CDialog
 	private void connectToDatabase() {
 		//Check connection
 		DB.setDBTarget(m_cc);
-		DB.connect();
+		if (DB.isRemoteObjects() == false)
+			DB.connect();
 	}
 	
 	/**
