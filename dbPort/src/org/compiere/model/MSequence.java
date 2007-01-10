@@ -69,13 +69,16 @@ public class MSequence extends X_AD_Sequence
 			USE_PROCEDURE=false;
 		}	
 		else	
-		//String selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
-			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
-            //end vpj-cd e-evolution 09/02/2005 PostgreSQL	
+		{
+			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "	
 			+ "FROM AD_Sequence "
 			+ "WHERE Name=?"
 			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
 			+ "FOR UPDATE";	// jz derby needs expicitly said it//OF CurrentNext, CurrentNextSys";
+			
+			USE_PROCEDURE = true;
+		}
+		
 		Trx trx = trxName == null ? null : Trx.get(trxName, true);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -130,6 +133,7 @@ public class MSequence extends X_AD_Sequence
 						updateSQL.setInt(1, incrementNo);
 						updateSQL.setInt(2, AD_Sequence_ID);
 						updateSQL.executeUpdate();
+						updateSQL.close();
 					} 
 					
 					if (trx == null)
@@ -271,6 +275,7 @@ public class MSequence extends X_AD_Sequence
 			else
 				//	selectSQL += " FOR UPDATE OF CurrentNext, CurrentNextSys ";   //jz for update , no order by, 10.216 no need
 				selectSQL +=  "FOR UPDATE";
+			USE_PROCEDURE = true;
 		}
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -324,6 +329,7 @@ public class MSequence extends X_AD_Sequence
 					updateSQL.setInt(1, incrementNo);
 					updateSQL.setInt(2, AD_Sequence_ID);
 					updateSQL.executeUpdate();
+					updateSQL.close();
 				} 
 			}
 			else
@@ -422,13 +428,14 @@ public class MSequence extends X_AD_Sequence
 			USE_PROCEDURE=false;
 		}	
 		else		
-		//String selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "
+		{
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "	
                 //end vpj-cd e-evolution 09/02/2005	PostgreSQL	
 			+ "FROM AD_Sequence "
 			+ "WHERE AD_Sequence_ID=?"
 			+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
-		//	+ " FOR UPDATE";
+			USE_PROCEDURE = true;
+		}
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		Trx trx = trxName == null ? null : Trx.get(trxName, true);
@@ -484,6 +491,7 @@ public class MSequence extends X_AD_Sequence
 					updateSQL.setInt(1, incrementNo);
 					updateSQL.setInt(2, AD_Sequence_ID);
 					updateSQL.executeUpdate();
+					updateSQL.close();
 				}
 			}
 			else
