@@ -206,7 +206,8 @@ public class MTree extends MTree_Base
 			rs.close();
 			pstmt.close();
 			//
-			m_nodeRowSet.close();
+			//closing the rowset will also close connection for oracle rowset implementation
+			//m_nodeRowSet.close();
 			m_nodeRowSet = null;
 		}
 		catch (SQLException e)
@@ -399,7 +400,7 @@ public class MTree extends MTree_Base
 			sql = MRole.getDefault(getCtx(), false).addAccessSQL(sql, 
 				sourceTable, MRole.SQL_FULLYQUALIFIED, m_editable);
 		log.fine(sql);
-		m_nodeRowSet = DB.getRowSet (sql, true);
+		m_nodeRowSet = DB.getRowSet (sql);
 	}   //  getNodeDetails
 
 	/**
