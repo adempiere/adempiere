@@ -135,6 +135,9 @@ public abstract class SvrProcess implements ProcessCall
 		//	throw new RuntimeException(e);
 		}
 		unlock();
+		//transaction should rollback if there are error in process
+		if ("@Error@".equals(msg))
+			success = false;
 		
 		//	Parse Variables
 		msg = Msg.parseTranslation(m_ctx, msg);
