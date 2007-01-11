@@ -275,7 +275,6 @@ public interface AdempiereDatabase
 	 */
 //	public String getDataType (int displayType, int precision,
 //		boolean defaultValue)
-        public boolean getSupportAlias();
         
 	
 }   //  AdempiereDatabase

@@ -549,13 +549,7 @@ public class DB_Fyracle implements AdempiereDatabase {
 
 	public boolean isSupported(String sql) {
 		return true;
-	}
-        
-                
-        public boolean getSupportAlias()
-        {
-        return false;   
-        }
+	}        
 
 } // DB_Firebird
 

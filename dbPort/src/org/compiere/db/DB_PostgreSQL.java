@@ -667,6 +667,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		}
 	}	//	main
         
+        /*
          public boolean getSupportAlias()
         {             
              
@@ -679,6 +680,6 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		}
              return false;
 
-        }
+        }*/
 
 }   //  DB_PostgreSQL

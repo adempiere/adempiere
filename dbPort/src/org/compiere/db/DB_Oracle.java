@@ -1117,9 +1117,5 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 		return m_convert;
 	}
         
-        public boolean getSupportAlias()
-        {
-            return false;
-        }
 	
 }   //  DB_Oracle

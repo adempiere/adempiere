@@ -91,22 +91,22 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			result.add(convertDDL(converSimpleStatement(statement)));
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
 			result
-					.add(convertRowNum(convertAlias(converSimpleStatement(statement))));
+					.add(convertRowNum(converSimpleStatement(statement)));
 		} else if (cmpString.indexOf("DELETE ") != -1
 				&& cmpString.indexOf("DELETE FROM") == -1) {
 
 			statement = convertDelete(statement);
 			cmpString = statement;
 			// System.out.println("-------------cmpString:"+cmpString);
-			result.add(converSimpleStatement(convertAlias(cmpString)));
+			result.add(converSimpleStatement(cmpString));
 		} else if (cmpString.indexOf("DELETE FROM") != -1) {
 
-			result.add(converSimpleStatement(convertAlias(statement)));
+			result.add(converSimpleStatement(statement));
 		} else if (cmpString.indexOf("UPDATE ") != -1) {
 			result
-					.add(converSimpleStatement(convertUpdate(convertAlias(statement))));
+					.add(converSimpleStatement(convertUpdate(statement)));
 		} else {
-			result.add(converSimpleStatement(convertAlias(statement)));
+			result.add(converSimpleStatement(statement));
 		}
 		// else
 		// result.add(converSimpleStatement(statement));
@@ -1489,6 +1489,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return sqlStatement;
 	} // convertDelete
 
+        
 	// begin vpj-cd e-evolution 08/02/2005
 	/***************************************************************************
 	 * convertAlias - for compatibility with 8.1
@@ -1496,12 +1497,9 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @param sqlStatement
 	 * @return converted statementf
 	 */
-	private String convertAlias(String sqlStatement) {
-           
-                
-                if (!org.compiere.util.DB.getDatabase().getSupportAlias())            
-                return sqlStatement;                    
-                
+        /** we Victor, Carlos , Heng sin, Kontro are agree to only support PostgreSQL 8.2
+        * this methos now i comment until finish test with PostgreSQL 8.2
+	private String convertAlias(String sqlStatement) {     
 		String[] tokens = sqlStatement.split("\\s");
 		String table = null;
 		String alias = null;
@@ -1549,7 +1547,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		} else {
 			return sqlStatement;
 		}
-	} // convertDelete
+	} // 
+        */
 
 	// end vpj-cd e-evolution 02/24/2005 PostgreSQL
 

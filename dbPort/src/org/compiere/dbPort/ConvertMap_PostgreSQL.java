@@ -29,7 +29,7 @@ public final class ConvertMap_PostgreSQL {
 		s_pg.put("\\bVARCHAR2\\b",              "VARCHAR");
 		s_pg.put("\\bNVARCHAR2\\b",             "VARCHAR");
 		s_pg.put("\\bNCHAR\\b",                 "CHAR");
-        //begin vpj-cd e-evolution 03/11/2005 PostgreSQL
+                //begin vpj-cd e-evolution 03/11/2005 PostgreSQL
 		s_pg.put("\\bBLOB\\b",                  "BYTEA");                 //  BLOB not directly supported
 		s_pg.put("\\bCLOB\\b",                  "BYTEA");                //  CLOB not directly supported
                 s_pg.put("\\bLIMIT\\b","\"limit\""); 
@@ -38,7 +38,7 @@ public final class ConvertMap_PostgreSQL {
                 s_pg.put("\\bnew\\b","\"new\""); 
 		//s_pg.put("\\bBLOB\\b",                  "OID");                 //  BLOB not directly supported
 		//s_pg.put("\\bCLOB\\b",                  "OID");                //  CLOB not directly supported
-        //end vpj-cd e-evolution 03/11/2005 PostgreSQL
+                //end vpj-cd e-evolution 03/11/2005 PostgreSQL
 		
 		//  Storage
 		s_pg.put("\\bCACHE\\b",                 "");
