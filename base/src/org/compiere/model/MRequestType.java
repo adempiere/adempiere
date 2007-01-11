@@ -436,14 +436,15 @@ public class MRequestType extends X_R_RequestType
 		//	else if (MGoal.MEASUREDISPLAY_Day.equals(MeasureDisplay))
 		//		;
 			orderBy = "TRUNC(" + dateColumn + ",'" + trunc + "')";
-			groupBy = orderBy + ", 0 ";
-			sb.append(groupBy)
+			groupBy = orderBy + ", StatusID ";
+			sb.append(orderBy)
+				.append(", 0 as StatusID ")
 				.append("FROM R_Request ");
 		}
 		else
 		{
 			orderBy = "s.SeqNo"; 
-			groupBy = "COALESCE(s.Name,TO_NCHAR('-')), s.R_Status_ID, s.SeqNo ";
+			groupBy = "COALESCE(s.Name,'-'), s.R_Status_ID, s.SeqNo ";
 			sb.append(groupBy)
 				.append("FROM R_Request LEFT OUTER JOIN R_Status s ON (R_Request.R_Status_ID=s.R_Status_ID) ");
 		}
