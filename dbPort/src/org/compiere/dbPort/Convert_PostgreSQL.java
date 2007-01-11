@@ -1497,6 +1497,11 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @return converted statementf
 	 */
 	private String convertAlias(String sqlStatement) {
+           
+                
+                if (!org.compiere.util.DB.getDatabase().getSupportAlias())            
+                return sqlStatement;                    
+                
 		String[] tokens = sqlStatement.split("\\s");
 		String table = null;
 		String alias = null;

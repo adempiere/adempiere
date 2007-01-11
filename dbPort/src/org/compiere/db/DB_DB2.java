@@ -837,5 +837,10 @@ public class DB_DB2
 	public Convert getConvert() {
 		throw new UnsupportedOperationException("Not implemented.");
 	}
+        
+        public boolean getSupportAlias()
+        {
+            return false;
+        }
 	
 }	//	DB_DB2

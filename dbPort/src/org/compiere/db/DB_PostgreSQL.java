@@ -70,6 +70,8 @@ public class DB_PostgreSQL implements AdempiereDatabase
         private String				m_userName = null;
         	/** Connection String       	*/
 	private String          		m_connectionURL;
+        
+        private boolean                         m_supportAlias = false;
             
 	/**	Logger			*/
 	private static CLogger			log	= CLogger.getCLogger (DB_PostgreSQL.class);
@@ -645,7 +647,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		try
 		{
 			postgresql.getDriver();
-			Connection conn = DriverManager.getConnection (jdbcURL, uid, pwd);
+			Connection conn = DriverManager.getConnection (jdbcURL, uid, pwd);                        
 			
 			//CachedRowSetImpl crs = null;
 			//crs = new CachedRowSetImpl();
@@ -664,5 +666,19 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			ex.printStackTrace();
 		}
 	}	//	main
+        
+         public boolean getSupportAlias()
+        {             
+             
+		if (s_driver == null)
+		{
+			s_driver = new org.postgresql.Driver();
+                        if(s_driver.getVersion().indexOf("PostgreSQL 8.2") != -1)
+                        return true;
+                       
+		}
+             return false;
+
+        }
 
 }   //  DB_PostgreSQL
