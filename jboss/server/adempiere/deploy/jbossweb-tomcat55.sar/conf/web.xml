@@ -229,12 +229,6 @@
         be scanned for common tag lib descriptors to include in every war
         deployment.
       -->
-      <init-param>
-         <description>MyFaces tlds</description>
-         <param-name>tagLibJar0</param-name>
-         <param-value>jsf-libs/myfaces-impl.jar</param-value>
-      </init-param>
-
       <load-on-startup>3</load-on-startup>
    </servlet>
 
