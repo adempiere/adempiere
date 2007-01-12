@@ -20,6 +20,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import javax.swing.JOptionPane;
+
 import org.compiere.model.*;
 
 /**
@@ -188,7 +190,7 @@ public class CLogErrorBuffer extends Handler
 				String loggerName = record.getLoggerName();			//	class name	
 				String className = record.getSourceClassName();		//	physical class
 				String methodName = record.getSourceMethodName();	//	
-				if (DB.isConnected() 
+				if (DB.isConnected(false) 
 					&& !methodName.equals("saveError")
 					&& !methodName.equals("get_Value")
 					&& !methodName.equals("dataSave")
@@ -199,6 +201,25 @@ public class CLogErrorBuffer extends Handler
 					m_issueError = false;
 					MIssue.create(record);
 					m_issueError = true;
+				}
+				else
+				{
+					//display to user if database connection not available
+					if (!methodName.equals("saveError")
+						&& !methodName.equals("get_Value")
+						&& !methodName.equals("dataSave")
+						&& loggerName.indexOf("Issue") == -1
+						&& loggerName.indexOf("CConnection") == -1)
+					{
+						if(Ini.isClient())
+						{
+							JOptionPane.showMessageDialog(null, getFormatter().format(record), "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							System.err.println(getFormatter().format(record));
+						}
+					}
 				}
 			}
 		}

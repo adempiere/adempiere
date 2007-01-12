@@ -150,13 +150,16 @@ public class CConnection implements Serializable
 		}
 	} 	//  CConnection
 
+	/** Default jboss port **/
+	private final static int DEFAULT_APP_SERVER_PORT = 1099;
+	
 	/** Name of Connection  */
 	private String 		m_name = "Standard";
 
 	/** Application Host    */
 	private String 		m_apps_host = "MyAppsServer";
 	/** Application Port    */
-	private int 		m_apps_port = 1099;
+	private int 		m_apps_port = DEFAULT_APP_SERVER_PORT;
 
 	/** Database Type       */
 	private String 		m_type = "";
@@ -548,10 +551,17 @@ public class CConnection implements Serializable
 			{
 				log.config(m_connectionProfile + " -> " + connectionProfile);
 				m_connectionProfile = connectionProfile;
+				if (PROFILE_WAN.equals(m_connectionProfile))
+					setAppsPort(80);
+				else
+					setAppsPort(DEFAULT_APP_SERVER_PORT);
 				Ini.setProperty(Ini.P_CONNECTION, toStringLong());
 			}
 			else
 				m_connectionProfile = connectionProfile;
+			
+			//reset initial context to null
+			m_iContext = null;
 		}
 		else
 			log.warning("Invalid: " + connectionProfile);
@@ -1542,7 +1552,7 @@ public class CConnection implements Serializable
 		}
 		catch (CommunicationException ce)	//	not a "real" error
 		{
-			//	m_appsException = ce;
+			m_appsException = ce;
 			String connect = (String)m_env.get(Context.PROVIDER_URL);
 			log.warning (connect
 				+ "\n - " + ce.toString ()
