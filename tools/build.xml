@@ -337,7 +337,7 @@
 
     <!-- Create CCTools.jar file 	-->
     <jar jarfile="${dist.dir}/CCTools.jar">
-      <fileset dir="${build.dir}" includes="**/ecs/**" />
+      <fileset dir="${buildServer.dir}" includes="**/ecs/**" />
       <fileset dir="${buildClient.dir}"/>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Client Tools"/>
