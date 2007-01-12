@@ -190,10 +190,10 @@
 	    <include name="Example*.csv"/>
 	  </fileset>
 	</copy> 
-        <copy todir="${build.dir}/Adempiere/data/">
+    <copy todir="${build.dir}/Adempiere/data/">
 	  <fileset dir="${data.dir}/seed/">
-              <include name="**/*.jar"/>
-          </fileset>
+      	<include name="**/*.jar"/>
+      </fileset>
 	</copy>
 
 

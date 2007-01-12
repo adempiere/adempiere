@@ -113,6 +113,8 @@
 	<!-- rebuild Adempiere.jar to include possible customization and patches -->
 	<target name="setupALib" depends="setupInit">
 		<mkdir dir="buildALib" />
+		
+		<!-- pack patches.jar and customization.jar into Adempiere.jar -->
 		<unjar src="lib/Adempiere.jar" dest="buildALib" />
 		<unjar src="lib/patches.jar" dest="buildALib" />
 		<unjar src="lib/customization.jar" dest="buildALib" />
@@ -130,6 +132,12 @@
 		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
     		</manifest>
 	    </jar>
+		
+		<!-- Sign Adempiere Jar -->
+		<copy file="lib/Adempiere.jar" tofile="buildALib/Adempiere1.jar" overwrite="yes" />
+		<signjar jar="buildALib/Adempiere1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+		<copy file="buildALib/Adempiere1.jar" tofile="lib/Adempiere.jar" overwrite="yes" />
 		
 		<delete dir="buildALib" />
 	</target>
@@ -178,20 +186,6 @@
 		<signjar jar="lib/AdempiereCLib.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
 
-		<!-- Sign customization Jar 		-->
-		<signjar jar="lib/customization.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
-			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
-
-		<!-- Sign patches Jar 		-->
-		<signjar jar="lib/patches.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
-			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
-				
-		<!-- Sign Adempiere Jar 		-->
-		<copy file="lib/Adempiere.jar" tofile="buildCLib/Adempiere1.jar" overwrite="yes" />
-		<signjar jar="buildCLib/Adempiere1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
-			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
-		<copy file="buildCLib/Adempiere1.jar" tofile="lib/Adempiere.jar" overwrite="yes" />
-
 		<delete dir="buildCLib" />
 	</target>
 
@@ -236,19 +230,30 @@
 		<signjar jar="lib/AdempiereSLib.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
 		<delete dir="buildSLib" />
+	</target>
+	
+	<!-- Sign other application jars -->
+	<target name="signOtherJars" depends="setupInit" >
 		<!-- Sign AdempiereRoot Jar 		-->
-		<signjar jar="lib/adempiereRoot.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+		<copy file="lib/adempiereRoot.jar" tofile="lib/adempiereRoot1.jar" overwrite="yes" />
+		<signjar jar="lib/adempiereRoot1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+		<copy file="lib/adempiereRoot1.jar" tofile="lib/adempiereRoot.jar" overwrite="yes" />
+		<delete file="lib/adempiereRoot1.jar"/>
+		
 		<!-- Sign AdempiereApps Jar 		-->
-		<signjar jar="lib/adempiereApps.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+		<copy file="lib/adempiereApps.jar" tofile="lib/adempiereApps1.jar" overwrite="yes" />
+		<signjar jar="lib/adempiereApps1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+		<copy file="lib/adempiereApps1.jar" tofile="lib/adempiereApps.jar" overwrite="yes" />
+		<delete file="lib/adempiereApps1.jar"/>
 	</target>
 
 
 	<!-- ==================================================== -->
 	<!-- Setup Lib                                            -->
 	<!-- ==================================================== -->
-	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupALib, setupCLib, setupSLib" 
+	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupALib, setupCLib, setupSLib, signOtherJars" 
 		description="Setup Adempiere Lib directory">
 
 		<!--	Filter files Overwrite			-->
@@ -277,14 +282,23 @@
 		<copy file="Adempiere.properties" 
 			tofile="Adempiere.properties.save" />
 	</target>
+	
+	<!-- Update application library -->
+	<target name="updateLib" depends="setupInit, setupWin, setupNonWin, setupALib, signOtherJars">
+		<!--	Create Client Zip		-->
+		<zip zipfile="${basedir}/lib/AdempiereClient.zip">
+			<zipfileset dir="." prefix="Adempiere" 
+				includes="*.html" />
+			<zipfileset dir="." prefix="Adempiere" 
+				includes="RUN_Adempiere.*" />
+			<zipfileset dir="utils" prefix="Adempiere" 
+				includes="WinEnv.js" />
+			<zipfileset dir="lib" prefix="Adempiere/lib" 
+				includes="Adempiere.exe,*.ico,customization.jar,patches.jar,Adempiere.jar,AdempiereCLib.jar,adempiereDirect.jnlp,index.html,*.0" />
+		</zip>
+	</target>
 
-
-	<!-- ==================================================== -->
-	<!-- Setup EAR Libraries                                  -->
-	<!-- ==================================================== -->
-	<target name="setupEAR" depends="setupLib" 
-		description="Setup Adempiere EAR Libraries">
-
+	<target name="createEAR">
 		<!-- Create adempiereRoot war		-->
 		<zip destfile="${basedir}/lib/adempiereRoot.war">
 			<!-- copy Base	-->
@@ -308,11 +322,34 @@
 		</ear>
 	</target>
 
+	<!-- ==================================================== -->
+	<!-- Setup EAR Libraries                                  -->
+	<!-- ==================================================== -->
+	<target name="setupEAR" depends="setupLib" 
+		description="Setup Adempiere EAR Libraries">
 
+		<antcall target="createEAR" inheritall="true"/>
+	</target>
+	
+	<target name="updateEAR" depends="updateLib">
+		<antcall target="createEAR" inheritall="true"/>
+	</target>
+
+	<!-- Update JBoss Server -->
+	<target name="updateJBoss" depends="updateEAR" if="isAppsJBoss" 
+		description="Update JBoss Application Server">
+		
+		<!-- Copy			-->
+		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
+		<!-- Deploy in exploded format for faster startup time -->
+		<unjar dest="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" src="${basedir}/lib/adempiere.ear" overwrite="true">
+		</unjar>
+	</target>
+	
 	<!-- ==================================================== -->
 	<!-- Setup JBoss Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupJBoss" depends="setupLib, setupEAR" if="isAppsJBoss" 
+	<target name="setupJBoss" depends="setupEAR" if="isAppsJBoss" 
 		description="Setup JBoss Application Server">
 
 		<!-- Filter JBoss Templates Conf	-->
@@ -387,6 +424,14 @@
 
 
 	<!-- ==================================================== -->
+	<!-- Update J2EE Server                                   -->
+	<!-- ==================================================== -->
+	<target name="updateDeploy" depends="updateJBoss" 
+		description="Update Adempiere Application Server">
+		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
+	</target>
+	
+	<!-- ==================================================== -->
 	<!-- Deploy J2EE Server                                   -->
 	<!-- ==================================================== -->
 	<target name="setupDeploy" depends="setupJBoss, setupTomcat" 
@@ -394,7 +439,13 @@
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>
 
-
+	<!-- ==================================================== -->
+	<!-- Update (Main)                                         -->
+	<!-- ==================================================== -->
+	<target name="update" depends="updateDeploy" 
+		description="Update Adempiere Deployment">
+	</target>
+	
 	<!-- ==================================================== -->
 	<!-- Setup (Main)                                         -->
 	<!-- ==================================================== -->
