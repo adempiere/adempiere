@@ -24,7 +24,8 @@ public final class ConvertMap_PostgreSQL {
 		//      Oracle Pattern                  Replacement
 
 		//  Data Types
-		s_pg.put("\\bNUMBER\\b",                "NUMERIC");
+                s_pg.put("\\b NUMBER \\b",                " NUMERIC ");
+                s_pg.put("\\b NUMBER(\\b",                " NUMERIC(");
 		s_pg.put("\\bDATE\\b",                  "TIMESTAMP");
 		s_pg.put("\\bVARCHAR2\\b",              "VARCHAR");
 		s_pg.put("\\bNVARCHAR2\\b",             "VARCHAR");

@@ -154,9 +154,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			}
 			retVars.addElement(new String(m.replaceAll("<-->")));
 			// end e-evolution vpj-cd 26.09.2005*/
-
 			String regex = (String) iter.next();
-			String replacement = (String) m_map.get(regex);
+			String replacement = (String) m_map.get(regex);                   
 			try {
 				// begin e-evolution vpj-cd 29.09.2005
 				// Pattern p = Pattern.compile(regex, REGEX_FLAGS );
