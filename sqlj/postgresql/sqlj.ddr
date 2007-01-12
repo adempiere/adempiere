@@ -164,9 +164,9 @@ SQLActions[ ] = {
 	AS 'org.compiere.sqlj.PaymentTerm.dueDate(int,java.sql.Timestamp)'
  	LANGUAGE java VOLATILE;
 	
-	CREATE OR REPLACE FUNCTION paymentTermDiscount (p_Amount NUMERIC, p_C_PaymentTerm_ID INTEGER, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE)
+	CREATE OR REPLACE FUNCTION paymentTermDiscount (p_Amount NUMERIC,p_C_Currency_ID INTEGER,  p_C_PaymentTerm_ID INTEGER, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE)
  	RETURNS NUMERIC
- 	AS 'org.compiere.sqlj.PaymentTerm.discount(java.math.BigDecimal,int,java.sql.Timestamp,java.sql.Timestamp)'
+ 	AS 'org.compiere.sqlj.PaymentTerm.discount(java.math.BigDecimal,int, int ,java.sql.Timestamp,java.sql.Timestamp)'
 	LANGUAGE java VOLATILE;
 	
  	/** Payment **/
