@@ -749,6 +749,9 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		log.info("RowNum<== " + sqlStatement);
 
 		log.info("RowNum<== " + sqlStatement);
+                
+                sqlStatement = Pattern.compile("rownum",REGEX_FLAGS).matcher(sqlStatement).replaceAll("ROWNUM"); 
+                
 		String retValue = null;
 
 		// find into (select from where)
