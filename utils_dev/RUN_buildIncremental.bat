@@ -6,10 +6,11 @@
 
 @Echo	Stop Apps Server (waiting)
 @START %ADEMPIERE_HOME%\utils\RUN_Server2Stop.bat
-@Sleep 5
+@Rem Wait 5 second
+@PING 1.1.1.1 -n 1 -w 5000 > NUL
 
 @echo Building ...
-@"%JAVA_HOME%\bin\java" -Dant.home="." %ANT_PROPERTIES% org.apache.tools.ant.Main complete
+@"%JAVA_HOME%\bin\java" -Dant.home="." %ANT_PROPERTIES% org.apache.tools.ant.Main update
 @Echo ErrorLevel = %ERRORLEVEL%
 
 @IF NOT ERRORLEVEL 0 GOTO BUILDOK

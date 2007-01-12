@@ -71,6 +71,23 @@
 		<antcall target="runSetupNonWin"></antcall>
 	</target>
 	
+	<!-- ================================================ -->
+	<!-- Adempiere Local Update                           -->
+	<!-- ================================================ -->
+	<target name="updateDeploy" depends="" description="Environment dependent">
+		<echo message="=========== Update Adempiere"/>
+		<copy todir="${env.ADEMPIERE_INSTALL}">
+			<fileset dir="install/build" includes="Adempiere_*"/>
+		</copy>
+		<!-- Unzip Install File			-->
+		<unzip src="install/build/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip" 
+			dest="${env.ADEMPIERE_ROOT}" 
+			overwrite="yes"/>
+		<!-- Run Setup				-->
+		<antcall target="runUpdateWin"></antcall>
+		<antcall target="runUpdateNonWin"></antcall>
+	</target>
+	
 	<target name="runSetupInit">
 		<condition property="isWindows">
 			<os family="windows" />
@@ -89,10 +106,28 @@
 		</exec>
 	</target>
 
+	<target name="runUpdateWin" depends="runSetupInit" if="isWindows" >
+		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_update.bat" 
+			spawn="false" resolveexecutable="true">
+		</exec>
+	</target>
+	
+	<target name="runUpdateNonWin" depends="runSetupInit" unless="isWindows" >
+		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_update.sh" 
+			spawn="false" resolveexecutable="true">
+		</exec>
+	</target>
+
 	<!-- ================================================ -->
-	<!-- complere                                         -->
+	<!-- complete                                         -->
 	<!-- ================================================ -->
 	<target name="complete" depends="build, install">
+	</target>
+	
+	<!-- ================================================ -->
+	<!-- update                                           -->
+	<!-- ================================================ -->
+	<target name="update" depends="build, updateDeploy">
 	</target>
 
 	<!-- ================================================ -->

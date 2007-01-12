@@ -19,7 +19,7 @@ $ADEMPIERE_HOME/utils/RUN_Server2Stop.sh
 sleep 5
 
 echo Building ...
-$JAVA_HOME/bin/java -Dant.home="." $ANT_PROPERTIES org.apache.tools.ant.Main complete
+$JAVA_HOME/bin/java -Dant.home="." $ANT_PROPERTIES org.apache.tools.ant.Main update
 
 ls $ADEMPIERE_INSTALL
 
