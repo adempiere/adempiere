@@ -17,17 +17,12 @@
   <property name="src.web.dir" value="${src.dir}/web"/>
   <property name="src.etc.dir" value="${src.dir}/etc"/>
   <property name="src.server.dir" value="${src.main.dir}/server"/>
-  <property name="src.jsf.dir" value="${src.dir}/jsf/"/>
 
   <property name="build.dir" value="${basedir}/build"/>
   <property name="build.tmp.dir" value="${build.dir}/tmp"/>
   <property name="build.deploy.dir" value="${build.dir}/deploy"/>
   <property name="build.war.dir" value="${build.dir}/war"/>
-  <property name="build.jsf.dir" value="${build.dir}/jsf"/>
   <property name="build.jar.dir" value="${build.dir}/jar"/>
-
-  <property name="jsf-lib.dir" value="${src.jsf.dir}/WEB-INF/lib/"/>
-
 
   <target name="serverAppsInit">
     <echo message="=========== Build Server Application"/>
@@ -39,8 +34,6 @@
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
     <pathelement location="../tools/lib/j2ee.jar" />
-    <pathelement location="src/web/WEB-INF/lib/myfaces-api-1.1.3.jar" />
-    <pathelement location="src/web/WEB-INF/lib/tomahawk-1.1.3.jar" />
 
     <pathelement location="${build.classes.dir}" />
   </path>
