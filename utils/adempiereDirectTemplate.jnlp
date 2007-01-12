@@ -17,16 +17,14 @@
 			<menu submenu="Adempiere 3.1.3 @ADEMPIERE_APPS_SERVER@ Direct"/>
 		</shortcut>
 	</information>  
+	<security>
+		<all-permissions/>  
+	</security>
 	<resources>
 		<j2se version = "1.5+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
-		<jar href = "customization.jar" main = "false" download = "eager"/>
-		<jar href = "patches.jar" main = "false" download = "eager"/>
 		<jar href = "Adempiere.jar" main = "true" download = "eager"/>
 		<jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
 		<property name="adempiereJNLP" value="@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@"/> 
 	</resources>  
 	<application-desc main-class = "org.compiere.Adempiere"/>  
-	<security>
-		<all-permissions/>  
-	</security>
 </jnlp>
