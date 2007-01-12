@@ -110,6 +110,30 @@
 
 	</target>
 
+	<!-- rebuild Adempiere.jar to include possible customization and patches -->
+	<target name="setupALib" depends="setupInit">
+		<mkdir dir="buildALib" />
+		<unjar src="lib/Adempiere.jar" dest="buildALib" />
+		<unjar src="lib/patches.jar" dest="buildALib" />
+		<unjar src="lib/customization.jar" dest="buildALib" />
+		<jar jarfile="lib/Adempiere.jar" index="yes">
+			<fileset dir="buildALib" />
+			<manifest>
+	        	<attribute name="Specification-Title" value="Adempiere"/>
+		        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		        <attribute name="Specification-Vendor" value="ADempiere"/>
+		        <attribute name="Implementation-Title" value="Adempiere ${env.ADEMPIERE_VERSION}"/>
+		        <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/> 
+		        <attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
+		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
+    		</manifest>
+	    </jar>
+		
+		<delete dir="buildALib" />
+	</target>
+		
 	<!-- ==================================================== -->
 	<!-- Adempiere Client Lib                                  -->
 	<!-- ==================================================== -->
@@ -224,7 +248,7 @@
 	<!-- ==================================================== -->
 	<!-- Setup Lib                                            -->
 	<!-- ==================================================== -->
-	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupCLib, setupSLib" 
+	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupALib, setupCLib, setupSLib" 
 		description="Setup Adempiere Lib directory">
 
 		<!--	Filter files Overwrite			-->
@@ -267,74 +291,20 @@
 			<zipfileset src="${basedir}/lib/adempiereRootBase.war" />
 			<!-- copy to adempiereHome	-->
 			<zipfileset dir="${basedir}/lib" 
-				includes="customization.jar,patches.jar,AdempiereClient.zip,Adempiere.jar,AdempiereCLib.jar,*.jnlp,*.0,*.html" 
+				includes="AdempiereClient.zip,Adempiere.jar,AdempiereCLib.jar,*.jnlp,*.0,*.html" 
 				prefix="adempiereHome" />
 		</zip>
-
-		<!-- Build adempiereRoot ear		-->
-		<ear destfile="${basedir}/lib/adempiereRoot.ear" appxml="${basedir}/lib/adempiereRoot.xml">
-			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereRoot.jar,adempiereRoot.war,Adempiere.jar,AdempiereSLib.jar" />
-			<manifest>
-				<attribute name="Specification-Title" value="AdempiereRoot" />
-				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere" />
-				<attribute name="Implementation-Title" value="AdempiereRoot" />
-				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="customization.jar patches.jar adempiereRoot.jar Adempiere.jar AdempiereSLib.jar" />
-			</manifest>
-		</ear>
-
-		<!-- Build adempiereApps ear		-->
-		<ear destfile="${basedir}/lib/adempiereApps.ear" appxml="${basedir}/lib/adempiereApps.xml">
-			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereApps.jar,adempiereApps.war,Adempiere.jar,AdempiereSLib.jar" />
-			<manifest>
-				<attribute name="Specification-Title" value="AdempiereApps" />
-				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere" />
-				<attribute name="Implementation-Title" value="AdempiereApps" />
-				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="customization.jar patches.jar Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
-			</manifest>
-		</ear>
-
-		<!-- Build adempiereWebStore ear		-->
-		<ear destfile="${basedir}/lib/adempiereWebStore.ear" appxml="${basedir}/lib/adempiereWebStore.xml">
-			<fileset dir="${basedir}/lib" includes="customization.jar,patches.jar,adempiereWebStore.war,Adempiere.jar,AdempiereSLib.jar,adempiereApps.jar" />
-			<manifest>
-				<attribute name="Specification-Title" value="AdempiereWebStore" />
-				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere" />
-				<attribute name="Implementation-Title" value="AdempiereWebStore" />
-				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="customization.jar patches.jar Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
-			</manifest>
-		</ear>
 
 		<!-- Create adempiereWebCM war		-->
 		<zip destfile="${basedir}/lib/adempiereWebCM.war">
 			<!-- copy Base	-->
 			<zipfileset src="${basedir}/lib/adempiereWebCMbase.war" />
-			<!-- copy to adempiereHome	-->
-			<zipfileset dir="${basedir}/lib" 
-				includes="Adempiere.jar,AdempiereSLib.jar" 
-				prefix="WEB-INF/lib" />
 		</zip>
 
-		<!-- Build adempiereWebCM ear		-->
-		<ear destfile="${basedir}/lib/adempiereWebCM.ear" appxml="${basedir}/lib/adempiereWebCM.xml">
-			<fileset dir="${basedir}/lib" includes="adempiereWebCM.war" />
-			<manifest>
-				<attribute name="Specification-Title" value="AdempiereWebCM" />
-				<attribute name="Specification-Version" value="${ADEMPIERE_MAIN_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere" />
-				<attribute name="Implementation-Title" value="AdempiereWebCM" />
-				<attribute name="Implementation-Version" value="${ADEMPIERE_MAIN_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
-				<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar" />
-			</manifest>
+		<!-- bundle everything in one ear file for simpler deployment -->
+		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml">
+			<fileset dir="${basedir}/lib" 
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war" />
 		</ear>
 	</target>
 
@@ -364,11 +334,9 @@
 
 		<!-- Copy			-->
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/adempiereRoot.ear" todir="${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/adempiereApps.ear" todir="${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/adempiereWebStore.ear" todir="${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/adempiereWebCM.ear" todir="${ADEMPIERE_APPS_DEPLOY}" />
-
+		<!-- Deploy in exploded format for faster startup time -->
+		<unjar dest="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" src="${basedir}/lib/adempiere.ear" overwrite="true">
+		</unjar>
 	</target>
 
 
