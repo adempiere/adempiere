@@ -105,7 +105,7 @@
 				<include name="**/*.xml" />
 			</fileset>
 
-			<writedatatodatabase usebatchmode="true" batchSize="20" ensureForeignKeyOrder="false" >
+			<writedatatodatabase usebatchmode="false" batchSize="20" ensureForeignKeyOrder="false" >
 				<fileset dir="../data">
 					<include name="**/*.xml" />
 				</fileset>

@@ -11,9 +11,9 @@ ddlutils.platform=PostgreSQL
 
 datasource.class=org.apache.commons.dbcp.BasicDataSource
 datasource.driverClassName=org.postgresql.Driver
-datasource.url=jdbc:postgresql://localhost/adempiere
+datasource.url=jdbc:postgresql://localhost:5432/adempiere
 datasource.username=adempiere
-datasource.password=adempiere1
+datasource.password=adempiere
 
 #
 # PostgreSQL comes with its own DataSource implementations which can be configured like this:
@@ -31,6 +31,7 @@ datasource.password=adempiere1
 # additional properties for the pooling datasource:
 #datasource.dataSourceName=pooling datasource
 #datasource.initialConnections=5
+
 #datasource.maxConnections=20
 
 ddlutils.schema=adempiere

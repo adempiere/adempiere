@@ -38,6 +38,22 @@
 		<echo message="----- Loading Adempiere Seed data -----" />
 		<ant antfile="build-ddl.xml" target="writeDataToDb" />
 	</target>
+        
+        	<!-- ==================================================== -->
+	<!-- Init                                                 -->
+	<!-- ==================================================== -->
+	<target name="setupInit" >
+		<!-- Environment variables -->
+		<condition property="isWindows">
+			<os family="windows" />
+		</condition>
+	</target>
+        
+        <target name="install-pljava" depends="setupInit" unless="isWindows" 
+		description="Non Windows Setup" >
+		<echo message="----- Loading PLJAVa to Linux " />
+		<ant antfile="build-pljava.xml" target="init" />
+	</target>
 
 	<target name="load-functions">
 		<echo append="false" file="load_sqlj_functions.sql">
@@ -101,8 +117,8 @@
 	<target name="load">
 		<echo message="Loading file ${file.name}" />
 		<exec dir="${postgresql.home}/bin" executable="${postgresql.home}/bin/psql" resultproperty="psql.result" output="log/psql.log" append="true">
-			<arg line="${postgresql.database}" />
-			<arg line="${postgresql.user}" />
+			<arg line="-d ${postgresql.database} -q" />
+			<arg line="-U ${postgresql.user}" />                       
 			<arg line="-f ${file.name}" />
 			<env key="PGPASSWORD" value="${postgresql.password}" />
 		</exec>
