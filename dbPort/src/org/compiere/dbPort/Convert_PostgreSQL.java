@@ -27,7 +27,7 @@ import org.compiere.util.Util;
 /**
  * Convert Oracle SQL to PostgreSQL SQL
  * 
- * @author Victor Perez, Low Heng Sin
+ * @author Victor Perez, Low Heng Sin, Carlos Ruiz
  */
 public class Convert_PostgreSQL extends Convert_SQL92 {
 	/**
@@ -38,14 +38,16 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	} // Convert
 
 	/** RegEx: insensitive and dot to include line end characters */
-	public static final int REGEX_FLAGS = Pattern.CASE_INSENSITIVE
-			| Pattern.DOTALL;
+	public static final int REGEX_FLAGS = Pattern.CASE_INSENSITIVE | Pattern.DOTALL;
 
 	private TreeMap m_map;
 
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(Convert_PostgreSQL.class);
 
+	/** Vector to save previous values of quoted strings **/
+	private Vector<String> retVars = new Vector<String>();
+	
 	/**
 	 * Is Oracle DB
 	 * 
@@ -66,7 +68,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		ArrayList<String> result = new ArrayList<String>();
 
 		// remove comments
-		String statement = removeComments(sqlStatement);
+		String statement = sqlStatement;
+		statement = replaceQuotedStrings(statement);
+		statement = convertMapStatement(removeComments(statement));
+		statement = recoverQuotedStrings(statement);
 		// log.info("------------------------------------------------------------");
 		// log.info(statement);
 		// log.info("------------------->");
@@ -77,39 +82,29 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// Process
 		if (isCreate && cmpString.indexOf(" FUNCTION ") != -1)
 			result.addAll(convertFunction(statement));
-
 		else if (isCreate && cmpString.indexOf(" TRIGGER ") != -1)
 			result.addAll(convertTrigger(statement));
-
 		else if (isCreate && cmpString.indexOf(" PROCEDURE ") != -1)
 			result.addAll(convertProcedure(statement));
-
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
 			result.addAll(convertView(statement));
 		// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
 		else if (cmpString.indexOf("ALTER TABLE") != -1) {
-			result.add(convertDDL(converSimpleStatement(statement)));
+			result.add(convertDDL(convertComplexStatement(statement)));
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
-			result
-					.add(convertRowNum(converSimpleStatement(statement)));
+			result.add(convertRowNum(convertAlias(convertComplexStatement(statement))));
 		} else if (cmpString.indexOf("DELETE ") != -1
 				&& cmpString.indexOf("DELETE FROM") == -1) {
-
 			statement = convertDelete(statement);
 			cmpString = statement;
-			// System.out.println("-------------cmpString:"+cmpString);
-			result.add(converSimpleStatement(cmpString));
+			result.add(convertComplexStatement(convertAlias(cmpString)));
 		} else if (cmpString.indexOf("DELETE FROM") != -1) {
-
-			result.add(converSimpleStatement(statement));
+			result.add(convertComplexStatement(convertAlias(statement)));
 		} else if (cmpString.indexOf("UPDATE ") != -1) {
-			result
-					.add(converSimpleStatement(convertUpdate(statement)));
+			result.add(convertComplexStatement(convertUpdate(convertAlias(statement))));
 		} else {
-			result.add(converSimpleStatement(statement));
+			result.add(convertComplexStatement(convertAlias(statement)));
 		}
-		// else
-		// result.add(converSimpleStatement(statement));
 		// end vpj-cd e-evolution 02/24/2005 PostgreSQL
 		// Simple Statement
 
@@ -128,7 +123,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @param sqlStatement
 	 * @return converted Statement
 	 */
-	private String converSimpleStatement(String sqlStatement) {
+	private String convertMapStatement(String sqlStatement) {
 		// Error Checks
 		if (sqlStatement.toUpperCase().indexOf("EXCEPTION WHEN") != -1) {
 			String error = "Exception clause needs to be converted: "
@@ -138,41 +133,26 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return sqlStatement;
 		}
 
-		// Standard Statement
+		// Carlos Ruiz - globalqss
+		// Standard Statement -- change the keys in ConvertMap
+		
 		String retValue = sqlStatement;
+
+		Pattern p;
+		Matcher m;
+
+		// for each iteration in the conversion map
 		Iterator iter = m_map.keySet().iterator();
 		while (iter.hasNext()) {
-			// begin e-evolution vpj-cd 26.09.2005
-			// search reserved word ie DATE into 'DATE' and remplace for
-			// character temporal <-->
-			Vector retVars = new Vector();
-			Pattern p = Pattern.compile("'[[\\w]*[-:,\\(\\)]*[ ]*]*'");
-			Matcher m = p.matcher(retValue);
-			while (m.find()) {
-				retVars.addElement(new String(retValue.substring(m.start(), m
-						.end())));
-			}
-			retVars.addElement(new String(m.replaceAll("<-->")));
-			// end e-evolution vpj-cd 26.09.2005*/
+
+		    // replace the key on convertmap (i.e.: number by numeric)   
 			String regex = (String) iter.next();
-			String replacement = (String) m_map.get(regex);                   
+			String replacement = (String) m_map.get(regex);
 			try {
-				// begin e-evolution vpj-cd 29.09.2005
-				// Pattern p = Pattern.compile(regex, REGEX_FLAGS );
-				// Matcher m = p.matcher(retValue);
-				// retValue = m.replaceAll(replacement);
-				// remplace reserved work
 				p = Pattern.compile(regex, REGEX_FLAGS);
-				m = p.matcher((String) retVars.get(retVars.size() - 1));
+				m = p.matcher(retValue);
 				retValue = m.replaceAll(replacement);
 
-				p = Pattern.compile("<-->", REGEX_FLAGS);
-				m = p.matcher(retValue);
-				for (int cont = 0; cont < retVars.size() - 1; cont++) {
-					retValue = m.replaceFirst((String) retVars.get(cont));
-					m = p.matcher(retValue);
-				}
-				// end e-evolution vpj-cd 29.09.2005
 			} catch (Exception e) {
 				String error = "Error expression: " + regex + " - " + e;
 				log.info(error);
@@ -180,9 +160,32 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			}
 		}
 
-		// Convert Decode, Sequence, Join, ..
-		return convertComplexStatement(retValue);
+		return retValue;
 	} // convertSimpleStatement
+
+	private String replaceQuotedStrings(String retValue) {
+		// save every value  
+		// Pattern p = Pattern.compile("'[[\\w]*[-:,\\(\\)]*[ ]*]*'");
+		// Carlos Ruiz - globalqss - better matching regexp
+		retVars.clear();
+		Pattern p = Pattern.compile("'[[^']*]*'");
+		Matcher m = p.matcher(retValue);
+		while (m.find()) {
+			retVars.addElement(new String(retValue.substring(m.start(), m.end())));
+		}
+		retValue = m.replaceAll("<-->");
+		return retValue;
+	}
+
+	private String recoverQuotedStrings(String retValue) {
+		Pattern p = Pattern.compile("<-->", REGEX_FLAGS);
+		Matcher m = p.matcher(retValue);
+		for (int cont = 0; cont < retVars.size(); cont++) {
+			retValue = m.replaceFirst((String) retVars.get(cont));
+			m = p.matcher(retValue);
+		}
+		return retValue;
+	}
 
 	/**
 	 * Clean up Statement. Remove all comments and while spaces Database
@@ -259,7 +262,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	private ArrayList<String> convertFunction(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
 		// Convert statement - to avoid handling contents of comments
-		String stmt = converSimpleStatement(sqlStatement);
+		String stmt = sqlStatement;
 		// Double quotes '
 		stmt = Pattern.compile("'").matcher(stmt).replaceAll("''");
 		// remove OR REPLACE
@@ -391,7 +394,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	private ArrayList<String> convertProcedure(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
 		// Convert statement - to avoid handling contents of comments
-		String stmt = converSimpleStatement(sqlStatement);
+		String stmt = sqlStatement;
 		// Double quotes '
 		stmt = Pattern.compile("'").matcher(stmt).replaceAll("''");
 		// remove OR REPLACE
@@ -516,7 +519,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	private ArrayList<String> convertTrigger(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
 		// Convert statement - to avoid handling contents of comments
-		String stmt = converSimpleStatement(sqlStatement);
+		String stmt = sqlStatement;
 
 		// Trigger specific replacements
 		stmt = Pattern.compile("\\bINSERTING\\b").matcher(stmt).replaceAll(
@@ -622,7 +625,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 */
 	private ArrayList<String> convertView(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
-		String stmt = converSimpleStatement(sqlStatement);
+		String stmt = sqlStatement;
 
 		// remove OR REPLACE
 		int orReplacePos = stmt.toUpperCase().indexOf(" OR REPLACE ");
@@ -745,11 +748,9 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @return converted statement
 	 */
 	private String convertRowNum(String sqlStatement) {
-		log.info("RowNum<== " + sqlStatement);
+		// log.info("RowNum<== " + sqlStatement);
 
-		log.info("RowNum<== " + sqlStatement);
-                
-                sqlStatement = Pattern.compile("rownum",REGEX_FLAGS).matcher(sqlStatement).replaceAll("ROWNUM"); 
+        sqlStatement = Pattern.compile("rownum",REGEX_FLAGS).matcher(sqlStatement).replaceAll("ROWNUM"); 
                 
 		String retValue = null;
 
@@ -1499,8 +1500,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @param sqlStatement
 	 * @return converted statementf
 	 */
-        /** we Victor, Carlos , Heng sin, Kontro are agree to only support PostgreSQL 8.2
-        * this methos now i comment until finish test with PostgreSQL 8.2
 	private String convertAlias(String sqlStatement) {     
 		String[] tokens = sqlStatement.split("\\s");
 		String table = null;
@@ -1550,8 +1549,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return sqlStatement;
 		}
 	} // 
-        */
-
 	// end vpj-cd e-evolution 02/24/2005 PostgreSQL
 
 	// begin vpj-cd 08/02/2005
@@ -1584,7 +1581,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 			int end_col = 0;
 			int begin_default = -1;
-			int begin_type = -1;
 
 			String column = null;
 			String type = null;
@@ -1647,7 +1643,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return sqlStatement;
 	}
 
-	private String convertIgnore(String sqlStatement) {
+/*
+   	private String convertIgnore(String sqlStatement) {
 		String vars[] = new String[20];
 		int cont = 1;
 		Pattern p = Pattern.compile("'[[\\w]*[,]*[ ]*]*'",
@@ -1670,4 +1667,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		}
 		return null;
 	}
+*/
+	
 } // Convert

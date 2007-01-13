@@ -24,22 +24,21 @@ public final class ConvertMap_PostgreSQL {
 		//      Oracle Pattern                  Replacement
 
 		//  Data Types
-                s_pg.put("\\b NUMBER \\b",                " NUMERIC ");
-                s_pg.put("\\b NUMBER(\\b",                " NUMERIC(");
+		s_pg.put("\\bNUMBER\\b",                "NUMERIC");
 		s_pg.put("\\bDATE\\b",                  "TIMESTAMP");
 		s_pg.put("\\bVARCHAR2\\b",              "VARCHAR");
 		s_pg.put("\\bNVARCHAR2\\b",             "VARCHAR");
 		s_pg.put("\\bNCHAR\\b",                 "CHAR");
-                //begin vpj-cd e-evolution 03/11/2005 PostgreSQL
+        //begin vpj-cd e-evolution 03/11/2005 PostgreSQL
 		s_pg.put("\\bBLOB\\b",                  "BYTEA");                 //  BLOB not directly supported
 		s_pg.put("\\bCLOB\\b",                  "BYTEA");                //  CLOB not directly supported
-                s_pg.put("\\bLIMIT\\b","\"limit\""); 
-                s_pg.put("\\bACTION\\b","\"action\""); 
-                s_pg.put("\\bold\\b","\"old\""); 
-                s_pg.put("\\bnew\\b","\"new\""); 
+		s_pg.put("\\bLIMIT\\b","\"limit\""); 
+		s_pg.put("\\bACTION\\b","\"action\""); 
+		s_pg.put("\\bold\\b","\"old\""); 
+		s_pg.put("\\bnew\\b","\"new\""); 
 		//s_pg.put("\\bBLOB\\b",                  "OID");                 //  BLOB not directly supported
 		//s_pg.put("\\bCLOB\\b",                  "OID");                //  CLOB not directly supported
-                //end vpj-cd e-evolution 03/11/2005 PostgreSQL
+        //end vpj-cd e-evolution 03/11/2005 PostgreSQL
 		
 		//  Storage
 		s_pg.put("\\bCACHE\\b",                 "");
@@ -51,11 +50,6 @@ public final class ConvertMap_PostgreSQL {
 
 		//  Functions
 		s_pg.put("\\bSYSDATE\\b",               "CURRENT_TIMESTAMP");   //  alternative: NOW()
-		//Bug fix, Gunther Hoppe 08.07.2005 e-evolution
-        //Begin ----------------------------------------------------------------------------------------			
-		s_pg.put("\\bSysDate\\b",               "CURRENT_TIMESTAMP");
-		s_pg.put("SysDate",               "CURRENT_TIMESTAMP");
-		//end ----------------------------------------------------------------------------------------	
         //begin vpj-cd e-evolution 03/11/2005 PostgreSQL		                                     
 		s_pg.put("\\bDUMP\\b",               "MD5"); 	
 		s_pg.put("END CASE",               "END");		
@@ -71,11 +65,11 @@ public final class ConvertMap_PostgreSQL {
 		s_pg.put("\\bON COMMIT DELETE ROWS\\b", "");
 		s_pg.put("\\bON COMMIT PRESERVE ROWS\\b",   "");
 
-                //DDL
+        //DDL
                 
-                // begin vpj-cd e-evolution 08/02/2005 PostgreSQL
+        // begin vpj-cd e-evolution 08/02/2005 PostgreSQL
 		//s_pg.put("\\bMODIFY\\b","ALTER COLUMN");						
-                //s_pg.put("\\bDEFAULT\\b","SET DEFAULT");
+        //s_pg.put("\\bDEFAULT\\b","SET DEFAULT");
 		// end vpj-cd e-evolution 08/02/2005 PostgreSQL
                 
 		//  DROP TABLE x CASCADE CONSTRAINTS
@@ -88,7 +82,6 @@ public final class ConvertMap_PostgreSQL {
 		s_pg.put("\\bELSIF\\b",                 "ELSE IF");
 		// begin vpj-cd e-evolution 03/11/2005 PostgreSQL
 		s_pg.put("\\bREC \\b",                 "AS REC ");				
-		//s_pg.put("\\bAND\\sROWNUM=\\b",                 "LIMIT ");
 		// end vpj-cd e-evolution 03/11/2005 PostgreSQL
 
 		//  Sequences
