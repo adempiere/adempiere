@@ -55,6 +55,12 @@ public class KeyStoreMgt
 	private char[]		m_password = null;
 	/** KeyStore				*/
 	private KeyStore	m_keyStore = null;
+	private String organizationUnit;
+	private String location;
+	private String state;
+	private String country;
+	private String commonName;
+	private String organization;
 	
 	
 	/**	Directory below ADEMPIERE_HOME	*/
@@ -210,7 +216,7 @@ public class KeyStoreMgt
 			log.log(Level.SEVERE, "directory", e);
 		}
 		
-		String dname = getDname(parent);
+		String dname = getDname(this, parent);
 		if (dname == null)
 			return;
 		//
@@ -225,27 +231,71 @@ public class KeyStoreMgt
 		}
 	}	//	createCertificate
 	
+	public void setCommonName(String cn)
+	{
+		commonName = cn;
+	}
+	
+	public void setOrganization(String o)
+	{
+		organization = o; 
+	}
+	
+	public void setOrganizationUnit(String o)
+	{
+		organizationUnit = o;
+	}
+	
+	public void setLocation(String l)
+	{
+		location = l;
+	}
+	
+	public void setState(String s)
+	{
+		state = s;
+	}
+	
+	public void setCountry(String c)
+	{
+		country = c;
+	}
+	
 	/**
 	 * 	Get Distinguised Name
 	 * 	@param parent interactive dialog
 	 *	@return dname or null
 	 */
-	public static String getDname(JFrame parent)
+	public static String getDname(KeyStoreMgt mgt, JFrame parent)
 	{
-		String cn = null;
-		try
+		String cn = mgt.commonName;
+		if (cn == null)
 		{
-			InetAddress address = InetAddress.getLocalHost();
-			cn = address.getCanonicalHostName();
+			try
+			{
+				InetAddress address = InetAddress.getLocalHost();
+				cn = address.getCanonicalHostName();
+			}
+			catch (Exception e)
+			{
+			}
 		}
-		catch (Exception e)
-		{
-		}
-		String ou = System.getProperty("user.name");
-		String o = "AdempiereUser";
-		String l = "MyTown";
-		String s = "";
-		String c = System.getProperty("user.country");
+		
+		String ou = mgt.organization != null
+			? mgt.organization
+			: System.getProperty("user.name");
+		String o = mgt.organizationUnit != null
+			? mgt.organizationUnit
+			: "AdempiereUser";
+		String l = mgt.location != null
+			? mgt.location
+			: "MyTown";
+		String s = mgt.state != null
+			? mgt.state
+			: "";
+		String c = mgt.country != null
+			? mgt.country
+			: System.getProperty("user.country");
 		//
 		if (parent != null)
 		{
@@ -260,6 +310,7 @@ public class KeyStoreMgt
 			s = skd.getS();
 			c = skd.getC();
 		}
+
 		//
 		if (cn == null || cn.length() == 0)
 		{

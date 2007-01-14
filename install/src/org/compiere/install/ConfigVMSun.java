@@ -60,8 +60,9 @@ public class ConfigVMSun extends Config
 		File javaHome = new File (p_data.getJavaHome());
 		boolean pass = javaHome.exists();
 		String error = "Not found: Java Home";
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+				pass, true, error);
 		if (!pass)
 			return error;
 		//	Look for tools.jar to make sure that it is not the JRE
@@ -69,8 +70,9 @@ public class ConfigVMSun extends Config
 			+ File.separator + "lib" + File.separator + "tools.jar");
 		pass = tools.exists();
 		error = "Not found: Java SDK = " + tools;
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+				pass, true, error);
 		if (!pass)
 			return error;
 		//
@@ -102,8 +104,9 @@ public class ConfigVMSun extends Config
 			  log.info("OK: Version=" + thisJV);
 		}
 		error = "Wrong Java Version: Should be " + VERSION2;
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-				pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+					pass, true, error);
 		if (!pass)
 			return error;
 		//

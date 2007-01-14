@@ -299,8 +299,9 @@ public class ConfigOracle extends Config
 			error += " - " + e.getMessage();
 			pass = false;
 		}
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
+				pass, true, error); 
 		log.info("OK: Database Server = " + databaseServer);
 		setProperty(ConfigurationData.ADEMPIERE_DB_SERVER, databaseServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_DB_TYPE, p_data.getDatabaseType());
@@ -309,9 +310,10 @@ public class ConfigOracle extends Config
 		//	Database Port
 		int databasePort = p_data.getDatabasePort();
 		pass = p_data.testPort (databaseServer, databasePort, true);
-		error = "DB Server Port = " + databasePort; 
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
-			pass, true, error);
+		error = "DB Server Port = " + databasePort;
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: Database Port = " + databasePort);
@@ -323,8 +325,9 @@ public class ConfigOracle extends Config
 		String systemPassword = p_data.getDatabaseSystemPassword();
 		pass = systemPassword != null && systemPassword.length() > 0;
 		error = "No Database System Password entered";
-		signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
-			pass, true,	error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
+				pass, true,	error);
 		if (!pass)
 			return error;
 		//
@@ -335,8 +338,9 @@ public class ConfigOracle extends Config
 		pass = testJDBC(url, "system", systemPassword);
 		error = "Error connecting: " + url 
 			+ " - as system/" + systemPassword;
-		signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: Connection = " + url);
@@ -351,15 +355,17 @@ public class ConfigOracle extends Config
 		String databasePassword = p_data.getDatabasePassword();	//	PWD
 		pass = databasePassword != null && databasePassword.length() > 0;
 		error = "Invalid Database User Password";
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		//	Ignore result as it might not be imported
 		pass = testJDBC(url, databaseUser, databasePassword);
 		error = "Cannot connect to User: " + databaseUser + "/" + databasePassword + " - Database may not be imported yet (OK on initial run).";
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, false, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, false, error);
 		if (pass)
 		{
 			log.info("OK: Database User = " + databaseUser);
@@ -380,8 +386,9 @@ public class ConfigOracle extends Config
 			log.config(sqlplus);
 			pass = testSQL(sqlplus);
 			error = "Error connecting via: " + sqlplus;
-			signalOK(getPanel().okDatabaseSQL, "ErrorTNS", 
-				pass, true, error);
+			if (getPanel() != null)
+				signalOK(getPanel().okDatabaseSQL, "ErrorTNS", 
+					pass, true, error);
 			if (pass)
 				log.info("OK: Database SQL Connection");
 		}

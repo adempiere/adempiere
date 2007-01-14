@@ -60,8 +60,9 @@ public class ConfigVMMac extends Config
 		File javaHome = new File (p_data.getJavaHome());
 		boolean pass = javaHome.exists();
 		String error = "Not found: Java Home";
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+				pass, true, error);
 		if (!pass)
 			return error;
 		/**	Different VM structure
@@ -101,8 +102,9 @@ public class ConfigVMMac extends Config
 			  log.info("OK: Version=" + thisJV);
 		}
 		error = "Wrong Java Version: Should be " + VERSION2;
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-				pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+					pass, true, error);
 		if (!pass)
 			return error;
 		//

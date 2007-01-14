@@ -34,11 +34,11 @@ public class ConfigPostgreSQL extends Config
 	public ConfigPostgreSQL (ConfigurationData data)
 	{
 		super (data);
-	}	//	ConfigSybase
+	}	//	ConfigPostgreSQL
 
 	/** Discoverd TNS			*/
 	private String[] 			p_discovered = null;
-	/**	Sybase DB Info			*/
+	/**	PostgreSQL DB Info			*/
 	private DB_PostgreSQL			p_db = new DB_PostgreSQL();
 	
 	/**
@@ -88,8 +88,9 @@ public class ConfigPostgreSQL extends Config
 			error += " - " + e.getMessage();
 			pass = false;
 		}
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
+				pass, true, error); 
 		log.info("OK: Database Server = " + databaseServer);
 		setProperty(ConfigurationData.ADEMPIERE_DB_SERVER, databaseServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_DB_TYPE, p_data.getDatabaseType());
@@ -98,9 +99,10 @@ public class ConfigPostgreSQL extends Config
 		//	Database Port
 		int databasePort = p_data.getDatabasePort();
 		pass = p_data.testPort (databaseServer, databasePort, true);
-		error = "DB Server Port = " + databasePort; 
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
-			pass, true, error);
+		error = "DB Server Port = " + databasePort;
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: Database Port = " + databasePort);
@@ -111,14 +113,15 @@ public class ConfigPostgreSQL extends Config
 		String databaseName = p_data.getDatabaseName();	//	Service Name
 		String systemPassword = p_data.getDatabaseSystemPassword();
 
-		//	URL (derived)	jdbc:sybase:Tds:prod1:5000/prod1
+		//	URL (derived)
 		String urlSystem = p_db.getConnectionURL(databaseServer.getHostName(), databasePort, 
 			p_db.getSystemDatabase(databaseName), p_db.getSystemUser());
 		pass = testJDBC(urlSystem, p_db.getSystemUser(), systemPassword);
 		error = "Error connecting: " + urlSystem 
 			+ " - " + p_db.getSystemUser() + "/" + systemPassword;
-		signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: System Connection = " + urlSystem);
@@ -130,8 +133,9 @@ public class ConfigPostgreSQL extends Config
 		String databasePassword = p_data.getDatabasePassword();	//	PWD
 		pass = databasePassword != null && databasePassword.length() > 0;
 		error = "Invalid Database User Password";
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		//
@@ -140,8 +144,9 @@ public class ConfigPostgreSQL extends Config
 		//	Ignore result as it might not be imported
 		pass = testJDBC(url, databaseUser, databasePassword);
 		error = "Database imported? Cannot connect to User: " + databaseUser + "/" + databasePassword;
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, false, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, false, error);
 		if (pass)
 			log.info("OK: Database User = " + databaseUser);
 		else

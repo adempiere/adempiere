@@ -16,7 +16,6 @@
 	<classpathentry kind="lib" path="/tools/lib/ant-commons-net.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ant-launcher.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
-	<classpathentry kind="lib" path="/lib/db2.jar"/>
 	<classpathentry kind="lib" path="/lib/derby.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

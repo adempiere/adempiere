@@ -101,8 +101,9 @@ public class ConfigTomcat extends Config
 			error += " - " + e.getMessage();
 			pass = false;
 		}
-		signalOK(getPanel().okAppsServer, "ErrorAppsServer",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okAppsServer, "ErrorAppsServer",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: AppsServer = " + appsServer);
@@ -113,8 +114,9 @@ public class ConfigTomcat extends Config
 		File deploy = new File (p_data.getAppsServerDeployDir());
 		pass = deploy.exists();
 		error = "CATALINA_HOME Not found: " + deploy;
-		signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
+				pass, true, error);
 		if (!pass)
 			return error;
 		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
@@ -128,8 +130,9 @@ public class ConfigTomcat extends Config
 		File sharedLibDir = new File (sharedLib);
 		pass = sharedLibDir.exists();
 		error = "Not found (shared library): " + sharedLib;
-		signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
+				pass, true, error);
 		if (!pass)
 			return error;
 
@@ -138,8 +141,9 @@ public class ConfigTomcat extends Config
 		File webAppsDir = new File (webApps);
 		pass = webAppsDir.exists();
 		error = "Not found (webapps): " + sharedLib;
-		signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
+				pass, true, error);
 		if (!pass)
 			return error;
 		//

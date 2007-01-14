@@ -161,7 +161,6 @@
 		<!--unjar src="lib/${ADEMPIERE_DB_TYPE}.jar" dest="buildCLib" /-->
                 <unjar src="lib/oracle.jar" dest="buildCLib" />
                 <unjar src="lib/postgresql.jar" dest="buildCLib" />
-                <unjar src="lib/db2.jar" dest="buildCLib" />
 		<!--end vpj-cd e-evolution-->
         <unjar src="lib/fyracle.jar" dest="buildCLib" />
 
@@ -207,7 +206,6 @@
 		<!--unjar src="lib/${ADEMPIERE_DB_TYPE}.jar" dest="buildSLib" /-->
         <unjar src="lib/oracle.jar" dest="buildSLib" />
         <unjar src="lib/postgresql.jar" dest="buildSLib" />
-        <unjar src="lib/db2.jar" dest="buildSLib" />
         <!--end vpj-cd e-evolution-->
         <unjar src="lib/fyracle.jar" dest="buildSLib" />
 

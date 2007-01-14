@@ -90,8 +90,9 @@ public class ConfigJBoss extends Config
 			error += " - " + e.getMessage();
 			pass = false;
 		}
-		signalOK(getPanel().okAppsServer, "ErrorAppsServer",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okAppsServer, "ErrorAppsServer",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: AppsServer = " + appsServer);
@@ -103,8 +104,9 @@ public class ConfigJBoss extends Config
 		File deploy = new File (p_data.getAppsServerDeployDir());
 		pass = deploy.exists();
 		error = "Not found: " + deploy;
-		signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
+				pass, true, error);
 		if (!pass)
 			return error;
 		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
@@ -115,8 +117,9 @@ public class ConfigJBoss extends Config
 		pass = !p_data.testPort (appsServer, JNPPort, false) 
 			&& p_data.testServerPort(JNPPort);
 		error = "Not correct: JNP Port = " + JNPPort;
-		signalOK(getPanel().okJNPPort, "ErrorJNPPort", 
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okJNPPort, "ErrorJNPPort", 
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: JNPPort = " + JNPPort);
@@ -127,8 +130,9 @@ public class ConfigJBoss extends Config
 		pass = !p_data.testPort ("http", appsServer.getHostName(), WebPort, "/") 
 			&& p_data.testServerPort(WebPort);
 		error = "Not correct: Web Port = " + WebPort;
-		signalOK(getPanel().okWebPort, "ErrorWebPort",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okWebPort, "ErrorWebPort",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: Web Port = " + WebPort);
@@ -139,8 +143,9 @@ public class ConfigJBoss extends Config
 		pass = !p_data.testPort ("https", appsServer.getHostName(), sslPort, "/") 
 			&& p_data.testServerPort(sslPort);
 		error = "Not correct: SSL Port = " + sslPort;
-		signalOK(getPanel().okSSLPort, "ErrorWebPort",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okSSLPort, "ErrorWebPort",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		log.info("OK: SSL Port = " + sslPort);

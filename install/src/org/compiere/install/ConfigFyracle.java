@@ -21,13 +21,13 @@ import org.compiere.db.*;
  *	Firebird Fyracle Configuration
  *	
  *  @author Marek Mosiewicz
- *  @version $Id: ConfigSybase.java,v 1.4 2005/03/11 20:30:23 jjanke Exp $
+ *  @version $Id: ConfigFyracle.java,v 1.4 2005/03/11 20:30:23 jjanke Exp $
  */
 public class ConfigFyracle extends Config
 {
 
 	/**
-	 * 	ConfigSybase
+	 * 	ConfigFyracle
 	 *	@param data
 	 */
 	public ConfigFyracle (ConfigurationData data)
@@ -86,8 +86,9 @@ public class ConfigFyracle extends Config
 			error += " - " + e.getMessage();
 			pass = false;
 		}
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabaseServer", 
+				pass, true, error); 
 		log.info("OK: Database Server = " + databaseServer);
 		setProperty(ConfigurationData.ADEMPIERE_DB_SERVER, databaseServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_DB_TYPE, p_data.getDatabaseType());
@@ -95,9 +96,10 @@ public class ConfigFyracle extends Config
 		//	Database Port
 		int databasePort = p_data.getDatabasePort();
 		pass = p_data.testPort (databaseServer, databasePort, true);
-		error = "DB Server Port = " + databasePort; 
-		signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
-			pass, true, error);
+		error = "DB Server Port = " + databasePort;
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseServer, "ErrorDatabasePort",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: Database Port = " + databasePort);
@@ -113,8 +115,9 @@ public class ConfigFyracle extends Config
 		pass = testJDBC(urlSystem, p_db.getSystemUser(), systemPassword);
 		error = "Error connecting: " + urlSystem 
 			+ " - " + p_db.getSystemUser() + "/" + systemPassword;
-		signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
-			pass, true, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseSystem, "ErrorJDBC",
+				pass, true, error);
 		if (!pass)
 			return error;
 		log.info("OK: System Connection = " + urlSystem);
@@ -126,8 +129,9 @@ public class ConfigFyracle extends Config
 		String databasePassword = p_data.getDatabasePassword();	//	PWD
 		pass = databasePassword != null && databasePassword.length() > 0;
 		error = "No Database User Password entered";
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, true, error); 
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, true, error); 
 		if (!pass)
 			return error;
 		//
@@ -136,8 +140,9 @@ public class ConfigFyracle extends Config
 		//	Ignore result as it might not be imported
 		pass = testJDBC(url, databaseUser, databasePassword);
 		error = "Database imported? Cannot connect to User: " + databaseUser + "/" + databasePassword;
-		signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
-			pass, false, error);
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseUser, "ErrorJDBC",
+				pass, false, error);
 		if (pass)
 			log.info("OK: Database User = " + databaseUser);
 		else
