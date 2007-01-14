@@ -49,7 +49,7 @@ import javax.swing.JTextArea;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.db.CConnectionEditor;
-import org.compiere.db.DB_DB2;
+import org.compiere.db.DB_PostgreSQL;
 import org.compiere.db.Database;
 import org.compiere.swing.CFrame;
 
@@ -75,9 +75,9 @@ public class ConvertDialog extends CFrame implements ActionListener
 			fSelectFile.addItem("D:\\adempiere\\db\\database\\create\\sequences.sql");
 			fSelectFile.addItem("D:\\adempiere\\db\\database\\create\\adempiere.sql");
 			//  Set up environment
-			fConnect.setValue(CConnection.get(Database.DB_DB2,
-				"linux", DB_DB2.DEFAULT_PORT, "adempiere"));
-			fTarget.setSelectedItem(Database.DB_DB2);
+			fConnect.setValue(CConnection.get(Database.DB_POSTGRESQL,
+				"linux", DB_PostgreSQL.DEFAULT_PORT, "adempiere"));
+			fTarget.setSelectedItem(Database.DB_POSTGRESQL);
 			fExecute.setSelected(true);
 
 			cmd_execute();  //  set UI

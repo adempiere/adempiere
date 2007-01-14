@@ -24,9 +24,6 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${lib.dir}/oracle.jar"/>
     <pathelement path="${lib.dir}/postgresql.jar"/>
-    <pathelement path="${lib.dir}/sybase.jar"/>
-    <pathelement path="${lib.dir}/sqlServer.jar"/>
-    <pathelement path="${lib.dir}/db2.jar"/>
     <pathelement path="${lib.dir}/derby.jar"/>
     <pathelement path="${lib.dir}/postgresql.jar"/>
     <pathelement path="${lib.dir}/fyracle.jar"/>

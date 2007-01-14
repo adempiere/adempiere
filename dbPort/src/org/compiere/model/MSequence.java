@@ -269,12 +269,8 @@ public class MSequence extends X_AD_Sequence
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
 				+ " AND AD_Client_ID IN (0,?)"
-				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
-			if (!DB.isDerby()&&!DB.isDB2())
-				selectSQL += " ORDER BY AD_Client_ID DESC ";
-			else
-				//	selectSQL += " FOR UPDATE OF CurrentNext, CurrentNextSys ";   //jz for update , no order by, 10.216 no need
-				selectSQL +=  "FOR UPDATE";
+				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
+				+ " ORDER BY AD_Client_ID DESC ";
 			USE_PROCEDURE = true;
 		}
 		Connection conn = null;

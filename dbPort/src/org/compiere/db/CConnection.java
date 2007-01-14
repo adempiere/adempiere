@@ -813,18 +813,13 @@ public class CConnection implements Serializable
 			setViaFirewall (false);
 		}
 		
-		//  DB2
-		if (isDB2())
+		/*
+		if (isDerby())
 		{
-			if (getDbPort () != DB_DB2.DEFAULT_PORT)
-				setDbPort (DB_DB2.DEFAULT_PORT);
-		}
-		else if (isDerby())
-		{
-//			if (getDbPort () != DB_Derby.DEFAULT_PORT)
-//				setDbPort (DB_Derby.DEFAULT_PORT);
-		}
-                // begin vpj-cd e-evolution 09 ene 2006
+			if (getDbPort () != DB_Derby.DEFAULT_PORT)
+				setDbPort (DB_Derby.DEFAULT_PORT);
+		}*/
+        // begin vpj-cd e-evolution 09 ene 2006
 		//  PostgreSQL
 		if (isPostgreSQL ())
 		{
@@ -859,31 +854,15 @@ public class CConnection implements Serializable
 	} 	//  isOracle
 
 	/**
-	 *  Is IBM DB/2
-	 *  @return true if DB/2
-	 */
-	public boolean isDB2 ()
-	{
-		return Database.DB_DB2.equals (m_type);
-	} 	//  isDB2
-
-	/**
 	 *  Is Apache Derby
 	 *  @return true if Derby
 	 */
+	
 	public boolean isDerby ()
 	{
 		return Database.DB_DERBY.equals (m_type);
 	} 	//  isDerby
 
-	/**
-	 *  Is Microsoft SQL Server
-	 *  @return true if Derby
-	 */
-	public boolean isMSSQLServer()
-	{
-		return Database.DB_MSSQLServer.equals (m_type);
-	} 	//  isMSSQLServer
         
  //begin e-evolution vpj-cd 30 nov 2005
     /**

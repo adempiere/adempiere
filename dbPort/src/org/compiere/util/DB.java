@@ -569,6 +569,7 @@ public final class DB
 	 * 	Do we have a Derby DB ?
 	 *	@return true if connected to Derby
 	 */
+	
 	public static boolean isDerby()
 	{
 		if (s_cc != null)
@@ -591,13 +592,6 @@ public final class DB
 	}	//	isPostgreSQL
             //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
 	
-	public static boolean isDB2()
-	{
-		if (s_cc != null)
-			return s_cc.isDB2();
-        log.severe("No Database");
-		return false;
-	}
 	public static boolean isFyracle()
 	{
 		if (s_cc != null)

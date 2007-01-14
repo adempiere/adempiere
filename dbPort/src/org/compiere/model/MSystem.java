@@ -167,9 +167,9 @@ public class MSystem extends X_AD_System
 			recalc = false;
 		}
 		*/
-		if (DB.isDB2() || DB.isDerby())
-		{//jz Derby/DB2 time out, fix it later
-			s = "NO Compiere statistics for DB2 or Derby.";
+		if (DB.isDerby())
+		{//jz Derby time out, fix it later
+			s = "NO Compiere statistics for Derby.";
 			recalc = false;
 		}
 		
