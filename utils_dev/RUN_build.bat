@@ -14,7 +14,7 @@
 dir %ADEMPIERE_INSTALL%
 
 @Echo Done ...
-@sleep 60
+@Pause
 @exit
 
 :NOBUILD

@@ -64,11 +64,11 @@
 			dest="${env.ADEMPIERE_ROOT}" 
 			overwrite="yes"/>
 		<!-- Run Setup				-->
-		<!--
-		<ant inheritAll="false" dir="${env.ADEMPIERE_HOME}" target="setup"/>
-		-->
-		<antcall target="runSetupWin"></antcall>
-		<antcall target="runSetupNonWin"></antcall>
+		<input addproperty="runSetupInput" 
+			message="Run Setup(Y/N) ? " 
+			validargs="Y,y,N,n"/>
+		
+		<antcall target="runSetup"/>
 	</target>
 	
 	<!-- ================================================ -->
@@ -104,6 +104,20 @@
 		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_setup.sh" 
 			spawn="false" resolveexecutable="true">
 		</exec>
+	</target>
+	
+	<target name="runSetupCheck">
+		<condition property="setup.yes">
+			<or>
+				<equals arg1="y" arg2="${runSetupInput}"/>
+				<equals arg1="Y" arg2="${runSetupInput}"/>
+			</or>
+		</condition>
+	</target>
+	
+	<target name="runSetup" depends="runSetupCheck" if="setup.yes">
+		<antcall target="runSetupWin"></antcall>
+		<antcall target="runSetupNonWin"></antcall>
 	</target>
 
 	<target name="runUpdateWin" depends="runSetupInit" if="isWindows" >

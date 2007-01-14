@@ -26,7 +26,7 @@ dir %ADEMPIERE_INSTALL%
 @Echo	Starting Apps Server ...
 @Start %ADEMPIERE_HOME%\utils\RUN_Server2.bat
 
-@Sleep 10
+@Pause
 @Exit
 
 :NOBUILD

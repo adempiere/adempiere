@@ -7,7 +7,7 @@
 @echo Cleanup ...
 @"%JAVA_HOME%\bin\java" -Dant.home="." %ANT_PROPERTIES% org.apache.tools.ant.Main clean
 
-@sleep 60
+@Pause
 @exit
 :NOBUILD
 @Echo Check myDevEnv.bat (copy from myDevEnvTemplate.bat)
