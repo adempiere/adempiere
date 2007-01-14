@@ -75,9 +75,7 @@ public class Adempiere implements Serializable
 	public static final String TYPE_ORACLE = "oracle";
 	/** Derby Server					*/
 	public static final String TYPE_DERBY = "derby";
-	/** DB2 Server						*/
-	public static final String TYPE_DB2 = "db2";
-        //begin e-evolution vpj-cd 02/02/2005 PostgreSQL
+    //begin e-evolution vpj-cd 02/02/2005 PostgreSQL
 	/** PostgreSQL **/
 	public static final String TYPE_POSTGRESQL = "PostgreSQL";
         public static final String TYPE_EDB = "EDB";
@@ -133,7 +131,7 @@ public class Adempiere implements Serializable
                     //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
 	/**
 	 * 	Is this PostgreSQL ?
-	 *	@return true if Sybase
+	 *	@return true if PostgreSQL
 	 */
 	static boolean isPostgreSQL()
 	{
