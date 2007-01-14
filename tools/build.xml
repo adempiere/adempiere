@@ -19,9 +19,7 @@
   <property name="buildServer.dir" value="build/Server"/>
   <property name="buildJBoss.dir" value="build/JBoss"/>
   <property name="buildOracle.dir" value="build/Oracle"/>
-  <property name="buildDB2.dir" value="build/DB2"/>
   <property name="buildDerby.dir" value="build/Derby"/>
-  <property name="buildTDS.dir" value="build/MSSQL"/>
   <property name="buildPostgreSQL.dir" value="build/PostgreSQL"/>
   <property name="jboss.dir" value="../jboss"/>
   <property name="dist.dir" value="../lib"/>
@@ -51,9 +49,7 @@
     <mkdir dir="${buildServer.dir}"/>
     <mkdir dir="${buildJBoss.dir}"/>
     <mkdir dir="${buildOracle.dir}"/>
-    <mkdir dir="${buildDB2.dir}"/>
     <mkdir dir="${buildDerby.dir}"/>
-    <mkdir dir="${buildTDS.dir}"/>
     <mkdir dir="${buildPostgreSQL.dir}"/>
     <!-- check for the distribution directory -->
     <mkdir dir="${dist.dir}"/>
@@ -156,34 +152,6 @@
       </manifest>
     </jar>
 
-    <!-- DB/2 Lib		-->
-    <unjar src="lib/db2jcc.jar" dest="${buildDB2.dir}">
-	<patternset>
-		<exclude name="COM/**"/>
-	</patternset>
-    </unjar>
-    <unjar src="lib/db2jcc_license_cu.jar" dest="${buildDB2.dir}"/>
-    <!-- Clean up			-->
-    <delete>
-      <fileset dir="${buildDB2.dir}" includes="build.xml"/>
-      <fileset dir="${buildDB2.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
-    </delete>
-
-    <!-- Create ibm.jar file 	-->
-    <jar jarfile="${dist.dir}/db2.jar">
-      <fileset dir="${buildDB2.dir}"/>
-      <manifest>
-		<attribute name="Specification-Title" value="DB/2 JDBC"/>
-		<attribute name="Specification-Version" value="8.2"/>
-		<attribute name="Specification-Vendor" value="IBM"/>
-		<attribute name="Implementation-Title" value="ibm ${env.ADEMPIERE_VERSION}"/>
-		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
-		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
-      </manifest>
-    </jar>
-	
-
     <!-- Derby Lib			-->
     <unjar src="../derby/derbyclient.jar" dest="${buildDerby.dir}"/>
 
@@ -203,25 +171,7 @@
       </manifest>
     </jar>
 
-    <!-- Microsoft Lib				-->
-    <unjar src="lib/jtds-1.0.jar" dest="${buildTDS.dir}"/>
-
-    <!-- Clean up			-->
-
-    <!-- Create sqlServer file 	-->
-    <jar jarfile="${dist.dir}/sqlServer.jar">
-      <fileset dir="${buildTDS.dir}"/>
-      <manifest>
-		<attribute name="Specification-Title" value="jTDS for MS SQL JDBC"/>
-		<attribute name="Specification-Version" value="jTDS 1.0"/>
-		<attribute name="Specification-Vendor" value="jTDS"/>
-		<attribute name="Implementation-Title" value="sqlServer ${env.ADEMPIERE_VERSION}"/>
-		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
-		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
-      </manifest>
-    </jar>
-        <!-- PostgreSQL Lib			-->
+    <!-- PostgreSQL Lib			-->
     <unjar src="lib/postgresql.jar" dest="${buildPostgreSQL.dir}"/>
 
     <!-- Clean up			-->
@@ -374,9 +324,7 @@
     <delete file="${dist.dir}/CSTools.jar" failonerror="false"/>
     <delete file="${dist.dir}/jboss.jar" failonerror="false"/>
     <delete file="${dist.dir}/oracle.jar" failonerror="false"/>
-    <delete file="${dist.dir}/db2.jar" failonerror="false"/>
     <delete file="${dist.dir}/derby.jar" failonerror="false"/>
-    <delete file="${dist.dir}/sqlServer.jar" failonerror="false"/>
   </target>
 
 </project>
