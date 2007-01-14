@@ -262,8 +262,9 @@ public final class Ini implements Serializable
 		{
 			log.config(filename);
 			firstTime = true;
-			if (!IniDialog.accept())
-				System.exit(-1);
+			if (isShowLicenseDialog())
+				if (!IniDialog.accept())
+					System.exit(-1);
 		}
 
 		//	Check/set properties	defaults
@@ -474,6 +475,8 @@ public final class Ini implements Serializable
 	private static boolean      s_client = true;
 	/** IsClient Internal marker            */
 	private static boolean      s_loaded = false;
+	/** Show license dialog for first time **/
+	private static boolean		s_license_dialog = true;
 
 	/**
 	 *  Are we in Client Mode ?
@@ -492,6 +495,24 @@ public final class Ini implements Serializable
 	{
 		s_client = client;
 	}   //  setClient
+	
+	/**
+	 * Set show license dialog for new setup
+	 * @param b
+	 */
+	public static void setShowLicenseDialog(boolean b)
+	{
+		s_license_dialog = b;
+	}
+	
+	/**
+	 * Is show license dialog for new setup
+	 * @return boolean
+	 */
+	public static boolean isShowLicenseDialog()
+	{
+		return s_license_dialog;
+	}
 
 	/**
 	 *  Are the properties loaded?
