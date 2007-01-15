@@ -19,9 +19,9 @@ package org.compiere.swing;
 import java.awt.*;
 import javax.swing.*;
 
+import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
-import org.compiere.util.*;
 
 /**
  *  Adempiere Panel supporting colored Backgrounds
@@ -154,9 +154,9 @@ public class CPanel extends JPanel
 	public void setTabLevel (int level)
 	{
 		if (level == 0)
-			putClientProperty(CompiereLookAndFeel.TABLEVEL, null);
+			putClientProperty(AdempiereLookAndFeel.TABLEVEL, null);
 		else
-			putClientProperty(CompiereLookAndFeel.TABLEVEL, new Integer(level));
+			putClientProperty(AdempiereLookAndFeel.TABLEVEL, new Integer(level));
 	}   //  setTabLevel
 
 	/**

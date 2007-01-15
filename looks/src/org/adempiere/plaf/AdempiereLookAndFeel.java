@@ -43,7 +43,9 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 
 	/** Paint Round Corners         */
 	protected static boolean ROUND = false;
-
+	
+	public static final String  TABLEVEL = "TabLevel";
+	
 	/**
 	 *  The Name
 	 *  @return Name
@@ -97,6 +99,7 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 		//  Overwrite
 		putDefault (table, "ComboBoxUI");
 		putDefault (table, "LabelUI");
+		putDefault (table, "TabbedPaneUI");
 
 	}   //  initClassDefaults
 

@@ -60,7 +60,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 	/** Key of Client Property for Rectangle Items - if exists, the standard background is used */
 	public static final String  BACKGROUND_FILL = "CompiereBackgroundFill";
 	/** Key of Client Property for CPanel               */
-	public static final String  TABLEVEL = "CompiereTabLevel";
+	public static final String  TABLEVEL = "TabLevel";
 	
 	/** Version tag */
 	public static final String  VERSION = "R1.4.0";
