@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import org.compiere.db.*;
+import org.compiere.grid.ed.Calculator;
 import org.compiere.interfaces.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
@@ -363,7 +364,9 @@ public final class AEnv
 		//  Tools Menu  ------------------------
 		else if (actionCommand.equals("Calculator"))
 		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Calculator(Env.getFrame(c)));
+			Calculator calc = new org.compiere.grid.ed.Calculator(Env.getFrame(c));
+			calc.setDisposeOnEqual(false);
+			AEnv.showCenterScreen (calc);
 		}
 		else if (actionCommand.equals("Calendar"))
 		{

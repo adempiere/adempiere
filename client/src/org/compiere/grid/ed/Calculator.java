@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.*;
 import org.compiere.apps.*;
 import org.compiere.model.*;
@@ -104,6 +105,7 @@ public final class Calculator extends CDialog
 	private int				m_WindowNo;
 	private boolean		    m_abort = true;
 	private boolean			m_currencyOK = false;
+	private boolean			p_disposeOnEqual = true;	//teo_sarca, bug[ 1628773 ] 
 
 	private final static String OPERANDS = "/*-+%";
 	private char			m_decimal = '.';
@@ -156,13 +158,17 @@ public final class Calculator extends CDialog
 		keyPanel.setLayout(keyLayout);
 		mainLayout.setHgap(2);
 		mainLayout.setVgap(2);
-		mainPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+				
 		mainPanel.addKeyListener(this);
 		display.setBackground(Color.white);
 		display.setFont(new java.awt.Font("SansSerif", 0, 14));
-		display.setBorder(BorderFactory.createLoweredBevelBorder());
+		display.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEmptyBorder(2, 0, 2, 1), 
+				BorderFactory.createLineBorder(AdempierePLAF.getPrimary1())));
 		display.setText("0");
 		display.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		b7.setText("7");
 		b8.setText("8");
 		b9.setText("9");
@@ -266,8 +272,11 @@ public final class Calculator extends CDialog
 		m_decimal = m_format.getDecimalFormatSymbols().getDecimalSeparator();
 
 		//	display start number
-		m_display = m_format.format(m_number);
-		display.setText(m_display);
+		if (m_number.doubleValue() > 0.00 )
+		{
+			m_display = m_format.format(m_number);
+			display.setText(m_display);
+		}
 	}	//	finishSetup
 
 	/**
@@ -362,7 +371,8 @@ public final class Calculator extends CDialog
 			case '=':
 				m_display = m_format.format(evaluate());
 				m_abort = false;
-				dispose();
+				if (isDisposeOnEqual()) //teo_sarca, bug [ 1628773 ] 
+					dispose();
 				break;
 
 			//	Error		===============================
@@ -578,6 +588,16 @@ public final class Calculator extends CDialog
 
 		return m_number;
 	}   //	getNumber
+	
+	public boolean isDisposeOnEqual()
+	{
+		return p_disposeOnEqual;
+	}
+	
+	public void setDisposeOnEqual(boolean b)
+	{
+		p_disposeOnEqual = b;
+	}
 
 	/*************************************************************************/
 
