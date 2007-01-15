@@ -45,8 +45,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(Convert_PostgreSQL.class);
 
-	/** Vector to save previous values of quoted strings **/
-	private Vector<String> retVars = new Vector<String>();
+	
 	
 	/**
 	 * Is Oracle DB
@@ -69,9 +68,18 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 		// remove comments
 		String statement = sqlStatement;
-		statement = replaceQuotedStrings(statement);
-		statement = convertMapStatement(removeComments(statement));
-		statement = recoverQuotedStrings(statement);
+		/** Vector to save previous values of quoted strings **/
+		Vector<String> retVars = new Vector<String>();
+		try 
+		{
+			statement = replaceQuotedStrings(statement,retVars);
+			statement = convertMapStatement(removeComments(statement));
+			statement = recoverQuotedStrings(statement,retVars);
+		}
+		catch (RuntimeException e) {
+			System.err.println(sqlStatement);
+			throw e;
+		}
 		// log.info("------------------------------------------------------------");
 		// log.info(statement);
 		// log.info("------------------->");
@@ -163,7 +171,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return retValue;
 	} // convertSimpleStatement
 
-	private String replaceQuotedStrings(String retValue) {
+	private String replaceQuotedStrings(String retValue, Vector<String>retVars) {
 		// save every value  
 		// Pattern p = Pattern.compile("'[[\\w]*[-:,\\(\\)]*[ ]*]*'");
 		// Carlos Ruiz - globalqss - better matching regexp
@@ -177,7 +185,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return retValue;
 	}
 
-	private String recoverQuotedStrings(String retValue) {
+	private String recoverQuotedStrings(String retValue, Vector<String>retVars) {
 		Pattern p = Pattern.compile("<-->", REGEX_FLAGS);
 		Matcher m = p.matcher(retValue);
 		for (int cont = 0; cont < retVars.size(); cont++) {
