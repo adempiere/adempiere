@@ -135,7 +135,8 @@ public class Calendar extends CDialog
 		mainPanel.setLayout(mainLayout);
 		mainLayout.setHgap(2);
 		mainLayout.setVgap(2);
-		mainPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+		//mainPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(4,4,4,2));
 		getContentPane().add(mainPanel);
 
 		//	Month Panel
@@ -148,6 +149,8 @@ public class Calendar extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		monthPanel.add(cMonth,  new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		monthPanel.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+		
 		mainPanel.add(monthPanel, BorderLayout.NORTH);
 		cMonth.addActionListener(this);
 		cYear.addChangeListener(this);
@@ -164,6 +167,8 @@ public class Calendar extends CDialog
 		dayLayout.setHgap(2);
 		dayLayout.setRows(7);
 		dayLayout.setVgap(2);
+		dayPanel.setBackground(Color.white);
+		dayPanel.setOpaque(true);
 		mainPanel.add(dayPanel, BorderLayout.CENTER);
 
 		//	Time Panel
@@ -303,10 +308,13 @@ public class Calendar extends CDialog
 	private JLabel createWeekday (String title)
 	{
 		JLabel label = new JLabel(title);
-		label.setBorder(BorderFactory.createRaisedBevelBorder());
+		//label.setBorder(BorderFactory.createRaisedBevelBorder());
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		label.setRequestFocusEnabled(false);
+		label.setBackground(AdempierePLAF.getPrimary1());
+		label.setForeground(Color.white);
+		label.setOpaque(true);
 		return label;
 	}	//	createWeekday
 
@@ -317,12 +325,15 @@ public class Calendar extends CDialog
 	private CButton createDay()
 	{
 		CButton button = new CButton();
-		button.setBorder(BorderFactory.createLoweredBevelBorder());
+		//button.setBorder(BorderFactory.createLoweredBevelBorder());
+		button.setBorder(BorderFactory.createEmptyBorder());
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setMargin(ZERO_INSETS);
 		button.addActionListener(this);
 		button.addMouseListener(this);
 		button.addKeyListener(this);
+		button.setFocusPainted(false);
+		button.putClientProperty("Plastic.is3D", Boolean.FALSE);
 		return button;
 	}	//	createWeekday
 
