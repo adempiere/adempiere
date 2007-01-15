@@ -669,13 +669,15 @@ public class GridController extends CPanel
 
 		//  Process Callout
 		GridField mField = m_mTab.getField(col);
-		if (mField != null && mField.getCallout().length() > 0)
+		if (mField != null 
+			&& (mField.getCallout().length() > 0 || m_mTab.hasDependants(mField.getColumnName())))
 		{
 			String msg = m_mTab.processFieldChange(mField);     //  Dependencies & Callout
 			if (msg.length() > 0)
 				ADialog.error(m_WindowNo, this, msg);
 		}
-		dynamicDisplay(col);
+		if (col >= 0)
+			dynamicDisplay(col);
 	}   //  dataStatusChanged
 
 	
