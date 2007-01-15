@@ -63,7 +63,7 @@ public final class DataStatusEvent extends EventObject implements Serializable
 	private int				m_loadedRows = -1;
 	private int				m_currentRow = -1;
 	//
-	private int				m_changedColumn = 0;
+	private int				m_changedColumn = -1;
 	private String			m_columnName = null;
 	
 	/** Created 				*/

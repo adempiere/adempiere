@@ -2182,7 +2182,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public GridField getField (int index)
 	{
-		return m_mTable.getField(index);
+		return (index >= 0 ? m_mTable.getField(index) : null);
 	}   //  getField
 
 	/**
