@@ -377,6 +377,66 @@ public class MInventory extends X_M_Inventory implements DocAction
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
+                                                               
+                 //vpj-cd begin e-evolution recalculate the attribute instances and qty.
+                MInventoryLine[] linesup = getLines(false);
+                for (int i = 0; i < linesup.length; i++)
+		{
+			MInventoryLine line = linesup[i];
+                       
+                        String sql1 = "Delete From M_InventoryLineMA "
+				+ " WHERE M_InventoryLine_ID=" +line.getM_InventoryLine_ID();
+			int no = DB.executeUpdate(sql1, get_TrxName());
+			log.info("MA deleted " + no);
+                   
+                    StringBuffer sql = new StringBuffer(
+			"SELECT s.M_Product_ID, s.M_Locator_ID, s.M_AttributeSetInstance_ID,"
+			+ " s.QtyOnHand, p.M_AttributeSet_ID "
+			+ "FROM M_Product p"
+			+ " INNER JOIN M_Storage s ON (s.M_Product_ID=p.M_Product_ID)"
+			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID) "
+			+ "WHERE l.M_Warehouse_ID=?"
+			+ " AND p.IsActive='Y' AND p.IsStocked='Y' and p.ProductType='I'"
+                        + " AND s.M_Locator_ID=" +line.getM_Locator_ID()
+                        + " AND s.M_Product_ID=" +line.getM_Product_ID()
+                        + " AND s.QtyOnHand <> 0 "
+                        );
+                    PreparedStatement pstmt = null;
+                    try
+                    {
+                            pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
+                            int index = 1;
+                            pstmt.setInt (index++, getM_Warehouse_ID());
+                            ResultSet rs = pstmt.executeQuery ();
+                            while (rs.next ())
+                            {
+                                MInventoryLineMA maup = new MInventoryLineMA (line, 
+				rs.getInt(3), rs.getBigDecimal(4));
+                               
+                                if (!maup.save())
+                                        ;
+                            }
+                            rs.close ();
+                            pstmt.close ();
+                            pstmt = null;
+                    }
+                    catch (Exception e)
+                    {
+                            log.log(Level.SEVERE, sql.toString(), e);
+                    }
+                    try
+                    {
+                            if (pstmt != null)
+                                    pstmt.close ();
+                            pstmt = null;
+                    }
+                    catch (Exception e)
+                    {
+                            pstmt = null;
+                    }
+                    
+                }
+                //vpj-cd e-evolution recalculate the attribute instances and qty END.
 		//
 		MInventoryLine[] lines = getLines(false);
 		for (int i = 0; i < lines.length; i++)
@@ -471,7 +531,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 						qtyDiff = qtyDiff.subtract(maxDiff);
 						if (qtyDiff.signum() == 0)
 							break;
-					}
+					}					
 				}	//	negative qty
 			}
 			
