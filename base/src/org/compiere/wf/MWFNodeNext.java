@@ -210,7 +210,7 @@ public class MWFNodeNext extends X_AD_WF_NodeNext
 			if (m_conditions[i].isOr())
 				ok = ok || m_conditions[i].evaluate(activity);
 			else
-				ok = ok || m_conditions[i].evaluate(activity);
+				ok = ok && m_conditions[i].evaluate(activity);
 		}	//	for all conditions
 		log.fine("isValidFor (" + ok + ") " + toString());
 		return ok;
