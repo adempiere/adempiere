@@ -47,10 +47,13 @@ public final class Env
 	 */
 	public static void exitEnv (int status)
 	{
-		//	End Session
-		MSession session = MSession.get(Env.getCtx(), false);	//	finish
-		if (session != null)
-			session.logout();
+		//hengsin, avoid unncessary query of session when exit without log in
+		if (DB.isConnected(false)) {
+			//	End Session
+			MSession session = MSession.get(Env.getCtx(), false);	//	finish
+			if (session != null)
+				session.logout();
+		}
 		//
 		reset(true);	// final cache reset
 		s_log.info("");
