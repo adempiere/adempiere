@@ -88,7 +88,7 @@ public class CConnection implements Serializable
 					{
 						s_cc = cc;
 						Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
-						Ini.saveProperties(false);
+						Ini.saveProperties(Ini.isClient());
 					}
 				}
 				if (s_cc == null)
