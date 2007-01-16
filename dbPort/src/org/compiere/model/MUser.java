@@ -527,7 +527,9 @@ public class MUser extends X_AD_User
 	{
 		if (ia == null)
 			return "NoEmail";
-		if (true)
+                else return ia.getAddress();
+		/*
+                if (true)
 			return null;
 		
 		Hashtable<String,String> env = new Hashtable<String,String>();
@@ -544,7 +546,7 @@ public class MUser extends X_AD_User
 			{
 				System.out.println(en.next());
 			}
-			/**/
+			
 		}
 		catch (Exception e)
 		{
@@ -552,6 +554,7 @@ public class MUser extends X_AD_User
 			return e.getLocalizedMessage();
 		}
 		return null;
+                */
 	}	//	validateEmail
 	
 	/**
@@ -560,7 +563,7 @@ public class MUser extends X_AD_User
 	 */
 	public boolean isEMailValid()
 	{
-		return validateEmail(getInternetAddress()) == null;
+		return validateEmail(getInternetAddress()) != null;
 	}	//	isEMailValid
 	
 	/**
