@@ -396,6 +396,14 @@ public final class Adempiere
 			return null; 
 		} 
 	}	//	getCodeBase
+	
+	/**
+	 * @return True if client is started using web start
+	 */
+	public static boolean isWebStartClient()
+	{
+		return getCodeBase() != null;
+	}
 
 	/**
 	 * 	Get JNLP CodeBase Host

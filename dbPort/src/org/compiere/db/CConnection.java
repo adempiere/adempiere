@@ -77,11 +77,29 @@ public class CConnection implements Serializable
 			String attributes = Ini.getProperty (Ini.P_CONNECTION);
 			if (attributes == null || attributes.length () == 0)
 			{
-				CConnectionDialog ccd = new CConnectionDialog (new CConnection(apps_host));
-				s_cc = ccd.getConnection ();
-				//  set also in ALogin and Ctrl
-				Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
-				Ini.saveProperties (Ini.isClient ());
+				//hengsin, zero setup for webstart client
+				CConnection cc = null;
+				if (apps_host != null && Adempiere.isWebStartClient())
+				{
+					cc = new CConnection(apps_host);
+					cc.setConnectionProfile(CConnection.PROFILE_WAN);
+					cc.setAppsPort(80);
+					if (cc.testAppsServer() == null)
+					{
+						s_cc = cc;
+						Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+						Ini.saveProperties(false);
+					}
+				}
+				if (s_cc == null)
+				{
+					if (cc == null) cc = new CConnection(apps_host);
+					CConnectionDialog ccd = new CConnectionDialog (cc);
+					s_cc = ccd.getConnection ();
+					//  set also in ALogin and Ctrl
+					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+					Ini.saveProperties (Ini.isClient ());
+				}
 			}
 			else
 			{
@@ -560,8 +578,9 @@ public class CConnection implements Serializable
 			else
 				m_connectionProfile = connectionProfile;
 			
-			//reset initial context to null
+			//hengsin, reset initial context and env
 			m_iContext = null;
+			m_env = null;
 		}
 		else
 			log.warning("Invalid: " + connectionProfile);
