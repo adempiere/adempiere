@@ -303,7 +303,7 @@ public final class AdempierePLAF
 			Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 			vp = new ValueNamePair("org.adempiere.plaf.AdempiereLookAndFeel", org.adempiere.plaf.AdempiereLookAndFeel.NAME);
 			plafList.add(vp);
-			s_vp_adempiereTheme = new ValueNamePair("org.adempiere.plaf.AdempiereTheme", AdempiereThemeInnova.NAME);
+			s_vp_adempiereTheme = new ValueNamePair("org.adempiere.plaf.AdempiereThemeInnova", AdempiereThemeInnova.NAME);
 			plasticThemes.add (s_vp_adempiereTheme);
 			
 			List installedThemes = AdempiereLookAndFeel.getInstalledThemes();
