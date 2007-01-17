@@ -223,13 +223,13 @@ public class PackInHandler extends DefaultHandler {
 	    //Start package log
 	    hd_documemt.startElement("","","compiereDocument",attsOut);
 		hd_documemt.startElement("","","header",attsOut);		
-		hd_documemt.characters((atts.getValue("PK_Name")+" Install Log").toCharArray(),0,(atts.getValue("PK_Name")+" Install Log").length());
+		hd_documemt.characters((atts.getValue("Name")+" Install Log").toCharArray(),0,(atts.getValue("Name")+" Install Log").length());
 		hd_documemt.endElement("","","header");
 		hd_documemt.startElement("","","H3",attsOut);		
 		hd_documemt.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
 		hd_documemt.endElement("","","H3");
 		hd_documemt.startElement("","","packagename4log",attsOut);
-		hd_documemt.characters(atts.getValue("PK_Name").toCharArray(),0,atts.getValue("PK_Name").length());
+		hd_documemt.characters(atts.getValue("Name").toCharArray(),0,atts.getValue("Name").length());
 		hd_documemt.endElement("","","packagename4log");
 		hd_documemt.startElement("","","H3",attsOut);		
 		hd_documemt.characters(("Version:" ).toCharArray(),0,("Version:" ).length());
@@ -264,7 +264,7 @@ public class PackInHandler extends DefaultHandler {
 		
 		// Update Summary Package History Table
 		String sql2 = "SELECT AD_PACKAGE_IMP_INST_ID FROM AD_PACKAGE_IMP_INST WHERE NAME ="
-			+	"'" +  atts.getValue("PK_Name")
+			+	"'" +  atts.getValue("Name")
 			+	"' AND PK_VERSION ='" +  atts.getValue("Version") + "'";		
 		int PK_preInstalled = DB.getSQLValue(null,sql2); 
  
@@ -286,7 +286,7 @@ public class PackInHandler extends DefaultHandler {
 				+	"', '" + atts.getValue("Version")
 				+	"', '" + atts.getValue("DataBase")
 				+	"', '" +  atts.getValue("Description").replaceAll("'","''").replaceAll(",","")
-				+	"', '" +  atts.getValue("PK_Name")
+				+	"', '" +  atts.getValue("Name")
 				+	"', '" + atts.getValue("creator")
 				+	"', '" + atts.getValue("creatorcontact")
 				+	"', '" + atts.getValue("createddate")
@@ -317,7 +317,7 @@ public class PackInHandler extends DefaultHandler {
 					+	"', '" + atts.getValue("Version")
 					+	"', '" + atts.getValue("DataBase")
 					+	"', '" +  atts.getValue("Description").replaceAll("'","''").replaceAll(",","")
-					+	"', '" +  atts.getValue("PK_Name")
+					+	"', '" +  atts.getValue("Name")
 					+	"', '" + atts.getValue("creator")
 					+	"', '" + atts.getValue("creatorcontact")
 					+	"', '" + atts.getValue("createddate")
