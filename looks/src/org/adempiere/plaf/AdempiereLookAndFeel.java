@@ -38,7 +38,7 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 	public static final     String  NAME = "Adempiere";
 
 	/** The Theme                   */
-	private static          PlasticTheme  s_adempiereTheme = new org.adempiere.plaf.AdempiereThemeInnova();
+	private static          PlasticTheme  s_adempiereTheme = new org.adempiere.plaf.AdempiereTheme();
 	private static          PlasticTheme      s_theme = s_adempiereTheme;
 
 	/** Paint Round Corners         */
