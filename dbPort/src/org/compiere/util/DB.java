@@ -276,6 +276,9 @@ public final class DB
 	 */
 	public static boolean isConnected(boolean createNew)
 	{
+		//bug [1637432]
+		if (s_cc == null) return false;
+		
 		//wan profile
 		if (DB.isRemoteObjects()) return true;
 		
