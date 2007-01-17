@@ -84,8 +84,7 @@ public class MPackageExp extends X_AD_Package_Exp
 					X_AD_Package_Exp_Detail PackDetail =new X_AD_Package_Exp_Detail(Env.getCtx(), 0, null);
 					PackDetail.setAD_Client_ID(PackSummary.getAD_Client_ID());
 					PackDetail.setAD_Org_ID(PackSummary.getAD_Org_ID());
-					PackDetail.setAD_Package_Exp_ID(getAD_Package_Exp_ID());
-					PackDetail.setPK_Name(PackSummary.getPK_Name());
+					PackDetail.setAD_Package_Exp_ID(getAD_Package_Exp_ID());					
 					PackDetail.setType(rs.getString("TYPE"));
 					PackDetail.setFileName(rs.getString("FILENAME"));
 					PackDetail.setDescription(rs.getString("DESCRIPTION"));
