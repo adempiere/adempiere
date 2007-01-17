@@ -42,7 +42,6 @@ super (ctx, AD_Package_Exp_Detail_ID, trxName);
 setAD_Package_Exp_Detail_ID (0);
 setAD_Package_Exp_ID (0);
 setDescription (null);
-setPK_Name (null);	// @SQL=SELECT PK_Name FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID=@AD_Package_Exp_ID@
 setProcessing (false);
 setType (null);
 }
@@ -478,24 +477,7 @@ public String getName2()
 {
 return (String)get_Value("Name2");
 }
-/** Set PK_Name.
-@param PK_Name Name of package */
-public void setPK_Name (String PK_Name)
-{
-if (PK_Name == null) throw new IllegalArgumentException ("PK_Name is mandatory.");
-if (PK_Name.length() > 60)
-{
-log.warning("Length > 60 - truncated");
-PK_Name = PK_Name.substring(0,59);
-}
-set_Value ("PK_Name", PK_Name);
-}
-/** Get PK_Name.
-@return Name of package */
-public String getPK_Name() 
-{
-return (String)get_Value("PK_Name");
-}
+
 /** Set Processed.
 @param Processed Processed */
 public void setProcessed (boolean Processed)

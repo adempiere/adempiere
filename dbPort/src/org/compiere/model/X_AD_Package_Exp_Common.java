@@ -403,22 +403,22 @@ public String getName2()
 {
 return (String)get_Value("Name2");
 }
-/** Set PK_Name.
-@param PK_Name PK_Name */
-public void setPK_Name (String PK_Name)
+/** Set Name.
+@param Name Name */
+public void setName (String Name)
 {
-if (PK_Name != null && PK_Name.length() > 60)
+if (Name != null && Name.length() > 60)
 {
 log.warning("Length > 60 - truncated");
-PK_Name = PK_Name.substring(0,59);
+Name = Name.substring(0,59);
 }
-set_Value ("PK_Name", PK_Name);
+set_Value ("Name", Name);
 }
-/** Get PK_Name.
-@return PK_Name */
-public String getPK_Name() 
+/** Get Name.
+@return Name */
+public String getName() 
 {
-return (String)get_Value("PK_Name");
+return (String)get_Value("Name");
 }
 /** Set Processed.
 @param Processed The document has been processed */

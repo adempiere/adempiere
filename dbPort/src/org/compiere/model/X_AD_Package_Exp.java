@@ -44,7 +44,7 @@ setDescription (null);
 setEMail (null);
 setFile_Directory (null);
 setInstructions (null);
-setPK_Name (null);
+setName (null);
 setPK_Version (null);
 setProcessing (false);
 setReleaseNo (null);
@@ -216,23 +216,23 @@ public String getInstructions()
 {
 return (String)get_Value("Instructions");
 }
-/** Set PK_Name.
-@param PK_Name Name of Package */
-public void setPK_Name (String PK_Name)
+/** Set Name.
+@param Name Name of Package */
+public void setName (String Name)
 {
-if (PK_Name == null) throw new IllegalArgumentException ("PK_Name is mandatory.");
-if (PK_Name.length() > 60)
+if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
+if (Name.length() > 60)
 {
 log.warning("Length > 60 - truncated");
-PK_Name = PK_Name.substring(0,59);
+Name = Name.substring(0,59);
 }
-set_Value ("PK_Name", PK_Name);
+set_Value ("Name", Name);
 }
-/** Get PK_Name.
+/** Get Name.
 @return Name of Package */
-public String getPK_Name() 
+public String getName() 
 {
-return (String)get_Value("PK_Name");
+return (String)get_Value("Name");
 }
 /** Set PK_Version.
 @param PK_Version Package Version */
