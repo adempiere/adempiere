@@ -448,10 +448,16 @@ public class ProcessCtl extends Thread
 		log.fine(m_pi.toString());
 		boolean started = false;
 		
-		//CacheReset must execute on client
-		boolean resetCache = CacheReset.class.getName().equals(m_pi.getClassName());
+		//hengsin, bug [ 1633995 ]
+		boolean clientOnly = false;
+		Class processClass = null;
+		try {
+			processClass = Class.forName(m_pi.getClassName());
+			if (ClientProcess.class.isAssignableFrom(processClass))
+				clientOnly = true;
+		} catch (Exception e) {}
 		
-		if (DB.isRemoteProcess() && !resetCache)
+		if (DB.isRemoteProcess() && !clientOnly)
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -490,13 +496,12 @@ public class ProcessCtl extends Thread
 			}
 		}
 		//	Run locally
-		if (!started && !m_IsServerProcess)
+		if (!started && (!m_IsServerProcess || clientOnly ))
 		{
 			ProcessCall myObject = null;
 			try
 			{
-				Class myClass = Class.forName(m_pi.getClassName());
-				myObject = (ProcessCall)myClass.newInstance();
+				myObject = (ProcessCall)processClass.newInstance();
 				if (myObject == null)
 					m_pi.setSummary("No Instance for " + m_pi.getClassName(), true);
 				else
