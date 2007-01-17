@@ -150,10 +150,10 @@ public class PackOut extends SvrProcess
 			File file = new File("");
 			fileSeperator = file.separator;
 			packagedir = rs1.getString("File_Directory");			
-			packagename = packagedir + rs1.getString("PK_Name");
-			includesdir = rs1.getString("PK_Name") + fileSeperator+"**";
-			boolean success = (new File(rs1.getString("File_Directory") + rs1.getString("PK_Name")+fileSeperator+"doc"+fileSeperator )).mkdirs();
-			String file_document = rs1.getString("File_Directory") + rs1.getString("PK_Name") +fileSeperator+ "doc"+fileSeperator+rs1.getString("PK_Name")+"Doc.xml";		
+			packagename = packagedir + rs1.getString("Name");
+			includesdir = rs1.getString("Name") + fileSeperator+"**";
+			boolean success = (new File(rs1.getString("File_Directory") + rs1.getString("Name")+fileSeperator+"doc"+fileSeperator )).mkdirs();
+			String file_document = rs1.getString("File_Directory") + rs1.getString("Name") +fileSeperator+ "doc"+fileSeperator+rs1.getString("Name")+"Doc.xml";		
 			OutputStream  fw_document = new FileOutputStream (file_document, false);		
 			StreamResult streamResult_document = new StreamResult(fw_document);		
 			SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
@@ -168,13 +168,13 @@ public class PackOut extends SvrProcess
 			hd_documemt.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"compiereDocument.css\"");
 			hd_documemt.startElement("","","compiereDocument",atts);
 			hd_documemt.startElement("","","header",atts);		
-			hd_documemt.characters((rs1.getString("PK_Name")+" Package Description").toCharArray(),0,(rs1.getString("PK_Name")+" Package Description").length());
+			hd_documemt.characters((rs1.getString("Name")+" Package Description").toCharArray(),0,(rs1.getString("Name")+" Package Description").length());
 			hd_documemt.endElement("","","header");
 			hd_documemt.startElement("","","H1",atts);		
 			hd_documemt.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
 			hd_documemt.endElement("","","H1");
 			hd_documemt.startElement("","","packagename",atts);		
-			hd_documemt.characters(rs1.getString("PK_Name").toCharArray(),0,rs1.getString("PK_Name").length());
+			hd_documemt.characters(rs1.getString("Name").toCharArray(),0,rs1.getString("Name").length());
 			hd_documemt.endElement("","","packagename");					
 			hd_documemt.startElement("","","H1",atts);		
 			hd_documemt.characters(("Creator:" ).toCharArray(),0,("Creator:").length());
@@ -224,8 +224,8 @@ public class PackOut extends SvrProcess
 			hd_documemt.startElement("","","filenotes",atts);
 			hd_documemt.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
 			hd_documemt.endElement("","","filenotes");			
-			success = (new File(rs1.getString("File_Directory") + rs1.getString("PK_Name")+fileSeperator+ "dict"+fileSeperator)).mkdirs();		
-			String file_menu = rs1.getString("File_Directory") + rs1.getString("PK_Name") +fileSeperator+ "dict"+fileSeperator+"PackOut.xml";		
+			success = (new File(rs1.getString("File_Directory") + rs1.getString("Name")+fileSeperator+ "dict"+fileSeperator)).mkdirs();		
+			String file_menu = rs1.getString("File_Directory") + rs1.getString("Name") +fileSeperator+ "dict"+fileSeperator+"PackOut.xml";		
 			OutputStream  fw_menu = new FileOutputStream (file_menu, false);
 			StreamResult streamResult_menu = new StreamResult(fw_menu);		
 			SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
@@ -236,7 +236,7 @@ public class PackOut extends SvrProcess
 			hd_menu.setResult(streamResult_menu);
 			hd_menu.startDocument();
 			atts.clear();
-			atts.addAttribute("","","PK_Name","CDATA",rs1.getString("PK_Name"));
+			atts.addAttribute("","","Name","CDATA",rs1.getString("Name"));
 			atts.addAttribute("","","Version","CDATA",rs1.getString("PK_Version"));
 			atts.addAttribute("","","CompVer","CDATA",rs1.getString("ReleaseNo"));
 			atts.addAttribute("","","DataBase","CDATA",rs1.getString("Version"));
@@ -299,7 +299,7 @@ public class PackOut extends SvrProcess
 						CreateWorkflow (rs.getInt("AD_Workflow_ID"), atts, hd_menu);
 					else if (Type.compareTo("C") == 0){
 						
-						String fullDirectory = rs1.getString("File_Directory") + rs1.getString("PK_Name")+rs.getString("Target_Directory");
+						String fullDirectory = rs1.getString("File_Directory") + rs1.getString("Name")+rs.getString("Target_Directory");
 						String targetDirectoryModified=null;
 						char fileseperator1 = '/';
 						char fileseperator2 = '\\';
@@ -427,7 +427,7 @@ public class PackOut extends SvrProcess
 		//Clean .tar file up
 		success = destTarFile.delete();
 		
-		return "";
+		return "Finish Process";
 	}	//	doIt
 	
 	public void CreateApplication (AttributesImpl atts, TransformerHandler hd_menu, int menu_id) throws SAXException

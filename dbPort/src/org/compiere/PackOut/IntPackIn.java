@@ -138,9 +138,9 @@ public class IntPackIn extends SvrProcess
 		+fileSeperator;
 	if (DB.isOracle())
 		impXML.m_Database = "Oracle";
-/*	else if (DB.isSybase())	
-		impXML.m_Database = "Sybase";
-*/
+	else if (DB.isPostgreSQL())	
+		impXML.m_Database = "PostgreSQL";
+	
 	//call XML Handler	
 	impXML.importXML(dict_file);
 	
