@@ -684,6 +684,9 @@ public abstract class PO
 			else if (p_info.getColumnClass(index) == Boolean.class 
 				&& ("Y".equals(value) || "N".equals(value)) )
 				m_newValues[index] = new Boolean("Y".equals(value));
+			else if (value.getClass() == Integer.class 
+					&& p_info.getColumnClass(index) == String.class)
+					m_newValues[index] = value;			
 			else
 			{
 				log.log(Level.SEVERE, ColumnName
