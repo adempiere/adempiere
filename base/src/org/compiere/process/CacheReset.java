@@ -24,7 +24,7 @@ import org.compiere.util.*;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: CacheReset.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class CacheReset extends SvrProcess
+public class CacheReset extends SvrProcess implements ClientProcess
 {
 	/**
 	 *  Prepare - e.g., get Parameters.
