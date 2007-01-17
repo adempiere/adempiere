@@ -866,7 +866,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			}
 		} else if (retValue.indexOf("ROWNUM=1") > 1) {
 			int rownum = retValue.indexOf("ROWNUM=1");
-			System.out.println("retValue" + retValue);
+			//System.out.println("retValue" + retValue);
 			if (retValue.substring(0, rownum).contains("WHERE")) {
 				retValue = Util.replace(retValue, "ROWNUM=1 ", " LIMIT 1");
 				return convert + retValue;
@@ -959,7 +959,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			// sqlStatement = sqlStatement.replaceFirst(",'DY'", "");
 			return sqlStatement;
 		}
-		System.out.println("SQL=" + sqlStatement);
+		//System.out.println("SQL=" + sqlStatement);
 		return sqlStatement;
 
 		// end vpj-cd e-evolution 09/02/2005 PostgreSQL
@@ -1231,7 +1231,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				if (f < 0) {
 					updateField = updateFields;
 					joinField = joinFields.trim();
-					if (joinField.indexOf(".") < 0) {
+					if (joinField.indexOf(".") < 0 && isIdentifier(joinField)) {
 						joinField = joinAlias + "." + joinField;
 					}
 
@@ -1279,8 +1279,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					// fieldsjoin.indexOf(',');
 
 					joinField = joinFields.substring(0, fj).trim();
-					if (joinField.indexOf(".") < 0 != joinField
-							.equals("SysDate")) {
+					if (joinField.indexOf(".") < 0 && isIdentifier(joinField)) {
 						joinField = joinAlias + "." + joinField;
 					}
 					Update.append(updateField.trim());
@@ -1464,9 +1463,14 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 */
 	private boolean isIdentifier(String token)
 	{
-		if (isOperator(token))
-			return false;
-		else if (token.startsWith("'") && token.startsWith("'"))
+		int size = token.length();
+		for (int i = 0; i < size; i++)
+		{
+			char c = token.charAt(i);
+			if (isOperator(c))
+				return false;
+		}
+		if (token.startsWith("'") && token.endsWith("'"))
 			return false;
 		else 
 		{
