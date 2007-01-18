@@ -416,6 +416,7 @@ public class GridField
 			|| DisplayType.isLOB(m_vo.displayType))
 			return null;
 		//	Set Parent to context if not explitly set
+		//  hengsin, bug[1637757]
 		if (isParentValue()
 			&& (m_vo.DefaultValue == null || m_vo.DefaultValue.length() == 0))
 		{
@@ -423,6 +424,7 @@ public class GridField
 			log.fine("[Parent] " + m_vo.ColumnName + "=" + parent);
 			return createDefault(parent);
 		}
+		
 		//	Always Active
 		if (m_vo.ColumnName.equals("IsActive"))
 		{
@@ -1041,10 +1043,46 @@ public class GridField
 				log.config(m_vo.IsParent
 					+ " - Link(" + LinkColumnName + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
 					+ ") = " + m_vo.ColumnName);
+			else
+				m_vo.IsParent = isIndirectParentValue();
 		}
 		m_parentChecked = true;
 		return m_vo.IsParent;
 	}
+	
+	/**
+	 * bug[1637757]
+	 * Check whether is indirect parent. 
+	 * @return boolean
+	 */
+	private boolean isIndirectParentValue()
+	{
+		boolean result = false;
+		int tabNo = m_vo.TabNo;
+		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+		if (tabNo > 1 && currentLevel > 1)
+		{
+			while ( tabNo >= 1 && !result)
+			{
+				tabNo--;
+				int level = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+				if (level > 0 && level < currentLevel) 
+				{
+					String linkColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, tabNo, "LinkColumnName");
+					if (m_vo.ColumnName.equals(linkColumn))
+					{
+						result = true;
+						log.config(result
+								+ " - Link(" + linkColumn + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
+								+ ") = " + m_vo.ColumnName);
+					}
+					currentLevel = level;
+				}
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * 	Get Callout
 	 *	@return callout
