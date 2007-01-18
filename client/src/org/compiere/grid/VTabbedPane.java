@@ -146,6 +146,38 @@ public class VTabbedPane extends CTabbedPane
 		removeAll();
 	}   //  dispose
 
+	@Override
+	//hengsin, bug [ 1637763 ]
+	public boolean isEnabledAt(int index) {
+		boolean enabled = super.isEnabledAt(index); 
+		if (!enabled) return enabled;
+		Component comp = getComponentAt(index);
+		GridController gc = null;
+		if (comp instanceof GridController)
+			gc = (GridController)comp;
+		//	Display
+		if (gc != null)
+		{
+			enabled = isDisplay(gc);
+		}
+		return enabled;
+	}
+
+	//hengsin, bug [ 1637763 ]
+	private boolean isDisplay(GridController gc)
+	{
+		String logic = gc.getDisplayLogic();
+		if (logic != null && logic.length() > 0)
+		{
+			boolean display = Evaluator.evaluateLogic(gc, logic);
+			if (!display)
+			{
+				log.info("Not displayed - " + logic);
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * 	Set Selected Index.
@@ -161,16 +193,9 @@ public class VTabbedPane extends CTabbedPane
 		//	Display
 		if (newGC != null)
 		{
-			String logic = newGC.getDisplayLogic();
-			if (logic != null && logic.length() > 0)
-			{
-				boolean display = Evaluator.evaluateLogic(newGC, logic);
-				if (!display)
-				{
-					log.info("Not displayed - " + logic);
-					return;
-				}
-			}
+			//hengsin, bug [ 1637763 ]
+			if(isDisplay(newGC) == false)
+				return;
 		}
 
 		//
@@ -183,23 +208,38 @@ public class VTabbedPane extends CTabbedPane
 				GridController oldGC = (GridController)oldC;
 				if (newGC.getTabLevel() > oldGC.getTabLevel()+1)
 				{
+					//  validate
 					//	Search for right tab
+					GridController rightGC = null;
+					boolean canJump = true;
+					int currentLevel = newGC.getTabLevel();
 					for (int i = index-1; i >=0; i--)
 					{
 						Component rightC = getComponentAt(i);
-						GridController rightGC = null;
 						if (rightC instanceof GridController)
 						{
-							rightGC = (GridController)rightC;
-							if (rightGC.getTabLevel() == oldGC.getTabLevel()+1)
+							GridController gc = (GridController)rightC;
+							//can only skip level if all parent data are not stale
+							if (gc.getTabLevel() < currentLevel)
 							{
-								ADialog.warn(0, this, "TabSwitchJumpGo", rightGC.getTitle());
-								return;
+								if (gc.getTabLevel() == oldGC.getTabLevel()+1)
+								{
+									rightGC = gc;
+								}							
+								if (!gc.isCurrent())
+									canJump = false;
+								currentLevel = gc.getTabLevel();
 							}
 						}
 					}
-					ADialog.warn(0, this, "TabSwitchJump");
-					return;
+					if (canJump == false)
+					{
+						if (rightGC != null )
+							ADialog.warn(0, this, "TabSwitchJumpGo", rightGC.getTitle());
+						else
+							ADialog.warn(0, this, "TabSwitchJump");
+						return;
+					}
 				}
 				oldGC.setMnemonics(false);
 			}

@@ -1098,5 +1098,12 @@ public class GridController extends CPanel
 		return Env.getContext(Env.getCtx(), m_WindowNo, variableName);
 	}	//	get_ValueAsString
 
-	
+	/**
+	 * Is controller data not stale
+	 * @return boolean
+	 */
+	public boolean isCurrent()
+	{
+		return m_mTab != null ? m_mTab.isCurrent() : false;
+	}
 }   //  GridController

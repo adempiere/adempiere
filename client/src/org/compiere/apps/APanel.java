@@ -516,6 +516,7 @@ public final class APanel extends CPanel
 					boolean included = false;
 					//  MTab
 					GridTab gTab = m_mWorkbench.getMWindow(wb).getTab(tab);
+					Env.setContext(m_ctx, m_curWindowNo, tab, "TabLevel", Integer.toString(gTab.getTabLevel()));
 					//  Query first tab
 					if (tab == 0)
 					{
@@ -1127,8 +1128,29 @@ public final class APanel extends CPanel
 		int index = m_curWinTab.getSelectedIndex();
 		if (index == m_curWinTab.getTabCount()-1)
 			return;
-		m_curGC.getTable().removeEditor();
-		m_curWinTab.setSelectedIndex(index+1);
+		//hengsin, bug [ 1637763 ]
+		if (m_curWinTab instanceof VTabbedPane)
+		{
+			VTabbedPane tabPane = (VTabbedPane)m_curWinTab;
+			index++;
+			while ( index < tabPane.getTabCount() )
+			{
+				if (tabPane.isEnabledAt(index))
+				{
+					m_curGC.getTable().removeEditor();
+					tabPane.setSelectedIndex(index);
+					break;
+				}
+				else
+					index++;
+			}
+		}
+		else
+		{
+			m_curGC.getTable().removeEditor();
+			m_curWinTab.setSelectedIndex(index+1);
+		}
+			
 	}	//	navigateDetail
 
 	/**
@@ -1139,8 +1161,28 @@ public final class APanel extends CPanel
 		int index = m_curWinTab.getSelectedIndex();
 		if (index == 0)
 			return;
-		m_curGC.getTable().removeEditor();
-		m_curWinTab.setSelectedIndex(index-1);
+		//hengsin, bug [ 1637763 ]
+		if (m_curWinTab instanceof VTabbedPane)
+		{
+			VTabbedPane tabPane = (VTabbedPane)m_curWinTab;
+			index--;
+			while ( index >= 0 )
+			{
+				if (tabPane.isEnabledAt(index))
+				{
+					m_curGC.getTable().removeEditor();
+					tabPane.setSelectedIndex(index);
+					break;
+				}
+				else
+					index--;
+			}
+		}
+		else
+		{
+			m_curGC.getTable().removeEditor();
+			m_curWinTab.setSelectedIndex(index-1);
+		}
 	}	//	navigateParent
 
 	
