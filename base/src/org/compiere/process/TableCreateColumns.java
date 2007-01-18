@@ -212,6 +212,14 @@ public class TableCreateColumns extends SvrProcess
 			{
 				element = new M_Element (getCtx (), columnName, p_EntityType,
 					get_TrxName ());
+				//contribution from teo_sarca, bug [ 1637912 ]
+				//create column and element using the same case as the table, 
+				//and the name & description from table
+				if (columnName.equalsIgnoreCase (table.getTableName() + "_ID")) {
+					element.setColumnName(table.getTableName() + "_ID");
+					element.setName(table.getName());
+					element.setPrintName(table.getName());
+				}
 				element.save ();
 			}
 			column.setColumnName (element.getColumnName ());
@@ -229,7 +237,8 @@ public class TableCreateColumns extends SvrProcess
 				column.setIsUpdateable(false);
 			}
 			// Account
-			else if (columnName.toUpperCase ().indexOf ("ACCT") != -1
+			// bug [ 1637912 ] 
+			else if (columnName.toUpperCase ().endsWith("_ACCT")
 				&& size == 10)
 				column.setAD_Reference_ID (DisplayType.Account);
 			// Account
