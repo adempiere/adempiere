@@ -220,7 +220,7 @@ public class MRequestProcessor extends X_R_RequestProcessor
 			+ "WHERE R_RequestProcessor_ID=" + getR_RequestProcessor_ID() 
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
 		int no = DB.executeUpdate(sql, get_TrxName());
-		return 0;
+		return no;
 	}	//	deleteLog
 	
 	/**
