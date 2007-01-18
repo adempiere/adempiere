@@ -433,7 +433,8 @@ public final class MSetup
 			sql2 = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=181";
 		else
 			sql2 = "SELECT l.Value, t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
-				+ "WHERE l.AD_Reference_ID=181 AND l.AD_Ref_List_ID=t.AD_Ref_List_ID";
+				+ "WHERE l.AD_Reference_ID=181 AND l.AD_Ref_List_ID=t.AD_Ref_List_ID"
+				+ " AND t.AD_Language=" + DB.TO_STRING(m_lang); //bug [ 1638421 ]
 		//
 		int Element_OO=0, Element_AC=0, Element_PR=0, Element_BP=0, Element_PJ=0,
 			Element_MC=0, Element_SR=0;
