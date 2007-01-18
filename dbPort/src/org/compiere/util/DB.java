@@ -1022,30 +1022,24 @@ public final class DB
 
 	/**
 	 *	Execute Update and throw exception.
-	 *  @param SQL sql
+	 *  @param sql
 	 *  @return number of rows updated or -1 if error
 	 * 	@param trxName transaction
 	 * 	@throws SQLException
 	 */
-	public static int executeUpdateEx (String SQL, String trxName) throws SQLException
+	public static int executeUpdateEx (String sql, String trxName) throws SQLException
 	{
-		if (SQL == null || SQL.length() == 0)
-			throw new IllegalArgumentException("Required parameter missing - " + SQL);
+		if (sql == null || sql.length() == 0)
+			throw new IllegalArgumentException("Required parameter missing - " + sql);
 		//
-		String sql = getDatabase().convertStatement(SQL);
 		int no = -1;
+		CPreparedStatement cs = new CPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
+			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
+		
 		SQLException ex = null;
-		Connection conn = null;
-		Statement stmt = null;
 		try
 		{
-			Trx trx = trxName == null ? null : Trx.get(trxName, true);
-			if (trx != null)
-				conn = trx.getConnection();
-			else
-				conn = DB.getConnectionRW ();
-			stmt = conn.createStatement();
-			no = stmt.executeUpdate(sql);
+			no = cs.executeUpdate();
 		}
 		catch (SQLException e)
 		{
@@ -1057,7 +1051,7 @@ public final class DB
 			//  Always close cursor
 			try
 			{
-				stmt.close();
+				cs.close();
 			}
 			catch (SQLException e2)
 			{
@@ -1065,7 +1059,7 @@ public final class DB
 			}
 		}
 		if (ex != null)
-			throw new SQLException(ex.getMessage(), ex.getSQLState(), ex.getErrorCode());
+			throw ex;
 		return no;
 	}	//	execute Update
 
