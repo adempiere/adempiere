@@ -173,7 +173,7 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 			+ "WHERE AD_WorkflowProcessor_ID=" + getAD_WorkflowProcessor_ID() 
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
 		int no = DB.executeUpdate(sql, get_TrxName());
-		return 0;
+		return no;
 	}	//	deleteLog
 
 }	//	MWorkflowProcessor

@@ -195,7 +195,7 @@ public class MAcctProcessor extends X_C_AcctProcessor
 			+ "WHERE C_AcctProcessor_ID=" + getC_AcctProcessor_ID() 
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
 		int no = DB.executeUpdate(sql, get_TrxName());
-		return 0;
+		return no;
 	}	//	deleteLog
 
 }	//	MAcctProcessor

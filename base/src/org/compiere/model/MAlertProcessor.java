@@ -174,7 +174,7 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 			+ "WHERE AD_AlertProcessor_ID=" + getAD_AlertProcessor_ID() 
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
 		int no = DB.executeUpdate(sql, get_TrxName());
-		return 0;
+		return no;
 	}	//	deleteLog
 
 	
