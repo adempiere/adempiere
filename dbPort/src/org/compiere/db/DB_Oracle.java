@@ -51,6 +51,16 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 			log.log(Level.SEVERE, e.getMessage());
 		}
 		**/
+		// teo [ bug 1638208 ]: oracle 10g DATETIME issue
+		// http://www.oracle.com/technology/tech/java/sqlj_jdbc/htdocs/jdbc_faq.htm#08_01
+		try
+		{
+			System.setProperty("oracle.jdbc.V8Compatible", "true");
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, e.getMessage());
+		}	
 	}   //  DB_Oracle
 
 	/** Static Driver           	*/
@@ -789,95 +799,108 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 	
 	/**
 	 * 	Get Data Type
+	 *  @param columnName
 	 *	@param displayType display type
 	 *	@param precision precision
 	 *	@param defaultValue if true adds default value
 	 *	@return data type
 	 */
-	public String getDataType (int displayType, int precision,
+	public String getDataType (String columnName, int displayType, int precision,
 		boolean defaultValue)
 	{
 		String retValue = null;
-		switch (displayType)
+		//handle special case, bug [ 1618423 ] 
+		if (columnName != null) 
 		{
-			//	IDs
-			case DisplayType.Account:
-			case DisplayType.Assignment:
-			case DisplayType.Color:
-			case DisplayType.ID:
-			case DisplayType.Location:
-			case DisplayType.Locator:
-			case DisplayType.PAttribute:
-			case DisplayType.Search:
-			case DisplayType.Table:
-			case DisplayType.TableDir:
-			case DisplayType.Image:
+			if (displayType == DisplayType.Button
+				&& columnName.endsWith("_ID"))
+			{
 				retValue = "NUMBER(10)";
-				break;
-				
-			// Dynamic Precision
-			case DisplayType.Amount:
-				retValue = "NUMBER";
-				if (defaultValue)
-					retValue += " DEFAULT 0";
-				break;
-				
-			case DisplayType.Binary:
-				retValue = "BLOB";
-				break;
-				
-			case DisplayType.Button:
-				retValue = "CHAR(1)";
-				break;
-				
-			// Number Dynamic Precision
-			case DisplayType.CostPrice:
-				retValue = "NUMBER";
-				if (defaultValue)
-					retValue += " DEFAULT 0";
-				break;
-				
-			//	Date	
-			case DisplayType.Date:
-			case DisplayType.DateTime:
-			case DisplayType.Time:
-				retValue = "DATE";
-				if (defaultValue)
-					retValue += " DEFAULT SYSDATE";
-				break;
-				
-			// 	Number(10)
-			case DisplayType.Integer:
-				retValue = "NUMBER(10)";
-				break;
-				
-			case DisplayType.List:
-				retValue = "CHAR(" + precision + ")";
-				break;
-
-			//	NVARCHAR
-			case DisplayType.Memo:
-			case DisplayType.String:
-			case DisplayType.Text:
-				retValue = "NVARCHAR(" + precision + ")";
-				break;
-
-			case DisplayType.TextLong:
-				retValue = "CLOB";
-				break;
-
-			//	Dyn Prec
-			case DisplayType.Quantity:
-				retValue = "NUMBER";
-				break;
-
-			case DisplayType.YesNo:
-				retValue = "CHAR(1)";
-				break;
-				
-			default:
-				log.severe("Unknown: " + displayType);
-				break;
+			}
+		}
+		if (retValue == null)
+		{
+			switch (displayType)
+			{
+				//	IDs
+				case DisplayType.Account:
+				case DisplayType.Assignment:
+				case DisplayType.Color:
+				case DisplayType.ID:
+				case DisplayType.Location:
+				case DisplayType.Locator:
+				case DisplayType.PAttribute:
+				case DisplayType.Search:
+				case DisplayType.Table:
+				case DisplayType.TableDir:
+				case DisplayType.Image:
+					retValue = "NUMBER(10)";
+					break;
+					
+				// Dynamic Precision
+				case DisplayType.Amount:
+					retValue = "NUMBER";
+					if (defaultValue)
+						retValue += " DEFAULT 0";
+					break;
+					
+				case DisplayType.Binary:
+					retValue = "BLOB";
+					break;
+					
+				case DisplayType.Button:
+					retValue = "CHAR(1)";
+					break;
+					
+				// Number Dynamic Precision
+				case DisplayType.CostPrice:
+					retValue = "NUMBER";
+					if (defaultValue)
+						retValue += " DEFAULT 0";
+					break;
+					
+				//	Date	
+				case DisplayType.Date:
+				case DisplayType.DateTime:
+				case DisplayType.Time:
+					retValue = "DATE";
+					if (defaultValue)
+						retValue += " DEFAULT SYSDATE";
+					break;
+					
+				// 	Number(10)
+				case DisplayType.Integer:
+					retValue = "NUMBER(10)";
+					break;
+					
+				case DisplayType.List:
+					retValue = "CHAR(" + precision + ")";
+					break;
+	
+				//	NVARCHAR
+				case DisplayType.Memo:
+				case DisplayType.String:
+				case DisplayType.Text:
+					retValue = "NVARCHAR(" + precision + ")";
+					break;
+	
+				case DisplayType.TextLong:
+					retValue = "CLOB";
+					break;
+	
+				//	Dyn Prec
+				case DisplayType.Quantity:
+					retValue = "NUMBER";
+					break;
+	
+				case DisplayType.YesNo:
+					retValue = "CHAR(1)";
+					break;
+					
+				default:
+					log.severe("Unknown: " + displayType);
+					break;
+			}
 		}
 		return retValue;
 	}	//	getDataType
