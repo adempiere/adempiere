@@ -100,6 +100,7 @@
     <unjar src="..\print\Print.jar" dest="${build.dir}" />
     <unjar src="..\extend\Extend.jar" dest="${build.dir}" />
     <!-- <unjar src="..\interfaces\Interfaces.jar" dest="${build.dir}" /> -->
+  	<unjar src="..\JasperReports\CompiereJasper.jar" dest="${build.dir}" />
     <delete dir="${build.dir}/META-INF"/>
 
     <!-- put everything from ${build.dir} into Adempiere.jar file -->
