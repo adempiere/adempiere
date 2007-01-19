@@ -127,6 +127,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		to.setIsTransferred (false);
 		to.setPosted (false);
 		to.setProcessed (false);
+		//[ 1633721 ] Reverse Documents- Processing=Y
+		to.setProcessing(false);
 		//	delete references
 		to.setIsSelfService(false);
 		if (!setOrder)

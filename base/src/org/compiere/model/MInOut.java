@@ -183,6 +183,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		//
 		to.setPosted (false);
 		to.setProcessed (false);
+		//[ 1633721 ] Reverse Documents- Processing=Y
+		to.setProcessing(false);
 		to.setC_Order_ID(0);	//	Overwritten by setOrder
 		if (counter)
 		{
