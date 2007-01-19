@@ -186,10 +186,12 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	}
 
 	private String recoverQuotedStrings(String retValue, Vector<String>retVars) {
-		Pattern p = Pattern.compile("<-->", REGEX_FLAGS);
+		Pattern p = Pattern.compile("<-->", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
 		Matcher m = p.matcher(retValue);
 		for (int cont = 0; cont < retVars.size(); cont++) {
-			retValue = m.replaceFirst((String) retVars.get(cont));
+			//hengsin, special character in replacement can cause exception
+			String replacement = (String) retVars.get(cont);
+			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
 			m = p.matcher(retValue);
 		}
 		return retValue;
