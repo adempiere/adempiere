@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-digester-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/iReport.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/itext-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfreechart-0.9.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="oracle.jar"/>
+	<classpathentry exported="true" kind="lib" path="postgresql.jar"/>
+	<classpathentry exported="true" kind="lib" path="sybase.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jasperreports-0.6.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

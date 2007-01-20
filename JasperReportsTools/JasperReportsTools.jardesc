@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="./JasperReportsTools/JasperReportsTools.jar"/>
+    <options overwrite="true" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/JasperReportsTools/JasperReportsTools.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="true">
+        <file path="/JasperReportsTools/.classpath"/>
+        <folder path="/JasperReportsTools/lib"/>
+        <file path="/JasperReportsTools/JasperReportsTools.jardesc"/>
+        <file path="/JasperReportsTools/.project"/>
+    </selectedElements>
+</jardesc>
