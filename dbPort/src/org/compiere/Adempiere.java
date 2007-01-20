@@ -51,32 +51,22 @@ public final class Adempiere
 	static public final String	NAME 			= "Adempiere\u00AE";
 	/** URL of Product          */
 	static public final String	URL				= "www.adempiere.org";
-	/** 16*16 Product Image.
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
+	/** 16*16 Product Image. **/
 	static private final String	s_File16x16		= "images/AD16.gif";
-	/** 32*32 Product Image.     
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
+	/** 32*32 Product Image.   	*/
 	static private final String	s_file32x32		= "images/AD32.gif";
-	/** 100*30 Product Image.    
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
+	/** 100*30 Product Image.  	*/
 	static private final String	s_file100x30	= "images/AD10030.png";
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
 	static private final String	s_file100x30HR	= "images/AD10030HR.png";
-	/** 48*15 Product Image.    	
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
+	/** 48*15 Product Image.   	*/
 	static private final String	s_file48x15		= "images/Adempiere.png";
-	/** Removing/modifying the Adempiere logo is a violation of the license	*/
 	static private final String	s_file48x15HR	= "images/AdempiereHR.png";
 	/** Support Email           */
 	static private String		s_supportEmail	= "";
 
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
-	/** Adempiere is a wordwide registered Trademark
-	 *  - Don't modify this - Program will someday fail unexpectedly	*/
 	static public final String	ADEMPIERE_R		= "Adempiere\u00AE";
-	/** Copyright Notice - Don't modify this - Program will someday fail unexpectedly
-	 *  it also violates the license and you'll be held liable for any damage claims */
 	static public final String	COPYRIGHT		= "\u00A9 1999-2006 Adempiere \u00AE";
 
 	static private String		s_ImplementationVersion = null;
@@ -122,8 +112,7 @@ public final class Adempiere
 
 	/**
 	 *	Summary (Windows).
-	 * 	Removing/modifying the Adempiere copyright notice is a violation of the license
-	 *	Adempiere(tm) Version 2.5.1a_2004-03-15 - Smart ERP & CRM - Copyright (c) 1999-2005 Jorg Janke; Implementation: 2.5.1a 20040417-0243 - (C) 1999-2005 Jorg Janke, Adempiere Inc. USA
+	 * 	Adempiere(tm) Version 2.5.1a_2004-03-15 - Smart ERP & CRM - Copyright (c) 1999-2005 Jorg Janke; Implementation: 2.5.1a 20040417-0243 - (C) 1999-2005 Jorg Janke, Adempiere Inc. USA
 	 *  @return Summary in Windows character set
 	 */
 	public static String getSummary()
@@ -247,8 +236,7 @@ public final class Adempiere
 
 	/**
 	 *  Get 16x16 Image.
-	 *	Removing/modifying the Adempiere logo is a violation of the license
-	 *  @return Image Icon
+	 *	@return Image Icon
 	 */
 	public static Image getImage16()
 	{
@@ -307,8 +295,7 @@ public final class Adempiere
 
 	/**
 	 *  Get 32x32 ImageIcon.
-	 *	Removing/modifying the Adempiere logo is a violation of the license
-	 *  @return Image Icon
+	 *	@return Image Icon
 	 */
 	public static ImageIcon getImageIcon32()
 	{
@@ -325,8 +312,7 @@ public final class Adempiere
 
 	/**
 	 *  Get 100x30 ImageIcon.
-	 *	Removing/modifying the Adempiere logo is a violation of the license
-	 *  @return Image Icon
+	 *	@return Image Icon
 	 */
 	public static ImageIcon getImageIconLogo()
 	{
