@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="./JasperReports/JasperReports.jar"/>
+    <options overwrite="true" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/JasperReports/JasperReports.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="true">
+        <file path="/JasperReports/Tasks.txt"/>
+        <file path="/JasperReports/.project"/>
+        <file path="/JasperReports/build.xml"/>
+        <folder path="/JasperReports/doc"/>
+        <file path="/JasperReports/JasperReports.jardesc"/>
+        <javaElement handleIdentifier="=JasperReports/src"/>
+        <file path="/JasperReports/patch-2.5.2a.diff"/>
+        <folder path="/JasperReports/scripts"/>
+        <file path="/JasperReports/patch-2.5.2b.diff"/>
+        <file path="/JasperReports/RUN_build.bat"/>
+        <file path="/JasperReports/patch-2.5.2b.pre-c.2.diff"/>
+        <file path="/JasperReports/.classpath"/>
+        <folder path="/JasperReports/.externalToolBuilders"/>
+        <file path="/JasperReports/RUN_build.sh"/>
+        <file path="/JasperReports/.cvsignore"/>
+    </selectedElements>
+</jardesc>
