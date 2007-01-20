@@ -1,0 +1,11 @@
+oracle.host=HOST
+oracle.port=1521
+oracle.sid=SID
+oracle.search=orcl
+oracle.username=USER_NAME
+oracle.password=PASSWORD
+
+REM compiere.dir=%ADEMPIERE_HOME%
+
+createSQL.file=sql/CreateTable-Oracle-ID-001.sql
+alterSQL.file=sql/AlterTable-Oracle-ID-001.sql

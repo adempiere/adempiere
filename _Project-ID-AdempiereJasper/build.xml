@@ -1,0 +1,601 @@
+<!-- ============================================= -->
+<!-- AD Customizations Keeper tool.                -->
+<!--                                               -->
+<!-- Trifon N. Trifonov                            -->
+<!-- trifonnt@yahoo.com                            -->
+<!-- ============================================= -->
+
+<project name="_Project-ID-AdempiereJasper" default="init" basedir=".">
+
+  <description>
+    AD Customizations Keeper tool.
+    AD Customizations Keeper helps you to store your Compiere ERP+CRM customizations in xml format.
+  	It uses Druid to build visually tables, columns and other elements from AD. 
+  	It uses XML2AD in order to transform set of XML files in several updates towards the database
+  	and insert the GUI you have expressed in XML into the database i.e. into Compiere.
+  </description>
+
+  <!-- Set global properties for this build -->
+  <property environment="env"/>
+  <property file="build.properties"/>
+  <property name="plugins.dir"     value="plugins"/>
+  <!--property name="compiere.dir"    value="${env.COMPIERE_HOME}"/-->
+  <property name="compiere.dir"    value="${env.ADEMPIERE_HOME}"/> <!-- In order to work with Adempiere -->
+  
+  <!-- Value of this properties could be overriden by property specified on command line -->
+  <property name="model.file"     value="xml/model/Model.xml"/>
+  <property name="view.file"      value="xml/view/View.xml"/>
+  <property name="data.file"      value="xml/data/Data.xml"/>
+  <!--property name="createSQL.file" value="sql/CreateTable-Oracle.sql"/-->
+  <!--property name="alterSQL.file"  value="sql/AlterTable-Oracle.sql"/-->
+  <!--property name="PropertyFile"   value="../_production/Compiere2/Compiere.properties" /-->
+  <property name="PropertyFile"   value="../_production/Adempiere/Adempiere.properties" /> <!-- In order to work with Adempiere -->
+	
+  <!-- Set path to include the necessary jar files for javac -->
+  <path id="project.classpath">
+  	<fileset dir="lib" includes="*.jar" />
+  	
+    <pathelement path="${compiere.dir}/lib/Adempiere.jar"/>
+    <pathelement path="${compiere.dir}/lib/AdempiereCLib.jar"/>
+    <pathelement path="${compiere.dir}/lib/Compiere.jar"/>
+    <pathelement path="${compiere.dir}/lib/CompiereCLib.jar"/>
+    <pathelement path="${compiere.dir}/lib/CSTools.jar"/>
+    <pathelement path="${compiere.dir}/lib/oracle.jar"/>
+    <pathelement path="${compiere.dir}/lib/jboss.jar"/>
+    <pathelement path="${compiere.dir}/lib/CClient.jar"/> <!-- Version 2.5.1x -->
+
+  </path>
+  
+  <typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
+    <classpath refid="project.classpath" />
+  </typedef>
+	
+  <echo>compiere.dir = ${compiere.dir}</echo>
+  <echo>project.classpath = ${project.classpath}</echo>
+  
+  <target name="init" description="Initialization target">
+    <echo message="AD Customizations Keeper tool...
+        AD Customizations Keeper helps you to store your Compiere ERP+CRM customizations in xml format."
+    />
+    <!-- Create the time stamp -->
+    <tstamp/>
+  </target>
+  
+  <target name="compile" >
+  	<antcall target="build-plugins">
+  	  <param name="target" value="build" />
+  	</antcall>
+  </target>
+  
+  <target name="zip">
+  	<zip destfile="${ant.project.name}.zip" >
+  	  <fileset dir="." includes="**/*" excludes="${ant.project.name}.zip, build-ID-001.bat, build-ID-001.sh, build-ID-001.properties, resultCreateSQL.txt, resultAlterSQL.txt, logs/*.log, temp/*.xml, result/**/*.xml, sql/CreateTable-Oracle-ID-001-part.sql, sql/AlterTable-Oracle-ID-001-part.sql" />
+  	</zip>
+  </target>
+	
+	<target name="build-plugins">
+		<subant target="${target}">
+			<fileset dir="./plugins/src/" includes="*/build.xml"/>
+			<reference refid="project.classpath" torefid="plugin.classpath"/>
+		</subant>
+	</target>
+	
+  <target name="dist"
+	      depends="compile"
+	      description="Prepares distribution packages">
+    
+  	<jpf-zip basedir="${plugins.dir}/src"
+		     includes="*/plugin.xml,*/plugin-fragment.xml"
+		     destdir="${plugins.dir}" />
+  	
+  </target>
+	
+  <target name="createDB" description="Execute CREATE SQL statements" >
+    <sql
+      driver="oracle.jdbc.driver.OracleDriver"
+      url="jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}"
+      userid="${oracle.username}"
+      password="${oracle.password}"
+      src="${createSQL.file}"
+      print="yes"
+      output="resultCreateSQL.txt"
+      onerror="continue"
+    >
+      <classpath>
+	    <pathelement location="${compiere.dir}/lib/oracle.jar"/>
+      </classpath>
+    </sql>
+  </target>
+  
+  <target name="alterDB" description="Execute ALTER TABLE SQL statements" >
+    <sql
+      driver="oracle.jdbc.driver.OracleDriver"
+      url="jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}"
+      userid="${oracle.username}"
+      password="${oracle.password}"
+      src="${alterSQL.file}"
+      print="yes"
+      output="resultAlterSQL.txt"
+      onerror="continue"
+    >
+      <classpath>
+	    <pathelement location="${compiere.dir}/lib/oracle.jar"/>
+      </classpath>
+    </sql>
+  </target>
+ 
+  <target name="model_Old" description="Create records in AD_Table, AD_Column and other Model tables" >
+  	<echo>Trifon ---: -DPropertyFile=${PropertyFile}</echo>
+    <java classname="org.compiere.compilo.XML2AD"
+    	  fork="true" >
+      <arg value="${model.file}"/>
+      <arg value="${oracle.host}"/>
+      <arg value="${oracle.port}"/>
+      <arg value="${oracle.search}"/>
+      <arg value="${oracle.username}"/>
+      <arg value="${oracle.password}"/>
+      <classpath refid="project.classpath"/>
+      <jvmarg value="-DPropertyFile=${PropertyFile}" />
+    </java>
+  </target>
+
+	<target name="model" description="Create records in AD_Table, AD_Column and other Model tables.">
+		<echo>Trifon ---: -DPropertyFile=${PropertyFile}</echo>
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="${model.file}"/>
+	
+			<classpath refid="project.classpath"/>
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<!--jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" /-->
+		</java>
+	</target>
+	
+  <target name="view_Old" description="Create records in AD_Window, AD_Tab and other View tables." >
+    <java classname="org.compiere.compilo.XML2AD"
+          fork="true" >
+      <arg value="${view.file}"/>
+      <arg value="${oracle.host}"/>
+      <arg value="${oracle.port}"/>
+      <arg value="${oracle.search}"/>
+      <arg value="${oracle.username}"/>
+      <arg value="${oracle.password}"/>
+      <classpath refid="project.classpath"/>
+      <jvmarg value="-DPropertyFile=${PropertyFile}" />
+    </java>
+  </target>
+
+	<target name="view" description="Create records in AD_Window, AD_Tab and other View tables.">
+		<echo>Trifon ---: -DPropertyFile=${PropertyFile}</echo>
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="${view.file}"/>
+	
+			<classpath refid="project.classpath"/>
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<!--jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" /-->
+		</java>
+	</target>
+	
+  <target name="data_Old">
+    <java classname="org.compiere.compilo.XML2AD"
+          fork="true" >
+      <arg value="${data.file}"/>
+      <arg value="${oracle.host}"/>
+      <arg value="${oracle.port}"/>
+      <arg value="${oracle.search}"/>
+      <arg value="${oracle.username}"/>
+      <arg value="${oracle.password}"/>
+      <classpath refid="project.classpath"/>
+      <jvmarg value="-DPropertyFile=${PropertyFile}" />
+    </java>
+  </target>
+
+	<target name="data" description="Used for Import of records. Will be replaced by imp_X_xxx.">
+		<echo>Trifon ---: -DPropertyFile=${PropertyFile}</echo>
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="${data.file}"/>
+	
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<!--jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" /-->
+		</java>
+	</target>
+	
+	<target name="dataAll" 
+		depends="imp_AD_Role, imp_AD_Role_OrgAccess, imp_AD_User_Roles, imp_AD_Window_Access
+		, imp_AD_Process_Access, imp_AD_Workflow_Access, imp_AD_Column_Access
+		, imp_AD_Form_Access, imp_C_Cause, imp_C_BP_Group, imp_AD_PrintFormat, imp_AD_PrintTableFormat" 
+		description="Executes all data imports">
+	</target>
+	
+	<target name="imp_AD_Role" description="Import AD_Role records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Role.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Role-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+	
+	<target name="imp_AD_Role_OrgAccess" description="Import AD_Role_OrgAccess records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Role_OrgAccess.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Role_OrgAccess-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_User_Roles" description="Import AD_User_Roles records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_User_Roles.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_User_Roles-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_Window_Access" description="Import AD_Window_Access records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Window_Access.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Window_Access-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+	
+	<target name="imp_AD_Process_Access" description="Import AD_Process_Access records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Process_Access.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Process_Access-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+	
+	<target name="imp_AD_Workflow_Access" description="Import AD_Workflow_Access records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Workflow_Access.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Workflow_Access-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_Column_Access" description="Import AD_Column_Access records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Column_Access.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Column_Access-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_Form_Access" description="Import AD_Form_Access records.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Form_Access.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Form_Access-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+		</java>
+	</target>
+
+	<target name="imp_C_Cause_Old" description="Import C_Cause records.">
+		<java classname="org.compiere.compilo.importer.CommandLineImporter"
+			  fork="true" >
+			<arg value="./xml/data/C_Cause.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/C_Cause-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+			
+		</java>
+	</target>
+
+	<target name="imp_C_Cause" description="Import C_Cause using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/C_Cause.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/C_Cause-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+	
+	<target name="imp_AD_Scheduler" description="Import AD_Scheduler using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Scheduler.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Scheduler-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+	
+	<target name="imp_AD_User" description="Import AD_User using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_User.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_User-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+	
+	<target name="imp_C_BP_Group" description="Import C_BP_Group using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/C_BP_Group.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/C_BP_Group-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_PrintFormat" description="Import AD_PrintFormat using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_PrintFormat.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_PrintFormat-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_PrintTableFormat" description="Import AD_PrintTableFormat using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_PrintTableFormat.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_PrintTableFormat-out.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_M_Product_Category" description="Import M_Product_Category using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/M_Product_Category.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/M_Product_Category.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_PA_Report" description="Import PA_Report using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/PA_Report.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/PA_Report.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_PA_ReportColumnSet" description="Import PA_ReportColumnSet using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/PA_ReportColumnSet.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/PA_ReportColumnSet.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_PA_ReportLineSet" description="Import PA_ReportLineSet using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/PA_ReportLineSet.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/PA_ReportLineSet.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_Language" description="Import AD_Language using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_Language.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_Language.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+	<target name="imp_AD_ProcessJasper" description="Import AD_ProcessJasper using JPF plugin architecture.">
+		<java classname="org.java.plugin.boot.Boot"
+			  fork="true" >
+			<arg value="./xml/data/AD_ProcessJasper.xml" />
+			<arg value="./xsd/importer.xsd" />
+			<arg value="./result/compiere/data/AD_ProcessJasper.xml" />
+
+			<classpath refid="project.classpath"/>
+			
+			<jvmarg value="-DPropertyFile=${PropertyFile}" />
+			
+			<jvmarg value="-DjdbcDriver=oracle.jdbc.driver.OracleDriver" />
+			<jvmarg value="-DjdbcURL=jdbc:oracle:thin:@${oracle.host}:${oracle.port}:${oracle.sid}" />
+			<jvmarg value="-DjdbcUserName=${oracle.username}" />
+			<jvmarg value="-DjdbcPassword=${oracle.password}" />
+		</java>
+	</target>
+
+</project>
+
+<!-- Trifon N. Trifonov                            -->
+<!-- trifonnt@yahoo.com                            -->
+

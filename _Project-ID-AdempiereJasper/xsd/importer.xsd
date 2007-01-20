@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified">
+  <xs:element name="compieredata">
+    <xs:complexType mixed="false">
+      <xs:all>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AD_Role"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AD_Role_OrgAccess"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AD_User_Roles"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AD_Window_Access"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AD_Form_Access"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="C_Cause"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="AD_Role">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="Name" type="xs:string"/>
+        <xs:element name="IsActive" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AD_Role_OrgAccess">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="AD_Client_Value" type="xs:string"/>
+        <xs:element name="AD_Org_Value" type="xs:string"/>
+        <xs:element name="AD_Role_Name" type="xs:string"/>
+        <xs:element name="IsActive" type="xs:string"/>
+        <xs:element name="IsReadOnly" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AD_User_Roles">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="AD_Client_Value" type="xs:string"/>
+        <xs:element name="AD_Org_Value" type="xs:string"/>
+        <xs:element name="AD_Role_Name" type="xs:string"/>
+        <xs:element name="AD_User_Name" type="xs:string"/>
+        <xs:element name="IsActive" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AD_Window_Access">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="AD_Client_Value" type="xs:string"/>
+        <xs:element name="AD_Org_Value" type="xs:string"/>
+        <xs:element name="AD_Role_Name" type="xs:string"/>
+        <xs:element name="AD_Window_Name" type="xs:string"/>
+        <xs:element name="IsReadWrite" type="xs:string"/>
+        <xs:element name="IsActive" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AD_Form_Access">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="AD_Client_Value" type="xs:string"/>
+        <xs:element name="AD_Org_Value" type="xs:string"/>
+        <xs:element name="AD_Role_Name" type="xs:string"/>
+        <xs:element name="AD_Form_Name" type="xs:string"/>
+        <xs:element name="IsReadWrite" type="xs:string"/>
+        <xs:element name="IsActive" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="C_Cause">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="Name" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

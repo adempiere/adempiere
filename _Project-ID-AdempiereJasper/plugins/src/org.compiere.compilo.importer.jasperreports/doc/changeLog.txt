@@ -1,0 +1,28 @@
+_Project-ID-TEMPLATE
+311.0.2
+  * Migrated to core plugin version 311.0.2
+  * Added example of field, reference and ref_list translations 
+  
+253.2.12
+ * Used Standard plugin version 253.2.12
+ * Added example file how to import PA_Report - /xml/data/PA_Report.xml
+ * Added example file how to import PA_ReportColumnSet, PA_ReportColumn - /xml/data/PA_ReportColumnSet.xml
+ * Added example file how to import PA_ReportLineSet, PA_ReportLine, PA_ReportSource - /xml/data/PA_ReportLineSet.xml
+
+253.2.11
+ * Used Standard plugin version 253.2.11
+ * Added example file how to import M_Product_Category - /xml/data/M_Product_Category.xml
+
+253.2.6
+ * Migrated to core plugin version 253.2.6
+ 
+253.2.5b
+ * Added changeLog.txt in template plugin.
+ * Generated zip file will not include xml files in folder /result/compiere/...
+ * Used new splash. Thank's to Sergey Vishniakov from compiere.lv team!!!
+ 
+253.2.5a
+ * Replaces 253.2.5 as there was error in uploaded file.
+
+253.2.5
+ * Migrated to core plugin version 253.2.5

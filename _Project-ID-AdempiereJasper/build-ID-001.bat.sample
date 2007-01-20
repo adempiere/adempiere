@@ -1,0 +1,10 @@
+REM SET ANT_HOME=I:/dev/apache-ant-1.6.2
+SET ADEMPIERE_HOME=./../_production/Adempiere
+REM SET COMPIERE_HOME=./../_production/Compiere2
+SET JAVA_HOME=C:\Trifon\jdk\1.4.2_09
+
+@REM Call Ant; 
+@REM Value of property specified on the command line will 
+@REM  override the value specified in the build file.
+
+%ANT_HOME%/bin/ant.bat -propertyfile build-ID-001.properties -Dmodel.file=xml/model/Model-ID-001.xml -Dview.file=xml/view/View-ID-001.xml -Ddata.file=xml/data/Data-ID-001.xml -DPropertyFile=%ADEMPIERE_HOME%/Adempiere.properties %*
