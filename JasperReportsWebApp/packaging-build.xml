@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Packaging Generator" default="_packaging_generation_">
+
+<property name="deploy.name" value="web" />
+
+<target name="_packaging_generation_" depends="EJB.jar,EJB-client.jar,Web.war,WebApp.ear"/>
+
+	<target name="EJB.jar" description="${deploy.name}AppEJB.jar">
+		<jar destfile="${deploy.name}AppEJB.jar">
+			<zipfileset dir="src/META-INF" prefix="META-INF">
+				<include name="ejb-jar.xml"/>
+			</zipfileset>
+			<zipfileset dir="src/META-INF" prefix="META-INF">
+				<include name="jboss.xml"/>
+			</zipfileset>
+			<zipfileset dir="../JasperReports">
+				<include name="CompiereJasper.jar"/>
+			</zipfileset>
+			<zipfileset dir="build" includes="org/compiere/ejb/*.class,org/compiere/interfaces/*.class"/>
+		</jar>
+	</target>
+	
+	<target name="EJB-client.jar" description="${deploy.name}EJB-client.jar">
+		<jar destfile="${deploy.name}EJB-client.jar">
+			<zipfileset dir="build" includes="org/compiere/interfaces/*.class"/>
+		</jar>
+	</target>
+	
+	<target name="Web.war" description="${deploy.name}App.war">
+		<jar destfile="${deploy.name}App.war">
+			<zipfileset dir="src/WEB-INF" prefix="WEB-INF">
+				<include name="web.xml"/>
+			</zipfileset>
+			<zipfileset dir="src/WEB-INF" prefix="WEB-INF">
+				<include name="jboss-web.xml"/>
+			</zipfileset>
+			<zipfileset dir="." prefix="WEB-INF/lib">
+				<include name="${deploy.name}EJB-client.jar"/>
+			</zipfileset>
+			<zipfileset dir="build" prefix="WEB-INF/classes" includes="org/compiere/web/*.class"/>
+			<zipfileset dir="webroot" includes="*.jrxml, *.html"/>
+		</jar>
+	</target>
+	
+	<target name="WebApp.ear" description="${deploy.name}App.ear">
+		<jar destfile="${deploy.name}App.ear">
+			<zipfileset dir="src/META-INF" prefix="META-INF">
+				<include name="application.xml"/>
+			</zipfileset>
+			<zipfileset dir=".">
+				<include name="${deploy.name}AppEJB.jar"/>
+			</zipfileset>
+			<zipfileset dir=".">
+				<include name="${deploy.name}App.war"/>
+			</zipfileset>
+		</jar>
+	</target>
+</project>

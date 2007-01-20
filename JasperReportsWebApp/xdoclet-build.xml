@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="XDoclet Generator" default="_xdoclet_generation_">
+  <property file="xdoclet-build.properties"/>
+  <property name="xdoclet.basedir" value="../tools"/>
+
+  <property name="jasperReportsTool.home" value="../JasperReportsTools" />
+  <property name="xdoclet.home" value="../tools" />
+  <property name="xdoclet.force" value="false" />
+  <property name="ejb.version" value="2.0" />
+  <property name="jboss.version" value="3.0" />
+  
+  <!-- 
+  	Variables for source localization
+  		the directory structure must be be cleaned
+  -->
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.ear.dir" value="${src.dir}"/>
+  <property name="src.ejb.dir" value="${src.dir}"/>
+  <property name="src.servlet.dir" value="${src.dir}"/>
+  <property name="src.server.dir" value="${src.dir}/"/>
+  <property name="src.resources.dir" value="${src.dir}/"/>
+  <property name="src.web.dir" value="${src.dir}/"/>
+  <property name="src.interfaces.dir" value="${src.dir}/"/>
+  
+  <!--
+  	Destinations
+  -->
+  <property name="build.dir" value="build/"/>
+  
+  <path id="xdoclet.path">
+    <pathelement location="${xdoclet.home}/lib/ant.jar" />
+    <pathelement location="${xdoclet.home}/lib/log4j.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet.jar" />
+  
+  </path>
+    <path id="base.path">
+    <path refid="xdoclet.path"/>
+    <pathelement location="../lib/Compiere.jar" />
+    <pathelement location="../lib/CSTools.jar" />
+    <pathelement location="../tools/lib/j2ee.jar" />
+    <pathelement location="${build.classes.dir}" />
+  </path>  
+
+  <target name="_xdoclet_generation_">
+    <taskdef
+	  name="ejbdoclet"
+	  classname="xdoclet.ejb.EjbDocletTask">
+      <classpath refid="xdoclet.path"/>
+    </taskdef>
+
+    <ejbdoclet
+	  sourcepath="${src.ejb.dir}"
+	  destdir="${src.interfaces.dir}"
+	  classpathref="base.path"
+	  excludedtags="@version,@author"
+	  ejbspec="${ejb.version}"
+	  mergedir="${src.resources.dir}/xdoclet"
+	  force="${xdoclet.force}">
+      <fileset dir="${src.ejb.dir}">
+        <include name="**/*Bean.java"/>
+      </fileset>
+      <packageSubstitution packages="ejb" substituteWith="interfaces"/>
+      <remoteinterface/>
+      <homeinterface/>
+      <deploymentdescriptor destdir="${src.ejb.dir}/META-INF"/>
+      <!-- validateXml = false because there is a known issue on jboss jtd -->
+      <jboss version="${jboss.version}"
+	    xmlencoding="UTF-8"
+	    typemapping="${type.mapping}"
+	    datasource="${datasource.name}"
+	    destdir="src/META-INF"
+	    validateXml="false"/>
+    </ejbdoclet>
+    
+
+	<echo>
+--------------------
+ATTENTION It needs xdoclet 1.2.3 in tools/lib$
+you can download it at http://xdoclet.sourceforge.net
+--------------------
+	</echo>
+  <path id="webdoclet.path">
+    <pathelement location="${jasperReportsTool.home}/lib/xdoclet-1.2.3.jar" />
+    <pathelement location="${jasperReportsTool.home}/lib/xdoclet-web-module-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/ant.jar" />
+	<pathelement location="${xdoclet.home}/lib/servlet.jar"/>
+	<pathelement location="${jasperReportsTool.home}/lib/commons-collections-3.1.jar"/>
+	<pathelement location="${jasperReportsTool.home}/lib/commons-logging-1.4.jar"/>
+    <pathelement location="${jasperReportsTool.home}/lib/xjavadoc-1.1.jar" />
+	<pathelement location="${jasperReportsTool.home}/lib/xdoclet-jboss-module-1.2.3.jar"/>
+	<pathelement location="${jasperReportsTool.home}/lib/xdoclet-jmx-module-1.2.3.jar"/>
+	<pathelement location="${jasperReportsTool.home}/lib/xdoclet-ejb-module-1.2.3.jar"/>
+
+  </path>      
+
+	<taskdef 
+		name="webdoclet" 
+		classname="xdoclet.modules.web.WebDocletTask"> 
+		<classpath refid="webdoclet.path"/>
+	</taskdef>
+		
+		<webdoclet destDir="${src.web.dir}/WEB-INF" verbose="true">	
+			<fileset dir="${src.web.dir}"  includes="**/*Servlet.java" >
+			</fileset>
+			
+			<deploymentdescriptor 
+				servletspec="2.3" 
+				validateXML="false" />
+			
+			<jbosswebxml Version="3.0" validateXml="false">
+			</jbosswebxml>
+		</webdoclet>
+	
+  </target>
+  
+  </project>

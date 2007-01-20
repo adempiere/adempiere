@@ -1,0 +1,63 @@
+<!-- ============================================= -->
+<!-- webApp                                         -->
+<!-- ============================================= -->
+
+<project name="webApp" default="main" basedir=".">
+
+  <description>
+    Build the UI subproject within the Compiere project.
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="dist.dir" value="."/>
+
+  <property environment="env"/>
+
+  <!-- set path to include the necessary jar files for javac -->
+  <path id="project.class.path">
+    <pathelement path="${classpath}"/>
+    <pathelement location="../tools/lib/j2ee.jar" />
+    <pathelement location="../JasperReports/CompiereJasper.jar" />
+  	<pathelement location="../dbPort/dbPort.jar" />
+  </path>
+
+  <target name="compile">
+  	<echo>------ Compiling webApp</echo>
+  	<mkdir dir="${build.dir}"/>
+    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" source="1.4" target="1.4" debug="on">
+      <classpath refid="project.class.path"/>
+    </javac>
+  </target>
+
+  <target name="xdoclet">
+  	<echo>------ Executing xdoclet</echo>
+  	<ant inheritall="false" antfile="xdoclet-build.xml"/>
+  </target>	
+	
+  <target name="packaging">
+  	<echo>------ packaging</echo>  	
+  	<ant inheritall="false" antfile="packaging-build.xml"/>
+  </target>	
+
+  <target name="deploy-interface">
+  	<echo>------ deploying interfaces to JasperReports</echo>  	
+	<copy todir="../JasperReports/src">
+			<fileset dir="src" includes="org/compiere/interfaces/*.java"/>
+	</copy>
+  </target>
+	
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete file="webApp.war" failonerror="false"/>
+    <delete file="webApp.ear" failonerror="false"/>
+    <delete file="webAppEJB.jar" failonerror="false"/>  	
+    <delete file="webEJB-client.jar" failonerror="false"/>  	
+  </target>
+	
+  <target name="main"  depends="xdoclet, compile, packaging, deploy-interface" description="initialization target">
+ 	
+  </target>
+
+</project>
