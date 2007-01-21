@@ -6,31 +6,21 @@ Any comments and requests for improvements are wellcome.
 
 Any improvements and patches are very wellcome and highly appreciated.
 
-HowTo.
+Target integration between Compiere and Jasper Reports.
 
-http://prdownloads.sourceforge.net/comxe/_Project-ID-Example.swf?download
+Steps that user must do:
+01) Copy "build-ID-001.properties.sampe" into "build-ID-001.properties"
+02) Set proper setting in "build-ID-001.properties" file.
 
-1) Copy "build-ID-001.[bat|sh].sample" into "build-ID-001.[bat|sh]"
+03) Copy "build-ID-001.[bat|sh].sampe" into "build-ID-001.[bat|sh]"
+04) Set proper setting in "build-ID-001.[bat|sh]" file.
 
-2) Modify "build-ID-001.[bat|sh]" file and set proper setting for:
-COMPIERE_HOME
-JAVA_HOME
-
-3) Copy "build-ID-001.properties.sample" into "build-ID-001.properties"
-
-4) Modify "build-ID-001.properties" file and set proper setting for:
-oracle.host=
-oracle.port=1521
-oracle.sid=
-oracle.search=
-oracle.username=
-oracle.password=
-
-5) Open a shell console and execute commands:
-"build-ID-001.[bat|sh] createDB"
-"build-ID-001.[bat|sh] alterDB"
-"build-ID-001.[bat|sh] model"
-"build-ID-001.[bat|sh] view"
-
+05) Open shell console in current directory(_Project-ID-AdempiereJasper) and execute:
+      build-ID-001.bat alterDB
+      build-ID-001.bat model
+      build-ID-001.bat view
+      build-ID-001.bat imp_AD_ProcessJasper
+      build-ID-001.bat imp_AD_Process_Access
+      
 Enjoy new functionality.
 Records now should be imported into Compiere AD.
