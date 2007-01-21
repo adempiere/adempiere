@@ -17,7 +17,7 @@
       <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
       <column name="DBTYPE" primaryKey="false" required="false" type="VARCHAR" size="22" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="PK_NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="NAME2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
       <column name="FILE_DIRECTORY" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>

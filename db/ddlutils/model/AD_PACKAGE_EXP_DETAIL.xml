@@ -29,7 +29,6 @@
       <column name="RELEASENO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="PK_NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="NAME2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
       <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>

@@ -13,7 +13,7 @@
       <column name="AD_PACKAGE_TYPE" primaryKey="false" required="false" type="VARCHAR" size="1" autoIncrement="false"/>
       <column name="EMAIL" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="INSTRUCTIONS" primaryKey="false" required="true" type="VARCHAR" size="1000" autoIncrement="false"/>
-      <column name="PK_NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="RELEASENO" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="VERSION" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
