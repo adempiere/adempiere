@@ -101,6 +101,10 @@
 	<welcome-file-list>
 		<welcome-file>Broadcast</welcome-file>
 	</welcome-file-list>
+	<mime-mapping>
+    	<extension>css</extension>
+	    <mime-type>text/css</mime-type>
+  	</mime-mapping>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/</location>
