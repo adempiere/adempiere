@@ -40,7 +40,7 @@ public class SystemValidate extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		return "";
+		return "@OK@";
 	}	//	doIt
 	
 }	//	SystemValidate
