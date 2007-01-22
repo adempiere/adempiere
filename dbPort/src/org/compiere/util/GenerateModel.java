@@ -149,7 +149,7 @@ public class GenerateModel
 			+ "import org.compiere.util.*;"
 			//	Class
 			+ "/** Generated Model for ").append(tableName).append("\n"
-			+ " *  @author Jorg Janke (generated) \n"
+			+ " *  @author Adempiere (generated) \n"
 			+ " *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$")
 			//	.append(s_run)	//	Timestamp
 				.append(" */\n"
@@ -695,7 +695,9 @@ public class GenerateModel
 		try
 		{
 			File out = new File (fileName);
-			FileWriter fw = new FileWriter (out);
+			// FileWriter fw = new FileWriter (out);
+			// http://sourceforge.net/tracker/index.php?func=detail&aid=1629947&group_id=176962&atid=879332
+			Writer fw = new OutputStreamWriter(new FileOutputStream(out, false), "UTF-8");
 			for (int i = 0; i < sb.length(); i++)
 			{
 				char c = sb.charAt(i);
