@@ -2,31 +2,25 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_CASHBOOK_ACCT">
-      <column name="C_CASHBOOK_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_CASHBOOK_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_CASHTRANSFER_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_RECEIPT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_CASHTRANSFER_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_RECEIPT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCASHBOOKACCT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_CCASHBOOKACCT">
         <reference local="C_CASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBCASHTRANSFER_CCASHBOOK">
-        <reference local="CB_CASHTRANSFER_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBASSET_CCASHBOOK">
-        <reference local="CB_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBEXPENSE_CCASHBOOK">
         <reference local="CB_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -36,6 +30,12 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBRECEIPT_CCASHBOOK">
         <reference local="CB_RECEIPT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBCASHTRANSFER_CCASHBOOK">
+        <reference local="CB_CASHTRANSFER_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CBASSET_CCASHBOOK">
+        <reference local="CB_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

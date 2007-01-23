@@ -2,20 +2,20 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="A_ASSET_DELIVERY">
-      <column name="A_ASSET_DELIVERY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="A_ASSET_DELIVERY_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="A_ASSET_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="MOVEMENTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="SERNO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="LOT" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="VERSIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="MESSAGEID" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="DELIVERYCONFIRMATION" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
@@ -23,9 +23,9 @@
       <column name="REMOTE_ADDR" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="REMOTE_HOST" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="REFERRER" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="M_PRODUCTDOWNLOAD_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCTDOWNLOAD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_AASSETDELIVERY">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

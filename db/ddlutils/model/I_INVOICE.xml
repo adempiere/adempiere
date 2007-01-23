@@ -2,63 +2,63 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="I_INVOICE">
-      <column name="I_INVOICE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="I_INVOICE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="I_ISIMPORTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="BPARTNERVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ADDRESS1" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ADDRESS2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="POSTAL" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="CITY" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="REGIONNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CONTACTNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PHONE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="C_COUNTRY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_COUNTRY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COUNTRYCODE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
-      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCTYPENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PAYMENTTERMVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCUMENTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="DATEINVOICED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PRODUCTVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
-      <column name="C_TAX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_TAX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="5" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="QTYORDERED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PRICEACTUAL" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="QTYORDERED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>

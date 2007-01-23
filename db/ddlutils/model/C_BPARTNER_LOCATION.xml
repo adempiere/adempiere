@@ -2,14 +2,14 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_BPARTNER_LOCATION">
-      <column name="C_BPARTNER_LOCATION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISBILLTO" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISSHIPTO" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
@@ -19,9 +19,9 @@
       <column name="PHONE2" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="FAX" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISDN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="C_BUSPARTNER_LOCATIONCLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

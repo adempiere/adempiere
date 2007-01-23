@@ -3,20 +3,20 @@
   <database name="default" defaultIdMethod="none">
     <table name="AD_LANGUAGE">
       <column name="AD_LANGUAGE" primaryKey="true" required="true" type="VARCHAR" size="6" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="LANGUAGEISO" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <column name="COUNTRYCODE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISBASELANGUAGE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSYSTEMLANGUAGE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="AD_LANGUAGE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_LANGUAGE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDECIMALPOINT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="DATEPATTERN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="TIMEPATTERN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>

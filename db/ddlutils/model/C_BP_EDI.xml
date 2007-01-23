@@ -2,22 +2,22 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_BP_EDI">
-      <column name="C_BP_EDI_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BP_EDI_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="EDITYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISAUDITED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="CUSTOMERNO" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="AD_SEQUENCE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_SEQUENCE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="EMAIL_TO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="EMAIL_FROM" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="EMAIL_FROM_UID" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>

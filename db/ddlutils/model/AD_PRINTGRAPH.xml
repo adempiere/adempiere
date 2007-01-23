@@ -2,35 +2,32 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_PRINTGRAPH">
-      <column name="AD_PRINTGRAPH_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTGRAPH_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="GRAPHTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="DESCRIPTION_PRINTFORMATITEM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="DATA_PRINTFORMATITEM_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="DATA1_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="DATA2_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="DATA3_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="DATA4_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DESCRIPTION_PRINTFORMATITEM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATA_PRINTFORMATITEM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATA1_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATA2_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATA3_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="DATA4_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPRINTGRAPH">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDESCR">
-        <reference local="DESCRIPTION_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA2">
         <reference local="DATA2_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA4">
-        <reference local="DATA4_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3">
+        <reference local="DATA3_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA">
         <reference local="DATA_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
@@ -38,8 +35,11 @@
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA1">
         <reference local="DATA1_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3">
-        <reference local="DATA3_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDESCR">
+        <reference local="DESCRIPTION_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA4">
+        <reference local="DATA4_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

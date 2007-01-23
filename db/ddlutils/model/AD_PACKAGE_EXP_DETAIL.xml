@@ -2,21 +2,21 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_PACKAGE_EXP_DETAIL">
-      <column name="AD_PACKAGE_EXP_DETAIL_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PACKAGE_EXP_DETAIL_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
-      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_IMPFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_MENU_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_IMPFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_MENU_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_WORKFLOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="FILE_DIRECTORY" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="FILENAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DESTINATION_FILENAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
@@ -30,11 +30,11 @@
       <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="NAME2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="LINE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_REPORTVIEW_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_PACKAGE_EXP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_REPORTVIEW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PACKAGE_EXP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_PACKAGE_CODE_NEW" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="AD_PACKAGE_CODE_OLD" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
     </table>

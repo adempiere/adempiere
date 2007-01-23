@@ -2,45 +2,45 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="FACT_ACCT_BALANCE">
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="ACCOUNT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="ACCOUNT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AMTACCTDR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="AMTACCTCR" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" default="0" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" default="0" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" default="0" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" default="0" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_SUBACCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SUBACCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_FACTACCTBAL">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_FACTACCTBAL">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_FACTACCTBAL">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_FACTACCTBAL">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_FACTACCTBAL">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
@@ -54,20 +54,20 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_FACTACCTBAL">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCT_FACTACCTBAL">
-        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_FACTACCTBAL">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_FACTACCTBAL">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_FACTACCTBAL">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_FACTACCTBALANCE">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCT_FACTACCTBAL">
+        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCTO_FACTACCTBAL">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_FACTACCTBALANCE">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_FACTACCTBAL">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>

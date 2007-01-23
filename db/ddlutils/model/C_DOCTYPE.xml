@@ -2,14 +2,14 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_DOCTYPE">
-      <column name="C_DOCTYPE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PRINTNAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
@@ -17,23 +17,23 @@
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="DOCSUBTYPESO" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <column name="HASPROFORMA" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="C_DOCTYPEPROFORMA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_DOCTYPESHIPMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_DOCTYPEINVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPEPROFORMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPESHIPMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPEINVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDOCNOCONTROLLED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="DOCNOSEQUENCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="GL_CATEGORY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="DOCNOSEQUENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="GL_CATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="HASCHARGES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DOCUMENTNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="DOCUMENTCOPIES" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="DOCUMENTCOPIES" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDEFAULTCOUNTERDOC" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSHIPCONFIRM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISPICKQACONFIRM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINTRANSIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSPLITWHENDIFFERENCE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="C_DOCTYPEDIFFERENCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPEDIFFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCREATECOUNTER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISINDEXED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDOCTYPE">

@@ -2,39 +2,39 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="M_PRODUCT_CATEGORY_ACCT">
-      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_CATEGORY_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_COGS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_PURCHASEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_INVOICEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_TRADEDISCOUNTREC_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COGS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_PURCHASEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_INVOICEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTREC_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="COSTINGMETHOD" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="COSTINGLEVEL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODCATACCT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_MPRODUCTCATEGORY">
-        <reference local="P_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_MPRODUCTCATEGORY">
         <reference local="P_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PCOGS_MPRODUCTCATEGORY">
         <reference local="P_COGS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_MPRODUCTCATEGORY">
+        <reference local="P_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_MPRODUCTCATEGORY">
         <reference local="P_INVOICEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>

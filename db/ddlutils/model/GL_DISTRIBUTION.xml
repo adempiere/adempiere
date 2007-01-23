@@ -2,47 +2,47 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="GL_DISTRIBUTION">
-      <column name="GL_DISTRIBUTION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="GL_DISTRIBUTION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYORG" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYACCT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="ACCOUNT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="ACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYPRODUCT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYBPARTNER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYPROJECT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYCAMPAIGN" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYACTIVITY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYSALESREGION" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYORGTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYLOCTO" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCTO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYLOCFROM" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_LOCFROM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYUSER1" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="USER1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ANYUSER2" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="USER2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="PERCENTTOTAL" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PERCENTTOTAL" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDIST">

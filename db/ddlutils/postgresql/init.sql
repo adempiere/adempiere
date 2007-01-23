@@ -51,6 +51,16 @@ LEFTARG = TIMESTAMPTZ, RIGHTARG = INTEGER,
 COMMUTATOR = +);
 
 DROP OPERATOR adempiere.- (timestamptz, INTEGER);
-CREATE OPERATOR adempiere.- ( PROCEDURE = adempiere. subtractdays,
+CREATE OPERATOR adempiere.- ( PROCEDURE = adempiere.subtractdays,
 LEFTARG = TIMESTAMPTZ, RIGHTARG = INTEGER,
+COMMUTATOR = -);
+
+DROP OPERATOR adempiere.+ (timestamptz, NUMERIC);
+CREATE OPERATOR adempiere.+ ( PROCEDURE = adempiere.adddays,
+LEFTARG = TIMESTAMPTZ, RIGHTARG = NUMERIC,
+COMMUTATOR = +);
+
+DROP OPERATOR adempiere.- (timestamptz, NUMERIC);
+CREATE OPERATOR adempiere.- ( PROCEDURE = adempiere.subtractdays,
+LEFTARG = TIMESTAMPTZ, RIGHTARG = NUMERIC,
 COMMUTATOR = -);

@@ -2,11 +2,11 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_PINSTANCE_LOG">
-      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="LOG_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="LOG_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="P_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="P_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="P_NUMBER" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="P_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_NUMBER" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
       <column name="P_MSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_PILOG">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>

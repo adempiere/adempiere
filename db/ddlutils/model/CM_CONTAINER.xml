@@ -2,25 +2,25 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="CM_CONTAINER">
-      <column name="CM_CONTAINER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CM_CONTAINER_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <column name="CM_WEBPROJECT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CM_TEMPLATE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CM_WEBPROJECT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CM_TEMPLATE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TITLE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="NOTICE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CONTAINERTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CONTAINERLINKURL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="RELATIVEURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
-      <column name="PRIORITY" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="PRIORITY" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="ISINDEXED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISSECURE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="META_ROBOTSTAG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
@@ -32,7 +32,7 @@
       <column name="META_PUBLISHER" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="STRUCTUREXML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CONTAINERXML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <column name="CM_CONTAINERLINK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CM_CONTAINERLINK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="META_LANGUAGE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>

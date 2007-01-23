@@ -2,35 +2,35 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="M_PRODUCT_PO">
-      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCURRENTVENDOR" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="PRICELIST" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PRICEPO" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PRICELIST" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PRICEPO" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="PRICEEFFECTIVE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="PRICELASTPO" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PRICELASTINV" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="PRICELASTPO" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PRICELASTINV" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="VENDORPRODUCTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="UPC" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="DISCONTINUED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DISCONTINUEDBY" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="ORDER_MIN" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="ORDER_PACK" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="COSTPERORDER" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DELIVERYTIME_PROMISED" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="DELIVERYTIME_ACTUAL" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="QUALITYRATING" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="ROYALTYAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="ORDER_MIN" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="ORDER_PACK" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COSTPERORDER" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DELIVERYTIME_PROMISED" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="DELIVERYTIME_ACTUAL" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="QUALITYRATING" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="ROYALTYAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="M_PRODUCTPO_CLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>

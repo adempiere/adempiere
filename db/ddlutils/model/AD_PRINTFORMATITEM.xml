@@ -2,38 +2,38 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_PRINTFORMATITEM">
-      <column name="AD_PRINTFORMATITEM_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTFORMATITEM_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PRINTNAME" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISPRINTED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="PRINTAREATYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PRINTFORMATTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_PRINTFORMATCHILD_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFORMATCHILD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISRELATIVEPOSITION" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISNEXTLINE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="XSPACE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="YSPACE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="XPOSITION" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="YPOSITION" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="MAXWIDTH" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="XSPACE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="YSPACE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="XPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="YPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="MAXWIDTH" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISHEIGHTONELINE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="MAXHEIGHT" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="MAXHEIGHT" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="FIELDALIGNMENTTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="LINEALIGNMENTTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_PRINTFONT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTFONT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISORDERBY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="SORTNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="SORTNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISGROUPBY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISPAGEBREAK" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSUMMARIZED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
@@ -43,20 +43,20 @@
       <column name="ISCOUNTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSETNLPOSITION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSUPPRESSNULL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="BELOWCOLUMN" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="AD_PRINTGRAPH_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="BELOWCOLUMN" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="AD_PRINTGRAPH_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISFIXEDWIDTH" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISNEXTPAGE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PRINTNAMESUFFIX" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISMINCALC" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISMAXCALC" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISRUNNINGTOTAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="RUNNINGTOTALLINES" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="RUNNINGTOTALLINES" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISVARIANCECALC" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISDEVIATIONCALC" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISFILLEDRECTANGLE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="LINEWIDTH" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="ARCDIAMETER" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LINEWIDTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="ARCDIAMETER" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="SHAPETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISIMAGEFIELD" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>

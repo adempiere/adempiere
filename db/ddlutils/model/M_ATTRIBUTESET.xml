@@ -2,22 +2,22 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="M_ATTRIBUTESET">
-      <column name="M_ATTRIBUTESET_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESET_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISSERNO" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="M_SERNOCTL_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_SERNOCTL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISLOT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="M_LOTCTL_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_LOTCTL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISGUARANTEEDATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="GUARANTEEDAYS" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="GUARANTEEDAYS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISINSTANCEATTRIBUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="MANDATORYTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISGUARANTEEDATEMANDATORY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>

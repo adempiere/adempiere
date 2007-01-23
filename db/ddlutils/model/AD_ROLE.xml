@@ -2,36 +2,36 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_ROLE">
-      <column name="AD_ROLE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="USERLEVEL" primaryKey="false" required="true" type="CHAR" size="3" default="  O" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AMTAPPROVAL" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="AD_TREE_MENU_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMTAPPROVAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AD_TREE_MENU_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISMANUAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSHOWACCT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISPERSONALLOCK" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISPERSONALACCESS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISCANEXPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISCANREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="SUPERVISOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SUPERVISOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCANAPPROVEOWNDOC" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISACCESSALLORGS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISCHANGELOG" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PREFERENCETYPE" primaryKey="false" required="true" type="CHAR" size="1" default="C" autoIncrement="false"/>
       <column name="OVERWRITEPRICELIMIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISUSEUSERORGACCESS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="AD_TREE_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="CONFIRMQUERYRECORDS" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
-      <column name="MAXQUERYRECORDS" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="AD_TREE_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CONFIRMQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="MAXQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="CONNECTIONPROFILE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="AD_ROLECLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>

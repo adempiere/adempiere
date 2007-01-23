@@ -2,24 +2,24 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="T_REPLENISH">
-      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="M_WAREHOUSE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="QTYONHAND" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="QTYRESERVED" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="QTYORDERED" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="QTYONHAND" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYRESERVED" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYORDERED" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="REPLENISHTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LEVEL_MIN" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="LEVEL_MAX" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="ORDER_MIN" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="ORDER_PACK" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="QTYTOORDER" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="LEVEL_MIN" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="LEVEL_MAX" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ORDER_MIN" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="ORDER_PACK" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYTOORDER" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="REPLENISHMENTCREATE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
-      <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPLENISH">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>

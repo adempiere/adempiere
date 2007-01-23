@@ -2,43 +2,43 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="S_TIMEEXPENSELINE">
-      <column name="S_TIMEEXPENSELINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="S_TIMEEXPENSELINE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="S_TIMEEXPENSE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="LINE" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="S_TIMEEXPENSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISTIMEREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DATEEXPENSE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="EXPENSEAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="S_RESOURCEASSIGNMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="EXPENSEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="S_RESOURCEASSIGNMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISINVOICED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="INVOICEPRICE" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="S_TIMETYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="INVOICEPRICE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="S_TIMETYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="QTYREIMBURSED" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="PRICEINVOICED" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="PRICEREIMBURSED" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTYREIMBURSED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PRICEINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PRICEREIMBURSED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_STIMEEXPENSELINE">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>

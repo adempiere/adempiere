@@ -2,27 +2,27 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="PA_REPORTLINE">
-      <column name="PA_REPORTLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="PA_REPORTLINE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="PA_REPORTLINESET_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PA_REPORTLINESET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="SEQNO" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISPRINTED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="PARENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PARENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="LINETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CALCULATIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="OPER_1_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="OPER_2_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="OPER_1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="OPER_2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AMOUNTTYPE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_PAREPORTLINE">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>

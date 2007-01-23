@@ -2,21 +2,21 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="R_REQUEST">
-      <column name="R_REQUEST_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="R_REQUEST_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
-      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="R_GROUP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="R_CATEGORY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="R_STATUS_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="R_RESOLUTION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="R_REQUESTRELATED_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="R_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="R_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="R_STATUS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="R_RESOLUTION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="R_REQUESTRELATED_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PRIORITY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PRIORITYUSER" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DUETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
@@ -24,48 +24,48 @@
       <column name="CONFIDENTIALTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="C" autoIncrement="false"/>
       <column name="ISESCALATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DATELASTACTION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATELASTALERT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="LASTRESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINVOICED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_INOUT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_RMA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="RECORD_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="REQUESTAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_INOUT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_RMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="RECORD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="REQUESTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CONFIDENTIALTYPEENTRY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="R_STANDARDRESPONSE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="R_STANDARDRESPONSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="NEXTACTION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATENEXTACTION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="STARTTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="QTYSPENT" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="CLOSEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="C_INVOICEREQUEST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_CHANGEREQUEST_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_INVOICEREQUEST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_CHANGEREQUEST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TASKSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="QTYPLAN" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="QTYPLAN" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
       <column name="DATECOMPLETEPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUEST">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>

@@ -2,18 +2,18 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="CM_WEBACCESSLOG">
-      <column name="CM_WEBACCESSLOG_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CM_WEBACCESSLOG_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="LOGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="IP_ADDRESS" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="CM_BROADCASTSERVER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CM_BROADCASTSERVER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="REQUESTTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" autoIncrement="false"/>
       <column name="PAGEURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="REFERRER" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
@@ -24,10 +24,10 @@
       <column name="WEBSESSION" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="HYPHEN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="PROTOCOL" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="STATUSCODE" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
-      <column name="FILESIZE" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="CM_MEDIA_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="STATUSCODE" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="FILESIZE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="CM_MEDIA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CMWEBACCESSLOG">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

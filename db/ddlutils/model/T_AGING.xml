@@ -2,49 +2,49 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="T_AGING">
-      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICEPAYSCHEDULE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICEPAYSCHEDULE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="STATEMENTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DUEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="DAYSDUE" primaryKey="false" required="false" type="INTEGER" default="0" autoIncrement="false"/>
+      <column name="DAYSDUE" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="ISLISTINVOICES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="C_BP_GROUP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="INVOICEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="OPENAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE91_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE61_90" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE61_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE31_60" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE31_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE1_30" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE8_30" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUE1_7" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="PASTDUEAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUEAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE0" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE0_7" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE1_7" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE8_30" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE0_30" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE31_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE31_60" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE61_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE61_90" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DUE91_PLUS" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_BP_GROUP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="INVOICEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE61_90" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE31_60" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE1_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE8_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUE1_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PASTDUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE0" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE0_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE1_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE8_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE0_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE31_60" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE61_90" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TAGING">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>

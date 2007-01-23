@@ -2,27 +2,27 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_DUNNINGRUNLINE">
-      <column name="C_DUNNINGRUNLINE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_DUNNINGRUNLINE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_DUNNINGRUNENTRY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="DAYSDUE" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
-      <column name="TIMESDUNNED" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
-      <column name="INTERESTAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="FEEAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="TOTALAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_DUNNINGRUNENTRY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="DAYSDUE" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="TIMESDUNNED" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="INTERESTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="FEEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="OPENAMT" primaryKey="false" required="true" type="NUMERIC" autoIncrement="false"/>
+      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
       <foreign-key foreignTable="C_DUNNINGRUNENTRY" name="CDUNNINGRUNENTRY_LINE">
         <reference local="C_DUNNINGRUNENTRY_ID" foreign="C_DUNNINGRUNENTRY_ID"/>
       </foreign-key>

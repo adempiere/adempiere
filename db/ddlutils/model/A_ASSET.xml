@@ -2,20 +2,20 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="A_ASSET">
-      <column name="A_ASSET_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="A_ASSET_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <column name="A_ASSET_GROUP_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="A_ASSET_GROUP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="SERNO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="LOT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="VERSIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
@@ -23,37 +23,37 @@
       <column name="ASSETSERVICEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ISOWNED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ASSETDEPRECIATIONDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="USELIFEYEARS" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="USELIFEMONTHS" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="LIFEUSEUNITS" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="USEUNITS" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
+      <column name="USELIFEYEARS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="USELIFEMONTHS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="LIFEUSEUNITS" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="USEUNITS" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
       <column name="ISDISPOSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ASSETDISPOSALDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ISINPOSESSION" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="LOCATIONCOMMENT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="M_LOCATOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="M_LOCATOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISDEPRECIATED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISFULLYDEPRECIATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" default="0" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="NUMERIC" autoIncrement="false"/>
-      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_BPARTNERSR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_BPARTNERSR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LASTMAINTENENCEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="NEXTMAINTENENCEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="LASTMAINTENANCEUSEUNIT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="NEXTMAINTENANCEUSEUNIT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LASTMAINTENANCEUSEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="NEXTMAINTENANCEUSEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="LEASETERMINATIONDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="LEASE_BPARTNER_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="LEASE_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LASTMAINTENANCENOTE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="LASTMAINTENANCEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="LASTMAINTENANCEUNIT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
-      <column name="NEXTMAINTENENCEUNIT" primaryKey="false" required="false" type="INTEGER" autoIncrement="false"/>
+      <column name="LASTMAINTENANCEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="NEXTMAINTENENCEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_AASSET">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

@@ -2,23 +2,23 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_COMMISSIONDETAIL">
-      <column name="C_COMMISSIONDETAIL_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_COMMISSIONDETAIL_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_COMMISSIONAMT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_COMMISSIONAMT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REFERENCE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="INFO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="ACTUALAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
-      <column name="ACTUALQTY" primaryKey="false" required="true" type="NUMERIC" default="0" autoIncrement="false"/>
+      <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="ACTUALAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="ACTUALQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_COMMISSIONAMT" name="CCOMMISSIONAMT_CCOMDETAIL">
         <reference local="C_COMMISSIONAMT_ID" foreign="C_COMMISSIONAMT_ID"/>
       </foreign-key>

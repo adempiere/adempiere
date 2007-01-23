@@ -2,80 +2,77 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="C_ACCTSCHEMA_DEFAULT">
-      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_ACCTSCHEMA_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="W_INVENTORY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="W_INVACTUALADJUST_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="W_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="W_REVALUATION_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_PURCHASEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_INVOICEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_TRADEDISCOUNTREC_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_COGS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_RECEIVABLE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="V_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="V_LIABILITY_SERVICES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="V_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="PAYDISCOUNT_EXP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="WRITEOFF_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="PAYDISCOUNT_REV_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="UNREALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="UNREALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="REALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="REALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="WITHHOLDING_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="E_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="E_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="PJ_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="PJ_WIP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_RECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_DUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_CREDIT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_INTRANSIT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_INTERESTREV_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_INTERESTEXP_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_UNIDENTIFIED_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_UNALLOCATEDCASH_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_PAYMENTSELECT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_SETTLEMENTGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_SETTLEMENTLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_REVALUATIONGAIN_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="B_REVALUATIONLOSS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CH_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CH_REVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="UNEARNEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="NOTINVOICEDRECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="NOTINVOICEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="NOTINVOICEDRECEIPTS_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_ASSET_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_CASHTRANSFER_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="CB_RECEIPT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="W_INVENTORY_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="W_INVACTUALADJUST_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="W_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="W_REVALUATION_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_PURCHASEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_INVOICEPRICEVARIANCE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTREC_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COGS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_RECEIVABLE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="V_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="V_LIABILITY_SERVICES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="V_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PAYDISCOUNT_EXP_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="WRITEOFF_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PAYDISCOUNT_REV_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UNREALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UNREALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="REALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="REALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="WITHHOLDING_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="E_PREPAYMENT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="E_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PJ_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="PJ_WIP_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_LIABILITY_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_RECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_DUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_CREDIT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_INTRANSIT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_INTERESTREV_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_INTERESTEXP_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_UNIDENTIFIED_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_UNALLOCATEDCASH_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_PAYMENTSELECT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_SETTLEMENTGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_SETTLEMENTLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_REVALUATIONGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="B_REVALUATIONLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CH_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CH_REVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="UNEARNEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="NOTINVOICEDRECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="NOTINVOICEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="NOTINVOICEDRECEIPTS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_CASHTRANSFER_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_DIFFERENCES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="CB_RECEIPT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="C_RECEIVABLE_SERVICES_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="C_RECEIVABLE_SERVICES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_DEFAULT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT">
-        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CSCHEMADEFAULT">
         <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -244,6 +241,9 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT">
         <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT">
+        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

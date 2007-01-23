@@ -2,7 +2,7 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="T_SELECTION">
-      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="T_SELECTION_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="T_SELECTION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
     </table>
   </database>

@@ -2,28 +2,28 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="R_REQUESTPROCESSOR">
-      <column name="R_REQUESTPROCESSOR_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="R_REQUESTPROCESSOR_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="FREQUENCY" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
+      <column name="FREQUENCY" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="FREQUENCYTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATENEXTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="OVERDUEALERTDAYS" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="OVERDUEASSIGNDAYS" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="SUPERVISOR_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="KEEPLOGDAYS" primaryKey="false" required="true" type="INTEGER" autoIncrement="false"/>
-      <column name="REMINDDAYS" primaryKey="false" required="true" type="INTEGER" default="7" autoIncrement="false"/>
-      <column name="INACTIVITYALERTDAYS" primaryKey="false" required="true" type="INTEGER" default="0" autoIncrement="false"/>
-      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="OVERDUEALERTDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="OVERDUEASSIGNDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="SUPERVISOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="KEEPLOGDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
+      <column name="REMINDDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" default="7" autoIncrement="false"/>
+      <column name="INACTIVITYALERTDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
+      <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSOR">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>

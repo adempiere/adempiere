@@ -2,19 +2,19 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="I_ELEMENTVALUE">
-      <column name="I_ELEMENTVALUE_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="I_ELEMENTVALUE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="false" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="I_ISIMPORTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <column name="C_ELEMENT_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ELEMENTNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="C_ELEMENTVALUE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="C_ELEMENTVALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
@@ -23,13 +23,13 @@
       <column name="ISDOCCONTROLLED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PARENTVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="PARENTELEMENTVALUE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PARENTELEMENTVALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTACTUAL" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="POSTBUDGET" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="POSTSTATISTICAL" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="POSTENCUMBRANCE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="DEFAULT_ACCOUNT" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
-      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_IELEMENTVALUE">

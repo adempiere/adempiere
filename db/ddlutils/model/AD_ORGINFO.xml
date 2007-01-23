@@ -2,21 +2,21 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
   <database name="default" defaultIdMethod="none">
     <table name="AD_ORGINFO">
-      <column name="AD_ORG_ID" primaryKey="true" required="true" type="ID" autoIncrement="false"/>
-      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="AD_ORG_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="CREATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
-      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" autoIncrement="false"/>
-      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
+      <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DUNS" primaryKey="false" required="true" type="CHAR" size="11" autoIncrement="false"/>
       <column name="TAXID" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="PA_GOAL_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="SUPERVISOR_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="PARENT_ORG_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="AD_ORGTYPE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
-      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" autoIncrement="false"/>
+      <column name="PA_GOAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="SUPERVISOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="PARENT_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="AD_ORGTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORGPARENT_ADORGINFO">
         <reference local="PARENT_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
