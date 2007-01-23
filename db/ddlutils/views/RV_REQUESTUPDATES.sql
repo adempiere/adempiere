@@ -5,8 +5,8 @@ CREATE OR REPLACE VIEW RV_REQUESTUPDATES
 AS 
 SELECT AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
     R_Request_ID, AD_User_ID, IsSelfService, 
-    cast(NULL as integer) AS R_Group_ID, cast(NULL as integer) AS R_RequestType_ID, 
-    cast(NULL as integer) AS R_Category_ID
+    cast(NULL as numeric) AS R_Group_ID, cast(NULL as numeric) AS R_RequestType_ID, 
+    cast(NULL as numeric) AS R_Category_ID
 FROM R_RequestUpdates
 UNION
 SELECT u.AD_Client_ID, u.AD_Org_ID, u.IsActive, u.Created, u.CreatedBy, u.Updated, u.UpdatedBy,

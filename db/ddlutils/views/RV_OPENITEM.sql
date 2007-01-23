@@ -19,7 +19,7 @@ SELECT i.AD_Org_ID, i.AD_Client_ID,
 	invoiceOpen(i.C_Invoice_ID,0) AS OpenAmt,
     i.C_Currency_ID, i.C_ConversionType_ID,
     i.C_PaymentTerm_ID,
-    i.IsPayScheduleValid, cast(null as integer) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
+    i.IsPayScheduleValid, cast(null as numeric) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
     i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID
 FROM RV_C_Invoice i
     INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)
