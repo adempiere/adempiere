@@ -97,7 +97,7 @@ public class ImportProduct extends SvrProcess
 			+ " Updated = COALESCE (Updated, SysDate),"
 			+ " UpdatedBy = COALESCE (UpdatedBy, 0),"
 			+ " ProductType = COALESCE (ProductType, 'I'),"
-			+ " I_ErrorMsg = NULL,"
+			+ " I_ErrorMsg = ' ',"
 			+ " I_IsImported = 'N' "
 			+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

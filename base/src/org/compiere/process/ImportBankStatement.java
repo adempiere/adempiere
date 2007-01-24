@@ -103,7 +103,7 @@ public class ImportBankStatement extends SvrProcess
 			  + " CreatedBy = COALESCE (CreatedBy, 0),"
 			  + " Updated = COALESCE (Updated, SysDate),"
 			  + " UpdatedBy = COALESCE (UpdatedBy, 0),"
-			  + " I_ErrorMsg = NULL,"
+			  + " I_ErrorMsg = ' ',"
 			  + " I_IsImported = 'N' "
 			  + "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL OR AD_Client_ID IS NULL OR AD_Org_ID IS NULL OR AD_Client_ID=0 OR AD_Org_ID=0");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

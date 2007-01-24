@@ -108,7 +108,7 @@ public class ImportAccount extends SvrProcess
 			+ " CreatedBy = COALESCE (CreatedBy, 0),"
 			+ " Updated = COALESCE (Updated, SysDate),"
 			+ " UpdatedBy = COALESCE (UpdatedBy, 0),"
-			+ " I_ErrorMsg = NULL,"
+			+ " I_ErrorMsg = ' ',"
 			+ " I_IsImported = 'N' "
 			+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

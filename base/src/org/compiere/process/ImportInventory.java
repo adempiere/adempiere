@@ -103,7 +103,7 @@ public class ImportInventory extends SvrProcess
 			  + " CreatedBy = COALESCE (CreatedBy, 0),"
 			  + " Updated = COALESCE (Updated, SysDate),"
 			  + " UpdatedBy = COALESCE (UpdatedBy, 0),"
-			  + " I_ErrorMsg = NULL,"
+			  + " I_ErrorMsg = ' ',"
 			  + " M_Warehouse_ID = NULL,"	//	reset
 			  + " I_IsImported = 'N' "
 			  + "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");

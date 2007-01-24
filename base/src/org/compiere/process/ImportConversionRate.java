@@ -117,7 +117,7 @@ public class ImportConversionRate extends SvrProcess
 			+ " CreatedBy = COALESCE (CreatedBy, 0),"
 			+ " Updated = COALESCE (Updated, SysDate),"
 			+ " UpdatedBy = ").append(getAD_User_ID()).append(","
-			+ " I_ErrorMsg = NULL,"
+			+ " I_ErrorMsg = ' ',"
 			+ " Processed = 'N',"	
 			+ " I_IsImported = 'N' "
 			+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
