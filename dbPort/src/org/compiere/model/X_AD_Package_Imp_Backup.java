@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Backup
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO
 {
 /** Standard Constructor
@@ -62,7 +62,7 @@ public static final String Table_Name="AD_Package_Imp_Backup";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Imp_Backup");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -90,16 +90,16 @@ return sb.toString();
 
 /** AD_Column_ID AD_Reference_ID=251 */
 public static final int AD_COLUMN_ID_AD_Reference_ID=251;
-/** Set AD_Column_ID.
-@param AD_Column_ID AD_Column_ID */
+/** Set Column.
+@param AD_Column_ID Column in the table */
 public void setAD_Column_ID (int AD_Column_ID)
 {
 if (AD_Column_ID <= 0) set_Value ("AD_Column_ID", null);
  else 
 set_Value ("AD_Column_ID", Integer.valueOf(AD_Column_ID));
 }
-/** Get AD_Column_ID.
-@return AD_Column_ID */
+/** Get Column.
+@return Column in the table */
 public int getAD_Column_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Column_ID");
@@ -194,32 +194,32 @@ return (String)get_Value("AD_Package_Imp_Org_Dir");
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
-/** Set AD_Reference_ID.
-@param AD_Reference_ID AD_Reference_ID */
+/** Set Reference.
+@param AD_Reference_ID System Reference and Validation */
 public void setAD_Reference_ID (int AD_Reference_ID)
 {
 if (AD_Reference_ID <= 0) set_Value ("AD_Reference_ID", null);
  else 
 set_Value ("AD_Reference_ID", Integer.valueOf(AD_Reference_ID));
 }
-/** Get AD_Reference_ID.
-@return AD_Reference_ID */
+/** Get Reference.
+@return System Reference and Validation */
 public int getAD_Reference_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set AD_Table_ID.
-@param AD_Table_ID AD_Table_ID */
+/** Set Table.
+@param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
  else 
 set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
-/** Get AD_Table_ID.
-@return AD_Table_ID */
+/** Get Table.
+@return Database Table information */
 public int getAD_Table_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Table_ID");

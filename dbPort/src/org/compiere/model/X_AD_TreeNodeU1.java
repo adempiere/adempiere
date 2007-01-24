@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_TreeNodeU1
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_TreeNodeU1 extends PO
 {
 /** Standard Constructor
@@ -63,7 +63,7 @@ public static final String Table_Name="AD_TreeNodeU1";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_TreeNodeU1");
 
-protected BigDecimal accessLevel = new BigDecimal(7);
+protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel
 @return 7 - System - Client - Org 
 */

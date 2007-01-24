@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Package_Exp extends PO
 {
 /** Standard Constructor
@@ -70,7 +70,7 @@ public static final String Table_Name="AD_Package_Exp";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Exp");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -126,7 +126,7 @@ public static final String AD_PACKAGE_TYPE_RemoteTransfer = "R";
 /** XML File = X */
 public static final String AD_PACKAGE_TYPE_XMLFile = "X";
 /** Set AD_Package_Type.
-@param AD_Package_Type Defines the type of package.  XML File Local and Remote */
+@param AD_Package_Type AD_Package_Type */
 public void setAD_Package_Type (String AD_Package_Type)
 {
 if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.equals("R") || AD_Package_Type.equals("X"));
@@ -139,13 +139,13 @@ AD_Package_Type = AD_Package_Type.substring(0,0);
 set_Value ("AD_Package_Type", AD_Package_Type);
 }
 /** Get AD_Package_Type.
-@return Defines the type of package.  XML File Local and Remote */
+@return AD_Package_Type */
 public String getAD_Package_Type() 
 {
 return (String)get_Value("AD_Package_Type");
 }
 /** Set Description.
-@param Description Description */
+@param Description Optional short description of the record */
 public void setDescription (String Description)
 {
 if (Description == null) throw new IllegalArgumentException ("Description is mandatory.");
@@ -157,13 +157,13 @@ Description = Description.substring(0,999);
 set_Value ("Description", Description);
 }
 /** Get Description.
-@return Description */
+@return Optional short description of the record */
 public String getDescription() 
 {
 return (String)get_Value("Description");
 }
-/** Set Email Address.
-@param EMail Email Address creator of the package */
+/** Set EMail Address.
+@param EMail Electronic Mail Address */
 public void setEMail (String EMail)
 {
 if (EMail == null) throw new IllegalArgumentException ("EMail is mandatory.");
@@ -174,8 +174,8 @@ EMail = EMail.substring(0,29);
 }
 set_Value ("EMail", EMail);
 }
-/** Get Email Address.
-@return Email Address creator of the package */
+/** Get EMail Address.
+@return Electronic Mail Address */
 public String getEMail() 
 {
 return (String)get_Value("EMail");
@@ -217,7 +217,7 @@ public String getInstructions()
 return (String)get_Value("Instructions");
 }
 /** Set Name.
-@param Name Name of Package */
+@param Name Name */
 public void setName (String Name)
 {
 if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
@@ -229,13 +229,13 @@ Name = Name.substring(0,59);
 set_Value ("Name", Name);
 }
 /** Get Name.
-@return Name of Package */
+@return Name */
 public String getName() 
 {
 return (String)get_Value("Name");
 }
 /** Set PK_Version.
-@param PK_Version Package Version */
+@param PK_Version PK_Version */
 public void setPK_Version (String PK_Version)
 {
 if (PK_Version == null) throw new IllegalArgumentException ("PK_Version is mandatory.");
@@ -247,19 +247,19 @@ PK_Version = PK_Version.substring(0,19);
 set_Value ("PK_Version", PK_Version);
 }
 /** Get PK_Version.
-@return Package Version */
+@return PK_Version */
 public String getPK_Version() 
 {
 return (String)get_Value("PK_Version");
 }
 /** Set Processed.
-@param Processed Processed */
+@param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
 set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
-@return Processed */
+@return The document has been processed */
 public boolean isProcessed() 
 {
 Object oo = get_Value("Processed");
@@ -270,14 +270,14 @@ if (oo != null)
 }
 return false;
 }
-/** Set Processing.
-@param Processing Process to create package export */
+/** Set Process Now.
+@param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
 set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Processing.
-@return Process to create package export */
+/** Get Process Now.
+@return Process Now */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");
@@ -307,8 +307,8 @@ public static final String RELEASENO_Release253a = "Release 2.5.3a";
 public static final String RELEASENO_Release253b = "Release 2.5.3b";
 /** No specific release = all */
 public static final String RELEASENO_NoSpecificRelease = "all";
-/** Set ReleaseNo.
-@param ReleaseNo Release Number */
+/** Set Release No.
+@param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
 {
 if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");
@@ -321,14 +321,14 @@ ReleaseNo = ReleaseNo.substring(0,19);
 }
 set_Value ("ReleaseNo", ReleaseNo);
 }
-/** Get ReleaseNo.
-@return Release Number */
+/** Get Release No.
+@return Internal Release Number */
 public String getReleaseNo() 
 {
 return (String)get_Value("ReleaseNo");
 }
-/** Set UserName.
-@param UserName Creator of Package */
+/** Set Registered EMail.
+@param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
 {
 if (UserName == null) throw new IllegalArgumentException ("UserName is mandatory.");
@@ -339,14 +339,14 @@ UserName = UserName.substring(0,29);
 }
 set_Value ("UserName", UserName);
 }
-/** Get UserName.
-@return Creator of Package */
+/** Get Registered EMail.
+@return Email of the responsible for the System */
 public String getUserName() 
 {
 return (String)get_Value("UserName");
 }
 /** Set Version.
-@param Version Version */
+@param Version Version of the table definition */
 public void setVersion (String Version)
 {
 if (Version == null) throw new IllegalArgumentException ("Version is mandatory.");
@@ -358,7 +358,7 @@ Version = Version.substring(0,19);
 set_Value ("Version", Version);
 }
 /** Get Version.
-@return Version */
+@return Version of the table definition */
 public String getVersion() 
 {
 return (String)get_Value("Version");

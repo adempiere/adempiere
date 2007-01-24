@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLineMA
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_M_InOutLineMA extends PO
 {
 /** Standard Constructor
@@ -62,7 +62,7 @@ public static final String Table_Name="M_InOutLineMA";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutLineMA");
 
-protected BigDecimal accessLevel = new BigDecimal(1);
+protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
 @return 1 - Org 
 */

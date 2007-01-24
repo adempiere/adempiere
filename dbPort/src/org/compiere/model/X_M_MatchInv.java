@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MatchInv
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_M_MatchInv extends PO
 {
 /** Standard Constructor
@@ -69,7 +69,7 @@ public static final String Table_Name="M_MatchInv";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_MatchInv");
 
-protected BigDecimal accessLevel = new BigDecimal(3);
+protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel
 @return 3 - Client - Org 
 */

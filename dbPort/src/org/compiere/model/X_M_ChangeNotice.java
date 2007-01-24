@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ChangeNotice
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_M_ChangeNotice extends PO
 {
 /** Standard Constructor
@@ -63,7 +63,7 @@ public static final String Table_Name="M_ChangeNotice";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_ChangeNotice");
 
-protected BigDecimal accessLevel = new BigDecimal(3);
+protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel
 @return 3 - Client - Org 
 */

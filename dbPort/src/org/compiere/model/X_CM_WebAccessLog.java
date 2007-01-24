@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebAccessLog
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_CM_WebAccessLog extends PO
 {
 /** Standard Constructor
@@ -64,7 +64,7 @@ public static final String Table_Name="CM_WebAccessLog";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WebAccessLog");
 
-protected BigDecimal accessLevel = new BigDecimal(6);
+protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel
 @return 6 - System - Client 
 */

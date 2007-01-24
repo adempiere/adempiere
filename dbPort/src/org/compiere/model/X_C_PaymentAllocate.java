@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentAllocate
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_C_PaymentAllocate extends PO
 {
 /** Standard Constructor
@@ -66,7 +66,7 @@ public static final String Table_Name="C_PaymentAllocate";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaymentAllocate");
 
-protected BigDecimal accessLevel = new BigDecimal(1);
+protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
 @return 1 - Org 
 */

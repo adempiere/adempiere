@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Process extends PO
 {
 /** Standard Constructor
@@ -67,7 +67,7 @@ public static final String Table_Name="AD_Process";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Process");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -335,23 +335,6 @@ if (oo != null)
 }
 return false;
 }
-/** Set Jasper Report.
-@param JasperReport In this column you store the JasperReport filename */
-public void setJasperReport (String JasperReport)
-{
-if (JasperReport != null && JasperReport.length() > 255)
-{
-log.warning("Length > 255 - truncated");
-JasperReport = JasperReport.substring(0,254);
-}
-set_Value ("JasperReport", JasperReport);
-}
-/** Get Jasper Report.
-@return In this column you store the JasperReport filename */
-public String getJasperReport() 
-{
-return (String)get_Value("JasperReport");
-}
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -397,7 +380,7 @@ public static final String SHOWHELP_DonTShowHelp = "N";
 /** Show Help = Y */
 public static final String SHOWHELP_ShowHelp = "Y";
 /** Set Show Help.
-@param ShowHelp To show or hide help for reports / processes */
+@param ShowHelp Show Help */
 public void setShowHelp (String ShowHelp)
 {
 if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("Y"));
@@ -410,7 +393,7 @@ ShowHelp = ShowHelp.substring(0,0);
 set_Value ("ShowHelp", ShowHelp);
 }
 /** Get Show Help.
-@return To show or hide help for reports / processes */
+@return Show Help */
 public String getShowHelp() 
 {
 return (String)get_Value("ShowHelp");

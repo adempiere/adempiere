@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Goal
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_PA_Goal extends PO
 {
 /** Standard Constructor
@@ -69,7 +69,7 @@ public static final String Table_Name="PA_Goal";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Goal");
 
-protected BigDecimal accessLevel = new BigDecimal(6);
+protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel
 @return 6 - System - Client 
 */

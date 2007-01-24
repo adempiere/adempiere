@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Sequence_No
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Sequence_No extends PO
 {
 /** Standard Constructor
@@ -62,7 +62,7 @@ public static final String Table_Name="AD_Sequence_No";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Sequence_No");
 
-protected BigDecimal accessLevel = new BigDecimal(6);
+protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel
 @return 6 - System - Client 
 */

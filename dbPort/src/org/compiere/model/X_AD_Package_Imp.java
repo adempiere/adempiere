@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Package_Imp extends PO
 {
 /** Standard Constructor
@@ -63,7 +63,7 @@ public static final String Table_Name="AD_Package_Imp";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Imp");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -144,7 +144,7 @@ public String getCreatorContact()
 return (String)get_Value("CreatorContact");
 }
 /** Set Description.
-@param Description Description */
+@param Description Optional short description of the record */
 public void setDescription (String Description)
 {
 if (Description == null) throw new IllegalArgumentException ("Description is mandatory.");
@@ -156,13 +156,13 @@ Description = Description.substring(0,999);
 set_Value ("Description", Description);
 }
 /** Get Description.
-@return Description */
+@return Optional short description of the record */
 public String getDescription() 
 {
 return (String)get_Value("Description");
 }
-/** Set EMail.
-@param EMail EMail */
+/** Set EMail Address.
+@param EMail Electronic Mail Address */
 public void setEMail (String EMail)
 {
 if (EMail != null && EMail.length() > 60)
@@ -172,14 +172,14 @@ EMail = EMail.substring(0,59);
 }
 set_Value ("EMail", EMail);
 }
-/** Get EMail.
-@return EMail */
+/** Get EMail Address.
+@return Electronic Mail Address */
 public String getEMail() 
 {
 return (String)get_Value("EMail");
 }
 /** Set Name.
-@param Name Name */
+@param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
 {
 if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
@@ -191,13 +191,13 @@ Name = Name.substring(0,59);
 set_Value ("Name", Name);
 }
 /** Get Name.
-@return Name */
+@return Alphanumeric identifier of the entity */
 public String getName() 
 {
 return (String)get_Value("Name");
 }
 /** Set PK_Status.
-@param PK_Status Status of package installation */
+@param PK_Status PK_Status */
 public void setPK_Status (String PK_Status)
 {
 if (PK_Status != null && PK_Status.length() > 22)
@@ -208,7 +208,7 @@ PK_Status = PK_Status.substring(0,21);
 set_Value ("PK_Status", PK_Status);
 }
 /** Get PK_Status.
-@return Status of package installation */
+@return PK_Status */
 public String getPK_Status() 
 {
 return (String)get_Value("PK_Status");
@@ -231,13 +231,13 @@ public String getPK_Version()
 return (String)get_Value("PK_Version");
 }
 /** Set Processed.
-@param Processed Processed */
+@param Processed The document has been processed */
 public void setProcessed (boolean Processed)
 {
 set_Value ("Processed", Boolean.valueOf(Processed));
 }
 /** Get Processed.
-@return Processed */
+@return The document has been processed */
 public boolean isProcessed() 
 {
 Object oo = get_Value("Processed");
@@ -248,14 +248,14 @@ if (oo != null)
 }
 return false;
 }
-/** Set Processing.
-@param Processing Processing */
+/** Set Process Now.
+@param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
 set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Processing.
-@return Processing */
+/** Get Process Now.
+@return Process Now */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");
@@ -266,8 +266,8 @@ if (oo != null)
 }
 return false;
 }
-/** Set ReleaseNo.
-@param ReleaseNo ReleaseNo */
+/** Set Release No.
+@param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
 {
 if (ReleaseNo != null && ReleaseNo.length() > 20)
@@ -277,8 +277,8 @@ ReleaseNo = ReleaseNo.substring(0,19);
 }
 set_Value ("ReleaseNo", ReleaseNo);
 }
-/** Get ReleaseNo.
-@return ReleaseNo */
+/** Get Release No.
+@return Internal Release Number */
 public String getReleaseNo() 
 {
 return (String)get_Value("ReleaseNo");
@@ -302,7 +302,7 @@ if (oo != null)
 return false;
 }
 /** Set Version.
-@param Version Version */
+@param Version Version of the table definition */
 public void setVersion (String Version)
 {
 if (Version != null && Version.length() > 20)
@@ -313,7 +313,7 @@ Version = Version.substring(0,19);
 set_Value ("Version", Version);
 }
 /** Get Version.
-@return Version */
+@return Version of the table definition */
 public String getVersion() 
 {
 return (String)get_Value("Version");

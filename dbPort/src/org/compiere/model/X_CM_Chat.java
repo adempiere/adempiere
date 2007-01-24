@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Chat
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_CM_Chat extends PO
 {
 /** Standard Constructor
@@ -64,7 +64,7 @@ public static final String Table_Name="CM_Chat";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Chat");
 
-protected BigDecimal accessLevel = new BigDecimal(7);
+protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel
 @return 7 - System - Client - Org 
 */

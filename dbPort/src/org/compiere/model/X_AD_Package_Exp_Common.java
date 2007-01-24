@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp_Common
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Package_Exp_Common extends PO
 {
 /** Standard Constructor
@@ -60,7 +60,7 @@ public static final String Table_Name="AD_Package_Exp_Common";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Exp_Common");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -203,7 +203,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Table.
-@param AD_Table_ID Table for the Fields */
+@param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
 {
 if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
@@ -211,7 +211,7 @@ if (AD_Table_ID <= 0) set_Value ("AD_Table_ID", null);
 set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
 }
 /** Get Table.
-@return Table for the Fields */
+@return Database Table information */
 public int getAD_Table_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Table_ID");
@@ -235,7 +235,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set Workbench.
-@param AD_Workbench_ID Collection of windows reports */
+@param AD_Workbench_ID Collection of windows, reports */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
 {
 if (AD_Workbench_ID <= 0) set_Value ("AD_Workbench_ID", null);
@@ -243,7 +243,7 @@ if (AD_Workbench_ID <= 0) set_Value ("AD_Workbench_ID", null);
 set_Value ("AD_Workbench_ID", Integer.valueOf(AD_Workbench_ID));
 }
 /** Get Workbench.
-@return Collection of windows reports */
+@return Collection of windows, reports */
 public int getAD_Workbench_ID() 
 {
 Integer ii = (Integer)get_Value("AD_Workbench_ID");
@@ -286,7 +286,7 @@ public static final String DBTYPE_SQLServer = "SQL";
 /** Sybase = Sybase */
 public static final String DBTYPE_Sybase = "Sybase";
 /** Set DBType.
-@param DBType Indicates the type of database. */
+@param DBType DBType */
 public void setDBType (String DBType)
 {
 if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase"));
@@ -299,7 +299,7 @@ DBType = DBType.substring(0,21);
 set_Value ("DBType", DBType);
 }
 /** Get DBType.
-@return Indicates the type of database. */
+@return DBType */
 public String getDBType() 
 {
 return (String)get_Value("DBType");
@@ -386,23 +386,6 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
-/** Set Name 2.
-@param Name2 Additional Name */
-public void setName2 (String Name2)
-{
-if (Name2 != null && Name2.length() > 60)
-{
-log.warning("Length > 60 - truncated");
-Name2 = Name2.substring(0,59);
-}
-set_Value ("Name2", Name2);
-}
-/** Get Name 2.
-@return Additional Name */
-public String getName2() 
-{
-return (String)get_Value("Name2");
-}
 /** Set Name.
 @param Name Name */
 public void setName (String Name)
@@ -419,6 +402,23 @@ set_Value ("Name", Name);
 public String getName() 
 {
 return (String)get_Value("Name");
+}
+/** Set Name 2.
+@param Name2 Additional Name */
+public void setName2 (String Name2)
+{
+if (Name2 != null && Name2.length() > 60)
+{
+log.warning("Length > 60 - truncated");
+Name2 = Name2.substring(0,59);
+}
+set_Value ("Name2", Name2);
+}
+/** Get Name 2.
+@return Additional Name */
+public String getName2() 
+{
+return (String)get_Value("Name2");
 }
 /** Set Processed.
 @param Processed The document has been processed */
@@ -522,7 +522,7 @@ public static final String TYPE_Window = "W";
 /** Form = X */
 public static final String TYPE_Form = "X";
 /** Set Type.
-@param Type Type of Validation (SQL Java Script Java Language) */
+@param Type Type of Validation (SQL, Java Script, Java Language) */
 public void setType (String Type)
 {
 if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X"));
@@ -535,7 +535,7 @@ Type = Type.substring(0,9);
 set_Value ("Type", Type);
 }
 /** Get Type.
-@return Type of Validation (SQL Java Script Java Language) */
+@return Type of Validation (SQL, Java Script, Java Language) */
 public String getType() 
 {
 return (String)get_Value("Type");

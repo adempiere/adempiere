@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Synonym
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_K_Synonym extends PO
 {
 /** Standard Constructor
@@ -63,7 +63,7 @@ public static final String Table_Name="K_Synonym";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Synonym");
 
-protected BigDecimal accessLevel = new BigDecimal(3);
+protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel
 @return 3 - Client - Org 
 */

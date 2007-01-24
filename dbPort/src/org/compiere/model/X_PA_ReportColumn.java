@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportColumn
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_PA_ReportColumn extends PO
 {
 /** Standard Constructor
@@ -66,7 +66,7 @@ public static final String Table_Name="PA_ReportColumn";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportColumn");
 
-protected BigDecimal accessLevel = new BigDecimal(7);
+protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel
 @return 7 - System - Client - Org 
 */

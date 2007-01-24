@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Proc
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO
 {
 /** Standard Constructor
@@ -61,7 +61,7 @@ public static final String Table_Name="AD_Package_Imp_Proc";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Imp_Proc");
 
-protected BigDecimal accessLevel = new BigDecimal(4);
+protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
 @return 4 - System 
 */
@@ -105,7 +105,7 @@ if (oo != null)
 return false;
 }
 /** Set AD_Package_Dir.
-@param AD_Package_Dir Where the package directory is located */
+@param AD_Package_Dir AD_Package_Dir */
 public void setAD_Package_Dir (String AD_Package_Dir)
 {
 if (AD_Package_Dir != null && AD_Package_Dir.length() > 255)
@@ -116,7 +116,7 @@ AD_Package_Dir = AD_Package_Dir.substring(0,254);
 set_Value ("AD_Package_Dir", AD_Package_Dir);
 }
 /** Get AD_Package_Dir.
-@return Where the package directory is located */
+@return AD_Package_Dir */
 public String getAD_Package_Dir() 
 {
 return (String)get_Value("AD_Package_Dir");
@@ -137,7 +137,7 @@ if (ii == null) return 0;
 return ii.intValue();
 }
 /** Set AD_Package_Source.
-@param AD_Package_Source Where the package is located */
+@param AD_Package_Source AD_Package_Source */
 public void setAD_Package_Source (String AD_Package_Source)
 {
 if (AD_Package_Source != null && AD_Package_Source.length() > 255)
@@ -148,7 +148,7 @@ AD_Package_Source = AD_Package_Source.substring(0,254);
 set_Value ("AD_Package_Source", AD_Package_Source);
 }
 /** Get AD_Package_Source.
-@return Where the package is located */
+@return AD_Package_Source */
 public String getAD_Package_Source() 
 {
 return (String)get_Value("AD_Package_Source");
@@ -180,14 +180,14 @@ public String getAD_Package_Source_Type()
 {
 return (String)get_Value("AD_Package_Source_Type");
 }
-/** Set Processing.
-@param Processing Start the import process */
+/** Set Process Now.
+@param Processing Process Now */
 public void setProcessing (boolean Processing)
 {
 set_Value ("Processing", Boolean.valueOf(Processing));
 }
-/** Get Processing.
-@return Start the import process */
+/** Get Process Now.
+@return Process Now */
 public boolean isProcessing() 
 {
 Object oo = get_Value("Processing");

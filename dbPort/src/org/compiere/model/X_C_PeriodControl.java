@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PeriodControl
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_C_PeriodControl extends PO
 {
 /** Standard Constructor
@@ -63,7 +63,7 @@ public static final String Table_Name="C_PeriodControl";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PeriodControl");
 
-protected BigDecimal accessLevel = new BigDecimal(2);
+protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel
 @return 2 - Client 
 */

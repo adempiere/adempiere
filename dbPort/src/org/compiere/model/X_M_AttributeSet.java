@@ -25,8 +25,8 @@ import java.sql.*;
 import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSet
- *  @author Jorg Janke (generated) 
- *  @version Release 3.1.3 - $Id$ */
+ *  @author Adempiere (generated) 
+ *  @version Release 3.1.4 - $Id$ */
 public class X_M_AttributeSet extends PO
 {
 /** Standard Constructor
@@ -69,7 +69,7 @@ public static final String Table_Name="M_AttributeSet";
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_AttributeSet");
 
-protected BigDecimal accessLevel = new BigDecimal(3);
+protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel
 @return 3 - Client - Org 
 */
@@ -252,7 +252,7 @@ if (oo != null)
 return false;
 }
 /** Set Lot Char End Overwrite.
-@param LotCharEOverwrite Lot/Batch End Indicator overwrite - default » */
+@param LotCharEOverwrite Lot/Batch End Indicator overwrite - default Â» */
 public void setLotCharEOverwrite (String LotCharEOverwrite)
 {
 if (LotCharEOverwrite != null && LotCharEOverwrite.length() > 1)
@@ -263,13 +263,13 @@ LotCharEOverwrite = LotCharEOverwrite.substring(0,0);
 set_Value ("LotCharEOverwrite", LotCharEOverwrite);
 }
 /** Get Lot Char End Overwrite.
-@return Lot/Batch End Indicator overwrite - default » */
+@return Lot/Batch End Indicator overwrite - default Â» */
 public String getLotCharEOverwrite() 
 {
 return (String)get_Value("LotCharEOverwrite");
 }
 /** Set Lot Char Start Overwrite.
-@param LotCharSOverwrite Lot/Batch Start Indicator overwrite - default « */
+@param LotCharSOverwrite Lot/Batch Start Indicator overwrite - default Â« */
 public void setLotCharSOverwrite (String LotCharSOverwrite)
 {
 if (LotCharSOverwrite != null && LotCharSOverwrite.length() > 1)
@@ -280,7 +280,7 @@ LotCharSOverwrite = LotCharSOverwrite.substring(0,0);
 set_Value ("LotCharSOverwrite", LotCharSOverwrite);
 }
 /** Get Lot Char Start Overwrite.
-@return Lot/Batch Start Indicator overwrite - default « */
+@return Lot/Batch Start Indicator overwrite - default Â« */
 public String getLotCharSOverwrite() 
 {
 return (String)get_Value("LotCharSOverwrite");
