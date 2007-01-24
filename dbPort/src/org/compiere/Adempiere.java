@@ -67,7 +67,7 @@ public final class Adempiere
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	static public final String	ADEMPIERE_R		= "Adempiere\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2006 Adempiere \u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2007 Adempiere \u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
