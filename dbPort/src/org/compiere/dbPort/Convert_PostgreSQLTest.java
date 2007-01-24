@@ -28,6 +28,14 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		// Line 407 of ImportProduct.java
+		
+		sql = "UPDATE M_PRODUCT SET (Value,Name,Description,DocumentNote,Help,UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,Discontinued,DiscontinuedBy,Updated,UpdatedBy)= (SELECT Value,Name,Description,DocumentNote,Help,UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,Discontinued,DiscontinuedBy,SysDate,UpdatedBy FROM I_Product WHERE I_Product_ID=?) WHERE M_Product_ID=?";
+		sqe = "UPDATE M_PRODUCT SET Value=I_Product.Value,Name=I_Product.Name,Description=I_Product.Description,DocumentNote=I_Product.DocumentNote,Help=I_Product.Help,UPC=I_Product.UPC,SKU=I_Product.SKU,C_UOM_ID=I_Product.C_UOM_ID,M_Product_Category_ID=I_Product.M_Product_Category_ID,Classification=I_Product.Classification,ProductType=I_Product.ProductType,Volume=I_Product.Volume,Weight=I_Product.Weight,ShelfWidth=I_Product.ShelfWidth,ShelfHeight=I_Product.ShelfHeight,ShelfDepth=I_Product.ShelfDepth,UnitsPerPallet=I_Product.UnitsPerPallet,Discontinued=I_Product.Discontinued,DiscontinuedBy=I_Product.DiscontinuedBy,Updated=CURRENT_TIMESTAMP,UpdatedBy=I_Product.UpdatedBy FROM I_Product WHERE I_Product.I_Product_ID=? AND M_PRODUCT.M_Product_ID=?";
+
+        r = convert.convert(sql);
+        verify(sql, r, sqe);
+        
 		// test conversion of reserved words inside quotes
 		
 		sql = "UPDATE AD_Message_Trl SET MsgText='{0} Linea(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}',MsgTip=NULL,Updated=TO_DATE('2007-01-12 21:44:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Message_ID=828 AND AD_Language='es_MX'";
