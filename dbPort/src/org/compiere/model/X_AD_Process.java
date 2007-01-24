@@ -335,6 +335,23 @@ if (oo != null)
 }
 return false;
 }
+/** Set Jasper Report.
+@param JasperReport In this column you store the JasperReport filename */
+public void setJasperReport (String JasperReport)
+{
+if (JasperReport != null && JasperReport.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+JasperReport = JasperReport.substring(0,254);
+}
+set_Value ("JasperReport", JasperReport);
+}
+/** Get Jasper Report.
+@return In this column you store the JasperReport filename */
+public String getJasperReport() 
+{
+return (String)get_Value("JasperReport");
+}
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
