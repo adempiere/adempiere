@@ -684,6 +684,10 @@ public abstract class PO
 			else if (p_info.getColumnClass(index) == Boolean.class 
 				&& ("Y".equals(value) || "N".equals(value)) )
 				m_newValues[index] = new Boolean("Y".equals(value));
+			// added by vpj-cd
+			// To solve BUG [ 1618423 ] Set Project Type button in Project window throws warning
+			// generated because C_Project.C_Project_Type_ID is defined as button in dictionary
+			// although is ID (integer) in database
 			else if (value.getClass() == Integer.class 
 					&& p_info.getColumnClass(index) == String.class)
 					m_newValues[index] = value;			
