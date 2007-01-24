@@ -1,0 +1,6 @@
+INSERT INTO ad_treebar
+     VALUES (10, 100, 144, 0, 0, 'Y',
+             TO_DATE ('01/23/2007 23:59:53', 'MM/DD/YYYY HH24:MI:SS'), 100,
+             TO_DATE ('01/23/2007 23:59:53', 'MM/DD/YYYY HH24:MI:SS'), 100);
+
+COMMIT ;
