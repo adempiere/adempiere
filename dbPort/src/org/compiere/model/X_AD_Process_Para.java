@@ -217,10 +217,10 @@ return (String)get_Value("ColumnName");
  */
 public void setDefaultValue (String DefaultValue)
 {
-if (DefaultValue != null && DefaultValue.length() > 255)
+if (DefaultValue != null && DefaultValue.length() > 2000)
 {
-log.warning("Length > 255 - truncated");
-DefaultValue = DefaultValue.substring(0,254);
+log.warning("Length > 2000 - truncated");
+DefaultValue = DefaultValue.substring(0,1999);
 }
 set_Value ("DefaultValue", DefaultValue);
 }
@@ -236,10 +236,10 @@ return (String)get_Value("DefaultValue");
  */
 public void setDefaultValue2 (String DefaultValue2)
 {
-if (DefaultValue2 != null && DefaultValue2.length() > 255)
+if (DefaultValue2 != null && DefaultValue2.length() > 2000)
 {
-log.warning("Length > 255 - truncated");
-DefaultValue2 = DefaultValue2.substring(0,254);
+log.warning("Length > 2000 - truncated");
+DefaultValue2 = DefaultValue2.substring(0,1999);
 }
 set_Value ("DefaultValue2", DefaultValue2);
 }
