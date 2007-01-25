@@ -810,7 +810,7 @@ public final class MRole extends X_AD_Role
 		m_tableIdName = new HashMap<String,String>(300);
 		PreparedStatement pstmt = null;
 		String sql = "SELECT AD_Table_ID, AccessLevel, TableName, IsView, "
-			+ "(SELECT ColumnName FROM AD_COLUMN WHERE AD_COLUMN.AD_TABLE_ID = AD_TABLE.AD_TABLE_ID AND ISKEY='Y' AND COLUMNNAME LIKE '%ID') "
+			+ "(SELECT ColumnName FROM AD_COLUMN WHERE AD_COLUMN.AD_TABLE_ID = AD_TABLE.AD_TABLE_ID AND AD_COLUMN.COLUMNNAME = AD_TABLE.TABLENAME || '_ID') "
 			+ "FROM AD_Table WHERE IsActive='Y'";
 		try
 		{
