@@ -27,6 +27,8 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MRequestType.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  Teo Sarca - bug fix [ 1642833 ] MRequestType minor typo bug
  */
 public class MRequestType extends X_R_RequestType
 {
@@ -63,7 +65,7 @@ public class MRequestType extends X_R_RequestType
 		MRequestType retValue = null;
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		String sql = "SELECT * FROM R_RequestType "
-			+ "WHERE AD_Client_ID IN (0,11) "
+			+ "WHERE AD_Client_ID IN (0," + AD_Client_ID + ") "
 			+ "ORDER BY IsDefault DESC, AD_Client_ID DESC";
 		PreparedStatement pstmt = null;
 		try
