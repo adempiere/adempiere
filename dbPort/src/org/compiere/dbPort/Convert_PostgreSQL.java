@@ -122,6 +122,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// log.info(result.get(i));
 		// log.info("------------------------------------------------------------");
 
+		//System.out.println(result.get(0));
 		return result;
 	} // convertStatement
 
@@ -1425,10 +1426,25 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return true;
 		else if (',' == c)
 			return true;
+		else if ('?' == c)
+			return true;
+		else if ('#' == c)
+			return true;
+		else if ('@' == c)
+			return true;
+		else if ('~' == c)
+			return true;
+		else if ('&' == c)
+			return true;
+		else if ('^' == c)
+			return true;
+		else if ('!' == c)
+			return true;
 		else
 			return false;
 	}
 	
+	/*
 	private boolean isOperator(String token)
 	{
 		if ("=".equals(token))
@@ -1457,7 +1473,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return true;
 		else
 			return false;
-	}
+	}*/
+	
 	/**
 	 * Check if token is a valid sql identifier
 	 * @param token
@@ -1481,7 +1498,26 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				return false;
 			} catch (NumberFormatException e) {}
 		}
+		
+		if (isSQLFunctions(token))
+			return false;
+		
 		return true;
+	}
+	
+	private boolean isSQLFunctions(String token)
+	{
+		if (token.equalsIgnoreCase("current_timestamp"))
+			return true;
+		else if (token.equalsIgnoreCase("current_time"))
+			return true;
+		else if (token.equalsIgnoreCase("current_date"))
+			return true;
+		else if (token.equalsIgnoreCase("localtime"))
+			return true;
+		else if (token.equalsIgnoreCase("localtimestamp"))
+			return true;
+		return false;
 	}
 
 	/***************************************************************************
