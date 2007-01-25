@@ -3163,18 +3163,15 @@ public abstract class PO
 			return null;
 		//
 		Object retValue = null;
-                //begin vpj-cd e-Evolution 03/11/2005 PostgreSQL
-		if(DB.isPostgreSQL()||DB.isFyracle())
-		{			
-		    byte buf[] = (byte[])value;
-			retValue = buf;
-			return retValue;
-		}	
-		//end vpj-cd e-Evolution 03/11/2005 PostgreSQL
+                
 		long length = -99;
 		try
 		{
-			if (value instanceof Clob)		//	returns String
+			//[ 1643996 ] Chat not working in postgres port
+			if (value instanceof String ||
+				value instanceof byte[])
+				retValue = value;
+			else if (value instanceof Clob)		//	returns String
 			{
 				Clob clob = (Clob)value;
 				length = clob.length();
