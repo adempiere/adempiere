@@ -76,9 +76,7 @@
 		<antcall target="load">
 			<param name="file.name" value="${basedir}/init.sql" />
 		</antcall>
-		<antcall target="load">
-			<param name="file.name" value="${basedir}/aliasfunction.sql" />
-		</antcall>
+
 	</target>
 
 	<target name="load-others">
@@ -114,6 +112,9 @@
 		<echo file="log/psql.log" append="true" message="${line.separator}#Create Foreign Keys:${line.separator}${line.separator}" />
 		<antcall target="load">
 			<param name="file.name" value="${basedir}/adempiere-fk.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/install_procedures.sql" />
 		</antcall>
 	</target>
 

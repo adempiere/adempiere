@@ -57,26 +57,26 @@ SQLActions[ ] = {
  	LANGUAGE java VOLATILE;
 	
 	/************* bomPriceLimit *******************/
-	CREATE OR REPLACE FUNCTION bomPriceLimit (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomPriceLimit (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC)
  	RETURNS NUMERIC
 	AS 'org.compiere.sqlj.Product.bomPriceLimit(int,int)'
  	LANGUAGE java VOLATILE; 	
 	
 	/************* bomPriceList *******************/
-	CREATE OR REPLACE FUNCTION bomPriceList (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomPriceList (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomPriceList(int,int)'
 	LANGUAGE java VOLATILE;
 
 	
 	/************* bomPriceStd *******************/	
-	CREATE OR REPLACE FUNCTION bomPriceStd (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomPriceStd (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomPriceStd(int,int)'
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyAvailable *******************/
-	CREATE OR REPLACE FUNCTION bomQtyAvailable (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomQtyAvailable (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyAvailable(int,int,int)'
 	LANGUAGE java VOLATILE;
@@ -89,7 +89,7 @@ SQLActions[ ] = {
 	
 	/************* bomQtyOnHand *******************/
 	
-	CREATE OR REPLACE FUNCTION bomQtyOnHand (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomQtyOnHand (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyOnHand(int,int,int)'
 	LANGUAGE java VOLATILE;
@@ -101,7 +101,7 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyOrdered *******************/
-	CREATE OR REPLACE FUNCTION bomQtyOrdered (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomQtyOrdered (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyOrdered(int,int,int)'
 	LANGUAGE java VOLATILE;
@@ -113,7 +113,7 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 
     /************* bomQtyReserved *******************/
-	CREATE OR REPLACE FUNCTION bomQtyReserved (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER)
+	CREATE OR REPLACE FUNCTION bomQtyReserved (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int)'
 	LANGUAGE java VOLATILE;
