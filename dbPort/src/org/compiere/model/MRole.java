@@ -531,6 +531,8 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,String>		m_tableAccessLevel = null;
 	/**	Table Name				*/
 	private HashMap<String,Integer>		m_tableName = null;
+	/** View Name				*/
+	private Set<String>	m_viewName = null;
 	
 	/**	Window Access			*/
 	private HashMap<Integer,Boolean>	m_windowAccess = null;
@@ -802,8 +804,9 @@ public final class MRole extends X_AD_Role
 			return;
 		m_tableAccessLevel = new HashMap<Integer,String>(300);
 		m_tableName = new HashMap<String,Integer>(300);
+		m_viewName = new HashSet<String>(300);
 		PreparedStatement pstmt = null;
-		String sql = "SELECT AD_Table_ID, AccessLevel, TableName "
+		String sql = "SELECT AD_Table_ID, AccessLevel, TableName, IsView "
 			+ "FROM AD_Table WHERE IsActive='Y'";
 		try
 		{
@@ -813,7 +816,13 @@ public final class MRole extends X_AD_Role
 			{
 				Integer ii = new Integer(rs.getInt(1));
 				m_tableAccessLevel.put(ii, rs.getString(2));
-				m_tableName.put(rs.getString(3), ii);
+				String tableName = rs.getString(3); 
+				m_tableName.put(tableName, ii);
+				String isView = rs.getString(4);
+				if ("Y".equals(isView))
+				{
+					m_viewName.add(tableName);
+				}
 			} 
 			rs.close();
 			pstmt.close();
@@ -836,6 +845,15 @@ public final class MRole extends X_AD_Role
 		log.fine("#" + m_tableAccessLevel.size()); 
 	}	//	loadTableAccessLevel
 
+	/**
+	 * Check if tableName is a view
+	 * @param tableName
+	 * @return boolean
+	 */
+	private boolean isView(String tableName)
+	{
+		return m_viewName.contains(tableName);
+	}
 	
 	/**
 	 * 	Load Column Access
@@ -1660,6 +1678,11 @@ public final class MRole extends X_AD_Role
 		for (int i = 0; i < ti.length; i++)
 		{
 			String TableName = ti[i].getTableName();
+			
+			//[ 1644310 ] Rev. 1292 hangs on start
+			if (TableName.toUpperCase().endsWith("_TRL")) continue;
+			if (isView(TableName)) continue;
+			
 			int AD_Table_ID = getAD_Table_ID (TableName);
 			//	Data Table Access
 			if (AD_Table_ID != 0 && !isTableAccess(AD_Table_ID, !rw))
