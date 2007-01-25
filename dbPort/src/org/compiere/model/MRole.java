@@ -533,6 +533,8 @@ public final class MRole extends X_AD_Role
 	private HashMap<String,Integer>		m_tableName = null;
 	/** View Name				*/
 	private Set<String>	m_viewName = null;
+	/** ID Column Name **/
+	private HashMap<String,String>		m_tableIdName = null;
 	
 	/**	Window Access			*/
 	private HashMap<Integer,Boolean>	m_windowAccess = null;
@@ -805,8 +807,10 @@ public final class MRole extends X_AD_Role
 		m_tableAccessLevel = new HashMap<Integer,String>(300);
 		m_tableName = new HashMap<String,Integer>(300);
 		m_viewName = new HashSet<String>(300);
+		m_tableIdName = new HashMap<String,String>(300);
 		PreparedStatement pstmt = null;
-		String sql = "SELECT AD_Table_ID, AccessLevel, TableName, IsView "
+		String sql = "SELECT AD_Table_ID, AccessLevel, TableName, IsView, "
+			+ "(SELECT ColumnName FROM AD_COLUMN WHERE AD_COLUMN.AD_TABLE_ID = AD_TABLE.AD_TABLE_ID AND ISKEY='Y' AND COLUMNNAME LIKE '%ID') "
 			+ "FROM AD_Table WHERE IsActive='Y'";
 		try
 		{
@@ -821,7 +825,12 @@ public final class MRole extends X_AD_Role
 				String isView = rs.getString(4);
 				if ("Y".equals(isView))
 				{
-					m_viewName.add(tableName);
+					m_viewName.add(tableName.toUpperCase());
+				}
+				String idColumn = rs.getString(5);
+				if (idColumn != null && idColumn.trim().length() > 0)
+				{
+					m_tableIdName.put(tableName.toUpperCase(), idColumn);
 				}
 			} 
 			rs.close();
@@ -852,7 +861,12 @@ public final class MRole extends X_AD_Role
 	 */
 	private boolean isView(String tableName)
 	{
-		return m_viewName.contains(tableName);
+		return m_viewName.contains(tableName.toUpperCase());
+	}
+	
+	private String getIdColumnName(String tableName)
+	{
+		return m_tableIdName.get(tableName.toUpperCase());
 	}
 	
 	/**
@@ -1706,9 +1720,11 @@ public final class MRole extends X_AD_Role
 					keyColumnName = TableName;
 				keyColumnName += ".";
 			}
-			keyColumnName += TableName + "_ID";	//	derived from table
+			//keyColumnName += TableName + "_ID";	//	derived from table
+			if (getIdColumnName(TableName) == null) continue;
+			keyColumnName += getIdColumnName(TableName); 
 	
-		//	log.fine("addAccessSQL - " + TableName + "(" + AD_Table_ID + ") " + keyColumnName);
+			//log.fine("addAccessSQL - " + TableName + "(" + AD_Table_ID + ") " + keyColumnName);
 			String recordWhere = getRecordWhere (AD_Table_ID, keyColumnName, rw);
 			if (recordWhere.length() > 0)
 			{
