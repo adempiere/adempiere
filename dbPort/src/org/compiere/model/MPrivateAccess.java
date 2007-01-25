@@ -81,6 +81,8 @@ public class MPrivateAccess extends X_AD_Private_Access
 	 */
 	public static String getLockedRecordWhere (int AD_Table_ID, int AD_User_ID)
 	{
+		//[ 1644094 ] MPrivateAccess.getLockedRecordWhere inefficient
+		/*
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		PreparedStatement pstmt = null;
 		String sql = "SELECT Record_ID FROM AD_Private_Access WHERE AD_Table_ID=? AND AD_User_ID<>? AND IsActive='Y'";
@@ -124,7 +126,10 @@ public class MPrivateAccess extends X_AD_Private_Access
 			sb.append(list.get(i));
 		}
 		sb.append(")");
-		return sb.toString();
+		return sb.toString();*/
+		String whereClause = " NOT IN ( SELECT Record_ID FROM AD_Private_Access WHERE AD_Table_ID = "
+			+AD_Table_ID+" AND AD_User_ID <> "+AD_User_ID+" AND IsActive = 'Y' )";
+		return whereClause;
 	}	//	get
 
 	
