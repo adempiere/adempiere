@@ -203,12 +203,6 @@ SQLActions[ ] = {
  	AS 'org.compiere.sqlj.Account.balance(int,java.math.BigDecimal,java.math.BigDecimal)'
 	LANGUAGE java VOLATILE;
 	
-	/** Manufacturing e-evolution **/
-	CREATE OR REPLACE FUNCTION documentNo (p_MPC_MRP_ID NUMERIC)
- 	RETURNS VARCHAR
- 	AS 'org.compiere.sqlj.Manufacturing.documentNo(int)'
-	LANGUAGE java VOLATILE;
-	
 	END INSTALL",
 	
 	"BEGIN REMOVE
