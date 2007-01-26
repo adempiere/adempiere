@@ -22,13 +22,18 @@
 
 CREATE OR REPLACE FUNCTION addDays(datetime TIMESTAMP WITH TIME ZONE, days Numeric)
 RETURNS DATE AS $$
+declare duration varchar;
 BEGIN
-	RETURN CAST(datetime AS DATE) + days;
+	if datetime is null or days is null then
+		return null;
+	end if;
+	duration = days || ' day';	 
+	return cast(date_trunc('day',datetime) + cast(duration as interval) as date);
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION subtractdays (day TIMESTAMP WITH TIME ZONE, days NUMERIC)
-RETURNS TIMESTAMP WITH TIME ZONE AS $$
+RETURNS DATE AS $$
 BEGIN
     RETURN addDays(day,(days * -1));
 END;
