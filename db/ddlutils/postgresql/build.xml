@@ -49,7 +49,7 @@
 		</condition>
 	</target>
         
-        <target name="install-pljava" depends="setupInit" unless="isWindows" 
+    <target name="install-pljava" depends="setupInit" unless="isWindows" 
 		description="Non Windows Setup" >
 		<echo message="----- Loading PLJAVa to Linux " />
 		<ant antfile="build-pljava.xml" target="init" />
@@ -74,7 +74,25 @@
 			<param name="file.name" value="${basedir}/load_sqlj_functions.sql" />
 		</antcall>
 		<antcall target="load">
-			<param name="file.name" value="${basedir}/init.sql" />
+			<param name="file.name" value="${basedir}/functions/getDate.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/charAt.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/firstOf.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/addDays.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/daysBetween.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/trunc.sql" />
+		</antcall>
+		<antcall target="load">
+			<param name="file.name" value="${basedir}/operators.sql" />
 		</antcall>
 
 	</target>
