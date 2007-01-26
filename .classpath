@@ -26,8 +26,6 @@
 	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jconn3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jtds-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/j2ee.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
@@ -39,8 +37,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc14.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/db2jcc_license_cu.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/db2jcc.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jnlp.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
