@@ -11,7 +11,7 @@ CREATE OR REPLACE VIEW C_DUNNING_LINE_V
  ISPAID, ISALLOCATED, TENDERTYPE, DISCOUNTAMT)
 AS 
 SELECT drl.AD_Client_ID, drl.AD_Org_ID, drl.IsActive, drl.Created, drl.CreatedBy, drl.Updated, drl.UpdatedBy, 
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
     drl.C_DunningRunLine_ID, drl.C_DunningRunEntry_ID,
     drl.Amt, drl.ConvertedAmt, drl.DaysDue, drl.TimesDunned, 
     drl.InterestAmt, drl.FeeAmt, drl.TotalAmt,

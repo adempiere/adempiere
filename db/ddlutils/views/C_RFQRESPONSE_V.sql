@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW C_RFQRESPONSE_V
 AS 
 SELECT rr.C_RfQResponse_ID, rr.C_RfQ_ID, 
     rr.AD_Client_ID, rr.AD_Org_ID, rr.IsActive, rr.Created, rr.CreatedBy, rr.Updated, rr.UpdatedBy,
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,
     r.Name, r.Description, r.Help,
     r.C_Currency_ID, c.ISO_Code,

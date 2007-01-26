@@ -12,7 +12,7 @@ CREATE OR REPLACE VIEW C_INVOICE_HEADER_V
  C_PROJECT_ID, C_ACTIVITY_ID, ISPAID)
 AS 
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Updated, i.UpdatedBy, 
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
 	i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus,  i.C_DocType_ID,
 	i.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,

@@ -11,7 +11,7 @@ CREATE OR REPLACE VIEW M_INOUT_HEADER_V
  PRIORITYRULE)
 AS 
 SELECT io.AD_Client_ID, io.AD_Org_ID, io.IsActive, io.Created, io.CreatedBy, io.Updated, io.UpdatedBy,
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
 	io.M_InOut_ID, io.IsSOTrx, io.DocumentNo, io.DocStatus,	 io.C_DocType_ID,
 	io.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,

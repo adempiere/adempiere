@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW C_RFQRESPONSELINEQTY_V
 AS 
 SELECT rq.C_RfQResponseLine_ID, rq.C_RfQResponseLineQty_ID, rq.C_RfQLineQty_ID,
     rq.AD_Client_ID, rq.AD_Org_ID, rq.IsActive, rq.Created, rq.CreatedBy, rq.Updated, rq.UpdatedBy,
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
     q.C_UOM_ID, uom.UOMSymbol,
     q.Qty, rq.Price, rq.Discount
 FROM C_RfQResponseLineQty rq

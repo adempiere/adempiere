@@ -10,7 +10,7 @@ AS
 SELECT rrl.C_RfQResponse_ID, rrl.C_RfQResponseLine_ID, rrl.C_RfQLine_ID, 
     rq.C_RfQResponseLineQty_ID, rq.C_RfQLineQty_ID,
     rrl.AD_Client_ID, rrl.AD_Org_ID, rrl.IsActive, rrl.Created, rrl.CreatedBy, rrl.Updated, rrl.UpdatedBy,
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
     rl.Line,
     rl.M_Product_ID, rl.M_AttributeSetInstance_ID,
 	COALESCE(p.Name||productAttribute(rl.M_AttributeSetInstance_ID), rl.Description) AS Name, -- main line

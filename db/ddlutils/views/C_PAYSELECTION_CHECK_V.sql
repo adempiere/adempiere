@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW C_PAYSELECTION_CHECK_V
  PAYAMT, AMTINWORDS, QTY, PAYMENTRULE, DOCUMENTNO)
 AS 
 SELECT psc.AD_Client_ID, psc.AD_Org_ID, 
-	'en_US' AS AD_Language,
+	cast('en_US' as varchar) AS AD_Language,
 	psc.C_PaySelection_ID, psc.C_PaySelectionCheck_ID,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 0 AS C_DocType_ID,
 	bp.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,

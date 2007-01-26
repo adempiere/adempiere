@@ -13,7 +13,7 @@ CREATE OR REPLACE VIEW C_PROJECT_HEADER_V
  M_WAREHOUSE_ID)
 AS 
 SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy, 
-	'en_US' AS AD_Language, p.C_Project_ID,
+	cast('en_US' as varchar) AS AD_Language, p.C_Project_ID,
     p.Value, p.Name AS ProjectName, p.Description, p.Note, p.IsSummary, p.ProjectCategory,
     oi.C_Location_ID AS Org_Location_ID, oi.TaxID,
     p.C_ProjectType_ID, pjt.Name AS ProjectTypeName, p.C_Phase_ID, pjp.Name AS ProjectPhaseName,
