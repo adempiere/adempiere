@@ -334,6 +334,9 @@ public class Adempiere implements Serializable
 	 */
 	static public int getDaysBetween (Timestamp start, Timestamp end)
 	{
+		//check null
+		if (start == null || end == null) return 0;
+		
 		boolean negative = false;
 		if (end.before(start))
 		{

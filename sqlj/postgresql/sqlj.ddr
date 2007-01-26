@@ -18,31 +18,35 @@ SQLActions[ ] = {
 	AS 'org.compiere.sqlj.Adempiere.getProperty(java.lang.String)'
  	LANGUAGE java VOLATILE;; 
 	
-	CREATE OR REPLACE FUNCTION TRUNC(datetime TIMESTAMP WITH TIME ZONE)
- 	RETURNS TIMESTAMP WITH TIME ZONE
-	AS 'org.compiere.sqlj.Adempiere.trunc(java.sql.Timestamp)'
- 	LANGUAGE java VOLATILE;;
+	--Replace by pl/pgsql implementation
+	--CREATE OR REPLACE FUNCTION TRUNC(datetime TIMESTAMP WITH TIME ZONE)
+ 	--RETURNS TIMESTAMP WITH TIME ZONE
+	--AS 'org.compiere.sqlj.Adempiere.trunc(java.sql.Timestamp)'
+ 	--LANGUAGE java VOLATILE;;
 	
-	CREATE OR REPLACE FUNCTION firstOf(datetime TIMESTAMP WITH TIME ZONE ,xx VARCHAR)
- 	RETURNS TIMESTAMP WITH TIME ZONE
-	AS 'org.compiere.sqlj.Adempiere.firstOf(java.sql.Timestamp,java.lang.String)'
- 	LANGUAGE java VOLATILE;;
+	--Replace by pl/pgsql implementation
+	--CREATE OR REPLACE FUNCTION firstOf(datetime TIMESTAMP WITH TIME ZONE ,xx VARCHAR)
+ 	--RETURNS TIMESTAMP WITH TIME ZONE
+	--AS 'org.compiere.sqlj.Adempiere.firstOf(java.sql.Timestamp,java.lang.String)'
+ 	--LANGUAGE java VOLATILE;;
 	
-	CREATE OR REPLACE FUNCTION daysBetween(datetime1 TIMESTAMP WITH TIME ZONE , datetime2 TIMESTAMP WITH TIME ZONE)
- 	RETURNS INTEGER
-	AS 'org.compiere.sqlj.Adempiere.getDaysBetween(java.sql.Timestamp,java.sql.Timestamp)'
- 	LANGUAGE java VOLATILE;
+	--Replace by pl/pgsql implementation
+	--CREATE OR REPLACE FUNCTION daysBetween(datetime1 TIMESTAMP WITH TIME ZONE , datetime2 TIMESTAMP WITH TIME ZONE)
+ 	--RETURNS INTEGER
+	--AS 'org.compiere.sqlj.Adempiere.getDaysBetween(java.sql.Timestamp,java.sql.Timestamp)'
+ 	--LANGUAGE java VOLATILE;;
 	
-	CREATE OR REPLACE FUNCTION addDays(day TIMESTAMP WITH TIME ZONE, days INTEGER)
- 	RETURNS TIMESTAMP WITH TIME ZONE
-	AS 'org.compiere.sqlj.Adempiere.addDays(java.sql.Timestamp,int)'
- 	LANGUAGE java VOLATILE;
+	--Replace by pl/pgsql implementation
+	--CREATE OR REPLACE FUNCTION addDays(day TIMESTAMP WITH TIME ZONE, days INTEGER)
+ 	--RETURNS TIMESTAMP WITH TIME ZONE
+	--AS 'org.compiere.sqlj.Adempiere.addDays(java.sql.Timestamp,int)'
+ 	--LANGUAGE java VOLATILE;;
 	
-	
-	CREATE OR REPLACE FUNCTION charAt(source VARCHAR, pos INTEGER)
- 	RETURNS VARCHAR
-	AS 'org.compiere.sqlj.Adempiere.charAt (java.lang.String,int)'
- 	LANGUAGE java VOLATILE;
+	--Replace by pl/pgsql implementation
+	--CREATE OR REPLACE FUNCTION charAt(source VARCHAR, pos INTEGER)
+ 	--RETURNS VARCHAR
+	--AS 'org.compiere.sqlj.Adempiere.charAt (java.lang.String,int)'
+ 	--LANGUAGE java VOLATILE;;
  	    
 	CREATE OR REPLACE FUNCTION nextID(AD_Sequence_ID INTEGER, System VARCHAR)
  	RETURNS INTEGER
@@ -80,7 +84,7 @@ SQLActions[ ] = {
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyAvailable(int,int,int)'
 	LANGUAGE java VOLATILE;
-
+	
     /************* bomQtyAvailable with M_AttributeSetInstance_ID *******************/
 	CREATE OR REPLACE FUNCTION bomQtyAvailable (M_Product_ID NUMERIC , M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
@@ -93,7 +97,7 @@ SQLActions[ ] = {
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyOnHand(int,int,int)'
 	LANGUAGE java VOLATILE;
-		
+	
 	/************* bomQtyOnHand with M_AttributeSetInstance_ID *******************/
 	CREATE OR REPLACE FUNCTION bomQtyOnHand (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
@@ -105,7 +109,7 @@ SQLActions[ ] = {
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyOrdered(int,int,int)'
 	LANGUAGE java VOLATILE;
-        
+	
 	/************* bomQtyOrdered with M_AttributeSetInstance_ID *******************/
 	CREATE OR REPLACE FUNCTION bomQtyOrdered (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
@@ -117,7 +121,7 @@ SQLActions[ ] = {
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int)'
 	LANGUAGE java VOLATILE;
-
+	
 	
 	/************* bomQtyOrdered with M_AttributeSetInstance_ID *******************/	
 	CREATE OR REPLACE FUNCTION bomQtyReserved (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
