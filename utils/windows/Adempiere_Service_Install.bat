@@ -4,15 +4,21 @@ REM Adempiere_Service_Install.bat - globalqss - based on http://javaservice.obje
 
 if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat Server) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat Server)
 
-%ADEMPIERE_HOME%\utils\windows\AdempiereService.exe -install Adempiere %JAVA_HOME%\jre\bin\server\jvm.dll -Xmx256M -Djava.class.path=%JAVA_HOME%\lib\tools.jar;%ADEMPIERE_HOME%\jboss\bin\run.jar -server %ADEMPIERE_JAVA_OPTIONS% -Djetty.port=%ADEMPIERE_WEB_PORT% -Djetty.ssl=%ADEMPIERE_SSL_PORT% -Djetty.keystore=%ADEMPIERE_KEYSTORE% -Djetty.password=%ADEMPIERE_KEYSTORE_PASSWORD% -start org.jboss.Main -params -c -stop org.jboss.Main -method systemExit -current %ADEMPIERE_HOME%\jboss\bin -out %ADEMPIERE_HOME%\jboss\bin\out.txt -manual -overwrite
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REM !!!   WARNING!! Not working yet, requires more research   !!!
+REM !!! Could not load the Java Virtual Machine.              !!!
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+%ADEMPIERE_HOME%\utils\windows\AdempiereService.exe -install ADempiere %JAVA_HOME%\jre\bin\server\jvm.dll -Xmx256M -Djava.class.path=%JAVA_HOME%\lib\tools.jar;%ADEMPIERE_HOME%\jboss\bin\run.jar -server %ADEMPIERE_JAVA_OPTIONS% -Djetty.port=%ADEMPIERE_WEB_PORT% -Djetty.ssl=%ADEMPIERE_SSL_PORT% -Djetty.keystore=%ADEMPIERE_KEYSTORE% -Djetty.password=%ADEMPIERE_KEYSTORE_PASSWORD% -start org.jboss.Main -params -c adempiere -stop org.jboss.Main -method systemExit -out %ADEMPIERE_HOME%\jboss\bin\out.txt -current %ADEMPIERE_HOME%\jboss\bin -manual -overwrite -description "ADempiere JBoss server"
 
-rem add this option for dependency with postgresql service (replace with proper service name
-rem -depends postgresql
-
+rem IT DEPENDS ON OTHER SERVICE?
+rem add this option for dependency with postgresql service (replace with proper service name)
+rem    -depends pgsql-8.2
 rem add this option for dependency with oracle service (replace with proper service name)
-rem -depends oraclexe
+rem    -depends oraclexe
+rem NOTE: The -depends parameter must be put before -manual or -automatic parameter
 
+rem DO YOU WANT AUTOMATIC STARTUP?
 rem replace -manual by -auto to make service run automatically on system startup
 
 rem other usefult options can be:
