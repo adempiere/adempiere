@@ -94,14 +94,14 @@ public final class Convert_PostgreSQLTest {
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
 			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
 			+ " AmtAcctDr, AmtAcctCr, Qty) "
-			+ "SELECT AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, DATE_Trunc('day',DateAcct),"
+			+ "SELECT AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
 			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
 			+ " COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(Qty),0) "
 			+ "FROM Fact_Acct a "
 			+ "WHERE C_AcctSchema_ID=0" 
-			+ " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, DATE_Trunc('day',DateAcct),"
+			+ " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
 			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID";
@@ -127,7 +127,7 @@ public final class Convert_PostgreSQLTest {
 		//From bug [ 1576358 ] and [ 1577055 ]
 		sql = "SELECT TRUNC(TO_DATE('2006-10-13','YYYY-MM-DD'),'Q') FROM DUAL";
 		r = convert.convert(sql);
-		verify(sql, r, "SELECT DATE_Trunc('quarter',TO_TIMESTAMP('2006-10-13','YYYY-MM-DD'))");
+		verify(sql, r, "SELECT TRUNC(TO_TIMESTAMP('2006-10-13','YYYY-MM-DD'),'Q')");
 		
 		//FinReport, test inner join in subquery
 		sql = "UPDATE T_Report r SET (Name,Description)=("

@@ -730,13 +730,16 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// Truncate Handling -------------------------------------------------
 		// begin vpj-cd e-evolution 16/07/2005
 		// while (retValue.indexOf("TRUNC") != -1)
+		//Hengsin, replace by trunc implementation in pl/pgsql
+		/*
 		if (retValue.indexOf("TRUNC(((TRUNC(") != -1)
 			retValue = Util.replace(retValue, "TRUNC(((TRUNC(", "(((TRUNC(");
 		// end vpj-cd e-evolution 16/07/2005
 
 		while (retValue.indexOf("TRUNC") != -1)
 			retValue = convertTrunc(retValue);
-
+		*/
+		
 		// Outer Join Handling -----------------------------------------------
 		int index = retValue.indexOf("SELECT ");
 		if (index != -1 && retValue.indexOf("(+)", index) != -1)
@@ -888,12 +891,15 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	} // convertRowNum
 
 	/**
+	 * Hengsin, Replace by trunc implementation in pl/pgsql
 	 * Convert TRUNC. Assumed that it is used for date only!
 	 * 
 	 * @param sqlStatement
 	 * @return converted statement
 	 */
+	/*
 	private String convertTrunc(String sqlStatement) {
+	*/
 		/**
 		 * <pre>
 		 *        TRUNC(myDate)
@@ -912,9 +918,11 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		 * 
 		 * //begin vpj-cd e-evolution 07/12/2005
 		 */
+	/*
 		// index = sqlStatement.indexOf("TRUNC(");
 		// beforeStatement = sqlStatement.substring(0, index);
 		// beforeStatement = sqlStatement.replaceFirst("TRUNC" , "DATE_Trunc");
+		
 		int find = -1;
 		find = sqlStatement.indexOf(",'Q'");
 		if (find != -1)
@@ -967,7 +975,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 		// end vpj-cd e-evolution 09/02/2005 PostgreSQL
 	} // convertTrunc
-
+	*/
 	// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
 
 	/***************************************************************************
