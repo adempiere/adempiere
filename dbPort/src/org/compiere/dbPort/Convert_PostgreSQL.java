@@ -1605,7 +1605,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String action = null;
 			int begin_col = -1;
 			if (sqlStatement.toUpperCase().indexOf(" MODIFY ") > 0) {
-				action = " ALTER ";
+				action = " MODIFY ";
 				begin_col = sqlStatement.toUpperCase().indexOf(" MODIFY ")
 						+ action.length();
 			} else if (sqlStatement.toUpperCase().indexOf(" ADD ") > 0) {
@@ -1648,11 +1648,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					DDL = sqlStatement
 							.substring(0, begin_col - action.length())
 							+ action + "COLUMN " + column + " " + type + "; ";
-				else if (action.equals(" ALTER "))
+				else if (action.equals(" MODIFY "))
 					DDL = sqlStatement
 							.substring(0, begin_col - action.length())
-							+ action
-							+ "COLUMN "
+							+ " ALTER COLUMN "
 							+ column
 							+ " TYPE "
 							+ type
@@ -1662,17 +1661,28 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					begin_default = sqlStatement.toUpperCase().indexOf(
 							" DEFAULT ") + 9;
 					defaultvalue = sqlStatement.substring(begin_default);
-					String rest = defaultvalue.substring(defaultvalue
-							.indexOf(" "));
-					defaultvalue = defaultvalue.substring(0, defaultvalue
-							.indexOf(" "));
+					int nextspace = defaultvalue.indexOf(" ");
+					String rest = null;
+					if (nextspace > -1) {
+					    rest = defaultvalue.substring(nextspace);
+					    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(" "));
+					}
 
-					DDL += sqlStatement.substring(0, begin_col
-							- action.length())
-							+ " ALTER COLUMN "
-							+ column
-							+ " SET DEFAULT '"
-							+ defaultvalue + "'; ";
+					if (defaultvalue.equalsIgnoreCase("NULL")) {
+						DDL += sqlStatement.substring(0, begin_col
+								- action.length())
+								+ " ALTER COLUMN "
+								+ column
+								+ " SET DEFAULT "
+								+ defaultvalue + "; ";
+					} else {
+						DDL += sqlStatement.substring(0, begin_col
+								- action.length())
+								+ " ALTER COLUMN "
+								+ column
+								+ " SET DEFAULT '"
+								+ defaultvalue + "'; ";
+					}
 					if (rest != null && rest.indexOf(" NOT NULL ") == 0)
 						DDL += sqlStatement.substring(0, begin_col)
 								+ " ALTER COLUMN " + column + " SET " + rest
