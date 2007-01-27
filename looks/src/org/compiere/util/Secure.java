@@ -23,8 +23,13 @@ import java.util.logging.*;
 import javax.crypto.*;
 
 /**
- *  Security Services.
- *
+ * Security Services.
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-27 - teo_sarca - [ 1598095 ] class Secure is not working with UTF8
+ * </ul>
+ *  
  *  @author     Jorg Janke
  *  @version    $Id: Secure.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
  */
@@ -184,7 +189,7 @@ public class Secure implements SecureInterface
 			try
 			{
 				m_cipher.init(Cipher.ENCRYPT_MODE, m_key);
-				byte[] encBytes = m_cipher.doFinal(clearText.getBytes());
+				byte[] encBytes = m_cipher.doFinal(clearText.getBytes("UTF8"));
 				String encString = convertToHexString(encBytes);
 				// globalqss - [ 1577737 ] Security Breach - show database password
 				// log.log (Level.ALL, value + " => " + encString);
@@ -238,7 +243,7 @@ public class Secure implements SecureInterface
 				AlgorithmParameters ap = m_cipher.getParameters();
 				m_cipher.init(Cipher.DECRYPT_MODE, m_key, ap);
 				byte[] out = m_cipher.doFinal(data);
-				String retValue = new String(out);
+				String retValue = new String(out, "UTF8");
 				// globalqss - [ 1577737 ] Security Breach - show database password
 				// log.log (Level.ALL, value + " => " + retValue);
 				return retValue;
