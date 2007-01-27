@@ -264,10 +264,26 @@ public class MColumn extends X_AD_Column
 		if (getDefaultValue() != null && getDefaultValue().length() > 0)
 		{
 			sql.append(" DEFAULT ");
-			if (DisplayType.isText(getAD_Reference_ID()))
-				sql.append(DB.TO_STRING(getDefaultValue()));
-			else
-				sql.append(getDefaultValue());
+			// if (DisplayType.isText(getAD_Reference_ID()))
+				// sql.append(DB.TO_STRING(getDefaultValue()));
+			// else
+				// sql.append(getDefaultValue());
+			String defaultValue = getDefaultValue();
+			if (defaultValue != null 
+				&& defaultValue.length() > 0
+				&& defaultValue.indexOf("@") == -1)		//	no variables
+			{
+				if (DisplayType.isText(getAD_Reference_ID()) 
+					|| getAD_Reference_ID() == DisplayType.List
+					|| getAD_Reference_ID() == DisplayType.YesNo)
+				{
+					if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
+						defaultValue = DB.TO_STRING(defaultValue);
+				}
+			} else {
+				defaultValue = " NULL ";
+			}
+			sql.append(defaultValue);
 		}
 		//	Inline Constraint
 		if (getAD_Reference_ID() == DisplayType.YesNo)
