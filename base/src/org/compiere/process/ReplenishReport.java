@@ -141,7 +141,7 @@ public class ReplenishReport extends SvrProcess
 		sql = "UPDATE M_Product_PO p"
 			+ " SET IsCurrentVendor='Y' "
 			+ "WHERE IsCurrentVendor<>'Y'"
-			+ " AND EXISTS (SELECT * FROM M_Product_PO pp "
+			+ " AND EXISTS (SELECT pp.M_Product_ID FROM M_Product_PO pp "
 				+ "WHERE p.M_Product_ID=pp.M_Product_ID "
 				+ "GROUP BY pp.M_Product_ID "
 				+ "HAVING COUNT(*) = 1)";
@@ -153,7 +153,7 @@ public class ReplenishReport extends SvrProcess
 		sql = "UPDATE M_Product_PO p"
 			+ " SET IsCurrentVendor='N' "
 			+ "WHERE IsCurrentVendor = 'Y'"
-			+ " AND EXISTS (SELECT * FROM M_Product_PO pp "
+			+ " AND EXISTS (SELECT pp.M_Product_ID FROM M_Product_PO pp "
 				+ "WHERE p.M_Product_ID=pp.M_Product_ID AND pp.IsCurrentVendor='Y' "
 				+ "GROUP BY pp.M_Product_ID "
 				+ "HAVING COUNT(*) > 1)";
