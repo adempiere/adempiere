@@ -31,7 +31,12 @@ import org.compiere.util.*;
 
 
 /**
- *	Fixed length file import
+ * Fixed length file import
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-27 - teo_sarca - [ 1619158 ] Import is not working with UTF-8
+ * </ul>
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VFileImport.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
@@ -257,7 +262,7 @@ public class VFileImport extends CPanel
 		try
 		{
 			//  see NaturalAccountMap
-			BufferedReader in = new BufferedReader(new FileReader(chooser.getSelectedFile()), 10240);
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(chooser.getSelectedFile()), "UTF-8"), 10240);
 			//	not safe see p108 Network pgm
 			String s = null;
 			while ((s = in.readLine()) != null)

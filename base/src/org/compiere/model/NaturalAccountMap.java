@@ -32,6 +32,11 @@ import org.compiere.util.*;
  *  b) Accounts are created via the createAccounts function
  *  c) retrieve the C_ElementValue_ID for the given key
  *  </pre>
+ *  <p>
+ *  Change log:
+ *  <ul>
+ *  <li>2007-01-27 - teo_sarca - [ 1619158 ] Import is not working with UTF-8 
+ *  </ul>
  *
  *  @author Jorg Janke
  *  @version $Id: NaturalAccountMap.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
@@ -78,7 +83,7 @@ public final class NaturalAccountMap<K,V> extends CCache<K,V>
 		try
 		{
 			//  see FileImport
-			BufferedReader in = new BufferedReader(new FileReader(file), 10240);
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"), 10240);
 			//	not safe see p108 Network pgm
 			String errMsg = "";
 
