@@ -2268,7 +2268,8 @@ public class GridTable extends AbstractTableModel
 			int no = 0;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+				PreparedStatement pstmt = DB.prepareStatement (sql.toString(), 
+						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, null);
 				no = pstmt.executeUpdate();
 				pstmt.close();
 			}
