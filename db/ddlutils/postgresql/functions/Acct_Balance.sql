@@ -56,10 +56,10 @@ $$
       IF accSign = "N" AND accType NOT IN ("A", "E") THEN
         --If account sign is natural and account type not asset or expense
         --mark sign to be credit.
-        accSign = "C";
+        accSign := "C";
       END IF;
     END IF;
-    IF accSign == 'C' THEN
+    IF accSign = 'C' THEN
       RETURN (COALESCE($2, 0) - COALESCE($3, 0));
     END IF;
     RETURN (COALESCE($3, 0) - COALESCE($2, 0));
