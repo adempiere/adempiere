@@ -20,27 +20,48 @@
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
  */
 
-SET search_path = adempiere, pg_catalog;
-
-CREATE OR REPLACE FUNCTION acctBalance(
-    IN INTEGER, -- $1 account id
+/*
+ * Returns credit or debit balance based on account sign and type.
+ * 
+ * Account types and account signs are defined in ad_ref_list table.
+ * In version 3.1.3 types and signs are defined in following way:
+ *  value |      name      |               description
+ *-------+----------------+------------------------------------------
+ * A     | Asset          | Asset (Balance Sheet) Account
+ * L     | Liability      | Liability (Balance Sheet) Account
+ * R     | Revenue        | Revenue (P&L) Account
+ * E     | Expense        | Expense (P&L) Account
+ * O     | Owner's Equity | Owner's Equity (Balance Sheet) Account
+ * M     | Memo           | Memo (Non Balance Sheet nor P&L) Account
+ *
+ *
+ * N     | Natural        | Natural sign of the Account Type
+ * D     | Debit          | Debit Balance Account
+ * C     | Credit         | Credit Balance Account
+ */
+CREATE OR REPLACE FUNCTION adempiere.acctBalance(
+    IN NUMERIC, -- $1 account id
     IN NUMERIC, -- $2 amount debit
     IN NUMERIC  -- $3 amount credit
 ) RETURNS NUMERIC AS 
 $$
   DECLARE
-    accType CHAR(1);
-    accSign CHAR(1);
+    accType CHAR(1); --account type
+    accSign CHAR(1); --account sign
   BEGIN
     IF COALESCE($1, 0) != 0 THEN
       SELECT t.AccountType, t.AccountSign
         INTO accType, accSign
         FROM C_ElementValue AS t  WHERE t.C_ElementValue_ID = $1;
-      IF accSign = "N" AND accType NOT IN ("A", "E") THEN 
-          RETURN (COALESCE($3, 0) - COALESCE($2, 0));
+      IF accSign = "N" AND accType NOT IN ("A", "E") THEN
+        --If account sign is natural and account type not asset or expense
+        --mark sign to be credit.
+        accSign = "C";
       END IF;
     END IF;
-  
-    RETURN (COALESCE($2, 0) - COALESCE($3, 0));
+    IF accSign == 'C' THEN
+      RETURN (COALESCE($2, 0) - COALESCE($3, 0));
+    END IF;
+    RETURN (COALESCE($3, 0) - COALESCE($2, 0));
   END;
 $$ LANGUAGE plpgsql;
