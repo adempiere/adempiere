@@ -22,7 +22,14 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 
 /**
- *	Class to Sort Data
+ * Class to Sort Data
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-27 - teo_sarca - [ 1585369 ] CTable sorting is TOO LAZY: 
+ * 			Fixed {@link #compare(Object, Object)} method for Double comparing support,
+ * 			ascending/descending support, comparing strings ignoring case
+ * </ul>
  *
  *  @author Jorg Janke
  *  @version  $Id: MSort.java,v 1.3 2006/10/06 00:43:09 jjanke Exp $
@@ -70,7 +77,7 @@ public final class MSort implements Comparator, Serializable
 	public int compare (Object o1, Object o2)
 	{
 		//	Get Objects to compare
-		Object cmp1 = o1; // @arhipac.tools.annotation.Bug(226)
+		Object cmp1 = o1;
 		if (o1 instanceof MSort)
 			cmp1 = ((MSort)o1).data;
 		if (cmp1 instanceof NamePair)
@@ -87,10 +94,10 @@ public final class MSort implements Comparator, Serializable
 		{
 			if (cmp2 == null)
 				return 0;
-			return -1 * m_multiplier; // @arhipac.tools.annotation.Bug(226)
+			return -1 * m_multiplier;
 		}
 		if (cmp2 == null)
-			return 1 * m_multiplier; // @arhipac.tools.annotation.Bug(226)
+			return 1 * m_multiplier;
 
 		/**
 		 *	compare different data types
@@ -100,7 +107,7 @@ public final class MSort implements Comparator, Serializable
 		if (cmp1 instanceof String && cmp2 instanceof String)
 		{
 			String s = (String)cmp1;
-			return s.compareToIgnoreCase((String)cmp2) * m_multiplier;	// @arhipac.tools.annotation.Bug(226)
+			return s.compareToIgnoreCase((String)cmp2) * m_multiplier;
 		}
 		//	Date
 		else if (cmp1 instanceof Timestamp && cmp2 instanceof Timestamp)
@@ -120,18 +127,16 @@ public final class MSort implements Comparator, Serializable
 			Integer d = (Integer)cmp1;
 			return d.compareTo((Integer)cmp2) * m_multiplier;
 		}
-		/* ARHIPAC: TEO: BEGIN: @arhipac.tools.annotation.Bug(226) ------------------------------ */
 		//	Double
 		else if (cmp1 instanceof Double && cmp2 instanceof Double)
 		{
 			Double d = (Double)cmp1;
 			return d.compareTo((Double)cmp2) * m_multiplier;
 		}
-		/* ARHIPAC: TEO: END: @arhipac.tools.annotation.Bug(226) -------------------------------- */
 
 		//  Convert to string value
 		String s = cmp1.toString();
-		return s.compareToIgnoreCase(cmp2.toString()) * m_multiplier;	// @arhipac.tools.annotation.Bug(226)
+		return s.compareToIgnoreCase(cmp2.toString()) * m_multiplier;
 	}	//	compare
 
 	/**

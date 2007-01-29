@@ -26,11 +26,16 @@ import javax.swing.table.*;
 import org.compiere.util.*;
 
 /**
- *	Model Independent enhanced JTable.
- *  Provides sizing and sorting
- *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ * Model Independent enhanced JTable.
+ * Provides sizing and sorting.
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-27 - teo_sarca - [ 1585369 ] CTable sorting is TOO LAZY
+ * </ul>
+ * 
+ * @author	Jorg Janke
+ * @version	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
 public class CTable extends JTable
 {
@@ -41,11 +46,7 @@ public class CTable extends JTable
 	{
 		super(new DefaultTableModel());
 		setColumnSelectionAllowed(false);
-		/* ARHIPAC: TEO: BEGIN: ORIGINAL: @arhipac.tools.annotation.Bug(228) -------------------------------------------- *
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		/* ARHIPAC: TEO: BEGIN: MODIFIED: @arhipac.tools.annotation.Bug(228) ------------------------------------------- */
-		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		/* ARHIPAC: TEO: BEGIN: END: @arhipac.tools.annotation.Bug(228) --------------------------------------------------- */
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		getTableHeader().addMouseListener(new CTableMouseListener());
 		setSurrendersFocusOnKeystroke(true);
@@ -201,7 +202,7 @@ public class CTable extends JTable
 	 *  @param modelColumnIndex model column sort index
 	 */
 	@SuppressWarnings("unchecked")
-	protected void sort (int modelColumnIndex)
+	protected void sort (final int modelColumnIndex)
 	{
 		int rows = getRowCount();
 		if (rows == 0)
@@ -224,9 +225,9 @@ public class CTable extends JTable
 
 		//  Prepare sorting
 		DefaultTableModel model = (DefaultTableModel)getModel();
-		MSort sort = new MSort(0, null);
+		final MSort sort = new MSort(0, null);
 		sort.setSortAsc(p_asc);
-		/* ARHIPAC: teo_sarca: BEGIN: ORIGINAL: @arhipac.tools.annotation.Bug(226) ----------------------------------- *
+		/* teo_sarca: commented: [ 1585369 ] CTable sorting is TOO LAZY *
 		//  while something to sort
 		sorting:
 		while (true)
@@ -256,23 +257,15 @@ public class CTable extends JTable
 		//	log.config("done");
 			break;
 		}   //  while something to sort
-		/* ARHIPAC: teo_sarca: MODIFIED: @arhipac.tools.annotation.Bug(226) -------------------------------------------- */
-		// This comparator is used to sort vectors of data
-		class ColumnSorter<T> implements Comparator<T> {
-			int colIndex;
-			MSort sort;
-			ColumnSorter(int colIndex, MSort sort) {
-				this.colIndex = colIndex;
-				this.sort = sort;
-			}
+		*/
+		// teo_sarca: [ 1585369 ] CTable sorting is TOO LAZY
+		Collections.sort(model.getDataVector(), new Comparator<Object>() {
 			public int compare(Object o1, Object o2) {
-				Object item1 = ((Vector)o1).get(this.colIndex);
-				Object item2 = ((Vector)o2).get(this.colIndex);
-				return this.sort.compare(item1, item2);
+				Object item1 = ((Vector)o1).get(modelColumnIndex);
+				Object item2 = ((Vector)o2).get(modelColumnIndex);
+				return sort.compare(item1, item2);
 			}
-		};
-		Collections.sort(model.getDataVector(), new ColumnSorter<Object>(modelColumnIndex, sort));
-		/* ARHIPAC: teo_sarca: END: @arhipac.tools.annotation.Bug(226) ---------------------------------------------------- */
+		});
 		
 		//  selection
 		clearSelection();
@@ -283,7 +276,7 @@ public class CTable extends JTable
 				if (selected.equals(getValueAt(r, selCol)))
 				{
 					setRowSelectionInterval(r,r);
-					scrollRectToVisible(getCellRect(r, modelColumnIndex, true)); // @arhipac.tools.annotation.Bug(226)
+					scrollRectToVisible(getCellRect(r, modelColumnIndex, true)); // teo_sarca: bug fix [ 1585369 ] 
 					break;
 				}
 			}
