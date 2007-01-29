@@ -39,7 +39,7 @@
  * D     | Debit          | Debit Balance Account
  * C     | Credit         | Credit Balance Account
  */
-CREATE OR REPLACE FUNCTION adempiere.acctBalance(
+CREATE OR REPLACE FUNCTION acctBalance(
     IN NUMERIC, -- $1 account id
     IN NUMERIC, -- $2 amount debit
     IN NUMERIC  -- $3 amount credit
@@ -53,10 +53,10 @@ $$
       SELECT t.AccountType, t.AccountSign
         INTO accType, accSign
         FROM C_ElementValue AS t  WHERE t.C_ElementValue_ID = $1;
-      IF accSign = "N" AND accType NOT IN ("A", "E") THEN
+      IF accSign = 'N' AND accType NOT IN ('A', 'E') THEN
         --If account sign is natural and account type not asset or expense
         --mark sign to be credit.
-        accSign := "C";
+        accSign := 'C';
       END IF;
     END IF;
     IF accSign = 'C' THEN
