@@ -30,7 +30,7 @@ public class DBRes_fi extends ListResourceBundle
     * Data 
     */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog", 	"Compiere-yhteys" },
+	{ "CConnectionDialog", 	"Adempiere-yhteys" },
 	{ "Name", 				"Nimi" },
 	{ "AppsHost", 			"Sovellusverkkoasema" },
 	{ "AppsPort", 			"Sovellusportti" },
@@ -38,13 +38,13 @@ public class DBRes_fi extends ListResourceBundle
 	{ "DBHost", 			"Tietokantaverkkoasema" },
 	{ "DBPort", 			"Tietokantaportti" },
 	{ "DBName", 			"Tietokannan nimi" },
-	{ "DBUidPwd", 			"Käyttäjätunnus / Salasana" },
-	{ "ViaFirewall", 		"Palomuurin läpi" },
+	{ "DBUidPwd", 			"K�ytt�j�tunnus / Salasana" },
+	{ "ViaFirewall", 		"Palomuurin l�pi" },
 	{ "FWHost", 			"Palomuuriverkkoasema" },
 	{ "FWPort", 			"Palomuuriportti" },
 	{ "TestConnection", 	"Testitietokanta" },
 	{ "Type", 				"Tietokantatyyppi" },
-	{ "BequeathConnection", "Periytyvä yhteys" },
+	{ "BequeathConnection", "Periytyv� yhteys" },
 	{ "Overwrite", 			"Korvaa" },
 	{ "ConnectionProfile",	"Connection" },
 	{ "LAN",		 		"LAN" },

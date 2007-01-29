@@ -29,7 +29,7 @@ public class DBRes_de extends ListResourceBundle
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Compiere Verbindung" },
+	{ "CConnectionDialog",  "Adempiere Verbindung" },
 	{ "Name",               "Name" },
 	{ "AppsHost",           "Applikationsserver" },
 	{ "AppsPort",           "Port Applikationsserver" },
@@ -38,7 +38,7 @@ public class DBRes_de extends ListResourceBundle
 	{ "DBPort",             "Datenbank Port" },
 	{ "DBName",             "Datenbank Name" },
 	{ "DBUidPwd",           "Nutzer / Kennwort" },
-	{ "ViaFirewall",        "ber Firewall" },
+	{ "ViaFirewall",        "�ber Firewall" },
 	{ "FWHost",             "Firewall Server" },
 	{ "FWPort",             "Firewall Port" },
 	{ "TestConnection",     "Teste Datenbankverbindung" },

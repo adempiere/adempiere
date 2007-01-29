@@ -28,24 +28,24 @@ public class DBRes_es extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog",  "Conexi贸n Compiere" },
+	{ "CConnectionDialog",  "Conexi髇 ADempiere" },
 	{ "Name",               "Nombre" },
-	{ "AppsHost",           "Servidor de Aplicaci贸n" },
-	{ "AppsPort",           "Puerto de Aplicaci贸n" },
-	{ "TestApps",           "Test de Aplicaci贸n" },
+	{ "AppsHost",           "Servidor de Aplicaci髇" },
+	{ "AppsPort",           "Puerto de Aplicaci髇" },
+	{ "TestApps",           "Test de Aplicaci髇" },
 	{ "DBHost",             "Host de Base de Datos" },
 	{ "DBPort",             "Puerto de Base de Datos" },
 	{ "DBName",             "Nombre de Base de datos" },
-	{ "DBUidPwd",           "Usuario / Contrase帽a" },
-	{ "ViaFirewall",        "v铆a Firewall" },
+	{ "DBUidPwd",           "Usuario / Contrase馻" },
+	{ "ViaFirewall",        "v韆 Firewall" },
 	{ "FWHost",             "Servidor de Firewall" },
 	{ "FWPort",             "Puerto del Firewall" },
 	{ "TestConnection",     "Test de Base de datos" },
 	{ "Type",               "Tipo de Base de Datos" },
-	{ "BequeathConnection", "Conexi贸n" },
+	{ "BequeathConnection", "Conexi髇 Heredada" },
 	{ "Overwrite",          "Sobreescribir" },
-	{ "RMIoverHTTP", 		"Tunelizar Objetos v铆a HTTP" },
-	{ "ConnectionError",    "Error en conexi贸n" },
+	{ "RMIoverHTTP", 		"Tunelizar Objetos v韆 HTTP" },
+	{ "ConnectionError",    "Error en conexi髇" },
 	{ "ServerNotActive",    "Servidor inactivo" }};
 
 	/**

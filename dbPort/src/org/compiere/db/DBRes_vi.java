@@ -30,28 +30,28 @@ public class DBRes_vi extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "CConnectionDialog",  "K\u1EBFt n\u1ED1i" },
-	{ "Name",               "Tên" },
-	{ "AppsHost",           "Máy ch\u1EE7 \u1EE9ng d\u1EE5ng" },
+	{ "Name",               "T�n" },
+	{ "AppsHost",           "M�y ch\u1EE7 \u1EE9ng d\u1EE5ng" },
 	{ "AppsPort",           "C\u1ED5ng \u1EE9ng d\u1EE5ng" },
 	{ "TestApps",           "Th\u1EED nghi\u1EC7m \u1EE9ng d\u1EE5ng" },
-	{ "DBHost",             "Máy ch\u1EE7 CSDL" },
+	{ "DBHost",             "M�y ch\u1EE7 CSDL" },
 	{ "DBPort",             "C\u1ED5ng CSDL" },
-	{ "DBName",             "Tên CSDL" },
-	{ "DBUidPwd",           "Ng\u01B0\u1EDDi dùng / M\u1EADt kh\u1EA9u" },
+	{ "DBName",             "T�n CSDL" },
+	{ "DBUidPwd",           "Ng\u01B0\u1EDDi d�ng / M\u1EADt kh\u1EA9u" },
 	{ "ViaFirewall",        "Qua b\u1EE9c t\u01B0\u1EDDng l\u1EEDa" },
-	{ "FWHost",             "Máy ch\u1EE7 b\u1EE9c t\u01B0\u1EDDng l\u1EEDa" },
-	{ "FWPort",             "C\u1ED5ng vào b\u1EE9c t\u01B0\u1EDDng l\u1EEDa" },
+	{ "FWHost",             "M�y ch\u1EE7 b\u1EE9c t\u01B0\u1EDDng l\u1EEDa" },
+	{ "FWPort",             "C\u1ED5ng v�o b\u1EE9c t\u01B0\u1EDDng l\u1EEDa" },
 	{ "TestConnection",     "Ki\u1EC3m tra CSDL" },
 	{ "Type",               "Lo\u1EA1i CSDL" },
 	{ "BequeathConnection", "Truy\u1EC1n l\u1EA1i k\u1EBFt n\u1ED1i" },
-	{ "Overwrite",          "Ghi \u0111è" },
+	{ "Overwrite",          "Ghi \u0111�" },
 	{ "ConnectionProfile",	"Connection" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
 	{ "ConnectionError",    "L\u1ED7i k\u1EBFt n\u1ED1i" },
-	{ "ServerNotActive",    "Máy ch\u1EE7 hi\u1EC7n không ho\u1EA1t \u0111\u1ED9ng" }
+	{ "ServerNotActive",    "M�y ch\u1EE7 hi\u1EC7n kh�ng ho\u1EA1t \u0111\u1ED9ng" }
 	};
 
 	/**
