@@ -29,29 +29,29 @@ public class DBRes_pt extends ListResourceBundle
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Adempiere Conex�o" },
+	{ "CConnectionDialog",  "Compiere Conexão" },
 	{ "Name",               "Nome" },
-	{ "AppsHost",           "Servidor de Aplica��o" },
-	{ "AppsPort",           "Porta TCP da Aplica��o" },
-	{ "TestApps",           "Testar Aplica��o" },
+	{ "AppsHost",           "Servidor de Aplicação" },
+	{ "AppsPort",           "Porta TCP da Aplicação" },
+	{ "TestApps",           "Testar Aplicação" },
 	{ "DBHost",             "Servidor do Banco de Dado" },
 	{ "DBPort",             "Porta TCP do Banco de Dados" },
 	{ "DBName",             "Nome do Banco de Dados" },
-	{ "DBUidPwd",           "Usu�rio / Senha" },
+	{ "DBUidPwd",           "Usuário / Senha" },
 	{ "ViaFirewall",        "via Firewall" },
 	{ "FWHost",             "Servidor de Firewall" },
 	{ "FWPort",             "Porta TCP do Firewall" },
 	{ "TestConnection",     "Testar Banco de Dados" },
 	{ "Type",               "Tipo de Banco de Dados" },
-	{ "BequeathConnection", "Conex�o Bequeath" },
+	{ "BequeathConnection", "Conexão Bequeath" },
 	{ "Overwrite",          "Sobrescrever" },
 	{ "ConnectionProfile",	"Connection" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
-	{ "ConnectionError",    "Erro de Conex�o" },
-	{ "ServerNotActive",    "Servidor n�o Ativo" }
+	{ "ConnectionError",    "Erro de Conexão" },
+	{ "ServerNotActive",    "Servidor não Ativo" }
 	};
 
 	/**

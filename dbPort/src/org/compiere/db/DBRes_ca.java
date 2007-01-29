@@ -29,11 +29,11 @@ public class DBRes_ca extends ListResourceBundle
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Connexi� Adempiere" },
+	{ "CConnectionDialog",  "Connexió Compiere" },
 	{ "Name",               "Nom" },
-	{ "AppsHost",           "Servidor Aplicaci�" },
-	{ "AppsPort",           "Port Aplicaci�" },
-	{ "TestApps",           "Provar Aplicaci�" },
+	{ "AppsHost",           "Servidor Aplicació" },
+	{ "AppsPort",           "Port Aplicació" },
+	{ "TestApps",           "Provar Aplicació" },
 	{ "DBHost",             "Servidor Base de Dades" },
 	{ "DBPort",             "Port Base de Dades" },
 	{ "DBName",             "Nom Base de Dades" },
@@ -43,14 +43,14 @@ public class DBRes_ca extends ListResourceBundle
 	{ "FWPort",             "Port Tallafocs" },
 	{ "TestConnection",     "Provar Base de Dades" },
 	{ "Type",               "Tipus Base de Dades" },
-	{ "BequeathConnection", "Delegar Connexi�" },
+	{ "BequeathConnection", "Delegar Connexió" },
 	{ "Overwrite",          "Sobrescriure" },
 	{ "ConnectionProfile",	"Connection" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
-	{ "ConnectionError",    "Error Connexi�" },
+	{ "ConnectionError",    "Error Connexió" },
 	{ "ServerNotActive",    "Servidor No Actiu" }
 	};
 

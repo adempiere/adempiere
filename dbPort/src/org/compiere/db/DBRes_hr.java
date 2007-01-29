@@ -28,7 +28,7 @@ public class DBRes_hr extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog", 	"Adempiere veza" },
+	{ "CConnectionDialog", 	"Compiere veza" },
 	{ "Name", 				"Naziv" },
 	{ "AppsHost", 			"Host aplikacije" },
 	{ "AppsPort", 			"Port aplikacije" },
@@ -49,7 +49,7 @@ public class DBRes_hr extends ListResourceBundle
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
-	{ "ConnectionError", 	"Gre�ka u vezi" },
+	{ "ConnectionError", 	"Greka u vezi" },
 	{ "ServerNotActive", 	"Server nije aktivan" }
 	};
 
