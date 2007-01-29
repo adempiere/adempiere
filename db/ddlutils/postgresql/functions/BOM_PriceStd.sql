@@ -2,7 +2,7 @@
  *This file is part of Adempiere ERP Bazaar
  *http://www.adempiere.org
  *
- *Copyright (C) 2006 Timo Kontro
+ *Copyright (C) 2006-2007 Timo Kontro
  *Copyright (C) 1999-2006 ComPiere, inc
  *
  *This program is free software; you can redistribute it and/or
@@ -20,15 +20,16 @@
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
  */
 
-SET search_path = adempiere, pg_catalog;
-
+/*
+ * Loops recursively through BOM and returns sum of the bricestd fields.
+ */
 CREATE OR REPLACE FUNCTION bompricestd(
-    IN INTEGER, -- $1 product id
-    IN INTEGER  -- $2 pricelist version id
+    IN NUMERIC, -- $1 product id
+    IN NUMERIC  -- $2 pricelist version id
 ) RETURNS NUMERIC AS 
 $$
   DECLARE
-    price        NUMERIC;
+    price        NUMERIC; --used to store total sum
     productprice NUMERIC;
     boms         RECORD;
   BEGIN
