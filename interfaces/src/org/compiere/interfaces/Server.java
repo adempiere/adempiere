@@ -173,4 +173,13 @@ public interface Server
    public boolean rollback( java.lang.String trxName )
       throws java.rmi.RemoteException;
 
+   /**
+    * Execute db proces on server
+    * @param processInfo
+    * @param procedureName
+    * @param trxName
+    * @return ProcessInfo    */
+   public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName,java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
 }
