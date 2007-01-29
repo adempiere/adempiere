@@ -28,7 +28,7 @@ public class DBRes_ro extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog", 	"Conexiune" },
+	{ "CConnectionDialog", 	"Conexiune Adempiere" },
 	{ "Name", 				"Nume" },
 	{ "AppsHost", 			"Server de aplica\u0163ie" },
 	{ "AppsPort", 			"Port de aplica\u0163ie" },
@@ -44,7 +44,7 @@ public class DBRes_ro extends ListResourceBundle
 	{ "Type", 				"Tip al bazei de date" },
 	{ "BequeathConnection", "Cedare de conexiune" },
 	{ "Overwrite", 			"Suprascriere" },
-	{ "ConnectionProfile",	"Connection" },
+	{ "ConnectionProfile",	"Profil conexiune" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
