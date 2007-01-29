@@ -24,8 +24,13 @@ import org.compiere.util.*;
 
 
 /**
- *	Create Columns of Table or View
- *	
+ * Create Columns of Table or View
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-29 - teo_sarca - [ 1640908 ] TableCreateColumns hangs sometimes... 
+ * </ul>
+ * 
  *  @author Jorg Janke
  *  @version $Id: TableCreateColumns.java,v 1.3 2006/07/30 00:51:01 jjanke Exp $
  */
@@ -205,6 +210,7 @@ public class TableCreateColumns extends SvrProcess
 				+ digits);
 			//
 			column = new MColumn (table);
+			column.set_TrxName(get_TrxName()); // teo_sarca: bug [ 1640908 ] 
 			column.setEntityType (p_EntityType);
 			//
 			M_Element element = M_Element.get (getCtx (), columnName);
