@@ -20,11 +20,12 @@
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
  */
 
-SET search_path = adempiere, pg_catalog;
-
-CREATE OR REPLACE FUNCTION bompricelimit(
-    IN INTEGER, -- $1 product id
-    IN INTEGER  -- $2 pricelist version id
+/*
+ * Loops recursively through BOM and returns BOM's total pricelimit.
+ */
+CREATE OR REPLACE FUNCTION adempiere.bompricelimit(
+    IN NUMERIC, -- $1 product id
+    IN NUMERIC  -- $2 pricelist version id
 ) RETURNS NUMERIC AS 
 $$
   DECLARE
