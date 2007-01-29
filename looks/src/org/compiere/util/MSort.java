@@ -70,7 +70,7 @@ public final class MSort implements Comparator, Serializable
 	public int compare (Object o1, Object o2)
 	{
 		//	Get Objects to compare
-		Object cmp1 = null;
+		Object cmp1 = o1; // @arhipac.tools.annotation.Bug(226)
 		if (o1 instanceof MSort)
 			cmp1 = ((MSort)o1).data;
 		if (cmp1 instanceof NamePair)
@@ -87,10 +87,10 @@ public final class MSort implements Comparator, Serializable
 		{
 			if (cmp2 == null)
 				return 0;
-			return -1;
+			return -1 * m_multiplier; // @arhipac.tools.annotation.Bug(226)
 		}
 		if (cmp2 == null)
-			return 1;
+			return 1 * m_multiplier; // @arhipac.tools.annotation.Bug(226)
 
 		/**
 		 *	compare different data types
@@ -100,7 +100,7 @@ public final class MSort implements Comparator, Serializable
 		if (cmp1 instanceof String && cmp2 instanceof String)
 		{
 			String s = (String)cmp1;
-			return s.compareTo((String)cmp2) * m_multiplier;
+			return s.compareToIgnoreCase((String)cmp2) * m_multiplier;	// @arhipac.tools.annotation.Bug(226)
 		}
 		//	Date
 		else if (cmp1 instanceof Timestamp && cmp2 instanceof Timestamp)
@@ -120,10 +120,18 @@ public final class MSort implements Comparator, Serializable
 			Integer d = (Integer)cmp1;
 			return d.compareTo((Integer)cmp2) * m_multiplier;
 		}
+		/* ARHIPAC: TEO: BEGIN: @arhipac.tools.annotation.Bug(226) ------------------------------ */
+		//	Double
+		else if (cmp1 instanceof Double && cmp2 instanceof Double)
+		{
+			Double d = (Double)cmp1;
+			return d.compareTo((Double)cmp2) * m_multiplier;
+		}
+		/* ARHIPAC: TEO: END: @arhipac.tools.annotation.Bug(226) -------------------------------- */
 
 		//  Convert to string value
 		String s = cmp1.toString();
-		return s.compareTo(cmp2.toString()) * m_multiplier;
+		return s.compareToIgnoreCase(cmp2.toString()) * m_multiplier;	// @arhipac.tools.annotation.Bug(226)
 	}	//	compare
 
 	/**

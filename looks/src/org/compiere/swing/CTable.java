@@ -41,7 +41,11 @@ public class CTable extends JTable
 	{
 		super(new DefaultTableModel());
 		setColumnSelectionAllowed(false);
+		/* ARHIPAC: TEO: BEGIN: ORIGINAL: @arhipac.tools.annotation.Bug(228) -------------------------------------------- *
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		/* ARHIPAC: TEO: BEGIN: MODIFIED: @arhipac.tools.annotation.Bug(228) ------------------------------------------- */
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		/* ARHIPAC: TEO: BEGIN: END: @arhipac.tools.annotation.Bug(228) --------------------------------------------------- */
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		getTableHeader().addMouseListener(new CTableMouseListener());
 		setSurrendersFocusOnKeystroke(true);
@@ -222,6 +226,7 @@ public class CTable extends JTable
 		DefaultTableModel model = (DefaultTableModel)getModel();
 		MSort sort = new MSort(0, null);
 		sort.setSortAsc(p_asc);
+		/* ARHIPAC: teo_sarca: BEGIN: ORIGINAL: @arhipac.tools.annotation.Bug(226) ----------------------------------- *
 		//  while something to sort
 		sorting:
 		while (true)
@@ -251,7 +256,24 @@ public class CTable extends JTable
 		//	log.config("done");
 			break;
 		}   //  while something to sort
-
+		/* ARHIPAC: teo_sarca: MODIFIED: @arhipac.tools.annotation.Bug(226) -------------------------------------------- */
+		// This comparator is used to sort vectors of data
+		class ColumnSorter<T> implements Comparator<T> {
+			int colIndex;
+			MSort sort;
+			ColumnSorter(int colIndex, MSort sort) {
+				this.colIndex = colIndex;
+				this.sort = sort;
+			}
+			public int compare(Object o1, Object o2) {
+				Object item1 = ((Vector)o1).get(this.colIndex);
+				Object item2 = ((Vector)o2).get(this.colIndex);
+				return this.sort.compare(item1, item2);
+			}
+		};
+		Collections.sort(model.getDataVector(), new ColumnSorter<Object>(modelColumnIndex, sort));
+		/* ARHIPAC: teo_sarca: END: @arhipac.tools.annotation.Bug(226) ---------------------------------------------------- */
+		
 		//  selection
 		clearSelection();
 		if (selected != null)
@@ -261,6 +283,7 @@ public class CTable extends JTable
 				if (selected.equals(getValueAt(r, selCol)))
 				{
 					setRowSelectionInterval(r,r);
+					scrollRectToVisible(getCellRect(r, modelColumnIndex, true)); // @arhipac.tools.annotation.Bug(226)
 					break;
 				}
 			}
