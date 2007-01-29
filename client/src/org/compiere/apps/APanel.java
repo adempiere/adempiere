@@ -1988,8 +1988,10 @@ public final class APanel extends CPanel
 			if (!cmd_save(true))
 				return;
 
+		// hengsin - [ 1639242 ] Inconsistent appearance of Process/Report Dialog
 		// globalqss - Add support for Don't ShowHelp option in Process
 		// this code must be changed if integrated the parameters and help in only one window
+		/*
 		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
 		if (pr.getShowHelp() != null && pr.getShowHelp().equals("N")) {
 			startWOasking = true;
@@ -1997,6 +1999,7 @@ public final class APanel extends CPanel
 		// end globalqss
 		
 		//	Ask user to start process, if Description and Help is not empty
+		
 		if (!startWOasking && !(vButton.getDescription().equals("") && vButton.getHelp().equals("")))
 			if (!ADialog.ask(m_curWindowNo, this, "StartProcess?", 
 				//	"<b><i>" + vButton.getText() + "</i></b><br>" +
@@ -2013,6 +2016,12 @@ public final class APanel extends CPanel
 
 	//	Trx trx = Trx.get(Trx.createTrxName("AppsPanel"), true);
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
+		*/
+		
+		ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
+				this, m_curWindowNo, vButton.getProcess_ID(), table_ID, 
+				record_ID, startWOasking);
+		AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
 	}	//	actionButton
 
 	

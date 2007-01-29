@@ -37,6 +37,7 @@ import org.compiere.wf.*;
  *  @author 	Jorg Janke
  *  @version 	$Id: ProcessCtl.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *  @author Low Heng Sin
+ *  - Added support for having description and parameter in one dialog
  *  - Added support to run db process remotely on server
  */
 public class ProcessCtl extends Thread
@@ -59,6 +60,7 @@ public class ProcessCtl extends Thread
 	 *  @param pi ProcessInfo process info
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
+	 *  @deprecated
 	 */
 	public static ProcessCtl process (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx)
 	{
