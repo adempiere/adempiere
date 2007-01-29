@@ -31,8 +31,13 @@ import org.compiere.swing.*;
 
 
 /**
- *  System Environment and static variables
- *
+ *  System Environment and static variables.
+ *  <p>
+ *  Change log:
+ *  <ul>
+ *  <li>2007-01-27 - teo_sarca - [ 1619390 ] Use default desktop browser as external browser
+ *  </ul>
+ *  
  *  @author     Jorg Janke
  *  @version    $Id: Env.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
  */
@@ -1328,7 +1333,7 @@ public final class Env
 	{
 		s_log.info(url);
 		//  OS command
-		String cmd = "explorer ";
+		String cmd = "rundll32 url.dll,FileProtocolHandler ";
 		if (!isWindows())
 			cmd = "netscape ";
 		//
