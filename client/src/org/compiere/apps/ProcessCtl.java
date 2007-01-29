@@ -599,10 +599,20 @@ public class ProcessCtl extends Thread
 				cstmt.setInt(1, m_pi.getAD_PInstance_ID());
 				cstmt.executeUpdate();
 				cstmt.close();
+				if (m_trx != null && m_trx.isActive())
+				{
+					m_trx.commit(true);
+					m_trx.close();
+				}
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
+				if (m_trx != null && m_trx.isActive())
+				{
+					m_trx.rollback();
+					m_trx.close();
+				}
 				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
 				m_pi.setError (true);
 				return false;
