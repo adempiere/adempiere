@@ -20,6 +20,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.ejb.*;
 import javax.sql.*;
 
@@ -50,6 +51,9 @@ import org.compiere.wf.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ServerBean.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  @author Low Heng Sin
+ *  - Added remote transaction management
+ *  - Added support to run db process remotely on server
  */
 public class ServerBean implements SessionBean
 {
@@ -580,6 +584,33 @@ public class ServerBean implements SessionBean
 			}
 		}
 		return success;
+	}
+	
+	/**
+	 * Execute db proces on server
+	 * @ejb.interface-method view-type="both"
+	 * @param processInfo
+	 * @param procedureName
+	 * @param trxName
+	 * @return ProcessInfo
+	 */
+	public ProcessInfo dbProcess(ProcessInfo processInfo, String procedureName, String trxName)
+	{
+		String sql = "{call " + procedureName + "(?)}";
+		try 
+		{
+			CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE, trxName);	
+			cstmt.setInt(1, processInfo.getAD_PInstance_ID());
+			cstmt.executeUpdate();
+			cstmt.close();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
+			processInfo.setError (true);
+		}
+		return processInfo;
 	}
 	
 	/**
