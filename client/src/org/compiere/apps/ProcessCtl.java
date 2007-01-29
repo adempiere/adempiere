@@ -36,6 +36,8 @@ import org.compiere.wf.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: ProcessCtl.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Low Heng Sin
+ *  - Added support to run db process remotely on server
  */
 public class ProcessCtl extends Thread
 {
@@ -536,20 +538,73 @@ public class ProcessCtl extends Thread
 	{
 		//  execute on this thread/connection
 		log.fine(ProcedureName + "(" + m_pi.getAD_PInstance_ID() + ")");
-		String sql = "{call " + ProcedureName + "(?)}";
-		try
+		boolean started = false;
+		String trxName = m_trx != null ? m_trx.getTrxName() : null;
+		if (DB.isRemoteProcess())
 		{
-			CallableStatement cstmt = DB.prepareCall(sql);	//	ro??
-			cstmt.setInt(1, m_pi.getAD_PInstance_ID());
-			cstmt.executeUpdate();
-			cstmt.close();
+			Server server = CConnection.get().getServer();
+			try
+			{
+				if (server != null)
+				{	//	See ServerBean
+					m_pi = server.dbProcess(m_pi, ProcedureName, trxName);
+					log.finest("server => " + m_pi);
+					started = true;		
+				}
+			}
+			catch (UndeclaredThrowableException ex)
+			{
+				Throwable cause = ex.getCause();
+				if (cause != null)
+				{
+					if (cause instanceof InvalidClassException)
+						log.log(Level.SEVERE, "Version Server <> Client: " 
+							+  cause.toString() + " - " + m_pi, ex);
+					else
+						log.log(Level.SEVERE, "AppsServer error(1b): " 
+							+ cause.toString() + " - " + m_pi, ex);
+				}
+				else
+				{
+					log.log(Level.SEVERE, " AppsServer error(1) - " 
+						+ m_pi, ex);
+					cause = ex;
+				}
+				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
+				m_pi.setError (true);
+				return false;
+			}
+			catch (Exception ex)
+			{
+				Throwable cause = ex.getCause();
+				if (cause == null)
+					cause = ex;
+				log.log(Level.SEVERE, "AppsServer error - " + m_pi, cause);
+				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
+				m_pi.setError (true);
+				return false;
+			}
 		}
-		catch (Exception e)
+		
+		//try locally
+		if (!started)
 		{
-			log.log(Level.SEVERE, sql, e);
-			m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
-			m_pi.setError (true);
-			return false;
+			String sql = "{call " + ProcedureName + "(?)}";
+			try
+			{
+				//hengsin, add trx support, updateable support.
+				CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE, trxName);	
+				cstmt.setInt(1, m_pi.getAD_PInstance_ID());
+				cstmt.executeUpdate();
+				cstmt.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
+				m_pi.setError (true);
+				return false;
+			}
 		}
 	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;
