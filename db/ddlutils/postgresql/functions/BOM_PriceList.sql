@@ -20,11 +20,12 @@
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
  */
 
-SET search_path = adempiere, pg_catalog;
-
+/*
+ * Loops recursively through bom and returns sum of list prices (pricelist).
+ */
 CREATE OR REPLACE FUNCTION bompricelist(
-    IN INTEGER, -- $1 product id
-    IN INTEGER  -- $2 pricelist version id
+    IN NUMERIC, -- $1 product id
+    IN NUMERIC  -- $2 pricelist version id
 ) RETURNS NUMERIC AS 
 $$
   DECLARE
