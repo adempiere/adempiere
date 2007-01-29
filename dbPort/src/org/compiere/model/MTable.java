@@ -203,8 +203,14 @@ public class MTable extends X_AD_Table
 				return clazz;
 		}
 
-		//	Default Extension
+		//	Adempiere Extension
 		Class clazz = getPOclass("adempiere.model.X_" + tableName);
+		if (clazz != null)
+			return clazz;
+		
+		//hengsin - allow compatibility with compiere plugins
+		//Compiere Extension
+		clazz = getPOclass("compiere.model.X_" + tableName);
 		if (clazz != null)
 			return clazz;
 
