@@ -36,7 +36,11 @@ import org.compiere.process.*;
 
 /**
  *  General Database Interface
- *
+ * <p>
+ * <ul>
+ * <li>2007-01-30 - teo_sarca - [ 1647864 ] WAN: delete record error
+ * </ul>
+ * 
  *  @author     Jorg Janke
  *  @version    $Id: DB.java,v 1.8 2006/10/09 00:22:29 jjanke Exp $
  */
@@ -992,7 +996,7 @@ public final class DB
 			//		conn.commit();
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			if (ignoreError)
 				log.log(Level.SEVERE, cs.getSql() + " [" + trxName + "] - " +  e.getMessage());
