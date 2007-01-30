@@ -2,7 +2,7 @@
  *This file is part of Adempiere ERP Bazaar
  *http://www.adempiere.org
  *
- *Copyright (C) 2006 Timo Kontro
+ *Copyright (C) 2006-2007 Timo Kontro
  *Copyright (C) 1999-2006 ComPiere, inc
  *
  *This program is free software; you can redistribute it and/or
@@ -21,9 +21,9 @@
  */
 
 /*
- * Loops recursively through BOM and returns BOM's total pricelimit.
+ * Loops recursively through BOM and returns BOM's total limit price.
  */
-CREATE OR REPLACE FUNCTION adempiere.bompricelimit(
+CREATE OR REPLACE FUNCTION bompricelimit(
     IN NUMERIC, -- $1 product id
     IN NUMERIC  -- $2 pricelist version id
 ) RETURNS NUMERIC AS 
@@ -33,17 +33,17 @@ $$
     productprice NUMERIC;
     boms         RECORD;
   BEGIN
-    SELECT COALESCE(t.PriceLimit, 0) INTO price FROM m_productprice as t
+    SELECT COALESCE(t.PriceLimit,0) INTO price FROM m_productprice as t
       WHERE t.m_pricelist_version_id = $2 AND t.m_product_id = $1;
     IF price = 0 THEN
       FOR boms IN SELECT t.m_productbom_id, t.bomqty 
-          FROM m_product_bom as t, m_product as p
-          WHERE t.m_productbom_id = p.m_product_id
-          AND t.m_product_id = $1 LOOP
+          FROM t.m_product_bom 
+          WHERE t.m_product_id = $1
+          LOOP
         productprice := bompricelimit(boms.m_productbom_id, $2);
         price := price + (boms.bomqty * productprice);
       END LOOP;
     END IF;
     return price;
   END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STABLE STRICT;

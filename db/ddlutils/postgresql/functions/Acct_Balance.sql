@@ -49,7 +49,7 @@ $$
     accType CHAR(1); --account type
     accSign CHAR(1); --account sign
   BEGIN
-    IF COALESCE($1, 0) != 0 THEN
+    IF $1 != 0 THEN
       SELECT t.AccountType, t.AccountSign
         INTO accType, accSign
         FROM C_ElementValue AS t  WHERE t.C_ElementValue_ID = $1;
@@ -59,9 +59,11 @@ $$
         accSign := 'C';
       END IF;
     END IF;
+
     IF accSign = 'C' THEN
-      RETURN (COALESCE($2, 0) - COALESCE($3, 0));
+      RETURN $2 - $3;
+    ELSE
+      RETURN $3 - $2;
     END IF;
-    RETURN (COALESCE($3, 0) - COALESCE($2, 0));
   END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STABLE STRICT;
