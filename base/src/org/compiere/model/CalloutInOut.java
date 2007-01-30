@@ -109,9 +109,28 @@ public class CalloutInOut extends CalloutEngine
 				//	Set Movement Type
 				String DocBaseType = rs.getString("DocBaseType");
 				if (DocBaseType.equals("MMS"))					//	Material Shipments
-					mTab.setValue("MovementType", "C-");				//	Customer Shipments
+				/**solve 1648131 bug vpj-cd e-evolution */ 
+				//mTab.setValue("MovementType", "C-");				//	Customer Shipments
+				{
+						boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+						if (IsSOTrx)
+							mTab.setValue("MovementType", "C-");	
+						else	
+							mTab.setValue("MovementType", "V-");
+										
+				}
+				/**END vpj-cd e-evolution */	
 				else if (DocBaseType.equals("MMR"))				//	Material Receipts
-					mTab.setValue("MovementType", "V+");				//	Vendor Receipts
+			    /**solve 1648131 bug vpj-cd e-evolution  */	
+			    //mTab.setValue("MovementType", "V+");				//	Vendor Receipts
+				{
+						boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+						if (IsSOTrx)
+							mTab.setValue("MovementType", "C+");	
+						else	
+							mTab.setValue("MovementType", "V+");
+				}
+				/**END vpj-cd e-evolution */
 
 				//	DocumentNo
 				if (rs.getString("IsDocNoControlled").equals("Y"))
