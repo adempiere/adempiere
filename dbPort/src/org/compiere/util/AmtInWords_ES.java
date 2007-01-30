@@ -57,7 +57,7 @@ public class AmtInWords_ES implements AmtInWords
 
 	private static final String[]	numNames	= { 
 		"", 
-		" UNO", 
+		" UN",
 		" DOS",
 		" TRES", 
 		" CUATRO", 
@@ -106,7 +106,10 @@ public class AmtInWords_ES implements AmtInWords
 			number /= 10;
 		}
 		if (number == 0)
-			return soFar;
+		//return soFar;
+		// Begin e-Evolution ogi-cd 		
+			return tensNames[number % 10] + soFar; // e-Evolution ogi-cd
+		// End e-Evolution ogi-cd
 		if (number > 1)
 			soFar = "S" + soFar;
 		if (number == 1 && soFar != "")
