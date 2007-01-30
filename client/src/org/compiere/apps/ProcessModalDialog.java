@@ -87,6 +87,7 @@ public class ProcessModalDialog extends CDialog
 	private String		    m_Name = null;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
+	private boolean m_valid = true;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
@@ -176,9 +177,14 @@ public class ProcessModalDialog extends CDialog
 	 */
 	public void dispose()
 	{
+		m_valid = false;
 		super.dispose();
 	}	//	dispose
 
+	public boolean isValid()
+	{
+		return m_valid;
+	}
 
 	/**
 	 *	Dynamic Init
