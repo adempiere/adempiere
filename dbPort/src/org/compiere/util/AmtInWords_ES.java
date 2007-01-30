@@ -39,7 +39,7 @@ public class AmtInWords_ES implements AmtInWords
 		" BILLON", 
 		" TRILLON", 
 		" CUATRILLON", 
-		" QUINTRILLON"
+		" QUINTILLON"  
 		};
 
 	private static final String[]	tensNames	= { 
@@ -177,13 +177,19 @@ public class AmtInWords_ES implements AmtInWords
 			return amount;
 		//
 		StringBuffer sb = new StringBuffer ();
-		int pos = amount.lastIndexOf ('.');
-		int pos2 = amount.lastIndexOf (',');
+    //	int pos = amount.lastIndexOf ('.');    // Old
+		int pos = amount.lastIndexOf (',');  		
+    //  int pos2 = amount.lastIndexOf (',');   // Old		
+		int pos2 = amount.lastIndexOf ('.');
 		if (pos2 > pos)
 			pos = pos2;
 		String oldamt = amount;
-		amount = amount.replaceAll (",", "");
-		int newpos = amount.lastIndexOf ('.');
+
+    //  amount = amount.replaceAll (",", "");   // Old
+		amount = amount.replaceAll( "\\.","");
+
+	//	int newpos = amount.lastIndexOf ('.');  // Old
+		int newpos = amount.lastIndexOf (',');
 		int pesos = Integer.parseInt (amount.substring (0, newpos));
 		sb.append (convert (pesos));
 		for (int i = 0; i < oldamt.length (); i++)
