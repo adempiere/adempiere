@@ -989,7 +989,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				+ " SET AD_Org_ID ="
 					+ "(SELECT AD_Org_ID"
 					+ " FROM C_Invoice o WHERE ol.C_Invoice_ID=o.C_Invoice_ID) "
-				+ "WHERE C_Invoice_ID=" + getC_Order_ID();
+				+ "WHERE C_Invoice_ID=" + getC_Invoice_ID();
 			int no = DB.executeUpdate(sql, get_TrxName());
 			log.fine("Lines -> #" + no);
 		}		
