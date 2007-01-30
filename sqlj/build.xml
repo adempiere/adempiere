@@ -8,7 +8,8 @@
 	<property name="src" value="src"/>
 	<property name="build.dir" value="build"/>
 	<property name="dist.dir" value="."/>
-	<property environment="env"/>
+	<!--<property environment="env"/>-->
+	<property file="../utils_dev/build.properties"/>
 
 	
 	<path id="project.class.path">

@@ -156,12 +156,12 @@
   <!-- =========================================== -->
   <target name="clean">
     <!-- Delete the ${build.dir} directory trees -->
-    <delete dir="${build.dir}"/>
+    	<!--<delete dir="${build.dir}"/>-->
     <!-- Delete the Doc/Source files -->
     <delete file="${dist.dir}/${jar.name}.jar" failonerror="false"/>
     <delete file="${dist.dir}/${jar.name}Doc.jar" failonerror="false"/>
     <delete file="${dist.dir}/${jar.name}Source.jar" failonerror="false"/>
-  	<delete dir="${needed.dir}"/>
+  		<!--<delete dir="${needed.dir}"/>-->
   </target>
 
 

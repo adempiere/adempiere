@@ -6,6 +6,9 @@
 
 <project name="adempiereWebStore" default="main" basedir=".">
 
+  <!--<property environment="env"/>-->
+  <property file="../utils_dev/build.properties"/>
+
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.main.dir" value="${src.dir}/main"/>
   <property name="src.web.dir" value="${src.dir}/web"/>

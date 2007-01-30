@@ -11,7 +11,8 @@
   </description>
 
   <!-- set global properties for this build -->
-  <property environment="env"/>
+  <!--<property environment="env"/>-->
+  <property file="../utils_dev/build.properties"/>
   <property name="src" value="src"/>
   <property name="build.dir" value="build"/>
   <property name="dist.dir" value="."/>

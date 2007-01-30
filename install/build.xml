@@ -10,7 +10,8 @@
 	This buildfile is used to create the Adempiere installer.
   </description>
 
-  <property environment="env"/>
+  <!--<property environment="env"/>-->
+  <property file="../utils_dev/build.properties"/>
   <property name="adempiere.dir" value="../"/>
   <property name="web.dir" value="../../adempiereWeb"/>
   <property name="dbStartup.dir" value="../db/database/Startup"/>

@@ -17,7 +17,8 @@
   <property name="jar.path" value="../lib"/>
   <property name="jar.name" value="CLooks"/>
   <property name="version" value="_13"/>
-  <property environment="env"/>
+  <!--<property environment="env"/>-->
+  <property file="../utils_dev/build.properties"/>
 
   <!-- set path to include the necessary jar files for javac -->
   <path id="project.class.path">

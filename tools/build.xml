@@ -23,7 +23,8 @@
   <property name="buildPostgreSQL.dir" value="build/PostgreSQL"/>
   <property name="jboss.dir" value="../jboss"/>
   <property name="dist.dir" value="../lib"/>
-  <property environment="env"/>
+  <!--<property environment="env"/>-->
+  <property file="../utils_dev/build.properties"/>
 
   <!-- set path to include the necessary jar files for javac -->
   <path id="project.class.path">
