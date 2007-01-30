@@ -7,7 +7,7 @@
 <project name="adempiereApps" default="main" basedir=".">
 
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
 
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.main.dir" value="${src.dir}/main"/>

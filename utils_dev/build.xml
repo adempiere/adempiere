@@ -8,7 +8,7 @@
   </description>
 	<!-- set global properties for this build -->
 	<!--<property environment="env"/>-->
-	<property file="./utils_dev/build.properties"/>
+  <import file="./properties.xml"/>
 	<property name="src" value="src"/>
 	<property name="build.dir" value="build"/>
 	<target name="init" description="initialization target">

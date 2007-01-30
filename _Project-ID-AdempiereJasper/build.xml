@@ -17,7 +17,7 @@
 
   <!-- Set global properties for this build -->
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
   <property file="build.properties"/>
   <property name="plugins.dir"     value="plugins"/>
   <!--property name="compiere.dir"    value="${env.COMPIERE_HOME}"/-->

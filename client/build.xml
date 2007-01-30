@@ -18,7 +18,7 @@
   <property name="dist.dir" value="../lib"/>
   <property name="jar.path" value="../lib"/>
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
 
   <!-- set path to include the necessary jar files for javac -->
   <path id="project.class.path">

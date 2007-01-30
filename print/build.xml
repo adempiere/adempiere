@@ -12,7 +12,7 @@
 
   <!-- set global properties for this build -->
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
   <property name="src" value="src"/>
   <property name="build.dir" value="build"/>
   <property name="dist.dir" value="."/>

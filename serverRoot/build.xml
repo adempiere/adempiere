@@ -7,7 +7,7 @@
 <project name="adempiereRoot" default="main" basedir=".">
 
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
 
   <property name="xdoclet.home" value="../tools" />
   <property name="xdoclet.force" value="false" />

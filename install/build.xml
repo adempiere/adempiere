@@ -11,7 +11,7 @@
   </description>
 
   <!--<property environment="env"/>-->
-  <property file="../utils_dev/build.properties"/>
+  <import file="../utils_dev/properties.xml"/>
   <property name="adempiere.dir" value="../"/>
   <property name="web.dir" value="../../adempiereWeb"/>
   <property name="dbStartup.dir" value="../db/database/Startup"/>

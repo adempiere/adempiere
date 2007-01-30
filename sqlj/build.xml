@@ -9,7 +9,7 @@
 	<property name="build.dir" value="build"/>
 	<property name="dist.dir" value="."/>
 	<!--<property environment="env"/>-->
-	<property file="../utils_dev/build.properties"/>
+	<import file="../utils_dev/properties.xml"/>
 
 	
 	<path id="project.class.path">
