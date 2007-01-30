@@ -528,7 +528,9 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 			m_ds.setMaxStatements(MAX_STATEMENTS);
 			//	http://download-east.oracle.com/docs/cd/B14117_01/java.101/b10979/oralob.htm#sthref1258
 			Properties connProperties = new Properties(); 
-			connProperties.setProperty("SetBigStringUseClob", "true");
+			//http://www.db.cs.ucdavis.edu/teaching/165B-SQ06/Project/Readme.txt BUG-1568923
+			//bug [ 1568770 ] Oracle CLOBs are limited in size
+			connProperties.setProperty("SetBigStringTryClob", "true");
 			m_ds.setConnectionProperties(connProperties);
 			//
 			Properties cacheProperties = new Properties();
