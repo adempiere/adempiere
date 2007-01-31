@@ -19,6 +19,7 @@ package org.compiere.grid.ed;
 import java.text.*;
 import javax.swing.text.*;
 
+import org.compiere.apps.ADialog;
 import org.compiere.util.*;
 
 /**
@@ -203,10 +204,13 @@ public final class MDocNumber extends PlainDocument
 		else
 		{
 			log.fine("Input=" + c + " (" + (int)c + ")");
+			//hengsin, [ 1648436 ] Remove auto popup of calculator
+			/*
 			String result = VNumber.startCalculator(m_tc, getText(),
 				m_format, m_displayType, m_title);
 			super.remove(0, content.length());
-			super.insertString(0, result, attr);
+			super.insertString(0, result, attr);*/
+			ADialog.beep();
 		}
 	}	//	insertString
 
