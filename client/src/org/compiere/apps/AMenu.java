@@ -104,7 +104,11 @@ public final class AMenu extends CFrame
 		this.setLocation(loc);
 		this.pack();
 		this.setVisible(true);
-		this.setState(Frame.NORMAL);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+			this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		else
+			this.setState(Frame.NORMAL);
+		this.validate();
 		m_AD_User_ID = Env.getContextAsInt(m_ctx, "#AD_User_ID");
 		m_AD_Role_ID = Env.getContextAsInt(m_ctx, "#AD_Role_ID");
 		updateInfo();
@@ -432,7 +436,8 @@ public final class AMenu extends CFrame
 		int cmd = nd.getNode_ID();
 
 		(new AMenuStartItem(cmd, true, sta, this)).start();		//	async load
-		updateInfo();
+		//hengsin, updateInfo is call again in AMenuStartItem
+		//updateInfo();
 	}	//	propertyChange
 
 
@@ -459,7 +464,7 @@ public final class AMenu extends CFrame
 	private int getNotes()
 	{
 		int retValue = 0;
-		String sql = "SELECT COUNT(*) FROM AD_Note "
+		String sql = "SELECT COUNT(1) FROM AD_Note "
 			+ "WHERE AD_Client_ID=? AND AD_User_ID IN (0,?)"
 			+ " AND Processed='N'";
 		try
@@ -504,7 +509,7 @@ public final class AMenu extends CFrame
 	{
 		int retValue = 0;
 		if (m_requestSQL == null)
-			m_requestSQL = MRole.getDefault().addAccessSQL ("SELECT COUNT(*) FROM R_Request "
+			m_requestSQL = MRole.getDefault().addAccessSQL ("SELECT COUNT(1) FROM R_Request "
 				+ "WHERE (SalesRep_ID=? OR AD_Role_ID=?) AND Processed='N'"
 				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction) <= TRUNC(SysDate))"
 				+ " AND (R_Status_ID IS NULL OR R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N'))",
