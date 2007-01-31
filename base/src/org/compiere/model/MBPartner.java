@@ -24,6 +24,11 @@ import org.compiere.util.*;
 
 /**
  *	Business Partner Model
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-01-31 - teo_sarca - [ 1568774 ] Walk-In BP: invalid created/updated values 
+ * </ul>
  *
  *  @author Jorg Janke
  *  @version $Id: MBPartner.java,v 1.5 2006/09/23 19:38:07 comdivision Exp $
@@ -61,6 +66,10 @@ public class MBPartner extends X_C_BPartner
 			template.setAcqusitionCost(Env.ZERO);
 			template.setShareOfCustomer(0);
 			template.setSalesVolume(0);
+			// Reset Created, Updated to current system time ( teo_sarca )
+			Timestamp ts = new Timestamp(System.currentTimeMillis());
+			template.set_ValueNoCheck("Created", ts);
+			template.set_ValueNoCheck("Updated", ts);
 		}
 		return template;
 	}	//	getTemplate
