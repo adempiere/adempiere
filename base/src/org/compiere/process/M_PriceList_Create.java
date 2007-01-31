@@ -145,7 +145,8 @@ public class M_PriceList_Create extends SvrProcess {
 		totu += cntu;
 		log.fine("Updated " + cntu);
 
-		DB.commit(true, get_TrxName());
+		// let the commit for SvrProcess
+		// DB.commit(true, get_TrxName());
 
 		//
 		//	Make sure that we have only one active product
@@ -173,7 +174,7 @@ public class M_PriceList_Create extends SvrProcess {
 			//
 			//	Leave First
 			//
-			Vend.next();
+			
 			while (Vend.next()) {
 				sqlupd = "UPDATE M_Product_PO "
 						+ " SET	IsCurrentVendor = 'N'  "
@@ -199,11 +200,7 @@ public class M_PriceList_Create extends SvrProcess {
 		Cur_Duplicates.close();
 		Cur_Duplicates = null;
 
-		//
-		//Commit
-		//
-
-		DB.commit(true, get_TrxName());
+		// DB.commit(true, get_TrxName());
 
 		//
 		//	Delete Old Data	
@@ -687,8 +684,8 @@ public class M_PriceList_Create extends SvrProcess {
 			//
 			//commit;
 			//
-			log.fine("Committing ...");
-			DB.commit(true, get_TrxName());
+			// log.fine("Committing ...");
+			// DB.commit(true, get_TrxName());
 
 		}
 		v.close();
@@ -700,7 +697,8 @@ public class M_PriceList_Create extends SvrProcess {
 	} // del doIt
 
 	private void raiseError(String string, String sql) throws Exception {
-		DB.rollback(false, get_TrxName());
+		
+		// DB.rollback(false, get_TrxName());
 		String msg = string;
 		ValueNamePair pp = CLogger.retrieveError();
 		if (pp != null)
