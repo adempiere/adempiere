@@ -151,12 +151,13 @@ public class M_PriceList_Create extends SvrProcess {
 		//
 		//	Make sure that we have only one active product
 		//
-		sql = "SELECT	DISTINCT M_Product_ID " + " FROM	    M_Product_PO po "
-				+ " WHERE	IsCurrentVendor='Y' " + " AND      IsActive='Y' "
-				+ " AND      EXISTS (SELECT   M_Product_ID "
-				+ " FROM     M_Product_PO x  "
-				+ " WHERE    x.M_Product_ID=po.M_Product_ID "
-				+ " GROUP BY M_Product_ID " + " HAVING COUNT(*) > 1 ) ";
+		sql = "SELECT DISTINCT M_Product_ID FROM M_Product_PO po "
+				+ " WHERE	 IsCurrentVendor='Y' AND IsActive='Y' "
+				+ "   AND    EXISTS (SELECT   M_Product_ID "
+				                   + " FROM     M_Product_PO x  "
+				                   + " WHERE    x.M_Product_ID=po.M_Product_ID "
+				                   + "   AND    IsCurrentVendor='Y' AND IsActive='Y' "
+				                   + " GROUP BY M_Product_ID " + " HAVING COUNT(*) > 1 ) ";
 
 		PreparedStatement Cur_Duplicates = null;
 		Cur_Duplicates = DB.prepareStatement(sql, get_TrxName());
@@ -166,14 +167,16 @@ public class M_PriceList_Create extends SvrProcess {
 					+ " FROM	M_Product_PO " + " WHERE	IsCurrentVendor = 'Y'  "
 					+ " AND     IsActive        = 'Y' "
 					+ " AND	M_Product_ID    = " + dupl.getInt("M_Product_ID")
-					+ " ORDER BY PriceList DESC  ";
+					+ " ORDER BY PriceList DESC";
 
 			PreparedStatement Cur_Vendors = null;
 			Cur_Duplicates = DB.prepareStatement(sql, get_TrxName());
 			ResultSet Vend = Cur_Vendors.executeQuery();
+
 			//
 			//	Leave First
 			//
+			Vend.next();
 			
 			while (Vend.next()) {
 				sqlupd = "UPDATE M_Product_PO "
