@@ -16,9 +16,9 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_JOB_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="SETUPTIME" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="UNITRUNTIME" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TEARDOWNTIME" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="SETUPTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="UNITRUNTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TEARDOWNTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="A_ASSET" name="AASSET_MOPERATIONRESOURCE">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>

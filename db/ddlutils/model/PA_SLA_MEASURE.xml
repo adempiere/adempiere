@@ -12,7 +12,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PA_SLA_GOAL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DATETRX" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="MEASUREACTUAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MEASUREACTUAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RECORD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

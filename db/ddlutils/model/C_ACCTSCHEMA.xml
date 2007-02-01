@@ -29,8 +29,8 @@
       <column name="COSTINGLEVEL" primaryKey="false" required="true" type="CHAR" size="1" default="C" autoIncrement="false"/>
       <column name="ISADJUSTCOGS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="AD_ORGONLY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="ISPOSTSERVICES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="ISEXPLICITCOSTADJUSTMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="ISPOSTSERVICES" primaryKey="false" required="true" type="CHAR" size="1" default="(&apos;N&apos;)" autoIncrement="false"/>
+      <column name="ISEXPLICITCOSTADJUSTMENT" primaryKey="false" required="true" type="CHAR" size="1" default="(&apos;N&apos;)" autoIncrement="false"/>
       <column name="COMMITMENTTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="TAXCORRECTIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>

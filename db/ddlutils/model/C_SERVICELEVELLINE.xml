@@ -12,7 +12,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SERVICELEVEL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="SERVICELEVELPROVIDED" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="SERVICELEVELPROVIDED" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="SERVICEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_SERVICELEVEL" name="CSERVICELEVEL_LINE">

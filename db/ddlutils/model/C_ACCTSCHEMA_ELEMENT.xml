@@ -30,11 +30,11 @@
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CASCHEMAELEMENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGID_C_ASCHEMAELEMENT">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CASCHEMAELEMENT">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGID_C_ASCHEMAELEMENT">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CASCHEMAELEMENT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>

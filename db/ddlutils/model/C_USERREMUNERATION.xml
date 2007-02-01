@@ -14,10 +14,10 @@
       <column name="C_REMUNERATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="GROSSRAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="GROSSRCOST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="OVERTIMEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="OVERTIMECOST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="GROSSRAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="GROSSRCOST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="OVERTIMEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="OVERTIMECOST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CUSERREMUNERATION">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>

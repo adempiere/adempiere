@@ -69,11 +69,11 @@
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PAREPORTCOLUMN">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTCOLUMN" name="PAREPORTCOLUMN_OPER2">
-        <reference local="OPER_2_ID" foreign="PA_REPORTCOLUMN_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="PA_REPORTCOLUMN" name="PAREPORTCOLUMN_OPER1">
         <reference local="OPER_1_ID" foreign="PA_REPORTCOLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_REPORTCOLUMN" name="PAREPORTCOLUMN_OPER2">
+        <reference local="OPER_2_ID" foreign="PA_REPORTCOLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="PA_REPORTCOLUMNSET" name="PAREPORTCOLUMNSET_COLUMN">
         <reference local="PA_REPORTCOLUMNSET_ID" foreign="PA_REPORTCOLUMNSET_ID"/>

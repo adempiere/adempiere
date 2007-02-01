@@ -19,8 +19,8 @@
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="MULTIPLYRATE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="DIVIDERATE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="MULTIPLYRATE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="DIVIDERATE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="CREATERECIPROCALRATE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="I_ISIMPORTED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>

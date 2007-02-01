@@ -18,11 +18,11 @@
       <column name="VALUTADATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TRXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="STMTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TRXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="STMTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="INTERESTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="INTERESTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MEMO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="REFERENCENO" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISMANUAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
@@ -37,7 +37,7 @@
       <column name="EFTVALUTADATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="EFTREFERENCE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="EFTCURRENCY" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <column name="EFTAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="EFTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="EFTCHECKNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="MATCHSTATEMENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

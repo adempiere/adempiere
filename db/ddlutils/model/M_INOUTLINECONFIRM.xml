@@ -12,12 +12,12 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_INOUTCONFIRM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_INOUTLINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TARGETQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="CONFIRMEDQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TARGETQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="CONFIRMEDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="DIFFERENCEQTY" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="SCRAPPEDQTY" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="DIFFERENCEQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="SCRAPPEDQTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_INVENTORYLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CONFIRMATIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>

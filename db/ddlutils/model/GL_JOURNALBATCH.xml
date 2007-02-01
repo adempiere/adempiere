@@ -18,9 +18,9 @@
       <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="C_PERIOD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="TOTALDR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TOTALCR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="CONTROLAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TOTALDR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TOTALCR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="CONTROLAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="COPYFROM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>

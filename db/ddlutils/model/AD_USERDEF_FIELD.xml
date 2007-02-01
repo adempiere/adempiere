@@ -31,6 +31,12 @@
         <reference local="AD_USERDEF_TAB_ID" foreign="AD_USERDEF_TAB_ID"/>
       </foreign-key>
       <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsDisplayed in ('Y','N')]]></rule>
+      </check>
+      <check>
         <rule><![CDATA[IsReadOnly in ('Y','N')]]></rule>
       </check>
       <check>
@@ -38,12 +44,6 @@
       </check>
       <check>
         <rule><![CDATA[IsUpdateable in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsDisplayed in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

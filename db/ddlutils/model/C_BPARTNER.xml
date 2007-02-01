@@ -34,13 +34,13 @@
       <column name="NUMBEREMPLOYEES" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="NAICS" primaryKey="false" required="false" type="CHAR" size="6" autoIncrement="false"/>
       <column name="FIRSTSALE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="ACQUSITIONCOST" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="POTENTIALLIFETIMEVALUE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="ACTUALLIFETIMEVALUE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="ACQUSITIONCOST" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="POTENTIALLIFETIMEVALUE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="ACTUALLIFETIMEVALUE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="SHAREOFCUSTOMER" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PAYMENTRULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="SO_CREDITLIMIT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="SO_CREDITUSED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="SO_CREDITLIMIT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="SO_CREDITUSED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRICELIST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_DISCOUNTSCHEMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -65,19 +65,19 @@
       <column name="SOCREDITSTATUS" primaryKey="false" required="false" type="CHAR" size="1" default="O" autoIncrement="false"/>
       <column name="SHELFLIFEMINPCT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="AD_ORGBP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="FLATDISCOUNT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="TOTALOPENBALANCE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="FLATDISCOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="TOTALOPENBALANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CBPARTNER">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG">
         <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER">
         <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
@@ -100,17 +100,17 @@
       <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER">
         <reference local="C_INVOICESCHEDULE_ID" foreign="C_INVOICESCHEDULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER">
-        <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER">
-        <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER">
+        <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER">
+        <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER">
         <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>

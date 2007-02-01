@@ -23,23 +23,23 @@
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPRINTGRAPH">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA2">
-        <reference local="DATA2_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3">
-        <reference local="DATA3_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA">
-        <reference local="DATA_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA1">
         <reference local="DATA1_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDESCR">
         <reference local="DESCRIPTION_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3">
+        <reference local="DATA3_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA4">
         <reference local="DATA4_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA">
+        <reference local="DATA_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA2">
+        <reference local="DATA2_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

@@ -11,8 +11,8 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TAXBASEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TAXBASEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_ORDER" name="CORDER_CORDERTAX">

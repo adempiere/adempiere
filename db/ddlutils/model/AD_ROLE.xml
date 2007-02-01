@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="USERLEVEL" primaryKey="false" required="true" type="CHAR" size="3" default="  O" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="AMTAPPROVAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMTAPPROVAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="AD_TREE_MENU_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISMANUAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSHOWACCT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>

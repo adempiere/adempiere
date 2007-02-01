@@ -18,7 +18,7 @@
       <column name="M_CHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_BOMALTERNATIVE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="BOMQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="BOMQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="M_PRODUCTOPERATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

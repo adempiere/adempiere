@@ -36,11 +36,11 @@
       <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_TABLE">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE">
-        <reference local="PO_WINDOW_ID" foreign="AD_WINDOW_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE">
+        <reference local="PO_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <unique name="AD_TABLE_NAME">
         <unique-column name="TABLENAME"/>

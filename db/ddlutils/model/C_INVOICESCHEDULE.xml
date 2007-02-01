@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISAMOUNT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="AMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="INVOICEFREQUENCY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="INVOICEWEEKDAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="INVOICEWEEKDAYCUTOFF" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>

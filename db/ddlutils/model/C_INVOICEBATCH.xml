@@ -17,8 +17,8 @@
       <column name="SALESREP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CONTROLAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DOCUMENTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CONTROLAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DOCUMENTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCH">

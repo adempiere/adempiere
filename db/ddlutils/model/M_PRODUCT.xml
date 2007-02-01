@@ -30,8 +30,8 @@
       <column name="C_REVENUERECOGNITION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CLASSIFICATION" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="SHELFWIDTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="SHELFHEIGHT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="SHELFDEPTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
@@ -101,6 +101,9 @@
       <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_MPRODUCT">
         <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
       </foreign-key>
+      <index name="M_PRODUCT_UPC">
+        <index-column name="UPC"/>
+      </index>
       <unique name="M_PRODUCT_VALUE">
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="VALUE"/>
@@ -117,9 +120,6 @@
       <unique name="M_PRODUCT_EXPENSETYPE">
         <unique-column name="S_EXPENSETYPE_ID"/>
       </unique>
-      <index name="M_PRODUCT_UPC">
-        <index-column name="UPC"/>
-      </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

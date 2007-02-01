@@ -12,8 +12,8 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REPLENISHTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LEVEL_MIN" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LEVEL_MAX" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="LEVEL_MIN" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LEVEL_MAX" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_REPLENISH">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>

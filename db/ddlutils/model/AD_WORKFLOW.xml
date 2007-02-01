@@ -24,7 +24,7 @@
       <column name="PRIORITY" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="LIMIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="DURATION" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <column name="COST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="WORKINGTIME" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="WAITINGTIME" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="AD_WF_RESPONSIBLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

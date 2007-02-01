@@ -20,11 +20,11 @@
       <foreign-key foreignTable="C_BPARTNER" name="C_BUSPARTNER_C_BP_VENDOR_ACCT">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CBPVENDOR">
-        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CBPVENDOR">
         <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CBPVENDOR">
+        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITYSERVICES_CBPVENDO">
         <reference local="V_LIABILITY_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>

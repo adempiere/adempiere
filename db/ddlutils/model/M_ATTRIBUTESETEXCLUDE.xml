@@ -20,10 +20,10 @@
         <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
       </foreign-key>
       <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
       </check>
       <check>
-        <rule><![CDATA[IsSOTrx in ('Y','N')]]></rule>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

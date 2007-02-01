@@ -17,6 +17,9 @@
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="NAME"/>
       </unique>
+      <unique name="C_CHANNEL_KEY">
+        <unique-column name="C_CHANNEL_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

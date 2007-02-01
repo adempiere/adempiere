@@ -13,10 +13,10 @@
       <column name="C_COMMISSION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="AMTSUBTRACT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTMULTIPLIER" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="QTYSUBTRACT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="QTYMULTIPLIER" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AMTSUBTRACT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTMULTIPLIER" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYSUBTRACT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYMULTIPLIER" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ISPOSITIVEONLY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="COMMISSIONORDERS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

@@ -74,6 +74,15 @@
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_DEFAULT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_CSCHEMADEFAUL">
+        <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT">
+        <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT">
+        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CSCHEMADEFAULT">
         <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
@@ -235,15 +244,6 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTGRANT_CSCHEMADEFA">
         <reference local="P_TRADEDISCOUNTGRANT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_CSCHEMADEFAUL">
-        <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT">
-        <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT">
-        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

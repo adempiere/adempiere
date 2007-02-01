@@ -15,10 +15,10 @@
       <column name="ISTIMEREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DATEEXPENSE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="EXPENSEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="EXPENSEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="S_RESOURCEASSIGNMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
@@ -28,17 +28,17 @@
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="INVOICEPRICE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="INVOICEPRICE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="S_TIMETYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="QTYREIMBURSED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="PRICEINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="PRICEREIMBURSED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYREIMBURSED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="PRICEINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="PRICEREIMBURSED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_STIMEEXPENSELINE">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>

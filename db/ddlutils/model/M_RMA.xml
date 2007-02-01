@@ -22,7 +22,7 @@
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="AMT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_RMATYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

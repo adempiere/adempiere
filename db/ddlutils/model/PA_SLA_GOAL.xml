@@ -17,8 +17,8 @@
       <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="MEASURETARGET" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="MEASUREACTUAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MEASURETARGET" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="MEASUREACTUAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>

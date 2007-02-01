@@ -13,10 +13,10 @@
       <column name="A_ASSET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CHANGETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CHANGEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="CHANGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHANGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="USELIFEYEARS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="USELIFEMONTHS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="LIFEUSEUNITS" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="LIFEUSEUNITS" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="ASSETDEPRECIATIONDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="A_ASSET_RETIREMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="A_ASSET_ADDITION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

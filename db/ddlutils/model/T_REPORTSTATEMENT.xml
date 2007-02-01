@@ -8,10 +8,10 @@
       <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="AMTACCTDR" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="AMTACCTCR" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="BALANCE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="BALANCE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORTSTATEMENT">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>

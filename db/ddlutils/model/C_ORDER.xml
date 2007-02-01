@@ -41,14 +41,14 @@
       <column name="INVOICERULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DELIVERYRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="FREIGHTCOSTRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DELIVERYVIARULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_SHIPPER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRIORITYRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="TOTALLINES" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TOTALLINES" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRICELIST_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
@@ -73,31 +73,31 @@
       <column name="PAY_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="REF_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
+      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CORDER">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER">
         <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER">
-        <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER">
         <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER">
+        <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
@@ -105,11 +105,11 @@
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER">
-        <reference local="BILL_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER">
         <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER">
+        <reference local="BILL_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CORDER">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
@@ -126,17 +126,17 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDER">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER">
-        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER">
+        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_REF">
         <reference local="REF_ORDER_ID" foreign="C_ORDER_ID"/>

@@ -13,16 +13,16 @@
       <column name="C_DUNNINGRUNENTRY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="AMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DAYSDUE" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="TIMESDUNNED" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <column name="INTERESTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="FEEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="INTERESTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="FEEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="C_DUNNINGRUNENTRY" name="CDUNNINGRUNENTRY_LINE">
         <reference local="C_DUNNINGRUNENTRY_ID" foreign="C_DUNNINGRUNENTRY_ID"/>
       </foreign-key>

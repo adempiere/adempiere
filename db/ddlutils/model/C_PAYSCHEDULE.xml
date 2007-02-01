@@ -11,11 +11,11 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PAYMENTTERM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="PERCENTAGE" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PERCENTAGE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="NETDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="NETDAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DISCOUNTDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="DISCOUNT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="DISCOUNT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="GRACEDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CPAYSCHEDULE">

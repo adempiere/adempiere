@@ -18,12 +18,12 @@
       <column name="ISPAIDTO3PARTY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="BENEFICIARY" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISPERCENTWITHHOLDING" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="PERCENT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="FIXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="THRESHOLDMIN" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="THRESHOLDMAX" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="MINAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="MAXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PERCENT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="FIXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="THRESHOLDMIN" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="THRESHOLDMAX" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="MINAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="MAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CWITHHOLDING">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>

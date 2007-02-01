@@ -16,8 +16,8 @@
       <column name="UNEARNEDREVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="P_REVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="RECOGNIZEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="RECOGNIZEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CREVRECPLAN">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>

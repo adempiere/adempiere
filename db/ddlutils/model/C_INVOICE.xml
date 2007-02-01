@@ -37,9 +37,9 @@
       <column name="PAYMENTRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_PAYMENTTERM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TOTALLINES" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TOTALLINES" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRICELIST_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -98,11 +98,11 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CINVOICE">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CINVOICE">
-        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CINVOICE">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CINVOICE">
+        <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CINVOICE">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
@@ -134,6 +134,9 @@
       <index name="C_INVOICE_BPARTNER">
         <index-column name="C_BPARTNER_ID"/>
       </index>
+      <unique name="C_INVOICE_KEY">
+        <unique-column name="C_INVOICE_ID"/>
+      </unique>
       <unique name="C_INVOICE_DOCUMENTNO">
         <unique-column name="DOCUMENTNO"/>
         <unique-column name="C_DOCTYPE_ID"/>

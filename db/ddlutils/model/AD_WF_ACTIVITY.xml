@@ -41,10 +41,6 @@
       <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFACTIVITY">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
-      <index name="AD_WF_ACTIVITY_STATUS">
-        <index-column name="PROCESSED"/>
-        <index-column name="WFSTATE"/>
-      </index>
       <index name="AD_WF_ACTIVITY_WHO">
         <index-column name="AD_WF_RESPONSIBLE_ID"/>
         <index-column name="AD_USER_ID"/>
@@ -52,6 +48,10 @@
       <index name="AD_WF_ACTIVITY_ITEM">
         <index-column name="AD_WF_PROCESS_ID"/>
         <index-column name="AD_WF_NODE_ID"/>
+      </index>
+      <index name="AD_WF_ACTIVITY_STATUS">
+        <index-column name="PROCESSED"/>
+        <index-column name="WFSTATE"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

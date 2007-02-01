@@ -12,6 +12,9 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
+      <unique name="AD_FIELDGROUP_KEY">
+        <unique-column name="AD_FIELDGROUP_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

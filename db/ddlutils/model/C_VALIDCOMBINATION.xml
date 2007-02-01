@@ -51,14 +51,14 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_VC">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCOUNT_VC">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>

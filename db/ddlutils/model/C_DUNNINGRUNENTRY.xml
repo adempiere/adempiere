@@ -16,8 +16,8 @@
       <column name="C_DUNNINGRUN_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="SALESREP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="AMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CDUNNINGRUNENTRY">

@@ -44,7 +44,7 @@
       <column name="M_RMA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RECORD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="REQUESTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="REQUESTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CONFIDENTIALTYPEENTRY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
@@ -53,8 +53,8 @@
       <column name="DATENEXTACTION" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="STARTTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
@@ -62,7 +62,7 @@
       <column name="C_INVOICEREQUEST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_CHANGEREQUEST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TASKSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="QTYPLAN" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTYPLAN" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DATECOMPLETEPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -72,11 +72,11 @@
       <foreign-key foreignTable="AD_TABLE" name="ADTABLE_RREQUEST">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUEST">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUEST">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUEST">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUEST">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
@@ -90,11 +90,11 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_RREQUEST">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="RINVOICE_RREQUEST">
-        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_INVOICE" name="CINVOICEREQUEST_RREQUEST">
         <reference local="C_INVOICEREQUEST_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="RINVOICE_RREQUEST">
+        <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_RREQUEST">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>

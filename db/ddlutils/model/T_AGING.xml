@@ -20,28 +20,28 @@
       <column name="ISLISTINVOICES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="C_BP_GROUP_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="INVOICEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE61_90" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE31_60" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE1_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE8_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUE1_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PASTDUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE0" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE0_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE1_7" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE8_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE0_30" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE31_60" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE61_90" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="INVOICEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE61_90" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE31_60" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE1_30" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE8_30" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUE1_7" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PASTDUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE0" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE0_7" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE1_7" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE8_30" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE0_30" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE31_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE31_60" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE61_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE61_90" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DUE91_PLUS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

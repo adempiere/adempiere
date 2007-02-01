@@ -31,11 +31,11 @@
       <column name="POREFERENCE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="DELIVERYRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="FREIGHTCOSTRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DELIVERYVIARULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_SHIPPER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRIORITYRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATEPRINTED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -61,19 +61,19 @@
       <column name="CREATEPACKAGE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
+      <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUT">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUT">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>

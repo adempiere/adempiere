@@ -24,10 +24,10 @@
       <column name="M_PRICELIST_VERSION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCOMMITMENT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PLANNEDQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PLANNEDMARGINAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PLANNEDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PLANNEDMARGINAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DATECONTRACT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATEFINISH" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="GENERATETO" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
@@ -35,10 +35,10 @@
       <column name="SALESREP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COPYFROM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_PROJECTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="COMMITTEDQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="INVOICEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="INVOICEDQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PROJECTBALANCEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COMMITTEDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="INVOICEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="INVOICEDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PROJECTBALANCEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_PHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCOMMITCEILING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -53,11 +53,11 @@
       <foreign-key foreignTable="AD_ORG" name="ADORG_CPROJECT">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CPROJECT">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CPROJECT">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CPROJECT">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPROJECT">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>

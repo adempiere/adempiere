@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PA_BENCHMARK_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="BENCHMARKDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="BENCHMARKVALUE" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="BENCHMARKVALUE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="PA_BENCHMARK" name="PABENCHMARK_PABENCHMARKDATA">
         <reference local="PA_BENCHMARK_ID" foreign="PA_BENCHMARK_ID"/>
       </foreign-key>

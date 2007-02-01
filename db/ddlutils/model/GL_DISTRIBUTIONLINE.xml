@@ -12,7 +12,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="GL_DISTRIBUTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <column name="PERCENT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PERCENT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="OVERWRITEORG" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -40,14 +40,14 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="OVERWRITEUSER2" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDISTLINE">
-        <reference local="ORG_ID" foreign="AD_ORG_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDISTLINE">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_GLDISTLINE">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDISTLINE">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDISTLINE">
+        <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLDISTLINE">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -67,11 +67,11 @@
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDISTLINE">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDISTLINE">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDISTLINE">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDISTLINE">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDISTLINE">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>

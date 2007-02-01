@@ -12,7 +12,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CYCLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="RELATIVEWEIGHT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="RELATIVEWEIGHT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <foreign-key foreignTable="C_CYCLE" name="CCYCLE_CCYCLESTEP">
         <reference local="C_CYCLE_ID" foreign="C_CYCLE_ID"/>

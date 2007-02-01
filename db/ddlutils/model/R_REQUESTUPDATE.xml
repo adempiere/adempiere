@@ -14,8 +14,8 @@
       <column name="CONFIDENTIALTYPEENTRY" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="STARTTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RREQUESTUPDATE">

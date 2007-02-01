@@ -15,6 +15,9 @@
       <column name="ISTIMEBASED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="RECOGNITIONFREQUENCY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="NOMONTHS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
+      <unique name="C_REVENUERECOGNITION_KEY">
+        <unique-column name="C_REVENUERECOGNITION_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

@@ -17,7 +17,7 @@
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISAVAILABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SRESOURCE">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

@@ -33,11 +33,11 @@
       <column name="ACCEPTATM" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="REQUIREVV" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="COSTPERTRX" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="COMMISSION" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="COSTPERTRX" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="COMMISSION" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="PARTNERID" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="VENDORID" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="MINIMUMAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MINIMUMAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ACCEPTDIRECTDEBIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ACCEPTDIRECTDEPOSIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CPAYMENTPROCESSOR">
@@ -49,6 +49,9 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENTPROCESSOR">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
+      <unique name="C_PAYMENTPROCESSOR_KEY">
+        <unique-column name="C_PAYMENTPROCESSOR_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

@@ -12,13 +12,13 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_RFQLINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="MARGIN" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="MARGIN" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="ISPURCHASEQTY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="BESTRESPONSEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="BESTRESPONSEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISOFFERQTY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="OFFERAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="BENCHMARKPRICE" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="OFFERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="BENCHMARKPRICE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISRFQQTY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQLINEQTY">
         <reference local="C_RFQLINE_ID" foreign="C_RFQLINE_ID"/>

@@ -32,6 +32,9 @@
       <foreign-key foreignTable="AD_WF_ACTIVITY" name="ADWFACTIVITY_ADNOTE">
         <reference local="AD_WF_ACTIVITY_ID" foreign="AD_WF_ACTIVITY_ID"/>
       </foreign-key>
+      <unique name="AD_NOTE_KEY">
+        <unique-column name="AD_NOTE_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

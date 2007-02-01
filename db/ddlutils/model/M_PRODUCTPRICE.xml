@@ -11,9 +11,9 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="PRICELIST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PRICESTD" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PRICELIMIT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PRICELIST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PRICESTD" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PRICELIMIT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPRICELISTVER_MPRODUCTPRICE">
         <reference local="M_PRICELIST_VERSION_ID" foreign="M_PRICELIST_VERSION_ID"/>
       </foreign-key>

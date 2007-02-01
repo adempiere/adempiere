@@ -38,11 +38,11 @@
       <foreign-key foreignTable="C_ELEMENT" name="CELEMENT_IELEMENTVALUE">
         <reference local="C_ELEMENT_ID" foreign="C_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_IELEMENTVALUE">
-        <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEPARENT_IELEMENTVALUE">
         <reference local="PARENTELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_IELEMENTVALUE">
+        <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

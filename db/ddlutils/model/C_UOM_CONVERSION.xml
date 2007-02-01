@@ -12,8 +12,8 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_UOM_TO_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="MULTIPLYRATE" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DIVIDERATE" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MULTIPLYRATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DIVIDERATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="C_UOM_CONVERSIONCLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
@@ -21,11 +21,11 @@
       <foreign-key foreignTable="AD_ORG" name="C_UOM_CONVERSIONORG">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_CUOMCONVERSION">
-        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_UOM" name="C_UOMCONVERSIONTO">
         <reference local="C_UOM_TO_ID" foreign="C_UOM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_UOM" name="CUOM_CUOMCONVERSION">
+        <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
       <unique name="C_UOM_CONVERSION_PRODUCT">
         <unique-column name="C_UOM_ID"/>

@@ -42,10 +42,10 @@
       <column name="ORIG_TRXID" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="PONUM" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="PAYAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DISCOUNTAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="WRITEOFFAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PAYAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DISCOUNTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="WRITEOFFAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="R_PNREF" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="R_RESULT" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
@@ -64,11 +64,11 @@
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISOVERUNDERPAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="A_COUNTRY" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDELAYEDCAPTURE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="R_AUTHCODE_DC" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
@@ -86,11 +86,11 @@
       <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISPREPAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="REF_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CPAYMENT">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CPAYMENT">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CPAYMENT">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CPAYMENT">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -119,11 +119,11 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CPAYMENT">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CPAYMENT">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CPAYMENT">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CPAYMENT">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PAYMENTBATCH" name="CPAYMENTBATCH_CPAYMENT">
         <reference local="C_PAYMENTBATCH_ID" foreign="C_PAYMENTBATCH_ID"/>
@@ -138,6 +138,15 @@
         <index-column name="C_BPARTNER_ID"/>
       </index>
       <check>
+        <rule><![CDATA[IsAllocated in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsOnline in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[Processed in ('Y','N')]]></rule>
+      </check>
+      <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
       <check>
@@ -148,15 +157,6 @@
       </check>
       <check>
         <rule><![CDATA[IsReconciled in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsAllocated in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsOnline in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[Processed in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

@@ -15,19 +15,19 @@
       <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ISCOMPLETE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="GENERATEORDER" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISCOMMITCEILING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROJINVOICERULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTPHASE">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>

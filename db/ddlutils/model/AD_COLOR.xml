@@ -18,7 +18,7 @@
       <column name="BLUE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ALPHA" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="IMAGEALPHA" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="IMAGEALPHA" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="RED_1" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="GREEN_1" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="BLUE_1" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>

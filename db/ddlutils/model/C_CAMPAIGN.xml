@@ -16,7 +16,7 @@
       <column name="C_CHANNEL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="COSTS" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COSTS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_CHANNEL" name="CCHANNEL_CCAMPAIGN">
         <reference local="C_CHANNEL_ID" foreign="C_CHANNEL_ID"/>

@@ -18,17 +18,17 @@
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MWAREHOUSEACCT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WDIFFERENCES_MWAREHOUSE">
-        <reference local="W_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_MWAREHOUSE">
+        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVACTUALADJUST_MWAREHOUSE">
         <reference local="W_INVACTUALADJUST_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_MWAREHOUSE">
-        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WREVALUATION_MWAREHOUSE">
         <reference local="W_REVALUATION_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WDIFFERENCES_MWAREHOUSE">
+        <reference local="W_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_WAREHOUSE" name="M_WAREHOUSE_WAREHOUSE_ACCT">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>

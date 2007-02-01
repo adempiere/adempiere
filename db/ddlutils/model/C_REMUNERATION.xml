@@ -15,10 +15,10 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="REMUNERATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="STANDARDHOURS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <column name="GROSSRAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="GROSSRCOST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="OVERTIMEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="OVERTIMECOST" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="GROSSRAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="GROSSRCOST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="OVERTIMEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="OVERTIMECOST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

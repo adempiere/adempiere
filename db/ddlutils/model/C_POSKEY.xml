@@ -15,7 +15,7 @@
       <column name="C_POSKEYLAYOUT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_POSKEYLAYOUT" name="CPOSKEYLAYOUT_C_POSKEY">
         <reference local="C_POSKEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>

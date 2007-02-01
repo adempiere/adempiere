@@ -14,7 +14,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="PLANNEDMARGIN" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PLANNEDMARGIN" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="A_ASSET_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_PRINTCOLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

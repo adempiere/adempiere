@@ -50,15 +50,15 @@
       <column name="ORIG_TRXID" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="PONUM" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="PAYAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DISCOUNTAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="WRITEOFFAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="PAYAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DISCOUNTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="WRITEOFFAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISOVERUNDERPAYMENT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CHARGENAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CHARGEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISDELAYEDCAPTURE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>

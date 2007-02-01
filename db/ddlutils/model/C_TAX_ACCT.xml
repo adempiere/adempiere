@@ -22,20 +22,20 @@
       <foreign-key foreignTable="C_TAX" name="CTAX_CTAXACCT">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX">
-        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CTAX">
         <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX">
+        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CTAX">
         <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX">
-        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CTAX">
         <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX">
+        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

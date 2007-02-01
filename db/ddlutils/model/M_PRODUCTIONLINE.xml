@@ -13,7 +13,7 @@
       <column name="M_PRODUCTIONPLAN_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MOVEMENTQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_LOCATOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" default="0" autoIncrement="false"/>
@@ -33,6 +33,9 @@
       <index name="M_PRODUCTIONLINE_PRODPLAN">
         <index-column name="M_PRODUCTIONPLAN_ID"/>
       </index>
+      <unique name="M_PRODUCTIONLINE_KEY">
+        <unique-column name="M_PRODUCTIONLINE_ID"/>
+      </unique>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

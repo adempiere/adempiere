@@ -42,14 +42,14 @@
       <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_DOCTYPEDOC">
         <reference local="DOCNOSEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_INVOICE">
-        <reference local="C_DOCTYPEINVOICE_ID" foreign="C_DOCTYPE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PROFORMA">
         <reference local="C_DOCTYPEPROFORMA_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_SHIPMENT">
         <reference local="C_DOCTYPESHIPMENT_ID" foreign="C_DOCTYPE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_INVOICE">
+        <reference local="C_DOCTYPEINVOICE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_CDOCTYPE">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>

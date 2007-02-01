@@ -18,7 +18,7 @@
       <column name="ISEURO" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISEMUMEMBER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="EMUENTRYDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="EMURATE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="EMURATE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="C_CURRENCYCLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

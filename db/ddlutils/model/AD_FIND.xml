@@ -3,7 +3,7 @@
   <database name="default" defaultIdMethod="none">
     <table name="AD_FIND">
       <column name="AD_FIND_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="FIND_ID" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="FIND_ID" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="AD_CLIENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORG_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>

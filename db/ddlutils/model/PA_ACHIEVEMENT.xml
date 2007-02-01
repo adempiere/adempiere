@@ -15,7 +15,7 @@
       <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="PA_MEASURE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="MANUALACTUAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="MANUALACTUAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISACHIEVED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATEDOC" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAACHIEVEMENT">

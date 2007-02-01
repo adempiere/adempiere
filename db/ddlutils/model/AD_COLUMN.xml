@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <column name="VERSION" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="VERSION" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
       <column name="COLUMNNAME" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
@@ -53,11 +53,11 @@
       <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADCOLUMN">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNDATATYPE">
-        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNVALUE">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNDATATYPE">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_COLUMN">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
@@ -69,6 +69,18 @@
         <unique-column name="AD_TABLE_ID"/>
         <unique-column name="COLUMNNAME"/>
       </unique>
+      <check>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsKey in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsParent in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMandatory in ('Y','N')]]></rule>
+      </check>
       <check>
         <rule><![CDATA[IsUpdateable in ('Y','N')]]></rule>
       </check>
@@ -86,18 +98,6 @@
       </check>
       <check>
         <rule><![CDATA[IsSyncDatabase in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsKey in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsParent in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMandatory in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

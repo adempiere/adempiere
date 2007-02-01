@@ -14,13 +14,13 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="T_INTEGER" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <column name="T_NUMBER" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="T_NUMBER" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="T_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="T_DATETIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="T_QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="T_QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="T_AMOUNT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="T_AMOUNT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ACCOUNT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

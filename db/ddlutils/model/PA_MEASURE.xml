@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="MEASURETYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="MANUALACTUAL" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="MANUALACTUAL" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="MANUALNOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CALCULATIONCLASS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PA_MEASURECALC_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

@@ -24,12 +24,12 @@
       <column name="M_LOCATOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="AMTSOURCEDR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="AMTSOURCECR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="AMTACCTDR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="AMTACCTCR" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="AMTSOURCEDR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="AMTSOURCECR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -78,20 +78,20 @@
       <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_FACT_ACCT">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_FACTACCT">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_FACTACCT">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONTO_FACT_ACCT">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PERIOD" name="CPERIOD_FACTACCT">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>

@@ -12,9 +12,9 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_COMMISSIONRUN_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_COMMISSIONLINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="ACTUALQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="COMMISSIONAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="ACTUALQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="COMMISSIONAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_COMMISSIONLINE" name="CCOMLINE_CCOMAMT">
         <reference local="C_COMMISSIONLINE_ID" foreign="C_COMMISSIONLINE_ID"/>
       </foreign-key>

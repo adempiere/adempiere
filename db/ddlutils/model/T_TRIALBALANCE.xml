@@ -24,14 +24,14 @@
       <column name="M_LOCATOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="AMTSOURCEDR" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTSOURCECR" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTSOURCEBALANCE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTACCTDR" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTACCTCR" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="AMTACCTBALANCE" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="AMTSOURCEDR" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTSOURCECR" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTSOURCEBALANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTACCTDR" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTACCTCR" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="AMTACCTBALANCE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTY" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>

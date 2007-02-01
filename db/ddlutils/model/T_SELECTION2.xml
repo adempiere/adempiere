@@ -3,7 +3,7 @@
   <database name="default" defaultIdMethod="none">
     <table name="T_SELECTION2">
       <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="QUERY_ID" primaryKey="true" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QUERY_ID" primaryKey="true" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="T_SELECTION_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
     </table>
   </database>

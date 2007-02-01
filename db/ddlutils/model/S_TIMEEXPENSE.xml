@@ -21,7 +21,7 @@
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
-      <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_STIMEEXPENSE">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>

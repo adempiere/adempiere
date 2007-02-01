@@ -7,8 +7,8 @@
       <column name="PARAMETERNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="P_STRING" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="P_STRING_TO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="P_NUMBER" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="P_NUMBER_TO" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="P_NUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="P_NUMBER_TO" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="P_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="P_DATE_TO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="INFO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>

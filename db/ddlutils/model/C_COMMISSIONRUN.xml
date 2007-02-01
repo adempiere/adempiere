@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="C_COMMISSION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONRUN">

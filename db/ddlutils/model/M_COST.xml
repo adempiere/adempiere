@@ -14,11 +14,11 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="CURRENTCOSTPRICE" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="CURRENTQTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="CUMULATEDAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="CUMULATEDQTY" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="FUTURECOSTPRICE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="CURRENTCOSTPRICE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
+      <column name="CURRENTQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="CUMULATEDAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="CUMULATEDQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="FUTURECOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PERCENT" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOST">

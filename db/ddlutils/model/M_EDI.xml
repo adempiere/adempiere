@@ -17,16 +17,16 @@
       <column name="EDISTATUS" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="REQUEST_QTY" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="REQUEST_QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="REQUEST_SHIPDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="REQUEST_PRICE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="REQUEST_PRICE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TRXSENT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="TRXRECEIVED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="REPLY_RECEIVED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="REPLY_QTYCONFIRMED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="REPLY_QTYAVAILABLE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="REPLY_QTYCONFIRMED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="REPLY_QTYAVAILABLE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="REPLY_SHIPDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="REPLY_PRICE" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="REPLY_PRICE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="REPLY_REMARKS" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <foreign-key foreignTable="C_BP_EDI" name="CBPEDI_MEDI">

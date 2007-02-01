@@ -23,8 +23,8 @@
       <column name="FIELDLENGTH" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISMANDATORY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISRANGE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="DEFAULTVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="DEFAULTVALUE2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
+      <column name="DEFAULTVALUE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
+      <column name="DEFAULTVALUE2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="VFORMAT" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="VALUEMIN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="VALUEMAX" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
@@ -36,11 +36,11 @@
       <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSPARA">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADPROCPARA">
-        <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPROCESSPARA">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADPROCPARA">
+        <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_AD_PROCESSPARA">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>

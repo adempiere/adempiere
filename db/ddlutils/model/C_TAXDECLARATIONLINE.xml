@@ -20,8 +20,8 @@
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ALLOCATIONLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TAXBASEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TAXBASEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <foreign-key foreignTable="C_ALLOCATIONLINE" name="CALLOCATIONLINE_CTAXDECLLINE">
         <reference local="C_ALLOCATIONLINE_ID" foreign="C_ALLOCATIONLINE_ID"/>

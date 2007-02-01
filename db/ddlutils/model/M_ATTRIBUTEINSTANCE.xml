@@ -13,7 +13,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_ATTRIBUTEVALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <column name="VALUENUMBER" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="VALUENUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <foreign-key foreignTable="M_ATTRIBUTE" name="MATTRIBUTE_MATTRIBUTEINST">
         <reference local="M_ATTRIBUTE_ID" foreign="M_ATTRIBUTE_ID"/>
       </foreign-key>

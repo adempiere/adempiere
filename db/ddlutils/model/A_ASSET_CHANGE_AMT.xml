@@ -11,10 +11,10 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="ASSETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="ASSETMARKETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="ASSETBOOKVALUEAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="ASSETACCUMDEPRECIATIONAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="ASSETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="ASSETMARKETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="ASSETBOOKVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="ASSETACCUMDEPRECIATIONAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="A_ASSET_CHANGE" name="AASSETCHANGE_AASSETCHANGEAMT">
         <reference local="A_ASSET_CHANGE_ID" foreign="A_ASSET_CHANGE_ID"/>
       </foreign-key>

@@ -19,14 +19,14 @@
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PA_GOALPARENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PA_MEASURE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="RELATIVEWEIGHT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="MEASURETARGET" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="RELATIVEWEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="MEASURETARGET" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MEASURESCOPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="MEASUREDISPLAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATEFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATETO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="MEASUREACTUAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="GOALPERFORMANCE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="MEASUREACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="GOALPERFORMANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_USER" name="ADUSER_PAGOAL">

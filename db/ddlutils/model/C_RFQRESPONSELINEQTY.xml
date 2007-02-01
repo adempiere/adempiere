@@ -12,8 +12,8 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_RFQRESPONSELINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_RFQLINEQTY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="PRICE" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="DISCOUNT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="PRICE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="DISCOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="RANKING" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_RFQLINEQTY" name="CRFQLINEQTY_CRFQRESPLINEQTY">
         <reference local="C_RFQLINEQTY_ID" foreign="C_RFQLINEQTY_ID"/>

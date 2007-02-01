@@ -40,12 +40,12 @@
       <column name="NULLCOLUMNS" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="TASKSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATECOMPLETEPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="QTYPLAN" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTYPLAN" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="QTYSPENT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUESTACTION">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>

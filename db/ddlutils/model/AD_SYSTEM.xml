@@ -18,8 +18,8 @@
       <column name="SUPPORTUNITS" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PASSWORD" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
-      <column name="IDRANGESTART" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="IDRANGEEND" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="IDRANGESTART" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="IDRANGEEND" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="LDAPHOST" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CUSTOMPREFIX" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISJUSTMIGRATED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>

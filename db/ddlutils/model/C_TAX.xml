@@ -17,7 +17,7 @@
       <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="REQUIRESTAXCERTIFICATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="RATE" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="RATE" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="PARENT_TAX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_COUNTRY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
@@ -46,6 +46,9 @@
       <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_CTAX">
         <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
       </foreign-key>
+      <unique name="C_TAX_KEY">
+        <unique-column name="C_TAX_ID"/>
+      </unique>
       <unique name="C_TAX_NAME">
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="NAME"/>

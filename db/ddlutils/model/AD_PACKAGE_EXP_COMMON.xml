@@ -19,7 +19,7 @@
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="NAME2" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <column name="LINE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="LINE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="FILE_DIRECTORY" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="FILENAME" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="DESTINATION_DIRECTORY" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>

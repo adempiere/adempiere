@@ -18,7 +18,7 @@
       <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TO_REGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="FREIGHTAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="FREIGHTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRYTO_MFREIGHT">
         <reference local="TO_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
@@ -28,11 +28,11 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MFREIGHT">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="CREGIONTO_MFREIGHT">
-        <reference local="TO_REGION_ID" foreign="C_REGION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_REGION" name="CREGION_MFREIGHT">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_REGION" name="CREGIONTO_MFREIGHT">
+        <reference local="TO_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_FREIGHTCATEGORY" name="MFREIGHTCATEGORY_MFREIGHT">
         <reference local="M_FREIGHTCATEGORY_ID" foreign="M_FREIGHTCATEGORY_ID"/>

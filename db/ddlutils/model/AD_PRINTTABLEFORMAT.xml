@@ -33,8 +33,8 @@
       <column name="FOOTERCENTER" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="FOOTERRIGHT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="IMAGEISATTACHED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="HDRSTROKE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
-      <column name="LINESTROKE" primaryKey="false" required="false" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="HDRSTROKE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <column name="LINESTROKE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="HDRSTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="LINESTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISPAINTHEADERLINES" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>

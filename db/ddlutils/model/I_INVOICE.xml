@@ -54,16 +54,16 @@
       <column name="SKU" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="C_TAX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="5" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <column name="QTYORDERED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
+      <column name="QTYORDERED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="AD_ORG" name="ADORG_IINVOICE">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IINVOICE">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>

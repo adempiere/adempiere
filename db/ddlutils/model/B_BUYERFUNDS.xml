@@ -13,8 +13,8 @@
       <column name="AD_USER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="NONCOMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="NONCOMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <foreign-key foreignTable="B_BUYER" name="BBUYER_BBUYERFUNDS">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>

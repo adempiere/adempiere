@@ -17,26 +17,26 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CONVERSIONDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="LIST_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LIST_ADDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIST_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="LIST_ADDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIST_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="LIST_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LIST_MINAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIST_MAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIST_FIXED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="LIST_MINAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIST_MAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIST_FIXED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="STD_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="STD_ADDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="STD_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="STD_ADDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="STD_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="STD_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="STD_MINAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="STD_MAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="STD_FIXED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="STD_MINAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="STD_MAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="STD_FIXED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="LIMIT_BASE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LIMIT_ADDAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIMIT_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" size="22" autoIncrement="false"/>
+      <column name="LIMIT_ADDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIMIT_DISCOUNT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="LIMIT_ROUNDING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <column name="LIMIT_MINAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIMIT_MAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LIMIT_FIXED" primaryKey="false" required="false" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="LIMIT_MINAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIMIT_MAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LIMIT_FIXED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISCOUNTSLINE">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>

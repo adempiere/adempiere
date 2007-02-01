@@ -20,13 +20,13 @@
       <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="QTYENTERED" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="PRICEENTERED" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="QTYENTERED" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="PRICEENTERED" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <column name="LINENETAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="LINENETAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_TAX_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
-      <column name="LINETOTALAMT" primaryKey="false" required="true" type="DECIMAL" size="22" default="0" autoIncrement="false"/>
+      <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
+      <column name="LINETOTALAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
