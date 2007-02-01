@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <data>
+  <CM_TEMPLATE CM_TEMPLATE_ID="104" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-06 14:21:31.0" CREATEDBY="100" UPDATED="2006-08-08 16:36:58.0" UPDATEDBY="100" NAME="Default Footer" CM_WEBPROJECT_ID="102" VALUE="FooterDefault" ISINCLUDE="Y" ISUSEAD="N" ISNEWS="N" TEMPLATEXST="&lt;xsl:template name=&quot;FooterDefault&quot;>&#xa;  &lt;div id=&quot;footer&quot;>&#xa;    Copyright 2005 - 2006, &lt;a href=&quot;http://www.compiere.com/&quot;>ComPiere Inc.&lt;/a>&#xa;  &lt;/div>&#xa;&lt;/xsl:template>" ISSUMMARY="N" ISVALID="N" PROCESSING="N" />
   <CM_TEMPLATE CM_TEMPLATE_ID="105" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-08 20:07:45.0" CREATEDBY="100" UPDATED="2006-08-08 20:07:45.0" UPDATEDBY="100" NAME="Menu Navigation Left Hand" CM_WEBPROJECT_ID="102" VALUE="menuNav" ISINCLUDE="Y" ISUSEAD="N" ISNEWS="N" ISSUMMARY="N" ISVALID="N" PROCESSING="N">
     <TEMPLATEXST><![CDATA[<xsl:template name="menuNav">
 <xsl:for-each select="/webCM/containerTree/treenode[CM_Container_ID=100]/treenode">
@@ -85,5 +86,4 @@
 	</xsl:template>
 </xsl:stylesheet>]]></TEMPLATEXST>
   </CM_TEMPLATE>
-  <CM_TEMPLATE CM_TEMPLATE_ID="104" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-06 14:21:31.0" CREATEDBY="100" UPDATED="2006-08-08 16:36:58.0" UPDATEDBY="100" NAME="Default Footer" CM_WEBPROJECT_ID="102" VALUE="FooterDefault" ISINCLUDE="Y" ISUSEAD="N" ISNEWS="N" TEMPLATEXST="&lt;xsl:template name=&quot;FooterDefault&quot;>&#xa;  &lt;div id=&quot;footer&quot;>&#xa;    Copyright 2005 - 2006, &lt;a href=&quot;http://www.compiere.com/&quot;>ComPiere Inc.&lt;/a>&#xa;  &lt;/div>&#xa;&lt;/xsl:template>" ISSUMMARY="N" ISVALID="N" PROCESSING="N" />
 </data>
