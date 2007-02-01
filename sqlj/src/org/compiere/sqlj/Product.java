@@ -341,8 +341,10 @@ public class Product
 				//	Get Rounding Precision
 				int uomPrecision = getUOMPrecision(M_ProductBOM_ID);
 				//	How much can we make with this product
-				productQuantity = productQuantity.setScale(uomPrecision)
-					.divide(bomQty, uomPrecision, BigDecimal.ROUND_HALF_UP);
+				//hengsin, [ 1649453 ] bomQtyAvailable sqlj function throw ArithmeticException
+				//productQuantity = productQuantity.setScale(uomPrecision)
+				//	.divide(bomQty, uomPrecision, BigDecimal.ROUND_HALF_UP);
+				productQuantity = productQuantity.divide(bomQty, uomPrecision, BigDecimal.ROUND_HALF_UP);
 				//	How much can we make overall
 				if (productQuantity.compareTo(quantity) < 0)
 					quantity = productQuantity;
