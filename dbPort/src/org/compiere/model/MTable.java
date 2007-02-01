@@ -25,11 +25,6 @@ import org.compiere.util.*;
 
 /**
  *	Persistent Table Model
- * <p>
- * Change log:
- * <ul>
- * <li>2007-01-31 - teo_sarca - [ 1648850 ] MTable.getClass works incorrect for table "Fact_Acct"
- * </ul>
  *	
  *  @author Jorg Janke
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
@@ -192,7 +187,7 @@ public class MTable extends X_AD_Table
 			else
 			{
 				String prefix = className.substring(0,index);
-				if (!prefix.equals("Fact"))		//	keep custom prefix
+				if (prefix.equals("Fact"))		//	keep custom prefix
 					className = className.substring(index+1);
 			}
 		}
