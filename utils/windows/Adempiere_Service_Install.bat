@@ -4,12 +4,7 @@ REM Adempiere_Service_Install.bat - globalqss - based on http://javaservice.obje
 
 if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat Server) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat Server)
 
-REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-REM !!!   WARNING!! Not working yet, requires more research   !!!
-REM !!! Could not load the Java Virtual Machine.              !!!
-REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-%ADEMPIERE_HOME%\utils\windows\AdempiereService.exe -install ADempiere %JAVA_HOME%\jre\bin\server\jvm.dll -Xmx256M -Djava.class.path=%JAVA_HOME%\lib\tools.jar;%ADEMPIERE_HOME%\jboss\bin\run.jar -server %ADEMPIERE_JAVA_OPTIONS% -Djetty.port=%ADEMPIERE_WEB_PORT% -Djetty.ssl=%ADEMPIERE_SSL_PORT% -Djetty.keystore=%ADEMPIERE_KEYSTORE% -Djetty.password=%ADEMPIERE_KEYSTORE_PASSWORD% -start org.jboss.Main -params -c adempiere -stop org.jboss.Main -method systemExit -out %ADEMPIERE_HOME%\jboss\bin\out.txt -current %ADEMPIERE_HOME%\jboss\bin -manual -overwrite -description "ADempiere JBoss server"
+%ADEMPIERE_HOME%\utils\windows\AdempiereService.exe -install ADempiere "%JAVA_HOME%\jre\bin\server\jvm.dll" -Xmx256M -Djava.class.path="%JAVA_HOME%\lib\tools.jar";"%ADEMPIERE_HOME%\jboss\bin\run.jar" -server %ADEMPIERE_JAVA_OPTIONS% -Djetty.port=%ADEMPIERE_WEB_PORT% -Djetty.ssl=%ADEMPIERE_SSL_PORT% -Djetty.keystore=%ADEMPIERE_KEYSTORE% -Djetty.password=%ADEMPIERE_KEYSTORE_PASSWORD% -start org.jboss.Main -params -c adempiere -stop org.jboss.Main -method systemExit -out "%ADEMPIERE_HOME%\jboss\bin\out.txt" -current "%ADEMPIERE_HOME%\jboss\bin" -manual -overwrite -description "ADempiere JBoss server"
 
 rem IT DEPENDS ON OTHER SERVICE?
 rem add this option for dependency with postgresql service (replace with proper service name)
