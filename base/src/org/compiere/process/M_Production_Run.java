@@ -350,7 +350,7 @@ public class M_Production_Run extends SvrProcess {
 			ResultSet pl = CUR_PL_Post.executeQuery();
 			while (pl.next()) {
 				sql = " select bomQtyOnHand (" + pl.getInt("M_Product_ID")
-						+ ", null," + pl.getInt("M_Locator_ID") + ")";
+						+ ", null," + pl.getInt("M_Locator_ID") + ") FROM DUAL";
 				PreparedStatement cnsql = null;
 				cnsql = DB.prepareStatement(sql, get_TrxName());
 				ResultSet cs = cnsql.executeQuery();
