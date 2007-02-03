@@ -676,8 +676,8 @@ public class GridController extends CPanel
 			if (msg.length() > 0)
 				ADialog.error(m_WindowNo, this, msg);
 		}
-		if (col >= 0)
-			dynamicDisplay(col);
+		//if (col >= 0)
+		dynamicDisplay(col);
 	}   //  dataStatusChanged
 
 	
@@ -808,7 +808,7 @@ public class GridController extends CPanel
 		if (!m_mTab.isOpen())
 			return;
 		//  Selective
-		if (col != 0)
+		if (col > 0)
 		{
 			GridField changedField = m_mTab.getField(col);
 			String columnName = changedField.getColumnName();
@@ -879,7 +879,7 @@ public class GridController extends CPanel
 				}
 			}
 		}   //  all components
-		log.config(m_mTab.toString() + " - fini - " + (col==0 ? "complete" : "seletive"));
+		log.config(m_mTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
 	}   //  dynamicDisplay
 
 	/**
