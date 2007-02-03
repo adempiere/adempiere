@@ -14,6 +14,7 @@
 	<classpathentry kind="src" path="interfaces/src"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/freepdf.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar"/>
