@@ -8,7 +8,7 @@
 <div id="header">
 	<div id="headerIcon">
 	  <a href="http://<c:out value='${pageContext.request.serverName}'/>/">
-	  <img src="<c:out value='${ctx.webParam1}' default='AdempiereERP.gif'/>" alt="Adempiere&#8482; - Copyright &copy; 1999-2005 Jorg Janke"></a>
+	  <img src="<c:out value='${ctx.webParam1}' default='AdempiereERP.gif'/>" alt="Adempiere - 1999-2007"></a>
 	</div>
 	<div id="headerMenu">
 	  <a class="menuMain" href="help.jsp">
