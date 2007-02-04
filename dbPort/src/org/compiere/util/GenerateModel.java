@@ -35,6 +35,7 @@ import org.compiere.*;
  *  globalqss - Filter by table (LIKE)
  *  
  *  globalqss - integrate Teo Sarca hint [ 1617928 ] Ineficient use of Boolean ctor for gen. model
+ *  teo_sarca - bug fix [ 1651801 ] GenerateModel: duplicate "getKeyNamePair" methods
  */
 public class GenerateModel
 {
@@ -233,7 +234,8 @@ public class GenerateModel
 		String sql = "SELECT c.ColumnName, c.IsUpdateable, c.IsMandatory,"		//	1..3
 			+ " c.AD_Reference_ID, c.AD_Reference_Value_ID, DefaultValue, SeqNo, "	//	4..7
 			+ " c.FieldLength, c.ValueMin, c.ValueMax, c.VFormat, c.Callout, "	//	8..12
-			+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted "
+			+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted, "	// 13..16
+			+ " c.IsIdentifier " // 17
 			+ "FROM AD_Column c "
 			+ "WHERE c.AD_Table_ID=?"
 			+ " AND c.IsActive='Y'"
@@ -243,6 +245,7 @@ public class GenerateModel
 			+ " AND c.ColumnName NOT LIKE 'Created%'"
 			+ " AND c.ColumnName NOT LIKE 'Updated%' "
 			+ "ORDER BY c.ColumnName";
+		boolean isKeyNamePairCreated = false; // true if the method "getKeyNamePair" is already generated
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -275,8 +278,10 @@ public class GenerateModel
 					defaultValue, ValueMin, ValueMax, VFormat,
 					Callout, Name, Description, virtualColumn, IsEncrypted));
 				//	
-				if (seqNo == 1)
+				if (!isKeyNamePairCreated && seqNo == 1 && "Y".equals(rs.getString("IsIdentifier"))) {
 					sb.append(createKeyNamePair(columnName, displayType));
+					isKeyNamePairCreated = true;
+				}
 			}
 			rs.close();
 			pstmt.close();
