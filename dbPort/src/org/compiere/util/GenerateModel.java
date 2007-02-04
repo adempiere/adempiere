@@ -278,9 +278,15 @@ public class GenerateModel
 					defaultValue, ValueMin, ValueMax, VFormat,
 					Callout, Name, Description, virtualColumn, IsEncrypted));
 				//	
-				if (!isKeyNamePairCreated && seqNo == 1 && "Y".equals(rs.getString("IsIdentifier"))) {
-					sb.append(createKeyNamePair(columnName, displayType));
-					isKeyNamePairCreated = true;
+				if (seqNo == 1 && "Y".equals(rs.getString("IsIdentifier"))) {
+					if (!isKeyNamePairCreated) {
+						sb.append(createKeyNamePair(columnName, displayType));
+						isKeyNamePairCreated = true;
+					}
+					else {
+						throw new RuntimeException("More than one primary identifier found "
+								+ " (AD_Table_ID=" + AD_Table_ID + ", ColumnName=" + columnName + ")");
+					}
 				}
 			}
 			rs.close();
