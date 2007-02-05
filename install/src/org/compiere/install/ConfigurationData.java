@@ -928,7 +928,10 @@ public class ConfigurationData
 				p_panel.fJavaType.setSelectedIndex(0);
 		}
 		else
-			m_javaConfig[index].init();
+		{
+			if (getJavaHome() == null)
+				m_javaConfig[index].init();
+		}
 	}
 	
 	/**
@@ -1047,7 +1050,14 @@ public class ConfigurationData
 			p_panel.fAppsType.setSelectedIndex(0);
 		}
 		else
-			m_appsConfig[index].init();
+		{
+			if (getAppsServerDeployDir() == null ||
+				getAppsServerJNPPort() <= 0 ||
+				getAppsServerSSLPort() <= 0 ||
+				getAppsServerWebPort() <= 0)
+				m_appsConfig[index].init();
+		}
+			
 	}
 	
 	/**
@@ -1333,7 +1343,9 @@ public class ConfigurationData
 		}
 		else
 		{
-			m_databaseConfig[index].init();
+			if (getDatabasePort() <= 0)
+				m_databaseConfig[index].init();
+			
 			if (p_panel != null) 
 			{
 				String[] databases = m_databaseConfig[index].discoverDatabases(selected);
