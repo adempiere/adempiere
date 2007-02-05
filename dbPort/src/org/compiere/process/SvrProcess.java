@@ -26,6 +26,11 @@ import org.compiere.util.*;
 
 /**
  *  Server Process Template
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-05 - teo_sarca - [ 1646891 ] SvrProcess - post process support
+ * </ul>
  *
  *  @author     Jorg Janke
  *  @version    $Id: SvrProcess.java,v 1.4 2006/08/10 01:00:44 jjanke Exp $
@@ -102,6 +107,9 @@ public abstract class SvrProcess implements ProcessCall
 			m_trx.close();
 			m_trx = null;
 		}
+		// outside transaction processing [ teo_sarca, 1646891 ]
+		postProcess(!m_pi.isError());
+		
 		return !m_pi.isError();
 	}   //  startProcess
 
@@ -176,6 +184,19 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	abstract protected String doIt() throws Exception;
 
+	/**
+	 * Post process actions (outside trx).
+	 * Please note that at this point the transaction is committed so
+	 * you can't rollback.
+	 * This method is useful if you need to do some custom work when 
+	 * the process complete the work (e.g. open some windows).
+	 *  
+	 * @param success true if the process was success
+	 * @since 3.1.4
+	 */
+	protected void postProcess(boolean success) {
+	}
+	
 	/**
 	 * 	Commit
 	 */
