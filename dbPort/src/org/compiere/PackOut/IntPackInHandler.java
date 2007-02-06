@@ -582,13 +582,17 @@ log.info("After Column Name ->"+colname);		}
 **/
 			int tableid = get_IDWithColumn("AD_Table", "TableName", atts.getValue("ADTableNameID"));			
 			int windowid = get_ID("AD_Window", atts.getValue("ADWindowNameID"));
-//log.info("Column Name ->"+colname);		
+			//log.info("Column Name ->"+colname);		
 			int columnid  = get_IDWithMasterAndColumn ("AD_Column","ColumnName", colname, "AD_Table", tableid);
-//log.info("ColumnID->"+columnid);
+			//log.info("ColumnID->"+columnid);
 			sqlB = new StringBuffer ("select AD_Tab_ID from AD_Tab where AD_Window_ID = " + windowid
 					  + " and Name = '"+tabname +"'"
 					  + " and AD_Table_ID = ?");			
-			int tabid = DB.getSQLValue(null, sqlB.toString (), tableid);			
+			int tabid = DB.getSQLValue(null, sqlB.toString (), tableid);		
+			
+			if (tabid > 0 )
+			{   
+    	
 			sqlB = new StringBuffer ("select AD_Field_ID from AD_Field where AD_Column_ID = "+columnid
 					  + " and AD_Tab_ID = ?");
 			int id = DB.getSQLValue(null, sqlB.toString (), tabid);
@@ -628,6 +632,9 @@ log.info("After Column Name ->"+colname);		}
             else{
             	record_log (0, m_Field.getName(),"Field", m_Field.get_ID(),AD_Backup_ID, Object_Status,"AD_Field",get_IDWithColumn("AD_Table", "TableName", "AD_Field"));
             }
+      }  
+      else
+    	  log.severe("Tab do not exist to field Name: "+ name);		
 
 		}	
     }
