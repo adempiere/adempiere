@@ -192,10 +192,14 @@ public class ConfigurationData
 			log.info(env.toString());
 			if (p_properties.size() > 5)
 				envLoaded = true;
+			
+			Properties loaded = new Properties();
+			loaded.putAll(p_properties);
 			//
 			int javaIndex = setJavaType((String)p_properties.get(JAVA_TYPE));
 			initJava(javaIndex);
-			setJavaHome((String)p_properties.get(JAVA_HOME));
+			if (loaded.containsKey(JAVA_HOME))
+				setJavaHome((String)loaded.get(JAVA_HOME));
 			//
 			setAdempiereHome((String)p_properties.get(ADEMPIERE_HOME));
 			String s = (String)p_properties.get(ADEMPIERE_KEYSTOREPASS);
@@ -208,22 +212,33 @@ public class ConfigurationData
 			//
 			int appServerIndex = setAppsServerType((String)p_properties.get(ADEMPIERE_APPS_TYPE));
 			initAppsServer(appServerIndex);
-			setAppsServer((String)p_properties.get(ADEMPIERE_APPS_SERVER));
-			setAppsServerDeployDir((String)p_properties.get(ADEMPIERE_APPS_DEPLOY));
-			setAppsServerJNPPort((String)p_properties.get(ADEMPIERE_JNP_PORT));
-			setAppsServerWebPort((String)p_properties.get(ADEMPIERE_WEB_PORT));
-			setAppsServerSSLPort((String)p_properties.get(ADEMPIERE_SSL_PORT));
+			if (loaded.containsKey(ADEMPIERE_APPS_SERVER))
+				setAppsServer((String)loaded.get(ADEMPIERE_APPS_SERVER));
+			if (loaded.containsKey(ADEMPIERE_APPS_DEPLOY))
+				setAppsServerDeployDir((String)loaded.get(ADEMPIERE_APPS_DEPLOY));
+			if (loaded.containsKey(ADEMPIERE_JNP_PORT))
+				setAppsServerJNPPort((String)loaded.get(ADEMPIERE_JNP_PORT));
+			if (loaded.containsKey(ADEMPIERE_WEB_PORT))
+				setAppsServerWebPort((String)loaded.get(ADEMPIERE_WEB_PORT));
+			if (loaded.containsKey(ADEMPIERE_SSL_PORT))
+				setAppsServerSSLPort((String)loaded.get(ADEMPIERE_SSL_PORT));
 			//
 			int dbTypeIndex = setDatabaseType((String)p_properties.get(ADEMPIERE_DB_TYPE));
 			initDatabase((String)p_properties.get(ADEMPIERE_DB_NAME), dbTypeIndex);	//	fills Database Options
-			setDatabaseDiscovered((String)p_properties.get(ADEMPIERE_DB_NAME));
-			setDatabaseServer((String)p_properties.get(ADEMPIERE_DB_SERVER));
-			setDatabasePort((String)p_properties.get(ADEMPIERE_DB_PORT));
-			setDatabaseName((String)p_properties.get(ADEMPIERE_DB_NAME));
-
-			setDatabaseUser((String)p_properties.get(ADEMPIERE_DB_USER));
-			setDatabasePassword((String)p_properties.get(ADEMPIERE_DB_PASSWORD));
-			setDatabaseSystemPassword((String)p_properties.get(ADEMPIERE_DB_SYSTEM));
+			if (loaded.containsKey(ADEMPIERE_DB_NAME))
+				setDatabaseDiscovered((String)loaded.get(ADEMPIERE_DB_NAME));
+			if (loaded.containsKey(ADEMPIERE_DB_SERVER))
+				setDatabaseServer((String)loaded.get(ADEMPIERE_DB_SERVER));
+			if (loaded.containsKey(ADEMPIERE_DB_PORT))
+				setDatabasePort((String)loaded.get(ADEMPIERE_DB_PORT));
+			if (loaded.containsKey(ADEMPIERE_DB_NAME))
+				setDatabaseName((String)loaded.get(ADEMPIERE_DB_NAME));
+			if (loaded.containsKey(ADEMPIERE_DB_USER))
+				setDatabaseUser((String)loaded.get(ADEMPIERE_DB_USER));
+			if (loaded.containsKey(ADEMPIERE_DB_PASSWORD))
+				setDatabasePassword((String)loaded.get(ADEMPIERE_DB_PASSWORD));
+			if (loaded.containsKey(ADEMPIERE_DB_SYSTEM))
+				setDatabaseSystemPassword((String)loaded.get(ADEMPIERE_DB_SYSTEM));
 
 			if (p_panel != null)
 			{
@@ -643,6 +658,7 @@ public class ConfigurationData
 	 */
 	protected boolean testPort (String protocol, String server, int port, String file)
 	{
+		System.out.println("testPort[" + protocol + "," + server + ", " + port + ", " + file +"]");
 		URL url = null;
 		try
 		{
@@ -679,6 +695,7 @@ public class ConfigurationData
 	 */
 	protected boolean testServerPort (int port)
 	{
+		System.out.println("testServerPort: " + port);
 		try
 		{
 			ServerSocket ss = new ServerSocket (port);
@@ -703,6 +720,7 @@ public class ConfigurationData
 	 */
 	protected boolean testPort (InetAddress host, int port, boolean shouldBeUsed)
 	{
+		System.out.println("testPort[" + host.getHostAddress() + ", " + port + "]");
 		Socket pingSocket = null;
 		try
 		{
@@ -928,10 +946,7 @@ public class ConfigurationData
 				p_panel.fJavaType.setSelectedIndex(0);
 		}
 		else
-		{
-			if (getJavaHome() == null)
-				m_javaConfig[index].init();
-		}
+			m_javaConfig[index].init();
 	}
 	
 	/**
@@ -1050,14 +1065,7 @@ public class ConfigurationData
 			p_panel.fAppsType.setSelectedIndex(0);
 		}
 		else
-		{
-			if (getAppsServerDeployDir() == null ||
-				getAppsServerJNPPort() <= 0 ||
-				getAppsServerSSLPort() <= 0 ||
-				getAppsServerWebPort() <= 0)
-				m_appsConfig[index].init();
-		}
-			
+			m_appsConfig[index].init();
 	}
 	
 	/**
@@ -1343,8 +1351,7 @@ public class ConfigurationData
 		}
 		else
 		{
-			if (getDatabasePort() <= 0)
-				m_databaseConfig[index].init();
+			m_databaseConfig[index].init();
 			
 			if (p_panel != null) 
 			{

@@ -31,7 +31,12 @@ public class SilentSetup {
 		Ini.setShowLicenseDialog(false);
 		ConfigurationData data = new ConfigurationData(null);
 		if (!data.load()) return;
-		if (!data.test()) return;
+		if (!data.test()) 
+		{
+			System.err.println("");
+			System.err.println("Warning: One or more of the configuration test failed.");
+			System.err.println("");
+		}
 		if (!data.save()) return;
 		
 		/**	Run Ant	**/
