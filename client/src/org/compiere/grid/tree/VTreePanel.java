@@ -952,7 +952,8 @@ public final class VTreePanel extends CPanel
 		}
 		else
 		{
-			for (int row = 0; row < tree.getRowCount(); row++)
+//			patch: 1654055 +jgubo Changed direction of collapsing the tree nodes
+			for (int row = tree.getRowCount(); row > 0; row--)
 				tree.collapseRow(row);
 		}
 	}   //  expandTree
