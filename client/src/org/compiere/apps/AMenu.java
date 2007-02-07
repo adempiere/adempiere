@@ -273,15 +273,19 @@ public final class AMenu extends CFrame
 		paPanel = PAPanel.get();
 		if (paPanel != null)
 		{
-			centerPane.add(paPanel, Msg.getMsg(m_ctx, "PAPanel"));
+			//centerPane.add(paPanel, Msg.getMsg(m_ctx, "PAPanel"));
+			centerPane.addTab(Msg.getMsg(m_ctx, "PAPanel"), Env.getImageIcon2("InfoAccount16"), paPanel);
 			m_tabMenu++;
 			m_tabActivities++;
 			m_tabWorkflow++;
 		}
 		treePanel.setBorder(BorderFactory.createEmptyBorder(2,3,2,3));
-		centerPane.add(treePanel, Msg.getMsg(m_ctx, "Menu"));
-		centerPane.add(new CScrollPane(wfActivity), Msg.getMsg (m_ctx, "WorkflowActivities") + ": 0");
-		centerPane.add(new CScrollPane(wfPanel), Msg.getMsg (m_ctx, "WorkflowPanel"));
+		//centerPane.add(treePanel, Msg.getMsg(m_ctx, "Menu"));
+		centerPane.addTab(Msg.getMsg(m_ctx, "Menu"), Env.getImageIcon2("Home16"), treePanel);
+		//centerPane.add(new CScrollPane(wfActivity), Msg.getMsg (m_ctx, "WorkflowActivities") + ": 0");
+		centerPane.addTab(Msg.getMsg (m_ctx, "WorkflowActivities") + ": 0", Env.getImageIcon2("Assignment16"), new CScrollPane(wfActivity));
+		//centerPane.add(new CScrollPane(wfPanel), Msg.getMsg (m_ctx, "WorkflowPanel"));
+		centerPane.addTab(Msg.getMsg (m_ctx, "WorkflowPanel"), Env.getImageIcon2("WorkFlow16"), new CScrollPane(wfPanel));
 		centerPane.addChangeListener (this);
 		//
 		southPanel.setLayout(southLayout);
