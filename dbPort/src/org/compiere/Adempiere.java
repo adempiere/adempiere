@@ -77,6 +77,8 @@ public final class Adempiere
 	static private Image 		s_imageLogo;
 	static private ImageIcon 	s_imageIcon32;
 	static private ImageIcon 	s_imageIconLogo;
+	
+	static private final String ONLINE_HELP_URL = "http://www.adempiere.com/wiki/index.php/Manual";
 
 	/**	Logging								*/
 	private static CLogger		log = null;
@@ -224,6 +226,14 @@ public final class Adempiere
 	{
 		return "http://" + URL;
 	}   //  getURL
+	
+	/**
+	 * @return URL
+	 */
+	public static String getOnlineHelpURL()
+	{
+		return ONLINE_HELP_URL;
+	}
 
 	/**
 	 *  Get Sub Title
