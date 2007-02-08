@@ -326,5 +326,19 @@ public class CTable extends JTable
 		//Update row height
 		setRowHeight(getFont().getSize() + 8);
 	}
+	
+	/**
+	 * @return column index
+	 */
+	public int getSortColumn() {
+		return p_lastSortIndex;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public boolean isSortAscending() {
+		return p_asc;
+	}
 
 }	//	CTable
