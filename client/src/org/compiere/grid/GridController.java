@@ -253,6 +253,15 @@ public class GridController extends CPanel
 	/** Tree Panel (optional)       */
 	private VTreePanel  m_tree;
 
+	private APanel m_aPanel;
+
+	private boolean init;
+
+	public boolean initGrid (GridTab mTab, boolean onlyMultiRow, 
+			int WindowNo, APanel aPanel, GridWindow mWindow)
+	{
+		return initGrid(mTab, onlyMultiRow, WindowNo, aPanel, mWindow, false);
+	}
 	
 	/**************************************************************************
 	 *  Init Grid.
@@ -270,19 +279,31 @@ public class GridController extends CPanel
 	 *  @return true if initialized
 	 */
 	public boolean initGrid (GridTab mTab, boolean onlyMultiRow, 
-		int WindowNo, APanel aPanel, GridWindow mWindow)
+		int WindowNo, APanel aPanel, GridWindow mWindow, boolean lazy)
 	{
 		log.config( "(" + mTab.toString() + ")");
 		m_mTab = mTab;
 		m_WindowNo = WindowNo;
 		m_onlyMultiRow = onlyMultiRow;
+		m_aPanel = aPanel;
 		setName("GC-" + mTab);
 
+		setTabLevel(m_mTab.getTabLevel());
+		
+		if (!lazy)
+			init();
+		
+	//	log.config( "GridController.dynInit (" + mTab.toString() + ") - fini");
+		return true;
+	}   //  initGrid
+	
+	private void init()
+	{
 		//  Set up Multi Row Table
 		vTable.setModel(m_mTab.getTableModel());
 
 		//  Update Table Info -------------------------------------------------
-		int size = setupVTable (aPanel, m_mTab, vTable);
+		int size = setupVTable (m_aPanel, m_mTab, vTable);
 
 		//  Set Color on Tab Level
 		//  this.setBackgroundColor (mTab.getColor());
@@ -317,8 +338,8 @@ public class GridController extends CPanel
 					//  Add to VPanel
 					vPanel.addField(vEditor, mField);
 					//  APanel Listen to buttons
-					if (mField.getDisplayType() == DisplayType.Button && aPanel != null)
-						((JButton)vEditor).addActionListener (aPanel);
+					if (mField.getDisplayType() == DisplayType.Button && m_aPanel != null)
+						((JButton)vEditor).addActionListener (m_aPanel);
 				}
 			}   //  for all fields
 
@@ -365,16 +386,14 @@ public class GridController extends CPanel
 		//  Update UI
 		vTable.autoSize(true);
 
-		setTabLevel(m_mTab.getTabLevel());
-
-		//  Set initial presentation
-		if (onlyMultiRow || !m_mTab.isSingleRow())
+				//  Set initial presentation
+		if (m_onlyMultiRow || !m_mTab.isSingleRow())
 			switchMultiRow();
 		else
 			switchSingleRow();
-	//	log.config( "GridController.dynInit (" + mTab.toString() + ") - fini");
-		return true;
-	}   //  initGrid
+		
+		init = true;
+	}
 
 	/**
 	 * 	Include Tab
@@ -525,6 +544,8 @@ public class GridController extends CPanel
 	 */
 	public void activate ()
 	{
+		if (!init) init();
+		
 		//	Tree to be initiated on second/.. tab
 		if (m_mTab.isTreeTab() && m_mTab.getTabNo() != 0)
 		{

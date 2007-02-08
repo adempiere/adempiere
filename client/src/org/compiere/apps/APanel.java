@@ -515,7 +515,8 @@ public final class APanel extends CPanel
 				{
 					boolean included = false;
 					//  MTab
-					GridTab gTab = m_mWorkbench.getMWindow(wb).getTab(tab);
+					if (tab == 0) mWindow.initTab(0);
+					GridTab gTab = mWindow.getTab(tab);
 					Env.setContext(m_ctx, m_curWindowNo, tab, "TabLevel", Integer.toString(gTab.getTabLevel()));
 					//  Query first tab
 					if (tab == 0)
@@ -557,7 +558,7 @@ public final class APanel extends CPanel
 						CompiereColor cc = mWindow.getColor();
 						if (cc != null)
 							gc.setBackgroundColor(cc);                  //  set color on Window level
-						gc.initGrid(gTab, false, m_curWindowNo, this, mWindow);  //  will set color on Tab level
+						gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, (tab != 0));  //  will set color on Tab level
 																		//  Timing: ca. 6-7 sec for first .2 for next
 						gc.addDataStatusListener(this);
 						gc.registerESCAction(aIgnore);      //  register Escape Key
@@ -1032,6 +1033,7 @@ public final class APanel extends CPanel
 		}
 		else	//	Cur Tab Setting
 		{
+			m_mWorkbench.getMWindow(0).initTab(m_curTabIndex);
 			m_curGC.activate();
 			m_curTab = m_curGC.getMTab();
 
