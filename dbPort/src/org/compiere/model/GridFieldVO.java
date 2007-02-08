@@ -432,7 +432,7 @@ public class GridFieldVO implements Serializable
 
 
 		//  Create Lookup, if not ID
-		if (DisplayType.isLookup(displayType))
+		if (DisplayType.isLookup(displayType) && IsDisplayed)
 		{
 			try
 			{

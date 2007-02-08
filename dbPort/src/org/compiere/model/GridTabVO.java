@@ -64,6 +64,7 @@ public class GridTabVO implements Evaluatee, Serializable
 		{
 			vo.Fields = new ArrayList<GridFieldVO>();	//	dummy
 		}
+		/*
 		else
 		{
 			createFields (vo);
@@ -72,7 +73,7 @@ public class GridTabVO implements Evaluatee, Serializable
 				CLogger.get().log(Level.SEVERE, "No Fields");
 				return null;
 			}
-		}
+		}*/
 		return vo;
 	}	//	create
 
@@ -270,6 +271,9 @@ public class GridTabVO implements Evaluatee, Serializable
 			CLogger.get().log(Level.SEVERE, "", e);
 			return false;
 		}
+		
+		mTabVO.initFields = true;
+		
 		return mTabVO.Fields.size() != 0;
 	}   //  createFields
 
@@ -380,8 +384,15 @@ public class GridTabVO implements Evaluatee, Serializable
 	public int			onlyCurrentDays = 0;
 
 	/** Fields contain MFieldVO entities    */
-	public ArrayList<GridFieldVO>	Fields = null;
+	private ArrayList<GridFieldVO>	Fields = null;
 
+	private boolean initFields = false;
+	
+	public ArrayList<GridFieldVO> getFields()
+	{
+		if (!initFields) createFields(this);
+		return Fields;
+	}
 	
 	/**
 	 *  Set Context including contained elements
@@ -390,10 +401,13 @@ public class GridTabVO implements Evaluatee, Serializable
 	public void setCtx (Properties newCtx)
 	{
 		ctx = newCtx;
-		for (int i = 0; i < Fields.size() ; i++)
+		if (Fields != null)
 		{
-			GridFieldVO field = (GridFieldVO)Fields.get(i);
-			field.setCtx(newCtx);
+			for (int i = 0; i < Fields.size() ; i++)
+			{
+				GridFieldVO field = (GridFieldVO)Fields.get(i);
+				field.setCtx(newCtx);
+			}
 		}
 	}   //  setCtx
 	
