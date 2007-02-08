@@ -119,55 +119,64 @@ public class GridWindow implements Serializable
 				GridTab mTab = new GridTab(mTabVO);
 				Env.setContext(mTabVO.ctx, mTabVO.WindowNo, mTabVO.TabNo, 
 					"KeyColumnName", mTab.getKeyColumnName());
-				//	Set Link Column
-				if (mTab.getLinkColumnName().length() == 0)
-				{
-					ArrayList parents = mTab.getParentColumnNames();
-					//	No Parent - no link
-					if (parents.size() == 0)
-						;
-					//	Standard case
-					else if (parents.size() == 1)
-						mTab.setLinkColumnName((String)parents.get(0));
-					else
-					{
-						//	More than one parent.
-						//	Search prior tabs for the "right parent"
-						//	for all previous tabs
-						for (int i = 0; i < m_tabs.size(); i++)
-						{
-							//	we have a tab
-							GridTab tab = (GridTab)m_tabs.get(i);
-							String tabKey = tab.getKeyColumnName();		//	may be ""
-							//	look, if one of our parents is the key of that tab
-							for (int j = 0; j < parents.size(); j++)
-							{
-								String parent = (String)parents.get(j);
-								if (parent.equals(tabKey))
-								{
-									mTab.setLinkColumnName(parent);
-									break;
-								}
-								//	The tab could have more than one key, look into their parents
-								if (tabKey.equals(""))
-									for (int k = 0; k < tab.getParentColumnNames().size(); k++)
-										if (parent.equals(tab.getParentColumnNames().get(k)))
-										{
-											mTab.setLinkColumnName(parent);
-											break;
-										}
-							}	//	for all parents
-						}	//	for all previous tabs
-					}	//	parents.size > 1
-				}	//	set Link column
-				mTab.setLinkColumnName(null);	//	overwrites, if AD_Column_ID exists
-				//
+				
 				m_tabs.add(mTab);
 			}
 		}	//  for all tabs
 		return true;
 	}	//	loadTabData
 
+	public void initTab(int index)
+	{
+		GridTab mTab = m_tabs.get(index);
+		if (mTab.isLoadComplete()) return;
+		mTab.initTab(false);
+		
+		//		Set Link Column
+		if (mTab.getLinkColumnName().length() == 0)
+		{
+			ArrayList parents = mTab.getParentColumnNames();
+			//	No Parent - no link
+			if (parents.size() == 0)
+				;
+			//	Standard case
+			else if (parents.size() == 1)
+				mTab.setLinkColumnName((String)parents.get(0));
+			else
+			{
+				//	More than one parent.
+				//	Search prior tabs for the "right parent"
+				//	for all previous tabs
+				for (int i = 0; i < m_tabs.size(); i++)
+				{
+					//	we have a tab
+					GridTab tab = (GridTab)m_tabs.get(i);
+					String tabKey = tab.getKeyColumnName();		//	may be ""
+					//	look, if one of our parents is the key of that tab
+					for (int j = 0; j < parents.size(); j++)
+					{
+						String parent = (String)parents.get(j);
+						if (parent.equals(tabKey))
+						{
+							mTab.setLinkColumnName(parent);
+							break;
+						}
+						//	The tab could have more than one key, look into their parents
+						if (tabKey.equals(""))
+							for (int k = 0; k < tab.getParentColumnNames().size(); k++)
+								if (parent.equals(tab.getParentColumnNames().get(k)))
+								{
+									mTab.setLinkColumnName(parent);
+									break;
+								}
+					}	//	for all parents
+				}	//	for all previous tabs
+			}	//	parents.size > 1
+		}	//	set Link column
+		mTab.setLinkColumnName(null);	//	overwrites, if AD_Column_ID exists
+		//
+	}
+	
 	/**
 	 *  Get Window Icon
 	 *  @return Icon for Window
@@ -369,6 +378,7 @@ public class GridWindow implements Serializable
 		if (getHelp().length() != 0)
 			center.addElement(new p().addElement(getHelp()));
 
+		center.addElement(new a().setName("Tabs").addElement(new h3("Tabs").addAttribute("ALIGN", "left")));
 		//	Links to Tabs
 		int size = getTabCount();
 		p p = new p();
@@ -376,7 +386,8 @@ public class GridWindow implements Serializable
 		{
 			GridTab tab = getTab(i);
 			if (i > 0)
-				p.addElement(" - ");
+				p.addElement(" | ");
+				//p.addElement(" - ");
 			p.addElement(new a("#Tab"+i).addElement(tab.getName()));
 		}
 		center.addElement(p)
@@ -386,11 +397,19 @@ public class GridWindow implements Serializable
 		for (int i = 0; i < size; i++)
 		{
 			table table = new table("1", "5", "5", "100%", null);
+			table.setBorder("1px").setCellSpacing(0);
 			GridTab tab = getTab(i);
+			table tabHeader = new table();
+			tabHeader.setBorder("0").setCellPadding(0).setCellSpacing(0);
+			tabHeader.addElement(new tr()
+				.addElement(new td().addElement(new a().setName("Tab" + i)
+						.addElement(new h2(Msg.getMsg(Env.getCtx(), "Tab") + ": " + tab.getName()))))
+				.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP))
+				.addElement(new a("#Tabs").addElement("..").addAttribute("title", "Up one level")));
 			tr tr = new tr()
 				.addElement(new th()
-					.addElement(new a().setName("Tab" + i)
-						.addElement(new h2(Msg.getMsg(Env.getCtx(), "Tab") + ": " + tab.getName()))));
+				.addElement(tabHeader));
+					
 			if (tab.getDescription().length() != 0)
 				tr.addElement(new th()
 					.addElement(new i(tab.getDescription())));
@@ -404,6 +423,9 @@ public class GridWindow implements Serializable
 				td.addElement(new p().addElement(tab.getHelp()));
 			//	Links to Fields
 			p = new p();
+			p.addElement(new a().setName("Fields"+i).addElement(new h4("Fields").addAttribute("ALIGN", "left")));
+			if (!tab.isLoadComplete())
+				this.initTab(i);
 			for (int j = 0; j < tab.getFieldCount(); j++)
 			{
 				GridField field = tab.getField(j);
@@ -411,7 +433,8 @@ public class GridWindow implements Serializable
 				if (hdr != null && hdr.length() > 0)
 				{
 					if (j > 0)
-						p.addElement(" - ");
+						p.addElement(" | ");
+						//p.addElement(" - ");
 					p.addElement(new a("#Field" + i + j, hdr));
 				}
 			}
@@ -425,10 +448,16 @@ public class GridWindow implements Serializable
 				String hdr = field.getHeader();
 				if (hdr != null && hdr.length() > 0)
 				{
-					td = new td().setColSpan(2)
-						.addElement(new a().setName("Field" + i + j)
-							.addElement(new h3(Msg.getMsg(Env.getCtx(), "Field") + ": " + hdr))
-						);
+					table fieldHeader = new table();
+					fieldHeader.setBorder("0").setCellPadding(0).setCellSpacing(0);
+					fieldHeader.addElement(new tr()
+					.addElement(new td().addElement(new a().setName("Field" + i + j)
+							.addElement(new h3(Msg.getMsg(Env.getCtx(), "Field") + ": " + hdr)))
+					.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP))
+					.addElement(new strong().addElement(new a("#Fields"+i).addElement("..").addAttribute("title", "Up one level")))));
+					
+					td = new td().setColSpan(2).addElement(fieldHeader);
+						
 					if (field.getDescription().length() != 0)
 						td.addElement(new i(field.getDescription()));
 					//

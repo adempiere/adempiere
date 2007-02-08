@@ -122,7 +122,7 @@ public class GridField
 			return;
 		log.config("(" + m_vo.ColumnName + ")");
 
-		if (DisplayType.isLookup(m_vo.displayType))
+		if (DisplayType.isLookup(m_vo.displayType) && m_vo.IsDisplayed)
 		{
 			if (m_vo.lookupInfo == null)
 			{
@@ -673,6 +673,7 @@ public class GridField
 
 		//  cannot be validated
 		if (!isLookup()
+			|| m_lookup == null
 			|| m_lookup.containsKey(m_value))
 			return true;
 		//	it's not null, a lookup and does not have the key

@@ -68,7 +68,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_mTable.setDeleteable(m_vo.IsDeleteable);
 		//  Load Tab
 	//	if (vo.TabNo == 0)
-			initTab(false);
+			//initTab(false);
 	//	else
 	//	{
 	//		m_loader = new Loader();
@@ -169,6 +169,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.config ("fini");
 	}   //  waitLoadComplete
 
+	public boolean isLoadComplete()
+	{
+		return m_loadComplete;
+	}
+	
 	/**
 	 *	Initialize Tab with record from AD_Tab_v
 	 *  @param async async
@@ -219,8 +224,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			m_Chats.clear();
 		m_Chats = null;
 		//
-		m_vo.Fields.clear();
-		m_vo.Fields = null;
+		m_vo.getFields().clear();
+		//m_vo.Fields = null;
 		m_vo = null;
 	}	//	dispose
 
@@ -234,13 +239,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		log.fine("#" + m_vo.TabNo);
 
-		if (m_vo.Fields == null)
+		if (m_vo.getFields() == null)
 			return false;
 
 		//  Add Fields
-		for (int f = 0; f < m_vo.Fields.size(); f++)
+		for (int f = 0; f < m_vo.getFields().size(); f++)
 		{
-			GridFieldVO voF = (GridFieldVO)m_vo.Fields.get(f);
+			GridFieldVO voF = (GridFieldVO)m_vo.getFields().get(f);
 			//	Add Fields to Table
 			if (voF != null)
 			{
@@ -359,6 +364,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public GridTable getTableModel()
 	{
+		if (!m_loadComplete) initTab(false);
 		return m_mTable;
 	}   //  getTableModel
 
@@ -482,6 +488,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void query (boolean onlyCurrentRows, int onlyCurrentDays, int maxRows)
 	{
+		if (!m_loadComplete) initTab(false);
+		
 		log.fine("#" + m_vo.TabNo
 			+ " - Only Current Rows=" + onlyCurrentRows
 			+ ", Days=" + onlyCurrentDays + ", Detail=" + isDetail());
