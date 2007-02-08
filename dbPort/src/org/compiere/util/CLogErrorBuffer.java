@@ -211,14 +211,7 @@ public class CLogErrorBuffer extends Handler
 						&& loggerName.indexOf("Issue") == -1
 						&& loggerName.indexOf("CConnection") == -1)
 					{
-						if(Ini.isClient())
-						{
-							JOptionPane.showMessageDialog(null, getFormatter().format(record), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-						else
-						{
-							System.err.println(getFormatter().format(record));
-						}
+						System.err.println(getFormatter().format(record));
 					}
 				}
 			}
