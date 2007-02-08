@@ -390,7 +390,7 @@ public final class AEnv
 		//  Help Menu   ------------------------
 		else if (actionCommand.equals("Online"))
 		{
-			Env.startBrowser(org.compiere.Adempiere.getURL());
+			Env.startBrowser(org.compiere.Adempiere.getOnlineHelpURL());
 		}
 		else if (actionCommand.equals("EMailSupport"))
 		{
