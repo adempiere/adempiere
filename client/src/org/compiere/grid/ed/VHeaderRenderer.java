@@ -74,6 +74,18 @@ public final class VHeaderRenderer implements TableCellRenderer
 	//	Log.trace(this,10, "VHeaderRenderer.getTableCellRendererComponent", value==null ? "null" : value.toString());
 		//  indicator for invisible column
 		
+		Icon icon = null;
+		if (table instanceof CTable)
+		{
+			CTable cTable = (CTable)table;
+			if (cTable.getSortColumn() == column)
+			{
+				icon = cTable.isSortAscending() 
+					? Env.getImageIcon2("uparrow")
+					: Env.getImageIcon2("downarrow");
+			}
+		}
+		
 		TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
 		Component headerComponent = headerRenderer == null ? null :
 			headerRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -85,6 +97,8 @@ public final class VHeaderRenderer implements TableCellRenderer
 					label.setPreferredSize(new Dimension(0,0));
 				else
 					label.setText(value.toString());
+				label.setIcon(icon);
+				label.setHorizontalTextPosition(SwingConstants.LEADING);
 				return label;
 			}
 			m_button.setBorder(((JComponent)headerComponent).getBorder());
@@ -98,6 +112,8 @@ public final class VHeaderRenderer implements TableCellRenderer
 			return m_button;
 		}
 		m_button.setText(value.toString());
+		m_button.setIcon(icon);
+		m_button.setHorizontalTextPosition(SwingConstants.LEADING);
 		return m_button;
 	}	//	getTableCellRendererComponent
 
