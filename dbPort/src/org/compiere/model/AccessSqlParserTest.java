@@ -208,6 +208,21 @@ public class AccessSqlParserTest extends TestCase
 		String sql = "SELECT XX_HTC1_EMPLOYEE_V.C_BPartner_ID,NULL,XX_HTC1_EMPLOYEE_V.C_BPARTNER_NAME,XX_HTC1_EMPLOYEE_V.IsActive FROM XX_HTC1_EMPLOYEE_V WHERE XX_HTC1_EMPLOYEE_V.AD_User_ID IN (SELECT ur.AD_User_ID FROM AD_User_Roles ur INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID) WHERE r.Name like '%Field Manager%')";
 		AccessSqlParser fixture = new AccessSqlParser(sql);
 	}
+	
+	/**
+	 * teo_sarca - [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
+	 */
+	public void testTableNameParsing()
+	{
+		String sql = 
+			"SELECT SUM(il.QtyInvoiced)\n"
+			+ "FROM RV_C_Invoice\n"
+			+ "C_Invoice\n"
+			+ "INNER JOIN RV_C_InvoiceLine il ON (C_Invoice.C_Invoice_ID=il.C_Invoice_ID) WHERE\n"
+			+ "C_Invoice.IsSOTrx='Y' AND C_Invoice.Processed='Y' AND C_Invoice.IsPaid='Y'";
+		AccessSqlParser fixture = new AccessSqlParser(sql);
+		assertEquals("AccessSqlParser[RV_C_Invoice=C_Invoice|0]", fixture.toString());
+	}
 
 }
 

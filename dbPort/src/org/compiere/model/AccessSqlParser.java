@@ -23,6 +23,11 @@ import org.compiere.util.*;
 
 /**
  *	Parse FROM in SQL WHERE clause
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-10 - teo_sarca - [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
+ * </ul>
  *	
  *  @author Jorg Janke
  *  @version $Id: AccessSqlParser.java,v 1.3 2006/07/30 00:58:36 jjanke Exp $
@@ -250,7 +255,7 @@ public class AccessSqlParser
 			while (tableST.hasMoreTokens())
 			{
 				String tableString = tableST.nextToken().trim();
-				StringTokenizer synST = new StringTokenizer (tableString, " ");
+				StringTokenizer synST = new StringTokenizer (tableString, " \r\n\t"); // teo_sarca [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
 				TableInfo tableInfo = null;
 				if (synST.countTokens() > 1)
 					tableInfo = new TableInfo(synST.nextToken(), synST.nextToken());
