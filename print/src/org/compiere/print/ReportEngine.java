@@ -39,6 +39,11 @@ import com.qoppa.pdf.*;
  *	Report Engine.
  *  For a given PrintFormat,
  *  create a Report
+ *  <p>
+ *  Change log:
+ *  <ul>
+ *  <li>2007-02-10 - teo_sarca - [ 1652660 ] Save XML,HTML,CSV should have utf8 charset
+ *  </ul>
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ReportEngine.java,v 1.4 2006/10/08 06:52:51 comdivision Exp $
@@ -403,7 +408,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			Language lang = language;
 			if (lang == null)
 				lang = Language.getLoginLanguage();
-			FileWriter fw = new FileWriter (file, false);
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
 			return createHTML (new BufferedWriter(fw), onlyTable, lang);
 		}
 		catch (FileNotFoundException fnfe)
@@ -505,7 +510,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		try
 		{
-			FileWriter fw = new FileWriter (file, false);
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
 			return createCSV (new BufferedWriter(fw), delimiter, language);
 		}
 		catch (FileNotFoundException fnfe)
@@ -638,7 +643,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		try
 		{
-			FileWriter fw = new FileWriter (file, false);
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
 			return createXML (new BufferedWriter(fw));
 		}
 		catch (FileNotFoundException fnfe)
