@@ -300,6 +300,9 @@ public class Viewer extends CFrame
 			"SELECT AD_PrintFormat_ID, Name, Description "
 				+ "FROM AD_PrintFormat "
 				+ "WHERE AD_Table_ID=? "
+				//Added Lines by Armen
+				+ "AND IsActive='Y' "
+				//End of Added Lines
 				+ "ORDER BY Name",
 			"AD_PrintFormat", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		int AD_Table_ID = m_reportEngine.getPrintFormat().getAD_Table_ID();
