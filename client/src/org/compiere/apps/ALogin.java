@@ -348,7 +348,7 @@ public final class ALogin extends CDialog
 		m_cc.testAppsServer();
 		if (m_cc.getAppsServerException() != null)
 		{
-			if (m_cc.isServerObjects())
+			if (m_cc.isRMIoverHTTP())
 			{
 				m_cc.getAppsServerException().printStackTrace();
 				JOptionPane.showMessageDialog(null, 
@@ -361,7 +361,13 @@ public final class ALogin extends CDialog
 	private void connectToDatabase() {
 		//Check connection
 		DB.setDBTarget(m_cc);
-		if (m_cc.isServerObjects() == false)
+		
+		//wan
+		if (m_cc.isRMIoverHTTP()) return;
+		
+		//vpn or direct
+		if (m_cc.isServerObjects() == false
+			|| m_cc.isAppsServerOK(false) == false)
 			DB.connect();
 	}
 	
