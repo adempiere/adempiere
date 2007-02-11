@@ -60,6 +60,8 @@ public final class DB
 	private static Connection		s_connectionID = null;
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (DB.class);
+	
+	private static Object			s_ccLock = new Object();
 
 	/** SQL Statement Separator "; "	*/
 	public static final String SQLSTATEMENT_SEPARATOR = "; ";
@@ -228,9 +230,7 @@ public final class DB
 		
 		DB.closeTarget();
 		//
-		if (s_cc == null)
-			s_cc = cc;
-		synchronized (s_cc)    //  use as mutex
+		synchronized(s_ccLock)
 		{
 			s_cc = cc;
 			s_connections = null;
@@ -239,6 +239,7 @@ public final class DB
 		}
 		if ( isRemoteObjects() == false)
 			s_cc.setDataSource();
+		
 		log.config(s_cc + " - DS=" + s_cc.isDataSource());
 	//	Trace.printStack();
 	}   //  setDBTarget
@@ -249,8 +250,14 @@ public final class DB
 	 */
 	public static boolean connect() {
 		//wan profile
-		if (DB.isRemoteObjects()) return true;
+		if (CConnection.get().isRMIoverHTTP()) 
+			return CConnection.get().isAppsServerOK(true);
 		
+		//vpn profile
+		if (isRemoteObjects() && CConnection.get().isAppsServerOK(true))
+			return true;
+		
+		//direct connection
 		boolean success =false;
 		try 
 		{
@@ -284,8 +291,14 @@ public final class DB
 		if (s_cc == null) return false;
 		
 		//wan profile
-		if (DB.isRemoteObjects()) return true;
+		if (CConnection.get().isRMIoverHTTP()) 
+			return s_cc.isAppsServerOK(createNew);
 		
+		//vpn
+		if (isRemoteObjects() && s_cc.isAppsServerOK(createNew))
+			return true;
+		
+		//direct connection
 		boolean success = false;
 		CLogErrorBuffer eb = CLogErrorBuffer.get(false);
 		if (eb != null && eb.isIssueError())
@@ -322,7 +335,7 @@ public final class DB
 	public static Connection getConnectionRW (boolean createNew)
 	{
 		//wan profile
-		if (DB.isRemoteObjects()) return null;
+		if (CConnection.get().isRMIoverHTTP()) return null;
 		
 		//	check health of connection
 		try
@@ -374,7 +387,7 @@ public final class DB
 	public static Connection getConnectionID ()
 	{
 		//wan profile
-		if (DB.isRemoteObjects()) return null;
+		if (CConnection.get().isRMIoverHTTP()) return null;
 		
 		if (s_connectionID != null)
 		{
@@ -405,11 +418,11 @@ public final class DB
 	public static Connection getConnectionRO ()
 	{
 		//wan profile
-		if (DB.isRemoteObjects()) return null;
+		if (CConnection.get().isRMIoverHTTP()) return null;
 		
 		try
 		{
-			synchronized (s_cc)    //  use as mutex as s_connection is null the first time
+			synchronized(s_ccLock)
 			{
 				if (s_connections == null)
 					s_connections = createConnections (Connection.TRANSACTION_READ_COMMITTED);     //  see below
@@ -485,8 +498,8 @@ public final class DB
 	 */
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
-		//wan and vpn
-		if (isRemoteObjects()) return null;
+		//wan profile
+		if (CConnection.get().isRMIoverHTTP()) return null;
 		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 		if (CLogMgt.isLevelFinest())
@@ -708,6 +721,7 @@ public final class DB
 			}
 		}
 		s_connections = null;
+		
 		//	RW connection
 		try
 		{

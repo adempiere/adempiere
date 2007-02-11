@@ -139,13 +139,26 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		{
 			log.log(Level.SEVERE, "AppsServer error", ex);
 			p_remoteErrors++;
+			if (ex instanceof SQLException)
+				throw (SQLException)ex;
+			else if (ex instanceof RuntimeException)
+				throw (RuntimeException)ex;
+			else
+				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		log.warning("Execute locally");
-		p_stmt = local_getPreparedStatement (false, null);	// shared connection
-		p_vo.clearParameters();		//	re-use of result set
-		ResultSet rs = ((PreparedStatement)p_stmt).executeQuery();
-		return rs;
+		if (!CConnection.get().isRMIoverHTTP())
+		{
+			log.warning("Execute locally");
+			p_stmt = local_getPreparedStatement (false, null);	// shared connection
+			p_vo.clearParameters();		//	re-use of result set
+			ResultSet rs = ((PreparedStatement)p_stmt).executeQuery();
+			return rs;
+		}
+		else
+		{
+			throw new IllegalStateException("WAN - Application server not available");
+		}
 	}	//	executeQuery
 
 	/**
@@ -193,15 +206,28 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				log.log(Level.SEVERE, "AppsServer not found");
 			}
 		}
-		catch (RemoteException ex)
+		catch (Exception ex)
 		{
 			log.log(Level.SEVERE, "AppsServer error", ex);
+			if (ex instanceof SQLException)
+				throw (SQLException)ex;
+			else if (ex instanceof RuntimeException)
+				throw (RuntimeException)ex;
+			else
+				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		log.warning("execute locally");
-		p_stmt = local_getPreparedStatement (false, null);	//	shared connection
-		p_vo.clearParameters();		//	re-use of result set
-		return ((PreparedStatement)p_stmt).executeUpdate();
+		if (!CConnection.get().isRMIoverHTTP())
+		{
+			log.warning("execute locally");
+			p_stmt = local_getPreparedStatement (false, null);	//	shared connection
+			p_vo.clearParameters();		//	re-use of result set
+			return ((PreparedStatement)p_stmt).executeUpdate();
+		}
+		else
+		{
+			throw new IllegalStateException("WAN - Application server not available");
+		}
 	}	//	executeUpdate
 
 	/**
@@ -877,12 +903,23 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		{
 			log.log(Level.SEVERE, "AppsServer error", ex);
 			p_remoteErrors++;
+			if (ex instanceof RuntimeException)
+				throw (RuntimeException)ex;
+			else
+				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		log.warning("Execute locally");
-		p_stmt = local_getPreparedStatement (false, null);	// shared connection
-		p_vo.clearParameters();		//	re-use of result set
-		return local_getRowSet();
+		if (!CConnection.get().isRMIoverHTTP())
+		{
+			log.warning("Execute locally");
+			p_stmt = local_getPreparedStatement (false, null);	// shared connection
+			p_vo.clearParameters();		//	re-use of result set
+			return local_getRowSet();
+		}
+		else
+		{
+			throw new IllegalStateException("WAN - Application server not available");
+		}
 	}
 	
 	/**
