@@ -173,7 +173,11 @@ public class Doc_Allocation extends Doc
 			BigDecimal allocationSource = line.getAmtSource()
 				.add(line.getDiscountAmt())
 				.add(line.getWriteOffAmt());
-			BigDecimal allocationAccounted = null;	// AR/AP balance corrected
+			//Modified Lines by Armen
+			//Old:
+			//BigDecimal allocationAccounted = null;	// AR/AP balance corrected
+			BigDecimal allocationAccounted = Env.ZERO;	// AR/AP balance corrected
+			//End of Modified Lines
 
 			FactLine fl = null;
 			MAccount bpAcct = null;		//	Liability/Receivables
