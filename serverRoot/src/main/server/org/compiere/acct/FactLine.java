@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -28,6 +28,11 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: FactLine.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  Contributor(s):
+ *  Chris Farley: Fix Bug [ 1657372 ] M_MatchInv records can not be balanced
+ *    https://sourceforge.net/forum/message.php?msg_id=4151117
+ *  
  */
 public final class FactLine extends X_Fact_Acct
 {
@@ -941,8 +946,7 @@ public final class FactLine extends X_Fact_Acct
 				setAmtAcctDr (cr.multiply(multiplier));
 				setAmtAcctCr (dr.multiply(multiplier));
 				//  Source Amounts
-				setAmtSourceDr (getAmtAcctDr());
-				setAmtSourceCr (getAmtAcctCr());
+				setAmtSource(fact.getC_Currency_ID(), getAmtAcctDr(), getAmtAcctCr());
 				//
 				success = true;
 				log.fine(new StringBuffer("(Table=").append(AD_Table_ID)
