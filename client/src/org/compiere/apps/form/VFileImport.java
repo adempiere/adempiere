@@ -19,6 +19,7 @@ package org.compiere.apps.form;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -35,6 +36,7 @@ import org.compiere.util.*;
  * <p>
  * Change log:
  * <ul>
+ * <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  * <li>2007-01-27 - teo_sarca - [ 1619158 ] Import is not working with UTF-8
  * </ul>
  *
@@ -78,6 +80,8 @@ public class VFileImport extends CPanel
 	private JLabel[] 			m_labels;
 	private JTextField[] 		m_fields;
 	private int					m_record = -1;
+	/**	Current selected file */
+	private File				m_file = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VFileImport.class);
 	//
@@ -99,6 +103,7 @@ public class VFileImport extends CPanel
 	private JButton bNext = new JButton();
 	private JButton bPrevious = new JButton();
 	private JLabel record = new JLabel();
+	private CComboBox fCharset = new CComboBox(Ini.getAvailableCharsets());
 
 	/**
 	 *	Static Init
@@ -110,6 +115,7 @@ public class VFileImport extends CPanel
 		bFile.setText(Msg.getMsg(Env.getCtx(), "FileImportFile"));
 		bFile.setToolTipText(Msg.getMsg(Env.getCtx(), "FileImportFileInfo"));
 		bFile.addActionListener(this);
+		fCharset.setToolTipText(Msg.getMsg(Env.getCtx(), "Charset", false));
 		info.setText("   ");
 		labelFormat.setText(Msg.translate(Env.getCtx(), "AD_ImpFormat_ID"));
 		//
@@ -125,6 +131,7 @@ public class VFileImport extends CPanel
 		//
 		northPanel.setBorder(BorderFactory.createEtchedBorder());
 		northPanel.add(bFile, null);
+		northPanel.add(fCharset);
 		northPanel.add(info, null);
 		northPanel.add(labelFormat, null);
 		northPanel.add(pickFormat, null);
@@ -137,8 +144,8 @@ public class VFileImport extends CPanel
 		rawData.setColumns(80);
 		rawData.setRows(5);
 		rawDataPane.getViewport().add(rawData, null);
-		centerPanel.add(rawDataPane, BorderLayout.NORTH);
-		centerPanel.add(previewPane, BorderLayout.CENTER);
+		centerPanel.add(rawDataPane, BorderLayout.CENTER);
+		centerPanel.add(previewPane, BorderLayout.SOUTH);
 		//
 		previewPanel.setLayout(previewLayout);
 		previewPane.getViewport().add(previewPanel, null);
@@ -181,6 +188,9 @@ public class VFileImport extends CPanel
 		pickFormat.setSelectedIndex(0);
 		pickFormat.addActionListener(this);
 		//
+		fCharset.setSelectedItem(Ini.getCharset());
+		fCharset.addActionListener(this);
+		//
 		confirmPanel.getOKButton().setEnabled(false);
 	}	//	dynInit
 
@@ -196,6 +206,12 @@ public class VFileImport extends CPanel
 			cmd_loadFile();
 			invalidate();
 			m_frame.pack();
+		}
+		else if (e.getSource() == fCharset) {
+			int record = m_record;
+			cmd_reloadFile();
+			m_record = record - 1;
+			cmd_applyFormat(true);
 		}
 		else if (e.getSource() == pickFormat)
 		{
@@ -253,16 +269,28 @@ public class VFileImport extends CPanel
 		chooser.setDialogTitle(Msg.getMsg(Env.getCtx(), "FileImportFileInfo"));
 		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
-		String fileName = chooser.getSelectedFile().getName();
-		log.config(fileName);
-		bFile.setText(fileName);
+		m_file = chooser.getSelectedFile();
+		log.config(m_file.getName());
+		bFile.setText(m_file.getName());
+		cmd_reloadFile();
+	}
+	
+	/**
+	 * Reload/Load file
+	 */
+	private void cmd_reloadFile()
+	{
+		if (m_file == null)
+			return;
+		
 		setCursor (Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		m_data.clear();
 		rawData.setText("");
 		try
 		{
 			//  see NaturalAccountMap
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(chooser.getSelectedFile()), "UTF-8"), 10240);
+			Charset charset = (Charset)fCharset.getSelectedItem(); 
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(m_file), charset), 10240);
 			//	not safe see p108 Network pgm
 			String s = null;
 			while ((s = in.readLine()) != null)
@@ -321,7 +349,7 @@ public class VFileImport extends CPanel
 		{
 			ImpFormatRow row = m_format.getRow(i);
 			m_labels[i] = new JLabel (row.getColumnName());
-			previewPanel.add(m_labels[i], new GridBagConstraints(i, 0, 1, 1, 0.0, 0.0,
+			previewPanel.add(m_labels[i], new GridBagConstraints(i, 0, 1, 1, 1.0, 1.0,
 				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
 			//
 			int length = row.getEndNo() - row.getStartNo();
@@ -330,8 +358,8 @@ public class VFileImport extends CPanel
 			else if (length > 20)
 				length = 20;
 			m_fields[i] = new JTextField (length);
-			previewPanel.add(m_fields[i], new GridBagConstraints(i, 1, 1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
+			previewPanel.add(m_fields[i], new GridBagConstraints(i, 1, 1, 1, 1.0, 1.0,
+				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 		}
 		m_record = -1;
 		record.setText("-");
