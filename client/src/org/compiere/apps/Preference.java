@@ -19,6 +19,7 @@ package org.compiere.apps;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
@@ -42,6 +43,11 @@ import org.compiere.util.*;
 
 /**
  *	Customize settings like L&F, AutoCommit, etc. & Diagnostics
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
+ * </ul>
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: Preference.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
@@ -133,6 +139,9 @@ public final class Preference extends CDialog
 	private CButton bErrorEMail = new CButton(Msg.getMsg(Env.getCtx(), "SendEMail"));
 	private CButton bErrorSave = new CButton(Msg.getMsg(Env.getCtx(), "SaveFile"));
 	private CButton bRoleInfo = new CButton(Msg.translate(Env.getCtx(), "AD_Role_ID"));
+	// Charset:
+	private CLabel lCharset = new CLabel();
+	private CComboBox fCharset = new CComboBox(Ini.getAvailableCharsets());
 
 	private CPanel configPanel = new CPanel();
 
@@ -196,6 +205,10 @@ public final class Preference extends CDialog
 		lPrinter.setText(Msg.getMsg(Env.getCtx(), "Printer"));
 		lDate.setText(Msg.getMsg(Env.getCtx(), "Date"));
 		infoArea.setReadWrite(false);
+		// Charset:
+		lCharset.setText(Msg.getMsg(Env.getCtx(), "Charset", true));
+		lCharset.setToolTipText(Msg.getMsg(Env.getCtx(), "Charset", false));
+		
 		getContentPane().add(panel);
 		panel.setLayout(panelLayout);
 		panel.add(tabPane, BorderLayout.CENTER);
@@ -276,6 +289,16 @@ public final class Preference extends CDialog
 		otherPanel.add(datePanel);datePanel.setBorder(insetBorder);
 		otherPanel.add(adempiereSys);adempiereSys.setBorder(insetBorder);
 		customizePane.add(otherPanel, new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
+		
+		// Charset:
+		CPanel charsetPanel = new CPanel();
+		charsetPanel.setBorder(BorderFactory.createEmptyBorder());
+		charsetPanel.setLayout(new FlowLayout());
+		((FlowLayout)charsetPanel.getLayout()).setAlignment(FlowLayout.LEFT);
+		charsetPanel.add(lCharset);
+		charsetPanel.add(fCharset);
+		customizePane.add(charsetPanel, new GridBagConstraints(0, 6, 1, 1, 1.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
 		CPanel themePanel = new CPanel();
@@ -458,6 +481,8 @@ public final class Preference extends CDialog
 		fPrinter.setValue(Env.getContext(Env.getCtx(), "#Printer"));
 		//  Date
 		fDate.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		// Charset
+		fCharset.setSelectedItem(Ini.getCharset());
 
 		//	--	Load and sort Context	--
 		String[] context = Env.getEntireContext(Env.getCtx());
@@ -537,6 +562,9 @@ public final class Preference extends CDialog
 		java.sql.Timestamp ts = (java.sql.Timestamp)fDate.getValue();
 		if (ts != null)
 			Env.setContext(Env.getCtx(), "#Date", ts);
+		// Charset
+		Charset charset = (Charset)fCharset.getSelectedItem();
+		Ini.setProperty(Ini.P_CHARSET, charset.name());
 
 		//UI
 		ValueNamePair laf = plafEditor.getSelectedLook();
