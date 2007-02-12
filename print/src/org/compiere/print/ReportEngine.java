@@ -42,6 +42,7 @@ import com.qoppa.pdf.*;
  *  <p>
  *  Change log:
  *  <ul>
+ *  <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  *  <li>2007-02-10 - teo_sarca - [ 1652660 ] Save XML,HTML,CSV should have utf8 charset
  *  </ul>
  *
@@ -408,7 +409,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			Language lang = language;
 			if (lang == null)
 				lang = Language.getLoginLanguage();
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
 			return createHTML (new BufferedWriter(fw), onlyTable, lang);
 		}
 		catch (FileNotFoundException fnfe)
@@ -510,7 +511,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		try
 		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
 			return createCSV (new BufferedWriter(fw), delimiter, language);
 		}
 		catch (FileNotFoundException fnfe)
@@ -643,7 +644,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		try
 		{
-			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8"); // teo_sarca: modified to save using UTF8 [ 1652660 ]
+			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
 			return createXML (new BufferedWriter(fw));
 		}
 		catch (FileNotFoundException fnfe)
