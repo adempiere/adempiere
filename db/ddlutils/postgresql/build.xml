@@ -102,7 +102,7 @@
 		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
-				<fileset dir="../views">
+				<fileset dir="views">
 					<include name="**" />
 				</fileset>
 			</path>
@@ -111,7 +111,7 @@
 		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [2nd Pass]:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
-				<fileset dir="../views">
+				<fileset dir="views">
 					<include name="**" />
 				</fileset>
 			</path>
