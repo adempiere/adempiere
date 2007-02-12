@@ -18,6 +18,7 @@ package org.compiere.util;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -29,7 +30,12 @@ import org.adempiere.plaf.*;
  *	Load & Save INI Settings fopm property file
  *	Initiated in Adempiere.startup
  *	Settings activated in ALogin.getIni
- *
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
+ * </ul>
+ * 
  *  @author     Jorg Janke
  *  @version    $Id$
  */
@@ -145,6 +151,11 @@ public final class Ini implements Serializable
 	private static final String DEFAULT_WARNING =	"Do_not_change_any_of_the_data_as_they_will_have_undocumented_side_effects.";
 	private static final String P_WARNING_de =		"WarningD";
 	private static final String DEFAULT_WARNING_de ="Einstellungen_nicht_aendern,_da_diese_undokumentierte_Nebenwirkungen_haben.";
+	
+	/** Charset */
+	public static final String P_CHARSET = "Charset";
+	/** Charser Default Value */
+	private static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
 
 	/** Ini Properties		*/
 	private static final String[]   PROPERTIES = new String[] {
@@ -161,7 +172,8 @@ public final class Ini implements Serializable
 		P_VALIDATE_CONNECTION_ON_STARTUP,
 		P_SINGLE_INSTANCE_PER_WINDOW,
 		P_OPEN_WINDOW_MAXIMIZED,
-		P_WARNING, P_WARNING_de
+		P_WARNING, P_WARNING_de,
+		P_CHARSET
 	};
 	/** Ini Property Values	*/
 	private static final String[]   VALUES = new String[] {
@@ -178,7 +190,8 @@ public final class Ini implements Serializable
 		DEFAULT_VALIDATE_CONNECTION_ON_STARTUP?"Y":"N",
 		DEFAULT_SINGLE_INSTANCE_PER_WINDOW?"Y":"N",
 		DEFAULT_OPEN_WINDOW_MAXIMIZED?"Y":"N",
-		DEFAULT_WARNING, DEFAULT_WARNING_de
+		DEFAULT_WARNING, DEFAULT_WARNING_de,
+		DEFAULT_CHARSET
 	};
 
 	/**	Container for Properties    */
@@ -701,4 +714,31 @@ public final class Ini implements Serializable
 		s_prop.put(key, value);
 	}	//	setDividerLocation
 
+	/**
+	 * Get Available Encoding Charsets
+	 * @return array of available encoding charsets
+	 * @since 3.1.4
+	 */
+	public static Charset[] getAvailableCharsets() {
+		Collection<Charset> col = Charset.availableCharsets().values();
+		Charset[] arr = new Charset[col.size()];
+		col.toArray(arr);
+		return arr;
+	}
+	
+	/**
+	 * Get current charset
+	 * @return current charset
+	 * @since 3.1.4
+	 */
+	public static Charset getCharset() {
+		String charsetName = getProperty(P_CHARSET);
+		if (charsetName == null || charsetName.length() == 0)
+			return Charset.defaultCharset();
+		try {
+			return Charset.forName(charsetName);
+		} catch (Exception e) {
+		}
+		return Charset.defaultCharset();
+	}
 }	//	Ini
