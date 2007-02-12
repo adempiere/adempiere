@@ -128,7 +128,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	
-	//private boolean m_parentNeedSave = false;
+	private boolean m_parentNeedSave = false;
 
 
 	/**************************************************************************
@@ -518,7 +518,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//	Detail Query
 		if (isDetail())
 		{
-			//m_parentNeedSave = false;
+			m_parentNeedSave = false;
 			String lc = getLinkColumnName();
 			if (lc.equals(""))
 				log.severe ("No link column");
@@ -534,7 +534,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				{
 					//log.severe ("No value for link column " + lc);
 					//parent is new, can't retrieve detail
-					//m_parentNeedSave = true;
+					m_parentNeedSave = true;
 					if (where.length() != 0)
 						where.append(" AND ");
 					where.append(lc).append(" is null ");
@@ -866,6 +866,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 			log.finest("Processed=" + processed);
 		}
+		
+		//hengsin, dont create new when parent is empty
+		if (isDetail() && m_parentNeedSave)
+			return false;
+		
 		boolean retValue = m_mTable.dataNew (m_currentRow, copy);
 		if (!retValue)
 			return retValue;
@@ -1172,6 +1177,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		if (m_vo.IsReadOnly)
 			return true;
+		
+		//hengsin, make detail readonly when parent is empty
+		if (m_parentNeedSave) return true;
 
 		//  no restrictions
 		if (m_vo.ReadOnlyLogic == null || m_vo.ReadOnlyLogic.equals(""))
