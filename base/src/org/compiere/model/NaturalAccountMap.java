@@ -35,6 +35,7 @@ import org.compiere.util.*;
  *  <p>
  *  Change log:
  *  <ul>
+ *  <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  *  <li>2007-01-27 - teo_sarca - [ 1619158 ] Import is not working with UTF-8 
  *  </ul>
  *
@@ -83,7 +84,7 @@ public final class NaturalAccountMap<K,V> extends CCache<K,V>
 		try
 		{
 			//  see FileImport
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"), 10240);
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), Ini.getCharset()), 10240);
 			//	not safe see p108 Network pgm
 			String errMsg = "";
 
