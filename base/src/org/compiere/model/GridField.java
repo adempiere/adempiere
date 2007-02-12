@@ -454,7 +454,9 @@ public class GridField
 		if (m_vo.DefaultValue.startsWith("@SQL="))
 		{
 			String sql = m_vo.DefaultValue.substring(5);			//	w/o tag
-			sql = Env.parseContext(m_vo.ctx, m_vo.WindowNo, sql, false, true);	//	replace variables
+			//sql = Env.parseContext(m_vo.ctx, m_vo.WindowNo, sql, false, true);	//	replace variables
+			//hengsin, capture unparseable error to avoid subsequent sql exception
+			sql = Env.parseContext(m_vo.ctx, m_vo.WindowNo, sql, false, false);	//	replace variables
 			if (sql.equals(""))
 			{
 				log.log(Level.WARNING, "(" + m_vo.ColumnName + ") - Default SQL variable parse failed: "
