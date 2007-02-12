@@ -108,6 +108,14 @@ public class InventoryCountCreate extends SvrProcess
 		//
 		if (p_DeleteOld)
 		{
+			//Added Line by armen
+			String sql1 = "DELETE FROM M_InventoryLineMA ma WHERE EXISTS "
+				+ "(SELECT * FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
+				+ " AND Processed='N' AND M_Inventory_ID=" + p_M_Inventory_ID + ")";
+			int no1 = DB.executeUpdate(sql1, get_TrxName());
+			log.fine("doIt - Deleted MA #" + no1);
+			//End of Added Line
+			
 			String sql = "DELETE M_InventoryLine WHERE Processed='N' "
 				+ "AND M_Inventory_ID=" + p_M_Inventory_ID;
 			int no = DB.executeUpdate(sql, get_TrxName());
