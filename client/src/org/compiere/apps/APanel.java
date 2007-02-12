@@ -1044,6 +1044,7 @@ public final class APanel extends CPanel
 			{
 				MRole role = MRole.getDefault(); 
 				m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
+				/*
 				if (m_curGC.isNeedToSaveParent())
 				{
 					// there is a problem, so we go back
@@ -1051,7 +1052,7 @@ public final class APanel extends CPanel
 					m_curWinTab.setSelectedIndex(previousIndex);
 					setBusy(false, true);
 					return;
-				}
+				}*/
 			}
 			//  Set initial record
 			if (m_curTab.getRowCount() == 0)
