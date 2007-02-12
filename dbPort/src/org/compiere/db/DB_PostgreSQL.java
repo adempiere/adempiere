@@ -481,14 +481,14 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		//org.postgresql.ds.PGPoolingDataSource ds = new org.postgresql.ds.PGPoolingDataSource();
 		org.postgresql.jdbc3.Jdbc3PoolingDataSource ds = new org.postgresql.jdbc3.Jdbc3PoolingDataSource();
 		
-		ds.setDataSourceName("CompiereDS");
+		ds.setDataSourceName("AdempiereDS");
 		ds.setServerName(connection.getDbHost());
 		ds.setDatabaseName(connection.getDbName());
 		ds.setUser(connection.getDbUid());
 		ds.setPassword(connection.getDbPwd());
 		ds.setPortNumber(connection.getDbPort());
 		ds.setMaxConnections(50);
-		ds.setInitialConnections(3);
+		ds.setInitialConnections(0);
 		
 		//new InitialContext().rebind("DataSource", source);		
 		m_ds = ds;
