@@ -147,7 +147,7 @@ public class GridWindow implements Serializable
 				//	More than one parent.
 				//	Search prior tabs for the "right parent"
 				//	for all previous tabs
-				for (int i = 0; i < m_tabs.size(); i++)
+				for (int i = 0; i < index; i++)
 				{
 					//	we have a tab
 					GridTab tab = (GridTab)m_tabs.get(i);
