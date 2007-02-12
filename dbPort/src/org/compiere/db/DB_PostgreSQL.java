@@ -480,6 +480,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		
 		//org.postgresql.ds.PGPoolingDataSource ds = new org.postgresql.ds.PGPoolingDataSource();
 		org.postgresql.jdbc3.Jdbc3PoolingDataSource ds = new org.postgresql.jdbc3.Jdbc3PoolingDataSource();
+		
 		ds.setDataSourceName("CompiereDS");
 		ds.setServerName(connection.getDbHost());
 		ds.setDatabaseName(connection.getDbName());
@@ -487,7 +488,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		ds.setPassword(connection.getDbPwd());
 		ds.setPortNumber(connection.getDbPort());
 		ds.setMaxConnections(50);
-		ds.setInitialConnections(20);
+		ds.setInitialConnections(3);
 		
 		//new InitialContext().rebind("DataSource", source);		
 		m_ds = ds;
@@ -540,6 +541,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	{
 	
 		log.config(toString());
+		
 		if (m_ds != null)
 		{
 			try
