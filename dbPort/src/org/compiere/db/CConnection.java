@@ -1200,8 +1200,8 @@ public class CConnection implements Serializable
 	 */
 	public String getInfo ()
 	{
-		StringBuffer sb = new StringBuffer (m_info[0]);
-		sb.append (" - ").append (m_info[1])
+		StringBuffer sb = new StringBuffer (m_info[0] != null ? m_info[0] : "");
+		sb.append (" - ").append (m_info[1] != null ? m_info[1] : "")
 		  .append ("\n").append (getDatabase ().toString ())
 		  .append ("\nAppsServerOK=").append (isAppsServerOK (false))
 		  .append (", DatabaseOK=").append (isDatabaseOK ());
