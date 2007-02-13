@@ -15,6 +15,10 @@ package org.compiere.util;
 
 /**
  * Amount in Words for Polish
+ * <p>
+ * <ul>
+ * <li>2006-02-13 - teo_sarca - integrated Gavin Dunse patch [ 1658661 ] translate polish AmtInWords_PL.java Windows-1250 to UTF-8 
+ * </ul>
  * 
  * @author Marek Mosiewicz - http://www.rgagnon.com/javadetails/java-0426.html
  * @version $Id: AmtInWords_PL.java,v 1.4 2005/12/31 06:33:21 jjanke Exp $
@@ -29,28 +33,28 @@ public class AmtInWords_PL implements AmtInWords {
 
 	/** Thousands plus */
 	private static final String[][] majorNames = { { "", "", "" },
-			{ "tysi筩", "tysi筩e", "tysi阠y" },
-			{ "milion", "miliony", "milion體" },
-			{ "miliard", "miliardy", "miliard體" },
-			{ "bilion", "biliony", "bilion體" },
-			{ "trylion", "tryliony", "trylion體" },
-			{ "quadrylion", "quadryliony", "quadrylion體" } };
+			{ "tysi膮c", "tysi膮ce", "tysi臋cy" },
+			{ "milion", "miliony", "milion贸w" },
+			{ "miliard", "miliardy", "miliard贸w" },
+			{ "bilion", "biliony", "bilion贸w" },
+			{ "trylion", "tryliony", "trylion贸w" },
+			{ "quadrylion", "quadryliony", "quadrylion贸w" } };
 
 	/** Ten to Ninety */
-	private static final String[] tensNames = { "", "dziesi赕", "dwadzie渃ia",
-			"trzydzie渃i", "czterdzie渃i", "pi赕dziesi箃", "sze滄dziesi箃",
-			"siedemdziesi箃", "osiemdziesi箃", "dziewi赕dziesi箃" };
-
-	private static final String[] hundredNames = { "", "sto", "dwie渃ie",
-			"trzysta", "czterysta", "pi赕set", "sze滄set", "siedemset",
-			"osiemset", "dziewi赕set" };
-
+	private static final String[] tensNames = { "", "dziesi臋膰", "dwadzie艣cia",
+			"trzydzie艣ci", "czterdzie艣ci", "pi臋膰dziesi膮t", "sze艣膰dziesi膮t",
+			"siedemdziesi膮t", "osiemdziesi膮t", "dziewi臋膰dziesi膮t" };
+	
+	private static final String[] hundredNames = { "", "sto", "dwie艣cie",
+			"trzysta", "czterysta", "pi臋膰set", "sze艣膰set", "siedemset",
+			"osiemset", "dziewi臋膰set" };
+	
 	/** numbers to 19 */
 	private static final String[] numNames = { "", "jeden", "dwa", "trzy",
-			"cztery", "pi赕", "sze滄", "siedem", "osiem", "dzieiwi赕",
-			"dziesi赕", "jedena渃ie", "dwana渃ie", "trzyna渃ie", "czterna渃ie",
-			"pietna渃ie", "szescna渃ie", "siedemna渃ie", "osiemna渃ie",
-			"dziewi阾na渃ie" };
+			"cztery", "pi臋膰", "sze艣膰", "siedem", "osiem", "dzieiwi臋膰",
+			"dziesi臋膰", "jedena艣cie", "dwana艣cie", "trzyna艣cie", "czterna艣cie",
+			"pietna艣cie", "szescna艣cie", "siedemna艣cie", "osiemna艣cie",
+			"dziewi臋tna艣cie" };
 
 	/**
 	 * Convert Less Than One Thousand
