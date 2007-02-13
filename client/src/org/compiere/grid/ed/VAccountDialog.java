@@ -209,6 +209,10 @@ public final class VAccountDialog extends CDialog
 			return false;
 		m_mWindow = new GridWindow (wVO);
 		m_mTab = m_mWindow.getTab(0);
+		// Make sure is the tab is loaded - teo_sarca [ 1659124 ]
+		if (!m_mTab.isLoadComplete())
+			m_mWindow.initTab(0);
+
 		//  ParameterPanel restrictions
 		m_mTab.getField("Alias").setDisplayLength(15);
 		m_mTab.getField("Combination").setDisplayLength(15);
