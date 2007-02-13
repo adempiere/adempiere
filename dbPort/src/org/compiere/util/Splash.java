@@ -43,7 +43,7 @@ public class Splash extends Frame
 	public static Splash getSplash ()
 	{
 		String msg;
-		if (Locale.getDefault().getLanguage().equals("es")) // español - globalqss
+		if (Locale.getDefault().getLanguage().equals("es")) // espaÅ„ol - globalqss
 			msg = new String("Cargando...");
 		else
 			// Default english
