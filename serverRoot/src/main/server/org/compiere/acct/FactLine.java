@@ -32,6 +32,7 @@ import org.compiere.util.*;
  *  Contributor(s):
  *  Chris Farley: Fix Bug [ 1657372 ] M_MatchInv records can not be balanced
  *    https://sourceforge.net/forum/message.php?msg_id=4151117
+ *  Carlos Ruiz - globalqss: Add setAmtAcct method rounded by Currency
  *  
  */
 public final class FactLine extends X_Fact_Acct
@@ -209,6 +210,32 @@ public final class FactLine extends X_Fact_Acct
 	{
 		setAmtAcctDr (AmtAcctDr);
 		setAmtAcctCr (AmtAcctCr);
+	}   //  setAmtAcct
+
+	/**
+	 *  Set Accounted Amounts rounded by currency
+	 *  @param C_Currency_ID currency
+	 *  @param AmtAcctDr acct amount dr
+	 *  @param AmtAcctCr acct amount cr
+	 */
+	public void setAmtAcct(int C_Currency_ID, BigDecimal AmtAcctDr, BigDecimal AmtAcctCr)
+	{
+		setAmtAcctDr (AmtAcctDr);
+		setAmtAcctCr (AmtAcctCr);
+		//	Currency Precision
+		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
+		if (AmtAcctDr != null && AmtAcctDr.scale() > precision)
+		{
+			BigDecimal AmtAcctDr1 = AmtAcctDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			log.warning("Accounted DR Precision " + AmtAcctDr + " -> " + AmtAcctDr1);
+			setAmtAcctDr(AmtAcctDr1);
+		}
+		if (AmtAcctCr != null && AmtAcctCr.scale() > precision)
+		{
+			BigDecimal AmtAcctCr1 = AmtAcctCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			log.warning("Accounted CR Precision " + AmtAcctCr + " -> " + AmtAcctCr1);
+			setAmtAcctCr(AmtAcctCr1);
+		}
 	}   //  setAmtAcct
 
 	/**
@@ -943,8 +970,9 @@ public final class FactLine extends X_Fact_Acct
 				//  Accounted Amounts - reverse
 				BigDecimal dr = fact.getAmtAcctDr();
 				BigDecimal cr = fact.getAmtAcctCr();
-				setAmtAcctDr (cr.multiply(multiplier));
-				setAmtAcctCr (dr.multiply(multiplier));
+				// setAmtAcctDr (cr.multiply(multiplier));
+				// setAmtAcctCr (dr.multiply(multiplier));
+				setAmtAcct(fact.getC_Currency_ID(), cr.multiply(multiplier), dr.multiply(multiplier));
 				//  Source Amounts
 				setAmtSource(fact.getC_Currency_ID(), getAmtAcctDr(), getAmtAcctCr());
 				//
