@@ -275,8 +275,10 @@ public class FormFrame extends CFrame
 	private void actionHelp()
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("<h2>").append(m_Description).append("</h2><p>")
-			.append(m_Help);
+		if (m_Description != null && m_Description.length() > 0)
+			sb.append("<h2>").append(m_Description).append("</h2>");
+		if (m_Help != null && m_Help.length() > 0)
+			sb.append("<p>").append(m_Help);
 		Help hlp = new Help (Env.getFrame(this), this.getTitle(), sb.toString());
 		hlp.setVisible(true);
 	}	//	actionHelp
