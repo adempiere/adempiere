@@ -198,6 +198,7 @@ public class VTrxMaterial extends CPanel
 			return;
 		m_mWindow = new GridWindow (wVO);
 		m_mTab = m_mWindow.getTab(0);
+		m_mWindow.initTab(0);
 		//
 		m_gridController = new GridController();
 		m_gridController.initGrid(m_mTab, true, m_WindowNo, null, null);
