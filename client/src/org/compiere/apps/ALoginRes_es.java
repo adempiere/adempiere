@@ -29,7 +29,7 @@ public final class ALoginRes_es extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Connection", "Conexi髇" },
+	{ "Connection", "Conexi贸n" },
 	{ "Defaults", "Valores por Defecto" },
 	{ "Login", "Login" },
 	{ "File", "Archivo" },
@@ -39,28 +39,28 @@ public final class ALoginRes_es extends ListResourceBundle
 	{ "Host", "Servidor" },
 	{ "Database", "Base de datos" },
 	{ "User", "ID de usuario" },
-	{ "EnterUser", "ID de aplicacion de usuario" },
-	{ "Password", "Contrase馻" },
-	{ "EnterPassword", "Ingrese Contrase馻" },
+	{ "EnterUser", "ID de aplicaci贸n de usuario" },
+	{ "Password", "Contrase帽a" },
+	{ "EnterPassword", "Ingrese Contrase帽a" },
 	{ "Language", "Lenguaje" },
 	{ "SelectLanguage", "Seleccione su lenguaje" },
 	{ "Role", "Perfil" },
 	{ "Client", "Cliente" },
-	{ "Organization", "Organizaci髇" },
+	{ "Organization", "Organizaci贸n" },
 	{ "Date", "Fecha" },
-	{ "Warehouse", "Dep髎ito" },
+	{ "Warehouse", "Dep贸sito" },
 	{ "Printer", "Impresora" },
 	{ "Connected", "Conectado" },
 	{ "NotConnected", "No Conectado" },
 	{ "DatabaseNotFound", "Base de datos no encontrada" },
-	{ "UserPwdError", "Usuario-Contrase馻 no coincide" },
+	{ "UserPwdError", "Usuario-Contrase帽a no coincide" },
 	{ "RoleNotFound", "Perfil no encontrado" },
 	{ "Authorized", "Autorizado" },
 	{ "Ok", "Aceptar" },
 	{ "Cancel", "Cancelar" },
-	{ "VersionConflict", "Conflicto de versi髇:" },
+	{ "VersionConflict", "Conflicto de versi贸n:" },
 	{ "VersionInfo", "Servidor <> Cliente" },
-	{ "PleaseUpgrade", "Favor de ejecutar Programa de actualizaci髇" }
+	{ "PleaseUpgrade", "Favor de ejecutar Programa de actualizaci贸n" }
 	};
 
 	/**

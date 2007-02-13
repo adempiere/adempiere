@@ -29,10 +29,10 @@ public class IniRes_es extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Adempiere_License",   "Terminos de Licencia" },
+	{ "Adempiere_License",   "Términos de Licencia" },
 	{ "Do_you_accept",      "Acepta la Licencia?" },
 	{ "No",                 "No" },
-	{ "Yes_I_Understand",   "SI, Entendi y Acepto" },
+	{ "Yes_I_Understand",   "SI, Entendí y Acepto" },
 	{ "license_htm",        "org/adempiere/license.htm" },
 	{ "License_rejected",   "Licencia refutada o Expirada" }
 	};
