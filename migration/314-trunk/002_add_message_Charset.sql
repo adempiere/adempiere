@@ -11,9 +11,9 @@ INSERT INTO ad_message
 COMMIT ;
 
 UPDATE ad_sequence
-   SET currentnextsys = (SELECT MAX (ad_element_id) + 1
-                           FROM ad_element
-                          WHERE ad_element_id < 1000000)
+   SET currentnextsys = (SELECT MAX (ad_message_id) + 1
+                           FROM ad_message
+                          WHERE ad_message_id < 1000000)
  WHERE NAME = 'AD_Message';
 
-COMMIT;
+COMMIT ;
