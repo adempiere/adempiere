@@ -32,7 +32,12 @@ import org.compiere.util.*;
 
 /**
  *	Generic Table Search
- *
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-14 - teo_sarca - [ 1659737 ] InfoGeneral not working with virtual columns
+ * </ul>
+ * 
  * 	@author 	Jorg Janke
  * 	@version 	$Id: InfoGeneral.java,v 1.3 2006/10/06 00:42:38 jjanke Exp $
  */
@@ -76,6 +81,8 @@ public class InfoGeneral extends Info
 	private Info_Column[] m_generalLayout;
 	/** list of query columns           */
 	private ArrayList<String> 	m_queryColumns = new ArrayList<String>();
+	/** list of query columns (SQL) */
+	private ArrayList<String>	m_queryColumnsSql = new ArrayList<String>();
 
 	//  Static data
 	private CLabel label1 = new CLabel();
@@ -185,7 +192,7 @@ public class InfoGeneral extends Info
 	private boolean initInfoTable ()
 	{
 		//	Get Query Columns -------------------------------------------------
-		String sql = "SELECT c.ColumnName, t.AD_Table_ID, t.TableName "
+		String sql = "SELECT c.ColumnName, t.AD_Table_ID, t.TableName, c.ColumnSql "
 			+ "FROM AD_Table t"
 			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 			+ "WHERE c.AD_Reference_ID=10"
@@ -206,6 +213,12 @@ public class InfoGeneral extends Info
 			while (rs.next())
 			{
 				m_queryColumns.add(rs.getString(1));
+				String columnSql = rs.getString(4);
+				if (columnSql != null && columnSql.length() > 0)
+					m_queryColumnsSql.add(columnSql);
+				else
+					m_queryColumnsSql.add(rs.getString(1));
+				
 				if (AD_Table_ID == 0)
 				{
 					AD_Table_ID = rs.getInt(2);
@@ -229,8 +242,10 @@ public class InfoGeneral extends Info
 		log.finest("Table " + tableName + ", ID=" + AD_Table_ID 
 			+ ", QueryColumns #" + m_queryColumns.size());
 		//	Only 4 Query Columns
-		while (m_queryColumns.size() > 4)
+		while (m_queryColumns.size() > 4) {
 			m_queryColumns.remove(m_queryColumns.size()-1);
+			m_queryColumnsSql.remove(m_queryColumnsSql.size()-1);
+		}
 		//  Set Title
 		String title = Msg.translate(Env.getCtx(), tableName + "_ID");  //  best bet
 		if (title.endsWith("_ID"))
@@ -240,7 +255,7 @@ public class InfoGeneral extends Info
 
 		//	Get Display Columns -----------------------------------------------
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-		sql = "SELECT c.ColumnName, c.AD_Reference_ID, c.IsKey, f.IsDisplayed, c.AD_Reference_Value_ID "
+		sql = "SELECT c.ColumnName, c.AD_Reference_ID, c.IsKey, f.IsDisplayed, c.AD_Reference_Value_ID, c.ColumnSql "
 			+ "FROM AD_Column c"
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Tab tab ON (t.AD_Window_ID=tab.AD_Window_ID)"
@@ -263,8 +278,12 @@ public class InfoGeneral extends Info
 				boolean isKey = rs.getString(3).equals("Y");
 				boolean isDisplayed = rs.getString(4).equals("Y");
 				int AD_Reference_Value_ID = rs.getInt(5);
+				// teo_sarca
+				String columnSql = rs.getString(6);
+				if (columnSql == null || columnSql.length() == 0)
+					columnSql = columnName;
 				//  Default
-				StringBuffer colSql = new StringBuffer(columnName);
+				StringBuffer colSql = new StringBuffer(columnSql);
 				Class colClass = null;
 				//
 				if (isKey)
@@ -291,12 +310,12 @@ public class InfoGeneral extends Info
 				{
 					if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
 						colSql = new StringBuffer("(SELECT l.Name FROM AD_Ref_List l WHERE l.AD_Reference_ID=")
-							.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnName)
+							.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnSql)
 							.append(") AS ").append(columnName);
 					else
 						colSql = new StringBuffer("(SELECT t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
 							+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID AND l.AD_Reference_ID=")
-							.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnName)
+							.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnSql)
 							.append(" AND t.AD_Language='").append(Env.getAD_Language(Env.getCtx()))
 							.append("') AS ").append(columnName);
 					colClass = String.class;
@@ -361,7 +380,7 @@ public class InfoGeneral extends Info
 	{
 		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
 		{
-			sql.append(" AND UPPER(").append(m_queryColumns.get(index).toString()).append(") LIKE '");
+			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE '");
 			sql.append(value);
 			if (value.endsWith("%"))
 				sql.append("'");
