@@ -474,7 +474,7 @@ public class VDate extends JComponent
 		AEnv.showCenterWindow(frame, cal);
 		Timestamp result = cal.getTimestamp();
 		log.config( "Result=" + result);
-		if (result == null && !cal.isCancel())
+		if (result == null)
 			result = value;		//	original
 		cal = null;
 		return result;
