@@ -119,8 +119,8 @@
 	  <fileset dir="../looks/build" />
 	  <fileset dir="../print/build" />
 	  <fileset dir="../extend/build" />
-	  <fileset file="../JasperReports/CompiereJasper.jar"/>
-      <manifest>
+      <zipgroupfileset file="../JasperReports/CompiereJasper.jar"/>
+	  <manifest>
         <attribute name="Specification-Title" value="Adempiere"/>
         <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
         <attribute name="Specification-Vendor" value="ADempiere"/>
