@@ -1,12 +1,19 @@
-insert into AD_MESSAGE (
-	"AD_MESSAGE_ID","AD_CLIENT_ID","AD_ORG_ID","ISACTIVE","CREATED","CREATEDBY","UPDATED","UPDATEDBY",
-	"VALUE","MSGTEXT","MSGTIP","MSGTYPE","ENTITYTYPE"
-) 
-values (
-	50007,0,0,'Y',to_date('12-02-2007','DD-MM-RRRR'),0,to_date('12-02-2007','DD-MM-RRRR'),0,
-	'Charset','Charset','Charset used for import / export','I','D'
-);
+INSERT INTO ad_message
+            (ad_message_id, ad_client_id, ad_org_id, isactive, created,
+             createdby, updated, updatedby, VALUE,
+             msgtext, msgtip, msgtype, entitytype
+            )
+     VALUES (50007, 0, 0, 'Y', TO_DATE ('12-02-2007', 'DD-MM-RRRR'),
+             0, TO_DATE ('12-02-2007', 'DD-MM-RRRR'), 0, 'Charset',
+             'Charset', 'Charset used for import / export', 'I', 'D'
+            );
 
-commit;
+COMMIT ;
 
--- Run sequence check
+UPDATE ad_sequence
+   SET currentnextsys = (SELECT MAX (ad_element_id) + 1
+                           FROM ad_element
+                          WHERE ad_element_id < 1000000)
+ WHERE NAME = 'AD_Message';
+
+COMMIT;
