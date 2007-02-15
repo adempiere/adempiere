@@ -14,7 +14,6 @@
 	<classpathentry kind="src" path="interfaces/src"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/freepdf.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar"/>
@@ -43,7 +42,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-net-1.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jgraph.jar"/>
-	<classpathentry kind="lib" path="lib/jPDF.jar"/>
 	<classpathentry kind="lib" path="tools/lib/barbecue-1.0.6d.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.2.jar"/>
@@ -71,5 +69,7 @@
 	<classpathentry kind="lib" path="tools/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itext-1.4.8.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jpedal.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
