@@ -706,6 +706,14 @@ public class Calendar extends CDialog
 			dispose();
 			return;
 		}
+		
+		//	ESC = Cancel - teo_sarca, [ 1660164 ]
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			m_cancel = true;
+			dispose();
+			return;
+		}
 
 		//	Modified Hour/Miinute
 		setTime();
