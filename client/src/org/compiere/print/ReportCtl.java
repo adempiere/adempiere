@@ -182,7 +182,7 @@ public class ReportCtl
 			}
 		}
 		else if (type == ReportEngine.SHIPMENT)
-		{			
+		{			 
 			MInOut m_inout = new MInOut(Env.getCtx(), Record_ID,null);
 			if(!m_inout.isPrinted())
 			{	
