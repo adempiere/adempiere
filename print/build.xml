@@ -25,9 +25,10 @@
     <pathelement path="../lib/CCTools.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../dbPort/dbPort.jar"/>
-    <pathelement path="../lib/freepdf.jar"/>
     <pathelement path="../lib/customization.jar"/>
     <pathelement path="../lib/patches.jar"/>
+	<pathelement path="../tools/lib/jpedal.jar"/>
+	<pathelement path="../tools/lib/itext-1.4.8.jar"/>
   </path>
 
 

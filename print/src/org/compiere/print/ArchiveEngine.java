@@ -20,8 +20,7 @@ import java.awt.print.*;
 import org.compiere.model.*;
 import org.compiere.print.layout.*;
 import org.compiere.util.*;
-import com.qoppa.pdf.*;
-import com.qoppa.pdfProcess.*;
+import org.adempiere.pdf.*;
 
 
 /**
@@ -44,7 +43,7 @@ public class ArchiveEngine
 	 * 	@return existing document or newly created if Client enabled archiving. 
 	 * 	Will return NULL if archiving not enabled
 	 */ 
-	public PDFDocument archive (LayoutEngine layout, PrintInfo info)
+	public byte[] archive (LayoutEngine layout, PrintInfo info)
 	{
 		//	Do we need to Archive ?
 		MClient client = MClient.get(layout.getCtx());
@@ -86,7 +85,7 @@ public class ArchiveEngine
 		archive.setBinaryData(data);
 		archive.save();
 		
-		return null;
+		return data;
 	}	//	archive
 	
 	/**

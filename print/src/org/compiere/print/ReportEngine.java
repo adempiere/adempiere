@@ -33,7 +33,7 @@ import org.compiere.model.*;
 import org.compiere.print.layout.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
-import com.qoppa.pdf.*;
+import org.adempiere.pdf.*;
 
 /**
  *	Report Engine.
