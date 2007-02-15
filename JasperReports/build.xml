@@ -161,7 +161,9 @@
     <delete file="${dist.dir}/${jar.name}.jar" failonerror="false"/>
     <delete file="${dist.dir}/${jar.name}Doc.jar" failonerror="false"/>
     <delete file="${dist.dir}/${jar.name}Source.jar" failonerror="false"/>
-  	<delete dir="${needed.dir}"/>
+    <delete dir="${needed.dir}"/>
+    <delete file="./CompiereJasperReqs.jar"/>
+    <delete file="${jar.path}/CompiereJasperReqs.jar"/>
   </target>
 
 

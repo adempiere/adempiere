@@ -334,6 +334,7 @@
     <delete file="${dist.dir}/jboss.jar" failonerror="false"/>
     <delete file="${dist.dir}/oracle.jar" failonerror="false"/>
     <delete file="${dist.dir}/derby.jar" failonerror="false"/>
+    <delete file="${dist.dir}/postgresql.jar" failonerror="false"/>
   </target>
 
 </project>

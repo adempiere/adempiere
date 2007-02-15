@@ -226,6 +226,8 @@
   <!-- =========================================== -->
   <target name="clean">
     <delete dir="${build.dir}" failonerror="false"/>
+    <delete file="../lib/adempiereRootBase.war"/>
+    <delete file="../lib/adempiereRoot.jar"/>
 	<!-- This is boring to delete these
     <delete>
       <fileset dir="${src.interfaces.dir}" includes="**/*.java"/>
