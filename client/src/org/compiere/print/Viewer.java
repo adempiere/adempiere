@@ -31,7 +31,7 @@ import org.compiere.apps.search.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
-import com.qoppa.pdf.*;
+import org.adempiere.pdf.*;
 
 /**
  *	Print View Frame

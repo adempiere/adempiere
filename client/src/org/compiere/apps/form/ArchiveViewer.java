@@ -27,8 +27,8 @@ import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
-import com.qoppa.pdf.*;
-import com.qoppa.pdfViewer.*;
+import org.adempiere.pdf.*;
+import org.adempiere.pdf.viewer.*;
 
 
 /**

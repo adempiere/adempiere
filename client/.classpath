@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/extend"/>
 	<classpathentry kind="lib" path="/interfaces/Interfaces.jar" sourcepath="/interfaces/src"/>
-	<classpathentry kind="lib" path="/lib/jPDF.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="output" path="build"/>
