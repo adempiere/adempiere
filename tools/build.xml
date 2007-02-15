@@ -231,7 +231,10 @@
 
   	
     <!-- Clean up			-->
-    <delete file="${buildServer.dir}/META-INF/MANIFEST.MF" failonerror="false"/>
+    <delete>
+      <fileset dir="${buildServer.dir}" includes="build.xml"/>
+      <fileset dir="${buildServer.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
+    </delete>
 
     <!-- Create CSTools jar		-->
     <jar jarfile="${dist.dir}/CSTools.jar">
