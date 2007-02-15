@@ -25,7 +25,6 @@ import java.util.logging.*;
 import org.compiere.*;
 import org.compiere.db.*;
 import org.compiere.model.*;
-import com.qoppa.pdf.*;
 
 
 /**
@@ -503,7 +502,6 @@ public class CLogMgt
 			.append(eq).append(client.isMultiLingualDocument()).append(NL);
 		sb.append("BaseLanguage = ").append(Env.isBaseLanguage(Env.getCtx(), "AD_Window"))
 			.append("/").append(Env.isBaseLanguage(Env.getCtx(), "C_UOM")).append(NL);
-		sb.append("PDF License=").append(Document.isLicensed()).append(NL); 
 		sb.append(Adempiere.getJavaInfo()).append(NL);
 		sb.append(Adempiere.getOSInfo());
 		//

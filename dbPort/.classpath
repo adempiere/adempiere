@@ -2,13 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/tools"/>
+	<classpathentry exported="true" kind="src" path="/tools"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/jboss"/>
 	<classpathentry kind="lib" path="/interfaces/Interfaces.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jnlp.jar"/>
-	<classpathentry kind="lib" path="/lib/jPDF.jar"/>
 	<classpathentry kind="lib" path="/lib/oracle.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/derby"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>

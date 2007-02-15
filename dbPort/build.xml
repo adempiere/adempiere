@@ -31,7 +31,7 @@
     <pathelement path="${lib.dir}/jboss.jar"/>
     <pathelement path="${lib.dir}/CCTools.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
-    <pathelement path="${lib.dir}/freepdf.jar"/>
+    <pathelement path="../freepdf/freepdf.jar"/>
     <pathelement path="${lib.dir}/customization.jar"/>
     <pathelement path="${lib.dir}/patches.jar"/>
     <pathelement path="${toolslib.dir}/junit.jar"/>

@@ -27,7 +27,6 @@ import org.compiere.db.*;
 import org.compiere.model.*;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
-import com.qoppa.pdf.*;
 
 /**
  *  Adempiere Control Class
@@ -510,7 +509,6 @@ public final class Adempiere
 				MClient.get(Env.getCtx(),0);			//	Login Client loaded later
 			else
 				MClient.getAll(Env.getCtx());
-			Document.setKey(system.getSummary());
 		}
 		catch (Exception e)
 		{
