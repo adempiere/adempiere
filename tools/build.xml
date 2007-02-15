@@ -225,7 +225,9 @@
     <unjar src="../derby/derbytools.jar" dest="${buildServer.dir}"/>
     <!-- Adempiere look and feel -->
 	<unjar src="lib/looks-2.0.4.jar" dest="${buildServer.dir}"/>
-  	
+  	<!-- PDF -->
+  	<unjar src="lib/jpedal.jar" dest="${buildServer.dir}"/>
+	<unjar src="lib/itext-1.4.8.jar" dest="${buildServer.dir}"/>
 
   	
     <!-- Clean up			-->
@@ -279,6 +281,9 @@
   	<!-- jars for 2pack                         -->
   	<unjar src="lib/ant.jar" dest="${buildClient.dir}"/>
   	<unjar src="lib/xercesImpl.jar" dest="${buildClient.dir}"/>
+	<!-- PDF -->
+	<unjar src="lib/jpedal.jar" dest="${buildClient.dir}"/>
+	<unjar src="lib/itext-1.4.8.jar" dest="${buildClient.dir}"/>
 
     <!-- Clean up			-->
     <delete>
