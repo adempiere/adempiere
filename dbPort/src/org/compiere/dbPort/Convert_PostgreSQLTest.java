@@ -31,7 +31,7 @@ public final class Convert_PostgreSQLTest {
 		// Line 407 of ImportProduct.java
 		
 		sql = "ALTER TABLE LPI_Publication MODIFY AD_Client_ID NUMERIC(10) DEFAULT NULL";
-		sqe = "ALTER TABLE LPI_Publication MODIFY COLUMN AD_Client_ID TYPE NUMERIC(10); ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID SET DEFAULT 'NULL'; ";
+		sqe = "ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID TYPE NUMERIC(10); ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID SET DEFAULT NULL; ";
 
         r = convert.convert(sql);
         verify(sql, r, sqe);

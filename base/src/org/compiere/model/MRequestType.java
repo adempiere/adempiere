@@ -160,10 +160,10 @@ public class MRequestType extends X_R_RequestType
 			+ "(SELECT COUNT(*) FROM R_Request r "
 			+ "WHERE r.R_RequestType_ID=x.R_RequestType_ID) AS TotalNo, "
 			+ "(SELECT COUNT(*) FROM R_Request r "
-			+ "WHERE r.R_RequestType_ID=x.R_RequestType_ID AND Created>SysDate-30) AS New30No, "
+			+ "WHERE r.R_RequestType_ID=x.R_RequestType_ID AND Created>addDays(SysDate,-30)) AS New30No, "
 			+ "(SELECT COUNT(*) FROM R_Request r"
 			+ " INNER JOIN R_Status s ON (r.R_Status_ID=s.R_Status_ID AND s.IsClosed='Y') "
-			+ "WHERE r.R_RequestType_ID=x.R_RequestType_ID AND r.Updated>SysDate-30) AS Closed30No "
+			+ "WHERE r.R_RequestType_ID=x.R_RequestType_ID AND r.Updated>addDays(SysDate,-30)) AS Closed30No "
 			//
 			+ "FROM R_RequestType x WHERE R_RequestType_ID=?";
 		PreparedStatement pstmt = null;
@@ -438,7 +438,7 @@ public class MRequestType extends X_R_RequestType
 		//	else if (MGoal.MEASUREDISPLAY_Day.equals(MeasureDisplay))
 		//		;
 			orderBy = "TRUNC(" + dateColumn + ",'" + trunc + "')";
-			groupBy = orderBy + ", StatusID ";
+			groupBy = orderBy + ", 3 ";
 			sb.append(orderBy)
 				.append(", 0 as StatusID ")
 				.append("FROM R_Request ");
@@ -446,7 +446,7 @@ public class MRequestType extends X_R_RequestType
 		else
 		{
 			orderBy = "s.SeqNo"; 
-			groupBy = "COALESCE(s.Name,'-'), s.R_Status_ID, s.SeqNo ";
+			groupBy = "COALESCE(s.Name,TO_NCHAR('-')), s.R_Status_ID, s.SeqNo ";
 			sb.append(groupBy)
 				.append("FROM R_Request LEFT OUTER JOIN R_Status s ON (R_Request.R_Status_ID=s.R_Status_ID) ");
 		}

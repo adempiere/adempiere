@@ -59,6 +59,7 @@ public final class ConvertMap_PostgreSQL {
 		s_pg.put("\\bTO_DATE\\b",               "TO_TIMESTAMP");
 		//
 		s_pg.put("\\bDBMS_OUTPUT.PUT_LINE\\b",  "RAISE NOTICE");
+		s_pg.put("\\bTO_NCHAR\\b",              "");
 
 		//  Temporary
 		s_pg.put("\\bGLOBAL TEMPORARY\\b",      "TEMPORARY");
