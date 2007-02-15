@@ -68,6 +68,7 @@
   <target name="clean">
     <delete dir="${build.dir}"/>
     <delete file="../lib/adempiereWebStore.war" failonerror="false"/>
+    <delete file="../lib/adempiereWebStore.xml"/>
   </target>
   
 </project>

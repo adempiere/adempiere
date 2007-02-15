@@ -154,6 +154,7 @@
     <delete dir="${build.dir}"/>
     <delete file="../lib/adempiereApps.war" failonerror="false"/>
     <delete file="../lib/adempiereApps.jar" failonerror="false"/>
+    <delete file="../lib/adempiereApps.xml" failonerror="false"/>
   </target>
 
 </project>
