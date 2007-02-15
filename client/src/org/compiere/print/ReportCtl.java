@@ -155,6 +155,7 @@ public class ReportCtl
 	 */
 	public static boolean startDocumentPrint (int type, int Record_ID, boolean IsDirectPrint)
 	{
+
 		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
 		if (re == null)
 		{
@@ -168,6 +169,38 @@ public class ReportCtl
 		}
 		else
 			preview(re);
+		
+		
+		//vpj-cd e-evolution 15022007
+		if(type == ReportEngine.INVOICE)
+		{	
+			MInvoice m_invoice = new MInvoice(Env.getCtx(), Record_ID,null);
+			if(!m_invoice.isPrinted())
+			{
+			m_invoice.setIsPrinted(true);
+			m_invoice.save();			
+			}
+		}
+		else if (type == ReportEngine.SHIPMENT)
+		{			
+			MInOut m_inout = new MInOut(Env.getCtx(), Record_ID,null);
+			if(!m_inout.isPrinted())
+			{	
+			m_inout.setIsPrinted(true);
+			m_inout.save();
+			}
+		}
+		else if (type == ReportEngine.ORDER)
+		{			
+			MOrder m_order = new MOrder(Env.getCtx(), Record_ID,null);
+			if(!m_order.isPrinted())
+			{	
+			m_order.setIsPrinted(true);
+			m_order.save();
+			}
+		}
+		//vpj-cd e-evolution 15022007
+		
 		return true;
 	}	//	StartDocumentPrint
 
