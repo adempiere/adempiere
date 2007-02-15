@@ -109,7 +109,9 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 	public static ColorUIResource white =  WHITE;
 
 	/** Background for mandatory fields */
-	public static ColorUIResource mandatory =  new ColorUIResource(233, 238, 245); // blueish 
+	//public static ColorUIResource mandatory =  new ColorUIResource(233, 238, 245); // blueish 
+	public static ColorUIResource mandatory =  new ColorUIResource(205, 225, 245); // BF[ 1640919 ] Adempiere Theme aspect problem
+	
 	/** Background for fields in error */
 	//Gree for error is confusing new ColorUIResource(220, 241, 203); // green ;
 	public static ColorUIResource error = new ColorUIResource(255, 204, 204); //  red-isch
