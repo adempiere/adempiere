@@ -47,7 +47,11 @@
 		<ant inheritAll="false" dir="webCM" target="clean"/>
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
-	</target>
+  </target>
+
+  <target name="clean-all" depends="clean">
+    <delete dir="${env.ADEMPIERE_ROOT}"/>
+  </target>
 
 	<!-- ================================================ -->
 	<!-- Adempiere Local Install                           -->
