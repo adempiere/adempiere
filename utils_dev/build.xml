@@ -109,7 +109,8 @@
 		</exec>
 	</target>
 	
-	<target name="runSetupNonWin" depends="runSetupInit" unless="isWindows" >
+  <target name="runSetupNonWin" depends="runSetupInit" unless="isWindows" >
+    <chmod dir="${env.ADEMPIERE_HOME}" perm="ugo+rx" includes="RUN_setup.sh"/>
 		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_setup.sh" 
 			spawn="false" resolveexecutable="true">
 		</exec>
@@ -135,7 +136,8 @@
 		</exec>
 	</target>
 	
-	<target name="runUpdateNonWin" depends="runSetupInit" unless="isWindows" >
+  <target name="runUpdateNonWin" depends="runSetupInit" unless="isWindows" >
+    <chmod dir="${env.ADEMPIERE_HOME}" perm="ugo+rx" includes="RUN_update.sh"/>
 		<exec dir="${env.ADEMPIERE_HOME}" executable="RUN_update.sh" 
 			spawn="false" resolveexecutable="true">
 		</exec>
