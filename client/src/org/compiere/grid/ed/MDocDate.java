@@ -175,7 +175,8 @@ public final class MDocDate extends PlainDocument implements CaretListener
 		if (offset == 0 || length == 0)
 		{
 			//	empty the field
-			if (length == m_mask.length() || length == 0)
+			//  if the length is 0 or greater or equal with the mask length - teo_sarca, [ 1660595 ] Date field: incorrect functionality on paste
+			if (length >= m_mask.length() || length == 0)
 				super.remove(offset, length);
 			return;
 		}
