@@ -22,6 +22,8 @@ import java.util.Date;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import java.util.logging.*;
+
+import org.compiere.apps.ADialog;
 import org.compiere.util.*;
 
 /**
@@ -119,7 +121,9 @@ public final class MDocDate extends PlainDocument implements CaretListener
 			}
 			catch (Exception pe)
 			{
-				startDateDialog();
+				//hengsin, [ 1660175 ] Date field - anoying popup
+				//startDateDialog();
+				ADialog.beep();
 				return;
 			}
 
