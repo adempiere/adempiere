@@ -199,13 +199,19 @@ public class GridController extends CPanel
 		log.config( "(" + m_mTab.toString() + ")");
 		//  clear info
 		stopEditor(false);
-		if (m_mTab.needSave(true, false))
-			m_mTab.dataIgnore();
+		if (m_mTab.isLoadComplete())
+		{
+			if (m_mTab.needSave(true, false))
+				m_mTab.dataIgnore();
+		}
 		vIncludedGC = null;
 
 		//  Listeners
-		m_mTab.getTableModel().removeDataStatusListener(this);
-		m_mTab.getTableModel().removeVetoableChangeListener(this);
+		if (m_mTab.isLoadComplete())
+		{
+			m_mTab.getTableModel().removeDataStatusListener(this);
+			m_mTab.getTableModel().removeVetoableChangeListener(this);
+		}
 		vTable.getSelectionModel().removeListSelectionListener(this);
 		m_mTab.removePropertyChangeListener(vTable);
 

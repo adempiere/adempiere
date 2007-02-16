@@ -139,7 +139,7 @@ public class VTabbedPane extends CTabbedPane
 			else if (comp[i] instanceof GridController)
 			{
 				GridController gc = (GridController)comp[i];
-				gc.addDataStatusListener(aPanel);
+				gc.removeDataStatusListener(aPanel);
 				gc.dispose();
 			}
 		}
