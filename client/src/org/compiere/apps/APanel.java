@@ -2101,6 +2101,33 @@ public final class APanel extends CPanel
 	}	//	getCurrentTab
 	
 	/**
+	 * Get the number of tabs in the panels JTabbedPane.
+	 * @return no of tabs in the JTabbedPane of the panel
+	 */
+	public int noOfTabs() {
+ 		return m_curWinTab.getTabCount();
+	}
+	
+	/**
+	 * Get the selected tab index of the panels JTabbedPane.
+	 * @return selected index of JTabbedPane
+	 */
+	public int getSelectedTabIndex() {
+ 		return m_curWinTab.getSelectedIndex();
+	}
+	
+	/**
+	 * Get the name of the selected tab in the panels JTabbedPane.
+	 * @return name of selected tab
+	 */
+	public String getSelectedTabName() {
+ 		String title = m_curWinTab.getTitleAt(m_curWinTab.getSelectedIndex());
+ 		title = title.substring(title.indexOf("<html>")+6);
+ 		title = title.substring(0,title.indexOf("<"));
+ 		return title;
+	}
+	
+	/**
 	 *  String representation
 	 *  @return String representation
 	 */
