@@ -138,8 +138,8 @@ public abstract class VCreateFrom extends CDialog
 	protected MiniTable dataTable = new MiniTable();
 	protected JLabel locatorLabel = new JLabel();
 	protected VLocator locatorField = new VLocator();
-	public static final String SELECT_ALL = "Select All";
-	public static final String SELECT_ALL_TOOLTIP = "Select all records";
+	public static final String SELECT_ALL = "SelectAll";
+//	public static final String SELECT_ALL_TOOLTIP = "Select all records";	
 	/**
 	 *  Static Init.
 	 *  <pre>
@@ -201,13 +201,13 @@ public abstract class VCreateFrom extends CDialog
 		//
  		//
 		// @Trifon
-		AppsAction selectAllAction = new AppsAction (Msg.getMsg(Env.getCtx(), SELECT_ALL), KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), Msg.getMsg(Env.getCtx(), SELECT_ALL));
+		AppsAction selectAllAction = new AppsAction (SELECT_ALL, KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), null);
 		
 		CButton selectAllButton = (CButton)selectAllAction.getButton();
 		selectAllButton.setMargin(new Insets (0, 10, 0, 10));
 		selectAllButton.setDefaultCapable(true);
 		selectAllButton.addActionListener(this);
-		selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
+//		selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
 		confirmPanel.addButton(selectAllButton);
 		//
 		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
