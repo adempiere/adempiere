@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,10 +10,8 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.pos;
 
 import java.awt.*;
@@ -22,18 +20,20 @@ import java.util.*;
 
 import javax.swing.*;
 
+import org.compiere.swing.*;
 import org.compiere.apps.*;
 import org.compiere.apps.form.*;
 import org.compiere.model.*;
-import org.compiere.swing.*;
 import java.util.logging.*;
 import org.compiere.util.*;
 
 /**
  *	Point of Sales Main Window.
  *
- *  @author Jorg Janke
- *  @version $Id: PosPanel.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © Jorg Janke
+ *  @version $Id: PosPanel.java,v 1.10 2004/07/12 04:10:04 jjanke Exp $
  */
 public class PosPanel extends CPanel
 	implements FormPanel
@@ -44,6 +44,7 @@ public class PosPanel extends CPanel
 	public PosPanel()
 	{
 		super (new GridBagLayout());
+		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
 	}	//	PosPanel
@@ -80,16 +81,21 @@ public class PosPanel extends CPanel
 	/** Checkout					*/
 	protected SubCheckout 		f_checkout = null;
 	/** Basic Keys					*/
-	protected SubBasicKeys 		f_basicKeys = null;
+//	protected SubBasicKeys 		f_basicKeys = null;
 	
 	/**	Product Query Window		*/
 	protected QueryProduct		f_queryProduct = null;
 	/**	BPartner Query Window		*/
 	protected QueryBPartner		f_queryBPartner = null;
+	/** Ticket Query Window			*/
+	protected QueryTicket 		f_queryTicket = null;
 	
+	protected CashSubFunctions 	f_cashfunctions;
 	
 	//	Today's (login) date		*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
+	
+	private KeyboardFocusManager originalKeyboardFocusManager;
 	
 	/**
 	 *	Initialize Panel
@@ -98,6 +104,7 @@ public class PosPanel extends CPanel
 	 */
 	public void init (int WindowNo, FormFrame frame)
 	{
+		frame.setMaximize(true);
 		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
 		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
 		m_WindowNo = WindowNo;
@@ -131,6 +138,7 @@ public class PosPanel extends CPanel
 		if (m_focusMgr != null)
 			m_focusMgr.stop();
 		m_focusMgr = null;
+		KeyboardFocusManager.setCurrentKeyboardFocusManager(originalKeyboardFocusManager);
 		//
 		if (f_bpartner != null)
 			f_bpartner.dispose();
@@ -139,7 +147,10 @@ public class PosPanel extends CPanel
 			f_salesRep.dispose();
 		f_salesRep = null;
 		if (f_curLine != null)
+		{
+			f_curLine.deleteOrder();
 			f_curLine.dispose();
+		}
 		f_curLine = null;
 		if (f_product != null)
 			f_product.dispose();
@@ -153,17 +164,23 @@ public class PosPanel extends CPanel
 		if (f_checkout != null)
 			f_checkout.dispose();
 		f_checkout = null;
-		if (f_basicKeys != null)
-			f_basicKeys.dispose();
+/*		if (f_basicKeys != null)
+			f_basicKeys.dispose();			removed by ConSerTi upon not appreciating its functionality
 		f_basicKeys = null;
-		//
+*/		//
 		if (f_queryProduct != null)
 			f_queryProduct.dispose();
 		f_queryProduct = null;
 		if (f_queryBPartner != null)
 			f_queryBPartner.dispose();
 		f_queryBPartner = null;
+		if (f_queryTicket != null)
+			f_queryTicket.dispose();
+		f_queryTicket = null;
 		//
+		if (f_cashfunctions != null)
+			f_cashfunctions.dispose();
+		f_cashfunctions = null;
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
@@ -203,9 +220,9 @@ public class PosPanel extends CPanel
 		f_checkout = new SubCheckout (this);
 		add (f_checkout, f_checkout.getGridBagConstraints());
 		//
-		f_basicKeys = new SubBasicKeys (this);
-		add (f_basicKeys, f_basicKeys.getGridBagConstraints());
-		
+/*		f_basicKeys = new SubBasicKeys (this);
+		add (f_basicKeys, f_basicKeys.getGridBagConstraints());  removed by ConSerTi upon not appreciating its functionality
+*/		
 		//	--	Query
 		f_queryProduct = new QueryProduct (this);
 		add (f_queryProduct, f_queryProduct.getGridBagConstraints());
@@ -213,6 +230,12 @@ public class PosPanel extends CPanel
 		f_queryBPartner = new QueryBPartner (this);
 		add (f_queryBPartner, f_queryBPartner.getGridBagConstraints());
 		//
+		f_queryTicket = new QueryTicket(this);
+		add (f_queryTicket, f_queryTicket.getGridBagConstraints());
+		//
+		f_cashfunctions = new CashSubFunctions(this);
+		add (f_cashfunctions, f_cashfunctions.getGridBagConstraints());
+		
 		newOrder();
 		return true;
 	}	//	dynInit
@@ -316,11 +339,19 @@ public class PosPanel extends CPanel
 	 */
 	public void openQuery (CPanel panel)
 	{
+		if (panel.equals(f_cashfunctions))
+		{
+			f_bpartner.setVisible(false);
+			f_salesRep.setVisible(false);
+			f_curLine.setVisible(false);
+			f_product.setVisible(false);
+		}
 		f_checkout.setVisible(false);
-		f_basicKeys.setVisible(false);
+//		f_basicKeys.setVisible(false);  removed by ConSerTi upon not appreciating its functionality
 		f_lines.setVisible(false);
 		f_functionKeys.setVisible(false);
 		panel.setVisible(true);
+		
 	}	//	closeQuery
 
 	/**
@@ -330,10 +361,14 @@ public class PosPanel extends CPanel
 	public void closeQuery (CPanel panel)
 	{
 		panel.setVisible(false);
-		f_checkout.setVisible(true);
-		f_basicKeys.setVisible(true);
+		f_bpartner.setVisible(true);
+		f_salesRep.setVisible(true);
+		f_curLine.setVisible(true);
+		f_product.setVisible(true);
+//		f_basicKeys.setVisible(true);   removed by ConSerTi upon not appreciating its functionality
 		f_lines.setVisible(true);
 		f_functionKeys.setVisible(true);
+		f_checkout.setVisible(true);
 	}	//	closeQuery
 
 	/**************************************************************************
@@ -347,14 +382,44 @@ public class PosPanel extends CPanel
 	
 	/**
 	 * 	New Order
+	 *   
 	 */
 	public void newOrder()
 	{
 		log.info( "PosPabel.newOrder");
 		f_bpartner.setC_BPartner_ID(0);
+		f_curLine.newOrder();
 		f_curLine.newLine();
 		f_product.f_name.requestFocus();
+		updateInfo();
 	}	//	newOrder
 	
+	/**
+	 * Get the number of the window for the function calls that it needs 
+	 * 
+	 * @return the window number
+	 */
+	public int getWindowNo()
+	{
+		return m_WindowNo;
+	}
+	
+	/**
+	 * Get the properties for the process calls that it needs
+	 * 
+	 * @return las Propiedades m_ctx
+	 */
+	public Properties getPropiedades()
+	{
+		return m_ctx;
+	}
+	
+	public void updateInfo()
+	{
+		if (f_lines != null)
+			f_lines.updateTable(f_curLine.getOrder());
+		if (f_checkout != null)
+			f_checkout.displayReturn();
+	}	
 }	//	PosPanel
 

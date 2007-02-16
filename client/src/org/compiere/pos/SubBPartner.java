@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,27 +10,29 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.pos;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
-import org.compiere.model.*;
+
 import org.compiere.swing.*;
+import org.compiere.model.*;
 import org.compiere.util.*;
 
 
 /**
- *	POS Customer Sub Panel
+ *	Customer Sub Panel
  *	
- *  @author Jorg Janke
- *  @version $Id: SubBPartner.java,v 1.2 2006/07/30 00:51:26 jjanke Exp $
+ *  @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © Jorg Janke
+ *  @version $Id: SubBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class SubBPartner extends PosSubPanel 
 	implements ActionListener, FocusListener
@@ -165,6 +167,8 @@ public class SubBPartner extends PosSubPanel
 		//	Name
 		else if (e.getSource() == f_name)
 			findBPartner();
+		
+		p_posPanel.updateInfo();
 	}	//	actionPerformed
 
 	/**
@@ -224,8 +228,9 @@ public class SubBPartner extends PosSubPanel
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//
+		//TODO: contact have been remove from rv_bpartner
 		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
-			Contact, EMail, Phone, City);
+			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result
 		if (results.length == 0)
@@ -276,6 +281,7 @@ public class SubBPartner extends PosSubPanel
 		m_M_PriceList_Version_ID = 0;
 		getM_PriceList_Version_ID();
 		fillCombos();
+		p_posPanel.f_curLine.setBPartner();  //added by ConSerTi to update the client in the request
 	}	//	setC_BPartner_ID
 
 	/**

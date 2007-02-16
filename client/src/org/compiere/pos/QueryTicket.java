@@ -16,6 +16,9 @@ package org.compiere.pos;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -23,28 +26,33 @@ import javax.swing.event.*;
 
 import org.compiere.swing.*;
 import org.compiere.apps.*;
+import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
-import org.compiere.model.*;
 import org.compiere.util.*;
 
 /**
- *	POS Query BPartner
+ *	POS Query Product
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
- *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *         *Jose A.Gonzalez, Conserti.
+ * 
+ *  @version $Id: QueryTicket.java,v 0.9 $
+ * 
+ *  @Colaborador $Id: Consultoria y Soporte en Redes y Tecnologias de la Informacion S.L.
+ * 
  */
-public class QueryBPartner extends PosSubPanel
+
+public class QueryTicket extends PosSubPanel
 	implements ActionListener, MouseListener, ListSelectionListener
 {
 	/**
 	 * 	Constructor
 	 */
-	public QueryBPartner (PosPanel posPanel)
+	public QueryTicket (PosPanel posPanel)
 	{
 		super(posPanel);
-	}	//	PosQueryBPartner
+	}	//	PosQueryProduct
 
 	/** The Table					*/
 	private MiniTable		m_table;
@@ -53,38 +61,26 @@ public class QueryBPartner extends PosSubPanel
 	private CScrollPane 	centerScroll;
 	private ConfirmPanel	confirm;
 	
-	private CTextField		f_value;
-	private CTextField		f_name;
-	private CTextField		f_contact;
-	private CTextField		f_email;
-	private CTextField		f_phone;
-	private CTextField		f_city;
+	private CTextField		f_c_order_id;
+	private CTextField		f_documentno;
+	private VDate			f_date;
 
 	private CButton			f_up;
 	private CButton			f_down;
 
-	private int				m_C_BPartner_ID;
+	private int				m_c_order_id;
+
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(QueryBPartner.class);
-	
+	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
 	
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
-		new ColumnInfo(" ", "C_BPartner_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
-		//TODO: contact column have been remove from rv_bpartner
-		//new ColumnInfo(Msg.translate(Env.getCtx(), "Contact"), "Contact", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Email"), "Email", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "Phone", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "Postal", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "City", String.class) 
+		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalLines"), "TotalLines", BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class)
 	};
-	/**	From Clause							*/
-	private static String s_sqlFrom = "RV_BPartner";
-	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'"; 
 
 	/**
 	 * 	Set up Panel
@@ -102,60 +98,34 @@ public class QueryBPartner extends PosSubPanel
 		//
 		gbc.gridy = 0;
 		gbc.gridx = GridBagConstraints.RELATIVE;
-		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
+		CLabel lorder_id = new CLabel(Msg.translate(p_ctx, "C_Order_ID"));
 		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lvalue, gbc);
-		f_value = new CTextField(10);
-		lvalue.setLabelFor(f_value);
+		northPanel.add (lorder_id, gbc);
+		f_c_order_id = new CTextField(20);
+		lorder_id.setLabelFor(f_c_order_id);
 		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_value, gbc);
-		f_value.addActionListener(this);
+		northPanel.add(f_c_order_id, gbc);
+		f_c_order_id.addActionListener(this);
 		//
-		CLabel lcontact = new CLabel(Msg.translate(p_ctx, "Contact"));
+		CLabel ldoc = new CLabel(Msg.translate(p_ctx, "DocumentNo"));
 		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lcontact, gbc);
-		f_contact = new CTextField(10);
-		lcontact.setLabelFor(f_contact);
+		northPanel.add (ldoc, gbc);
+		f_documentno = new CTextField(15);
+		ldoc.setLabelFor(f_documentno);
 		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_contact, gbc);
-		f_contact.addActionListener(this);
-		//
-		CLabel lphone = new CLabel(Msg.translate(p_ctx, "Phone"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lphone, gbc);
-		f_phone = new CTextField(10);
-		lphone.setLabelFor(f_phone);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_phone, gbc);
-		f_phone.addActionListener(this);
+		northPanel.add(f_documentno, gbc);
+		f_documentno.addActionListener(this);
 		//
 		gbc.gridy = 1;
-		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
+		CLabel ldate = new CLabel(Msg.translate(p_ctx, "DateOrdered"));
 		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lname, gbc);
-		f_name = new CTextField(10);
-		lname.setLabelFor(f_name);
+		northPanel.add (ldate, gbc);
+		f_date = new VDate();
+		f_date.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		ldate.setLabelFor(f_date);
 		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_name, gbc);
-		f_name.addActionListener(this);
-		//
-		CLabel lemail = new CLabel(Msg.translate(p_ctx, "Email"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lemail, gbc);
-		f_email = new CTextField(10);
-		lemail.setLabelFor(f_email);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_email, gbc);
-		f_email.addActionListener(this);
-		//
-		CLabel lcity = new CLabel(Msg.translate(p_ctx, "City"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lcity, gbc);
-		f_city = new CTextField(10);
-		lcity.setLabelFor(f_city);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_city, gbc);
-		f_city.addActionListener(this);
+		northPanel.add(f_date, gbc);
+		f_date.addActionListener(this);
 		//
 		gbc.gridy = 0;
 		gbc.gridheight = 2;
@@ -174,9 +144,11 @@ public class QueryBPartner extends PosSubPanel
 
 		//	Center
 		m_table = new MiniTable();
-		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_BPartner")
-			+ " ORDER BY Value";
+		
+		String sql = m_table.prepareTable (s_layout, "C_Order", 
+				"C_DocTypeTarget_ID" + p_pos.getC_DocType_ID()
+				, false, "C_Order")
+			+ " ORDER BY Margin, QtyAvailable";
 		m_table.setRowSelectionAllowed(true);
 		m_table.setColumnSelectionAllowed(false);
 		m_table.setMultiSelection(false);
@@ -224,8 +196,9 @@ public class QueryBPartner extends PosSubPanel
 	{
 		super.setVisible (aFlag);
 		if (aFlag)
-			f_value.requestFocus();
+			f_c_order_id.requestFocus();
 	}	//	setVisible
+
 	
 	/**
 	 * 	Action Listener
@@ -233,27 +206,17 @@ public class QueryBPartner extends PosSubPanel
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		log.info(e.getActionCommand());
+		log.info("PosQueryProduct.actionPerformed - " + e.getActionCommand());
 		if ("Refresh".equals(e.getActionCommand())
-			|| e.getSource() == f_value // || e.getSource() == f_upc
-			|| e.getSource() == f_name // || e.getSource() == f_sku
-			)
+			|| e.getSource() == f_c_order_id || e.getSource() == f_documentno
+			|| e.getSource() == f_date)
 		{
-			setResults(MBPartnerInfo.find (p_ctx,
-				f_value.getText(), f_name.getText(), 
-				null, f_email.getText(),
-				f_phone.getText(), f_city.getText()));
+			setResults(p_ctx, f_c_order_id.getText(), f_documentno.getText(), f_date.getTimestamp());
 			return;
 		}
 		else if ("Reset".equals(e.getActionCommand()))
 		{
-			f_value.setText(null);
-			f_name.setText(null);
-			f_contact.setText(null);
-			f_email.setText(null);
-			f_phone.setText(null);
-			f_city.setText(null);
-			setResults(new MBPartnerInfo[0]);
+			reset();
 			return;
 		}
 		else if ("Previous".equalsIgnoreCase(e.getActionCommand()))
@@ -286,13 +249,43 @@ public class QueryBPartner extends PosSubPanel
 	
 	
 	/**
+	 * 
+	 */
+	public void reset()
+	{
+		f_c_order_id.setText(null);
+		f_documentno.setText(null);
+		f_date.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		setResults(p_ctx, f_c_order_id.getText(), f_documentno.getText(), f_date.getTimestamp());
+	}
+
+
+	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (MBPartnerInfo[] results)
+	public void setResults (Properties ctx, String id, String doc, Timestamp date)
 	{
-		m_table.loadTable(results);
-		enableButtons();
+		String sql = "";
+		try 
+		{
+			sql = "SELECT o.C_Order_ID, o.DocumentNo, o.TotalLines, o.GrandTotal FROM C_Order o WHERE o.C_DocTypeTarget_ID = " + p_pos.getC_DocType_ID();
+			if (id != null && !id.equalsIgnoreCase(""))
+				sql += " AND o.C_Order_ID = " + id;
+			if (doc != null && !doc.equalsIgnoreCase(""))
+				sql += " AND o.DocumentNo = '" + doc + "'";
+			sql += " AND o.DateOrdered = ?";
+			
+			PreparedStatement pstm = DB.prepareStatement(sql, null);
+			pstm.setTimestamp(1, date);
+			ResultSet rs = pstm.executeQuery();
+			m_table.loadTable(rs);
+			enableButtons();
+		}
+		catch(Exception e)
+		{
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		}
 	}	//	setResults
 	
 	/**
@@ -311,7 +304,7 @@ public class QueryBPartner extends PosSubPanel
 	 */
 	private void enableButtons()
 	{
-		m_C_BPartner_ID = -1;
+		m_c_order_id = -1;
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
@@ -319,13 +312,11 @@ public class QueryBPartner extends PosSubPanel
 			Integer ID = m_table.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_BPartner_ID = ID.intValue();
-			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
-			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				m_c_order_id = ID.intValue();
 			}
 		}
 		confirm.getOKButton().setEnabled(enabled);
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
+		log.info("ID=" + m_c_order_id); 
 	}	//	enableButtons
 
 	/**
@@ -353,19 +344,13 @@ public class QueryBPartner extends PosSubPanel
 	 */
 	private void close()
 	{
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
+		log.info("C_Order_ID=" + m_c_order_id); 
 		
-		if (m_C_BPartner_ID > 0)
+		if (m_c_order_id > 0)
 		{
-			p_posPanel.f_bpartner.setC_BPartner_ID(m_C_BPartner_ID);
-		//	p_posPanel.f_curLine.setCurrency(m_Price);
-		}
-		else
-		{
-			p_posPanel.f_bpartner.setC_BPartner_ID(0);
-		//	p_posPanel.f_curLine.setPrice(Env.ZERO);
+			p_posPanel.f_curLine.setOldOrder(m_c_order_id);
 		}
 		p_posPanel.closeQuery(this);
 	}	//	close
 	
-}	//	PosQueryBPartner
+}	//	PosQueryProduct

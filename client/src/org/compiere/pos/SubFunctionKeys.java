@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,26 +10,28 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.pos;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.border.*;
+
+import org.compiere.swing.*;
 import org.compiere.model.*;
 import org.compiere.print.*;
-import org.compiere.swing.*;
 import org.compiere.util.*;
 
 
 /**
- *	POS Function Key Sub Panel
+ *	Function Key Sub Panel
  *	
- *  @author Jorg Janke
- *  @version $Id: SubFunctionKeys.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © Jorg Janke
+ *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class SubFunctionKeys extends PosSubPanel implements ActionListener
 {
@@ -64,7 +66,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 			return;
 		
 		int COLUMNS = 3;	//	Min Columns
-		int ROWS = 3;		//	Min Rows
+		int ROWS = 6;		//	Min Rows
 		m_keys = fKeys.getKeys(false);
 		int noKeys = m_keys.length;
 		int rows = Math.max (((noKeys-1) / COLUMNS) + 1, ROWS);
@@ -116,6 +118,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 		GridBagConstraints gbc = super.getGridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 2;
+		gbc.gridheight = 2;  //added by ConSerTi so that the panel takes up more space
 		return gbc;
 	}	//	getGridBagConstraints
 	
@@ -149,6 +152,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 					p_posPanel.f_product.setPrice();
 					p_posPanel.f_curLine.setQty(key.getQty());
 					p_posPanel.f_curLine.saveLine();
+					p_posPanel.updateInfo();
 					return;
 				}
 			}

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,143 +10,148 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+
 package org.compiere.pos;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.math.*;
+import java.util.logging.Level;
+
 import javax.swing.*;
 import javax.swing.border.*;
+
+import org.compiere.swing.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
 import org.compiere.util.*;
 
-
 /**
- *	POS Current Line Sub Panel
- *	
- *  @author Jorg Janke
- *  @version $Id: SubCurrentLine.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * Current Line Sub Panel
+ * 
+ * @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © Jorg Janke
+ * @version $Id: SubCurrentLine.java,v 1.3 2004/07/24 04:31:52 jjanke Exp $
  */
-public class SubCurrentLine extends PosSubPanel implements ActionListener
-{
+public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	/**
-	 * 	Constructor
-	 *	@param posPanel POS Panel
+	 * Constructor
+	 * 
+	 * @param posPanel
+	 *            POS Panel
 	 */
-	public SubCurrentLine (PosPanel posPanel)
-	{
-		super (posPanel);
-	}	//	PosSubCurrentLine
-	
+	public SubCurrentLine(PosPanel posPanel) {
+		super(posPanel);
+	} //	PosSubCurrentLine
+
 	private CButton f_new;
+
 	private CButton f_reset;
+
 	private CButton f_plus;
+
 	private CButton f_minus;
-	
-	private CLabel 		f_currency;
-	private VNumber 	f_price;
-	private CLabel 		f_uom;
-	private VNumber 	f_quantity;
-	
-	private MOrder		m_order = null;
+
+	private CLabel f_currency;
+
+	private VNumber f_price;
+
+	private CLabel f_uom;
+
+	private VNumber f_quantity;
+
+	private MOrder m_order = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubCurrentLine.class);
 	
 	/**
-	 * 	Initialize
-	 */
-	public void init()
-	{
+	 * Initialize
+	 */ 
+	public void init() {
 		//	Title
-		TitledBorder border = new TitledBorder(Msg.getMsg(Env.getCtx(), "CurrentLine"));
+		TitledBorder border = new TitledBorder(Msg.getMsg(Env.getCtx(),
+				"CurrentLine"));
 		setBorder(border);
-		
+
 		//	Content
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = INSETS2;
 		gbc.gridy = 0;
 		//	--
-		f_new = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, Event.SHIFT_MASK));
+		f_new = createButtonAction("New", KeyStroke.getKeyStroke(
+				KeyEvent.VK_INSERT, Event.SHIFT_MASK));
 		gbc.gridx = 0;
-		add (f_new, gbc);
+		add(f_new, gbc);
 		//
 		f_reset = createButtonAction("Reset", null);
 		gbc.gridx = GridBagConstraints.RELATIVE;
-		add (f_reset, gbc);
+		add(f_reset, gbc);
 		//
 		f_currency = new CLabel("---");
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.weightx = .1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		add (f_currency, gbc);
+		add(f_currency, gbc);
 		//
-		f_price = new VNumber("PriceActual", false, false, true, DisplayType.Amount, 
-			Msg.translate(Env.getCtx(), "PriceActual"));
+		f_price = new VNumber("PriceActual", false, false, true,
+				DisplayType.Amount, Msg.translate(Env.getCtx(), "PriceActual"));
 		f_price.addActionListener(this);
 		f_price.setColumns(10, 25);
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.weightx = 0;
 		gbc.fill = GridBagConstraints.NONE;
-		add (f_price, gbc);
+		add(f_price, gbc);
 		setPrice(Env.ZERO);
 		//	--
 		f_uom = new CLabel("--");
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.weightx = .1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		add (f_uom, gbc);
+		add(f_uom, gbc);
 		//
 		f_minus = createButtonAction("Minus", null);
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.weightx = 0;
 		gbc.fill = GridBagConstraints.NONE;
-		add (f_minus, gbc);
+		add(f_minus, gbc);
 		//
-		f_quantity = new VNumber("QtyOrdered", false, false, true, DisplayType.Quantity, 
-			Msg.translate(Env.getCtx(), "QtyOrdered"));
+		f_quantity = new VNumber("QtyOrdered", false, false, true,
+				DisplayType.Quantity, Msg.translate(Env.getCtx(), "QtyOrdered"));
 		f_quantity.addActionListener(this);
 		f_quantity.setColumns(5, 25);
-		add (f_quantity, gbc);
-		setQty (Env.ONE);
+		add(f_quantity, gbc);
+		setQty(Env.ONE);
 		//
 		f_plus = createButtonAction("Plus", null);
-		add (f_plus, gbc);
-	}	//	init
+		add(f_plus, gbc);
+	} //	init
 
 	/**
-	 * 	Get Panel Position
+	 * Get Panel Position
 	 */
-	public GridBagConstraints getGridBagConstraints()
-	{
+	public GridBagConstraints getGridBagConstraints() {
 		GridBagConstraints gbc = super.getGridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		return gbc;
-	}	//	getGridBagConstraints
-	
-	/**
-	 * 	Dispose - Free Resources
-	 */
-	public void dispose()
-	{
-		super.dispose();
-	}	//	dispose
+	} //	getGridBagConstraints
 
-	
 	/**
-	 * 	Action Listener
-	 *	@param e event
+	 * Dispose - Free Resources
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
+	public void dispose() {
+		super.dispose();
+	} //	dispose
+
+	/**
+	 * Action Listener
+	 * 
+	 * @param e event
+	 */
+	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
@@ -167,97 +172,94 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener
 			f_price.setValue(f_price.getValue());
 		else if (e.getSource() == f_quantity)
 			f_quantity.setValue(f_quantity.getValue());
-	}	//	actionPerformed
-	
-	
-	/**************************************************************************
-	 * 	Set Currency 
-	 *	@param currency currency
+		p_posPanel.updateInfo();
+	} //	actionPerformed
+
+	/***************************************************************************
+	 * Set Currency
+	 * 
+	 * @param currency
+	 *            currency
 	 */
-	public void setCurrency (String currency)
-	{
+	public void setCurrency(String currency) {
 		if (currency == null)
 			f_currency.setText("---");
 		else
 			f_currency.setText(currency);
-	}	//	setCurrency
+	} //	setCurrency
 
 	/**
-	 * 	Set UOM 
-	 *	@param UOM UOM
+	 * Set UOM
+	 * 
+	 * @param UOM
 	 */
-	public void setUOM (String UOM)
-	{
+	public void setUOM(String UOM) {
 		if (UOM == null)
 			f_uom.setText("--");
 		else
 			f_uom.setText(UOM);
-	}	//	setUOM
-	
+	} //	setUOM
+
 	/**
-	 * 	Set Price 
-	 *	@param price price
+	 * Set Price
+	 * 
+	 * @param price
 	 */
-	public void setPrice (BigDecimal price)
-	{
+	public void setPrice(BigDecimal price) {
 		if (price == null)
 			price = Env.ZERO;
 		f_price.setValue(price);
-		boolean rw = Env.ZERO.compareTo(price) == 0
-			|| p_pos.isModifyPrice();
+		boolean rw = Env.ZERO.compareTo(price) == 0 || p_pos.isModifyPrice();
 		f_price.setReadWrite(rw);
-	}	//	setPrice
+	} //	setPrice
 
 	/**
-	 * 	Get Price 
-	 *	@return price
+	 * Get Price
+	 * 
+	 * @return price
 	 */
-	public BigDecimal getPrice ()
-	{
-		return (BigDecimal)f_price.getValue();
-	}	//	getPrice
+	public BigDecimal getPrice() {
+		return (BigDecimal) f_price.getValue();
+	} //	getPrice
 
 	/**
-	 * 	Set Qty 
-	 *	@param qty qty
+	 * Set Qty
+	 * 
+	 * @param qty
 	 */
-	public void setQty (BigDecimal qty)
-	{
-		f_quantity.setValue(qty);
-	}	//	setPrice
+	public void setQty(BigDecimal price) {
+		f_quantity.setValue(price);
+	} //	setPrice
 
 	/**
-	 * 	Get Qty
-	 *	@return qty
+	 * Get Qty
+	 * 
+	 * @return qty
 	 */
-	public BigDecimal getQty ()
-	{
-		return (BigDecimal)f_quantity.getValue();
-	}	//	getPrice
+	public BigDecimal getQty() {
+		return (BigDecimal) f_quantity.getValue();
+	} //	getPrice
 
-	
-	/**************************************************************************
-	 * 	New Line
+	/***************************************************************************
+	 * New Line
 	 */
-	public void newLine()
-	{
+	public void newLine() {
 		p_posPanel.f_product.setM_Product_ID(0);
 		setQty(Env.ONE);
 		setPrice(Env.ZERO);
-		p_posPanel.f_lines.updateTable(m_order);
-	}	//	newLine
-	
+	} //	newLine
+
 	/**
-	 * 	Save Line
-	 *	@return true if saved
+	 * Save Line
+	 * 
+	 * @return true if saved
 	 */
-	public boolean saveLine()
-	{
-		MProduct product = p_posPanel.f_product.getProduct(); 
+	public boolean saveLine() {
+		MProduct product = p_posPanel.f_product.getProduct();
 		if (product == null)
 			return false;
-		BigDecimal QtyOrdered = (BigDecimal)f_quantity.getValue();
-		BigDecimal PriceActual = (BigDecimal)f_price.getValue();
+		BigDecimal QtyOrdered = (BigDecimal) f_quantity.getValue();
+		BigDecimal PriceActual = (BigDecimal) f_price.getValue();
 		MOrderLine line = createLine(product, QtyOrdered, PriceActual);
 		if (line == null)
 			return false;
@@ -266,16 +268,98 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener
 		//
 		newLine();
 		return true;
-	}	//	saveLine
+	} //	saveLine
+
+	/** 
+	 * to erase the lines from order
+	 * @return true if deleted
+	 */
+	public void deleteLine (int row) {
+		if (m_order != null & row != -1 )
+		{
+			MOrderLine[] lineas = m_order.getLines();
+			int numLineas = lineas.length;
+			if (numLineas > row)
+			{
+				//to unreserve
+				lineas[row].setQty(Env.ZERO);
+				lineas[row].setLineNetAmt(Env.ZERO);
+				lineas[row].save();
+				//TODO: openxpertya using private method from MOrder
+				//m_order.reserveStock(null, lineas);
+
+				//delete line from order
+				lineas[row].delete(true);
+				for (int i = row; i < (numLineas - 1); i++)
+					lineas[i] = lineas[i + 1];
+				lineas[numLineas - 1] = null;				
+			}
+		}
+	} //	deleteLine
 	
 	/**
-	 * 	Get/create Header
-	 *	@return header or null
-	 */
-	public MOrder getOrder()
-	{
-		if (m_order == null)
+	 * Delete order from database
+	 * 
+	 * @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © ConSerTi
+	 */		
+	public void deleteOrder () {
+		if (m_order != null)
 		{
+			if (m_order.getDocStatus().equals("DR"))
+			{
+				MOrderLine[] lineas = m_order.getLines();
+				if (lineas != null)
+				{
+					int numLineas = lineas.length;
+					if (numLineas > 0)
+						for (int i = numLineas - 1; i >= 0; i--)
+						{
+							if (lineas[i] != null)
+								deleteLine(i);
+						}
+				}
+				
+				MOrderTax[] taxs = m_order.getTaxes(true);
+				if (taxs != null)
+				{
+					int numTax = taxs.length;
+					if (numTax > 0)
+						for (int i = taxs.length - 1; i >= 0; i--)
+						{
+							if (taxs[i] != null)
+								taxs[i].delete(true);
+							taxs[i] = null;
+						}
+				}
+				
+				m_order.delete(true);
+				m_order = null;
+			}
+		}
+	} //	deleteOrder
+	
+	/**
+	 * Create new order
+	 * 
+	 * @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright © ConSerTi
+	 */
+	public void newOrder()
+	{
+		m_order = null;
+		m_order = getOrder();	
+	}
+
+	/**
+	 * Get/create Header
+	 * 
+	 * @return header or null
+	 */
+	public MOrder getOrder() {
+		if (m_order == null) {
 			m_order = new MOrder(Env.getCtx(), 0, null);
 			m_order.setAD_Org_ID(p_pos.getAD_Org_ID());
 			m_order.setIsSOTrx(true);
@@ -283,16 +367,17 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener
 				m_order.setC_DocTypeTarget_ID(p_pos.getC_DocType_ID());
 			else
 				m_order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_POS);
-			MBPartner partner = p_posPanel.f_bpartner.getBPartner(); 
+			MBPartner partner = p_posPanel.f_bpartner.getBPartner();
 			if (partner == null || partner.get_ID() == 0)
 				partner = p_pos.getBPartner();
-			if (partner == null || partner.get_ID() == 0)
-			{
+			if (partner == null || partner.get_ID() == 0) {
 				log.log(Level.SEVERE, "SubCurrentLine.getOrder - no BPartner");
+
 				return null;
 			}
 			log.info( "SubCurrentLine.getOrder -" + partner);
 			m_order.setBPartner(partner);
+			p_posPanel.f_bpartner.setC_BPartner_ID(partner.getC_BPartner_ID());
 			int id = p_posPanel.f_bpartner.getC_BPartner_Location_ID();
 			if (id != 0)
 				m_order.setC_BPartner_Location_ID(id);
@@ -304,28 +389,94 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener
 			m_order.setM_Warehouse_ID(p_pos.getM_Warehouse_ID());
 			m_order.setSalesRep_ID(p_pos.getSalesRep_ID());
 			if (!m_order.save())
+			{
 				m_order = null;
+				log.severe("Unable create Order.");
+			}
 		}
 		return m_order;
-	}	//	getHeader
-	
+	} //	getHeader
+
 	/**
-	 *	Create new Line
-	 *	@return line or null
+	 * @author Comunidad de Desarrollo OpenXpertya 
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+	 *         *Copyright © ConSerTi
 	 */
-	public MOrderLine createLine(MProduct product, 
-		BigDecimal QtyOrdered, BigDecimal PriceActual)
+	public void setBPartner()
 	{
+		if (m_order != null)
+			if (m_order.getDocStatus().equals("DR"))
+			{
+				MBPartner partner = p_posPanel.f_bpartner.getBPartner();
+				//get default from mpos if no selection make
+				if (partner == null || partner.get_ID() == 0)
+					partner = p_pos.getBPartner();
+				if (partner == null || partner.get_ID() == 0) {
+					log.warning("SubCurrentLine.getOrder - no BPartner");
+				}
+				else
+				{
+					log.info("SubCurrentLine.getOrder -" + partner);
+					m_order.setBPartner(partner);
+					MOrderLine[] lineas = m_order.getLines();
+					for (int i = 0; i < lineas.length; i++)
+					{
+						lineas[i].setC_BPartner_ID(partner.getC_BPartner_ID());
+						lineas[i].setTax();
+						lineas[i].save();
+					}
+					m_order.save();
+				}
+			}
+	}
+
+	/**
+	 * Create new Line
+	 * 
+	 * @return line or null
+	 */
+	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
+			BigDecimal PriceActual) {
 		MOrder order = getOrder();
 		if (order == null)
 			return null;
-		MOrderLine line = new MOrderLine (order);
+		if (!order.getDocStatus().equals("DR"))
+			return null;
+		//add new line or increase qty
+		MOrderLine[] lineas = order.getLines();
+		int numLineas = lineas.length;
+		for (int i = 0; i < numLineas; i++)
+		{
+			if (lineas[i].getM_Product_ID() == product.getM_Product_ID())
+			{
+				//increase qty
+				double current = lineas[i].getQtyEntered().doubleValue();
+				double toadd = QtyOrdered.doubleValue();
+				double total = current + toadd;
+				lineas[i].setQty(new BigDecimal(total));
+				lineas[i].setPrice(); //	sets List/limit
+				lineas[i].save();
+				return lineas[i];
+			}
+		}
+		//create new line
+		MOrderLine line = new MOrderLine(order);
 		line.setProduct(product);
 		line.setQty(QtyOrdered);
-		line.setPrice();	//	sets List/limit
+		line.setPrice(); //	sets List/limit
 		line.setPrice(PriceActual);
 		line.save();
 		return line;
-	}	//	getLine
+	} //	getLine
 
-}	//	PosSubCurrentLine
+	/**
+	 * @param m_c_order_id
+	 */
+	public void setOldOrder(int m_c_order_id) 
+	{
+		deleteOrder();
+		m_order = new MOrder(p_ctx , m_c_order_id, null);
+		p_posPanel.updateInfo();
+	}
+
+} //	PosSubCurrentLine
