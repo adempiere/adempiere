@@ -81,7 +81,7 @@ public class MTree extends MTree_Base
 	/** The tree is displayed on the Java Client (i.e. not web)	*/
 	private boolean				m_clientTree = true;
 	
-	private HashMap<Integer, ArrayList> m_nodeIdMap;
+	private HashMap<Integer, ArrayList<Integer>> m_nodeIdMap;
 
 	/**	Logger			*/
 	private static CLogger s_log = CLogger.getCLogger(MTree.class);
@@ -405,7 +405,7 @@ public class MTree extends MTree_Base
 				sourceTable, MRole.SQL_FULLYQUALIFIED, m_editable);
 		log.fine(sql);
 		m_nodeRowSet = DB.getRowSet (sql);
-		m_nodeIdMap = new HashMap<Integer, ArrayList>(50);
+		m_nodeIdMap = new HashMap<Integer, ArrayList<Integer>>(50);
 		try 
 		{
 			m_nodeRowSet.beforeFirst();
@@ -415,10 +415,10 @@ public class MTree extends MTree_Base
 				i++;
 				int node = m_nodeRowSet.getInt(1);
 				Integer nodeId = Integer.valueOf(node);
-				ArrayList list = m_nodeIdMap.get(nodeId);
+				ArrayList<Integer> list = m_nodeIdMap.get(nodeId);
 				if (list == null)
 				{
-					list = new ArrayList(5);
+					list = new ArrayList<Integer>(5);
 					m_nodeIdMap.put(nodeId, list);
 				}
 				list.add(Integer.valueOf(i));
@@ -444,13 +444,13 @@ public class MTree extends MTree_Base
 		try
 		{
 			//m_nodeRowSet.beforeFirst();
-			ArrayList nodeList = m_nodeIdMap.get(Integer.valueOf(node_ID));
+			ArrayList<Integer> nodeList = m_nodeIdMap.get(Integer.valueOf(node_ID));
 			int size = nodeList != null ? nodeList.size() : 0;
 			int i = 0;
 			//while (m_nodeRowSet.next())
 			while (i < size)
 			{
-				Integer nodeId = (Integer)nodeList.get(i);
+				Integer nodeId = nodeList.get(i);
 				i++;
 				m_nodeRowSet.absolute(nodeId.intValue());
 				int node = m_nodeRowSet.getInt(1);				
