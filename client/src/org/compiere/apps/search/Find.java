@@ -618,10 +618,22 @@ public final class Find extends CDialog
 			{
 				String ColumnName = ((Component)ved).getName ();
 				log.fine(ColumnName + "=" + value);
+				
+				// globalqss - Carlos Ruiz - 20060711
+				// fix a bug with virtualColumn + isSelectionColumn not yielding results
+				GridField field = getTargetMField(ColumnName);
+				String ColumnSQL = field.getColumnSQL(false);
+				if (value.toString().indexOf("%") != -1)
+					m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, ved.getDisplay());
+				else
+					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
+				/*
 				if (value.toString().indexOf("%") != -1)
 					m_query.addRestriction(ColumnName, MQuery.LIKE, value, ColumnName, ved.getDisplay());
 				else
 					m_query.addRestriction(ColumnName, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
+				*/
+				// end globalqss patch
 			}
 		}	//	editors
 
