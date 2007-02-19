@@ -38,14 +38,25 @@ public class IntGenericPO extends PO {
     /** Standard Constructor */
     public IntGenericPO (Properties ctx, int ID)
     {
-	super (ctx, ID,null,null);
+    	super (ctx, ID,null,null);
     }
 
     /** Load Constructor */
     public IntGenericPO (Properties ctx, ResultSet rs)
     {
-	super (ctx, 0, null, rs);
+    	super (ctx, 0, null, rs);
     }
+    
+    public IntGenericPO (Properties ctx, int ID, String trxName)
+    {
+    	super (ctx, ID, trxName, null);
+    }
+
+    public IntGenericPO (Properties ctx, ResultSet rs, String trxName)
+    {
+    	super (ctx, 0, trxName, rs);
+    }
+    
     private int Table_ID = 0;
     
     /** Load Meta Data */

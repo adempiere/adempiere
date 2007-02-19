@@ -31,6 +31,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Util;
+
+import java.util.Properties;
 import java.util.logging.*;
 
 /**
@@ -47,13 +49,13 @@ public class IntPackIn extends SvrProcess
 	public static String m_Package_Dir = null;
     public int p_IntPackIn_ID = 0;
     
-    protected void prepare()
+	protected void prepare()
 	{		
     	p_IntPackIn_ID = getRecord_ID();
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-		}		
+    	ProcessInfoParameter[] para = getParameter();
+    	for (int i = 0; i < para.length; i++)
+    	{
+    	}		
 	}	//	prepare
 
     
@@ -62,34 +64,34 @@ public class IntPackIn extends SvrProcess
      *	@param fileName xml file to read
      * 	@return status message
      */
-    public String importXML (String fileName) {
-	log.info("importXML:" + fileName);
-	File in = new File (fileName);
-	if (!in.exists()) {
-	    String msg = "File does not exist: " + fileName;
-	    log.info("importXML:" + msg);
-	    return msg;
-	}
-	try {
-		log.info("starting");
-		System.setProperty("javax.xml.parsers.SAXParserFactory",
-		"org.apache.xerces.jaxp.SAXParserFactoryImpl");
-		IntPackInHandler handler = new IntPackInHandler();
-		handler.set_TrxName(get_TrxName());
-		SAXParserFactory factory = SAXParserFactory.newInstance();		
-	    SAXParser parser = factory.newSAXParser();
-	    String msg = "Start Parser";	    
-	    log.info (msg);	    
-	    parser.parse(in, handler);
-	    msg = "End Parser";
-	    log.info (msg);
-	    return "OK.";
-	}
-	catch (Exception e) {
-	    log.log(Level.SEVERE,"importXML:", e);
-	    return e.toString();
-	}
-
+    public String importXML (String fileName, Properties ctx, String trxName) {
+    	log.info("importXML:" + fileName);
+    	File in = new File (fileName);
+    	if (!in.exists()) {
+    		String msg = "File does not exist: " + fileName;
+    		log.info("importXML:" + msg);
+    		return msg;
+    	}
+    	try {
+    		log.info("starting");
+    		System.setProperty("javax.xml.parsers.SAXParserFactory",
+    		"org.apache.xerces.jaxp.SAXParserFactoryImpl");
+    		IntPackInHandler handler = new IntPackInHandler();
+    		handler.set_TrxName(trxName);
+    		handler.setCtx(ctx);
+    		SAXParserFactory factory = SAXParserFactory.newInstance();		
+    		SAXParser parser = factory.newSAXParser();
+    		String msg = "Start Parser";	    
+    		log.info (msg);	    
+    		parser.parse(in, handler);
+    		msg = "End Parser";
+    		log.info (msg);
+    		return "OK.";
+    	}
+    	catch (Exception e) {
+    		log.log(Level.SEVERE,"importXML:", e);
+    		return e.toString();
+    	}
     }   
     
     /**
@@ -101,59 +103,54 @@ public class IntPackIn extends SvrProcess
     protected String doIt() 
 	{
     
-		X_AD_Package_Imp_Proc IntPackIn = new X_AD_Package_Imp_Proc(
-				getCtx(),p_IntPackIn_ID, null);		
-
-       // Create Target directory if required
-       String fileSeperator=null;
-       File tempfile = new File("");
-       fileSeperator = tempfile.separator;
-       File targetDir = new
-       File(IntPackIn.getAD_Package_Dir()+fileSeperator+"packages");
-
-       if (!targetDir.exists()){
-           boolean success = (new File(IntPackIn.getAD_Package_Dir()+fileSeperator+"packages")).mkdirs();
-           if (!success) {
-               log.info("Target directory creation failed");
-           }
-       }	   
-
-       //Unzip package
-       File zipFilepath = new File(IntPackIn.getAD_Package_Source());
-	   String PackageName = CreateZipFile.getParentDir(zipFilepath);
-       CreateZipFile.unpackFile(zipFilepath,targetDir);
-
-
-    String dict_file = IntPackIn.getAD_Package_Dir()+fileSeperator+"packages"+fileSeperator+PackageName
-		+fileSeperator+"dict"+fileSeperator+"PackOut.xml";
-	log.info("dict file->"+dict_file);
-	IntPackIn impXML = new IntPackIn();
-	
-	if(IntPackIn.isAD_Override_Dict()== true)
-		impXML.m_UpdateMode = "true";
-	else
-		impXML.m_UpdateMode = "false";
-	
-	impXML.m_Package_Dir=IntPackIn.getAD_Package_Dir()+fileSeperator+"packages"+fileSeperator+PackageName
-		+fileSeperator;
-	if (DB.isOracle())
-		impXML.m_Database = "Oracle";
-	else if (DB.isPostgreSQL())	
-		impXML.m_Database = "PostgreSQL";
-	
-	//call XML Handler	
-	impXML.importXML(dict_file);
-	
-	//Generate Model Classes
-	// globalqss - don't call Generate Model must be done manual
-	// String args[] = {IntPackIn.getAD_Package_Dir()+"/dbPort/src/org/compiere/model/", "org.compiere.model","'U'"}; 
-	// org.compiere.util.GenerateModel.main(args) ;
-	
-	
-	return "";
+    	X_AD_Package_Imp_Proc IntPackIn = new X_AD_Package_Imp_Proc(
+    			getCtx(),p_IntPackIn_ID, null);		
+    	
+    	// Create Target directory if required
+    	String fileSeparator=null;
+    	File tempfile = new File("");
+    	fileSeparator = tempfile.separator;
+    	File targetDir = new
+    	File(IntPackIn.getAD_Package_Dir()+fileSeparator+"packages");
+    	
+    	if (!targetDir.exists()){
+    		boolean success = (new File(IntPackIn.getAD_Package_Dir()+fileSeparator+"packages")).mkdirs();
+    		if (!success) {
+    			log.info("Target directory creation failed");
+    		}
+    	}	   
+    	
+    	//Unzip package
+    	File zipFilepath = new File(IntPackIn.getAD_Package_Source());
+    	log.info("zipFilepath->"+zipFilepath);
+    	String PackageName = CreateZipFile.getParentDir(zipFilepath);
+    	CreateZipFile.unpackFile(zipFilepath,targetDir);
+    	
+    	
+    	String dict_file = IntPackIn.getAD_Package_Dir()+fileSeparator+"packages"+fileSeparator+PackageName+fileSeparator+"dict"+fileSeparator+"PackOut.xml";
+    	log.info("dict file->"+dict_file);
+    	IntPackIn impXML = new IntPackIn();
+    	
+    	if(IntPackIn.isAD_Override_Dict()== true)
+    		impXML.m_UpdateMode = "true";
+    	else
+    		impXML.m_UpdateMode = "false";
+    	
+    	impXML.m_Package_Dir=IntPackIn.getAD_Package_Dir()+fileSeparator+"packages"+fileSeparator+PackageName+fileSeparator;
+    	if (DB.isOracle())
+    		impXML.m_Database = "Oracle";
+    	else if (DB.isPostgreSQL())	
+    		impXML.m_Database = "PostgreSQL";
+    	
+    	//call XML Handler	
+    	impXML.importXML(dict_file, getCtx(), get_TrxName());
+    	
+    	//Generate Model Classes
+    	// globalqss - don't call Generate Model must be done manual
+    	// String args[] = {IntPackIn.getAD_Package_Dir()+"/dbPort/src/org/compiere/model/", "org.compiere.model","'U'"}; 
+    	// org.compiere.util.GenerateModel.main(args) ;
+    	
+    	return "Finish Process";
 	}	//	doIt
         
 }   // IntPackIn
-
- 
-
