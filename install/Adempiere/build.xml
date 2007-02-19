@@ -138,6 +138,18 @@
 		<signjar jar="buildALib/Adempiere1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
 		<copy file="buildALib/Adempiere1.jar" tofile="lib/Adempiere.jar" overwrite="yes" />
+
+		<!-- Sign patches Jar -->
+		<copy file="lib/patches.jar" tofile="buildALib/patches1.jar" overwrite="yes" />
+		<signjar jar="buildALib/patches1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+		<copy file="buildALib/patches1.jar" tofile="lib/patches.jar" overwrite="yes" />
+
+		<!-- Sign customization Jar -->
+		<copy file="lib/customization.jar" tofile="buildALib/customization1.jar" overwrite="yes" />
+		<signjar jar="buildALib/customization1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+		<copy file="buildALib/customization1.jar" tofile="lib/customization.jar" overwrite="yes" />
 		
 		<delete dir="buildALib" />
 	</target>
