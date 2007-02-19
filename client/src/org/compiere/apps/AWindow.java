@@ -148,7 +148,7 @@ public class AWindow extends CFrame
 	 * 	Get Application Panel
 	 *	@return application panel
 	 */
-	protected APanel getAPanel()
+	public APanel getAPanel()
 	{
 		return m_APanel;
 	}	//	getAPanel
