@@ -121,6 +121,8 @@ public class AZoomAcross implements ActionListener
 			log.log(Level.SEVERE, sql, e);
 		}
 
+		// Begin - afalcone - Bug Fix [ 1659420 ] Usability: zoom across
+		/*
 		//	No Zoom
 		if (m_list.size() == 0)
 		{
@@ -129,6 +131,19 @@ public class AZoomAcross implements ActionListener
 		}
 		else if (invoker.isShowing())
 			m_popup.show(invoker, 0, invoker.getHeight());	//	below button
+		*/
+		
+		//	No Zoom
+		if (m_list.size() == 0)
+		{
+			m_popup.add(Msg.getMsg(Env.getCtx(), "NoZoomTarget"));  // Added
+			log.info("BaseLanguage=" + baseLanguage);
+		}	
+		if (invoker.isShowing())
+			m_popup.show(invoker, 0, invoker.getHeight());
+	
+	    //End - afalcone - Bug Fix [ 1659420 ] Usability: zoom across
+		
 	}	//	getZoomTargets
 
 	/**
