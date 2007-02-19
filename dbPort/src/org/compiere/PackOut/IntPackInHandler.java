@@ -944,12 +944,29 @@ public class IntPackInHandler extends DefaultHandler {
 				boolean recreateColumn = 
 					(
 					    m_Column.is_new()
-					 || m_Column.is_ValueChanged("DefaultValue")
 					 || m_Column.is_ValueChanged("AD_Reference_ID")
 					 || m_Column.is_ValueChanged("FieldLength")
 					 || m_Column.is_ValueChanged("ColumnName")
 					 || m_Column.is_ValueChanged("IsMandatory")
 					);
+				
+				// changed default ??
+				// m_Column.is_ValueChanged("DefaultValue") doesn't work well with nulls
+				if (! recreateColumn) {
+					String oldDefault = (String) m_Column.get_ValueOld("DefaultValue");
+					String newDefault = (String) m_Column.get_Value("DefaultValue");
+					if (oldDefault != null && oldDefault.length() == 0)
+						oldDefault = null;
+					if (newDefault != null && newDefault.length() == 0)
+						newDefault = null;
+					if ((oldDefault == null && newDefault != null) ||
+						(oldDefault != null && newDefault == null)) {
+						recreateColumn = true;
+					} else if (oldDefault != null && newDefault != null) {
+						if (! oldDefault.equals(newDefault))
+							recreateColumn = true;
+					}
+				}
 				
 				if (m_Column.save(m_trxName) == true){		    	
 					record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),AD_Backup_ID, Object_Status,"AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));           		        		
