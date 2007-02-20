@@ -95,6 +95,7 @@ public class MLookupInfo implements Serializable, Cloneable
 	/** CreadedBy?updatedBy					*/
 	public boolean		IsCreadedUpdatedBy = false;
 	
+	public String		parsedValidationCode = "";
 
 	/**
 	 * String representation

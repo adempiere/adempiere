@@ -341,10 +341,13 @@ public final class MLookup extends Lookup implements Serializable
 			refresh (loadParent);
 
 		//	already validation included
-		if (m_info.IsValidated)
+		//if (m_info.IsValidated)
+		boolean validated = this.isValidated(m_info);
+		if (validated)
 			return new ArrayList<Object>(m_lookup.values());
 
-		if (!m_info.IsValidated && onlyValidated)
+		//if (!m_info.IsValidated && onlyValidated)
+		if (!validated && onlyValidated)
 		{
 			refresh (loadParent);
 			log.fine(m_info.KeyColumn + ": Validated - #" + m_lookup.size());
@@ -576,6 +579,15 @@ public final class MLookup extends Lookup implements Serializable
 			m_lookupDirect.clear();
 	}	//	removeAllElements
 	
+	private boolean isValidated(MLookupInfo info)
+	{
+		if (info.IsValidated) return true;
+		if (info.ValidationCode.length() == 0) return true;
+		String validation = Env.parseContext(m_info.ctx, m_info.WindowNo, m_info.ValidationCode, false);
+		if (validation.equals(info.parsedValidationCode)) return true;
+		return false;
+	}
+	
 	/**************************************************************************
 	 *	MLookup Loader
 	 */
@@ -613,6 +625,7 @@ public final class MLookup extends Lookup implements Serializable
 				}
 				else
 				{
+					m_info.parsedValidationCode = validation;
 					log.fine(m_info.KeyColumn + ": Loader Validated: " + validation);
 					int posFrom = sql.lastIndexOf(" FROM ");
 					boolean hasWhere = sql.indexOf(" WHERE ", posFrom) != -1;
@@ -642,7 +655,7 @@ public final class MLookup extends Lookup implements Serializable
 				Env.setContext(m_info.ctx, Env.WINDOW_MLOOKUP, m_info.Column_ID, m_info.KeyColumn, sql);
 			if (CLogMgt.isLevelFinest())
 				log.fine(m_info.KeyColumn + ": " + sql);
-				
+			
 			//	Reset
 			m_lookup.clear();
 			boolean isNumber = m_info.KeyColumn.endsWith("_ID");

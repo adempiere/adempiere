@@ -216,18 +216,22 @@ public class MLookupFactory
 				+ (hasWhere ? " AND " : " WHERE ") + info.KeyColumn + "=?";
 
 		//	Validation
-		String local_validationCode = "";
+		//String local_validationCode = "";
 		if (info.ValidationCode.length() == 0)
 			info.IsValidated = true;
+		
 		else
 		{
+			/*
 			local_validationCode = Env.parseContext (ctx, WindowNo, info.ValidationCode, true);
 			if (local_validationCode.length() == 0)   //  returns "" if not all variables were parsed
 				info.IsValidated = false;
 			else
 				info.IsValidated = true;
+			*/
+			info.IsValidated = false;
 		}
-		
+		/*
 		//	Add Local Validation
 		if (local_validationCode.length() != 0)
 		{
@@ -239,7 +243,7 @@ public class MLookupFactory
 			else
 				info.Query = info.Query
 				+ (hasWhere ? " AND " : " WHERE ") + local_validationCode;
-		}
+		}*/
 				
 		//	Add Security
 		if (needToAddSecurity)
@@ -554,9 +558,15 @@ public class MLookupFactory
 			ColumnName = "AD_Org_ID";
 
 		String TableName = ColumnName.substring(0,ColumnName.length()-3);
+		String KeyColumn = ColumnName;
 		boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
 		int ZoomWindowPO = 0;
+		
+		//try cache
+		String cacheKey = TableName + "." + KeyColumn;
+		if (s_cacheRefTable.containsKey(cacheKey))
+			return s_cacheRefTable.get(cacheKey).cloneIt();
 
 		//	get display column names
 		String sql0 = "SELECT c.ColumnName,c.IsTranslated,c.AD_Reference_ID,"
@@ -566,8 +576,6 @@ public class MLookupFactory
 			+ "WHERE TableName=?"
 			+ " AND c.IsIdentifier='Y' "
 			+ "ORDER BY c.SeqNo";
-		//
-		String KeyColumn = ColumnName;
 		//
 		ArrayList<LookupDisplayColumn> list = new ArrayList<LookupDisplayColumn>();
 		boolean isTranslated = false;
@@ -674,6 +682,7 @@ public class MLookupFactory
 			s_log.fine("ColumnName=" + ColumnName + " - " + realSQL);
 		MLookupInfo lInfo = new MLookupInfo(realSQL.toString(), TableName,
 			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery);
+		s_cacheRefTable.put(cacheKey, lInfo.cloneIt());
 		return lInfo;
 	}	//	getLookup_TableDir
 
