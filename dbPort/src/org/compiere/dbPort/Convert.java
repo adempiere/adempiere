@@ -263,9 +263,8 @@ public abstract class Convert
 		for (int i = 0; i < sql.length; i++)
 		{
 			String statement = sql[i];
-			/*
 			if (statement.indexOf(MASK) != -1)
-				statement = statement.replace(MASK, '/');*/
+				statement = statement.replace(MASK, '/');
 			result.addAll(convertStatement(statement));     //  may return more than one target statement
 		}
 		//  convert to array
