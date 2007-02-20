@@ -627,6 +627,18 @@ public class ServerBean implements SessionBean
 	}
 	
 	/**
+	 * Load fields meta data from database
+	 * @ejb.interface-method view-type="both"
+	 * @param gridTabVO
+	 * @return ArrayList
+	 */
+	public ArrayList getFields(GridTabVO gridTabVO)
+	{
+		//this will load all fields meta data from database
+		return gridTabVO.getFields();
+	}
+	
+	/**
 	 * 	String Representation
 	 * 	@return info
 	 */
