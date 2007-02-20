@@ -73,6 +73,8 @@ public class GridWindow implements Serializable
 	/** Model last updated			*/
 	private Timestamp		m_modelUpdated = null;
 
+	private Set initTabs = new HashSet<GridTab>();
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(GridWindow.class);
 	
@@ -129,7 +131,7 @@ public class GridWindow implements Serializable
 	public void initTab(int index)
 	{
 		GridTab mTab = m_tabs.get(index);
-		if (mTab.isLoadComplete()) return;
+		if (initTabs.contains(mTab)) return;		
 		mTab.initTab(false);
 		
 		//		Set Link Column
@@ -175,6 +177,7 @@ public class GridWindow implements Serializable
 		}	//	set Link column
 		mTab.setLinkColumnName(null);	//	overwrites, if AD_Column_ID exists
 		//
+		initTabs.add(mTab);
 	}
 	
 	/**

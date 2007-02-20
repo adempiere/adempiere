@@ -67,15 +67,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_mTable.setReadOnly(m_vo.IsReadOnly || m_vo.IsView);
 		m_mTable.setDeleteable(m_vo.IsDeleteable);
 		//  Load Tab
-	//	if (vo.TabNo == 0)
-			//initTab(false);
-	//	else
-	//	{
-	//		m_loader = new Loader();
-	//		m_loader.setPriority(Thread.MIN_PRIORITY);
-	//		m_loader.start();
-	//	}
-	//	waitLoadCompete();
+		//initTab(false);
 	}	//	GridTab
 
 	/** Value Object                    */
@@ -141,7 +133,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		 */
 		public void run()
 		{
-			initTab (true);
+			loadTab();
 		}   //  run
 	}   //  Loader
 
@@ -179,12 +171,34 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @param async async
 	 *	@return true, if correctly initialized (ignored)
 	 */
-	protected boolean initTab (boolean async)
+	public boolean initTab (boolean async)
 	{
 		log.fine("#" + m_vo.TabNo + " - Async=" + async + " - Where=" + m_vo.WhereClause);
+		if (isLoadComplete()) return true;
+		
+		if (m_loader != null && m_loader.isAlive())
+		{
+			waitLoadCompete();
+			if (isLoadComplete())
+				return true;
+		}
 
+		if (async)
+		{
+			m_loader = new Loader();
+			m_loader.start();
+			return false;
+		}
+		else
+		{
+			return loadTab();
+		}
+	}	//	initTab
+
+	protected boolean loadTab()
+	{	
 		m_extendedWhere = m_vo.WhereClause;
-
+		
 		//	Get Field Data
 		if (!loadFields())
 		{
@@ -195,12 +209,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//  Order By
 		m_mTable.setOrderClause(getOrderByClause(m_vo.onlyCurrentRows));
 
-		if (async)
-			log.fine("#" + m_vo.TabNo + " - Async=" + async + " - fini");
 		m_loadComplete = true;
 		return true;
-	}	//	initTab
-
+	}
+	
 	/**
 	 *	Dispose - clean up resources
 	 */
@@ -227,6 +239,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_vo.getFields().clear();
 		//m_vo.Fields = null;
 		m_vo = null;
+		if (m_loader != null)
+		{
+			if (m_loader.isAlive()) m_loader.interrupt();
+			m_loader = null;
+		}
 	}	//	dispose
 
 
