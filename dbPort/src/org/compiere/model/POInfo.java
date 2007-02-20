@@ -245,7 +245,7 @@ public class POInfo implements Serializable
 	{
 		for (int i = 0; i < m_columns.length; i++)
 		{
-			if (ColumnName.equals(m_columns[i].ColumnName))
+			if (ColumnName.equalsIgnoreCase(m_columns[i].ColumnName)) // teo_sarca : modified to compare ignoring case [ 1619179 ]
 				return i;
 		}
 		return -1;
