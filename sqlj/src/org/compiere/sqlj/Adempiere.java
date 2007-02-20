@@ -411,7 +411,7 @@ public class Adempiere implements Serializable
 	 *	@param day day
 	 *	@return next business dat if day is "off"
 	 */
-	static public Timestamp nextBusinessDay (Timestamp day)
+	static public Timestamp nextBusinessDay (Timestamp day) throws SQLException
 	{
 		if (day == null)
 			day = new Timestamp(System.currentTimeMillis());
@@ -423,11 +423,32 @@ public class Adempiere implements Serializable
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		//
-		int dow = cal.get(Calendar.DAY_OF_WEEK);
-		if (dow == Calendar.SATURDAY)
-			cal.add(Calendar.DAY_OF_YEAR, 2);
-		else if (dow == Calendar.SUNDAY)
-			cal.add(Calendar.DAY_OF_YEAR, 1);
+		//begin Goodwill (www.goodwill.co.id)
+		// get Holiday
+		boolean isHoliday = true;
+		do
+		{
+			int dow = cal.get(Calendar.DAY_OF_WEEK);
+			if (dow == Calendar.SATURDAY)
+				cal.add(Calendar.DAY_OF_YEAR, 2);
+			else if (dow == Calendar.SUNDAY)
+				cal.add(Calendar.DAY_OF_YEAR, 1);
+			java.util.Date temp = cal.getTime();
+			String sql = "SELECT Date1 FROM C_NonBusinessDay WHERE IsActive ='Y' AND Date1=?";
+			PreparedStatement pstmt = Adempiere.prepareStatement(sql);
+			pstmt.setTimestamp(1,new Timestamp(temp.getTime()));
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				cal = new GregorianCalendar();
+				cal.setTime(temp);
+				cal.add(Calendar.DAY_OF_YEAR,1);
+			}
+			else 
+				isHoliday = false;
+		}
+		while (isHoliday);
+		// end Goodwill
 		//
 		java.util.Date temp = cal.getTime();
 		return new Timestamp (temp.getTime());
