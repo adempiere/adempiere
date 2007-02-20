@@ -20,6 +20,9 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
 import org.compiere.util.*;
 
 /**
@@ -246,6 +249,26 @@ public class GridTabVO implements Evaluatee, Serializable
 	 */
 	private static boolean createFields (GridTabVO mTabVO)
 	{
+		if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
+		{
+			remoteCreateFields(mTabVO);
+			if (CConnection.get().isRMIoverHTTP())
+			{
+				return mTabVO.initFields;
+			}
+			else
+			{
+				if (mTabVO.initFields) return true;
+			}
+		}
+		
+		if (CConnection.get().isRMIoverHTTP())
+		{
+			CLogger.get().log(Level.SEVERE, "WAN - Application server not available.");
+			return false;
+		}
+		
+		//local only or remote fail for vpn profile
 		mTabVO.Fields = new ArrayList<GridFieldVO>();
 
 		String sql = GridFieldVO.getSQL(mTabVO.ctx);
@@ -276,6 +299,31 @@ public class GridTabVO implements Evaluatee, Serializable
 		
 		return mTabVO.Fields.size() != 0;
 	}   //  createFields
+	
+	private static boolean remoteCreateFields (GridTabVO mTabVO)
+	{
+		
+		Server server = CConnection.get().getServer();
+		if (server != null)
+		{
+			try 
+			{
+				mTabVO.Fields = server.getFields(mTabVO);
+				mTabVO.initFields =
+					(mTabVO.Fields != null && mTabVO.Fields.size() > 0);
+			} catch (Exception e)
+			{
+				CLogger.get().log(Level.SEVERE, "Application Server Error: " + e.getLocalizedMessage(), e);
+				mTabVO.initFields = false;
+			}
+		}
+		else
+		{
+			if (CConnection.get().isRMIoverHTTP())
+				CLogger.get().log(Level.SEVERE, "WAN - Application server not available.");
+		}
+		return false;
+	}
 
 	/**
 	 *  Return the SQL statement used for the MTabVO.create
