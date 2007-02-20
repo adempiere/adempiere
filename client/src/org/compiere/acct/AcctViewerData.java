@@ -438,8 +438,10 @@ class AcctViewerData
 			rm.addColumn(new RColumn(ctx, "Description", DisplayType.String));
 		}
 		if (PostingType == null || PostingType.length() == 0)
-			rm.addColumn(new RColumn(ctx, RModel.TABLE_ALIAS+".PostingType", DisplayType.List, 
-				MFactAcct.POSTINGTYPE_AD_Reference_ID));
+			rm.addColumn(new RColumn(ctx, "PostingType", DisplayType.List, // teo_sarca, [ 1664208 ]
+					RModel.TABLE_ALIAS+".PostingType",
+					MFactAcct.POSTINGTYPE_AD_Reference_ID,
+					null));
 		return rm;
 	}   //  createRModel
 
