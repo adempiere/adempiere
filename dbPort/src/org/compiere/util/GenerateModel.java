@@ -36,6 +36,7 @@ import org.compiere.*;
  *  
  *  globalqss - integrate Teo Sarca hint [ 1617928 ] Ineficient use of Boolean ctor for gen. model
  *  teo_sarca - bug fix [ 1651801 ] GenerateModel: duplicate "getKeyNamePair" methods
+ *  teo_sarca - feature request [ 1662447 ] Add column names in model classes
  */
 public class GenerateModel
 {
@@ -288,6 +289,10 @@ public class GenerateModel
 								+ " (AD_Table_ID=" + AD_Table_ID + ", ColumnName=" + columnName + ")");
 					}
 				}
+				// Create COLUMNNAME_ property (teo_sarca, [ 1662447 ])
+				sb.append("/** Column name ").append(columnName).append(" */\n")
+					.append("public static final String COLUMNNAME_").append(columnName)
+						.append(" = \"").append(columnName).append("\";");
 			}
 			rs.close();
 			pstmt.close();
