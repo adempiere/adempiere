@@ -241,7 +241,8 @@ public class CalloutOrder extends CalloutEngine
 			+ " p.SO_CreditLimit, p.SO_CreditLimit-p.SO_CreditUsed AS CreditAvailable,"
 			+ " lship.C_BPartner_Location_ID,c.AD_User_ID,"
 			+ " COALESCE(p.PO_PriceList_ID,g.PO_PriceList_ID) AS PO_PriceList_ID, p.PaymentRulePO,p.PO_PaymentTerm_ID," 
-			+ " lbill.C_BPartner_Location_ID AS Bill_Location_ID, p.SOCreditStatus "
+			+ " lbill.C_BPartner_Location_ID AS Bill_Location_ID, p.SOCreditStatus, "
+			+ " p.SalesRep_ID "
 			+ "FROM C_BPartner p"
 			+ " INNER JOIN C_BP_Group g ON (p.C_BP_Group_ID=g.C_BP_Group_ID)"			
 			+ " LEFT OUTER JOIN C_BPartner_Location lbill ON (p.C_BPartner_ID=lbill.C_BPartner_ID AND lbill.IsBillTo='Y' AND lbill.IsActive='Y')"
@@ -258,6 +259,13 @@ public class CalloutOrder extends CalloutEngine
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
+				// Sales Rep - If BP has a default SalesRep then default it
+				Integer salesRep = rs.getInt("SalesRep_ID");
+				if (IsSOTrx && salesRep != 0 )
+				{
+					mTab.setValue("SalesRep_ID", salesRep);
+				}
+				
 				//	PriceList (indirect: IsTaxIncluded & Currency)
 				Integer ii = new Integer(rs.getInt(IsSOTrx ? "M_PriceList_ID" : "PO_PriceList_ID"));
 				if (!rs.wasNull())
