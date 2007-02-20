@@ -298,6 +298,12 @@ public class GridController extends CPanel
 		
 		if (!lazy)
 			init();
+		else
+		{
+			if (Boolean.valueOf(Ini.getProperty(Ini.P_LOAD_TAB_META_DATA_BG)).booleanValue())
+				m_mTab.initTab(true);
+		}
+			
 		
 	//	log.config( "GridController.dynInit (" + mTab.toString() + ") - fini");
 		return true;
