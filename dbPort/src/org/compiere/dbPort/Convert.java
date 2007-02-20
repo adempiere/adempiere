@@ -237,6 +237,7 @@ public abstract class Convert
 	protected String[] convertIt (String sqlStatements)
 	{
 		//  Need to mask / in SQL Strings !
+		
 		final char MASK = '\u001F';      //  Unit Separator
 		StringBuffer masked = new StringBuffer(sqlStatements.length());
 		Matcher m = Pattern.compile("'[^']+'", Pattern.DOTALL).matcher(sqlStatements);
@@ -247,7 +248,8 @@ public abstract class Convert
 				group = group.replace('/', MASK);
 			if (group.indexOf('$') != -1)   //  Group character needs to be escaped
 				group = Util.replace(group, "$", "\\$");
-			m.appendReplacement(masked, group);
+			//hengsin, [ 1662983 ] Convert cutting backslash from string
+			m.appendReplacement(masked, Matcher.quoteReplacement(group));
 		}
 		m.appendTail(masked);
 		String tempResult = masked.toString();
@@ -261,8 +263,9 @@ public abstract class Convert
 		for (int i = 0; i < sql.length; i++)
 		{
 			String statement = sql[i];
+			/*
 			if (statement.indexOf(MASK) != -1)
-				statement = statement.replace(MASK, '/');
+				statement = statement.replace(MASK, '/');*/
 			result.addAll(convertStatement(statement));     //  may return more than one target statement
 		}
 		//  convert to array

@@ -28,6 +28,12 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		//[ 1662983 ] Convert cutting backslash from string
+		sql = "SELECT 'C:\\Documentos\\Test' FROM DUAL";
+		sqe = "SELECT 'C:\\Documentos\\Test'";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		// Line 407 of ImportProduct.java
 		
 		sql = "ALTER TABLE LPI_Publication MODIFY AD_Client_ID NUMERIC(10) DEFAULT NULL";

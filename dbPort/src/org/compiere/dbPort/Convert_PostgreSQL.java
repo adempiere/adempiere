@@ -193,6 +193,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			//hengsin, special character in replacement can cause exception
 			String replacement = (String) retVars.get(cont);
 			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
+			if (retValue.indexOf(replacement) < 0)
+				System.err.println("Failed to recover: " + replacement);
 			m = p.matcher(retValue);
 		}
 		return retValue;
