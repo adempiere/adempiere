@@ -182,4 +182,11 @@ public interface Server
    public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName,java.lang.String trxName )
       throws java.rmi.RemoteException;
 
+   /**
+    * Load fields meta data from database
+    * @param gridTabVO
+    * @return ArrayList    */
+   public java.util.ArrayList getFields( org.compiere.model.GridTabVO gridTabVO )
+      throws java.rmi.RemoteException;
+
 }
