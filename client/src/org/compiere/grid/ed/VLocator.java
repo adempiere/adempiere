@@ -104,6 +104,7 @@ public class VLocator extends JComponent
 		mRefresh = new CMenuItem(Msg.getMsg(Env.getCtx(), "Refresh"), Env.getImageIcon("Refresh16.gif"));
 		mRefresh.addActionListener(this);
 		popupMenu.add(mRefresh);
+		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 	}	//	VLocator
 
 	/**
@@ -506,6 +507,33 @@ public class VLocator extends JComponent
 		}
 		return only_Product_ID;
 	}	//	getOnly_Product_ID
+	
+	/**
+	 * Set the default locator if this field is mandatory 
+	 * and we have a warehouse restriction.
+	 * 
+	 * @since 3.1.4
+	 */
+	private void setDefault_Locator_ID()
+	{
+		// teo_sarca, FR [ 1661546 ] Mandatory locator fields should use defaults
+		if (!isMandatory() || m_mLocator == null) {
+			return;
+		}
+		int M_Warehouse_ID = getOnly_Warehouse_ID();
+		if (M_Warehouse_ID <= 0) {
+			return;
+		}
+		MWarehouse wh = MWarehouse.get(Env.getCtx(), M_Warehouse_ID);
+		if (wh == null || wh.get_ID() <= 0) {
+			return;
+		}
+		MLocator loc = wh.getDefaultLocator();
+		if (loc == null || loc.get_ID() <= 0) {
+			return;
+		}
+		setValue(Integer.valueOf(loc.get_ID()));
+	}
 
 }	//	VLocator
 
