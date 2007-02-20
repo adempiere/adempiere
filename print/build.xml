@@ -59,6 +59,7 @@
       <fileset dir="${src}">
         <include name="**/images/*"/>
         <include name="**/*.gif"/>
+        <include name="**/*.png"/>
         <include name="**/*.jpg"/>
         <include name="**/*.wav"/>
         <include name="**/*.htm"/>
