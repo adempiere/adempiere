@@ -983,7 +983,8 @@ public class CalloutOrder extends CalloutEngine
 		//  Discount entered - Calculate Actual/Entered
 		if (mField.getColumnName().equals("Discount"))
 		{
-			PriceActual = new BigDecimal ((100.0 - Discount.doubleValue()) / 100.0 * PriceList.doubleValue());
+			if ( PriceList.doubleValue() != 0 )
+				PriceActual = new BigDecimal ((100.0 - Discount.doubleValue()) / 100.0 * PriceList.doubleValue());
 			if (PriceActual.scale() > StdPrecision)
 				PriceActual = PriceActual.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
 			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
