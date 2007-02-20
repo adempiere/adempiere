@@ -157,6 +157,12 @@ public final class Ini implements Serializable
 	/** Charser Default Value */
 	private static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
 
+	/** Load tab fields meta data using backgrond thread **/
+	public static final String P_LOAD_TAB_META_DATA_BG = "LoadTabMetaDataBackground";
+	
+	public static final String DEFAULT_LOAD_TAB_META_DATA_BG
+		= Boolean.toString("Y".equalsIgnoreCase(System.getProperty(P_LOAD_TAB_META_DATA_BG)));
+			
 	/** Ini Properties		*/
 	private static final String[]   PROPERTIES = new String[] {
 		P_UID, P_PWD, P_TRACELEVEL, P_TRACEFILE, 
@@ -173,7 +179,7 @@ public final class Ini implements Serializable
 		P_SINGLE_INSTANCE_PER_WINDOW,
 		P_OPEN_WINDOW_MAXIMIZED,
 		P_WARNING, P_WARNING_de,
-		P_CHARSET
+		P_CHARSET, P_LOAD_TAB_META_DATA_BG
 	};
 	/** Ini Property Values	*/
 	private static final String[]   VALUES = new String[] {
@@ -191,7 +197,7 @@ public final class Ini implements Serializable
 		DEFAULT_SINGLE_INSTANCE_PER_WINDOW?"Y":"N",
 		DEFAULT_OPEN_WINDOW_MAXIMIZED?"Y":"N",
 		DEFAULT_WARNING, DEFAULT_WARNING_de,
-		DEFAULT_CHARSET
+		DEFAULT_CHARSET, DEFAULT_LOAD_TAB_META_DATA_BG
 	};
 
 	/**	Container for Properties    */
