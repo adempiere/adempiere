@@ -45,7 +45,9 @@ public final class Env
 {
 	/**	Logging								*/
 	private static CLogger				s_log = CLogger.getCLogger(Env.class);
-
+	
+	private static String	UNIX_BROWSER = "netscape";
+	
 	/**
 	 *	Exit System
 	 *  @param status System exit status (usually 0 for no error)
@@ -1335,16 +1337,34 @@ public final class Env
 		//  OS command
 		String cmd = "rundll32 url.dll,FileProtocolHandler ";
 		if (!isWindows())
-			cmd = "netscape ";
+			cmd = UNIX_BROWSER + " ";
 		//
 		String execute = cmd + url;
 		try
 		{
 			Runtime.getRuntime().exec(execute);
+			return;
 		}
 		catch (Exception e)
 		{
-			s_log.severe(execute + " - " + e);
+			if (isWindows())
+				s_log.severe(execute + " - " + e);
+		}
+		
+		//try firefox
+		if (!isWindows() && !("firefox".equals(UNIX_BROWSER)))
+		{
+			UNIX_BROWSER = "firefox";
+			cmd = UNIX_BROWSER + " ";
+			execute = cmd + url;
+			try
+			{
+				Runtime.getRuntime().exec(execute);
+			}
+			catch (Exception e)
+			{
+				s_log.severe(execute + " - " + e);
+			}
 		}
 	}   //  startBrowser
 	
