@@ -28,6 +28,7 @@ import javax.swing.text.html.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.*;
+import org.compiere.util.Env;
 
 /**
  *  Online Help Browser & Link.
@@ -81,6 +82,10 @@ public class OnlineHelp extends JEditorPane implements HyperlinkListener
 	/** Base of Online Help System      */
 	protected static final String   BASE_URL = "http://www.adempiere.com/wiki/index.php/OnlineLoginHelp";
 
+	public static void openInDefaultBrowser()
+	{
+		Env.startBrowser(BASE_URL);
+	}
 	
 	/**************************************************************************
 	 *	Hyperlink Listener

@@ -111,8 +111,8 @@ public final class ALogin extends CDialog
 	private BorderLayout southLayout = new BorderLayout();
 	private StatusBar statusBar = new StatusBar();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true, false, false, false, false, false, false);
-	private OnlineHelp onlineHelp = new OnlineHelp(true);
-	private CPanel helpPanel = new CPanel();
+	//private OnlineHelp onlineHelp = new OnlineHelp(true);
+	//private CPanel helpPanel = new CPanel();
 	private JScrollPane helpScollPane = new JScrollPane();
 	private BorderLayout helpLayout = new BorderLayout();
 
@@ -278,10 +278,11 @@ public final class ALogin extends CDialog
 		loginTabPane.add(defaultPanel, res.getString("Defaults"));
 
 		//  Help
+		/*
 		helpPanel.setLayout(helpLayout);
 		helpPanel.setPreferredSize(new Dimension (100,100));
 		helpPanel.add(helpScollPane,  BorderLayout.CENTER);
-		loginTabPane.add(helpPanel,  "?");
+		loginTabPane.add(helpPanel,  "?");*/
 		//
 		this.getContentPane().add(mainPanel);
 		mainPanel.add(loginTabPane, BorderLayout.CENTER);
@@ -290,8 +291,15 @@ public final class ALogin extends CDialog
 		//
 		southPanel.add(confirmPanel, BorderLayout.NORTH);
 		southPanel.add(statusBar, BorderLayout.SOUTH);
-		helpScollPane.getViewport().add(onlineHelp, null);
+		//helpScollPane.getViewport().add(onlineHelp, null);
 		confirmPanel.addActionListener(this);
+		
+		CButton helpBtn = new CButton(Env.getImageIcon2("Help24"));
+		helpBtn.setActionCommand("onlineLoginHelp");
+		helpBtn.addActionListener(this);
+		helpBtn.setToolTipText(res.getString("Help"));
+		confirmPanel.addComponent(helpBtn);
+		
 		statusBar.setStatusDB(null);
 	} 	//	jbInit
 
@@ -446,6 +454,8 @@ public final class ALogin extends CDialog
 			clientComboChanged();
 		else if (e.getSource() == orgCombo)
 			orgComboChanged();
+		else if ("onlineLoginHelp".equals(e.getActionCommand()))
+			OnlineHelp.openInDefaultBrowser();
 	}	//	actionPerformed
 
 
