@@ -539,6 +539,11 @@ public final class APanel extends CPanel
 							m_onlyCurrentRows = false;  //  Query might involve history
 							gTab.setQuery(query);
 						}
+						//Added Lines by Armen (Goodwill)
+						else { 
+							return false; //Cancel Opening Window
+						}
+						//End of Added Lines
 						if (wb == 0)
 							m_curTab = gTab;
 					}	//	query on first tab
