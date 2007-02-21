@@ -300,7 +300,7 @@ public class GridController extends CPanel
 			init();
 		else
 		{
-			if (Boolean.valueOf(Ini.getProperty(Ini.P_LOAD_TAB_META_DATA_BG)).booleanValue())
+			if (Ini.isPropertyBool(Ini.P_LOAD_TAB_META_DATA_BG))
 				m_mTab.initTab(true);
 		}
 			
