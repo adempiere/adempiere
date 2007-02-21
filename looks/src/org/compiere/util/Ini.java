@@ -160,8 +160,7 @@ public final class Ini implements Serializable
 	/** Load tab fields meta data using backgrond thread **/
 	public static final String P_LOAD_TAB_META_DATA_BG = "LoadTabMetaDataBackground";
 	
-	public static final String DEFAULT_LOAD_TAB_META_DATA_BG
-		= Boolean.toString("Y".equalsIgnoreCase(System.getProperty(P_LOAD_TAB_META_DATA_BG)));
+	public static final String DEFAULT_LOAD_TAB_META_DATA_BG = "N";
 			
 	/** Ini Properties		*/
 	private static final String[]   PROPERTIES = new String[] {
