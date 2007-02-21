@@ -13,6 +13,8 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributors:                                                              *
+ * Colin Rooney (croo) Patch 1605368 Fixed Payment Terms & Only due           *
  *****************************************************************************/
 package org.compiere.apps.form;
 
@@ -282,7 +284,7 @@ public class VPaySelect extends CPanel
 		m_sql = miniTable.prepareTable(new ColumnInfo[] {
 			//  0..4
 			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
-			new ColumnInfo(Msg.translate(ctx, "DueDate"), "i.DateInvoiced+p.NetDays AS DateDue", Timestamp.class, true, true, null),
+			new ColumnInfo(Msg.translate(ctx, "DueDate"), "paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) AS DateDue", Timestamp.class, true, true, null),
 			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
 			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
 			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
@@ -384,7 +386,7 @@ public class VPaySelect extends CPanel
 		}
 		//
 		if (onlyDue.isSelected())
-			sql += " AND i.DateInvoiced+p.NetDays <= ?";
+			sql += " AND paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) <= ?";
 		//
 		KeyNamePair pp = (KeyNamePair)fieldBPartner.getSelectedItem();
 		int C_BPartner_ID = pp.getKey();
