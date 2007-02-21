@@ -86,6 +86,8 @@ public abstract class SvrProcess implements ProcessCall
 		if (localTrx)
 			m_trx = Trx.get(Trx.createTrxName("SvrProcess"), true);
 		//
+		lock();
+		
 		boolean success = process();
 		//
 		if (localTrx)
@@ -95,7 +97,7 @@ public abstract class SvrProcess implements ProcessCall
 				try 
 				{
 					m_trx.commit(true);
-				} catch (SQLException e)
+				} catch (Exception e)
 				{
 					log.log(Level.SEVERE, "Commit failed.", e);
 					m_pi.addSummary("Commit Failed.");
@@ -107,6 +109,9 @@ public abstract class SvrProcess implements ProcessCall
 			m_trx.close();
 			m_trx = null;
 		}
+		
+		unlock();
+		
 		// outside transaction processing [ teo_sarca, 1646891 ]
 		postProcess(!m_pi.isError());
 		
@@ -124,7 +129,6 @@ public abstract class SvrProcess implements ProcessCall
 		boolean success = true;
 		try
 		{
-			lock();
 			prepare();
 			msg = doIt();
 		}
@@ -142,7 +146,7 @@ public abstract class SvrProcess implements ProcessCall
 			success = false;
 		//	throw new RuntimeException(e);
 		}
-		unlock();
+		
 		//transaction should rollback if there are error in process
 		if ("@Error@".equals(msg))
 			success = false;
@@ -150,7 +154,7 @@ public abstract class SvrProcess implements ProcessCall
 		//	Parse Variables
 		msg = Msg.parseTranslation(m_ctx, msg);
 		m_pi.setSummary (msg, !success);
-		ProcessInfoUtil.saveLogToDB(m_pi);
+		
 		return success;
 	}   //  process
 
@@ -439,8 +443,14 @@ public abstract class SvrProcess implements ProcessCall
 	private void lock()
 	{
 		log.fine("AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
-		DB.executeUpdate("UPDATE AD_PInstance SET IsProcessing='Y' WHERE AD_PInstance_ID=" 
-			+ m_pi.getAD_PInstance_ID(), null);		//	outside trx
+		try 
+		{
+			DB.executeUpdate("UPDATE AD_PInstance SET IsProcessing='Y' WHERE AD_PInstance_ID=" 
+				+ m_pi.getAD_PInstance_ID(), null);		//	outside trx
+		} catch (Exception e)
+		{
+			log.severe("lock() - " + e.getLocalizedMessage());
+		}
 	}   //  lock
 
 	/**
@@ -449,17 +459,26 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	private void unlock ()
 	{
-		MPInstance mpi = new MPInstance (getCtx(), m_pi.getAD_PInstance_ID(), null);
-		if (mpi.get_ID() == 0)
+		try 
 		{
-			log.log(Level.SEVERE, "Did not find PInstance " + m_pi.getAD_PInstance_ID());
-			return;
+			MPInstance mpi = new MPInstance (getCtx(), m_pi.getAD_PInstance_ID(), null);
+			if (mpi.get_ID() == 0)
+			{
+				log.log(Level.SEVERE, "Did not find PInstance " + m_pi.getAD_PInstance_ID());
+				return;
+			}
+			mpi.setIsProcessing(false);
+			mpi.setResult(m_pi.isError());
+			mpi.setErrorMsg(m_pi.getSummary());
+			mpi.save();
+			log.fine(mpi.toString());
+			
+			ProcessInfoUtil.saveLogToDB(m_pi);
+		} 
+		catch (Exception e)
+		{
+			log.severe("unlock() - " + e.getLocalizedMessage());
 		}
-		mpi.setIsProcessing(false);
-		mpi.setResult(m_pi.isError());
-		mpi.setErrorMsg(m_pi.getSummary());
-		mpi.save();
-		log.fine(mpi.toString());
 	}   //  unlock
 
 	/**
