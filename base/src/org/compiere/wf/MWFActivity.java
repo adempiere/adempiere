@@ -1134,18 +1134,30 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				setTextMsg ("User Choice: " + e.toString());
 				log.log(Level.WARNING, "", e);
 			}
-			//	Send Approval Notification
-			if (newState.equals(StateEngine.STATE_Aborted))
-			{
-				MClient client = MClient.get(getCtx(), doc.getAD_Client_ID());
-				client.sendEMail(doc.getDoc_User_ID(),
-					doc.getDocumentInfo() + ": " + Msg.getMsg(getCtx(), "NotApproved"),
-					doc.getSummary() 
-					+ "\n" + doc.getProcessMsg() 
-					+ "\n" + getTextMsg(), 
-					doc.createPDF());
+			// Send Approval Notification
+			if (newState.equals(StateEngine.STATE_Aborted)) {
+				MUser to = new MUser(getCtx(), doc.getDoc_User_ID(), null);
+				String NotificationType = to.getNotificationType();
+				
+				// send email
+				if (MUser.NOTIFICATIONTYPE_EMail.equals(NotificationType)
+						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
+					MClient client = MClient.get(getCtx(), doc.getAD_Client_ID());
+					client.sendEMail(doc.getDoc_User_ID(), Msg.getMsg(getCtx(), "NotApproved")
+							+ ": " + doc.getDocumentNo(), doc.getSummary() + "\n"
+							+ doc.getProcessMsg() + "\n" + getTextMsg(), null);
+				}
+
+				// Send Note
+				if (MUser.NOTIFICATIONTYPE_Notice.equals(NotificationType)
+						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
+					MNote note = new MNote(getCtx(), "NotApproved", doc.getDoc_User_ID(), null);
+					note.setTextMsg(doc.getSummary() + "\n" + doc.getProcessMsg() + "\n"
+							+ getTextMsg());
+					note.save();
+				}
 			}
-		}	
+		}
 		setWFState (newState);
 		return ok;
 	}	//	setUserChoice
