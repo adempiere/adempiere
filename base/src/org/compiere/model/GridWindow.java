@@ -128,6 +128,21 @@ public class GridWindow implements Serializable
 		return true;
 	}	//	loadTabData
 
+	/**
+	 * Is tab initialize
+	 * @param index
+	 * @return boolean
+	 */
+	public boolean isTabInitialized(int index)
+	{
+		GridTab mTab = m_tabs.get(index);
+		return initTabs.contains(mTab);
+	}
+	
+	/**
+	 * Initialise tab
+	 * @param index
+	 */
 	public void initTab(int index)
 	{
 		GridTab mTab = m_tabs.get(index);
