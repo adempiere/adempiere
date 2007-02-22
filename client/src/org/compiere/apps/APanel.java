@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import org.compiere.apps.search.*;
@@ -1247,6 +1248,7 @@ public final class APanel extends CPanel
 		//  Command Buttons
 		if (e.getSource() instanceof VButton)
 		{
+			setStatusLine(processButtonCallout((VButton)e.getSource()), true);
 			actionButton((VButton)e.getSource());
 			setBusy(false, true);
 			return;
@@ -1365,6 +1367,79 @@ public final class APanel extends CPanel
 		
 	}
 
+	/**************************************************************************
+	 *  Process Callout(s).
+	 *  <p>
+	 *  The Callout is in the string of
+	 *  "class.method;class.method;"
+	 * If there is no class name, i.e. only a method name, the class is regarded
+	 * as CalloutSystem.
+	 * The class needs to comply with the Interface Callout.
+	 *
+	 * @param field field
+	 * @return error message or ""
+	 * @see org.compiere.model.Callout
+	 */
+	private String processButtonCallout (VButton button)
+	{
+		GridField field = m_curTab.getField(button.getColumnName());
+		String callout = field.getCallout();
+		if (callout.length() == 0)
+			return "";
+		//
+		if (m_curTab.isProcessed())		//	only active records
+			return "";			//	"DocProcessed";
+
+		Object value = field.getValue();
+		Object oldValue = field.getOldValue();
+		log.fine(field.getColumnName() + "=" + value
+			+ " (" + callout + ") - old=" + oldValue);
+
+		StringTokenizer st = new StringTokenizer(callout, ";,", false);
+		while (st.hasMoreTokens())      //  for each callout
+		{
+			String cmd = st.nextToken().trim();
+			Callout call = null;
+			String method = null;
+			int methodStart = cmd.lastIndexOf(".");
+			try
+			{
+				if (methodStart != -1)      //  no class
+				{
+					Class cClass = Class.forName(cmd.substring(0,methodStart));
+					call = (Callout)cClass.newInstance();
+					method = cmd.substring(methodStart+1);
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, "class", e);
+				return "Callout Invalid: " + cmd + " (" + e.toString() + ")";
+			}
+
+			if (call == null || method == null || method.length() == 0)
+				return "Callout Invalid: " + method;
+
+			String retValue = "";
+			try
+			{
+				retValue = call.start(m_ctx, method, m_curWindowNo, m_curTab, field, value, oldValue);
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, "start", e);
+				retValue = 	"Callout Invalid: " + e.toString();
+				return retValue;
+			}
+			if (!retValue.equals(""))		//	interrupt on first error
+			{
+				log.severe (retValue);
+				return retValue;
+			}
+		}   //  for each callout
+		return "";
+	}	//	processButtonCallout
+	
 	/**
 	 *  Create New Record
 	 *  @param copy true if current record is to be copied
