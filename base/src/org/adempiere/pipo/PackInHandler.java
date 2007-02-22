@@ -389,7 +389,6 @@ public class PackInHandler extends DefaultHandler {
 				//m_Window.setWinHeight(Integer.parseInt(atts.getValue("WinHeight")));
 				//m_Window.setWinWidth (Integer.parseInt(atts.getValue("WinWidth")));
 				m_Window.setWindowType (atts.getValue("WindowType"));
-				m_Window.save(m_trxName);
 				if (m_Window.save(m_trxName) == true){
 					record_log (1, m_Window.getName(),"Window", m_Window.get_ID(),AD_Backup_ID, Object_Status,"AD_Window",get_IDWithColumn("AD_Table", "TableName", "AD_Window"));           		        		
 				}
