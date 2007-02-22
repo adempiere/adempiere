@@ -190,24 +190,25 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 		StringBuffer sql = new StringBuffer("SELECT "	//	QtyEntered
 			+ "l.MovementQty-SUM(NVL(mi.Qty, 0)), l.QtyEntered/l.MovementQty,"
 			+ " l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name),"			//  3..4
-			+ " l.M_Product_ID, p.Name, l.M_InOutLine_ID, l.Line,"        //  5..8
-			+ " l.C_OrderLine_ID ");                             		//  9
+			+ " l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line,"        //  5..9
+			+ " l.C_OrderLine_ID " //  10
+			+ " FROM M_InOutLine l "
+			);                             		
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
-		{
-			sql.append("FROM C_UOM uom, M_InOutLine l, M_Product p, M_MatchInv mi ");
-			sql.append("WHERE l.C_UOM_ID=uom.C_UOM_ID");
-		}
+			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
 		else
-		{
-			sql.append("FROM C_UOM_Trl uom, M_InOutLine l, M_Product p, M_MatchInv mi ");
-			sql.append("WHERE l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='").append(Env.getAD_Language(Env.getCtx())).append("'");
-		}
-		sql.append(" AND l.M_Product_ID=p.M_Product_ID")
-			.append(" AND l.M_InOutLine_ID=mi.M_InOutLine_ID(+)")
-			.append(" AND l.M_InOut_ID=? ")					//  #1
+			sql.append(" LEFT OUTER JOIN C_UOM_Trl uom ON (l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='")
+				.append(Env.getAD_Language(Env.getCtx())).append("')");
+		
+		sql.append(" LEFT OUTER JOIN M_Product p ON (l.M_Product_ID=p.M_Product_ID)")
+			.append(" INNER JOIN M_InOut io ON (l.M_InOut_ID=io.M_InOut_ID)")
+			.append(" LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND io.C_BPartner_ID = po.C_BPartner_ID)")
+			.append(" LEFT OUTER JOIN M_MatchInv mi ON (l.M_InOutLine_ID=mi.M_InOutLine_ID)")
+			
+			.append(" WHERE l.M_InOut_ID=? ")	
 			.append("GROUP BY l.MovementQty, l.QtyEntered/l.MovementQty, "
 				+ "l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name), "
-				+ "l.M_Product_ID, p.Name, l.M_InOutLine_ID, l.Line, l.C_OrderLine_ID ")
+				+ "l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line, l.C_OrderLine_ID ")
 			.append("ORDER BY l.Line");
 
 		try
@@ -227,14 +228,15 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 				line.add(pp);                           //  2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
-				int C_OrderLine_ID = rs.getInt(9);
+				line.add(rs.getString(7));				// 4-VendorProductNo
+				int C_OrderLine_ID = rs.getInt(10);
 				if (rs.wasNull())
-					line.add(null);                     //  4-Order
+					line.add(null);                     //  5-Order
 				else
 					line.add(new KeyNamePair(C_OrderLine_ID,"."));
-				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
-				line.add(pp);                           //  5-Ship
-				line.add(null);                     	//  6-Invoice
+				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
+				line.add(pp);                           //  6-Ship
+				line.add(null);                     	//  7-Invoice
 				data.add(line);
 			}
 			rs.close();
@@ -311,11 +313,11 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 				int C_Charge_ID = 0;
 				//
 				int C_OrderLine_ID = 0;
-				pp = (KeyNamePair)model.getValueAt(i, 4);               //  4-OrderLine
+				pp = (KeyNamePair)model.getValueAt(i, 5);               //  5-OrderLine
 				if (pp != null)
 					C_OrderLine_ID = pp.getKey();
 				int M_InOutLine_ID = 0;
-				pp = (KeyNamePair)model.getValueAt(i, 5);               //  5-Shipment
+				pp = (KeyNamePair)model.getValueAt(i, 6);               //  6-Shipment
 				if (pp != null)
 					M_InOutLine_ID = pp.getKey();
 				//	Precision of Qty UOM

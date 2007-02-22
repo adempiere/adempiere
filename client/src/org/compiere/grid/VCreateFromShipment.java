@@ -192,143 +192,123 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 *  Load Data - Invoice
 	 *  @param C_Invoice_ID Invoice
 	 */
-	private void loadInvoice (int C_Invoice_ID)
-	{
+	private void loadInvoice(int C_Invoice_ID) {
 		log.config("C_Invoice_ID=" + C_Invoice_ID);
-		m_invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);    //  save
+		m_invoice = new MInvoice(Env.getCtx(), C_Invoice_ID, null); // save
 		p_order = null;
 
-		Vector<Vector> data = new Vector<Vector>();		
-		StringBuffer sql = new StringBuffer("SELECT "	//	Entered UOM
-			+ "l.QtyInvoiced-SUM(NVL(mi.Qty,0)),l.QtyEntered/l.QtyInvoiced,"
-			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//  3..4
-			+ " l.M_Product_ID,p.Name, l.C_InvoiceLine_ID,l.Line,"      //  5..8
-			+ " l.C_OrderLine_ID ");                   					//  9
+		Vector<Vector> data = new Vector<Vector>();
+		StringBuffer sql = new StringBuffer("SELECT " // Entered UOM
+				+ "l.QtyInvoiced-SUM(NVL(mi.Qty,0)),l.QtyEntered/l.QtyInvoiced,"
+				+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name)," // 3..4
+				+ " l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line," // 5..9
+				+ " l.C_OrderLine_ID "
+				+ " FROM C_InvoiceLine l "); // 10
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
-		{
-			sql.append("FROM C_UOM uom, C_InvoiceLine l, M_Product p, M_MatchInv mi ");
-			sql.append("WHERE l.C_UOM_ID=uom.C_UOM_ID");
-		}
+			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
 		else
-		{
-			sql.append("FROM C_UOM_Trl uom, C_InvoiceLine_v l, M_Product p, M_MatchInv mi ");
-			sql.append("WHERE l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='").append(Env.getAD_Language(Env.getCtx())).append("'");
-		}
-		sql.append(" AND l.M_Product_ID=p.M_Product_ID"
-			+ " AND l.C_InvoiceLine_ID=mi.C_InvoiceLine_ID(+)"
-			+ " AND l.C_Invoice_ID=? " 									//  #1
-			+ "GROUP BY l.QtyInvoiced,l.QtyEntered/l.QtyInvoiced,"
-			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"
-				+ "l.M_Product_ID,p.Name, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID "
-			+ "ORDER BY l.Line");
-		try
-		{
+			sql.append(" LEFT OUTER JOIN C_UOM_Trl uom ON (l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='")
+				.append(Env.getAD_Language(Env.getCtx())).append("')");
+
+		sql.append(" LEFT OUTER JOIN M_Product p ON (l.M_Product_ID=p.M_Product_ID)")
+			.append(" INNER JOIN C_Invoice inv ON (l.C_Invoice_ID=inv.C_Invoice_ID)")
+			.append(" LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND inv.C_BPartner_ID = po.C_BPartner_ID)")
+			.append(" LEFT OUTER JOIN M_MatchInv mi ON (l.C_InvoiceLine_ID=mi.C_InvoiceLine_ID)")
+			
+			.append(" WHERE l.C_Invoice_ID=? ")	
+			.append("GROUP BY l.QtyInvoiced,l.QtyEntered/l.QtyInvoiced,"
+				+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"
+				+ "l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID ")
+			.append("ORDER BY l.Line");
+		
+		try {
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_Invoice_ID);
 			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				Vector<Object> line = new Vector<Object>(7);
-				line.add(new Boolean(false));           //  0-Selection
+				line.add(new Boolean(false)); // 0-Selection
 				BigDecimal qtyInvoiced = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyInvoiced.multiply(multiplier);
-				line.add(new Double(qtyEntered.doubleValue()));  //  1-Qty
+				line.add(new Double(qtyEntered.doubleValue())); // 1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
-				line.add(pp);                           //  2-UOM
+				line.add(pp); // 2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
-				line.add(pp);                           //  3-Product
-				int C_OrderLine_ID = rs.getInt(9);
+				line.add(pp); // 3-Product
+				line.add(rs.getString(7));				// 4-VendorProductNo
+				int C_OrderLine_ID = rs.getInt(10);
 				if (rs.wasNull())
-					line.add(null);                     //  4-Order
+					line.add(null); // 5-Order
 				else
-					line.add(new KeyNamePair(C_OrderLine_ID,"."));
-				line.add(null);                     	//  5-Ship
-				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
-				line.add(pp);                           //  6-Invoice
+					line.add(new KeyNamePair(C_OrderLine_ID, "."));
+				line.add(null); // 6-Ship
+				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
+				line.add(pp); // 7-Invoice
 				data.add(line);
 			}
 			rs.close();
 			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		loadTableOIS (data);
-	}   //  loadInvoice
-
+		loadTableOIS(data);
+	} // loadInvoice
 
 	/**
-	 *  List number of rows selected
+	 * List number of rows selected
 	 */
-	protected void info()
-	{
+	protected void info() {
 		TableModel model = dataTable.getModel();
 		int rows = model.getRowCount();
 		int count = 0;
-		for (int i = 0; i < rows; i++)
-		{
-			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
+		for (int i = 0; i < rows; i++) {
+			if (((Boolean) model.getValueAt(i, 0)).booleanValue())
 				count++;
 		}
 		statusBar.setStatusLine(String.valueOf(count));
-	}   //  info
-
+	} // info
 
 	/**
-	 *  Save - create Shipments
-	 *  @return true if saved
+	 * Save - create Shipments
+	 * 
+	 * @return true if saved
 	 */
-	protected boolean save()
-	{
+	protected boolean save() {
 		log.config("");
 		TableModel model = dataTable.getModel();
 		int rows = model.getRowCount();
 		if (rows == 0)
 			return false;
 		//
-		Integer loc = (Integer)locatorField.getValue();
-		if (loc == null || loc.intValue() == 0)
-		{
+		Integer loc = (Integer) locatorField.getValue();
+		if (loc == null || loc.intValue() == 0) {
 			locatorField.setBackground(AdempierePLAF.getFieldBackground_Error());
 			return false;
 		}
 		int M_Locator_ID = loc.intValue();
-		//	Get Shipment
-		int M_InOut_ID = ((Integer)p_mTab.getValue("M_InOut_ID")).intValue();
-		MInOut inout = new MInOut (Env.getCtx(), M_InOut_ID, null);
+		// Get Shipment
+		int M_InOut_ID = ((Integer) p_mTab.getValue("M_InOut_ID")).intValue();
+		MInOut inout = new MInOut(Env.getCtx(), M_InOut_ID, null);
 		log.config(inout + ", C_Locator_ID=" + M_Locator_ID);
 
-		/**
-		 *  Selected        - 0
-		 *  QtyEntered      - 1
-		 *  C_UOM_ID        - 2
-		 *  M_Product_ID    - 3
-		 *  OrderLine       - 4
-		 *  ShipmentLine    - 5
-		 *  InvoiceLine     - 6
-		 */
-
-		//  Lines
-		for (int i = 0; i < rows; i++)
-		{
-			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
-			{
-				//  variable values
-				Double d = (Double)model.getValueAt(i, 1);              //  1-Qty
+		// Lines
+		for (int i = 0; i < rows; i++) {
+			if (((Boolean) model.getValueAt(i, 0)).booleanValue()) {
+				// variable values
+				Double d = (Double) model.getValueAt(i, 1); // 1-Qty
 				BigDecimal QtyEntered = new BigDecimal(d.doubleValue());
-				KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 2);   //  2-Product
+				KeyNamePair pp = (KeyNamePair) model.getValueAt(i, 2); // 2-Product
 				int C_UOM_ID = pp.getKey();
-				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Product
+				pp = (KeyNamePair) model.getValueAt(i, 3); // 3-Product
 				int M_Product_ID = pp.getKey();
 				int C_OrderLine_ID = 0;
-				pp = (KeyNamePair)model.getValueAt(i, 4);               //  4-OrderLine
+				pp = (KeyNamePair) model.getValueAt(i, 5); // 5-OrderLine
 				if (pp != null)
 					C_OrderLine_ID = pp.getKey();
 				int C_InvoiceLine_ID = 0;
 				MInvoiceLine il = null;
-				pp = (KeyNamePair)model.getValueAt(i, 6);               //  6-InvoiceLine
+				pp = (KeyNamePair) model.getValueAt(i, 7); // 7-InvoiceLine
 				if (pp != null)
 					C_InvoiceLine_ID = pp.getKey();
 				if (C_InvoiceLine_ID != 0)

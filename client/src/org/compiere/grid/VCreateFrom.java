@@ -396,9 +396,10 @@ public abstract class VCreateFrom extends CDialog
 		 *  Qty             - 1
 		 *  C_UOM_ID        - 2
 		 *  M_Product_ID    - 3
-		 *  OrderLine       - 4
-		 *  ShipmentLine    - 5
-		 *  InvoiceLine     - 6
+		 *  VendorProductNo - 4
+		 *  OrderLine       - 5
+		 *  ShipmentLine    - 6
+		 *  InvoiceLine     - 7
 		 */
 		log.config("C_Order_ID=" + C_Order_ID);
 		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);      //  save
@@ -408,9 +409,10 @@ public abstract class VCreateFrom extends CDialog
 			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
 			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
 			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//	3..4
-			+ " COALESCE(l.M_Product_ID,0),COALESCE(p.Name,c.Name),"	//	5..6
-			+ " l.C_OrderLine_ID,l.Line "								//	7..8
+			+ " COALESCE(l.M_Product_ID,0),COALESCE(p.Name,c.Name),po.VendorProductNo,"	//	5..7
+			+ " l.C_OrderLine_ID,l.Line "								//	8..9
 			+ "FROM C_OrderLine l"
+			+ " LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND l.C_BPartner_ID = po.C_BPartner_ID) "
 			+ " LEFT OUTER JOIN M_MatchPO m ON (l.C_OrderLine_ID=m.C_OrderLine_ID AND ");
 		sql.append(forInvoice ? "m.C_InvoiceLine_ID" : "m.M_InOutLine_ID");
 		sql.append(" IS NOT NULL)")
@@ -424,7 +426,7 @@ public abstract class VCreateFrom extends CDialog
 		//
 		sql.append(" WHERE l.C_Order_ID=? "			//	#1
 			+ "GROUP BY l.QtyOrdered,CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END, "
-			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name), "
+			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),po.VendorProductNo, "
 				+ "l.M_Product_ID,COALESCE(p.Name,c.Name), l.Line,l.C_OrderLine_ID "
 			+ "ORDER BY l.Line");
 		//
@@ -446,10 +448,11 @@ public abstract class VCreateFrom extends CDialog
 				line.add(pp);                           //  2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
-				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
-				line.add(pp);                           //  4-OrderLine
-				line.add(null);                         //  5-Ship
-				line.add(null);                         //  6-Invoice
+				line.add(rs.getString(7));				// 4-VendorProductNo
+				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
+				line.add(pp);                           //  5-OrderLine
+				line.add(null);                         //  6-Ship
+				line.add(null);                         //  7-Invoice
 				data.add(line);
 			}
 			rs.close();
@@ -475,6 +478,7 @@ public abstract class VCreateFrom extends CDialog
 		columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		columnNames.add(Msg.getElement(Env.getCtx(), "VendorProductNo", false));
 		columnNames.add(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
 		columnNames.add(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
 		columnNames.add(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
@@ -490,9 +494,10 @@ public abstract class VCreateFrom extends CDialog
 		dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
 		dataTable.setColumnClass(2, String.class, true);        //  2-UOM
 		dataTable.setColumnClass(3, String.class, true);        //  3-Product
-		dataTable.setColumnClass(4, String.class, true);        //  4-Order
-		dataTable.setColumnClass(5, String.class, true);        //  5-Ship
-		dataTable.setColumnClass(6, String.class, true);        //  6-Invoice
+		dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
+		dataTable.setColumnClass(5, String.class, true);        //  5-Order
+		dataTable.setColumnClass(6, String.class, true);        //  6-Ship
+		dataTable.setColumnClass(7, String.class, true);        //  7-Invoice
 		//  Table UI
 		dataTable.autoSize();
 	}   //  loadOrder
