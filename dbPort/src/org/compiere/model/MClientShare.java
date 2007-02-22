@@ -217,7 +217,7 @@ public class MClientShare extends X_AD_ClientShare
 		{
 			StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ")
 				.append(getTableName())
-				.append(" WHERE AD_Org_ID=0 WHERE AD_Client_ID=?");
+				.append(" WHERE AD_Org_ID=0 AND AD_Client_ID=?");
 			int no = DB.getSQLValue(get_TrxName(), sql.toString(), getAD_Client_ID());
 			info = getTableName() + " Shared records #" + no;
 			log.info(info);
