@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
+
 import org.compiere.apps.form.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
@@ -231,17 +232,24 @@ public class AMenuStartItem extends Thread implements ActionListener
 				return;
 
 			SwingUtilities.invokeLater(m_updatePB);			//	2
-			frame.pack();
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) )
+			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) 
+			{
+				frame.pack();
 				frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+			}
 			
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
+			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) 
+			{
 				frame.setVisible(true);
 				frame.toFront();
-			} else
+			} 
+			else
+			{
+				frame.validate();
 				AEnv.showCenterScreen(frame);
+			}
 			
 			m_menu.getWindowManager().add(frame);
 			
@@ -340,5 +348,5 @@ public class AMenuStartItem extends Thread implements ActionListener
 		} else
 			AEnv.showCenterScreen(ff);
 	}	//	startForm
-
+	
 }	//	StartItem

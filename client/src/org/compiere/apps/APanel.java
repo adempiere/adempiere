@@ -646,6 +646,8 @@ public final class APanel extends CPanel
 		//	Size
 		if (windowSize != null)
 			setPreferredSize(windowSize);
+		else
+			revalidate();
 		Dimension size = getPreferredSize();
 		log.info( "fini - " + size);
 		m_curWinTab.requestFocusInWindow();
@@ -1033,7 +1035,12 @@ public final class APanel extends CPanel
 		}
 		else	//	Cur Tab Setting
 		{
-			m_mWorkbench.getMWindow(0).initTab(m_curTabIndex);
+			boolean needValidate = false;
+			if (m_mWorkbench.getMWindow(0).isTabInitialized(m_curTabIndex) == false)
+			{
+				m_mWorkbench.getMWindow(0).initTab(m_curTabIndex);
+				needValidate = true;
+			}
 			m_curGC.activate();
 			m_curTab = m_curGC.getMTab();
 
@@ -1073,6 +1080,32 @@ public final class APanel extends CPanel
 				}
 				m_curTab.navigateCurrent();     //  updates counter
 				m_curGC.dynamicDisplay(0);
+			}
+			if (needValidate)
+			{
+				JFrame frame = Env.getFrame(APanel.this);
+				if (frame != null)
+				{
+					//not sure why, the following lines is needed to make dynamic resize work
+					//tested on jdk1.5, 1.6 using jgoodies look and feel
+					frame.getPreferredSize();
+					
+					if (frame.getExtendedState() != JFrame.MAXIMIZED_BOTH)
+					{
+						frame.setMinimumSize(frame.getSize());
+						revalidate();
+						SwingUtilities.invokeLater(new Runnable() {
+		
+							public void run() {
+								JFrame frame = Env.getFrame(APanel.this);
+								frame.validate();
+								AEnv.showCenterScreen(frame);
+								frame.setMinimumSize(null);
+							}
+							
+						});
+					}
+				}
 			}
 		//	else		##CHANGE
 		//		m_curTab.navigateCurrent();
@@ -2025,7 +2058,11 @@ public final class APanel extends CPanel
 				this, m_curWindowNo, vButton.getProcess_ID(), table_ID, 
 				record_ID, startWOasking);
 		if (dialog.isValid())
+		{
+			dialog.validate();
+			dialog.pack();
 			AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+		}
 	}	//	actionButton
 
 	
