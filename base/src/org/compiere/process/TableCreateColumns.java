@@ -260,7 +260,7 @@ public class TableCreateColumns extends SvrProcess
 				column.setAD_Reference_Value_ID (190);
 			}
 			// ID
-			else if (columnName.endsWith ("_ID"))
+			else if (columnName.toUpperCase().endsWith ("_ID"))
 				column.setAD_Reference_ID (DisplayType.TableDir);
 			// Date
 			else if (dataType == Types.DATE || dataType == Types.TIME
