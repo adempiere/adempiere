@@ -102,6 +102,9 @@ public class ProcessInfo implements Serializable
 
 	/**	Log Info					*/
 	private ProcessInfoParameter[]	m_parameter = null;
+	
+	/** Transaction Name 			*/
+	private String				m_transactionName = null;
 
 
 	/**
@@ -581,5 +584,22 @@ public class ProcessInfo implements Serializable
 	{
 		m_logs = logs;
 	}
+	
+	/**
+	 * Get transaction name for this process
+	 * @return String
+	 */
+	public String getTransactionName()
+	{
+		return m_transactionName;
+	}
 
+	/**
+	 * Set transaction name from this process
+	 * @param trxName
+	 */
+	public void setTransactionName(String trxName)
+	{
+		m_transactionName = trxName;
+	}
 }   //  ProcessInfo
