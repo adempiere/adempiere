@@ -467,7 +467,10 @@ public class ProcessCtl extends Thread
 			try
 			{
 				if (server != null)
-				{	//	See ServerBean
+				{	
+					if (m_trx != null)
+						m_pi.setTransactionName(m_trx.getTrxName());
+					//	See ServerBean
 					m_pi = server.process (Env.getCtx(), m_pi);
 					log.finest("server => " + m_pi);
 					started = true;		
