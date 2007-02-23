@@ -753,7 +753,12 @@ public class MOrder extends X_C_Order implements DocAction
 	public MInvoice[] getInvoices()
 	{
 		ArrayList<MInvoice> list = new ArrayList<MInvoice>();
-		String sql = "SELECT * FROM C_Invoice WHERE C_Order_ID=? ORDER BY Created DESC";
+		String sql = " SELECT DISTINCT i.* FROM C_InvoiceLine il " + 
+						"INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = il.C_OrderLine_ID) " +
+						"INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID) " +
+						"INNER JOIN C_Invoice i ON (i.C_Invoice_ID = il.C_Invoice_ID) " +
+						"WHERE o.C_Order_ID=? " +  
+						"ORDER BY i.Created DESC";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -836,7 +841,13 @@ public class MOrder extends X_C_Order implements DocAction
 	public MInOut[] getShipments()
 	{
 		ArrayList<MInOut> list = new ArrayList<MInOut>();
-		String sql = "SELECT * FROM M_InOut WHERE C_Order_ID=? ORDER BY Created DESC";
+		String sql = "SELECT DISTINCT io.* FROM M_InOutLine iol " + 
+						"INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID) " +
+						"INNER JOIN C_ORDERLINE ol ON (ol.C_ORDERLINE_ID=iol.C_ORDERLINE_ID) " + 
+						"INNER JOIN C_ORDER o ON (o.C_ORDER_ID=ol.C_ORDER_ID) " +
+						"WHERE	o.C_ORDER_ID=? " +
+						"ORDER BY io.Created DESC";
+
 		PreparedStatement pstmt = null;
 		try
 		{
