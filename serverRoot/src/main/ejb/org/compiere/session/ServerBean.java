@@ -260,7 +260,9 @@ public class ServerBean implements SessionBean
 			return pi;
 		}
 		//	Start Process
-		Trx trx = Trx.get(Trx.createTrxName("ServerPrc"), true);
+		String trxName = pi.getTransactionName();
+		if (trxName == null) trxName = Trx.createTrxName("ServerPrc"); 
+		Trx trx = Trx.get(trxName, true);
 		try
 		{
 			boolean ok = process.startProcess (ctx, pi, trx);
