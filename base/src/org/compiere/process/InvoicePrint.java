@@ -120,8 +120,9 @@ public class InvoicePrint extends SvrProcess
 			+ " LEFT OUTER JOIN AD_User bpc ON (i.AD_User_ID=bpc.AD_User_ID)"
 			+ " INNER JOIN AD_Client c ON (i.AD_Client_ID=c.AD_Client_ID)"
 			+ " INNER JOIN AD_PrintForm pf ON (i.AD_Client_ID=pf.AD_Client_ID)"
-			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)")
-			.append(" WHERE pf.AD_Org_ID IN (0,i.AD_Org_ID) AND ");	//	more them 1 PF
+			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
+		    + " WHERE i.AD_Client_ID=? AND i.AD_Org_ID=? AND i.isSOTrx='Y' AND "
+		    + "       pf.AD_Org_ID IN (0,i.AD_Org_ID) AND " );	//	more them 1 PF
 		boolean needAnd = false;
 		if (m_C_Invoice_ID != 0)
 			sql.append("i.C_Invoice_ID=").append(m_C_Invoice_ID);
@@ -176,6 +177,16 @@ public class InvoicePrint extends SvrProcess
 					sql.append("i.DocumentNo LIKE ")
 						.append(DB.TO_STRING(m_DocumentNo_From));
 			}
+			
+			if (p_EMailPDF)
+			{
+				if (needAnd)
+				{
+					sql.append(" AND ");
+				}
+				/* if emailed to customer only select COmpleted & CLosed invoices */ 
+				sql.append("i.DocStatus IN ('CO','CL') "); 
+			}
 		}
 		sql.append(" ORDER BY i.C_Invoice_ID, pf.AD_Org_ID DESC");	//	more than 1 PF record
 		log.fine(sql.toString());
@@ -188,8 +199,10 @@ public class InvoicePrint extends SvrProcess
 		int errors = 0;
 		try
 		{
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql.toString());
+			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName()); 
+			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
+			pstmt.setInt(2, Env.getAD_Org_ID(Env.getCtx()));
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int C_Invoice_ID = rs.getInt(1);
@@ -312,7 +325,7 @@ public class InvoicePrint extends SvrProcess
 				}
 			}	//	for all entries
 			rs.close();
-			stmt.close();
+			pstmt.close();
 		}
 		catch (Exception e)
 		{
