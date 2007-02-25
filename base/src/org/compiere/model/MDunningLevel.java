@@ -32,7 +32,7 @@ import org.compiere.util.DB;
 public class MDunningLevel extends X_C_DunningLevel
 {
 	/** Logger								*/
-	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
+	private static CLogger		s_log = CLogger.getCLogger (MDunningLevel.class);
 	
 	/**
 	 * 	Standard Constructor

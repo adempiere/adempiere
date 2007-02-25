@@ -122,4 +122,20 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 		return success;
 	}	//	afterSave
 	
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("MProductCategoryAcct[");
+		sb.append (get_ID())
+			.append (",M_Product_Category_ID=").append (getM_Product_Category_ID())
+			.append (",C_AcctSchema_ID=").append(getC_AcctSchema_ID())
+			.append (",CostingLevel=").append(getCostingLevel())
+			.append (",CostingMethod=").append(getCostingMethod())
+			.append ("]");
+		return sb.toString ();
+	}	//	toString
+
 }	//	MProductCategoryAcct

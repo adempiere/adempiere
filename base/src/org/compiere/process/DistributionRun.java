@@ -357,7 +357,7 @@ public class DistributionRun extends SvrProcess
 		if (runAD_Org_ID == 0)
 			runAD_Org_ID = Env.getAD_Org_ID(getCtx());
 		MOrg runOrg = MOrg.get(getCtx(), runAD_Org_ID);
-		int runC_BPartner_ID = runOrg.getLinkedC_BPartner_ID();
+		int runC_BPartner_ID = runOrg.getLinkedC_BPartner_ID(get_TrxName());
 		boolean counter = !m_run.isCreateSingleOrder()	//	no single Order 
 			&& runC_BPartner_ID > 0						//	Org linked to BP
 			&& !m_docType.isSOTrx();					//	PO

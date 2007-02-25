@@ -537,8 +537,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		{
 			m_parentNeedSave = false;
 			String lc = getLinkColumnName();
-			if (lc.equals(""))
-				log.severe ("No link column");
+			if (lc.equals("")) {
+				log.warning ("No link column");
+				where.append (" 2=3");
+			}
 			else
 			{
 				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc);

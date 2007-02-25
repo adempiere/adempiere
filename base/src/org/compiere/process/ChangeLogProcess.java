@@ -239,16 +239,28 @@ public class ChangeLogProcess extends SvrProcess
 		{
 			m_sqlUpdate.append(getSQLValue(cLog.getOldValue()));
 			if (p_CheckNewValue.booleanValue())
-				m_sqlUpdateWhere.append(" AND ").append(m_column.getColumnName())
-					.append("=").append(getSQLValue(cLog.getNewValue()));
+			{ 
+				m_sqlUpdateWhere.append(" AND ").append(m_column.getColumnName());
+				String newValue = getSQLValue(cLog.getNewValue());
+				if (newValue == null || "NULL".equals(newValue))
+					m_sqlUpdateWhere.append(" IS NULL");
+				else
+					m_sqlUpdateWhere.append("=").append(newValue);
+			}
 		}
 		//	ReDo (a) -> b
 		else if (p_CheckOldValue != null)
 		{
 			m_sqlUpdate.append(getSQLValue(cLog.getNewValue()));
-			if (p_CheckOldValue.booleanValue())
-				m_sqlUpdateWhere.append(" AND ").append(m_column.getColumnName())
-					.append("=").append(getSQLValue(cLog.getOldValue()));
+			if (p_CheckOldValue.booleanValue())	
+			{
+				String newValue = getSQLValue(cLog.getOldValue());
+				m_sqlUpdateWhere.append(" AND ").append(m_column.getColumnName());
+				if (newValue == null || "NULL".equals(newValue))
+					m_sqlUpdateWhere.append(" IS NULL");
+				else
+					m_sqlUpdateWhere.append("=").append(newValue);
+			}
 		}
 	}	//	createStatement
 

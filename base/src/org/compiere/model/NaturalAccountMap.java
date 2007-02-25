@@ -59,10 +59,6 @@ public final class NaturalAccountMap<K,V> extends CCache<K,V>
 		m_trxName = trxName;
 	}   //  NaturalAccountMap
 
-	/** Delimiter       */
-	private String      m_delim = ",";
-	/** KeyNo           */
-	private static int  s_keyNo = 0;
 	/** Context			*/
 	private Properties	m_ctx = null;
 	/** Transaction		*/

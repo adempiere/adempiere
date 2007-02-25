@@ -185,6 +185,20 @@ public class MEntityType extends X_AD_EntityType
 	private static final int	s_maxAD_EntityType_ID = 221;
 	
 	/**
+	 * 	Set AD_EntityType_ID
+	 */
+	private void setAD_EntityType_ID()
+	{
+		int AD_EntityType_ID = getAD_EntityType_ID();
+		if (AD_EntityType_ID == 0)
+		{
+			String sql = "SELECT NVL(MAX(AD_EntityType_ID), 999999) FROM AD_EntityType WHERE AD_EntityType_ID > 1000";
+			AD_EntityType_ID= DB.getSQLValue (get_TrxName(), sql);
+			setAD_EntityType_ID(AD_EntityType_ID+1);
+		}
+	}	//	setAD_EntityType_ID
+	
+	/**
 	 * 	Is System Maintained
 	 *	@return true if D/C/U/CUST/A/EXT/XX
 	 */
@@ -246,6 +260,7 @@ public class MEntityType extends X_AD_EntityType
 					+ " - Must be ASCII Letter or Digit");
 				return false;
 			}
+			setAD_EntityType_ID();
 		}	//	new
 		s_entityTypes = null;	//	reset
 		return true;

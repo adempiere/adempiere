@@ -501,4 +501,18 @@ public class ProductCost
 		return cost;
 	}   //  getPOCost
 
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("ProductCost[");
+		sb.append ("M_Product_ID=").append(m_M_Product_ID)
+			.append(",M_AttributeSetInstance_ID").append(m_M_AttributeSetInstance_ID)
+			.append (",Qty=").append(m_qty)
+			.append ("]");
+		return sb.toString ();
+	}	//	toString
+	
 }	//	ProductCost

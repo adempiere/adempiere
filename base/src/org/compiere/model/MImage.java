@@ -87,8 +87,6 @@ public class MImage extends X_AD_Image
 	private Image			m_image = null;
 	/** The Icon                   */
 	private Icon			m_icon = null;
-	/** The Image File              */
-	private File            m_file = null;
 
 	/**
 	 * 	Get Image

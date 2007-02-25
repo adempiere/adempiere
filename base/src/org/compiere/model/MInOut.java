@@ -1015,7 +1015,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		//	Credit Check
 		if (isSOTrx() && !isReversal())
 		{
-			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), null);
+			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 			if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
 			{
 				m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
@@ -1546,11 +1546,11 @@ public class MInOut extends X_M_InOut implements DocAction
 		
 		//	Org Must be linked to BPartner
 		MOrg org = MOrg.get(getCtx(), getAD_Org_ID());
-		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(); 
+		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 		if (counterC_BPartner_ID == 0)
 			return null;
 		//	Business Partner needs to be linked to Org
-		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), null);
+		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 		int counterAD_Org_ID = bp.getAD_OrgBP_ID_Int(); 
 		if (counterAD_Org_ID == 0)
 			return null;
@@ -1771,6 +1771,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;
 		}
 		reversal.closeIt();
+		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
 		reversal.save(get_TrxName());

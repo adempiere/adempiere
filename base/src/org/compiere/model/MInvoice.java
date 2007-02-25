@@ -1046,7 +1046,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	{
 		BigDecimal retValue = null;
 		String sql = "SELECT SUM(currencyConvert(al.Amount+al.DiscountAmt+al.WriteOffAmt,"
-				+ "ah.C_Currency_ID, i.C_Currency_ID,ah.DateTrx,i.C_ConversionType_ID, al.AD_Client_ID,al.AD_Org_ID)) " 
+				+ "ah.C_Currency_ID, i.C_Currency_ID,ah.DateTrx,COALESCE(i.C_ConversionType_ID,0), al.AD_Client_ID,al.AD_Org_ID)) " 
 			+ "FROM C_AllocationLine al"
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID)"
 			+ " INNER JOIN C_Invoice i ON (al.C_Invoice_ID=i.C_Invoice_ID) "
@@ -1820,7 +1820,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 		//	Org Must be linked to BPartner
 		MOrg org = MOrg.get(getCtx(), getAD_Org_ID());
-		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(); 
+		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 		if (counterC_BPartner_ID == 0)
 			return null;
 		//	Business Partner needs to be linked to Org
@@ -2046,6 +2046,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		reversal.setC_Payment_ID(0);
 		reversal.setIsPaid(true);
 		reversal.closeIt();
+		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
 		reversal.save(get_TrxName());

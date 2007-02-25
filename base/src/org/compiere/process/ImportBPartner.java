@@ -36,8 +36,6 @@ public class ImportBPartner extends SvrProcess
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
 
-	/** Organization to be imported to	*/
-	private int				m_AD_Org_ID = 0;
 	/** Effective						*/
 	private Timestamp		m_DateValue = null;
 
@@ -101,10 +99,10 @@ public class ImportBPartner extends SvrProcess
 
 		//	Set BP_Group
 		sql = new StringBuffer ("UPDATE I_BPartner i "
-			+ "SET GroupValue=(SELECT Value FROM C_BP_Group g WHERE g.IsDefault='Y'"
-			+ " AND g.AD_Client_ID=i.AD_Client_ID AND ROWNUM=1) "
-			+ "WHERE GroupValue IS NULL AND C_BP_Group_ID IS NULL"
-			+ " AND I_IsImported<>'Y'").append(clientCheck);
+				+ "SET GroupValue=(SELECT MAX(Value) FROM C_BP_Group g WHERE g.IsDefault='Y'"
+				+ " AND g.AD_Client_ID=i.AD_Client_ID");
+		sql.append("WHERE GroupValue IS NULL AND C_BP_Group_ID IS NULL"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Group Default=" + no);
 		//
@@ -151,10 +149,10 @@ public class ImportBPartner extends SvrProcess
 
 		//	Set Region
 		sql = new StringBuffer ("UPDATE I_BPartner i "
-			+ "Set RegionName=(SELECT Name FROM C_Region r"
+			+ "Set RegionName=(SELECT MAX(Name FROM C_Region r"
 			+ " WHERE r.IsDefault='Y' AND r.C_Country_ID=i.C_Country_ID"
-			+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID) AND ROWNUM=1) "
-			+ "WHERE RegionName IS NULL AND C_Region_ID IS NULL"
+			+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) " );
+		sql.append("WHERE RegionName IS NULL AND C_Region_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Region Default=" + no);
@@ -433,7 +431,7 @@ public class ImportBPartner extends SvrProcess
 					if (impBP.getPhone() != null)
 						user.setPhone(impBP.getPhone());
 					if (impBP.getPhone2() != null)
-						user.setPhone(impBP.getPhone2());
+						user.setPhone2(impBP.getPhone2());
 					if (impBP.getFax() != null)
 						user.setFax(impBP.getFax());
 					if (impBP.getEMail() != null)

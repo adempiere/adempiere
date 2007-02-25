@@ -250,7 +250,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 				count++;
 		}
 		if (fromLines.length != count)
-			log.log(Level.SEVERE, "copyLinesFrom - Line difference - JournalLines=" + fromLines.length + " <> Saved=" + count);
+			log.log(Level.SEVERE, "Line difference - JournalLines=" + fromLines.length + " <> Saved=" + count);
 
 		return count;
 	}	//	copyLinesFrom

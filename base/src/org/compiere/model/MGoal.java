@@ -475,6 +475,17 @@ public class MGoal extends X_PA_Goal
 		return m_color;
 	}	//	getColor
 	
+    /**
+     * Get the color schema for this goal.
+     * 
+     * @return the color schema, or null if the measure targer is 0
+     */
+    public MColorSchema getColorSchema()
+    {
+        return (getMeasureTarget().signum() == 0) ?
+            null : MColorSchema.get(getCtx(), getPA_ColorSchema_ID());
+    }
+	
 	/**
 	 * 	Get Measure Display
 	 *	@return Measure Display

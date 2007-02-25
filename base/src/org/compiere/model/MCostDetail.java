@@ -403,12 +403,12 @@ public class MCostDetail extends X_M_CostDetail
 	 *	@param ctx context
 	 *	@param whereClause where clause
 	 *	@param ID 1st parameter
-	 *	@param ID2 2nd parameter
+	 *  @param M_AttributeSetInstance_ID ASI
 	 *	@param trxName trx
 	 *	@return cost detail
 	 */
 	private static MCostDetail get (Properties ctx, String whereClause, 
-		int ID, int ID2, String trxName)
+		int ID, int M_AttributeSetInstance_ID, String trxName)
 	{
 		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause;
 		MCostDetail retValue = null;
@@ -417,7 +417,7 @@ public class MCostDetail extends X_M_CostDetail
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, ID);
-			pstmt.setInt (2, ID2);
+			pstmt.setInt (2, M_AttributeSetInstance_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MCostDetail (ctx, rs, trxName);
@@ -693,7 +693,7 @@ public class MCostDetail extends X_M_CostDetail
 	{
 		if (isProcessed())
 		{
-			log.info("already processed");
+			log.info("Already processed");
 			return true;
 		}
 		boolean ok = false;

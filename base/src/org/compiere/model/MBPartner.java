@@ -84,7 +84,7 @@ public class MBPartner extends X_C_BPartner
 	{
 		MBPartner retValue = null;
 		String sql = "SELECT * FROM C_BPartner "
-			+ "WHERE C_BPartner_ID=(SELECT C_BPartnerCashTrx_ID FROM AD_ClientInfo WHERE AD_Client_ID=?)";
+			+ "WHERE C_BPartner_ID IN (SELECT C_BPartnerCashTrx_ID FROM AD_ClientInfo WHERE AD_Client_ID=?)";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -376,7 +376,7 @@ public class MBPartner extends X_C_BPartner
 
 		boolean success = true;
 		String sql = "SELECT * FROM C_BPartner "
-			+ "WHERE C_BPartner_ID=(SELECT C_BPartnerCashTrx_ID FROM AD_ClientInfo WHERE AD_Client_ID=?)";
+			+ "WHERE C_BPartner_ID IN (SELECT C_BPartnerCashTrx_ID FROM AD_ClientInfo WHERE AD_Client_ID=?)";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -568,7 +568,7 @@ public class MBPartner extends X_C_BPartner
 			return m_accounts;
 		//
 		ArrayList<MBPBankAccount> list = new ArrayList<MBPBankAccount>();
-		String sql = "SELECT * FROM C_BP_BankAccount WHERE C_BPartner_ID=?";
+		String sql = "SELECT * FROM C_BP_BankAccount WHERE C_BPartner_ID=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
 		try
 		{

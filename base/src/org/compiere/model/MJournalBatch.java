@@ -50,11 +50,13 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		MJournalBatch to = new MJournalBatch (ctx, 0, trxName);
 		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("DocumentNo", null);
+		to.set_ValueNoCheck ("C_Period_ID", null);
 		to.setDateAcct(dateDoc);
 		to.setDateDoc(dateDoc);
 		to.setDocStatus(DOCSTATUS_Drafted);
 		to.setDocAction(DOCACTION_Complete);
 		to.setIsApproved(false);
+		to.setProcessed (false);
 		//
 		if (!to.save())
 			throw new IllegalStateException("Could not create Journal Batch");
@@ -220,7 +222,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			PO.copyValues(fromJournals[i], toJournal, getAD_Client_ID(), getAD_Org_ID());
 			toJournal.setGL_JournalBatch_ID(getGL_JournalBatch_ID());
 			toJournal.set_ValueNoCheck ("DocumentNo", null);	//	create new
-			toJournal.setC_Period_ID(0);
+			toJournal.set_ValueNoCheck ("C_Period_ID", null);
 			toJournal.setDateDoc(getDateDoc());		//	dates from this Batch
 			toJournal.setDateAcct(getDateAcct());
 			toJournal.setDocStatus(MJournal.DOCSTATUS_Drafted);
@@ -238,7 +240,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			}
 		}
 		if (fromJournals.length != count)
-			log.log(Level.SEVERE, "copyDetailsFrom - Line difference - Journals=" + fromJournals.length + " <> Saved=" + count);
+			log.log(Level.SEVERE, "Line difference - Journals=" + fromJournals.length + " <> Saved=" + count);
 
 		return count + lineCount;
 	}	//	copyLinesFrom

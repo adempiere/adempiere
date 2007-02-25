@@ -39,7 +39,6 @@ public class DocumentTypeVerify extends SvrProcess
 	
 	/**
 	 *	No Parameters (Nop)
-	 *	@see org.compiere.process.SvrProcess#prepare()
 	 */
 	protected void prepare()
 	{
@@ -47,7 +46,6 @@ public class DocumentTypeVerify extends SvrProcess
 
 	/**
 	 * 	Execute process
-	 *	@see org.compiere.process.SvrProcess#doIt()
 	 *	@return info
 	 *	@throws Exception
 	 */

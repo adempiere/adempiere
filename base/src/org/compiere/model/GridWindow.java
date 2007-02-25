@@ -68,8 +68,6 @@ public class GridWindow implements Serializable
 	private GridWindowVO   	m_vo;
 	/**	Tabs						*/
 	private ArrayList<GridTab>	m_tabs = new ArrayList<GridTab>();
-	/**	Position					*/
-	private Rectangle 		m_position = null;
 	/** Model last updated			*/
 	private Timestamp		m_modelUpdated = null;
 

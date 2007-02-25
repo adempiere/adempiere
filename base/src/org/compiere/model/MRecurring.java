@@ -56,7 +56,7 @@ public class MRecurring extends X_C_Recurring
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer ("MRecurring[")
-			.append(get_ID()).append(",").append(getName());
+			.append(get_ID()).append("-").append(getName());
 		if (getRecurringType().equals(MRecurring.RECURRINGTYPE_Order))
 			sb.append(",C_Order_ID=").append(getC_Order_ID());
 		else if (getRecurringType().equals(MRecurring.RECURRINGTYPE_Invoice))
@@ -65,7 +65,7 @@ public class MRecurring extends X_C_Recurring
 			sb.append(",C_Project_ID=").append(getC_Project_ID());
 		else if (getRecurringType().equals(MRecurring.RECURRINGTYPE_GLJournal))
 			sb.append(",GL_JournalBatch_ID=").append(getGL_JournalBatch_ID());
-		sb.append(",Fequency=").append(getFrequencyType()).append("*").append(getFrequency());
+		sb.append(",Frequency=").append(getFrequencyType()).append("*").append(getFrequency());
 		sb.append("]");
 		return sb.toString();
 	}	//	toString

@@ -42,9 +42,6 @@ public class ImportAccount extends SvrProcess
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
 
-	/** Organization to be imported to	*/
-	private int				m_AD_Org_ID = 0;
-
 	/** Effective						*/
 	private Timestamp		m_DateValue = null;
 

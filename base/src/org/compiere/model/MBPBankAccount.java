@@ -167,11 +167,11 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	 */
 	public MBank getBank()
 	{
-		int C_BP_BankAccount_ID = getC_BP_BankAccount_ID();
-		if (C_BP_BankAccount_ID == 0)
+		int C_Bank_ID = getC_Bank_ID();
+		if (C_Bank_ID == 0)
 			return null;
 		if (m_bank == null)
-			m_bank = new MBank (getCtx(), C_BP_BankAccount_ID, get_TrxName());
+			m_bank = new MBank (getCtx(), C_Bank_ID, get_TrxName());
 		return m_bank;
 	}	//	getBank
 	

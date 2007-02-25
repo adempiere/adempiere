@@ -1655,16 +1655,16 @@ public final class MPayment extends X_C_Payment
 
 		//	Org Must be linked to BPartner
 		MOrg org = MOrg.get(getCtx(), getAD_Org_ID());
-		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(); 
+		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 		if (counterC_BPartner_ID == 0)
 			return null;
 		//	Business Partner needs to be linked to Org
-		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), null);
+		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 		int counterAD_Org_ID = bp.getAD_OrgBP_ID_Int(); 
 		if (counterAD_Org_ID == 0)
 			return null;
 		
-		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
+		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, get_TrxName());
 	//	MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
 		log.info("Counter BP=" + counterBP.getName());
 

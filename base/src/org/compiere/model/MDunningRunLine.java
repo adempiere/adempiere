@@ -282,7 +282,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 		//	Total
 		setTotalAmt(getConvertedAmt().add(getFeeAmt()).add(getInterestAmt()));
 		// Reset Collection Status only if null
-		if (getInvoice().getInvoiceCollectionType ()==null)
+		if (getInvoice()!=null && getInvoice().getInvoiceCollectionType ()==null)			
 		{
 			if (m_invoice!=null)
 			{

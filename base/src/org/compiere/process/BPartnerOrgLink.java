@@ -100,7 +100,7 @@ public class BPartnerOrgLink extends SvrProcess
 		}
 		else	//	check if linked to already
 		{
-			int C_BPartner_ID = org.getLinkedC_BPartner_ID();
+			int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName());
 			if (C_BPartner_ID > 0)
 				throw new IllegalArgumentException ("Organization '" + org.getName() 
 					+ "' already linked (to C_BPartner_ID=" + C_BPartner_ID + ")");

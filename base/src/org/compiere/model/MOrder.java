@@ -1314,7 +1314,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Credit Check
 		if (isSOTrx())
 		{
-			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), null);
+			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 			if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
 			{
 				m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
@@ -1888,11 +1888,11 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		//	Org Must be linked to BPartner
 		MOrg org = MOrg.get(getCtx(), getAD_Org_ID());
-		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(); 
+		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 		if (counterC_BPartner_ID == 0)
 			return null;
 		//	Business Partner needs to be linked to Org
-		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), null);
+		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 		int counterAD_Org_ID = bp.getAD_OrgBP_ID_Int(); 
 		if (counterAD_Org_ID == 0)
 			return null;
@@ -2142,6 +2142,26 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
+		
+		//	Replace Prepay with POS to revert all doc
+		if (MDocType.DOCSUBTYPESO_PrepayOrder.equals (DocSubTypeSO))
+		{
+			MDocType newDT = null;
+			MDocType[] dts = MDocType.getOfClient (getCtx());
+			for (int i = 0; i < dts.length; i++)
+			{
+				MDocType type = dts[i];
+				if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(type.getDocSubTypeSO()))
+				{
+					if (type.isDefault() || newDT == null)
+						newDT = type;
+				}
+			}
+			if (newDT == null)
+				return false;
+			else
+				setC_DocType_ID (newDT.getC_DocType_ID());
+		}
 
 		//	PO - just re-open
 		if (!isSOTrx())

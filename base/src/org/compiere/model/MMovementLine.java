@@ -175,6 +175,28 @@ public class MMovementLine extends X_M_MovementLine
 		//	Qty Precision
 		if (newRecord || is_ValueChanged("QtyEntered"))
 			setMovementQty(getMovementQty());
+		
+		//      Mandatory Instance
+		if (getM_AttributeSetInstanceTo_ID() == 0)
+		{
+			if (getM_AttributeSetInstance_ID() != 0)        //      set to from
+				setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
+			else
+			{
+				MProduct product = getProduct();
+				if (product != null
+						&& product.getM_AttributeSet_ID() != 0)
+				{
+					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
+					if (mas.isInstanceAttribute()
+							&& (mas.isMandatory() || mas.isMandatoryAlways()))
+					{
+						log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_AttributeSetInstanceTo_ID"));
+						return false;
+					}
+				}
+			}
+		}       //      ASI
 
 		return true;
 	}	//	beforeSave
