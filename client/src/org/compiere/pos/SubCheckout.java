@@ -25,6 +25,8 @@ import javax.swing.border.TitledBorder;
 import org.compiere.swing.*;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MOrder;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.*;
 import org.compiere.util.*;
 
@@ -148,7 +150,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		add(caja,gbc);
 		caja.setPreferredSize(new Dimension(30,30)); 
 		f_cashRegisterFunctions = createButtonAction("CashRegisterFunction", null);
-		f_cashRegisterFunctions.setText("Cash Register\n Movements");
+		f_cashRegisterFunctions.setText("Cash Drawer\n Movements");
 	    f_cashRegisterFunctions.setPreferredSize(new Dimension(160,30));
 	    f_cashRegisterFunctions.setMaximumSize(new Dimension(160,30));
 		f_cashRegisterFunctions.setMinimumSize(new Dimension(160,30));
@@ -244,17 +246,20 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		else 
 		if (action.equals("Summary"))
 		{
-			//TODO: new field added by openxpertya to c_order
-			//p_posPanel.f_status.setStatusLine(p_posPanel.f_curLine.getOrder().getResumen());
-			displayReturn();			
+			displaySummary();			
 		}
 		else if (action.equals("Process"))
 		{
 			if (isOrderFullyPay())
 			{
+				displaySummary();
 				printTicket();
 				processOrder();
 				openCashDrawer();
+			}
+			else
+			{
+				p_posPanel.f_status.setStatusLine("Order not fully pay.");
 			}
 		}
 		//	Print
@@ -262,8 +267,13 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		{
 			if (isOrderFullyPay())
 			{
+				displaySummary();
 				printTicket();
 				openCashDrawer();
+			}
+			else
+			{
+				p_posPanel.f_status.setStatusLine("Order not fully pay.");
 			}
 		}
 		//	Cash (Payment)
@@ -285,10 +295,14 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			Log.print("CreditCard");
 		}  fin del comentario para la Credit Card*/
 		
-		f_cashGiven.setValue(Env.ZERO);
 		p_posPanel.updateInfo();
 	}	//	actionPerformed
-	
+
+	private void displaySummary() {
+		p_posPanel.f_status.setStatusLine(p_posPanel.f_curLine.getOrder().getSummary());
+		displayReturn();
+	}
+
 	/**
 	 * 	Process Order
 	 *  @author Comunidad de Desarrollo OpenXpertya 
@@ -298,6 +312,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	public void processOrder()
 	{
 		
+		p_posPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MOrder order = p_posPanel.f_curLine.getOrder();
 		if (order != null)
 			if (order.getDocStatus().equals("DR"))
@@ -308,7 +323,9 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	
 				order = null;
 				p_posPanel.newOrder();
+				f_cashGiven.setValue(Env.ZERO);
 			}
+		p_posPanel.setCursor(Cursor.getDefaultCursor());
 	}	
 	
 	/**
@@ -320,18 +337,20 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	public void printTicket()
 	{
 		MOrder order = p_posPanel.f_curLine.getOrder();
-		int ventana = p_posPanel.getWindowNo();
-		Properties m_ctx = p_posPanel.getPropiedades();
+		//int windowNo = p_posPanel.getWindowNo();
+		//Properties m_ctx = p_posPanel.getPropiedades();
 		
 		if (order != null)
 		{
 			try 
 			{
-				//TODO: to incorporate jpos work from Posterita
+				//TODO: to incorporate work from Posterita
 				/*
 				if (p_pos.getAD_PrintLabel_ID() != 0)
 					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
 				*/ 
+				//print standard document
+				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), true);
 			}
 			catch (Exception e) 
 			{
@@ -395,7 +414,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	public void openCashDrawer()
 	{
 		String puerto = null;
-		//TODO - to incorporate jpos work from Posterita
+		//TODO - to incorporate work from Posterita
 		/*
 		try
 		{
