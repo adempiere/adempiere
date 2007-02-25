@@ -281,13 +281,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			int numLineas = lineas.length;
 			if (numLineas > row)
 			{
-				//to unreserve
-				lineas[row].setQty(Env.ZERO);
-				lineas[row].setLineNetAmt(Env.ZERO);
-				lineas[row].save();
-				//TODO: openxpertya using private method from MOrder
-				//m_order.reserveStock(null, lineas);
-
 				//delete line from order
 				lineas[row].delete(true);
 				for (int i = row; i < (numLineas - 1); i++)
@@ -388,6 +381,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			m_order.setM_PriceList_ID(p_pos.getM_PriceList_ID());
 			m_order.setM_Warehouse_ID(p_pos.getM_Warehouse_ID());
 			m_order.setSalesRep_ID(p_pos.getSalesRep_ID());
+			m_order.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			if (!m_order.save())
 			{
 				m_order = null;

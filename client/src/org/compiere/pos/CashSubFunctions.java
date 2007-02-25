@@ -353,8 +353,7 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 
 			MQuery query = new MQuery(MCash.Table_Name);
 			query.addRestriction("C_Cash_ID", MQuery.EQUAL, cash.getC_Cash_ID());
-			//TODO
-			//AEnv.openWindow(MCash.Table_ID, query, false);
+			AEnv.zoom(query);
 		}
 		//	to open window with inputs and outputs of cash
 		else if (action.equals("InputsOutputs"))
@@ -363,15 +362,13 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 
 			MCash cash = MCash.get(p_pos.getCtx(), /*p_pos.getAD_Org_ID(),*/ p_pos.getC_CashBook_ID(), today, null); 
 
-			//TODO: new method added by openxpertya
-			//AEnv.detailedZoom(MCash.Table_ID, cash.getC_Cash_ID(), false);
+			AEnv.zoom(MCash.Table_ID, cash.getC_Cash_ID());
 		}
 		else if (action.equals("Tickets"))
 		{
 			MQuery query = new MQuery(MOrder.Table_Name);
 			query.addRestriction("C_DocTypeTarget_ID", MQuery.EQUAL, p_pos.getC_DocType_ID());
-			//TODO: openxpertya added ad_window_id to c_pos
-			//AEnv.openWindow(p_pos.getAD_Window_ID(), query, true);			
+			AEnv.zoom(query);
 		}
 		//	Cash (Payment)
 		else if (action.equals("displayCashScrutiny"))
@@ -547,4 +544,5 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	{
 		cmd_calculateDifference();
 	}
+	
 }	//	CashSubFunctions
