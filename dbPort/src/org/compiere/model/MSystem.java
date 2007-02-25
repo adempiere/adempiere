@@ -160,28 +160,15 @@ public class MSystem extends X_AD_System
 	public String getStatisticsInfo (boolean recalc)
 	{
 		String s = super.getStatisticsInfo ();
-		/*
-		if (DB.isDerby())
-		{//jz Derby time out, fix it later
-			s = "NO Statistics for Derby.";
-			recalc = false;
-		}
-		*/
-		if (DB.isDerby())
-		{//jz Derby time out, fix it later
-			s = "NO Compiere statistics for Derby.";
-			recalc = false;
-		}
-		
 		if (s == null || recalc)
 		{
-			//jz to avoid data conversion     String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
-			String sql = "SELECT 'C'||(SELECT COUNT(*) FROM AD_Client)"
-				+ "||'U'||(SELECT COUNT(*) FROM AD_User)"
-				+ "||'B'||(SELECT COUNT(*) FROM C_BPartner)"
-				+ "||'P'||(SELECT COUNT(*) FROM M_Product)"
-				+ "||'I'||(SELECT COUNT(*) FROM C_Invoice)"
-				+ "||'M'||(SELECT COUNT(*) FROM M_Transaction)"
+			String sql = "SELECT 'C'||(SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_Client)"
+				+ "||'U'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM AD_User)"
+				+ "||'B'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_BPartner)"
+				+ "||'P'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Product)"
+				+ "||'I'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_Invoice)"
+				+ "||'L'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_InvoiceLine)"
+				+ "||'M'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Transaction)"
 				+ " FROM AD_System";
 			PreparedStatement pstmt = null;
 			try

@@ -95,6 +95,30 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
     /**	Logger			*/
 	private static CLogger			log	= CLogger.getCLogger (DB_Oracle.class);
     
+
+	/**
+	 *  Check if a connect is valid
+	 *  conn Connection
+	 *  @return true if connection is valid
+	 */
+	public boolean isConnectionValid(Connection conn)
+	{
+		try
+		{
+			if (((OracleConnection)conn).pingDatabase(1) < 0)
+			{
+				return false;
+			}
+			else 
+				return true;
+		}
+		catch (SQLException e)
+		{
+			return false;
+		}
+	}
+
+	
 	/**
 	 *  Get Database Name
 	 *  @return database short name
@@ -466,7 +490,20 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 	{
 		if (number == null)
 			return "NULL";
-		return number.toString();
+		BigDecimal result = number;
+		int scale = DisplayType.getDefaultPrecision(displayType);
+		if (scale > number.scale())
+		{
+			try
+			{
+				result = number.setScale(scale, BigDecimal.ROUND_HALF_UP);
+			}
+			catch (Exception e)
+			{
+			//	log.severe("Number=" + number + ", Scale=" + " - " + e.getMessage());
+			}
+		}
+		return result.toString();
 	}	//	TO_NUMBER
 
 	

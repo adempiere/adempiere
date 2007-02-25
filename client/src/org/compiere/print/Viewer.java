@@ -905,7 +905,7 @@ public class Viewer extends CFrame
 			+ "FROM AD_Tab t"
 			+ " INNER JOIN AD_Window w ON (t.AD_Window_ID=w.AD_Window_ID)"
 			+ " INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) "
-			+ "WHERE t.AD_Table_ID=? "
+			+ "WHERE tt.AD_Table_ID=? "
 			+ "ORDER BY w.IsDefault DESC, t.SeqNo, ABS (tt.AD_Window_ID-t.AD_Window_ID)";
 		int AD_Tab_ID = DB.getSQLValue(null, sql, AD_Table_ID);
 		//
@@ -944,6 +944,8 @@ public class Viewer extends CFrame
 			Find find = new Find (this, m_WindowNo, title,
 				AD_Table_ID, tableName, "", findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
+			find.dispose();
+			find = null;
 			revalidate();
 		}
 		cmd_drill();	//	setCursor

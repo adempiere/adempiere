@@ -155,5 +155,5 @@ public class VComboBox extends CComboBox
 			return "";
 		return p.getName();
 	}   //  getDisplay
-
+	
 }	//	VComboBox

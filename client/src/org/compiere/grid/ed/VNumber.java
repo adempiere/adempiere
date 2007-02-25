@@ -40,7 +40,8 @@ public final class VNumber extends JComponent
 {
 	/**	Number of Columns (12)		*/
 	public final static int SIZE = 12;
-
+	/** Automatically pop up calculator */
+	public final static boolean AUTO_POPUP = false;
 	/**
 	 *  IDE Bean Constructor
 	 */
@@ -142,6 +143,14 @@ public final class VNumber extends JComponent
 	private GridField          m_mField = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VNumber.class);
+
+	/**
+	 * Select all the number text.
+	 */
+	public void selectAll()
+	{
+		m_text.selectAll();
+	}
 
 	/**
 	 * 	Set no of Columns
@@ -531,12 +540,48 @@ public final class VNumber extends JComponent
 			m_text.setText(m_initialText);
 			return;
 		}
+		Object oo = getValue();
+		if (m_rangeSet)
+		{
+			String error = "";
+			if (oo instanceof Integer)
+			{
+				Integer ii = (Integer)oo;
+				if (ii  < m_minValue)
+				{
+					error = oo + " < " + m_minValue;
+					oo = new Integer(m_minValue.intValue());
+				}
+				else if (ii > m_maxValue)
+				{
+					error = oo + " > " + m_maxValue;
+					oo = new Integer(m_maxValue.intValue());
+				}
+			}
+			else if (oo instanceof BigDecimal)
+			{
+				BigDecimal bd = (BigDecimal)oo;
+				if (bd.doubleValue()  < m_minValue)
+				{
+					error = oo + " < " + m_minValue;
+					oo = new BigDecimal(m_minValue);
+				}
+				else if (bd.doubleValue() > m_maxValue)
+				{
+					error = oo + " > " + m_maxValue;
+					oo = new BigDecimal(m_maxValue);
+				}
+			}
+			if (error != null)
+				log.warning(error);
+		}
 		try
 		{
-			fireVetoableChange (m_columnName, m_initialText, getValue());
+			fireVetoableChange (m_columnName, m_initialText, oo);
 			fireActionPerformed();
 		}
-		catch (PropertyVetoException pve)	{}
+		catch (PropertyVetoException pve)	
+		{}
 	}   //  focusLost
 
 	/**

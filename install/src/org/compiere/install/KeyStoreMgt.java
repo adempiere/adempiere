@@ -379,7 +379,7 @@ public class KeyStoreMgt
 		StringBuffer cmd = new StringBuffer ("-genkey -keyalg rsa");
 		cmd.append(" -alias ").append(alias);
 		cmd.append(" -dname \"").append(dname).append("\"");
-		cmd.append(" -keypass ").append(password).append(" -validity 365");
+		cmd.append(" -keypass ").append(password).append(" -validity 999");
 		if (fileName.indexOf(' ') != -1)
 			cmd.append(" -keystore \"").append(fileName).append("\" -storepass ").append(password);
 		else
@@ -399,7 +399,7 @@ public class KeyStoreMgt
 		StringBuffer cmd = new StringBuffer ("-selfcert");
 		cmd.append(" -alias ").append(alias);
 		cmd.append(" -dname \"").append(dname).append("\"");
-		cmd.append(" -keypass ").append(password).append(" -validity 180");
+		cmd.append(" -keypass ").append(password).append(" -validity 999");
 		if (fileName.indexOf(' ') != -1)
 			cmd.append(" -keystore \"").append(fileName).append("\" -storepass ").append(password);
 		else

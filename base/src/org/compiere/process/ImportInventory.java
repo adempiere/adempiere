@@ -122,15 +122,15 @@ public class ImportInventory extends SvrProcess
 
 		//	Location
 		sql = new StringBuffer ("UPDATE I_Inventory i "
-			+ "SET M_Locator_ID=(SELECT M_Locator_ID FROM M_Locator l"
-			+ " WHERE i.LocatorValue=l.Value AND i.AD_Client_ID=l.AD_Client_ID AND ROWNUM=1) "
+			+ "SET M_Locator_ID=(SELECT MAX(M_Locator_ID) FROM M_Locator l"
+			+ " WHERE i.LocatorValue=l.Value AND i.AD_Client_ID=l.AD_Client_ID) "
 			+ "WHERE M_Locator_ID IS NULL AND LocatorValue IS NOT NULL"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate (sql.toString (), get_TrxName());
 		log.fine("Set Locator from Value =" + no);
 		sql = new StringBuffer ("UPDATE I_Inventory i "
-			+ "SET M_Locator_ID=(SELECT M_Locator_ID FROM M_Locator l"
-			+ " WHERE i.X=l.X AND i.Y=l.Y AND i.Z=l.Z AND i.AD_Client_ID=l.AD_Client_ID AND ROWNUM=1) "
+			+ "SET M_Locator_ID=(SELECT MAX(M_Locator_ID) FROM M_Locator l"
+			+ " WHERE i.X=l.X AND i.Y=l.Y AND i.Z=l.Z AND i.AD_Client_ID=l.AD_Client_ID) "
 			+ "WHERE M_Locator_ID IS NULL AND X IS NOT NULL AND Y IS NOT NULL AND Z IS NOT NULL"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate (sql.toString (), get_TrxName());
@@ -171,19 +171,19 @@ public class ImportInventory extends SvrProcess
 
 		//	Product
 		sql = new StringBuffer ("UPDATE I_Inventory i "
-			  + "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			  + " WHERE i.Value=p.Value AND i.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
+			  + "SET M_Product_ID=(SELECT MAX(M_Product_ID) FROM M_Product p"
+			  + " WHERE i.Value=p.Value AND i.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_Product_ID IS NULL AND Value IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate (sql.toString (), get_TrxName());
 		log.fine("Set Product from Value=" + no);
 		sql = new StringBuffer ("UPDATE I_Inventory i "
-			  + "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			  + " WHERE i.UPC=p.UPC AND i.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
-			  + "WHERE M_Product_ID IS NULL AND UPC IS NOT NULL"
-			  + " AND I_IsImported<>'Y'").append (clientCheck);
-		no = DB.executeUpdate (sql.toString (), get_TrxName());
-		log.fine("Set Product from UPC=" + no);
+				  + "SET M_Product_ID=(SELECT MAX(M_Product_ID) FROM M_Product p"
+				  + " WHERE i.UPC=p.UPC AND i.AD_Client_ID=p.AD_Client_ID) "
+				  + "WHERE M_Product_ID IS NULL AND UPC IS NOT NULL"
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+			no = DB.executeUpdate (sql.toString (), get_TrxName());
+			log.fine("Set Product from UPC=" + no);
 		sql = new StringBuffer ("UPDATE I_Inventory "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Product, ' "
 			+ "WHERE M_Product_ID IS NULL"

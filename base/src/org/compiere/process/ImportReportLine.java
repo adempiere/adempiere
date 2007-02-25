@@ -36,8 +36,6 @@ public class ImportReportLine extends SvrProcess
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
 
-	/** Organization to be imported to	*/
-	private int				m_AD_Org_ID = 0;
 	/** Effective						*/
 	private Timestamp		m_DateValue = null;
 
@@ -228,8 +226,8 @@ public class ImportReportLine extends SvrProcess
 
 		//	Set PA_ReportLine_ID
 		sql = new StringBuffer ("UPDATE I_ReportLine i "
-			+ "SET PA_ReportLine_ID=(SELECT PA_ReportLine_ID FROM PA_ReportLine r"
-			+ " WHERE i.Name=r.Name AND i.PA_ReportLineSet_ID=r.PA_ReportLineSet_ID AND ROWNUM=1) "
+			+ "SET PA_ReportLine_ID=(SELECT MAX(PA_ReportLine_ID) FROM PA_ReportLine r"
+			+ " WHERE i.Name=r.Name AND i.PA_ReportLineSet_ID=r.PA_ReportLineSet_ID) "
 			+ "WHERE PA_ReportLine_ID IS NULL AND PA_ReportLineSet_ID IS NOT NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -257,9 +255,14 @@ public class ImportReportLine extends SvrProcess
 				+ "SELECT ?,PA_ReportLineSet_ID,"
 				+ "AD_Client_ID,AD_Org_ID,'Y',SysDate,CreatedBy,SysDate,UpdatedBy,"
 				+ "Name,SeqNo,IsPrinted,IsSummary,LineType "
+				//jz + "FROM I_ReportLine "
+				// + "WHERE PA_ReportLineSet_ID=? AND Name=? AND ROWNUM=1"		//	#2..3
 				+ "FROM I_ReportLine "
-				+ "WHERE PA_ReportLineSet_ID=? AND Name=? AND ROWNUM=1"		//	#2..3
-				+ clientCheck, get_TrxName());
+				+ "WHERE I_ReportLine_ID=(SELECT MAX(I_ReportLine_ID) "		
+				+ "FROM I_ReportLine "
+				+ "WHERE PA_ReportLineSet_ID=? AND Name=? "		//	#2..3
+				//jz + clientCheck, get_TrxName());
+				+ clientCheck + ")", get_TrxName());
 
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			ResultSet rs = pstmt.executeQuery();
@@ -299,8 +302,8 @@ public class ImportReportLine extends SvrProcess
 
 		//	Set PA_ReportLine_ID (for newly created)
 		sql = new StringBuffer ("UPDATE I_ReportLine i "
-			+ "SET PA_ReportLine_ID=(SELECT PA_ReportLine_ID FROM PA_ReportLine r"
-			+ " WHERE i.Name=r.Name AND i.PA_ReportLineSet_ID=r.PA_ReportLineSet_ID AND ROWNUM=1) "
+			+ "SET PA_ReportLine_ID=(SELECT MAX(PA_ReportLine_ID) FROM PA_ReportLine r"
+			+ " WHERE i.Name=r.Name AND i.PA_ReportLineSet_ID=r.PA_ReportLineSet_ID) "
 			+ "WHERE PA_ReportLine_ID IS NULL AND PA_ReportLineSet_ID IS NOT NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -348,14 +351,18 @@ public class ImportReportLine extends SvrProcess
 				+ clientCheck, get_TrxName());
 
 			//	Update ReportSource
-			PreparedStatement pstmt_updateSource = DB.prepareStatement
-				("UPDATE PA_ReportSource "
+			//jz 
+			/*
+			String sqlt="UPDATE PA_ReportSource "
 				+ "SET (ElementType,C_ElementValue_ID,Updated,UpdatedBy)="
 				+ " (SELECT 'AC',C_ElementValue_ID,SysDate,UpdatedBy"
 				+ " FROM I_ReportLine"
 				+ " WHERE I_ReportLine_ID=?) "
 				+ "WHERE PA_ReportSource_ID=?"
-				+ clientCheck, get_TrxName());
+				+ clientCheck;
+			PreparedStatement pstmt_updateSource = DB.prepareStatement
+				(sqlt, get_TrxName());
+				*/
 
 			//	Set Imported = Y
 			PreparedStatement pstmt_setImported = DB.prepareStatement
@@ -396,11 +403,22 @@ public class ImportReportLine extends SvrProcess
 				}
 				else								//	update Report Source
 				{
-					pstmt_updateSource.setInt(1, I_ReportLine_ID);
-					pstmt_updateSource.setInt(2, PA_ReportSource_ID);
+					//jz
+					String sqlt="UPDATE PA_ReportSource "
+						+ "SET (ElementType,C_ElementValue_ID,Updated,UpdatedBy)="
+						+ " (SELECT CAST('AC' AS CHAR(2)),C_ElementValue_ID,SysDate,UpdatedBy"  //jz
+						+ " FROM I_ReportLine"
+						+ " WHERE I_ReportLine_ID=" + I_ReportLine_ID + ") "
+						+ "WHERE PA_ReportSource_ID="+PA_ReportSource_ID+" "
+						+ clientCheck;
+					PreparedStatement pstmt_updateSource = DB.prepareStatement
+						(sqlt, get_TrxName());
+					//pstmt_updateSource.setInt(1, I_ReportLine_ID);
+					//pstmt_updateSource.setInt(2, PA_ReportSource_ID);
 					try
 					{
 						no = pstmt_updateSource.executeUpdate();
+						//no = DB.executeUpdate(sqlt, get_TrxName());
 						log.finest("Update ReportSource = " + no + ", I_ReportLine_ID=" + I_ReportLine_ID + ", PA_ReportSource_ID=" + PA_ReportSource_ID);
 						noUpdateSource++;
 					}
@@ -413,6 +431,7 @@ public class ImportReportLine extends SvrProcess
 						DB.executeUpdate(sql.toString(), get_TrxName());
 						continue;
 					}
+					pstmt_updateSource.close();
 				}	//	update source
 
 				//	Set Imported to Y
@@ -428,7 +447,7 @@ public class ImportReportLine extends SvrProcess
 			pstmt.close();
 			//
 			pstmt_insertSource.close();
-			pstmt_updateSource.close();
+			//jz pstmt_updateSource.close();
 			pstmt_setImported.close();
 			//
 		}

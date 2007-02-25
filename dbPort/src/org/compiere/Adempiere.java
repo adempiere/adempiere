@@ -22,6 +22,7 @@ import java.net.*;
 import java.util.logging.*;
 import javax.jnlp.*;
 import javax.swing.*;
+
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.model.*;
@@ -483,13 +484,16 @@ public final class Adempiere
 		if (!DB.isConnected())
 		{
 			log.severe ("No Database");
-			System.exit(1);
+			return false;
 		}
+		MSystem system = MSystem.get(Env.getCtx());	//	Initializes Base Context too
+		if (system == null)
+			return false;
+		
 		//	Initialize main cached Singletons
 		ModelValidationEngine.get();
 		try
 		{
-			MSystem system = MSystem.get(Env.getCtx());	//	Initializes Base Context too
 			String className = system.getEncryptionKey();
 			if (className == null || className.length() == 0)
 			{

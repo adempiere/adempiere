@@ -46,10 +46,10 @@ public final class Ini implements Serializable
 
 	/** Apps User ID		*/
 	public static final String	P_UID = 			"ApplicationUserID";
-	private static final String	DEFAULT_UID = 		"System";
+	private static final String	DEFAULT_UID = 		"GardenAdmin";
 	/** Apps Password		*/
 	public static final String	P_PWD = 			"ApplicationPassword";
-	private static final String	DEFAULT_PWD = 		"System";
+	private static final String	DEFAULT_PWD = 		"GardenAdmin";
 	/** Store Password		*/
 	public static final String	P_STORE_PWD = 		"StorePassword";
 	private static final boolean DEFAULT_STORE_PWD = true;
@@ -280,7 +280,6 @@ public final class Ini implements Serializable
 		{
 			log.config(filename);
 			firstTime = true;
-			if (isShowLicenseDialog())
 				if (!IniDialog.accept())
 					System.exit(-1);
 		}
@@ -308,6 +307,29 @@ public final class Ini implements Serializable
 		return firstTime;
 	}	//	loadProperties
 
+	/**
+	 * 	Delete Property file
+	 */
+	public static void deletePropertyFile()
+	{
+		String fileName = getFileName(s_client);
+		File file = new File(fileName);
+		if (file.exists())
+		{
+			try
+			{
+				if (!file.delete())
+					file.deleteOnExit();
+				s_prop = new Properties();
+				log.config (fileName);
+			}
+			catch (Exception e)
+			{
+				log.log (Level.WARNING, "Cannot delete Property file", e);
+			}
+		}
+	}	//	deleteProperties
+	
 	/**
 	 *	Load property and set to default, if not existing
 	 *
@@ -493,8 +515,6 @@ public final class Ini implements Serializable
 	private static boolean      s_client = true;
 	/** IsClient Internal marker            */
 	private static boolean      s_loaded = false;
-	/** Show license dialog for first time **/
-	private static boolean		s_license_dialog = true;
 
 	/**
 	 *  Are we in Client Mode ?
@@ -514,24 +534,6 @@ public final class Ini implements Serializable
 		s_client = client;
 	}   //  setClient
 	
-	/**
-	 * Set show license dialog for new setup
-	 * @param b
-	 */
-	public static void setShowLicenseDialog(boolean b)
-	{
-		s_license_dialog = b;
-	}
-	
-	/**
-	 * Is show license dialog for new setup
-	 * @return boolean
-	 */
-	public static boolean isShowLicenseDialog()
-	{
-		return s_license_dialog;
-	}
-
 	/**
 	 *  Are the properties loaded?
 	 *  @return true if properties loaded.

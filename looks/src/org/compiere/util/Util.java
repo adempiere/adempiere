@@ -88,6 +88,35 @@ public class Util
 
 
 	/**
+	 * 	Clean - Remove all white spaces
+	 *	@param in in
+	 *	@return cleaned string
+	 */
+	public static String cleanWhitespace (String in)
+	{
+		char[] inArray = in.toCharArray();
+		StringBuffer out = new StringBuffer(inArray.length);
+		boolean lastWasSpace = false;
+		for (int i = 0; i < inArray.length; i++)
+		{
+			char c = inArray[i];
+			if (Character.isWhitespace(c))
+			{
+				if (!lastWasSpace)
+					out.append (' ');
+				lastWasSpace = true;
+			}
+			else
+			{
+				out.append (c);
+				lastWasSpace = false;
+			}
+		}
+		return out.toString();
+	}	//	cleanWhitespace
+
+
+	/**
 	 * 	Mask HTML content.
 	 *  i.e. replace characters with &values;
 	 *  CR is not masked
@@ -498,7 +527,7 @@ public class Util
 	 */
 	public static String cleanAmp (String in)
 	{
-		if (in == null)
+		if (in == null || in.length() == 0)
 			return in;
 		int pos = in.indexOf('&');
 		if (pos == -1)

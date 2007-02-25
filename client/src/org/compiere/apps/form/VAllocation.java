@@ -350,7 +350,7 @@ public class VAllocation extends CPanel
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		if (multiCurrency.isSelected())
 		{
 			columnNames.add(Msg.getMsg(Env.getCtx(), "TrxCurrency"));
@@ -472,7 +472,7 @@ public class VAllocation extends CPanel
 		columnNames = new Vector<String>();
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		if (multiCurrency.isSelected())
 		{
 			columnNames.add(Msg.getMsg(Env.getCtx(), "TrxCurrency"));

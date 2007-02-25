@@ -467,8 +467,9 @@ public class WFContentPanel extends CPanel
 		if (e.getSource()== m_NewMenuNode)
 		{
 			log.info("Create New Node");
+			String nameLabel = Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Name"));
 			String name = JOptionPane.showInputDialog(this,
-				Msg.getMsg(Env.getCtx(), "Name"),			//	message
+				nameLabel,			//	message
 				Msg.getMsg(Env.getCtx(), "CreateNewNode"),	//	title
 				JOptionPane.QUESTION_MESSAGE);
 			if (name != null && name.length() > 0)

@@ -1298,7 +1298,7 @@ public final class Env
 		URL url = Adempiere.class.getResource("images/" + fileNameInImageDir);
 		if (url == null)
 		{
-			s_log.log(Level.WARNING, "Not found: " +  fileNameInImageDir);
+			s_log.log(Level.SEVERE, "Not found: " +  fileNameInImageDir);
 			return null;
 		}
 		return new ImageIcon(url);

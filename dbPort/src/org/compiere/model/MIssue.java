@@ -43,6 +43,7 @@ public class MIssue extends X_AD_Issue
 		s_log.config(record.getMessage());
 		MSystem system = MSystem.get(Env.getCtx()); 
 		if (!DB.isConnected() 
+			|| system == null
 			|| !system.isAutoErrorReport())
 			return null;
 		//

@@ -35,8 +35,6 @@ public class ImportProduct extends SvrProcess
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
 
-	/** Organization to be imported to	*/
-	private int				m_AD_Org_ID = 0;
 	/** Effective						*/
 	private Timestamp		m_DateValue = null;
 	/** Pricelist to Update				*/
@@ -152,8 +150,8 @@ public class ImportProduct extends SvrProcess
 
 		//	Set Product Category
 		sql = new StringBuffer ("UPDATE I_Product "
-			+ "SET ProductCategory_Value=(SELECT Value FROM M_Product_Category"
-			+ " WHERE IsDefault='Y' AND AD_Client_ID=").append(m_AD_Client_ID).append(" AND ROWNUM=1) "
+			+ "SET ProductCategory_Value=(SELECT MAX(Value) FROM M_Product_Category"
+			+ " WHERE IsDefault='Y' AND AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE ProductCategory_Value IS NULL AND M_Product_Category_ID IS NULL"
 			+ " AND M_Product_ID IS NULL"	//	set category only if product not found 
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
@@ -247,7 +245,7 @@ public class ImportProduct extends SvrProcess
 		//	Set UOM (System/own)
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET X12DE355 = "
-			+ "(SELECT X12DE355 FROM C_UOM u WHERE u.IsDefault='Y' AND u.AD_Client_ID IN (0,i.AD_Client_ID) AND ROWNUM=1) "
+			+ "(SELECT MAX(X12DE355) FROM C_UOM u WHERE u.IsDefault='Y' AND u.AD_Client_ID IN (0,i.AD_Client_ID)) "
 			+ "WHERE X12DE355 IS NULL AND C_UOM_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -404,8 +402,9 @@ public class ImportProduct extends SvrProcess
 				+ "WHERE I_Product_ID=?");
 			*/
 			//	Update Product from Import
-			PreparedStatement pstmt_updateProduct = DB.prepareStatement
-				("UPDATE M_PRODUCT "
+			//jz moved
+			/*
+			String sqlt = "UPDATE M_PRODUCT "
 				+ "SET (Value,Name,Description,DocumentNote,Help,"
 				+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
 				+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
@@ -415,11 +414,12 @@ public class ImportProduct extends SvrProcess
 				+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
 				+ "Discontinued,DiscontinuedBy,SysDate,UpdatedBy"
 				+ " FROM I_Product WHERE I_Product_ID=?) "
-				+ "WHERE M_Product_ID=?", get_TrxName());
+				+ "WHERE M_Product_ID=?";
+			PreparedStatement pstmt_updateProduct = DB.prepareStatement
+				(sqlt, get_TrxName());
 
 			//	Update Product_PO from Import
-			PreparedStatement pstmt_updateProductPO = DB.prepareStatement
-				("UPDATE M_Product_PO "
+			sqlt = "UPDATE M_Product_PO "
 				+ "SET (IsCurrentVendor,C_UOM_ID,C_Currency_ID,UPC,"
 				+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
 				+ "VendorProductNo,VendorCategory,Manufacturer,"
@@ -432,8 +432,10 @@ public class ImportProduct extends SvrProcess
 				+ "CostPerOrder,DeliveryTime_Promised,SysDate,UpdatedBy"
 				+ " FROM I_Product"
 				+ " WHERE I_Product_ID=?) "
-				+ "WHERE M_Product_ID=? AND C_BPartner_ID=?", get_TrxName());
-
+				+ "WHERE M_Product_ID=? AND C_BPartner_ID=?";
+			PreparedStatement pstmt_updateProductPO = DB.prepareStatement
+				(sqlt, get_TrxName());
+*/
 			//	Insert Product from Import
 			PreparedStatement pstmt_insertProductPO = DB.prepareStatement
 				("INSERT INTO M_Product_PO (M_Product_ID,C_BPartner_ID, "
@@ -493,8 +495,22 @@ public class ImportProduct extends SvrProcess
 				}
 				else					//	Update Product
 				{
-					pstmt_updateProduct.setInt(1, I_Product_ID);
-					pstmt_updateProduct.setInt(2, M_Product_ID);
+					String sqlt = "UPDATE M_PRODUCT "
+						+ "SET (Value,Name,Description,DocumentNote,Help,"
+						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
+						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
+						+ "Discontinued,DiscontinuedBy,Updated,UpdatedBy)= "
+						+ "(SELECT Value,Name,Description,DocumentNote,Help,"
+						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
+						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
+						+ "Discontinued,DiscontinuedBy,SysDate,UpdatedBy"
+						+ " FROM I_Product WHERE I_Product_ID="+I_Product_ID+") "
+						+ "WHERE M_Product_ID="+M_Product_ID;
+					PreparedStatement pstmt_updateProduct = DB.prepareStatement
+						(sqlt, get_TrxName());
+
+					//jz pstmt_updateProduct.setInt(1, I_Product_ID);
+					//   pstmt_updateProduct.setInt(2, M_Product_ID);
 					try
 					{
 						no = pstmt_updateProduct.executeUpdate();
@@ -510,6 +526,7 @@ public class ImportProduct extends SvrProcess
 						DB.executeUpdate(sql0.toString(), get_TrxName());
 						continue;
 					}
+					pstmt_updateProduct.close();
 				}
 
 				//	Do we have PO Info
@@ -519,9 +536,25 @@ public class ImportProduct extends SvrProcess
 					//	If Product existed, Try to Update first
 					if (!newProduct)
 					{
-						pstmt_updateProductPO.setInt(1, I_Product_ID);
-						pstmt_updateProductPO.setInt(2, M_Product_ID);
-						pstmt_updateProductPO.setInt(3, C_BPartner_ID);
+						String sqlt = "UPDATE M_Product_PO "
+							+ "SET (IsCurrentVendor,C_UOM_ID,C_Currency_ID,UPC,"
+							+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
+							+ "VendorProductNo,VendorCategory,Manufacturer,"
+							+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+							+ "CostPerOrder,DeliveryTime_Promised,Updated,UpdatedBy)= "
+							+ "(SELECT CAST('Y' AS CHAR),C_UOM_ID,C_Currency_ID,UPC,"    //jz fix EDB unknown datatype error
+							+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
+							+ "VendorProductNo,VendorCategory,Manufacturer,"
+							+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+							+ "CostPerOrder,DeliveryTime_Promised,SysDate,UpdatedBy"
+							+ " FROM I_Product"
+							+ " WHERE I_Product_ID="+I_Product_ID+") "
+							+ "WHERE M_Product_ID="+M_Product_ID+" AND C_BPartner_ID="+C_BPartner_ID;
+						PreparedStatement pstmt_updateProductPO = DB.prepareStatement
+							(sqlt, get_TrxName());
+						//jz pstmt_updateProductPO.setInt(1, I_Product_ID);
+						// pstmt_updateProductPO.setInt(2, M_Product_ID);
+						// pstmt_updateProductPO.setInt(3, C_BPartner_ID);
 						try
 						{
 							no = pstmt_updateProductPO.executeUpdate();
@@ -539,6 +572,7 @@ public class ImportProduct extends SvrProcess
 							DB.executeUpdate(sql0.toString(), get_TrxName());
 							continue;
 						}
+						pstmt_updateProductPO.close();
 					}
 					if (no == 0)		//	Insert PO
 					{
@@ -594,10 +628,10 @@ public class ImportProduct extends SvrProcess
 			pstmt.close();
 
 			//
-		//	pstmt_insertProduct.close();
-			pstmt_updateProduct.close();
+			//	pstmt_insertProduct.close();
+			// pstmt_updateProduct.close();
 			pstmt_insertProductPO.close();
-			pstmt_updateProductPO.close();
+			// pstmt_updateProductPO.close();
 			pstmt_setImported.close();
 			//
 		}

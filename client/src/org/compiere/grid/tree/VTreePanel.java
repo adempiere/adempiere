@@ -477,6 +477,7 @@ public final class VTreePanel extends CPanel
 			//Statement stmt = trx.getConnection().createStatement();
                         //end vpj-cd e-evolution 07/12/2005 PostgreSQL
 			//	START TRANSACTION   **************
+			int no = 0;
 			for (int i = 0; i < oldParent.getChildCount(); i++)
 			{
 				MTreeNode nd = (MTreeNode)oldParent.getChildAt(i);
@@ -488,10 +489,10 @@ public final class VTreePanel extends CPanel
 					.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
 					.append(" AND Node_ID=").append(nd.getNode_ID());
 				log.fine(sql.toString());
-				 //begin vpj-cd e-evolution 07/12/2005 PostgreSQL       
+				//begin vpj-cd e-evolution 07/12/2005 PostgreSQL       
 				//stmt.executeUpdate(sql.toString());
-                                DB.executeUpdate(sql.toString(),trx.getTrxName());
-                                //end vpj-cd e-evolution 07/12/2005 PostgreSQL 
+				no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+				//end vpj-cd e-evolution 07/12/2005 PostgreSQL 
 			}
 			if (oldParent != newParent)
 				for (int i = 0; i < newParent.getChildCount(); i++)
@@ -507,8 +508,8 @@ public final class VTreePanel extends CPanel
 					log.fine(sql.toString());
 					//begin vpj-cd e-evolution 07/12/2005 PostgreSQL     
 					//stmt.executeUpdate(sql.toString());
-                                        DB.executeUpdate(sql.toString(),trx.getTrxName());
-                                        //end vpj-cd e-evolution 07/12/2005 PostgreSQL
+					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+					//end vpj-cd e-evolution 07/12/2005 PostgreSQL
 				}
 			//	COMMIT          *********************
 			trx.commit(true);

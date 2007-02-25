@@ -96,10 +96,12 @@ public class AMenuStartItem extends Thread implements ActionListener
 				m_menu.progressBar.setValue(m_value);
 		}
 	};
-	private int m_value = 0;
-	private int m_increment = 20;
-	private javax.swing.Timer m_timer = new javax.swing.Timer(500, this); //  every 1/2 second
-
+	/** Value */
+	int m_value = 0;
+	/** Increment */
+	int m_increment = 20;
+	/** Timer */
+	private Timer m_timer = new Timer(500, this); // every 1/2 second
 
 	/**
 	 *	Start Menu Item

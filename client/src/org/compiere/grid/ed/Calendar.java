@@ -425,7 +425,7 @@ public class Calendar extends CDialog
 		}
 
 		//	Set Hour
-		boolean pm = m_current24Hour > 12;
+		boolean pm = m_current24Hour > 11;
 		int index = m_current24Hour;
 		if (pm && m_hasAM_PM)
 			index -= 12;

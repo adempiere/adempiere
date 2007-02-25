@@ -66,7 +66,7 @@ public class ImportInOutConfirm extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("");
+		log.info("I_InOutLineConfirm_ID=" + p_I_InOutLineConfirm_ID);
 		StringBuffer sql = null;
 		int no = 0;
 		String clientCheck = " AND AD_Client_ID=" + p_AD_Client_ID;

@@ -360,5 +360,15 @@ public final class VAccount extends JComponent
 			m_WindowNo = mField.getWindowNo();
 	}   //  setField
 
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("VAccount[");
+		sb.append (m_value).append ("]");
+		return sb.toString ();
+	}	//	toString
+	
 }	//	VAccount
-

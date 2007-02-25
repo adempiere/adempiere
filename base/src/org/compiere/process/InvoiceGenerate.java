@@ -354,7 +354,7 @@ public class InvoiceGenerate extends SvrProcess
 				m_bp = new MBPartner (getCtx(), ship.getC_BPartner_ID(), get_TrxName());
 			
 			//	Reference: Delivery: 12345 - 12.12.12
-			MClient client = MClient.get(getCtx());
+			MClient client = MClient.get(getCtx(), order.getAD_Client_ID ());
 			String AD_Language = client.getAD_Language();
 			if (client.isMultiLingualDocument() && m_bp.getAD_Language() != null)
 				AD_Language = m_bp.getAD_Language();

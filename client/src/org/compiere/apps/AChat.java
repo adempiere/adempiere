@@ -18,7 +18,6 @@ package org.compiere.apps;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
 import java.util.logging.*;
 import javax.swing.*;
 import org.compiere.model.*;

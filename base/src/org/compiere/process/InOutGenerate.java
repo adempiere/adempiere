@@ -143,12 +143,13 @@ public class InOutGenerate extends SvrProcess
 				+ " AND o.DeliveryRule<>'M'"
 				//	Open Order Lines with Warehouse
 				+ " AND EXISTS (SELECT * FROM C_OrderLine ol "
-					+ "WHERE ol.M_Warehouse_ID=?"
-					+ " AND o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyDelivered)";
-			if (p_C_BPartner_ID != 0)
-				m_sql += " AND C_BPartner_ID=?";
+					+ "WHERE ol.M_Warehouse_ID=?";					//	#1
 			if (p_DatePromised != null)
-				m_sql += " AND TRUNC(DatePromised)<=?";
+				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
+			m_sql += " AND o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyDelivered)";
+			//
+			if (p_C_BPartner_ID != 0)
+				m_sql += " AND o.C_BPartner_ID=?";					//	#3
 		}
 		m_sql += " ORDER BY M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, C_Order_ID";
 	//	m_sql += " FOR UPDATE";
@@ -163,10 +164,10 @@ public class InOutGenerate extends SvrProcess
 			else	
 			{
 				pstmt.setInt(index++, p_M_Warehouse_ID);
-				if (p_C_BPartner_ID != 0)
-					pstmt.setInt(index++, p_C_BPartner_ID);
 				if (p_DatePromised != null)
 					pstmt.setTimestamp(index++, p_DatePromised);
+				if (p_C_BPartner_ID != 0)
+					pstmt.setInt(index++, p_C_BPartner_ID);
 			}
 		}
 		catch (Exception e)
@@ -200,8 +201,11 @@ public class InOutGenerate extends SvrProcess
 				//
 				Timestamp minGuaranteeDate = m_movementDate;
 				boolean completeOrder = MOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
-				//
+				//	OrderLine WHERE
 				String where = " AND M_Warehouse_ID=" + p_M_Warehouse_ID;
+				if (p_DatePromised != null)
+					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
+						+ " OR DatePromised IS NULL)";		
 				//	Exclude Auto Delivery if not Force
 				if (!MOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule()))
 					where += " AND (C_OrderLine.M_Product_ID IS NULL"
@@ -227,10 +231,6 @@ public class InOutGenerate extends SvrProcess
 					MProduct product = line.getProduct();
 					//	Nothing to Deliver
 					if (product != null && toDeliver.signum() == 0)
-						continue;
-					
-					// or it's a charge - Bug#: 1603966 
-					if (line.getC_Charge_ID()!=0 && toDeliver.signum() == 0)
 						continue;
 					
 					//	Check / adjust for confirmations

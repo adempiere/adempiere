@@ -912,14 +912,28 @@ class Restriction  implements Serializable
 		}
 		else
 			sb.append(ColumnName);
-		//
+		
+		//	NULL Operator
+		if ((Operator.equals("=") || Operator.equals("!="))
+			&& (Code == null
+				|| "NULL".equals (Code.toString().toUpperCase())))
+		{
+			if (Operator.equals("="))
+				sb.append(" IS NULL ");
+			else
+				sb.append(" IS NOT NULL ");
+		}				
+		else
+		{
 		sb.append(Operator);
+			
 		if (Code instanceof String)
 			sb.append(DB.TO_STRING(Code.toString()));
 		else if (Code instanceof Timestamp)
 			sb.append(DB.TO_DATE((Timestamp)Code));
 		else
 			sb.append(Code);
+	
 		//	Between
 	//	if (Code_to != null && InfoDisplay_to != null)
 		if (MQuery.BETWEEN.equals(Operator))
@@ -931,6 +945,7 @@ class Restriction  implements Serializable
 				sb.append(DB.TO_DATE((Timestamp)Code_to));
 			else
 				sb.append(Code_to);
+		}
 		}
 		return sb.toString();
 	}	//	getSQL

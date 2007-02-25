@@ -255,8 +255,8 @@ public class ImportPayment extends SvrProcess
 		
 		//	Invoice
 		sql = new StringBuffer ("UPDATE I_Payment i "
-			  + "SET C_Invoice_ID=(SELECT C_Invoice_ID FROM C_Invoice ii"
-			  + " WHERE i.InvoiceDocumentNo=ii.DocumentNo AND i.AD_Client_ID=ii.AD_Client_ID AND ROWNUM=1) "
+			  + "SET C_Invoice_ID=(SELECT MAX(C_Invoice_ID) FROM C_Invoice ii"
+			  + " WHERE i.InvoiceDocumentNo=ii.DocumentNo AND i.AD_Client_ID=ii.AD_Client_ID) "
 			  + "WHERE C_Invoice_ID IS NULL AND InvoiceDocumentNo IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -265,8 +265,8 @@ public class ImportPayment extends SvrProcess
 		
 		//	BPartner
 		sql = new StringBuffer ("UPDATE I_Payment i "
-			  + "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner bp"
-			  + " WHERE i.BPartnerValue=bp.Value AND i.AD_Client_ID=bp.AD_Client_ID AND ROWNUM=1) "
+			  + "SET C_BPartner_ID=(SELECT MAX(C_BPartner_ID) FROM C_BPartner bp"
+			  + " WHERE i.BPartnerValue=bp.Value AND i.AD_Client_ID=bp.AD_Client_ID) "
 			  + "WHERE C_BPartner_ID IS NULL AND BPartnerValue IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -274,8 +274,8 @@ public class ImportPayment extends SvrProcess
 			log.fine("Set BP from Value=" + no);
 		
 		sql = new StringBuffer ("UPDATE I_Payment i "
-			  + "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_Invoice ii"
-			  + " WHERE i.C_Invoice_ID=ii.C_Invoice_ID AND i.AD_Client_ID=ii.AD_Client_ID AND ROWNUM=1) "
+			  + "SET C_BPartner_ID=(SELECT MAX(C_BPartner_ID) FROM C_Invoice ii"
+			  + " WHERE i.C_Invoice_ID=ii.C_Invoice_ID AND i.AD_Client_ID=ii.AD_Client_ID) "
 			  + "WHERE C_BPartner_ID IS NULL AND C_Invoice_ID IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

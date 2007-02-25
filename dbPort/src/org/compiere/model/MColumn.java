@@ -29,10 +29,10 @@ import org.compiere.util.*;
 public class MColumn extends X_AD_Column
 {
 	/**
-	 * 	Get M_Column from Cache
+	 * 	Get MColumn from Cache
 	 *	@param ctx context
 	 * 	@param AD_Column_ID id
-	 *	@return M_Column
+	 *	@return MColumn
 	 */
 	public static MColumn get (Properties ctx, int AD_Column_ID)
 	{
@@ -91,7 +91,7 @@ public class MColumn extends X_AD_Column
 			setIsUpdateable (true);	// Y
 			setVersion (Env.ZERO);
 		}
-	}	//	M_Column
+	}	//	MColumn
 
 	/**
 	 * 	Load Constructor
@@ -102,7 +102,7 @@ public class MColumn extends X_AD_Column
 	public MColumn (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	//	M_Column
+	}	//	MColumn
 	
 	/**
 	 * 	Parent Constructor
@@ -114,7 +114,7 @@ public class MColumn extends X_AD_Column
 		setClientOrg(parent);
 		setAD_Table_ID (parent.getAD_Table_ID());
 		setEntityType(parent.getEntityType());
-	}	//	M_Column
+	}	//	MColumn
 	
 	
 	/**
@@ -170,11 +170,25 @@ public class MColumn extends X_AD_Column
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getFieldLength() == 0 	//	LOB can be 0
-			&& !DisplayType.isLOB(getAD_Reference_ID())) 
+		int displayType = getAD_Reference_ID();
+		if (DisplayType.isLOB(displayType))	//	LOBs are 0
+		{
+			if (getFieldLength() != 0)
+				setFieldLength(0);
+		}
+		else if (getFieldLength() == 0) 
+		{
+			if (DisplayType.isID(displayType))
+				setFieldLength(10);
+			else if (DisplayType.isNumeric (displayType))
+				setFieldLength(14);
+			else if (DisplayType.isDate (displayType))
+				setFieldLength(7);
+			else
 		{
 			log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
 			return false;
+		}
 		}
 		
 		/** Views are not updateable
@@ -211,6 +225,17 @@ public class MColumn extends X_AD_Column
 				setIsEncrypted(false);
 			}
 		}	
+		
+		//	Sync Terminology
+		if ((newRecord || is_ValueChanged ("AD_Element_ID")) 
+			&& getAD_Element_ID() != 0)
+		{
+			M_Element element = new M_Element (getCtx(), getAD_Element_ID (), get_TrxName());
+			setColumnName (element.getColumnName());
+			setName (element.getName());
+			setDescription (element.getDescription());
+			setHelp (element.getHelp());
+		}
 		return true;
 	}	//	beforeSave
 
@@ -407,4 +432,15 @@ public class MColumn extends X_AD_Column
 		return "";
 	}	//	getConstraint
 	
-}	//	M_Column
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("MColumn[");
+		sb.append (get_ID()).append ("-").append (getColumnName()).append ("]");
+		return sb.toString ();
+	}	//	toString
+	
+}	//	MColumn

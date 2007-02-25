@@ -28,8 +28,6 @@ import org.compiere.plaf.*;
 import java.util.logging.*;
 import org.compiere.util.*;
 
-import sun.security.krb5.internal.*;
-
 /**
  *  Table Cell Renderer based on DisplayType
  *
@@ -122,7 +120,11 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 		//  Inactive Background
 		boolean ro = !table.isCellEditable(row, col); 
 		if (ro)
+		{
 			bg = AdempierePLAF.getFieldBackground_Inactive();
+			if (isSelected && !hasFocus)
+				bg = bg.darker();
+		}
 		
 		//  Foreground
 		int cCode = 0;

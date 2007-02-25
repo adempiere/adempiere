@@ -349,7 +349,7 @@ public abstract class PO
 	{
 		if (index < 0 || index >= get_ColumnCount())
 		{
-			log.log(Level.SEVERE, "Index invalid - " + index);
+			log.log(Level.WARNING, "Index invalid - " + index);
 			return null;
 		}
 		if (m_newValues[index] != null)
@@ -394,7 +394,7 @@ public abstract class PO
 		int index = get_ColumnIndex(columnName);
 		if (index < 0)
 		{
-			log.log(Level.SEVERE, "Column not found - " + columnName);
+			log.log(Level.WARNING, "Column not found - " + columnName);
 			Trace.printStack();
 			return null;
 		}
@@ -434,7 +434,7 @@ public abstract class PO
 		int index = p_info.getColumnIndex(AD_Column_ID);
 		if (index < 0)
 		{
-			log.log(Level.SEVERE, "Not found - AD_Column_ID=" + AD_Column_ID);
+			log.log(Level.WARNING, "Not found - AD_Column_ID=" + AD_Column_ID);
 			return null;
 		}
 		return get_Value (index);
@@ -449,7 +449,7 @@ public abstract class PO
 	{
 		if (index < 0 || index >= get_ColumnCount())
 		{
-			log.log(Level.SEVERE, "Index invalid - " + index);
+			log.log(Level.WARNING, "Index invalid - " + index);
 			return null;
 		}
 		return m_oldValues[index];
@@ -465,7 +465,7 @@ public abstract class PO
 		int index = get_ColumnIndex(columnName);
 		if (index < 0)
 		{
-			log.log(Level.SEVERE, "Column not found - " + columnName);
+			log.log(Level.WARNING, "Column not found - " + columnName);
 			return null;
 		}
 		return get_ValueOld (index);
@@ -503,7 +503,7 @@ public abstract class PO
 	{
 		if (index < 0 || index >= get_ColumnCount())
 		{
-			log.log(Level.SEVERE, "Index invalid - " + index);
+			log.log(Level.WARNING, "Index invalid - " + index);
 			return false;
 		}
 		if (m_newValues[index] == null)
@@ -521,7 +521,7 @@ public abstract class PO
 		int index = get_ColumnIndex(columnName);
 		if (index < 0)
 		{
-			log.log(Level.SEVERE, "Column not found - " + columnName);
+			log.log(Level.WARNING, "Column not found - " + columnName);
 			return false;
 		}
 		return is_ValueChanged (index);
@@ -539,7 +539,7 @@ public abstract class PO
 	{
 		if (index < 0 || index >= get_ColumnCount())
 		{
-			log.log(Level.SEVERE, "Index invalid - " + index);
+			log.log(Level.WARNING, "Index invalid - " + index);
 			return null;
 		}
 		Object nValue = m_newValues[index];
@@ -579,7 +579,7 @@ public abstract class PO
 		int index = get_ColumnIndex(columnName);
 		if (index < 0)
 		{
-			log.log(Level.SEVERE, "Column not found - " + columnName);
+			log.log(Level.WARNING, "Column not found - " + columnName);
 			return null;
 		}
 		return get_ValueDifference (index);
@@ -594,14 +594,9 @@ public abstract class PO
 	 */
 	protected final boolean set_Value (String ColumnName, Object value)
 	{
-		if (ColumnName.equals("WhereClause") && value instanceof String && value != null)
-		{
-			//jz check if there is '=null' and replace them
-			value = ((String)value).replaceAll("=null", " IS NULL ");
-			value = ((String)value).replaceAll("=NULL", " IS NULL ");
-			value = ((String)value).replaceAll("!=null", " IS NOT NULL ");
-			value = ((String)value).replaceAll("!=NULL", " IS NOT NULL ");
-		}
+		if (value instanceof String && ColumnName.equals("WhereClause")
+			&& value.toString().toUpperCase().indexOf("=NULL") != -1)
+			log.warning("Invalid Null Value - " + ColumnName + "=" + value);
 		
 		int index = get_ColumnIndex(ColumnName);
 		if (index < 0)
@@ -609,9 +604,11 @@ public abstract class PO
 			log.log(Level.SEVERE, "Column not found - " + ColumnName);
 			return false;
 		}
-		//jz
 		if (ColumnName.endsWith("_ID") && value instanceof String )
+		{
+			log.severe("Invalid Data Type for " + ColumnName + "=" + value);
 			value = Integer.parseInt((String)value);
+		}
 			
 		return set_Value (index, value);
 	}   //  setValue
@@ -638,7 +635,7 @@ public abstract class PO
 	{
 		if (index < 0 || index >= get_ColumnCount())
 		{
-			log.log(Level.SEVERE, "Index invalid - " + index);
+			log.log(Level.WARNING, "Index invalid - " + index);
 			return false;
 		}
 		String ColumnName = p_info.getColumnName(index);
@@ -646,7 +643,7 @@ public abstract class PO
 		//
 		if (p_info.isVirtualColumn(index))
 		{
-			log.log(Level.SEVERE, "Virtual Column" + colInfo);
+			log.log(Level.WARNING, "Virtual Column" + colInfo);
 			return false;
 		}
 		//
@@ -655,7 +652,7 @@ public abstract class PO
 		if ( ( ! p_info.isColumnUpdateable(index) ) && ( ! is_new() ) )
 		{
 			colInfo += " - NewValue=" + value + " - OldValue=" + get_Value(index);
-			log.log(Level.SEVERE, "Column not updateable" + colInfo);
+			log.log(Level.WARNING, "Column not updateable" + colInfo);
 			return false;
 		}
 		//
@@ -663,7 +660,7 @@ public abstract class PO
 		{
 			if (p_info.isColumnMandatory(index))
 			{
-				log.log(Level.SEVERE, "Cannot set mandatory column to null " + colInfo);
+				log.log(Level.WARNING, "Cannot set mandatory column to null " + colInfo);
 			//	Trace.printStack();
 				return false;
 			}
@@ -807,6 +804,10 @@ public abstract class PO
 		int index = p_info.getColumnIndex(AD_Column_ID);
 		if (index < 0)
 			log.log(Level.SEVERE, "Not found - AD_Column_ID=" + AD_Column_ID);
+		String ColumnName = p_info.getColumnName(index);
+		if (ColumnName.equals("IsApproved"))
+			set_ValueNoCheck(ColumnName, value);
+		else
 		set_Value (index, value);
 	}   //  setValueOfColumn
 	
@@ -1438,16 +1439,28 @@ public abstract class PO
 		//	Search for Primary Key
 		for (int i = 0; i < p_info.getColumnCount(); i++)
 		{
-			if (p_info.isKey(i) && p_info.getColumnName(i).endsWith("_ID"))
+			if (p_info.isKey(i))
 			{
 				String ColumnName = p_info.getColumnName(i);
 				m_KeyColumns = new String[] {ColumnName};
+				if (p_info.getColumnName(i).endsWith("_ID"))
+				{
 				Integer ii = (Integer)get_Value(i);
 				if (ii == null)
 					m_IDs = new Object[] {I_ZERO};
 				else
 					m_IDs = new Object[] {ii};
 				log.finest("(PK) " + ColumnName + "=" + ii);
+				}
+				else
+				{
+					Object oo = get_Value(i);
+					if (oo == null)
+						m_IDs = new Object[] {null};
+					else
+						m_IDs = new Object[] {oo};
+					log.finest("(PK) " + ColumnName + "=" + oo);
+				}
 				return;
 			}
 		}	//	primary key search
@@ -1772,7 +1785,7 @@ public abstract class PO
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "beforeSave - " + toString(), e);
+			log.log(Level.WARNING, "beforeSave - " + toString(), e);
 			log.saveError("Error", e.toString(), false);
 		//	throw new DBException(e);
 			return false;
@@ -1816,7 +1829,7 @@ public abstract class PO
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "afterSave", e);
+			log.log(Level.WARNING, "afterSave", e);
 			log.saveError("Error", e.toString(), false);
 			success = false;
 		//	throw new DBException(e);
@@ -2088,9 +2101,11 @@ public abstract class PO
 			else
 			{
 				if (m_trxName == null)
-					log.log(Level.WARNING, p_info.getTableName() + "." + where);
+					log.log(Level.WARNING, "#" + no 
+						+ " - " + p_info.getTableName() + "." + where);
 				else
-					log.log(Level.WARNING, "[" + m_trxName + "] - " + p_info.getTableName() + "." + where);
+					log.log(Level.WARNING, "#" + no
+						+ " - [" + m_trxName + "] - " + p_info.getTableName() + "." + where);
 			}
 			return saveFinish (false, ok);
 		}
@@ -2416,7 +2431,7 @@ public abstract class PO
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "beforeDelete", e);
+			log.log(Level.WARNING, "beforeDelete", e);
 			log.saveError("Error", e.toString(), false);
 		//	throw new DBException(e);
 			return false;
@@ -2522,7 +2537,7 @@ public abstract class PO
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "afterDelete", e);
+			log.log(Level.WARNING, "afterDelete", e);
 			log.saveError("Error", e.toString(), false);
 			success = false;
 		//	throw new DBException(e);
@@ -2898,7 +2913,7 @@ public abstract class PO
 			if (success)
 				log.fine("success");
 			else
-				log.log(Level.SEVERE, "failed");
+				log.log(Level.WARNING, "failed");
 			return success;
 		}
 		return false;
@@ -2931,7 +2946,7 @@ public abstract class PO
 			if (success)
 				log.fine("success" + (trxName == null ? "" : "[" + trxName + "]"));
 			else
-				log.log(Level.SEVERE, "failed" + (trxName == null ? "" : "[" + trxName + "]"));
+				log.log(Level.WARNING, "failed" + (trxName == null ? "" : " [" + trxName + "]"));
 			return success;
 		}
 		return true;

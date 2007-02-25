@@ -715,6 +715,7 @@ public final class APanel extends CPanel
 				mTab.getAD_Table_ID(), mTab.getTableName(), 
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
+			find.dispose();
 			find = null;
 		}
 		return query;
@@ -1767,6 +1768,7 @@ public final class APanel extends CPanel
 			m_curTab.getAD_Table_ID(), m_curTab.getTableName(), 
 			m_curTab.getWhereExtended(), findFields, 1);
 		MQuery query = find.getQuery();
+		find.dispose();
 		find = null;
 
 		//	Confirmed query
@@ -2077,8 +2079,9 @@ public final class APanel extends CPanel
 			{
 				if (ADialog.ask(m_curWindowNo, this, "PostImmediate?"))
 				{
+					boolean force = ps != null && !ps.equals ("N");		//	force when problems
 					String error = AEnv.postImmediate (m_curWindowNo, Env.getAD_Client_ID(m_ctx),
-						m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID(), false);
+						m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID(), force);
 					m_curTab.dataRefresh();
 					if (error != null)
 						ADialog.error(m_curWindowNo, this, "PostingError-N", error);

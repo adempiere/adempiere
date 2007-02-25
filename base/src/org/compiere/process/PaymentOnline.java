@@ -30,8 +30,6 @@ import org.compiere.util.*;
  */
 public class PaymentOnline extends SvrProcess
 {
-	private int			m_C_Payment_ID = -1;
-
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */

@@ -327,6 +327,14 @@ public class FileUtil
 		}
 	}	//	license
 
+	/**
+	 * 	Get Filter String
+	 *	@return flter String
+	 */
+	String getFilterString()
+	{
+		return m_filterString;
+	}	//	getFilterString
 
 	/**************************************************************************
 	 * 	File Filter.
@@ -347,7 +355,8 @@ public class FileUtil
 			File file = new File (dir, name);
 			if (file.isDirectory())
 				return true;
-			if (m_filterString == null || m_filterString.length() == 0)
+			String filterString = getFilterString();
+			if (filterString == null || filterString.length() == 0)
 				return true;
 			if (name == null)
 				return false;
@@ -355,7 +364,7 @@ public class FileUtil
 			if (name.indexOf("~") != -1 || name.equals("FileUtil.java"))
 				return false;
 			//
-			return name.indexOf(m_filterString) != -1;
+			return name.indexOf(filterString) != -1;
 		}	//	accept
 
 	}	//	FileUtilFilter

@@ -26,11 +26,20 @@ public interface ModelValidator
 {
 	/** Model Change Type New		*/
 	public static final int	TYPE_NEW = 1;
+	public static final int	CHANGETYPE_NEW = 1;
 	/** Model Change Type Change	*/
 	public static final int	TYPE_CHANGE = 2;
+	public static final int	CHANGETYPE_CHANGE = 2;
 	/** Model Change Type Delete	*/
 	public static final int	TYPE_DELETE = 3;
+	public static final int	CHANGETYPE_DELETE = 3;
 	
+	/** Called before document is prepared		*/
+	public static final int		TIMING_BEFORE_PREPARE = 1;
+	public static final int		DOCTIMING_BEFORE_PREPARE = 1;
+	/** Called after document is processed		*/
+	public static final int		TIMING_AFTER_COMPLETE = 9;
+	public static final int		DOCTIMING_AFTER_COMPLETE = 9;
 	
 	/**
 	 * 	Initialize Validation
@@ -80,11 +89,5 @@ public interface ModelValidator
      *	if not null, the pocument will be marked as Invalid.
 	 */
 	public String docValidate (PO po, int timing);
-	
-	
-	/** Called before document is prepared		*/
-	public static final int		TIMING_BEFORE_PREPARE = 1;
-	/** Called after document is processed		*/
-	public static final int		TIMING_AFTER_COMPLETE = 9;
 	
 }	//	ModelValidator

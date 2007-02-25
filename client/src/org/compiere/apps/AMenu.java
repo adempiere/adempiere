@@ -61,7 +61,8 @@ public final class AMenu extends CFrame
 		splash.paint(splash.getGraphics());
 		
 		//
-		Adempiere.startupEnvironment(true);		//	Load Environment
+		if (!Adempiere.startupEnvironment(true)) // Load Environment
+			System.exit(1);		
 		MSession.get (Env.getCtx(), true);		//	Start Session
 
 		//	Preparation

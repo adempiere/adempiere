@@ -359,6 +359,38 @@ public class MTable extends X_AD_Table
 		return null;
 	}	//	getColumn
 	
+	/**
+	 * 	Table has a single Key
+	 *	@return true if table has single key column
+	 */
+	public boolean isSingleKey()
+	{
+		String[] keys = getKeyColumns();
+		return keys.length == 1;
+	}	//	isSingleKey
+	
+	/**
+	 * 	Get Key Columns of Table
+	 *	@return key columns
+	 */
+	public String[] getKeyColumns()
+	{
+		getColumns(false);
+		ArrayList<String> list = new ArrayList<String>();
+		//
+		for (int i = 0; i < m_columns.length; i++)
+		{
+			MColumn column = m_columns[i];
+			if (column.isKey())
+				return new String[]{column.getColumnName()};
+			if (column.isParent())
+				list.add(column.getColumnName());
+		}
+		String[] retValue = new String[list.size()];
+		retValue = list.toArray(retValue);
+		return retValue;
+	}	//	getKeyColumns
+	
 	/**************************************************************************
 	 * 	Get PO Class Instance
 	 *	@param Record_ID record
@@ -368,6 +400,11 @@ public class MTable extends X_AD_Table
 	public PO getPO (int Record_ID, String trxName)
 	{
 		String tableName = getTableName();
+		if (Record_ID != 0 && !isSingleKey())
+		{
+			log.log(Level.WARNING, "(id) - Multi-Key " + tableName);
+			return null;
+		}
 		Class clazz = getClass(tableName);
 		if (clazz == null)
 		{
@@ -492,6 +529,8 @@ public class MTable extends X_AD_Table
 		{
 			pstmt = null;
 		}
+		if (po == null)
+			return getPO(0, trxName);
 		return po;
 	}	//	getPO
 	
@@ -614,4 +653,15 @@ public class MTable extends X_AD_Table
 		return retValue;
 	}
 
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("MTable[");
+		sb.append (get_ID()).append ("-").append (getTableName()).append ("]");
+		return sb.toString ();
+	}	//	toString
+	
 }	//	MTable

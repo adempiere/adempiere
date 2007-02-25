@@ -43,7 +43,8 @@ public class Login
 	public static Properties initTest (boolean isClient)
 	{
 	//	logger.entering("Env", "initTest");
-		Adempiere.startupEnvironment(true);
+		if (!Adempiere.startupEnvironment(true))
+			System.exit (1);
 		//  Test Context
 		Properties ctx = Env.getCtx();
 		Login login = new Login(ctx);
@@ -217,6 +218,9 @@ public class Login
 		//	Authentification
 		boolean authenticated = false;
 		MSystem system = MSystem.get(m_ctx);
+		if (system == null)
+			throw new IllegalStateException("No System Info");
+		
 		if (system.isLDAP())
 		{
 			authenticated = system.isLDAP(app_user, app_pwd);

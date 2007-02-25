@@ -66,7 +66,25 @@ public class ProcessCtl extends Thread
 	{
 		log.fine("WindowNo=" + WindowNo + " - " + pi);
 
-		MPInstance instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID());
+		MPInstance instance = null; 
+		try 
+		{ 
+			instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID()); 
+		} 
+		catch (Exception e) 
+		{ 
+			pi.setSummary (e.getLocalizedMessage()); 
+			pi.setError (true); 
+			log.warning(pi.toString()); 
+			return null; 
+		} 
+		catch (Error e) 
+		{ 
+			pi.setSummary (e.getLocalizedMessage()); 
+			pi.setError (true); 
+			log.warning(pi.toString()); 
+			return null; 
+		}
 		if (!instance.save())
 		{
 			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
@@ -117,7 +135,25 @@ public class ProcessCtl extends Thread
 	{
 		log.fine("WindowNo=" + WindowNo + " - " + pi);
 
-		MPInstance instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID());
+		MPInstance instance = null; 
+		try 
+		{ 
+			instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID()); 
+		} 
+		catch (Exception e) 
+		{ 
+			pi.setSummary (e.getLocalizedMessage()); 
+			pi.setError (true); 
+			log.warning(pi.toString()); 
+			return null; 
+		} 
+		catch (Error e) 
+		{ 
+			pi.setSummary (e.getLocalizedMessage()); 
+			pi.setError (true); 
+			log.warning(pi.toString()); 
+			return null; 
+		}
 		if (!instance.save())
 		{
 			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
@@ -156,8 +192,10 @@ public class ProcessCtl extends Thread
 		m_trx = trx;	//	handeled correctly
 	}   //  ProcessCtl
 
-	private ASyncProcess    m_parent;
-	private ProcessInfo     m_pi;
+	/** Parenr */
+	ASyncProcess m_parent;
+	/** Process Info */
+	ProcessInfo m_pi;
 	private Trx				m_trx;
 	private Waiting         m_waiting;
 	private boolean 		m_IsServerProcess = false;

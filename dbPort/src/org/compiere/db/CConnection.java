@@ -22,6 +22,8 @@ import java.util.*;
 import java.util.logging.*;
 import javax.naming.*;
 import javax.sql.*;
+import javax.swing.JOptionPane;
+
 import org.compiere.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
@@ -1241,6 +1243,22 @@ public class CConnection implements Serializable
 	                                                 break; 	 
 	                                         } 	 
 	                                 }
+				if (m_db != null)		//	test class loader ability
+					m_db.getDataSource(this);
+			}
+			catch (NoClassDefFoundError ee)
+			{
+				System.err.println("Environment Error - Check Adempiere.properties - " + ee);
+				if (Ini.isClient())
+				{
+					if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog	
+						(null, "There is a configuration error:\n" + ee
+							+ "\nDo you want to reset the saved configuration?", 
+							"Adempiere Configuration Error", 
+							JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE))
+						Ini.deletePropertyFile();
+				}
+				System.exit (1);
 			}
 			catch (Exception e)
 			{

@@ -274,24 +274,24 @@ public class ImportGLJournal extends SvrProcess
 		log.fine("Set Home CurrencyRate=" + no);
 		//	Set Currency Rate
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-		   + "SET CurrencyRate=(SELECT r.MultiplyRate FROM C_Conversion_Rate r, C_AcctSchema s"
+		   + "SET CurrencyRate=(SELECT MAX(r.MultiplyRate) FROM C_Conversion_Rate r, C_AcctSchema s"
 		   + " WHERE s.C_AcctSchema_ID=i.C_AcctSchema_ID AND s.AD_Client_ID=i.AD_Client_ID"
 		   + " AND r.C_Currency_ID=i.C_Currency_ID AND r.C_Currency_ID_TO=s.C_Currency_ID"
 		   + " AND r.AD_Client_ID=i.AD_Client_ID AND r.AD_Org_ID=i.AD_OrgDoc_ID"
 		   + " AND r.C_ConversionType_ID=i.C_ConversionType_ID"
-		   + " AND i.DateAcct BETWEEN r.ValidFrom AND r.ValidTo AND ROWNUM=1"
+		   + " AND i.DateAcct BETWEEN r.ValidFrom AND r.ValidTo "
 	   //	ORDER BY ValidFrom DESC
 		   + ") WHERE CurrencyRate IS NULL OR CurrencyRate=0 AND C_Currency_ID>0"
 		   + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Org Rate=" + no);
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-			+ "SET CurrencyRate=(SELECT r.MultiplyRate FROM C_Conversion_Rate r, C_AcctSchema s"
+			+ "SET CurrencyRate=(SELECT MAX(r.MultiplyRate) FROM C_Conversion_Rate r, C_AcctSchema s"
 			+ " WHERE s.C_AcctSchema_ID=i.C_AcctSchema_ID AND s.AD_Client_ID=i.AD_Client_ID"
 			+ " AND r.C_Currency_ID=i.C_Currency_ID AND r.C_Currency_ID_TO=s.C_Currency_ID"
 			+ " AND r.AD_Client_ID=i.AD_Client_ID"
 			+ " AND r.C_ConversionType_ID=i.C_ConversionType_ID"
-			+ " AND i.DateAcct BETWEEN r.ValidFrom AND r.ValidTo AND ROWNUM=1"
+			+ " AND i.DateAcct BETWEEN r.ValidFrom AND r.ValidTo "
 		//	ORDER BY ValidFrom DESC
 			+ ") WHERE CurrencyRate IS NULL OR CurrencyRate=0 AND C_Currency_ID>0"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
@@ -307,25 +307,25 @@ public class ImportGLJournal extends SvrProcess
 
 		//	Set Period
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-			+ "SET C_Period_ID=(SELECT p.C_Period_ID FROM C_Period p"
+			+ "SET C_Period_ID=(SELECT MAX(p.C_Period_ID) FROM C_Period p"
 			+ " INNER JOIN C_Year y ON (y.C_Year_ID=p.C_Year_ID)"
 			+ " INNER JOIN AD_ClientInfo c ON (c.C_Calendar_ID=y.C_Calendar_ID)"
 			+ " WHERE c.AD_Client_ID=i.AD_Client_ID"
 			// globalqss - cruiz - Bug [ 1577712 ] Financial Period Bug
-			+ " AND i.DateAcct BETWEEN p.StartDate AND p.EndDate AND p.IsActive='Y' AND p.PeriodType='S' AND ROWNUM=1) "
+			+ " AND i.DateAcct BETWEEN p.StartDate AND p.EndDate AND p.IsActive='Y' AND p.PeriodType='S') "
 			+ "WHERE C_Period_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Period=" + no);
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Period, '"
-			+ "WHERE C_Period_ID IS NULL OR C_Period_ID<>"
+			+ "WHERE C_Period_ID IS NULL OR C_Period_ID NOT IN"
 			+ "(SELECT C_Period_ID FROM C_Period p"
 			+ " INNER JOIN C_Year y ON (y.C_Year_ID=p.C_Year_ID)"
 			+ " INNER JOIN AD_ClientInfo c ON (c.C_Calendar_ID=y.C_Calendar_ID) "
 			+ " WHERE c.AD_Client_ID=i.AD_Client_ID"
 			// globalqss - cruiz - Bug [ 1577712 ] Financial Period Bug
-			+ " AND i.DateAcct BETWEEN p.StartDate AND p.EndDate AND p.IsActive='Y' AND p.PeriodType='S' AND ROWNUM=1)"
+			+ " AND i.DateAcct BETWEEN p.StartDate AND p.EndDate AND p.IsActive='Y' AND p.PeriodType='S')"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
@@ -384,11 +384,11 @@ public class ImportGLJournal extends SvrProcess
 
 		//	Set Account
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-			+ "SET Account_ID=(SELECT ev.C_ElementValue_ID FROM C_ElementValue ev"
+			+ "SET Account_ID=(SELECT MAX(ev.C_ElementValue_ID) FROM C_ElementValue ev"
 			+ " INNER JOIN C_Element e ON (e.C_Element_ID=ev.C_Element_ID)"
 			+ " INNER JOIN C_AcctSchema_Element ase ON (e.C_Element_ID=ase.C_Element_ID AND ase.ElementType='AC')"
 			+ " WHERE ev.Value=i.AccountValue AND ev.IsSummary='N'"
-			+ " AND i.C_AcctSchema_ID=ase.C_AcctSchema_ID AND i.AD_Client_ID=ev.AD_Client_ID AND ROWNUM=1) "
+			+ " AND i.C_AcctSchema_ID=ase.C_AcctSchema_ID AND i.AD_Client_ID=ev.AD_Client_ID) "
 			+ "WHERE Account_ID IS NULL AND AccountValue IS NOT NULL"
 			+ " AND (C_ValidCombination_ID IS NULL OR C_ValidCombination_ID=0) AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -419,9 +419,9 @@ public class ImportGLJournal extends SvrProcess
 
 		//	Set Product
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-			+ "SET M_Product_ID=(SELECT p.M_Product_ID FROM M_Product p"
+			+ "SET M_Product_ID=(SELECT MAX(p.M_Product_ID) FROM M_Product p"
 			+ " WHERE (p.Value=i.ProductValue OR p.UPC=i.UPC OR p.SKU=i.SKU)"
-			+ " AND p.IsSummary='N' AND i.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
+			+ " AND p.IsSummary='N' AND i.AD_Client_ID=p.AD_Client_ID) "
 			+ "WHERE M_Product_ID IS NULL AND (ProductValue IS NOT NULL OR UPC IS NOT NULL OR SKU IS NOT NULL)"
 			+ " AND (C_ValidCombination_ID IS NULL OR C_ValidCombination_ID=0) AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

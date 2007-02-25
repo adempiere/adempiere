@@ -201,17 +201,16 @@ public final class MDocNumber extends PlainDocument
 		}	//	decimal or thousand
 
 		//	something else
-		else
+		else if (VNumber.AUTO_POPUP)
 		{
 			log.fine("Input=" + c + " (" + (int)c + ")");
-			//hengsin, [ 1648436 ] Remove auto popup of calculator
-			/*
 			String result = VNumber.startCalculator(m_tc, getText(),
 				m_format, m_displayType, m_title);
 			super.remove(0, content.length());
-			super.insertString(0, result, attr);*/
-			ADialog.beep();
+			super.insertString(0, result, attr);
 		}
+		else
+			ADialog.beep();
 	}	//	insertString
 
 	

@@ -190,12 +190,14 @@ public final class ALogin extends CDialog
 		versionLabel.setToolTipText(Adempiere.getImplementationVersion());
 		hostLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		hostLabel.setText("Host");
+		hostLabel.setLabelFor(hostField);
 		connectionPanel.add(hostLabel,         new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		connectionPanel.add(hostField,           new GridBagConstraints(1, 2, 3, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
 		userLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		userLabel.setText("User");
+		userLabel.setLabelFor(userTextField);
 		connectionPanel.add(userLabel,        new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		userTextField.setText("System");			//	default
@@ -203,6 +205,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
 		passwordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		passwordLabel.setText("Password");
+		passwordLabel.setLabelFor(passwordField);
 		connectionPanel.add(passwordLabel,         new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		passwordField.setText("System");			//	default
@@ -210,6 +213,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		languageLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		languageLabel.setText("Language");
+		languageLabel.setLabelFor(languageCombo);
 		connectionPanel.add(languageLabel,        new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		languageCombo.addActionListener(this);
@@ -218,7 +222,7 @@ public final class ALogin extends CDialog
 		copy0Label.setHorizontalAlignment(SwingConstants.RIGHT);
 		connectionPanel.add(copy0Label,       new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		/** Removing/modifying the Adempiere copyright notice is a violation of the license	*/
+
 		copy1Label.setText(Adempiere.COPYRIGHT);
 		connectionPanel.add(copy1Label,         new GridBagConstraints(1, 6, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 12, 12), 0, 0));
@@ -236,6 +240,7 @@ public final class ALogin extends CDialog
 		//
 		roleLabel.setText("Role");
 		roleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		roleLabel.setLabelFor(roleCombo);
 		roleCombo.addActionListener(this);
 		defaultPanel.add(roleLabel,        new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(12, 12, 5, 5), 0, 0));
@@ -243,6 +248,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(12, 0, 5, 12), 0, 0));
 		clientLabel.setText("Client");
 		clientLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		clientLabel.setLabelFor(clientCombo);
 		defaultPanel.add(clientLabel,       new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		clientCombo.addActionListener(this);
@@ -250,6 +256,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
 		orgLabel.setText("Organization");
 		orgLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		orgLabel.setLabelFor(orgCombo);
 		defaultPanel.add(orgLabel,         new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		orgCombo.addActionListener(this);
@@ -257,6 +264,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		dateLabel.setText("Date");
 		dateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		dateLabel.setLabelFor(dateField);
 		defaultPanel.add(dateLabel,       new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		defaultPanel.add(dateField,        new GridBagConstraints(1, 4, 1, 1, 1.0, 0.0
@@ -264,8 +272,10 @@ public final class ALogin extends CDialog
 		//
 		warehouseLabel.setText("Warehouse");
 		warehouseLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		warehouseLabel.setLabelFor(warehouseCombo);
 		printerLabel.setText("Printer");
 		printerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		printerLabel.setLabelFor(printerField);
 		defaultPanel.add(printerLabel,        new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 12, 5), 0, 0));
 		defaultPanel.add(printerField,        new GridBagConstraints(1, 5, 1, 1, 1.0, 0.0
@@ -623,6 +633,7 @@ public final class ALogin extends CDialog
 		userTextField.setBackground(AdempierePLAF.getFieldBackground_Normal());
 		passwordField.setBackground(AdempierePLAF.getFieldBackground_Normal());
 		//
+		this.setTitle(hostField.getDisplay());
 		statusBar.setStatusLine(txt_LoggedIn);
 		m_comboActive = false;
 		roleComboChanged();
@@ -859,9 +870,15 @@ public final class ALogin extends CDialog
 		dateField.setValue(new Timestamp(System.currentTimeMillis()));
 		//
 		if (m_connectionOK)
+		{
+			this.setTitle(hostField.getDisplay());
 			statusBar.setStatusLine(txt_LoggedIn);
+		}
 		else
+		{
+			this.setTitle(res.getString("Login"));
 			statusBar.setStatusLine(txt_NotConnected, true);
+		}
 	}   //	languageCombo_actionPerformed
 
 }	//	ALogin

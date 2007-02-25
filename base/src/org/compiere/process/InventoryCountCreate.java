@@ -181,6 +181,7 @@ public class InventoryCountCreate extends SvrProcess
 			+ " AND il.M_Product_ID=s.M_Product_ID"
 			+ " AND il.M_Locator_ID=s.M_Locator_ID"
 			+ " AND COALESCE(il.M_AttributeSetInstance_ID,0)=COALESCE(s.M_AttributeSetInstance_ID,0))");
+		//	+ " AND il.M_AttributeSetInstance_ID=s.M_AttributeSetInstance_ID)");
 		//
 		sql.append(" ORDER BY l.Value, p.Value, s.QtyOnHand DESC");	//	Locator/Product
 		//

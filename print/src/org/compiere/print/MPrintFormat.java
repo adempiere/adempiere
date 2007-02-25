@@ -559,7 +559,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		//	Get Column List from Tab
 		String sql = "SELECT AD_Column_ID " //, Name, IsDisplayed, SeqNo
 			+ "FROM AD_Field "
-			+ "WHERE AD_Tab_ID=(SELECT AD_Tab_ID FROM AD_Tab WHERE AD_Table_ID=? AND ROWNUM=1)"
+			+ "WHERE AD_Tab_ID=(SELECT MIN(AD_Tab_ID) FROM AD_Tab WHERE AD_Table_ID=?)"
 			+ " AND IsEncrypted='N' AND ObscureType IS NULL "
 			+ "ORDER BY COALESCE(IsDisplayed,'N') DESC, SortNo, SeqNo, Name";
 		try

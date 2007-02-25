@@ -200,7 +200,7 @@ public class MWFNodeNext extends X_AD_WF_NodeNext
 		//	No Conditions
 		if (getConditions(false).length == 0)
 		{
-			log.fine("isValidFor #0 " + toString());
+			log.fine("#0 " + toString());
 			return true;
 		}
 		//	First condition always AND

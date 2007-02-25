@@ -57,7 +57,7 @@ public class TreeMaintenance extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		log.info("doIt - AD_Tree_ID=" + m_AD_Tree_ID);
+		log.info("AD_Tree_ID=" + m_AD_Tree_ID);
 		if (m_AD_Tree_ID == 0)
 			throw new IllegalArgumentException("Tree_ID = 0");
 		MTree tree = new MTree (getCtx(), m_AD_Tree_ID, get_TrxName());	
@@ -139,13 +139,13 @@ public class TreeMaintenance extends SvrProcess
 //					node = new MTree_NodeMM(tree, Node_ID);
 				//				
 				if (node == null)
-					log.log(Level.SEVERE, "verifyTree - no Model for " + nodeTableName);
+					log.log(Level.SEVERE, "No Model for " + nodeTableName);
 				else
 				{
 					if (node.save())
 						inserts++;
 					else
-						log.log(Level.SEVERE, "verifyTree - Could not add to " + tree + " Node_ID=" + Node_ID);
+						log.log(Level.SEVERE, "Could not add to " + tree + " Node_ID=" + Node_ID);
 				}
 			}
 			rs.close();

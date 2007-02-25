@@ -992,7 +992,8 @@ public final class VAccountDialog extends CDialog
 		f_AD_Org_ID.setValue(null);
 		//	Account (mandatory)
 		f_Account_ID.setValue(null);
-		f_SubAcct_ID.setValue(null);
+		if (f_SubAcct_ID != null)
+			f_SubAcct_ID.setValue(null);
 
 		//	Product
 		if (f_M_Product_ID != null)

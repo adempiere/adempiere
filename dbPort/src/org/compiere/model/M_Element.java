@@ -123,6 +123,48 @@ public class M_Element extends X_AD_Element
 		return retValue;
 	}	//	get
 
+	/**
+	 * 	Get Element
+	 * 	@param ctx context
+	 *	@param columnName case insentitive column name
+	 *	@return case sensitive column name
+	 */
+	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID)
+	{
+		if (AD_Column_ID ==0)
+			return null;
+		M_Element retValue = null;
+		String sql = "SELECT * FROM AD_Element e "
+			+ "WHERE EXISTS (SELECT * FROM AD_Column c "
+				+ "WHERE c.AD_Element_ID=e.AD_Element_ID AND c.AD_Column_ID=?)";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setInt (1, AD_Column_ID);
+			ResultSet rs = pstmt.executeQuery ();
+			if (rs.next ())
+				retValue = new M_Element (ctx, rs, null);
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return retValue;
+	}	//	get
 	
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (M_Element.class);
@@ -232,14 +274,35 @@ public class M_Element extends X_AD_Element
 			sql = new StringBuffer("UPDATE AD_PrintFormatItem pi SET PrintName=")
 				.append(DB.TO_STRING(getPrintName()))
 				.append(", Name=").append(DB.TO_STRING(getName()))
-				.append(" WHERE AD_Client_ID=0")
+				.append(" WHERE IsCentrallyMaintained='Y'")	
 				.append(" AND EXISTS (SELECT * FROM AD_Column c ")
 					.append("WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=")
-					.append(get_ID()).append(") AND IsCentrallyMaintained='Y'");
+					.append(get_ID()).append(")");
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
 			log.fine("PrintFormatItem updated #" + no);
+			
+			// Info Column
+			sql = new StringBuffer ("UPDATE AD_InfoColumn SET Name=")
+				.append(DB.TO_STRING(getName()))
+				.append(", Description=").append(DB.TO_STRING(getDescription()))
+				.append(", Help=").append(DB.TO_STRING(getHelp()))
+				.append(" WHERE AD_Element_ID=").append(get_ID())
+				.append(" AND IsCentrallyMaintained='Y'");
+			no = DB.executeUpdate(sql.toString(), get_TrxName());
+			log.fine("InfoWindow updated #" + no);
 		}
 		return success;
 	}	//	afterSave
+	
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("M_Element[");
+		sb.append (get_ID()).append ("-").append (getColumnName()).append ("]");
+		return sb.toString ();
+	}	//	toString
 	
 }	//	M_Element

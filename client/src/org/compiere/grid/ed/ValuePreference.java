@@ -171,7 +171,6 @@ public class ValuePreference extends CDialog
 		m_Value = Value;
 		m_DisplayValue = DisplayValue;
 		m_DisplayType = displayType;
-		m_AD_Reference_ID = AD_Reference_ID;
 		//
 		m_role = MRole.getDefault();
 		try
@@ -197,7 +196,6 @@ public class ValuePreference extends CDialog
 	private String          m_Value;
 	private String          m_DisplayValue;
 	private int             m_DisplayType;
-	private int             m_AD_Reference_ID;
 	private MRole			m_role;
 
 	//  Display

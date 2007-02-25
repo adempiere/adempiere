@@ -309,6 +309,19 @@ public class MLanguage extends X_AD_Language
 		return m_dateFormat;
 	}   //  getDateFormat
 	
+	/**
+	 * 	Set AD_Language_ID
+	 */
+	private void setAD_Language_ID()
+	{
+		int AD_Language_ID = getAD_Language_ID();
+		if (AD_Language_ID == 0)
+		{
+			String sql = "SELECT NVL(MAX(AD_Language_ID), 999999) FROM AD_Language WHERE AD_Language_ID > 1000";
+			AD_Language_ID = DB.getSQLValue (get_TrxName(), sql);
+			setAD_Language_ID(AD_Language_ID+1);
+		}
+	}	//	setAD_Language_ID
 
 	/**
 	 * 	Before Save
@@ -317,9 +330,9 @@ public class MLanguage extends X_AD_Language
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (is_ValueChanged("DatePattern") && getDatePattern() != null)
+		String dp = getDatePattern();
+		if (is_ValueChanged("DatePattern") && dp != null && dp.length() > 0)
 		{
-			String dp = getDatePattern();
 			if (dp.indexOf("MM") == -1)
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Error@ @DatePattern@ - No Month (MM)"));
@@ -349,6 +362,8 @@ public class MLanguage extends X_AD_Language
 				return false;
 			}
 		}
+		if (newRecord)
+			setAD_Language_ID();
 		return true;
 	}	//	beforeSae
 	

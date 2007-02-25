@@ -229,7 +229,7 @@ public final class AEnv
 	{
 		JMenu menu = new JMenu();
 		String text = Msg.getMsg(Env.getCtx(), AD_Message);
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && text.length() > pos)	//	We have a nemonic
 		{
 			char ch = text.toUpperCase().charAt(pos+1);
@@ -268,7 +268,7 @@ public final class AEnv
 		if (al != null)
 			mi.addActionListener(al);
 		return mi;
-	}   //  addMeniItem
+	}   //  addMenuItem
 
 	/**
 	 *  Perform action command for common menu items.
@@ -408,7 +408,7 @@ public final class AEnv
 
 	/**
 	 *  Set Text and Mnemonic for Button.
-	 *  Create Mnemonics of text containing "&".
+	 *  Create Mnemonics of text containing '&'.
 	 *	Based on MS notation of &Help => H is Mnemonics
 	 *  @param b The button
 	 *  @param text The text with optional Mnemonics
@@ -417,7 +417,7 @@ public final class AEnv
 	{
 		if (text == null || b == null)
 			return;
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1)					//	We have a nemonic
 		{
 			char ch = text.charAt(pos+1);
@@ -429,12 +429,12 @@ public final class AEnv
 
 	/**
 	 *  Get Mnemonic character from text.
-	 *  @param text text with "&"
+	 *  @param text text with '&'
 	 *  @return Mnemonic or 0
 	 */
 	public static char getMnemonic (String text)
 	{
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1)					//	We have a nemonic
 			return text.charAt(pos+1);
 		return 0;

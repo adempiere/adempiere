@@ -178,7 +178,7 @@ public class ModelValidationEngine
 	 *	@param type ModelValidator.TYPE_*
 	 *	@return error message or NULL for no veto
 	 */
-	public String fireModelChange (PO po, int type)
+	public String fireModelChange (PO po, int changeType)
 	{
 		if (po == null || m_modelChangeListeners.size() == 0)
 			return null;
@@ -194,9 +194,12 @@ public class ModelValidationEngine
 			try
 			{
 				ModelValidator validator = (ModelValidator)list.get(i);
-				String error = validator.modelChange(po, type);
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				{
+					String error = validator.modelChange(po, changeType);
 				if (error != null && error.length() > 0)
 					return error;
+			}
 			}
 			catch (Exception e)
 			{
@@ -257,7 +260,7 @@ public class ModelValidationEngine
 	 *	@param timing see ModelValidator.TIMING_ constants
      *	@return error message or null
 	 */
-	public String fireDocValidate (PO po, int timing)
+	public String fireDocValidate (PO po, int docTiming)
 	{
 		if (po == null || m_docValidateListeners.size() == 0)
 			return null;
@@ -274,9 +277,12 @@ public class ModelValidationEngine
 			try
 			{
 				validator = (ModelValidator)list.get(i);
-				String error = validator.docValidate(po, timing);
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				{
+					String error = validator.docValidate(po, docTiming);
 				if (error != null && error.length() > 0)
 					return error;
+			}
 			}
 			catch (Exception e)
 			{
@@ -299,4 +305,5 @@ public class ModelValidationEngine
 			.append("]");
 		return sb.toString();
 	}	//	toString
+	
 }	//	ModelValidatorEngine

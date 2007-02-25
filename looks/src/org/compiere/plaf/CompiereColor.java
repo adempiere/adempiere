@@ -369,8 +369,6 @@ public class CompiereColor implements Serializable
 
 	/** Background                              */
 	private ColorBackground m_back = null;
-	/** 3D Look									*/
-	private boolean			m_3d = true;
 
 	/** Diry marker for repaining Background    */
 	private boolean m_dirty = true;

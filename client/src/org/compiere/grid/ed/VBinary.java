@@ -22,7 +22,6 @@ import java.beans.*;
 import java.io.*;
 import java.util.logging.*;
 import javax.swing.*;
-import org.compiere.model.*;
 import org.compiere.util.*;
 
 /**

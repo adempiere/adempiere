@@ -74,7 +74,7 @@ public final class AppsAction extends AbstractAction
 		//	Data
 		if (toolTipText == null)
 			toolTipText = Msg.getMsg(Env.getCtx(), action);
-		int pos = toolTipText.indexOf("&");
+		int pos = toolTipText.indexOf('&');
 		if (pos != -1  && toolTipText.length() > pos)	//	We have a nemonic - creates ALT-_
 		{
 			Character ch = new Character(toolTipText.toUpperCase().charAt(pos+1));
@@ -222,9 +222,12 @@ public final class AppsAction extends AbstractAction
 		m_pressed = pressed;
 
 		//	Set Button
-		m_button.setSelected(pressed);
+		if (m_button != null)
+			m_button.setSelected(pressed);
+		
 		//	Set Menu
-		m_menu.setSelected(pressed);
+		if (m_menu != null)
+			m_menu.setSelected(pressed);
 	}	//	setPressed
 
 	/**

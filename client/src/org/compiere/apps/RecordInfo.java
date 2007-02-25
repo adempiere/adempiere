@@ -153,8 +153,8 @@ public class RecordInfo extends CDialog
 		//	Title
 		if (dse.AD_Table_ID != 0)
 		{
-			MTable table = MTable.get (Env.getCtx(), dse.AD_Table_ID);
-			setTitle(title + " - " + table.getName());
+			MTable table1 = MTable.get (Env.getCtx(), dse.AD_Table_ID);
+			setTitle(title + " - " + table1.getName());
 		}
 
 		//	Only Client Preference can view Change Log

@@ -143,20 +143,20 @@ public class ImportOrder extends SvrProcess
 			log.warning ("Invalid DocTypeName=" + no);
 		//	DocType Default
 		sql = new StringBuffer ("UPDATE I_Order o "	//	Default PO
-			  + "SET C_DocType_ID=(SELECT C_DocType_ID FROM C_DocType d WHERE d.IsDefault='Y'"
-			  + " AND d.DocBaseType='POO' AND ROWNUM=1 AND o.AD_Client_ID=d.AD_Client_ID) "
+			  + "SET C_DocType_ID=(SELECT MAX(C_DocType_ID) FROM C_DocType d WHERE d.IsDefault='Y'"
+			  + " AND d.DocBaseType='POO' AND o.AD_Client_ID=d.AD_Client_ID) "
 			  + "WHERE C_DocType_ID IS NULL AND IsSOTrx='N' AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set PO Default DocType=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "	//	Default SO
-			  + "SET C_DocType_ID=(SELECT C_DocType_ID FROM C_DocType d WHERE d.IsDefault='Y'"
-			  + " AND d.DocBaseType='SOO' AND ROWNUM=1 AND o.AD_Client_ID=d.AD_Client_ID) "
+			  + "SET C_DocType_ID=(SELECT MAX(C_DocType_ID) FROM C_DocType d WHERE d.IsDefault='Y'"
+			  + " AND d.DocBaseType='SOO' AND o.AD_Client_ID=d.AD_Client_ID) "
 			  + "WHERE C_DocType_ID IS NULL AND IsSOTrx='Y' AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set SO Default DocType=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET C_DocType_ID=(SELECT C_DocType_ID FROM C_DocType d WHERE d.IsDefault='Y'"
-			  + " AND d.DocBaseType IN('SOO','POO') AND ROWNUM=1 AND o.AD_Client_ID=d.AD_Client_ID) "
+			  + "SET C_DocType_ID=(SELECT MAX(C_DocType_ID) FROM C_DocType d WHERE d.IsDefault='Y'"
+			  + " AND d.DocBaseType IN('SOO','POO') AND o.AD_Client_ID=d.AD_Client_ID) "
 			  + "WHERE C_DocType_ID IS NULL AND IsSOTrx IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Default DocType=" + no);
@@ -184,26 +184,26 @@ public class ImportOrder extends SvrProcess
 
 		//	Price List
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_PriceList_ID=(SELECT M_PriceList_ID FROM M_PriceList p WHERE p.IsDefault='Y'"
-			  + " AND p.C_Currency_ID=o.C_Currency_ID AND p.IsSOPriceList=o.IsSOTrx AND ROWNUM=1 AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "SET M_PriceList_ID=(SELECT MAX(M_PriceList_ID) FROM M_PriceList p WHERE p.IsDefault='Y'"
+			  + " AND p.C_Currency_ID=o.C_Currency_ID AND p.IsSOPriceList=o.IsSOTrx AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_PriceList_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Default Currency PriceList=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_PriceList_ID=(SELECT M_PriceList_ID FROM M_PriceList p WHERE p.IsDefault='Y'"
-			  + " AND p.IsSOPriceList=o.IsSOTrx AND ROWNUM=1 AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "SET M_PriceList_ID=(SELECT MAX(M_PriceList_ID) FROM M_PriceList p WHERE p.IsDefault='Y'"
+			  + " AND p.IsSOPriceList=o.IsSOTrx AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_PriceList_ID IS NULL AND C_Currency_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Default PriceList=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_PriceList_ID=(SELECT M_PriceList_ID FROM M_PriceList p "
-			  + " WHERE p.C_Currency_ID=o.C_Currency_ID AND p.IsSOPriceList=o.IsSOTrx AND ROWNUM=1 AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "SET M_PriceList_ID=(SELECT MAX(M_PriceList_ID) FROM M_PriceList p "
+			  + " WHERE p.C_Currency_ID=o.C_Currency_ID AND p.IsSOPriceList=o.IsSOTrx AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_PriceList_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Currency PriceList=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_PriceList_ID=(SELECT M_PriceList_ID FROM M_PriceList p "
-			  + " WHERE p.IsSOPriceList=o.IsSOTrx AND ROWNUM=1 AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "SET M_PriceList_ID=(SELECT MAX(M_PriceList_ID) FROM M_PriceList p "
+			  + " WHERE p.IsSOPriceList=o.IsSOTrx AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_PriceList_ID IS NULL AND C_Currency_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set PriceList=" + no);
@@ -224,8 +224,8 @@ public class ImportOrder extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set PaymentTerm=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET C_PaymentTerm_ID=(SELECT C_PaymentTerm_ID FROM C_PaymentTerm p"
-			  + " WHERE p.IsDefault='Y' AND ROWNUM=1 AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "SET C_PaymentTerm_ID=(SELECT MAX(C_PaymentTerm_ID) FROM C_PaymentTerm p"
+			  + " WHERE p.IsDefault='Y' AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE C_PaymentTerm_ID IS NULL AND o.PaymentTermValue IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Default PaymentTerm=" + no);
@@ -240,8 +240,8 @@ public class ImportOrder extends SvrProcess
 
 		//	Warehouse
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w"
-			  + " WHERE ROWNUM=1 AND o.AD_Client_ID=w.AD_Client_ID AND o.AD_Org_ID=w.AD_Org_ID) "
+			  + "SET M_Warehouse_ID=(SELECT MAX(M_Warehouse_ID) FROM M_Warehouse w"
+			  + " WHERE o.AD_Client_ID=w.AD_Client_ID AND o.AD_Org_ID=w.AD_Org_ID) "
 			  + "WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());	//	Warehouse for Org
 		if (no != 0)
@@ -283,8 +283,8 @@ public class ImportOrder extends SvrProcess
 		log.fine("Set BP from ContactName=" + no);
 		//	BP from Value
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner bp"
-			  + " WHERE o.BPartnerValue=bp.Value AND o.AD_Client_ID=bp.AD_Client_ID AND ROWNUM=1) "
+			  + "SET C_BPartner_ID=(SELECT MAX(C_BPartner_ID) FROM C_BPartner bp"
+			  + " WHERE o.BPartnerValue=bp.Value AND o.AD_Client_ID=bp.AD_Client_ID) "
 			  + "WHERE C_BPartner_ID IS NULL AND BPartnerValue IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -312,20 +312,20 @@ public class ImportOrder extends SvrProcess
 		log.fine("Found Location=" + no);
 		//	Set Bill Location from BPartner
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET BillTo_ID=(SELECT C_BPartner_Location_ID FROM C_BPartner_Location l"
+			  + "SET BillTo_ID=(SELECT MAX(C_BPartner_Location_ID) FROM C_BPartner_Location l"
 			  + " WHERE l.C_BPartner_ID=o.C_BPartner_ID AND o.AD_Client_ID=l.AD_Client_ID"
 			  + " AND ((l.IsBillTo='Y' AND o.IsSOTrx='Y') OR (l.IsPayFrom='Y' AND o.IsSOTrx='N'))"
-			  + " AND ROWNUM=1) "
+			  + ") "
 			  + "WHERE C_BPartner_ID IS NOT NULL AND BillTo_ID IS NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set BP BillTo from BP=" + no);
 		//	Set Location from BPartner
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET C_BPartner_Location_ID=(SELECT C_BPartner_Location_ID FROM C_BPartner_Location l"
+			  + "SET C_BPartner_Location_ID=(SELECT MAX(C_BPartner_Location_ID) FROM C_BPartner_Location l"
 			  + " WHERE l.C_BPartner_ID=o.C_BPartner_ID AND o.AD_Client_ID=l.AD_Client_ID"
 			  + " AND ((l.IsShipTo='Y' AND o.IsSOTrx='Y') OR o.IsSOTrx='N')"
-			  + " AND ROWNUM=1) "
+			  + ") "
 			  + "WHERE C_BPartner_ID IS NOT NULL AND C_BPartner_Location_ID IS NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -342,8 +342,8 @@ public class ImportOrder extends SvrProcess
 		//	Set Country
 		/**
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET CountryCode=(SELECT CountryCode FROM C_Country c WHERE c.IsDefault='Y'"
-			  + " AND c.AD_Client_ID IN (0, o.AD_Client_ID) AND ROWNUM=1) "
+			  + "SET CountryCode=(SELECT MAX(CountryCode) FROM C_Country c WHERE c.IsDefault='Y'"
+			  + " AND c.AD_Client_ID IN (0, o.AD_Client_ID)) "
 			  + "WHERE C_BPartner_ID IS NULL AND CountryCode IS NULL AND C_Country_ID IS NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -367,9 +367,9 @@ public class ImportOrder extends SvrProcess
 
 		//	Set Region
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "Set RegionName=(SELECT Name FROM C_Region r"
+			  + "Set RegionName=(SELECT MAX(Name) FROM C_Region r"
 			  + " WHERE r.IsDefault='Y' AND r.C_Country_ID=o.C_Country_ID"
-			  + " AND r.AD_Client_ID IN (0, o.AD_Client_ID) AND ROWNUM=1) "
+			  + " AND r.AD_Client_ID IN (0, o.AD_Client_ID)) "
 			  + "WHERE C_BPartner_ID IS NULL AND C_Region_ID IS NULL AND RegionName IS NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -396,22 +396,22 @@ public class ImportOrder extends SvrProcess
 
 		//	Product
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			  + " WHERE o.ProductValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
+			  + "SET M_Product_ID=(SELECT MAX(M_Product_ID) FROM M_Product p"
+			  + " WHERE o.ProductValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_Product_ID IS NULL AND ProductValue IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Product from Value=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			  + " WHERE o.UPC=p.UPC AND o.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
+			  + "SET M_Product_ID=(SELECT MAX(M_Product_ID) FROM M_Product p"
+			  + " WHERE o.UPC=p.UPC AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_Product_ID IS NULL AND UPC IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Product from UPC=" + no);
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			  + " WHERE o.SKU=p.SKU AND o.AD_Client_ID=p.AD_Client_ID AND ROWNUM=1) "
+			  + "SET M_Product_ID=(SELECT MAX(M_Product_ID) FROM M_Product p"
+			  + " WHERE o.SKU=p.SKU AND o.AD_Client_ID=p.AD_Client_ID) "
 			  + "WHERE M_Product_ID IS NULL AND SKU IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -426,8 +426,8 @@ public class ImportOrder extends SvrProcess
 
 		//	Tax
 		sql = new StringBuffer ("UPDATE I_Order o "
-			  + "SET C_Tax_ID=(SELECT C_Tax_ID FROM C_Tax t"
-			  + " WHERE o.TaxIndicator=t.TaxIndicator AND o.AD_Client_ID=t.AD_Client_ID AND ROWNUM=1) "
+			  + "SET C_Tax_ID=(SELECT MAX(C_Tax_ID) FROM C_Tax t"
+			  + " WHERE o.TaxIndicator=t.TaxIndicator AND o.AD_Client_ID=t.AD_Client_ID) "
 			  + "WHERE C_Tax_ID IS NULL AND TaxIndicator IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

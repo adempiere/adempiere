@@ -60,8 +60,8 @@ public class GenerateModel
 	/** File Header			*/
 	public static final String COPY = 
 		 "/******************************************************************************\n"
-		+" * Product: Adempiere ERP & CRM Smart Business Solution                        *\n"
-		+" * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *\n"
+		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
+		+" * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *\n"
 		+" * This program is free software; you can redistribute it and/or modify it    *\n"
 		+" * under the terms version 2 of the GNU General Public License as published   *\n"
 		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"

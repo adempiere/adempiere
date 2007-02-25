@@ -62,7 +62,7 @@ public final class VCellEditor extends AbstractCellEditor
 	/** Table                   */
 	private JTable          m_table = null;
 	/** ClickCount              */
-	private static int      CLICK_TO_START = 2;
+	private static int      CLICK_TO_START = 1;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VCellEditor.class);
 
