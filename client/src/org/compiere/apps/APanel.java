@@ -151,6 +151,7 @@ public final class APanel extends CPanel
 		northLayout.setAlignment(FlowLayout.LEFT);
 		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
 		toolBar.setBorderPainted(false);
+		toolBar.setFloatable(false); // teo_sarca, [ 1666591 ] Toolbar should not be floatable 
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
