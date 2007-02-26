@@ -31,6 +31,11 @@ import org.compiere.util.*;
 
 /**
  * Record Info (Who) With Change History
+ * <p>
+ * Change log:
+ * <ul>
+ * <li>2007-02-26 - teo_sarca - [ 1666598 ] RecordInfo shows ColumnName instead of name
+ * </ul>
  * 
  * @author Jorg Janke
  * @version $Id: RecordInfo.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
@@ -207,11 +212,12 @@ public class RecordInfo extends CDialog
 		
 		//
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.translate(Env.getCtx(), "AD_Column_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Name"));
 		columnNames.add(Msg.translate(Env.getCtx(), "NewValue"));
 		columnNames.add(Msg.translate(Env.getCtx(), "OldValue"));
 		columnNames.add(Msg.translate(Env.getCtx(), "UpdatedBy"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Updated"));
+		columnNames.add(Msg.translate(Env.getCtx(), "AD_Column_ID"));
 		DefaultTableModel model = new DefaultTableModel(m_data, columnNames);
 		table.setModel(model);
 		table.autoSize(false);
@@ -232,7 +238,7 @@ public class RecordInfo extends CDialog
 		Vector<String> line = new Vector<String>();
 		//	Column
 		MColumn column = MColumn.get (Env.getCtx(), AD_Column_ID);
-		line.add(column.getName());
+		line.add(Msg.translate(Env.getCtx(), column.getColumnName()));
 		//
 		if (OldValue != null && OldValue.equals(MChangeLog.NULL))
 			OldValue = null;
@@ -336,6 +342,9 @@ public class RecordInfo extends CDialog
 		line.add(user.getName());
 		//	Updated
 		line.add(m_dateFormat.format(Updated));
+		//	Column Name
+		line.add(column.getColumnName());
+
 		m_data.add(line);
 	}	//	addLine
 	
