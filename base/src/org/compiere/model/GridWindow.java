@@ -445,6 +445,10 @@ public class GridWindow implements Serializable
 			for (int j = 0; j < tab.getFieldCount(); j++)
 			{
 				GridField field = tab.getField(j);
+				// hidden fields should not be displayed - teo_sarca, [ 1667073 ] 
+				if (!field.isDisplayed(false)) {
+					continue;
+				}
 				String hdr = field.getHeader();
 				if (hdr != null && hdr.length() > 0)
 				{
@@ -461,6 +465,10 @@ public class GridWindow implements Serializable
 			for (int j = 0; j < tab.getFieldCount(); j++)
 			{
 				GridField field = tab.getField(j);
+				// hidden fields should not be displayed - teo_sarca, [ 1667073 ] 
+				if (!field.isDisplayed(false)) {
+					continue;
+				}
 				String hdr = field.getHeader();
 				if (hdr != null && hdr.length() > 0)
 				{
