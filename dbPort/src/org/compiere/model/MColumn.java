@@ -274,6 +274,12 @@ public class MColumn extends X_AD_Column
 		StringBuffer sql = new StringBuffer ("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" ADD ").append(getSQLDDL());
+		String constraint = getConstraint(table.getTableName());
+		if (constraint != null && constraint.length() > 0) {
+			sql.append("; ").append("ALTER TABLE ")
+			.append(table.getTableName())
+			.append(" ADD ").append(constraint);
+		}
 		return sql.toString();
 	}	//	getSQLAdd
 
