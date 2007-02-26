@@ -422,7 +422,19 @@ public class Doc_Order extends Doc
 			+ "FROM C_Order o, C_OrderLine ol "
 			+ "WHERE o.C_Order_ID=ol.C_Order_ID"
 			+ " AND po.M_Product_ID=ol.M_Product_ID AND po.C_BPartner_ID=o.C_BPartner_ID"
-			+ " AND ROWNUM=1 AND o.C_Order_ID=").append(get_ID()).append(") ")
+			+ " AND ROWNUM=1 AND o.C_Order_ID=").append(get_ID()).append(") ");
+			//jz + " AND ROWNUM=1 AND o.C_Order_ID=").append(get_ID()).append(") ")
+			if (DB.isOracle()) //jz
+			{
+				sql.append(" AND ROWNUM=1) ");
+			}
+			else 
+				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
+						+ "FROM C_Order o1, C_OrderLine ol1 "
+						+ "WHERE o1.C_Order_ID=ol1.C_Order_ID"
+						+ " AND po.M_Product_ID=ol1.M_Product_ID AND po.C_BPartner_ID=o1.C_BPartner_ID")
+						.append("  AND o1.C_Order_ID=").append(get_ID()).append(") ");
+			sql.append("  AND o.C_Order_ID=").append(get_ID()).append(") ")
 			.append("WHERE EXISTS (SELECT * "
 			+ "FROM C_Order o, C_OrderLine ol "
 			+ "WHERE o.C_Order_ID=ol.C_Order_ID"

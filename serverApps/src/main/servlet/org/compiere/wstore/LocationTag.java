@@ -22,7 +22,6 @@ import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import javax.servlet.jsp.tagext.*;
 
-import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
 import org.apache.taglibs.standard.tag.el.core.*;
 import org.compiere.model.*;

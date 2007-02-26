@@ -95,6 +95,7 @@ public class Click  extends HttpServlet
 		request.getSession(true);	//	force create session for ctx
 		//
 		String url = getTargetURL(request);
+		if (!response.isCommitted ())
 		response.sendRedirect(url);
 		response.flushBuffer();
 		log.fine("redirect - " + url);

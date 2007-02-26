@@ -22,8 +22,6 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.compiere.model.*;
-import java.util.logging.*;
 import org.compiere.util.*;
 
 /**
@@ -97,7 +95,14 @@ public class LoginServlet extends HttpServlet
 
 		org.compiere.util.WebLogin thisLogin = new org.compiere.util.WebLogin(request, response, ctx);
 		thisLogin.init ();
+		//	JJ: cause needs to be fixed
+		if (WebUtil.getParameter(request, "Mode") == null)
+			if (WebUtil.getParameter(request, "mode") != null)
+				thisLogin.setP_Action("mode");
 		thisLogin.action ();
+		if ("logout".equals(thisLogin.getMode()))
+			return;		//	already forwarded
+
 		String url = thisLogin.getLogin_RelURL ();
 		
 		if (!url.startsWith("/"))
@@ -165,8 +170,8 @@ public class LoginServlet extends HttpServlet
 		if (salesRep != null)
 			url += "?SalesRep_ID=" + salesRep;
 		//
-		String mode = WebUtil.getParameter (request, "Mode");
-		log.fine("- targeting url=" + url + " - mode=" + mode);
+		//String mode = WebUtil.getParameter (request, "Mode");
+		log.fine("- targeting url=" + url); // + " - mode=" + mode);
 
 		//	Web User
 		WebUser wu = WebUser.get(request);
@@ -176,6 +181,10 @@ public class LoginServlet extends HttpServlet
 		thisLogin.setForward (url);
 		// Also handover adressConfirm
 		thisLogin.setAddressConfirm (addressConfirm);
+		// Since Mode Usage is not consequent we will try to figure it out.
+		if (WebUtil.getParameter(request, "Mode")==null)
+			if (WebUtil.getParameter(request, "mode")!=null)
+			thisLogin.setP_Action("mode");
 		// Start the process
 		thisLogin.action ();
 		// getback the URL
@@ -190,4 +199,5 @@ public class LoginServlet extends HttpServlet
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}	//	doPost
+	
 }	//	LoginServlet

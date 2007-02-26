@@ -94,7 +94,8 @@ public class RegistrationServlet extends HttpServlet
 		if (!processSystemRegistration(request, response))
 		{
 			log.info("Forward to registration.jsp");
-			response.sendRedirect("registration.jsp");
+			if (!response.isCommitted ())
+				response.sendRedirect("registration.jsp");
 		}
 	}   //  doGet
 

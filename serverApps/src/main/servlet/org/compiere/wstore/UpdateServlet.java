@@ -17,13 +17,11 @@
 package org.compiere.wstore;
 
 import org.compiere.util.*;
-import org.compiere.model.*;
 
 import javax.servlet.http.*;
 import javax.servlet.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.*;
 
 /**
  *  Web User Update.
@@ -134,7 +132,9 @@ public class UpdateServlet
 			WebUtil.reload(thisLogin.getMessage(), thisLogin.getUpdate_page (), session, request, response, getServletContext());
 			return;
 		}
-		String url = thisLogin.getLogin_RelURL ();
+		String url = thisLogin.getForward();
+		if (url == null || url.length() == 0)
+			url = "/";
 
 		session.setAttribute (WebUser.NAME, wu);
 
@@ -143,5 +143,7 @@ public class UpdateServlet
             url = "/" + url;
 
         log.info("Forward to " + url);
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+		dispatcher.forward(request, response);
     }	//	doPost
 }

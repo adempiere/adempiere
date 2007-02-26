@@ -16,30 +16,13 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import org.compiere.util.CLogger;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.Util;
-import org.compiere.model.MLocation;
-import org.compiere.model.MCountry;
-import org.compiere.model.MRegion;
-import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
-import org.apache.ecs.xhtml.option;
-import org.apache.log4j.lf5.LogLevel;
+import java.io.*;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.RequestDispatcher;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import sun.rmi.runtime.Log;
 
 /**
  * 	Location Servlet

@@ -204,7 +204,8 @@ public class RfQServlet extends HttpServlet
 		if (wu == null)
 		{
 			log.warning("doPost - no web user");
-			response.sendRedirect("loginServlet?ForwardTo=note.jsp");	//	entry
+			if (!response.isCommitted ())
+				response.sendRedirect("loginServlet?ForwardTo=note.jsp");	//	entry
 			return;
 		}
 		int C_RfQResponse_ID = WebUtil.getParameterAsInt(request, P_RfQResponse_ID);

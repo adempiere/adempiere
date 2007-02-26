@@ -118,7 +118,7 @@ public class OrderServlet extends HttpServlet
 			url = "/login.jsp";
 			done = true;
 		}
-		else
+		else	//	Order parameter
 			order = getOrder(request, ctx);
 		
 		//	We have an Order

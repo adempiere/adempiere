@@ -871,8 +871,19 @@ public class Doc_Invoice extends Doc
 			+ "(SELECT currencyConvert(il.PriceActual,i.C_Currency_ID,po.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID) "
 			+ "FROM C_Invoice i, C_InvoiceLine il "
 			+ "WHERE i.C_Invoice_ID=il.C_Invoice_ID"
-			+ " AND po.M_Product_ID=il.M_Product_ID AND po.C_BPartner_ID=i.C_BPartner_ID"
-			+ " AND ROWNUM=1 AND i.C_Invoice_ID=").append(get_ID()).append(") ")
+			+ " AND po.M_Product_ID=il.M_Product_ID AND po.C_BPartner_ID=i.C_BPartner_ID");
+			//jz + " AND ROWNUM=1 AND i.C_Invoice_ID=").append(get_ID()).append(") ")
+			if (DB.isOracle()) //jz
+			{
+				sql.append(" AND ROWNUM=1) ");
+			}
+			else 
+				sql.append(" AND i.UPDATED IN (SELECT MAX(i1.UPDATED) "
+						+ "FROM C_Invoice i1, C_InvoiceLine il1 "
+						+ "WHERE i1.C_Invoice_ID=il1.C_Invoice_ID"
+						+ " AND po.M_Product_ID=il1.M_Product_ID AND po.C_BPartner_ID=i1.C_BPartner_ID")
+						.append("  AND i1.C_Invoice_ID=").append(get_ID()).append(") ");
+			sql.append("  AND i.C_Invoice_ID=").append(get_ID()).append(") ")
 			//	update
 			.append("WHERE EXISTS (SELECT * "
 			+ "FROM C_Invoice i, C_InvoiceLine il "

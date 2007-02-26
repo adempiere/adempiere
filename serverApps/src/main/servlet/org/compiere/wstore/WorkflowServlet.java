@@ -57,7 +57,7 @@ public class WorkflowServlet extends HttpServlet
 	 */
 	public String getServletInfo()
 	{
-		return "adempiere Web Workflow Servlet";
+		return "Adempiere Web Workflow Servlet";
 	}	//	getServletInfo
 
 	/**
@@ -195,7 +195,8 @@ public class WorkflowServlet extends HttpServlet
 			if (wu == null)
 			{
 				log.warning("doPost - no web user");
-				response.sendRedirect("loginServlet?ForwardTo=note.jsp");	//	entry
+				if (!response.isCommitted ())
+					response.sendRedirect("loginServlet?ForwardTo=note.jsp");	//	entry
 				return;
 			}
 			//	Get Feedback

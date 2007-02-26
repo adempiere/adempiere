@@ -231,7 +231,8 @@ public class StatusBean implements SessionBean
 		m_no = ++s_no;
 		try
 		{
-			org.compiere.Adempiere.startup(false);
+			if (!Adempiere.startup(false))
+				throw new CreateException("Compiere could not start");
 		}
 		catch (Exception ex)
 		{

@@ -188,7 +188,8 @@ public class NoteServlet extends HttpServlet
 		if (wu == null)
 		{
 			log.warning("No web user");
-			response.sendRedirect("loginServlet?ForwardTo=notes.jsp");	//	entry
+			if (!response.isCommitted ())
+				response.sendRedirect("loginServlet?ForwardTo=notes.jsp");	//	entry
 			return;
 		}
 		WebEnv.dump(request);

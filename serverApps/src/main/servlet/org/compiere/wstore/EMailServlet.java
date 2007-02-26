@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.compiere.model.*;
 import org.compiere.util.*;
 
 /**
@@ -105,7 +104,10 @@ public class EMailServlet extends HttpServlet
 		
 		WebLogin thisLogin = new WebLogin(request, response, ctx);
 		thisLogin.init ();
-		if (!thisLogin.action ()) {
+		thisLogin.setMode("EMailVerify");
+		if (!thisLogin.action ()) 
+		{
+			if (!response.isCommitted ())
 			response.sendRedirect("loginServlet?ForwardTo=" + url);
 			return;
 		}

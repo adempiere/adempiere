@@ -85,7 +85,8 @@ public class ExpenseServlet extends HttpServlet
 		throws ServletException, IOException
 	{
 		log.info("Get from " + request.getRemoteHost() + " - " + request.getRemoteAddr() + " - forward to request.jsp");
-		response.sendRedirect("expenses.jsp");
+		if (!response.isCommitted ())
+			response.sendRedirect("expenses.jsp");
 	}   //  doGet
 
 

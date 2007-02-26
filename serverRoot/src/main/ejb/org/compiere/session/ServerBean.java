@@ -661,7 +661,8 @@ public class ServerBean implements SessionBean
 		m_no = ++s_no;
 		try
 		{
-			Adempiere.startup(false);
+			if (!Adempiere.startup(false))
+				throw new CreateException("Compiere could not start");
 		}
 		catch (Exception ex)
 		{

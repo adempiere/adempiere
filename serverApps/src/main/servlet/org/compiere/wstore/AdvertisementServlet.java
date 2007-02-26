@@ -84,6 +84,7 @@ public class AdvertisementServlet extends HttpServlet
 		throws ServletException, IOException
 	{
 		log.info("Get from " + request.getRemoteHost() + " - " + request.getRemoteAddr() + " - forward to request.jsp");
+		if (!response.isCommitted ())
 		response.sendRedirect("advertisements.jsp");
 	}   //  doGet
 
@@ -110,6 +111,7 @@ public class AdvertisementServlet extends HttpServlet
 		if (wu == null)
 		{
 			log.warning("No web user");
+			if (!response.isCommitted ())
 			response.sendRedirect("loginServlet?ForwardTo=advertisement.jsp");	//	entry
 			return;
 		}
