@@ -178,7 +178,8 @@ public class MMeasureCalc extends X_PA_MeasureCalc
 		}	//	date
 		String sql = addRestrictions(sb.toString(), restrictions, role);
 		if (groupBy != null)
-			sql += " GROUP BY " + groupBy;
+			sql += " GROUP BY " + groupBy
+					+ " ORDER BY " + groupBy; // teo_sarca, [ 1665129 ] Bar Graph is not ordered
 		//
 		log.fine(sql);
 		return sql;
