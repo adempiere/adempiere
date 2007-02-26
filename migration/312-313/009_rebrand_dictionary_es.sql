@@ -1,4 +1,5 @@
 SET DEFINE OFF;
+SET SQLBLANKLINES OFF;
 
 UPDATE ad_element_trl
    SET description =

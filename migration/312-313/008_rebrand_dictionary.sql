@@ -1,4 +1,5 @@
 SET DEFINE OFF;
+SET SQLBLANKLINES OFF;
 UPDATE ad_alert
    SET alertmessage =
                    'Check that the Adempiere Database has sufficient space:
@@ -1723,8 +1724,8 @@ http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
 UPDATE ad_window
    SET HELP =
           'Web Clicks allow you to track number of clicks.  Example:
-&lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&gt;
-where "http://www.adempiere.com/wstore/click" is your side and "http://www.adempiere.de" is the target page.
+&lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&gt; where
+"http://www.adempiere.com/wstore/click" is your side and "http://www.adempiere.de" is the target page.
 If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.
 '
  WHERE ad_window_id = 273;
