@@ -1,5 +1,29 @@
 ALTER TABLE ad_process ADD jasperreport NVARCHAR2(255);
 
+DELETE FROM ad_field
+      WHERE ad_column_id =
+                  (SELECT ad_column_id
+                     FROM ad_column
+                    WHERE ad_element_id = (SELECT ad_element_id
+                                             FROM ad_element
+                                            WHERE columnname = 'JasperReport'));
+
+DELETE FROM ad_changelog
+      WHERE ad_column_id =
+                  (SELECT ad_column_id
+                     FROM ad_column
+                    WHERE ad_element_id = (SELECT ad_element_id
+                                             FROM ad_element
+                                            WHERE columnname = 'JasperReport'));
+
+DELETE FROM ad_column
+      WHERE ad_element_id = (SELECT ad_element_id
+                               FROM ad_element
+                              WHERE columnname = 'JasperReport');
+
+DELETE FROM ad_element
+      WHERE columnname = 'JasperReport';
+
 INSERT INTO ad_element
             (ad_element_id, ad_client_id, ad_org_id, isactive,
              created, createdby,
