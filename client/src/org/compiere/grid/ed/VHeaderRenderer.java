@@ -73,7 +73,6 @@ public final class VHeaderRenderer implements TableCellRenderer
 	{
 	//	Log.trace(this,10, "VHeaderRenderer.getTableCellRendererComponent", value==null ? "null" : value.toString());
 		//  indicator for invisible column
-		m_button.setFont(table.getFont());
 		Icon icon = null;
 		if (table instanceof CTable)
 		{
