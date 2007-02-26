@@ -192,12 +192,37 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		for (int cont = 0; cont < retVars.size(); cont++) {
 			//hengsin, special character in replacement can cause exception
 			String replacement = (String) retVars.get(cont);
+			replacement = escapeBackSlash(replacement);
 			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
 			if (retValue.indexOf(replacement) < 0)
 				System.err.println("Failed to recover: " + replacement);
 			m = p.matcher(retValue);
 		}
 		return retValue;
+	}
+	
+	private String escapeBackSlash(String in)
+	{
+		StringBuffer out = new StringBuffer();
+		boolean escape = false;
+		int size = in.length();
+		for(int i = 0; i < size; i++) {
+			char c = in.charAt(i);
+			out.append(c);
+			if (c == '\\')
+			{
+				escape  = true;
+				out.append(c);
+			}
+		}
+		if (escape)
+		{
+			return "E" + out.toString();
+		}
+		else
+		{
+			return out.toString();
+		}
 	}
 
 	/**

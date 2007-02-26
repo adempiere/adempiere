@@ -30,7 +30,12 @@ public final class Convert_PostgreSQLTest {
 		
 		//[ 1662983 ] Convert cutting backslash from string
 		sql = "SELECT 'C:\\Documentos\\Test' FROM DUAL";
-		sqe = "SELECT 'C:\\Documentos\\Test'";
+		sqe = "SELECT E'C:\\\\Documentos\\\\Test'";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
+		sql = "SELECT 'C:Document' FROM DUAL";
+		sqe = "SELECT 'C:Document'";
 		r = convert.convert(sql);
 		verify(sql, r, sqe);
 		
