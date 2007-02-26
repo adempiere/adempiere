@@ -1059,7 +1059,7 @@ public class MBPartner extends X_C_BPartner
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 		{
 			//	Trees
 			insert_Tree(MTree_Base.TREETYPE_BPartner);

@@ -131,7 +131,7 @@ public class AdempiereMonitorFilter implements Filter
 			BASE64Decoder decoder = new BASE64Decoder();
 			String namePassword = new String (decoder.decodeBuffer(userInfo));
 		//	log.fine("checkAuthorization - Name:Password=" + namePassword);
-			int index = namePassword.indexOf(":");
+			int index = namePassword.indexOf(':');
 			String name = namePassword.substring(0, index);
 			String password = namePassword.substring(index+1);
 			MUser user = MUser.get(Env.getCtx(), name, password);

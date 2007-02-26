@@ -244,7 +244,7 @@ public abstract class Convert
 		while (m.find())
 		{
 			String group = m.group();       //  SQL string
-			if (group.indexOf("/") != -1)   //  / in string
+			if (group.indexOf('/') != -1)   //  / in string
 				group = group.replace('/', MASK);
 			if (group.indexOf('$') != -1)   //  Group character needs to be escaped
 				group = Util.replace(group, "$", "\\$");

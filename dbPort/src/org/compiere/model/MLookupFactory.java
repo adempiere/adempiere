@@ -184,7 +184,7 @@ public class MLookupFactory
 			info.ValidationCode = "";
 
 		//	Variables in SQL WHERE
-		if (info.Query.indexOf("@") != -1)
+		if (info.Query.indexOf('@') != -1)
 		{
 		//	String newSQL = Env.parseContext(ctx, WindowNo, info.Query, false);
 			String newSQL = Env.parseContext(ctx, 0, info.Query, false);	//	only global
@@ -416,7 +416,7 @@ public class MLookupFactory
 		if (WhereClause != null)
 		{
 			String where = WhereClause;
-			if (where.indexOf("@") != -1)
+			if (where.indexOf('@') != -1)
 				where = Env.parseContext(ctx, WindowNo, where, false);
 			if (where.length() == 0 && WhereClause.length() != 0)
 				s_log.severe ("Could not resolve: " + WhereClause);
@@ -425,7 +425,7 @@ public class MLookupFactory
 			if (where.length() != 0)
 			{
 				realSQL.append(" WHERE ").append(where);
-				if (where.indexOf(".") == -1)
+				if (where.indexOf('.') == -1)
 					s_log.log(Level.SEVERE, "getLookup_Table - " + TableName
 						+ ": WHERE should be fully qualified: " + WhereClause);
 				zoomQuery = new MQuery (TableName);
@@ -437,7 +437,7 @@ public class MLookupFactory
 		if (OrderByClause != null)
 		{
 			realSQL.append(" ORDER BY ").append(OrderByClause);
-			if (OrderByClause.indexOf(".") == -1)
+			if (OrderByClause.indexOf('.') == -1)
 				s_log.log(Level.SEVERE, "getLookup_Table - " + TableName
 					+ ": ORDER BY must fully qualified: " + OrderByClause);
 		}

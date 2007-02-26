@@ -60,7 +60,7 @@ public class MBPartnerInfo extends X_RV_BPartner
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
-			sb.append("UPPER(Contact) LIKE ?");
+			sb.append("UPPER(ContactName) LIKE ?");
 		}
 		EMail = getFindParameter (EMail);
 		if (EMail != null)

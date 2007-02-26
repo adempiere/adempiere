@@ -267,7 +267,7 @@ public class GridTable extends AbstractTableModel
 		if (m_whereClause.length() > 0)
 		{
 			where.append(" WHERE ");
-			if (m_whereClause.indexOf("@") == -1)
+			if (m_whereClause.indexOf('@') == -1)
 				where.append(m_whereClause);
 			else    //  replace variables
 				where.append(Env.parseContext(m_ctx, m_WindowNo, m_whereClause, false));
@@ -1721,7 +1721,7 @@ public class GridTable extends AbstractTableModel
 		//
 		MTable table = MTable.get (m_ctx, m_AD_Table_ID);
 		PO po = null;
-		if (Record_ID != -1)
+		if (table.isSingleKey())
 			po = table.getPO(Record_ID, null);
 		else	//	Multi - Key
 			po = table.getPO(getWhereClause(rowData), null);

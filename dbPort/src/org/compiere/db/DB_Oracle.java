@@ -434,7 +434,7 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 		}
 		else
 		{
-			dateString.append(myDate.substring(0, myDate.indexOf(".")));	//	cut off miliseconds
+			dateString.append(myDate.substring(0, myDate.indexOf('.')));	//	cut off miliseconds
 			dateString.append("','YYYY-MM-DD HH24:MI:SS')");
 		}
 		return dateString.toString();

@@ -31,7 +31,7 @@ import org.compiere.util.*;
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright ï¿½ Jorg Janke
  *  @version $Id: SubBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class SubBPartner extends PosSubPanel 
@@ -224,7 +224,7 @@ public class SubBPartner extends PosSubPanel
 		String Value = query;
 		String Name = (allNumber ? null : query);
 		String Contact = (allNumber ? null : query);
-		String EMail = (query.indexOf("@") != -1 ? query : null); 
+		String EMail = (query.indexOf('@') != -1 ? query : null); 
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//

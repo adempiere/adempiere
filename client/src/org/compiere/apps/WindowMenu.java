@@ -42,7 +42,7 @@ public class WindowMenu extends JMenu {
     
     private void setEnvText(JMenu menu, String msg) {
     	String text = Msg.getMsg(Env.getCtx(), msg);
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && text.length() > pos)	//	We have a nemonic
 		{
 			char ch = text.toUpperCase().charAt(pos+1);
@@ -57,7 +57,7 @@ public class WindowMenu extends JMenu {
     
     private void setEnvText(JMenuItem menu, String msg) {
     	String text = Msg.getMsg(Env.getCtx(), msg);
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && text.length() > pos)	//	We have a nemonic
 		{
 			char ch = text.toUpperCase().charAt(pos+1);

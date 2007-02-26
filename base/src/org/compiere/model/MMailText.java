@@ -144,7 +144,7 @@ public class MMailText extends X_R_MailText
 	 */
 	private String parse (String text)
 	{
-		if (text.indexOf("@") == -1)
+		if (text.indexOf('@') == -1)
 			return text;
 		//	Parse User
 		text = parse (text, m_user);
@@ -164,20 +164,20 @@ public class MMailText extends X_R_MailText
 	 */
 	private String parse (String text, PO po)
 	{
-		if (po == null || text.indexOf("@") == -1)
+		if (po == null || text.indexOf('@') == -1)
 			return text;
 		
 		String inStr = text;
 		String token;
 		StringBuffer outStr = new StringBuffer();
 
-		int i = inStr.indexOf("@");
+		int i = inStr.indexOf('@');
 		while (i != -1)
 		{
 			outStr.append(inStr.substring(0, i));			// up to @
 			inStr = inStr.substring(i+1, inStr.length());	// from first @
 
-			int j = inStr.indexOf("@");						// next @
+			int j = inStr.indexOf('@');						// next @
 			if (j < 0)										// no second tag
 			{
 				inStr = "@" + inStr;
@@ -188,7 +188,7 @@ public class MMailText extends X_R_MailText
 			outStr.append(parseVariable(token, po));		// replace context
 
 			inStr = inStr.substring(j+1, inStr.length());	// from second @
-			i = inStr.indexOf("@");
+			i = inStr.indexOf('@');
 		}
 
 		outStr.append(inStr);           					//	add remainder

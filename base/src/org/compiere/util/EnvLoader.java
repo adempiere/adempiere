@@ -137,7 +137,7 @@ public class EnvLoader
 		{
 			String s = st.nextToken();
 		//	System.out.println(">" + s + "<");
-			int pos = s.indexOf("=");       //  first "="
+			int pos = s.indexOf('=');       //  first "="
 			if (pos > 0)
 				prop.setProperty(prefix + s.substring(0, pos), s.substring(pos+1));
 		}

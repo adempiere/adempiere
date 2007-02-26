@@ -341,7 +341,7 @@ public class MTax extends X_C_Tax
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 			insert_Accounting("C_Tax_Acct", "C_AcctSchema_Default", null);
 
 		return success;

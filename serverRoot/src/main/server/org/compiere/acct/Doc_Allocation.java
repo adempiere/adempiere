@@ -20,7 +20,6 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
-import org.apache.taglibs.standard.lang.jstl.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 

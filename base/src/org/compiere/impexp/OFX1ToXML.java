@@ -75,7 +75,7 @@ public final class OFX1ToXML extends InputStream implements Runnable
 
 		write("<?xml version=\"1.0\"?>\n");
 		write("<?OFX ");
-		while(line.indexOf("<") != 0)
+		while(line.indexOf('<') != 0)
 		{
 			if (line.length() > 0) 
 			{
@@ -113,18 +113,18 @@ public final class OFX1ToXML extends InputStream implements Runnable
 			while(m_ofx != "")
 			{
 				addCloseTag = false;
-				tagStart = m_ofx.indexOf("<");
+				tagStart = m_ofx.indexOf('<');
 				if (tagStart == -1) 
 				{
 					break;
 				}
-				tagEnd = m_ofx.indexOf(">");
+				tagEnd = m_ofx.indexOf('>');
 				if (tagEnd <= tagStart + 1) 
 				{
 					throw new IOException("PARSE ERROR: Invalid tag");
 				}
 				tag = m_ofx.substring(tagStart + 1, tagEnd);
-				if (tag.indexOf(" ") != -1) 
+				if (tag.indexOf(' ') != -1) 
 				{
 					throw new IOException("PARSE ERROR: Invalid tag");
 				}

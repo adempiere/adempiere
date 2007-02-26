@@ -871,7 +871,7 @@ public final class VTreePanel extends CPanel
 	{
 		//	Only first word of Label
 		String label = nd.toString().trim();
-		int space = label.indexOf(" ");
+		int space = label.indexOf(' ');
 	//	if (space != -1)
 	//		label = label.substring(0, space);
 

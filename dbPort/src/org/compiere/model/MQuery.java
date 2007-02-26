@@ -136,7 +136,7 @@ public class MQuery implements Serializable
 				{
 					if (P_String_To == null)
 					{
-						if (P_String.indexOf("%") == -1)
+						if (P_String.indexOf('%') == -1)
 							query.addRestriction(ParameterName, MQuery.EQUAL, 
 								P_String, Name, Info);
 						else

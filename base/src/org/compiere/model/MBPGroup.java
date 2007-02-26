@@ -227,7 +227,7 @@ public class MBPGroup extends X_C_BP_Group
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 			return insert_Accounting("C_BP_Group_Acct", "C_AcctSchema_Default", null);
 		return success;
 	}	//	afterSave

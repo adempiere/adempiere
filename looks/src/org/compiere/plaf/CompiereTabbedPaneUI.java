@@ -804,7 +804,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 			calculate = false;
 		//  No spaces in title
 		String title = tabPane.getTitleAt(tabIndex);
-		int pos = title.indexOf(" ");
+		int pos = title.indexOf(' ');
 		if (calculate && pos == -1)
 			calculate = false;
 		if (!calculate)
@@ -839,7 +839,7 @@ public class CompiereTabbedPaneUI extends MetalTabbedPaneUI
 			calculate = false;
 		//  No spaces in title
 		String title = tabPane.getTitleAt(tabIndex);
-		int pos = title.indexOf(" ");
+		int pos = title.indexOf(' ');
 		if (calculate && pos == -1)
 			calculate = false;
 		if (!calculate)

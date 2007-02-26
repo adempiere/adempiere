@@ -809,12 +809,12 @@ public class Viewer extends CFrame
 
 		String ext = outFile.getPath();
 		//	no extension
-		if (ext.lastIndexOf(".") == -1)
+		if (ext.lastIndexOf('.') == -1)
 		{
 			ADialog.error(m_WindowNo, this, "FileInvalidExtension");
 			return;
 		}
-		ext = ext.substring(ext.lastIndexOf(".")+1).toLowerCase();
+		ext = ext.substring(ext.lastIndexOf('.')+1).toLowerCase();
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -858,7 +858,7 @@ public class Viewer extends CFrame
 			if (AD_ReportView_ID != 0)
 			{
 				String name = m_reportEngine.getName();
-				int index = name.lastIndexOf("_");
+				int index = name.lastIndexOf('_');
 				if (index != -1)
 					name = name.substring(0,index);
 				pf = MPrintFormat.createFromReportView(m_ctx, AD_ReportView_ID, name);

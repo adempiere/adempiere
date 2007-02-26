@@ -178,7 +178,7 @@ public class CTabbedPane extends JTabbedPane
 		String title = text;
 		if (!title.startsWith("<html>"))
 		{
-			int pos = title.indexOf("&");
+			int pos = title.indexOf('&');
 			if (pos != -1)
 				title = title.substring(0, pos) + title.substring(pos+1);
 		}
@@ -229,7 +229,7 @@ public class CTabbedPane extends JTabbedPane
 		String title = text;
 		if (!title.startsWith("<html>"))
 		{
-			int pos = title.indexOf("&");
+			int pos = title.indexOf('&');
 			if (pos != -1)					//	We have a nemonic - creates ALT-_
 				title = title.substring(0, pos) + title.substring(pos+1);
 		}
@@ -256,7 +256,7 @@ public class CTabbedPane extends JTabbedPane
 		//
 		if (!text.startsWith("<html>"))
 		{
-			int pos = text.indexOf("&");
+			int pos = text.indexOf('&');
 			if (pos != -1 && text.length() > pos)	//	We have a nemonic - creates ALT-_
 			{
 				keyCode = text.toUpperCase().charAt(pos+1);

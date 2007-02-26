@@ -277,7 +277,7 @@ public final class ImpFormatRow
 		//	callout
 		if (callout != null)
 		{
-			int methodStart = callout.lastIndexOf(".");
+			int methodStart = callout.lastIndexOf('.');
 			try
 			{
 				if (methodStart != -1)      //  no class
@@ -424,7 +424,7 @@ public final class ImpFormatRow
 			ts = new Timestamp (System.currentTimeMillis());
 		//
 		String dateString = ts.toString();
-		return dateString.substring(0, dateString.indexOf("."));	//	cut off miliseconds
+		return dateString.substring(0, dateString.indexOf('.'));	//	cut off miliseconds
 	}	//	parseNumber
 
 	/**
@@ -463,14 +463,14 @@ public final class ImpFormatRow
 	 */
 	private String parseNumber (String info)
 	{
-		boolean hasPoint = info.indexOf(".") != -1;
-		boolean hasComma = info.indexOf(",") != -1;
+		boolean hasPoint = info.indexOf('.') != -1;
+		boolean hasComma = info.indexOf(',') != -1;
 		//	delete thousands
 		if (hasComma && m_decimalPoint.equals("."))
 			info = info.replace(',', ' ');
 		if (hasPoint && m_decimalPoint.equals(","))
 			info = info.replace('.', ' ');
-		hasComma = info.indexOf(",") != -1;
+		hasComma = info.indexOf(',') != -1;
 
 		//	replace decimal
 		if (hasComma && m_decimalPoint.equals(","))

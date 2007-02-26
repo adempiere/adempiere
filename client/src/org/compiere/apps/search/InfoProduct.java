@@ -437,7 +437,7 @@ public final class InfoProduct extends Info implements ActionListener
 		{
 			for (int i = 0; i < p_layout.length; i++)
 			{
-				if (p_layout[i].getColSQL().indexOf("?") != -1)
+				if (p_layout[i].getColSQL().indexOf('?') != -1)
 					pstmt.setInt(index++, M_Warehouse_ID);
 			}
 		}

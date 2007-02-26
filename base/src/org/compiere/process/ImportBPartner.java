@@ -100,7 +100,7 @@ public class ImportBPartner extends SvrProcess
 		//	Set BP_Group
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET GroupValue=(SELECT MAX(Value) FROM C_BP_Group g WHERE g.IsDefault='Y'"
-				+ " AND g.AD_Client_ID=i.AD_Client_ID");
+			+ " AND g.AD_Client_ID=i.AD_Client_ID) ");
 		sql.append("WHERE GroupValue IS NULL AND C_BP_Group_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

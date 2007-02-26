@@ -281,7 +281,7 @@ public class CCheckBox extends JCheckBox implements CEditor
 	{
 		if (text == null)
 			return text;
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1)					//	We have a nemonic
 		{
 			char ch = text.charAt(pos+1);

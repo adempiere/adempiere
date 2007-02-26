@@ -68,7 +68,7 @@ public class CMenuItem extends JMenuItem
 			super.setText(text);
 			return;
 		}
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && text.length() > pos)	//	We have a nemonic - creates ALT-_
 		{
 			int mnemonic = text.toUpperCase().charAt(pos+1);

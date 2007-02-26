@@ -1402,7 +1402,7 @@ public final class APanel extends CPanel
 			String cmd = st.nextToken().trim();
 			Callout call = null;
 			String method = null;
-			int methodStart = cmd.lastIndexOf(".");
+			int methodStart = cmd.lastIndexOf('.');
 			try
 			{
 				if (methodStart != -1)      //  no class
@@ -2238,7 +2238,7 @@ public final class APanel extends CPanel
 	public String getSelectedTabName() {
  		String title = m_curWinTab.getTitleAt(m_curWinTab.getSelectedIndex());
  		title = title.substring(title.indexOf("<html>")+6);
- 		title = title.substring(0,title.indexOf("<"));
+ 		title = title.substring(0,title.indexOf('<'));
  		return title;
 	}
 	

@@ -54,7 +54,7 @@ public class PaySelectionCreateCheck extends SvrProcess
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 		p_C_PaySelection_ID = getRecord_ID();
-		if (p_PaymentRule != null & p_PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDebit))
+		if (p_PaymentRule != null && p_PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDebit))
 			p_PaymentRule = null;
 	}	//	prepare
 

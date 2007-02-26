@@ -168,4 +168,18 @@ public class MProductPrice extends X_M_ProductPrice
 		setPriceStd (PriceStd);
 	}	//	setPrice
 
+	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer ("MProductPrice[");
+		sb.append(getM_PriceList_Version_ID())
+			.append(",M_Product_ID=").append (getM_Product_ID())
+			.append(",PriceList=").append(getPriceList())
+			.append("]");
+		return sb.toString ();
+	} //	toString
+	
 }	//	MProductPrice

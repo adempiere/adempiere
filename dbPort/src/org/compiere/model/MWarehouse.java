@@ -218,7 +218,7 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 			insert_Accounting("M_Warehouse_Acct", "C_AcctSchema_Default", null);
 		
 		return success;

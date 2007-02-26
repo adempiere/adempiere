@@ -88,7 +88,7 @@ public class AssetDelivery extends SvrProcess
 		long start = System.currentTimeMillis();
 
 		//	Test
-		if (m_client.getSMTPHost() == null)
+		if (m_client.getSMTPHost() == null || m_client.getSMTPHost().length() == 0)
 			throw new Exception ("No Client SMTP Info");
 		if (m_client.getRequestEMail() == null)
 			throw new Exception ("No Client Request User");

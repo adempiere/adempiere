@@ -313,7 +313,7 @@ public class ConvertDialog extends CFrame implements ActionListener
 
 			//  Output file name
 			String fileName = file.getAbsolutePath();
-			int pos = fileName.lastIndexOf(".");
+			int pos = fileName.lastIndexOf('.');
 			if (pos == -1)
 				fileName += target;
 			else

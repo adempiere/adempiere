@@ -235,7 +235,7 @@ public class Scriptlet
 			//  filter
 			if (key == null || key.length() == 0
 				|| key.startsWith("P")              //  Preferences
-				|| (key.indexOf("|") != -1 && !key.startsWith(String.valueOf(WindowNo)))    //  other Window Settings
+				|| (key.indexOf('|') != -1 && !key.startsWith(String.valueOf(WindowNo)))    //  other Window Settings
 				)
 				continue;
 

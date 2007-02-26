@@ -325,10 +325,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						signature.append(", ");
 					// name ALIAS FOR $1
 					String p = parameters[i].trim();
-					alias.append(p.substring(0, p.indexOf(" "))).append(
+					alias.append(p.substring(0, p.indexOf(' '))).append(
 							" ALIAS FOR $").append(i + 1).append(";\n");
 					// Datatape
-					signature.append(p.substring(p.lastIndexOf(" ") + 1));
+					signature.append(p.substring(p.lastIndexOf(' ') + 1));
 				}
 			}
 			signature.append(")");
@@ -358,7 +358,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		group = m.group();
 		m.appendReplacement(sb, "");
 		if (group.startsWith("RETURN"))
-			sb.append("RETURNS").append(group.substring(group.indexOf(" ")));
+			sb.append("RETURNS").append(group.substring(group.indexOf(' ')));
 		sb.append(" '\nDECLARE\n").append(alias); // add aliases here
 		// log.info("2>" + sb.toString() + "<2");
 
@@ -457,10 +457,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						signature.append(", ");
 					// name ALIAS FOR $1
 					String p = parameters[i].trim();
-					alias.append(p.substring(0, p.indexOf(" "))).append(
+					alias.append(p.substring(0, p.indexOf(' '))).append(
 							" ALIAS FOR $").append(i + 1).append(";\n");
 					// Datatape
-					signature.append(p.substring(p.lastIndexOf(" ") + 1));
+					signature.append(p.substring(p.lastIndexOf(' ') + 1));
 				}
 			}
 			signature.append(")");
@@ -490,7 +490,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		group = m.group();
 		m.appendReplacement(sb, "");
 		if (group.startsWith("RETURN"))
-			sb.append("RETURNS").append(group.substring(group.indexOf(" ")));
+			sb.append("RETURNS").append(group.substring(group.indexOf(' ')));
 		sb.append(" '\nDECLARE\n").append(alias); // add aliases here
 		// log.info("2>" + sb.toString() + "<2");
 
@@ -551,11 +551,11 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// trigger Name
 		int triggerPos = stmt.toUpperCase().indexOf(" TRIGGER ") + 9;
 		String triggerName = stmt.substring(triggerPos);
-		triggerName = triggerName.substring(0, triggerName.indexOf(" "));
+		triggerName = triggerName.substring(0, triggerName.indexOf(' '));
 		// table name
 		String tableName = stmt
 				.substring(stmt.toUpperCase().indexOf(" ON ") + 4);
-		tableName = tableName.substring(0, tableName.indexOf(" "));
+		tableName = tableName.substring(0, tableName.indexOf(' '));
 
 		// Function Drop
 		if (orReplacePos != -1) {
@@ -692,7 +692,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		while (m.find()) {
 			String group = m.group();
 			// System.out.print("-> " + group);
-			int pos = group.indexOf(".");
+			int pos = group.indexOf('.');
 			String seqName = group.substring(0, pos);
 			String funcName = group.substring(pos + 1);
 			group = funcName + "('" + seqName + "')";
@@ -1062,21 +1062,21 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							{
 								select = sqlStatement.substring(charIndex - currentToken.length());
 								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 								break;
 							}
 							else if (")=".equals(previousToken))
 							{
 								select = sqlStatement.substring(charIndex - currentToken.length());
 								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 								break;
 							}
 							else if (previousToken != null && previousToken.endsWith(")="))
 							{
 								select = sqlStatement.substring(charIndex - currentToken.length());
 								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 								break;
 							}
 							
@@ -1085,14 +1085,14 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						{
 							select = sqlStatement.substring(charIndex - 1);
 							updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-							updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+							updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 							break;
 						}
 						else if (currentToken.endsWith(")=(SELECT"))
 						{
 							select = sqlStatement.substring(charIndex - 7);
 							updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-							updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+							updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 							break;
 						}
 						else if ("=(".equals(currentToken) || (currentToken != null && currentToken.startsWith("=(")))
@@ -1101,7 +1101,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							{
 								select = sqlStatement.substring(charIndex - currentToken.length());
 								updateFields = sqlStatement.substring(updateFieldsBegin, charIndex);
-								updateFields = updateFields.substring(0, updateFields.lastIndexOf(")"));
+								updateFields = updateFields.substring(0, updateFields.lastIndexOf(')'));
 								break;
 							}
 						}
@@ -1119,7 +1119,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				updateFields = updateFields.substring(1);
 
 			int subQueryEnd = 0;
-			int subQueryStart = select.indexOf("(");
+			int subQueryStart = select.indexOf('(');
 			String subWhere = null;
 			int open = -1;
 			for (int i = subQueryStart; i < select.length(); i++) {
@@ -1244,7 +1244,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				if (f < 0) {
 					updateField = updateFields;
 					joinField = joinFields.trim();
-					if (joinField.indexOf(".") < 0 && isIdentifier(joinField)) {
+					if (joinField.indexOf('.') < 0 && isIdentifier(joinField)) {
 						joinField = joinAlias + "." + joinField;
 					}
 
@@ -1292,7 +1292,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					// fieldsjoin.indexOf(',');
 
 					joinField = joinFields.substring(0, fj).trim();
-					if (joinField.indexOf(".") < 0 && isIdentifier(joinField)) {
+					if (joinField.indexOf('.') < 0 && isIdentifier(joinField)) {
 						joinField = joinAlias + "." + joinField;
 					}
 					Update.append(updateField.trim());
@@ -1365,7 +1365,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 								if (c == '(')
 									result = result + t.toString();
 								else if (isIdentifier(t.toString()) &&
-									t.toString().indexOf(".") == -1)
+									t.toString().indexOf('.') == -1)
 									result = result + alias + "." + t.toString();
 								else
 									result = result + t.toString();
@@ -1381,7 +1381,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					if (t.length() > 0)
 					{
 						if (isIdentifier(t.toString()) &&
-							t.toString().indexOf(".") == -1)
+							t.toString().indexOf('.') == -1)
 							result = result + alias + "." + t.toString();
 						else
 							result = result + t.toString();
@@ -1572,10 +1572,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			if ("VALUES".equalsIgnoreCase(tokens[3]) || 
 				"SELECT".equalsIgnoreCase(tokens[3])) 
 				return sqlStatement;
-			if (tokens[2].indexOf("(") > 0) 
+			if (tokens[2].indexOf('(') > 0) 
 				return sqlStatement;
-			else if ((tokens[3].indexOf("(") < 0) ||
-					tokens[3].indexOf("(") > 0) {
+			else if ((tokens[3].indexOf('(') < 0) ||
+					tokens[3].indexOf('(') > 0) {
 				table = tokens[2];
 				alias = tokens[3];
 			} else {
@@ -1588,7 +1588,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			alias = tokens[3];
 		} 
 		if (table != null && alias != null ) {
-			if (alias.indexOf("(") > 0) alias = alias.substring(0, alias.indexOf("("));
+			if (alias.indexOf('(') > 0) alias = alias.substring(0, alias.indexOf('('));
 			String converted = sqlStatement.replaceFirst("\\s"+alias+"\\s", " ");
 			converted = converted.replaceAll("\\b"+alias+"\\.", table+".");
 			return converted;
@@ -1636,7 +1636,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 			if (begin_col != -1) {
 				column = sqlStatement.substring(begin_col);
-				end_col = begin_col + column.indexOf(" ");
+				end_col = begin_col + column.indexOf(' ');
 				column = sqlStatement.substring(begin_col, end_col);
 				// System.out.println(" column:" + column + " begincolumn:" +
 				// begin_col + "en column:" + end_col );
@@ -1644,7 +1644,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				// + 1));
 				type = sqlStatement.substring(end_col + 1) + " ";
 				// System.out.println(" type 1 :" + type);
-				type = type.substring(0, type.indexOf(" "));
+				type = type.substring(0, type.indexOf(' '));
 				// System.out.println(" type:" + type);
 				if (action.equals(" ADD "))
 					DDL = sqlStatement
@@ -1663,11 +1663,11 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					begin_default = sqlStatement.toUpperCase().indexOf(
 							" DEFAULT ") + 9;
 					defaultvalue = sqlStatement.substring(begin_default);
-					int nextspace = defaultvalue.indexOf(" ");
+					int nextspace = defaultvalue.indexOf(' ');
 					String rest = null;
 					if (nextspace > -1) {
 					    rest = defaultvalue.substring(nextspace);
-					    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(" "));
+					    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(' '));
 					}
 
 					if (defaultvalue.equalsIgnoreCase("NULL")) {

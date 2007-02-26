@@ -333,7 +333,7 @@ public class PackInHandler extends DefaultHandler {
 		else if (elementValue.equals("menu")) {	 
 			log.info(elementValue+" "+atts.getValue("ADMenuNameID"));
 			//String entitytype = atts.getValue("EntityType");
-			//if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode == true ) {
+			//if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode == true ) {
 			
 			d_menu[menu_seq][0] = atts.getValue("ADMenuNameID");		    
 			d_menu[menu_seq][1] = atts.getValue("ADWindowNameID");
@@ -358,7 +358,7 @@ public class PackInHandler extends DefaultHandler {
 		else if (elementValue.equals("window")) {		
 			log.info(elementValue+" "+atts.getValue("Name"));
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("Name");			
 				int id= get_ID("AD_Window", name);
 				m_Window = new MWindow(m_ctx, id, m_trxName);
@@ -430,7 +430,7 @@ public class PackInHandler extends DefaultHandler {
 		else if (elementValue.equals("tab")) {
 			log.info(elementValue+" "+atts.getValue("ADTabNameID"));
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0) {
 				
 				String name = atts.getValue("ADTabNameID");
 				int tableid = get_IDWithColumn("AD_Table", "TableName", atts.getValue("ADTableNameID"));
@@ -522,7 +522,7 @@ public class PackInHandler extends DefaultHandler {
 		else if (elementValue.equals("field")) {
 			log.info(elementValue+" "+atts.getValue("Name"));
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0) {
 				String name = atts.getValue("Name");
 				String tabname = atts.getValue("ADTabNameID");
 				String colname = atts.getValue("ADColumnNameID");
@@ -617,7 +617,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("Name"));
 			int id = 0;
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("Name");
 				
 				
@@ -678,7 +678,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("Name"));
 			
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("Name");
 				
 				int id = get_IDWithMaster("AD_Process_Para", name, "AD_Process", atts.getValue("ADProcessNameID"));
@@ -819,7 +819,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("ColumnName"));
 			int success=0;
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String columnName = atts.getValue("ColumnName");
 				
 				int tableid = get_IDWithColumn("AD_Table", "TableName", atts.getValue("ADTableNameID"));		    
@@ -1438,7 +1438,7 @@ public class PackInHandler extends DefaultHandler {
 		else if (elementValue.equals("task")) {
 			log.info(elementValue+" "+atts.getValue("ADTaskNameID"));
 			String entitytype = atts.getValue("EntityType");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("ADTaskNameID");
 				int id = get_ID("AD_Task", name);
 				m_Task = new MTask(m_ctx, id, m_trxName);
@@ -1470,7 +1470,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("ADFormNameID"));
 			
 			String entitytype = atts.getValue("EntityType");		
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("ADFormNameID");
 				int id = get_ID("AD_Form", name);
 				m_Form = new MForm(m_ctx, id, m_trxName);
@@ -1577,7 +1577,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("ADWorkbenchNameID"));
 			String entitytype = atts.getValue("EntityType");		
 			String name = atts.getValue("ADWorkbenchNameID");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				int id = get_ID("AD_Workbench", name);
 				m_Workbench = new X_AD_Workbench(m_ctx, id, m_trxName);
 				if (id > 0){
@@ -2089,7 +2089,7 @@ public class PackInHandler extends DefaultHandler {
 			String entitytype = atts.getValue("EntityType");		
 			String name = atts.getValue("ADReportViewColID");
 			
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				int id = get_ID("AD_Reportview_Col", name);
 				m_Reportview_Col = new X_AD_ReportView_Col(m_ctx, id, m_trxName);
 				if (id > 0){
@@ -2127,11 +2127,11 @@ public class PackInHandler extends DefaultHandler {
 					int n = pstmt.executeUpdate();				
 					log.info("Executed SQL Statement: "+ atts.getValue("statement"));
 				}
-				else if(DB.isOracle() == true & DBType.equals("Oracle")){
+				else if(DB.isOracle() == true && DBType.equals("Oracle")){
 					pstmt.executeUpdate();
 					log.info("Executed SQL Statement for Oracle: "+ atts.getValue("statement"));
 				}
-				/*			else if(DB.isSybase() == true & DBType.equals("Sybase")){
+				/*			else if(DB.isSybase() == true && DBType.equals("Sybase")){
 				 pstmt.executeUpdate();
 				 log.info("Exceuted SQL Statement for Sybase");
 				 }
@@ -2146,7 +2146,7 @@ public class PackInHandler extends DefaultHandler {
 			String entitytype = atts.getValue("EntityType");		
 			String name = atts.getValue("name");
 			
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				int id = get_ID("AD_Reference", name);
 				
 				m_Reference = new X_AD_Reference(m_ctx, id, m_trxName);
@@ -2180,7 +2180,7 @@ public class PackInHandler extends DefaultHandler {
 			log.info(elementValue+" "+atts.getValue("Name"));
 			//TODO: Solve for date issues with valuefrom valueto
 			String entitytype = atts.getValue("EntityType");		
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {
 				String name = atts.getValue("Name");
 				int Referenceid = get_IDWithColumn("AD_Reference", "Name", atts.getValue("ADRefenceNameID"));
 				int id = get_IDWithMaster("AD_Ref_List",  name, "AD_Reference",Referenceid);
@@ -2215,7 +2215,7 @@ public class PackInHandler extends DefaultHandler {
 			
 			String entitytype = atts.getValue("EntityType");		
 			String name = atts.getValue("ADRefenceNameID");
-			if (entitytype.compareTo("U") == 0 | entitytype.compareTo("D") == 0 & m_UpdateMode.compareTo("true") == 0 ) {			
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && m_UpdateMode.compareTo("true") == 0 ) {			
 				sqlB = new StringBuffer ("SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
 				int id = DB.getSQLValue(m_trxName,sqlB.toString(),name);			
 				sqlB = new StringBuffer ("SELECT Count(*) FROM AD_Ref_Table WHERE AD_Reference_ID= ?");

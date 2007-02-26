@@ -221,7 +221,7 @@ public class CDialog extends JDialog
 	{
 		if (title != null)
 		{
-			int pos = title.indexOf("&");
+			int pos = title.indexOf('&');
 			if (pos != -1 && title.length() > pos)	//	We have a nemonic
 			{
 				int mnemonic = title.toUpperCase().charAt(pos+1);

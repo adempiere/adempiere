@@ -361,7 +361,7 @@ public class FileUtil
 			if (name == null)
 				return false;
 			//	ignore files with ~ and this file
-			if (name.indexOf("~") != -1 || name.equals("FileUtil.java"))
+			if (name.indexOf('~') != -1 || name.equals("FileUtil.java"))
 				return false;
 			//
 			return name.indexOf(filterString) != -1;

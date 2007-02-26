@@ -319,7 +319,7 @@ public final class MCountry extends X_C_Country
 		while (st.hasMoreTokens())
 		{
 			String s = st.nextToken().trim();
-			int pos = s.indexOf(";");
+			int pos = s.indexOf(';');
 			String name = Util.initCap(s.substring(0,pos));
 			String cc = s.substring(pos+1);
 			System.out.println(cc + " - " + name);

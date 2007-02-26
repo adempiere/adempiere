@@ -455,7 +455,7 @@ public class DataEngine
 				//	-- Standard Column --
 				else
 				{
-					int index = FunctionColumn.indexOf("@");
+					int index = FunctionColumn.indexOf('@');
 					StringBuffer sb = new StringBuffer();
 					if (ColumnSQL != null && ColumnSQL.length() > 0)
 					{

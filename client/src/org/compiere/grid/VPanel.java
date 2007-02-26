@@ -109,7 +109,7 @@ public final class VPanel extends CPanel
 		if (mField.isCreateMnemonic())
 			return;
 		String text = mField.getHeader();
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && text.length() > pos)	//	We have a nemonic - creates Ctrl_Shift_
 		{
 			char mnemonic = text.toUpperCase().charAt(pos+1);
@@ -263,7 +263,7 @@ public final class VPanel extends CPanel
 	private void setMnemonic (CLabel label, char predefinedMnemonic)
 	{
 		String text = label.getText();
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1 && predefinedMnemonic != 0)
 		{
 			text = text.substring(0, pos) + text.substring(pos+1);
@@ -292,7 +292,7 @@ public final class VPanel extends CPanel
 		{
 			VCheckBox cb = (VCheckBox)editor;
 			String text = cb.getText();
-			int pos = text.indexOf("&");
+			int pos = text.indexOf('&');
 			if (pos != -1 && predefinedMnemonic != 0)
 			{
 				text = text.substring(0, pos) + text.substring(pos+1);
@@ -314,7 +314,7 @@ public final class VPanel extends CPanel
 		{
 			VButton b = (VButton)editor;
 			String text = b.getText();
-			int pos = text.indexOf("&");
+			int pos = text.indexOf('&');
 			if (pos != -1 && predefinedMnemonic != 0)
 			{
 				text = text.substring(0, pos) + text.substring(pos+1);

@@ -180,8 +180,8 @@ public class CacheHandler {
 		if (JNPURL.indexOf("jnp://")>=0) {
 			JNPURL = JNPURL.substring(JNPURL.indexOf("jnp://")+6);
 		}
-		if (JNPURL.indexOf(":")>=0) {
-			JNPURL = JNPURL.substring(0,JNPURL.indexOf(":"));
+		if (JNPURL.indexOf(':')>=0) {
+			JNPURL = JNPURL.substring(0,JNPURL.indexOf(':'));
 		}
 		if (JNPURL.length()>0) {
 			return JNPURL;

@@ -58,7 +58,7 @@ public class MWithholding extends X_C_Withholding
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 			insert_Accounting("C_Withholding_Acct", "C_AcctSchema_Default", null);
 
 		return success;

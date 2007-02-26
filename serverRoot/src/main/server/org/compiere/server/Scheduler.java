@@ -193,12 +193,12 @@ public class Scheduler extends AdempiereServer
 					if (variable == null
 						|| (variable != null && variable.length() == 0))
 						value = null;
-					else if (variable.indexOf("@") != -1)	//	we have a variable
+					else if (variable.indexOf('@') != -1)	//	we have a variable
 					{
 						//	Strip
-						int index = variable.indexOf("@");
+						int index = variable.indexOf('@');
 						String columnName = variable.substring(index+1);
-						index = columnName.indexOf("@");
+						index = columnName.indexOf('@');
 						if (index == -1)
 						{
 							log.warning(sPara.getColumnName()

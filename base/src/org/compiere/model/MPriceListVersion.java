@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.*;
 import org.compiere.util.*;
 
 /**
@@ -67,6 +68,79 @@ public class MPriceListVersion extends X_M_PriceList_Version
 		setClientOrg(pl);
 		setM_PriceList_ID(pl.getM_PriceList_ID());
 	}	//	MPriceListVersion
+	
+	/** Product Prices			*/
+	private MProductPrice[] m_pp = null;
+	/** Price List				*/
+	private MPriceList		m_pl = null;
+
+	/**
+	 * 	Get Parent PriceList
+	 *	@return price List
+	 */
+	public MPriceList getPriceList()
+	{
+		if (m_pl == null && getM_PriceList_ID() != 0)
+			m_pl = MPriceList.get (getCtx(), getM_PriceList_ID(), null);
+		return m_pl;
+	}	//	PriceList
+	
+	
+	/**
+	 * 	Get Product Price
+	 * 	@param refresh true if refresh
+	 *	@return product price
+	 */
+	public MProductPrice[] getProductPrice (boolean refresh)
+	{
+		if (m_pp != null && !refresh)
+			return m_pp;
+		m_pp = getProductPrice(null);
+		return m_pp;
+	}	//	getProductPrice
+	
+	/**
+	 * 	Get Product Price
+	 * 	@param whereClause optional where clause
+	 *	@return product price
+	 */
+	public MProductPrice[] getProductPrice (String whereClause)
+	{
+		ArrayList<MProductPrice> list = new ArrayList<MProductPrice>();
+		String sql = "SELECT * FROM M_ProductPrice WHERE M_PriceList_Version_ID=?";
+		if (whereClause != null)
+			sql += " " + whereClause;
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, get_TrxName ());
+			pstmt.setInt (1, getM_PriceList_Version_ID());
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MProductPrice(getCtx(), rs, get_TrxName()));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log (Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		//
+		MProductPrice[] pp = new MProductPrice[list.size()];
+		list.toArray(pp);
+		return pp;
+	}	//	getProductPrice
 	
 	/**
 	 * 	Set Name to Valid From Date.

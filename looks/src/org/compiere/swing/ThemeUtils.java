@@ -63,11 +63,11 @@ public final class ThemeUtils {
 			int b = 0;
 			int a = 255;
 			if (information.indexOf("a=") == -1)
-				b = Integer.parseInt(information.substring(information.indexOf("b=")+2, information.indexOf("]")));
+				b = Integer.parseInt(information.substring(information.indexOf("b=")+2, information.indexOf(']')));
 			else
 			{
 				b = Integer.parseInt(information.substring(information.indexOf("b=")+2, information.indexOf(",a=")));
-				a = Integer.parseInt(information.substring(information.indexOf("a=")+2, information.indexOf("]")));
+				a = Integer.parseInt(information.substring(information.indexOf("a=")+2, information.indexOf(']')));
 			}
 			ColorUIResource retValue = new ColorUIResource(new Color(r, g, b, a));
 		//	System.out.println(" - " + retValue.toString());
@@ -107,7 +107,7 @@ public final class ThemeUtils {
 				style = Font.ITALIC;
 			else if (s.equals("bolditalic"))
 				style = Font.BOLD | Font.ITALIC;
-			int size = Integer.parseInt(information.substring(information.indexOf(",size=")+6, information.lastIndexOf("]")));
+			int size = Integer.parseInt(information.substring(information.indexOf(",size=")+6, information.lastIndexOf(']')));
 			FontUIResource retValue = new FontUIResource(name,style,size);
 		//	System.out.println(" - " + retValue.toString());
 			return retValue;

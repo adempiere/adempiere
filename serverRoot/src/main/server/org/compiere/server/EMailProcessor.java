@@ -464,13 +464,13 @@ public class EMailProcessor
 		if (index != -1)
 		{
 			String finalRecipient = deliveryMessage.substring(index);
-			int atIndex = finalRecipient.indexOf("@");
+			int atIndex = finalRecipient.indexOf('@');
 			if (atIndex != -1)
 			{
 				index = finalRecipient.lastIndexOf(' ', atIndex);
 				if (index != -1)
 					finalRecipient = finalRecipient.substring(index+1);
-				atIndex = finalRecipient.indexOf("@");
+				atIndex = finalRecipient.indexOf('@');
 				if (atIndex != -1)
 					index = finalRecipient.indexOf(' ', atIndex);
 				if (index != -1)

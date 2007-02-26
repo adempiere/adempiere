@@ -451,7 +451,7 @@ public class PackOut extends SvrProcess
 				m_Menu = new X_AD_Menu (getCtx(), rs.getInt("AD_Menu_ID"), null);										
 				atts = createmenuBinding(atts,m_Menu);
 				hd_menu.startElement("","","menu",atts);
-				if ( rs.getInt("AD_WINDOW_ID") > 0 | rs.getInt("AD_WORKFLOW_ID") > 0 | rs.getInt("AD_TASK_ID") > 0 | rs.getInt("AD_PROCESS_ID") > 0 | rs.getInt("AD_FORM_ID") > 0 | rs.getInt("AD_WORKBENCH_ID") > 0)				
+				if ( rs.getInt("AD_WINDOW_ID") > 0 || rs.getInt("AD_WORKFLOW_ID") > 0 || rs.getInt("AD_TASK_ID") > 0 || rs.getInt("AD_PROCESS_ID") > 0 || rs.getInt("AD_FORM_ID") > 0 || rs.getInt("AD_WORKBENCH_ID") > 0)				
 				{	
 			    //Call CreateWindow.		
 					if (rs.getInt("AD_WINDOW_ID") > 0)
@@ -526,7 +526,7 @@ public class PackOut extends SvrProcess
 				m_Menu = new X_AD_Menu (getCtx(), rs.getInt("AD_Menu_ID"), null);										
 				atts = createmenuBinding(atts,m_Menu);
 				hd_menu.startElement("","","menu",atts);
-				if ( rs.getInt("AD_WINDOW_ID") > 0 | rs.getInt("AD_WORKFLOW_ID") > 0 | rs.getInt("AD_TASK_ID") > 0 | rs.getInt("AD_PROCESS_ID") > 0 | rs.getInt("AD_FORM_ID") > 0 | rs.getInt("AD_WORKBENCH_ID") > 0)				
+				if ( rs.getInt("AD_WINDOW_ID") > 0 || rs.getInt("AD_WORKFLOW_ID") > 0 || rs.getInt("AD_TASK_ID") > 0 || rs.getInt("AD_PROCESS_ID") > 0 || rs.getInt("AD_FORM_ID") > 0 || rs.getInt("AD_WORKBENCH_ID") > 0)				
 				{	
 			    //Call CreateWindow.		
 					if (rs.getInt("AD_WINDOW_ID") > 0)
@@ -875,12 +875,12 @@ public class PackOut extends SvrProcess
 						+ "Upper(ColumnName)= '"+col_Name+"'";
 					String cName = DB.getSQLValueString(null,sql2,table_id);
 					if (cName != null){
-						if (cName.toUpperCase().equals(col_Name) & key1 == 0  ){
+						if (cName.toUpperCase().equals(col_Name) && key1 == 0  ){
 							atts.addAttribute("","","key1name","CDATA",cName);
 							atts.addAttribute("","","lookupkey1name","CDATA",""+rs.getObject(col_Name));
 							key1 = 1;							
 						}
-						else if (cName.toUpperCase().equals(col_Name) & key1 == 1 ){
+						else if (cName.toUpperCase().equals(col_Name) && key1 == 1 ){
 							atts.addAttribute("","","key2name","CDATA",cName);
 							atts.addAttribute("","","lookupkey2name","CDATA",""+rs.getObject(col_Name));
 							key1 = 2;

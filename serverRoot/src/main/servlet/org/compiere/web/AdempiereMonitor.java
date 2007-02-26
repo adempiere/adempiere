@@ -206,7 +206,7 @@ public class AdempiereMonitor extends HttpServlet
 			String msg = (start ? "Started" : "Stopped") + ": ";
 			m_message.addElement(new strong(msg));
 			//
-			String serverID = action.substring(action.indexOf("_")+1);
+			String serverID = action.substring(action.indexOf('_')+1);
 			boolean ok = false;
 			if (serverID.equals("All"))
 			{

@@ -630,13 +630,13 @@ public final class Msg
 		String token;
 		StringBuffer outStr = new StringBuffer();
 
-		int i = inStr.indexOf("@");
+		int i = inStr.indexOf('@');
 		while (i != -1)
 		{
 			outStr.append(inStr.substring(0, i));			// up to @
 			inStr = inStr.substring(i+1, inStr.length());	// from first @
 
-			int j = inStr.indexOf("@");						// next @
+			int j = inStr.indexOf('@');						// next @
 			if (j < 0)										// no second tag
 			{
 				inStr = "@" + inStr;
@@ -647,7 +647,7 @@ public final class Msg
 			outStr.append(translate(ctx, token));			// replace context
 
 			inStr = inStr.substring(j+1, inStr.length());	// from second @
-			i = inStr.indexOf("@");
+			i = inStr.indexOf('@');
 		}
 
 		outStr.append(inStr);           					//	add remainder

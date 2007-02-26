@@ -1874,7 +1874,7 @@ public final class MRole extends X_AD_Role
 	{
 		String userLevel = getUserLevel();	//	Format 'SCO'
 
-		if (userLevel.indexOf("S") != -1)	//	System cannot change anything
+		if (userLevel.indexOf('S') != -1)	//	System cannot change anything
 			return true;
 
 		boolean	retValue = true;

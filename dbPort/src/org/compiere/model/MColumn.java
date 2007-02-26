@@ -302,7 +302,7 @@ public class MColumn extends X_AD_Column
 			String defaultValue = getDefaultValue();
 			if (defaultValue != null 
 				&& defaultValue.length() > 0
-				&& defaultValue.indexOf("@") == -1)		//	no variables
+				&& defaultValue.indexOf('@') == -1)		//	no variables
 			{
 				if (DisplayType.isText(getAD_Reference_ID()) 
 					|| getAD_Reference_ID() == DisplayType.List
@@ -346,7 +346,7 @@ public class MColumn extends X_AD_Column
 		String defaultValue = getDefaultValue();
 		if (defaultValue != null 
 			&& defaultValue.length() > 0
-			&& defaultValue.indexOf("@") == -1)		//	no variables
+			&& defaultValue.indexOf('@') == -1)		//	no variables
 		{
 			if (DisplayType.isText(getAD_Reference_ID()) 
 				|| getAD_Reference_ID() == DisplayType.List

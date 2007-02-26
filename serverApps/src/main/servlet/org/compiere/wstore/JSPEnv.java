@@ -19,7 +19,6 @@ package org.compiere.wstore;
 import java.util.*;
 import javax.servlet.http.*;
 
-import org.compiere.model.*;
 import org.compiere.util.*;
  
 /**

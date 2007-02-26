@@ -143,7 +143,7 @@ public class TableCreateColumns extends SvrProcess
 					|| tn.endsWith("_V1")			//	views
 					|| tn.startsWith("A_A")			//	asset tables not yet
 					|| tn.startsWith("A_D")			//	asset tables not yet
-					|| tn.indexOf("$") != -1		//	oracle system tables
+					|| tn.indexOf('$') != -1		//	oracle system tables
 					|| tn.indexOf("EXPLAIN") != -1	//	explain plan
 					)
 				{

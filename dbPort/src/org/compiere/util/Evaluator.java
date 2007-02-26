@@ -238,11 +238,11 @@ public class Evaluator
 	//	log.fine( "MField.parseDepends", parseString);
 		String s = parseString;
 		//  while we have variables
-		while (s.indexOf("@") != -1)
+		while (s.indexOf('@') != -1)
 		{
-			int pos = s.indexOf("@");
+			int pos = s.indexOf('@');
 			s = s.substring(pos+1);
-			pos = s.indexOf("@");
+			pos = s.indexOf('@');
 			if (pos == -1)
 				continue;	//	error number of @@ not correct
 			String variable = s.substring(0, pos);

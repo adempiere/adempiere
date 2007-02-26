@@ -229,7 +229,7 @@ public class CButton extends JButton implements CEditor
 			super.setText(text);
 			return;
 		}
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1)					//	We have a nemonic - creates ALT-_
 		{
 			int mnemonic = text.toUpperCase().charAt(pos+1);
@@ -255,7 +255,7 @@ public class CButton extends JButton implements CEditor
 			super.setText(text);
 			return;
 		}
-		int pos = text.indexOf("&");
+		int pos = text.indexOf('&');
 		if (pos != -1)					//	We have a nemonic - creates ALT-_
 		{
 			int mnemonic = text.toUpperCase().charAt(pos+1);

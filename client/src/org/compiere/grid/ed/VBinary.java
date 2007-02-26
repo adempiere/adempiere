@@ -87,7 +87,7 @@ public class VBinary extends JButton
 			else
 			{
 				text = m_data.getClass().getName();
-				int index = text.lastIndexOf(".");
+				int index = text.lastIndexOf('.');
 				if (index != -1)
 					text = text.substring(index+1);
 			}

@@ -325,7 +325,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		}
 		else
 		{
-			dateString.append(myDate.substring(0, myDate.indexOf(".")));	//	cut off miliseconds
+			dateString.append(myDate.substring(0, myDate.indexOf('.')));	//	cut off miliseconds
 			dateString.append("','YYYY-MM-DD HH24:MI:SS')");
 		}
 		return dateString.toString();
@@ -580,7 +580,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	{
 		if (IXName == null || IXName.length()==0)
 			return "0";
-		if (IXName.endsWith("_KEY"))
+		if (IXName.toUpperCase().endsWith("_KEY"))
 			return "1"+IXName;
 		else
 			return "0";

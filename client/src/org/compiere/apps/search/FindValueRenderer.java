@@ -125,7 +125,7 @@ public final class FindValueRenderer extends DefaultTableCellRenderer
 			if (value instanceof Boolean)
 				cb.setSelected(((Boolean)value).booleanValue());
 			else
-				cb.setSelected(value.toString().indexOf("Y") != -1);
+				cb.setSelected(value.toString().indexOf('Y') != -1);
 			return cb;
 		}
 		return c;

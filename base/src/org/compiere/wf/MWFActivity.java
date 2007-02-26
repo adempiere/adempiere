@@ -1249,12 +1249,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					if (variableName == null
 						|| (variableName != null && variableName.length() == 0))
 						value = null;
-					else if (variableName.indexOf("@") != -1 && m_po != null)	//	we have a variable
+					else if (variableName.indexOf('@') != -1 && m_po != null)	//	we have a variable
 					{
 						//	Strip
-						int index = variableName.indexOf("@");
+						int index = variableName.indexOf('@');
 						String columnName = variableName.substring(index+1);
-						index = columnName.indexOf("@");
+						index = columnName.indexOf('@');
 						if (index == -1)
 						{
 							log.warning(nPara.getAttributeName()
@@ -1486,7 +1486,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else if (email != null && email.length() > 0)
 		{
 			//	Just one
-			if (email.indexOf(";") == -1)
+			if (email.indexOf(';') == -1)
 			{
 				email = email.trim();
 				if (!m_emails.contains(email))

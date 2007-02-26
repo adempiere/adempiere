@@ -223,8 +223,8 @@ public class InfoBPartner extends Info
 		if (value.equals("%"))
 			fieldName.setText(value);
 		//	No Numbers entered
-		else if ((value.indexOf("0")+value.indexOf("1")+value.indexOf("2")+value.indexOf("3")+value.indexOf("4") +value.indexOf("5")
-			+value.indexOf("6")+value.indexOf("7")+value.indexOf("8")+value.indexOf("9")) == -10)
+		else if ((value.indexOf('0')+value.indexOf('1')+value.indexOf('2')+value.indexOf('3')+value.indexOf('4') +value.indexOf('5')
+			+value.indexOf('6')+value.indexOf('7')+value.indexOf('8')+value.indexOf('9')) == -10)
 		{
 			if (value.startsWith("%"))
 				fieldName.setText(value);

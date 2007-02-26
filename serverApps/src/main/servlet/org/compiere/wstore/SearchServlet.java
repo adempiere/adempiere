@@ -16,37 +16,16 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.Util;
-import org.compiere.util.WebUtil;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
-import org.compiere.model.MOrg;
-import org.compiere.model.MWarehouse;
-import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
-import org.apache.ecs.xhtml.option;
-import org.apache.log4j.lf5.LogLevel;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.RequestDispatcher;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.logging.Level;
 
-import sun.rmi.runtime.Log;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  * 	Location Servlet

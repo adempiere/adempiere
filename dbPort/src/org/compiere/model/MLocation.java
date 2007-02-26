@@ -401,13 +401,13 @@ public class MLocation extends X_C_Location implements Comparator
 		StringBuffer outStr = new StringBuffer();
 
 		String token;
-		int i = inStr.indexOf("@");
+		int i = inStr.indexOf('@');
 		while (i != -1)
 		{
 			outStr.append (inStr.substring(0, i));			// up to @
 			inStr = inStr.substring(i+1, inStr.length());	// from first @
 
-			int j = inStr.indexOf("@");						// next @
+			int j = inStr.indexOf('@');						// next @
 			if (j < 0)
 			{
 				token = "";									//	no second tag
@@ -443,7 +443,7 @@ public class MLocation extends X_C_Location implements Comparator
 				outStr.append("@").append(token).append("@");
 
 			inStr = inStr.substring(j+1, inStr.length());	// from second @
-			i = inStr.indexOf("@");
+			i = inStr.indexOf('@');
 		}
 		outStr.append(inStr);						// add the rest of the string
 

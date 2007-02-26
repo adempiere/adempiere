@@ -63,7 +63,7 @@ public class PeriodStatus extends SvrProcess
 		log.info ("C_Period_ID=" + p_C_Period_ID + ", PeriodAction=" + p_PeriodAction);
 		MPeriod period = new MPeriod (getCtx(), p_C_Period_ID, get_TrxName());
 		if (period.get_ID() == 0)
-			throw new IllegalArgumentException("@NotFound@  @C_Period_ID@=" + p_C_Period_ID);
+			throw new AdempiereUserError("@NotFound@  @C_Period_ID@=" + p_C_Period_ID);
 
 		StringBuffer sql = new StringBuffer ("UPDATE C_PeriodControl ");
 		sql.append("SET PeriodStatus='");

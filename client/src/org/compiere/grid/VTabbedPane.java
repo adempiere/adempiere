@@ -19,7 +19,6 @@ package org.compiere.grid;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-import org.compiere.*;
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;

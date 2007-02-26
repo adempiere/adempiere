@@ -1157,7 +1157,7 @@ public class VPayment extends CDialog
 			if (error.length() != 0)
 			{
 				kNumberField.setBackground(AdempierePLAF.getFieldBackground_Error());
-				if (error.indexOf("?") == -1)
+				if (error.indexOf('?') == -1)
 				{
 					ADialog.error(m_WindowNo, this, error);
 					dataOK = false;

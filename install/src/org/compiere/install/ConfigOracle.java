@@ -243,7 +243,7 @@ public class ConfigOracle extends Config
 			{
 				if (line.length() > 0
 					&& Character.isLetter(line.charAt(0))	//	no # (
-					&& line.indexOf("=") != -1
+					&& line.indexOf('=') != -1
 					&& line.indexOf("EXTPROC_") == -1
 					&& line.indexOf("_HTTP") == -1)
 				{

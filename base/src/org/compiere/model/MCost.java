@@ -840,7 +840,7 @@ public class MCost extends X_M_Cost
 			pstmt = null;
 		}
 		//
-		if (newAverageAmt != null & newAverageAmt.signum() != 0)
+		if (newAverageAmt != null && newAverageAmt.signum() != 0)
 		{
 			s_log.finer(product.getName() + " = " + newAverageAmt);
 			return newAverageAmt;
@@ -943,7 +943,7 @@ public class MCost extends X_M_Cost
 			pstmt = null;
 		}
 		//
-		if (newAverageAmt != null & newAverageAmt.signum() != 0)
+		if (newAverageAmt != null && newAverageAmt.signum() != 0)
 		{
 			s_log.finer(product.getName() + " = " + newAverageAmt);
 			return newAverageAmt;

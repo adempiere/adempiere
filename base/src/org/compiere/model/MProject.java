@@ -477,7 +477,7 @@ public class MProject extends X_C_Project
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 		{
 			insert_Accounting("C_Project_Acct", "C_AcctSchema_Default", null);
 			insert_Tree(MTree_Base.TREETYPE_Project);

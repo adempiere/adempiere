@@ -1975,7 +1975,7 @@ public abstract class PO
 			{
 				lobAdd (value, i, dt);
 				//	If no changes set UpdatedBy explicitly to ensure commit of lob
-				if (!changes & !updatedBy)
+				if (!changes && !updatedBy)
 				{
 					int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
 					set_ValueNoCheck("UpdatedBy", new Integer(AD_User_ID));

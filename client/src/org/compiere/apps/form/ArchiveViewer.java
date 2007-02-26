@@ -506,7 +506,7 @@ public class ArchiveViewer extends CTabbedPane
 		String ss = nameQField.getText();
 		if (ss != null && ss.length() > 0)
 		{
-			if (ss.indexOf("%") != -1 || ss.indexOf("_") != -1)
+			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
 				sql.append(" AND Name LIKE ").append(DB.TO_STRING(ss));
 			else
 				sql.append(" AND Name=").append(DB.TO_STRING(ss));
@@ -516,7 +516,7 @@ public class ArchiveViewer extends CTabbedPane
 		ss = descriptionQField.getText();
 		if (ss != null && ss.length() > 0)
 		{
-			if (ss.indexOf("%") != -1 || ss.indexOf("_") != -1)
+			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
 				sql.append(" AND Description LIKE ").append(DB.TO_STRING(ss));
 			else
 				sql.append(" AND Description=").append(DB.TO_STRING(ss));
@@ -526,7 +526,7 @@ public class ArchiveViewer extends CTabbedPane
 		ss = helpQField.getText();
 		if (ss != null && ss.length() > 0)
 		{
-			if (ss.indexOf("%") != -1 || ss.indexOf("_") != -1)
+			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
 				sql.append(" AND Help LIKE ").append(DB.TO_STRING(ss));
 			else
 				sql.append(" AND Help=").append(DB.TO_STRING(ss));

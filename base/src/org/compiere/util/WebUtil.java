@@ -242,7 +242,7 @@ public final class WebUtil
 			outStr.append(inStr.substring(0, i));			// up to &#
 			inStr = inStr.substring(i+2, inStr.length());	// from &#
 
-			int j = inStr.indexOf(";");						// next ;
+			int j = inStr.indexOf(';');						// next ;
 			if (j < 0)										// no second tag
 			{
 				inStr = "&#" + inStr;

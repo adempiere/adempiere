@@ -236,8 +236,8 @@ public class StringUtil {
 	 */
 	public static String getNextWord(String tempStr) {
 		String word = "";
-		if (tempStr.indexOf(" ")>=0) {
-			word=tempStr.substring(0,tempStr.indexOf(" "));
+		if (tempStr.indexOf(' ')>=0) {
+			word=tempStr.substring(0,tempStr.indexOf(' '));
 		} else {
 			word=tempStr;
 		}

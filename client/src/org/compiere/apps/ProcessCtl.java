@@ -422,7 +422,7 @@ public class ProcessCtl extends Thread
 			{
 				String summary = m_pi.getSummary();
 				log.finer("unlock - " + summary);
-				if (summary != null && summary.indexOf("@") != -1)
+				if (summary != null && summary.indexOf('@') != -1)
 					m_pi.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
 				m_parent.unlockUI(m_pi);
 			}

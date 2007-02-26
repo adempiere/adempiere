@@ -960,7 +960,7 @@ public class CompiereColor implements Serializable
 			m_secondaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",Lower=")+7, str.indexOf(",Start=")),
 				new ColorUIResource(m_secondaryColor));
 			m_startPoint = Integer.parseInt(str.substring(str.indexOf(",Start=")+7, str.indexOf(",RDistance=")));
-			setGradientRepeatDistance(str.substring(str.indexOf(",RDistance=")+11, str.lastIndexOf("]")));
+			setGradientRepeatDistance(str.substring(str.indexOf(",RDistance=")+11, str.lastIndexOf(']')));
 		}
 		else if (str.indexOf("[Line ") != -1)
 		{
@@ -970,7 +970,7 @@ public class CompiereColor implements Serializable
 			m_secondaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",BackColor=")+11, str.indexOf(",Width=")),
 				new ColorUIResource(m_secondaryColor));
 			setLineWidth(str.substring(str.indexOf(",Width=")+7, str.indexOf(",Distance=")));
-			setLineDistance(str.substring(str.indexOf(",Distance=")+10, str.lastIndexOf("]")));
+			setLineDistance(str.substring(str.indexOf(",Distance=")+10, str.lastIndexOf(']')));
 		}
 		else if (str.indexOf("[Texture ") != -1)
 		{
@@ -978,7 +978,7 @@ public class CompiereColor implements Serializable
 			setTextureURL (str.substring(str.indexOf(" GraphURL=")+10, str.indexOf(",Taint=")));
 			m_primaryColor = ThemeUtils.parseColor(str.substring(str.indexOf(",Taint=")+7, str.indexOf(",Alpha=")),
 				new ColorUIResource(m_primaryColor));
-			setTextureCompositeAlpha (str.substring(str.indexOf(",Alpha=")+7, str.lastIndexOf("]")));
+			setTextureCompositeAlpha (str.substring(str.indexOf(",Alpha=")+7, str.lastIndexOf(']')));
 		}
 	}   //  parseString
 

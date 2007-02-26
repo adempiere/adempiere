@@ -130,7 +130,7 @@ public class FileUpload
 		//
 		int formDataLength = request.getContentLength();
 		String contentType = request.getContentType();
-		int index = contentType.lastIndexOf("=");
+		int index = contentType.lastIndexOf('=');
 		String boundary = contentType.substring(index+1);
 		log.fine(formDataLength + " - " + boundary);
 		int sizeKB = formDataLength/1024; 

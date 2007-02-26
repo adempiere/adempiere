@@ -481,7 +481,7 @@ public class MIssue extends X_AD_Issue
 				String pair = st.nextToken();
 				try
 				{
-					int index = pair.indexOf("=");
+					int index = pair.indexOf('=');
 					if (pair.startsWith("RECORDID="))
 					{
 						String info = pair.substring(index+1);

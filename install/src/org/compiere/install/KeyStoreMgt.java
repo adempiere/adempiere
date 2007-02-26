@@ -353,7 +353,7 @@ public class KeyStoreMgt
 	 */
 	public static String escapeCommas(String in)
 	{
-		if (in == null || in.indexOf(",") == -1)
+		if (in == null || in.indexOf(',') == -1)
 			return in;
 		StringBuffer out = new StringBuffer();
 		char[] chars = in.toCharArray();

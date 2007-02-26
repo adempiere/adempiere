@@ -167,7 +167,7 @@ public final class PP_PayFlowPro extends PaymentProcessor
 		while (st.hasMoreTokens())
 		{
 			String token = st.nextToken();
-			int pos = token.indexOf("=");
+			int pos = token.indexOf('=');
 			String name = token.substring(0, pos);
 			String value = token.substring(pos+1);
 			//

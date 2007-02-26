@@ -255,7 +255,8 @@ public class MSequence extends X_AD_Sequence
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "	
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
-				+ " AND AD_Client_ID IN (0,?)"
+				//jz fix duplicated nextID  + " AND AD_Client_ID IN (0,?)"
+				+ " AND AD_Client_ID = ?"
 				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
 				+ "ORDER BY AD_Client_ID DESC "
 				+ " FOR UPDATE OF AD_Sequence ";						
@@ -268,7 +269,8 @@ public class MSequence extends X_AD_Sequence
 				//end vpj-cd e-evolution 09/02/2005	PostgreSQL
 				+ "FROM AD_Sequence "
 				+ "WHERE Name=?"
-				+ " AND AD_Client_ID IN (0,?)"
+				//jz fix duplicated nextID  + " AND AD_Client_ID IN (0,?)"
+				+ " AND AD_Client_ID = ?"
 				+ " AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
 				+ " ORDER BY AD_Client_ID DESC ";
 			USE_PROCEDURE = true;

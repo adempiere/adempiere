@@ -1024,6 +1024,12 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 */
 	public static ReportEngine get (Properties ctx, int type, int Record_ID)
 	{
+		if (Record_ID < 1)
+		{
+			log.log(Level.WARNING, "No PrintFormat for Record_ID=" + Record_ID 
+					+ ", Type=" + type);
+			return null;
+		}
 		//	Order - Print Shipment or Invoice
 		if (type == ORDER)
 		{
@@ -1100,10 +1106,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
                 + " c.IsMultiLingualDocument, COALESCE(dt.DocumentCopies,0) "
                 + "FROM M_Movement d"
                 + " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
-                + " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
+                + " INNER JOIN AD_PrintForm pf ON (d.AD_Client_ID=pf.AD_Client_ID OR pf.AD_Client_ID=0)"
                 + " LEFT OUTER JOIN C_DocType dt ON (d.C_DocType_ID=dt.C_DocType_ID) "
                 + "WHERE d.M_Movement_ID=?"                 //  info from PrintForm
-                + " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
+                + " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) AND pf.Movement_PrintFormat_ID IS NOT NULL "
+                + "ORDER BY pf.AD_Client_ID DESC, pf.AD_Org_ID DESC";
 		else	//	Get PrintFormat from Org or 0 of document client
 			sql = "SELECT pf.Order_PrintFormat_ID,pf.Shipment_PrintFormat_ID,"		//	1..2
 				//	Prio: 1. BPartner 2. DocType, 3. PrintFormat (Org)	//	see InvoicePrint
@@ -1148,8 +1155,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				}
                 else if (type == MOVEMENT) {
                     AD_PrintFormat_ID = rs.getInt(1);
-                    log.fine("PF 2 ="+AD_PrintFormat_ID);
-                    //TODO VHARCQ SQL needs change for copies  VHARCQ= rs.getInt(8);
+                    copies = rs.getInt(3);
+                    if (copies == 0)
+                    	copies = 1;
                 }
 				else
 				{

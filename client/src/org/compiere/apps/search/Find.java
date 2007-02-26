@@ -623,12 +623,12 @@ public final class Find extends CDialog
 				// fix a bug with virtualColumn + isSelectionColumn not yielding results
 				GridField field = getTargetMField(ColumnName);
 				String ColumnSQL = field.getColumnSQL(false);
-				if (value.toString().indexOf("%") != -1)
+				if (value.toString().indexOf('%') != -1)
 					m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, ved.getDisplay());
 				else
 					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
 				/*
-				if (value.toString().indexOf("%") != -1)
+				if (value.toString().indexOf('%') != -1)
 					m_query.addRestriction(ColumnName, MQuery.LIKE, value, ColumnName, ved.getDisplay());
 				else
 					m_query.addRestriction(ColumnName, MQuery.EQUAL, value, ColumnName, ved.getDisplay());

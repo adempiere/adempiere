@@ -352,7 +352,7 @@ public class MMeasureCalc extends X_PA_MeasureCalc
 				sb.append(")");
 			}
 			//	BPG
-			if (bpColumn.indexOf(".") == -1)
+			if (bpColumn.indexOf('.') == -1)
 				bpColumn = tableName + "." + bpColumn;
 			if (listBPG.size() == 1)
 				sb.append(" AND EXISTS (SELECT * FROM C_BPartner bpx WHERE ")
@@ -403,7 +403,7 @@ public class MMeasureCalc extends X_PA_MeasureCalc
 				sb.append(")");
 			}
 			//	Category
-			if (pColumn.indexOf(".") == -1)
+			if (pColumn.indexOf('.') == -1)
 				pColumn = tableName + "." + pColumn;
 			if (listPC.size() == 1)
 				sb.append(" AND EXISTS (SELECT * FROM M_Product px WHERE ")

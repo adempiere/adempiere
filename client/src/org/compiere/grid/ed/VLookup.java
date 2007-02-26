@@ -662,8 +662,8 @@ public class VLookup extends JComponent
 		boolean cancelled = false;
 		//
 		String col = m_lookup.getColumnName();		//	fully qualified name
-		if (col.indexOf(".") != -1)
-			col = col.substring(col.indexOf(".")+1);
+		if (col.indexOf('.') != -1)
+			col = col.substring(col.indexOf('.')+1);
 		//  Zoom / Validation
 		String whereClause = getWhereClause();
 		//

@@ -413,7 +413,7 @@ class AcctViewerData
 				rm.addColumn(new RColumn(ctx, column, DisplayType.Date));
 			else if (column.startsWith("UserElement"))
 			{
-				if (column.indexOf("1") != -1)
+				if (column.indexOf('1') != -1)
 					rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir, null, 0, m_ref1));
 				else
 					rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir, null, 0, m_ref2));
@@ -473,7 +473,7 @@ class AcctViewerData
 			String columnName = ase.getColumnName();
 			if (columnName.startsWith("UserElement"))
 			{
-				if (columnName.indexOf("1") != -1)
+				if (columnName.indexOf('1') != -1)
 					m_ref1 = ase.getDisplayColumnName();
 				else
 					m_ref2 = ase.getDisplayColumnName();

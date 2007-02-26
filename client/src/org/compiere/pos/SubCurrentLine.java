@@ -32,7 +32,7 @@ import org.compiere.util.*;
  * 
  * @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright ï¿½ Jorg Janke
  * @version $Id: SubCurrentLine.java,v 1.3 2004/07/24 04:31:52 jjanke Exp $
  */
 public class SubCurrentLine extends PosSubPanel implements ActionListener {
@@ -275,7 +275,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * @return true if deleted
 	 */
 	public void deleteLine (int row) {
-		if (m_order != null & row != -1 )
+		if (m_order != null && row != -1 )
 		{
 			MOrderLine[] lineas = m_order.getLines();
 			int numLineas = lineas.length;
@@ -295,7 +295,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+ *         *Copyright ï¿½ ConSerTi
 	 */		
 	public void deleteOrder () {
 		if (m_order != null)
@@ -338,7 +338,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+ *         *Copyright ï¿½ ConSerTi
 	 */
 	public void newOrder()
 	{
@@ -394,7 +394,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	/**
 	 * @author Comunidad de Desarrollo OpenXpertya 
 	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright © ConSerTi
+	 *         *Copyright ï¿½ ConSerTi
 	 */
 	public void setBPartner()
 	{

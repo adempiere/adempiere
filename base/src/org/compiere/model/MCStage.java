@@ -119,7 +119,7 @@ public class MCStage extends X_CM_CStage
 		{
 			if (RelativeURL.endsWith("/"))
 				RelativeURL = RelativeURL.substring(0, RelativeURL.length()-1);
-			int index = RelativeURL.lastIndexOf("/");
+			int index = RelativeURL.lastIndexOf('/');
 			if (index != -1)
 				RelativeURL = RelativeURL.substring(index+1);
 		}

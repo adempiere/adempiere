@@ -57,14 +57,14 @@ public class MediaBroadcast extends HttpServletCM
 			String baseURL = requestURL.substring(0,requestURL.indexOf(serverName)+serverName.length()+6)+request.getContextPath();
 			String relativeURL = requestURL.substring(baseURL.length());
 			// If the relativeURL still contains / we will simply strip them off...
-			if (relativeURL.indexOf("/")>=0) 
-				relativeURL = relativeURL.substring(relativeURL.lastIndexOf("/")+1);
+			if (relativeURL.indexOf('/')>=0) 
+				relativeURL = relativeURL.substring(relativeURL.lastIndexOf('/')+1);
 			
 			// We should have only an ID before the first dot.
 			Integer mediaID = null;
 			try {
-				if (relativeURL.indexOf(".")>=0) {
-					mediaID = Integer.parseInt(relativeURL.substring(0,relativeURL.indexOf(".")));
+				if (relativeURL.indexOf('.')>=0) {
+					mediaID = Integer.parseInt(relativeURL.substring(0,relativeURL.indexOf('.')));
 				} else {
 					mediaID = Integer.parseInt(relativeURL);
 				}

@@ -1502,7 +1502,7 @@ public class DBDifference {
 								continue;
 							}
 							String value = data2.getValueForColumn(columns2.get(m).getColumnName());
-							if (value != null && value.indexOf("'") != -1) {
+							if (value != null && value.indexOf(''') != -1) {
 								value = value.replaceAll("'", "''");
 							}
 							if (and) {
@@ -1721,8 +1721,8 @@ public class DBDifference {
 							+ data2.getValueForColumn(columnName).replaceAll("'", "''") + "'";
 				} else if (type.equals("DATE")) {
 					String date = data2.getValueForColumn(columnName);
-					if (date.indexOf(" ") != -1) {
-						date = date.substring(0, date.indexOf(" "));
+					if (date.indexOf(' ') != -1) {
+						date = date.substring(0, date.indexOf(' '));
 					}
 					insertStatement += "to_date('" + date + "','" + TIME_FORMAT + "')";
 				} else if (type.equals("NUMBER")) {

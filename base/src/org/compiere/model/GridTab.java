@@ -2376,7 +2376,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			String cmd = st.nextToken().trim();
 			Callout call = null;
 			String method = null;
-			int methodStart = cmd.lastIndexOf(".");
+			int methodStart = cmd.lastIndexOf('.');
 			try
 			{
 				if (methodStart != -1)      //  no class

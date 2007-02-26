@@ -615,7 +615,7 @@ public final class Ini implements Serializable
 		String value = (String)s_prop.get(key);
 		if (value == null || value.length() == 0)
 			return null;
-		int index = value.indexOf("|");
+		int index = value.indexOf('|');
 		if (index == -1)
 			return null;
 		try
@@ -658,7 +658,7 @@ public final class Ini implements Serializable
 		String value = (String)s_prop.get(key);
 		if (value == null || value.length() == 0)
 			return null;
-		int index = value.indexOf("|");
+		int index = value.indexOf('|');
 		if (index == -1)
 			return null;
 		try

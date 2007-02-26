@@ -140,7 +140,7 @@ public class MCharge extends X_C_Charge
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord & success)
+		if (newRecord && success)
 			insert_Accounting("C_Charge_Acct", "C_AcctSchema_Default", null);
 
 		return success;

@@ -455,7 +455,7 @@ public final class Attachment extends CDialog
 			return;
 
 		String fileName = getFileName(index);
-		String ext = fileName.substring (fileName.lastIndexOf("."));
+		String ext = fileName.substring (fileName.lastIndexOf('.'));
 		log.config( "Ext=" + ext);
 
 		JFileChooser chooser = new JFileChooser();

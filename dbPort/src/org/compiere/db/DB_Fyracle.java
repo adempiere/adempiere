@@ -440,7 +440,7 @@ public class DB_Fyracle implements AdempiereDatabase {
 			dateString.append(myDate.substring(0, 10));
 			dateString.append("','YYYY-MM-DD')");
 		} else {
-			dateString.append(myDate.substring(0, myDate.indexOf("."))); // cut
+			dateString.append(myDate.substring(0, myDate.indexOf('.'))); // cut
 																			// off
 																			// miliseconds
 			dateString.append("','YYYY-MM-DD HH24:MI:SS')");
