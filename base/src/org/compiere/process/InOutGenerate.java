@@ -233,6 +233,10 @@ public class InOutGenerate extends SvrProcess
 					if (product != null && toDeliver.signum() == 0)
 						continue;
 					
+					// or it's a charge - Bug#: 1603966 
+					if (line.getC_Charge_ID()!=0 && toDeliver.signum() == 0)
+						continue;
+					
 					//	Check / adjust for confirmations
 					BigDecimal unconfirmedShippedQty = Env.ZERO;
 					if (p_IsUnconfirmedInOut && product != null && toDeliver.signum() != 0)
