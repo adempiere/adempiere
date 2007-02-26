@@ -3307,6 +3307,16 @@ public class PackInHandler extends DefaultHandler {
     		return 0;
     	}
     	
+    	// postgres requires commit on DDL (ALTER,CREATE)
+    	if (DB.isPostgreSQL()) {
+    		try {
+				DB.commit(true, m_trxName);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return 0;
+			}
+    	}
+    	
     	return 1;
     }
 
