@@ -494,6 +494,10 @@ public class CLogMgt
 				}
 			}
 		}
+		// Show Implementation Vendor / Version - teo_sarca, [ 1622855 ]
+		sb.append(getMsg("ImplementationVendor")).append(eq).append(org.compiere.Adempiere.getImplementationVendor()).append(NL);
+		sb.append(getMsg("ImplementationVersion")).append(eq).append(org.compiere.Adempiere.getImplementationVersion()).append(NL);
+		//
 		sb.append("AdempiereHome = ").append(Adempiere.getAdempiereHome()).append(NL);
 		sb.append(Env.getLanguage(Env.getCtx())).append(NL);
 		MClient client = MClient.get(Env.getCtx());
