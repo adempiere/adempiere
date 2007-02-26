@@ -26,6 +26,10 @@ import org.compiere.util.*;
 
 /**
  *  GL Journal Model
+ * <p>Change log:
+ * <ul>
+ * <li>2007-02-26 - teo_sarca - [ 1619150 ] Usability/Consistency: reversed gl journal description
+ * </ul>
  *
  *	@author Jorg Janke
  *	@version $Id: MJournal.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
@@ -171,6 +175,19 @@ public class MJournal extends X_GL_Journal implements DocAction
 			setCurrencyRate(CurrencyRate);
 	}	//	setCurrency
 
+	/**
+	 * Add to Description
+	 * @param description text
+	 * @since 3.1.4
+	 */
+	public void addDescription (String description)
+	{
+		String desc = getDescription();
+		if (desc == null)
+			setDescription(description);
+		else
+			setDescription(desc + " | " + description);
+	}
 	
 	/**************************************************************************
 	 * 	Get Journal Lines
@@ -578,14 +595,10 @@ public class MJournal extends X_GL_Journal implements DocAction
 		reverse.setC_Period_ID(getC_Period_ID());
 		reverse.setDateAcct(getDateAcct());
 		//	Reverse indicator
-		String description = reverse.getDescription();
-		if (description == null)
-			description = "** " + getDocumentNo() + " **";
-		else
-			description += " ** " + getDocumentNo() + " **";
-		reverse.setDescription(description);
+		reverse.addDescription("(->" + getDocumentNo() + ")");
 		if (!reverse.save())
 			return null;
+		addDescription("(" + reverse.getDocumentNo() + "<-)");
 		
 		//	Lines
 		reverse.copyLinesFrom(this, null, 'C');
