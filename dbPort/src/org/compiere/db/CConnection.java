@@ -1234,17 +1234,21 @@ public class CConnection implements Serializable
 		{
 			try
 			{
-				         for (int i = 0; i < Database.DB_NAMES.length; i++) 	                                
-	                                 { 	 
-	                                         if (Database.DB_NAMES[i].equals (m_type)) 	 
-	                                         { 	 
-	                                                 m_db = (AdempiereDatabase)Database.DB_CLASSES[i]. 	 
-	                                                            newInstance (); 	 
-	                                                 break; 	 
-	                                         } 	 
-	                                 }
-				if (m_db != null)		//	test class loader ability
-					m_db.getDataSource(this);
+		         for (int i = 0; i < Database.DB_NAMES.length; i++) 	                                
+	             { 	 
+	                     if (Database.DB_NAMES[i].equals (m_type)) 	 
+	                     { 	 
+	                             m_db = (AdempiereDatabase)Database.DB_CLASSES[i]. 	 
+	                                        newInstance (); 	 
+	                             break; 	 
+	                     } 	 
+	             }
+		         //hengsin, don't test datasource for wan profile
+		         if (!isRMIoverHTTP())
+		         {
+			         if (m_db != null)		//	test class loader ability
+			        	 m_db.getDataSource(this);
+		         }
 			}
 			catch (NoClassDefFoundError ee)
 			{
