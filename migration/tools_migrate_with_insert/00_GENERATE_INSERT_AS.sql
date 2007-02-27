@@ -95,11 +95,11 @@ BEGIN
                   FROM all_tab_columns
                  WHERE owner = dbtarget AND table_name = t.table_name)
       LOOP
-         IF liscoltarget IS NULL
+         IF liscolsource IS NULL
          THEN
-            liscoltarget := c.column_name;
+            liscolsource := c.column_name;
          ELSE
-            liscoltarget := liscoltarget || ', ' || c.column_name;
+            liscolsource := liscolsource || ', ' || c.column_name;
          END IF;
       END LOOP;
 
