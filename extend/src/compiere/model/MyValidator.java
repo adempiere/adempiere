@@ -57,9 +57,12 @@ public class MyValidator implements ModelValidator
 		log.info(client.toString());
 		
 		//	We want to be informed when C_Order is created/changed
-		engine.addModelChange("C_Order", this);
+		engine.addModelChange(MOrder.Table_Name, this);
 		//	We want to validate Order before preparing 
-		engine.addDocValidate("C_Order", this);
+		engine.addDocValidate(MOrder.Table_Name, this);
+		engine.addDocValidate(MInOut.Table_Name, this);
+		engine.addDocValidate(MPayment.Table_Name, this);
+		engine.addDocValidate(MCash.Table_Name, this);
 	}	//	initialize
 
     /**
@@ -92,20 +95,24 @@ public class MyValidator implements ModelValidator
 	 */
 	public String docValidate (PO po, int timing)
 	{
+		log.info(po.get_TableName() + " Timing: "+timing);
 		//	Ignore all after Complete events
 		if (timing == TIMING_AFTER_COMPLETE)
 			return null;
-		//	TIMING_BEFORE_PREPARE
-		if (po.get_TableName().equals(MOrder.Table_Name))
-		{
-			/**	Order Discount Example	*
-			MOrder order = (MOrder)po;
-			String error = orderDiscount(order);
-			if (error != null)
-				return error;
-			/** Order Discount Example */
-			log.info(po.toString());
+		
+		if (timing == TIMING_BEFORE_PREPARE) {
+			if (po.get_TableName().equals(MOrder.Table_Name))
+			{
+				/**	Order Discount Example	*
+				MOrder order = (MOrder)po;
+				String error = orderDiscount(order);
+				if (error != null)
+					return error;
+				/** Order Discount Example */
+				log.info(po.toString());
+			}
 		}
+
 		return null;
 	}	//	docValidate
 	
