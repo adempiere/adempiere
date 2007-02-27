@@ -28,7 +28,7 @@ public class SilentSetup {
 			return;
 		}
 		
-		// Ini.setShowLicenseDialog(false);
+		Ini.setShowLicenseDialog(false);
 		ConfigurationData data = new ConfigurationData(null);
 		if (!data.load()) return;
 		if (!data.test()) 
