@@ -413,7 +413,7 @@ public class MLookupFactory
 
 		//	add WHERE clause
 		MQuery zoomQuery = null;
-		if (WhereClause != null)
+		if (WhereClause != null && WhereClause.length() > 0)
 		{
 			String where = WhereClause;
 			if (where.indexOf('@') != -1)
@@ -434,7 +434,7 @@ public class MLookupFactory
 		}
 
 		//	Order By qualified term or by Name
-		if (OrderByClause != null)
+		if (OrderByClause != null && OrderByClause.length() > 0  )
 		{
 			realSQL.append(" ORDER BY ").append(OrderByClause);
 			if (OrderByClause.indexOf('.') == -1)
