@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -48,6 +48,7 @@ setIsSmtpAuthorization (false);	// N
 setIsUseBetaFunctions (true);	// Y
 setMMPolicy (null);	// F
 setName (null);
+setStoreAttachmentsOnFileSystem (false);
 setValue (null);
 }
  */
@@ -114,6 +115,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 
 /** AutoArchive AD_Reference_ID=334 */
 public static final int AUTOARCHIVE_AD_Reference_ID=334;
@@ -145,6 +148,8 @@ public String getAutoArchive()
 {
 return (String)get_Value("AutoArchive");
 }
+/** Column name AutoArchive */
+public static final String COLUMNNAME_AutoArchive = "AutoArchive";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -162,6 +167,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document Directory.
 @param DocumentDir Directory for documents from the application server */
 public void setDocumentDir (String DocumentDir)
@@ -179,6 +186,8 @@ public String getDocumentDir()
 {
 return (String)get_Value("DocumentDir");
 }
+/** Column name DocumentDir */
+public static final String COLUMNNAME_DocumentDir = "DocumentDir";
 /** Set EMail Test.
 @param EMailTest Test EMail */
 public void setEMailTest (String EMailTest)
@@ -196,6 +205,8 @@ public String getEMailTest()
 {
 return (String)get_Value("EMailTest");
 }
+/** Column name EMailTest */
+public static final String COLUMNNAME_EMailTest = "EMailTest";
 /** Set Cost Immediately.
 @param IsCostImmediate Update Costs immediately for testing */
 public void setIsCostImmediate (boolean IsCostImmediate)
@@ -214,6 +225,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCostImmediate */
+public static final String COLUMNNAME_IsCostImmediate = "IsCostImmediate";
 /** Set Multi Lingual Documents.
 @param IsMultiLingualDocument Documents are Multi Lingual */
 public void setIsMultiLingualDocument (boolean IsMultiLingualDocument)
@@ -232,6 +245,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMultiLingualDocument */
+public static final String COLUMNNAME_IsMultiLingualDocument = "IsMultiLingualDocument";
 /** Set Post Immediately.
 @param IsPostImmediate Post the accounting immediately for testing */
 public void setIsPostImmediate (boolean IsPostImmediate)
@@ -250,6 +265,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPostImmediate */
+public static final String COLUMNNAME_IsPostImmediate = "IsPostImmediate";
 /** Set Server EMail.
 @param IsServerEMail Send EMail from Server */
 public void setIsServerEMail (boolean IsServerEMail)
@@ -268,6 +285,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsServerEMail */
+public static final String COLUMNNAME_IsServerEMail = "IsServerEMail";
 /** Set SMTP Authentication.
 @param IsSmtpAuthorization Your mail server requires Authentication */
 public void setIsSmtpAuthorization (boolean IsSmtpAuthorization)
@@ -286,6 +305,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSmtpAuthorization */
+public static final String COLUMNNAME_IsSmtpAuthorization = "IsSmtpAuthorization";
 /** Set Use Beta Functions.
 @param IsUseBetaFunctions Enable the use of Beta Functionality */
 public void setIsUseBetaFunctions (boolean IsUseBetaFunctions)
@@ -304,6 +325,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsUseBetaFunctions */
+public static final String COLUMNNAME_IsUseBetaFunctions = "IsUseBetaFunctions";
 
 /** MMPolicy AD_Reference_ID=335 */
 public static final int MMPOLICY_AD_Reference_ID=335;
@@ -331,6 +354,8 @@ public String getMMPolicy()
 {
 return (String)get_Value("MMPolicy");
 }
+/** Column name MMPolicy */
+public static final String COLUMNNAME_MMPolicy = "MMPolicy";
 /** Set Model Validation Classes.
 @param ModelValidationClasses List of data model validation classes separated by ;
  */
@@ -350,6 +375,8 @@ public String getModelValidationClasses()
 {
 return (String)get_Value("ModelValidationClasses");
 }
+/** Column name ModelValidationClasses */
+public static final String COLUMNNAME_ModelValidationClasses = "ModelValidationClasses";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -374,6 +401,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Request EMail.
 @param RequestEMail EMail address to send automated mails from or receive mails for automated processing (fully qualified) */
 public void setRequestEMail (String RequestEMail)
@@ -391,6 +420,8 @@ public String getRequestEMail()
 {
 return (String)get_Value("RequestEMail");
 }
+/** Column name RequestEMail */
+public static final String COLUMNNAME_RequestEMail = "RequestEMail";
 /** Set Request Folder.
 @param RequestFolder EMail folder to process incoming emails;
  if empty INBOX is used */
@@ -410,6 +441,8 @@ public String getRequestFolder()
 {
 return (String)get_Value("RequestFolder");
 }
+/** Column name RequestFolder */
+public static final String COLUMNNAME_RequestFolder = "RequestFolder";
 /** Set Request User.
 @param RequestUser User Name (ID) of the email owner */
 public void setRequestUser (String RequestUser)
@@ -427,6 +460,8 @@ public String getRequestUser()
 {
 return (String)get_Value("RequestUser");
 }
+/** Column name RequestUser */
+public static final String COLUMNNAME_RequestUser = "RequestUser";
 /** Set Request User Password.
 @param RequestUserPW Password of the user name (ID) for mail processing */
 public void setRequestUserPW (String RequestUserPW)
@@ -444,6 +479,8 @@ public String getRequestUserPW()
 {
 return (String)get_Value("RequestUserPW");
 }
+/** Column name RequestUserPW */
+public static final String COLUMNNAME_RequestUserPW = "RequestUserPW";
 /** Set Mail Host.
 @param SMTPHost Hostname of Mail Server for SMTP and IMAP */
 public void setSMTPHost (String SMTPHost)
@@ -461,6 +498,47 @@ public String getSMTPHost()
 {
 return (String)get_Value("SMTPHost");
 }
+/** Column name SMTPHost */
+public static final String COLUMNNAME_SMTPHost = "SMTPHost";
+/** Set Store Attachments On File System.
+@param StoreAttachmentsOnFileSystem Store Attachments On File System */
+public void setStoreAttachmentsOnFileSystem (boolean StoreAttachmentsOnFileSystem)
+{
+set_Value ("StoreAttachmentsOnFileSystem", Boolean.valueOf(StoreAttachmentsOnFileSystem));
+}
+/** Get Store Attachments On File System.
+@return Store Attachments On File System */
+public boolean isStoreAttachmentsOnFileSystem() 
+{
+Object oo = get_Value("StoreAttachmentsOnFileSystem");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Column name StoreAttachmentsOnFileSystem */
+public static final String COLUMNNAME_StoreAttachmentsOnFileSystem = "StoreAttachmentsOnFileSystem";
+/** Set Unix Attachment Path.
+@param UnixAttachmentPath Unix Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+public void setUnixAttachmentPath (String UnixAttachmentPath)
+{
+if (UnixAttachmentPath != null && UnixAttachmentPath.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+UnixAttachmentPath = UnixAttachmentPath.substring(0,254);
+}
+set_Value ("UnixAttachmentPath", UnixAttachmentPath);
+}
+/** Get Unix Attachment Path.
+@return Unix Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+public String getUnixAttachmentPath() 
+{
+return (String)get_Value("UnixAttachmentPath");
+}
+/** Column name UnixAttachmentPath */
+public static final String COLUMNNAME_UnixAttachmentPath = "UnixAttachmentPath";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -479,4 +557,25 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
+/** Set Windows Attachment Path.
+@param WindowsAttachmentPath Windows Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+public void setWindowsAttachmentPath (String WindowsAttachmentPath)
+{
+if (WindowsAttachmentPath != null && WindowsAttachmentPath.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+WindowsAttachmentPath = WindowsAttachmentPath.substring(0,254);
+}
+set_Value ("WindowsAttachmentPath", WindowsAttachmentPath);
+}
+/** Get Windows Attachment Path.
+@return Windows Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+public String getWindowsAttachmentPath() 
+{
+return (String)get_Value("WindowsAttachmentPath");
+}
+/** Column name WindowsAttachmentPath */
+public static final String COLUMNNAME_WindowsAttachmentPath = "WindowsAttachmentPath";
 }
