@@ -479,6 +479,11 @@ public class MJournal extends X_GL_Journal implements DocAction
 		
 		if (!DOCACTION_Complete.equals(getDocAction())) 
 			setDocAction(DOCACTION_Complete);
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		m_justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
@@ -518,6 +523,11 @@ public class MJournal extends X_GL_Journal implements DocAction
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -542,14 +552,28 @@ public class MJournal extends X_GL_Journal implements DocAction
 	public boolean voidIt()
 	{
 		log.info(toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+
+		boolean ok_to_void = false;
 		if (DOCSTATUS_Drafted.equals(getDocStatus()) 
 			|| DOCSTATUS_Invalid.equals(getDocStatus()))
 		{
 			setProcessed(true);
 			setDocAction(DOCACTION_None);
-			return true;
+			ok_to_void = true;
+		} else {
+			return false;
 		}
-		return false;
+		
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+		
+		return ok_to_void;
 	}	//	voidIt
 	
 	/**
@@ -560,13 +584,27 @@ public class MJournal extends X_GL_Journal implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		
+		boolean ok_to_close = false;
 		if (DOCSTATUS_Completed.equals(getDocStatus())) 
 		{
 			setProcessed(true);
 			setDocAction(DOCACTION_None);
-			return true;
+			ok_to_close = true;
+		} else {
+			return false;
 		}
-		return false;
+		
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;			
+
+		return ok_to_close;
 	}	//	closeIt
 	
 	/**
@@ -576,7 +614,22 @@ public class MJournal extends X_GL_Journal implements DocAction
 	 */
 	public boolean reverseCorrectIt()
 	{
-		return reverseCorrectIt(getGL_JournalBatch_ID()) != null;
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		boolean ok_correct = (reverseCorrectIt(getGL_JournalBatch_ID()) != null);
+		
+		if (! ok_correct)
+			return false;
+
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		return ok_correct;
 	}	//	reverseCorrectIt
 
 	/**
@@ -615,7 +668,22 @@ public class MJournal extends X_GL_Journal implements DocAction
 	 */
 	public boolean reverseAccrualIt()
 	{
-		return reverseAccrualIt (getGL_JournalBatch_ID()) != null;
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		boolean ok_reverse = (reverseAccrualIt (getGL_JournalBatch_ID()) != null);
+		
+		if (! ok_reverse)
+			return false;
+
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		return ok_reverse;
 	}	//	reverseAccrualIt
 	
 	/**
@@ -658,6 +726,16 @@ public class MJournal extends X_GL_Journal implements DocAction
 	public boolean reActivateIt()
 	{
 		log.info(toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;	
+		
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		
 		return false;
 	}	//	reActivateIt
 	

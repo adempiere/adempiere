@@ -331,7 +331,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 		//	TODO: Add up Amounts
 	//	setApprovalAmt();
 		
-		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
@@ -373,6 +376,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -712,6 +720,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 	public boolean voidIt()
 	{
 		log.info(toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		
 		if (DOCSTATUS_Closed.equals(getDocStatus())
 			|| DOCSTATUS_Reversed.equals(getDocStatus())
 			|| DOCSTATUS_Voided.equals(getDocStatus()))
@@ -749,6 +762,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return reverseCorrectIt();
 		}
 			
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
@@ -761,6 +778,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;		
 
 		setDocAction(DOCACTION_None);
 		return true;
@@ -773,6 +798,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 	public boolean reverseCorrectIt()
 	{
 		log.info(toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+				
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		if (!MPeriod.isOpen(getCtx(), getMovementDate(), dt.getDocBaseType()))
 		{
@@ -828,6 +858,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 		
 		//	Update Reversed (this)
 		addDescription("(" + reversal.getDocumentNo() + "<-)");
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
 		setProcessed(true);
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
 		setDocAction(DOCACTION_None);
@@ -842,6 +876,16 @@ public class MInventory extends X_M_Inventory implements DocAction
 	public boolean reverseAccrualIt()
 	{
 		log.info(toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
 		return false;
 	}	//	reverseAccrualIt
 	
@@ -852,6 +896,16 @@ public class MInventory extends X_M_Inventory implements DocAction
 	public boolean reActivateIt()
 	{
 		log.info(toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;	
+		
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		
 		return false;
 	}	//	reActivateIt
 	

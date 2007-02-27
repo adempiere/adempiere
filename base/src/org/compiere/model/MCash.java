@@ -451,7 +451,11 @@ public class MCash extends X_C_Cash implements DocAction
 		}
 		setStatementDifference(difference);
 	//	setEndingBalance(getBeginningBalance().add(getStatementDifference()));
-		//
+
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
@@ -493,6 +497,12 @@ public class MCash extends X_C_Cash implements DocAction
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -601,6 +611,14 @@ public class MCash extends X_C_Cash implements DocAction
 	public boolean voidIt()
 	{
 		log.info(toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;		
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;		
 		setDocAction(DOCACTION_None);
 		return false;
 	}	//	voidIt
@@ -613,6 +631,15 @@ public class MCash extends X_C_Cash implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		
 		setDocAction(DOCACTION_None);
 		return true;
 	}	//	closeIt
@@ -624,6 +651,16 @@ public class MCash extends X_C_Cash implements DocAction
 	public boolean reverseCorrectIt()
 	{
 		log.info(toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;		
+		
 		return false;
 	}	//	reverseCorrectionIt
 	
@@ -634,6 +671,16 @@ public class MCash extends X_C_Cash implements DocAction
 	public boolean reverseAccrualIt()
 	{
 		log.info(toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+				
 		return false;
 	}	//	reverseAccrualIt
 	
@@ -644,9 +691,19 @@ public class MCash extends X_C_Cash implements DocAction
 	public boolean reActivateIt()
 	{
 		log.info(toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;	
+				
 		setProcessed(false);
 		if (reverseCorrectIt())
 			return true;
+
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;		
 		return false;
 	}	//	reActivateIt
 	

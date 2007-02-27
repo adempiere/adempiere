@@ -1341,6 +1341,10 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 		}
 		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		m_justPrepared = true;
 	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
 	//		setDocAction(DOCACTION_Complete);
@@ -1634,7 +1638,7 @@ public class MOrder extends X_C_Order implements DocAction
 	{
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
-
+		
 		//	Just prepare
 		if (DOCACTION_Prepare.equals(getDocAction()))
 		{
@@ -1648,6 +1652,9 @@ public class MOrder extends X_C_Order implements DocAction
 			//	Binding
 			if (MDocType.DOCSUBTYPESO_Quotation.equals(DocSubTypeSO))
 				reserveStock(dt, getLines(true, "M_Product_ID"));
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+			if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
 			setProcessed(true);
 			return DocAction.STATUS_Completed;
 		}
@@ -1667,6 +1674,11 @@ public class MOrder extends X_C_Order implements DocAction
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -1963,8 +1975,13 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public boolean voidIt()
 	{
-		MOrderLine[] lines = getLines(true, "M_Product_ID");
 		log.info(toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+
+		MOrderLine[] lines = getLines(true, "M_Product_ID");
 		for (int i = 0; i < lines.length; i++)
 		{
 			MOrderLine line = lines[i];
@@ -1986,6 +2003,11 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		
 		if (!createReversals())
+			return false;
+		
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
 			return false;
 		
 		setProcessed(true);
@@ -2085,6 +2107,10 @@ public class MOrder extends X_C_Order implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
 		
 		//	Close Not delivered Qty - SO/PO
 		MOrderLine[] lines = getLines(true, "M_Product_ID");
@@ -2107,6 +2133,11 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "Cannot unreserve Stock (close)";
 			return false;
 		}
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
@@ -2119,6 +2150,16 @@ public class MOrder extends X_C_Order implements DocAction
 	public boolean reverseCorrectIt()
 	{
 		log.info(toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
 		return voidIt();
 	}	//	reverseCorrectionIt
 	
@@ -2129,6 +2170,16 @@ public class MOrder extends X_C_Order implements DocAction
 	public boolean reverseAccrualIt()
 	{
 		log.info(toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
 		return false;
 	}	//	reverseAccrualIt
 	
@@ -2139,6 +2190,12 @@ public class MOrder extends X_C_Order implements DocAction
 	public boolean reActivateIt()
 	{
 		log.info(toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;	
+				
+		
 		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
@@ -2178,6 +2235,10 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			log.info("Existing documents not modified - SubType=" + DocSubTypeSO);
 		}
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
 		
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);

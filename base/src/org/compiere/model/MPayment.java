@@ -1554,6 +1554,10 @@ public final class MPayment extends X_C_Payment
 			}
 		}
 		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
@@ -1596,6 +1600,11 @@ public final class MPayment extends X_C_Payment
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -1994,6 +2003,11 @@ public final class MPayment extends X_C_Payment
 	public boolean voidIt()
 	{
 		log.info(toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		
 		if (DOCSTATUS_Closed.equals(getDocStatus())
 			|| DOCSTATUS_Reversed.equals(getDocStatus())
 			|| DOCSTATUS_Voided.equals(getDocStatus()))
@@ -2026,6 +2040,11 @@ public final class MPayment extends X_C_Payment
 			return reverseCorrectIt();
 		
 		//
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
@@ -2038,6 +2057,14 @@ public final class MPayment extends X_C_Payment
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;		
 		setDocAction(DOCACTION_None);
 		return true;
 	}	//	closeIt
@@ -2049,6 +2076,10 @@ public final class MPayment extends X_C_Payment
 	public boolean reverseCorrectIt()
 	{
 		log.info(toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
 		
 		//	Std Period open?
 		Timestamp dateAcct = getDateAcct();
@@ -2150,6 +2181,10 @@ public final class MPayment extends X_C_Payment
 			bp.setTotalOpenBalance();
 			bp.save(get_TrxName());
 		}		
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
 
 		m_processMsg = info.toString();
 		return true;
@@ -2175,6 +2210,17 @@ public final class MPayment extends X_C_Payment
 	public boolean reverseAccrualIt()
 	{
 		log.info(toString());
+		
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+				
 		return false;
 	}	//	reverseAccrualIt
 	
@@ -2185,9 +2231,20 @@ public final class MPayment extends X_C_Payment
 	public boolean reActivateIt()
 	{
 		log.info(toString());
-		if (reverseCorrectIt())
-			return true;
-		return false;
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;	
+		
+		if (! reverseCorrectIt())
+			return false;
+
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;				
+		
+		return true;
 	}	//	reActivateIt
 	
 	/**

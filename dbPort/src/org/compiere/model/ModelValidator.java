@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s) : Layda Salas - globalqss                                   *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -21,6 +22,8 @@ package org.compiere.model;
  *	
  *  @author Jorg Janke
  *  @version $Id: ModelValidator.java,v 1.2 2006/07/30 00:58:18 jjanke Exp $
+ *  
+ *  2007/02/26 laydasalasc - globalqss - Add new timings for all before/after events on documents
  */
 public interface ModelValidator
 {
@@ -34,13 +37,37 @@ public interface ModelValidator
 	public static final int	TYPE_DELETE = 3;
 	public static final int	CHANGETYPE_DELETE = 3;
 	
-	/** Called before document is prepared		*/
-	public static final int		TIMING_BEFORE_PREPARE = 1;
-	public static final int		DOCTIMING_BEFORE_PREPARE = 1;
-	/** Called after document is processed		*/
-	public static final int		TIMING_AFTER_COMPLETE = 9;
-	public static final int		DOCTIMING_AFTER_COMPLETE = 9;
-	
+	/** Called before document is prepared */
+	public static final int TIMING_BEFORE_PREPARE = 1;
+	public static final int DOCTIMING_BEFORE_PREPARE = 1; // Compatibility with Compiere 260c
+	/** Called before document is void */
+	public static final int TIMING_BEFORE_VOID = 2;
+	/** Called before document is close */
+	public static final int TIMING_BEFORE_CLOSE = 3;
+	/** Called before document is reactivate */
+	public static final int TIMING_BEFORE_REACTIVATE = 4;
+	/** Called before document is reversecorrect */
+	public static final int TIMING_BEFORE_REVERSECORRECT = 5;
+	/** Called before document is reverseaccrual */
+	public static final int TIMING_BEFORE_REVERSEACCRUAL = 6;
+	/** Called before document is completed */
+	public static final int TIMING_BEFORE_COMPLETE = 7;
+	/** Called after document is prepared */
+	public static final int TIMING_AFTER_PREPARE = 8;
+	/** Called after document is completed */
+	public static final int TIMING_AFTER_COMPLETE = 9;
+	public static final int DOCTIMING_AFTER_COMPLETE = 9; // Compatibility with Compiere 260c
+	/** Called after document is void */
+	public static final int TIMING_AFTER_VOID = 10;
+	/** Called after document is closed */
+	public static final int TIMING_AFTER_CLOSE = 11;
+	/** Called after document is reactivated */
+	public static final int TIMING_AFTER_REACTIVATE = 12;
+	/** Called after document is reversecorrect */
+	public static final int TIMING_AFTER_REVERSECORRECT = 13;
+	/** Called after document is reverseaccrual */
+	public static final int TIMING_AFTER_REVERSEACCRUAL = 14;
+
 	/**
 	 * 	Initialize Validation
 	 * 	@param engine validation engine 
@@ -89,5 +116,5 @@ public interface ModelValidator
      *	if not null, the pocument will be marked as Invalid.
 	 */
 	public String docValidate (PO po, int timing);
-	
+		
 }	//	ModelValidator
