@@ -40,6 +40,8 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: AMenu.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ *  Colin Rooney (croo) RFE#1670185  restrict access to info queries
  */
 public final class AMenu extends CFrame
 	implements ActionListener, PropertyChangeListener, ChangeListener
@@ -332,20 +334,53 @@ public final class AMenu extends CFrame
 		//      View
 		JMenu mView = AEnv.getMenu("View");
 		menuBar.add(mView);
-		AEnv.addMenuItem("InfoProduct", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK), mView, this);
-		AEnv.addMenuItem("InfoBPartner", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
-		if (MRole.getDefault().isShowAcct())
+		
+		if (MRole.getDefault().isAllow_Info_Product())
+		{
+			AEnv.addMenuItem("InfoProduct", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK), mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_BPartner())
+		{
+			AEnv.addMenuItem("InfoBPartner", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
+		}
+		if (MRole.getDefault().isShowAcct() && MRole.getDefault().isAllow_Info_Account())
+		{
 			AEnv.addMenuItem("InfoAccount", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
-		AEnv.addMenuItem("InfoSchedule", null, null, mView, this);
+		}
+		if (MRole.getDefault().isAllow_Info_Schedule())
+		{
+			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
+		}
 		mView.addSeparator();
-		AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);
-
+		if (MRole.getDefault().isAllow_Info_Order())
+		{
+			AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Invoice())
+		{
+			AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_InOut())
+		{
+			AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Payment())
+		{
+			AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_CashJournal())
+		{
+			AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Resource())
+		{
+			AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Asset())
+		{
+			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
+		}
+		
 		//      Tools
 		JMenu mTools = AEnv.getMenu("Tools");
 		menuBar.add(mTools);

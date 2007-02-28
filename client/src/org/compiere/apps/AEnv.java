@@ -36,6 +36,8 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: AEnv.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  Colin Rooney (croo) & kstan_79 RFE#1670185
  */
 public final class AEnv
 {
@@ -306,47 +308,49 @@ public final class AEnv
 		}
 
 		//  View Menu   ------------------------
-		else if (actionCommand.equals("InfoProduct"))
+		else if (actionCommand.equals("InfoProduct") && AEnv.canAccessInfo("PRODUCT"))
 		{
 			org.compiere.apps.search.Info.showProduct (Env.getFrame(c), WindowNo);
 		}
-		else if (actionCommand.equals("InfoBPartner"))
+		else if (actionCommand.equals("InfoBPartner") && AEnv.canAccessInfo("BPARTNER"))
 		{
 			org.compiere.apps.search.Info.showBPartner (Env.getFrame(c), WindowNo);
 		}
-		else if (actionCommand.equals("InfoAsset"))
+		else if (actionCommand.equals("InfoAsset") && AEnv.canAccessInfo("ASSET"))
 		{
 			org.compiere.apps.search.Info.showAsset (Env.getFrame(c), WindowNo);
 		}
-		else if (actionCommand.equals("InfoAccount") && MRole.getDefault().isShowAcct())
+		else if (actionCommand.equals("InfoAccount") && 
+				  MRole.getDefault().isShowAcct() &&
+				  AEnv.canAccessInfo("ACCOUNT"))
 		{
 			new org.compiere.acct.AcctViewer();
 		}
-		else if (actionCommand.equals("InfoSchedule"))
+		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
 		{
 			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
 		}
-		else if (actionCommand.equals("InfoOrder"))
+		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
 		{
 			org.compiere.apps.search.Info.showOrder (Env.getFrame(c), WindowNo, "");
 		}
-		else if (actionCommand.equals("InfoInvoice"))
+		else if (actionCommand.equals("InfoInvoice") && AEnv.canAccessInfo("INVOICE"))
 		{
 			org.compiere.apps.search.Info.showInvoice (Env.getFrame(c), WindowNo, "");
 		}
-		else if (actionCommand.equals("InfoInOut"))
+		else if (actionCommand.equals("InfoInOut") && AEnv.canAccessInfo("INOUT"))
 		{
 			org.compiere.apps.search.Info.showInOut (Env.getFrame(c), WindowNo, "");
 		}
-		else if (actionCommand.equals("InfoPayment"))
+		else if (actionCommand.equals("InfoPayment") && AEnv.canAccessInfo("PAYMENT"))
 		{
 			org.compiere.apps.search.Info.showPayment (Env.getFrame(c), WindowNo, "");
 		}
-		else if (actionCommand.equals("InfoCashLine"))
+		else if (actionCommand.equals("InfoCashLine") && AEnv.canAccessInfo("CASHJOURNAL"))
 		{
 			org.compiere.apps.search.Info.showCashLine (Env.getFrame(c), WindowNo, "");
 		}
-		else if (actionCommand.equals("InfoAssignment"))
+		else if (actionCommand.equals("InfoAssignment") && AEnv.canAccessInfo("RESOURCE"))
 		{
 			org.compiere.apps.search.Info.showAssignment (Env.getFrame(c), WindowNo, "");
 		}
@@ -939,5 +943,63 @@ public final class AEnv
 			}
 		}
 	}
+	
+	/**
+	 *  Validate permissions to access Info queries on the view menu 
+	*   @author kstan_79
+	*   @return true if access is allowed
+	*/ 
+	
+	public static boolean canAccessInfo(String infoWindowName) 
+	{
+		boolean result=false;
+		int roleid= Env.getAD_Role_ID(Env.getCtx());
+		String sqlRolePermission="Select COUNT(AD_ROLE_ID) AS ROWCOUNT FROM AD_ROLE WHERE AD_ROLE_ID=" + roleid  
+	                              + " AND ALLOW_INFO_" + infoWindowName + "='Y'"; 
+
+		System.out.println(sqlRolePermission); 
+		PreparedStatement prolestmt = null; 
+		try 
+		{ 
+			prolestmt = DB.prepareStatement (sqlRolePermission, null); 
+	 
+			ResultSet rs = prolestmt.executeQuery ();  
+	 
+			rs.next(); 
+	 
+			if (rs.getInt("ROWCOUNT")>0)
+			{
+				result=true;
+			}
+			else 
+			{
+				return false;
+			}
+			
+			rs.close (); 
+			prolestmt.close (); 
+			prolestmt = null; 
+		} 
+		catch (Exception e) 
+			{
+				System.out.println(e); 
+				log.log(Level.SEVERE, "(1)", e); 
+			} 
 		
+		try 
+		{ 
+			if (prolestmt != null)
+			{
+				prolestmt.close ();
+			}
+			prolestmt = null; 
+		} 
+		catch (Exception e) 
+		{ 
+			prolestmt = null; 
+		}  
+	
+		return result; 
+	} // 	canAccessInfo
+ 
 }	//	AEnv
