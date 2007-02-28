@@ -290,6 +290,13 @@ public final class Find extends CDialog
 		JButton b = ConfirmPanel.createNewButton(true);
 		confirmPanelS.addComponent (b);
 		b.addActionListener(this);
+		// teo_sarca, [ 1670847 ] Find dialog: closing and canceling need same functionality
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				cmd_cancel();
+			}
+		});
 	}	//	jbInit
 
 	/**
