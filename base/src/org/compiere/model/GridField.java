@@ -95,7 +95,7 @@ public class GridField
 	/** Error Status                        */
 	private boolean         m_error = false;
 	/** Parent Check						*/
-	private boolean			m_parentChecked = false;
+	private Boolean			m_parentValue = null;
 
 	/** Property Change         			*/
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
@@ -336,6 +336,10 @@ public class GridField
 			int AD_Client_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Client_ID");
 			int AD_Org_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Org_ID");
 			String keyColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "KeyColumnName");
+			if ("EntityType".equals(keyColumn))
+				keyColumn = "AD_EntityType_ID";
+			if (!keyColumn.endsWith("_ID"))
+				keyColumn += "_ID";			//	AD_Language_ID
 			int Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, keyColumn);
 			int AD_Table_ID = m_vo.AD_Table_ID;
 			if (!MRole.getDefault(m_vo.ctx, false).canUpdate(
@@ -416,7 +420,6 @@ public class GridField
 			|| DisplayType.isLOB(m_vo.displayType))
 			return null;
 		//	Set Parent to context if not explitly set
-		//  hengsin, bug[1637757]
 		if (isParentValue()
 			&& (m_vo.DefaultValue == null || m_vo.DefaultValue.length() == 0))
 		{
@@ -424,7 +427,6 @@ public class GridField
 			log.fine("[Parent] " + m_vo.ColumnName + "=" + parent);
 			return createDefault(parent);
 		}
-		
 		//	Always Active
 		if (m_vo.ColumnName.equals("IsActive"))
 		{
@@ -480,7 +482,7 @@ public class GridField
 					log.log(Level.WARNING, "(" + m_vo.ColumnName + ") " + sql, e);
 				}
 			}
-			if (!defStr.equals(""))
+			if (defStr != null && defStr.length() > 0)
 			{
 				log.fine("[SQL] " + m_vo.ColumnName + "=" + defStr);
 				return createDefault(defStr);
@@ -1026,65 +1028,29 @@ public class GridField
 			return m_vo.IsParent;
 	}
 	/**
-	 * 	Parent Value
+	 * 	Parent Link Value
 	 *	@return parent value
 	 */
 	public boolean isParentValue()
 	{
-		if (m_parentChecked)
-			return m_vo.IsParent;
+		if (m_parentValue != null)
+			return m_parentValue.booleanValue();
 		if (!DisplayType.isID(m_vo.displayType) || m_vo.TabNo == 0)
-			m_vo.IsParent = false;
+			m_parentValue = Boolean.FALSE;
 		else 
 		{
 			String LinkColumnName = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "LinkColumnName");
 			if (LinkColumnName.length() == 0)
 				;
 			else 
-				m_vo.IsParent = m_vo.ColumnName.equals(LinkColumnName);
-			if (m_vo.IsParent)
-				log.config(m_vo.IsParent
+				m_parentValue = new Boolean(m_vo.ColumnName.equals(LinkColumnName));
+			if (m_parentValue)
+				log.config(m_parentValue
 					+ " - Link(" + LinkColumnName + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
 					+ ") = " + m_vo.ColumnName);
-			else
-				m_vo.IsParent = isIndirectParentValue();
-		}
-		m_parentChecked = true;
-		return m_vo.IsParent;
 	}
-	
-	/**
-	 * bug[1637757]
-	 * Check whether is indirect parent. 
-	 * @return boolean
-	 */
-	private boolean isIndirectParentValue()
-	{
-		boolean result = false;
-		int tabNo = m_vo.TabNo;
-		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
-		if (tabNo > 1 && currentLevel > 1)
-		{
-			while ( tabNo >= 1 && !result)
-			{
-				tabNo--;
-				int level = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
-				if (level > 0 && level < currentLevel) 
-				{
-					String linkColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, tabNo, "LinkColumnName");
-					if (m_vo.ColumnName.equals(linkColumn))
-					{
-						result = true;
-						log.config(result
-								+ " - Link(" + linkColumn + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
-								+ ") = " + m_vo.ColumnName);
-					}
-					currentLevel = level;
-				}
-			}
-		}
-		return result;
-	}
+		return m_parentValue.booleanValue();
+	}	//	isParentValue
 	
 	/**
 	 * 	Get Callout
@@ -1408,8 +1374,13 @@ public class GridField
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("MField[");
-		sb.append(m_vo.ColumnName).append("=").append(m_value).append("]");
+		StringBuffer sb = new StringBuffer("GridField[")
+			.append(m_vo.ColumnName).append("=").append(m_value);
+		if (isKey())
+			sb.append("(Key)");
+		if (isParentColumn())
+			sb.append("(Parent)");
+		sb.append("]");
 		return sb.toString();
 	}   //  toString
 
