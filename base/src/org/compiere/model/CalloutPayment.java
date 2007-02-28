@@ -426,12 +426,31 @@ public class CalloutPayment extends CalloutEngine
 				mTab.setValue("OverUnderAmt", Env.ZERO);				
 		}
 		//  PayAmt - calculate write off
-		else if (colName.equals("PayAmt"))
+		//Added Lines By Goodwill (02-03-2006)
+		//Reason: we must make the callout is called just when docstatus is draft
+		//Old Code : else if (colName.equals("PayAmt"))
+		//New Code :
+		else if (colName.equals("PayAmt") && mTab.get_ValueAsString("DocStatus").equals("DR"))
+		//End By Goodwill
 		{
 			WriteOffAmt = InvoiceOpenAmt.subtract(PayAmt).subtract(DiscountAmt).subtract(OverUnderAmt);
-			mTab.setValue("WriteOffAmt", WriteOffAmt);
+			//Added Lines By Goodwill
+			//Reason: if overunderpayment is checked then the amount set to overunderamt automaticly
+			//Old Code:
+			//mTab.setValue("WriteOffAmt", WriteOffAmt);
+			//New Code:
+			if(!"Y".equals(Env.getContext(ctx, WindowNo, "IsOverUnderPayment")))
+				mTab.setValue("WriteOffAmt", WriteOffAmt);
+			else
+				mTab.setValue("OverUnderAmt", WriteOffAmt);
+			//End Of Added Lines
 		}
-		else    //  calculate PayAmt
+		//Added Lines By Goodwill (02-03-2006)
+		//Reason: we must make the callout is called just when docstatus is draft
+		//Old Code : else    //  calculate PayAmt
+		//New Code :
+		else  if(mTab.get_ValueAsString("DocStatus").equals("DR"))  //  calculate PayAmt
+		//End By Goodwill
 		{
 			PayAmt = InvoiceOpenAmt.subtract(DiscountAmt).subtract(WriteOffAmt).subtract(OverUnderAmt);
 			mTab.setValue("PayAmt", PayAmt);
