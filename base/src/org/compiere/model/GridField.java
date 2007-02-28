@@ -1048,7 +1048,9 @@ public class GridField
 				log.config(m_parentValue
 					+ " - Link(" + LinkColumnName + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
 					+ ") = " + m_vo.ColumnName);
-	}
+			else
+				m_parentValue = new Boolean(isIndirectParentValue());
+		}
 		return m_parentValue.booleanValue();
 	}	//	isParentValue
 	
@@ -1472,5 +1474,36 @@ public class GridField
 		return retValue;
 	}	//	createFields
 		
-				
+	/**
+	 * bug[1637757]
+	 * Check whether is indirect parent. 
+	 * @return boolean
+	 */
+	private boolean isIndirectParentValue()
+	{
+		boolean result = false;
+		int tabNo = m_vo.TabNo;
+		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+		if (tabNo > 1 && currentLevel > 1)
+		{
+			while ( tabNo >= 1 && !result)
+			{
+				tabNo--;
+				int level = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+				if (level > 0 && level < currentLevel) 
+				{
+					String linkColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, tabNo, "LinkColumnName");
+					if (m_vo.ColumnName.equals(linkColumn))
+					{
+						result = true;
+						log.config(result
+								+ " - Link(" + linkColumn + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
+								+ ") = " + m_vo.ColumnName);
+					}
+					currentLevel = level;
+				}
+			}
+		}
+		return result;
+	}			
 }   //  MField
