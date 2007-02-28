@@ -128,7 +128,7 @@ INSERT INTO ad_element
      VALUES (50044, 0, 0, 'Y',
              TO_DATE ('02/28/2007 01:41:28', 'MM/DD/YYYY HH24:MI:SS'), 100,
              TO_DATE ('02/28/2007 01:41:28', 'MM/DD/YYYY HH24:MI:SS'), 100,
-             'AD_SysConfig_ID', 'U', 'System Configurator',
+             'AD_SysConfig_ID', 'D', 'System Configurator',
              'System Configurator'
             );
 
