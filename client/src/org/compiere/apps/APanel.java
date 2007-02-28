@@ -75,6 +75,7 @@ public final class APanel extends CPanel
 	private static CLogger log = CLogger.getCLogger(APanel.class);
 	
 	private AWindow m_window;
+	private boolean isCancel = false; //Goodwill
 
 	/**
 	 *	Dispose
@@ -526,7 +527,9 @@ public final class APanel extends CPanel
 						//  initial user query for single workbench tab
 						if (m_mWorkbench.getWindowCount() == 1)
 						{
+							isCancel = false; //Goodwill
 							query = initialQuery (query, gTab);
+							if (isCancel) return false; //Cancel opening window
 							if (query != null && query.getRecordCount() <= 1)
 								goSingleRow = true;
 						}
@@ -716,6 +719,7 @@ public final class APanel extends CPanel
 				mTab.getAD_Table_ID(), mTab.getTableName(), 
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
+			isCancel = (query == null);//Goodwill
 			find.dispose();
 			find = null;
 		}
