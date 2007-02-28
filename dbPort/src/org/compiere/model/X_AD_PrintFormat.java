@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor_ID */
+public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 /** Set Print Font.
 @param AD_PrintFont_ID Maintain Print Font */
 public void setAD_PrintFont_ID (int AD_PrintFont_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("AD_PrintFont_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFont_ID */
+public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
 /** Set Print Format.
 @param AD_PrintFormat_ID Data Print Format */
 public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Print Paper.
 @param AD_PrintPaper_ID Printer paper definition */
 public void setAD_PrintPaper_ID (int AD_PrintPaper_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("AD_PrintPaper_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintPaper_ID */
+public static final String COLUMNNAME_AD_PrintPaper_ID = "AD_PrintPaper_ID";
 /** Set Print Table Format.
 @param AD_PrintTableFormat_ID Table Format in Reports */
 public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("AD_PrintTableFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintTableFormat_ID */
+public static final String COLUMNNAME_AD_PrintTableFormat_ID = "AD_PrintTableFormat_ID";
 /** Set Report View.
 @param AD_ReportView_ID View used to generate this report */
 public void setAD_ReportView_ID (int AD_ReportView_ID)
@@ -188,6 +198,8 @@ Integer ii = (Integer)get_Value("AD_ReportView_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReportView_ID */
+public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -203,6 +215,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Create Copy.
 @param CreateCopy Create Copy */
 public void setCreateCopy (String CreateCopy)
@@ -220,6 +234,8 @@ public String getCreateCopy()
 {
 return (String)get_Value("CreateCopy");
 }
+/** Column name CreateCopy */
+public static final String COLUMNNAME_CreateCopy = "CreateCopy";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -237,6 +253,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Footer Margin.
 @param FooterMargin Margin of the Footer in 1/72 of an inch */
 public void setFooterMargin (int FooterMargin)
@@ -251,6 +269,8 @@ Integer ii = (Integer)get_Value("FooterMargin");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FooterMargin */
+public static final String COLUMNNAME_FooterMargin = "FooterMargin";
 /** Set Header Margin.
 @param HeaderMargin Margin of the Header in 1/72 of an inch */
 public void setHeaderMargin (int HeaderMargin)
@@ -265,6 +285,8 @@ Integer ii = (Integer)get_Value("HeaderMargin");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HeaderMargin */
+public static final String COLUMNNAME_HeaderMargin = "HeaderMargin";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -283,6 +305,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Form.
 @param IsForm If Selected, a Form is printed, if not selected a columnar List report */
 public void setIsForm (boolean IsForm)
@@ -301,6 +325,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsForm */
+public static final String COLUMNNAME_IsForm = "IsForm";
 /** Set Standard Header/Footer.
 @param IsStandardHeaderFooter The standard Header and Footer is used */
 public void setIsStandardHeaderFooter (boolean IsStandardHeaderFooter)
@@ -319,6 +345,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsStandardHeaderFooter */
+public static final String COLUMNNAME_IsStandardHeaderFooter = "IsStandardHeaderFooter";
 /** Set Table Based.
 @param IsTableBased Table based List Reporting */
 public void setIsTableBased (boolean IsTableBased)
@@ -337,6 +365,29 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTableBased */
+public static final String COLUMNNAME_IsTableBased = "IsTableBased";
+
+/** JasperProcess_ID AD_Reference_ID=400 */
+public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
+/** Set Jasper Process.
+@param JasperProcess_ID The Jasper Process used by the printengine if any process defined */
+public void setJasperProcess_ID (int JasperProcess_ID)
+{
+if (JasperProcess_ID <= 0) set_Value ("JasperProcess_ID", null);
+ else 
+set_Value ("JasperProcess_ID", Integer.valueOf(JasperProcess_ID));
+}
+/** Get Jasper Process.
+@return The Jasper Process used by the printengine if any process defined */
+public int getJasperProcess_ID() 
+{
+Integer ii = (Integer)get_Value("JasperProcess_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name JasperProcess_ID */
+public static final String COLUMNNAME_JasperProcess_ID = "JasperProcess_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -361,6 +412,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Printer Name.
 @param PrinterName Name of the Printer */
 public void setPrinterName (String PrinterName)
@@ -378,4 +431,6 @@ public String getPrinterName()
 {
 return (String)get_Value("PrinterName");
 }
+/** Column name PrinterName */
+public static final String COLUMNNAME_PrinterName = "PrinterName";
 }

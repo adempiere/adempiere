@@ -69,9 +69,9 @@ public class ReportStarter implements ProcessCall {
 
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
-            REPORT_HOME = new File( System.getProperty("COMPIERE_HOME")+"/reports");
+            REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "./reports");
         } else {
-            REPORT_HOME = new File( reportPath);
+			REPORT_HOME = new File(reportPath);
         }
     }
 
@@ -220,7 +220,7 @@ public class ReportStarter implements ProcessCall {
     
     /**
      * @author rlemeill
-     * @param reportLocation http string url ex: http://compiereserver.domain.com/webApp/standalone.jrxml
+     * @param reportLocation http string url ex: http://adempiereserver.domain.com/webApp/standalone.jrxml
      * @return downloaded File (or already existing one)
      */
     private File httpDownloadedReport(String reportLocation)
@@ -324,6 +324,7 @@ public class ReportStarter implements ProcessCall {
         if (Record_ID!=-1) {
 			JasperData data = null;
 			File reportFile = null;
+			String fileExtension = "";
 			HashMap params = new HashMap( ctx);
 			
 			addProcessParameters( AD_PInstance_ID, params, trxName);
@@ -343,9 +344,15 @@ public class ReportStarter implements ProcessCall {
 			}
 
 			if (reportFile != null)
+			{
 				data = processReport(reportFile);
+				fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
+						reportFile.getName().length());
+			}
 			else
+			{
 				return false;
+			}
 			
 			JasperReport jasperReport = data.getJasperReport();
             String jasperName = data.getJasperName();
@@ -354,7 +361,7 @@ public class ReportStarter implements ProcessCall {
             if (jasperReport != null) {
 
                 // Subreports
-                File[] subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, ".xml"));
+				File[] subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
                 for( int i=0; i<subreports.length; i++) {
                     JasperData subData = processReport( subreports[i]);
                     if (subData.getJasperReport()!=null) {
@@ -402,10 +409,11 @@ public class ReportStarter implements ProcessCall {
                         JasperPrintManager.printReport( jasperPrint, false);
                         
                         // You can use JasperPrint to create PDF
-                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
+//                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
                     } else {
                         log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
                         JasperViewer jasperViewer = new JasperViewer( jasperPrint, pi.getTitle()+" - " + reportPath);
+						jasperViewer.setExtendedState(jasperViewer.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
                         jasperViewer.setVisible(true);
                     }
                 } catch (JRException e) {
@@ -446,12 +454,15 @@ public class ReportStarter implements ProcessCall {
 		
 		// Reports deployement on web server Thanks to Alin Vaida
 		if (reportPath.startsWith("http://")) {
-			
 			reportFile = httpDownloadedReport(reportPath);
-			
+		} else if(reportPath.startsWith("/")) {
+			reportFile = new File(reportPath);
 		} else {
 			reportFile = new File(REPORT_HOME, reportPath);
 		}
+		
+		// Set org.compiere.report.path because it is used in reports which refer to subreports
+		System.setProperty("org.compiere.report.path", reportFile.getParentFile().getAbsolutePath());
 		return reportFile;
 	}
 
@@ -588,8 +599,8 @@ public class ReportStarter implements ProcessCall {
     		compiereJasperAbsolutePath = compiereJasperAbsolutePath.replaceAll("%20"," ");
     		jasperreportsAbsolutePath = jasperreportsAbsolutePath.replaceAll("%20"," ");
     		String newClassPath = jasperreportsAbsolutePath + System.getProperty("path.separator") + compiereJasperAbsolutePath;
-    		log.warning("JasperReports compilation is probably started from JavaWebStart");
-    		log.info("classpath is corrected to "+newClassPath);
+    		log.info("JasperReports compilation is probably started from JavaWebStart");
+    		log.info("Classpath is corrected to "+newClassPath);
     		System.setProperty("java.class.path",newClassPath) ;
 
 		}

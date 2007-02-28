@@ -35,7 +35,7 @@ import org.compiere.util.*;
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright ï¿½ Jorg Janke
  *  @version $Id: SubCheckout.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class SubCheckout extends PosSubPanel implements ActionListener
@@ -159,8 +159,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		
 	
 //TODO: Credit card
-/*  Panel para la introducción de los datos de CreditCard para el pago quitada por ConSerTi al no considerar
- *  que sea útil de momento
+/*  Panel para la introducciï¿½n de los datos de CreditCard para el pago quitada por ConSerTi al no considerar
+ *  que sea ï¿½til de momento
  	
 		//	--	1 -- Creditcard 
 		CPanel creditcard = new CPanel(new GridBagLayout());
@@ -307,7 +307,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 * 	Process Order
 	 *  @author Comunidad de Desarrollo OpenXpertya 
 	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright © ConSerTi
+	 *         *Copyright ï¿½ ConSerTi
 	 */
 	public void processOrder()
 	{
@@ -332,7 +332,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 * 	Print Ticket
 	 *  @author Comunidad de Desarrollo OpenXpertya 
 	 *  *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *  *Copyright © ConSerTi
+	 *  *Copyright ï¿½ ConSerTi
 	 */
 	public void printTicket()
 	{
@@ -350,7 +350,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
 				*/ 
 				//print standard document
-				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), true);
+				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, Env.getWindowNo(this), true);
 			}
 			catch (Exception e) 
 			{
@@ -364,7 +364,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 *  Display the difference between tender amount and bill amount
 	 *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+ *         *Copyright ï¿½ ConSerTi
 	 */
 	public void displayReturn()
 	{
@@ -386,7 +386,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+ *         *Copyright ï¿½ ConSerTi
 	 */
 	public boolean isOrderFullyPay()
 	{
@@ -409,7 +409,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 *  Abre la caja registradora
 	 *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+ *         *Copyright ï¿½ ConSerTi
 	 */
 	public void openCashDrawer()
 	{

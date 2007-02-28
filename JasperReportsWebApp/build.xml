@@ -34,7 +34,7 @@
 
   <target name="xdoclet">
   	<echo>------ Executing xdoclet</echo>
-  	<ant inheritall="false" antfile="xdoclet-build.xml"/>
+  	<!--<ant inheritall="false" antfile="xdoclet-build.xml"/>-->
   </target>	
 	
   <target name="packaging">

@@ -107,7 +107,7 @@ public class ProcessCtl extends Thread
 		}
 
 		//	execute
-		ProcessCtl worker = new ProcessCtl(parent, pi, trx);
+		ProcessCtl worker = new ProcessCtl(parent, WindowNo, pi, trx);
 		worker.start();		//	MUST be start!
 		return worker;
 	}	//	execute
@@ -171,7 +171,7 @@ public class ProcessCtl extends Thread
 		}
 
 		//	execute
-		ProcessCtl worker = new ProcessCtl(parent, pi, trx);
+		ProcessCtl worker = new ProcessCtl(parent, WindowNo, pi, trx);
 		worker.start();		//	MUST be start!
 		return worker;
 	}	//	execute
@@ -185,13 +185,16 @@ public class ProcessCtl extends Thread
 	 *  @param trx Transaction
 	 *  Created in process(), VInvoiceGen.generateInvoices
 	 */
-	public ProcessCtl (ASyncProcess parent, ProcessInfo pi, Trx trx)
+	public ProcessCtl (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx)
 	{
+		windowno = WindowNo;
 		m_parent = parent;
 		m_pi = pi;
 		m_trx = trx;	//	handeled correctly
 	}   //  ProcessCtl
 
+	/** Windowno */
+	int windowno;
 	/** Parenr */
 	ASyncProcess m_parent;
 	/** Process Info */
@@ -360,7 +363,7 @@ public class ProcessCtl extends Thread
 			}	//	Pre-Report
 
 			//	Start Report	-----------------------------------------------
-			boolean ok = ReportCtl.start(m_pi, IsDirectPrint);
+			boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
 			m_pi.setSummary("Report", !ok);
 			unlock ();
 		}

@@ -3,6 +3,8 @@
  */
 package org.compiere.report;
 
+import java.awt.Component;
+import java.util.logging.Level;
 import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JRException;
@@ -14,31 +16,57 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.apps.*;
 
 public class JasperReportViewer extends JRViewer {
 
 	private static final long serialVersionUID = -7988455595896562947L;
 	
+	/**	Logger */
+	private static CLogger log = CLogger.getCLogger(JasperReportViewer.class);
+	
+	private JasperViewer jasperViewer;
 	private JasperPrint jasperPrint;
     private JComboBox comboBox;
 
-    public JasperReportViewer(final JasperPrint jasperPrint) throws JRException {
+    public JasperReportViewer(final JasperViewer jasperViewer, final JasperPrint jasperPrint) throws JRException {
         super( jasperPrint);
+		this.jasperViewer = jasperViewer;
         this.jasperPrint = jasperPrint;
-        JButton btnExport = new JButton();
+		
+		tlbToolBar.add(new JSeparator(SwingConstants.VERTICAL));
+		JButton btnSendByEmail = new JButton();
+        btnSendByEmail.setToolTipText("Send by Email");
+		btnSendByEmail.setText("Email");
+		btnSendByEmail.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnSendByEmail.setMaximumSize(new java.awt.Dimension(85, 23));
+		btnSendByEmail.setMinimumSize(new java.awt.Dimension(85, 23));
+		btnSendByEmail.addActionListener( new SendByEmailListener(jasperViewer, this));
+        tlbToolBar.add(btnSendByEmail);
+		tlbToolBar.add(new JSeparator(SwingConstants.VERTICAL));
+		
+		JButton btnExport = new JButton();
         btnExport.setToolTipText("Export to");
-        btnExport.setText("Export to");
-        btnExport.setPreferredSize(new java.awt.Dimension(70, 23));
-        btnExport.setMaximumSize(new java.awt.Dimension(70, 23));
-        btnExport.setMinimumSize(new java.awt.Dimension(70, 23));
+        btnExport.setText("Export");
+        btnExport.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnExport.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnExport.setMinimumSize(new java.awt.Dimension(85, 23));
         btnExport.addActionListener( new ExportListener( this));
-       // tlbToolBar.addSeparator();
         tlbToolBar.add(btnExport);
-        comboBox = new JComboBox( new String[] {"PDF","HTML", "XLS"});
-        comboBox.setPreferredSize(new java.awt.Dimension(70, 23));
-        comboBox.setMaximumSize(new java.awt.Dimension(70, 23));
-        comboBox.setMinimumSize(new java.awt.Dimension(70, 23));
+        
+		comboBox = new JComboBox( new String[] {"PDF","HTML", "XLS"});
+        comboBox.setPreferredSize(new java.awt.Dimension(80, 23));
+        comboBox.setMaximumSize(new java.awt.Dimension(80, 23));
+        comboBox.setMinimumSize(new java.awt.Dimension(80, 23));
         tlbToolBar.add(comboBox);
+		
+		// Set default viewer zoom level
+		btnFitPage.setSelected(true);
+		setZooms();
     }
 
     public JasperPrint getJasperPrint() {
@@ -59,6 +87,8 @@ class ExportListener implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
         JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setSelectedFile(new File(viewer.getJasperPrint().getName() +
+				"." + viewer.getFormat().toLowerCase()));
         if (fileChooser.showSaveDialog( viewer)==JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try {
@@ -76,5 +106,40 @@ class ExportListener implements ActionListener {
                 e.printStackTrace();
             }
         }
+    }
+}
+
+class SendByEmailListener implements ActionListener {
+	/**	Logger */
+	private static CLogger log = CLogger.getCLogger(SendByEmailListener.class);
+	
+	private JasperViewer jasperViewer;
+    private JasperReportViewer viewer;
+
+    public SendByEmailListener(JasperViewer jasperViewer, JasperReportViewer viewer) {
+		this.jasperViewer = jasperViewer;
+        this.viewer = viewer;
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        String to = "";
+		MUser from = MUser.get(Env.getCtx(), Env.getAD_User_ID(Env.getCtx()));
+		String subject = viewer.getJasperPrint().getName();
+		String message = "";
+		File attachment = null;
+		
+		try
+		{
+			attachment = File.createTempFile("mail", ".pdf");
+			JasperExportManager.exportReportToPdfFile(viewer.getJasperPrint(), attachment.getAbsolutePath());
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "", e);
+		}
+		
+		EMailDialog emd = new EMailDialog ((JFrame)jasperViewer,
+				Msg.getMsg(Env.getCtx(), "SendMail"),
+				from, to, subject, message, attachment);
     }
 }

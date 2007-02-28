@@ -451,7 +451,7 @@ public class VInvoiceGen extends CPanel
 		}
 
 		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(this, pi, trx);
+		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
 		worker.start();     //  complete tasks in unlockUI / generateInvoice_complete
 	}	//	generateInvoices
 
@@ -498,7 +498,7 @@ public class VInvoiceGen extends CPanel
 				for (int i = 0; i < ids.length; i++)
 				{
 					int C_Invoice_ID = ids[i];
-					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, true);
+					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, Env.getWindowNo(this), true);
 				}
 				ADialogDialog d = new ADialogDialog (m_frame,
 					Env.getHeader(Env.getCtx(), m_WindowNo),

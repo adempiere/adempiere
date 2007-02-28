@@ -765,7 +765,7 @@ public final class EMail implements Serializable
 		//	Local Character Set
 		String charSetName = System.getProperty("file.encoding"); 	//	Cp1252
 		if (charSetName == null || charSetName.length() == 0)
-			charSetName = "UTF-8";	// WebEnv.ENCODING - alternative iso-8859-1
+			charSetName = "iso-8859-1";	// WebEnv.ENCODING - alternative iso-8859-1
 		//
 		m_msg.setSubject (getSubject(), charSetName);
 

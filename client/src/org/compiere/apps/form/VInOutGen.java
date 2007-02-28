@@ -459,7 +459,7 @@ public class VInOutGen extends CPanel
 		}
 
 		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(this, pi, trx);
+		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
 		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
 		//
 	}	//	generateShipments
@@ -508,7 +508,7 @@ public class VInOutGen extends CPanel
 				for (int i = 0; i < ids.length; i++)
 				{
 					int M_InOut_ID = ids[i];
-					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, true);
+					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
 				}
 				ADialogDialog d = new ADialogDialog (m_frame,
 					Env.getHeader(Env.getCtx(), m_WindowNo),

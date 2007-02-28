@@ -35,7 +35,7 @@ public class JasperViewer extends javax.swing.JFrame {
     protected JasperViewer(JasperPrint jasperPrint,String frameTitle) throws JRException {
         this.m_title = frameTitle;
     	initComponents();
-        JasperReportViewer viewer = new JasperReportViewer(jasperPrint);
+        JasperReportViewer viewer = new JasperReportViewer(this, jasperPrint);
         this.pnlMain.add(viewer, BorderLayout.CENTER);
     }
 

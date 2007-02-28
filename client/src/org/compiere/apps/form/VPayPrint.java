@@ -478,7 +478,7 @@ public class VPayPrint extends CPanel
 		{
 			MPaySelectionCheck check = m_checks[i];
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), null, Env.getWindowNo(this), directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}
@@ -502,7 +502,7 @@ public class VPayPrint extends CPanel
 			for (int i = 0; i < m_checks.length; i++)
 			{
 				MPaySelectionCheck check = m_checks[i];
-				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, Env.getWindowNo(this), directPrint);
 			}
 		}	//	remittance
 

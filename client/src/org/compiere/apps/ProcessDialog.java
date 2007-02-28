@@ -379,7 +379,7 @@ public class ProcessDialog extends CFrame
 			for (int i = 0; i < m_ids.length; i++)
 			{
 				int M_InOut_ID = m_ids[i];
-				ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, true);
+				ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
 			}
 			ADialogDialog d = new ADialogDialog (this,
 				Env.getHeader(Env.getCtx(), m_WindowNo),
@@ -408,7 +408,7 @@ public class ProcessDialog extends CFrame
 			for (int i = 0; i < m_ids.length; i++)
 			{
 				int AD_Invoice_ID = m_ids[i];
-				ReportCtl.startDocumentPrint(ReportEngine.INVOICE, AD_Invoice_ID, true);
+				ReportCtl.startDocumentPrint(ReportEngine.INVOICE, AD_Invoice_ID, this, Env.getWindowNo(this), true);
 			}
 			ADialogDialog d = new ADialogDialog (this,
 				Env.getHeader(Env.getCtx(), m_WindowNo),

@@ -52,7 +52,7 @@ public class ReportCtl
 	 *  @param IsDirectPrint if true, prints directly - otherwise View
 	 *  @return true if created
 	 */
-	static public boolean start (ProcessInfo pi, boolean IsDirectPrint)
+	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean IsDirectPrint)
 	{
 		s_log.info("start - " + pi);
 
@@ -60,19 +60,19 @@ public class ReportCtl
 		 *	Order Print
 		 */
 		if (pi.getAD_Process_ID() == 110)			//	C_Order
-			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 116)		//	C_Invoice
-			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 117)		//	M_InOut
-			return startDocumentPrint(ReportEngine.SHIPMENT, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.SHIPMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 217)		//	C_Project
-			return startDocumentPrint(ReportEngine.PROJECT, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.PROJECT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 276)		//	C_RfQResponse
-			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 313)		//	C_Payment
 			return startCheckPrint(pi.getRecord_ID(), IsDirectPrint);
         else if (pi.getAD_Process_ID() == 290)      // Movement Submission by VHARCQ
-            return startDocumentPrint(ReportEngine.MOVEMENT, pi.getRecord_ID(), IsDirectPrint);
+            return startDocumentPrint(ReportEngine.MOVEMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		/**
 		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(CHECK, pi, IsDirectPrint);
@@ -80,7 +80,7 @@ public class ReportCtl
 			return startDocumentPrint(REMITTANCE, pi, IsDirectPrint);
 		**/
 		else if (pi.getAD_Process_ID() == 159)		//	Dunning
-			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), IsDirectPrint);
+			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
 			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
 		   return startFinReport (pi);
@@ -153,23 +153,37 @@ public class ReportCtl
 	 * 	@param IsDirectPrint if true, prints directly - otherwise View
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint (int type, int Record_ID, boolean IsDirectPrint)
+	public static boolean startDocumentPrint (int type, int Record_ID, ASyncProcess parent, int WindowNo, boolean IsDirectPrint)
 	{
-
 		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
 		if (re == null)
 		{
 			ADialog.error(0, null, "NoDocPrintFormat");
 			return false;
 		}
-		if (IsDirectPrint)
+		
+		if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
 		{
-			re.print ();
-			ReportEngine.printConfirm (type, Record_ID);
+			ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
+			
+			//	Execute Process
+			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+			try {
+				worker.start();
+			} catch(java.lang.IllegalThreadStateException itse) {
+				// Do nothing
+			}
 		}
 		else
-			preview(re);
-		
+		{
+			if (IsDirectPrint)
+			{
+				re.print ();
+				ReportEngine.printConfirm (type, Record_ID);
+			}
+			else
+				preview(re);
+		}
 		
 		//vpj-cd e-evolution 15022007
 		if(type == ReportEngine.INVOICE)
@@ -203,7 +217,7 @@ public class ReportCtl
 		
 		return true;
 	}	//	StartDocumentPrint
-
+	
 	/**
 	 * 	Start Check Print.
 	 * 	Find/Create
@@ -223,7 +237,7 @@ public class ReportCtl
 			if (psc != null)
 				C_PaySelectionCheck_ID = psc.getC_PaySelectionCheck_ID();
 		}
-		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, IsDirectPrint);
+		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, null, -1, IsDirectPrint);
 	}	//	startCheckPrint
 	
 	private static void preview(ReportEngine re) {

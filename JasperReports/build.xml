@@ -18,7 +18,8 @@
   <property name="jar.name" value="CompiereJasper"/>
   <property name="needed.jar.name" value="CompiereJasperReqs"/>
   <property name="version" value="_1"/>
-  <property environment="env"/>
+  <!--<property environment="env"/>-->
+  <import file="../utils_dev/properties.xml"/>
 
   <!-- set path to include the necessary jar files for javac -->
   <path id="project.class.path">
@@ -50,6 +51,7 @@
     <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" source="1.4" target="1.4" debug="on">
       <classpath>
 	      <pathelement path="${classpath}"/>
+		  <pathelement path="../lib/Adempiere.jar"/>
 	      <pathelement path="../base/Base.jar"/>
 	      <pathelement path="../dbPort/dbPort.jar"/>
 	      <pathelement path="../extend/Extend.jar"/>
@@ -99,12 +101,12 @@
       <fileset dir="${build.dir}"/>
       <manifest>
 	    <attribute name="Specification-Title" value="Add-on for Jasper Reports integration on org.compiere.report.ReportStarter"/>
-        <attribute name="Specification-Version" value="${env.COMPIERE_VERSION}${version}"/>
-        <attribute name="Specification-Vendor" value="Compiere.org"/>
-        <attribute name="Implementation-Title" value="CompiereJasper ${env.COMPIERE_VERSION}${version}"/>
-        <attribute name="Implementation-Version" value="${env.COMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
-        <attribute name="Implementation-Vendor" value="${env.COMPIERE_VENDOR}"/>
-        <attribute name="Implementation-URL" value="http://www.compiere.org"/>
+        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
+        <attribute name="Specification-Vendor" value="Adempiere.org"/>
+        <attribute name="Implementation-Title" value="CompiereJasper ${env.ADEMPIERE_VERSION}${version}"/>
+        <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
+        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+        <attribute name="Implementation-URL" value="http://www.adempiere.org"/>
         <attribute name="Main-Class" value="org.compiere.report.ReportStarter"/>
       </manifest>
     </jar>
@@ -138,12 +140,12 @@
       <fileset dir="${needed.dir}"/>
       <manifest>
 	<attribute name="Specification-Title" value="Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter"/>
-	<attribute name="Specification-Version" value="${env.COMPIERE_VERSION}${version}"/>
-	<attribute name="Specification-Vendor" value="Compiere.org"/>
-	<attribute name="Implementation-Title" value="CTools ${env.COMPIERE_VERSION}${version}"/>
-	<attribute name="Implementation-Version" value="${env.COMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
-	<attribute name="Implementation-Vendor" value="${env.COMPIERE_VENDOR}"/>
-	<attribute name="Implementation-URL" value="http://www.compiere.org"/>
+	<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
+	<attribute name="Specification-Vendor" value="Adempiere.org"/>
+	<attribute name="Implementation-Title" value="CTools ${env.ADEMPIERE_VERSION}${version}"/>
+	<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
+	<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+	<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
       </manifest>
     </jar>
 	<copy file="${dist.dir}/${needed.jar.name}.jar" todir="../lib">
