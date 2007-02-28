@@ -338,7 +338,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *  @param  displayType Display Type
 	 *  @param  AD_Language 6 character language setting (from Env.LANG_*)
 	 *
-	 *  @return TRIM(TO_CHAR(columnName,'9G999G990D00','NLS_NUMERIC_CHARACTERS='',.'''))
+	 *  @return TRIM(TO_CHAR(columnName,'999G999G999G990D00','NLS_NUMERIC_CHARACTERS='',.'''))
 	 *      or TRIM(TO_CHAR(columnName,'TM9')) depending on DisplayType and Language
 	 *  @see org.compiere.util.DisplayType
 	 *  @see org.compiere.util.Env

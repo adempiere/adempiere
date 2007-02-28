@@ -447,7 +447,7 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 	 *  @param  displayType Display Type
 	 *  @param  AD_Language 6 character language setting (from Env.LANG_*)
 	 *
-	 *  @return TRIM(TO_CHAR(columnName,'9G999G990D00','NLS_NUMERIC_CHARACTERS='',.'''))
+	 *  @return TRIM(TO_CHAR(columnName,'999G999G999G990D00','NLS_NUMERIC_CHARACTERS='',.'''))
 	 *      or TRIM(TO_CHAR(columnName,'TM9')) depending on DisplayType and Language
 	 *  @see org.compiere.util.DisplayType
 	 *  @see org.compiere.util.Env
@@ -462,10 +462,10 @@ public class DB_Oracle implements AdempiereDatabase, OracleConnectionCacheCallba
 		if (DisplayType.isNumeric(displayType))
 		{
 			if (displayType == DisplayType.Amount)
-				retValue.append(",'9G999G990D00'");
+				retValue.append(",'999G999G999G990D00'");
 			else
 				retValue.append(",'TM9'");
-			//  TO_CHAR(GrandTotal,'9G999G990D00','NLS_NUMERIC_CHARACTERS='',.''')
+			//  TO_CHAR(GrandTotal,'999G999G999G990D00','NLS_NUMERIC_CHARACTERS='',.''')
 			if (!Language.isDecimalPoint(AD_Language))      //  reversed
 				retValue.append(",'NLS_NUMERIC_CHARACTERS='',.'''");
 		}
