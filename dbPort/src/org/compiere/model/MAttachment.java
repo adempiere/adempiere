@@ -140,6 +140,8 @@ public class MAttachment extends X_AD_Attachment
 	public static final String 	NONE = ".";
 	/** Indicator for zip data  */
 	public static final String 	ZIP = "zip";
+	/** Indicator for xml data (store on file system) */
+	public static final String 	XML = "xml";
 
 	/**	List of Entry Data		*/
 	private ArrayList<MAttachmentEntry> m_items = null;
@@ -789,8 +791,15 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getTitle() == null || !getTitle().equals(ZIP))
-			setTitle (ZIP);
+		if(isStoreAttachmentsOnFileSystem){
+			if (getTitle() == null || !getTitle().equals(XML)) {
+				setTitle (XML);
+			}
+		} else {
+			if (getTitle() == null || !getTitle().equals(ZIP)) {
+				setTitle (ZIP);
+			}
+		}
 		return saveLOBData();		//	save in BinaryData
 	}	//	beforeSave
 
