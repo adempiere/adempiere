@@ -65,7 +65,7 @@ export CURRENTDIR=`pwd`
 
 #  Set Version
 export ADEMPIERE_VERSION=ADempiere
-export ADEMPIERE_VERSION_FILE=314
+export ADEMPIERE_VERSION_FILE=315
 export ADEMPIERE_VENDOR=ADempiere
 
 export ENCODING=UTF-8
