@@ -1721,7 +1721,7 @@ public class GridTable extends AbstractTableModel
 		//
 		MTable table = MTable.get (m_ctx, m_AD_Table_ID);
 		PO po = null;
-		if (table.isSingleKey())
+		if (Record_ID != -1)
 			po = table.getPO(Record_ID, null);
 		else	//	Multi - Key
 			po = table.getPO(getWhereClause(rowData), null);
