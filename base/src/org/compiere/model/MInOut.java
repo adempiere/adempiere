@@ -137,11 +137,6 @@ public class MInOut extends X_M_InOut implements DocAction
 		return retValue;
 	}	//	createFrom
 	
-	// Goodwill.co.id (Goodwill)
-	/** Reversal Indicator			*/
-	private static String	REVERSE_INDICATOR = "^";
-	// end Goodwill.co.id
-	
 	/**
 	 * 	Create new Shipment by copying
 	 * 	@param from shipment
@@ -161,14 +156,6 @@ public class MInOut extends X_M_InOut implements DocAction
 		copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("M_InOut_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
-		
-		// Goodwill.co.id (Goodwill)
-		// old :
-		// to.set_ValueNoCheck ("DocumentNo", null);
-		// new :
-		to.setDocumentNo(REVERSE_INDICATOR + from.getDocumentNo());
-		// end Goodwill.co.id
-		
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -1683,10 +1670,6 @@ public class MInOut extends X_M_InOut implements DocAction
 					line.save(get_TrxName());
 				}
 			}
-			// Goodwill.co.id (Goodwill)
-			// for voided Document, M_InOut_ID is added as suffix for Document No
-			setDocumentNo(getDocumentNo() + "#" + getM_InOut_ID());
-			// end Goodwill.co.id
 		}
 		else
 		{
@@ -1763,11 +1746,6 @@ public class MInOut extends X_M_InOut implements DocAction
 				}
 			}
 		}
-		
-		//Added New Lines By Goodwill.co.id
-		//Reason: To Change Document No when Reverse
-		setDocumentNo(getDocumentNo() + "#" + getM_InOut_ID());
-		//End Of Added Lines
 
 		//	Deep Copy
 		MInOut reversal = copyFrom (this, getMovementDate(), 
