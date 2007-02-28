@@ -80,6 +80,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		list.toArray(retValue);
 		return retValue;
 	}	//	getOfBPartner
+	
+	// Goodwill.co.id (Goodwill)
+	/** Reversal Indicator			*/
+	public static String REVERSE_INDICATOR = "^";
+	// end Goodwill.co.id
 
 	/**
 	 * 	Create new Invoice by copying
@@ -100,7 +105,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		to.set_TrxName(trxName);
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("C_Invoice_ID", I_ZERO);
-		to.set_ValueNoCheck ("DocumentNo", null);
+		// Goodwill.co.id (Goodwill)
+		// old :
+		//to.set_ValueNoCheck ("DocumentNo", null);
+		// new :
+		to.setDocumentNo(REVERSE_INDICATOR + from.getDocumentNo());
+		// end Goodwill.co.id
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -1952,6 +1962,10 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					line.save(get_TrxName());
 				}
 			}
+			// Goodwill.co.id (Goodwill)
+			// for voided Document, C_Invoice_ID is added as suffix for Document No
+			setDocumentNo(getDocumentNo() + "#" + getC_Invoice_ID());
+			// end Goodwill.co.id
 			addDescription(Msg.getMsg(getCtx(), "Voided"));
 			setIsPaid(true);
 			setC_Payment_ID(0);
@@ -2041,6 +2055,10 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		//
 		load(get_TrxName());	//	reload allocation reversal info
 
+		// Added New Lines By Goodwill.co.id
+		//Reason: To Change The Document No when Reversed
+		setDocumentNo(getDocumentNo() + "#" + getC_Invoice_ID());
+		// End Of Added Lines
 		//	Deep Copy
 		MInvoice reversal = copyFrom (this, getDateInvoiced(), 
 			getC_DocType_ID(), isSOTrx(), false, get_TrxName(), true);
