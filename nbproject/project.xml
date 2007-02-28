@@ -94,24 +94,25 @@
                     <type>java</type>
                     <location>webStore/src</location>
                 </source-folder>
+                <source-folder>
+                    <label>migration</label>
+                    <type>java</type>
+                    <location>migration</location>
+                </source-folder>
             </folders>
             <ide-actions>
                 <action name="build">
                     <script>${ant.script}</script>
-                    <target>complete</target>
+                    <target>build</target>
                 </action>
                 <action name="clean">
                     <script>${ant.script}</script>
                     <target>clean</target>
                 </action>
-                <action name="run">
-                    <script>${ant.script}</script>
-                    <target>runSetup</target>
-                </action>
                 <action name="rebuild">
                     <script>${ant.script}</script>
                     <target>clean</target>
-                    <target>complete</target>
+                    <target>build</target>
                 </action>
             </ide-actions>
             <view>
@@ -184,6 +185,10 @@
                         <label>webStore/src</label>
                         <location>webStore/src</location>
                     </source-folder>
+                    <source-folder style="packages">
+                        <label>migration</label>
+                        <location>migration</location>
+                    </source-folder>
                     <source-file>
                         <location>${ant.script}</location>
                     </source-file>
@@ -191,13 +196,7 @@
                 <context-menu>
                     <ide-action name="build"/>
                     <ide-action name="clean"/>
-                    <ide-action name="run"/>
                     <ide-action name="rebuild"/>
-                    <action>
-                        <script>${ant.script}</script>
-                        <label>Run Setup</label>
-                        <target>runSetup</target>
-                    </action>
                 </context-menu>
             </view>
             <subprojects/>
@@ -205,87 +204,24 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>base/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>client/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>dbPort/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>extend/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>install/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>interfaces/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>JasperReports/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>JasperReportsWebApp/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>looks/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>migration/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>print/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>serverApps/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>serverRoot/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>sqlj/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>tools/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>webCM/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>webStore/src</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/freepdf.jar:lib/fyracle.jar:lib/jboss.jar:lib/jPDF.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
+                <package-root>migration</package-root>
+                <classpath mode="compile">lib/Adempiere.jar:lib/adempiereApps.jar:lib/adempiereApps.war:lib/adempiereRoot.jar:lib/adempiereRootBase.war:lib/adempiereWebCMbase.war:lib/adempiereWebStore.war:lib/CCTools.jar:lib/CompiereJasperReqs.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/fyracle.jar:lib/jboss.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar:lib/sqlServer.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
