@@ -22,7 +22,7 @@
 
 :CHECK_ADEMPIERE
 @if not "%ADEMPIERE_HOME%" == "" goto ADEMPIERE_HOME_OK
-Set CLASSPATH=lib\customization.jar;lib\patches.jar;lib\CompiereJasperReqs.jar;lib\Adempiere.jar;lib\AdempiereCLib.jar;%CLASSPATH%
+Set CLASSPATH=lib\customization.jar;lib\patches.jar;lib\Adempiere.jar;lib\AdempiereCLib.jar;lib\CompiereJasperReqs.jar;%CLASSPATH%
 set ADEMPIERE_HOME=%~dp0..
 @Echo ADEMPIERE_HOME is not set.  
 @Echo   You may not be able to start Adempiere

@@ -19,9 +19,9 @@ fi
 
 ## Check Adempiere Home
 if [ $ADEMPIERE_HOME ]; then
-  CLASSPATH=$ADEMPIERE_HOME/lib/customization.jar:$ADEMPIERE_HOME/lib/patches.jar:$ADEMPIERE_HOME/lib/CompiereJasperReqs.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/AdempiereCLib.jar:$CLASSPATH
+  CLASSPATH=$ADEMPIERE_HOME/lib/customization.jar:$ADEMPIERE_HOME/lib/patches.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/AdempiereCLib.jar:$ADEMPIERE_HOME/lib/CompiereJasperReqs.jar:$CLASSPATH
 else
-  CLASSPATH=lib/customization.jar:lib/patches.jar:lib/CompiereJasperReqs.jar:lib/Adempiere.jar:lib/AdempiereCLib.jar:$CLASSPATH
+  CLASSPATH=lib/customization.jar:lib/patches.jar:lib/Adempiere.jar:lib/AdempiereCLib.jar:lib/CompiereJasperReqs.jar:$CLASSPATH
   echo ADEMPIERE_HOME is not set
   echo   You may not be able to start Adempiere
   echo   Set ADEMPIERE_HOME to the directory of Adempiere.
