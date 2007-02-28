@@ -281,13 +281,6 @@ public class M_Element extends X_AD_Element
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
 			log.fine("PrintFormatItem updated #" + no);
 			
-			// Info Column
-			sql = new StringBuffer ("UPDATE AD_InfoColumn SET Name=")
-				.append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(" WHERE AD_Element_ID=").append(get_ID())
-				.append(" AND IsCentrallyMaintained='Y'");
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
 			log.fine("InfoWindow updated #" + no);
 		}
