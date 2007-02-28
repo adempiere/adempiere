@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchemaBreak
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_DiscountSchemaBreak extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ BigDecimal bd = (BigDecimal)get_Value("BreakDiscount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BreakDiscount */
+public static final String COLUMNNAME_BreakDiscount = "BreakDiscount";
 /** Set Break Value.
 @param BreakValue Low Value of trade discount break level */
 public void setBreakValue (BigDecimal BreakValue)
@@ -120,6 +122,8 @@ BigDecimal bd = (BigDecimal)get_Value("BreakValue");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BreakValue */
+public static final String COLUMNNAME_BreakValue = "BreakValue";
 /** Set B.Partner Flat Discount.
 @param IsBPartnerFlatDiscount Use flat discount defined on Business Partner Level */
 public void setIsBPartnerFlatDiscount (boolean IsBPartnerFlatDiscount)
@@ -138,6 +142,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBPartnerFlatDiscount */
+public static final String COLUMNNAME_IsBPartnerFlatDiscount = "IsBPartnerFlatDiscount";
 /** Set Discount Schema Break.
 @param M_DiscountSchemaBreak_ID Trade Discount Break */
 public void setM_DiscountSchemaBreak_ID (int M_DiscountSchemaBreak_ID)
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchemaBreak_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchemaBreak_ID */
+public static final String COLUMNNAME_M_DiscountSchemaBreak_ID = "M_DiscountSchemaBreak_ID";
 /** Set Discount Schema.
 @param M_DiscountSchema_ID Schema to calculate the trade discount percentage */
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
@@ -168,6 +176,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchema_ID */
+public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -184,6 +194,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -200,6 +212,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -222,4 +236,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

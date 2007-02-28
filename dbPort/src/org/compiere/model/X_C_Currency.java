@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Currency extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Costing Precision.
 @param CostingPrecision Rounding used costing calculations */
 public void setCostingPrecision (int CostingPrecision)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("CostingPrecision");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CostingPrecision */
+public static final String COLUMNNAME_CostingPrecision = "CostingPrecision";
 /** Set Symbol.
 @param CurSymbol Symbol of the currency (opt used for printing only) */
 public void setCurSymbol (String CurSymbol)
@@ -137,6 +141,8 @@ public String getCurSymbol()
 {
 return (String)get_Value("CurSymbol");
 }
+/** Column name CurSymbol */
+public static final String COLUMNNAME_CurSymbol = "CurSymbol";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -155,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMU Entry Date.
 @param EMUEntryDate Date when the currency joined / will join the EMU */
 public void setEMUEntryDate (Timestamp EMUEntryDate)
@@ -167,6 +175,8 @@ public Timestamp getEMUEntryDate()
 {
 return (Timestamp)get_Value("EMUEntryDate");
 }
+/** Column name EMUEntryDate */
+public static final String COLUMNNAME_EMUEntryDate = "EMUEntryDate";
 /** Set EMU Rate.
 @param EMURate Official rate to the Euro */
 public void setEMURate (BigDecimal EMURate)
@@ -181,6 +191,8 @@ BigDecimal bd = (BigDecimal)get_Value("EMURate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name EMURate */
+public static final String COLUMNNAME_EMURate = "EMURate";
 /** Set ISO Currency Code.
 @param ISO_Code Three letter ISO 4217 Code of the Currency */
 public void setISO_Code (String ISO_Code)
@@ -205,6 +217,8 @@ return (String)get_Value("ISO_Code");
 {
 return new KeyNamePair(get_ID(), getISO_Code());
 }
+/** Column name ISO_Code */
+public static final String COLUMNNAME_ISO_Code = "ISO_Code";
 /** Set EMU Member.
 @param IsEMUMember This currency is member if the European Monetary Union */
 public void setIsEMUMember (boolean IsEMUMember)
@@ -223,6 +237,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEMUMember */
+public static final String COLUMNNAME_IsEMUMember = "IsEMUMember";
 /** Set The Euro Currency.
 @param IsEuro This currency is the Euro */
 public void setIsEuro (boolean IsEuro)
@@ -241,6 +257,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEuro */
+public static final String COLUMNNAME_IsEuro = "IsEuro";
 /** Set Standard Precision.
 @param StdPrecision Rule for rounding  calculated amounts */
 public void setStdPrecision (int StdPrecision)
@@ -255,4 +273,6 @@ Integer ii = (Integer)get_Value("StdPrecision");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StdPrecision */
+public static final String COLUMNNAME_StdPrecision = "StdPrecision";
 }

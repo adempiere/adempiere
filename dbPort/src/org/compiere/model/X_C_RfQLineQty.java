@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQLineQty extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ BigDecimal bd = (BigDecimal)get_Value("BenchmarkPrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BenchmarkPrice */
+public static final String COLUMNNAME_BenchmarkPrice = "BenchmarkPrice";
 /** Set Best Response Amount.
 @param BestResponseAmt Best Response Amount */
 public void setBestResponseAmt (BigDecimal BestResponseAmt)
@@ -121,6 +123,8 @@ BigDecimal bd = (BigDecimal)get_Value("BestResponseAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BestResponseAmt */
+public static final String COLUMNNAME_BestResponseAmt = "BestResponseAmt";
 /** Set RfQ Line Quantity.
 @param C_RfQLineQty_ID Request for Quotation Line Quantity */
 public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_RfQLineQty_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQLineQty_ID */
+public static final String COLUMNNAME_C_RfQLineQty_ID = "C_RfQLineQty_ID";
 /** Set RfQ Line.
 @param C_RfQLine_ID Request for Quotation Line */
 public void setC_RfQLine_ID (int C_RfQLine_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("C_RfQLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQLine_ID */
+public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -172,6 +180,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_ID()));
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Offer Quantity.
 @param IsOfferQty This quantity is used in the Offer to the Customer */
 public void setIsOfferQty (boolean IsOfferQty)
@@ -190,6 +200,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOfferQty */
+public static final String COLUMNNAME_IsOfferQty = "IsOfferQty";
 /** Set Purchase Quantity.
 @param IsPurchaseQty This quantity is used in the Purchase Order to the Supplier */
 public void setIsPurchaseQty (boolean IsPurchaseQty)
@@ -208,6 +220,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPurchaseQty */
+public static final String COLUMNNAME_IsPurchaseQty = "IsPurchaseQty";
 /** Set RfQ Quantity.
 @param IsRfQQty The quantity is used when generating RfQ Responses */
 public void setIsRfQQty (boolean IsRfQQty)
@@ -226,6 +240,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRfQQty */
+public static final String COLUMNNAME_IsRfQQty = "IsRfQQty";
 /** Set Margin %.
 @param Margin Margin for a product as a percentage */
 public void setMargin (BigDecimal Margin)
@@ -240,6 +256,8 @@ BigDecimal bd = (BigDecimal)get_Value("Margin");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Margin */
+public static final String COLUMNNAME_Margin = "Margin";
 /** Set Offer Amount.
 @param OfferAmt Amount of the Offer */
 public void setOfferAmt (BigDecimal OfferAmt)
@@ -254,6 +272,8 @@ BigDecimal bd = (BigDecimal)get_Value("OfferAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OfferAmt */
+public static final String COLUMNNAME_OfferAmt = "OfferAmt";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -269,4 +289,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

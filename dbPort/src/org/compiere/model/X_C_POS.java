@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_POS extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("C_BPartnerCashTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartnerCashTrx_ID */
+public static final String COLUMNNAME_C_BPartnerCashTrx_ID = "C_BPartnerCashTrx_ID";
 /** Set Cash Book.
 @param C_CashBook_ID Cash Book for recording petty cash transactions */
 public void setC_CashBook_ID (int C_CashBook_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("C_CashBook_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CashBook_ID */
+public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set POS Key Layout.
 @param C_POSKeyLayout_ID POS Function Key Layout */
 public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("C_POSKeyLayout_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_POSKeyLayout_ID */
+public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 /** Set POS Terminal.
 @param C_POS_ID Point of Sales Terminal */
 public void setC_POS_ID (int C_POS_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("C_POS_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_POS_ID */
+public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -189,6 +199,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -206,6 +218,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Modify Price.
 @param IsModifyPrice Allow modifying the price */
 public void setIsModifyPrice (boolean IsModifyPrice)
@@ -224,6 +238,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsModifyPrice */
+public static final String COLUMNNAME_IsModifyPrice = "IsModifyPrice";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -239,6 +255,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -254,6 +272,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -278,6 +298,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Printer Name.
 @param PrinterName Name of the Printer */
 public void setPrinterName (String PrinterName)
@@ -295,6 +317,8 @@ public String getPrinterName()
 {
 return (String)get_Value("PrinterName");
 }
+/** Column name PrinterName */
+public static final String COLUMNNAME_PrinterName = "PrinterName";
 
 /** SalesRep_ID AD_Reference_ID=190 */
 public static final int SALESREP_ID_AD_Reference_ID=190;
@@ -313,4 +337,6 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 }

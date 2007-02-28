@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_CStageTTable extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("CM_CStageTTable_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_CStageTTable_ID */
+public static final String COLUMNNAME_CM_CStageTTable_ID = "CM_CStageTTable_ID";
 /** Set Web Container Stage.
 @param CM_CStage_ID Web Container Stage contains the staging content like images, text etc. */
 public void setCM_CStage_ID (int CM_CStage_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("CM_CStage_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_CStage_ID */
+public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
 /** Set Template Table.
 @param CM_TemplateTable_ID CM Template Table Link */
 public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("CM_TemplateTable_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_TemplateTable_ID */
+public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -150,6 +156,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -174,6 +182,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Other SQL Clause.
 @param OtherClause Other SQL Clause */
 public void setOtherClause (String OtherClause)
@@ -191,6 +201,8 @@ public String getOtherClause()
 {
 return (String)get_Value("OtherClause");
 }
+/** Column name OtherClause */
+public static final String COLUMNNAME_OtherClause = "OtherClause";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Sql WHERE.
 @param WhereClause Fully qualified SQL WHERE clause */
 public void setWhereClause (String WhereClause)
@@ -224,4 +238,6 @@ public String getWhereClause()
 {
 return (String)get_Value("WhereClause");
 }
+/** Column name WhereClause */
+public static final String COLUMNNAME_WhereClause = "WhereClause";
 }

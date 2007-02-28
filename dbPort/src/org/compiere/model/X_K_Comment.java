@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Comment
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Comment extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Session_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Session_ID */
+public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
 /** Set Public.
 @param IsPublic Public can read entry */
 public void setIsPublic (boolean IsPublic)
@@ -123,6 +125,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPublic */
+public static final String COLUMNNAME_IsPublic = "IsPublic";
 /** Set Entry Comment.
 @param K_Comment_ID Knowledge Entry Comment */
 public void setK_Comment_ID (int K_Comment_ID)
@@ -144,6 +148,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getK_Comment_ID()));
 }
+/** Column name K_Comment_ID */
+public static final String COLUMNNAME_K_Comment_ID = "K_Comment_ID";
 /** Set Entry.
 @param K_Entry_ID Knowledge Entry */
 public void setK_Entry_ID (int K_Entry_ID)
@@ -159,6 +165,8 @@ Integer ii = (Integer)get_Value("K_Entry_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Entry_ID */
+public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";
 /** Set Rating.
 @param Rating Classification or Importance */
 public void setRating (int Rating)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("Rating");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Rating */
+public static final String COLUMNNAME_Rating = "Rating";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -191,4 +201,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

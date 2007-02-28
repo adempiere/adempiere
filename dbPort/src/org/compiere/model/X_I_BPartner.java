@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_BPartner extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Address 1.
 @param Address1 Address line 1 for this location */
 public void setAddress1 (String Address1)
@@ -119,6 +121,8 @@ public String getAddress1()
 {
 return (String)get_Value("Address1");
 }
+/** Column name Address1 */
+public static final String COLUMNNAME_Address1 = "Address1";
 /** Set Address 2.
 @param Address2 Address line 2 for this location */
 public void setAddress2 (String Address2)
@@ -136,6 +140,8 @@ public String getAddress2()
 {
 return (String)get_Value("Address2");
 }
+/** Column name Address2 */
+public static final String COLUMNNAME_Address2 = "Address2";
 /** Set BP Contact Greeting.
 @param BPContactGreeting Greeting for Business Partner Contact */
 public void setBPContactGreeting (String BPContactGreeting)
@@ -153,6 +159,8 @@ public String getBPContactGreeting()
 {
 return (String)get_Value("BPContactGreeting");
 }
+/** Column name BPContactGreeting */
+public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
 /** Set Birthday.
 @param Birthday Birthday or Anniversary day */
 public void setBirthday (Timestamp Birthday)
@@ -165,6 +173,8 @@ public Timestamp getBirthday()
 {
 return (Timestamp)get_Value("Birthday");
 }
+/** Column name Birthday */
+public static final String COLUMNNAME_Birthday = "Birthday";
 /** Set Business Partner Group.
 @param C_BP_Group_ID Business Partner Group */
 public void setC_BP_Group_ID (int C_BP_Group_ID)
@@ -181,6 +191,8 @@ Integer ii = (Integer)get_Value("C_BP_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -197,6 +209,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -213,6 +227,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Country.
 @param C_Country_ID Country  */
 public void setC_Country_ID (int C_Country_ID)
@@ -229,6 +245,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 /** Set Greeting.
 @param C_Greeting_ID Greeting to print on correspondence */
 public void setC_Greeting_ID (int C_Greeting_ID)
@@ -245,6 +263,8 @@ Integer ii = (Integer)get_Value("C_Greeting_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Greeting_ID */
+public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
 /** Set Region.
 @param C_Region_ID Identifies a geographical Region */
 public void setC_Region_ID (int C_Region_ID)
@@ -261,6 +281,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set City.
 @param City Identifies a City */
 public void setCity (String City)
@@ -278,6 +300,8 @@ public String getCity()
 {
 return (String)get_Value("City");
 }
+/** Column name City */
+public static final String COLUMNNAME_City = "City";
 /** Set Comments.
 @param Comments Comments or additional information */
 public void setComments (String Comments)
@@ -295,6 +319,8 @@ public String getComments()
 {
 return (String)get_Value("Comments");
 }
+/** Column name Comments */
+public static final String COLUMNNAME_Comments = "Comments";
 /** Set Contact Description.
 @param ContactDescription Description of Contact */
 public void setContactDescription (String ContactDescription)
@@ -312,6 +338,8 @@ public String getContactDescription()
 {
 return (String)get_Value("ContactDescription");
 }
+/** Column name ContactDescription */
+public static final String COLUMNNAME_ContactDescription = "ContactDescription";
 /** Set Contact Name.
 @param ContactName Business Partner Contact Name */
 public void setContactName (String ContactName)
@@ -329,6 +357,8 @@ public String getContactName()
 {
 return (String)get_Value("ContactName");
 }
+/** Column name ContactName */
+public static final String COLUMNNAME_ContactName = "ContactName";
 /** Set ISO Country Code.
 @param CountryCode Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html */
 public void setCountryCode (String CountryCode)
@@ -346,6 +376,8 @@ public String getCountryCode()
 {
 return (String)get_Value("CountryCode");
 }
+/** Column name CountryCode */
+public static final String COLUMNNAME_CountryCode = "CountryCode";
 /** Set D-U-N-S.
 @param DUNS Dun & Bradstreet Number */
 public void setDUNS (String DUNS)
@@ -363,6 +395,8 @@ public String getDUNS()
 {
 return (String)get_Value("DUNS");
 }
+/** Column name DUNS */
+public static final String COLUMNNAME_DUNS = "DUNS";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -380,6 +414,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -397,6 +433,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Fax.
 @param Fax Facsimile number */
 public void setFax (String Fax)
@@ -414,6 +452,8 @@ public String getFax()
 {
 return (String)get_Value("Fax");
 }
+/** Column name Fax */
+public static final String COLUMNNAME_Fax = "Fax";
 /** Set Group Key.
 @param GroupValue Business Partner Group Key */
 public void setGroupValue (String GroupValue)
@@ -431,6 +471,8 @@ public String getGroupValue()
 {
 return (String)get_Value("GroupValue");
 }
+/** Column name GroupValue */
+public static final String COLUMNNAME_GroupValue = "GroupValue";
 /** Set Import Business Partner.
 @param I_BPartner_ID Import Business Partner */
 public void setI_BPartner_ID (int I_BPartner_ID)
@@ -446,6 +488,8 @@ Integer ii = (Integer)get_Value("I_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_BPartner_ID */
+public static final String COLUMNNAME_I_BPartner_ID = "I_BPartner_ID";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -463,6 +507,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -481,6 +527,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Interest Area.
 @param InterestAreaName Name of the Interest Area */
 public void setInterestAreaName (String InterestAreaName)
@@ -498,6 +546,8 @@ public String getInterestAreaName()
 {
 return (String)get_Value("InterestAreaName");
 }
+/** Column name InterestAreaName */
+public static final String COLUMNNAME_InterestAreaName = "InterestAreaName";
 /** Set NAICS/SIC.
 @param NAICS Standard Industry Code or its successor NAIC - http://www.osha.gov/oshstats/sicser.html */
 public void setNAICS (String NAICS)
@@ -515,6 +565,8 @@ public String getNAICS()
 {
 return (String)get_Value("NAICS");
 }
+/** Column name NAICS */
+public static final String COLUMNNAME_NAICS = "NAICS";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -532,6 +584,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Name 2.
 @param Name2 Additional Name */
 public void setName2 (String Name2)
@@ -549,6 +603,8 @@ public String getName2()
 {
 return (String)get_Value("Name2");
 }
+/** Column name Name2 */
+public static final String COLUMNNAME_Name2 = "Name2";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -566,6 +622,8 @@ public String getPassword()
 {
 return (String)get_Value("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set Phone.
 @param Phone Identifies a telephone number */
 public void setPhone (String Phone)
@@ -583,6 +641,8 @@ public String getPhone()
 {
 return (String)get_Value("Phone");
 }
+/** Column name Phone */
+public static final String COLUMNNAME_Phone = "Phone";
 /** Set 2nd Phone.
 @param Phone2 Identifies an alternate telephone number. */
 public void setPhone2 (String Phone2)
@@ -600,6 +660,8 @@ public String getPhone2()
 {
 return (String)get_Value("Phone2");
 }
+/** Column name Phone2 */
+public static final String COLUMNNAME_Phone2 = "Phone2";
 /** Set ZIP.
 @param Postal Postal code */
 public void setPostal (String Postal)
@@ -617,6 +679,8 @@ public String getPostal()
 {
 return (String)get_Value("Postal");
 }
+/** Column name Postal */
+public static final String COLUMNNAME_Postal = "Postal";
 /** Set -.
 @param Postal_Add Additional ZIP or Postal code */
 public void setPostal_Add (String Postal_Add)
@@ -634,6 +698,8 @@ public String getPostal_Add()
 {
 return (String)get_Value("Postal_Add");
 }
+/** Column name Postal_Add */
+public static final String COLUMNNAME_Postal_Add = "Postal_Add";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -652,6 +718,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -670,6 +738,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Interest Area.
 @param R_InterestArea_ID Interest Area or Topic */
 public void setR_InterestArea_ID (int R_InterestArea_ID)
@@ -686,6 +756,8 @@ Integer ii = (Integer)get_Value("R_InterestArea_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_InterestArea_ID */
+public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";
 /** Set Region.
 @param RegionName Name of the Region */
 public void setRegionName (String RegionName)
@@ -703,6 +775,8 @@ public String getRegionName()
 {
 return (String)get_Value("RegionName");
 }
+/** Column name RegionName */
+public static final String COLUMNNAME_RegionName = "RegionName";
 /** Set Tax ID.
 @param TaxID Tax Identification */
 public void setTaxID (String TaxID)
@@ -720,6 +794,8 @@ public String getTaxID()
 {
 return (String)get_Value("TaxID");
 }
+/** Column name TaxID */
+public static final String COLUMNNAME_TaxID = "TaxID";
 /** Set Title.
 @param Title Name this entity is referred to as */
 public void setTitle (String Title)
@@ -737,6 +813,8 @@ public String getTitle()
 {
 return (String)get_Value("Title");
 }
+/** Column name Title */
+public static final String COLUMNNAME_Title = "Title";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -760,4 +838,6 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

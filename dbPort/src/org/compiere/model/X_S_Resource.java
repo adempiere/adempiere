@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_Resource extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Chargeable Quantity.
 @param ChargeableQty Chargeable Quantity */
 public void setChargeableQty (BigDecimal ChargeableQty)
@@ -120,6 +122,8 @@ BigDecimal bd = (BigDecimal)get_Value("ChargeableQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ChargeableQty */
+public static final String COLUMNNAME_ChargeableQty = "ChargeableQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -137,6 +141,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Available.
 @param IsAvailable Resource is available */
 public void setIsAvailable (boolean IsAvailable)
@@ -155,6 +161,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAvailable */
+public static final String COLUMNNAME_IsAvailable = "IsAvailable";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -194,6 +204,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Resource Type.
 @param S_ResourceType_ID Resource Type */
 public void setS_ResourceType_ID (int S_ResourceType_ID)
@@ -209,6 +221,8 @@ Integer ii = (Integer)get_Value("S_ResourceType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ResourceType_ID */
+public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
 /** Set Resource.
 @param S_Resource_ID Resource */
 public void setS_Resource_ID (int S_Resource_ID)
@@ -224,6 +238,8 @@ Integer ii = (Integer)get_Value("S_Resource_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_Resource_ID */
+public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -242,4 +258,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

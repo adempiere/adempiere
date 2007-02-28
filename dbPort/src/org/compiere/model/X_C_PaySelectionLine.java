@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaySelectionLine extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Pay Selection Check.
 @param C_PaySelectionCheck_ID Payment Selection Check */
 public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("C_PaySelectionCheck_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaySelectionCheck_ID */
+public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
 /** Set Payment Selection Line.
 @param C_PaySelectionLine_ID Payment Selection Line */
 public void setC_PaySelectionLine_ID (int C_PaySelectionLine_ID)
@@ -148,6 +152,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_PaySelectionLine_ID()));
 }
+/** Column name C_PaySelectionLine_ID */
+public static final String COLUMNNAME_C_PaySelectionLine_ID = "C_PaySelectionLine_ID";
 /** Set Payment Selection.
 @param C_PaySelection_ID Payment Selection */
 public void setC_PaySelection_ID (int C_PaySelection_ID)
@@ -163,6 +169,8 @@ Integer ii = (Integer)get_Value("C_PaySelection_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaySelection_ID */
+public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -180,6 +188,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Difference.
 @param DifferenceAmt Difference Amount */
 public void setDifferenceAmt (BigDecimal DifferenceAmt)
@@ -195,6 +205,8 @@ BigDecimal bd = (BigDecimal)get_Value("DifferenceAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DifferenceAmt */
+public static final String COLUMNNAME_DifferenceAmt = "DifferenceAmt";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -210,6 +222,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -228,6 +242,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -246,6 +262,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -260,6 +278,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Open Amount.
 @param OpenAmt Open item amount */
 public void setOpenAmt (BigDecimal OpenAmt)
@@ -275,6 +295,8 @@ BigDecimal bd = (BigDecimal)get_Value("OpenAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OpenAmt */
+public static final String COLUMNNAME_OpenAmt = "OpenAmt";
 /** Set Payment amount.
 @param PayAmt Amount being paid */
 public void setPayAmt (BigDecimal PayAmt)
@@ -290,6 +312,8 @@ BigDecimal bd = (BigDecimal)get_Value("PayAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PayAmt */
+public static final String COLUMNNAME_PayAmt = "PayAmt";
 
 /** PaymentRule AD_Reference_ID=195 */
 public static final int PAYMENTRULE_AD_Reference_ID=195;
@@ -325,6 +349,8 @@ public String getPaymentRule()
 {
 return (String)get_Value("PaymentRule");
 }
+/** Column name PaymentRule */
+public static final String COLUMNNAME_PaymentRule = "PaymentRule";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -343,4 +369,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 }

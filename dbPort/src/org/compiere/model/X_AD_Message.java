@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Message
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Message extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Message_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Message_ID */
+public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -126,6 +128,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Message Text.
 @param MsgText Textual Informational, Menu or Error Message */
 public void setMsgText (String MsgText)
@@ -144,6 +148,8 @@ public String getMsgText()
 {
 return (String)get_Value("MsgText");
 }
+/** Column name MsgText */
+public static final String COLUMNNAME_MsgText = "MsgText";
 /** Set Message Tip.
 @param MsgTip Additional tip or help for this message */
 public void setMsgTip (String MsgTip)
@@ -161,6 +167,8 @@ public String getMsgTip()
 {
 return (String)get_Value("MsgTip");
 }
+/** Column name MsgTip */
+public static final String COLUMNNAME_MsgTip = "MsgTip";
 
 /** MsgType AD_Reference_ID=103 */
 public static final int MSGTYPE_AD_Reference_ID=103;
@@ -190,6 +198,8 @@ public String getMsgType()
 {
 return (String)get_Value("MsgType");
 }
+/** Column name MsgType */
+public static final String COLUMNNAME_MsgType = "MsgType";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -214,4 +224,6 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

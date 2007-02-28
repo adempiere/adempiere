@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Field extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Field Group.
 @param AD_FieldGroup_ID Logical grouping of fields */
 public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("AD_FieldGroup_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_FieldGroup_ID */
+public static final String COLUMNNAME_AD_FieldGroup_ID = "AD_FieldGroup_ID";
 /** Set Field.
 @param AD_Field_ID Field on a database table */
 public void setAD_Field_ID (int AD_Field_ID)
@@ -142,6 +146,8 @@ Integer ii = (Integer)get_Value("AD_Field_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Field_ID */
+public static final String COLUMNNAME_AD_Field_ID = "AD_Field_ID";
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
@@ -161,6 +167,8 @@ Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 /** Set Tab.
 @param AD_Tab_ID Tab within a Window */
 public void setAD_Tab_ID (int AD_Tab_ID)
@@ -176,6 +184,8 @@ Integer ii = (Integer)get_Value("AD_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tab_ID */
+public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -193,6 +203,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Display Length.
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("DisplayLength");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DisplayLength */
+public static final String COLUMNNAME_DisplayLength = "DisplayLength";
 /** Set Display Logic.
 @param DisplayLogic If the Field is displayed, the result determines if the field is actually displayed */
 public void setDisplayLogic (String DisplayLogic)
@@ -224,6 +238,8 @@ public String getDisplayLogic()
 {
 return (String)get_Value("DisplayLogic");
 }
+/** Column name DisplayLogic */
+public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -246,6 +262,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -263,6 +281,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Centrally maintained.
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
@@ -281,6 +301,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCentrallyMaintained */
+public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
 /** Set Displayed.
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
@@ -299,6 +321,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDisplayed */
+public static final String COLUMNNAME_IsDisplayed = "IsDisplayed";
 /** Set Encrypted.
 @param IsEncrypted Display or Storage is encrypted */
 public void setIsEncrypted (boolean IsEncrypted)
@@ -317,6 +341,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEncrypted */
+public static final String COLUMNNAME_IsEncrypted = "IsEncrypted";
 /** Set Field Only.
 @param IsFieldOnly Label is not displayed */
 public void setIsFieldOnly (boolean IsFieldOnly)
@@ -335,6 +361,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFieldOnly */
+public static final String COLUMNNAME_IsFieldOnly = "IsFieldOnly";
 /** Set Heading only.
 @param IsHeading Field without Column - Only label is displayed */
 public void setIsHeading (boolean IsHeading)
@@ -353,6 +381,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsHeading */
+public static final String COLUMNNAME_IsHeading = "IsHeading";
 
 /** IsMandatory AD_Reference_ID=319 */
 public static final int ISMANDATORY_AD_Reference_ID=319;
@@ -379,6 +409,8 @@ public String getIsMandatory()
 {
 return (String)get_Value("IsMandatory");
 }
+/** Column name IsMandatory */
+public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -397,6 +429,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set Same Line.
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
@@ -415,6 +449,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSameLine */
+public static final String COLUMNNAME_IsSameLine = "IsSameLine";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -439,6 +475,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** ObscureType AD_Reference_ID=291 */
 public static final int OBSCURETYPE_AD_Reference_ID=291;
@@ -469,6 +507,8 @@ public String getObscureType()
 {
 return (String)get_Value("ObscureType");
 }
+/** Column name ObscureType */
+public static final String COLUMNNAME_ObscureType = "ObscureType";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -485,6 +525,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Record Sort No.
 @param SortNo Determines in what order the records are displayed */
 public void setSortNo (BigDecimal SortNo)
@@ -499,4 +541,6 @@ BigDecimal bd = (BigDecimal)get_Value("SortNo");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name SortNo */
+public static final String COLUMNNAME_SortNo = "SortNo";
 }

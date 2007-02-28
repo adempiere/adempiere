@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ExpenseType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_ExpenseType extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_TaxCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxCategory_ID */
+public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -138,6 +142,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Invoiced.
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
@@ -156,6 +162,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInvoiced */
+public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -195,6 +205,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Expense Type.
 @param S_ExpenseType_ID Expense report type */
 public void setS_ExpenseType_ID (int S_ExpenseType_ID)
@@ -210,6 +222,8 @@ Integer ii = (Integer)get_Value("S_ExpenseType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ExpenseType_ID */
+public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -228,4 +242,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

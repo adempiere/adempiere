@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankAccount_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BankAccount_Acct extends PO
 {
 /** Standard Constructor
@@ -112,6 +112,8 @@ Integer ii = (Integer)get_Value("B_Asset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Asset_Acct */
+public static final String COLUMNNAME_B_Asset_Acct = "B_Asset_Acct";
 /** Set Bank Expense.
 @param B_Expense_Acct Bank Expense Account */
 public void setB_Expense_Acct (int B_Expense_Acct)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("B_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Expense_Acct */
+public static final String COLUMNNAME_B_Expense_Acct = "B_Expense_Acct";
 /** Set Bank In Transit.
 @param B_InTransit_Acct Bank In Transit Account */
 public void setB_InTransit_Acct (int B_InTransit_Acct)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("B_InTransit_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_InTransit_Acct */
+public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
 /** Set Bank Interest Expense.
 @param B_InterestExp_Acct Bank Interest Expense Account */
 public void setB_InterestExp_Acct (int B_InterestExp_Acct)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("B_InterestExp_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_InterestExp_Acct */
+public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
 /** Set Bank Interest Revenue.
 @param B_InterestRev_Acct Bank Interest Revenue Account */
 public void setB_InterestRev_Acct (int B_InterestRev_Acct)
@@ -168,6 +176,8 @@ Integer ii = (Integer)get_Value("B_InterestRev_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_InterestRev_Acct */
+public static final String COLUMNNAME_B_InterestRev_Acct = "B_InterestRev_Acct";
 /** Set Payment Selection.
 @param B_PaymentSelect_Acct AP Payment Selection Clearing Account */
 public void setB_PaymentSelect_Acct (int B_PaymentSelect_Acct)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("B_PaymentSelect_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_PaymentSelect_Acct */
+public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
 /** Set Bank Revaluation Gain.
 @param B_RevaluationGain_Acct Bank Revaluation Gain Account */
 public void setB_RevaluationGain_Acct (int B_RevaluationGain_Acct)
@@ -196,6 +208,8 @@ Integer ii = (Integer)get_Value("B_RevaluationGain_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_RevaluationGain_Acct */
+public static final String COLUMNNAME_B_RevaluationGain_Acct = "B_RevaluationGain_Acct";
 /** Set Bank Revaluation Loss.
 @param B_RevaluationLoss_Acct Bank Revaluation Loss Account */
 public void setB_RevaluationLoss_Acct (int B_RevaluationLoss_Acct)
@@ -210,6 +224,8 @@ Integer ii = (Integer)get_Value("B_RevaluationLoss_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_RevaluationLoss_Acct */
+public static final String COLUMNNAME_B_RevaluationLoss_Acct = "B_RevaluationLoss_Acct";
 /** Set Bank Settlement Gain.
 @param B_SettlementGain_Acct Bank Settlement Gain Account */
 public void setB_SettlementGain_Acct (int B_SettlementGain_Acct)
@@ -224,6 +240,8 @@ Integer ii = (Integer)get_Value("B_SettlementGain_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_SettlementGain_Acct */
+public static final String COLUMNNAME_B_SettlementGain_Acct = "B_SettlementGain_Acct";
 /** Set Bank Settlement Loss.
 @param B_SettlementLoss_Acct Bank Settlement Loss Account */
 public void setB_SettlementLoss_Acct (int B_SettlementLoss_Acct)
@@ -238,6 +256,8 @@ Integer ii = (Integer)get_Value("B_SettlementLoss_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_SettlementLoss_Acct */
+public static final String COLUMNNAME_B_SettlementLoss_Acct = "B_SettlementLoss_Acct";
 /** Set Unallocated Cash.
 @param B_UnallocatedCash_Acct Unallocated Cash Clearing Account */
 public void setB_UnallocatedCash_Acct (int B_UnallocatedCash_Acct)
@@ -252,6 +272,8 @@ Integer ii = (Integer)get_Value("B_UnallocatedCash_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_UnallocatedCash_Acct */
+public static final String COLUMNNAME_B_UnallocatedCash_Acct = "B_UnallocatedCash_Acct";
 /** Set Bank Unidentified Receipts.
 @param B_Unidentified_Acct Bank Unidentified Receipts Account */
 public void setB_Unidentified_Acct (int B_Unidentified_Acct)
@@ -266,6 +288,8 @@ Integer ii = (Integer)get_Value("B_Unidentified_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Unidentified_Acct */
+public static final String COLUMNNAME_B_Unidentified_Acct = "B_Unidentified_Acct";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -281,6 +305,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -296,4 +322,6 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Fund
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_Fund extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Date From.
 @param DateFrom Starting date for a range */
 public void setDateFrom (Timestamp DateFrom)
@@ -130,6 +134,8 @@ public Timestamp getDateFrom()
 {
 return (Timestamp)get_Value("DateFrom");
 }
+/** Column name DateFrom */
+public static final String COLUMNNAME_DateFrom = "DateFrom";
 /** Set Date To.
 @param DateTo End date of a date range */
 public void setDateTo (Timestamp DateTo)
@@ -142,6 +148,8 @@ public Timestamp getDateTo()
 {
 return (Timestamp)get_Value("DateTo");
 }
+/** Column name DateTo */
+public static final String COLUMNNAME_DateTo = "DateTo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -159,6 +167,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set GL Fund.
 @param GL_Fund_ID General Ledger Funds Control */
 public void setGL_Fund_ID (int GL_Fund_ID)
@@ -174,6 +184,8 @@ Integer ii = (Integer)get_Value("GL_Fund_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Fund_ID */
+public static final String COLUMNNAME_GL_Fund_ID = "GL_Fund_ID";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -191,6 +203,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -215,4 +229,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

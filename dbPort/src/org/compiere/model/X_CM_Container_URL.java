@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Container_URL extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("CM_Container_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Container_ID */
+public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
 /** Set Container URL.
 @param CM_Container_URL_ID Contains info on used URLs */
 public void setCM_Container_URL_ID (int CM_Container_URL_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("CM_Container_URL_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Container_URL_ID */
+public static final String COLUMNNAME_CM_Container_URL_ID = "CM_Container_URL_ID";
 /** Set Last Checked.
 @param Checked Info when we did the last check */
 public void setChecked (Timestamp Checked)
@@ -132,6 +136,8 @@ public Timestamp getChecked()
 {
 return (Timestamp)get_Value("Checked");
 }
+/** Column name Checked */
+public static final String COLUMNNAME_Checked = "Checked";
 /** Set Last Result.
 @param Last_Result Contains data on the last check result */
 public void setLast_Result (String Last_Result)
@@ -150,6 +156,8 @@ public String getLast_Result()
 {
 return (String)get_Value("Last_Result");
 }
+/** Column name Last_Result */
+public static final String COLUMNNAME_Last_Result = "Last_Result";
 /** Set Status.
 @param Status Status of the currently running check */
 public void setStatus (String Status)
@@ -168,4 +176,6 @@ public String getStatus()
 {
 return (String)get_Value("Status");
 }
+/** Column name Status */
+public static final String COLUMNNAME_Status = "Status";
 }

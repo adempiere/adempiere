@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Replication_Log extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_ReplicationTable_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReplicationTable_ID */
+public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
 /** Set Replication Log.
 @param AD_Replication_Log_ID Data Replication Log Details */
 public void setAD_Replication_Log_ID (int AD_Replication_Log_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("AD_Replication_Log_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Replication_Log_ID */
+public static final String COLUMNNAME_AD_Replication_Log_ID = "AD_Replication_Log_ID";
 /** Set Replication Run.
 @param AD_Replication_Run_ID Data Replication Run */
 public void setAD_Replication_Run_ID (int AD_Replication_Run_ID)
@@ -139,6 +143,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
 }
+/** Column name AD_Replication_Run_ID */
+public static final String COLUMNNAME_AD_Replication_Run_ID = "AD_Replication_Run_ID";
 /** Set Replicated.
 @param IsReplicated The data is successfully replicated */
 public void setIsReplicated (boolean IsReplicated)
@@ -157,6 +163,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReplicated */
+public static final String COLUMNNAME_IsReplicated = "IsReplicated";
 /** Set Process Message.
 @param P_Msg Process Message */
 public void setP_Msg (String P_Msg)
@@ -174,4 +182,6 @@ public String getP_Msg()
 {
 return (String)get_Value("P_Msg");
 }
+/** Column name P_Msg */
+public static final String COLUMNNAME_P_Msg = "P_Msg";
 }

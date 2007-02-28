@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_InvoiceGL extends PO
 {
 /** Standard Constructor
@@ -113,6 +113,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
 /** APAR AD_Reference_ID=332 */
 public static final int APAR_AD_Reference_ID=332;
@@ -141,6 +143,8 @@ public String getAPAR()
 {
 return (String)get_Value("APAR");
 }
+/** Column name APAR */
+public static final String COLUMNNAME_APAR = "APAR";
 /** Set Accounted Balance.
 @param AmtAcctBalance Accounted Balance Amount */
 public void setAmtAcctBalance (BigDecimal AmtAcctBalance)
@@ -156,6 +160,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctBalance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctBalance */
+public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
 /** Set Revaluated Amount Cr.
 @param AmtRevalCr Revaluated Cr Amount */
 public void setAmtRevalCr (BigDecimal AmtRevalCr)
@@ -171,6 +177,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtRevalCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtRevalCr */
+public static final String COLUMNNAME_AmtRevalCr = "AmtRevalCr";
 /** Set Revaluated Difference Cr.
 @param AmtRevalCrDiff Revaluated Cr Amount Difference */
 public void setAmtRevalCrDiff (BigDecimal AmtRevalCrDiff)
@@ -186,6 +194,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtRevalCrDiff");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtRevalCrDiff */
+public static final String COLUMNNAME_AmtRevalCrDiff = "AmtRevalCrDiff";
 /** Set Revaluated Amount Dr.
 @param AmtRevalDr Revaluated Dr Amount */
 public void setAmtRevalDr (BigDecimal AmtRevalDr)
@@ -201,6 +211,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtRevalDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtRevalDr */
+public static final String COLUMNNAME_AmtRevalDr = "AmtRevalDr";
 /** Set Revaluated Difference Dr.
 @param AmtRevalDrDiff Revaluated Dr Amount Difference */
 public void setAmtRevalDrDiff (BigDecimal AmtRevalDrDiff)
@@ -216,6 +228,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtRevalDrDiff");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtRevalDrDiff */
+public static final String COLUMNNAME_AmtRevalDrDiff = "AmtRevalDrDiff";
 /** Set Source Balance.
 @param AmtSourceBalance Source Balance Amount */
 public void setAmtSourceBalance (BigDecimal AmtSourceBalance)
@@ -231,6 +245,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSourceBalance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSourceBalance */
+public static final String COLUMNNAME_AmtSourceBalance = "AmtSourceBalance";
 
 /** C_ConversionTypeReval_ID AD_Reference_ID=352 */
 public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
@@ -249,6 +265,8 @@ Integer ii = (Integer)get_Value("C_ConversionTypeReval_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionTypeReval_ID */
+public static final String COLUMNNAME_C_ConversionTypeReval_ID = "C_ConversionTypeReval_ID";
 
 /** C_DocTypeReval_ID AD_Reference_ID=170 */
 public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
@@ -268,6 +286,8 @@ Integer ii = (Integer)get_Value("C_DocTypeReval_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocTypeReval_ID */
+public static final String COLUMNNAME_C_DocTypeReval_ID = "C_DocTypeReval_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -283,6 +303,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Revaluation Date.
 @param DateReval Date of Revaluation */
 public void setDateReval (Timestamp DateReval)
@@ -296,6 +318,8 @@ public Timestamp getDateReval()
 {
 return (Timestamp)get_Value("DateReval");
 }
+/** Column name DateReval */
+public static final String COLUMNNAME_DateReval = "DateReval";
 /** Set Accounting Fact.
 @param Fact_Acct_ID Accounting Fact */
 public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -311,6 +335,8 @@ Integer ii = (Integer)get_Value("Fact_Acct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Fact_Acct_ID */
+public static final String COLUMNNAME_Fact_Acct_ID = "Fact_Acct_ID";
 /** Set Grand Total.
 @param GrandTotal Total amount of document */
 public void setGrandTotal (BigDecimal GrandTotal)
@@ -326,6 +352,8 @@ BigDecimal bd = (BigDecimal)get_Value("GrandTotal");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name GrandTotal */
+public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 /** Set Include All Currencies.
 @param IsAllCurrencies Report not just foreign currency Invoices */
 public void setIsAllCurrencies (boolean IsAllCurrencies)
@@ -344,6 +372,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllCurrencies */
+public static final String COLUMNNAME_IsAllCurrencies = "IsAllCurrencies";
 /** Set Open Amount.
 @param OpenAmt Open item amount */
 public void setOpenAmt (BigDecimal OpenAmt)
@@ -359,6 +389,8 @@ BigDecimal bd = (BigDecimal)get_Value("OpenAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OpenAmt */
+public static final String COLUMNNAME_OpenAmt = "OpenAmt";
 /** Set Percent.
 @param Percent Percentage */
 public void setPercent (BigDecimal Percent)
@@ -373,4 +405,6 @@ BigDecimal bd = (BigDecimal)get_Value("Percent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Percent */
+public static final String COLUMNNAME_Percent = "Percent";
 }

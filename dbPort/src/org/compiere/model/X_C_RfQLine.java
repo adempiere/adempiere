@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQLine extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_RfQLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQLine_ID */
+public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 /** Set RfQ.
 @param C_RfQ_ID Request for Quotation */
 public void setC_RfQ_ID (int C_RfQ_ID)
@@ -124,6 +126,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_RfQ_ID()));
 }
+/** Column name C_RfQ_ID */
+public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
 /** Set Work Complete.
 @param DateWorkComplete Date when work is (planned to be) complete */
 public void setDateWorkComplete (Timestamp DateWorkComplete)
@@ -136,6 +140,8 @@ public Timestamp getDateWorkComplete()
 {
 return (Timestamp)get_Value("DateWorkComplete");
 }
+/** Column name DateWorkComplete */
+public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";
 /** Set Work Start.
 @param DateWorkStart Date when work is (planned to be) started */
 public void setDateWorkStart (Timestamp DateWorkStart)
@@ -148,6 +154,8 @@ public Timestamp getDateWorkStart()
 {
 return (Timestamp)get_Value("DateWorkStart");
 }
+/** Column name DateWorkStart */
+public static final String COLUMNNAME_DateWorkStart = "DateWorkStart";
 /** Set Delivery Days.
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
@@ -162,6 +170,8 @@ Integer ii = (Integer)get_Value("DeliveryDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DeliveryDays */
+public static final String COLUMNNAME_DeliveryDays = "DeliveryDays";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -179,6 +189,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -196,6 +208,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -210,6 +224,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -225,6 +241,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -241,4 +259,6 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 }

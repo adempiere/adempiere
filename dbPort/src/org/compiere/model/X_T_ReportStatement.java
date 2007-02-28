@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_ReportStatement extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Accounted Credit.
 @param AmtAcctCr Accounted Credit Amount */
 public void setAmtAcctCr (BigDecimal AmtAcctCr)
@@ -117,6 +119,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctCr */
+public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
 /** Set Accounted Debit.
 @param AmtAcctDr Accounted Debit Amount */
 public void setAmtAcctDr (BigDecimal AmtAcctDr)
@@ -131,6 +135,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctDr */
+public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
 /** Set Balance.
 @param Balance Balance */
 public void setBalance (BigDecimal Balance)
@@ -145,6 +151,8 @@ BigDecimal bd = (BigDecimal)get_Value("Balance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Balance */
+public static final String COLUMNNAME_Balance = "Balance";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -158,6 +166,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -175,6 +185,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Accounting Fact.
 @param Fact_Acct_ID Accounting Fact */
 public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -190,6 +202,8 @@ Integer ii = (Integer)get_Value("Fact_Acct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Fact_Acct_ID */
+public static final String COLUMNNAME_Fact_Acct_ID = "Fact_Acct_ID";
 /** Set Level no.
 @param LevelNo Level no */
 public void setLevelNo (int LevelNo)
@@ -204,6 +218,8 @@ Integer ii = (Integer)get_Value("LevelNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LevelNo */
+public static final String COLUMNNAME_LevelNo = "LevelNo";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -227,6 +243,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -241,4 +259,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

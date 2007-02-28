@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_BidComment
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_BidComment extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Bid Comment.
 @param B_BidComment_ID Make a comment to a Bid Topic */
 public void setB_BidComment_ID (int B_BidComment_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("B_BidComment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_BidComment_ID */
+public static final String COLUMNNAME_B_BidComment_ID = "B_BidComment_ID";
 /** Set Topic.
 @param B_Topic_ID Auction Topic */
 public void setB_Topic_ID (int B_Topic_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("B_Topic_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Topic_ID */
+public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -151,4 +157,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

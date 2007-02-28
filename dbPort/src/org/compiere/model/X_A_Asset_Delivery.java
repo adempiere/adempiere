@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_A_Asset_Delivery extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Asset Delivery.
 @param A_Asset_Delivery_ID Delivery of Asset */
 public void setA_Asset_Delivery_ID (int A_Asset_Delivery_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("A_Asset_Delivery_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_Delivery_ID */
+public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
 /** Set Asset.
 @param A_Asset_ID Asset used internally or by customers */
 public void setA_Asset_ID (int A_Asset_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Delivery Confirmation.
 @param DeliveryConfirmation EMail Delivery confirmation */
 public void setDeliveryConfirmation (String DeliveryConfirmation)
@@ -150,6 +156,8 @@ public String getDeliveryConfirmation()
 {
 return (String)get_Value("DeliveryConfirmation");
 }
+/** Column name DeliveryConfirmation */
+public static final String COLUMNNAME_DeliveryConfirmation = "DeliveryConfirmation";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -167,6 +175,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -184,6 +194,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Lot No.
 @param Lot Lot number (alphanumeric) */
 public void setLot (String Lot)
@@ -201,6 +213,8 @@ public String getLot()
 {
 return (String)get_Value("Lot");
 }
+/** Column name Lot */
+public static final String COLUMNNAME_Lot = "Lot";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -217,6 +231,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Product Download.
 @param M_ProductDownload_ID Product downloads */
 public void setM_ProductDownload_ID (int M_ProductDownload_ID)
@@ -233,6 +249,8 @@ Integer ii = (Integer)get_Value("M_ProductDownload_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductDownload_ID */
+public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
 /** Set Message ID.
 @param MessageID EMail Message ID */
 public void setMessageID (String MessageID)
@@ -250,6 +268,8 @@ public String getMessageID()
 {
 return (String)get_Value("MessageID");
 }
+/** Column name MessageID */
+public static final String COLUMNNAME_MessageID = "MessageID";
 /** Set Movement Date.
 @param MovementDate Date a product was moved in or out of inventory */
 public void setMovementDate (Timestamp MovementDate)
@@ -269,6 +289,8 @@ return (Timestamp)get_Value("MovementDate");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
 }
+/** Column name MovementDate */
+public static final String COLUMNNAME_MovementDate = "MovementDate";
 /** Set Referrer.
 @param Referrer Referring web address */
 public void setReferrer (String Referrer)
@@ -286,6 +308,8 @@ public String getReferrer()
 {
 return (String)get_Value("Referrer");
 }
+/** Column name Referrer */
+public static final String COLUMNNAME_Referrer = "Referrer";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -303,6 +327,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -320,6 +346,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Serial No.
 @param SerNo Product Serial Number  */
 public void setSerNo (String SerNo)
@@ -337,6 +365,8 @@ public String getSerNo()
 {
 return (String)get_Value("SerNo");
 }
+/** Column name SerNo */
+public static final String COLUMNNAME_SerNo = "SerNo";
 /** Set URL.
 @param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
@@ -354,6 +384,8 @@ public String getURL()
 {
 return (String)get_Value("URL");
 }
+/** Column name URL */
+public static final String COLUMNNAME_URL = "URL";
 /** Set Version No.
 @param VersionNo Version Number */
 public void setVersionNo (String VersionNo)
@@ -371,4 +403,6 @@ public String getVersionNo()
 {
 return (String)get_Value("VersionNo");
 }
+/** Column name VersionNo */
+public static final String COLUMNNAME_VersionNo = "VersionNo";
 }

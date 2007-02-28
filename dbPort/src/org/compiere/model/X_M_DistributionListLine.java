@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DistributionListLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_DistributionListLine extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Distribution List Line.
 @param M_DistributionListLine_ID Distribution List Line with Business Partner and Quantity/Percentage */
 public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("M_DistributionListLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DistributionListLine_ID */
+public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
 /** Set Distribution List.
 @param M_DistributionList_ID Distribution Lists allow to distribute products to a selected list of partners */
 public void setM_DistributionList_ID (int M_DistributionList_ID)
@@ -172,6 +180,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionList_ID()));
 }
+/** Column name M_DistributionList_ID */
+public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 /** Set Minimum Quantity.
 @param MinQty Minimum quantity for the business partner */
 public void setMinQty (BigDecimal MinQty)
@@ -187,6 +197,8 @@ BigDecimal bd = (BigDecimal)get_Value("MinQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MinQty */
+public static final String COLUMNNAME_MinQty = "MinQty";
 /** Set Ratio.
 @param Ratio Relative Ratio for Distributions */
 public void setRatio (BigDecimal Ratio)
@@ -201,4 +213,6 @@ BigDecimal bd = (BigDecimal)get_Value("Ratio");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Ratio */
+public static final String COLUMNNAME_Ratio = "Ratio";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RequisitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_RequisitionLine extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Sales Order Line.
 @param C_OrderLine_ID Sales Order Line */
 public void setC_OrderLine_ID (int C_OrderLine_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -139,6 +143,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -159,6 +165,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Line Amount.
 @param LineNetAmt Line Extended Amount (Quantity * Actual Price) without Freight and Charges */
 public void setLineNetAmt (BigDecimal LineNetAmt)
@@ -174,6 +182,8 @@ BigDecimal bd = (BigDecimal)get_Value("LineNetAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name LineNetAmt */
+public static final String COLUMNNAME_LineNetAmt = "LineNetAmt";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -206,6 +218,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Requisition Line.
 @param M_RequisitionLine_ID Material Requisition Line */
 public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
@@ -221,6 +235,8 @@ Integer ii = (Integer)get_Value("M_RequisitionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_RequisitionLine_ID */
+public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
 /** Set Requisition.
 @param M_Requisition_ID Material Requisition */
 public void setM_Requisition_ID (int M_Requisition_ID)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("M_Requisition_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Requisition_ID */
+public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
 /** Set Unit Price.
 @param PriceActual Actual Price  */
 public void setPriceActual (BigDecimal PriceActual)
@@ -251,6 +269,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceActual */
+public static final String COLUMNNAME_PriceActual = "PriceActual";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -266,4 +286,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

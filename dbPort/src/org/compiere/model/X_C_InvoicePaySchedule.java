@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoicePaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_InvoicePaySchedule extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_InvoicePaySchedule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoicePaySchedule_ID */
+public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Payment Schedule.
 @param C_PaySchedule_ID Payment Schedule Template */
 public void setC_PaySchedule_ID (int C_PaySchedule_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("C_PaySchedule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaySchedule_ID */
+public static final String COLUMNNAME_C_PaySchedule_ID = "C_PaySchedule_ID";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -153,6 +159,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Discount Date.
 @param DiscountDate Last Date for payments with discount */
 public void setDiscountDate (Timestamp DiscountDate)
@@ -172,6 +180,8 @@ return (Timestamp)get_Value("DiscountDate");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getDiscountDate()));
 }
+/** Column name DiscountDate */
+public static final String COLUMNNAME_DiscountDate = "DiscountDate";
 /** Set Amount due.
 @param DueAmt Amount of the payment due */
 public void setDueAmt (BigDecimal DueAmt)
@@ -187,6 +197,8 @@ BigDecimal bd = (BigDecimal)get_Value("DueAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DueAmt */
+public static final String COLUMNNAME_DueAmt = "DueAmt";
 /** Set Due Date.
 @param DueDate Date when the payment is due */
 public void setDueDate (Timestamp DueDate)
@@ -200,6 +212,8 @@ public Timestamp getDueDate()
 {
 return (Timestamp)get_Value("DueDate");
 }
+/** Column name DueDate */
+public static final String COLUMNNAME_DueDate = "DueDate";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -218,6 +232,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -236,6 +252,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -254,4 +272,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

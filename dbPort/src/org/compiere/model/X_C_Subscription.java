@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Subscription
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Subscription extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Subscription Type.
 @param C_SubscriptionType_ID Type of subscription */
 public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("C_SubscriptionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SubscriptionType_ID */
+public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
 /** Set Subscription.
 @param C_Subscription_ID Subscription of a Business Partner of a Product to renew */
 public void setC_Subscription_ID (int C_Subscription_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("C_Subscription_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Subscription_ID */
+public static final String COLUMNNAME_C_Subscription_ID = "C_Subscription_ID";
 /** Set Due.
 @param IsDue Subscription Renewal is Due */
 public void setIsDue (boolean IsDue)
@@ -156,6 +162,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDue */
+public static final String COLUMNNAME_IsDue = "IsDue";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -195,6 +205,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Paid Until.
 @param PaidUntilDate Subscription is paid/valid until this date */
 public void setPaidUntilDate (Timestamp PaidUntilDate)
@@ -208,6 +220,8 @@ public Timestamp getPaidUntilDate()
 {
 return (Timestamp)get_Value("PaidUntilDate");
 }
+/** Column name PaidUntilDate */
+public static final String COLUMNNAME_PaidUntilDate = "PaidUntilDate";
 /** Set Renewal Date.
 @param RenewalDate Renewal Date */
 public void setRenewalDate (Timestamp RenewalDate)
@@ -221,6 +235,8 @@ public Timestamp getRenewalDate()
 {
 return (Timestamp)get_Value("RenewalDate");
 }
+/** Column name RenewalDate */
+public static final String COLUMNNAME_RenewalDate = "RenewalDate";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -234,4 +250,6 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 }

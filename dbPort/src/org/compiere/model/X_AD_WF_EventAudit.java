@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_EventAudit
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_EventAudit extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
 /** AD_User_ID AD_Reference_ID=110 */
 public static final int AD_USER_ID_AD_Reference_ID=110;
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Workflow Event Audit.
 @param AD_WF_EventAudit_ID Workflow Process Activity Event Audit Information */
 public void setAD_WF_EventAudit_ID (int AD_WF_EventAudit_ID)
@@ -148,6 +152,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_EventAudit_ID()));
 }
+/** Column name AD_WF_EventAudit_ID */
+public static final String COLUMNNAME_AD_WF_EventAudit_ID = "AD_WF_EventAudit_ID";
 /** Set Node.
 @param AD_WF_Node_ID Workflow Node (activity), step or process */
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
@@ -163,6 +169,8 @@ Integer ii = (Integer)get_Value("AD_WF_Node_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Node_ID */
+public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 /** Set Workflow Process.
 @param AD_WF_Process_ID Actual Workflow Process Instance */
 public void setAD_WF_Process_ID (int AD_WF_Process_ID)
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("AD_WF_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Process_ID */
+public static final String COLUMNNAME_AD_WF_Process_ID = "AD_WF_Process_ID";
 /** Set Workflow Responsible.
 @param AD_WF_Responsible_ID Responsible for Workflow Execution */
 public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
@@ -193,6 +203,8 @@ Integer ii = (Integer)get_Value("AD_WF_Responsible_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Responsible_ID */
+public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
 /** Set Attribute Name.
 @param AttributeName Name of the Attribute */
 public void setAttributeName (String AttributeName)
@@ -210,6 +222,8 @@ public String getAttributeName()
 {
 return (String)get_Value("AttributeName");
 }
+/** Column name AttributeName */
+public static final String COLUMNNAME_AttributeName = "AttributeName";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -227,6 +241,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Elapsed Time ms.
 @param ElapsedTimeMS Elapsed Time in mili seconds */
 public void setElapsedTimeMS (BigDecimal ElapsedTimeMS)
@@ -242,6 +258,8 @@ BigDecimal bd = (BigDecimal)get_Value("ElapsedTimeMS");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ElapsedTimeMS */
+public static final String COLUMNNAME_ElapsedTimeMS = "ElapsedTimeMS";
 
 /** EventType AD_Reference_ID=306 */
 public static final int EVENTTYPE_AD_Reference_ID=306;
@@ -271,6 +289,8 @@ public String getEventType()
 {
 return (String)get_Value("EventType");
 }
+/** Column name EventType */
+public static final String COLUMNNAME_EventType = "EventType";
 /** Set New Value.
 @param NewValue New field value */
 public void setNewValue (String NewValue)
@@ -288,6 +308,8 @@ public String getNewValue()
 {
 return (String)get_Value("NewValue");
 }
+/** Column name NewValue */
+public static final String COLUMNNAME_NewValue = "NewValue";
 /** Set Old Value.
 @param OldValue The old file data */
 public void setOldValue (String OldValue)
@@ -305,6 +327,8 @@ public String getOldValue()
 {
 return (String)get_Value("OldValue");
 }
+/** Column name OldValue */
+public static final String COLUMNNAME_OldValue = "OldValue";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -320,6 +344,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -337,6 +363,8 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 
 /** WFState AD_Reference_ID=305 */
 public static final int WFSTATE_AD_Reference_ID=305;
@@ -372,4 +400,6 @@ public String getWFState()
 {
 return (String)get_Value("WFState");
 }
+/** Column name WFState */
+public static final String COLUMNNAME_WFState = "WFState";
 }

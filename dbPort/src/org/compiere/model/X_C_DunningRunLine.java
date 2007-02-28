@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_DunningRunLine extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Dunning Run Entry.
 @param C_DunningRunEntry_ID Dunning Run Entry */
 public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_DunningRunEntry_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningRunEntry_ID */
+public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
 /** Set Dunning Run Line.
 @param C_DunningRunLine_ID Dunning Run Line */
 public void setC_DunningRunLine_ID (int C_DunningRunLine_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("C_DunningRunLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningRunLine_ID */
+public static final String COLUMNNAME_C_DunningRunLine_ID = "C_DunningRunLine_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -163,6 +169,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -179,6 +187,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Converted Amount.
 @param ConvertedAmt Converted Amount */
 public void setConvertedAmt (BigDecimal ConvertedAmt)
@@ -194,6 +204,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConvertedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConvertedAmt */
+public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 /** Set Days due.
 @param DaysDue Number of days due (negative: due in number of days) */
 public void setDaysDue (int DaysDue)
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("DaysDue");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DaysDue */
+public static final String COLUMNNAME_DaysDue = "DaysDue";
 /** Set Fee Amount.
 @param FeeAmt Fee amount in invoice currency */
 public void setFeeAmt (BigDecimal FeeAmt)
@@ -223,6 +237,8 @@ BigDecimal bd = (BigDecimal)get_Value("FeeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FeeAmt */
+public static final String COLUMNNAME_FeeAmt = "FeeAmt";
 /** Set Interest Amount.
 @param InterestAmt Interest Amount */
 public void setInterestAmt (BigDecimal InterestAmt)
@@ -238,6 +254,8 @@ BigDecimal bd = (BigDecimal)get_Value("InterestAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InterestAmt */
+public static final String COLUMNNAME_InterestAmt = "InterestAmt";
 /** Set In Dispute.
 @param IsInDispute Document is in dispute */
 public void setIsInDispute (boolean IsInDispute)
@@ -256,6 +274,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInDispute */
+public static final String COLUMNNAME_IsInDispute = "IsInDispute";
 /** Set Open Amount.
 @param OpenAmt Open item amount */
 public void setOpenAmt (BigDecimal OpenAmt)
@@ -271,6 +291,8 @@ BigDecimal bd = (BigDecimal)get_Value("OpenAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OpenAmt */
+public static final String COLUMNNAME_OpenAmt = "OpenAmt";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -289,6 +311,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Times Dunned.
 @param TimesDunned Number of times dunned previously */
 public void setTimesDunned (int TimesDunned)
@@ -303,6 +327,8 @@ Integer ii = (Integer)get_Value("TimesDunned");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name TimesDunned */
+public static final String COLUMNNAME_TimesDunned = "TimesDunned";
 /** Set Total Amount.
 @param TotalAmt Total Amount */
 public void setTotalAmt (BigDecimal TotalAmt)
@@ -318,4 +344,6 @@ BigDecimal bd = (BigDecimal)get_Value("TotalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalAmt */
+public static final String COLUMNNAME_TotalAmt = "TotalAmt";
 }

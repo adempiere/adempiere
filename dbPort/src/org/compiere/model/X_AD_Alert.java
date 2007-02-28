@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Alert
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Alert extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_AlertProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_AlertProcessor_ID */
+public static final String COLUMNNAME_AD_AlertProcessor_ID = "AD_AlertProcessor_ID";
 /** Set Alert.
 @param AD_Alert_ID Adempiere Alert */
 public void setAD_Alert_ID (int AD_Alert_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_Alert_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Alert_ID */
+public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 /** Set Alert Message.
 @param AlertMessage Message of the Alert */
 public void setAlertMessage (String AlertMessage)
@@ -140,6 +144,8 @@ public String getAlertMessage()
 {
 return (String)get_Value("AlertMessage");
 }
+/** Column name AlertMessage */
+public static final String COLUMNNAME_AlertMessage = "AlertMessage";
 /** Set Alert Subject.
 @param AlertSubject Subject of the Alert */
 public void setAlertSubject (String AlertSubject)
@@ -158,6 +164,8 @@ public String getAlertSubject()
 {
 return (String)get_Value("AlertSubject");
 }
+/** Column name AlertSubject */
+public static final String COLUMNNAME_AlertSubject = "AlertSubject";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -175,6 +183,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Enforce Client Security.
 @param EnforceClientSecurity Send alerts to recipient only if the client security rules of the role allows */
 public void setEnforceClientSecurity (boolean EnforceClientSecurity)
@@ -193,6 +203,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name EnforceClientSecurity */
+public static final String COLUMNNAME_EnforceClientSecurity = "EnforceClientSecurity";
 /** Set Enforce Role Security.
 @param EnforceRoleSecurity Send alerts to recipient only if the data security rules of the role allows */
 public void setEnforceRoleSecurity (boolean EnforceRoleSecurity)
@@ -211,6 +223,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name EnforceRoleSecurity */
+public static final String COLUMNNAME_EnforceRoleSecurity = "EnforceRoleSecurity";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -228,6 +242,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -246,6 +262,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -270,4 +288,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

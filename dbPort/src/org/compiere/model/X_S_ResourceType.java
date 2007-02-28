@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ResourceType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_ResourceType extends PO
 {
 /** Standard Constructor
@@ -119,6 +119,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AllowUoMFractions */
+public static final String COLUMNNAME_AllowUoMFractions = "AllowUoMFractions";
 /** Set Tax Category.
 @param C_TaxCategory_ID Tax Category */
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
@@ -134,6 +136,8 @@ Integer ii = (Integer)get_Value("C_TaxCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxCategory_ID */
+public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -149,6 +153,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Chargeable Quantity.
 @param ChargeableQty Chargeable Quantity */
 public void setChargeableQty (int ChargeableQty)
@@ -163,6 +169,8 @@ Integer ii = (Integer)get_Value("ChargeableQty");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ChargeableQty */
+public static final String COLUMNNAME_ChargeableQty = "ChargeableQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -180,6 +188,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Day Slot.
 @param IsDateSlot Resource has day slot availability */
 public void setIsDateSlot (boolean IsDateSlot)
@@ -198,6 +208,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDateSlot */
+public static final String COLUMNNAME_IsDateSlot = "IsDateSlot";
 /** Set Single Assignment only.
 @param IsSingleAssignment Only one assignment at a time (no double-booking or overlapping) */
 public void setIsSingleAssignment (boolean IsSingleAssignment)
@@ -216,6 +228,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSingleAssignment */
+public static final String COLUMNNAME_IsSingleAssignment = "IsSingleAssignment";
 /** Set Time Slot.
 @param IsTimeSlot Resource has time slot availability */
 public void setIsTimeSlot (boolean IsTimeSlot)
@@ -234,6 +248,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTimeSlot */
+public static final String COLUMNNAME_IsTimeSlot = "IsTimeSlot";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -249,6 +265,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -273,6 +291,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Friday.
 @param OnFriday Available on Fridays */
 public void setOnFriday (boolean OnFriday)
@@ -291,6 +311,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnFriday */
+public static final String COLUMNNAME_OnFriday = "OnFriday";
 /** Set Monday.
 @param OnMonday Available on Mondays */
 public void setOnMonday (boolean OnMonday)
@@ -309,6 +331,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnMonday */
+public static final String COLUMNNAME_OnMonday = "OnMonday";
 /** Set Saturday.
 @param OnSaturday Available on Saturday */
 public void setOnSaturday (boolean OnSaturday)
@@ -327,6 +351,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnSaturday */
+public static final String COLUMNNAME_OnSaturday = "OnSaturday";
 /** Set Sunday.
 @param OnSunday Available on Sundays */
 public void setOnSunday (boolean OnSunday)
@@ -345,6 +371,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnSunday */
+public static final String COLUMNNAME_OnSunday = "OnSunday";
 /** Set Thursday.
 @param OnThursday Available on Thursdays */
 public void setOnThursday (boolean OnThursday)
@@ -363,6 +391,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnThursday */
+public static final String COLUMNNAME_OnThursday = "OnThursday";
 /** Set Tuesday.
 @param OnTuesday Available on Tuesdays */
 public void setOnTuesday (boolean OnTuesday)
@@ -381,6 +411,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnTuesday */
+public static final String COLUMNNAME_OnTuesday = "OnTuesday";
 /** Set Wednesday.
 @param OnWednesday Available on Wednesdays */
 public void setOnWednesday (boolean OnWednesday)
@@ -399,6 +431,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OnWednesday */
+public static final String COLUMNNAME_OnWednesday = "OnWednesday";
 /** Set Resource Type.
 @param S_ResourceType_ID Resource Type */
 public void setS_ResourceType_ID (int S_ResourceType_ID)
@@ -414,6 +448,8 @@ Integer ii = (Integer)get_Value("S_ResourceType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ResourceType_ID */
+public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
 /** Set Slot End.
 @param TimeSlotEnd Time when timeslot ends */
 public void setTimeSlotEnd (Timestamp TimeSlotEnd)
@@ -426,6 +462,8 @@ public Timestamp getTimeSlotEnd()
 {
 return (Timestamp)get_Value("TimeSlotEnd");
 }
+/** Column name TimeSlotEnd */
+public static final String COLUMNNAME_TimeSlotEnd = "TimeSlotEnd";
 /** Set Slot Start.
 @param TimeSlotStart Time when timeslot starts */
 public void setTimeSlotStart (Timestamp TimeSlotStart)
@@ -438,6 +476,8 @@ public Timestamp getTimeSlotStart()
 {
 return (Timestamp)get_Value("TimeSlotStart");
 }
+/** Column name TimeSlotStart */
+public static final String COLUMNNAME_TimeSlotStart = "TimeSlotStart";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -456,4 +496,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

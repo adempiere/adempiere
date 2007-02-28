@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Archive
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Archive extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Archive_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Archive_ID */
+public static final String COLUMNNAME_AD_Archive_ID = "AD_Archive_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set BinaryData.
 @param BinaryData Binary Data */
 public void setBinaryData (byte[] BinaryData)
@@ -148,6 +154,8 @@ public byte[] getBinaryData()
 {
 return (byte[])get_Value("BinaryData");
 }
+/** Column name BinaryData */
+public static final String COLUMNNAME_BinaryData = "BinaryData";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -164,6 +172,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -181,6 +191,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -198,6 +210,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Report.
 @param IsReport Indicates a Report record */
 public void setIsReport (boolean IsReport)
@@ -216,6 +230,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReport */
+public static final String COLUMNNAME_IsReport = "IsReport";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -240,6 +256,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -256,4 +274,6 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 }

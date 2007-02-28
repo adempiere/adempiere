@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_EDI_Info
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_EDI_Info extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ public String getInfo()
 {
 return (String)get_Value("Info");
 }
+/** Column name Info */
+public static final String COLUMNNAME_Info = "Info";
 /** Set EDI Transaction.
 @param M_EDI_ID EDI Transaction */
 public void setM_EDI_ID (int M_EDI_ID)
@@ -126,6 +128,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_EDI_ID()));
 }
+/** Column name M_EDI_ID */
+public static final String COLUMNNAME_M_EDI_ID = "M_EDI_ID";
 /** Set EDI Log.
 @param M_EDI_Info_ID EDI Log */
 public void setM_EDI_Info_ID (int M_EDI_Info_ID)
@@ -141,4 +145,6 @@ Integer ii = (Integer)get_Value("M_EDI_Info_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_EDI_Info_ID */
+public static final String COLUMNNAME_M_EDI_Info_ID = "M_EDI_Info_ID";
 }

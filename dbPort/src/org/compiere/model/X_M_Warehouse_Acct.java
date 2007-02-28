@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Warehouse_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Warehouse_Acct extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Warehouse Differences.
 @param W_Differences_Acct Warehouse Differences Account */
 public void setW_Differences_Acct (int W_Differences_Acct)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("W_Differences_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Differences_Acct */
+public static final String COLUMNNAME_W_Differences_Acct = "W_Differences_Acct";
 /** Set Inventory Adjustment.
 @param W_InvActualAdjust_Acct Account for Inventory value adjustments for Actual Costing */
 public void setW_InvActualAdjust_Acct (int W_InvActualAdjust_Acct)
@@ -148,6 +154,8 @@ Integer ii = (Integer)get_Value("W_InvActualAdjust_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_InvActualAdjust_Acct */
+public static final String COLUMNNAME_W_InvActualAdjust_Acct = "W_InvActualAdjust_Acct";
 /** Set (Not Used).
 @param W_Inventory_Acct Warehouse Inventory Asset Account - Currently not used */
 public void setW_Inventory_Acct (int W_Inventory_Acct)
@@ -162,6 +170,8 @@ Integer ii = (Integer)get_Value("W_Inventory_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Inventory_Acct */
+public static final String COLUMNNAME_W_Inventory_Acct = "W_Inventory_Acct";
 /** Set Inventory Revaluation.
 @param W_Revaluation_Acct Account for Inventory Revaluation */
 public void setW_Revaluation_Acct (int W_Revaluation_Acct)
@@ -176,4 +186,6 @@ Integer ii = (Integer)get_Value("W_Revaluation_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Revaluation_Acct */
+public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ServiceLevelLine extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_ServiceLevelLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ServiceLevelLine_ID */
+public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";
 /** Set Service Level.
 @param C_ServiceLevel_ID Product Revenue Recognition Service Level  */
 public void setC_ServiceLevel_ID (int C_ServiceLevel_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_ServiceLevel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ServiceLevel_ID */
+public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -153,6 +159,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Service date.
 @param ServiceDate Date service was provided */
 public void setServiceDate (Timestamp ServiceDate)
@@ -172,6 +180,8 @@ return (Timestamp)get_Value("ServiceDate");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getServiceDate()));
 }
+/** Column name ServiceDate */
+public static final String COLUMNNAME_ServiceDate = "ServiceDate";
 /** Set Quantity Provided.
 @param ServiceLevelProvided Quantity of service or product provided */
 public void setServiceLevelProvided (BigDecimal ServiceLevelProvided)
@@ -187,4 +197,6 @@ BigDecimal bd = (BigDecimal)get_Value("ServiceLevelProvided");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ServiceLevelProvided */
+public static final String COLUMNNAME_ServiceLevelProvided = "ServiceLevelProvided";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_Group extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -120,6 +122,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set BOM.
 @param M_BOM_ID Bill of Material */
 public void setM_BOM_ID (int M_BOM_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_BOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOM_ID */
+public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 /** Set Change Notice.
 @param M_ChangeNotice_ID Bill of Materials (Engineering) Change Notice (Version) */
 public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("M_ChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeNotice_ID */
+public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -176,6 +184,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Group.
 @param R_Group_ID Request Group */
 public void setR_Group_ID (int R_Group_ID)
@@ -191,4 +201,6 @@ Integer ii = (Integer)get_Value("R_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Group_ID */
+public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
 }

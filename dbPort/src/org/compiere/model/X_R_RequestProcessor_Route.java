@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessor_Route
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_RequestProcessor_Route extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Keyword.
 @param Keyword Case insensitive keyword */
 public void setKeyword (String Keyword)
@@ -120,6 +122,8 @@ public String getKeyword()
 {
 return (String)get_Value("Keyword");
 }
+/** Column name Keyword */
+public static final String COLUMNNAME_Keyword = "Keyword";
 /** Set Request Processor.
 @param R_RequestProcessor_ID Processor for Requests */
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("R_RequestProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestProcessor_ID */
+public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 /** Set Request Routing.
 @param R_RequestProcessor_Route_ID Automatic routing of requests */
 public void setR_RequestProcessor_Route_ID (int R_RequestProcessor_Route_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("R_RequestProcessor_Route_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestProcessor_Route_ID */
+public static final String COLUMNNAME_R_RequestProcessor_Route_ID = "R_RequestProcessor_Route_ID";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -166,6 +174,8 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -188,4 +198,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

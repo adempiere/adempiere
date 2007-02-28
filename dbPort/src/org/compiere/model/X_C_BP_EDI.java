@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_EDI
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_EDI extends PO
 {
 /** Standard Constructor
@@ -117,6 +117,8 @@ Integer ii = (Integer)get_Value("AD_Sequence_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Sequence_ID */
+public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
 /** Set EDI Definition.
 @param C_BP_EDI_ID Electronic Data Interchange */
 public void setC_BP_EDI_ID (int C_BP_EDI_ID)
@@ -132,6 +134,8 @@ Integer ii = (Integer)get_Value("C_BP_EDI_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_EDI_ID */
+public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -147,6 +151,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Customer No.
 @param CustomerNo EDI Identification Number  */
 public void setCustomerNo (String CustomerNo)
@@ -165,6 +171,8 @@ public String getCustomerNo()
 {
 return (String)get_Value("CustomerNo");
 }
+/** Column name CustomerNo */
+public static final String COLUMNNAME_CustomerNo = "CustomerNo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -182,6 +190,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EDIType AD_Reference_ID=201 */
 public static final int EDITYPE_AD_Reference_ID=201;
@@ -211,6 +221,8 @@ public String getEDIType()
 {
 return (String)get_Value("EDIType");
 }
+/** Column name EDIType */
+public static final String COLUMNNAME_EDIType = "EDIType";
 /** Set Error EMail.
 @param EMail_Error_To Email address to send error messages to */
 public void setEMail_Error_To (String EMail_Error_To)
@@ -229,6 +241,8 @@ public String getEMail_Error_To()
 {
 return (String)get_Value("EMail_Error_To");
 }
+/** Column name EMail_Error_To */
+public static final String COLUMNNAME_EMail_Error_To = "EMail_Error_To";
 /** Set From EMail.
 @param EMail_From Full EMail address used to send requests - e.g. edi@organization.com */
 public void setEMail_From (String EMail_From)
@@ -246,6 +260,8 @@ public String getEMail_From()
 {
 return (String)get_Value("EMail_From");
 }
+/** Column name EMail_From */
+public static final String COLUMNNAME_EMail_From = "EMail_From";
 /** Set From EMail Password.
 @param EMail_From_Pwd Password of the sending EMail address */
 public void setEMail_From_Pwd (String EMail_From_Pwd)
@@ -263,6 +279,8 @@ public String getEMail_From_Pwd()
 {
 return (String)get_Value("EMail_From_Pwd");
 }
+/** Column name EMail_From_Pwd */
+public static final String COLUMNNAME_EMail_From_Pwd = "EMail_From_Pwd";
 /** Set From EMail User ID.
 @param EMail_From_Uid User ID of the sending EMail address (on default SMTP Host) - e.g. edi */
 public void setEMail_From_Uid (String EMail_From_Uid)
@@ -280,6 +298,8 @@ public String getEMail_From_Uid()
 {
 return (String)get_Value("EMail_From_Uid");
 }
+/** Column name EMail_From_Uid */
+public static final String COLUMNNAME_EMail_From_Uid = "EMail_From_Uid";
 /** Set Info EMail.
 @param EMail_Info_To EMail address to send informational messages and copies */
 public void setEMail_Info_To (String EMail_Info_To)
@@ -298,6 +318,8 @@ public String getEMail_Info_To()
 {
 return (String)get_Value("EMail_Info_To");
 }
+/** Column name EMail_Info_To */
+public static final String COLUMNNAME_EMail_Info_To = "EMail_Info_To";
 /** Set To EMail.
 @param EMail_To EMail address to send requests to - e.g. edi@manufacturer.com  */
 public void setEMail_To (String EMail_To)
@@ -315,6 +337,8 @@ public String getEMail_To()
 {
 return (String)get_Value("EMail_To");
 }
+/** Column name EMail_To */
+public static final String COLUMNNAME_EMail_To = "EMail_To";
 /** Set Activate Audit.
 @param IsAudited Activate Audit Trail of what numbers are generated */
 public void setIsAudited (boolean IsAudited)
@@ -333,6 +357,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAudited */
+public static final String COLUMNNAME_IsAudited = "IsAudited";
 /** Set Send Info.
 @param IsInfoSent Send informational messages and copies */
 public void setIsInfoSent (boolean IsInfoSent)
@@ -351,6 +377,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInfoSent */
+public static final String COLUMNNAME_IsInfoSent = "IsInfoSent";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -366,6 +394,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -390,6 +420,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Received Inquiry Reply.
 @param ReceiveInquiryReply Received Inquiry Reply */
 public void setReceiveInquiryReply (boolean ReceiveInquiryReply)
@@ -408,6 +440,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ReceiveInquiryReply */
+public static final String COLUMNNAME_ReceiveInquiryReply = "ReceiveInquiryReply";
 /** Set Receive Order Reply.
 @param ReceiveOrderReply Receive Order Reply */
 public void setReceiveOrderReply (boolean ReceiveOrderReply)
@@ -426,6 +460,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ReceiveOrderReply */
+public static final String COLUMNNAME_ReceiveOrderReply = "ReceiveOrderReply";
 /** Set Send Inquiry.
 @param SendInquiry Quantity Availability Inquiry */
 public void setSendInquiry (boolean SendInquiry)
@@ -444,6 +480,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name SendInquiry */
+public static final String COLUMNNAME_SendInquiry = "SendInquiry";
 /** Set Send Order.
 @param SendOrder Send Order */
 public void setSendOrder (boolean SendOrder)
@@ -462,4 +500,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name SendOrder */
+public static final String COLUMNNAME_SendOrder = "SendOrder";
 }

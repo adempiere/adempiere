@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_EntityType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_EntityType extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_EntityType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_EntityType_ID */
+public static final String COLUMNNAME_AD_EntityType_ID = "AD_EntityType_ID";
 /** Set Classpath.
 @param Classpath Extension Classpath */
 public void setClasspath (String Classpath)
@@ -119,6 +121,8 @@ public String getClasspath()
 {
 return (String)get_Value("Classpath");
 }
+/** Column name Classpath */
+public static final String COLUMNNAME_Classpath = "Classpath";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Entity Type.
 @param EntityType Dictionary Entity Type;
  Determines ownership and synchronization */
@@ -156,6 +162,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -173,6 +181,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set ModelPackage.
 @param ModelPackage Java Package of the model classes */
 public void setModelPackage (String ModelPackage)
@@ -190,6 +200,8 @@ public String getModelPackage()
 {
 return (String)get_Value("ModelPackage");
 }
+/** Column name ModelPackage */
+public static final String COLUMNNAME_ModelPackage = "ModelPackage";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -214,6 +226,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -232,6 +246,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -249,4 +265,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

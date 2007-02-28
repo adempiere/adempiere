@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for Fact_Acct_Balance
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_Fact_Acct_Balance extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
 /** Account_ID AD_Reference_ID=182 */
 public static final int ACCOUNT_ID_AD_Reference_ID=182;
@@ -128,6 +130,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Accounted Credit.
 @param AmtAcctCr Accounted Credit Amount */
 public void setAmtAcctCr (BigDecimal AmtAcctCr)
@@ -143,6 +147,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctCr */
+public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
 /** Set Accounted Debit.
 @param AmtAcctDr Accounted Debit Amount */
 public void setAmtAcctDr (BigDecimal AmtAcctDr)
@@ -158,6 +164,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctDr */
+public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -179,6 +187,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -195,6 +205,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -211,6 +223,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -227,6 +241,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
 /** C_LocFrom_ID AD_Reference_ID=133 */
 public static final int C_LOCFROM_ID_AD_Reference_ID=133;
@@ -246,6 +262,8 @@ Integer ii = (Integer)get_Value("C_LocFrom_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocFrom_ID */
+public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
 /** C_LocTo_ID AD_Reference_ID=133 */
 public static final int C_LOCTO_ID_AD_Reference_ID=133;
@@ -265,6 +283,8 @@ Integer ii = (Integer)get_Value("C_LocTo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocTo_ID */
+public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 /** Set Project Phase.
 @param C_ProjectPhase_ID Phase of a Project */
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
@@ -281,6 +301,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project Task.
 @param C_ProjectTask_ID Actual Project Task in a Phase */
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
@@ -297,6 +319,8 @@ Integer ii = (Integer)get_Value("C_ProjectTask_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectTask_ID */
+public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -313,6 +337,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -329,6 +355,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Sub Account.
 @param C_SubAcct_ID Sub account for Element Value */
 public void setC_SubAcct_ID (int C_SubAcct_ID)
@@ -345,6 +373,8 @@ Integer ii = (Integer)get_Value("C_SubAcct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SubAcct_ID */
+public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -358,6 +388,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Budget.
 @param GL_Budget_ID General Ledger Budget */
 public void setGL_Budget_ID (int GL_Budget_ID)
@@ -374,6 +406,8 @@ Integer ii = (Integer)get_Value("GL_Budget_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Budget_ID */
+public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -390,6 +424,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -423,6 +459,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -438,6 +476,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -457,6 +497,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -476,6 +518,8 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 /** Set User Element 1.
 @param UserElement1_ID User defined accounting Element */
 public void setUserElement1_ID (int UserElement1_ID)
@@ -492,6 +536,8 @@ Integer ii = (Integer)get_Value("UserElement1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UserElement1_ID */
+public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
 /** Set User Element 2.
 @param UserElement2_ID User defined accounting Element */
 public void setUserElement2_ID (int UserElement2_ID)
@@ -508,4 +554,6 @@ Integer ii = (Integer)get_Value("UserElement2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UserElement2_ID */
+public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
 }

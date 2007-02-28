@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_Bid
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_Bid extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Bid.
 @param B_Bid_ID Bid for a Topic */
 public void setB_Bid_ID (int B_Bid_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("B_Bid_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Bid_ID */
+public static final String COLUMNNAME_B_Bid_ID = "B_Bid_ID";
 /** Set Buyer Funds.
 @param B_BuyerFunds_ID Buyer Funds for Bids on Topics */
 public void setB_BuyerFunds_ID (int B_BuyerFunds_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("B_BuyerFunds_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_BuyerFunds_ID */
+public static final String COLUMNNAME_B_BuyerFunds_ID = "B_BuyerFunds_ID";
 /** Set Topic.
 @param B_Topic_ID Auction Topic */
 public void setB_Topic_ID (int B_Topic_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("B_Topic_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Topic_ID */
+public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
 /** Set Willing to commit.
 @param IsWillingToCommit Willing to commit */
 public void setIsWillingToCommit (boolean IsWillingToCommit)
@@ -168,6 +176,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsWillingToCommit */
+public static final String COLUMNNAME_IsWillingToCommit = "IsWillingToCommit";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -192,6 +202,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Private Note.
 @param PrivateNote Private Note - not visible to the other parties */
 public void setPrivateNote (String PrivateNote)
@@ -209,6 +221,8 @@ public String getPrivateNote()
 {
 return (String)get_Value("PrivateNote");
 }
+/** Column name PrivateNote */
+public static final String COLUMNNAME_PrivateNote = "PrivateNote";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -226,4 +240,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

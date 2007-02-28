@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Registration extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Registration_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Registration_ID */
+public static final String COLUMNNAME_AD_Registration_ID = "AD_Registration_ID";
 /** Set System.
 @param AD_System_ID System Definition */
 public void setAD_System_ID (int AD_System_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("AD_System_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_System_ID */
+public static final String COLUMNNAME_AD_System_ID = "AD_System_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -169,6 +177,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Industry Info.
 @param IndustryInfo Information of the industry (e.g. professional service, distribution of furnitures, ..) */
 public void setIndustryInfo (String IndustryInfo)
@@ -186,6 +196,8 @@ public String getIndustryInfo()
 {
 return (String)get_Value("IndustryInfo");
 }
+/** Column name IndustryInfo */
+public static final String COLUMNNAME_IndustryInfo = "IndustryInfo";
 /** Set Allowed to be Published.
 @param IsAllowPublish You allow to publish the information, not just statistical summary info */
 public void setIsAllowPublish (boolean IsAllowPublish)
@@ -204,6 +216,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllowPublish */
+public static final String COLUMNNAME_IsAllowPublish = "IsAllowPublish";
 /** Set Maintain Statistics.
 @param IsAllowStatistics Maintain general statistics */
 public void setIsAllowStatistics (boolean IsAllowStatistics)
@@ -222,6 +236,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllowStatistics */
+public static final String COLUMNNAME_IsAllowStatistics = "IsAllowStatistics";
 /** Set In Production.
 @param IsInProduction The system is in production */
 public void setIsInProduction (boolean IsInProduction)
@@ -240,6 +256,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInProduction */
+public static final String COLUMNNAME_IsInProduction = "IsInProduction";
 /** Set Registered.
 @param IsRegistered The application is registered. */
 public void setIsRegistered (boolean IsRegistered)
@@ -258,6 +276,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRegistered */
+public static final String COLUMNNAME_IsRegistered = "IsRegistered";
 /** Set Employees.
 @param NumberEmployees Number of employees */
 public void setNumberEmployees (int NumberEmployees)
@@ -272,6 +292,8 @@ Integer ii = (Integer)get_Value("NumberEmployees");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NumberEmployees */
+public static final String COLUMNNAME_NumberEmployees = "NumberEmployees";
 /** Set Platform Info.
 @param PlatformInfo Information about Server and Client Platform */
 public void setPlatformInfo (String PlatformInfo)
@@ -289,6 +311,8 @@ public String getPlatformInfo()
 {
 return (String)get_Value("PlatformInfo");
 }
+/** Column name PlatformInfo */
+public static final String COLUMNNAME_PlatformInfo = "PlatformInfo";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -307,6 +331,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -323,6 +349,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -340,6 +368,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -357,6 +387,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Sales Volume in 1.000.
 @param SalesVolume Total Volume of Sales in Thousands of Currency */
 public void setSalesVolume (int SalesVolume)
@@ -371,6 +403,8 @@ Integer ii = (Integer)get_Value("SalesVolume");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesVolume */
+public static final String COLUMNNAME_SalesVolume = "SalesVolume";
 /** Set Start Implementation/Production.
 @param StartProductionDate The day you started the implementation (if implementing) - or production (went life) with Adempiere */
 public void setStartProductionDate (Timestamp StartProductionDate)
@@ -383,4 +417,6 @@ public Timestamp getStartProductionDate()
 {
 return (Timestamp)get_Value("StartProductionDate");
 }
+/** Column name StartProductionDate */
+public static final String COLUMNNAME_StartProductionDate = "StartProductionDate";
 }

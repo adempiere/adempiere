@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponseLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQResponseLineQty extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_RfQLineQty_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQLineQty_ID */
+public static final String COLUMNNAME_C_RfQLineQty_ID = "C_RfQLineQty_ID";
 /** Set RfQ Response Line Qty.
 @param C_RfQResponseLineQty_ID Request for Quotation Response Line Quantity */
 public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_RfQResponseLineQty_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQResponseLineQty_ID */
+public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
 /** Set RfQ Response Line.
 @param C_RfQResponseLine_ID Request for Quotation Response Line */
 public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
@@ -139,6 +143,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_RfQResponseLine_ID()));
 }
+/** Column name C_RfQResponseLine_ID */
+public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
 /** Set Discount %.
 @param Discount Discount in percent */
 public void setDiscount (BigDecimal Discount)
@@ -153,6 +159,8 @@ BigDecimal bd = (BigDecimal)get_Value("Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Discount */
+public static final String COLUMNNAME_Discount = "Discount";
 /** Set Price.
 @param Price Price */
 public void setPrice (BigDecimal Price)
@@ -168,6 +176,8 @@ BigDecimal bd = (BigDecimal)get_Value("Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Price */
+public static final String COLUMNNAME_Price = "Price";
 /** Set Ranking.
 @param Ranking Relative Rank Number */
 public void setRanking (int Ranking)
@@ -182,4 +192,6 @@ Integer ii = (Integer)get_Value("Ranking");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ranking */
+public static final String COLUMNNAME_Ranking = "Ranking";
 }

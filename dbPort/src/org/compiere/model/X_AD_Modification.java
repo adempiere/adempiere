@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Modification
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Modification extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Modification_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Modification_ID */
+public static final String COLUMNNAME_AD_Modification_ID = "AD_Modification_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -120,6 +122,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -142,6 +146,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -159,6 +165,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -183,6 +191,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -199,6 +209,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -216,4 +228,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

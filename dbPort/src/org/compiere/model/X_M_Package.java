@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Package
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Package extends PO
 {
 /** Standard Constructor
@@ -100,6 +100,8 @@ public Timestamp getDateReceived()
 {
 return (Timestamp)get_Value("DateReceived");
 }
+/** Column name DateReceived */
+public static final String COLUMNNAME_DateReceived = "DateReceived";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -117,6 +119,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -135,6 +139,8 @@ public String getDocumentNo()
 {
 return (String)get_Value("DocumentNo");
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 /** Set Package.
 @param M_Package_ID Shipment Package */
 public void setM_Package_ID (int M_Package_ID)
@@ -165,6 +173,8 @@ Integer ii = (Integer)get_Value("M_Package_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Package_ID */
+public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
 /** Set Shipper.
 @param M_Shipper_ID Method or manner of product delivery */
 public void setM_Shipper_ID (int M_Shipper_ID)
@@ -180,6 +190,8 @@ Integer ii = (Integer)get_Value("M_Shipper_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Shipper_ID */
+public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 /** Set Info Received.
 @param ReceivedInfo Information of the receipt of the package (acknowledgement) */
 public void setReceivedInfo (String ReceivedInfo)
@@ -197,6 +209,8 @@ public String getReceivedInfo()
 {
 return (String)get_Value("ReceivedInfo");
 }
+/** Column name ReceivedInfo */
+public static final String COLUMNNAME_ReceivedInfo = "ReceivedInfo";
 /** Set Ship Date.
 @param ShipDate Shipment Date/Time */
 public void setShipDate (Timestamp ShipDate)
@@ -209,6 +223,8 @@ public Timestamp getShipDate()
 {
 return (Timestamp)get_Value("ShipDate");
 }
+/** Column name ShipDate */
+public static final String COLUMNNAME_ShipDate = "ShipDate";
 /** Set Tracking Info.
 @param TrackingInfo Tracking Info */
 public void setTrackingInfo (String TrackingInfo)
@@ -226,4 +242,6 @@ public String getTrackingInfo()
 {
 return (String)get_Value("TrackingInfo");
 }
+/** Column name TrackingInfo */
+public static final String COLUMNNAME_TrackingInfo = "TrackingInfo";
 }

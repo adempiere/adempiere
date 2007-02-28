@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Ad extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("ActualClick");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ActualClick */
+public static final String COLUMNNAME_ActualClick = "ActualClick";
 /** Set Actual Impression Count.
 @param ActualImpression How many impressions have been counted */
 public void setActualImpression (int ActualImpression)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("ActualImpression");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ActualImpression */
+public static final String COLUMNNAME_ActualImpression = "ActualImpression";
 /** Set Advertisement Category.
 @param CM_Ad_Cat_ID Advertisement Category like Banner Homepage  */
 public void setCM_Ad_Cat_ID (int CM_Ad_Cat_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("CM_Ad_Cat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Ad_Cat_ID */
+public static final String COLUMNNAME_CM_Ad_Cat_ID = "CM_Ad_Cat_ID";
 /** Set Advertisement.
 @param CM_Ad_ID An Advertisement is something like a banner */
 public void setCM_Ad_ID (int CM_Ad_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("CM_Ad_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Ad_ID */
+public static final String COLUMNNAME_CM_Ad_ID = "CM_Ad_ID";
 /** Set Media Item.
 @param CM_Media_ID Contains media content like images, flash movies etc. */
 public void setCM_Media_ID (int CM_Media_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("CM_Media_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_ID */
+public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
 /** Set Content HTML.
 @param ContentHTML Contains the content itself */
 public void setContentHTML (String ContentHTML)
@@ -187,6 +197,8 @@ public String getContentHTML()
 {
 return (String)get_Value("ContentHTML");
 }
+/** Column name ContentHTML */
+public static final String COLUMNNAME_ContentHTML = "ContentHTML";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -204,6 +216,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set End Date.
 @param EndDate Last effective date (inclusive) */
 public void setEndDate (Timestamp EndDate)
@@ -216,6 +230,8 @@ public Timestamp getEndDate()
 {
 return (Timestamp)get_Value("EndDate");
 }
+/** Column name EndDate */
+public static final String COLUMNNAME_EndDate = "EndDate";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -233,6 +249,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Special AD Flag.
 @param IsAdFlag Do we need to specially mention this ad? */
 public void setIsAdFlag (boolean IsAdFlag)
@@ -251,6 +269,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAdFlag */
+public static final String COLUMNNAME_IsAdFlag = "IsAdFlag";
 /** Set Logging.
 @param IsLogged Do we need to log the banner impressions and clicks? (needs much performance) */
 public void setIsLogged (boolean IsLogged)
@@ -269,6 +289,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsLogged */
+public static final String COLUMNNAME_IsLogged = "IsLogged";
 /** Set Max Click Count.
 @param MaxClick Maximum Click Count until banner is deactivated */
 public void setMaxClick (int MaxClick)
@@ -283,6 +305,8 @@ Integer ii = (Integer)get_Value("MaxClick");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MaxClick */
+public static final String COLUMNNAME_MaxClick = "MaxClick";
 /** Set Max Impression Count.
 @param MaxImpression Maximum Impression Count until banner is deactivated */
 public void setMaxImpression (int MaxImpression)
@@ -297,6 +321,8 @@ Integer ii = (Integer)get_Value("MaxImpression");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MaxImpression */
+public static final String COLUMNNAME_MaxImpression = "MaxImpression";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -321,6 +347,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -334,6 +362,8 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 /** Set Start Count Impression.
 @param StartImpression For rotation we need a start count */
 public void setStartImpression (int StartImpression)
@@ -348,6 +378,8 @@ Integer ii = (Integer)get_Value("StartImpression");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StartImpression */
+public static final String COLUMNNAME_StartImpression = "StartImpression";
 /** Set Target URL.
 @param TargetURL URL for the Target */
 public void setTargetURL (String TargetURL)
@@ -365,6 +397,8 @@ public String getTargetURL()
 {
 return (String)get_Value("TargetURL");
 }
+/** Column name TargetURL */
+public static final String COLUMNNAME_TargetURL = "TargetURL";
 /** Set Target Frame.
 @param Target_Frame Which target should be used if user clicks? */
 public void setTarget_Frame (String Target_Frame)
@@ -383,4 +417,6 @@ public String getTarget_Frame()
 {
 return (String)get_Value("Target_Frame");
 }
+/** Column name Target_Frame */
+public static final String COLUMNNAME_Target_Frame = "Target_Frame";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceTax
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_InvoiceTax extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set Price includes Tax.
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
@@ -138,6 +142,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxIncluded */
+public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -156,6 +162,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Tax Amount.
 @param TaxAmt Tax Amount for a document */
 public void setTaxAmt (BigDecimal TaxAmt)
@@ -171,6 +179,8 @@ BigDecimal bd = (BigDecimal)get_Value("TaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TaxAmt */
+public static final String COLUMNNAME_TaxAmt = "TaxAmt";
 /** Set Tax base Amount.
 @param TaxBaseAmt Base for calculating the tax amount */
 public void setTaxBaseAmt (BigDecimal TaxBaseAmt)
@@ -186,4 +196,6 @@ BigDecimal bd = (BigDecimal)get_Value("TaxBaseAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TaxBaseAmt */
+public static final String COLUMNNAME_TaxBaseAmt = "TaxBaseAmt";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_Responsible
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_Responsible extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 
 /** AD_User_ID AD_Reference_ID=286 */
 public static final int AD_USER_ID_AD_Reference_ID=286;
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Workflow Responsible.
 @param AD_WF_Responsible_ID Responsible for Workflow Execution */
 public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("AD_WF_Responsible_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Responsible_ID */
+public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -155,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -177,6 +185,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -201,6 +211,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** ResponsibleType AD_Reference_ID=304 */
 public static final int RESPONSIBLETYPE_AD_Reference_ID=304;
@@ -232,4 +244,6 @@ public String getResponsibleType()
 {
 return (String)get_Value("ResponsibleType");
 }
+/** Column name ResponsibleType */
+public static final String COLUMNNAME_ResponsibleType = "ResponsibleType";
 }

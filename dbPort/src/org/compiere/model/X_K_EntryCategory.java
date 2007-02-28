@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_EntryCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_EntryCategory extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
 }
+/** Column name K_CategoryValue_ID */
+public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
 /** Set Knowledge Category.
 @param K_Category_ID Knowledge Category */
 public void setK_Category_ID (int K_Category_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("K_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Category_ID */
+public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
 /** Set Entry.
 @param K_Entry_ID Knowledge Entry */
 public void setK_Entry_ID (int K_Entry_ID)
@@ -138,4 +142,6 @@ Integer ii = (Integer)get_Value("K_Entry_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Entry_ID */
+public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";
 }

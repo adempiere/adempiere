@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Index extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Excerpt.
 @param Excerpt Surrounding text of the keyword */
 public void setExcerpt (String Excerpt)
@@ -153,6 +159,8 @@ public String getExcerpt()
 {
 return (String)get_Value("Excerpt");
 }
+/** Column name Excerpt */
+public static final String COLUMNNAME_Excerpt = "Excerpt";
 /** Set Index.
 @param K_INDEX_ID Text Search Index */
 public void setK_INDEX_ID (int K_INDEX_ID)
@@ -168,6 +176,8 @@ Integer ii = (Integer)get_Value("K_INDEX_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_INDEX_ID */
+public static final String COLUMNNAME_K_INDEX_ID = "K_INDEX_ID";
 /** Set Keyword.
 @param Keyword Case insensitive keyword */
 public void setKeyword (String Keyword)
@@ -192,6 +202,8 @@ return (String)get_Value("Keyword");
 {
 return new KeyNamePair(get_ID(), getKeyword());
 }
+/** Column name Keyword */
+public static final String COLUMNNAME_Keyword = "Keyword";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -223,6 +237,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Source Updated.
 @param SourceUpdated Date the source document was updated */
 public void setSourceUpdated (Timestamp SourceUpdated)
@@ -236,4 +252,6 @@ public Timestamp getSourceUpdated()
 {
 return (Timestamp)get_Value("SourceUpdated");
 }
+/** Column name SourceUpdated */
+public static final String COLUMNNAME_SourceUpdated = "SourceUpdated";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Imp extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Imp_ID()));
 }
+/** Column name AD_Package_Imp_ID */
+public static final String COLUMNNAME_AD_Package_Imp_ID = "AD_Package_Imp_ID";
 /** Set Creator.
 @param Creator Creator */
 public void setCreator (String Creator)
@@ -126,6 +128,8 @@ public String getCreator()
 {
 return (String)get_Value("Creator");
 }
+/** Column name Creator */
+public static final String COLUMNNAME_Creator = "Creator";
 /** Set CreatorContact.
 @param CreatorContact CreatorContact */
 public void setCreatorContact (String CreatorContact)
@@ -143,6 +147,8 @@ public String getCreatorContact()
 {
 return (String)get_Value("CreatorContact");
 }
+/** Column name CreatorContact */
+public static final String COLUMNNAME_CreatorContact = "CreatorContact";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -161,6 +167,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -178,6 +186,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -196,6 +206,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set PK_Status.
 @param PK_Status PK_Status */
 public void setPK_Status (String PK_Status)
@@ -213,6 +225,8 @@ public String getPK_Status()
 {
 return (String)get_Value("PK_Status");
 }
+/** Column name PK_Status */
+public static final String COLUMNNAME_PK_Status = "PK_Status";
 /** Set PK_Version.
 @param PK_Version PK_Version */
 public void setPK_Version (String PK_Version)
@@ -230,6 +244,8 @@ public String getPK_Version()
 {
 return (String)get_Value("PK_Version");
 }
+/** Column name PK_Version */
+public static final String COLUMNNAME_PK_Version = "PK_Version";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -248,6 +264,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -266,6 +284,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Release No.
 @param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
@@ -283,6 +303,8 @@ public String getReleaseNo()
 {
 return (String)get_Value("ReleaseNo");
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 /** Set Uninstall.
 @param Uninstall Uninstall */
 public void setUninstall (boolean Uninstall)
@@ -301,6 +323,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Uninstall */
+public static final String COLUMNNAME_Uninstall = "Uninstall";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -318,4 +342,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

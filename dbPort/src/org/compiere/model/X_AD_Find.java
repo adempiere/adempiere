@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Find
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Find extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Find.
 @param AD_Find_ID Find */
 public void setAD_Find_ID (int AD_Find_ID)
@@ -129,6 +131,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Find_ID()));
 }
+/** Column name AD_Find_ID */
+public static final String COLUMNNAME_AD_Find_ID = "AD_Find_ID";
 
 /** AndOr AD_Reference_ID=204 */
 public static final int ANDOR_AD_Reference_ID=204;
@@ -156,6 +160,8 @@ public String getAndOr()
 {
 return (String)get_Value("AndOr");
 }
+/** Column name AndOr */
+public static final String COLUMNNAME_AndOr = "AndOr";
 /** Set Find_ID.
 @param Find_ID Find_ID */
 public void setFind_ID (BigDecimal Find_ID)
@@ -171,6 +177,8 @@ BigDecimal bd = (BigDecimal)get_Value("Find_ID");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Find_ID */
+public static final String COLUMNNAME_Find_ID = "Find_ID";
 
 /** Operation AD_Reference_ID=205 */
 public static final int OPERATION_AD_Reference_ID=205;
@@ -212,6 +220,8 @@ public String getOperation()
 {
 return (String)get_Value("Operation");
 }
+/** Column name Operation */
+public static final String COLUMNNAME_Operation = "Operation";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -230,6 +240,8 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Value To.
 @param Value2 Value To */
 public void setValue2 (String Value2)
@@ -247,4 +259,6 @@ public String getValue2()
 {
 return (String)get_Value("Value2");
 }
+/** Column name Value2 */
+public static final String COLUMNNAME_Value2 = "Value2";
 }

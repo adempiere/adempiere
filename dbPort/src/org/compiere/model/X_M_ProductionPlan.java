@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ProductionPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_ProductionPlan extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -128,6 +130,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -143,6 +147,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
 /** M_Product_ID AD_Reference_ID=211 */
 public static final int M_PRODUCT_ID_AD_Reference_ID=211;
@@ -161,6 +167,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Production Plan.
 @param M_ProductionPlan_ID Plan for how a product is produced */
 public void setM_ProductionPlan_ID (int M_ProductionPlan_ID)
@@ -176,6 +184,8 @@ Integer ii = (Integer)get_Value("M_ProductionPlan_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductionPlan_ID */
+public static final String COLUMNNAME_M_ProductionPlan_ID = "M_ProductionPlan_ID";
 /** Set Production.
 @param M_Production_ID Plan for producing a product */
 public void setM_Production_ID (int M_Production_ID)
@@ -191,6 +201,8 @@ Integer ii = (Integer)get_Value("M_Production_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Production_ID */
+public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -209,6 +221,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Production Quantity.
 @param ProductionQty Quantity of products to produce */
 public void setProductionQty (BigDecimal ProductionQty)
@@ -224,4 +238,6 @@ BigDecimal bd = (BigDecimal)get_Value("ProductionQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ProductionQty */
+public static final String COLUMNNAME_ProductionQty = "ProductionQty";
 }

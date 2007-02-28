@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Accounted Credit.
 @param AmtAcctCr Accounted Credit Amount */
 public void setAmtAcctCr (BigDecimal AmtAcctCr)
@@ -119,6 +121,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctCr */
+public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
 /** Set Accounted Debit.
 @param AmtAcctDr Accounted Debit Amount */
 public void setAmtAcctDr (BigDecimal AmtAcctDr)
@@ -133,6 +137,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctDr */
+public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
 /** Set Source Credit.
 @param AmtSourceCr Source Credit Amount */
 public void setAmtSourceCr (BigDecimal AmtSourceCr)
@@ -147,6 +153,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSourceCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSourceCr */
+public static final String COLUMNNAME_AmtSourceCr = "AmtSourceCr";
 /** Set Source Debit.
 @param AmtSourceDr Source Debit Amount */
 public void setAmtSourceDr (BigDecimal AmtSourceDr)
@@ -161,6 +169,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSourceDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSourceDr */
+public static final String COLUMNNAME_AmtSourceDr = "AmtSourceDr";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -176,6 +186,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -190,6 +202,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -204,6 +218,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Tax Declaration Accounting.
 @param C_TaxDeclarationAcct_ID Tax Accounting Reconciliation  */
 public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
@@ -219,6 +235,8 @@ Integer ii = (Integer)get_Value("C_TaxDeclarationAcct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxDeclarationAcct_ID */
+public static final String COLUMNNAME_C_TaxDeclarationAcct_ID = "C_TaxDeclarationAcct_ID";
 /** Set Tax Declaration.
 @param C_TaxDeclaration_ID Define the declaration to the tax authorities */
 public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
@@ -234,6 +252,8 @@ Integer ii = (Integer)get_Value("C_TaxDeclaration_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxDeclaration_ID */
+public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -248,6 +268,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -260,6 +282,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -277,6 +301,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Accounting Fact.
 @param Fact_Acct_ID Accounting Fact */
 public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -292,6 +318,8 @@ Integer ii = (Integer)get_Value("Fact_Acct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Fact_Acct_ID */
+public static final String COLUMNNAME_Fact_Acct_ID = "Fact_Acct_ID";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -306,4 +334,6 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 }

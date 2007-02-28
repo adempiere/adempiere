@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition_Plan
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RevenueRecognition_Plan extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Revenue Recognition.
 @param C_RevenueRecognition_ID Method for recording revenue */
 public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
@@ -159,6 +165,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_RevenueRecognition_ID()));
 }
+/** Column name C_RevenueRecognition_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
 /** Set Revenue Recognition Plan.
 @param C_RevenueRecognition_Plan_ID Plan for recognizing or recording revenue */
 public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
@@ -174,6 +182,8 @@ Integer ii = (Integer)get_Value("C_RevenueRecognition_Plan_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RevenueRecognition_Plan_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
 /** Set Product Revenue.
 @param P_Revenue_Acct Account for Product Revenue (Sales Account) */
 public void setP_Revenue_Acct (int P_Revenue_Acct)
@@ -188,6 +198,8 @@ Integer ii = (Integer)get_Value("P_Revenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_Revenue_Acct */
+public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
 /** Set Recognized Amount.
 @param RecognizedAmt Recognized Amount */
 public void setRecognizedAmt (BigDecimal RecognizedAmt)
@@ -203,6 +215,8 @@ BigDecimal bd = (BigDecimal)get_Value("RecognizedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RecognizedAmt */
+public static final String COLUMNNAME_RecognizedAmt = "RecognizedAmt";
 /** Set Total Amount.
 @param TotalAmt Total Amount */
 public void setTotalAmt (BigDecimal TotalAmt)
@@ -218,6 +232,8 @@ BigDecimal bd = (BigDecimal)get_Value("TotalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalAmt */
+public static final String COLUMNNAME_TotalAmt = "TotalAmt";
 /** Set Unearned Revenue.
 @param UnEarnedRevenue_Acct Account for unearned revenue */
 public void setUnEarnedRevenue_Acct (int UnEarnedRevenue_Acct)
@@ -232,4 +248,6 @@ Integer ii = (Integer)get_Value("UnEarnedRevenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UnEarnedRevenue_Acct */
+public static final String COLUMNNAME_UnEarnedRevenue_Acct = "UnEarnedRevenue_Acct";
 }

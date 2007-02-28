@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_Node_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_Node_Para extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Process_Para_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_Para_ID */
+public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
 /** Set Node.
 @param AD_WF_Node_ID Workflow Node (activity), step or process */
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
@@ -124,6 +126,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Node_ID()));
 }
+/** Column name AD_WF_Node_ID */
+public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 /** Set Workflow Node Parameter.
 @param AD_WF_Node_Para_ID Workflow Node Execution Parameter */
 public void setAD_WF_Node_Para_ID (int AD_WF_Node_Para_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("AD_WF_Node_Para_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Node_Para_ID */
+public static final String COLUMNNAME_AD_WF_Node_Para_ID = "AD_WF_Node_Para_ID";
 /** Set Attribute Name.
 @param AttributeName Name of the Attribute */
 public void setAttributeName (String AttributeName)
@@ -156,6 +162,8 @@ public String getAttributeName()
 {
 return (String)get_Value("AttributeName");
 }
+/** Column name AttributeName */
+public static final String COLUMNNAME_AttributeName = "AttributeName";
 /** Set Attribute Value.
 @param AttributeValue Value of the Attribute */
 public void setAttributeValue (String AttributeValue)
@@ -173,6 +181,8 @@ public String getAttributeValue()
 {
 return (String)get_Value("AttributeValue");
 }
+/** Column name AttributeValue */
+public static final String COLUMNNAME_AttributeValue = "AttributeValue";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -190,6 +200,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -212,4 +224,6 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 }

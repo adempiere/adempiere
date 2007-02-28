@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_RatioElement extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Constant Value.
 @param ConstantValue Constant value */
 public void setConstantValue (BigDecimal ConstantValue)
@@ -123,6 +125,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConstantValue");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConstantValue */
+public static final String COLUMNNAME_ConstantValue = "ConstantValue";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -140,6 +144,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -158,6 +164,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Measure Calculation.
 @param PA_MeasureCalc_ID Calculation method for measuring performance */
 public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
@@ -174,6 +182,8 @@ Integer ii = (Integer)get_Value("PA_MeasureCalc_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_MeasureCalc_ID */
+public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
 /** Set Ratio Element.
 @param PA_RatioElement_ID Performance Ratio Element */
 public void setPA_RatioElement_ID (int PA_RatioElement_ID)
@@ -189,6 +199,8 @@ Integer ii = (Integer)get_Value("PA_RatioElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_RatioElement_ID */
+public static final String COLUMNNAME_PA_RatioElement_ID = "PA_RatioElement_ID";
 
 /** PA_RatioUsed_ID AD_Reference_ID=371 */
 public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("PA_RatioUsed_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_RatioUsed_ID */
+public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";
 /** Set Ratio.
 @param PA_Ratio_ID Performace Ratio */
 public void setPA_Ratio_ID (int PA_Ratio_ID)
@@ -223,6 +237,8 @@ Integer ii = (Integer)get_Value("PA_Ratio_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Ratio_ID */
+public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -255,6 +271,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 
 /** RatioElementType AD_Reference_ID=372 */
 public static final int RATIOELEMENTTYPE_AD_Reference_ID=372;
@@ -286,6 +304,8 @@ public String getRatioElementType()
 {
 return (String)get_Value("RatioElementType");
 }
+/** Column name RatioElementType */
+public static final String COLUMNNAME_RatioElementType = "RatioElementType";
 
 /** RatioOperand AD_Reference_ID=373 */
 public static final int RATIOOPERAND_AD_Reference_ID=373;
@@ -317,6 +337,8 @@ public String getRatioOperand()
 {
 return (String)get_Value("RatioOperand");
 }
+/** Column name RatioOperand */
+public static final String COLUMNNAME_RatioOperand = "RatioOperand";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -339,4 +361,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

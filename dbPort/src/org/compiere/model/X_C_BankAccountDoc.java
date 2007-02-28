@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BankAccountDoc extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_BankAccountDoc_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccountDoc_ID */
+public static final String COLUMNNAME_C_BankAccountDoc_ID = "C_BankAccountDoc_ID";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
 /** Check_PrintFormat_ID AD_Reference_ID=268 */
 public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("Check_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Check_PrintFormat_ID */
+public static final String COLUMNNAME_Check_PrintFormat_ID = "Check_PrintFormat_ID";
 /** Set Current Next.
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("CurrentNext");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CurrentNext */
+public static final String COLUMNNAME_CurrentNext = "CurrentNext";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -169,6 +177,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -193,6 +203,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** PaymentRule AD_Reference_ID=195 */
 public static final int PAYMENTRULE_AD_Reference_ID=195;
@@ -228,4 +240,6 @@ public String getPaymentRule()
 {
 return (String)get_Value("PaymentRule");
 }
+/** Column name PaymentRule */
+public static final String COLUMNNAME_PaymentRule = "PaymentRule";
 }

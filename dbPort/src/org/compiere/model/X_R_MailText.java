@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_MailText
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_MailText extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsHtml */
+public static final String COLUMNNAME_IsHtml = "IsHtml";
 /** Set Subject.
 @param MailHeader Mail Header (Subject) */
 public void setMailHeader (String MailHeader)
@@ -123,6 +125,8 @@ public String getMailHeader()
 {
 return (String)get_Value("MailHeader");
 }
+/** Column name MailHeader */
+public static final String COLUMNNAME_MailHeader = "MailHeader";
 /** Set Mail Text.
 @param MailText Text used for Mail message */
 public void setMailText (String MailText)
@@ -141,6 +145,8 @@ public String getMailText()
 {
 return (String)get_Value("MailText");
 }
+/** Column name MailText */
+public static final String COLUMNNAME_MailText = "MailText";
 /** Set Mail Text 2.
 @param MailText2 Optional second text part used for Mail message */
 public void setMailText2 (String MailText2)
@@ -158,6 +164,8 @@ public String getMailText2()
 {
 return (String)get_Value("MailText2");
 }
+/** Column name MailText2 */
+public static final String COLUMNNAME_MailText2 = "MailText2";
 /** Set Mail Text 3.
 @param MailText3 Optional third text part used for Mail message */
 public void setMailText3 (String MailText3)
@@ -175,6 +183,8 @@ public String getMailText3()
 {
 return (String)get_Value("MailText3");
 }
+/** Column name MailText3 */
+public static final String COLUMNNAME_MailText3 = "MailText3";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -199,6 +209,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Mail Template.
 @param R_MailText_ID Text templates for mailings */
 public void setR_MailText_ID (int R_MailText_ID)
@@ -214,4 +226,6 @@ Integer ii = (Integer)get_Value("R_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_MailText_ID */
+public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 }

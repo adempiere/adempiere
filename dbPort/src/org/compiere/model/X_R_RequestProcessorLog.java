@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_RequestProcessorLog extends PO
 {
 /** Standard Constructor
@@ -99,6 +99,8 @@ public byte[] getBinaryData()
 {
 return (byte[])get_Value("BinaryData");
 }
+/** Column name BinaryData */
+public static final String COLUMNNAME_BinaryData = "BinaryData";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -116,6 +118,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Error.
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
@@ -134,6 +138,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsError */
+public static final String COLUMNNAME_IsError = "IsError";
 /** Set Request Processor Log.
 @param R_RequestProcessorLog_ID Result of the execution of the Request Processor */
 public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID)
@@ -149,6 +155,8 @@ Integer ii = (Integer)get_Value("R_RequestProcessorLog_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestProcessorLog_ID */
+public static final String COLUMNNAME_R_RequestProcessorLog_ID = "R_RequestProcessorLog_ID";
 /** Set Request Processor.
 @param R_RequestProcessor_ID Processor for Requests */
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
@@ -164,6 +172,8 @@ Integer ii = (Integer)get_Value("R_RequestProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestProcessor_ID */
+public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 /** Set Reference.
 @param Reference Reference for this record */
 public void setReference (String Reference)
@@ -181,6 +191,8 @@ public String getReference()
 {
 return (String)get_Value("Reference");
 }
+/** Column name Reference */
+public static final String COLUMNNAME_Reference = "Reference";
 /** Set Summary.
 @param Summary Textual summary of this request */
 public void setSummary (String Summary)
@@ -198,6 +210,8 @@ public String getSummary()
 {
 return (String)get_Value("Summary");
 }
+/** Column name Summary */
+public static final String COLUMNNAME_Summary = "Summary";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -215,4 +229,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

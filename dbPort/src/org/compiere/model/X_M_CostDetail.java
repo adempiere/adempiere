@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_CostDetail extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Sales Order Line.
 @param C_OrderLine_ID Sales Order Line */
 public void setC_OrderLine_ID (int C_OrderLine_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Project Issue.
 @param C_ProjectIssue_ID Project Issues (Material, Labor) */
 public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("C_ProjectIssue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectIssue_ID */
+public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
 /** Set Delta Amount.
 @param DeltaAmt Difference Amount */
 public void setDeltaAmt (BigDecimal DeltaAmt)
@@ -184,6 +194,8 @@ BigDecimal bd = (BigDecimal)get_Value("DeltaAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DeltaAmt */
+public static final String COLUMNNAME_DeltaAmt = "DeltaAmt";
 /** Set Delta Quantity.
 @param DeltaQty Quantity Difference */
 public void setDeltaQty (BigDecimal DeltaQty)
@@ -198,6 +210,8 @@ BigDecimal bd = (BigDecimal)get_Value("DeltaQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DeltaQty */
+public static final String COLUMNNAME_DeltaQty = "DeltaQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -215,6 +229,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -233,6 +249,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -248,6 +266,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Cost Detail.
 @param M_CostDetail_ID Cost Detail Information */
 public void setM_CostDetail_ID (int M_CostDetail_ID)
@@ -263,6 +283,8 @@ Integer ii = (Integer)get_Value("M_CostDetail_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostDetail_ID */
+public static final String COLUMNNAME_M_CostDetail_ID = "M_CostDetail_ID";
 /** Set Cost Element.
 @param M_CostElement_ID Product Cost Element */
 public void setM_CostElement_ID (int M_CostElement_ID)
@@ -279,6 +301,8 @@ Integer ii = (Integer)get_Value("M_CostElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostElement_ID */
+public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -295,6 +319,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -311,6 +337,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Move Line.
 @param M_MovementLine_ID Inventory Move document Line */
 public void setM_MovementLine_ID (int M_MovementLine_ID)
@@ -327,6 +355,8 @@ Integer ii = (Integer)get_Value("M_MovementLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_MovementLine_ID */
+public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -342,6 +372,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Production Line.
 @param M_ProductionLine_ID Document Line representing a production */
 public void setM_ProductionLine_ID (int M_ProductionLine_ID)
@@ -358,6 +390,8 @@ Integer ii = (Integer)get_Value("M_ProductionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductionLine_ID */
+public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 /** Set Price.
 @param Price Price */
 public void setPrice (BigDecimal Price)
@@ -372,6 +406,8 @@ BigDecimal bd = (BigDecimal)get_Value("Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Price */
+public static final String COLUMNNAME_Price = "Price";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -390,6 +426,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -405,4 +443,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

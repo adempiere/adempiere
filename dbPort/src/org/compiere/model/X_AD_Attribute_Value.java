@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Attribute_Value extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_Attribute_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Attribute_ID */
+public static final String COLUMNNAME_AD_Attribute_ID = "AD_Attribute_ID";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -116,6 +118,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set V_Date.
 @param V_Date V_Date */
 public void setV_Date (Timestamp V_Date)
@@ -128,6 +132,8 @@ public Timestamp getV_Date()
 {
 return (Timestamp)get_Value("V_Date");
 }
+/** Column name V_Date */
+public static final String COLUMNNAME_V_Date = "V_Date";
 /** Set V_Number.
 @param V_Number V_Number */
 public void setV_Number (String V_Number)
@@ -145,6 +151,8 @@ public String getV_Number()
 {
 return (String)get_Value("V_Number");
 }
+/** Column name V_Number */
+public static final String COLUMNNAME_V_Number = "V_Number";
 /** Set V_String.
 @param V_String V_String */
 public void setV_String (String V_String)
@@ -162,4 +170,6 @@ public String getV_String()
 {
 return (String)get_Value("V_String");
 }
+/** Column name V_String */
+public static final String COLUMNNAME_V_String = "V_String";
 }

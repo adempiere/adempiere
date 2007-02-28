@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_CostQueue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_CostQueue extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Current Cost Price.
 @param CurrentCostPrice The currently used cost price */
 public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
@@ -122,6 +124,8 @@ BigDecimal bd = (BigDecimal)get_Value("CurrentCostPrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CurrentCostPrice */
+public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
 /** Set Current Quantity.
 @param CurrentQty Current Quantity */
 public void setCurrentQty (BigDecimal CurrentQty)
@@ -137,6 +141,8 @@ BigDecimal bd = (BigDecimal)get_Value("CurrentQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CurrentQty */
+public static final String COLUMNNAME_CurrentQty = "CurrentQty";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Cost Element.
 @param M_CostElement_ID Product Cost Element */
 public void setM_CostElement_ID (int M_CostElement_ID)
@@ -167,6 +175,8 @@ Integer ii = (Integer)get_Value("M_CostElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostElement_ID */
+public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 /** Set Cost Queue.
 @param M_CostQueue_ID FiFo/LiFo Cost Queue */
 public void setM_CostQueue_ID (int M_CostQueue_ID)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("M_CostQueue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostQueue_ID */
+public static final String COLUMNNAME_M_CostQueue_ID = "M_CostQueue_ID";
 /** Set Cost Type.
 @param M_CostType_ID Type of Cost (e.g. Current, Plan, Future) */
 public void setM_CostType_ID (int M_CostType_ID)
@@ -197,6 +209,8 @@ Integer ii = (Integer)get_Value("M_CostType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostType_ID */
+public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -212,4 +226,6 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 }

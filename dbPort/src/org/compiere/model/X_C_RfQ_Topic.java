@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQ_Topic extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set RfQ Topic.
 @param C_RfQ_Topic_ID Topic for Request for Quotations */
 public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_RfQ_Topic_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQ_Topic_ID */
+public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -153,6 +159,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -177,4 +185,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

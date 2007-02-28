@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BankStatementLoader extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ public String getAccountNo()
 {
 return (String)get_Value("AccountNo");
 }
+/** Column name AccountNo */
+public static final String COLUMNNAME_AccountNo = "AccountNo";
 /** Set Branch ID.
 @param BranchID Bank Branch ID */
 public void setBranchID (String BranchID)
@@ -121,6 +123,8 @@ public String getBranchID()
 {
 return (String)get_Value("BranchID");
 }
+/** Column name BranchID */
+public static final String COLUMNNAME_BranchID = "BranchID";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Bank Statement Loader.
 @param C_BankStatementLoader_ID Definition of Bank Statement Loader (SWIFT, OFX) */
 public void setC_BankStatementLoader_ID (int C_BankStatementLoader_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("C_BankStatementLoader_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankStatementLoader_ID */
+public static final String COLUMNNAME_C_BankStatementLoader_ID = "C_BankStatementLoader_ID";
 /** Set Date Format.
 @param DateFormat Date format used in the imput format */
 public void setDateFormat (String DateFormat)
@@ -168,6 +176,8 @@ public String getDateFormat()
 {
 return (String)get_Value("DateFormat");
 }
+/** Column name DateFormat */
+public static final String COLUMNNAME_DateFormat = "DateFormat";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -180,6 +190,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -197,6 +209,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set File Name.
 @param FileName Name of the local file or URL */
 public void setFileName (String FileName)
@@ -214,6 +228,8 @@ public String getFileName()
 {
 return (String)get_Value("FileName");
 }
+/** Column name FileName */
+public static final String COLUMNNAME_FileName = "FileName";
 /** Set Financial Institution ID.
 @param FinancialInstitutionID The ID of the Financial Institution / Bank */
 public void setFinancialInstitutionID (String FinancialInstitutionID)
@@ -231,6 +247,8 @@ public String getFinancialInstitutionID()
 {
 return (String)get_Value("FinancialInstitutionID");
 }
+/** Column name FinancialInstitutionID */
+public static final String COLUMNNAME_FinancialInstitutionID = "FinancialInstitutionID";
 /** Set Host Address.
 @param HostAddress Host Address URL or DNS */
 public void setHostAddress (String HostAddress)
@@ -248,6 +266,8 @@ public String getHostAddress()
 {
 return (String)get_Value("HostAddress");
 }
+/** Column name HostAddress */
+public static final String COLUMNNAME_HostAddress = "HostAddress";
 /** Set Host port.
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
@@ -262,6 +282,8 @@ Integer ii = (Integer)get_Value("HostPort");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HostPort */
+public static final String COLUMNNAME_HostPort = "HostPort";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -286,6 +308,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set PIN.
 @param PIN Personal Identification Number */
 public void setPIN (String PIN)
@@ -303,6 +327,8 @@ public String getPIN()
 {
 return (String)get_Value("PIN");
 }
+/** Column name PIN */
+public static final String COLUMNNAME_PIN = "PIN";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -320,6 +346,8 @@ public String getPassword()
 {
 return (String)get_Value("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set Proxy address.
 @param ProxyAddress  Address of your proxy server */
 public void setProxyAddress (String ProxyAddress)
@@ -337,6 +365,8 @@ public String getProxyAddress()
 {
 return (String)get_Value("ProxyAddress");
 }
+/** Column name ProxyAddress */
+public static final String COLUMNNAME_ProxyAddress = "ProxyAddress";
 /** Set Proxy logon.
 @param ProxyLogon Logon of your proxy server */
 public void setProxyLogon (String ProxyLogon)
@@ -354,6 +384,8 @@ public String getProxyLogon()
 {
 return (String)get_Value("ProxyLogon");
 }
+/** Column name ProxyLogon */
+public static final String COLUMNNAME_ProxyLogon = "ProxyLogon";
 /** Set Proxy password.
 @param ProxyPassword Password of your proxy server */
 public void setProxyPassword (String ProxyPassword)
@@ -371,6 +403,8 @@ public String getProxyPassword()
 {
 return (String)get_Value("ProxyPassword");
 }
+/** Column name ProxyPassword */
+public static final String COLUMNNAME_ProxyPassword = "ProxyPassword";
 /** Set Proxy port.
 @param ProxyPort Port of your proxy server */
 public void setProxyPort (int ProxyPort)
@@ -385,6 +419,8 @@ Integer ii = (Integer)get_Value("ProxyPort");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ProxyPort */
+public static final String COLUMNNAME_ProxyPort = "ProxyPort";
 /** Set Statement Loader Class.
 @param StmtLoaderClass Class name of the bank statement loader */
 public void setStmtLoaderClass (String StmtLoaderClass)
@@ -402,6 +438,8 @@ public String getStmtLoaderClass()
 {
 return (String)get_Value("StmtLoaderClass");
 }
+/** Column name StmtLoaderClass */
+public static final String COLUMNNAME_StmtLoaderClass = "StmtLoaderClass";
 /** Set User ID.
 @param UserID User ID or account number */
 public void setUserID (String UserID)
@@ -419,4 +457,6 @@ public String getUserID()
 {
 return (String)get_Value("UserID");
 }
+/** Column name UserID */
+public static final String COLUMNNAME_UserID = "UserID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Media
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Media extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set Media Item.
 @param CM_Media_ID Contains media content like images, flash movies etc. */
 public void setCM_Media_ID (int CM_Media_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("CM_Media_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_ID */
+public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Content.
 @param ContentText Content */
 public void setContentText (String ContentText)
@@ -146,6 +152,8 @@ public String getContentText()
 {
 return (String)get_Value("ContentText");
 }
+/** Column name ContentText */
+public static final String COLUMNNAME_ContentText = "ContentText";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -163,6 +171,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Direct Deploy.
 @param DirectDeploy Direct Deploy */
 public void setDirectDeploy (String DirectDeploy)
@@ -180,6 +190,8 @@ public String getDirectDeploy()
 {
 return (String)get_Value("DirectDeploy");
 }
+/** Column name DirectDeploy */
+public static final String COLUMNNAME_DirectDeploy = "DirectDeploy";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -197,6 +209,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -215,6 +229,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 
 /** MediaType AD_Reference_ID=388 */
 public static final int MEDIATYPE_AD_Reference_ID=388;
@@ -249,6 +265,8 @@ public String getMediaType()
 {
 return (String)get_Value("MediaType");
 }
+/** Column name MediaType */
+public static final String COLUMNNAME_MediaType = "MediaType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -273,4 +291,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

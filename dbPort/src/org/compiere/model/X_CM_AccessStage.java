@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessStage
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_AccessStage extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("CM_AccessProfile_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_AccessProfile_ID */
+public static final String COLUMNNAME_CM_AccessProfile_ID = "CM_AccessProfile_ID";
 /** Set Web Container Stage.
 @param CM_CStage_ID Web Container Stage contains the staging content like images, text etc. */
 public void setCM_CStage_ID (int CM_CStage_ID)
@@ -116,4 +118,6 @@ Integer ii = (Integer)get_Value("CM_CStage_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_CStage_ID */
+public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_InfoColumn extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Element_ID */
+public static final String COLUMNNAME_AD_Element_ID = "AD_Element_ID";
 /** Set Info Column.
 @param AD_InfoColumn_ID Info Window Column */
 public void setAD_InfoColumn_ID (int AD_InfoColumn_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("AD_InfoColumn_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_InfoColumn_ID */
+public static final String COLUMNNAME_AD_InfoColumn_ID = "AD_InfoColumn_ID";
 /** Set Info Window.
 @param AD_InfoWindow_ID Info and search/select Window */
 public void setAD_InfoWindow_ID (int AD_InfoWindow_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("AD_InfoWindow_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_InfoWindow_ID */
+public static final String COLUMNNAME_AD_InfoWindow_ID = "AD_InfoWindow_ID";
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -174,6 +182,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -196,6 +206,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -213,6 +225,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Displayed.
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
@@ -231,6 +245,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDisplayed */
+public static final String COLUMNNAME_IsDisplayed = "IsDisplayed";
 /** Set Query Criteria.
 @param IsQueryCriteria The column is also used as a query criteria */
 public void setIsQueryCriteria (boolean IsQueryCriteria)
@@ -249,6 +265,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsQueryCriteria */
+public static final String COLUMNNAME_IsQueryCriteria = "IsQueryCriteria";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -273,6 +291,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sql SELECT.
 @param SelectClause SQL SELECT clause */
 public void setSelectClause (String SelectClause)
@@ -291,6 +311,8 @@ public String getSelectClause()
 {
 return (String)get_Value("SelectClause");
 }
+/** Column name SelectClause */
+public static final String COLUMNNAME_SelectClause = "SelectClause";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -307,4 +329,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

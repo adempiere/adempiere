@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_Category extends PO
 {
 /** Standard Constructor
@@ -119,6 +119,8 @@ public String getCategoryType()
 {
 return (String)get_Value("CategoryType");
 }
+/** Column name CategoryType */
+public static final String COLUMNNAME_CategoryType = "CategoryType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +138,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set GL Category.
 @param GL_Category_ID General Ledger Category */
 public void setGL_Category_ID (int GL_Category_ID)
@@ -151,6 +155,8 @@ Integer ii = (Integer)get_Value("GL_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Category_ID */
+public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -169,6 +175,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -193,4 +201,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

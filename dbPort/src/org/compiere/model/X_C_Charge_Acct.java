@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Charge_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Charge_Acct extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Charge Expense.
 @param Ch_Expense_Acct Charge Expense Account */
 public void setCh_Expense_Acct (int Ch_Expense_Acct)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("Ch_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ch_Expense_Acct */
+public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
 /** Set Charge Revenue.
 @param Ch_Revenue_Acct Charge Revenue Account */
 public void setCh_Revenue_Acct (int Ch_Revenue_Acct)
@@ -146,4 +152,6 @@ Integer ii = (Integer)get_Value("Ch_Revenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ch_Revenue_Acct */
+public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
 }

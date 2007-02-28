@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaySelection extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Payment Selection.
 @param C_PaySelection_ID Payment Selection */
 public void setC_PaySelection_ID (int C_PaySelection_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_PaySelection_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaySelection_ID */
+public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
 /** Set Create lines from.
 @param CreateFrom Process which will generate a new document lines based on an existing document */
 public void setCreateFrom (String CreateFrom)
@@ -139,6 +143,8 @@ public String getCreateFrom()
 {
 return (String)get_Value("CreateFrom");
 }
+/** Column name CreateFrom */
+public static final String COLUMNNAME_CreateFrom = "CreateFrom";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -174,6 +182,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -198,6 +208,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Payment date.
 @param PayDate Date Payment made */
 public void setPayDate (Timestamp PayDate)
@@ -211,6 +223,8 @@ public Timestamp getPayDate()
 {
 return (Timestamp)get_Value("PayDate");
 }
+/** Column name PayDate */
+public static final String COLUMNNAME_PayDate = "PayDate";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -229,6 +243,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -247,6 +263,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Total Amount.
 @param TotalAmt Total Amount */
 public void setTotalAmt (BigDecimal TotalAmt)
@@ -262,4 +280,6 @@ BigDecimal bd = (BigDecimal)get_Value("TotalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalAmt */
+public static final String COLUMNNAME_TotalAmt = "TotalAmt";
 }

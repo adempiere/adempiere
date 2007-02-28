@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RevenueRecognition extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_RevenueRecognition_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RevenueRecognition_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -120,6 +122,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Time based.
 @param IsTimeBased Time based Revenue Recognition rather than Service Level based */
 public void setIsTimeBased (boolean IsTimeBased)
@@ -138,6 +142,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTimeBased */
+public static final String COLUMNNAME_IsTimeBased = "IsTimeBased";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -162,6 +168,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Number of Months.
 @param NoMonths Number of Months */
 public void setNoMonths (int NoMonths)
@@ -176,6 +184,8 @@ Integer ii = (Integer)get_Value("NoMonths");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NoMonths */
+public static final String COLUMNNAME_NoMonths = "NoMonths";
 
 /** RecognitionFrequency AD_Reference_ID=196 */
 public static final int RECOGNITIONFREQUENCY_AD_Reference_ID=196;
@@ -205,4 +215,6 @@ public String getRecognitionFrequency()
 {
 return (String)get_Value("RecognitionFrequency");
 }
+/** Column name RecognitionFrequency */
+public static final String COLUMNNAME_RecognitionFrequency = "RecognitionFrequency";
 }

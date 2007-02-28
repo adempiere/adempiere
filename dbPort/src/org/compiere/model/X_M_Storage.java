@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Storage
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Storage extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ public Timestamp getDateLastInventory()
 {
 return (Timestamp)get_Value("DateLastInventory");
 }
+/** Column name DateLastInventory */
+public static final String COLUMNNAME_DateLastInventory = "DateLastInventory";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -147,6 +153,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set On Hand Quantity.
 @param QtyOnHand On Hand Quantity */
 public void setQtyOnHand (BigDecimal QtyOnHand)
@@ -162,6 +170,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOnHand");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOnHand */
+public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
 /** Set Ordered Quantity.
 @param QtyOrdered Ordered Quantity */
 public void setQtyOrdered (BigDecimal QtyOrdered)
@@ -177,6 +187,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOrdered");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOrdered */
+public static final String COLUMNNAME_QtyOrdered = "QtyOrdered";
 /** Set Reserved Quantity.
 @param QtyReserved Reserved Quantity */
 public void setQtyReserved (BigDecimal QtyReserved)
@@ -192,4 +204,6 @@ BigDecimal bd = (BigDecimal)get_Value("QtyReserved");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyReserved */
+public static final String COLUMNNAME_QtyReserved = "QtyReserved";
 }

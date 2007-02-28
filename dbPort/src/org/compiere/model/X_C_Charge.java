@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Charge
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Charge extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Tax Category.
 @param C_TaxCategory_ID Tax Category */
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("C_TaxCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxCategory_ID */
+public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 /** Set Charge amount.
 @param ChargeAmt Charge Amount */
 public void setChargeAmt (BigDecimal ChargeAmt)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("ChargeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ChargeAmt */
+public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -169,6 +177,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Same Currency.
 @param IsSameCurrency Same Currency */
 public void setIsSameCurrency (boolean IsSameCurrency)
@@ -187,6 +197,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSameCurrency */
+public static final String COLUMNNAME_IsSameCurrency = "IsSameCurrency";
 /** Set Same Tax.
 @param IsSameTax Use the same tax as the main transaction */
 public void setIsSameTax (boolean IsSameTax)
@@ -205,6 +217,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSameTax */
+public static final String COLUMNNAME_IsSameTax = "IsSameTax";
 /** Set Price includes Tax.
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
@@ -223,6 +237,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxIncluded */
+public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -247,4 +263,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

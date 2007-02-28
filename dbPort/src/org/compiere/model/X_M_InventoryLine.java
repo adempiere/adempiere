@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_InventoryLine extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -126,6 +128,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** InventoryType AD_Reference_ID=292 */
 public static final int INVENTORYTYPE_AD_Reference_ID=292;
@@ -153,6 +157,8 @@ public String getInventoryType()
 {
 return (String)get_Value("InventoryType");
 }
+/** Column name InventoryType */
+public static final String COLUMNNAME_InventoryType = "InventoryType";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -173,6 +179,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -188,6 +196,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -203,6 +213,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Phys.Inventory.
 @param M_Inventory_ID Parameters for a Physical Inventory */
 public void setM_Inventory_ID (int M_Inventory_ID)
@@ -218,6 +230,8 @@ Integer ii = (Integer)get_Value("M_Inventory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Inventory_ID */
+public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -233,6 +247,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
 /** M_Product_ID AD_Reference_ID=171 */
 public static final int M_PRODUCT_ID_AD_Reference_ID=171;
@@ -251,6 +267,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -269,6 +287,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity book.
 @param QtyBook Book Quantity */
 public void setQtyBook (BigDecimal QtyBook)
@@ -284,6 +304,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyBook");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyBook */
+public static final String COLUMNNAME_QtyBook = "QtyBook";
 /** Set Quantity count.
 @param QtyCount Counted Quantity */
 public void setQtyCount (BigDecimal QtyCount)
@@ -299,6 +321,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyCount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyCount */
+public static final String COLUMNNAME_QtyCount = "QtyCount";
 /** Set Internal Use Qty.
 @param QtyInternalUse Internal Use Quantity removed from Inventory */
 public void setQtyInternalUse (BigDecimal QtyInternalUse)
@@ -313,6 +337,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyInternalUse");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyInternalUse */
+public static final String COLUMNNAME_QtyInternalUse = "QtyInternalUse";
 /** Set UPC/EAN.
 @param UPC Bar Code (Universal Product Code or its superset European Article Number) */
 public void setUPC (String UPC)
@@ -325,6 +351,8 @@ public String getUPC()
 {
 return (String)get_Value("UPC");
 }
+/** Column name UPC */
+public static final String COLUMNNAME_UPC = "UPC";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -337,4 +365,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

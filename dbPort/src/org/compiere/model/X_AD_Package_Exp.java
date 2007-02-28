@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Exp extends PO
 {
 /** Standard Constructor
@@ -116,6 +116,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_ID()));
 }
+/** Column name AD_Package_Exp_ID */
+public static final String COLUMNNAME_AD_Package_Exp_ID = "AD_Package_Exp_ID";
 
 /** AD_Package_Type AD_Reference_ID=50001 */
 public static final int AD_PACKAGE_TYPE_AD_Reference_ID=50001;
@@ -144,6 +146,8 @@ public String getAD_Package_Type()
 {
 return (String)get_Value("AD_Package_Type");
 }
+/** Column name AD_Package_Type */
+public static final String COLUMNNAME_AD_Package_Type = "AD_Package_Type";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -162,6 +166,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -180,6 +186,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set File_Directory.
 @param File_Directory File_Directory */
 public void setFile_Directory (String File_Directory)
@@ -198,6 +206,8 @@ public String getFile_Directory()
 {
 return (String)get_Value("File_Directory");
 }
+/** Column name File_Directory */
+public static final String COLUMNNAME_File_Directory = "File_Directory";
 /** Set Instructions.
 @param Instructions Instructions */
 public void setInstructions (String Instructions)
@@ -216,6 +226,8 @@ public String getInstructions()
 {
 return (String)get_Value("Instructions");
 }
+/** Column name Instructions */
+public static final String COLUMNNAME_Instructions = "Instructions";
 /** Set Name.
 @param Name Name */
 public void setName (String Name)
@@ -234,6 +246,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set PK_Version.
 @param PK_Version PK_Version */
 public void setPK_Version (String PK_Version)
@@ -252,6 +266,8 @@ public String getPK_Version()
 {
 return (String)get_Value("PK_Version");
 }
+/** Column name PK_Version */
+public static final String COLUMNNAME_PK_Version = "PK_Version";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -270,6 +286,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -288,6 +306,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** ReleaseNo AD_Reference_ID=50002 */
 public static final int RELEASENO_AD_Reference_ID=50002;
@@ -327,6 +347,8 @@ public String getReleaseNo()
 {
 return (String)get_Value("ReleaseNo");
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 /** Set Registered EMail.
 @param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
@@ -345,6 +367,8 @@ public String getUserName()
 {
 return (String)get_Value("UserName");
 }
+/** Column name UserName */
+public static final String COLUMNNAME_UserName = "UserName";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -363,4 +387,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

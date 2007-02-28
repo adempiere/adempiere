@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_MeasureCalc
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_MeasureCalc extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set B.Partner Column.
 @param BPartnerColumn Fully qualified Business Partner key column (C_BPartner_ID) */
 public void setBPartnerColumn (String BPartnerColumn)
@@ -125,6 +127,8 @@ public String getBPartnerColumn()
 {
 return (String)get_Value("BPartnerColumn");
 }
+/** Column name BPartnerColumn */
+public static final String COLUMNNAME_BPartnerColumn = "BPartnerColumn";
 /** Set Date Column.
 @param DateColumn Fully qualified date column */
 public void setDateColumn (String DateColumn)
@@ -143,6 +147,8 @@ public String getDateColumn()
 {
 return (String)get_Value("DateColumn");
 }
+/** Column name DateColumn */
+public static final String COLUMNNAME_DateColumn = "DateColumn";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -160,6 +166,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -182,6 +190,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Key Column.
 @param KeyColumn Key Column for Table */
 public void setKeyColumn (String KeyColumn)
@@ -200,6 +210,8 @@ public String getKeyColumn()
 {
 return (String)get_Value("KeyColumn");
 }
+/** Column name KeyColumn */
+public static final String COLUMNNAME_KeyColumn = "KeyColumn";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -224,6 +236,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Org Column.
 @param OrgColumn Fully qualified Organization column (AD_Org_ID) */
 public void setOrgColumn (String OrgColumn)
@@ -242,6 +256,8 @@ public String getOrgColumn()
 {
 return (String)get_Value("OrgColumn");
 }
+/** Column name OrgColumn */
+public static final String COLUMNNAME_OrgColumn = "OrgColumn";
 /** Set Measure Calculation.
 @param PA_MeasureCalc_ID Calculation method for measuring performance */
 public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
@@ -257,6 +273,8 @@ Integer ii = (Integer)get_Value("PA_MeasureCalc_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_MeasureCalc_ID */
+public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
 /** Set Product Column.
 @param ProductColumn Fully qualified Product column (M_Product_ID) */
 public void setProductColumn (String ProductColumn)
@@ -274,6 +292,8 @@ public String getProductColumn()
 {
 return (String)get_Value("ProductColumn");
 }
+/** Column name ProductColumn */
+public static final String COLUMNNAME_ProductColumn = "ProductColumn";
 /** Set Sql SELECT.
 @param SelectClause SQL SELECT clause */
 public void setSelectClause (String SelectClause)
@@ -292,6 +312,8 @@ public String getSelectClause()
 {
 return (String)get_Value("SelectClause");
 }
+/** Column name SelectClause */
+public static final String COLUMNNAME_SelectClause = "SelectClause";
 /** Set Sql WHERE.
 @param WhereClause Fully qualified SQL WHERE clause */
 public void setWhereClause (String WhereClause)
@@ -310,4 +332,6 @@ public String getWhereClause()
 {
 return (String)get_Value("WhereClause");
 }
+/** Column name WhereClause */
+public static final String COLUMNNAME_WhereClause = "WhereClause";
 }

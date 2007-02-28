@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_ContactInterest
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_ContactInterest extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Opt-out Date.
 @param OptOutDate Date the contact opted out */
 public void setOptOutDate (Timestamp OptOutDate)
@@ -119,6 +121,8 @@ public Timestamp getOptOutDate()
 {
 return (Timestamp)get_Value("OptOutDate");
 }
+/** Column name OptOutDate */
+public static final String COLUMNNAME_OptOutDate = "OptOutDate";
 /** Set Interest Area.
 @param R_InterestArea_ID Interest Area or Topic */
 public void setR_InterestArea_ID (int R_InterestArea_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("R_InterestArea_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_InterestArea_ID */
+public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";
 /** Set Subscribe Date.
 @param SubscribeDate Date the contact actively subscribed */
 public void setSubscribeDate (Timestamp SubscribeDate)
@@ -146,4 +152,6 @@ public Timestamp getSubscribeDate()
 {
 return (Timestamp)get_Value("SubscribeDate");
 }
+/** Column name SubscribeDate */
+public static final String COLUMNNAME_SubscribeDate = "SubscribeDate";
 }

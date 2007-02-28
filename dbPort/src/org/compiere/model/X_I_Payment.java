@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_Payment extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getA_City()
 {
 return (String)get_Value("A_City");
 }
+/** Column name A_City */
+public static final String COLUMNNAME_A_City = "A_City";
 /** Set Account Country.
 @param A_Country Country */
 public void setA_Country (String A_Country)
@@ -120,6 +122,8 @@ public String getA_Country()
 {
 return (String)get_Value("A_Country");
 }
+/** Column name A_Country */
+public static final String COLUMNNAME_A_Country = "A_Country";
 /** Set Account EMail.
 @param A_EMail Email Address */
 public void setA_EMail (String A_EMail)
@@ -137,6 +141,8 @@ public String getA_EMail()
 {
 return (String)get_Value("A_EMail");
 }
+/** Column name A_EMail */
+public static final String COLUMNNAME_A_EMail = "A_EMail";
 /** Set Driver License.
 @param A_Ident_DL Payment Identification - Driver License */
 public void setA_Ident_DL (String A_Ident_DL)
@@ -154,6 +160,8 @@ public String getA_Ident_DL()
 {
 return (String)get_Value("A_Ident_DL");
 }
+/** Column name A_Ident_DL */
+public static final String COLUMNNAME_A_Ident_DL = "A_Ident_DL";
 /** Set Social Security No.
 @param A_Ident_SSN Payment Identification - Social Security No */
 public void setA_Ident_SSN (String A_Ident_SSN)
@@ -171,6 +179,8 @@ public String getA_Ident_SSN()
 {
 return (String)get_Value("A_Ident_SSN");
 }
+/** Column name A_Ident_SSN */
+public static final String COLUMNNAME_A_Ident_SSN = "A_Ident_SSN";
 /** Set Account Name.
 @param A_Name Name on Credit Card or Account holder */
 public void setA_Name (String A_Name)
@@ -188,6 +198,8 @@ public String getA_Name()
 {
 return (String)get_Value("A_Name");
 }
+/** Column name A_Name */
+public static final String COLUMNNAME_A_Name = "A_Name";
 /** Set Account State.
 @param A_State State of the Credit Card or Account holder */
 public void setA_State (String A_State)
@@ -205,6 +217,8 @@ public String getA_State()
 {
 return (String)get_Value("A_State");
 }
+/** Column name A_State */
+public static final String COLUMNNAME_A_State = "A_State";
 /** Set Account Street.
 @param A_Street Street address of the Credit Card or Account holder */
 public void setA_Street (String A_Street)
@@ -222,6 +236,8 @@ public String getA_Street()
 {
 return (String)get_Value("A_Street");
 }
+/** Column name A_Street */
+public static final String COLUMNNAME_A_Street = "A_Street";
 /** Set Account Zip/Postal.
 @param A_Zip Zip Code of the Credit Card or Account Holder */
 public void setA_Zip (String A_Zip)
@@ -239,6 +255,8 @@ public String getA_Zip()
 {
 return (String)get_Value("A_Zip");
 }
+/** Column name A_Zip */
+public static final String COLUMNNAME_A_Zip = "A_Zip";
 /** Set Account No.
 @param AccountNo Account Number */
 public void setAccountNo (String AccountNo)
@@ -256,6 +274,8 @@ public String getAccountNo()
 {
 return (String)get_Value("AccountNo");
 }
+/** Column name AccountNo */
+public static final String COLUMNNAME_AccountNo = "AccountNo";
 /** Set Business Partner Key.
 @param BPartnerValue Key of the Business Partner */
 public void setBPartnerValue (String BPartnerValue)
@@ -273,6 +293,8 @@ public String getBPartnerValue()
 {
 return (String)get_Value("BPartnerValue");
 }
+/** Column name BPartnerValue */
+public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
 /** Set Bank Account No.
 @param BankAccountNo Bank Account Number */
 public void setBankAccountNo (String BankAccountNo)
@@ -290,6 +312,8 @@ public String getBankAccountNo()
 {
 return (String)get_Value("BankAccountNo");
 }
+/** Column name BankAccountNo */
+public static final String COLUMNNAME_BankAccountNo = "BankAccountNo";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -306,6 +330,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -322,6 +348,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -338,6 +366,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -354,6 +384,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -370,6 +402,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -386,6 +420,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -402,6 +438,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Charge amount.
 @param ChargeAmt Charge Amount */
 public void setChargeAmt (BigDecimal ChargeAmt)
@@ -416,6 +454,8 @@ BigDecimal bd = (BigDecimal)get_Value("ChargeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ChargeAmt */
+public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
 /** Set Charge Name.
 @param ChargeName Name of the Charge */
 public void setChargeName (String ChargeName)
@@ -433,6 +473,8 @@ public String getChargeName()
 {
 return (String)get_Value("ChargeName");
 }
+/** Column name ChargeName */
+public static final String COLUMNNAME_ChargeName = "ChargeName";
 /** Set Check No.
 @param CheckNo Check Number */
 public void setCheckNo (String CheckNo)
@@ -450,6 +492,8 @@ public String getCheckNo()
 {
 return (String)get_Value("CheckNo");
 }
+/** Column name CheckNo */
+public static final String COLUMNNAME_CheckNo = "CheckNo";
 /** Set Exp. Month.
 @param CreditCardExpMM Expiry Month */
 public void setCreditCardExpMM (int CreditCardExpMM)
@@ -464,6 +508,8 @@ Integer ii = (Integer)get_Value("CreditCardExpMM");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CreditCardExpMM */
+public static final String COLUMNNAME_CreditCardExpMM = "CreditCardExpMM";
 /** Set Exp. Year.
 @param CreditCardExpYY Expiry Year */
 public void setCreditCardExpYY (int CreditCardExpYY)
@@ -478,6 +524,8 @@ Integer ii = (Integer)get_Value("CreditCardExpYY");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CreditCardExpYY */
+public static final String COLUMNNAME_CreditCardExpYY = "CreditCardExpYY";
 /** Set Number.
 @param CreditCardNumber Credit Card Number  */
 public void setCreditCardNumber (String CreditCardNumber)
@@ -495,6 +543,8 @@ public String getCreditCardNumber()
 {
 return (String)get_Value("CreditCardNumber");
 }
+/** Column name CreditCardNumber */
+public static final String COLUMNNAME_CreditCardNumber = "CreditCardNumber";
 
 /** CreditCardType AD_Reference_ID=149 */
 public static final int CREDITCARDTYPE_AD_Reference_ID=149;
@@ -531,6 +581,8 @@ public String getCreditCardType()
 {
 return (String)get_Value("CreditCardType");
 }
+/** Column name CreditCardType */
+public static final String COLUMNNAME_CreditCardType = "CreditCardType";
 /** Set Verification Code.
 @param CreditCardVV Credit Card Verification code on credit card */
 public void setCreditCardVV (String CreditCardVV)
@@ -548,6 +600,8 @@ public String getCreditCardVV()
 {
 return (String)get_Value("CreditCardVV");
 }
+/** Column name CreditCardVV */
+public static final String COLUMNNAME_CreditCardVV = "CreditCardVV";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -560,6 +614,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Transaction Date.
 @param DateTrx Transaction Date */
 public void setDateTrx (Timestamp DateTrx)
@@ -572,6 +628,8 @@ public Timestamp getDateTrx()
 {
 return (Timestamp)get_Value("DateTrx");
 }
+/** Column name DateTrx */
+public static final String COLUMNNAME_DateTrx = "DateTrx";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -586,6 +644,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Document Type Name.
 @param DocTypeName Name of the Document Type */
 public void setDocTypeName (String DocTypeName)
@@ -603,6 +663,8 @@ public String getDocTypeName()
 {
 return (String)get_Value("DocTypeName");
 }
+/** Column name DocTypeName */
+public static final String COLUMNNAME_DocTypeName = "DocTypeName";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -620,6 +682,8 @@ public String getDocumentNo()
 {
 return (String)get_Value("DocumentNo");
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set ISO Currency Code.
 @param ISO_Code Three letter ISO 4217 Code of the Currency */
 public void setISO_Code (String ISO_Code)
@@ -637,6 +701,8 @@ public String getISO_Code()
 {
 return (String)get_Value("ISO_Code");
 }
+/** Column name ISO_Code */
+public static final String COLUMNNAME_ISO_Code = "ISO_Code";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -654,6 +720,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -672,6 +740,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Import Payment.
 @param I_Payment_ID Import Payment */
 public void setI_Payment_ID (int I_Payment_ID)
@@ -687,6 +757,8 @@ Integer ii = (Integer)get_Value("I_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_Payment_ID */
+public static final String COLUMNNAME_I_Payment_ID = "I_Payment_ID";
 /** Set Invoice Document No.
 @param InvoiceDocumentNo Document Number of the Invoice */
 public void setInvoiceDocumentNo (String InvoiceDocumentNo)
@@ -704,6 +776,8 @@ public String getInvoiceDocumentNo()
 {
 return (String)get_Value("InvoiceDocumentNo");
 }
+/** Column name InvoiceDocumentNo */
+public static final String COLUMNNAME_InvoiceDocumentNo = "InvoiceDocumentNo";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -722,6 +796,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Delayed Capture.
 @param IsDelayedCapture Charge after Shipment */
 public void setIsDelayedCapture (boolean IsDelayedCapture)
@@ -740,6 +816,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDelayedCapture */
+public static final String COLUMNNAME_IsDelayedCapture = "IsDelayedCapture";
 /** Set Over/Under Payment.
 @param IsOverUnderPayment Over-Payment (unallocated) or Under-Payment (partial payment) */
 public void setIsOverUnderPayment (boolean IsOverUnderPayment)
@@ -758,6 +836,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOverUnderPayment */
+public static final String COLUMNNAME_IsOverUnderPayment = "IsOverUnderPayment";
 /** Set Receipt.
 @param IsReceipt This is a sales transaction (receipt) */
 public void setIsReceipt (boolean IsReceipt)
@@ -776,6 +856,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReceipt */
+public static final String COLUMNNAME_IsReceipt = "IsReceipt";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -794,6 +876,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Micr.
 @param Micr Combination of routing no, account and check no */
 public void setMicr (String Micr)
@@ -811,6 +895,8 @@ public String getMicr()
 {
 return (String)get_Value("Micr");
 }
+/** Column name Micr */
+public static final String COLUMNNAME_Micr = "Micr";
 /** Set Original Transaction ID.
 @param Orig_TrxID Original Transaction ID */
 public void setOrig_TrxID (String Orig_TrxID)
@@ -828,6 +914,8 @@ public String getOrig_TrxID()
 {
 return (String)get_Value("Orig_TrxID");
 }
+/** Column name Orig_TrxID */
+public static final String COLUMNNAME_Orig_TrxID = "Orig_TrxID";
 /** Set Over/Under Payment.
 @param OverUnderAmt Over-Payment (unallocated) or Under-Payment (partial payment) Amount */
 public void setOverUnderAmt (BigDecimal OverUnderAmt)
@@ -842,6 +930,8 @@ BigDecimal bd = (BigDecimal)get_Value("OverUnderAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OverUnderAmt */
+public static final String COLUMNNAME_OverUnderAmt = "OverUnderAmt";
 /** Set PO Number.
 @param PONum Purchase Order Number */
 public void setPONum (String PONum)
@@ -859,6 +949,8 @@ public String getPONum()
 {
 return (String)get_Value("PONum");
 }
+/** Column name PONum */
+public static final String COLUMNNAME_PONum = "PONum";
 /** Set Payment amount.
 @param PayAmt Amount being paid */
 public void setPayAmt (BigDecimal PayAmt)
@@ -873,6 +965,8 @@ BigDecimal bd = (BigDecimal)get_Value("PayAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PayAmt */
+public static final String COLUMNNAME_PayAmt = "PayAmt";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -891,6 +985,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -909,6 +1005,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Authorization Code.
 @param R_AuthCode Authorization Code returned */
 public void setR_AuthCode (String R_AuthCode)
@@ -926,6 +1024,8 @@ public String getR_AuthCode()
 {
 return (String)get_Value("R_AuthCode");
 }
+/** Column name R_AuthCode */
+public static final String COLUMNNAME_R_AuthCode = "R_AuthCode";
 /** Set Info.
 @param R_Info Response info */
 public void setR_Info (String R_Info)
@@ -943,6 +1043,8 @@ public String getR_Info()
 {
 return (String)get_Value("R_Info");
 }
+/** Column name R_Info */
+public static final String COLUMNNAME_R_Info = "R_Info";
 /** Set Reference.
 @param R_PnRef Payment reference */
 public void setR_PnRef (String R_PnRef)
@@ -960,6 +1062,8 @@ public String getR_PnRef()
 {
 return (String)get_Value("R_PnRef");
 }
+/** Column name R_PnRef */
+public static final String COLUMNNAME_R_PnRef = "R_PnRef";
 /** Set Response Message.
 @param R_RespMsg Response message */
 public void setR_RespMsg (String R_RespMsg)
@@ -977,6 +1081,8 @@ public String getR_RespMsg()
 {
 return (String)get_Value("R_RespMsg");
 }
+/** Column name R_RespMsg */
+public static final String COLUMNNAME_R_RespMsg = "R_RespMsg";
 /** Set Result.
 @param R_Result Result of transmission */
 public void setR_Result (String R_Result)
@@ -994,6 +1100,8 @@ public String getR_Result()
 {
 return (String)get_Value("R_Result");
 }
+/** Column name R_Result */
+public static final String COLUMNNAME_R_Result = "R_Result";
 /** Set Routing No.
 @param RoutingNo Bank Routing Number */
 public void setRoutingNo (String RoutingNo)
@@ -1011,6 +1119,8 @@ public String getRoutingNo()
 {
 return (String)get_Value("RoutingNo");
 }
+/** Column name RoutingNo */
+public static final String COLUMNNAME_RoutingNo = "RoutingNo";
 /** Set Swipe.
 @param Swipe Track 1 and 2 of the Credit Card */
 public void setSwipe (String Swipe)
@@ -1028,6 +1138,8 @@ public String getSwipe()
 {
 return (String)get_Value("Swipe");
 }
+/** Column name Swipe */
+public static final String COLUMNNAME_Swipe = "Swipe";
 /** Set Tax Amount.
 @param TaxAmt Tax Amount for a document */
 public void setTaxAmt (BigDecimal TaxAmt)
@@ -1042,6 +1154,8 @@ BigDecimal bd = (BigDecimal)get_Value("TaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TaxAmt */
+public static final String COLUMNNAME_TaxAmt = "TaxAmt";
 
 /** TenderType AD_Reference_ID=214 */
 public static final int TENDERTYPE_AD_Reference_ID=214;
@@ -1072,6 +1186,8 @@ public String getTenderType()
 {
 return (String)get_Value("TenderType");
 }
+/** Column name TenderType */
+public static final String COLUMNNAME_TenderType = "TenderType";
 
 /** TrxType AD_Reference_ID=215 */
 public static final int TRXTYPE_AD_Reference_ID=215;
@@ -1106,6 +1222,8 @@ public String getTrxType()
 {
 return (String)get_Value("TrxType");
 }
+/** Column name TrxType */
+public static final String COLUMNNAME_TrxType = "TrxType";
 /** Set Voice authorization code.
 @param VoiceAuthCode Voice Authorization Code from credit card company */
 public void setVoiceAuthCode (String VoiceAuthCode)
@@ -1123,6 +1241,8 @@ public String getVoiceAuthCode()
 {
 return (String)get_Value("VoiceAuthCode");
 }
+/** Column name VoiceAuthCode */
+public static final String COLUMNNAME_VoiceAuthCode = "VoiceAuthCode";
 /** Set Write-off Amount.
 @param WriteOffAmt Amount to write-off */
 public void setWriteOffAmt (BigDecimal WriteOffAmt)
@@ -1137,4 +1257,6 @@ BigDecimal bd = (BigDecimal)get_Value("WriteOffAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name WriteOffAmt */
+public static final String COLUMNNAME_WriteOffAmt = "WriteOffAmt";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Bank extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_Bank_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Bank_ID */
+public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Own Bank.
 @param IsOwnBank Bank for this Organization */
 public void setIsOwnBank (boolean IsOwnBank)
@@ -154,6 +160,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOwnBank */
+public static final String COLUMNNAME_IsOwnBank = "IsOwnBank";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -178,6 +186,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Routing No.
 @param RoutingNo Bank Routing Number */
 public void setRoutingNo (String RoutingNo)
@@ -196,6 +206,8 @@ public String getRoutingNo()
 {
 return (String)get_Value("RoutingNo");
 }
+/** Column name RoutingNo */
+public static final String COLUMNNAME_RoutingNo = "RoutingNo";
 /** Set Swift code.
 @param SwiftCode Swift Code or BIC */
 public void setSwiftCode (String SwiftCode)
@@ -213,4 +225,6 @@ public String getSwiftCode()
 {
 return (String)get_Value("SwiftCode");
 }
+/** Column name SwiftCode */
+public static final String COLUMNNAME_SwiftCode = "SwiftCode";
 }

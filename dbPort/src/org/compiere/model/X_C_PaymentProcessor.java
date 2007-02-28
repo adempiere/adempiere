@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaymentProcessor extends PO
 {
 /** Standard Constructor
@@ -123,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_Sequence_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Sequence_ID */
+public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
 /** Set Accept AMEX.
 @param AcceptAMEX Accept American Express Card */
 public void setAcceptAMEX (boolean AcceptAMEX)
@@ -141,6 +143,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptAMEX */
+public static final String COLUMNNAME_AcceptAMEX = "AcceptAMEX";
 /** Set Accept ATM.
 @param AcceptATM Accept Bank ATM Card */
 public void setAcceptATM (boolean AcceptATM)
@@ -159,6 +163,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptATM */
+public static final String COLUMNNAME_AcceptATM = "AcceptATM";
 /** Set Accept Electronic Check.
 @param AcceptCheck Accept ECheck (Electronic Checks) */
 public void setAcceptCheck (boolean AcceptCheck)
@@ -177,6 +183,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptCheck */
+public static final String COLUMNNAME_AcceptCheck = "AcceptCheck";
 /** Set Accept Corporate.
 @param AcceptCorporate Accept Corporate Purchase Cards */
 public void setAcceptCorporate (boolean AcceptCorporate)
@@ -195,6 +203,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptCorporate */
+public static final String COLUMNNAME_AcceptCorporate = "AcceptCorporate";
 /** Set Accept Diners.
 @param AcceptDiners Accept Diner's Club */
 public void setAcceptDiners (boolean AcceptDiners)
@@ -213,6 +223,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptDiners */
+public static final String COLUMNNAME_AcceptDiners = "AcceptDiners";
 /** Set Accept Direct Debit.
 @param AcceptDirectDebit Accept Direct Debits (vendor initiated) */
 public void setAcceptDirectDebit (boolean AcceptDirectDebit)
@@ -231,6 +243,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptDirectDebit */
+public static final String COLUMNNAME_AcceptDirectDebit = "AcceptDirectDebit";
 /** Set Accept Direct Deposit.
 @param AcceptDirectDeposit Accept Direct Deposit (payee initiated) */
 public void setAcceptDirectDeposit (boolean AcceptDirectDeposit)
@@ -249,6 +263,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptDirectDeposit */
+public static final String COLUMNNAME_AcceptDirectDeposit = "AcceptDirectDeposit";
 /** Set Accept Discover.
 @param AcceptDiscover Accept Discover Card */
 public void setAcceptDiscover (boolean AcceptDiscover)
@@ -267,6 +283,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptDiscover */
+public static final String COLUMNNAME_AcceptDiscover = "AcceptDiscover";
 /** Set Accept MasterCard.
 @param AcceptMC Accept Master Card */
 public void setAcceptMC (boolean AcceptMC)
@@ -285,6 +303,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptMC */
+public static final String COLUMNNAME_AcceptMC = "AcceptMC";
 /** Set Accept Visa.
 @param AcceptVisa Accept Visa Cards */
 public void setAcceptVisa (boolean AcceptVisa)
@@ -303,6 +323,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AcceptVisa */
+public static final String COLUMNNAME_AcceptVisa = "AcceptVisa";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -318,6 +340,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -334,6 +358,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Payment Processor.
 @param C_PaymentProcessor_ID Payment processor for electronic payments */
 public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
@@ -349,6 +375,8 @@ Integer ii = (Integer)get_Value("C_PaymentProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentProcessor_ID */
+public static final String COLUMNNAME_C_PaymentProcessor_ID = "C_PaymentProcessor_ID";
 /** Set Commission %.
 @param Commission Commission stated as a percentage */
 public void setCommission (BigDecimal Commission)
@@ -364,6 +392,8 @@ BigDecimal bd = (BigDecimal)get_Value("Commission");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Commission */
+public static final String COLUMNNAME_Commission = "Commission";
 /** Set Cost per transaction.
 @param CostPerTrx Fixed cost per transaction */
 public void setCostPerTrx (BigDecimal CostPerTrx)
@@ -379,6 +409,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostPerTrx");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostPerTrx */
+public static final String COLUMNNAME_CostPerTrx = "CostPerTrx";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -396,6 +428,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Host Address.
 @param HostAddress Host Address URL or DNS */
 public void setHostAddress (String HostAddress)
@@ -414,6 +448,8 @@ public String getHostAddress()
 {
 return (String)get_Value("HostAddress");
 }
+/** Column name HostAddress */
+public static final String COLUMNNAME_HostAddress = "HostAddress";
 /** Set Host port.
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
@@ -428,6 +464,8 @@ Integer ii = (Integer)get_Value("HostPort");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HostPort */
+public static final String COLUMNNAME_HostPort = "HostPort";
 /** Set Minimum Amt.
 @param MinimumAmt Minumum Amout in Document Currency */
 public void setMinimumAmt (BigDecimal MinimumAmt)
@@ -442,6 +480,8 @@ BigDecimal bd = (BigDecimal)get_Value("MinimumAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MinimumAmt */
+public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -466,6 +506,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Partner ID.
 @param PartnerID Partner ID or Account for the Payment Processor */
 public void setPartnerID (String PartnerID)
@@ -483,6 +525,8 @@ public String getPartnerID()
 {
 return (String)get_Value("PartnerID");
 }
+/** Column name PartnerID */
+public static final String COLUMNNAME_PartnerID = "PartnerID";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -501,6 +545,8 @@ public String getPassword()
 {
 return (String)get_ValueE("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set Payment Processor Class.
 @param PayProcessorClass Payment Processor Java Class */
 public void setPayProcessorClass (String PayProcessorClass)
@@ -518,6 +564,8 @@ public String getPayProcessorClass()
 {
 return (String)get_Value("PayProcessorClass");
 }
+/** Column name PayProcessorClass */
+public static final String COLUMNNAME_PayProcessorClass = "PayProcessorClass";
 /** Set Proxy address.
 @param ProxyAddress  Address of your proxy server */
 public void setProxyAddress (String ProxyAddress)
@@ -535,6 +583,8 @@ public String getProxyAddress()
 {
 return (String)get_Value("ProxyAddress");
 }
+/** Column name ProxyAddress */
+public static final String COLUMNNAME_ProxyAddress = "ProxyAddress";
 /** Set Proxy logon.
 @param ProxyLogon Logon of your proxy server */
 public void setProxyLogon (String ProxyLogon)
@@ -552,6 +602,8 @@ public String getProxyLogon()
 {
 return (String)get_Value("ProxyLogon");
 }
+/** Column name ProxyLogon */
+public static final String COLUMNNAME_ProxyLogon = "ProxyLogon";
 /** Set Proxy password.
 @param ProxyPassword Password of your proxy server */
 public void setProxyPassword (String ProxyPassword)
@@ -569,6 +621,8 @@ public String getProxyPassword()
 {
 return (String)get_ValueE("ProxyPassword");
 }
+/** Column name ProxyPassword */
+public static final String COLUMNNAME_ProxyPassword = "ProxyPassword";
 /** Set Proxy port.
 @param ProxyPort Port of your proxy server */
 public void setProxyPort (int ProxyPort)
@@ -583,6 +637,8 @@ Integer ii = (Integer)get_Value("ProxyPort");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ProxyPort */
+public static final String COLUMNNAME_ProxyPort = "ProxyPort";
 /** Set Require CreditCard Verification Code.
 @param RequireVV Require 3/4 digit Credit Verification Code */
 public void setRequireVV (boolean RequireVV)
@@ -601,6 +657,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name RequireVV */
+public static final String COLUMNNAME_RequireVV = "RequireVV";
 /** Set User ID.
 @param UserID User ID or account number */
 public void setUserID (String UserID)
@@ -619,6 +677,8 @@ public String getUserID()
 {
 return (String)get_Value("UserID");
 }
+/** Column name UserID */
+public static final String COLUMNNAME_UserID = "UserID";
 /** Set Vendor ID.
 @param VendorID Vendor ID for the Payment Processor */
 public void setVendorID (String VendorID)
@@ -636,4 +696,6 @@ public String getVendorID()
 {
 return (String)get_Value("VendorID");
 }
+/** Column name VendorID */
+public static final String COLUMNNAME_VendorID = "VendorID";
 }

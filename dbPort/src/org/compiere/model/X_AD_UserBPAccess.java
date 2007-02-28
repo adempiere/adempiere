@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_UserBPAccess extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_UserBPAccess_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserBPAccess_ID */
+public static final String COLUMNNAME_AD_UserBPAccess_ID = "AD_UserBPAccess_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
 /** BPAccessType AD_Reference_ID=358 */
 public static final int BPACCESSTYPE_AD_Reference_ID=358;
@@ -146,6 +150,8 @@ public String getBPAccessType()
 {
 return (String)get_Value("BPAccessType");
 }
+/** Column name BPAccessType */
+public static final String COLUMNNAME_BPAccessType = "BPAccessType";
 
 /** DocBaseType AD_Reference_ID=183 */
 public static final int DOCBASETYPE_AD_Reference_ID=183;
@@ -214,6 +220,8 @@ public String getDocBaseType()
 {
 return (String)get_Value("DocBaseType");
 }
+/** Column name DocBaseType */
+public static final String COLUMNNAME_DocBaseType = "DocBaseType";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -230,4 +238,6 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 }

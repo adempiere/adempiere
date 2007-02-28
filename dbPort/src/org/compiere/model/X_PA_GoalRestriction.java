@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_GoalRestriction extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_BP_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
 /** GoalRestrictionType AD_Reference_ID=368 */
 public static final int GOALRESTRICTIONTYPE_AD_Reference_ID=368;
@@ -153,6 +157,8 @@ public String getGoalRestrictionType()
 {
 return (String)get_Value("GoalRestrictionType");
 }
+/** Column name GoalRestrictionType */
+public static final String COLUMNNAME_GoalRestrictionType = "GoalRestrictionType";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -169,6 +175,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -185,6 +193,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -209,6 +219,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Org_ID AD_Reference_ID=322 */
 public static final int ORG_ID_AD_Reference_ID=322;
@@ -228,6 +240,8 @@ Integer ii = (Integer)get_Value("Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Org_ID */
+public static final String COLUMNNAME_Org_ID = "Org_ID";
 /** Set Goal Restriction.
 @param PA_GoalRestriction_ID Performance Goal Restriction */
 public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
@@ -243,6 +257,8 @@ Integer ii = (Integer)get_Value("PA_GoalRestriction_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_GoalRestriction_ID */
+public static final String COLUMNNAME_PA_GoalRestriction_ID = "PA_GoalRestriction_ID";
 /** Set Goal.
 @param PA_Goal_ID Performance Goal */
 public void setPA_Goal_ID (int PA_Goal_ID)
@@ -258,4 +274,6 @@ Integer ii = (Integer)get_Value("PA_Goal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Goal_ID */
+public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
 }

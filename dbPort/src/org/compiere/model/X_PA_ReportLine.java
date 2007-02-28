@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_ReportLine extends PO
 {
 /** Standard Constructor
@@ -136,6 +136,8 @@ public String getAmountType()
 {
 return (String)get_Value("AmountType");
 }
+/** Column name AmountType */
+public static final String COLUMNNAME_AmountType = "AmountType";
 
 /** CalculationType AD_Reference_ID=236 */
 public static final int CALCULATIONTYPE_AD_Reference_ID=236;
@@ -166,6 +168,8 @@ public String getCalculationType()
 {
 return (String)get_Value("CalculationType");
 }
+/** Column name CalculationType */
+public static final String COLUMNNAME_CalculationType = "CalculationType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -183,6 +187,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Budget.
 @param GL_Budget_ID General Ledger Budget */
 public void setGL_Budget_ID (int GL_Budget_ID)
@@ -199,6 +205,8 @@ Integer ii = (Integer)get_Value("GL_Budget_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Budget_ID */
+public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 /** Set Printed.
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
@@ -217,6 +225,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrinted */
+public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
 /** LineType AD_Reference_ID=241 */
 public static final int LINETYPE_AD_Reference_ID=241;
@@ -244,6 +254,8 @@ public String getLineType()
 {
 return (String)get_Value("LineType");
 }
+/** Column name LineType */
+public static final String COLUMNNAME_LineType = "LineType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -268,6 +280,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Oper_1_ID AD_Reference_ID=240 */
 public static final int OPER_1_ID_AD_Reference_ID=240;
@@ -287,6 +301,8 @@ Integer ii = (Integer)get_Value("Oper_1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Oper_1_ID */
+public static final String COLUMNNAME_Oper_1_ID = "Oper_1_ID";
 
 /** Oper_2_ID AD_Reference_ID=240 */
 public static final int OPER_2_ID_AD_Reference_ID=240;
@@ -306,6 +322,8 @@ Integer ii = (Integer)get_Value("Oper_2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Oper_2_ID */
+public static final String COLUMNNAME_Oper_2_ID = "Oper_2_ID";
 /** Set Report Line Set.
 @param PA_ReportLineSet_ID Report Line Set */
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
@@ -321,6 +339,8 @@ Integer ii = (Integer)get_Value("PA_ReportLineSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLineSet_ID */
+public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 /** Set Report Line.
 @param PA_ReportLine_ID Report Line */
 public void setPA_ReportLine_ID (int PA_ReportLine_ID)
@@ -336,6 +356,8 @@ Integer ii = (Integer)get_Value("PA_ReportLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLine_ID */
+public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -368,6 +390,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -384,4 +408,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema_GL
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_AcctSchema_GL extends PO
 {
 /** Standard Constructor
@@ -115,6 +115,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Commitment Offset.
 @param CommitmentOffset_Acct Budgetary Commitment Offset Account */
 public void setCommitmentOffset_Acct (int CommitmentOffset_Acct)
@@ -129,6 +131,8 @@ Integer ii = (Integer)get_Value("CommitmentOffset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CommitmentOffset_Acct */
+public static final String COLUMNNAME_CommitmentOffset_Acct = "CommitmentOffset_Acct";
 /** Set Currency Balancing Acct.
 @param CurrencyBalancing_Acct Account used when a currency is out of balance */
 public void setCurrencyBalancing_Acct (int CurrencyBalancing_Acct)
@@ -143,6 +147,8 @@ Integer ii = (Integer)get_Value("CurrencyBalancing_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CurrencyBalancing_Acct */
+public static final String COLUMNNAME_CurrencyBalancing_Acct = "CurrencyBalancing_Acct";
 /** Set Income Summary Acct.
 @param IncomeSummary_Acct Income Summary Account  */
 public void setIncomeSummary_Acct (int IncomeSummary_Acct)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("IncomeSummary_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IncomeSummary_Acct */
+public static final String COLUMNNAME_IncomeSummary_Acct = "IncomeSummary_Acct";
 /** Set Intercompany Due From Acct.
 @param IntercompanyDueFrom_Acct Intercompany Due From / Receivables Account */
 public void setIntercompanyDueFrom_Acct (int IntercompanyDueFrom_Acct)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("IntercompanyDueFrom_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IntercompanyDueFrom_Acct */
+public static final String COLUMNNAME_IntercompanyDueFrom_Acct = "IntercompanyDueFrom_Acct";
 /** Set Intercompany Due To Acct.
 @param IntercompanyDueTo_Acct Intercompany Due To / Payable Account */
 public void setIntercompanyDueTo_Acct (int IntercompanyDueTo_Acct)
@@ -185,6 +195,8 @@ Integer ii = (Integer)get_Value("IntercompanyDueTo_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IntercompanyDueTo_Acct */
+public static final String COLUMNNAME_IntercompanyDueTo_Acct = "IntercompanyDueTo_Acct";
 /** Set PPV Offset.
 @param PPVOffset_Acct Purchase Price Variance Offset Account */
 public void setPPVOffset_Acct (int PPVOffset_Acct)
@@ -199,6 +211,8 @@ Integer ii = (Integer)get_Value("PPVOffset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PPVOffset_Acct */
+public static final String COLUMNNAME_PPVOffset_Acct = "PPVOffset_Acct";
 /** Set Retained Earning Acct.
 @param RetainedEarning_Acct Retained Earning Acct */
 public void setRetainedEarning_Acct (int RetainedEarning_Acct)
@@ -213,6 +227,8 @@ Integer ii = (Integer)get_Value("RetainedEarning_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RetainedEarning_Acct */
+public static final String COLUMNNAME_RetainedEarning_Acct = "RetainedEarning_Acct";
 /** Set Suspense Balancing Acct.
 @param SuspenseBalancing_Acct Suspense Balancing Acct */
 public void setSuspenseBalancing_Acct (int SuspenseBalancing_Acct)
@@ -227,6 +243,8 @@ Integer ii = (Integer)get_Value("SuspenseBalancing_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SuspenseBalancing_Acct */
+public static final String COLUMNNAME_SuspenseBalancing_Acct = "SuspenseBalancing_Acct";
 /** Set Suspense Error Acct.
 @param SuspenseError_Acct Suspense Error Acct */
 public void setSuspenseError_Acct (int SuspenseError_Acct)
@@ -241,6 +259,8 @@ Integer ii = (Integer)get_Value("SuspenseError_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SuspenseError_Acct */
+public static final String COLUMNNAME_SuspenseError_Acct = "SuspenseError_Acct";
 /** Set Use Currency Balancing.
 @param UseCurrencyBalancing Use Currency Balancing */
 public void setUseCurrencyBalancing (boolean UseCurrencyBalancing)
@@ -259,6 +279,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name UseCurrencyBalancing */
+public static final String COLUMNNAME_UseCurrencyBalancing = "UseCurrencyBalancing";
 /** Set Use Suspense Balancing.
 @param UseSuspenseBalancing Use Suspense Balancing */
 public void setUseSuspenseBalancing (boolean UseSuspenseBalancing)
@@ -277,6 +299,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name UseSuspenseBalancing */
+public static final String COLUMNNAME_UseSuspenseBalancing = "UseSuspenseBalancing";
 /** Set Use Suspense Error.
 @param UseSuspenseError Use Suspense Error */
 public void setUseSuspenseError (boolean UseSuspenseError)
@@ -295,4 +319,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name UseSuspenseError */
+public static final String COLUMNNAME_UseSuspenseError = "UseSuspenseError";
 }

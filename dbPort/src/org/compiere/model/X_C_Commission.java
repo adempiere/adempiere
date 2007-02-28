@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Commission extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Commission.
 @param C_Commission_ID Commission */
 public void setC_Commission_ID (int C_Commission_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("C_Commission_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Commission_ID */
+public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Create lines from.
 @param CreateFrom Process which will generate a new document lines based on an existing document */
 public void setCreateFrom (String CreateFrom)
@@ -172,6 +180,8 @@ public String getCreateFrom()
 {
 return (String)get_Value("CreateFrom");
 }
+/** Column name CreateFrom */
+public static final String COLUMNNAME_CreateFrom = "CreateFrom";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -184,6 +194,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -201,6 +213,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocBasisType AD_Reference_ID=224 */
 public static final int DOCBASISTYPE_AD_Reference_ID=224;
@@ -230,6 +244,8 @@ public String getDocBasisType()
 {
 return (String)get_Value("DocBasisType");
 }
+/** Column name DocBasisType */
+public static final String COLUMNNAME_DocBasisType = "DocBasisType";
 
 /** FrequencyType AD_Reference_ID=225 */
 public static final int FREQUENCYTYPE_AD_Reference_ID=225;
@@ -261,6 +277,8 @@ public String getFrequencyType()
 {
 return (String)get_Value("FrequencyType");
 }
+/** Column name FrequencyType */
+public static final String COLUMNNAME_FrequencyType = "FrequencyType";
 /** Set List Details.
 @param ListDetails List document details */
 public void setListDetails (boolean ListDetails)
@@ -279,6 +297,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ListDetails */
+public static final String COLUMNNAME_ListDetails = "ListDetails";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -303,6 +323,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -321,4 +343,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

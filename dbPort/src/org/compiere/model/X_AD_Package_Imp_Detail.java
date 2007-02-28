@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_Original_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Original_ID */
+public static final String COLUMNNAME_AD_Original_ID = "AD_Original_ID";
 /** Set AD_Package_Imp_Detail_ID.
 @param AD_Package_Imp_Detail_ID AD_Package_Imp_Detail_ID */
 public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_Detail_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Imp_Detail_ID */
+public static final String COLUMNNAME_AD_Package_Imp_Detail_ID = "AD_Package_Imp_Detail_ID";
 /** Set AD_Package_Imp_ID.
 @param AD_Package_Imp_ID AD_Package_Imp_ID */
 public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Imp_ID */
+public static final String COLUMNNAME_AD_Package_Imp_ID = "AD_Package_Imp_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -148,6 +154,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Action.
 @param Action Indicates the Action to be performed */
 public void setAction (String Action)
@@ -165,6 +173,8 @@ public String getAction()
 {
 return (String)get_Value("Action");
 }
+/** Column name Action */
+public static final String COLUMNNAME_Action = "Action";
 /** Set Ad_Backup_ID.
 @param Ad_Backup_ID Ad_Backup_ID */
 public void setAd_Backup_ID (int Ad_Backup_ID)
@@ -181,6 +191,8 @@ Integer ii = (Integer)get_Value("Ad_Backup_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ad_Backup_ID */
+public static final String COLUMNNAME_Ad_Backup_ID = "Ad_Backup_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -198,6 +210,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Success.
 @param Success Success */
 public void setSuccess (String Success)
@@ -215,6 +229,8 @@ public String getSuccess()
 {
 return (String)get_Value("Success");
 }
+/** Column name Success */
+public static final String COLUMNNAME_Success = "Success";
 /** Set DB Table Name.
 @param TableName Name of the table in the database */
 public void setTableName (String TableName)
@@ -232,6 +248,8 @@ public String getTableName()
 {
 return (String)get_Value("TableName");
 }
+/** Column name TableName */
+public static final String COLUMNNAME_TableName = "TableName";
 /** Set Type.
 @param Type Type of Validation (SQL, Java Script, Java Language) */
 public void setType (String Type)
@@ -249,6 +267,8 @@ public String getType()
 {
 return (String)get_Value("Type");
 }
+/** Column name Type */
+public static final String COLUMNNAME_Type = "Type";
 /** Set Uninstall.
 @param Uninstall Uninstall */
 public void setUninstall (boolean Uninstall)
@@ -267,4 +287,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Uninstall */
+public static final String COLUMNNAME_Uninstall = "Uninstall";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AllocationHdr
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_AllocationHdr extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ BigDecimal bd = (BigDecimal)get_Value("ApprovalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ApprovalAmt */
+public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
 /** Set Allocation.
 @param C_AllocationHdr_ID Payment allocation */
 public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_AllocationHdr_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AllocationHdr_ID */
+public static final String COLUMNNAME_C_AllocationHdr_ID = "C_AllocationHdr_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -154,6 +160,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Transaction Date.
 @param DateTrx Transaction Date */
 public void setDateTrx (Timestamp DateTrx)
@@ -167,6 +175,8 @@ public Timestamp getDateTrx()
 {
 return (Timestamp)get_Value("DateTrx");
 }
+/** Column name DateTrx */
+public static final String COLUMNNAME_DateTrx = "DateTrx";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -184,6 +194,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
@@ -235,6 +247,8 @@ public String getDocAction()
 {
 return (String)get_Value("DocAction");
 }
+/** Column name DocAction */
+public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
@@ -282,6 +296,8 @@ public String getDocStatus()
 {
 return (String)get_Value("DocStatus");
 }
+/** Column name DocStatus */
+public static final String COLUMNNAME_DocStatus = "DocStatus";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -306,6 +322,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -324,6 +342,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -342,6 +362,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Posted.
 @param Posted Posting status */
 public void setPosted (boolean Posted)
@@ -360,6 +382,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Posted */
+public static final String COLUMNNAME_Posted = "Posted";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -378,6 +402,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -396,4 +422,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

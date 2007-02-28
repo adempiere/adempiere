@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_Group extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor_ID */
+public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 /** Set Business Partner Group.
 @param C_BP_Group_ID Business Partner Group */
 public void setC_BP_Group_ID (int C_BP_Group_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_BP_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Dunning.
 @param C_Dunning_ID Dunning Rules for overdue invoices */
 public void setC_Dunning_ID (int C_Dunning_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_Dunning_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Dunning_ID */
+public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
 /** Set Credit Watch %.
 @param CreditWatchPercent Credit Watch - Percent of Credit Limit when OK switches to Watch */
 public void setCreditWatchPercent (BigDecimal CreditWatchPercent)
@@ -150,6 +156,8 @@ BigDecimal bd = (BigDecimal)get_Value("CreditWatchPercent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CreditWatchPercent */
+public static final String COLUMNNAME_CreditWatchPercent = "CreditWatchPercent";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -167,6 +175,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Confidential Info.
 @param IsConfidentialInfo Can enter confidential information */
 public void setIsConfidentialInfo (boolean IsConfidentialInfo)
@@ -185,6 +195,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsConfidentialInfo */
+public static final String COLUMNNAME_IsConfidentialInfo = "IsConfidentialInfo";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -203,6 +215,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 
 /** M_DiscountSchema_ID AD_Reference_ID=325 */
 public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
@@ -222,6 +236,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchema_ID */
+public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -238,6 +254,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -262,6 +280,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** PO_DiscountSchema_ID AD_Reference_ID=325 */
 public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
@@ -281,6 +301,8 @@ Integer ii = (Integer)get_Value("PO_DiscountSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PO_DiscountSchema_ID */
+public static final String COLUMNNAME_PO_DiscountSchema_ID = "PO_DiscountSchema_ID";
 
 /** PO_PriceList_ID AD_Reference_ID=166 */
 public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
@@ -300,6 +322,8 @@ Integer ii = (Integer)get_Value("PO_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PO_PriceList_ID */
+public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
 /** Set Price Match Tolerance.
 @param PriceMatchTolerance PO-Invoice Match Price Tolerance in percent of the purchase price */
 public void setPriceMatchTolerance (BigDecimal PriceMatchTolerance)
@@ -314,6 +338,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceMatchTolerance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceMatchTolerance */
+public static final String COLUMNNAME_PriceMatchTolerance = "PriceMatchTolerance";
 
 /** PriorityBase AD_Reference_ID=350 */
 public static final int PRIORITYBASE_AD_Reference_ID=350;
@@ -342,6 +368,8 @@ public String getPriorityBase()
 {
 return (String)get_Value("PriorityBase");
 }
+/** Column name PriorityBase */
+public static final String COLUMNNAME_PriorityBase = "PriorityBase";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -360,4 +388,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

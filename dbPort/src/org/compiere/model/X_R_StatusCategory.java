@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_StatusCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_StatusCategory extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -121,6 +123,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -139,6 +143,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -163,6 +169,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Status Category.
 @param R_StatusCategory_ID Request Status Category */
 public void setR_StatusCategory_ID (int R_StatusCategory_ID)
@@ -178,4 +186,6 @@ Integer ii = (Integer)get_Value("R_StatusCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_StatusCategory_ID */
+public static final String COLUMNNAME_R_StatusCategory_ID = "R_StatusCategory_ID";
 }

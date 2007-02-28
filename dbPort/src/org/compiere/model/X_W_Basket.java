@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_Basket extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -135,6 +139,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Session ID.
 @param Session_ID Session ID */
 public void setSession_ID (int Session_ID)
@@ -172,6 +180,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSession_ID()));
 }
+/** Column name Session_ID */
+public static final String COLUMNNAME_Session_ID = "Session_ID";
 /** Set W_Basket_ID.
 @param W_Basket_ID Web Basket */
 public void setW_Basket_ID (int W_Basket_ID)
@@ -187,4 +197,6 @@ Integer ii = (Integer)get_Value("W_Basket_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Basket_ID */
+public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PInstance extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_PInstance_ID()));
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Error Msg.
 @param ErrorMsg Error Msg */
 public void setErrorMsg (String ErrorMsg)
@@ -157,6 +163,8 @@ public String getErrorMsg()
 {
 return (String)get_Value("ErrorMsg");
 }
+/** Column name ErrorMsg */
+public static final String COLUMNNAME_ErrorMsg = "ErrorMsg";
 /** Set Processing.
 @param IsProcessing Processing */
 public void setIsProcessing (boolean IsProcessing)
@@ -175,6 +183,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsProcessing */
+public static final String COLUMNNAME_IsProcessing = "IsProcessing";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Result.
 @param Result Result of the action taken */
 public void setResult (int Result)
@@ -204,4 +216,6 @@ Integer ii = (Integer)get_Value("Result");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Result */
+public static final String COLUMNNAME_Result = "Result";
 }

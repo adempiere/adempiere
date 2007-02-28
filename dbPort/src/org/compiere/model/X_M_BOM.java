@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_BOM extends PO
 {
 /** Standard Constructor
@@ -126,6 +126,8 @@ public String getBOMType()
 {
 return (String)get_Value("BOMType");
 }
+/** Column name BOMType */
+public static final String COLUMNNAME_BOMType = "BOMType";
 
 /** BOMUse AD_Reference_ID=348 */
 public static final int BOMUSE_AD_Reference_ID=348;
@@ -157,6 +159,8 @@ public String getBOMUse()
 {
 return (String)get_Value("BOMUse");
 }
+/** Column name BOMUse */
+public static final String COLUMNNAME_BOMUse = "BOMUse";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -174,6 +178,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -191,6 +197,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set BOM.
 @param M_BOM_ID Bill of Material */
 public void setM_BOM_ID (int M_BOM_ID)
@@ -206,6 +214,8 @@ Integer ii = (Integer)get_Value("M_BOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOM_ID */
+public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 /** Set Change Notice.
 @param M_ChangeNotice_ID Bill of Materials (Engineering) Change Notice (Version) */
 public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
@@ -222,6 +232,8 @@ Integer ii = (Integer)get_Value("M_ChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeNotice_ID */
+public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -237,6 +249,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -261,6 +275,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -279,4 +295,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

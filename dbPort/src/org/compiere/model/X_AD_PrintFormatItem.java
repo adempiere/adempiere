@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintFormatItem extends PO
 {
 /** Standard Constructor
@@ -139,6 +139,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Print Color.
 @param AD_PrintColor_ID Color used for printing and display */
 public void setAD_PrintColor_ID (int AD_PrintColor_ID)
@@ -155,6 +157,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor_ID */
+public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 /** Set Print Font.
 @param AD_PrintFont_ID Maintain Print Font */
 public void setAD_PrintFont_ID (int AD_PrintFont_ID)
@@ -171,6 +175,8 @@ Integer ii = (Integer)get_Value("AD_PrintFont_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFont_ID */
+public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
 
 /** AD_PrintFormatChild_ID AD_Reference_ID=259 */
 public static final int AD_PRINTFORMATCHILD_ID_AD_Reference_ID=259;
@@ -189,6 +195,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormatChild_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormatChild_ID */
+public static final String COLUMNNAME_AD_PrintFormatChild_ID = "AD_PrintFormatChild_ID";
 /** Set Print Format Item.
 @param AD_PrintFormatItem_ID Item/Column in the Print format */
 public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
@@ -204,6 +212,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormatItem_ID */
+public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
 /** Set Print Format.
 @param AD_PrintFormat_ID Data Print Format */
 public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
@@ -219,6 +229,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Graph.
 @param AD_PrintGraph_ID Graph included in Reports */
 public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
@@ -235,6 +247,8 @@ Integer ii = (Integer)get_Value("AD_PrintGraph_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintGraph_ID */
+public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
 /** Set Arc Diameter.
 @param ArcDiameter Arc Diameter for rounded Rectangles */
 public void setArcDiameter (int ArcDiameter)
@@ -249,6 +263,8 @@ Integer ii = (Integer)get_Value("ArcDiameter");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ArcDiameter */
+public static final String COLUMNNAME_ArcDiameter = "ArcDiameter";
 
 /** BarcodeType AD_Reference_ID=377 */
 public static final int BARCODETYPE_AD_Reference_ID=377;
@@ -317,6 +333,8 @@ public String getBarcodeType()
 {
 return (String)get_Value("BarcodeType");
 }
+/** Column name BarcodeType */
+public static final String COLUMNNAME_BarcodeType = "BarcodeType";
 /** Set Below Column.
 @param BelowColumn Print this column below the column index entered */
 public void setBelowColumn (int BelowColumn)
@@ -331,6 +349,8 @@ Integer ii = (Integer)get_Value("BelowColumn");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name BelowColumn */
+public static final String COLUMNNAME_BelowColumn = "BelowColumn";
 
 /** FieldAlignmentType AD_Reference_ID=253 */
 public static final int FIELDALIGNMENTTYPE_AD_Reference_ID=253;
@@ -364,6 +384,8 @@ public String getFieldAlignmentType()
 {
 return (String)get_Value("FieldAlignmentType");
 }
+/** Column name FieldAlignmentType */
+public static final String COLUMNNAME_FieldAlignmentType = "FieldAlignmentType";
 /** Set Image attached.
 @param ImageIsAttached The image to be printed is attached to the record */
 public void setImageIsAttached (boolean ImageIsAttached)
@@ -382,6 +404,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ImageIsAttached */
+public static final String COLUMNNAME_ImageIsAttached = "ImageIsAttached";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -399,6 +423,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Calculate Mean (?).
 @param IsAveraged Calculate Average of numeric content or length */
 public void setIsAveraged (boolean IsAveraged)
@@ -417,6 +443,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAveraged */
+public static final String COLUMNNAME_IsAveraged = "IsAveraged";
 /** Set Centrally maintained.
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
@@ -435,6 +463,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCentrallyMaintained */
+public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
 /** Set Calculate Count (?).
 @param IsCounted Count number of not empty elements */
 public void setIsCounted (boolean IsCounted)
@@ -453,6 +483,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCounted */
+public static final String COLUMNNAME_IsCounted = "IsCounted";
 /** Set Calculate Deviation (?).
 @param IsDeviationCalc Calculate Standard Deviation */
 public void setIsDeviationCalc (boolean IsDeviationCalc)
@@ -471,6 +503,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDeviationCalc */
+public static final String COLUMNNAME_IsDeviationCalc = "IsDeviationCalc";
 /** Set Fill Shape.
 @param IsFilledRectangle Fill the shape with the color selected */
 public void setIsFilledRectangle (boolean IsFilledRectangle)
@@ -489,6 +523,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFilledRectangle */
+public static final String COLUMNNAME_IsFilledRectangle = "IsFilledRectangle";
 /** Set Fixed Width.
 @param IsFixedWidth Column has a fixed width */
 public void setIsFixedWidth (boolean IsFixedWidth)
@@ -507,6 +543,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFixedWidth */
+public static final String COLUMNNAME_IsFixedWidth = "IsFixedWidth";
 /** Set Group by.
 @param IsGroupBy After a group change, totals, etc. are printed */
 public void setIsGroupBy (boolean IsGroupBy)
@@ -525,6 +563,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGroupBy */
+public static final String COLUMNNAME_IsGroupBy = "IsGroupBy";
 /** Set One Line Only.
 @param IsHeightOneLine If selected, only one line is printed */
 public void setIsHeightOneLine (boolean IsHeightOneLine)
@@ -543,6 +583,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsHeightOneLine */
+public static final String COLUMNNAME_IsHeightOneLine = "IsHeightOneLine";
 /** Set Image Field.
 @param IsImageField The image is retrieved from the data column */
 public void setIsImageField (boolean IsImageField)
@@ -561,6 +603,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsImageField */
+public static final String COLUMNNAME_IsImageField = "IsImageField";
 /** Set Calculate Maximim (?).
 @param IsMaxCalc Calculate the maximim amount */
 public void setIsMaxCalc (boolean IsMaxCalc)
@@ -579,6 +623,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMaxCalc */
+public static final String COLUMNNAME_IsMaxCalc = "IsMaxCalc";
 /** Set Calculate Minimum (?).
 @param IsMinCalc Calculate the minimum amount */
 public void setIsMinCalc (boolean IsMinCalc)
@@ -597,6 +643,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMinCalc */
+public static final String COLUMNNAME_IsMinCalc = "IsMinCalc";
 /** Set Next Line.
 @param IsNextLine Print item on next line */
 public void setIsNextLine (boolean IsNextLine)
@@ -615,6 +663,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsNextLine */
+public static final String COLUMNNAME_IsNextLine = "IsNextLine";
 /** Set Next Page.
 @param IsNextPage The column is printed on the next page */
 public void setIsNextPage (boolean IsNextPage)
@@ -633,6 +683,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsNextPage */
+public static final String COLUMNNAME_IsNextPage = "IsNextPage";
 /** Set Order by.
 @param IsOrderBy Include in sort order */
 public void setIsOrderBy (boolean IsOrderBy)
@@ -651,6 +703,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOrderBy */
+public static final String COLUMNNAME_IsOrderBy = "IsOrderBy";
 /** Set Page break.
 @param IsPageBreak Start with new page */
 public void setIsPageBreak (boolean IsPageBreak)
@@ -669,6 +723,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPageBreak */
+public static final String COLUMNNAME_IsPageBreak = "IsPageBreak";
 /** Set Printed.
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
@@ -687,6 +743,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrinted */
+public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 /** Set Relative Position.
 @param IsRelativePosition The item is relative positioned (not absolute) */
 public void setIsRelativePosition (boolean IsRelativePosition)
@@ -705,6 +763,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRelativePosition */
+public static final String COLUMNNAME_IsRelativePosition = "IsRelativePosition";
 /** Set Running Total.
 @param IsRunningTotal Create a running total (sum) */
 public void setIsRunningTotal (boolean IsRunningTotal)
@@ -723,6 +783,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRunningTotal */
+public static final String COLUMNNAME_IsRunningTotal = "IsRunningTotal";
 /** Set Set NL Position.
 @param IsSetNLPosition Set New Line Position */
 public void setIsSetNLPosition (boolean IsSetNLPosition)
@@ -741,6 +803,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSetNLPosition */
+public static final String COLUMNNAME_IsSetNLPosition = "IsSetNLPosition";
 /** Set Calculate Sum (?).
 @param IsSummarized Calculate the Sum of numeric content or length */
 public void setIsSummarized (boolean IsSummarized)
@@ -759,6 +823,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummarized */
+public static final String COLUMNNAME_IsSummarized = "IsSummarized";
 /** Set Suppress Null.
 @param IsSuppressNull Suppress columns or elements with NULL value */
 public void setIsSuppressNull (boolean IsSuppressNull)
@@ -777,6 +843,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSuppressNull */
+public static final String COLUMNNAME_IsSuppressNull = "IsSuppressNull";
 /** Set Calculate Variance (?�).
 @param IsVarianceCalc Calculate Variance */
 public void setIsVarianceCalc (boolean IsVarianceCalc)
@@ -795,6 +863,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsVarianceCalc */
+public static final String COLUMNNAME_IsVarianceCalc = "IsVarianceCalc";
 
 /** LineAlignmentType AD_Reference_ID=254 */
 public static final int LINEALIGNMENTTYPE_AD_Reference_ID=254;
@@ -826,6 +896,8 @@ public String getLineAlignmentType()
 {
 return (String)get_Value("LineAlignmentType");
 }
+/** Column name LineAlignmentType */
+public static final String COLUMNNAME_LineAlignmentType = "LineAlignmentType";
 /** Set Line Width.
 @param LineWidth Width of the lines */
 public void setLineWidth (int LineWidth)
@@ -840,6 +912,8 @@ Integer ii = (Integer)get_Value("LineWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LineWidth */
+public static final String COLUMNNAME_LineWidth = "LineWidth";
 /** Set Max Height.
 @param MaxHeight Maximum Height in 1/72 if an inch - 0 = no restriction */
 public void setMaxHeight (int MaxHeight)
@@ -854,6 +928,8 @@ Integer ii = (Integer)get_Value("MaxHeight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MaxHeight */
+public static final String COLUMNNAME_MaxHeight = "MaxHeight";
 /** Set Max Width.
 @param MaxWidth Maximum Width in 1/72 if an inch - 0 = no restriction */
 public void setMaxWidth (int MaxWidth)
@@ -868,6 +944,8 @@ Integer ii = (Integer)get_Value("MaxWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MaxWidth */
+public static final String COLUMNNAME_MaxWidth = "MaxWidth";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -892,6 +970,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** PrintAreaType AD_Reference_ID=256 */
 public static final int PRINTAREATYPE_AD_Reference_ID=256;
@@ -921,6 +1001,8 @@ public String getPrintAreaType()
 {
 return (String)get_Value("PrintAreaType");
 }
+/** Column name PrintAreaType */
+public static final String COLUMNNAME_PrintAreaType = "PrintAreaType";
 
 /** PrintFormatType AD_Reference_ID=255 */
 public static final int PRINTFORMATTYPE_AD_Reference_ID=255;
@@ -956,6 +1038,8 @@ public String getPrintFormatType()
 {
 return (String)get_Value("PrintFormatType");
 }
+/** Column name PrintFormatType */
+public static final String COLUMNNAME_PrintFormatType = "PrintFormatType";
 /** Set Print Text.
 @param PrintName The label text to be printed on a document or correspondence. */
 public void setPrintName (String PrintName)
@@ -973,6 +1057,8 @@ public String getPrintName()
 {
 return (String)get_Value("PrintName");
 }
+/** Column name PrintName */
+public static final String COLUMNNAME_PrintName = "PrintName";
 /** Set Print Label Suffix.
 @param PrintNameSuffix The label text to be printed on a document or correspondence after the field */
 public void setPrintNameSuffix (String PrintNameSuffix)
@@ -990,6 +1076,8 @@ public String getPrintNameSuffix()
 {
 return (String)get_Value("PrintNameSuffix");
 }
+/** Column name PrintNameSuffix */
+public static final String COLUMNNAME_PrintNameSuffix = "PrintNameSuffix";
 /** Set Running Total Lines.
 @param RunningTotalLines Create Running Total Lines (page break) every x lines */
 public void setRunningTotalLines (int RunningTotalLines)
@@ -1004,6 +1092,8 @@ Integer ii = (Integer)get_Value("RunningTotalLines");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RunningTotalLines */
+public static final String COLUMNNAME_RunningTotalLines = "RunningTotalLines";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -1020,6 +1110,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 
 /** ShapeType AD_Reference_ID=333 */
 public static final int SHAPETYPE_AD_Reference_ID=333;
@@ -1050,6 +1142,8 @@ public String getShapeType()
 {
 return (String)get_Value("ShapeType");
 }
+/** Column name ShapeType */
+public static final String COLUMNNAME_ShapeType = "ShapeType";
 /** Set Record Sort No.
 @param SortNo Determines in what order the records are displayed */
 public void setSortNo (int SortNo)
@@ -1064,6 +1158,8 @@ Integer ii = (Integer)get_Value("SortNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SortNo */
+public static final String COLUMNNAME_SortNo = "SortNo";
 /** Set X Position.
 @param XPosition Absolute X (horizontal) position in 1/72 of an inch */
 public void setXPosition (int XPosition)
@@ -1078,6 +1174,8 @@ Integer ii = (Integer)get_Value("XPosition");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name XPosition */
+public static final String COLUMNNAME_XPosition = "XPosition";
 /** Set X Space.
 @param XSpace Relative X (horizontal) space in 1/72 of an inch */
 public void setXSpace (int XSpace)
@@ -1092,6 +1190,8 @@ Integer ii = (Integer)get_Value("XSpace");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name XSpace */
+public static final String COLUMNNAME_XSpace = "XSpace";
 /** Set Y Position.
 @param YPosition Absolute Y (vertical) position in 1/72 of an inch */
 public void setYPosition (int YPosition)
@@ -1106,6 +1206,8 @@ Integer ii = (Integer)get_Value("YPosition");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name YPosition */
+public static final String COLUMNNAME_YPosition = "YPosition";
 /** Set Y Space.
 @param YSpace Relative Y (vertical) space in 1/72 of an inch */
 public void setYSpace (int YSpace)
@@ -1120,4 +1222,6 @@ Integer ii = (Integer)get_Value("YSpace");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name YSpace */
+public static final String COLUMNNAME_YSpace = "YSpace";
 }

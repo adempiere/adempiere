@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintLabelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintLabelLine extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Label printer Function.
 @param AD_LabelPrinterFunction_ID Function of Label Printer */
 public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_LabelPrinterFunction_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_LabelPrinterFunction_ID */
+public static final String COLUMNNAME_AD_LabelPrinterFunction_ID = "AD_LabelPrinterFunction_ID";
 /** Set Print Label Line.
 @param AD_PrintLabelLine_ID Print Label Line Format */
 public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("AD_PrintLabelLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintLabelLine_ID */
+public static final String COLUMNNAME_AD_PrintLabelLine_ID = "AD_PrintLabelLine_ID";
 /** Set Print Label.
 @param AD_PrintLabel_ID Label Format to print */
 public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("AD_PrintLabel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintLabel_ID */
+public static final String COLUMNNAME_AD_PrintLabel_ID = "AD_PrintLabel_ID";
 
 /** LabelFormatType AD_Reference_ID=280 */
 public static final int LABELFORMATTYPE_AD_Reference_ID=280;
@@ -180,6 +188,8 @@ public String getLabelFormatType()
 {
 return (String)get_Value("LabelFormatType");
 }
+/** Column name LabelFormatType */
+public static final String COLUMNNAME_LabelFormatType = "LabelFormatType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -198,6 +208,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Print Text.
 @param PrintName The label text to be printed on a document or correspondence. */
 public void setPrintName (String PrintName)
@@ -215,6 +227,8 @@ public String getPrintName()
 {
 return (String)get_Value("PrintName");
 }
+/** Column name PrintName */
+public static final String COLUMNNAME_PrintName = "PrintName";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -237,6 +251,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set X Position.
 @param XPosition Absolute X (horizontal) position in 1/72 of an inch */
 public void setXPosition (int XPosition)
@@ -251,6 +267,8 @@ Integer ii = (Integer)get_Value("XPosition");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name XPosition */
+public static final String COLUMNNAME_XPosition = "XPosition";
 /** Set Y Position.
 @param YPosition Absolute Y (vertical) position in 1/72 of an inch */
 public void setYPosition (int YPosition)
@@ -265,4 +283,6 @@ Integer ii = (Integer)get_Value("YPosition");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name YPosition */
+public static final String COLUMNNAME_YPosition = "YPosition";
 }

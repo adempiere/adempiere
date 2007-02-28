@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_BankAccount extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Account City.
 @param A_City City or the Credit Card or Account Holder */
 public void setA_City (String A_City)
@@ -121,6 +123,8 @@ public String getA_City()
 {
 return (String)get_Value("A_City");
 }
+/** Column name A_City */
+public static final String COLUMNNAME_A_City = "A_City";
 /** Set Account Country.
 @param A_Country Country */
 public void setA_Country (String A_Country)
@@ -138,6 +142,8 @@ public String getA_Country()
 {
 return (String)get_Value("A_Country");
 }
+/** Column name A_Country */
+public static final String COLUMNNAME_A_Country = "A_Country";
 /** Set Account EMail.
 @param A_EMail Email Address */
 public void setA_EMail (String A_EMail)
@@ -155,6 +161,8 @@ public String getA_EMail()
 {
 return (String)get_Value("A_EMail");
 }
+/** Column name A_EMail */
+public static final String COLUMNNAME_A_EMail = "A_EMail";
 /** Set Driver License.
 @param A_Ident_DL Payment Identification - Driver License */
 public void setA_Ident_DL (String A_Ident_DL)
@@ -172,6 +180,8 @@ public String getA_Ident_DL()
 {
 return (String)get_Value("A_Ident_DL");
 }
+/** Column name A_Ident_DL */
+public static final String COLUMNNAME_A_Ident_DL = "A_Ident_DL";
 /** Set Social Security No.
 @param A_Ident_SSN Payment Identification - Social Security No */
 public void setA_Ident_SSN (String A_Ident_SSN)
@@ -189,6 +199,8 @@ public String getA_Ident_SSN()
 {
 return (String)get_Value("A_Ident_SSN");
 }
+/** Column name A_Ident_SSN */
+public static final String COLUMNNAME_A_Ident_SSN = "A_Ident_SSN";
 /** Set Account Name.
 @param A_Name Name on Credit Card or Account holder */
 public void setA_Name (String A_Name)
@@ -207,6 +219,8 @@ public String getA_Name()
 {
 return (String)get_Value("A_Name");
 }
+/** Column name A_Name */
+public static final String COLUMNNAME_A_Name = "A_Name";
 /** Set Account State.
 @param A_State State of the Credit Card or Account holder */
 public void setA_State (String A_State)
@@ -224,6 +238,8 @@ public String getA_State()
 {
 return (String)get_Value("A_State");
 }
+/** Column name A_State */
+public static final String COLUMNNAME_A_State = "A_State";
 /** Set Account Street.
 @param A_Street Street address of the Credit Card or Account holder */
 public void setA_Street (String A_Street)
@@ -241,6 +257,8 @@ public String getA_Street()
 {
 return (String)get_Value("A_Street");
 }
+/** Column name A_Street */
+public static final String COLUMNNAME_A_Street = "A_Street";
 /** Set Account Zip/Postal.
 @param A_Zip Zip Code of the Credit Card or Account Holder */
 public void setA_Zip (String A_Zip)
@@ -258,6 +276,8 @@ public String getA_Zip()
 {
 return (String)get_Value("A_Zip");
 }
+/** Column name A_Zip */
+public static final String COLUMNNAME_A_Zip = "A_Zip";
 /** Set Account No.
 @param AccountNo Account Number */
 public void setAccountNo (String AccountNo)
@@ -275,6 +295,8 @@ public String getAccountNo()
 {
 return (String)get_Value("AccountNo");
 }
+/** Column name AccountNo */
+public static final String COLUMNNAME_AccountNo = "AccountNo";
 
 /** BPBankAcctUse AD_Reference_ID=393 */
 public static final int BPBANKACCTUSE_AD_Reference_ID=393;
@@ -305,6 +327,8 @@ public String getBPBankAcctUse()
 {
 return (String)get_Value("BPBankAcctUse");
 }
+/** Column name BPBankAcctUse */
+public static final String COLUMNNAME_BPBankAcctUse = "BPBankAcctUse";
 
 /** BankAccountType AD_Reference_ID=216 */
 public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
@@ -331,6 +355,8 @@ public String getBankAccountType()
 {
 return (String)get_Value("BankAccountType");
 }
+/** Column name BankAccountType */
+public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 /** Set Partner Bank Account.
 @param C_BP_BankAccount_ID Bank Account of the Business Partner */
 public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
@@ -346,6 +372,8 @@ Integer ii = (Integer)get_Value("C_BP_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_BankAccount_ID */
+public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -361,6 +389,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Bank.
 @param C_Bank_ID Bank */
 public void setC_Bank_ID (int C_Bank_ID)
@@ -383,6 +413,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
 }
+/** Column name C_Bank_ID */
+public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 /** Set Exp. Month.
 @param CreditCardExpMM Expiry Month */
 public void setCreditCardExpMM (int CreditCardExpMM)
@@ -397,6 +429,8 @@ Integer ii = (Integer)get_Value("CreditCardExpMM");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CreditCardExpMM */
+public static final String COLUMNNAME_CreditCardExpMM = "CreditCardExpMM";
 /** Set Exp. Year.
 @param CreditCardExpYY Expiry Year */
 public void setCreditCardExpYY (int CreditCardExpYY)
@@ -411,6 +445,8 @@ Integer ii = (Integer)get_Value("CreditCardExpYY");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CreditCardExpYY */
+public static final String COLUMNNAME_CreditCardExpYY = "CreditCardExpYY";
 /** Set Number.
 @param CreditCardNumber Credit Card Number  */
 public void setCreditCardNumber (String CreditCardNumber)
@@ -428,6 +464,8 @@ public String getCreditCardNumber()
 {
 return (String)get_Value("CreditCardNumber");
 }
+/** Column name CreditCardNumber */
+public static final String COLUMNNAME_CreditCardNumber = "CreditCardNumber";
 
 /** CreditCardType AD_Reference_ID=149 */
 public static final int CREDITCARDTYPE_AD_Reference_ID=149;
@@ -464,6 +502,8 @@ public String getCreditCardType()
 {
 return (String)get_Value("CreditCardType");
 }
+/** Column name CreditCardType */
+public static final String COLUMNNAME_CreditCardType = "CreditCardType";
 /** Set Verification Code.
 @param CreditCardVV Credit Card Verification code on credit card */
 public void setCreditCardVV (String CreditCardVV)
@@ -481,6 +521,8 @@ public String getCreditCardVV()
 {
 return (String)get_Value("CreditCardVV");
 }
+/** Column name CreditCardVV */
+public static final String COLUMNNAME_CreditCardVV = "CreditCardVV";
 /** Set ACH.
 @param IsACH Automatic Clearing House */
 public void setIsACH (boolean IsACH)
@@ -499,6 +541,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsACH */
+public static final String COLUMNNAME_IsACH = "IsACH";
 
 /** R_AvsAddr AD_Reference_ID=213 */
 public static final int R_AVSADDR_AD_Reference_ID=213;
@@ -527,6 +571,8 @@ public String getR_AvsAddr()
 {
 return (String)get_Value("R_AvsAddr");
 }
+/** Column name R_AvsAddr */
+public static final String COLUMNNAME_R_AvsAddr = "R_AvsAddr";
 
 /** R_AvsZip AD_Reference_ID=213 */
 public static final int R_AVSZIP_AD_Reference_ID=213;
@@ -555,6 +601,8 @@ public String getR_AvsZip()
 {
 return (String)get_Value("R_AvsZip");
 }
+/** Column name R_AvsZip */
+public static final String COLUMNNAME_R_AvsZip = "R_AvsZip";
 /** Set Routing No.
 @param RoutingNo Bank Routing Number */
 public void setRoutingNo (String RoutingNo)
@@ -572,4 +620,6 @@ public String getRoutingNo()
 {
 return (String)get_Value("RoutingNo");
 }
+/** Column name RoutingNo */
+public static final String COLUMNNAME_RoutingNo = "RoutingNo";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQResponseLine extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_RfQLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQLine_ID */
+public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 /** Set RfQ Response Line.
 @param C_RfQResponseLine_ID Request for Quotation Response Line */
 public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_RfQResponseLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQResponseLine_ID */
+public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
 /** Set RfQ Response.
 @param C_RfQResponse_ID Request for Quotation Response from a potential Vendor */
 public void setC_RfQResponse_ID (int C_RfQResponse_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("C_RfQResponse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQResponse_ID */
+public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
 /** Set Work Complete.
 @param DateWorkComplete Date when work is (planned to be) complete */
 public void setDateWorkComplete (Timestamp DateWorkComplete)
@@ -146,6 +152,8 @@ public Timestamp getDateWorkComplete()
 {
 return (Timestamp)get_Value("DateWorkComplete");
 }
+/** Column name DateWorkComplete */
+public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";
 /** Set Work Start.
 @param DateWorkStart Date when work is (planned to be) started */
 public void setDateWorkStart (Timestamp DateWorkStart)
@@ -158,6 +166,8 @@ public Timestamp getDateWorkStart()
 {
 return (Timestamp)get_Value("DateWorkStart");
 }
+/** Column name DateWorkStart */
+public static final String COLUMNNAME_DateWorkStart = "DateWorkStart";
 /** Set Delivery Days.
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
@@ -172,6 +182,8 @@ Integer ii = (Integer)get_Value("DeliveryDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DeliveryDays */
+public static final String COLUMNNAME_DeliveryDays = "DeliveryDays";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -189,6 +201,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -206,6 +220,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Selected Winner.
 @param IsSelectedWinner The resonse is the selected winner */
 public void setIsSelectedWinner (boolean IsSelectedWinner)
@@ -224,6 +240,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelectedWinner */
+public static final String COLUMNNAME_IsSelectedWinner = "IsSelectedWinner";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -242,4 +260,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Costing
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Product_Costing extends PO
 {
 /** Standard Constructor
@@ -115,6 +115,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Average Cost.
 @param CostAverage Weighted average costs */
 public void setCostAverage (BigDecimal CostAverage)
@@ -130,6 +132,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostAverage");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostAverage */
+public static final String COLUMNNAME_CostAverage = "CostAverage";
 /** Set Average Cost Amount Sum.
 @param CostAverageCumAmt Cumulative average cost amounts (internal) */
 public void setCostAverageCumAmt (BigDecimal CostAverageCumAmt)
@@ -145,6 +149,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostAverageCumAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostAverageCumAmt */
+public static final String COLUMNNAME_CostAverageCumAmt = "CostAverageCumAmt";
 /** Set Average Cost Quantity Sum.
 @param CostAverageCumQty Cumulative average cost quantities (internal) */
 public void setCostAverageCumQty (BigDecimal CostAverageCumQty)
@@ -160,6 +166,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostAverageCumQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostAverageCumQty */
+public static final String COLUMNNAME_CostAverageCumQty = "CostAverageCumQty";
 /** Set Standard Cost.
 @param CostStandard Standard Costs */
 public void setCostStandard (BigDecimal CostStandard)
@@ -175,6 +183,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandard");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandard */
+public static final String COLUMNNAME_CostStandard = "CostStandard";
 /** Set Std Cost Amount Sum.
 @param CostStandardCumAmt Standard Cost Invoice Amount Sum (internal) */
 public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt)
@@ -190,6 +200,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandardCumAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandardCumAmt */
+public static final String COLUMNNAME_CostStandardCumAmt = "CostStandardCumAmt";
 /** Set Std Cost Quantity Sum.
 @param CostStandardCumQty Standard Cost Invoice Quantity Sum (internal) */
 public void setCostStandardCumQty (BigDecimal CostStandardCumQty)
@@ -205,6 +217,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandardCumQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandardCumQty */
+public static final String COLUMNNAME_CostStandardCumQty = "CostStandardCumQty";
 /** Set Std PO Cost Amount Sum.
 @param CostStandardPOAmt Standard Cost Purchase Order Amount Sum (internal) */
 public void setCostStandardPOAmt (BigDecimal CostStandardPOAmt)
@@ -220,6 +234,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandardPOAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandardPOAmt */
+public static final String COLUMNNAME_CostStandardPOAmt = "CostStandardPOAmt";
 /** Set Std PO Cost Quantity Sum.
 @param CostStandardPOQty Standard Cost Purchase Order Quantity Sum (internal) */
 public void setCostStandardPOQty (BigDecimal CostStandardPOQty)
@@ -235,6 +251,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandardPOQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandardPOQty */
+public static final String COLUMNNAME_CostStandardPOQty = "CostStandardPOQty";
 /** Set Current Cost Price.
 @param CurrentCostPrice The currently used cost price */
 public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
@@ -250,6 +268,8 @@ BigDecimal bd = (BigDecimal)get_Value("CurrentCostPrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CurrentCostPrice */
+public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
 /** Set Future Cost Price.
 @param FutureCostPrice Future Cost Price */
 public void setFutureCostPrice (BigDecimal FutureCostPrice)
@@ -265,6 +285,8 @@ BigDecimal bd = (BigDecimal)get_Value("FutureCostPrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FutureCostPrice */
+public static final String COLUMNNAME_FutureCostPrice = "FutureCostPrice";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -280,6 +302,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Last Invoice Price.
 @param PriceLastInv Price of the last invoice for the product */
 public void setPriceLastInv (BigDecimal PriceLastInv)
@@ -295,6 +319,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLastInv");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLastInv */
+public static final String COLUMNNAME_PriceLastInv = "PriceLastInv";
 /** Set Last PO Price.
 @param PriceLastPO Price of the last purchase order for the product */
 public void setPriceLastPO (BigDecimal PriceLastPO)
@@ -310,6 +336,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLastPO");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLastPO */
+public static final String COLUMNNAME_PriceLastPO = "PriceLastPO";
 /** Set Total Invoice Amount.
 @param TotalInvAmt Cumulative total lifetime invoice amount */
 public void setTotalInvAmt (BigDecimal TotalInvAmt)
@@ -325,6 +353,8 @@ BigDecimal bd = (BigDecimal)get_Value("TotalInvAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalInvAmt */
+public static final String COLUMNNAME_TotalInvAmt = "TotalInvAmt";
 /** Set Total Invoice Quantity.
 @param TotalInvQty Cumulative total lifetime invoice quantity */
 public void setTotalInvQty (BigDecimal TotalInvQty)
@@ -340,4 +370,6 @@ BigDecimal bd = (BigDecimal)get_Value("TotalInvQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalInvQty */
+public static final String COLUMNNAME_TotalInvQty = "TotalInvQty";
 }

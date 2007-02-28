@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintForm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintForm extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_PrintForm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintForm_ID */
+public static final String COLUMNNAME_AD_PrintForm_ID = "AD_PrintForm_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -118,6 +120,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** Invoice_MailText_ID AD_Reference_ID=274 */
 public static final int INVOICE_MAILTEXT_ID_AD_Reference_ID=274;
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("Invoice_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Invoice_MailText_ID */
+public static final String COLUMNNAME_Invoice_MailText_ID = "Invoice_MailText_ID";
 
 /** Invoice_PrintFormat_ID AD_Reference_ID=261 */
 public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=261;
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("Invoice_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Invoice_PrintFormat_ID */
+public static final String COLUMNNAME_Invoice_PrintFormat_ID = "Invoice_PrintFormat_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -180,6 +188,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Order_MailText_ID AD_Reference_ID=274 */
 public static final int ORDER_MAILTEXT_ID_AD_Reference_ID=274;
@@ -199,6 +209,8 @@ Integer ii = (Integer)get_Value("Order_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Order_MailText_ID */
+public static final String COLUMNNAME_Order_MailText_ID = "Order_MailText_ID";
 
 /** Order_PrintFormat_ID AD_Reference_ID=262 */
 public static final int ORDER_PRINTFORMAT_ID_AD_Reference_ID=262;
@@ -218,6 +230,8 @@ Integer ii = (Integer)get_Value("Order_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Order_PrintFormat_ID */
+public static final String COLUMNNAME_Order_PrintFormat_ID = "Order_PrintFormat_ID";
 
 /** Project_MailText_ID AD_Reference_ID=274 */
 public static final int PROJECT_MAILTEXT_ID_AD_Reference_ID=274;
@@ -237,6 +251,8 @@ Integer ii = (Integer)get_Value("Project_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Project_MailText_ID */
+public static final String COLUMNNAME_Project_MailText_ID = "Project_MailText_ID";
 
 /** Project_PrintFormat_ID AD_Reference_ID=259 */
 public static final int PROJECT_PRINTFORMAT_ID_AD_Reference_ID=259;
@@ -256,6 +272,8 @@ Integer ii = (Integer)get_Value("Project_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Project_PrintFormat_ID */
+public static final String COLUMNNAME_Project_PrintFormat_ID = "Project_PrintFormat_ID";
 
 /** Remittance_MailText_ID AD_Reference_ID=274 */
 public static final int REMITTANCE_MAILTEXT_ID_AD_Reference_ID=274;
@@ -275,6 +293,8 @@ Integer ii = (Integer)get_Value("Remittance_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Remittance_MailText_ID */
+public static final String COLUMNNAME_Remittance_MailText_ID = "Remittance_MailText_ID";
 
 /** Remittance_PrintFormat_ID AD_Reference_ID=268 */
 public static final int REMITTANCE_PRINTFORMAT_ID_AD_Reference_ID=268;
@@ -294,6 +314,8 @@ Integer ii = (Integer)get_Value("Remittance_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Remittance_PrintFormat_ID */
+public static final String COLUMNNAME_Remittance_PrintFormat_ID = "Remittance_PrintFormat_ID";
 
 /** Shipment_MailText_ID AD_Reference_ID=274 */
 public static final int SHIPMENT_MAILTEXT_ID_AD_Reference_ID=274;
@@ -313,6 +335,8 @@ Integer ii = (Integer)get_Value("Shipment_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Shipment_MailText_ID */
+public static final String COLUMNNAME_Shipment_MailText_ID = "Shipment_MailText_ID";
 
 /** Shipment_PrintFormat_ID AD_Reference_ID=263 */
 public static final int SHIPMENT_PRINTFORMAT_ID_AD_Reference_ID=263;
@@ -332,4 +356,6 @@ Integer ii = (Integer)get_Value("Shipment_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Shipment_PrintFormat_ID */
+public static final String COLUMNNAME_Shipment_PrintFormat_ID = "Shipment_PrintFormat_ID";
 }

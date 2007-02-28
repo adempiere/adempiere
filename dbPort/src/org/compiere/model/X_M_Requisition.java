@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Requisition
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Requisition extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -129,6 +131,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Document Date.
 @param DateDoc Date of the Document */
 public void setDateDoc (Timestamp DateDoc)
@@ -142,6 +146,8 @@ public Timestamp getDateDoc()
 {
 return (Timestamp)get_Value("DateDoc");
 }
+/** Column name DateDoc */
+public static final String COLUMNNAME_DateDoc = "DateDoc";
 /** Set Date Required.
 @param DateRequired Date when required */
 public void setDateRequired (Timestamp DateRequired)
@@ -155,6 +161,8 @@ public Timestamp getDateRequired()
 {
 return (Timestamp)get_Value("DateRequired");
 }
+/** Column name DateRequired */
+public static final String COLUMNNAME_DateRequired = "DateRequired";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -172,6 +180,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
@@ -223,6 +233,8 @@ public String getDocAction()
 {
 return (String)get_Value("DocAction");
 }
+/** Column name DocAction */
+public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
@@ -270,6 +282,8 @@ public String getDocStatus()
 {
 return (String)get_Value("DocStatus");
 }
+/** Column name DocStatus */
+public static final String COLUMNNAME_DocStatus = "DocStatus";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -294,6 +308,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -311,6 +327,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -329,6 +347,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -344,6 +364,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Requisition.
 @param M_Requisition_ID Material Requisition */
 public void setM_Requisition_ID (int M_Requisition_ID)
@@ -359,6 +381,8 @@ Integer ii = (Integer)get_Value("M_Requisition_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Requisition_ID */
+public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -374,6 +398,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Posted.
 @param Posted Posting status */
 public void setPosted (boolean Posted)
@@ -392,6 +418,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Posted */
+public static final String COLUMNNAME_Posted = "Posted";
 
 /** PriorityRule AD_Reference_ID=154 */
 public static final int PRIORITYRULE_AD_Reference_ID=154;
@@ -425,6 +453,8 @@ public String getPriorityRule()
 {
 return (String)get_Value("PriorityRule");
 }
+/** Column name PriorityRule */
+public static final String COLUMNNAME_PriorityRule = "PriorityRule";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -443,6 +473,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -461,6 +493,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Total Lines.
 @param TotalLines Total of all document lines */
 public void setTotalLines (BigDecimal TotalLines)
@@ -476,4 +510,6 @@ BigDecimal bd = (BigDecimal)get_Value("TotalLines");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalLines */
+public static final String COLUMNNAME_TotalLines = "TotalLines";
 }

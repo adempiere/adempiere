@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Conversion_Rate extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_ConversionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionType_ID */
+public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 /** Set Conversion Rate.
 @param C_Conversion_Rate_ID Rate used for converting currencies */
 public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
@@ -127,6 +129,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Conversion_Rate_ID()));
 }
+/** Column name C_Conversion_Rate_ID */
+public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
 
 /** C_Currency_ID AD_Reference_ID=112 */
 public static final int C_CURRENCY_ID_AD_Reference_ID=112;
@@ -145,6 +149,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 
 /** C_Currency_ID_To AD_Reference_ID=112 */
 public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
@@ -162,6 +168,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID_To");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID_To */
+public static final String COLUMNNAME_C_Currency_ID_To = "C_Currency_ID_To";
 /** Set Divide Rate.
 @param DivideRate To convert Source number to Target number, the Source is divided */
 public void setDivideRate (BigDecimal DivideRate)
@@ -177,6 +185,8 @@ BigDecimal bd = (BigDecimal)get_Value("DivideRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DivideRate */
+public static final String COLUMNNAME_DivideRate = "DivideRate";
 /** Set Multiply Rate.
 @param MultiplyRate Rate to multiple the source by to calculate the target. */
 public void setMultiplyRate (BigDecimal MultiplyRate)
@@ -192,6 +202,8 @@ BigDecimal bd = (BigDecimal)get_Value("MultiplyRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MultiplyRate */
+public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -205,6 +217,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -217,4 +231,6 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 }

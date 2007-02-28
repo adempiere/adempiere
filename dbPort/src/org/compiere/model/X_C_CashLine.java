@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CashLine extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amount */
+public static final String COLUMNNAME_Amount = "Amount";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Cash Journal Line.
 @param C_CashLine_ID Cash Journal Line */
 public void setC_CashLine_ID (int C_CashLine_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("C_CashLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CashLine_ID */
+public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
 /** Set Cash Journal.
 @param C_Cash_ID Cash Journal */
 public void setC_Cash_ID (int C_Cash_ID)
@@ -157,6 +163,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Cash_ID()));
 }
+/** Column name C_Cash_ID */
+public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -189,6 +199,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -205,6 +217,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
 /** CashType AD_Reference_ID=217 */
 public static final int CASHTYPE_AD_Reference_ID=217;
@@ -240,6 +254,8 @@ public String getCashType()
 {
 return (String)get_Value("CashType");
 }
+/** Column name CashType */
+public static final String COLUMNNAME_CashType = "CashType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -257,6 +273,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -271,6 +289,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Generated.
 @param IsGenerated This Line is generated */
 public void setIsGenerated (boolean IsGenerated)
@@ -289,6 +309,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGenerated */
+public static final String COLUMNNAME_IsGenerated = "IsGenerated";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -303,6 +325,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -321,6 +345,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Write-off Amount.
 @param WriteOffAmt Amount to write-off */
 public void setWriteOffAmt (BigDecimal WriteOffAmt)
@@ -335,4 +361,6 @@ BigDecimal bd = (BigDecimal)get_Value("WriteOffAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name WriteOffAmt */
+public static final String COLUMNNAME_WriteOffAmt = "WriteOffAmt";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Attribute extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AD_Attribute_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Attribute_ID */
+public static final String COLUMNNAME_AD_Attribute_ID = "AD_Attribute_ID";
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
@@ -128,6 +130,8 @@ Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 
 /** AD_Reference_Value_ID AD_Reference_ID=4 */
 public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
@@ -147,6 +151,8 @@ Integer ii = (Integer)get_Value("AD_Reference_Value_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_Value_ID */
+public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -162,6 +168,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Dynamic Validation.
 @param AD_Val_Rule_ID Dynamic Validation Rule */
 public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("AD_Val_Rule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Val_Rule_ID */
+public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
 /** Set Callout.
 @param Callout Fully qualified class names and method - separated by semicolons */
 public void setCallout (String Callout)
@@ -195,6 +205,8 @@ public String getCallout()
 {
 return (String)get_Value("Callout");
 }
+/** Column name Callout */
+public static final String COLUMNNAME_Callout = "Callout";
 /** Set Default Logic.
 @param DefaultValue Default value hierarchy, separated by ;
  */
@@ -214,6 +226,8 @@ public String getDefaultValue()
 {
 return (String)get_Value("DefaultValue");
 }
+/** Column name DefaultValue */
+public static final String COLUMNNAME_DefaultValue = "DefaultValue";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -231,6 +245,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Display Length.
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
@@ -245,6 +261,8 @@ Integer ii = (Integer)get_Value("DisplayLength");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DisplayLength */
+public static final String COLUMNNAME_DisplayLength = "DisplayLength";
 /** Set Display Logic.
 @param DisplayLogic If the Field is displayed, the result determines if the field is actually displayed */
 public void setDisplayLogic (String DisplayLogic)
@@ -262,6 +280,8 @@ public String getDisplayLogic()
 {
 return (String)get_Value("DisplayLogic");
 }
+/** Column name DisplayLogic */
+public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
 /** Set Length.
 @param FieldLength Length of the column in the database */
 public void setFieldLength (int FieldLength)
@@ -276,6 +296,8 @@ Integer ii = (Integer)get_Value("FieldLength");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FieldLength */
+public static final String COLUMNNAME_FieldLength = "FieldLength";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -293,6 +315,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Encrypted.
 @param IsEncrypted Display or Storage is encrypted */
 public void setIsEncrypted (boolean IsEncrypted)
@@ -311,6 +335,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEncrypted */
+public static final String COLUMNNAME_IsEncrypted = "IsEncrypted";
 /** Set Field Only.
 @param IsFieldOnly Label is not displayed */
 public void setIsFieldOnly (boolean IsFieldOnly)
@@ -329,6 +355,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFieldOnly */
+public static final String COLUMNNAME_IsFieldOnly = "IsFieldOnly";
 /** Set Heading only.
 @param IsHeading Field without Column - Only label is displayed */
 public void setIsHeading (boolean IsHeading)
@@ -347,6 +375,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsHeading */
+public static final String COLUMNNAME_IsHeading = "IsHeading";
 /** Set Mandatory.
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
@@ -365,6 +395,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMandatory */
+public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -383,6 +415,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set Same Line.
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
@@ -401,6 +435,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSameLine */
+public static final String COLUMNNAME_IsSameLine = "IsSameLine";
 /** Set Updateable.
 @param IsUpdateable Determines, if the field can be updated */
 public void setIsUpdateable (boolean IsUpdateable)
@@ -419,6 +455,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsUpdateable */
+public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -443,6 +481,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -459,6 +499,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Value Format.
 @param VFormat Format of the value;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -478,6 +520,8 @@ public String getVFormat()
 {
 return (String)get_Value("VFormat");
 }
+/** Column name VFormat */
+public static final String COLUMNNAME_VFormat = "VFormat";
 /** Set Max. Value.
 @param ValueMax Maximum Value for a field */
 public void setValueMax (String ValueMax)
@@ -495,6 +539,8 @@ public String getValueMax()
 {
 return (String)get_Value("ValueMax");
 }
+/** Column name ValueMax */
+public static final String COLUMNNAME_ValueMax = "ValueMax";
 /** Set Min. Value.
 @param ValueMin Minimum Value for a field */
 public void setValueMin (String ValueMin)
@@ -512,4 +558,6 @@ public String getValueMin()
 {
 return (String)get_Value("ValueMin");
 }
+/** Column name ValueMin */
+public static final String COLUMNNAME_ValueMin = "ValueMin";
 }

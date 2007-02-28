@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_Topic extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("B_TopicCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_TopicCategory_ID */
+public static final String COLUMNNAME_B_TopicCategory_ID = "B_TopicCategory_ID";
 /** Set Topic Type.
 @param B_TopicType_ID Auction Topic Type */
 public void setB_TopicType_ID (int B_TopicType_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("B_TopicType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_TopicType_ID */
+public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";
 /** Set Topic.
 @param B_Topic_ID Auction Topic */
 public void setB_Topic_ID (int B_Topic_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("B_Topic_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_Topic_ID */
+public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
 /** Set Decision date.
 @param DecisionDate Decision date */
 public void setDecisionDate (Timestamp DecisionDate)
@@ -152,6 +158,8 @@ public Timestamp getDecisionDate()
 {
 return (Timestamp)get_Value("DecisionDate");
 }
+/** Column name DecisionDate */
+public static final String COLUMNNAME_DecisionDate = "DecisionDate";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -169,6 +177,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -187,6 +197,8 @@ public String getDocumentNo()
 {
 return (String)get_Value("DocumentNo");
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Published.
 @param IsPublished The Topic is published and can be viewed */
 public void setIsPublished (boolean IsPublished)
@@ -205,6 +217,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPublished */
+public static final String COLUMNNAME_IsPublished = "IsPublished";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -229,6 +243,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -247,6 +263,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -265,6 +283,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Details.
 @param TextDetails Details */
 public void setTextDetails (String TextDetails)
@@ -282,6 +302,8 @@ public String getTextDetails()
 {
 return (String)get_Value("TextDetails");
 }
+/** Column name TextDetails */
+public static final String COLUMNNAME_TextDetails = "TextDetails";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -299,6 +321,8 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 /** Set Topic Action.
 @param TopicAction Topic Action */
 public void setTopicAction (String TopicAction)
@@ -317,6 +341,8 @@ public String getTopicAction()
 {
 return (String)get_Value("TopicAction");
 }
+/** Column name TopicAction */
+public static final String COLUMNNAME_TopicAction = "TopicAction";
 /** Set Topic Status.
 @param TopicStatus Topic Status */
 public void setTopicStatus (String TopicStatus)
@@ -335,4 +361,6 @@ public String getTopicStatus()
 {
 return (String)get_Value("TopicStatus");
 }
+/** Column name TopicStatus */
+public static final String COLUMNNAME_TopicStatus = "TopicStatus";
 }

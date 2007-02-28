@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ_TopicSubscriber
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQ_TopicSubscriber extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set RfQ Subscriber.
 @param C_RfQ_TopicSubscriber_ID Request for Quotation Topic Subscriber */
 public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
@@ -149,6 +155,8 @@ Integer ii = (Integer)get_Value("C_RfQ_TopicSubscriber_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQ_TopicSubscriber_ID */
+public static final String COLUMNNAME_C_RfQ_TopicSubscriber_ID = "C_RfQ_TopicSubscriber_ID";
 /** Set RfQ Topic.
 @param C_RfQ_Topic_ID Topic for Request for Quotations */
 public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
@@ -170,6 +178,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_RfQ_Topic_ID()));
 }
+/** Column name C_RfQ_Topic_ID */
+public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
 /** Set Opt-out Date.
 @param OptOutDate Date the contact opted out */
 public void setOptOutDate (Timestamp OptOutDate)
@@ -182,6 +192,8 @@ public Timestamp getOptOutDate()
 {
 return (Timestamp)get_Value("OptOutDate");
 }
+/** Column name OptOutDate */
+public static final String COLUMNNAME_OptOutDate = "OptOutDate";
 /** Set Subscribe Date.
 @param SubscribeDate Date the contact actively subscribed */
 public void setSubscribeDate (Timestamp SubscribeDate)
@@ -194,4 +206,6 @@ public Timestamp getSubscribeDate()
 {
 return (Timestamp)get_Value("SubscribeDate");
 }
+/** Column name SubscribeDate */
+public static final String COLUMNNAME_SubscribeDate = "SubscribeDate";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Template
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Template extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("CM_Template_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Template_ID */
+public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -140,6 +144,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Elements.
 @param Elements Contains list of elements seperated by CR */
 public void setElements (String Elements)
@@ -157,6 +163,8 @@ public String getElements()
 {
 return (String)get_Value("Elements");
 }
+/** Column name Elements */
+public static final String COLUMNNAME_Elements = "Elements";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -174,6 +182,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Included.
 @param IsInclude Defines whether this content / template is included into another one */
 public void setIsInclude (boolean IsInclude)
@@ -192,6 +202,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInclude */
+public static final String COLUMNNAME_IsInclude = "IsInclude";
 /** Set Uses News.
 @param IsNews Template or container uses news channels */
 public void setIsNews (boolean IsNews)
@@ -210,6 +222,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsNews */
+public static final String COLUMNNAME_IsNews = "IsNews";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -228,6 +242,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Use Ad.
 @param IsUseAd Whether or not this templates uses Ad's */
 public void setIsUseAd (boolean IsUseAd)
@@ -246,6 +262,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsUseAd */
+public static final String COLUMNNAME_IsUseAd = "IsUseAd";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -264,6 +282,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -288,6 +308,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -306,6 +328,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set TemplateXST.
 @param TemplateXST Contains the template code itself */
 public void setTemplateXST (String TemplateXST)
@@ -318,6 +342,8 @@ public String getTemplateXST()
 {
 return (String)get_Value("TemplateXST");
 }
+/** Column name TemplateXST */
+public static final String COLUMNNAME_TemplateXST = "TemplateXST";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -336,4 +362,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

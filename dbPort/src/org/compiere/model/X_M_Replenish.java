@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Replenish extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ BigDecimal bd = (BigDecimal)get_Value("Level_Max");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Level_Max */
+public static final String COLUMNNAME_Level_Max = "Level_Max";
 /** Set Minimum Level.
 @param Level_Min Minimum Inventory level for this product */
 public void setLevel_Min (BigDecimal Level_Min)
@@ -119,6 +121,8 @@ BigDecimal bd = (BigDecimal)get_Value("Level_Min");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Level_Min */
+public static final String COLUMNNAME_Level_Min = "Level_Min";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** M_WarehouseSource_ID AD_Reference_ID=197 */
 public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("M_WarehouseSource_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_WarehouseSource_ID */
+public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -168,6 +176,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
 /** ReplenishType AD_Reference_ID=164 */
 public static final int REPLENISHTYPE_AD_Reference_ID=164;
@@ -199,4 +209,6 @@ public String getReplenishType()
 {
 return (String)get_Value("ReplenishType");
 }
+/** Column name ReplenishType */
+public static final String COLUMNNAME_ReplenishType = "ReplenishType";
 }

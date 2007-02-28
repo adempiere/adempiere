@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset_Retirement
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_A_Asset_Retirement extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Asset Retirement.
 @param A_Asset_Retirement_ID Internally used asset is not longer used. */
 public void setA_Asset_Retirement_ID (int A_Asset_Retirement_ID)
@@ -124,6 +126,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Retirement_ID()));
 }
+/** Column name A_Asset_Retirement_ID */
+public static final String COLUMNNAME_A_Asset_Retirement_ID = "A_Asset_Retirement_ID";
 /** Set Market value Amount.
 @param AssetMarketValueAmt Market value of the asset */
 public void setAssetMarketValueAmt (BigDecimal AssetMarketValueAmt)
@@ -139,6 +143,8 @@ BigDecimal bd = (BigDecimal)get_Value("AssetMarketValueAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AssetMarketValueAmt */
+public static final String COLUMNNAME_AssetMarketValueAmt = "AssetMarketValueAmt";
 /** Set Asset value.
 @param AssetValueAmt Book Value of the asset */
 public void setAssetValueAmt (BigDecimal AssetValueAmt)
@@ -154,6 +160,8 @@ BigDecimal bd = (BigDecimal)get_Value("AssetValueAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AssetValueAmt */
+public static final String COLUMNNAME_AssetValueAmt = "AssetValueAmt";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -170,4 +178,6 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 }

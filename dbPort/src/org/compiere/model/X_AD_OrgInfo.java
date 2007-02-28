@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_OrgInfo extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_OrgType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgType_ID */
+public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set D-U-N-S.
 @param DUNS Dun & Bradstreet Number */
 public void setDUNS (String DUNS)
@@ -136,6 +140,8 @@ public String getDUNS()
 {
 return (String)get_Value("DUNS");
 }
+/** Column name DUNS */
+public static final String COLUMNNAME_DUNS = "DUNS";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
 /** Parent_Org_ID AD_Reference_ID=130 */
 public static final int PARENT_ORG_ID_AD_Reference_ID=130;
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("Parent_Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Parent_Org_ID */
+public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";
 
 /** Supervisor_ID AD_Reference_ID=286 */
 public static final int SUPERVISOR_ID_AD_Reference_ID=286;
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("Supervisor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Supervisor_ID */
+public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 /** Set Tax ID.
 @param TaxID Tax Identification */
 public void setTaxID (String TaxID)
@@ -208,4 +220,6 @@ public String getTaxID()
 {
 return (String)get_Value("TaxID");
 }
+/** Column name TaxID */
+public static final String COLUMNNAME_TaxID = "TaxID";
 }

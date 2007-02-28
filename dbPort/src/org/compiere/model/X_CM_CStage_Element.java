@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_CStage_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_CStage_Element extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("CM_CStage_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_CStage_Element_ID */
+public static final String COLUMNNAME_CM_CStage_Element_ID = "CM_CStage_Element_ID";
 /** Set Web Container Stage.
 @param CM_CStage_ID Web Container Stage contains the staging content like images, text etc. */
 public void setCM_CStage_ID (int CM_CStage_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("CM_CStage_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_CStage_ID */
+public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
 /** Set Content HTML.
 @param ContentHTML Contains the content itself */
 public void setContentHTML (String ContentHTML)
@@ -129,6 +133,8 @@ public String getContentHTML()
 {
 return (String)get_Value("ContentHTML");
 }
+/** Column name ContentHTML */
+public static final String COLUMNNAME_ContentHTML = "ContentHTML";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -146,6 +152,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -163,6 +171,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -181,6 +191,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -205,4 +217,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_NewsItem
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_NewsItem extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getAuthor()
 {
 return (String)get_Value("Author");
 }
+/** Column name Author */
+public static final String COLUMNNAME_Author = "Author";
 /** Set News Channel.
 @param CM_NewsChannel_ID News channel for rss feed */
 public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("CM_NewsChannel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_NewsChannel_ID */
+public static final String COLUMNNAME_CM_NewsChannel_ID = "CM_NewsChannel_ID";
 /** Set News Item / Article.
 @param CM_NewsItem_ID News item or article defines base content */
 public void setCM_NewsItem_ID (int CM_NewsItem_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("CM_NewsItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_NewsItem_ID */
+public static final String COLUMNNAME_CM_NewsItem_ID = "CM_NewsItem_ID";
 /** Set Content HTML.
 @param ContentHTML Contains the content itself */
 public void setContentHTML (String ContentHTML)
@@ -145,6 +151,8 @@ public String getContentHTML()
 {
 return (String)get_Value("ContentHTML");
 }
+/** Column name ContentHTML */
+public static final String COLUMNNAME_ContentHTML = "ContentHTML";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -162,6 +170,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set LinkURL.
 @param LinkURL Contains URL to a target */
 public void setLinkURL (String LinkURL)
@@ -179,6 +189,8 @@ public String getLinkURL()
 {
 return (String)get_Value("LinkURL");
 }
+/** Column name LinkURL */
+public static final String COLUMNNAME_LinkURL = "LinkURL";
 /** Set Publication Date.
 @param PubDate Date on which this article will / should get published */
 public void setPubDate (Timestamp PubDate)
@@ -191,6 +203,8 @@ public Timestamp getPubDate()
 {
 return (Timestamp)get_Value("PubDate");
 }
+/** Column name PubDate */
+public static final String COLUMNNAME_PubDate = "PubDate";
 /** Set Title.
 @param Title Name this entity is referred to as */
 public void setTitle (String Title)
@@ -208,4 +222,6 @@ public String getTitle()
 {
 return (String)get_Value("Title");
 }
+/** Column name Title */
+public static final String COLUMNNAME_Title = "Title";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_IndexStop
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_IndexStop extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -137,6 +141,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Index Stop.
 @param K_IndexStop_ID Keyword not to be indexed */
 public void setK_IndexStop_ID (int K_IndexStop_ID)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("K_IndexStop_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_IndexStop_ID */
+public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
 /** Set Keyword.
 @param Keyword Case insensitive keyword */
 public void setKeyword (String Keyword)
@@ -176,6 +184,8 @@ return (String)get_Value("Keyword");
 {
 return new KeyNamePair(get_ID(), getKeyword());
 }
+/** Column name Keyword */
+public static final String COLUMNNAME_Keyword = "Keyword";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -192,4 +202,6 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 }

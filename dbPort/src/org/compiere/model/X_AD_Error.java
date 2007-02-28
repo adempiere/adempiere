@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Error
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Error extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_Error_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Error_ID */
+public static final String COLUMNNAME_AD_Error_ID = "AD_Error_ID";
 
 /** AD_Language AD_Reference_ID=106 */
 public static final int AD_LANGUAGE_AD_Reference_ID=106;
@@ -121,6 +123,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set Validation code.
 @param Code Validation Code */
 public void setCode (String Code)
@@ -138,6 +142,8 @@ public String getCode()
 {
 return (String)get_Value("Code");
 }
+/** Column name Code */
+public static final String COLUMNNAME_Code = "Code";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -162,4 +168,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

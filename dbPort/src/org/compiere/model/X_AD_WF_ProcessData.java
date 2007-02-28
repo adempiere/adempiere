@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_ProcessData
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_ProcessData extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_WF_ProcessData_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_ProcessData_ID */
+public static final String COLUMNNAME_AD_WF_ProcessData_ID = "AD_WF_ProcessData_ID";
 /** Set Workflow Process.
 @param AD_WF_Process_ID Actual Workflow Process Instance */
 public void setAD_WF_Process_ID (int AD_WF_Process_ID)
@@ -123,6 +125,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Process_ID()));
 }
+/** Column name AD_WF_Process_ID */
+public static final String COLUMNNAME_AD_WF_Process_ID = "AD_WF_Process_ID";
 /** Set Attribute Name.
 @param AttributeName Name of the Attribute */
 public void setAttributeName (String AttributeName)
@@ -141,6 +145,8 @@ public String getAttributeName()
 {
 return (String)get_Value("AttributeName");
 }
+/** Column name AttributeName */
+public static final String COLUMNNAME_AttributeName = "AttributeName";
 /** Set Attribute Value.
 @param AttributeValue Value of the Attribute */
 public void setAttributeValue (String AttributeValue)
@@ -158,4 +164,6 @@ public String getAttributeValue()
 {
 return (String)get_Value("AttributeValue");
 }
+/** Column name AttributeValue */
+public static final String COLUMNNAME_AttributeValue = "AttributeValue";
 }

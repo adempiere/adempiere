@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_User extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Birthday.
 @param Birthday Birthday or Anniversary day */
 public void setBirthday (Timestamp Birthday)
@@ -134,6 +138,8 @@ public Timestamp getBirthday()
 {
 return (Timestamp)get_Value("Birthday");
 }
+/** Column name Birthday */
+public static final String COLUMNNAME_Birthday = "Birthday";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -166,6 +174,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Greeting.
 @param C_Greeting_ID Greeting to print on correspondence */
 public void setC_Greeting_ID (int C_Greeting_ID)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("C_Greeting_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Greeting_ID */
+public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
 /** Set Position.
 @param C_Job_ID Job Position */
 public void setC_Job_ID (int C_Job_ID)
@@ -198,6 +210,8 @@ Integer ii = (Integer)get_Value("C_Job_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Job_ID */
+public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
 /** Set Comments.
 @param Comments Comments or additional information */
 public void setComments (String Comments)
@@ -215,6 +229,8 @@ public String getComments()
 {
 return (String)get_Value("Comments");
 }
+/** Column name Comments */
+public static final String COLUMNNAME_Comments = "Comments";
 
 /** ConnectionProfile AD_Reference_ID=364 */
 public static final int CONNECTIONPROFILE_AD_Reference_ID=364;
@@ -245,6 +261,8 @@ public String getConnectionProfile()
 {
 return (String)get_Value("ConnectionProfile");
 }
+/** Column name ConnectionProfile */
+public static final String COLUMNNAME_ConnectionProfile = "ConnectionProfile";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -262,6 +280,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -279,6 +299,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set EMail User ID.
 @param EMailUser User Name (ID) in the Mail System */
 public void setEMailUser (String EMailUser)
@@ -296,6 +318,8 @@ public String getEMailUser()
 {
 return (String)get_Value("EMailUser");
 }
+/** Column name EMailUser */
+public static final String COLUMNNAME_EMailUser = "EMailUser";
 /** Set EMail User Password.
 @param EMailUserPW Password of your email user id */
 public void setEMailUserPW (String EMailUserPW)
@@ -313,6 +337,8 @@ public String getEMailUserPW()
 {
 return (String)get_ValueE("EMailUserPW");
 }
+/** Column name EMailUserPW */
+public static final String COLUMNNAME_EMailUserPW = "EMailUserPW";
 /** Set Verification Info.
 @param EMailVerify Verification information of EMail Address */
 public void setEMailVerify (String EMailVerify)
@@ -330,6 +356,8 @@ public String getEMailVerify()
 {
 return (String)get_Value("EMailVerify");
 }
+/** Column name EMailVerify */
+public static final String COLUMNNAME_EMailVerify = "EMailVerify";
 /** Set EMail Verify.
 @param EMailVerifyDate Date Email was verified */
 public void setEMailVerifyDate (Timestamp EMailVerifyDate)
@@ -342,6 +370,8 @@ public Timestamp getEMailVerifyDate()
 {
 return (Timestamp)get_Value("EMailVerifyDate");
 }
+/** Column name EMailVerifyDate */
+public static final String COLUMNNAME_EMailVerifyDate = "EMailVerifyDate";
 /** Set Fax.
 @param Fax Facsimile number */
 public void setFax (String Fax)
@@ -359,6 +389,8 @@ public String getFax()
 {
 return (String)get_Value("Fax");
 }
+/** Column name Fax */
+public static final String COLUMNNAME_Fax = "Fax";
 /** Set Full BP Access.
 @param IsFullBPAccess The user/concat has full access to Business Partner information and resources */
 public void setIsFullBPAccess (boolean IsFullBPAccess)
@@ -377,6 +409,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFullBPAccess */
+public static final String COLUMNNAME_IsFullBPAccess = "IsFullBPAccess";
 /** Set LDAP User Name.
 @param LDAPUser User Name used for authorization via LDAP (directory) services */
 public void setLDAPUser (String LDAPUser)
@@ -394,6 +428,8 @@ public String getLDAPUser()
 {
 return (String)get_Value("LDAPUser");
 }
+/** Column name LDAPUser */
+public static final String COLUMNNAME_LDAPUser = "LDAPUser";
 /** Set Last Contact.
 @param LastContact Date this individual was last contacted */
 public void setLastContact (Timestamp LastContact)
@@ -406,6 +442,8 @@ public Timestamp getLastContact()
 {
 return (Timestamp)get_Value("LastContact");
 }
+/** Column name LastContact */
+public static final String COLUMNNAME_LastContact = "LastContact";
 /** Set Last Result.
 @param LastResult Result of last contact */
 public void setLastResult (String LastResult)
@@ -423,6 +461,8 @@ public String getLastResult()
 {
 return (String)get_Value("LastResult");
 }
+/** Column name LastResult */
+public static final String COLUMNNAME_LastResult = "LastResult";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -447,6 +487,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** NotificationType AD_Reference_ID=344 */
 public static final int NOTIFICATIONTYPE_AD_Reference_ID=344;
@@ -478,6 +520,8 @@ public String getNotificationType()
 {
 return (String)get_Value("NotificationType");
 }
+/** Column name NotificationType */
+public static final String COLUMNNAME_NotificationType = "NotificationType";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -495,6 +539,8 @@ public String getPassword()
 {
 return (String)get_ValueE("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set Phone.
 @param Phone Identifies a telephone number */
 public void setPhone (String Phone)
@@ -512,6 +558,8 @@ public String getPhone()
 {
 return (String)get_Value("Phone");
 }
+/** Column name Phone */
+public static final String COLUMNNAME_Phone = "Phone";
 /** Set 2nd Phone.
 @param Phone2 Identifies an alternate telephone number. */
 public void setPhone2 (String Phone2)
@@ -529,6 +577,8 @@ public String getPhone2()
 {
 return (String)get_Value("Phone2");
 }
+/** Column name Phone2 */
+public static final String COLUMNNAME_Phone2 = "Phone2";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -547,6 +597,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** Supervisor_ID AD_Reference_ID=110 */
 public static final int SUPERVISOR_ID_AD_Reference_ID=110;
@@ -566,6 +618,8 @@ Integer ii = (Integer)get_Value("Supervisor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Supervisor_ID */
+public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 /** Set Title.
 @param Title Name this entity is referred to as */
 public void setTitle (String Title)
@@ -583,6 +637,8 @@ public String getTitle()
 {
 return (String)get_Value("Title");
 }
+/** Column name Title */
+public static final String COLUMNNAME_Title = "Title";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -600,4 +656,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_InvoiceBatch extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("C_ConversionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionType_ID */
+public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice Batch.
 @param C_InvoiceBatch_ID Expense Invoice Batch Header */
 public void setC_InvoiceBatch_ID (int C_InvoiceBatch_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_InvoiceBatch_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceBatch_ID */
+public static final String COLUMNNAME_C_InvoiceBatch_ID = "C_InvoiceBatch_ID";
 /** Set Control Amount.
 @param ControlAmt If not zero, the Debit amount of the document must be equal this amount */
 public void setControlAmt (BigDecimal ControlAmt)
@@ -154,6 +160,8 @@ BigDecimal bd = (BigDecimal)get_Value("ControlAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ControlAmt */
+public static final String COLUMNNAME_ControlAmt = "ControlAmt";
 /** Set Document Date.
 @param DateDoc Date of the Document */
 public void setDateDoc (Timestamp DateDoc)
@@ -167,6 +175,8 @@ public Timestamp getDateDoc()
 {
 return (Timestamp)get_Value("DateDoc");
 }
+/** Column name DateDoc */
+public static final String COLUMNNAME_DateDoc = "DateDoc";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -184,6 +194,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document Amt.
 @param DocumentAmt Document Amount */
 public void setDocumentAmt (BigDecimal DocumentAmt)
@@ -199,6 +211,8 @@ BigDecimal bd = (BigDecimal)get_Value("DocumentAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DocumentAmt */
+public static final String COLUMNNAME_DocumentAmt = "DocumentAmt";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -223,6 +237,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -241,6 +257,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -259,6 +277,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -277,6 +297,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** SalesRep_ID AD_Reference_ID=190 */
 public static final int SALESREP_ID_AD_Reference_ID=190;
@@ -295,4 +317,6 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 }

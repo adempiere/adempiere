@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_EDI
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_EDI extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("C_BP_EDI_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_EDI_ID */
+public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -135,6 +137,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
 /** EDIStatus AD_Reference_ID=202 */
 public static final int EDISTATUS_AD_Reference_ID=202;
@@ -166,6 +170,8 @@ public String getEDIStatus()
 {
 return (String)get_Value("EDIStatus");
 }
+/** Column name EDIStatus */
+public static final String COLUMNNAME_EDIStatus = "EDIStatus";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -180,6 +186,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set EDI Transaction.
 @param M_EDI_ID EDI Transaction */
 public void setM_EDI_ID (int M_EDI_ID)
@@ -195,6 +203,8 @@ Integer ii = (Integer)get_Value("M_EDI_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_EDI_ID */
+public static final String COLUMNNAME_M_EDI_ID = "M_EDI_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -210,6 +220,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -225,6 +237,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -243,6 +257,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Reply Price.
 @param Reply_Price Confirmed Price from EDI Partner */
 public void setReply_Price (BigDecimal Reply_Price)
@@ -257,6 +273,8 @@ BigDecimal bd = (BigDecimal)get_Value("Reply_Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Reply_Price */
+public static final String COLUMNNAME_Reply_Price = "Reply_Price";
 /** Set Reply Qty Available.
 @param Reply_QtyAvailable Reply Qty Available */
 public void setReply_QtyAvailable (BigDecimal Reply_QtyAvailable)
@@ -271,6 +289,8 @@ BigDecimal bd = (BigDecimal)get_Value("Reply_QtyAvailable");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Reply_QtyAvailable */
+public static final String COLUMNNAME_Reply_QtyAvailable = "Reply_QtyAvailable";
 /** Set Reply Qty Confirmed.
 @param Reply_QtyConfirmed Reply Qty Confirmed */
 public void setReply_QtyConfirmed (BigDecimal Reply_QtyConfirmed)
@@ -285,6 +305,8 @@ BigDecimal bd = (BigDecimal)get_Value("Reply_QtyConfirmed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Reply_QtyConfirmed */
+public static final String COLUMNNAME_Reply_QtyConfirmed = "Reply_QtyConfirmed";
 /** Set Reply Received.
 @param Reply_Received Reply Received */
 public void setReply_Received (Timestamp Reply_Received)
@@ -297,6 +319,8 @@ public Timestamp getReply_Received()
 {
 return (Timestamp)get_Value("Reply_Received");
 }
+/** Column name Reply_Received */
+public static final String COLUMNNAME_Reply_Received = "Reply_Received";
 /** Set Reply Remarks.
 @param Reply_Remarks Reply Remarks */
 public void setReply_Remarks (String Reply_Remarks)
@@ -314,6 +338,8 @@ public String getReply_Remarks()
 {
 return (String)get_Value("Reply_Remarks");
 }
+/** Column name Reply_Remarks */
+public static final String COLUMNNAME_Reply_Remarks = "Reply_Remarks";
 /** Set Reply Ship date.
 @param Reply_ShipDate Reply Ship date */
 public void setReply_ShipDate (Timestamp Reply_ShipDate)
@@ -326,6 +352,8 @@ public Timestamp getReply_ShipDate()
 {
 return (Timestamp)get_Value("Reply_ShipDate");
 }
+/** Column name Reply_ShipDate */
+public static final String COLUMNNAME_Reply_ShipDate = "Reply_ShipDate";
 /** Set Request Price.
 @param Request_Price Request Price */
 public void setRequest_Price (BigDecimal Request_Price)
@@ -340,6 +368,8 @@ BigDecimal bd = (BigDecimal)get_Value("Request_Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Request_Price */
+public static final String COLUMNNAME_Request_Price = "Request_Price";
 /** Set Request Qty.
 @param Request_Qty Request Qty */
 public void setRequest_Qty (BigDecimal Request_Qty)
@@ -355,6 +385,8 @@ BigDecimal bd = (BigDecimal)get_Value("Request_Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Request_Qty */
+public static final String COLUMNNAME_Request_Qty = "Request_Qty";
 /** Set Request Ship date.
 @param Request_Shipdate Request Ship date */
 public void setRequest_Shipdate (Timestamp Request_Shipdate)
@@ -368,6 +400,8 @@ public Timestamp getRequest_Shipdate()
 {
 return (Timestamp)get_Value("Request_Shipdate");
 }
+/** Column name Request_Shipdate */
+public static final String COLUMNNAME_Request_Shipdate = "Request_Shipdate";
 /** Set Transaction received.
 @param TrxReceived Transaction received */
 public void setTrxReceived (Timestamp TrxReceived)
@@ -380,6 +414,8 @@ public Timestamp getTrxReceived()
 {
 return (Timestamp)get_Value("TrxReceived");
 }
+/** Column name TrxReceived */
+public static final String COLUMNNAME_TrxReceived = "TrxReceived";
 /** Set Transaction sent.
 @param TrxSent Transaction sent */
 public void setTrxSent (Timestamp TrxSent)
@@ -393,6 +429,8 @@ public Timestamp getTrxSent()
 {
 return (Timestamp)get_Value("TrxSent");
 }
+/** Column name TrxSent */
+public static final String COLUMNNAME_TrxSent = "TrxSent";
 
 /** TrxType AD_Reference_ID=203 */
 public static final int TRXTYPE_AD_Reference_ID=203;
@@ -420,4 +458,6 @@ public String getTrxType()
 {
 return (String)get_Value("TrxType");
 }
+/** Column name TrxType */
+public static final String COLUMNNAME_TrxType = "TrxType";
 }

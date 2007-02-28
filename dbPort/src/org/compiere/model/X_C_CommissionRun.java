@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CommissionRun extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_CommissionRun_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionRun_ID */
+public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";
 /** Set Commission.
 @param C_Commission_ID Commission */
 public void setC_Commission_ID (int C_Commission_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Commission_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Commission_ID */
+public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -137,6 +141,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -161,6 +167,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Grand Total.
 @param GrandTotal Total amount of document */
 public void setGrandTotal (BigDecimal GrandTotal)
@@ -176,6 +184,8 @@ BigDecimal bd = (BigDecimal)get_Value("GrandTotal");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name GrandTotal */
+public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -194,6 +204,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -212,6 +224,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -225,4 +239,6 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 }

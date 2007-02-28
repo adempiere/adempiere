@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_AlertProcessor extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_AlertProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_AlertProcessor_ID */
+public static final String COLUMNNAME_AD_AlertProcessor_ID = "AD_AlertProcessor_ID";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -117,6 +119,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Date next run.
 @param DateNextRun Date the process will run next */
 public void setDateNextRun (Timestamp DateNextRun)
@@ -129,6 +133,8 @@ public Timestamp getDateNextRun()
 {
 return (Timestamp)get_Value("DateNextRun");
 }
+/** Column name DateNextRun */
+public static final String COLUMNNAME_DateNextRun = "DateNextRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -146,6 +152,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Frequency.
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
@@ -160,6 +168,8 @@ Integer ii = (Integer)get_Value("Frequency");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Frequency */
+public static final String COLUMNNAME_Frequency = "Frequency";
 
 /** FrequencyType AD_Reference_ID=221 */
 public static final int FREQUENCYTYPE_AD_Reference_ID=221;
@@ -189,6 +199,8 @@ public String getFrequencyType()
 {
 return (String)get_Value("FrequencyType");
 }
+/** Column name FrequencyType */
+public static final String COLUMNNAME_FrequencyType = "FrequencyType";
 /** Set Days to keep Log.
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
@@ -203,6 +215,8 @@ Integer ii = (Integer)get_Value("KeepLogDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name KeepLogDays */
+public static final String COLUMNNAME_KeepLogDays = "KeepLogDays";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -227,6 +241,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -245,6 +261,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** Supervisor_ID AD_Reference_ID=316 */
 public static final int SUPERVISOR_ID_AD_Reference_ID=316;
@@ -263,4 +281,6 @@ Integer ii = (Integer)get_Value("Supervisor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Supervisor_ID */
+public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 }

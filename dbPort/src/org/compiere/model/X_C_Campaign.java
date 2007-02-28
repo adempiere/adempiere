@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Campaign
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Campaign extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Channel.
 @param C_Channel_ID Sales Channel */
 public void setC_Channel_ID (int C_Channel_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Channel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Channel_ID */
+public static final String COLUMNNAME_C_Channel_ID = "C_Channel_ID";
 /** Set Costs.
 @param Costs Costs in accounting currency */
 public void setCosts (BigDecimal Costs)
@@ -135,6 +139,8 @@ BigDecimal bd = (BigDecimal)get_Value("Costs");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Costs */
+public static final String COLUMNNAME_Costs = "Costs";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -152,6 +158,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set End Date.
 @param EndDate Last effective date (inclusive) */
 public void setEndDate (Timestamp EndDate)
@@ -164,6 +172,8 @@ public Timestamp getEndDate()
 {
 return (Timestamp)get_Value("EndDate");
 }
+/** Column name EndDate */
+public static final String COLUMNNAME_EndDate = "EndDate";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -182,6 +192,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -206,6 +218,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -218,6 +232,8 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -236,4 +252,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

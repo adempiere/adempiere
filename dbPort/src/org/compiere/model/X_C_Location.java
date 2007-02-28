@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Location extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getAddress1()
 {
 return (String)get_Value("Address1");
 }
+/** Column name Address1 */
+public static final String COLUMNNAME_Address1 = "Address1";
 /** Set Address 2.
 @param Address2 Address line 2 for this location */
 public void setAddress2 (String Address2)
@@ -120,6 +122,8 @@ public String getAddress2()
 {
 return (String)get_Value("Address2");
 }
+/** Column name Address2 */
+public static final String COLUMNNAME_Address2 = "Address2";
 /** Set Address 3.
 @param Address3 Address Line 3 for the location */
 public void setAddress3 (String Address3)
@@ -137,6 +141,8 @@ public String getAddress3()
 {
 return (String)get_Value("Address3");
 }
+/** Column name Address3 */
+public static final String COLUMNNAME_Address3 = "Address3";
 /** Set Address 4.
 @param Address4 Address Line 4 for the location */
 public void setAddress4 (String Address4)
@@ -154,6 +160,8 @@ public String getAddress4()
 {
 return (String)get_Value("Address4");
 }
+/** Column name Address4 */
+public static final String COLUMNNAME_Address4 = "Address4";
 /** Set City.
 @param C_City_ID City */
 public void setC_City_ID (int C_City_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("C_City_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_City_ID */
+public static final String COLUMNNAME_C_City_ID = "C_City_ID";
 /** Set Country.
 @param C_Country_ID Country  */
 public void setC_Country_ID (int C_Country_ID)
@@ -185,6 +195,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -200,6 +212,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Region.
 @param C_Region_ID Identifies a geographical Region */
 public void setC_Region_ID (int C_Region_ID)
@@ -216,6 +230,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set City.
 @param City Identifies a City */
 public void setCity (String City)
@@ -239,6 +255,8 @@ return (String)get_Value("City");
 {
 return new KeyNamePair(get_ID(), getCity());
 }
+/** Column name City */
+public static final String COLUMNNAME_City = "City";
 /** Set ZIP.
 @param Postal Postal code */
 public void setPostal (String Postal)
@@ -256,6 +274,8 @@ public String getPostal()
 {
 return (String)get_Value("Postal");
 }
+/** Column name Postal */
+public static final String COLUMNNAME_Postal = "Postal";
 /** Set -.
 @param Postal_Add Additional ZIP or Postal code */
 public void setPostal_Add (String Postal_Add)
@@ -273,6 +293,8 @@ public String getPostal_Add()
 {
 return (String)get_Value("Postal_Add");
 }
+/** Column name Postal_Add */
+public static final String COLUMNNAME_Postal_Add = "Postal_Add";
 /** Set Region.
 @param RegionName Name of the Region */
 public void setRegionName (String RegionName)
@@ -290,4 +312,6 @@ public String getRegionName()
 {
 return (String)get_Value("RegionName");
 }
+/** Column name RegionName */
+public static final String COLUMNNAME_RegionName = "RegionName";
 }

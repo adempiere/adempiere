@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ElementValue extends PO
 {
 /** Standard Constructor
@@ -124,6 +124,8 @@ public String getAccountSign()
 {
 return (String)get_Value("AccountSign");
 }
+/** Column name AccountSign */
+public static final String COLUMNNAME_AccountSign = "AccountSign";
 
 /** AccountType AD_Reference_ID=117 */
 public static final int ACCOUNTTYPE_AD_Reference_ID=117;
@@ -159,6 +161,8 @@ public String getAccountType()
 {
 return (String)get_Value("AccountType");
 }
+/** Column name AccountType */
+public static final String COLUMNNAME_AccountType = "AccountType";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -175,6 +179,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -191,6 +197,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Account Element.
 @param C_ElementValue_ID Account Element */
 public void setC_ElementValue_ID (int C_ElementValue_ID)
@@ -206,6 +214,8 @@ Integer ii = (Integer)get_Value("C_ElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ElementValue_ID */
+public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
 /** Set Element.
 @param C_Element_ID Accounting Element */
 public void setC_Element_ID (int C_Element_ID)
@@ -221,6 +231,8 @@ Integer ii = (Integer)get_Value("C_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Element_ID */
+public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -238,6 +250,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Bank Account.
 @param IsBankAccount Indicates if this is the Bank Account */
 public void setIsBankAccount (boolean IsBankAccount)
@@ -256,6 +270,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBankAccount */
+public static final String COLUMNNAME_IsBankAccount = "IsBankAccount";
 /** Set Document Controlled.
 @param IsDocControlled Control account - If an account is controlled by a document, you cannot post manually to it */
 public void setIsDocControlled (boolean IsDocControlled)
@@ -274,6 +290,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDocControlled */
+public static final String COLUMNNAME_IsDocControlled = "IsDocControlled";
 /** Set Foreign Currency Account.
 @param IsForeignCurrency Balances in foreign currency accounts are held in the nominated currency */
 public void setIsForeignCurrency (boolean IsForeignCurrency)
@@ -292,6 +310,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsForeignCurrency */
+public static final String COLUMNNAME_IsForeignCurrency = "IsForeignCurrency";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -310,6 +330,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -328,6 +350,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Post Actual.
 @param PostActual Actual Values can be posted */
 public void setPostActual (boolean PostActual)
@@ -346,6 +370,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostActual */
+public static final String COLUMNNAME_PostActual = "PostActual";
 /** Set Post Budget.
 @param PostBudget Budget values can be posted */
 public void setPostBudget (boolean PostBudget)
@@ -364,6 +390,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostBudget */
+public static final String COLUMNNAME_PostBudget = "PostBudget";
 /** Set Post Encumbrance.
 @param PostEncumbrance Post commitments to this account */
 public void setPostEncumbrance (boolean PostEncumbrance)
@@ -382,6 +410,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostEncumbrance */
+public static final String COLUMNNAME_PostEncumbrance = "PostEncumbrance";
 /** Set Post Statistical.
 @param PostStatistical Post statistical quantities to this account? */
 public void setPostStatistical (boolean PostStatistical)
@@ -400,6 +430,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostStatistical */
+public static final String COLUMNNAME_PostStatistical = "PostStatistical";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -412,6 +444,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -424,6 +458,8 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -448,4 +484,6 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

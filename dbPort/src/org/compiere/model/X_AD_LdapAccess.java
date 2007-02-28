@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_LdapAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_LdapAccess extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_LdapAccess_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_LdapAccess_ID */
+public static final String COLUMNNAME_AD_LdapAccess_ID = "AD_LdapAccess_ID";
 /** Set Ldap Processor.
 @param AD_LdapProcessor_ID LDAP Server to authenticate and authorize external systems based on Adempiere */
 public void setAD_LdapProcessor_ID (int AD_LdapProcessor_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("AD_LdapProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_LdapProcessor_ID */
+public static final String COLUMNNAME_AD_LdapProcessor_ID = "AD_LdapProcessor_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -139,6 +143,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Error.
 @param IsError An Error occured in the execution */
 public void setIsError (boolean IsError)
@@ -174,6 +182,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsError */
+public static final String COLUMNNAME_IsError = "IsError";
 /** Set Interest Area.
 @param R_InterestArea_ID Interest Area or Topic */
 public void setR_InterestArea_ID (int R_InterestArea_ID)
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("R_InterestArea_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_InterestArea_ID */
+public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";
 /** Set Summary.
 @param Summary Textual summary of this request */
 public void setSummary (String Summary)
@@ -207,4 +219,6 @@ public String getSummary()
 {
 return (String)get_Value("Summary");
 }
+/** Column name Summary */
+public static final String COLUMNNAME_Summary = "Summary";
 }

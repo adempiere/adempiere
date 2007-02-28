@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_AttributeSet extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Guarantee Days.
 @param GuaranteeDays Number of days the product is guaranteed or available */
 public void setGuaranteeDays (int GuaranteeDays)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("GuaranteeDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GuaranteeDays */
+public static final String COLUMNNAME_GuaranteeDays = "GuaranteeDays";
 /** Set Guarantee Date.
 @param IsGuaranteeDate Product has Guarantee or Expiry Date */
 public void setIsGuaranteeDate (boolean IsGuaranteeDate)
@@ -143,6 +147,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGuaranteeDate */
+public static final String COLUMNNAME_IsGuaranteeDate = "IsGuaranteeDate";
 /** Set Mandatory Guarantee Date.
 @param IsGuaranteeDateMandatory The entry of a Guarantee Date is mandatory when creating a Product Instance */
 public void setIsGuaranteeDateMandatory (boolean IsGuaranteeDateMandatory)
@@ -161,6 +167,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGuaranteeDateMandatory */
+public static final String COLUMNNAME_IsGuaranteeDateMandatory = "IsGuaranteeDateMandatory";
 /** Set Instance Attribute.
 @param IsInstanceAttribute The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
 public void setIsInstanceAttribute (boolean IsInstanceAttribute)
@@ -179,6 +187,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInstanceAttribute */
+public static final String COLUMNNAME_IsInstanceAttribute = "IsInstanceAttribute";
 /** Set Lot.
 @param IsLot The product instances have a Lot Number */
 public void setIsLot (boolean IsLot)
@@ -197,6 +207,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsLot */
+public static final String COLUMNNAME_IsLot = "IsLot";
 /** Set Mandatory Lot.
 @param IsLotMandatory The entry of Lot info is mandatory when creating a Product Instance */
 public void setIsLotMandatory (boolean IsLotMandatory)
@@ -215,6 +227,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsLotMandatory */
+public static final String COLUMNNAME_IsLotMandatory = "IsLotMandatory";
 /** Set Serial No.
 @param IsSerNo The product instances have Serial Numbers */
 public void setIsSerNo (boolean IsSerNo)
@@ -233,6 +247,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSerNo */
+public static final String COLUMNNAME_IsSerNo = "IsSerNo";
 /** Set Mandatory Serial No.
 @param IsSerNoMandatory The entry of a Serial No is mandatory when creating a Product Instance */
 public void setIsSerNoMandatory (boolean IsSerNoMandatory)
@@ -251,6 +267,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSerNoMandatory */
+public static final String COLUMNNAME_IsSerNoMandatory = "IsSerNoMandatory";
 /** Set Lot Char End Overwrite.
 @param LotCharEOverwrite Lot/Batch End Indicator overwrite - default » */
 public void setLotCharEOverwrite (String LotCharEOverwrite)
@@ -268,6 +286,8 @@ public String getLotCharEOverwrite()
 {
 return (String)get_Value("LotCharEOverwrite");
 }
+/** Column name LotCharEOverwrite */
+public static final String COLUMNNAME_LotCharEOverwrite = "LotCharEOverwrite";
 /** Set Lot Char Start Overwrite.
 @param LotCharSOverwrite Lot/Batch Start Indicator overwrite - default « */
 public void setLotCharSOverwrite (String LotCharSOverwrite)
@@ -285,6 +305,8 @@ public String getLotCharSOverwrite()
 {
 return (String)get_Value("LotCharSOverwrite");
 }
+/** Column name LotCharSOverwrite */
+public static final String COLUMNNAME_LotCharSOverwrite = "LotCharSOverwrite";
 /** Set Attribute Set.
 @param M_AttributeSet_ID Product Attribute Set */
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
@@ -300,6 +322,8 @@ Integer ii = (Integer)get_Value("M_AttributeSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSet_ID */
+public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 /** Set Lot Control.
 @param M_LotCtl_ID Product Lot Control */
 public void setM_LotCtl_ID (int M_LotCtl_ID)
@@ -316,6 +340,8 @@ Integer ii = (Integer)get_Value("M_LotCtl_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_LotCtl_ID */
+public static final String COLUMNNAME_M_LotCtl_ID = "M_LotCtl_ID";
 /** Set Serial No Control.
 @param M_SerNoCtl_ID Product Serial Number Control */
 public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
@@ -332,6 +358,8 @@ Integer ii = (Integer)get_Value("M_SerNoCtl_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_SerNoCtl_ID */
+public static final String COLUMNNAME_M_SerNoCtl_ID = "M_SerNoCtl_ID";
 
 /** MandatoryType AD_Reference_ID=324 */
 public static final int MANDATORYTYPE_AD_Reference_ID=324;
@@ -361,6 +389,8 @@ public String getMandatoryType()
 {
 return (String)get_Value("MandatoryType");
 }
+/** Column name MandatoryType */
+public static final String COLUMNNAME_MandatoryType = "MandatoryType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -385,6 +415,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set SerNo Char End Overwrite.
 @param SerNoCharEOverwrite Serial Number End Indicator overwrite - default empty */
 public void setSerNoCharEOverwrite (String SerNoCharEOverwrite)
@@ -402,6 +434,8 @@ public String getSerNoCharEOverwrite()
 {
 return (String)get_Value("SerNoCharEOverwrite");
 }
+/** Column name SerNoCharEOverwrite */
+public static final String COLUMNNAME_SerNoCharEOverwrite = "SerNoCharEOverwrite";
 /** Set SerNo Char Start Overwrite.
 @param SerNoCharSOverwrite Serial Number Start Indicator overwrite - default # */
 public void setSerNoCharSOverwrite (String SerNoCharSOverwrite)
@@ -419,4 +453,6 @@ public String getSerNoCharSOverwrite()
 {
 return (String)get_Value("SerNoCharSOverwrite");
 }
+/** Column name SerNoCharSOverwrite */
+public static final String COLUMNNAME_SerNoCharSOverwrite = "SerNoCharSOverwrite";
 }

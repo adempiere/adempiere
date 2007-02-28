@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Category_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Product_Category_Acct extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
 /** CostingLevel AD_Reference_ID=355 */
 public static final int COSTINGLEVEL_AD_Reference_ID=355;
@@ -139,6 +141,8 @@ public String getCostingLevel()
 {
 return (String)get_Value("CostingLevel");
 }
+/** Column name CostingLevel */
+public static final String COLUMNNAME_CostingLevel = "CostingLevel";
 
 /** CostingMethod AD_Reference_ID=122 */
 public static final int COSTINGMETHOD_AD_Reference_ID=122;
@@ -179,6 +183,8 @@ public String getCostingMethod()
 {
 return (String)get_Value("CostingMethod");
 }
+/** Column name CostingMethod */
+public static final String COLUMNNAME_CostingMethod = "CostingMethod";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -194,6 +200,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product Asset.
 @param P_Asset_Acct Account for Product Asset (Inventory) */
 public void setP_Asset_Acct (int P_Asset_Acct)
@@ -208,6 +216,8 @@ Integer ii = (Integer)get_Value("P_Asset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_Asset_Acct */
+public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
 /** Set Product COGS.
 @param P_COGS_Acct Account for Cost of Goods Sold */
 public void setP_COGS_Acct (int P_COGS_Acct)
@@ -222,6 +232,8 @@ Integer ii = (Integer)get_Value("P_COGS_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_COGS_Acct */
+public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
 /** Set Cost Adjustment.
 @param P_CostAdjustment_Acct Product Cost Adjustment Account */
 public void setP_CostAdjustment_Acct (int P_CostAdjustment_Acct)
@@ -236,6 +248,8 @@ Integer ii = (Integer)get_Value("P_CostAdjustment_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_CostAdjustment_Acct */
+public static final String COLUMNNAME_P_CostAdjustment_Acct = "P_CostAdjustment_Acct";
 /** Set Product Expense.
 @param P_Expense_Acct Account for Product Expense */
 public void setP_Expense_Acct (int P_Expense_Acct)
@@ -250,6 +264,8 @@ Integer ii = (Integer)get_Value("P_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_Expense_Acct */
+public static final String COLUMNNAME_P_Expense_Acct = "P_Expense_Acct";
 /** Set Inventory Clearing.
 @param P_InventoryClearing_Acct Product Inventory Clearing Account */
 public void setP_InventoryClearing_Acct (int P_InventoryClearing_Acct)
@@ -264,6 +280,8 @@ Integer ii = (Integer)get_Value("P_InventoryClearing_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_InventoryClearing_Acct */
+public static final String COLUMNNAME_P_InventoryClearing_Acct = "P_InventoryClearing_Acct";
 /** Set Invoice Price Variance.
 @param P_InvoicePriceVariance_Acct Difference between Costs and Invoice Price (IPV) */
 public void setP_InvoicePriceVariance_Acct (int P_InvoicePriceVariance_Acct)
@@ -278,6 +296,8 @@ Integer ii = (Integer)get_Value("P_InvoicePriceVariance_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_InvoicePriceVariance_Acct */
+public static final String COLUMNNAME_P_InvoicePriceVariance_Acct = "P_InvoicePriceVariance_Acct";
 /** Set Purchase Price Variance.
 @param P_PurchasePriceVariance_Acct Difference between Standard Cost and Purchase Price (PPV) */
 public void setP_PurchasePriceVariance_Acct (int P_PurchasePriceVariance_Acct)
@@ -292,6 +312,8 @@ Integer ii = (Integer)get_Value("P_PurchasePriceVariance_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_PurchasePriceVariance_Acct */
+public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
 /** Set Product Revenue.
 @param P_Revenue_Acct Account for Product Revenue (Sales Account) */
 public void setP_Revenue_Acct (int P_Revenue_Acct)
@@ -306,6 +328,8 @@ Integer ii = (Integer)get_Value("P_Revenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_Revenue_Acct */
+public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
 /** Set Trade Discount Granted.
 @param P_TradeDiscountGrant_Acct Trade Discount Granted Account */
 public void setP_TradeDiscountGrant_Acct (int P_TradeDiscountGrant_Acct)
@@ -320,6 +344,8 @@ Integer ii = (Integer)get_Value("P_TradeDiscountGrant_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_TradeDiscountGrant_Acct */
+public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
 /** Set Trade Discount Received.
 @param P_TradeDiscountRec_Acct Trade Discount Receivable Account */
 public void setP_TradeDiscountRec_Acct (int P_TradeDiscountRec_Acct)
@@ -334,6 +360,8 @@ Integer ii = (Integer)get_Value("P_TradeDiscountRec_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_TradeDiscountRec_Acct */
+public static final String COLUMNNAME_P_TradeDiscountRec_Acct = "P_TradeDiscountRec_Acct";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -352,4 +380,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

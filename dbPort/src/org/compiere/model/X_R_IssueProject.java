@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueProject
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_IssueProject extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -160,6 +166,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Profile.
 @param ProfileInfo Information to help profiling the system for solving support issues */
 public void setProfileInfo (String ProfileInfo)
@@ -177,6 +185,8 @@ public String getProfileInfo()
 {
 return (String)get_Value("ProfileInfo");
 }
+/** Column name ProfileInfo */
+public static final String COLUMNNAME_ProfileInfo = "ProfileInfo";
 /** Set Issue Project.
 @param R_IssueProject_ID Implementation Projects */
 public void setR_IssueProject_ID (int R_IssueProject_ID)
@@ -192,6 +202,8 @@ Integer ii = (Integer)get_Value("R_IssueProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueProject_ID */
+public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
 /** Set Statistics.
 @param StatisticsInfo Information to help profiling the system for solving support issues */
 public void setStatisticsInfo (String StatisticsInfo)
@@ -209,6 +221,8 @@ public String getStatisticsInfo()
 {
 return (String)get_Value("StatisticsInfo");
 }
+/** Column name StatisticsInfo */
+public static final String COLUMNNAME_StatisticsInfo = "StatisticsInfo";
 
 /** SystemStatus AD_Reference_ID=374 */
 public static final int SYSTEMSTATUS_AD_Reference_ID=374;
@@ -238,4 +252,6 @@ public String getSystemStatus()
 {
 return (String)get_Value("SystemStatus");
 }
+/** Column name SystemStatus */
+public static final String COLUMNNAME_SystemStatus = "SystemStatus";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RevenueRecognition_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RevenueRecognition_Run extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_RevenueRecognition_Plan_ID()));
 }
+/** Column name C_RevenueRecognition_Plan_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
 /** Set Revenue Recognition Run.
 @param C_RevenueRecognition_Run_ID Revenue Recognition Run or Process */
 public void setC_RevenueRecognition_Run_ID (int C_RevenueRecognition_Run_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_RevenueRecognition_Run_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RevenueRecognition_Run_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_Run_ID = "C_RevenueRecognition_Run_ID";
 /** Set Journal.
 @param GL_Journal_ID General Ledger Journal */
 public void setGL_Journal_ID (int GL_Journal_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("GL_Journal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Journal_ID */
+public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 /** Set Recognized Amount.
 @param RecognizedAmt Recognized Amount */
 public void setRecognizedAmt (BigDecimal RecognizedAmt)
@@ -154,4 +160,6 @@ BigDecimal bd = (BigDecimal)get_Value("RecognizedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RecognizedAmt */
+public static final String COLUMNNAME_RecognizedAmt = "RecognizedAmt";
 }

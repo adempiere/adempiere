@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentAllocate
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaymentAllocate extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amount */
+public static final String COLUMNNAME_Amount = "Amount";
 /** Set Allocation Line.
 @param C_AllocationLine_ID Allocation Line */
 public void setC_AllocationLine_ID (int C_AllocationLine_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_AllocationLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AllocationLine_ID */
+public static final String COLUMNNAME_C_AllocationLine_ID = "C_AllocationLine_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -143,6 +147,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Allocate Payment.
 @param C_PaymentAllocate_ID Allocate Payment to Invoices */
 public void setC_PaymentAllocate_ID (int C_PaymentAllocate_ID)
@@ -158,6 +164,8 @@ Integer ii = (Integer)get_Value("C_PaymentAllocate_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentAllocate_ID */
+public static final String COLUMNNAME_C_PaymentAllocate_ID = "C_PaymentAllocate_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -188,6 +198,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Invoice Amt.
 @param InvoiceAmt Invoice Amt */
 public void setInvoiceAmt (BigDecimal InvoiceAmt)
@@ -202,6 +214,8 @@ BigDecimal bd = (BigDecimal)get_Value("InvoiceAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InvoiceAmt */
+public static final String COLUMNNAME_InvoiceAmt = "InvoiceAmt";
 /** Set Over/Under Payment.
 @param OverUnderAmt Over-Payment (unallocated) or Under-Payment (partial payment) Amount */
 public void setOverUnderAmt (BigDecimal OverUnderAmt)
@@ -217,6 +231,8 @@ BigDecimal bd = (BigDecimal)get_Value("OverUnderAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OverUnderAmt */
+public static final String COLUMNNAME_OverUnderAmt = "OverUnderAmt";
 /** Set Remaining Amt.
 @param RemainingAmt Remaining Amount */
 public void setRemainingAmt (BigDecimal RemainingAmt)
@@ -231,6 +247,8 @@ BigDecimal bd = (BigDecimal)get_Value("RemainingAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RemainingAmt */
+public static final String COLUMNNAME_RemainingAmt = "RemainingAmt";
 /** Set Write-off Amount.
 @param WriteOffAmt Amount to write-off */
 public void setWriteOffAmt (BigDecimal WriteOffAmt)
@@ -246,4 +264,6 @@ BigDecimal bd = (BigDecimal)get_Value("WriteOffAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name WriteOffAmt */
+public static final String COLUMNNAME_WriteOffAmt = "WriteOffAmt";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Locator
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Locator extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Relative Priority.
 @param PriorityNo Where inventory should be picked from first */
 public void setPriorityNo (int PriorityNo)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("PriorityNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PriorityNo */
+public static final String COLUMNNAME_PriorityNo = "PriorityNo";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -178,6 +186,8 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Aisle (X).
 @param X X dimension, e.g., Aisle */
 public void setX (String X)
@@ -196,6 +206,8 @@ public String getX()
 {
 return (String)get_Value("X");
 }
+/** Column name X */
+public static final String COLUMNNAME_X = "X";
 /** Set Bin (Y).
 @param Y Y dimension, e.g., Bin */
 public void setY (String Y)
@@ -214,6 +226,8 @@ public String getY()
 {
 return (String)get_Value("Y");
 }
+/** Column name Y */
+public static final String COLUMNNAME_Y = "Y";
 /** Set Level (Z).
 @param Z Z dimension, e.g., Level */
 public void setZ (String Z)
@@ -232,4 +246,6 @@ public String getZ()
 {
 return (String)get_Value("Z");
 }
+/** Column name Z */
+public static final String COLUMNNAME_Z = "Z";
 }

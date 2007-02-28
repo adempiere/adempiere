@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Source
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Source extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getDescriptionURL()
 {
 return (String)get_Value("DescriptionURL");
 }
+/** Column name DescriptionURL */
+public static final String COLUMNNAME_DescriptionURL = "DescriptionURL";
 /** Set Knowledge Source.
 @param K_Source_ID Source of a Knowledge Entry */
 public void setK_Source_ID (int K_Source_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("K_Source_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Source_ID */
+public static final String COLUMNNAME_K_Source_ID = "K_Source_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -142,4 +146,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

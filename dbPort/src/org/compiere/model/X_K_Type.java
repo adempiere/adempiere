@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Type extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -122,6 +124,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Public.
 @param IsPublic Public can read entry */
 public void setIsPublic (boolean IsPublic)
@@ -140,6 +144,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPublic */
+public static final String COLUMNNAME_IsPublic = "IsPublic";
 /** Set Public Write.
 @param IsPublicWrite Public can write entries */
 public void setIsPublicWrite (boolean IsPublicWrite)
@@ -158,6 +164,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPublicWrite */
+public static final String COLUMNNAME_IsPublicWrite = "IsPublicWrite";
 /** Set Knowldge Type.
 @param K_Type_ID Knowledge Type */
 public void setK_Type_ID (int K_Type_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("K_Type_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Type_ID */
+public static final String COLUMNNAME_K_Type_ID = "K_Type_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -197,4 +207,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

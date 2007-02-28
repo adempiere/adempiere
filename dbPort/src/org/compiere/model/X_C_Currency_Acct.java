@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Currency_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Currency_Acct extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Realized Gain Acct.
 @param RealizedGain_Acct Realized Gain Account */
 public void setRealizedGain_Acct (int RealizedGain_Acct)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("RealizedGain_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RealizedGain_Acct */
+public static final String COLUMNNAME_RealizedGain_Acct = "RealizedGain_Acct";
 /** Set Realized Loss Acct.
 @param RealizedLoss_Acct Realized Loss Account */
 public void setRealizedLoss_Acct (int RealizedLoss_Acct)
@@ -148,6 +154,8 @@ Integer ii = (Integer)get_Value("RealizedLoss_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RealizedLoss_Acct */
+public static final String COLUMNNAME_RealizedLoss_Acct = "RealizedLoss_Acct";
 /** Set Unrealized Gain Acct.
 @param UnrealizedGain_Acct Unrealized Gain Account for currency revaluation */
 public void setUnrealizedGain_Acct (int UnrealizedGain_Acct)
@@ -162,6 +170,8 @@ Integer ii = (Integer)get_Value("UnrealizedGain_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UnrealizedGain_Acct */
+public static final String COLUMNNAME_UnrealizedGain_Acct = "UnrealizedGain_Acct";
 /** Set Unrealized Loss Acct.
 @param UnrealizedLoss_Acct Unrealized Loss Account for currency revaluation */
 public void setUnrealizedLoss_Acct (int UnrealizedLoss_Acct)
@@ -176,4 +186,6 @@ Integer ii = (Integer)get_Value("UnrealizedLoss_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UnrealizedLoss_Acct */
+public static final String COLUMNNAME_UnrealizedLoss_Acct = "UnrealizedLoss_Acct";
 }

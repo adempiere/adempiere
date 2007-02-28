@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ProjectTask extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project Task.
 @param C_ProjectTask_ID Actual Project Task in a Phase */
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_ProjectTask_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectTask_ID */
+public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
 /** Set Standard Task.
 @param C_Task_ID Standard Project Type Task */
 public void setC_Task_ID (int C_Task_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("C_Task_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Task_ID */
+public static final String COLUMNNAME_C_Task_ID = "C_Task_ID";
 /** Set Committed Amount.
 @param CommittedAmt The (legal) commitment amount */
 public void setCommittedAmt (BigDecimal CommittedAmt)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommittedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommittedAmt */
+public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -169,6 +177,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -186,6 +196,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -202,6 +214,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -220,6 +234,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Planned Amount.
 @param PlannedAmt Planned amount for this project */
 public void setPlannedAmt (BigDecimal PlannedAmt)
@@ -235,6 +251,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedAmt */
+public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 
 /** ProjInvoiceRule AD_Reference_ID=383 */
 public static final int PROJINVOICERULE_AD_Reference_ID=383;
@@ -268,6 +286,8 @@ public String getProjInvoiceRule()
 {
 return (String)get_Value("ProjInvoiceRule");
 }
+/** Column name ProjInvoiceRule */
+public static final String COLUMNNAME_ProjInvoiceRule = "ProjInvoiceRule";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -282,6 +302,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -304,4 +326,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

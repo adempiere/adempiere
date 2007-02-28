@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Shipper
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Shipper extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -119,6 +121,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Shipper.
 @param M_Shipper_ID Method or manner of product delivery */
 public void setM_Shipper_ID (int M_Shipper_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("M_Shipper_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Shipper_ID */
+public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -158,6 +164,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Tracking URL.
 @param TrackingURL URL of the shipper to track shipments */
 public void setTrackingURL (String TrackingURL)
@@ -175,4 +183,6 @@ public String getTrackingURL()
 {
 return (String)get_Value("TrackingURL");
 }
+/** Column name TrackingURL */
+public static final String COLUMNNAME_TrackingURL = "TrackingURL";
 }

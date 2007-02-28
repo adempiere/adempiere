@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaySchedule extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_PaySchedule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaySchedule_ID */
+public static final String COLUMNNAME_C_PaySchedule_ID = "C_PaySchedule_ID";
 /** Set Payment Term.
 @param C_PaymentTerm_ID The terms of Payment (timing, discount) */
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
@@ -128,6 +130,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_PaymentTerm_ID()));
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Discount %.
 @param Discount Discount in percent */
 public void setDiscount (BigDecimal Discount)
@@ -143,6 +147,8 @@ BigDecimal bd = (BigDecimal)get_Value("Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Discount */
+public static final String COLUMNNAME_Discount = "Discount";
 /** Set Discount Days.
 @param DiscountDays Number of days from invoice date to be eligible for discount */
 public void setDiscountDays (int DiscountDays)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("DiscountDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DiscountDays */
+public static final String COLUMNNAME_DiscountDays = "DiscountDays";
 /** Set Grace Days.
 @param GraceDays Days after due date to send first dunning letter */
 public void setGraceDays (int GraceDays)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("GraceDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GraceDays */
+public static final String COLUMNNAME_GraceDays = "GraceDays";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -189,6 +199,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 
 /** NetDay AD_Reference_ID=167 */
 public static final int NETDAY_AD_Reference_ID=167;
@@ -225,6 +237,8 @@ public String getNetDay()
 {
 return (String)get_Value("NetDay");
 }
+/** Column name NetDay */
+public static final String COLUMNNAME_NetDay = "NetDay";
 /** Set Net Days.
 @param NetDays Net Days in which payment is due */
 public void setNetDays (int NetDays)
@@ -239,6 +253,8 @@ Integer ii = (Integer)get_Value("NetDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NetDays */
+public static final String COLUMNNAME_NetDays = "NetDays";
 /** Set Percentage.
 @param Percentage Percent of the entire amount */
 public void setPercentage (BigDecimal Percentage)
@@ -254,4 +270,6 @@ BigDecimal bd = (BigDecimal)get_Value("Percentage");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Percentage */
+public static final String COLUMNNAME_Percentage = "Percentage";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_DesktopWorkbench
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_DesktopWorkbench extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_DesktopWorkbench_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_DesktopWorkbench_ID */
+public static final String COLUMNNAME_AD_DesktopWorkbench_ID = "AD_DesktopWorkbench_ID";
 /** Set Desktop.
 @param AD_Desktop_ID Collection of Workbenches */
 public void setAD_Desktop_ID (int AD_Desktop_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("AD_Desktop_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Desktop_ID */
+public static final String COLUMNNAME_AD_Desktop_ID = "AD_Desktop_ID";
 /** Set Workbench.
 @param AD_Workbench_ID Collection of windows, reports */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
@@ -139,6 +143,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Workbench_ID()));
 }
+/** Column name AD_Workbench_ID */
+public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -155,4 +161,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

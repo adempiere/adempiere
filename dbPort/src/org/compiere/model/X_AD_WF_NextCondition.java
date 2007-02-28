@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_NextCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_NextCondition extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Transition Condition.
 @param AD_WF_NextCondition_ID Workflow Node Transition Condition */
 public void setAD_WF_NextCondition_ID (int AD_WF_NextCondition_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_WF_NextCondition_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_NextCondition_ID */
+public static final String COLUMNNAME_AD_WF_NextCondition_ID = "AD_WF_NextCondition_ID";
 /** Set Node Transition.
 @param AD_WF_NodeNext_ID Workflow Node Transition */
 public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("AD_WF_NodeNext_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_NodeNext_ID */
+public static final String COLUMNNAME_AD_WF_NodeNext_ID = "AD_WF_NodeNext_ID";
 
 /** AndOr AD_Reference_ID=204 */
 public static final int ANDOR_AD_Reference_ID=204;
@@ -164,6 +170,8 @@ public String getAndOr()
 {
 return (String)get_Value("AndOr");
 }
+/** Column name AndOr */
+public static final String COLUMNNAME_AndOr = "AndOr";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -186,6 +194,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 
 /** Operation AD_Reference_ID=205 */
 public static final int OPERATION_AD_Reference_ID=205;
@@ -227,6 +237,8 @@ public String getOperation()
 {
 return (String)get_Value("Operation");
 }
+/** Column name Operation */
+public static final String COLUMNNAME_Operation = "Operation";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -243,6 +255,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -267,6 +281,8 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Value To.
 @param Value2 Value To */
 public void setValue2 (String Value2)
@@ -284,4 +300,6 @@ public String getValue2()
 {
 return (String)get_Value("Value2");
 }
+/** Column name Value2 */
+public static final String COLUMNNAME_Value2 = "Value2";
 }

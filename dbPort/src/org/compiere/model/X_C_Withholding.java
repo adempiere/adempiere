@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Withholding extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("Beneficiary");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Beneficiary */
+public static final String COLUMNNAME_Beneficiary = "Beneficiary";
 /** Set Payment Term.
 @param C_PaymentTerm_ID The terms of Payment (timing, discount) */
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Withholding.
 @param C_Withholding_ID Withholding type defined */
 public void setC_Withholding_ID (int C_Withholding_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_Withholding_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Withholding_ID */
+public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Fix amount.
 @param FixAmt Fix amounted amount to be levied or paid */
 public void setFixAmt (BigDecimal FixAmt)
@@ -170,6 +178,8 @@ BigDecimal bd = (BigDecimal)get_Value("FixAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FixAmt */
+public static final String COLUMNNAME_FixAmt = "FixAmt";
 /** Set Paid to third party.
 @param IsPaidTo3Party Amount paid to someone other than the Business Partner */
 public void setIsPaidTo3Party (boolean IsPaidTo3Party)
@@ -188,6 +198,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPaidTo3Party */
+public static final String COLUMNNAME_IsPaidTo3Party = "IsPaidTo3Party";
 /** Set Percent withholding.
 @param IsPercentWithholding Withholding amount is a percentage of the invoice amount */
 public void setIsPercentWithholding (boolean IsPercentWithholding)
@@ -206,6 +218,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPercentWithholding */
+public static final String COLUMNNAME_IsPercentWithholding = "IsPercentWithholding";
 /** Set Prorate tax.
 @param IsTaxProrated Tax is Prorated */
 public void setIsTaxProrated (boolean IsTaxProrated)
@@ -224,6 +238,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxProrated */
+public static final String COLUMNNAME_IsTaxProrated = "IsTaxProrated";
 /** Set Tax withholding.
 @param IsTaxWithholding This is a tax related withholding */
 public void setIsTaxWithholding (boolean IsTaxWithholding)
@@ -242,6 +258,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxWithholding */
+public static final String COLUMNNAME_IsTaxWithholding = "IsTaxWithholding";
 /** Set Max Amount.
 @param MaxAmt Maximum Amount in invoice currency */
 public void setMaxAmt (BigDecimal MaxAmt)
@@ -256,6 +274,8 @@ BigDecimal bd = (BigDecimal)get_Value("MaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MaxAmt */
+public static final String COLUMNNAME_MaxAmt = "MaxAmt";
 /** Set Min Amount.
 @param MinAmt Minimum Amount in invoice currency */
 public void setMinAmt (BigDecimal MinAmt)
@@ -270,6 +290,8 @@ BigDecimal bd = (BigDecimal)get_Value("MinAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MinAmt */
+public static final String COLUMNNAME_MinAmt = "MinAmt";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -294,6 +316,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Percent.
 @param Percent Percentage */
 public void setPercent (BigDecimal Percent)
@@ -308,6 +332,8 @@ BigDecimal bd = (BigDecimal)get_Value("Percent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Percent */
+public static final String COLUMNNAME_Percent = "Percent";
 /** Set Threshold max.
 @param ThresholdMax Maximum gross amount for withholding calculation  (0=no limit) */
 public void setThresholdMax (BigDecimal ThresholdMax)
@@ -322,6 +348,8 @@ BigDecimal bd = (BigDecimal)get_Value("ThresholdMax");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ThresholdMax */
+public static final String COLUMNNAME_ThresholdMax = "ThresholdMax";
 /** Set Threshold min.
 @param Thresholdmin Minimum gross amount for withholding calculation */
 public void setThresholdmin (BigDecimal Thresholdmin)
@@ -336,4 +364,6 @@ BigDecimal bd = (BigDecimal)get_Value("Thresholdmin");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Thresholdmin */
+public static final String COLUMNNAME_Thresholdmin = "Thresholdmin";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ServiceLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ServiceLevel extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_RevenueRecognition_Plan_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RevenueRecognition_Plan_ID */
+public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
 /** Set Service Level.
 @param C_ServiceLevel_ID Product Revenue Recognition Service Level  */
 public void setC_ServiceLevel_ID (int C_ServiceLevel_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_ServiceLevel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ServiceLevel_ID */
+public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -142,6 +146,8 @@ return (String)get_Value("Description");
 {
 return new KeyNamePair(get_ID(), getDescription());
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -175,6 +183,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -193,6 +203,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Quantity Invoiced.
 @param ServiceLevelInvoiced Quantity of product or service invoiced */
 public void setServiceLevelInvoiced (BigDecimal ServiceLevelInvoiced)
@@ -208,6 +220,8 @@ BigDecimal bd = (BigDecimal)get_Value("ServiceLevelInvoiced");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ServiceLevelInvoiced */
+public static final String COLUMNNAME_ServiceLevelInvoiced = "ServiceLevelInvoiced";
 /** Set Quantity Provided.
 @param ServiceLevelProvided Quantity of service or product provided */
 public void setServiceLevelProvided (BigDecimal ServiceLevelProvided)
@@ -223,4 +237,6 @@ BigDecimal bd = (BigDecimal)get_Value("ServiceLevelProvided");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ServiceLevelProvided */
+public static final String COLUMNNAME_ServiceLevelProvided = "ServiceLevelProvided";
 }

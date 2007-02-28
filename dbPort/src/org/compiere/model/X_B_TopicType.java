@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_TopicType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_TopicType extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ public String getAuctionType()
 {
 return (String)get_Value("AuctionType");
 }
+/** Column name AuctionType */
+public static final String COLUMNNAME_AuctionType = "AuctionType";
 /** Set Topic Type.
 @param B_TopicType_ID Auction Topic Type */
 public void setB_TopicType_ID (int B_TopicType_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("B_TopicType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_TopicType_ID */
+public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -140,6 +144,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -157,6 +163,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 
 /** M_ProductMember_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTMEMBER_ID_AD_Reference_ID=162;
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("M_ProductMember_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductMember_ID */
+public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -205,6 +217,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -229,4 +243,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

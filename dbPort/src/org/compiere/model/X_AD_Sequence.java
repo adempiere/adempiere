@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Sequence
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Sequence extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_Sequence_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Sequence_ID */
+public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
 /** Set Current Next.
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("CurrentNext");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CurrentNext */
+public static final String COLUMNNAME_CurrentNext = "CurrentNext";
 /** Set Current Next (System).
 @param CurrentNextSys Next sequence for system use */
 public void setCurrentNextSys (int CurrentNextSys)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("CurrentNextSys");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CurrentNextSys */
+public static final String COLUMNNAME_CurrentNextSys = "CurrentNextSys";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -151,6 +157,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Increment.
 @param IncrementNo The number to increment the last document number by */
 public void setIncrementNo (int IncrementNo)
@@ -165,6 +173,8 @@ Integer ii = (Integer)get_Value("IncrementNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IncrementNo */
+public static final String COLUMNNAME_IncrementNo = "IncrementNo";
 /** Set Activate Audit.
 @param IsAudited Activate Audit Trail of what numbers are generated */
 public void setIsAudited (boolean IsAudited)
@@ -183,6 +193,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAudited */
+public static final String COLUMNNAME_IsAudited = "IsAudited";
 /** Set Auto numbering.
 @param IsAutoSequence Automatically assign the next number */
 public void setIsAutoSequence (boolean IsAutoSequence)
@@ -201,6 +213,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAutoSequence */
+public static final String COLUMNNAME_IsAutoSequence = "IsAutoSequence";
 /** Set Used for Record ID.
 @param IsTableID The document number  will be used as the record key */
 public void setIsTableID (boolean IsTableID)
@@ -219,6 +233,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTableID */
+public static final String COLUMNNAME_IsTableID = "IsTableID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -243,6 +259,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Prefix.
 @param Prefix Prefix before the sequence number */
 public void setPrefix (String Prefix)
@@ -260,6 +278,8 @@ public String getPrefix()
 {
 return (String)get_Value("Prefix");
 }
+/** Column name Prefix */
+public static final String COLUMNNAME_Prefix = "Prefix";
 /** Set Restart sequence every Year.
 @param StartNewYear Restart the sequence with Start on every 1/1 */
 public void setStartNewYear (boolean StartNewYear)
@@ -278,6 +298,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name StartNewYear */
+public static final String COLUMNNAME_StartNewYear = "StartNewYear";
 /** Set Start No.
 @param StartNo Starting number/position */
 public void setStartNo (int StartNo)
@@ -292,6 +314,8 @@ Integer ii = (Integer)get_Value("StartNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StartNo */
+public static final String COLUMNNAME_StartNo = "StartNo";
 /** Set Suffix.
 @param Suffix Suffix after the number */
 public void setSuffix (String Suffix)
@@ -309,6 +333,8 @@ public String getSuffix()
 {
 return (String)get_Value("Suffix");
 }
+/** Column name Suffix */
+public static final String COLUMNNAME_Suffix = "Suffix";
 /** Set Value Format.
 @param VFormat Format of the value;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -328,4 +354,6 @@ public String getVFormat()
 {
 return (String)get_Value("VFormat");
 }
+/** Column name VFormat */
+public static final String COLUMNNAME_VFormat = "VFormat";
 }

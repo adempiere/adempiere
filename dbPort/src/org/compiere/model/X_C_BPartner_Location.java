@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BPartner_Location extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Fax.
 @param Fax Facsimile number */
 public void setFax (String Fax)
@@ -170,6 +178,8 @@ public String getFax()
 {
 return (String)get_Value("Fax");
 }
+/** Column name Fax */
+public static final String COLUMNNAME_Fax = "Fax";
 /** Set ISDN.
 @param ISDN ISDN or modem line */
 public void setISDN (String ISDN)
@@ -187,6 +197,8 @@ public String getISDN()
 {
 return (String)get_Value("ISDN");
 }
+/** Column name ISDN */
+public static final String COLUMNNAME_ISDN = "ISDN";
 /** Set Invoice Address.
 @param IsBillTo Business Partner Invoice/Bill Address */
 public void setIsBillTo (boolean IsBillTo)
@@ -205,6 +217,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBillTo */
+public static final String COLUMNNAME_IsBillTo = "IsBillTo";
 /** Set Pay-From Address.
 @param IsPayFrom Business Partner pays from that address and we'll send dunning letters there */
 public void setIsPayFrom (boolean IsPayFrom)
@@ -223,6 +237,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPayFrom */
+public static final String COLUMNNAME_IsPayFrom = "IsPayFrom";
 /** Set Remit-To Address.
 @param IsRemitTo Business Partner payment address */
 public void setIsRemitTo (boolean IsRemitTo)
@@ -241,6 +257,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRemitTo */
+public static final String COLUMNNAME_IsRemitTo = "IsRemitTo";
 /** Set Ship Address.
 @param IsShipTo Business Partner Shipment Address */
 public void setIsShipTo (boolean IsShipTo)
@@ -259,6 +277,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsShipTo */
+public static final String COLUMNNAME_IsShipTo = "IsShipTo";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -283,6 +303,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Phone.
 @param Phone Identifies a telephone number */
 public void setPhone (String Phone)
@@ -300,6 +322,8 @@ public String getPhone()
 {
 return (String)get_Value("Phone");
 }
+/** Column name Phone */
+public static final String COLUMNNAME_Phone = "Phone";
 /** Set 2nd Phone.
 @param Phone2 Identifies an alternate telephone number. */
 public void setPhone2 (String Phone2)
@@ -317,4 +341,6 @@ public String getPhone2()
 {
 return (String)get_Value("Phone2");
 }
+/** Column name Phone2 */
+public static final String COLUMNNAME_Phone2 = "Phone2";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ChangeRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_ChangeRequest extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Detail Information.
 @param DetailInfo Additional Detail Information */
 public void setDetailInfo (String DetailInfo)
@@ -118,6 +120,8 @@ public String getDetailInfo()
 {
 return (String)get_Value("DetailInfo");
 }
+/** Column name DetailInfo */
+public static final String COLUMNNAME_DetailInfo = "DetailInfo";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -142,6 +146,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -159,6 +165,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -177,6 +185,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set BOM.
 @param M_BOM_ID Bill of Material */
 public void setM_BOM_ID (int M_BOM_ID)
@@ -193,6 +203,8 @@ Integer ii = (Integer)get_Value("M_BOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOM_ID */
+public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 /** Set Change Notice.
 @param M_ChangeNotice_ID Bill of Materials (Engineering) Change Notice (Version) */
 public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
@@ -209,6 +221,8 @@ Integer ii = (Integer)get_Value("M_ChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeNotice_ID */
+public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 /** Set Change Request.
 @param M_ChangeRequest_ID BOM (Engineering) Change Request */
 public void setM_ChangeRequest_ID (int M_ChangeRequest_ID)
@@ -224,6 +238,8 @@ Integer ii = (Integer)get_Value("M_ChangeRequest_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeRequest_ID */
+public static final String COLUMNNAME_M_ChangeRequest_ID = "M_ChangeRequest_ID";
 
 /** M_FixChangeNotice_ID AD_Reference_ID=351 */
 public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
@@ -243,6 +259,8 @@ Integer ii = (Integer)get_Value("M_FixChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_FixChangeNotice_ID */
+public static final String COLUMNNAME_M_FixChangeNotice_ID = "M_FixChangeNotice_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -261,6 +279,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -279,4 +299,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 }

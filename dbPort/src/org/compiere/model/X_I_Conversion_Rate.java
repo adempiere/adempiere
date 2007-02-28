@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_Conversion_Rate extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("C_ConversionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionType_ID */
+public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 /** Set Conversion Rate.
 @param C_Conversion_Rate_ID Rate used for converting currencies */
 public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("C_Conversion_Rate_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Conversion_Rate_ID */
+public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 
 /** C_Currency_ID_To AD_Reference_ID=112 */
 public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID_To");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID_To */
+public static final String COLUMNNAME_C_Currency_ID_To = "C_Currency_ID_To";
 /** Set Currency Type Key.
 @param ConversionTypeValue Key value for the Currency Conversion Rate Type */
 public void setConversionTypeValue (String ConversionTypeValue)
@@ -167,6 +175,8 @@ public String getConversionTypeValue()
 {
 return (String)get_Value("ConversionTypeValue");
 }
+/** Column name ConversionTypeValue */
+public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
 /** Set Create Reciprocal Rate.
 @param CreateReciprocalRate Create Reciprocal Rate from current information */
 public void setCreateReciprocalRate (boolean CreateReciprocalRate)
@@ -185,6 +195,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name CreateReciprocalRate */
+public static final String COLUMNNAME_CreateReciprocalRate = "CreateReciprocalRate";
 /** Set Divide Rate.
 @param DivideRate To convert Source number to Target number, the Source is divided */
 public void setDivideRate (BigDecimal DivideRate)
@@ -199,6 +211,8 @@ BigDecimal bd = (BigDecimal)get_Value("DivideRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DivideRate */
+public static final String COLUMNNAME_DivideRate = "DivideRate";
 /** Set ISO Currency Code.
 @param ISO_Code Three letter ISO 4217 Code of the Currency */
 public void setISO_Code (String ISO_Code)
@@ -216,6 +230,8 @@ public String getISO_Code()
 {
 return (String)get_Value("ISO_Code");
 }
+/** Column name ISO_Code */
+public static final String COLUMNNAME_ISO_Code = "ISO_Code";
 /** Set ISO Currency To Code.
 @param ISO_Code_To Three letter ISO 4217 Code of the To Currency */
 public void setISO_Code_To (String ISO_Code_To)
@@ -233,6 +249,8 @@ public String getISO_Code_To()
 {
 return (String)get_Value("ISO_Code_To");
 }
+/** Column name ISO_Code_To */
+public static final String COLUMNNAME_ISO_Code_To = "ISO_Code_To";
 /** Set Import Conversion Rate.
 @param I_Conversion_Rate_ID Import Currency Conversion Rate */
 public void setI_Conversion_Rate_ID (int I_Conversion_Rate_ID)
@@ -254,6 +272,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getI_Conversion_Rate_ID()));
 }
+/** Column name I_Conversion_Rate_ID */
+public static final String COLUMNNAME_I_Conversion_Rate_ID = "I_Conversion_Rate_ID";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -271,6 +291,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -289,6 +311,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Multiply Rate.
 @param MultiplyRate Rate to multiple the source by to calculate the target. */
 public void setMultiplyRate (BigDecimal MultiplyRate)
@@ -303,6 +327,8 @@ BigDecimal bd = (BigDecimal)get_Value("MultiplyRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MultiplyRate */
+public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -321,6 +347,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -339,6 +367,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -351,6 +381,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -363,4 +395,6 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Color
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Color extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Color_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Color_ID */
+public static final String COLUMNNAME_AD_Color_ID = "AD_Color_ID";
 /** Set Image.
 @param AD_Image_ID Image or Icon */
 public void setAD_Image_ID (int AD_Image_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set Alpha.
 @param Alpha Color Alpha value 0-255 */
 public void setAlpha (int Alpha)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("Alpha");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Alpha */
+public static final String COLUMNNAME_Alpha = "Alpha";
 /** Set 2nd Alpha.
 @param Alpha_1 Alpha value for second color */
 public void setAlpha_1 (int Alpha_1)
@@ -152,6 +158,8 @@ Integer ii = (Integer)get_Value("Alpha_1");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Alpha_1 */
+public static final String COLUMNNAME_Alpha_1 = "Alpha_1";
 /** Set Blue.
 @param Blue Color RGB blue value */
 public void setBlue (int Blue)
@@ -166,6 +174,8 @@ Integer ii = (Integer)get_Value("Blue");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Blue */
+public static final String COLUMNNAME_Blue = "Blue";
 /** Set 2nd Blue.
 @param Blue_1 RGB value for second color */
 public void setBlue_1 (int Blue_1)
@@ -180,6 +190,8 @@ Integer ii = (Integer)get_Value("Blue_1");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Blue_1 */
+public static final String COLUMNNAME_Blue_1 = "Blue_1";
 
 /** ColorType AD_Reference_ID=243 */
 public static final int COLORTYPE_AD_Reference_ID=243;
@@ -206,6 +218,8 @@ public Object getColorType()
 {
 return get_Value("ColorType");
 }
+/** Column name ColorType */
+public static final String COLUMNNAME_ColorType = "ColorType";
 /** Set Green.
 @param Green RGB value  */
 public void setGreen (int Green)
@@ -220,6 +234,8 @@ Integer ii = (Integer)get_Value("Green");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Green */
+public static final String COLUMNNAME_Green = "Green";
 /** Set 2nd Green.
 @param Green_1 RGB value for second color */
 public void setGreen_1 (int Green_1)
@@ -234,6 +250,8 @@ Integer ii = (Integer)get_Value("Green_1");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Green_1 */
+public static final String COLUMNNAME_Green_1 = "Green_1";
 /** Set Image Alpha .
 @param ImageAlpha Image Texture Composite Alpha */
 public void setImageAlpha (BigDecimal ImageAlpha)
@@ -249,6 +267,8 @@ BigDecimal bd = (BigDecimal)get_Value("ImageAlpha");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ImageAlpha */
+public static final String COLUMNNAME_ImageAlpha = "ImageAlpha";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -267,6 +287,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Line Distance.
 @param LineDistance Distance between lines */
 public void setLineDistance (int LineDistance)
@@ -281,6 +303,8 @@ Integer ii = (Integer)get_Value("LineDistance");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LineDistance */
+public static final String COLUMNNAME_LineDistance = "LineDistance";
 /** Set Line Width.
 @param LineWidth Width of the lines */
 public void setLineWidth (int LineWidth)
@@ -295,6 +319,8 @@ Integer ii = (Integer)get_Value("LineWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LineWidth */
+public static final String COLUMNNAME_LineWidth = "LineWidth";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -319,6 +345,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Red.
 @param Red RGB value */
 public void setRed (int Red)
@@ -333,6 +361,8 @@ Integer ii = (Integer)get_Value("Red");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Red */
+public static final String COLUMNNAME_Red = "Red";
 /** Set 2nd Red.
 @param Red_1 RGB value for second color */
 public void setRed_1 (int Red_1)
@@ -347,6 +377,8 @@ Integer ii = (Integer)get_Value("Red_1");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Red_1 */
+public static final String COLUMNNAME_Red_1 = "Red_1";
 /** Set Repeat Distance.
 @param RepeatDistance Distance in points to repeat gradient color - or zero */
 public void setRepeatDistance (int RepeatDistance)
@@ -361,6 +393,8 @@ Integer ii = (Integer)get_Value("RepeatDistance");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RepeatDistance */
+public static final String COLUMNNAME_RepeatDistance = "RepeatDistance";
 
 /** StartPoint AD_Reference_ID=248 */
 public static final int STARTPOINT_AD_Reference_ID=248;
@@ -399,4 +433,6 @@ public String getStartPoint()
 {
 return (String)get_Value("StartPoint");
 }
+/** Column name StartPoint */
+public static final String COLUMNNAME_StartPoint = "StartPoint";
 }

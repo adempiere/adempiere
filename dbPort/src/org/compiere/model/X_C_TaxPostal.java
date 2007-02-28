@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_TaxPostal
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_TaxPostal extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_TaxPostal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxPostal_ID */
+public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set ZIP.
 @param Postal Postal code */
 public void setPostal (String Postal)
@@ -141,6 +145,8 @@ return (String)get_Value("Postal");
 {
 return new KeyNamePair(get_ID(), getPostal());
 }
+/** Column name Postal */
+public static final String COLUMNNAME_Postal = "Postal";
 /** Set ZIP To.
 @param Postal_To Postal code to */
 public void setPostal_To (String Postal_To)
@@ -158,4 +164,6 @@ public String getPostal_To()
 {
 return (String)get_Value("Postal_To");
 }
+/** Column name Postal_To */
+public static final String COLUMNNAME_Postal_To = "Postal_To";
 }

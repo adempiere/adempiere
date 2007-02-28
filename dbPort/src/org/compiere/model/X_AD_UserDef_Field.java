@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserDef_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_UserDef_Field extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Field_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Field_ID */
+public static final String COLUMNNAME_AD_Field_ID = "AD_Field_ID";
 /** Set User defined Field.
 @param AD_UserDef_Field_ID User defined Field */
 public void setAD_UserDef_Field_ID (int AD_UserDef_Field_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_UserDef_Field_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserDef_Field_ID */
+public static final String COLUMNNAME_AD_UserDef_Field_ID = "AD_UserDef_Field_ID";
 /** Set User defined Tab.
 @param AD_UserDef_Tab_ID User defined Tab */
 public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("AD_UserDef_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserDef_Tab_ID */
+public static final String COLUMNNAME_AD_UserDef_Tab_ID = "AD_UserDef_Tab_ID";
 /** Set Default Logic.
 @param DefaultValue Default value hierarchy, separated by ;
  */
@@ -158,6 +164,8 @@ public String getDefaultValue()
 {
 return (String)get_Value("DefaultValue");
 }
+/** Column name DefaultValue */
+public static final String COLUMNNAME_DefaultValue = "DefaultValue";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -175,6 +183,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Display Length.
 @param DisplayLength Length of the display in characters */
 public void setDisplayLength (int DisplayLength)
@@ -189,6 +199,8 @@ Integer ii = (Integer)get_Value("DisplayLength");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DisplayLength */
+public static final String COLUMNNAME_DisplayLength = "DisplayLength";
 /** Set Display Logic.
 @param DisplayLogic If the Field is displayed, the result determines if the field is actually displayed */
 public void setDisplayLogic (String DisplayLogic)
@@ -206,6 +218,8 @@ public String getDisplayLogic()
 {
 return (String)get_Value("DisplayLogic");
 }
+/** Column name DisplayLogic */
+public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -223,6 +237,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Displayed.
 @param IsDisplayed Determines, if this field is displayed */
 public void setIsDisplayed (boolean IsDisplayed)
@@ -241,6 +257,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDisplayed */
+public static final String COLUMNNAME_IsDisplayed = "IsDisplayed";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -259,6 +277,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set Same Line.
 @param IsSameLine Displayed on same line as previous field */
 public void setIsSameLine (boolean IsSameLine)
@@ -277,6 +297,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSameLine */
+public static final String COLUMNNAME_IsSameLine = "IsSameLine";
 /** Set Updateable.
 @param IsUpdateable Determines, if the field can be updated */
 public void setIsUpdateable (boolean IsUpdateable)
@@ -295,6 +317,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsUpdateable */
+public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -319,6 +343,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -335,6 +361,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Record Sort No.
 @param SortNo Determines in what order the records are displayed */
 public void setSortNo (int SortNo)
@@ -349,4 +377,6 @@ Integer ii = (Integer)get_Value("SortNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SortNo */
+public static final String COLUMNNAME_SortNo = "SortNo";
 }

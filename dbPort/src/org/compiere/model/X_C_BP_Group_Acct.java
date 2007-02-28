@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_Group_Acct extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Business Partner Group.
 @param C_BP_Group_ID Business Partner Group */
 public void setC_BP_Group_ID (int C_BP_Group_ID)
@@ -135,6 +137,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_BP_Group_ID()));
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Customer Prepayment.
 @param C_Prepayment_Acct Account for customer prepayments */
 public void setC_Prepayment_Acct (int C_Prepayment_Acct)
@@ -149,6 +153,8 @@ Integer ii = (Integer)get_Value("C_Prepayment_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Prepayment_Acct */
+public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
 /** Set Customer Receivables.
 @param C_Receivable_Acct Account for Customer Receivables */
 public void setC_Receivable_Acct (int C_Receivable_Acct)
@@ -163,6 +169,8 @@ Integer ii = (Integer)get_Value("C_Receivable_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Receivable_Acct */
+public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
 /** Set Receivable Services.
 @param C_Receivable_Services_Acct Customer Accounts Receivables Services Account */
 public void setC_Receivable_Services_Acct (int C_Receivable_Services_Acct)
@@ -177,6 +185,8 @@ Integer ii = (Integer)get_Value("C_Receivable_Services_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Receivable_Services_Acct */
+public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
 /** Set Not-invoiced Receipts.
 @param NotInvoicedReceipts_Acct Account for not-invoiced Material Receipts */
 public void setNotInvoicedReceipts_Acct (int NotInvoicedReceipts_Acct)
@@ -191,6 +201,8 @@ Integer ii = (Integer)get_Value("NotInvoicedReceipts_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NotInvoicedReceipts_Acct */
+public static final String COLUMNNAME_NotInvoicedReceipts_Acct = "NotInvoicedReceipts_Acct";
 /** Set Not-invoiced Receivables.
 @param NotInvoicedReceivables_Acct Account for not invoiced Receivables */
 public void setNotInvoicedReceivables_Acct (int NotInvoicedReceivables_Acct)
@@ -205,6 +217,8 @@ Integer ii = (Integer)get_Value("NotInvoicedReceivables_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NotInvoicedReceivables_Acct */
+public static final String COLUMNNAME_NotInvoicedReceivables_Acct = "NotInvoicedReceivables_Acct";
 /** Set Not-invoiced Revenue.
 @param NotInvoicedRevenue_Acct Account for not invoiced Revenue */
 public void setNotInvoicedRevenue_Acct (int NotInvoicedRevenue_Acct)
@@ -219,6 +233,8 @@ Integer ii = (Integer)get_Value("NotInvoicedRevenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NotInvoicedRevenue_Acct */
+public static final String COLUMNNAME_NotInvoicedRevenue_Acct = "NotInvoicedRevenue_Acct";
 /** Set Payment Discount Expense.
 @param PayDiscount_Exp_Acct Payment Discount Expense Account */
 public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct)
@@ -233,6 +249,8 @@ Integer ii = (Integer)get_Value("PayDiscount_Exp_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PayDiscount_Exp_Acct */
+public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
 /** Set Payment Discount Revenue.
 @param PayDiscount_Rev_Acct Payment Discount Revenue Account */
 public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct)
@@ -247,6 +265,8 @@ Integer ii = (Integer)get_Value("PayDiscount_Rev_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PayDiscount_Rev_Acct */
+public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -265,6 +285,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Unearned Revenue.
 @param UnEarnedRevenue_Acct Account for unearned revenue */
 public void setUnEarnedRevenue_Acct (int UnEarnedRevenue_Acct)
@@ -279,6 +301,8 @@ Integer ii = (Integer)get_Value("UnEarnedRevenue_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UnEarnedRevenue_Acct */
+public static final String COLUMNNAME_UnEarnedRevenue_Acct = "UnEarnedRevenue_Acct";
 /** Set Vendor Liability.
 @param V_Liability_Acct Account for Vendor Liability */
 public void setV_Liability_Acct (int V_Liability_Acct)
@@ -293,6 +317,8 @@ Integer ii = (Integer)get_Value("V_Liability_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Liability_Acct */
+public static final String COLUMNNAME_V_Liability_Acct = "V_Liability_Acct";
 /** Set Vendor Service Liability.
 @param V_Liability_Services_Acct Account for Vender Service Liability */
 public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
@@ -307,6 +333,8 @@ Integer ii = (Integer)get_Value("V_Liability_Services_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Liability_Services_Acct */
+public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 /** Set Vendor Prepayment.
 @param V_Prepayment_Acct Account for Vendor Prepayments */
 public void setV_Prepayment_Acct (int V_Prepayment_Acct)
@@ -321,6 +349,8 @@ Integer ii = (Integer)get_Value("V_Prepayment_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Prepayment_Acct */
+public static final String COLUMNNAME_V_Prepayment_Acct = "V_Prepayment_Acct";
 /** Set Write-off.
 @param WriteOff_Acct Account for Receivables write-off */
 public void setWriteOff_Acct (int WriteOff_Acct)
@@ -335,4 +365,6 @@ Integer ii = (Integer)get_Value("WriteOff_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name WriteOff_Acct */
+public static final String COLUMNNAME_WriteOff_Acct = "WriteOff_Acct";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_IndexLog
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_IndexLog extends PO
 {
 /** Standard Constructor
@@ -112,6 +112,8 @@ return (String)get_Value("IndexQuery");
 {
 return new KeyNamePair(get_ID(), getIndexQuery());
 }
+/** Column name IndexQuery */
+public static final String COLUMNNAME_IndexQuery = "IndexQuery";
 /** Set Query Result.
 @param IndexQueryResult Result of the text query */
 public void setIndexQueryResult (int IndexQueryResult)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("IndexQueryResult");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IndexQueryResult */
+public static final String COLUMNNAME_IndexQueryResult = "IndexQueryResult";
 /** Set Index Log.
 @param K_IndexLog_ID Text search log */
 public void setK_IndexLog_ID (int K_IndexLog_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("K_IndexLog_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_IndexLog_ID */
+public static final String COLUMNNAME_K_IndexLog_ID = "K_IndexLog_ID";
 
 /** QuerySource AD_Reference_ID=391 */
 public static final int QUERYSOURCE_AD_Reference_ID=391;
@@ -172,4 +178,6 @@ public String getQuerySource()
 {
 return (String)get_Value("QuerySource");
 }
+/** Column name QuerySource */
+public static final String COLUMNNAME_QuerySource = "QuerySource";
 }

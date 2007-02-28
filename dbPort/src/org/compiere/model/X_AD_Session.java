@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Session
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Session extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
 }
+/** Column name AD_Session_ID */
+public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -125,6 +127,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -142,6 +146,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -159,6 +165,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Web Session.
 @param WebSession Web Session ID */
 public void setWebSession (String WebSession)
@@ -176,4 +184,6 @@ public String getWebSession()
 {
 return (String)get_Value("WebSession");
 }
+/** Column name WebSession */
+public static final String COLUMNNAME_WebSession = "WebSession";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_AttributeSetExclude extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -121,6 +123,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Exclude Attribute Set.
 @param M_AttributeSetExclude_ID Exclude the ability to enter Attribute Sets */
 public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetExclude_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetExclude_ID */
+public static final String COLUMNNAME_M_AttributeSetExclude_ID = "M_AttributeSetExclude_ID";
 /** Set Attribute Set.
 @param M_AttributeSet_ID Product Attribute Set */
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
@@ -151,4 +157,6 @@ Integer ii = (Integer)get_Value("M_AttributeSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSet_ID */
+public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 }

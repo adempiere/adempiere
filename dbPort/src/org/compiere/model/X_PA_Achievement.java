@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Achievement
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Achievement extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ public Timestamp getDateDoc()
 {
 return (Timestamp)get_Value("DateDoc");
 }
+/** Column name DateDoc */
+public static final String COLUMNNAME_DateDoc = "DateDoc";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -119,6 +121,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Achieved.
 @param IsAchieved The goal is achieved */
 public void setIsAchieved (boolean IsAchieved)
@@ -137,6 +141,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAchieved */
+public static final String COLUMNNAME_IsAchieved = "IsAchieved";
 /** Set Manual Actual.
 @param ManualActual Manually entered actual value */
 public void setManualActual (BigDecimal ManualActual)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("ManualActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ManualActual */
+public static final String COLUMNNAME_ManualActual = "ManualActual";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -176,6 +184,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Note.
 @param Note Optional additional user defined information */
 public void setNote (String Note)
@@ -193,6 +203,8 @@ public String getNote()
 {
 return (String)get_Value("Note");
 }
+/** Column name Note */
+public static final String COLUMNNAME_Note = "Note";
 /** Set Achievement.
 @param PA_Achievement_ID Performance Achievement */
 public void setPA_Achievement_ID (int PA_Achievement_ID)
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("PA_Achievement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Achievement_ID */
+public static final String COLUMNNAME_PA_Achievement_ID = "PA_Achievement_ID";
 /** Set Measure.
 @param PA_Measure_ID Concrete Performance Measurement */
 public void setPA_Measure_ID (int PA_Measure_ID)
@@ -223,6 +237,8 @@ Integer ii = (Integer)get_Value("PA_Measure_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Measure_ID */
+public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -239,4 +255,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

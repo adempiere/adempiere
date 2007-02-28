@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InvoiceSchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_InvoiceSchedule extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Invoice Schedule.
 @param C_InvoiceSchedule_ID Schedule for generating Invoices */
 public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("C_InvoiceSchedule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceSchedule_ID */
+public static final String COLUMNNAME_C_InvoiceSchedule_ID = "C_InvoiceSchedule_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -139,6 +143,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Invoice on even weeks.
 @param EvenInvoiceWeek Send invoices on even weeks */
 public void setEvenInvoiceWeek (boolean EvenInvoiceWeek)
@@ -157,6 +163,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name EvenInvoiceWeek */
+public static final String COLUMNNAME_EvenInvoiceWeek = "EvenInvoiceWeek";
 /** Set Invoice Day.
 @param InvoiceDay Day of Invoice Generation */
 public void setInvoiceDay (int InvoiceDay)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("InvoiceDay");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name InvoiceDay */
+public static final String COLUMNNAME_InvoiceDay = "InvoiceDay";
 /** Set Invoice day cut-off.
 @param InvoiceDayCutoff Last day for including shipments */
 public void setInvoiceDayCutoff (int InvoiceDayCutoff)
@@ -185,6 +195,8 @@ Integer ii = (Integer)get_Value("InvoiceDayCutoff");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name InvoiceDayCutoff */
+public static final String COLUMNNAME_InvoiceDayCutoff = "InvoiceDayCutoff";
 
 /** InvoiceFrequency AD_Reference_ID=168 */
 public static final int INVOICEFREQUENCY_AD_Reference_ID=168;
@@ -216,6 +228,8 @@ public String getInvoiceFrequency()
 {
 return (String)get_Value("InvoiceFrequency");
 }
+/** Column name InvoiceFrequency */
+public static final String COLUMNNAME_InvoiceFrequency = "InvoiceFrequency";
 
 /** InvoiceWeekDay AD_Reference_ID=167 */
 public static final int INVOICEWEEKDAY_AD_Reference_ID=167;
@@ -253,6 +267,8 @@ public String getInvoiceWeekDay()
 {
 return (String)get_Value("InvoiceWeekDay");
 }
+/** Column name InvoiceWeekDay */
+public static final String COLUMNNAME_InvoiceWeekDay = "InvoiceWeekDay";
 
 /** InvoiceWeekDayCutoff AD_Reference_ID=167 */
 public static final int INVOICEWEEKDAYCUTOFF_AD_Reference_ID=167;
@@ -289,6 +305,8 @@ public String getInvoiceWeekDayCutoff()
 {
 return (String)get_Value("InvoiceWeekDayCutoff");
 }
+/** Column name InvoiceWeekDayCutoff */
+public static final String COLUMNNAME_InvoiceWeekDayCutoff = "InvoiceWeekDayCutoff";
 /** Set Amount Limit.
 @param IsAmount Send invoices only if the amount exceeds the limit */
 public void setIsAmount (boolean IsAmount)
@@ -307,6 +325,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAmount */
+public static final String COLUMNNAME_IsAmount = "IsAmount";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -325,6 +345,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -349,4 +371,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

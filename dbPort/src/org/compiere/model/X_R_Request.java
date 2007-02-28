@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_Request extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -146,6 +150,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Asset.
 @param A_Asset_ID Asset used internally or by customers */
 public void setA_Asset_ID (int A_Asset_ID)
@@ -162,6 +168,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -194,6 +204,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -210,6 +222,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
 /** C_InvoiceRequest_ID AD_Reference_ID=336 */
 public static final int C_INVOICEREQUEST_ID_AD_Reference_ID=336;
@@ -229,6 +243,8 @@ Integer ii = (Integer)get_Value("C_InvoiceRequest_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceRequest_ID */
+public static final String COLUMNNAME_C_InvoiceRequest_ID = "C_InvoiceRequest_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -245,6 +261,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -261,6 +279,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -277,6 +297,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -293,6 +315,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Close Date.
 @param CloseDate Close Date */
 public void setCloseDate (Timestamp CloseDate)
@@ -305,6 +329,8 @@ public Timestamp getCloseDate()
 {
 return (Timestamp)get_Value("CloseDate");
 }
+/** Column name CloseDate */
+public static final String COLUMNNAME_CloseDate = "CloseDate";
 
 /** ConfidentialType AD_Reference_ID=340 */
 public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
@@ -336,6 +362,8 @@ public String getConfidentialType()
 {
 return (String)get_Value("ConfidentialType");
 }
+/** Column name ConfidentialType */
+public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
 
 /** ConfidentialTypeEntry AD_Reference_ID=340 */
 public static final int CONFIDENTIALTYPEENTRY_AD_Reference_ID=340;
@@ -367,6 +395,8 @@ public String getConfidentialTypeEntry()
 {
 return (String)get_Value("ConfidentialTypeEntry");
 }
+/** Column name ConfidentialTypeEntry */
+public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
 /** Set Complete Plan.
 @param DateCompletePlan Planned Completion Date */
 public void setDateCompletePlan (Timestamp DateCompletePlan)
@@ -379,6 +409,8 @@ public Timestamp getDateCompletePlan()
 {
 return (Timestamp)get_Value("DateCompletePlan");
 }
+/** Column name DateCompletePlan */
+public static final String COLUMNNAME_DateCompletePlan = "DateCompletePlan";
 /** Set Date last action.
 @param DateLastAction Date this request was last acted on */
 public void setDateLastAction (Timestamp DateLastAction)
@@ -391,6 +423,8 @@ public Timestamp getDateLastAction()
 {
 return (Timestamp)get_Value("DateLastAction");
 }
+/** Column name DateLastAction */
+public static final String COLUMNNAME_DateLastAction = "DateLastAction";
 /** Set Last Alert.
 @param DateLastAlert Date when last alert were sent */
 public void setDateLastAlert (Timestamp DateLastAlert)
@@ -403,6 +437,8 @@ public Timestamp getDateLastAlert()
 {
 return (Timestamp)get_Value("DateLastAlert");
 }
+/** Column name DateLastAlert */
+public static final String COLUMNNAME_DateLastAlert = "DateLastAlert";
 /** Set Date next action.
 @param DateNextAction Date that this request should be acted on */
 public void setDateNextAction (Timestamp DateNextAction)
@@ -415,6 +451,8 @@ public Timestamp getDateNextAction()
 {
 return (Timestamp)get_Value("DateNextAction");
 }
+/** Column name DateNextAction */
+public static final String COLUMNNAME_DateNextAction = "DateNextAction";
 /** Set Start Plan.
 @param DateStartPlan Planned Start Date */
 public void setDateStartPlan (Timestamp DateStartPlan)
@@ -427,6 +465,8 @@ public Timestamp getDateStartPlan()
 {
 return (Timestamp)get_Value("DateStartPlan");
 }
+/** Column name DateStartPlan */
+public static final String COLUMNNAME_DateStartPlan = "DateStartPlan";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -451,6 +491,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
 /** DueType AD_Reference_ID=222 */
 public static final int DUETYPE_AD_Reference_ID=222;
@@ -480,6 +522,8 @@ public String getDueType()
 {
 return (String)get_Value("DueType");
 }
+/** Column name DueType */
+public static final String COLUMNNAME_DueType = "DueType";
 /** Set End Time.
 @param EndTime End of the time span */
 public void setEndTime (Timestamp EndTime)
@@ -492,6 +536,8 @@ public Timestamp getEndTime()
 {
 return (Timestamp)get_Value("EndTime");
 }
+/** Column name EndTime */
+public static final String COLUMNNAME_EndTime = "EndTime";
 /** Set Escalated.
 @param IsEscalated This request has been escalated */
 public void setIsEscalated (boolean IsEscalated)
@@ -510,6 +556,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEscalated */
+public static final String COLUMNNAME_IsEscalated = "IsEscalated";
 /** Set Invoiced.
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
@@ -528,6 +576,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInvoiced */
+public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -546,6 +596,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Last Result.
 @param LastResult Result of last contact */
 public void setLastResult (String LastResult)
@@ -563,6 +615,8 @@ public String getLastResult()
 {
 return (String)get_Value("LastResult");
 }
+/** Column name LastResult */
+public static final String COLUMNNAME_LastResult = "LastResult";
 /** Set Change Request.
 @param M_ChangeRequest_ID BOM (Engineering) Change Request */
 public void setM_ChangeRequest_ID (int M_ChangeRequest_ID)
@@ -579,6 +633,8 @@ Integer ii = (Integer)get_Value("M_ChangeRequest_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeRequest_ID */
+public static final String COLUMNNAME_M_ChangeRequest_ID = "M_ChangeRequest_ID";
 
 /** M_FixChangeNotice_ID AD_Reference_ID=351 */
 public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
@@ -598,6 +654,8 @@ Integer ii = (Integer)get_Value("M_FixChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_FixChangeNotice_ID */
+public static final String COLUMNNAME_M_FixChangeNotice_ID = "M_FixChangeNotice_ID";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -614,6 +672,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
 /** M_ProductSpent_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
@@ -633,6 +693,8 @@ Integer ii = (Integer)get_Value("M_ProductSpent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductSpent_ID */
+public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -649,6 +711,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set RMA.
 @param M_RMA_ID Return Material Authorization */
 public void setM_RMA_ID (int M_RMA_ID)
@@ -665,6 +729,8 @@ Integer ii = (Integer)get_Value("M_RMA_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_RMA_ID */
+public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
 /** NextAction AD_Reference_ID=219 */
 public static final int NEXTACTION_AD_Reference_ID=219;
@@ -691,6 +757,8 @@ public String getNextAction()
 {
 return (String)get_Value("NextAction");
 }
+/** Column name NextAction */
+public static final String COLUMNNAME_NextAction = "NextAction";
 
 /** Priority AD_Reference_ID=154 */
 public static final int PRIORITY_AD_Reference_ID=154;
@@ -724,6 +792,8 @@ public String getPriority()
 {
 return (String)get_Value("Priority");
 }
+/** Column name Priority */
+public static final String COLUMNNAME_Priority = "Priority";
 
 /** PriorityUser AD_Reference_ID=154 */
 public static final int PRIORITYUSER_AD_Reference_ID=154;
@@ -756,6 +826,8 @@ public String getPriorityUser()
 {
 return (String)get_Value("PriorityUser");
 }
+/** Column name PriorityUser */
+public static final String COLUMNNAME_PriorityUser = "PriorityUser";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -774,6 +846,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity Invoiced.
 @param QtyInvoiced Invoiced Quantity */
 public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -788,6 +862,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyInvoiced");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyInvoiced */
+public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 /** Set Quantity Plan.
 @param QtyPlan Planned Quantity */
 public void setQtyPlan (BigDecimal QtyPlan)
@@ -802,6 +878,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyPlan");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyPlan */
+public static final String COLUMNNAME_QtyPlan = "QtyPlan";
 /** Set Quantity Used.
 @param QtySpent Quantity used for this event */
 public void setQtySpent (BigDecimal QtySpent)
@@ -816,6 +894,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtySpent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtySpent */
+public static final String COLUMNNAME_QtySpent = "QtySpent";
 /** Set Category.
 @param R_Category_ID Request Category */
 public void setR_Category_ID (int R_Category_ID)
@@ -832,6 +912,8 @@ Integer ii = (Integer)get_Value("R_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Category_ID */
+public static final String COLUMNNAME_R_Category_ID = "R_Category_ID";
 /** Set Group.
 @param R_Group_ID Request Group */
 public void setR_Group_ID (int R_Group_ID)
@@ -848,6 +930,8 @@ Integer ii = (Integer)get_Value("R_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Group_ID */
+public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
 /** Set Mail Template.
 @param R_MailText_ID Text templates for mailings */
 public void setR_MailText_ID (int R_MailText_ID)
@@ -864,6 +948,8 @@ Integer ii = (Integer)get_Value("R_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_MailText_ID */
+public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 
 /** R_RequestRelated_ID AD_Reference_ID=341 */
 public static final int R_REQUESTRELATED_ID_AD_Reference_ID=341;
@@ -883,6 +969,8 @@ Integer ii = (Integer)get_Value("R_RequestRelated_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestRelated_ID */
+public static final String COLUMNNAME_R_RequestRelated_ID = "R_RequestRelated_ID";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -898,6 +986,8 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 /** Set Request.
 @param R_Request_ID Request from a Business Partner or Prospect */
 public void setR_Request_ID (int R_Request_ID)
@@ -913,6 +1003,8 @@ Integer ii = (Integer)get_Value("R_Request_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Request_ID */
+public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 /** Set Resolution.
 @param R_Resolution_ID Request Resolution */
 public void setR_Resolution_ID (int R_Resolution_ID)
@@ -929,6 +1021,8 @@ Integer ii = (Integer)get_Value("R_Resolution_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Resolution_ID */
+public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
 /** Set Standard Response.
 @param R_StandardResponse_ID Request Standard Response  */
 public void setR_StandardResponse_ID (int R_StandardResponse_ID)
@@ -945,6 +1039,8 @@ Integer ii = (Integer)get_Value("R_StandardResponse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_StandardResponse_ID */
+public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
 /** Set Status.
 @param R_Status_ID Request Status */
 public void setR_Status_ID (int R_Status_ID)
@@ -961,6 +1057,8 @@ Integer ii = (Integer)get_Value("R_Status_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Status_ID */
+public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -977,6 +1075,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Request Amount.
 @param RequestAmt Amount associated with this request */
 public void setRequestAmt (BigDecimal RequestAmt)
@@ -992,6 +1092,8 @@ BigDecimal bd = (BigDecimal)get_Value("RequestAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RequestAmt */
+public static final String COLUMNNAME_RequestAmt = "RequestAmt";
 /** Set Result.
 @param Result Result of the action taken */
 public void setResult (String Result)
@@ -1009,6 +1111,8 @@ public String getResult()
 {
 return (String)get_Value("Result");
 }
+/** Column name Result */
+public static final String COLUMNNAME_Result = "Result";
 
 /** SalesRep_ID AD_Reference_ID=286 */
 public static final int SALESREP_ID_AD_Reference_ID=286;
@@ -1027,6 +1131,8 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -1039,6 +1145,8 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 /** Set Start Time.
 @param StartTime Time started */
 public void setStartTime (Timestamp StartTime)
@@ -1051,6 +1159,8 @@ public Timestamp getStartTime()
 {
 return (Timestamp)get_Value("StartTime");
 }
+/** Column name StartTime */
+public static final String COLUMNNAME_StartTime = "StartTime";
 /** Set Summary.
 @param Summary Textual summary of this request */
 public void setSummary (String Summary)
@@ -1069,6 +1179,8 @@ public String getSummary()
 {
 return (String)get_Value("Summary");
 }
+/** Column name Summary */
+public static final String COLUMNNAME_Summary = "Summary";
 
 /** TaskStatus AD_Reference_ID=366 */
 public static final int TASKSTATUS_AD_Reference_ID=366;
@@ -1109,4 +1221,6 @@ public String getTaskStatus()
 {
 return (String)get_Value("TaskStatus");
 }
+/** Column name TaskStatus */
+public static final String COLUMNNAME_TaskStatus = "TaskStatus";
 }

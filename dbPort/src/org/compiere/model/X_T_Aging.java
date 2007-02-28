@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_Aging extends PO
 {
 /** Standard Constructor
@@ -129,6 +129,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -145,6 +147,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner Group.
 @param C_BP_Group_ID Business Partner Group */
 public void setC_BP_Group_ID (int C_BP_Group_ID)
@@ -160,6 +164,8 @@ Integer ii = (Integer)get_Value("C_BP_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -175,6 +181,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -191,6 +199,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -206,6 +216,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice Payment Schedule.
 @param C_InvoicePaySchedule_ID Invoice Payment Schedule */
 public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
@@ -222,6 +234,8 @@ Integer ii = (Integer)get_Value("C_InvoicePaySchedule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoicePaySchedule_ID */
+public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -238,6 +252,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -254,6 +270,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Days due.
 @param DaysDue Number of days due (negative: due in number of days) */
 public void setDaysDue (int DaysDue)
@@ -268,6 +286,8 @@ Integer ii = (Integer)get_Value("DaysDue");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DaysDue */
+public static final String COLUMNNAME_DaysDue = "DaysDue";
 /** Set Due Today.
 @param Due0 Due Today */
 public void setDue0 (BigDecimal Due0)
@@ -283,6 +303,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due0");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due0 */
+public static final String COLUMNNAME_Due0 = "Due0";
 /** Set Due Today-30.
 @param Due0_30 Due Today-30 */
 public void setDue0_30 (BigDecimal Due0_30)
@@ -298,6 +320,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due0_30");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due0_30 */
+public static final String COLUMNNAME_Due0_30 = "Due0_30";
 /** Set Due Today-7.
 @param Due0_7 Due Today-7 */
 public void setDue0_7 (BigDecimal Due0_7)
@@ -313,6 +337,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due0_7");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due0_7 */
+public static final String COLUMNNAME_Due0_7 = "Due0_7";
 /** Set Due 1-7.
 @param Due1_7 Due 1-7 */
 public void setDue1_7 (BigDecimal Due1_7)
@@ -328,6 +354,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due1_7");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due1_7 */
+public static final String COLUMNNAME_Due1_7 = "Due1_7";
 /** Set Due 31-60.
 @param Due31_60 Due 31-60 */
 public void setDue31_60 (BigDecimal Due31_60)
@@ -343,6 +371,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due31_60");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due31_60 */
+public static final String COLUMNNAME_Due31_60 = "Due31_60";
 /** Set Due > 31.
 @param Due31_Plus Due > 31 */
 public void setDue31_Plus (BigDecimal Due31_Plus)
@@ -358,6 +388,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due31_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due31_Plus */
+public static final String COLUMNNAME_Due31_Plus = "Due31_Plus";
 /** Set Due 61-90.
 @param Due61_90 Due 61-90 */
 public void setDue61_90 (BigDecimal Due61_90)
@@ -373,6 +405,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due61_90");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due61_90 */
+public static final String COLUMNNAME_Due61_90 = "Due61_90";
 /** Set Due > 61.
 @param Due61_Plus Due > 61 */
 public void setDue61_Plus (BigDecimal Due61_Plus)
@@ -388,6 +422,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due61_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due61_Plus */
+public static final String COLUMNNAME_Due61_Plus = "Due61_Plus";
 /** Set Due 8-30.
 @param Due8_30 Due 8-30 */
 public void setDue8_30 (BigDecimal Due8_30)
@@ -403,6 +439,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due8_30");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due8_30 */
+public static final String COLUMNNAME_Due8_30 = "Due8_30";
 /** Set Due > 91.
 @param Due91_Plus Due > 91 */
 public void setDue91_Plus (BigDecimal Due91_Plus)
@@ -418,6 +456,8 @@ BigDecimal bd = (BigDecimal)get_Value("Due91_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Due91_Plus */
+public static final String COLUMNNAME_Due91_Plus = "Due91_Plus";
 /** Set Amount due.
 @param DueAmt Amount of the payment due */
 public void setDueAmt (BigDecimal DueAmt)
@@ -433,6 +473,8 @@ BigDecimal bd = (BigDecimal)get_Value("DueAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DueAmt */
+public static final String COLUMNNAME_DueAmt = "DueAmt";
 /** Set Due Date.
 @param DueDate Date when the payment is due */
 public void setDueDate (Timestamp DueDate)
@@ -446,6 +488,8 @@ public Timestamp getDueDate()
 {
 return (Timestamp)get_Value("DueDate");
 }
+/** Column name DueDate */
+public static final String COLUMNNAME_DueDate = "DueDate";
 /** Set Invoiced Amount.
 @param InvoicedAmt The amount invoiced */
 public void setInvoicedAmt (BigDecimal InvoicedAmt)
@@ -461,6 +505,8 @@ BigDecimal bd = (BigDecimal)get_Value("InvoicedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InvoicedAmt */
+public static final String COLUMNNAME_InvoicedAmt = "InvoicedAmt";
 /** Set List Invoices.
 @param IsListInvoices Include List of Invoices */
 public void setIsListInvoices (boolean IsListInvoices)
@@ -479,6 +525,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsListInvoices */
+public static final String COLUMNNAME_IsListInvoices = "IsListInvoices";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -497,6 +545,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Open Amount.
 @param OpenAmt Open item amount */
 public void setOpenAmt (BigDecimal OpenAmt)
@@ -512,6 +562,8 @@ BigDecimal bd = (BigDecimal)get_Value("OpenAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OpenAmt */
+public static final String COLUMNNAME_OpenAmt = "OpenAmt";
 /** Set Past Due 1-30.
 @param PastDue1_30 Past Due 1-30 */
 public void setPastDue1_30 (BigDecimal PastDue1_30)
@@ -527,6 +579,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue1_30");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue1_30 */
+public static final String COLUMNNAME_PastDue1_30 = "PastDue1_30";
 /** Set Past Due 1-7.
 @param PastDue1_7 Past Due 1-7 */
 public void setPastDue1_7 (BigDecimal PastDue1_7)
@@ -542,6 +596,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue1_7");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue1_7 */
+public static final String COLUMNNAME_PastDue1_7 = "PastDue1_7";
 /** Set Past Due 31-60.
 @param PastDue31_60 Past Due 31-60 */
 public void setPastDue31_60 (BigDecimal PastDue31_60)
@@ -557,6 +613,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue31_60");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue31_60 */
+public static final String COLUMNNAME_PastDue31_60 = "PastDue31_60";
 /** Set Past Due > 31.
 @param PastDue31_Plus Past Due > 31 */
 public void setPastDue31_Plus (BigDecimal PastDue31_Plus)
@@ -572,6 +630,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue31_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue31_Plus */
+public static final String COLUMNNAME_PastDue31_Plus = "PastDue31_Plus";
 /** Set Past Due 61-90.
 @param PastDue61_90 Past Due 61-90 */
 public void setPastDue61_90 (BigDecimal PastDue61_90)
@@ -587,6 +647,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue61_90");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue61_90 */
+public static final String COLUMNNAME_PastDue61_90 = "PastDue61_90";
 /** Set Past Due > 61.
 @param PastDue61_Plus Past Due > 61 */
 public void setPastDue61_Plus (BigDecimal PastDue61_Plus)
@@ -602,6 +664,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue61_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue61_Plus */
+public static final String COLUMNNAME_PastDue61_Plus = "PastDue61_Plus";
 /** Set Past Due 8-30.
 @param PastDue8_30 Past Due 8-30 */
 public void setPastDue8_30 (BigDecimal PastDue8_30)
@@ -617,6 +681,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue8_30");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue8_30 */
+public static final String COLUMNNAME_PastDue8_30 = "PastDue8_30";
 /** Set Past Due > 91.
 @param PastDue91_Plus Past Due > 91 */
 public void setPastDue91_Plus (BigDecimal PastDue91_Plus)
@@ -632,6 +698,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDue91_Plus");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDue91_Plus */
+public static final String COLUMNNAME_PastDue91_Plus = "PastDue91_Plus";
 /** Set Past Due.
 @param PastDueAmt Past Due */
 public void setPastDueAmt (BigDecimal PastDueAmt)
@@ -647,6 +715,8 @@ BigDecimal bd = (BigDecimal)get_Value("PastDueAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PastDueAmt */
+public static final String COLUMNNAME_PastDueAmt = "PastDueAmt";
 /** Set Statement date.
 @param StatementDate Date of the statement */
 public void setStatementDate (Timestamp StatementDate)
@@ -660,4 +730,6 @@ public Timestamp getStatementDate()
 {
 return (Timestamp)get_Value("StatementDate");
 }
+/** Column name StatementDate */
+public static final String COLUMNNAME_StatementDate = "StatementDate";
 }

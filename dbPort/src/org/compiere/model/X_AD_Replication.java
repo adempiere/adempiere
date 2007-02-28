@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Replication extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_ReplicationStrategy_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReplicationStrategy_ID */
+public static final String COLUMNNAME_AD_ReplicationStrategy_ID = "AD_ReplicationStrategy_ID";
 /** Set Replication.
 @param AD_Replication_ID Data Replication Target */
 public void setAD_Replication_ID (int AD_Replication_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_Replication_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Replication_ID */
+public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -134,6 +138,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -151,6 +157,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -168,6 +176,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Host Address.
 @param HostAddress Host Address URL or DNS */
 public void setHostAddress (String HostAddress)
@@ -186,6 +196,8 @@ public String getHostAddress()
 {
 return (String)get_Value("HostAddress");
 }
+/** Column name HostAddress */
+public static final String COLUMNNAME_HostAddress = "HostAddress";
 /** Set Host port.
 @param HostPort Host Communication Port */
 public void setHostPort (int HostPort)
@@ -200,6 +212,8 @@ Integer ii = (Integer)get_Value("HostPort");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HostPort */
+public static final String COLUMNNAME_HostPort = "HostPort";
 /** Set ID Range End.
 @param IDRangeEnd End if the ID Range used */
 public void setIDRangeEnd (BigDecimal IDRangeEnd)
@@ -214,6 +228,8 @@ BigDecimal bd = (BigDecimal)get_Value("IDRangeEnd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name IDRangeEnd */
+public static final String COLUMNNAME_IDRangeEnd = "IDRangeEnd";
 /** Set ID Range Start.
 @param IDRangeStart Start of the ID Range used */
 public void setIDRangeStart (BigDecimal IDRangeStart)
@@ -228,6 +244,8 @@ BigDecimal bd = (BigDecimal)get_Value("IDRangeStart");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name IDRangeStart */
+public static final String COLUMNNAME_IDRangeStart = "IDRangeStart";
 /** Set Tunnel via HTTP.
 @param IsRMIoverHTTP Connect to Server via HTTP Tunnel */
 public void setIsRMIoverHTTP (boolean IsRMIoverHTTP)
@@ -246,6 +264,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRMIoverHTTP */
+public static final String COLUMNNAME_IsRMIoverHTTP = "IsRMIoverHTTP";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -270,6 +290,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Prefix.
 @param Prefix Prefix before the sequence number */
 public void setPrefix (String Prefix)
@@ -287,6 +309,8 @@ public String getPrefix()
 {
 return (String)get_Value("Prefix");
 }
+/** Column name Prefix */
+public static final String COLUMNNAME_Prefix = "Prefix";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -305,6 +329,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** Remote_Client_ID AD_Reference_ID=129 */
 public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
@@ -323,6 +349,8 @@ Integer ii = (Integer)get_Value("Remote_Client_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Remote_Client_ID */
+public static final String COLUMNNAME_Remote_Client_ID = "Remote_Client_ID";
 
 /** Remote_Org_ID AD_Reference_ID=276 */
 public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
@@ -341,6 +369,8 @@ Integer ii = (Integer)get_Value("Remote_Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Remote_Org_ID */
+public static final String COLUMNNAME_Remote_Org_ID = "Remote_Org_ID";
 /** Set Suffix.
 @param Suffix Suffix after the number */
 public void setSuffix (String Suffix)
@@ -358,4 +388,6 @@ public String getSuffix()
 {
 return (String)get_Value("Suffix");
 }
+/** Column name Suffix */
+public static final String COLUMNNAME_Suffix = "Suffix";
 }

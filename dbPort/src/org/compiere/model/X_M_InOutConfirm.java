@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_InOutConfirm extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ BigDecimal bd = (BigDecimal)get_Value("ApprovalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ApprovalAmt */
+public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
 /** ConfirmType AD_Reference_ID=320 */
 public static final int CONFIRMTYPE_AD_Reference_ID=320;
@@ -157,6 +161,8 @@ public String getConfirmType()
 {
 return (String)get_Value("ConfirmType");
 }
+/** Column name ConfirmType */
+public static final String COLUMNNAME_ConfirmType = "ConfirmType";
 /** Set Confirmation No.
 @param ConfirmationNo Confirmation Number */
 public void setConfirmationNo (String ConfirmationNo)
@@ -174,6 +180,8 @@ public String getConfirmationNo()
 {
 return (String)get_Value("ConfirmationNo");
 }
+/** Column name ConfirmationNo */
+public static final String COLUMNNAME_ConfirmationNo = "ConfirmationNo";
 /** Set Create Package.
 @param CreatePackage Create Package */
 public void setCreatePackage (String CreatePackage)
@@ -191,6 +199,8 @@ public String getCreatePackage()
 {
 return (String)get_Value("CreatePackage");
 }
+/** Column name CreatePackage */
+public static final String COLUMNNAME_CreatePackage = "CreatePackage";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -208,6 +218,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
@@ -259,6 +271,8 @@ public String getDocAction()
 {
 return (String)get_Value("DocAction");
 }
+/** Column name DocAction */
+public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
@@ -306,6 +320,8 @@ public String getDocStatus()
 {
 return (String)get_Value("DocStatus");
 }
+/** Column name DocStatus */
+public static final String COLUMNNAME_DocStatus = "DocStatus";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -330,6 +346,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -348,6 +366,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Cancelled.
 @param IsCancelled The transaction was cancelled */
 public void setIsCancelled (boolean IsCancelled)
@@ -366,6 +386,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCancelled */
+public static final String COLUMNNAME_IsCancelled = "IsCancelled";
 /** Set In Dispute.
 @param IsInDispute Document is in dispute */
 public void setIsInDispute (boolean IsInDispute)
@@ -384,6 +406,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInDispute */
+public static final String COLUMNNAME_IsInDispute = "IsInDispute";
 /** Set Ship/Receipt Confirmation.
 @param M_InOutConfirm_ID Material Shipment or Receipt Confirmation */
 public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
@@ -399,6 +423,8 @@ Integer ii = (Integer)get_Value("M_InOutConfirm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutConfirm_ID */
+public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -414,6 +440,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 /** Set Phys.Inventory.
 @param M_Inventory_ID Parameters for a Physical Inventory */
 public void setM_Inventory_ID (int M_Inventory_ID)
@@ -430,6 +458,8 @@ Integer ii = (Integer)get_Value("M_Inventory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Inventory_ID */
+public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -448,6 +478,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -466,4 +498,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

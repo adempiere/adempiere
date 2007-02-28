@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Training
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_Training extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_TaxCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxCategory_ID */
+public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Description URL.
 @param DescriptionURL URL for the description */
 public void setDescriptionURL (String DescriptionURL)
@@ -153,6 +159,8 @@ public String getDescriptionURL()
 {
 return (String)get_Value("DescriptionURL");
 }
+/** Column name DescriptionURL */
+public static final String COLUMNNAME_DescriptionURL = "DescriptionURL";
 /** Set Document Note.
 @param DocumentNote Additional information for a Document */
 public void setDocumentNote (String DocumentNote)
@@ -170,6 +178,8 @@ public String getDocumentNote()
 {
 return (String)get_Value("DocumentNote");
 }
+/** Column name DocumentNote */
+public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -187,6 +197,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -204,6 +216,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -219,6 +233,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -243,6 +259,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -261,6 +279,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Training.
 @param S_Training_ID Repeated Training */
 public void setS_Training_ID (int S_Training_ID)
@@ -276,4 +296,6 @@ Integer ii = (Integer)get_Value("S_Training_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_Training_ID */
+public static final String COLUMNNAME_S_Training_ID = "S_Training_ID";
 }

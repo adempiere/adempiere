@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AttachmentNote
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_AttachmentNote extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_AttachmentNote_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_AttachmentNote_ID */
+public static final String COLUMNNAME_AD_AttachmentNote_ID = "AD_AttachmentNote_ID";
 /** Set Attachment.
 @param AD_Attachment_ID Attachment for the document */
 public void setAD_Attachment_ID (int AD_Attachment_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("AD_Attachment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Attachment_ID */
+public static final String COLUMNNAME_AD_Attachment_ID = "AD_Attachment_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -152,6 +158,8 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 /** Set Title.
 @param Title Name this entity is referred to as */
 public void setTitle (String Title)
@@ -176,4 +184,6 @@ return (String)get_Value("Title");
 {
 return new KeyNamePair(get_ID(), getTitle());
 }
+/** Column name Title */
+public static final String COLUMNNAME_Title = "Title";
 }

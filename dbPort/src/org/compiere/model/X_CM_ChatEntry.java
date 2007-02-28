@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_ChatEntry extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
 /** CM_ChatEntryGrandParent_ID AD_Reference_ID=399 */
 public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("CM_ChatEntryGrandParent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_ChatEntryGrandParent_ID */
+public static final String COLUMNNAME_CM_ChatEntryGrandParent_ID = "CM_ChatEntryGrandParent_ID";
 
 /** CM_ChatEntryParent_ID AD_Reference_ID=399 */
 public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
@@ -143,6 +147,8 @@ Integer ii = (Integer)get_Value("CM_ChatEntryParent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_ChatEntryParent_ID */
+public static final String COLUMNNAME_CM_ChatEntryParent_ID = "CM_ChatEntryParent_ID";
 /** Set Chat Entry.
 @param CM_ChatEntry_ID Individual Chat / Discussion Entry */
 public void setCM_ChatEntry_ID (int CM_ChatEntry_ID)
@@ -164,6 +170,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
 }
+/** Column name CM_ChatEntry_ID */
+public static final String COLUMNNAME_CM_ChatEntry_ID = "CM_ChatEntry_ID";
 /** Set Chat.
 @param CM_Chat_ID Chat or discussion thread */
 public void setCM_Chat_ID (int CM_Chat_ID)
@@ -179,6 +187,8 @@ Integer ii = (Integer)get_Value("CM_Chat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Chat_ID */
+public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
 /** Set Character Data.
 @param CharacterData Long Character Field */
 public void setCharacterData (String CharacterData)
@@ -192,6 +202,8 @@ public String getCharacterData()
 {
 return (String)get_Value("CharacterData");
 }
+/** Column name CharacterData */
+public static final String COLUMNNAME_CharacterData = "CharacterData";
 
 /** ChatEntryType AD_Reference_ID=398 */
 public static final int CHATENTRYTYPE_AD_Reference_ID=398;
@@ -221,6 +233,8 @@ public String getChatEntryType()
 {
 return (String)get_Value("ChatEntryType");
 }
+/** Column name ChatEntryType */
+public static final String COLUMNNAME_ChatEntryType = "ChatEntryType";
 
 /** ConfidentialType AD_Reference_ID=340 */
 public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
@@ -252,6 +266,8 @@ public String getConfidentialType()
 {
 return (String)get_Value("ConfidentialType");
 }
+/** Column name ConfidentialType */
+public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
 
 /** ModeratorStatus AD_Reference_ID=396 */
 public static final int MODERATORSTATUS_AD_Reference_ID=396;
@@ -282,6 +298,8 @@ public String getModeratorStatus()
 {
 return (String)get_Value("ModeratorStatus");
 }
+/** Column name ModeratorStatus */
+public static final String COLUMNNAME_ModeratorStatus = "ModeratorStatus";
 /** Set Subject.
 @param Subject Email Message Subject */
 public void setSubject (String Subject)
@@ -299,4 +317,6 @@ public String getSubject()
 {
 return (String)get_Value("Subject");
 }
+/** Column name Subject */
+public static final String COLUMNNAME_Subject = "Subject";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_UOM_Conversion
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_UOM_Conversion extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_Conversion_ID()));
 }
+/** Column name C_UOM_Conversion_ID */
+public static final String COLUMNNAME_C_UOM_Conversion_ID = "C_UOM_Conversion_ID";
 
 /** C_UOM_ID AD_Reference_ID=114 */
 public static final int C_UOM_ID_AD_Reference_ID=114;
@@ -128,6 +130,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 
 /** C_UOM_To_ID AD_Reference_ID=114 */
 public static final int C_UOM_TO_ID_AD_Reference_ID=114;
@@ -146,6 +150,8 @@ Integer ii = (Integer)get_Value("C_UOM_To_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_To_ID */
+public static final String COLUMNNAME_C_UOM_To_ID = "C_UOM_To_ID";
 /** Set Divide Rate.
 @param DivideRate To convert Source number to Target number, the Source is divided */
 public void setDivideRate (BigDecimal DivideRate)
@@ -161,6 +167,8 @@ BigDecimal bd = (BigDecimal)get_Value("DivideRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DivideRate */
+public static final String COLUMNNAME_DivideRate = "DivideRate";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -177,6 +185,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Multiply Rate.
 @param MultiplyRate Rate to multiple the source by to calculate the target. */
 public void setMultiplyRate (BigDecimal MultiplyRate)
@@ -192,4 +202,6 @@ BigDecimal bd = (BigDecimal)get_Value("MultiplyRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MultiplyRate */
+public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";
 }

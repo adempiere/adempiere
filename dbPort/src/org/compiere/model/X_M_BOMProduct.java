@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_BOMProduct extends PO
 {
 /** Standard Constructor
@@ -124,6 +124,8 @@ public String getBOMProductType()
 {
 return (String)get_Value("BOMProductType");
 }
+/** Column name BOMProductType */
+public static final String COLUMNNAME_BOMProductType = "BOMProductType";
 /** Set BOM Quantity.
 @param BOMQty Bill of Materials Quantity */
 public void setBOMQty (BigDecimal BOMQty)
@@ -139,6 +141,8 @@ BigDecimal bd = (BigDecimal)get_Value("BOMQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BOMQty */
+public static final String COLUMNNAME_BOMQty = "BOMQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +160,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -173,6 +179,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Phantom.
 @param IsPhantom Phantom Component */
 public void setIsPhantom (boolean IsPhantom)
@@ -191,6 +199,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPhantom */
+public static final String COLUMNNAME_IsPhantom = "IsPhantom";
 /** Set Lead Time Offset.
 @param LeadTimeOffset Optional Lead Time offest before starting production */
 public void setLeadTimeOffset (int LeadTimeOffset)
@@ -205,6 +215,8 @@ Integer ii = (Integer)get_Value("LeadTimeOffset");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LeadTimeOffset */
+public static final String COLUMNNAME_LeadTimeOffset = "LeadTimeOffset";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -225,6 +237,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -241,6 +255,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Alternative Group.
 @param M_BOMAlternative_ID Product BOM Alternative Group */
 public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
@@ -257,6 +273,8 @@ Integer ii = (Integer)get_Value("M_BOMAlternative_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOMAlternative_ID */
+public static final String COLUMNNAME_M_BOMAlternative_ID = "M_BOMAlternative_ID";
 /** Set BOM Component.
 @param M_BOMProduct_ID Bill of Material Component (Product) */
 public void setM_BOMProduct_ID (int M_BOMProduct_ID)
@@ -272,6 +290,8 @@ Integer ii = (Integer)get_Value("M_BOMProduct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOMProduct_ID */
+public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";
 /** Set BOM.
 @param M_BOM_ID Bill of Material */
 public void setM_BOM_ID (int M_BOM_ID)
@@ -287,6 +307,8 @@ Integer ii = (Integer)get_Value("M_BOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_BOM_ID */
+public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 /** Set Change Notice.
 @param M_ChangeNotice_ID Bill of Materials (Engineering) Change Notice (Version) */
 public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
@@ -303,6 +325,8 @@ Integer ii = (Integer)get_Value("M_ChangeNotice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ChangeNotice_ID */
+public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 
 /** M_ProductBOM_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
@@ -322,6 +346,8 @@ Integer ii = (Integer)get_Value("M_ProductBOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductBOM_ID */
+public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
 /** Set Product Operation.
 @param M_ProductOperation_ID Product Manufacturing Operation */
 public void setM_ProductOperation_ID (int M_ProductOperation_ID)
@@ -338,6 +364,8 @@ Integer ii = (Integer)get_Value("M_ProductOperation_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductOperation_ID */
+public static final String COLUMNNAME_M_ProductOperation_ID = "M_ProductOperation_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -354,4 +382,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

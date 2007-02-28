@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Employee_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_Employee_Acct extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Employee Expense.
 @param E_Expense_Acct Account for Employee Expenses */
 public void setE_Expense_Acct (int E_Expense_Acct)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("E_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name E_Expense_Acct */
+public static final String COLUMNNAME_E_Expense_Acct = "E_Expense_Acct";
 /** Set Employee Prepayment.
 @param E_Prepayment_Acct Account for Employee Expense Prepayments */
 public void setE_Prepayment_Acct (int E_Prepayment_Acct)
@@ -146,4 +152,6 @@ Integer ii = (Integer)get_Value("E_Prepayment_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name E_Prepayment_Acct */
+public static final String COLUMNNAME_E_Prepayment_Acct = "E_Prepayment_Acct";
 }

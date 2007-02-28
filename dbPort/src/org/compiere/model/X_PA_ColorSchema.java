@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ColorSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_ColorSchema extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor1_ID */
+public static final String COLUMNNAME_AD_PrintColor1_ID = "AD_PrintColor1_ID";
 
 /** AD_PrintColor2_ID AD_Reference_ID=266 */
 public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor2_ID */
+public static final String COLUMNNAME_AD_PrintColor2_ID = "AD_PrintColor2_ID";
 
 /** AD_PrintColor3_ID AD_Reference_ID=266 */
 public static final int AD_PRINTCOLOR3_ID_AD_Reference_ID=266;
@@ -146,6 +150,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor3_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor3_ID */
+public static final String COLUMNNAME_AD_PrintColor3_ID = "AD_PrintColor3_ID";
 
 /** AD_PrintColor4_ID AD_Reference_ID=266 */
 public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
@@ -165,6 +171,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor4_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor4_ID */
+public static final String COLUMNNAME_AD_PrintColor4_ID = "AD_PrintColor4_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -182,6 +190,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -204,6 +214,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Mark 1 Percent.
 @param Mark1Percent Percentage up to this color is used */
 public void setMark1Percent (int Mark1Percent)
@@ -218,6 +230,8 @@ Integer ii = (Integer)get_Value("Mark1Percent");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Mark1Percent */
+public static final String COLUMNNAME_Mark1Percent = "Mark1Percent";
 /** Set Mark 2 Percent.
 @param Mark2Percent Percentage up to this color is used */
 public void setMark2Percent (int Mark2Percent)
@@ -232,6 +246,8 @@ Integer ii = (Integer)get_Value("Mark2Percent");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Mark2Percent */
+public static final String COLUMNNAME_Mark2Percent = "Mark2Percent";
 /** Set Mark 3 Percent.
 @param Mark3Percent Percentage up to this color is used */
 public void setMark3Percent (int Mark3Percent)
@@ -246,6 +262,8 @@ Integer ii = (Integer)get_Value("Mark3Percent");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Mark3Percent */
+public static final String COLUMNNAME_Mark3Percent = "Mark3Percent";
 /** Set Mark 4 Percent.
 @param Mark4Percent Percentage up to this color is used */
 public void setMark4Percent (int Mark4Percent)
@@ -260,6 +278,8 @@ Integer ii = (Integer)get_Value("Mark4Percent");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Mark4Percent */
+public static final String COLUMNNAME_Mark4Percent = "Mark4Percent";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -284,6 +304,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Color Schema.
 @param PA_ColorSchema_ID Performance Color Schema */
 public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
@@ -299,4 +321,6 @@ Integer ii = (Integer)get_Value("PA_ColorSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ColorSchema_ID */
+public static final String COLUMNNAME_PA_ColorSchema_ID = "PA_ColorSchema_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CashBook_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CashBook_Acct extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("CB_Asset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CB_Asset_Acct */
+public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 /** Set Cash Transfer.
 @param CB_CashTransfer_Acct Cash Transfer Clearing Account */
 public void setCB_CashTransfer_Acct (int CB_CashTransfer_Acct)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("CB_CashTransfer_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CB_CashTransfer_Acct */
+public static final String COLUMNNAME_CB_CashTransfer_Acct = "CB_CashTransfer_Acct";
 /** Set Cash Book Differences.
 @param CB_Differences_Acct Cash Book Differences Account */
 public void setCB_Differences_Acct (int CB_Differences_Acct)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("CB_Differences_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CB_Differences_Acct */
+public static final String COLUMNNAME_CB_Differences_Acct = "CB_Differences_Acct";
 /** Set Cash Book Expense.
 @param CB_Expense_Acct Cash Book Expense Account */
 public void setCB_Expense_Acct (int CB_Expense_Acct)
@@ -147,6 +153,8 @@ Integer ii = (Integer)get_Value("CB_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CB_Expense_Acct */
+public static final String COLUMNNAME_CB_Expense_Acct = "CB_Expense_Acct";
 /** Set Cash Book Receipt.
 @param CB_Receipt_Acct Cash Book Receipts Account */
 public void setCB_Receipt_Acct (int CB_Receipt_Acct)
@@ -161,6 +169,8 @@ Integer ii = (Integer)get_Value("CB_Receipt_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CB_Receipt_Acct */
+public static final String COLUMNNAME_CB_Receipt_Acct = "CB_Receipt_Acct";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -176,6 +186,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Cash Book.
 @param C_CashBook_ID Cash Book for recording petty cash transactions */
 public void setC_CashBook_ID (int C_CashBook_ID)
@@ -191,4 +203,6 @@ Integer ii = (Integer)get_Value("C_CashBook_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CashBook_ID */
+public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
 }

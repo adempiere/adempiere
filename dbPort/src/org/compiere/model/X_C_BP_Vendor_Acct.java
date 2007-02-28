@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Vendor_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_Vendor_Acct extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Vendor Liability.
 @param V_Liability_Acct Account for Vendor Liability */
 public void setV_Liability_Acct (int V_Liability_Acct)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("V_Liability_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Liability_Acct */
+public static final String COLUMNNAME_V_Liability_Acct = "V_Liability_Acct";
 /** Set Vendor Service Liability.
 @param V_Liability_Services_Acct Account for Vender Service Liability */
 public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
@@ -146,6 +152,8 @@ Integer ii = (Integer)get_Value("V_Liability_Services_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Liability_Services_Acct */
+public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 /** Set Vendor Prepayment.
 @param V_Prepayment_Acct Account for Vendor Prepayments */
 public void setV_Prepayment_Acct (int V_Prepayment_Acct)
@@ -160,4 +168,6 @@ Integer ii = (Integer)get_Value("V_Prepayment_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name V_Prepayment_Acct */
+public static final String COLUMNNAME_V_Prepayment_Acct = "V_Prepayment_Acct";
 }

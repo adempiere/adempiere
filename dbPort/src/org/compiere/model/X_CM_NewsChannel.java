@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_NewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_NewsChannel extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set News Channel.
 @param CM_NewsChannel_ID News channel for rss feed */
 public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("CM_NewsChannel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_NewsChannel_ID */
+public static final String COLUMNNAME_CM_NewsChannel_ID = "CM_NewsChannel_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -173,6 +181,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Link.
 @param Link Contains URL to a target */
 public void setLink (String Link)
@@ -190,6 +200,8 @@ public String getLink()
 {
 return (String)get_Value("Link");
 }
+/** Column name Link */
+public static final String COLUMNNAME_Link = "Link";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -214,4 +226,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

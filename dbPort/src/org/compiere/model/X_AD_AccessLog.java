@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_AccessLog extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_AccessLog_ID()));
 }
+/** Column name AD_AccessLog_ID */
+public static final String COLUMNNAME_AD_AccessLog_ID = "AD_AccessLog_ID";
 /** Set Column.
 @param AD_Column_ID Column in the table */
 public void setAD_Column_ID (int AD_Column_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -155,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -188,6 +198,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -205,6 +217,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Reply.
 @param Reply Reply or Answer */
 public void setReply (String Reply)
@@ -222,6 +236,8 @@ public String getReply()
 {
 return (String)get_Value("Reply");
 }
+/** Column name Reply */
+public static final String COLUMNNAME_Reply = "Reply";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -239,4 +255,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

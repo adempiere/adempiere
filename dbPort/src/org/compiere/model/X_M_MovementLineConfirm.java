@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_MovementLineConfirm extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConfirmedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConfirmedQty */
+public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -124,6 +126,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Difference.
 @param DifferenceQty Difference Quantity */
 public void setDifferenceQty (BigDecimal DifferenceQty)
@@ -139,6 +143,8 @@ BigDecimal bd = (BigDecimal)get_Value("DifferenceQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DifferenceQty */
+public static final String COLUMNNAME_DifferenceQty = "DifferenceQty";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Move Confirm.
 @param M_MovementConfirm_ID Inventory Move Confirmation */
 public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
@@ -176,6 +184,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_MovementConfirm_ID()));
 }
+/** Column name M_MovementConfirm_ID */
+public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
 /** Set Move Line Confirm.
 @param M_MovementLineConfirm_ID Inventory Move Line Confirmation */
 public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID)
@@ -191,6 +201,8 @@ Integer ii = (Integer)get_Value("M_MovementLineConfirm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_MovementLineConfirm_ID */
+public static final String COLUMNNAME_M_MovementLineConfirm_ID = "M_MovementLineConfirm_ID";
 /** Set Move Line.
 @param M_MovementLine_ID Inventory Move document Line */
 public void setM_MovementLine_ID (int M_MovementLine_ID)
@@ -206,6 +218,8 @@ Integer ii = (Integer)get_Value("M_MovementLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_MovementLine_ID */
+public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -224,6 +238,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Scrapped Quantity.
 @param ScrappedQty The Quantity scrapped due to QA issues */
 public void setScrappedQty (BigDecimal ScrappedQty)
@@ -239,6 +255,8 @@ BigDecimal bd = (BigDecimal)get_Value("ScrappedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ScrappedQty */
+public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 /** Set Target Quantity.
 @param TargetQty Target Movement Quantity */
 public void setTargetQty (BigDecimal TargetQty)
@@ -254,4 +272,6 @@ BigDecimal bd = (BigDecimal)get_Value("TargetQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TargetQty */
+public static final String COLUMNNAME_TargetQty = "TargetQty";
 }

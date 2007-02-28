@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Hierarchy
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Hierarchy extends PO
 {
 /** Standard Constructor
@@ -112,6 +112,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Account_ID */
+public static final String COLUMNNAME_AD_Tree_Account_ID = "AD_Tree_Account_ID";
 
 /** AD_Tree_Activity_ID AD_Reference_ID=184 */
 public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Activity_ID */
+public static final String COLUMNNAME_AD_Tree_Activity_ID = "AD_Tree_Activity_ID";
 
 /** AD_Tree_BPartner_ID AD_Reference_ID=184 */
 public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
@@ -148,6 +152,8 @@ Integer ii = (Integer)get_Value("AD_Tree_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_BPartner_ID */
+public static final String COLUMNNAME_AD_Tree_BPartner_ID = "AD_Tree_BPartner_ID";
 
 /** AD_Tree_Campaign_ID AD_Reference_ID=184 */
 public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
@@ -166,6 +172,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Campaign_ID */
+public static final String COLUMNNAME_AD_Tree_Campaign_ID = "AD_Tree_Campaign_ID";
 
 /** AD_Tree_Org_ID AD_Reference_ID=184 */
 public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
@@ -184,6 +192,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Org_ID */
+public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
 
 /** AD_Tree_Product_ID AD_Reference_ID=184 */
 public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
@@ -202,6 +212,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Product_ID */
+public static final String COLUMNNAME_AD_Tree_Product_ID = "AD_Tree_Product_ID";
 
 /** AD_Tree_Project_ID AD_Reference_ID=184 */
 public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
@@ -220,6 +232,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Project_ID */
+public static final String COLUMNNAME_AD_Tree_Project_ID = "AD_Tree_Project_ID";
 
 /** AD_Tree_SalesRegion_ID AD_Reference_ID=184 */
 public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
@@ -238,6 +252,8 @@ Integer ii = (Integer)get_Value("AD_Tree_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_SalesRegion_ID */
+public static final String COLUMNNAME_AD_Tree_SalesRegion_ID = "AD_Tree_SalesRegion_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -255,6 +271,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -272,6 +290,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -296,6 +316,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Reporting Hierarchy.
 @param PA_Hierarchy_ID Optional Reporting Hierarchy - If not selected the default hierarchy trees are used. */
 public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
@@ -311,4 +333,6 @@ Integer ii = (Integer)get_Value("PA_Hierarchy_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Hierarchy_ID */
+public static final String COLUMNNAME_PA_Hierarchy_ID = "PA_Hierarchy_ID";
 }

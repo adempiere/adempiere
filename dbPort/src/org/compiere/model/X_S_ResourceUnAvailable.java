@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ResourceUnAvailable
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_ResourceUnAvailable extends PO
 {
 /** Standard Constructor
@@ -100,6 +100,8 @@ public Timestamp getDateFrom()
 {
 return (Timestamp)get_Value("DateFrom");
 }
+/** Column name DateFrom */
+public static final String COLUMNNAME_DateFrom = "DateFrom";
 /** Set Date To.
 @param DateTo End date of a date range */
 public void setDateTo (Timestamp DateTo)
@@ -112,6 +114,8 @@ public Timestamp getDateTo()
 {
 return (Timestamp)get_Value("DateTo");
 }
+/** Column name DateTo */
+public static final String COLUMNNAME_DateTo = "DateTo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -129,6 +133,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Resource Unavailability.
 @param S_ResourceUnAvailable_ID Resource Unavailability */
 public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID)
@@ -144,6 +150,8 @@ Integer ii = (Integer)get_Value("S_ResourceUnAvailable_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ResourceUnAvailable_ID */
+public static final String COLUMNNAME_S_ResourceUnAvailable_ID = "S_ResourceUnAvailable_ID";
 /** Set Resource.
 @param S_Resource_ID Resource */
 public void setS_Resource_ID (int S_Resource_ID)
@@ -165,4 +173,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getS_Resource_ID()));
 }
+/** Column name S_Resource_ID */
+public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 }

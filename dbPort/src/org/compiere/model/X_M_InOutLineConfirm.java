@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_InOutLineConfirm extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Confirmation No.
 @param ConfirmationNo Confirmation Number */
 public void setConfirmationNo (String ConfirmationNo)
@@ -123,6 +125,8 @@ public String getConfirmationNo()
 {
 return (String)get_Value("ConfirmationNo");
 }
+/** Column name ConfirmationNo */
+public static final String COLUMNNAME_ConfirmationNo = "ConfirmationNo";
 /** Set Confirmed Quantity.
 @param ConfirmedQty Confirmation of a received quantity */
 public void setConfirmedQty (BigDecimal ConfirmedQty)
@@ -138,6 +142,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConfirmedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConfirmedQty */
+public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -155,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Difference.
 @param DifferenceQty Difference Quantity */
 public void setDifferenceQty (BigDecimal DifferenceQty)
@@ -169,6 +177,8 @@ BigDecimal bd = (BigDecimal)get_Value("DifferenceQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DifferenceQty */
+public static final String COLUMNNAME_DifferenceQty = "DifferenceQty";
 /** Set Ship/Receipt Confirmation.
 @param M_InOutConfirm_ID Material Shipment or Receipt Confirmation */
 public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
@@ -184,6 +194,8 @@ Integer ii = (Integer)get_Value("M_InOutConfirm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutConfirm_ID */
+public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
 /** Set Ship/Receipt Confirmation Line.
 @param M_InOutLineConfirm_ID Material Shipment or Receipt Confirmation Line */
 public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
@@ -199,6 +211,8 @@ Integer ii = (Integer)get_Value("M_InOutLineConfirm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLineConfirm_ID */
+public static final String COLUMNNAME_M_InOutLineConfirm_ID = "M_InOutLineConfirm_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -220,6 +234,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_InOutLine_ID()));
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -254,6 +272,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Scrapped Quantity.
 @param ScrappedQty The Quantity scrapped due to QA issues */
 public void setScrappedQty (BigDecimal ScrappedQty)
@@ -268,6 +288,8 @@ BigDecimal bd = (BigDecimal)get_Value("ScrappedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ScrappedQty */
+public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 /** Set Target Quantity.
 @param TargetQty Target Movement Quantity */
 public void setTargetQty (BigDecimal TargetQty)
@@ -283,4 +305,6 @@ BigDecimal bd = (BigDecimal)get_Value("TargetQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TargetQty */
+public static final String COLUMNNAME_TargetQty = "TargetQty";
 }

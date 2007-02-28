@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Synonym
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Synonym extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set Knowledge Synonym.
 @param K_Synonym_ID Knowlege Keyword Synonym */
 public void setK_Synonym_ID (int K_Synonym_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("K_Synonym_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Synonym_ID */
+public static final String COLUMNNAME_K_Synonym_ID = "K_Synonym_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -147,6 +151,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Synonym Name.
 @param SynonymName The synonym for the name */
 public void setSynonymName (String SynonymName)
@@ -165,4 +171,6 @@ public String getSynonymName()
 {
 return (String)get_Value("SynonymName");
 }
+/** Column name SynonymName */
+public static final String COLUMNNAME_SynonymName = "SynonymName";
 }

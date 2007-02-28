@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Recurring
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Recurring extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Recurring.
 @param C_Recurring_ID Recurring Document */
 public void setC_Recurring_ID (int C_Recurring_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("C_Recurring_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Recurring_ID */
+public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -182,6 +192,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Date next run.
 @param DateNextRun Date the process will run next */
 public void setDateNextRun (Timestamp DateNextRun)
@@ -195,6 +207,8 @@ public Timestamp getDateNextRun()
 {
 return (Timestamp)get_Value("DateNextRun");
 }
+/** Column name DateNextRun */
+public static final String COLUMNNAME_DateNextRun = "DateNextRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -212,6 +226,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Frequency.
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
@@ -226,6 +242,8 @@ Integer ii = (Integer)get_Value("Frequency");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Frequency */
+public static final String COLUMNNAME_Frequency = "Frequency";
 
 /** FrequencyType AD_Reference_ID=283 */
 public static final int FREQUENCYTYPE_AD_Reference_ID=283;
@@ -257,6 +275,8 @@ public String getFrequencyType()
 {
 return (String)get_Value("FrequencyType");
 }
+/** Column name FrequencyType */
+public static final String COLUMNNAME_FrequencyType = "FrequencyType";
 /** Set Journal Batch.
 @param GL_JournalBatch_ID General Ledger Journal Batch */
 public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
@@ -273,6 +293,8 @@ Integer ii = (Integer)get_Value("GL_JournalBatch_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_JournalBatch_ID */
+public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -290,6 +312,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -314,6 +338,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -332,6 +358,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** RecurringType AD_Reference_ID=282 */
 public static final int RECURRINGTYPE_AD_Reference_ID=282;
@@ -363,6 +391,8 @@ public String getRecurringType()
 {
 return (String)get_Value("RecurringType");
 }
+/** Column name RecurringType */
+public static final String COLUMNNAME_RecurringType = "RecurringType";
 /** Set Maximum Runs.
 @param RunsMax Number of recurring runs */
 public void setRunsMax (int RunsMax)
@@ -377,6 +407,8 @@ Integer ii = (Integer)get_Value("RunsMax");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RunsMax */
+public static final String COLUMNNAME_RunsMax = "RunsMax";
 /** Set Remaining Runs.
 @param RunsRemaining Number of recurring runs remaining */
 public void setRunsRemaining (int RunsRemaining)
@@ -391,4 +423,6 @@ Integer ii = (Integer)get_Value("RunsRemaining");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RunsRemaining */
+public static final String COLUMNNAME_RunsRemaining = "RunsRemaining";
 }

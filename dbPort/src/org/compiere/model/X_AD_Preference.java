@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Preference
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Preference extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_Preference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Preference_ID */
+public static final String COLUMNNAME_AD_Preference_ID = "AD_Preference_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Attribute.
 @param Attribute Attribute */
 public void setAttribute (String Attribute)
@@ -158,6 +164,8 @@ return (String)get_Value("Attribute");
 {
 return new KeyNamePair(get_ID(), getAttribute());
 }
+/** Column name Attribute */
+public static final String COLUMNNAME_Attribute = "Attribute";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -176,4 +184,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

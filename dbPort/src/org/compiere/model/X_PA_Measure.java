@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Measure extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_ProjectType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectType_ID */
+public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
 /** Set Calculation Class.
 @param CalculationClass Java Class for calculation, implementing Interface Measure */
 public void setCalculationClass (String CalculationClass)
@@ -121,6 +123,8 @@ public String getCalculationClass()
 {
 return (String)get_Value("CalculationClass");
 }
+/** Column name CalculationClass */
+public static final String COLUMNNAME_CalculationClass = "CalculationClass";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -138,6 +142,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Manual Actual.
 @param ManualActual Manually entered actual value */
 public void setManualActual (BigDecimal ManualActual)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("ManualActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ManualActual */
+public static final String COLUMNNAME_ManualActual = "ManualActual";
 /** Set Note.
 @param ManualNote Note for manual entry */
 public void setManualNote (String ManualNote)
@@ -169,6 +177,8 @@ public String getManualNote()
 {
 return (String)get_Value("ManualNote");
 }
+/** Column name ManualNote */
+public static final String COLUMNNAME_ManualNote = "ManualNote";
 
 /** MeasureDataType AD_Reference_ID=369 */
 public static final int MEASUREDATATYPE_AD_Reference_ID=369;
@@ -196,6 +206,8 @@ public String getMeasureDataType()
 {
 return (String)get_Value("MeasureDataType");
 }
+/** Column name MeasureDataType */
+public static final String COLUMNNAME_MeasureDataType = "MeasureDataType";
 
 /** MeasureType AD_Reference_ID=231 */
 public static final int MEASURETYPE_AD_Reference_ID=231;
@@ -233,6 +245,8 @@ public String getMeasureType()
 {
 return (String)get_Value("MeasureType");
 }
+/** Column name MeasureType */
+public static final String COLUMNNAME_MeasureType = "MeasureType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -257,6 +271,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Benchmark.
 @param PA_Benchmark_ID Performance Benchmark */
 public void setPA_Benchmark_ID (int PA_Benchmark_ID)
@@ -273,6 +289,8 @@ Integer ii = (Integer)get_Value("PA_Benchmark_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Benchmark_ID */
+public static final String COLUMNNAME_PA_Benchmark_ID = "PA_Benchmark_ID";
 /** Set Reporting Hierarchy.
 @param PA_Hierarchy_ID Optional Reporting Hierarchy - If not selected the default hierarchy trees are used. */
 public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
@@ -289,6 +307,8 @@ Integer ii = (Integer)get_Value("PA_Hierarchy_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Hierarchy_ID */
+public static final String COLUMNNAME_PA_Hierarchy_ID = "PA_Hierarchy_ID";
 /** Set Measure Calculation.
 @param PA_MeasureCalc_ID Calculation method for measuring performance */
 public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
@@ -305,6 +325,8 @@ Integer ii = (Integer)get_Value("PA_MeasureCalc_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_MeasureCalc_ID */
+public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
 /** Set Measure.
 @param PA_Measure_ID Concrete Performance Measurement */
 public void setPA_Measure_ID (int PA_Measure_ID)
@@ -320,6 +342,8 @@ Integer ii = (Integer)get_Value("PA_Measure_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Measure_ID */
+public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
 /** Set Ratio.
 @param PA_Ratio_ID Performace Ratio */
 public void setPA_Ratio_ID (int PA_Ratio_ID)
@@ -336,6 +360,8 @@ Integer ii = (Integer)get_Value("PA_Ratio_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Ratio_ID */
+public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -352,4 +378,6 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 }

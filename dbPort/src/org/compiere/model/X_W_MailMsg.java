@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_MailMsg
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_MailMsg extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** MailMsgType AD_Reference_ID=342 */
 public static final int MAILMSGTYPE_AD_Reference_ID=342;
@@ -148,6 +150,8 @@ public String getMailMsgType()
 {
 return (String)get_Value("MailMsgType");
 }
+/** Column name MailMsgType */
+public static final String COLUMNNAME_MailMsgType = "MailMsgType";
 /** Set Message.
 @param Message EMail Message */
 public void setMessage (String Message)
@@ -166,6 +170,8 @@ public String getMessage()
 {
 return (String)get_Value("Message");
 }
+/** Column name Message */
+public static final String COLUMNNAME_Message = "Message";
 /** Set Message 2.
 @param Message2 Optional second part of the EMail Message */
 public void setMessage2 (String Message2)
@@ -183,6 +189,8 @@ public String getMessage2()
 {
 return (String)get_Value("Message2");
 }
+/** Column name Message2 */
+public static final String COLUMNNAME_Message2 = "Message2";
 /** Set Message 3.
 @param Message3 Optional third part of the EMail Message */
 public void setMessage3 (String Message3)
@@ -200,6 +208,8 @@ public String getMessage3()
 {
 return (String)get_Value("Message3");
 }
+/** Column name Message3 */
+public static final String COLUMNNAME_Message3 = "Message3";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -224,6 +234,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Subject.
 @param Subject Email Message Subject */
 public void setSubject (String Subject)
@@ -242,6 +254,8 @@ public String getSubject()
 {
 return (String)get_Value("Subject");
 }
+/** Column name Subject */
+public static final String COLUMNNAME_Subject = "Subject";
 /** Set Mail Message.
 @param W_MailMsg_ID Web Store Mail Message Template */
 public void setW_MailMsg_ID (int W_MailMsg_ID)
@@ -257,6 +271,8 @@ Integer ii = (Integer)get_Value("W_MailMsg_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_MailMsg_ID */
+public static final String COLUMNNAME_W_MailMsg_ID = "W_MailMsg_ID";
 /** Set Web Store.
 @param W_Store_ID A Web Store of the Client */
 public void setW_Store_ID (int W_Store_ID)
@@ -272,4 +288,6 @@ Integer ii = (Integer)get_Value("W_Store_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Store_ID */
+public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_Transaction extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Project Issue.
 @param C_ProjectIssue_ID Project Issues (Material, Labor) */
 public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("C_ProjectIssue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectIssue_ID */
+public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -186,6 +196,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -202,6 +214,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Phys.Inventory.
 @param M_Inventory_ID Parameters for a Physical Inventory */
 public void setM_Inventory_ID (int M_Inventory_ID)
@@ -218,6 +232,8 @@ Integer ii = (Integer)get_Value("M_Inventory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Inventory_ID */
+public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -233,6 +249,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Move Line.
 @param M_MovementLine_ID Inventory Move document Line */
 public void setM_MovementLine_ID (int M_MovementLine_ID)
@@ -249,6 +267,8 @@ Integer ii = (Integer)get_Value("M_MovementLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_MovementLine_ID */
+public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 /** Set Inventory Move.
 @param M_Movement_ID Movement of Inventory */
 public void setM_Movement_ID (int M_Movement_ID)
@@ -265,6 +285,8 @@ Integer ii = (Integer)get_Value("M_Movement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Movement_ID */
+public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -280,6 +302,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Production Line.
 @param M_ProductionLine_ID Document Line representing a production */
 public void setM_ProductionLine_ID (int M_ProductionLine_ID)
@@ -296,6 +320,8 @@ Integer ii = (Integer)get_Value("M_ProductionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductionLine_ID */
+public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 /** Set Production.
 @param M_Production_ID Plan for producing a product */
 public void setM_Production_ID (int M_Production_ID)
@@ -312,6 +338,8 @@ Integer ii = (Integer)get_Value("M_Production_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Production_ID */
+public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 /** Set Inventory Transaction.
 @param M_Transaction_ID Inventory Transaction */
 public void setM_Transaction_ID (int M_Transaction_ID)
@@ -327,6 +355,8 @@ Integer ii = (Integer)get_Value("M_Transaction_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Transaction_ID */
+public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
 /** Set Movement Date.
 @param MovementDate Date a product was moved in or out of inventory */
 public void setMovementDate (Timestamp MovementDate)
@@ -340,6 +370,8 @@ public Timestamp getMovementDate()
 {
 return (Timestamp)get_Value("MovementDate");
 }
+/** Column name MovementDate */
+public static final String COLUMNNAME_MovementDate = "MovementDate";
 /** Set Movement Quantity.
 @param MovementQty Quantity of a product moved. */
 public void setMovementQty (BigDecimal MovementQty)
@@ -355,6 +387,8 @@ BigDecimal bd = (BigDecimal)get_Value("MovementQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MovementQty */
+public static final String COLUMNNAME_MovementQty = "MovementQty";
 
 /** MovementType AD_Reference_ID=189 */
 public static final int MOVEMENTTYPE_AD_Reference_ID=189;
@@ -402,6 +436,8 @@ public String getMovementType()
 {
 return (String)get_Value("MovementType");
 }
+/** Column name MovementType */
+public static final String COLUMNNAME_MovementType = "MovementType";
 
 /** Search_InOut_ID AD_Reference_ID=295 */
 public static final int SEARCH_INOUT_ID_AD_Reference_ID=295;
@@ -421,6 +457,8 @@ Integer ii = (Integer)get_Value("Search_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Search_InOut_ID */
+public static final String COLUMNNAME_Search_InOut_ID = "Search_InOut_ID";
 
 /** Search_Invoice_ID AD_Reference_ID=336 */
 public static final int SEARCH_INVOICE_ID_AD_Reference_ID=336;
@@ -440,6 +478,8 @@ Integer ii = (Integer)get_Value("Search_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Search_Invoice_ID */
+public static final String COLUMNNAME_Search_Invoice_ID = "Search_Invoice_ID";
 
 /** Search_Order_ID AD_Reference_ID=290 */
 public static final int SEARCH_ORDER_ID_AD_Reference_ID=290;
@@ -459,4 +499,6 @@ Integer ii = (Integer)get_Value("Search_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Search_Order_ID */
+public static final String COLUMNNAME_Search_Order_ID = "Search_Order_ID";
 }

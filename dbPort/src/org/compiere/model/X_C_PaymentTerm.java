@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_PaymentTerm extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AfterDelivery */
+public static final String COLUMNNAME_AfterDelivery = "AfterDelivery";
 /** Set Payment Term.
 @param C_PaymentTerm_ID The terms of Payment (timing, discount) */
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
@@ -129,6 +131,8 @@ Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -146,6 +150,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Discount %.
 @param Discount Discount in percent */
 public void setDiscount (BigDecimal Discount)
@@ -161,6 +167,8 @@ BigDecimal bd = (BigDecimal)get_Value("Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Discount */
+public static final String COLUMNNAME_Discount = "Discount";
 /** Set Discount 2 %.
 @param Discount2 Discount in percent */
 public void setDiscount2 (BigDecimal Discount2)
@@ -176,6 +184,8 @@ BigDecimal bd = (BigDecimal)get_Value("Discount2");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Discount2 */
+public static final String COLUMNNAME_Discount2 = "Discount2";
 /** Set Discount Days.
 @param DiscountDays Number of days from invoice date to be eligible for discount */
 public void setDiscountDays (int DiscountDays)
@@ -190,6 +200,8 @@ Integer ii = (Integer)get_Value("DiscountDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DiscountDays */
+public static final String COLUMNNAME_DiscountDays = "DiscountDays";
 /** Set Discount Days 2.
 @param DiscountDays2 Number of days from invoice date to be eligible for discount */
 public void setDiscountDays2 (int DiscountDays2)
@@ -204,6 +216,8 @@ Integer ii = (Integer)get_Value("DiscountDays2");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DiscountDays2 */
+public static final String COLUMNNAME_DiscountDays2 = "DiscountDays2";
 /** Set Document Note.
 @param DocumentNote Additional information for a Document */
 public void setDocumentNote (String DocumentNote)
@@ -221,6 +235,8 @@ public String getDocumentNote()
 {
 return (String)get_Value("DocumentNote");
 }
+/** Column name DocumentNote */
+public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 /** Set Fix month cutoff.
 @param FixMonthCutoff Last day to include for next due date */
 public void setFixMonthCutoff (int FixMonthCutoff)
@@ -235,6 +251,8 @@ Integer ii = (Integer)get_Value("FixMonthCutoff");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FixMonthCutoff */
+public static final String COLUMNNAME_FixMonthCutoff = "FixMonthCutoff";
 /** Set Fix month day.
 @param FixMonthDay Day of the month of the due date */
 public void setFixMonthDay (int FixMonthDay)
@@ -249,6 +267,8 @@ Integer ii = (Integer)get_Value("FixMonthDay");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FixMonthDay */
+public static final String COLUMNNAME_FixMonthDay = "FixMonthDay";
 /** Set Fix month offset.
 @param FixMonthOffset Number of months (0=same, 1=following) */
 public void setFixMonthOffset (int FixMonthOffset)
@@ -263,6 +283,8 @@ Integer ii = (Integer)get_Value("FixMonthOffset");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FixMonthOffset */
+public static final String COLUMNNAME_FixMonthOffset = "FixMonthOffset";
 /** Set Grace Days.
 @param GraceDays Days after due date to send first dunning letter */
 public void setGraceDays (int GraceDays)
@@ -277,6 +299,8 @@ Integer ii = (Integer)get_Value("GraceDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GraceDays */
+public static final String COLUMNNAME_GraceDays = "GraceDays";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -295,6 +319,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Fixed due date.
 @param IsDueFixed Payment is due on a fixed date */
 public void setIsDueFixed (boolean IsDueFixed)
@@ -313,6 +339,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDueFixed */
+public static final String COLUMNNAME_IsDueFixed = "IsDueFixed";
 /** Set Next Business Day.
 @param IsNextBusinessDay Payment due on the next business day */
 public void setIsNextBusinessDay (boolean IsNextBusinessDay)
@@ -331,6 +359,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsNextBusinessDay */
+public static final String COLUMNNAME_IsNextBusinessDay = "IsNextBusinessDay";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -349,6 +379,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -373,6 +405,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** NetDay AD_Reference_ID=167 */
 public static final int NETDAY_AD_Reference_ID=167;
@@ -409,6 +443,8 @@ public String getNetDay()
 {
 return (String)get_Value("NetDay");
 }
+/** Column name NetDay */
+public static final String COLUMNNAME_NetDay = "NetDay";
 /** Set Net Days.
 @param NetDays Net Days in which payment is due */
 public void setNetDays (int NetDays)
@@ -423,6 +459,8 @@ Integer ii = (Integer)get_Value("NetDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NetDays */
+public static final String COLUMNNAME_NetDays = "NetDays";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -441,6 +479,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -459,4 +499,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

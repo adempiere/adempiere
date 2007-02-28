@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_RMALine extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set RMA Line.
 @param M_RMALine_ID Return Material Authorization Line */
 public void setM_RMALine_ID (int M_RMALine_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_RMALine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_RMALine_ID */
+public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
 /** Set RMA.
 @param M_RMA_ID Return Material Authorization */
 public void setM_RMA_ID (int M_RMA_ID)
@@ -157,6 +163,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_RMA_ID()));
 }
+/** Column name M_RMA_ID */
+public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -175,6 +183,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -190,4 +200,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

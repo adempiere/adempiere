@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Form_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Form_ID */
+public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
 /** Set Import Format.
 @param AD_ImpFormat_ID Import Format */
 public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_ImpFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ImpFormat_ID */
+public static final String COLUMNNAME_AD_ImpFormat_ID = "AD_ImpFormat_ID";
 
 /** AD_Menu_ID AD_Reference_ID=105 */
 public static final int AD_MENU_ID_AD_Reference_ID=105;
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("AD_Menu_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Menu_ID */
+public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
 /** Set AD_Package_Code_New.
 @param AD_Package_Code_New AD_Package_Code_New */
 public void setAD_Package_Code_New (String AD_Package_Code_New)
@@ -157,6 +163,8 @@ public String getAD_Package_Code_New()
 {
 return (String)get_Value("AD_Package_Code_New");
 }
+/** Column name AD_Package_Code_New */
+public static final String COLUMNNAME_AD_Package_Code_New = "AD_Package_Code_New";
 /** Set AD_Package_Code_Old.
 @param AD_Package_Code_Old AD_Package_Code_Old */
 public void setAD_Package_Code_Old (String AD_Package_Code_Old)
@@ -174,6 +182,8 @@ public String getAD_Package_Code_Old()
 {
 return (String)get_Value("AD_Package_Code_Old");
 }
+/** Column name AD_Package_Code_Old */
+public static final String COLUMNNAME_AD_Package_Code_Old = "AD_Package_Code_Old";
 /** Set AD_Package_Exp_Detail_ID.
 @param AD_Package_Exp_Detail_ID AD_Package_Exp_Detail_ID */
 public void setAD_Package_Exp_Detail_ID (int AD_Package_Exp_Detail_ID)
@@ -195,6 +205,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Detail_ID()));
 }
+/** Column name AD_Package_Exp_Detail_ID */
+public static final String COLUMNNAME_AD_Package_Exp_Detail_ID = "AD_Package_Exp_Detail_ID";
 /** Set AD_Package_Exp_ID.
 @param AD_Package_Exp_ID AD_Package_Exp_ID */
 public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
@@ -210,6 +222,8 @@ Integer ii = (Integer)get_Value("AD_Package_Exp_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Exp_ID */
+public static final String COLUMNNAME_AD_Package_Exp_ID = "AD_Package_Exp_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -226,6 +240,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Report View.
 @param AD_ReportView_ID View used to generate this report */
 public void setAD_ReportView_ID (int AD_ReportView_ID)
@@ -242,6 +258,8 @@ Integer ii = (Integer)get_Value("AD_ReportView_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReportView_ID */
+public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 /** Set Role.
 @param AD_Role_ID Responsibility Role */
 public void setAD_Role_ID (int AD_Role_ID)
@@ -258,6 +276,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -274,6 +294,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -290,6 +312,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Workbench.
 @param AD_Workbench_ID Collection of windows, reports */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
@@ -306,6 +330,8 @@ Integer ii = (Integer)get_Value("AD_Workbench_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workbench_ID */
+public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 /** Set Workflow.
 @param AD_Workflow_ID Workflow or combination of tasks */
 public void setAD_Workflow_ID (int AD_Workflow_ID)
@@ -322,6 +348,8 @@ Integer ii = (Integer)get_Value("AD_Workflow_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workflow_ID */
+public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
 /** DBType AD_Reference_ID=50003 */
 public static final int DBTYPE_AD_Reference_ID=50003;
@@ -360,6 +388,8 @@ public String getDBType()
 {
 return (String)get_Value("DBType");
 }
+/** Column name DBType */
+public static final String COLUMNNAME_DBType = "DBType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -378,6 +408,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Destination_Directory.
 @param Destination_Directory Destination_Directory */
 public void setDestination_Directory (String Destination_Directory)
@@ -395,6 +427,8 @@ public String getDestination_Directory()
 {
 return (String)get_Value("Destination_Directory");
 }
+/** Column name Destination_Directory */
+public static final String COLUMNNAME_Destination_Directory = "Destination_Directory";
 /** Set Destination_FileName.
 @param Destination_FileName Destination_FileName */
 public void setDestination_FileName (String Destination_FileName)
@@ -412,6 +446,8 @@ public String getDestination_FileName()
 {
 return (String)get_Value("Destination_FileName");
 }
+/** Column name Destination_FileName */
+public static final String COLUMNNAME_Destination_FileName = "Destination_FileName";
 /** Set File Name.
 @param FileName Name of the local file or URL */
 public void setFileName (String FileName)
@@ -429,6 +465,8 @@ public String getFileName()
 {
 return (String)get_Value("FileName");
 }
+/** Column name FileName */
+public static final String COLUMNNAME_FileName = "FileName";
 /** Set File_Directory.
 @param File_Directory File_Directory */
 public void setFile_Directory (String File_Directory)
@@ -446,6 +484,8 @@ public String getFile_Directory()
 {
 return (String)get_Value("File_Directory");
 }
+/** Column name File_Directory */
+public static final String COLUMNNAME_File_Directory = "File_Directory";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -460,6 +500,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Name 2.
 @param Name2 Additional Name */
 public void setName2 (String Name2)
@@ -477,6 +519,8 @@ public String getName2()
 {
 return (String)get_Value("Name2");
 }
+/** Column name Name2 */
+public static final String COLUMNNAME_Name2 = "Name2";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -495,6 +539,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -513,6 +559,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** ReleaseNo AD_Reference_ID=50002 */
 public static final int RELEASENO_AD_Reference_ID=50002;
@@ -551,6 +599,8 @@ public String getReleaseNo()
 {
 return (String)get_Value("ReleaseNo");
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 /** Set SQLStatement.
 @param SQLStatement SQLStatement */
 public void setSQLStatement (String SQLStatement)
@@ -568,6 +618,8 @@ public String getSQLStatement()
 {
 return (String)get_Value("SQLStatement");
 }
+/** Column name SQLStatement */
+public static final String COLUMNNAME_SQLStatement = "SQLStatement";
 /** Set Target_Directory.
 @param Target_Directory Target_Directory */
 public void setTarget_Directory (String Target_Directory)
@@ -585,6 +637,8 @@ public String getTarget_Directory()
 {
 return (String)get_Value("Target_Directory");
 }
+/** Column name Target_Directory */
+public static final String COLUMNNAME_Target_Directory = "Target_Directory";
 
 /** Type AD_Reference_ID=50004 */
 public static final int TYPE_AD_Reference_ID=50004;
@@ -636,4 +690,6 @@ public String getType()
 {
 return (String)get_Value("Type");
 }
+/** Column name Type */
+public static final String COLUMNNAME_Type = "Type";
 }

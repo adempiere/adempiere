@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Production
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Production extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -174,6 +182,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Records created.
 @param IsCreated Records created */
 public void setIsCreated (boolean IsCreated)
@@ -192,6 +202,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCreated */
+public static final String COLUMNNAME_IsCreated = "IsCreated";
 /** Set Production.
 @param M_Production_ID Plan for producing a product */
 public void setM_Production_ID (int M_Production_ID)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("M_Production_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Production_ID */
+public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 /** Set Movement Date.
 @param MovementDate Date a product was moved in or out of inventory */
 public void setMovementDate (Timestamp MovementDate)
@@ -220,6 +234,8 @@ public Timestamp getMovementDate()
 {
 return (Timestamp)get_Value("MovementDate");
 }
+/** Column name MovementDate */
+public static final String COLUMNNAME_MovementDate = "MovementDate";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -244,6 +260,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Posted.
 @param Posted Posting status */
 public void setPosted (boolean Posted)
@@ -262,6 +280,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Posted */
+public static final String COLUMNNAME_Posted = "Posted";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -280,6 +300,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -298,6 +320,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -317,6 +341,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -336,4 +362,6 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_ImpFormat_Row extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Import Format.
 @param AD_ImpFormat_ID Import Format */
 public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
@@ -122,6 +124,8 @@ Integer ii = (Integer)get_Value("AD_ImpFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ImpFormat_ID */
+public static final String COLUMNNAME_AD_ImpFormat_ID = "AD_ImpFormat_ID";
 /** Set Format Field.
 @param AD_ImpFormat_Row_ID Format Field */
 public void setAD_ImpFormat_Row_ID (int AD_ImpFormat_Row_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("AD_ImpFormat_Row_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ImpFormat_Row_ID */
+public static final String COLUMNNAME_AD_ImpFormat_Row_ID = "AD_ImpFormat_Row_ID";
 /** Set Callout.
 @param Callout Fully qualified class names and method - separated by semicolons */
 public void setCallout (String Callout)
@@ -154,6 +160,8 @@ public String getCallout()
 {
 return (String)get_Value("Callout");
 }
+/** Column name Callout */
+public static final String COLUMNNAME_Callout = "Callout";
 /** Set Constant Value.
 @param ConstantValue Constant value */
 public void setConstantValue (String ConstantValue)
@@ -171,6 +179,8 @@ public String getConstantValue()
 {
 return (String)get_Value("ConstantValue");
 }
+/** Column name ConstantValue */
+public static final String COLUMNNAME_ConstantValue = "ConstantValue";
 /** Set Data Format.
 @param DataFormat Format String in Java Notation, e.g. ddMMyy */
 public void setDataFormat (String DataFormat)
@@ -188,6 +198,8 @@ public String getDataFormat()
 {
 return (String)get_Value("DataFormat");
 }
+/** Column name DataFormat */
+public static final String COLUMNNAME_DataFormat = "DataFormat";
 
 /** DataType AD_Reference_ID=210 */
 public static final int DATATYPE_AD_Reference_ID=210;
@@ -219,6 +231,8 @@ public String getDataType()
 {
 return (String)get_Value("DataType");
 }
+/** Column name DataType */
+public static final String COLUMNNAME_DataType = "DataType";
 /** Set Decimal Point.
 @param DecimalPoint Decimal Point in the data file - if any */
 public void setDecimalPoint (String DecimalPoint)
@@ -237,6 +251,8 @@ public String getDecimalPoint()
 {
 return (String)get_Value("DecimalPoint");
 }
+/** Column name DecimalPoint */
+public static final String COLUMNNAME_DecimalPoint = "DecimalPoint";
 /** Set Divide by 100.
 @param DivideBy100 Divide number by 100 to get correct amount */
 public void setDivideBy100 (boolean DivideBy100)
@@ -255,6 +271,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name DivideBy100 */
+public static final String COLUMNNAME_DivideBy100 = "DivideBy100";
 /** Set End No.
 @param EndNo End No */
 public void setEndNo (int EndNo)
@@ -269,6 +287,8 @@ Integer ii = (Integer)get_Value("EndNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name EndNo */
+public static final String COLUMNNAME_EndNo = "EndNo";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -293,6 +313,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Script.
 @param Script Dynamic Java Language Script to calculate result */
 public void setScript (String Script)
@@ -310,6 +332,8 @@ public String getScript()
 {
 return (String)get_Value("Script");
 }
+/** Column name Script */
+public static final String COLUMNNAME_Script = "Script";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -326,6 +350,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Start No.
 @param StartNo Starting number/position */
 public void setStartNo (int StartNo)
@@ -340,4 +366,6 @@ Integer ii = (Integer)get_Value("StartNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StartNo */
+public static final String COLUMNNAME_StartNo = "StartNo";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_Advertisement extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Advertisement Text.
 @param AdText Text of the Advertisement */
 public void setAdText (String AdText)
@@ -122,6 +124,8 @@ public String getAdText()
 {
 return (String)get_Value("AdText");
 }
+/** Column name AdText */
+public static final String COLUMNNAME_AdText = "AdText";
 
 /** C_BPartner_ID AD_Reference_ID=232 */
 public static final int C_BPARTNER_ID_AD_Reference_ID=232;
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -157,6 +163,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -174,6 +182,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -191,6 +201,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -209,6 +221,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -233,6 +247,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -251,6 +267,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** PublishStatus AD_Reference_ID=310 */
 public static final int PUBLISHSTATUS_AD_Reference_ID=310;
@@ -282,6 +300,8 @@ public String getPublishStatus()
 {
 return (String)get_Value("PublishStatus");
 }
+/** Column name PublishStatus */
+public static final String COLUMNNAME_PublishStatus = "PublishStatus";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -294,6 +314,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -306,6 +328,8 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (int Version)
@@ -320,6 +344,8 @@ Integer ii = (Integer)get_Value("Version");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 /** Set Advertisement.
 @param W_Advertisement_ID Web Advertisement */
 public void setW_Advertisement_ID (int W_Advertisement_ID)
@@ -335,6 +361,8 @@ Integer ii = (Integer)get_Value("W_Advertisement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Advertisement_ID */
+public static final String COLUMNNAME_W_Advertisement_ID = "W_Advertisement_ID";
 /** Set Click Count.
 @param W_ClickCount_ID Web Click Management */
 public void setW_ClickCount_ID (int W_ClickCount_ID)
@@ -351,6 +379,8 @@ Integer ii = (Integer)get_Value("W_ClickCount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_ClickCount_ID */
+public static final String COLUMNNAME_W_ClickCount_ID = "W_ClickCount_ID";
 /** Set Counter Count.
 @param W_CounterCount_ID Web Counter Count Management */
 public void setW_CounterCount_ID (int W_CounterCount_ID)
@@ -367,6 +397,8 @@ Integer ii = (Integer)get_Value("W_CounterCount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_CounterCount_ID */
+public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
 /** Set Web Parameter 1.
 @param WebParam1 Web Site Parameter 1 (default: header image) */
 public void setWebParam1 (String WebParam1)
@@ -384,6 +416,8 @@ public String getWebParam1()
 {
 return (String)get_Value("WebParam1");
 }
+/** Column name WebParam1 */
+public static final String COLUMNNAME_WebParam1 = "WebParam1";
 /** Set Web Parameter 2.
 @param WebParam2 Web Site Parameter 2 (default index page) */
 public void setWebParam2 (String WebParam2)
@@ -401,6 +435,8 @@ public String getWebParam2()
 {
 return (String)get_Value("WebParam2");
 }
+/** Column name WebParam2 */
+public static final String COLUMNNAME_WebParam2 = "WebParam2";
 /** Set Web Parameter 3.
 @param WebParam3 Web Site Parameter 3 (default left - menu) */
 public void setWebParam3 (String WebParam3)
@@ -418,6 +454,8 @@ public String getWebParam3()
 {
 return (String)get_Value("WebParam3");
 }
+/** Column name WebParam3 */
+public static final String COLUMNNAME_WebParam3 = "WebParam3";
 /** Set Web Parameter 4.
 @param WebParam4 Web Site Parameter 4 (default footer left) */
 public void setWebParam4 (String WebParam4)
@@ -435,4 +473,6 @@ public String getWebParam4()
 {
 return (String)get_Value("WebParam4");
 }
+/** Column name WebParam4 */
+public static final String COLUMNNAME_WebParam4 = "WebParam4";
 }

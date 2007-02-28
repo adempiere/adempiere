@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PerpetualInv
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_PerpetualInv extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name CountHighMovement */
+public static final String COLUMNNAME_CountHighMovement = "CountHighMovement";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -121,6 +123,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Date next run.
 @param DateNextRun Date the process will run next */
 public void setDateNextRun (Timestamp DateNextRun)
@@ -134,6 +138,8 @@ public Timestamp getDateNextRun()
 {
 return (Timestamp)get_Value("DateNextRun");
 }
+/** Column name DateNextRun */
+public static final String COLUMNNAME_DateNextRun = "DateNextRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -151,6 +157,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Perpetual Inventory.
 @param M_PerpetualInv_ID Rules for generating physical inventory */
 public void setM_PerpetualInv_ID (int M_PerpetualInv_ID)
@@ -166,6 +174,8 @@ Integer ii = (Integer)get_Value("M_PerpetualInv_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PerpetualInv_ID */
+public static final String COLUMNNAME_M_PerpetualInv_ID = "M_PerpetualInv_ID";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -198,6 +210,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -222,6 +236,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Number of Inventory counts.
 @param NoInventoryCount Frequency of inventory counts per year */
 public void setNoInventoryCount (int NoInventoryCount)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("NoInventoryCount");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NoInventoryCount */
+public static final String COLUMNNAME_NoInventoryCount = "NoInventoryCount";
 /** Set Number of Product counts.
 @param NoProductCount Frequency of product counts per year */
 public void setNoProductCount (int NoProductCount)
@@ -250,6 +268,8 @@ Integer ii = (Integer)get_Value("NoProductCount");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NoProductCount */
+public static final String COLUMNNAME_NoProductCount = "NoProductCount";
 /** Set Number of runs.
 @param NumberOfRuns Frequency of processing Perpetual Inventory */
 public void setNumberOfRuns (int NumberOfRuns)
@@ -264,6 +284,8 @@ Integer ii = (Integer)get_Value("NumberOfRuns");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NumberOfRuns */
+public static final String COLUMNNAME_NumberOfRuns = "NumberOfRuns";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -282,4 +304,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

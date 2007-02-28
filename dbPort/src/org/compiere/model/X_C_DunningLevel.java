@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_DunningLevel extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("C_DunningLevel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningLevel_ID */
+public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 /** Set Dunning.
 @param C_Dunning_ID Dunning Rules for overdue invoices */
 public void setC_Dunning_ID (int C_Dunning_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_Dunning_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Dunning_ID */
+public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
 /** Set Payment Term.
 @param C_PaymentTerm_ID The terms of Payment (timing, discount) */
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
@@ -142,6 +146,8 @@ Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Charge fee.
 @param ChargeFee Indicates if fees will be charged for overdue invoices */
 public void setChargeFee (boolean ChargeFee)
@@ -160,6 +166,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ChargeFee */
+public static final String COLUMNNAME_ChargeFee = "ChargeFee";
 /** Set Charge Interest.
 @param ChargeInterest Indicates if interest will be charged on overdue invoices */
 public void setChargeInterest (boolean ChargeInterest)
@@ -178,6 +186,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ChargeInterest */
+public static final String COLUMNNAME_ChargeInterest = "ChargeInterest";
 /** Set Days after due date.
 @param DaysAfterDue Days after due date to dun (if negative days until due) */
 public void setDaysAfterDue (BigDecimal DaysAfterDue)
@@ -193,6 +203,8 @@ BigDecimal bd = (BigDecimal)get_Value("DaysAfterDue");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DaysAfterDue */
+public static final String COLUMNNAME_DaysAfterDue = "DaysAfterDue";
 /** Set Days between dunning.
 @param DaysBetweenDunning Days between sending dunning notices */
 public void setDaysBetweenDunning (int DaysBetweenDunning)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("DaysBetweenDunning");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DaysBetweenDunning */
+public static final String COLUMNNAME_DaysBetweenDunning = "DaysBetweenDunning";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -224,6 +238,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** Dunning_PrintFormat_ID AD_Reference_ID=259 */
 public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
@@ -243,6 +259,8 @@ Integer ii = (Integer)get_Value("Dunning_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Dunning_PrintFormat_ID */
+public static final String COLUMNNAME_Dunning_PrintFormat_ID = "Dunning_PrintFormat_ID";
 /** Set Fee Amount.
 @param FeeAmt Fee amount in invoice currency */
 public void setFeeAmt (BigDecimal FeeAmt)
@@ -257,6 +275,8 @@ BigDecimal bd = (BigDecimal)get_Value("FeeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FeeAmt */
+public static final String COLUMNNAME_FeeAmt = "FeeAmt";
 /** Set Interest in percent.
 @param InterestPercent Percentage interest to charge on overdue invoices */
 public void setInterestPercent (BigDecimal InterestPercent)
@@ -271,6 +291,8 @@ BigDecimal bd = (BigDecimal)get_Value("InterestPercent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InterestPercent */
+public static final String COLUMNNAME_InterestPercent = "InterestPercent";
 /** Set Credit Stop.
 @param IsSetCreditStop Set the business partner to credit stop */
 public void setIsSetCreditStop (boolean IsSetCreditStop)
@@ -289,6 +311,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSetCreditStop */
+public static final String COLUMNNAME_IsSetCreditStop = "IsSetCreditStop";
 /** Set Set Payment Term.
 @param IsSetPaymentTerm Set the payment term of the Business Partner */
 public void setIsSetPaymentTerm (boolean IsSetPaymentTerm)
@@ -307,6 +331,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSetPaymentTerm */
+public static final String COLUMNNAME_IsSetPaymentTerm = "IsSetPaymentTerm";
 /** Set Show All Due.
 @param IsShowAllDue Show/print all due invoices */
 public void setIsShowAllDue (boolean IsShowAllDue)
@@ -325,6 +351,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsShowAllDue */
+public static final String COLUMNNAME_IsShowAllDue = "IsShowAllDue";
 /** Set Show Not Due.
 @param IsShowNotDue Show/print all invoices which are not due (yet). */
 public void setIsShowNotDue (boolean IsShowNotDue)
@@ -343,6 +371,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsShowNotDue */
+public static final String COLUMNNAME_IsShowNotDue = "IsShowNotDue";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -367,6 +397,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Note.
 @param Note Optional additional user defined information */
 public void setNote (String Note)
@@ -384,6 +416,8 @@ public String getNote()
 {
 return (String)get_Value("Note");
 }
+/** Column name Note */
+public static final String COLUMNNAME_Note = "Note";
 /** Set Print Text.
 @param PrintName The label text to be printed on a document or correspondence. */
 public void setPrintName (String PrintName)
@@ -402,4 +436,6 @@ public String getPrintName()
 {
 return (String)get_Value("PrintName");
 }
+/** Column name PrintName */
+public static final String COLUMNNAME_PrintName = "PrintName";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Product_BOM extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ BigDecimal bd = (BigDecimal)get_Value("BOMQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name BOMQty */
+public static final String COLUMNNAME_BOMQty = "BOMQty";
 
 /** BOMType AD_Reference_ID=279 */
 public static final int BOMTYPE_AD_Reference_ID=279;
@@ -148,6 +150,8 @@ public String getBOMType()
 {
 return (String)get_Value("BOMType");
 }
+/** Column name BOMType */
+public static final String COLUMNNAME_BOMType = "BOMType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -165,6 +169,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -179,6 +185,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 
 /** M_ProductBOM_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
@@ -203,6 +211,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
 }
+/** Column name M_ProductBOM_ID */
+public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
 /** Set BOM Line.
 @param M_Product_BOM_ID BOM Line */
 public void setM_Product_BOM_ID (int M_Product_BOM_ID)
@@ -218,6 +228,8 @@ Integer ii = (Integer)get_Value("M_Product_BOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_BOM_ID */
+public static final String COLUMNNAME_M_Product_BOM_ID = "M_Product_BOM_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -233,4 +245,6 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 }

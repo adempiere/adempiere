@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Sequence_No
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Sequence_No extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_Sequence_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Sequence_ID */
+public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
 /** Set Year.
 @param CalendarYear Calendar Year */
 public void setCalendarYear (String CalendarYear)
@@ -120,6 +122,8 @@ public String getCalendarYear()
 {
 return (String)get_Value("CalendarYear");
 }
+/** Column name CalendarYear */
+public static final String COLUMNNAME_CalendarYear = "CalendarYear";
 /** Set Current Next.
 @param CurrentNext The next number to be used */
 public void setCurrentNext (int CurrentNext)
@@ -134,4 +138,6 @@ Integer ii = (Integer)get_Value("CurrentNext");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CurrentNext */
+public static final String COLUMNNAME_CurrentNext = "CurrentNext";
 }

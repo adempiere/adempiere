@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserDef_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_UserDef_Tab extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tab_ID */
+public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
 /** Set User defined Tab.
 @param AD_UserDef_Tab_ID User defined Tab */
 public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_UserDef_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserDef_Tab_ID */
+public static final String COLUMNNAME_AD_UserDef_Tab_ID = "AD_UserDef_Tab_ID";
 /** Set User defined Window.
 @param AD_UserDef_Win_ID User defined Window */
 public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("AD_UserDef_Win_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserDef_Win_ID */
+public static final String COLUMNNAME_AD_UserDef_Win_ID = "AD_UserDef_Win_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -153,6 +159,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -170,6 +178,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Multi Row Only.
 @param IsMultiRowOnly This applies to Multi-Row view only */
 public void setIsMultiRowOnly (boolean IsMultiRowOnly)
@@ -188,6 +198,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMultiRowOnly */
+public static final String COLUMNNAME_IsMultiRowOnly = "IsMultiRowOnly";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -206,6 +218,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set Single Row Layout.
 @param IsSingleRow Default for toggle between Single- and Multi-Row (Grid) Layout */
 public void setIsSingleRow (boolean IsSingleRow)
@@ -224,6 +238,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSingleRow */
+public static final String COLUMNNAME_IsSingleRow = "IsSingleRow";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -248,4 +264,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

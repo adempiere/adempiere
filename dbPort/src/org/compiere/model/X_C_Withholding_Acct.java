@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Withholding_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Withholding_Acct extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Withholding.
 @param C_Withholding_ID Withholding type defined */
 public void setC_Withholding_ID (int C_Withholding_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("C_Withholding_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Withholding_ID */
+public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
 /** Set Withholding.
 @param Withholding_Acct Account for Withholdings */
 public void setWithholding_Acct (int Withholding_Acct)
@@ -131,4 +135,6 @@ Integer ii = (Integer)get_Value("Withholding_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Withholding_Acct */
+public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";
 }

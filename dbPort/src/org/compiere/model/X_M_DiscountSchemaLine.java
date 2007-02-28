@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_DiscountSchemaLine extends PO
 {
 /** Standard Constructor
@@ -123,6 +123,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Currency Type.
 @param C_ConversionType_ID Currency Conversion Rate Type */
 public void setC_ConversionType_ID (int C_ConversionType_ID)
@@ -138,6 +140,8 @@ Integer ii = (Integer)get_Value("C_ConversionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionType_ID */
+public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 /** Set Conversion Date.
 @param ConversionDate Date for selecting conversion rate */
 public void setConversionDate (Timestamp ConversionDate)
@@ -151,6 +155,8 @@ public Timestamp getConversionDate()
 {
 return (Timestamp)get_Value("ConversionDate");
 }
+/** Column name ConversionDate */
+public static final String COLUMNNAME_ConversionDate = "ConversionDate";
 /** Set Limit price Surcharge Amount.
 @param Limit_AddAmt Amount added to the converted/copied price before multiplying */
 public void setLimit_AddAmt (BigDecimal Limit_AddAmt)
@@ -166,6 +172,8 @@ BigDecimal bd = (BigDecimal)get_Value("Limit_AddAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Limit_AddAmt */
+public static final String COLUMNNAME_Limit_AddAmt = "Limit_AddAmt";
 
 /** Limit_Base AD_Reference_ID=194 */
 public static final int LIMIT_BASE_AD_Reference_ID=194;
@@ -197,6 +205,8 @@ public String getLimit_Base()
 {
 return (String)get_Value("Limit_Base");
 }
+/** Column name Limit_Base */
+public static final String COLUMNNAME_Limit_Base = "Limit_Base";
 /** Set Limit price Discount %.
 @param Limit_Discount Discount in percent to be subtracted from base, if negative it will be added to base price */
 public void setLimit_Discount (BigDecimal Limit_Discount)
@@ -212,6 +222,8 @@ BigDecimal bd = (BigDecimal)get_Value("Limit_Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Limit_Discount */
+public static final String COLUMNNAME_Limit_Discount = "Limit_Discount";
 /** Set Fixed Limit Price.
 @param Limit_Fixed Fixed Limit Price (not calculated) */
 public void setLimit_Fixed (BigDecimal Limit_Fixed)
@@ -226,6 +238,8 @@ BigDecimal bd = (BigDecimal)get_Value("Limit_Fixed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Limit_Fixed */
+public static final String COLUMNNAME_Limit_Fixed = "Limit_Fixed";
 /** Set Limit price max Margin.
 @param Limit_MaxAmt Maximum difference to original limit price;
  ignored if zero */
@@ -243,6 +257,8 @@ BigDecimal bd = (BigDecimal)get_Value("Limit_MaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Limit_MaxAmt */
+public static final String COLUMNNAME_Limit_MaxAmt = "Limit_MaxAmt";
 /** Set Limit price min Margin.
 @param Limit_MinAmt Minimum difference to original limit price;
  ignored if zero */
@@ -260,6 +276,8 @@ BigDecimal bd = (BigDecimal)get_Value("Limit_MinAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Limit_MinAmt */
+public static final String COLUMNNAME_Limit_MinAmt = "Limit_MinAmt";
 
 /** Limit_Rounding AD_Reference_ID=155 */
 public static final int LIMIT_ROUNDING_AD_Reference_ID=155;
@@ -297,6 +315,8 @@ public String getLimit_Rounding()
 {
 return (String)get_Value("Limit_Rounding");
 }
+/** Column name Limit_Rounding */
+public static final String COLUMNNAME_Limit_Rounding = "Limit_Rounding";
 /** Set List price Surcharge Amount.
 @param List_AddAmt List Price Surcharge Amount */
 public void setList_AddAmt (BigDecimal List_AddAmt)
@@ -312,6 +332,8 @@ BigDecimal bd = (BigDecimal)get_Value("List_AddAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name List_AddAmt */
+public static final String COLUMNNAME_List_AddAmt = "List_AddAmt";
 
 /** List_Base AD_Reference_ID=194 */
 public static final int LIST_BASE_AD_Reference_ID=194;
@@ -343,6 +365,8 @@ public String getList_Base()
 {
 return (String)get_Value("List_Base");
 }
+/** Column name List_Base */
+public static final String COLUMNNAME_List_Base = "List_Base";
 /** Set List price Discount %.
 @param List_Discount Discount from list price as a percentage */
 public void setList_Discount (BigDecimal List_Discount)
@@ -358,6 +382,8 @@ BigDecimal bd = (BigDecimal)get_Value("List_Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name List_Discount */
+public static final String COLUMNNAME_List_Discount = "List_Discount";
 /** Set Fixed List Price.
 @param List_Fixed Fixes List Price (not calculated) */
 public void setList_Fixed (BigDecimal List_Fixed)
@@ -372,6 +398,8 @@ BigDecimal bd = (BigDecimal)get_Value("List_Fixed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name List_Fixed */
+public static final String COLUMNNAME_List_Fixed = "List_Fixed";
 /** Set List price max Margin.
 @param List_MaxAmt Maximum margin for a product */
 public void setList_MaxAmt (BigDecimal List_MaxAmt)
@@ -387,6 +415,8 @@ BigDecimal bd = (BigDecimal)get_Value("List_MaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name List_MaxAmt */
+public static final String COLUMNNAME_List_MaxAmt = "List_MaxAmt";
 /** Set List price min Margin.
 @param List_MinAmt Minimum margin for a product */
 public void setList_MinAmt (BigDecimal List_MinAmt)
@@ -402,6 +432,8 @@ BigDecimal bd = (BigDecimal)get_Value("List_MinAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name List_MinAmt */
+public static final String COLUMNNAME_List_MinAmt = "List_MinAmt";
 
 /** List_Rounding AD_Reference_ID=155 */
 public static final int LIST_ROUNDING_AD_Reference_ID=155;
@@ -439,6 +471,8 @@ public String getList_Rounding()
 {
 return (String)get_Value("List_Rounding");
 }
+/** Column name List_Rounding */
+public static final String COLUMNNAME_List_Rounding = "List_Rounding";
 /** Set Discount Pricelist.
 @param M_DiscountSchemaLine_ID Line of the pricelist trade discount schema */
 public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
@@ -454,6 +488,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchemaLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchemaLine_ID */
+public static final String COLUMNNAME_M_DiscountSchemaLine_ID = "M_DiscountSchemaLine_ID";
 /** Set Discount Schema.
 @param M_DiscountSchema_ID Schema to calculate the trade discount percentage */
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
@@ -469,6 +505,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchema_ID */
+public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -485,6 +523,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -501,6 +541,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -523,6 +565,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Standard price Surcharge Amount.
 @param Std_AddAmt Amount added to a price as a surcharge */
 public void setStd_AddAmt (BigDecimal Std_AddAmt)
@@ -538,6 +582,8 @@ BigDecimal bd = (BigDecimal)get_Value("Std_AddAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Std_AddAmt */
+public static final String COLUMNNAME_Std_AddAmt = "Std_AddAmt";
 
 /** Std_Base AD_Reference_ID=194 */
 public static final int STD_BASE_AD_Reference_ID=194;
@@ -569,6 +615,8 @@ public String getStd_Base()
 {
 return (String)get_Value("Std_Base");
 }
+/** Column name Std_Base */
+public static final String COLUMNNAME_Std_Base = "Std_Base";
 /** Set Standard price Discount %.
 @param Std_Discount Discount percentage to subtract from base price */
 public void setStd_Discount (BigDecimal Std_Discount)
@@ -584,6 +632,8 @@ BigDecimal bd = (BigDecimal)get_Value("Std_Discount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Std_Discount */
+public static final String COLUMNNAME_Std_Discount = "Std_Discount";
 /** Set Fixed Standard Price.
 @param Std_Fixed Fixed Standard Price (not calculated) */
 public void setStd_Fixed (BigDecimal Std_Fixed)
@@ -598,6 +648,8 @@ BigDecimal bd = (BigDecimal)get_Value("Std_Fixed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Std_Fixed */
+public static final String COLUMNNAME_Std_Fixed = "Std_Fixed";
 /** Set Standard max Margin.
 @param Std_MaxAmt Maximum margin allowed for a product */
 public void setStd_MaxAmt (BigDecimal Std_MaxAmt)
@@ -613,6 +665,8 @@ BigDecimal bd = (BigDecimal)get_Value("Std_MaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Std_MaxAmt */
+public static final String COLUMNNAME_Std_MaxAmt = "Std_MaxAmt";
 /** Set Standard price min Margin.
 @param Std_MinAmt Minimum margin allowed for a product */
 public void setStd_MinAmt (BigDecimal Std_MinAmt)
@@ -628,6 +682,8 @@ BigDecimal bd = (BigDecimal)get_Value("Std_MinAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Std_MinAmt */
+public static final String COLUMNNAME_Std_MinAmt = "Std_MinAmt";
 
 /** Std_Rounding AD_Reference_ID=155 */
 public static final int STD_ROUNDING_AD_Reference_ID=155;
@@ -665,4 +721,6 @@ public String getStd_Rounding()
 {
 return (String)get_Value("Std_Rounding");
 }
+/** Column name Std_Rounding */
+public static final String COLUMNNAME_Std_Rounding = "Std_Rounding";
 }

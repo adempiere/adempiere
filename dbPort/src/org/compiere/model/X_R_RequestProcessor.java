@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_RequestProcessor extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Date next run.
 @param DateNextRun Date the process will run next */
 public void setDateNextRun (Timestamp DateNextRun)
@@ -118,6 +120,8 @@ public Timestamp getDateNextRun()
 {
 return (Timestamp)get_Value("DateNextRun");
 }
+/** Column name DateNextRun */
+public static final String COLUMNNAME_DateNextRun = "DateNextRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Frequency.
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
@@ -149,6 +155,8 @@ Integer ii = (Integer)get_Value("Frequency");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Frequency */
+public static final String COLUMNNAME_Frequency = "Frequency";
 
 /** FrequencyType AD_Reference_ID=221 */
 public static final int FREQUENCYTYPE_AD_Reference_ID=221;
@@ -178,6 +186,8 @@ public String getFrequencyType()
 {
 return (String)get_Value("FrequencyType");
 }
+/** Column name FrequencyType */
+public static final String COLUMNNAME_FrequencyType = "FrequencyType";
 /** Set Inactivity Alert Days.
 @param InactivityAlertDays Send Alert when there is no activity after days (0= no alert) */
 public void setInactivityAlertDays (int InactivityAlertDays)
@@ -192,6 +202,8 @@ Integer ii = (Integer)get_Value("InactivityAlertDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name InactivityAlertDays */
+public static final String COLUMNNAME_InactivityAlertDays = "InactivityAlertDays";
 /** Set Days to keep Log.
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
@@ -206,6 +218,8 @@ Integer ii = (Integer)get_Value("KeepLogDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name KeepLogDays */
+public static final String COLUMNNAME_KeepLogDays = "KeepLogDays";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -230,6 +244,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Alert after Days Due.
 @param OverdueAlertDays Send email alert after number of days due (0=no alerts) */
 public void setOverdueAlertDays (int OverdueAlertDays)
@@ -244,6 +260,8 @@ Integer ii = (Integer)get_Value("OverdueAlertDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name OverdueAlertDays */
+public static final String COLUMNNAME_OverdueAlertDays = "OverdueAlertDays";
 /** Set Escalate after Days Due.
 @param OverdueAssignDays Escalation to superior after number of due days (0 = no) */
 public void setOverdueAssignDays (int OverdueAssignDays)
@@ -258,6 +276,8 @@ Integer ii = (Integer)get_Value("OverdueAssignDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name OverdueAssignDays */
+public static final String COLUMNNAME_OverdueAssignDays = "OverdueAssignDays";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -276,6 +296,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Request Processor.
 @param R_RequestProcessor_ID Processor for Requests */
 public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
@@ -291,6 +313,8 @@ Integer ii = (Integer)get_Value("R_RequestProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestProcessor_ID */
+public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -307,6 +331,8 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 /** Set Reminder Days.
 @param RemindDays Days between sending Reminder Emails for a due or inactive Document */
 public void setRemindDays (int RemindDays)
@@ -321,6 +347,8 @@ Integer ii = (Integer)get_Value("RemindDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name RemindDays */
+public static final String COLUMNNAME_RemindDays = "RemindDays";
 
 /** Supervisor_ID AD_Reference_ID=286 */
 public static final int SUPERVISOR_ID_AD_Reference_ID=286;
@@ -339,4 +367,6 @@ Integer ii = (Integer)get_Value("Supervisor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Supervisor_ID */
+public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 }

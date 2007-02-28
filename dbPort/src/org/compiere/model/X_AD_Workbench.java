@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workbench
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Workbench extends PO
 {
 /** Standard Constructor
@@ -100,6 +100,8 @@ public Object getAD_Color_ID()
 {
 return get_Value("AD_Color_ID");
 }
+/** Column name AD_Color_ID */
+public static final String COLUMNNAME_AD_Color_ID = "AD_Color_ID";
 
 /** AD_Column_ID AD_Reference_ID=244 */
 public static final int AD_COLUMN_ID_AD_Reference_ID=244;
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Image.
 @param AD_Image_ID Image or Icon */
 public void setAD_Image_ID (int AD_Image_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set Workbench.
 @param AD_Workbench_ID Collection of windows, reports */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
@@ -149,6 +155,8 @@ Integer ii = (Integer)get_Value("AD_Workbench_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workbench_ID */
+public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -166,6 +174,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -188,6 +198,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -205,6 +217,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -229,4 +243,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_JournalLine extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctCr */
+public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
 /** Set Accounted Debit.
 @param AmtAcctDr Accounted Debit Amount */
 public void setAmtAcctDr (BigDecimal AmtAcctDr)
@@ -129,6 +131,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtAcctDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtAcctDr */
+public static final String COLUMNNAME_AmtAcctDr = "AmtAcctDr";
 /** Set Source Credit.
 @param AmtSourceCr Source Credit Amount */
 public void setAmtSourceCr (BigDecimal AmtSourceCr)
@@ -144,6 +148,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSourceCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSourceCr */
+public static final String COLUMNNAME_AmtSourceCr = "AmtSourceCr";
 /** Set Source Debit.
 @param AmtSourceDr Source Debit Amount */
 public void setAmtSourceDr (BigDecimal AmtSourceDr)
@@ -159,6 +165,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSourceDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSourceDr */
+public static final String COLUMNNAME_AmtSourceDr = "AmtSourceDr";
 /** Set Currency Type.
 @param C_ConversionType_ID Currency Conversion Rate Type */
 public void setC_ConversionType_ID (int C_ConversionType_ID)
@@ -174,6 +182,8 @@ Integer ii = (Integer)get_Value("C_ConversionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ConversionType_ID */
+public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -189,6 +199,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -205,6 +217,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Combination.
 @param C_ValidCombination_ID Valid Account Combination */
 public void setC_ValidCombination_ID (int C_ValidCombination_ID)
@@ -220,6 +234,8 @@ Integer ii = (Integer)get_Value("C_ValidCombination_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ValidCombination_ID */
+public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
 /** Set Rate.
 @param CurrencyRate Currency Conversion Rate */
 public void setCurrencyRate (BigDecimal CurrencyRate)
@@ -235,6 +251,8 @@ BigDecimal bd = (BigDecimal)get_Value("CurrencyRate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CurrencyRate */
+public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -248,6 +266,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -265,6 +285,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Journal Line.
 @param GL_JournalLine_ID General Ledger Journal Line */
 public void setGL_JournalLine_ID (int GL_JournalLine_ID)
@@ -280,6 +302,8 @@ Integer ii = (Integer)get_Value("GL_JournalLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_JournalLine_ID */
+public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
 /** Set Journal.
 @param GL_Journal_ID General Ledger Journal */
 public void setGL_Journal_ID (int GL_Journal_ID)
@@ -295,6 +319,8 @@ Integer ii = (Integer)get_Value("GL_Journal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Journal_ID */
+public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 /** Set Generated.
 @param IsGenerated This Line is generated */
 public void setIsGenerated (boolean IsGenerated)
@@ -313,6 +339,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGenerated */
+public static final String COLUMNNAME_IsGenerated = "IsGenerated";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -333,6 +361,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -351,6 +381,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -365,4 +397,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

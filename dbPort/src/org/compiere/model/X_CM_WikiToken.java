@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WikiToken
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_WikiToken extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Wiki Token.
 @param CM_WikiToken_ID Wiki Token */
 public void setCM_WikiToken_ID (int CM_WikiToken_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("CM_WikiToken_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WikiToken_ID */
+public static final String COLUMNNAME_CM_WikiToken_ID = "CM_WikiToken_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Macro.
 @param Macro Macro */
 public void setMacro (String Macro)
@@ -152,6 +158,8 @@ public String getMacro()
 {
 return (String)get_Value("Macro");
 }
+/** Column name Macro */
+public static final String COLUMNNAME_Macro = "Macro";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -176,6 +184,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sql SELECT.
 @param SelectClause SQL SELECT clause */
 public void setSelectClause (String SelectClause)
@@ -193,6 +203,8 @@ public String getSelectClause()
 {
 return (String)get_Value("SelectClause");
 }
+/** Column name SelectClause */
+public static final String COLUMNNAME_SelectClause = "SelectClause";
 
 /** TokenType AD_Reference_ID=397 */
 public static final int TOKENTYPE_AD_Reference_ID=397;
@@ -224,6 +236,8 @@ public String getTokenType()
 {
 return (String)get_Value("TokenType");
 }
+/** Column name TokenType */
+public static final String COLUMNNAME_TokenType = "TokenType";
 /** Set Sql WHERE.
 @param WhereClause Fully qualified SQL WHERE clause */
 public void setWhereClause (String WhereClause)
@@ -241,4 +255,6 @@ public String getWhereClause()
 {
 return (String)get_Value("WhereClause");
 }
+/** Column name WhereClause */
+public static final String COLUMNNAME_WhereClause = "WhereClause";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_MovementConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_MovementConfirm extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ BigDecimal bd = (BigDecimal)get_Value("ApprovalAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ApprovalAmt */
+public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -122,6 +124,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
@@ -173,6 +177,8 @@ public String getDocAction()
 {
 return (String)get_Value("DocAction");
 }
+/** Column name DocAction */
+public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
@@ -220,6 +226,8 @@ public String getDocStatus()
 {
 return (String)get_Value("DocStatus");
 }
+/** Column name DocStatus */
+public static final String COLUMNNAME_DocStatus = "DocStatus";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -244,6 +252,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -262,6 +272,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 /** Set Phys.Inventory.
 @param M_Inventory_ID Parameters for a Physical Inventory */
 public void setM_Inventory_ID (int M_Inventory_ID)
@@ -278,6 +290,8 @@ Integer ii = (Integer)get_Value("M_Inventory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Inventory_ID */
+public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 /** Set Move Confirm.
 @param M_MovementConfirm_ID Inventory Move Confirmation */
 public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
@@ -293,6 +307,8 @@ Integer ii = (Integer)get_Value("M_MovementConfirm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_MovementConfirm_ID */
+public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
 /** Set Inventory Move.
 @param M_Movement_ID Movement of Inventory */
 public void setM_Movement_ID (int M_Movement_ID)
@@ -308,6 +324,8 @@ Integer ii = (Integer)get_Value("M_Movement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Movement_ID */
+public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -326,6 +344,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -344,4 +364,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

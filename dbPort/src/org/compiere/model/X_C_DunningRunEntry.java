@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRunEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_DunningRunEntry extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Amount.
 @param Amt Amount */
 public void setAmt (BigDecimal Amt)
@@ -124,6 +126,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -169,6 +177,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Dunning Run Entry.
 @param C_DunningRunEntry_ID Dunning Run Entry */
 public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
@@ -184,6 +194,8 @@ Integer ii = (Integer)get_Value("C_DunningRunEntry_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningRunEntry_ID */
+public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
 /** Set Dunning Run.
 @param C_DunningRun_ID Dunning Run */
 public void setC_DunningRun_ID (int C_DunningRun_ID)
@@ -205,6 +217,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_DunningRun_ID()));
 }
+/** Column name C_DunningRun_ID */
+public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";
 /** Set Note.
 @param Note Optional additional user defined information */
 public void setNote (String Note)
@@ -222,6 +236,8 @@ public String getNote()
 {
 return (String)get_Value("Note");
 }
+/** Column name Note */
+public static final String COLUMNNAME_Note = "Note";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -240,6 +256,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -255,6 +273,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 
 /** SalesRep_ID AD_Reference_ID=190 */
 public static final int SALESREP_ID_AD_Reference_ID=190;
@@ -273,4 +293,6 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 }

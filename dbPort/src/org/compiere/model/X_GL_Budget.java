@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Budget
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_Budget extends PO
 {
 /** Standard Constructor
@@ -113,6 +113,8 @@ public String getBudgetStatus()
 {
 return (String)get_Value("BudgetStatus");
 }
+/** Column name BudgetStatus */
+public static final String COLUMNNAME_BudgetStatus = "BudgetStatus";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -130,6 +132,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Budget.
 @param GL_Budget_ID General Ledger Budget */
 public void setGL_Budget_ID (int GL_Budget_ID)
@@ -145,6 +149,8 @@ Integer ii = (Integer)get_Value("GL_Budget_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Budget_ID */
+public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 /** Set Primary.
 @param IsPrimary Indicates if this is the primary budget */
 public void setIsPrimary (boolean IsPrimary)
@@ -163,6 +169,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrimary */
+public static final String COLUMNNAME_IsPrimary = "IsPrimary";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -187,4 +195,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Media_Server
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Media_Server extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("CM_Media_Server_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_Server_ID */
+public static final String COLUMNNAME_CM_Media_Server_ID = "CM_Media_Server_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Folder.
 @param Folder A folder on a local or remote system to store data into */
 public void setFolder (String Folder)
@@ -152,6 +158,8 @@ public String getFolder()
 {
 return (String)get_Value("Folder");
 }
+/** Column name Folder */
+public static final String COLUMNNAME_Folder = "Folder";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -169,6 +177,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set IP Address.
 @param IP_Address Defines the IP address to transfer data to */
 public void setIP_Address (String IP_Address)
@@ -186,6 +196,8 @@ public String getIP_Address()
 {
 return (String)get_Value("IP_Address");
 }
+/** Column name IP_Address */
+public static final String COLUMNNAME_IP_Address = "IP_Address";
 /** Set Transfer passive.
 @param IsPassive FTP passive transfer */
 public void setIsPassive (boolean IsPassive)
@@ -204,6 +216,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPassive */
+public static final String COLUMNNAME_IsPassive = "IsPassive";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -228,6 +242,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -245,6 +261,8 @@ public String getPassword()
 {
 return (String)get_Value("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set URL.
 @param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
@@ -262,6 +280,8 @@ public String getURL()
 {
 return (String)get_Value("URL");
 }
+/** Column name URL */
+public static final String COLUMNNAME_URL = "URL";
 /** Set Registered EMail.
 @param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
@@ -279,4 +299,6 @@ public String getUserName()
 {
 return (String)get_Value("UserName");
 }
+/** Column name UserName */
+public static final String COLUMNNAME_UserName = "UserName";
 }

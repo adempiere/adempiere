@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set AD_Package_Imp_Backup_ID.
 @param AD_Package_Imp_Backup_ID AD_Package_Imp_Backup_ID */
 public void setAD_Package_Imp_Backup_ID (int AD_Package_Imp_Backup_ID)
@@ -127,6 +129,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Imp_Backup_ID()));
 }
+/** Column name AD_Package_Imp_Backup_ID */
+public static final String COLUMNNAME_AD_Package_Imp_Backup_ID = "AD_Package_Imp_Backup_ID";
 /** Set AD_Package_Imp_Bck_Dir.
 @param AD_Package_Imp_Bck_Dir AD_Package_Imp_Bck_Dir */
 public void setAD_Package_Imp_Bck_Dir (String AD_Package_Imp_Bck_Dir)
@@ -144,6 +148,8 @@ public String getAD_Package_Imp_Bck_Dir()
 {
 return (String)get_Value("AD_Package_Imp_Bck_Dir");
 }
+/** Column name AD_Package_Imp_Bck_Dir */
+public static final String COLUMNNAME_AD_Package_Imp_Bck_Dir = "AD_Package_Imp_Bck_Dir";
 /** Set AD_Package_Imp_Detail_ID.
 @param AD_Package_Imp_Detail_ID AD_Package_Imp_Detail_ID */
 public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
@@ -159,6 +165,8 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_Detail_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Imp_Detail_ID */
+public static final String COLUMNNAME_AD_Package_Imp_Detail_ID = "AD_Package_Imp_Detail_ID";
 /** Set AD_Package_Imp_ID.
 @param AD_Package_Imp_ID AD_Package_Imp_ID */
 public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
@@ -174,6 +182,8 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Imp_ID */
+public static final String COLUMNNAME_AD_Package_Imp_ID = "AD_Package_Imp_ID";
 /** Set AD_Package_Imp_Org_Dir.
 @param AD_Package_Imp_Org_Dir AD_Package_Imp_Org_Dir */
 public void setAD_Package_Imp_Org_Dir (String AD_Package_Imp_Org_Dir)
@@ -191,6 +201,8 @@ public String getAD_Package_Imp_Org_Dir()
 {
 return (String)get_Value("AD_Package_Imp_Org_Dir");
 }
+/** Column name AD_Package_Imp_Org_Dir */
+public static final String COLUMNNAME_AD_Package_Imp_Org_Dir = "AD_Package_Imp_Org_Dir";
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
@@ -210,6 +222,8 @@ Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -226,6 +240,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set ColValue.
 @param ColValue ColValue */
 public void setColValue (String ColValue)
@@ -243,6 +259,8 @@ public String getColValue()
 {
 return (String)get_Value("ColValue");
 }
+/** Column name ColValue */
+public static final String COLUMNNAME_ColValue = "ColValue";
 /** Set Uninstall.
 @param Uninstall Uninstall */
 public void setUninstall (boolean Uninstall)
@@ -261,4 +279,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Uninstall */
+public static final String COLUMNNAME_Uninstall = "Uninstall";
 }

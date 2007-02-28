@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Task extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_Phase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Phase_ID */
+public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
 /** Set Standard Task.
 @param C_Task_ID Standard Project Type Task */
 public void setC_Task_ID (int C_Task_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Task_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Task_ID */
+public static final String COLUMNNAME_C_Task_ID = "C_Task_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -153,6 +159,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -169,6 +177,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -193,6 +203,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -209,6 +221,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Standard Quantity.
 @param StandardQty Standard Quantity */
 public void setStandardQty (BigDecimal StandardQty)
@@ -224,4 +238,6 @@ BigDecimal bd = (BigDecimal)get_Value("StandardQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name StandardQty */
+public static final String COLUMNNAME_StandardQty = "StandardQty";
 }

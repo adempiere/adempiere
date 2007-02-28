@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BPartner_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BPartner_Product extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -120,6 +122,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Manufacturer.
 @param Manufacturer Manufacturer of the Product */
 public void setManufacturer (String Manufacturer)
@@ -152,6 +158,8 @@ public String getManufacturer()
 {
 return (String)get_Value("Manufacturer");
 }
+/** Column name Manufacturer */
+public static final String COLUMNNAME_Manufacturer = "Manufacturer";
 /** Set Quality Rating.
 @param QualityRating Method for rating vendors */
 public void setQualityRating (BigDecimal QualityRating)
@@ -166,6 +174,8 @@ BigDecimal bd = (BigDecimal)get_Value("QualityRating");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QualityRating */
+public static final String COLUMNNAME_QualityRating = "QualityRating";
 /** Set Min Shelf Life Days.
 @param ShelfLifeMinDays Minimum Shelf Life in days based on Product Instance Guarantee Date */
 public void setShelfLifeMinDays (int ShelfLifeMinDays)
@@ -180,6 +190,8 @@ Integer ii = (Integer)get_Value("ShelfLifeMinDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ShelfLifeMinDays */
+public static final String COLUMNNAME_ShelfLifeMinDays = "ShelfLifeMinDays";
 /** Set Min Shelf Life %.
 @param ShelfLifeMinPct Minimum Shelf Life in percent based on Product Instance Guarantee Date */
 public void setShelfLifeMinPct (int ShelfLifeMinPct)
@@ -194,6 +206,8 @@ Integer ii = (Integer)get_Value("ShelfLifeMinPct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ShelfLifeMinPct */
+public static final String COLUMNNAME_ShelfLifeMinPct = "ShelfLifeMinPct";
 /** Set Partner Category.
 @param VendorCategory Product Category of the Business Partner */
 public void setVendorCategory (String VendorCategory)
@@ -211,6 +225,8 @@ public String getVendorCategory()
 {
 return (String)get_Value("VendorCategory");
 }
+/** Column name VendorCategory */
+public static final String COLUMNNAME_VendorCategory = "VendorCategory";
 /** Set Partner Product Key.
 @param VendorProductNo Product Key of the Business Partner */
 public void setVendorProductNo (String VendorProductNo)
@@ -228,4 +244,6 @@ public String getVendorProductNo()
 {
 return (String)get_Value("VendorProductNo");
 }
+/** Column name VendorProductNo */
+public static final String COLUMNNAME_VendorProductNo = "VendorProductNo";
 }

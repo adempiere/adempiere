@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_CounterCount
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_CounterCount extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Counter.
 @param Counter Count Value */
 public void setCounter (int Counter)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("Counter");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Counter */
+public static final String COLUMNNAME_Counter = "Counter";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -137,6 +141,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -161,6 +167,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Page URL.
 @param PageURL Page URL */
 public void setPageURL (String PageURL)
@@ -179,6 +187,8 @@ public String getPageURL()
 {
 return (String)get_Value("PageURL");
 }
+/** Column name PageURL */
+public static final String COLUMNNAME_PageURL = "PageURL";
 /** Set Counter Count.
 @param W_CounterCount_ID Web Counter Count Management */
 public void setW_CounterCount_ID (int W_CounterCount_ID)
@@ -194,4 +204,6 @@ Integer ii = (Integer)get_Value("W_CounterCount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_CounterCount_ID */
+public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
 }

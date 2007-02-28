@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Process_Para extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("AD_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Element_ID */
+public static final String COLUMNNAME_AD_Element_ID = "AD_Element_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Process Parameter.
 @param AD_Process_Para_ID Process Parameter */
 public void setAD_Process_Para_ID (int AD_Process_Para_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("AD_Process_Para_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_Para_ID */
+public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
 
 /** AD_Reference_ID AD_Reference_ID=1 */
 public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
@@ -159,6 +165,8 @@ Integer ii = (Integer)get_Value("AD_Reference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 
 /** AD_Reference_Value_ID AD_Reference_ID=4 */
 public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("AD_Reference_Value_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Reference_Value_ID */
+public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
 /** Set Dynamic Validation.
 @param AD_Val_Rule_ID Dynamic Validation Rule */
 public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
@@ -194,6 +204,8 @@ Integer ii = (Integer)get_Value("AD_Val_Rule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Val_Rule_ID */
+public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
 /** Set DB Column Name.
 @param ColumnName Name of the column in the database */
 public void setColumnName (String ColumnName)
@@ -212,6 +224,8 @@ public String getColumnName()
 {
 return (String)get_Value("ColumnName");
 }
+/** Column name ColumnName */
+public static final String COLUMNNAME_ColumnName = "ColumnName";
 /** Set Default Logic.
 @param DefaultValue Default value hierarchy, separated by ;
  */
@@ -231,6 +245,8 @@ public String getDefaultValue()
 {
 return (String)get_Value("DefaultValue");
 }
+/** Column name DefaultValue */
+public static final String COLUMNNAME_DefaultValue = "DefaultValue";
 /** Set Default Logic 2.
 @param DefaultValue2 Default value hierarchy, separated by ;
  */
@@ -250,6 +266,8 @@ public String getDefaultValue2()
 {
 return (String)get_Value("DefaultValue2");
 }
+/** Column name DefaultValue2 */
+public static final String COLUMNNAME_DefaultValue2 = "DefaultValue2";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -267,6 +285,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -289,6 +309,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Length.
 @param FieldLength Length of the column in the database */
 public void setFieldLength (int FieldLength)
@@ -303,6 +325,8 @@ Integer ii = (Integer)get_Value("FieldLength");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FieldLength */
+public static final String COLUMNNAME_FieldLength = "FieldLength";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -320,6 +344,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Centrally maintained.
 @param IsCentrallyMaintained Information maintained in System Element table */
 public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
@@ -338,6 +364,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCentrallyMaintained */
+public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
 /** Set Mandatory.
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
@@ -356,6 +384,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMandatory */
+public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 /** Set Range.
 @param IsRange The parameter is a range of values */
 public void setIsRange (boolean IsRange)
@@ -374,6 +404,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsRange */
+public static final String COLUMNNAME_IsRange = "IsRange";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -398,6 +430,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -414,6 +448,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Value Format.
 @param VFormat Format of the value;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -433,6 +469,8 @@ public String getVFormat()
 {
 return (String)get_Value("VFormat");
 }
+/** Column name VFormat */
+public static final String COLUMNNAME_VFormat = "VFormat";
 /** Set Max. Value.
 @param ValueMax Maximum Value for a field */
 public void setValueMax (String ValueMax)
@@ -450,6 +488,8 @@ public String getValueMax()
 {
 return (String)get_Value("ValueMax");
 }
+/** Column name ValueMax */
+public static final String COLUMNNAME_ValueMax = "ValueMax";
 /** Set Min. Value.
 @param ValueMin Minimum Value for a field */
 public void setValueMin (String ValueMin)
@@ -467,4 +507,6 @@ public String getValueMin()
 {
 return (String)get_Value("ValueMin");
 }
+/** Column name ValueMin */
+public static final String COLUMNNAME_ValueMin = "ValueMin";
 }

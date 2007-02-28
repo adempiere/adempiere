@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_City
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_City extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getAreaCode()
 {
 return (String)get_Value("AreaCode");
 }
+/** Column name AreaCode */
+public static final String COLUMNNAME_AreaCode = "AreaCode";
 /** Set City.
 @param C_City_ID City */
 public void setC_City_ID (int C_City_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_City_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_City_ID */
+public static final String COLUMNNAME_C_City_ID = "C_City_ID";
 /** Set Country.
 @param C_Country_ID Country  */
 public void setC_Country_ID (int C_Country_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
 /** C_Region_ID AD_Reference_ID=157 */
 public static final int C_REGION_ID_AD_Reference_ID=157;
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set Coordinates.
 @param Coordinates Location coordinate */
 public void setCoordinates (String Coordinates)
@@ -170,6 +178,8 @@ public String getCoordinates()
 {
 return (String)get_Value("Coordinates");
 }
+/** Column name Coordinates */
+public static final String COLUMNNAME_Coordinates = "Coordinates";
 /** Set Locode.
 @param Locode Location code - UN/LOCODE  */
 public void setLocode (String Locode)
@@ -187,6 +197,8 @@ public String getLocode()
 {
 return (String)get_Value("Locode");
 }
+/** Column name Locode */
+public static final String COLUMNNAME_Locode = "Locode";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -211,6 +223,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set ZIP.
 @param Postal Postal code */
 public void setPostal (String Postal)
@@ -228,4 +242,6 @@ public String getPostal()
 {
 return (String)get_Value("Postal");
 }
+/** Column name Postal */
+public static final String COLUMNNAME_Postal = "Postal";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CommissionAmt extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ BigDecimal bd = (BigDecimal)get_Value("ActualQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ActualQty */
+public static final String COLUMNNAME_ActualQty = "ActualQty";
 /** Set Commission Amount.
 @param C_CommissionAmt_ID Generated Commission Amount  */
 public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_CommissionAmt_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionAmt_ID */
+public static final String COLUMNNAME_C_CommissionAmt_ID = "C_CommissionAmt_ID";
 /** Set Commission Line.
 @param C_CommissionLine_ID Commission Line */
 public void setC_CommissionLine_ID (int C_CommissionLine_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("C_CommissionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionLine_ID */
+public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
 /** Set Commission Run.
 @param C_CommissionRun_ID Commission Run or Process */
 public void setC_CommissionRun_ID (int C_CommissionRun_ID)
@@ -156,6 +162,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_CommissionRun_ID()));
 }
+/** Column name C_CommissionRun_ID */
+public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";
 /** Set Commission Amount.
 @param CommissionAmt Commission Amount */
 public void setCommissionAmt (BigDecimal CommissionAmt)
@@ -171,6 +179,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommissionAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommissionAmt */
+public static final String COLUMNNAME_CommissionAmt = "CommissionAmt";
 /** Set Converted Amount.
 @param ConvertedAmt Converted Amount */
 public void setConvertedAmt (BigDecimal ConvertedAmt)
@@ -186,4 +196,6 @@ BigDecimal bd = (BigDecimal)get_Value("ConvertedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConvertedAmt */
+public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 }

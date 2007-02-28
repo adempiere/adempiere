@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_InventoryValue extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Cost.
 @param Cost Cost information */
 public void setCost (BigDecimal Cost)
@@ -133,6 +137,8 @@ BigDecimal bd = (BigDecimal)get_Value("Cost");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Cost */
+public static final String COLUMNNAME_Cost = "Cost";
 /** Set Cost Value.
 @param CostAmt Value with Cost */
 public void setCostAmt (BigDecimal CostAmt)
@@ -147,6 +153,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostAmt */
+public static final String COLUMNNAME_CostAmt = "CostAmt";
 /** Set Standard Cost.
 @param CostStandard Standard Costs */
 public void setCostStandard (BigDecimal CostStandard)
@@ -161,6 +169,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandard");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandard */
+public static final String COLUMNNAME_CostStandard = "CostStandard";
 /** Set Standard Cost Value.
 @param CostStandardAmt Value in Standard Costs */
 public void setCostStandardAmt (BigDecimal CostStandardAmt)
@@ -175,6 +185,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostStandardAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostStandardAmt */
+public static final String COLUMNNAME_CostStandardAmt = "CostStandardAmt";
 /** Set Valuation Date.
 @param DateValue Date of valuation */
 public void setDateValue (Timestamp DateValue)
@@ -187,6 +199,8 @@ public Timestamp getDateValue()
 {
 return (Timestamp)get_Value("DateValue");
 }
+/** Column name DateValue */
+public static final String COLUMNNAME_DateValue = "DateValue";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -202,6 +216,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Cost Element.
 @param M_CostElement_ID Product Cost Element */
 public void setM_CostElement_ID (int M_CostElement_ID)
@@ -218,6 +234,8 @@ Integer ii = (Integer)get_Value("M_CostElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostElement_ID */
+public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 /** Set Price List Version.
 @param M_PriceList_Version_ID Identifies a unique instance of a Price List */
 public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
@@ -234,6 +252,8 @@ Integer ii = (Integer)get_Value("M_PriceList_Version_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_Version_ID */
+public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -249,6 +269,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -264,6 +286,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Limit Price.
 @param PriceLimit Lowest price for a product */
 public void setPriceLimit (BigDecimal PriceLimit)
@@ -278,6 +302,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLimit");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLimit */
+public static final String COLUMNNAME_PriceLimit = "PriceLimit";
 /** Set Limit price Value.
 @param PriceLimitAmt Value with limit price */
 public void setPriceLimitAmt (BigDecimal PriceLimitAmt)
@@ -292,6 +318,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLimitAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLimitAmt */
+public static final String COLUMNNAME_PriceLimitAmt = "PriceLimitAmt";
 /** Set List Price.
 @param PriceList List Price */
 public void setPriceList (BigDecimal PriceList)
@@ -306,6 +334,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceList");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceList */
+public static final String COLUMNNAME_PriceList = "PriceList";
 /** Set List price Value.
 @param PriceListAmt Valuation with List Price */
 public void setPriceListAmt (BigDecimal PriceListAmt)
@@ -320,6 +350,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceListAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceListAmt */
+public static final String COLUMNNAME_PriceListAmt = "PriceListAmt";
 /** Set PO Price.
 @param PricePO Price based on a purchase order */
 public void setPricePO (BigDecimal PricePO)
@@ -334,6 +366,8 @@ BigDecimal bd = (BigDecimal)get_Value("PricePO");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PricePO */
+public static final String COLUMNNAME_PricePO = "PricePO";
 /** Set PO Price Value.
 @param PricePOAmt Valuation with PO Price */
 public void setPricePOAmt (BigDecimal PricePOAmt)
@@ -348,6 +382,8 @@ BigDecimal bd = (BigDecimal)get_Value("PricePOAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PricePOAmt */
+public static final String COLUMNNAME_PricePOAmt = "PricePOAmt";
 /** Set Standard Price.
 @param PriceStd Standard Price */
 public void setPriceStd (BigDecimal PriceStd)
@@ -362,6 +398,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceStd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceStd */
+public static final String COLUMNNAME_PriceStd = "PriceStd";
 /** Set Std Price Value.
 @param PriceStdAmt Valuation with standard price */
 public void setPriceStdAmt (BigDecimal PriceStdAmt)
@@ -376,6 +414,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceStdAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceStdAmt */
+public static final String COLUMNNAME_PriceStdAmt = "PriceStdAmt";
 /** Set On Hand Quantity.
 @param QtyOnHand On Hand Quantity */
 public void setQtyOnHand (BigDecimal QtyOnHand)
@@ -390,4 +430,6 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOnHand");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOnHand */
+public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
 }

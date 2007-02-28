@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ReportView_Col
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_ReportView_Col extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Report view Column.
 @param AD_ReportView_Col_ID Report view Column */
 public void setAD_ReportView_Col_ID (int AD_ReportView_Col_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("AD_ReportView_Col_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReportView_Col_ID */
+public static final String COLUMNNAME_AD_ReportView_Col_ID = "AD_ReportView_Col_ID";
 /** Set Report View.
 @param AD_ReportView_ID View used to generate this report */
 public void setAD_ReportView_ID (int AD_ReportView_ID)
@@ -140,6 +144,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_ReportView_ID()));
 }
+/** Column name AD_ReportView_ID */
+public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 /** Set Function Column.
 @param FunctionColumn Overwrite Column with Function  */
 public void setFunctionColumn (String FunctionColumn)
@@ -158,6 +164,8 @@ public String getFunctionColumn()
 {
 return (String)get_Value("FunctionColumn");
 }
+/** Column name FunctionColumn */
+public static final String COLUMNNAME_FunctionColumn = "FunctionColumn";
 /** Set SQL Group Function.
 @param IsGroupFunction This function will generate a Group By Clause */
 public void setIsGroupFunction (boolean IsGroupFunction)
@@ -176,4 +184,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsGroupFunction */
+public static final String COLUMNNAME_IsGroupFunction = "IsGroupFunction";
 }

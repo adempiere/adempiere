@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Period extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_Period_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Period_ID */
+public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 /** Set Year.
 @param C_Year_ID Calendar Year */
 public void setC_Year_ID (int C_Year_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Year_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Year_ID */
+public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
 /** Set End Date.
 @param EndDate Last effective date (inclusive) */
 public void setEndDate (Timestamp EndDate)
@@ -132,6 +136,8 @@ public Timestamp getEndDate()
 {
 return (Timestamp)get_Value("EndDate");
 }
+/** Column name EndDate */
+public static final String COLUMNNAME_EndDate = "EndDate";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -156,6 +162,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Period No.
 @param PeriodNo Unique Period Number */
 public void setPeriodNo (int PeriodNo)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("PeriodNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PeriodNo */
+public static final String COLUMNNAME_PeriodNo = "PeriodNo";
 
 /** PeriodType AD_Reference_ID=115 */
 public static final int PERIODTYPE_AD_Reference_ID=115;
@@ -197,6 +207,8 @@ public String getPeriodType()
 {
 return (String)get_Value("PeriodType");
 }
+/** Column name PeriodType */
+public static final String COLUMNNAME_PeriodType = "PeriodType";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -215,6 +227,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -228,4 +242,6 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 }

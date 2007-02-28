@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_TransactionAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_TransactionAllocation extends PO
 {
 /** Standard Constructor
@@ -118,6 +118,8 @@ public String getAllocationStrategyType()
 {
 return (String)get_Value("AllocationStrategyType");
 }
+/** Column name AllocationStrategyType */
+public static final String COLUMNNAME_AllocationStrategyType = "AllocationStrategyType";
 /** Set Allocated.
 @param IsAllocated Indicates if the payment has been allocated */
 public void setIsAllocated (boolean IsAllocated)
@@ -136,6 +138,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllocated */
+public static final String COLUMNNAME_IsAllocated = "IsAllocated";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -154,6 +158,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -169,6 +175,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -185,6 +193,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Phys.Inventory Line.
 @param M_InventoryLine_ID Unique line in an Inventory document */
 public void setM_InventoryLine_ID (int M_InventoryLine_ID)
@@ -201,6 +211,8 @@ Integer ii = (Integer)get_Value("M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InventoryLine_ID */
+public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -216,6 +228,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Production Line.
 @param M_ProductionLine_ID Document Line representing a production */
 public void setM_ProductionLine_ID (int M_ProductionLine_ID)
@@ -232,6 +246,8 @@ Integer ii = (Integer)get_Value("M_ProductionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductionLine_ID */
+public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 /** Set Inventory Transaction.
 @param M_Transaction_ID Inventory Transaction */
 public void setM_Transaction_ID (int M_Transaction_ID)
@@ -247,6 +263,8 @@ Integer ii = (Integer)get_Value("M_Transaction_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Transaction_ID */
+public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
 
 /** Out_M_InOutLine_ID AD_Reference_ID=295 */
 public static final int OUT_M_INOUTLINE_ID_AD_Reference_ID=295;
@@ -266,6 +284,8 @@ Integer ii = (Integer)get_Value("Out_M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Out_M_InOutLine_ID */
+public static final String COLUMNNAME_Out_M_InOutLine_ID = "Out_M_InOutLine_ID";
 
 /** Out_M_InventoryLine_ID AD_Reference_ID=296 */
 public static final int OUT_M_INVENTORYLINE_ID_AD_Reference_ID=296;
@@ -285,6 +305,8 @@ Integer ii = (Integer)get_Value("Out_M_InventoryLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Out_M_InventoryLine_ID */
+public static final String COLUMNNAME_Out_M_InventoryLine_ID = "Out_M_InventoryLine_ID";
 
 /** Out_M_ProductionLine_ID AD_Reference_ID=297 */
 public static final int OUT_M_PRODUCTIONLINE_ID_AD_Reference_ID=297;
@@ -304,6 +326,8 @@ Integer ii = (Integer)get_Value("Out_M_ProductionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Out_M_ProductionLine_ID */
+public static final String COLUMNNAME_Out_M_ProductionLine_ID = "Out_M_ProductionLine_ID";
 
 /** Out_M_Transaction_ID AD_Reference_ID=298 */
 public static final int OUT_M_TRANSACTION_ID_AD_Reference_ID=298;
@@ -323,6 +347,8 @@ Integer ii = (Integer)get_Value("Out_M_Transaction_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Out_M_Transaction_ID */
+public static final String COLUMNNAME_Out_M_Transaction_ID = "Out_M_Transaction_ID";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -338,4 +364,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

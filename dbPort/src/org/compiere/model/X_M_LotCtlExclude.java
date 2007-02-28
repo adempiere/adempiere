@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_LotCtlExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_LotCtlExclude extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -121,6 +123,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Exclude Lot.
 @param M_LotCtlExclude_ID Exclude the ability to create Lots in Attribute Sets */
 public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_LotCtlExclude_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_LotCtlExclude_ID */
+public static final String COLUMNNAME_M_LotCtlExclude_ID = "M_LotCtlExclude_ID";
 /** Set Lot Control.
 @param M_LotCtl_ID Product Lot Control */
 public void setM_LotCtl_ID (int M_LotCtl_ID)
@@ -151,4 +157,6 @@ Integer ii = (Integer)get_Value("M_LotCtl_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_LotCtl_ID */
+public static final String COLUMNNAME_M_LotCtl_ID = "M_LotCtl_ID";
 }

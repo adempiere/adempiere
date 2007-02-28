@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for RV_WarehousePrice
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_RV_WarehousePrice extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Instance Attribute.
 @param IsInstanceAttribute The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
 public void setIsInstanceAttribute (boolean IsInstanceAttribute)
@@ -124,6 +126,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInstanceAttribute */
+public static final String COLUMNNAME_IsInstanceAttribute = "IsInstanceAttribute";
 /** Set Price List Version.
 @param M_PriceList_Version_ID Identifies a unique instance of a Price List */
 public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("M_PriceList_Version_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_Version_ID */
+public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -169,6 +177,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Margin %.
 @param Margin Margin for a product as a percentage */
 public void setMargin (BigDecimal Margin)
@@ -183,6 +193,8 @@ BigDecimal bd = (BigDecimal)get_Value("Margin");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Margin */
+public static final String COLUMNNAME_Margin = "Margin";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -201,6 +213,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Limit Price.
 @param PriceLimit Lowest price for a product */
 public void setPriceLimit (BigDecimal PriceLimit)
@@ -215,6 +229,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLimit");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLimit */
+public static final String COLUMNNAME_PriceLimit = "PriceLimit";
 /** Set List Price.
 @param PriceList List Price */
 public void setPriceList (BigDecimal PriceList)
@@ -229,6 +245,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceList");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceList */
+public static final String COLUMNNAME_PriceList = "PriceList";
 /** Set Standard Price.
 @param PriceStd Standard Price */
 public void setPriceStd (BigDecimal PriceStd)
@@ -243,6 +261,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceStd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceStd */
+public static final String COLUMNNAME_PriceStd = "PriceStd";
 /** Set Available Quantity.
 @param QtyAvailable Available Quantity (On Hand - Reserved) */
 public void setQtyAvailable (BigDecimal QtyAvailable)
@@ -257,6 +277,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyAvailable");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyAvailable */
+public static final String COLUMNNAME_QtyAvailable = "QtyAvailable";
 /** Set On Hand Quantity.
 @param QtyOnHand On Hand Quantity */
 public void setQtyOnHand (BigDecimal QtyOnHand)
@@ -271,6 +293,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOnHand");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOnHand */
+public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
 /** Set Ordered Quantity.
 @param QtyOrdered Ordered Quantity */
 public void setQtyOrdered (BigDecimal QtyOrdered)
@@ -285,6 +309,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOrdered");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOrdered */
+public static final String COLUMNNAME_QtyOrdered = "QtyOrdered";
 /** Set Reserved Quantity.
 @param QtyReserved Reserved Quantity */
 public void setQtyReserved (BigDecimal QtyReserved)
@@ -299,6 +325,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyReserved");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyReserved */
+public static final String COLUMNNAME_QtyReserved = "QtyReserved";
 /** Set SKU.
 @param SKU Stock Keeping Unit */
 public void setSKU (String SKU)
@@ -316,6 +344,8 @@ public String getSKU()
 {
 return (String)get_Value("SKU");
 }
+/** Column name SKU */
+public static final String COLUMNNAME_SKU = "SKU";
 /** Set Symbol.
 @param UOMSymbol Symbol for a Unit of Measure */
 public void setUOMSymbol (String UOMSymbol)
@@ -333,6 +363,8 @@ public String getUOMSymbol()
 {
 return (String)get_Value("UOMSymbol");
 }
+/** Column name UOMSymbol */
+public static final String COLUMNNAME_UOMSymbol = "UOMSymbol";
 /** Set UPC/EAN.
 @param UPC Bar Code (Universal Product Code or its superset European Article Number) */
 public void setUPC (String UPC)
@@ -350,6 +382,8 @@ public String getUPC()
 {
 return (String)get_Value("UPC");
 }
+/** Column name UPC */
+public static final String COLUMNNAME_UPC = "UPC";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -368,6 +402,8 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Warehouse.
 @param WarehouseName Warehouse Name */
 public void setWarehouseName (String WarehouseName)
@@ -386,4 +422,6 @@ public String getWarehouseName()
 {
 return (String)get_Value("WarehouseName");
 }
+/** Column name WarehouseName */
+public static final String COLUMNNAME_WarehouseName = "WarehouseName";
 }

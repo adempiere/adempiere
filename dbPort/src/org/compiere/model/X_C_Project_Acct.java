@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Project_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Project_Acct extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Project Asset.
 @param PJ_Asset_Acct Project Asset Account */
 public void setPJ_Asset_Acct (int PJ_Asset_Acct)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("PJ_Asset_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PJ_Asset_Acct */
+public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
 /** Set Work In Progress.
 @param PJ_WIP_Acct Account for Work in Progress */
 public void setPJ_WIP_Acct (int PJ_WIP_Acct)
@@ -146,4 +152,6 @@ Integer ii = (Integer)get_Value("PJ_WIP_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PJ_WIP_Acct */
+public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
 }

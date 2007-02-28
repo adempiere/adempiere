@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_ClientInfo extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Activity_ID */
+public static final String COLUMNNAME_AD_Tree_Activity_ID = "AD_Tree_Activity_ID";
 
 /** AD_Tree_BPartner_ID AD_Reference_ID=184 */
 public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_Tree_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_BPartner_ID */
+public static final String COLUMNNAME_AD_Tree_BPartner_ID = "AD_Tree_BPartner_ID";
 
 /** AD_Tree_Campaign_ID AD_Reference_ID=184 */
 public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
@@ -142,6 +146,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Campaign_ID */
+public static final String COLUMNNAME_AD_Tree_Campaign_ID = "AD_Tree_Campaign_ID";
 
 /** AD_Tree_Menu_ID AD_Reference_ID=184 */
 public static final int AD_TREE_MENU_ID_AD_Reference_ID=184;
@@ -161,6 +167,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Menu_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Menu_ID */
+public static final String COLUMNNAME_AD_Tree_Menu_ID = "AD_Tree_Menu_ID";
 
 /** AD_Tree_Org_ID AD_Reference_ID=184 */
 public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
@@ -180,6 +188,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Org_ID */
+public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
 
 /** AD_Tree_Product_ID AD_Reference_ID=184 */
 public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
@@ -199,6 +209,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Product_ID */
+public static final String COLUMNNAME_AD_Tree_Product_ID = "AD_Tree_Product_ID";
 
 /** AD_Tree_Project_ID AD_Reference_ID=184 */
 public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
@@ -218,6 +230,8 @@ Integer ii = (Integer)get_Value("AD_Tree_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_Project_ID */
+public static final String COLUMNNAME_AD_Tree_Project_ID = "AD_Tree_Project_ID";
 
 /** AD_Tree_SalesRegion_ID AD_Reference_ID=184 */
 public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
@@ -237,6 +251,8 @@ Integer ii = (Integer)get_Value("AD_Tree_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_SalesRegion_ID */
+public static final String COLUMNNAME_AD_Tree_SalesRegion_ID = "AD_Tree_SalesRegion_ID";
 
 /** C_AcctSchema1_ID AD_Reference_ID=136 */
 public static final int C_ACCTSCHEMA1_ID_AD_Reference_ID=136;
@@ -256,6 +272,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema1_ID */
+public static final String COLUMNNAME_C_AcctSchema1_ID = "C_AcctSchema1_ID";
 
 /** C_BPartnerCashTrx_ID AD_Reference_ID=138 */
 public static final int C_BPARTNERCASHTRX_ID_AD_Reference_ID=138;
@@ -275,6 +293,8 @@ Integer ii = (Integer)get_Value("C_BPartnerCashTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartnerCashTrx_ID */
+public static final String COLUMNNAME_C_BPartnerCashTrx_ID = "C_BPartnerCashTrx_ID";
 /** Set Calendar.
 @param C_Calendar_ID Accounting Calendar Name */
 public void setC_Calendar_ID (int C_Calendar_ID)
@@ -291,6 +311,8 @@ Integer ii = (Integer)get_Value("C_Calendar_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Calendar_ID */
+public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
 
 /** C_UOM_Length_ID AD_Reference_ID=114 */
 public static final int C_UOM_LENGTH_ID_AD_Reference_ID=114;
@@ -310,6 +332,8 @@ Integer ii = (Integer)get_Value("C_UOM_Length_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_Length_ID */
+public static final String COLUMNNAME_C_UOM_Length_ID = "C_UOM_Length_ID";
 
 /** C_UOM_Time_ID AD_Reference_ID=114 */
 public static final int C_UOM_TIME_ID_AD_Reference_ID=114;
@@ -329,6 +353,8 @@ Integer ii = (Integer)get_Value("C_UOM_Time_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_Time_ID */
+public static final String COLUMNNAME_C_UOM_Time_ID = "C_UOM_Time_ID";
 
 /** C_UOM_Volume_ID AD_Reference_ID=114 */
 public static final int C_UOM_VOLUME_ID_AD_Reference_ID=114;
@@ -348,6 +374,8 @@ Integer ii = (Integer)get_Value("C_UOM_Volume_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_Volume_ID */
+public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
 
 /** C_UOM_Weight_ID AD_Reference_ID=114 */
 public static final int C_UOM_WEIGHT_ID_AD_Reference_ID=114;
@@ -367,6 +395,8 @@ Integer ii = (Integer)get_Value("C_UOM_Weight_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_Weight_ID */
+public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
 /** Set Discount calculated from Line Amounts.
 @param IsDiscountLineAmt Payment Discount calculation does not include Taxes and Charges */
 public void setIsDiscountLineAmt (boolean IsDiscountLineAmt)
@@ -385,6 +415,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDiscountLineAmt */
+public static final String COLUMNNAME_IsDiscountLineAmt = "IsDiscountLineAmt";
 /** Set Days to keep Log.
 @param KeepLogDays Number of days to keep the log entries */
 public void setKeepLogDays (int KeepLogDays)
@@ -399,6 +431,8 @@ Integer ii = (Integer)get_Value("KeepLogDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name KeepLogDays */
+public static final String COLUMNNAME_KeepLogDays = "KeepLogDays";
 
 /** M_ProductFreight_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTFREIGHT_ID_AD_Reference_ID=162;
@@ -418,4 +452,6 @@ Integer ii = (Integer)get_Value("M_ProductFreight_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductFreight_ID */
+public static final String COLUMNNAME_M_ProductFreight_ID = "M_ProductFreight_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_MediaDeploy
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_MediaDeploy extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("CM_MediaDeploy_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_MediaDeploy_ID */
+public static final String COLUMNNAME_CM_MediaDeploy_ID = "CM_MediaDeploy_ID";
 /** Set Media Item.
 @param CM_Media_ID Contains media content like images, flash movies etc. */
 public void setCM_Media_ID (int CM_Media_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("CM_Media_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_ID */
+public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
 /** Set Media Server.
 @param CM_Media_Server_ID Media Server list to which content should get transfered */
 public void setCM_Media_Server_ID (int CM_Media_Server_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("CM_Media_Server_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_Server_ID */
+public static final String COLUMNNAME_CM_Media_Server_ID = "CM_Media_Server_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -150,6 +156,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Deployed.
 @param IsDeployed Entity is deployed */
 public void setIsDeployed (boolean IsDeployed)
@@ -168,6 +176,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDeployed */
+public static final String COLUMNNAME_IsDeployed = "IsDeployed";
 /** Set Last Synchronized.
 @param LastSynchronized Date when last synchronized */
 public void setLastSynchronized (Timestamp LastSynchronized)
@@ -180,4 +190,6 @@ public Timestamp getLastSynchronized()
 {
 return (Timestamp)get_Value("LastSynchronized");
 }
+/** Column name LastSynchronized */
+public static final String COLUMNNAME_LastSynchronized = "LastSynchronized";
 }

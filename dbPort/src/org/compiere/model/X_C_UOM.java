@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_UOM
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_UOM extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Costing Precision.
 @param CostingPrecision Rounding used costing calculations */
 public void setCostingPrecision (int CostingPrecision)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("CostingPrecision");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CostingPrecision */
+public static final String COLUMNNAME_CostingPrecision = "CostingPrecision";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -154,6 +160,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -178,6 +186,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Standard Precision.
 @param StdPrecision Rule for rounding  calculated amounts */
 public void setStdPrecision (int StdPrecision)
@@ -192,6 +202,8 @@ Integer ii = (Integer)get_Value("StdPrecision");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StdPrecision */
+public static final String COLUMNNAME_StdPrecision = "StdPrecision";
 /** Set Symbol.
 @param UOMSymbol Symbol for a Unit of Measure */
 public void setUOMSymbol (String UOMSymbol)
@@ -209,6 +221,8 @@ public String getUOMSymbol()
 {
 return (String)get_Value("UOMSymbol");
 }
+/** Column name UOMSymbol */
+public static final String COLUMNNAME_UOMSymbol = "UOMSymbol";
 /** Set UOM Code.
 @param X12DE355 UOM EDI X12 Code */
 public void setX12DE355 (String X12DE355)
@@ -227,4 +241,6 @@ public String getX12DE355()
 {
 return (String)get_Value("X12DE355");
 }
+/** Column name X12DE355 */
+public static final String COLUMNNAME_X12DE355 = "X12DE355";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Attribute extends PO
 {
 /** Standard Constructor
@@ -118,6 +118,8 @@ public String getAttributeValueType()
 {
 return (String)get_Value("AttributeValueType");
 }
+/** Column name AttributeValueType */
+public static final String COLUMNNAME_AttributeValueType = "AttributeValueType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +137,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Instance Attribute.
 @param IsInstanceAttribute The product attribute is specific to the instance (like Serial No, Lot or Guarantee Date) */
 public void setIsInstanceAttribute (boolean IsInstanceAttribute)
@@ -153,6 +157,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInstanceAttribute */
+public static final String COLUMNNAME_IsInstanceAttribute = "IsInstanceAttribute";
 /** Set Mandatory.
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
@@ -171,6 +177,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMandatory */
+public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 /** Set Attribute Search.
 @param M_AttributeSearch_ID Common Search Attribute  */
 public void setM_AttributeSearch_ID (int M_AttributeSearch_ID)
@@ -187,6 +195,8 @@ Integer ii = (Integer)get_Value("M_AttributeSearch_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSearch_ID */
+public static final String COLUMNNAME_M_AttributeSearch_ID = "M_AttributeSearch_ID";
 /** Set Attribute.
 @param M_Attribute_ID Product Attribute */
 public void setM_Attribute_ID (int M_Attribute_ID)
@@ -202,6 +212,8 @@ Integer ii = (Integer)get_Value("M_Attribute_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Attribute_ID */
+public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -226,4 +238,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

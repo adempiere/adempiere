@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_AlertRecipient
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_AlertRecipient extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_AlertRecipient_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_AlertRecipient_ID */
+public static final String COLUMNNAME_AD_AlertRecipient_ID = "AD_AlertRecipient_ID";
 /** Set Alert.
 @param AD_Alert_ID Adempiere Alert */
 public void setAD_Alert_ID (int AD_Alert_ID)
@@ -116,6 +118,8 @@ Integer ii = (Integer)get_Value("AD_Alert_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Alert_ID */
+public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 /** Set Role.
 @param AD_Role_ID Responsibility Role */
 public void setAD_Role_ID (int AD_Role_ID)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -154,4 +160,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 }

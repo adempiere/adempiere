@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_Status
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_Status extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -128,6 +130,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Closed Status.
 @param IsClosed The status is closed */
 public void setIsClosed (boolean IsClosed)
@@ -146,6 +150,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsClosed */
+public static final String COLUMNNAME_IsClosed = "IsClosed";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -164,6 +170,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Final Close.
 @param IsFinalClose Entries with Final Close cannot be re-opened */
 public void setIsFinalClose (boolean IsFinalClose)
@@ -182,6 +190,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFinalClose */
+public static final String COLUMNNAME_IsFinalClose = "IsFinalClose";
 /** Set Open Status.
 @param IsOpen The status is closed */
 public void setIsOpen (boolean IsOpen)
@@ -200,6 +210,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOpen */
+public static final String COLUMNNAME_IsOpen = "IsOpen";
 /** Set Web Can Update.
 @param IsWebCanUpdate Entry can be updated from the Web */
 public void setIsWebCanUpdate (boolean IsWebCanUpdate)
@@ -218,6 +230,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsWebCanUpdate */
+public static final String COLUMNNAME_IsWebCanUpdate = "IsWebCanUpdate";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -236,6 +250,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Next_Status_ID AD_Reference_ID=345 */
 public static final int NEXT_STATUS_ID_AD_Reference_ID=345;
@@ -255,6 +271,8 @@ Integer ii = (Integer)get_Value("Next_Status_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Next_Status_ID */
+public static final String COLUMNNAME_Next_Status_ID = "Next_Status_ID";
 /** Set Status Category.
 @param R_StatusCategory_ID Request Status Category */
 public void setR_StatusCategory_ID (int R_StatusCategory_ID)
@@ -270,6 +288,8 @@ Integer ii = (Integer)get_Value("R_StatusCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_StatusCategory_ID */
+public static final String COLUMNNAME_R_StatusCategory_ID = "R_StatusCategory_ID";
 /** Set Status.
 @param R_Status_ID Request Status */
 public void setR_Status_ID (int R_Status_ID)
@@ -285,6 +305,8 @@ Integer ii = (Integer)get_Value("R_Status_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Status_ID */
+public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -307,6 +329,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Timeout in Days.
 @param TimeoutDays Timeout in Days to change Status automatically */
 public void setTimeoutDays (int TimeoutDays)
@@ -321,6 +345,8 @@ Integer ii = (Integer)get_Value("TimeoutDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name TimeoutDays */
+public static final String COLUMNNAME_TimeoutDays = "TimeoutDays";
 
 /** Update_Status_ID AD_Reference_ID=345 */
 public static final int UPDATE_STATUS_ID_AD_Reference_ID=345;
@@ -340,6 +366,8 @@ Integer ii = (Integer)get_Value("Update_Status_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Update_Status_ID */
+public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -358,4 +386,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

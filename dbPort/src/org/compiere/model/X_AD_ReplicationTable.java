@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ReplicationTable
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_ReplicationTable extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_ReplicationStrategy_ID()));
 }
+/** Column name AD_ReplicationStrategy_ID */
+public static final String COLUMNNAME_AD_ReplicationStrategy_ID = "AD_ReplicationStrategy_ID";
 /** Set Replication Table.
 @param AD_ReplicationTable_ID Data Replication Strategy Table Info */
 public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("AD_ReplicationTable_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReplicationTable_ID */
+public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -162,6 +168,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 
 /** ReplicationType AD_Reference_ID=126 */
 public static final int REPLICATIONTYPE_AD_Reference_ID=126;
@@ -191,4 +199,6 @@ public String getReplicationType()
 {
 return (String)get_Value("ReplicationType");
 }
+/** Column name ReplicationType */
+public static final String COLUMNNAME_ReplicationType = "ReplicationType";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Task extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Task_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Task_ID */
+public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
 
 /** AccessLevel AD_Reference_ID=5 */
 public static final int ACCESSLEVEL_AD_Reference_ID=5;
@@ -140,6 +142,8 @@ public String getAccessLevel()
 {
 return (String)get_Value("AccessLevel");
 }
+/** Column name AccessLevel */
+public static final String COLUMNNAME_AccessLevel = "AccessLevel";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -157,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -179,6 +185,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -196,6 +204,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Server Process.
 @param IsServerProcess Run this Process on Server only */
 public void setIsServerProcess (boolean IsServerProcess)
@@ -214,6 +224,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsServerProcess */
+public static final String COLUMNNAME_IsServerProcess = "IsServerProcess";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -238,6 +250,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set OS Command.
 @param OS_Command Operating System Command */
 public void setOS_Command (String OS_Command)
@@ -256,4 +270,6 @@ public String getOS_Command()
 {
 return (String)get_Value("OS_Command");
 }
+/** Column name OS_Command */
+public static final String COLUMNNAME_OS_Command = "OS_Command";
 }

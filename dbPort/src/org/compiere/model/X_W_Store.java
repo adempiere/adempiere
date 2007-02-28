@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_Store extends PO
 {
 /** Standard Constructor
@@ -118,6 +118,8 @@ Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +137,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EMail Footer.
 @param EMailFooter Footer added to EMails */
 public void setEMailFooter (String EMailFooter)
@@ -152,6 +156,8 @@ public String getEMailFooter()
 {
 return (String)get_Value("EMailFooter");
 }
+/** Column name EMailFooter */
+public static final String COLUMNNAME_EMailFooter = "EMailFooter";
 /** Set EMail Header.
 @param EMailHeader Header added to EMails */
 public void setEMailHeader (String EMailHeader)
@@ -169,6 +175,8 @@ public String getEMailHeader()
 {
 return (String)get_Value("EMailHeader");
 }
+/** Column name EMailHeader */
+public static final String COLUMNNAME_EMailHeader = "EMailHeader";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -186,6 +194,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -204,6 +214,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Menu Assets.
 @param IsMenuAssets Show Menu Assets */
 public void setIsMenuAssets (boolean IsMenuAssets)
@@ -222,6 +234,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuAssets */
+public static final String COLUMNNAME_IsMenuAssets = "IsMenuAssets";
 /** Set Menu Contact.
 @param IsMenuContact Show Menu Contact */
 public void setIsMenuContact (boolean IsMenuContact)
@@ -240,6 +254,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuContact */
+public static final String COLUMNNAME_IsMenuContact = "IsMenuContact";
 /** Set Menu Interests.
 @param IsMenuInterests Show Menu Interests */
 public void setIsMenuInterests (boolean IsMenuInterests)
@@ -258,6 +274,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuInterests */
+public static final String COLUMNNAME_IsMenuInterests = "IsMenuInterests";
 /** Set Menu Invoices.
 @param IsMenuInvoices Show Menu Invoices */
 public void setIsMenuInvoices (boolean IsMenuInvoices)
@@ -276,6 +294,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuInvoices */
+public static final String COLUMNNAME_IsMenuInvoices = "IsMenuInvoices";
 /** Set Menu Orders.
 @param IsMenuOrders Show Menu Orders */
 public void setIsMenuOrders (boolean IsMenuOrders)
@@ -294,6 +314,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuOrders */
+public static final String COLUMNNAME_IsMenuOrders = "IsMenuOrders";
 /** Set Menu Payments.
 @param IsMenuPayments Show Menu Payments */
 public void setIsMenuPayments (boolean IsMenuPayments)
@@ -312,6 +334,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuPayments */
+public static final String COLUMNNAME_IsMenuPayments = "IsMenuPayments";
 /** Set Menu Registrations.
 @param IsMenuRegistrations Show Menu Registrations */
 public void setIsMenuRegistrations (boolean IsMenuRegistrations)
@@ -330,6 +354,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuRegistrations */
+public static final String COLUMNNAME_IsMenuRegistrations = "IsMenuRegistrations";
 /** Set Menu Requests.
 @param IsMenuRequests Show Menu Requests */
 public void setIsMenuRequests (boolean IsMenuRequests)
@@ -348,6 +374,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuRequests */
+public static final String COLUMNNAME_IsMenuRequests = "IsMenuRequests";
 /** Set Menu RfQs.
 @param IsMenuRfQs Show Menu RfQs */
 public void setIsMenuRfQs (boolean IsMenuRfQs)
@@ -366,6 +394,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuRfQs */
+public static final String COLUMNNAME_IsMenuRfQs = "IsMenuRfQs";
 /** Set Menu Shipments.
 @param IsMenuShipments Show Menu Shipments */
 public void setIsMenuShipments (boolean IsMenuShipments)
@@ -384,6 +414,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMenuShipments */
+public static final String COLUMNNAME_IsMenuShipments = "IsMenuShipments";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -399,6 +431,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -414,6 +448,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -438,6 +474,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** SalesRep_ID AD_Reference_ID=190 */
 public static final int SALESREP_ID_AD_Reference_ID=190;
@@ -456,6 +494,8 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 /** Set Stylesheet.
 @param Stylesheet CSS (Stylesheet) used */
 public void setStylesheet (String Stylesheet)
@@ -473,6 +513,8 @@ public String getStylesheet()
 {
 return (String)get_Value("Stylesheet");
 }
+/** Column name Stylesheet */
+public static final String COLUMNNAME_Stylesheet = "Stylesheet";
 /** Set URL.
 @param URL Full URL address - e.g. http://www.adempiere.org */
 public void setURL (String URL)
@@ -491,6 +533,8 @@ public String getURL()
 {
 return (String)get_Value("URL");
 }
+/** Column name URL */
+public static final String COLUMNNAME_URL = "URL";
 /** Set Web Store EMail.
 @param WStoreEMail EMail address used as the sender (From) */
 public void setWStoreEMail (String WStoreEMail)
@@ -508,6 +552,8 @@ public String getWStoreEMail()
 {
 return (String)get_Value("WStoreEMail");
 }
+/** Column name WStoreEMail */
+public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
 /** Set WebStore User.
 @param WStoreUser User ID of the Web Store EMail address */
 public void setWStoreUser (String WStoreUser)
@@ -525,6 +571,8 @@ public String getWStoreUser()
 {
 return (String)get_Value("WStoreUser");
 }
+/** Column name WStoreUser */
+public static final String COLUMNNAME_WStoreUser = "WStoreUser";
 /** Set WebStore Password.
 @param WStoreUserPW Password of the Web Store EMail address */
 public void setWStoreUserPW (String WStoreUserPW)
@@ -542,6 +590,8 @@ public String getWStoreUserPW()
 {
 return (String)get_Value("WStoreUserPW");
 }
+/** Column name WStoreUserPW */
+public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
 /** Set Web Store.
 @param W_Store_ID A Web Store of the Client */
 public void setW_Store_ID (int W_Store_ID)
@@ -557,6 +607,8 @@ Integer ii = (Integer)get_Value("W_Store_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Store_ID */
+public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
 /** Set Web Context.
 @param WebContext Web Server Context - e.g. /wstore */
 public void setWebContext (String WebContext)
@@ -575,6 +627,8 @@ public String getWebContext()
 {
 return (String)get_Value("WebContext");
 }
+/** Column name WebContext */
+public static final String COLUMNNAME_WebContext = "WebContext";
 /** Set Web Store Info.
 @param WebInfo Web Store Header Information */
 public void setWebInfo (String WebInfo)
@@ -592,6 +646,8 @@ public String getWebInfo()
 {
 return (String)get_Value("WebInfo");
 }
+/** Column name WebInfo */
+public static final String COLUMNNAME_WebInfo = "WebInfo";
 /** Set Web Order EMail.
 @param WebOrderEMail EMail address to receive notifications when web orders were processed */
 public void setWebOrderEMail (String WebOrderEMail)
@@ -609,6 +665,8 @@ public String getWebOrderEMail()
 {
 return (String)get_Value("WebOrderEMail");
 }
+/** Column name WebOrderEMail */
+public static final String COLUMNNAME_WebOrderEMail = "WebOrderEMail";
 /** Set Web Parameter 1.
 @param WebParam1 Web Site Parameter 1 (default: header image) */
 public void setWebParam1 (String WebParam1)
@@ -626,6 +684,8 @@ public String getWebParam1()
 {
 return (String)get_Value("WebParam1");
 }
+/** Column name WebParam1 */
+public static final String COLUMNNAME_WebParam1 = "WebParam1";
 /** Set Web Parameter 2.
 @param WebParam2 Web Site Parameter 2 (default index page) */
 public void setWebParam2 (String WebParam2)
@@ -643,6 +703,8 @@ public String getWebParam2()
 {
 return (String)get_Value("WebParam2");
 }
+/** Column name WebParam2 */
+public static final String COLUMNNAME_WebParam2 = "WebParam2";
 /** Set Web Parameter 3.
 @param WebParam3 Web Site Parameter 3 (default left - menu) */
 public void setWebParam3 (String WebParam3)
@@ -660,6 +722,8 @@ public String getWebParam3()
 {
 return (String)get_Value("WebParam3");
 }
+/** Column name WebParam3 */
+public static final String COLUMNNAME_WebParam3 = "WebParam3";
 /** Set Web Parameter 4.
 @param WebParam4 Web Site Parameter 4 (default footer left) */
 public void setWebParam4 (String WebParam4)
@@ -677,6 +741,8 @@ public String getWebParam4()
 {
 return (String)get_Value("WebParam4");
 }
+/** Column name WebParam4 */
+public static final String COLUMNNAME_WebParam4 = "WebParam4";
 /** Set Web Parameter 5.
 @param WebParam5 Web Site Parameter 5 (default footer center) */
 public void setWebParam5 (String WebParam5)
@@ -694,6 +760,8 @@ public String getWebParam5()
 {
 return (String)get_Value("WebParam5");
 }
+/** Column name WebParam5 */
+public static final String COLUMNNAME_WebParam5 = "WebParam5";
 /** Set Web Parameter 6.
 @param WebParam6 Web Site Parameter 6 (default footer right) */
 public void setWebParam6 (String WebParam6)
@@ -711,4 +779,6 @@ public String getWebParam6()
 {
 return (String)get_Value("WebParam6");
 }
+/** Column name WebParam6 */
+public static final String COLUMNNAME_WebParam6 = "WebParam6";
 }

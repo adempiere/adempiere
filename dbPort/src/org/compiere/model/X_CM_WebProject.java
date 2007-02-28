@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_WebProject extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("AD_TreeCMC_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_TreeCMC_ID */
+public static final String COLUMNNAME_AD_TreeCMC_ID = "AD_TreeCMC_ID";
 
 /** AD_TreeCMM_ID AD_Reference_ID=184 */
 public static final int AD_TREECMM_ID_AD_Reference_ID=184;
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("AD_TreeCMM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_TreeCMM_ID */
+public static final String COLUMNNAME_AD_TreeCMM_ID = "AD_TreeCMM_ID";
 
 /** AD_TreeCMS_ID AD_Reference_ID=184 */
 public static final int AD_TREECMS_ID_AD_Reference_ID=184;
@@ -149,6 +153,8 @@ Integer ii = (Integer)get_Value("AD_TreeCMS_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_TreeCMS_ID */
+public static final String COLUMNNAME_AD_TreeCMS_ID = "AD_TreeCMS_ID";
 
 /** AD_TreeCMT_ID AD_Reference_ID=184 */
 public static final int AD_TREECMT_ID_AD_Reference_ID=184;
@@ -168,6 +174,8 @@ Integer ii = (Integer)get_Value("AD_TreeCMT_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_TreeCMT_ID */
+public static final String COLUMNNAME_AD_TreeCMT_ID = "AD_TreeCMT_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -183,6 +191,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -200,6 +210,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -217,6 +229,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Meta Author.
 @param Meta_Author Author of the content */
 public void setMeta_Author (String Meta_Author)
@@ -235,6 +249,8 @@ public String getMeta_Author()
 {
 return (String)get_Value("Meta_Author");
 }
+/** Column name Meta_Author */
+public static final String COLUMNNAME_Meta_Author = "Meta_Author";
 /** Set Meta Content Type.
 @param Meta_Content Defines the type of content i.e. "text/html;
  charset=UTF-8" */
@@ -255,6 +271,8 @@ public String getMeta_Content()
 {
 return (String)get_Value("Meta_Content");
 }
+/** Column name Meta_Content */
+public static final String COLUMNNAME_Meta_Content = "Meta_Content";
 /** Set Meta Copyright.
 @param Meta_Copyright Contains Copyright information for the content */
 public void setMeta_Copyright (String Meta_Copyright)
@@ -273,6 +291,8 @@ public String getMeta_Copyright()
 {
 return (String)get_Value("Meta_Copyright");
 }
+/** Column name Meta_Copyright */
+public static final String COLUMNNAME_Meta_Copyright = "Meta_Copyright";
 /** Set Meta Publisher.
 @param Meta_Publisher Meta Publisher defines the publisher of the content */
 public void setMeta_Publisher (String Meta_Publisher)
@@ -291,6 +311,8 @@ public String getMeta_Publisher()
 {
 return (String)get_Value("Meta_Publisher");
 }
+/** Column name Meta_Publisher */
+public static final String COLUMNNAME_Meta_Publisher = "Meta_Publisher";
 /** Set Meta RobotsTag.
 @param Meta_RobotsTag RobotsTag defines how search robots should handle this content */
 public void setMeta_RobotsTag (String Meta_RobotsTag)
@@ -309,6 +331,8 @@ public String getMeta_RobotsTag()
 {
 return (String)get_Value("Meta_RobotsTag");
 }
+/** Column name Meta_RobotsTag */
+public static final String COLUMNNAME_Meta_RobotsTag = "Meta_RobotsTag";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -333,4 +357,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

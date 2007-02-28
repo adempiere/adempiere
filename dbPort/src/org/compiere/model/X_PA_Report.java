@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Report extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Calendar.
 @param C_Calendar_ID Accounting Calendar Name */
 public void setC_Calendar_ID (int C_Calendar_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_Calendar_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Calendar_ID */
+public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set List Sources.
 @param ListSources List Report Line Sources */
 public void setListSources (boolean ListSources)
@@ -174,6 +182,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ListSources */
+public static final String COLUMNNAME_ListSources = "ListSources";
 /** Set List Transactions.
 @param ListTrx List the report transactions */
 public void setListTrx (boolean ListTrx)
@@ -192,6 +202,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ListTrx */
+public static final String COLUMNNAME_ListTrx = "ListTrx";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -216,6 +228,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Report Column Set.
 @param PA_ReportColumnSet_ID Collection of Columns for Report */
 public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
@@ -231,6 +245,8 @@ Integer ii = (Integer)get_Value("PA_ReportColumnSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportColumnSet_ID */
+public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 /** Set Report Line Set.
 @param PA_ReportLineSet_ID Report Line Set */
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
@@ -246,6 +262,8 @@ Integer ii = (Integer)get_Value("PA_ReportLineSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLineSet_ID */
+public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 /** Set Financial Report.
 @param PA_Report_ID Financial Report */
 public void setPA_Report_ID (int PA_Report_ID)
@@ -261,6 +279,8 @@ Integer ii = (Integer)get_Value("PA_Report_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Report_ID */
+public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -279,4 +299,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

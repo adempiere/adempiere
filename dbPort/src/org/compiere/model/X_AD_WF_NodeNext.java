@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WF_NodeNext
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WF_NodeNext extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_WF_Next_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Next_ID */
+public static final String COLUMNNAME_AD_WF_Next_ID = "AD_WF_Next_ID";
 /** Set Node Transition.
 @param AD_WF_NodeNext_ID Workflow Node Transition */
 public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_WF_NodeNext_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_NodeNext_ID */
+public static final String COLUMNNAME_AD_WF_NodeNext_ID = "AD_WF_NodeNext_ID";
 /** Set Node.
 @param AD_WF_Node_ID Workflow Node (activity), step or process */
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
@@ -144,6 +148,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Node_ID()));
 }
+/** Column name AD_WF_Node_ID */
+public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -161,6 +167,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -183,6 +191,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Std User Workflow.
 @param IsStdUserWorkflow Standard Manual User Approval Workflow */
 public void setIsStdUserWorkflow (boolean IsStdUserWorkflow)
@@ -201,6 +211,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsStdUserWorkflow */
+public static final String COLUMNNAME_IsStdUserWorkflow = "IsStdUserWorkflow";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -217,6 +229,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Transition Code.
 @param TransitionCode Code resulting in TRUE of FALSE */
 public void setTransitionCode (String TransitionCode)
@@ -234,4 +248,6 @@ public String getTransitionCode()
 {
 return (String)get_Value("TransitionCode");
 }
+/** Column name TransitionCode */
+public static final String COLUMNNAME_TransitionCode = "TransitionCode";
 }

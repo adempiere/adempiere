@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Process extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Report View.
 @param AD_ReportView_ID View used to generate this report */
 public void setAD_ReportView_ID (int AD_ReportView_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("AD_ReportView_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ReportView_ID */
+public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 /** Set Workflow.
 @param AD_Workflow_ID Workflow or combination of tasks */
 public void setAD_Workflow_ID (int AD_Workflow_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("AD_Workflow_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workflow_ID */
+public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
 /** AccessLevel AD_Reference_ID=5 */
 public static final int ACCESSLEVEL_AD_Reference_ID=5;
@@ -190,6 +198,8 @@ public String getAccessLevel()
 {
 return (String)get_Value("AccessLevel");
 }
+/** Column name AccessLevel */
+public static final String COLUMNNAME_AccessLevel = "AccessLevel";
 /** Set Classname.
 @param Classname Java Classname */
 public void setClassname (String Classname)
@@ -207,6 +217,8 @@ public String getClassname()
 {
 return (String)get_Value("Classname");
 }
+/** Column name Classname */
+public static final String COLUMNNAME_Classname = "Classname";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -224,6 +236,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -246,6 +260,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -263,6 +279,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Beta Functionality.
 @param IsBetaFunctionality This functionality is considered Beta */
 public void setIsBetaFunctionality (boolean IsBetaFunctionality)
@@ -281,6 +299,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBetaFunctionality */
+public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
 /** Set Direct print.
 @param IsDirectPrint Print without dialog */
 public void setIsDirectPrint (boolean IsDirectPrint)
@@ -299,6 +319,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDirectPrint */
+public static final String COLUMNNAME_IsDirectPrint = "IsDirectPrint";
 /** Set Report.
 @param IsReport Indicates a Report record */
 public void setIsReport (boolean IsReport)
@@ -317,6 +339,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReport */
+public static final String COLUMNNAME_IsReport = "IsReport";
 /** Set Server Process.
 @param IsServerProcess Run this Process on Server only */
 public void setIsServerProcess (boolean IsServerProcess)
@@ -335,6 +359,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsServerProcess */
+public static final String COLUMNNAME_IsServerProcess = "IsServerProcess";
 /** Set Jasper Report.
 @param JasperReport In this column you store the JasperReport filename */
 public void setJasperReport (String JasperReport)
@@ -352,6 +378,8 @@ public String getJasperReport()
 {
 return (String)get_Value("JasperReport");
 }
+/** Column name JasperReport */
+public static final String COLUMNNAME_JasperReport = "JasperReport";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -370,6 +398,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Procedure.
 @param ProcedureName Name of the Database Procedure */
 public void setProcedureName (String ProcedureName)
@@ -387,6 +417,8 @@ public String getProcedureName()
 {
 return (String)get_Value("ProcedureName");
 }
+/** Column name ProcedureName */
+public static final String COLUMNNAME_ProcedureName = "ProcedureName";
 
 /** ShowHelp AD_Reference_ID=50007 */
 public static final int SHOWHELP_AD_Reference_ID=50007;
@@ -415,6 +447,8 @@ public String getShowHelp()
 {
 return (String)get_Value("ShowHelp");
 }
+/** Column name ShowHelp */
+public static final String COLUMNNAME_ShowHelp = "ShowHelp";
 /** Set Statistic Count.
 @param Statistic_Count Internal statistics how often the entity was used */
 public void setStatistic_Count (int Statistic_Count)
@@ -429,6 +463,8 @@ Integer ii = (Integer)get_Value("Statistic_Count");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Statistic_Count */
+public static final String COLUMNNAME_Statistic_Count = "Statistic_Count";
 /** Set Statistic Seconds.
 @param Statistic_Seconds Internal statistics how many seconds a process took */
 public void setStatistic_Seconds (int Statistic_Seconds)
@@ -443,6 +479,8 @@ Integer ii = (Integer)get_Value("Statistic_Seconds");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Statistic_Seconds */
+public static final String COLUMNNAME_Statistic_Seconds = "Statistic_Seconds";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -467,6 +505,8 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Workflow Key.
 @param WorkflowValue Key of the Workflow to start */
 public void setWorkflowValue (String WorkflowValue)
@@ -484,4 +524,6 @@ public String getWorkflowValue()
 {
 return (String)get_Value("WorkflowValue");
 }
+/** Column name WorkflowValue */
+public static final String COLUMNNAME_WorkflowValue = "WorkflowValue";
 }

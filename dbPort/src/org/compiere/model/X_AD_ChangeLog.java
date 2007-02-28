@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_ChangeLog
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_ChangeLog extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_ChangeLog_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ChangeLog_ID */
+public static final String COLUMNNAME_AD_ChangeLog_ID = "AD_ChangeLog_ID";
 /** Set Column.
 @param AD_Column_ID Column in the table */
 public void setAD_Column_ID (int AD_Column_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Session.
 @param AD_Session_ID User Session Online or Web */
 public void setAD_Session_ID (int AD_Session_ID)
@@ -141,6 +145,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
 }
+/** Column name AD_Session_ID */
+public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -173,6 +181,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Customization.
 @param IsCustomization The change is a customization of the data dictionary and can be applied after Migration */
 public void setIsCustomization (boolean IsCustomization)
@@ -191,6 +201,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCustomization */
+public static final String COLUMNNAME_IsCustomization = "IsCustomization";
 /** Set New Value.
 @param NewValue New field value */
 public void setNewValue (String NewValue)
@@ -208,6 +220,8 @@ public String getNewValue()
 {
 return (String)get_Value("NewValue");
 }
+/** Column name NewValue */
+public static final String COLUMNNAME_NewValue = "NewValue";
 /** Set Old Value.
 @param OldValue The old file data */
 public void setOldValue (String OldValue)
@@ -225,6 +239,8 @@ public String getOldValue()
 {
 return (String)get_Value("OldValue");
 }
+/** Column name OldValue */
+public static final String COLUMNNAME_OldValue = "OldValue";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -240,6 +256,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Redo.
 @param Redo Redo */
 public void setRedo (String Redo)
@@ -257,6 +275,8 @@ public String getRedo()
 {
 return (String)get_Value("Redo");
 }
+/** Column name Redo */
+public static final String COLUMNNAME_Redo = "Redo";
 /** Set Transaction.
 @param TrxName Name of the transaction */
 public void setTrxName (String TrxName)
@@ -274,6 +294,8 @@ public String getTrxName()
 {
 return (String)get_Value("TrxName");
 }
+/** Column name TrxName */
+public static final String COLUMNNAME_TrxName = "TrxName";
 /** Set Undo.
 @param Undo Undo */
 public void setUndo (String Undo)
@@ -291,4 +313,6 @@ public String getUndo()
 {
 return (String)get_Value("Undo");
 }
+/** Column name Undo */
+public static final String COLUMNNAME_Undo = "Undo";
 }

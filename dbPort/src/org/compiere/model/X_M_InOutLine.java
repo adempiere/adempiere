@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_InOutLine extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -146,6 +150,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -162,6 +168,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Sales Order Line.
 @param C_OrderLine_ID Sales Order Line */
 public void setC_OrderLine_ID (int C_OrderLine_ID)
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Project Phase.
 @param C_ProjectPhase_ID Phase of a Project */
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
@@ -194,6 +204,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project Task.
 @param C_ProjectTask_ID Actual Project Task in a Phase */
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
@@ -210,6 +222,8 @@ Integer ii = (Integer)get_Value("C_ProjectTask_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectTask_ID */
+public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -226,6 +240,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -241,6 +257,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Confirmed Quantity.
 @param ConfirmedQty Confirmation of a received quantity */
 public void setConfirmedQty (BigDecimal ConfirmedQty)
@@ -255,6 +273,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConfirmedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConfirmedQty */
+public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -272,6 +292,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Description Only.
 @param IsDescription if true, the line is just description and no transaction */
 public void setIsDescription (boolean IsDescription)
@@ -290,6 +312,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDescription */
+public static final String COLUMNNAME_IsDescription = "IsDescription";
 /** Set Invoiced.
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
@@ -308,6 +332,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInvoiced */
+public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -328,6 +354,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -343,6 +371,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -358,6 +388,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -373,6 +405,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -388,6 +422,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -404,6 +440,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Movement Quantity.
 @param MovementQty Quantity of a product moved. */
 public void setMovementQty (BigDecimal MovementQty)
@@ -419,6 +457,8 @@ BigDecimal bd = (BigDecimal)get_Value("MovementQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MovementQty */
+public static final String COLUMNNAME_MovementQty = "MovementQty";
 /** Set Picked Quantity.
 @param PickedQty Picked Quantity */
 public void setPickedQty (BigDecimal PickedQty)
@@ -433,6 +473,8 @@ BigDecimal bd = (BigDecimal)get_Value("PickedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PickedQty */
+public static final String COLUMNNAME_PickedQty = "PickedQty";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -451,6 +493,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param QtyEntered The Quantity Entered is based on the selected UoM */
 public void setQtyEntered (BigDecimal QtyEntered)
@@ -466,6 +510,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyEntered");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyEntered */
+public static final String COLUMNNAME_QtyEntered = "QtyEntered";
 /** Set Referenced Shipment Line.
 @param Ref_InOutLine_ID Referenced Shipment Line */
 public void setRef_InOutLine_ID (int Ref_InOutLine_ID)
@@ -482,6 +528,8 @@ Integer ii = (Integer)get_Value("Ref_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ref_InOutLine_ID */
+public static final String COLUMNNAME_Ref_InOutLine_ID = "Ref_InOutLine_ID";
 /** Set Scrapped Quantity.
 @param ScrappedQty The Quantity scrapped due to QA issues */
 public void setScrappedQty (BigDecimal ScrappedQty)
@@ -496,6 +544,8 @@ BigDecimal bd = (BigDecimal)get_Value("ScrappedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ScrappedQty */
+public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 /** Set Target Quantity.
 @param TargetQty Target Movement Quantity */
 public void setTargetQty (BigDecimal TargetQty)
@@ -510,6 +560,8 @@ BigDecimal bd = (BigDecimal)get_Value("TargetQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TargetQty */
+public static final String COLUMNNAME_TargetQty = "TargetQty";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -529,6 +581,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -548,4 +602,6 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 }

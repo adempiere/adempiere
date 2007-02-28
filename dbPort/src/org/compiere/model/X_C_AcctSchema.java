@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_AcctSchema extends PO
 {
 /** Standard Constructor
@@ -122,6 +122,8 @@ Integer ii = (Integer)get_Value("AD_OrgOnly_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgOnly_ID */
+public static final String COLUMNNAME_AD_OrgOnly_ID = "AD_OrgOnly_ID";
 /** Set Automatic Period Control.
 @param AutoPeriodControl If selected, the periods are automatically opened and closed */
 public void setAutoPeriodControl (boolean AutoPeriodControl)
@@ -140,6 +142,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AutoPeriodControl */
+public static final String COLUMNNAME_AutoPeriodControl = "AutoPeriodControl";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -155,6 +159,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -170,6 +176,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Period.
 @param C_Period_ID Period of the Calendar */
 public void setC_Period_ID (int C_Period_ID)
@@ -186,6 +194,8 @@ Integer ii = (Integer)get_Value("C_Period_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Period_ID */
+public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
 /** CommitmentType AD_Reference_ID=359 */
 public static final int COMMITMENTTYPE_AD_Reference_ID=359;
@@ -215,6 +225,8 @@ public String getCommitmentType()
 {
 return (String)get_Value("CommitmentType");
 }
+/** Column name CommitmentType */
+public static final String COLUMNNAME_CommitmentType = "CommitmentType";
 
 /** CostingLevel AD_Reference_ID=355 */
 public static final int COSTINGLEVEL_AD_Reference_ID=355;
@@ -244,6 +256,8 @@ public String getCostingLevel()
 {
 return (String)get_Value("CostingLevel");
 }
+/** Column name CostingLevel */
+public static final String COLUMNNAME_CostingLevel = "CostingLevel";
 
 /** CostingMethod AD_Reference_ID=122 */
 public static final int COSTINGMETHOD_AD_Reference_ID=122;
@@ -285,6 +299,8 @@ public String getCostingMethod()
 {
 return (String)get_Value("CostingMethod");
 }
+/** Column name CostingMethod */
+public static final String COLUMNNAME_CostingMethod = "CostingMethod";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -302,6 +318,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** GAAP AD_Reference_ID=123 */
 public static final int GAAP_AD_Reference_ID=123;
@@ -335,6 +353,8 @@ public String getGAAP()
 {
 return (String)get_Value("GAAP");
 }
+/** Column name GAAP */
+public static final String COLUMNNAME_GAAP = "GAAP";
 /** Set Use Account Alias.
 @param HasAlias Ability to select (partial) account combinations by an Alias */
 public void setHasAlias (boolean HasAlias)
@@ -353,6 +373,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasAlias */
+public static final String COLUMNNAME_HasAlias = "HasAlias";
 /** Set Use Account Combination Control.
 @param HasCombination Combination of account elements are checked */
 public void setHasCombination (boolean HasCombination)
@@ -371,6 +393,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasCombination */
+public static final String COLUMNNAME_HasCombination = "HasCombination";
 /** Set Accrual.
 @param IsAccrual Indicates if Accrual or Cash Based accounting will be used */
 public void setIsAccrual (boolean IsAccrual)
@@ -389,6 +413,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAccrual */
+public static final String COLUMNNAME_IsAccrual = "IsAccrual";
 /** Set Adjust COGS.
 @param IsAdjustCOGS Adjust Cost of Good Sold */
 public void setIsAdjustCOGS (boolean IsAdjustCOGS)
@@ -407,6 +433,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAdjustCOGS */
+public static final String COLUMNNAME_IsAdjustCOGS = "IsAdjustCOGS";
 /** Set Correct tax for Discounts/Charges.
 @param IsDiscountCorrectsTax Correct the tax for payment discount and charges */
 public void setIsDiscountCorrectsTax (boolean IsDiscountCorrectsTax)
@@ -425,6 +453,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDiscountCorrectsTax */
+public static final String COLUMNNAME_IsDiscountCorrectsTax = "IsDiscountCorrectsTax";
 /** Set Explicit Cost Adjustment.
 @param IsExplicitCostAdjustment Post the cost adjustment explicitly */
 public void setIsExplicitCostAdjustment (boolean IsExplicitCostAdjustment)
@@ -443,6 +473,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsExplicitCostAdjustment */
+public static final String COLUMNNAME_IsExplicitCostAdjustment = "IsExplicitCostAdjustment";
 /** Set Post Services Separately.
 @param IsPostServices Differentiate between Services and Product Receivable/Payables */
 public void setIsPostServices (boolean IsPostServices)
@@ -461,6 +493,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPostServices */
+public static final String COLUMNNAME_IsPostServices = "IsPostServices";
 /** Set Post Trade Discount.
 @param IsTradeDiscountPosted Generate postings for trade discounts */
 public void setIsTradeDiscountPosted (boolean IsTradeDiscountPosted)
@@ -479,6 +513,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTradeDiscountPosted */
+public static final String COLUMNNAME_IsTradeDiscountPosted = "IsTradeDiscountPosted";
 /** Set Cost Type.
 @param M_CostType_ID Type of Cost (e.g. Current, Plan, Future) */
 public void setM_CostType_ID (int M_CostType_ID)
@@ -494,6 +530,8 @@ Integer ii = (Integer)get_Value("M_CostType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostType_ID */
+public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -518,6 +556,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Future Days.
 @param Period_OpenFuture Number of days to be able to post to a future date (based on system date) */
 public void setPeriod_OpenFuture (int Period_OpenFuture)
@@ -532,6 +572,8 @@ Integer ii = (Integer)get_Value("Period_OpenFuture");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Period_OpenFuture */
+public static final String COLUMNNAME_Period_OpenFuture = "Period_OpenFuture";
 /** Set History Days.
 @param Period_OpenHistory Number of days to be able to post in the past (based on system date) */
 public void setPeriod_OpenHistory (int Period_OpenHistory)
@@ -546,6 +588,8 @@ Integer ii = (Integer)get_Value("Period_OpenHistory");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Period_OpenHistory */
+public static final String COLUMNNAME_Period_OpenHistory = "Period_OpenHistory";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -564,6 +608,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Element Separator.
 @param Separator Element Separator */
 public void setSeparator (String Separator)
@@ -582,6 +628,8 @@ public String getSeparator()
 {
 return (String)get_Value("Separator");
 }
+/** Column name Separator */
+public static final String COLUMNNAME_Separator = "Separator";
 
 /** TaxCorrectionType AD_Reference_ID=392 */
 public static final int TAXCORRECTIONTYPE_AD_Reference_ID=392;
@@ -613,4 +661,6 @@ public String getTaxCorrectionType()
 {
 return (String)get_Value("TaxCorrectionType");
 }
+/** Column name TaxCorrectionType */
+public static final String COLUMNNAME_TaxCorrectionType = "TaxCorrectionType";
 }

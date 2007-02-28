@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_Replenish extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Maximum Level.
 @param Level_Max Maximum Inventory level for this product */
 public void setLevel_Max (BigDecimal Level_Max)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("Level_Max");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Level_Max */
+public static final String COLUMNNAME_Level_Max = "Level_Max";
 /** Set Minimum Level.
 @param Level_Min Minimum Inventory level for this product */
 public void setLevel_Min (BigDecimal Level_Min)
@@ -167,6 +175,8 @@ BigDecimal bd = (BigDecimal)get_Value("Level_Min");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Level_Min */
+public static final String COLUMNNAME_Level_Min = "Level_Min";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** M_WarehouseSource_ID AD_Reference_ID=197 */
 public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
@@ -201,6 +213,8 @@ Integer ii = (Integer)get_Value("M_WarehouseSource_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_WarehouseSource_ID */
+public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)
@@ -216,6 +230,8 @@ Integer ii = (Integer)get_Value("M_Warehouse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Warehouse_ID */
+public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 /** Set Minimum Order Qty.
 @param Order_Min Minimum order quantity in UOM */
 public void setOrder_Min (BigDecimal Order_Min)
@@ -230,6 +246,8 @@ BigDecimal bd = (BigDecimal)get_Value("Order_Min");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Order_Min */
+public static final String COLUMNNAME_Order_Min = "Order_Min";
 /** Set Order Pack Qty.
 @param Order_Pack Package order size in UOM (e.g. order set of 5 units) */
 public void setOrder_Pack (BigDecimal Order_Pack)
@@ -244,6 +262,8 @@ BigDecimal bd = (BigDecimal)get_Value("Order_Pack");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Order_Pack */
+public static final String COLUMNNAME_Order_Pack = "Order_Pack";
 /** Set On Hand Quantity.
 @param QtyOnHand On Hand Quantity */
 public void setQtyOnHand (BigDecimal QtyOnHand)
@@ -258,6 +278,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOnHand");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOnHand */
+public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
 /** Set Ordered Quantity.
 @param QtyOrdered Ordered Quantity */
 public void setQtyOrdered (BigDecimal QtyOrdered)
@@ -272,6 +294,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOrdered");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOrdered */
+public static final String COLUMNNAME_QtyOrdered = "QtyOrdered";
 /** Set Reserved Quantity.
 @param QtyReserved Reserved Quantity */
 public void setQtyReserved (BigDecimal QtyReserved)
@@ -286,6 +310,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyReserved");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyReserved */
+public static final String COLUMNNAME_QtyReserved = "QtyReserved";
 /** Set Quantity to Order.
 @param QtyToOrder Quantity to Order */
 public void setQtyToOrder (BigDecimal QtyToOrder)
@@ -300,6 +326,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyToOrder");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyToOrder */
+public static final String COLUMNNAME_QtyToOrder = "QtyToOrder";
 
 /** ReplenishType AD_Reference_ID=164 */
 public static final int REPLENISHTYPE_AD_Reference_ID=164;
@@ -331,6 +359,8 @@ public String getReplenishType()
 {
 return (String)get_Value("ReplenishType");
 }
+/** Column name ReplenishType */
+public static final String COLUMNNAME_ReplenishType = "ReplenishType";
 
 /** ReplenishmentCreate AD_Reference_ID=329 */
 public static final int REPLENISHMENTCREATE_AD_Reference_ID=329;
@@ -359,4 +389,6 @@ public String getReplenishmentCreate()
 {
 return (String)get_Value("ReplenishmentCreate");
 }
+/** Column name ReplenishmentCreate */
+public static final String COLUMNNAME_ReplenishmentCreate = "ReplenishmentCreate";
 }

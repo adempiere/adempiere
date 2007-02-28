@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_DistributionLine extends PO
 {
 /** Standard Constructor
@@ -120,6 +120,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
 /** Account_ID AD_Reference_ID=132 */
 public static final int ACCOUNT_ID_AD_Reference_ID=132;
@@ -139,6 +141,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -155,6 +159,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -171,6 +177,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -187,6 +195,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
 /** C_LocFrom_ID AD_Reference_ID=133 */
 public static final int C_LOCFROM_ID_AD_Reference_ID=133;
@@ -206,6 +216,8 @@ Integer ii = (Integer)get_Value("C_LocFrom_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocFrom_ID */
+public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
 /** C_LocTo_ID AD_Reference_ID=133 */
 public static final int C_LOCTO_ID_AD_Reference_ID=133;
@@ -225,6 +237,8 @@ Integer ii = (Integer)get_Value("C_LocTo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocTo_ID */
+public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -241,6 +255,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -257,6 +273,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -274,6 +292,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set GL Distribution Line.
 @param GL_DistributionLine_ID General Ledger Distribution Line */
 public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
@@ -289,6 +309,8 @@ Integer ii = (Integer)get_Value("GL_DistributionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_DistributionLine_ID */
+public static final String COLUMNNAME_GL_DistributionLine_ID = "GL_DistributionLine_ID";
 /** Set GL Distribution.
 @param GL_Distribution_ID General Ledger Distribution */
 public void setGL_Distribution_ID (int GL_Distribution_ID)
@@ -304,6 +326,8 @@ Integer ii = (Integer)get_Value("GL_Distribution_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Distribution_ID */
+public static final String COLUMNNAME_GL_Distribution_ID = "GL_Distribution_ID";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -324,6 +348,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -340,6 +366,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** Org_ID AD_Reference_ID=130 */
 public static final int ORG_ID_AD_Reference_ID=130;
@@ -359,6 +387,8 @@ Integer ii = (Integer)get_Value("Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Org_ID */
+public static final String COLUMNNAME_Org_ID = "Org_ID";
 /** Set Overwrite Account.
 @param OverwriteAcct Overwrite the account segment Account with the value specified */
 public void setOverwriteAcct (boolean OverwriteAcct)
@@ -377,6 +407,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteAcct */
+public static final String COLUMNNAME_OverwriteAcct = "OverwriteAcct";
 /** Set Overwrite Activity.
 @param OverwriteActivity Overwrite the account segment Activity with the value specified */
 public void setOverwriteActivity (boolean OverwriteActivity)
@@ -395,6 +427,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteActivity */
+public static final String COLUMNNAME_OverwriteActivity = "OverwriteActivity";
 /** Set Overwrite Bus.Partner.
 @param OverwriteBPartner Overwrite the account segment Business Partner with the value specified */
 public void setOverwriteBPartner (boolean OverwriteBPartner)
@@ -413,6 +447,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteBPartner */
+public static final String COLUMNNAME_OverwriteBPartner = "OverwriteBPartner";
 /** Set Overwrite Campaign.
 @param OverwriteCampaign Overwrite the account segment Campaign with the value specified */
 public void setOverwriteCampaign (boolean OverwriteCampaign)
@@ -431,6 +467,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteCampaign */
+public static final String COLUMNNAME_OverwriteCampaign = "OverwriteCampaign";
 /** Set Overwrite Location From.
 @param OverwriteLocFrom Overwrite the account segment Location From with the value specified */
 public void setOverwriteLocFrom (boolean OverwriteLocFrom)
@@ -449,6 +487,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteLocFrom */
+public static final String COLUMNNAME_OverwriteLocFrom = "OverwriteLocFrom";
 /** Set Overwrite Location To.
 @param OverwriteLocTo Overwrite the account segment Location From with the value specified */
 public void setOverwriteLocTo (boolean OverwriteLocTo)
@@ -467,6 +507,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteLocTo */
+public static final String COLUMNNAME_OverwriteLocTo = "OverwriteLocTo";
 /** Set Overwrite Organization.
 @param OverwriteOrg Overwrite the account segment Organization with the value specified */
 public void setOverwriteOrg (boolean OverwriteOrg)
@@ -485,6 +527,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteOrg */
+public static final String COLUMNNAME_OverwriteOrg = "OverwriteOrg";
 /** Set Overwrite Trx Organuzation.
 @param OverwriteOrgTrx Overwrite the account segment Transaction Organization with the value specified */
 public void setOverwriteOrgTrx (boolean OverwriteOrgTrx)
@@ -503,6 +547,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteOrgTrx */
+public static final String COLUMNNAME_OverwriteOrgTrx = "OverwriteOrgTrx";
 /** Set Overwrite Product.
 @param OverwriteProduct Overwrite the account segment Product with the value specified */
 public void setOverwriteProduct (boolean OverwriteProduct)
@@ -521,6 +567,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteProduct */
+public static final String COLUMNNAME_OverwriteProduct = "OverwriteProduct";
 /** Set Overwrite Project.
 @param OverwriteProject Overwrite the account segment Project with the value specified */
 public void setOverwriteProject (boolean OverwriteProject)
@@ -539,6 +587,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteProject */
+public static final String COLUMNNAME_OverwriteProject = "OverwriteProject";
 /** Set Overwrite Sales Region.
 @param OverwriteSalesRegion Overwrite the account segment Sales Region with the value specified */
 public void setOverwriteSalesRegion (boolean OverwriteSalesRegion)
@@ -557,6 +607,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteSalesRegion */
+public static final String COLUMNNAME_OverwriteSalesRegion = "OverwriteSalesRegion";
 /** Set Overwrite User1.
 @param OverwriteUser1 Overwrite the account segment User 1 with the value specified */
 public void setOverwriteUser1 (boolean OverwriteUser1)
@@ -575,6 +627,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteUser1 */
+public static final String COLUMNNAME_OverwriteUser1 = "OverwriteUser1";
 /** Set Overwrite User2.
 @param OverwriteUser2 Overwrite the account segment User 2 with the value specified */
 public void setOverwriteUser2 (boolean OverwriteUser2)
@@ -593,6 +647,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name OverwriteUser2 */
+public static final String COLUMNNAME_OverwriteUser2 = "OverwriteUser2";
 /** Set Percent.
 @param Percent Percentage */
 public void setPercent (BigDecimal Percent)
@@ -608,6 +664,8 @@ BigDecimal bd = (BigDecimal)get_Value("Percent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Percent */
+public static final String COLUMNNAME_Percent = "Percent";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -627,6 +685,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -646,4 +706,6 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 }

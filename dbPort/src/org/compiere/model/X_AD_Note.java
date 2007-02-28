@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Note
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Note extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Message_ID()));
 }
+/** Column name AD_Message_ID */
+public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
 /** Set Notice.
 @param AD_Note_ID System Notice */
 public void setAD_Note_ID (int AD_Note_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("AD_Note_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Note_ID */
+public static final String COLUMNNAME_AD_Note_ID = "AD_Note_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Workflow Activity.
 @param AD_WF_Activity_ID Workflow Activity */
 public void setAD_WF_Activity_ID (int AD_WF_Activity_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("AD_WF_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Activity_ID */
+public static final String COLUMNNAME_AD_WF_Activity_ID = "AD_WF_Activity_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -190,6 +200,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -208,6 +220,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -226,6 +240,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -242,6 +258,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Reference.
 @param Reference Reference for this record */
 public void setReference (String Reference)
@@ -259,6 +277,8 @@ public String getReference()
 {
 return (String)get_Value("Reference");
 }
+/** Column name Reference */
+public static final String COLUMNNAME_Reference = "Reference";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -276,4 +296,6 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 }

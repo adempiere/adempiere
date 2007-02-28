@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Recurring_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Recurring_Run extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Recurring.
 @param C_Recurring_ID Recurring Document */
 public void setC_Recurring_ID (int C_Recurring_ID)
@@ -165,6 +173,8 @@ Integer ii = (Integer)get_Value("C_Recurring_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Recurring_ID */
+public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
 /** Set Recurring Run.
 @param C_Recurring_Run_ID Recurring Document Run */
 public void setC_Recurring_Run_ID (int C_Recurring_Run_ID)
@@ -180,6 +190,8 @@ Integer ii = (Integer)get_Value("C_Recurring_Run_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Recurring_Run_ID */
+public static final String COLUMNNAME_C_Recurring_Run_ID = "C_Recurring_Run_ID";
 /** Set Document Date.
 @param DateDoc Date of the Document */
 public void setDateDoc (Timestamp DateDoc)
@@ -192,6 +204,8 @@ public Timestamp getDateDoc()
 {
 return (Timestamp)get_Value("DateDoc");
 }
+/** Column name DateDoc */
+public static final String COLUMNNAME_DateDoc = "DateDoc";
 /** Set Journal Batch.
 @param GL_JournalBatch_ID General Ledger Journal Batch */
 public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
@@ -208,4 +222,6 @@ Integer ii = (Integer)get_Value("GL_JournalBatch_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_JournalBatch_ID */
+public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
 }

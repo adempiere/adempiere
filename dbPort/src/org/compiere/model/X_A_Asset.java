@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_A_Asset extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Asset Group.
 @param A_Asset_Group_ID Group of Assets */
 public void setA_Asset_Group_ID (int A_Asset_Group_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("A_Asset_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_Group_ID */
+public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
 /** Set Asset.
 @param A_Asset_ID Asset used internally or by customers */
 public void setA_Asset_ID (int A_Asset_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Asset Depreciation Date.
 @param AssetDepreciationDate Date of last depreciation */
 public void setAssetDepreciationDate (Timestamp AssetDepreciationDate)
@@ -152,6 +158,8 @@ public Timestamp getAssetDepreciationDate()
 {
 return (Timestamp)get_Value("AssetDepreciationDate");
 }
+/** Column name AssetDepreciationDate */
+public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
 /** Set Asset Disposal Date.
 @param AssetDisposalDate Date when the asset is/was disposed */
 public void setAssetDisposalDate (Timestamp AssetDisposalDate)
@@ -164,6 +172,8 @@ public Timestamp getAssetDisposalDate()
 {
 return (Timestamp)get_Value("AssetDisposalDate");
 }
+/** Column name AssetDisposalDate */
+public static final String COLUMNNAME_AssetDisposalDate = "AssetDisposalDate";
 /** Set In Service Date.
 @param AssetServiceDate Date when Asset was put into service */
 public void setAssetServiceDate (Timestamp AssetServiceDate)
@@ -176,6 +186,8 @@ public Timestamp getAssetServiceDate()
 {
 return (Timestamp)get_Value("AssetServiceDate");
 }
+/** Column name AssetServiceDate */
+public static final String COLUMNNAME_AssetServiceDate = "AssetServiceDate";
 
 /** C_BPartnerSR_ID AD_Reference_ID=353 */
 public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
@@ -195,6 +207,8 @@ Integer ii = (Integer)get_Value("C_BPartnerSR_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartnerSR_ID */
+public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -211,6 +225,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -227,6 +243,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -243,6 +261,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -259,6 +279,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -276,6 +298,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Guarantee Date.
 @param GuaranteeDate Date when guarantee expires */
 public void setGuaranteeDate (Timestamp GuaranteeDate)
@@ -288,6 +312,8 @@ public Timestamp getGuaranteeDate()
 {
 return (Timestamp)get_Value("GuaranteeDate");
 }
+/** Column name GuaranteeDate */
+public static final String COLUMNNAME_GuaranteeDate = "GuaranteeDate";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -305,6 +331,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Depreciate.
 @param IsDepreciated The asset will be depreciated */
 public void setIsDepreciated (boolean IsDepreciated)
@@ -323,6 +351,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDepreciated */
+public static final String COLUMNNAME_IsDepreciated = "IsDepreciated";
 /** Set Disposed.
 @param IsDisposed The asset is disposed */
 public void setIsDisposed (boolean IsDisposed)
@@ -341,6 +371,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDisposed */
+public static final String COLUMNNAME_IsDisposed = "IsDisposed";
 /** Set Fully depreciated.
 @param IsFullyDepreciated The asset is fully depreciated */
 public void setIsFullyDepreciated (boolean IsFullyDepreciated)
@@ -359,6 +391,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFullyDepreciated */
+public static final String COLUMNNAME_IsFullyDepreciated = "IsFullyDepreciated";
 /** Set In Possession.
 @param IsInPosession The asset is in the possession of the organization */
 public void setIsInPosession (boolean IsInPosession)
@@ -377,6 +411,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInPosession */
+public static final String COLUMNNAME_IsInPosession = "IsInPosession";
 /** Set Owned.
 @param IsOwned The asset is owned by the organization */
 public void setIsOwned (boolean IsOwned)
@@ -395,6 +431,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsOwned */
+public static final String COLUMNNAME_IsOwned = "IsOwned";
 /** Set Last Maintenance.
 @param LastMaintenanceDate Last Maintenance Date */
 public void setLastMaintenanceDate (Timestamp LastMaintenanceDate)
@@ -407,6 +445,8 @@ public Timestamp getLastMaintenanceDate()
 {
 return (Timestamp)get_Value("LastMaintenanceDate");
 }
+/** Column name LastMaintenanceDate */
+public static final String COLUMNNAME_LastMaintenanceDate = "LastMaintenanceDate";
 /** Set Last Note.
 @param LastMaintenanceNote Last Maintenance Note */
 public void setLastMaintenanceNote (String LastMaintenanceNote)
@@ -424,6 +464,8 @@ public String getLastMaintenanceNote()
 {
 return (String)get_Value("LastMaintenanceNote");
 }
+/** Column name LastMaintenanceNote */
+public static final String COLUMNNAME_LastMaintenanceNote = "LastMaintenanceNote";
 /** Set Last Unit.
 @param LastMaintenanceUnit Last Maintenance Unit */
 public void setLastMaintenanceUnit (int LastMaintenanceUnit)
@@ -438,6 +480,8 @@ Integer ii = (Integer)get_Value("LastMaintenanceUnit");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LastMaintenanceUnit */
+public static final String COLUMNNAME_LastMaintenanceUnit = "LastMaintenanceUnit";
 /** Set Lease Termination.
 @param LeaseTerminationDate Lease Termination Date */
 public void setLeaseTerminationDate (Timestamp LeaseTerminationDate)
@@ -450,6 +494,8 @@ public Timestamp getLeaseTerminationDate()
 {
 return (Timestamp)get_Value("LeaseTerminationDate");
 }
+/** Column name LeaseTerminationDate */
+public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
 
 /** Lease_BPartner_ID AD_Reference_ID=192 */
 public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
@@ -469,6 +515,8 @@ Integer ii = (Integer)get_Value("Lease_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Lease_BPartner_ID */
+public static final String COLUMNNAME_Lease_BPartner_ID = "Lease_BPartner_ID";
 /** Set Life use.
 @param LifeUseUnits Units of use until the asset is not usable anymore */
 public void setLifeUseUnits (int LifeUseUnits)
@@ -483,6 +531,8 @@ Integer ii = (Integer)get_Value("LifeUseUnits");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LifeUseUnits */
+public static final String COLUMNNAME_LifeUseUnits = "LifeUseUnits";
 /** Set Location comment.
 @param LocationComment Additional comments or remarks concerning the location */
 public void setLocationComment (String LocationComment)
@@ -500,6 +550,8 @@ public String getLocationComment()
 {
 return (String)get_Value("LocationComment");
 }
+/** Column name LocationComment */
+public static final String COLUMNNAME_LocationComment = "LocationComment";
 /** Set Lot No.
 @param Lot Lot number (alphanumeric) */
 public void setLot (String Lot)
@@ -517,6 +569,8 @@ public String getLot()
 {
 return (String)get_Value("Lot");
 }
+/** Column name Lot */
+public static final String COLUMNNAME_Lot = "Lot";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -532,6 +586,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -548,6 +604,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -564,6 +622,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -580,6 +640,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -604,6 +666,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Next Maintenence.
 @param NextMaintenenceDate Next Maintenence Date */
 public void setNextMaintenenceDate (Timestamp NextMaintenenceDate)
@@ -616,6 +680,8 @@ public Timestamp getNextMaintenenceDate()
 {
 return (Timestamp)get_Value("NextMaintenenceDate");
 }
+/** Column name NextMaintenenceDate */
+public static final String COLUMNNAME_NextMaintenenceDate = "NextMaintenenceDate";
 /** Set Next Unit.
 @param NextMaintenenceUnit Next Maintenence Unit */
 public void setNextMaintenenceUnit (int NextMaintenenceUnit)
@@ -630,6 +696,8 @@ Integer ii = (Integer)get_Value("NextMaintenenceUnit");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NextMaintenenceUnit */
+public static final String COLUMNNAME_NextMaintenenceUnit = "NextMaintenenceUnit";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -644,6 +712,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Serial No.
 @param SerNo Product Serial Number  */
 public void setSerNo (String SerNo)
@@ -661,6 +731,8 @@ public String getSerNo()
 {
 return (String)get_Value("SerNo");
 }
+/** Column name SerNo */
+public static final String COLUMNNAME_SerNo = "SerNo";
 /** Set Usable Life - Months.
 @param UseLifeMonths Months of the usable life of the asset */
 public void setUseLifeMonths (int UseLifeMonths)
@@ -675,6 +747,8 @@ Integer ii = (Integer)get_Value("UseLifeMonths");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UseLifeMonths */
+public static final String COLUMNNAME_UseLifeMonths = "UseLifeMonths";
 /** Set Usable Life - Years.
 @param UseLifeYears Years of the usable life of the asset */
 public void setUseLifeYears (int UseLifeYears)
@@ -689,6 +763,8 @@ Integer ii = (Integer)get_Value("UseLifeYears");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UseLifeYears */
+public static final String COLUMNNAME_UseLifeYears = "UseLifeYears";
 /** Set Use units.
 @param UseUnits Currently used units of the assets */
 public void setUseUnits (int UseUnits)
@@ -703,6 +779,8 @@ Integer ii = (Integer)get_Value("UseUnits");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UseUnits */
+public static final String COLUMNNAME_UseUnits = "UseUnits";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -721,6 +799,8 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Version No.
 @param VersionNo Version Number */
 public void setVersionNo (String VersionNo)
@@ -738,4 +818,6 @@ public String getVersionNo()
 {
 return (String)get_Value("VersionNo");
 }
+/** Column name VersionNo */
+public static final String COLUMNNAME_VersionNo = "VersionNo";
 }

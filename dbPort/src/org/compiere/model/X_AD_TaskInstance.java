@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_TaskInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_TaskInstance extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_TaskInstance_ID()));
 }
+/** Column name AD_TaskInstance_ID */
+public static final String COLUMNNAME_AD_TaskInstance_ID = "AD_TaskInstance_ID";
 /** Set OS Task.
 @param AD_Task_ID Operation System Task */
 public void setAD_Task_ID (int AD_Task_ID)
@@ -122,4 +124,6 @@ Integer ii = (Integer)get_Value("AD_Task_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Task_ID */
+public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_Entry extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_Session_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Session_ID */
+public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
 /** Set Description URL.
 @param DescriptionURL URL for the description */
 public void setDescriptionURL (String DescriptionURL)
@@ -123,6 +125,8 @@ public String getDescriptionURL()
 {
 return (String)get_Value("DescriptionURL");
 }
+/** Column name DescriptionURL */
+public static final String COLUMNNAME_DescriptionURL = "DescriptionURL";
 /** Set Public.
 @param IsPublic Public can read entry */
 public void setIsPublic (boolean IsPublic)
@@ -141,6 +145,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPublic */
+public static final String COLUMNNAME_IsPublic = "IsPublic";
 /** Set Entry.
 @param K_Entry_ID Knowledge Entry */
 public void setK_Entry_ID (int K_Entry_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("K_Entry_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Entry_ID */
+public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";
 /** Set Knowledge Source.
 @param K_Source_ID Source of a Knowledge Entry */
 public void setK_Source_ID (int K_Source_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("K_Source_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Source_ID */
+public static final String COLUMNNAME_K_Source_ID = "K_Source_ID";
 /** Set Knowledge Topic.
 @param K_Topic_ID Knowledge Topic */
 public void setK_Topic_ID (int K_Topic_ID)
@@ -187,6 +197,8 @@ Integer ii = (Integer)get_Value("K_Topic_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Topic_ID */
+public static final String COLUMNNAME_K_Topic_ID = "K_Topic_ID";
 /** Set Keywords.
 @param Keywords List of Keywords - separated by space, comma or semicolon */
 public void setKeywords (String Keywords)
@@ -204,6 +216,8 @@ public String getKeywords()
 {
 return (String)get_Value("Keywords");
 }
+/** Column name Keywords */
+public static final String COLUMNNAME_Keywords = "Keywords";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -228,6 +242,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Rating.
 @param Rating Classification or Importance */
 public void setRating (int Rating)
@@ -242,6 +258,8 @@ Integer ii = (Integer)get_Value("Rating");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Rating */
+public static final String COLUMNNAME_Rating = "Rating";
 /** Set Text Message.
 @param TextMsg Text Message */
 public void setTextMsg (String TextMsg)
@@ -260,6 +278,8 @@ public String getTextMsg()
 {
 return (String)get_Value("TextMsg");
 }
+/** Column name TextMsg */
+public static final String COLUMNNAME_TextMsg = "TextMsg";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -272,4 +292,6 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 }

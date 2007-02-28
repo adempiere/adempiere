@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_TimeExpenseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_TimeExpenseLine extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Sales Order Line.
 @param C_OrderLine_ID Sales Order Line */
 public void setC_OrderLine_ID (int C_OrderLine_ID)
@@ -188,6 +198,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Project Phase.
 @param C_ProjectPhase_ID Phase of a Project */
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
@@ -204,6 +216,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project Task.
 @param C_ProjectTask_ID Actual Project Task in a Phase */
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
@@ -220,6 +234,8 @@ Integer ii = (Integer)get_Value("C_ProjectTask_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectTask_ID */
+public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -252,6 +270,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Converted Amount.
 @param ConvertedAmt Converted Amount */
 public void setConvertedAmt (BigDecimal ConvertedAmt)
@@ -266,6 +286,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConvertedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConvertedAmt */
+public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 /** Set Expense Date.
 @param DateExpense Date of expense */
 public void setDateExpense (Timestamp DateExpense)
@@ -279,6 +301,8 @@ public Timestamp getDateExpense()
 {
 return (Timestamp)get_Value("DateExpense");
 }
+/** Column name DateExpense */
+public static final String COLUMNNAME_DateExpense = "DateExpense";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -296,6 +320,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Expense Amount.
 @param ExpenseAmt Amount for this expense */
 public void setExpenseAmt (BigDecimal ExpenseAmt)
@@ -310,6 +336,8 @@ BigDecimal bd = (BigDecimal)get_Value("ExpenseAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ExpenseAmt */
+public static final String COLUMNNAME_ExpenseAmt = "ExpenseAmt";
 /** Set Invoice Price.
 @param InvoicePrice Unit price to be invoiced or 0 for default price */
 public void setInvoicePrice (BigDecimal InvoicePrice)
@@ -324,6 +352,8 @@ BigDecimal bd = (BigDecimal)get_Value("InvoicePrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InvoicePrice */
+public static final String COLUMNNAME_InvoicePrice = "InvoicePrice";
 /** Set Invoiced.
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
@@ -342,6 +372,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInvoiced */
+public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 /** Set Time Report.
 @param IsTimeReport Line is a time report only (no expense) */
 public void setIsTimeReport (boolean IsTimeReport)
@@ -360,6 +392,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTimeReport */
+public static final String COLUMNNAME_IsTimeReport = "IsTimeReport";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -380,6 +414,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -396,6 +432,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Note.
 @param Note Optional additional user defined information */
 public void setNote (String Note)
@@ -413,6 +451,8 @@ public String getNote()
 {
 return (String)get_Value("Note");
 }
+/** Column name Note */
+public static final String COLUMNNAME_Note = "Note";
 /** Set Price Invoiced.
 @param PriceInvoiced The priced invoiced to the customer (in the currency of the customer's AR price list) - 0 for default price */
 public void setPriceInvoiced (BigDecimal PriceInvoiced)
@@ -427,6 +467,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceInvoiced");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceInvoiced */
+public static final String COLUMNNAME_PriceInvoiced = "PriceInvoiced";
 /** Set Price Reimbursed.
 @param PriceReimbursed The reimbursed price (in currency of the employee's AP price list) */
 public void setPriceReimbursed (BigDecimal PriceReimbursed)
@@ -441,6 +483,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceReimbursed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceReimbursed */
+public static final String COLUMNNAME_PriceReimbursed = "PriceReimbursed";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -459,6 +503,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -473,6 +519,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Quantity Invoiced.
 @param QtyInvoiced Invoiced Quantity */
 public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -487,6 +535,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyInvoiced");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyInvoiced */
+public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 /** Set Quantity Reimbursed.
 @param QtyReimbursed The reimbursed quantity */
 public void setQtyReimbursed (BigDecimal QtyReimbursed)
@@ -501,6 +551,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyReimbursed");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyReimbursed */
+public static final String COLUMNNAME_QtyReimbursed = "QtyReimbursed";
 /** Set Resource Assignment.
 @param S_ResourceAssignment_ID Resource Assignment */
 public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
@@ -517,6 +569,8 @@ Integer ii = (Integer)get_Value("S_ResourceAssignment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ResourceAssignment_ID */
+public static final String COLUMNNAME_S_ResourceAssignment_ID = "S_ResourceAssignment_ID";
 /** Set Expense Line.
 @param S_TimeExpenseLine_ID Time and Expense Report Line */
 public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
@@ -532,6 +586,8 @@ Integer ii = (Integer)get_Value("S_TimeExpenseLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_TimeExpenseLine_ID */
+public static final String COLUMNNAME_S_TimeExpenseLine_ID = "S_TimeExpenseLine_ID";
 /** Set Expense Report.
 @param S_TimeExpense_ID Time and Expense Report */
 public void setS_TimeExpense_ID (int S_TimeExpense_ID)
@@ -547,6 +603,8 @@ Integer ii = (Integer)get_Value("S_TimeExpense_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_TimeExpense_ID */
+public static final String COLUMNNAME_S_TimeExpense_ID = "S_TimeExpense_ID";
 /** Set Time Type.
 @param S_TimeType_ID Type of time recorded */
 public void setS_TimeType_ID (int S_TimeType_ID)
@@ -563,4 +621,6 @@ Integer ii = (Integer)get_Value("S_TimeType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_TimeType_ID */
+public static final String COLUMNNAME_S_TimeType_ID = "S_TimeType_ID";
 }

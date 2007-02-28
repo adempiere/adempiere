@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Remuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Remuneration extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("C_Remuneration_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Remuneration_ID */
+public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -124,6 +126,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Gross Amount.
 @param GrossRAmt Gross Remuneration Amount */
 public void setGrossRAmt (BigDecimal GrossRAmt)
@@ -139,6 +143,8 @@ BigDecimal bd = (BigDecimal)get_Value("GrossRAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name GrossRAmt */
+public static final String COLUMNNAME_GrossRAmt = "GrossRAmt";
 /** Set Gross Cost.
 @param GrossRCost Gross Remuneration Costs */
 public void setGrossRCost (BigDecimal GrossRCost)
@@ -154,6 +160,8 @@ BigDecimal bd = (BigDecimal)get_Value("GrossRCost");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name GrossRCost */
+public static final String COLUMNNAME_GrossRCost = "GrossRCost";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -171,6 +179,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -195,6 +205,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Overtime Amount.
 @param OvertimeAmt Hourly Overtime Rate */
 public void setOvertimeAmt (BigDecimal OvertimeAmt)
@@ -210,6 +222,8 @@ BigDecimal bd = (BigDecimal)get_Value("OvertimeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OvertimeAmt */
+public static final String COLUMNNAME_OvertimeAmt = "OvertimeAmt";
 /** Set Overtime Cost.
 @param OvertimeCost Hourly Overtime Cost */
 public void setOvertimeCost (BigDecimal OvertimeCost)
@@ -225,6 +239,8 @@ BigDecimal bd = (BigDecimal)get_Value("OvertimeCost");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OvertimeCost */
+public static final String COLUMNNAME_OvertimeCost = "OvertimeCost";
 
 /** RemunerationType AD_Reference_ID=346 */
 public static final int REMUNERATIONTYPE_AD_Reference_ID=346;
@@ -260,6 +276,8 @@ public String getRemunerationType()
 {
 return (String)get_Value("RemunerationType");
 }
+/** Column name RemunerationType */
+public static final String COLUMNNAME_RemunerationType = "RemunerationType";
 /** Set Standard Hours.
 @param StandardHours Standard Work Hours based on Remuneration Type */
 public void setStandardHours (int StandardHours)
@@ -274,4 +292,6 @@ Integer ii = (Integer)get_Value("StandardHours");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StandardHours */
+public static final String COLUMNNAME_StandardHours = "StandardHours";
 }

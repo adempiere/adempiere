@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Image
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Image extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set BinaryData.
 @param BinaryData Binary Data */
 public void setBinaryData (byte[] BinaryData)
@@ -114,6 +116,8 @@ public byte[] getBinaryData()
 {
 return (byte[])get_Value("BinaryData");
 }
+/** Column name BinaryData */
+public static final String COLUMNNAME_BinaryData = "BinaryData";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -131,6 +135,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -153,6 +159,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -170,6 +178,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -194,4 +204,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

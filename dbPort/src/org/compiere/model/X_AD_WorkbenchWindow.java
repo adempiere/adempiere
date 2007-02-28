@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_WorkbenchWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_WorkbenchWindow extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Form_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Form_ID */
+public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set OS Task.
 @param AD_Task_ID Operation System Task */
 public void setAD_Task_ID (int AD_Task_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("AD_Task_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Task_ID */
+public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Workbench Window.
 @param AD_WorkbenchWindow_ID Workbench Window */
 public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
@@ -174,6 +182,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
 }
+/** Column name AD_WorkbenchWindow_ID */
+public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
 /** Set Workbench.
 @param AD_Workbench_ID Collection of windows, reports */
 public void setAD_Workbench_ID (int AD_Workbench_ID)
@@ -189,6 +199,8 @@ Integer ii = (Integer)get_Value("AD_Workbench_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workbench_ID */
+public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -211,6 +223,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Primary.
 @param IsPrimary Indicates if this is the primary budget */
 public void setIsPrimary (boolean IsPrimary)
@@ -229,6 +243,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrimary */
+public static final String COLUMNNAME_IsPrimary = "IsPrimary";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -245,4 +261,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

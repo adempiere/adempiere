@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Tax_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Tax_Acct extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set Tax Credit.
 @param T_Credit_Acct Account for Tax you can reclaim */
 public void setT_Credit_Acct (int T_Credit_Acct)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("T_Credit_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Credit_Acct */
+public static final String COLUMNNAME_T_Credit_Acct = "T_Credit_Acct";
 /** Set Tax Due.
 @param T_Due_Acct Account for Tax you have to pay */
 public void setT_Due_Acct (int T_Due_Acct)
@@ -149,6 +155,8 @@ Integer ii = (Integer)get_Value("T_Due_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Due_Acct */
+public static final String COLUMNNAME_T_Due_Acct = "T_Due_Acct";
 /** Set Tax Expense.
 @param T_Expense_Acct Account for paid tax you cannot reclaim */
 public void setT_Expense_Acct (int T_Expense_Acct)
@@ -163,6 +171,8 @@ Integer ii = (Integer)get_Value("T_Expense_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Expense_Acct */
+public static final String COLUMNNAME_T_Expense_Acct = "T_Expense_Acct";
 /** Set Tax Liability.
 @param T_Liability_Acct Account for Tax declaration liability */
 public void setT_Liability_Acct (int T_Liability_Acct)
@@ -177,6 +187,8 @@ Integer ii = (Integer)get_Value("T_Liability_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Liability_Acct */
+public static final String COLUMNNAME_T_Liability_Acct = "T_Liability_Acct";
 /** Set Tax Receivables.
 @param T_Receivables_Acct Account for Tax credit after tax declaration */
 public void setT_Receivables_Acct (int T_Receivables_Acct)
@@ -191,4 +203,6 @@ Integer ii = (Integer)get_Value("T_Receivables_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Receivables_Acct */
+public static final String COLUMNNAME_T_Receivables_Acct = "T_Receivables_Acct";
 }

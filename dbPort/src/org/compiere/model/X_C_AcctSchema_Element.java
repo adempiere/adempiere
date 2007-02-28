@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_AcctSchema_Element extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Acct.Schema Element.
 @param C_AcctSchema_Element_ID Acct.Schema Element */
 public void setC_AcctSchema_Element_ID (int C_AcctSchema_Element_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_Element_ID */
+public static final String COLUMNNAME_C_AcctSchema_Element_ID = "C_AcctSchema_Element_ID";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -187,6 +197,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Account Element.
 @param C_ElementValue_ID Account Element */
 public void setC_ElementValue_ID (int C_ElementValue_ID)
@@ -203,6 +215,8 @@ Integer ii = (Integer)get_Value("C_ElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ElementValue_ID */
+public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
 /** Set Element.
 @param C_Element_ID Accounting Element */
 public void setC_Element_ID (int C_Element_ID)
@@ -218,6 +232,8 @@ Integer ii = (Integer)get_Value("C_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Element_ID */
+public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -234,6 +250,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -250,6 +268,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -266,6 +286,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
 /** ElementType AD_Reference_ID=181 */
 public static final int ELEMENTTYPE_AD_Reference_ID=181;
@@ -321,6 +343,8 @@ public String getElementType()
 {
 return (String)get_Value("ElementType");
 }
+/** Column name ElementType */
+public static final String COLUMNNAME_ElementType = "ElementType";
 /** Set Balanced.
 @param IsBalanced Balanced */
 public void setIsBalanced (boolean IsBalanced)
@@ -339,6 +363,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBalanced */
+public static final String COLUMNNAME_IsBalanced = "IsBalanced";
 /** Set Mandatory.
 @param IsMandatory Data entry is required in this column */
 public void setIsMandatory (boolean IsMandatory)
@@ -357,6 +383,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMandatory */
+public static final String COLUMNNAME_IsMandatory = "IsMandatory";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -373,6 +401,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -397,6 +427,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Org_ID AD_Reference_ID=130 */
 public static final int ORG_ID_AD_Reference_ID=130;
@@ -415,6 +447,8 @@ Integer ii = (Integer)get_Value("Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Org_ID */
+public static final String COLUMNNAME_Org_ID = "Org_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -431,4 +465,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

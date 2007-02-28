@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_DocType extends PO
 {
 /** Standard Constructor
@@ -117,6 +117,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
 /** C_DocTypeDifference_ID AD_Reference_ID=170 */
 public static final int C_DOCTYPEDIFFERENCE_ID_AD_Reference_ID=170;
@@ -136,6 +138,8 @@ Integer ii = (Integer)get_Value("C_DocTypeDifference_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocTypeDifference_ID */
+public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
 
 /** C_DocTypeInvoice_ID AD_Reference_ID=170 */
 public static final int C_DOCTYPEINVOICE_ID_AD_Reference_ID=170;
@@ -155,6 +159,8 @@ Integer ii = (Integer)get_Value("C_DocTypeInvoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocTypeInvoice_ID */
+public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
 
 /** C_DocTypeProforma_ID AD_Reference_ID=170 */
 public static final int C_DOCTYPEPROFORMA_ID_AD_Reference_ID=170;
@@ -174,6 +180,8 @@ Integer ii = (Integer)get_Value("C_DocTypeProforma_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocTypeProforma_ID */
+public static final String COLUMNNAME_C_DocTypeProforma_ID = "C_DocTypeProforma_ID";
 
 /** C_DocTypeShipment_ID AD_Reference_ID=170 */
 public static final int C_DOCTYPESHIPMENT_ID_AD_Reference_ID=170;
@@ -193,6 +201,8 @@ Integer ii = (Integer)get_Value("C_DocTypeShipment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocTypeShipment_ID */
+public static final String COLUMNNAME_C_DocTypeShipment_ID = "C_DocTypeShipment_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -208,6 +218,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -225,6 +237,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocBaseType AD_Reference_ID=183 */
 public static final int DOCBASETYPE_AD_Reference_ID=183;
@@ -294,6 +308,8 @@ public String getDocBaseType()
 {
 return (String)get_Value("DocBaseType");
 }
+/** Column name DocBaseType */
+public static final String COLUMNNAME_DocBaseType = "DocBaseType";
 
 /** DocNoSequence_ID AD_Reference_ID=128 */
 public static final int DOCNOSEQUENCE_ID_AD_Reference_ID=128;
@@ -313,6 +329,8 @@ Integer ii = (Integer)get_Value("DocNoSequence_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DocNoSequence_ID */
+public static final String COLUMNNAME_DocNoSequence_ID = "DocNoSequence_ID";
 
 /** DocSubTypeSO AD_Reference_ID=148 */
 public static final int DOCSUBTYPESO_AD_Reference_ID=148;
@@ -351,6 +369,8 @@ public String getDocSubTypeSO()
 {
 return (String)get_Value("DocSubTypeSO");
 }
+/** Column name DocSubTypeSO */
+public static final String COLUMNNAME_DocSubTypeSO = "DocSubTypeSO";
 /** Set Document Copies.
 @param DocumentCopies Number of copies to be printed */
 public void setDocumentCopies (int DocumentCopies)
@@ -365,6 +385,8 @@ Integer ii = (Integer)get_Value("DocumentCopies");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DocumentCopies */
+public static final String COLUMNNAME_DocumentCopies = "DocumentCopies";
 /** Set Document Note.
 @param DocumentNote Additional information for a Document */
 public void setDocumentNote (String DocumentNote)
@@ -382,6 +404,8 @@ public String getDocumentNote()
 {
 return (String)get_Value("DocumentNote");
 }
+/** Column name DocumentNote */
+public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 /** Set GL Category.
 @param GL_Category_ID General Ledger Category */
 public void setGL_Category_ID (int GL_Category_ID)
@@ -397,6 +421,8 @@ Integer ii = (Integer)get_Value("GL_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Category_ID */
+public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
 /** Set Charges.
 @param HasCharges Charges can be added to the document */
 public void setHasCharges (boolean HasCharges)
@@ -415,6 +441,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasCharges */
+public static final String COLUMNNAME_HasCharges = "HasCharges";
 /** Set Pro forma Invoice.
 @param HasProforma Indicates if Pro Forma Invoices can be generated from this document */
 public void setHasProforma (boolean HasProforma)
@@ -433,6 +461,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasProforma */
+public static final String COLUMNNAME_HasProforma = "HasProforma";
 /** Set Create Counter Document.
 @param IsCreateCounter Create Counter Document */
 public void setIsCreateCounter (boolean IsCreateCounter)
@@ -451,6 +481,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCreateCounter */
+public static final String COLUMNNAME_IsCreateCounter = "IsCreateCounter";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -469,6 +501,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Default Counter Document.
 @param IsDefaultCounterDoc The document type is the default counter document type */
 public void setIsDefaultCounterDoc (boolean IsDefaultCounterDoc)
@@ -487,6 +521,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefaultCounterDoc */
+public static final String COLUMNNAME_IsDefaultCounterDoc = "IsDefaultCounterDoc";
 /** Set Document is Number Controlled.
 @param IsDocNoControlled The document has a document sequence */
 public void setIsDocNoControlled (boolean IsDocNoControlled)
@@ -505,6 +541,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDocNoControlled */
+public static final String COLUMNNAME_IsDocNoControlled = "IsDocNoControlled";
 /** Set In Transit.
 @param IsInTransit Movement is in transit */
 public void setIsInTransit (boolean IsInTransit)
@@ -523,6 +561,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInTransit */
+public static final String COLUMNNAME_IsInTransit = "IsInTransit";
 /** Set Indexed.
 @param IsIndexed Index the document for the internal search engine */
 public void setIsIndexed (boolean IsIndexed)
@@ -541,6 +581,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsIndexed */
+public static final String COLUMNNAME_IsIndexed = "IsIndexed";
 /** Set Pick/QA Confirmation.
 @param IsPickQAConfirm Require Pick or QA Confirmation before processing */
 public void setIsPickQAConfirm (boolean IsPickQAConfirm)
@@ -559,6 +601,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPickQAConfirm */
+public static final String COLUMNNAME_IsPickQAConfirm = "IsPickQAConfirm";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -577,6 +621,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Ship/Receipt Confirmation.
 @param IsShipConfirm Require Ship or Receipt Confirmation before processing */
 public void setIsShipConfirm (boolean IsShipConfirm)
@@ -595,6 +641,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsShipConfirm */
+public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
 /** Set Split when Difference.
 @param IsSplitWhenDifference Split document when there is a difference */
 public void setIsSplitWhenDifference (boolean IsSplitWhenDifference)
@@ -613,6 +661,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSplitWhenDifference */
+public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -637,6 +687,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Print Text.
 @param PrintName The label text to be printed on a document or correspondence. */
 public void setPrintName (String PrintName)
@@ -655,4 +707,6 @@ public String getPrintName()
 {
 return (String)get_Value("PrintName");
 }
+/** Column name PrintName */
+public static final String COLUMNNAME_PrintName = "PrintName";
 }

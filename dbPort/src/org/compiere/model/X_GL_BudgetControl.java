@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_BudgetControl
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_BudgetControl extends PO
 {
 /** Standard Constructor
@@ -120,6 +120,8 @@ public String getBudgetControlScope()
 {
 return (String)get_Value("BudgetControlScope");
 }
+/** Column name BudgetControlScope */
+public static final String COLUMNNAME_BudgetControlScope = "BudgetControlScope";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -135,6 +137,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
 /** CommitmentType AD_Reference_ID=359 */
 public static final int COMMITMENTTYPE_AD_Reference_ID=359;
@@ -164,6 +168,8 @@ public String getCommitmentType()
 {
 return (String)get_Value("CommitmentType");
 }
+/** Column name CommitmentType */
+public static final String COLUMNNAME_CommitmentType = "CommitmentType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -181,6 +187,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Budget Control.
 @param GL_BudgetControl_ID Budget Control */
 public void setGL_BudgetControl_ID (int GL_BudgetControl_ID)
@@ -196,6 +204,8 @@ Integer ii = (Integer)get_Value("GL_BudgetControl_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_BudgetControl_ID */
+public static final String COLUMNNAME_GL_BudgetControl_ID = "GL_BudgetControl_ID";
 /** Set Budget.
 @param GL_Budget_ID General Ledger Budget */
 public void setGL_Budget_ID (int GL_Budget_ID)
@@ -211,6 +221,8 @@ Integer ii = (Integer)get_Value("GL_Budget_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Budget_ID */
+public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -228,6 +240,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Before Approval.
 @param IsBeforeApproval The Check is before the (manual) approval */
 public void setIsBeforeApproval (boolean IsBeforeApproval)
@@ -246,6 +260,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBeforeApproval */
+public static final String COLUMNNAME_IsBeforeApproval = "IsBeforeApproval";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -270,4 +286,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

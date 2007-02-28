@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_IssueKnown extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Issue Status.
 @param IssueStatus Current Status of the Issue */
 public void setIssueStatus (String IssueStatus)
@@ -121,6 +123,8 @@ public String getIssueStatus()
 {
 return (String)get_Value("IssueStatus");
 }
+/** Column name IssueStatus */
+public static final String COLUMNNAME_IssueStatus = "IssueStatus";
 /** Set Issue Summary.
 @param IssueSummary Issue Summary */
 public void setIssueSummary (String IssueSummary)
@@ -139,6 +143,8 @@ public String getIssueSummary()
 {
 return (String)get_Value("IssueSummary");
 }
+/** Column name IssueSummary */
+public static final String COLUMNNAME_IssueSummary = "IssueSummary";
 /** Set Line.
 @param LineNo Line No */
 public void setLineNo (int LineNo)
@@ -153,6 +159,8 @@ Integer ii = (Integer)get_Value("LineNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LineNo */
+public static final String COLUMNNAME_LineNo = "LineNo";
 /** Set Logger.
 @param LoggerName Logger Name */
 public void setLoggerName (String LoggerName)
@@ -170,6 +178,8 @@ public String getLoggerName()
 {
 return (String)get_Value("LoggerName");
 }
+/** Column name LoggerName */
+public static final String COLUMNNAME_LoggerName = "LoggerName";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -188,6 +198,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Known Issue.
 @param R_IssueKnown_ID Known Issue */
 public void setR_IssueKnown_ID (int R_IssueKnown_ID)
@@ -203,6 +215,8 @@ Integer ii = (Integer)get_Value("R_IssueKnown_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueKnown_ID */
+public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
 /** Set Issue Recommendation.
 @param R_IssueRecommendation_ID Recommendations how to fix an Issue */
 public void setR_IssueRecommendation_ID (int R_IssueRecommendation_ID)
@@ -219,6 +233,8 @@ Integer ii = (Integer)get_Value("R_IssueRecommendation_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueRecommendation_ID */
+public static final String COLUMNNAME_R_IssueRecommendation_ID = "R_IssueRecommendation_ID";
 /** Set Issue Status.
 @param R_IssueStatus_ID Status of an Issue */
 public void setR_IssueStatus_ID (int R_IssueStatus_ID)
@@ -235,6 +251,8 @@ Integer ii = (Integer)get_Value("R_IssueStatus_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueStatus_ID */
+public static final String COLUMNNAME_R_IssueStatus_ID = "R_IssueStatus_ID";
 /** Set Request.
 @param R_Request_ID Request from a Business Partner or Prospect */
 public void setR_Request_ID (int R_Request_ID)
@@ -251,6 +269,8 @@ Integer ii = (Integer)get_Value("R_Request_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Request_ID */
+public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 /** Set Release No.
 @param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
@@ -275,6 +295,8 @@ return (String)get_Value("ReleaseNo");
 {
 return new KeyNamePair(get_ID(), getReleaseNo());
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 /** Set Source Class.
 @param SourceClassName Source Class Name */
 public void setSourceClassName (String SourceClassName)
@@ -292,6 +314,8 @@ public String getSourceClassName()
 {
 return (String)get_Value("SourceClassName");
 }
+/** Column name SourceClassName */
+public static final String COLUMNNAME_SourceClassName = "SourceClassName";
 /** Set Source Method.
 @param SourceMethodName Source Method Name */
 public void setSourceMethodName (String SourceMethodName)
@@ -309,4 +333,6 @@ public String getSourceMethodName()
 {
 return (String)get_Value("SourceMethodName");
 }
+/** Column name SourceMethodName */
+public static final String COLUMNNAME_SourceMethodName = "SourceMethodName";
 }

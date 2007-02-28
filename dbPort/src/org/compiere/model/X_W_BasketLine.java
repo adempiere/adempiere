@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_BasketLine extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -129,6 +131,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -145,6 +149,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Price.
 @param Price Price */
 public void setPrice (BigDecimal Price)
@@ -160,6 +166,8 @@ BigDecimal bd = (BigDecimal)get_Value("Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Price */
+public static final String COLUMNNAME_Price = "Price";
 /** Set Product.
 @param Product Product */
 public void setProduct (String Product)
@@ -178,6 +186,8 @@ public String getProduct()
 {
 return (String)get_Value("Product");
 }
+/** Column name Product */
+public static final String COLUMNNAME_Product = "Product";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -193,6 +203,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Basket Line.
 @param W_BasketLine_ID Web Basket Line */
 public void setW_BasketLine_ID (int W_BasketLine_ID)
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("W_BasketLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_BasketLine_ID */
+public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
 /** Set W_Basket_ID.
 @param W_Basket_ID Web Basket */
 public void setW_Basket_ID (int W_Basket_ID)
@@ -223,4 +237,6 @@ Integer ii = (Integer)get_Value("W_Basket_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Basket_ID */
+public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 }

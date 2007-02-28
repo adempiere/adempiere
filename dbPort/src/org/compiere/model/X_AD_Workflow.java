@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Workflow extends PO
 {
 /** Standard Constructor
@@ -115,6 +115,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Node.
 @param AD_WF_Node_ID Workflow Node (activity), step or process */
 public void setAD_WF_Node_ID (int AD_WF_Node_ID)
@@ -131,6 +133,8 @@ Integer ii = (Integer)get_Value("AD_WF_Node_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Node_ID */
+public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 /** Set Workflow Responsible.
 @param AD_WF_Responsible_ID Responsible for Workflow Execution */
 public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
@@ -147,6 +151,8 @@ Integer ii = (Integer)get_Value("AD_WF_Responsible_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WF_Responsible_ID */
+public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
 /** Set Workflow Processor.
 @param AD_WorkflowProcessor_ID Workflow Processor Server */
 public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
@@ -163,6 +169,8 @@ Integer ii = (Integer)get_Value("AD_WorkflowProcessor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_WorkflowProcessor_ID */
+public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 /** Set Workflow.
 @param AD_Workflow_ID Workflow or combination of tasks */
 public void setAD_Workflow_ID (int AD_Workflow_ID)
@@ -178,6 +186,8 @@ Integer ii = (Integer)get_Value("AD_Workflow_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Workflow_ID */
+public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
 /** AccessLevel AD_Reference_ID=5 */
 public static final int ACCESSLEVEL_AD_Reference_ID=5;
@@ -213,6 +223,8 @@ public String getAccessLevel()
 {
 return (String)get_Value("AccessLevel");
 }
+/** Column name AccessLevel */
+public static final String COLUMNNAME_AccessLevel = "AccessLevel";
 /** Set Author.
 @param Author Author/Creator of the Entity */
 public void setAuthor (String Author)
@@ -231,6 +243,8 @@ public String getAuthor()
 {
 return (String)get_Value("Author");
 }
+/** Column name Author */
+public static final String COLUMNNAME_Author = "Author";
 /** Set Cost.
 @param Cost Cost information */
 public void setCost (int Cost)
@@ -245,6 +259,8 @@ Integer ii = (Integer)get_Value("Cost");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Cost */
+public static final String COLUMNNAME_Cost = "Cost";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -262,6 +278,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document Value Logic.
 @param DocValueLogic Logic to determine Workflow Start - If true, a workflow process is started for the document */
 public void setDocValueLogic (String DocValueLogic)
@@ -279,6 +297,8 @@ public String getDocValueLogic()
 {
 return (String)get_Value("DocValueLogic");
 }
+/** Column name DocValueLogic */
+public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
 /** Set Duration.
 @param Duration Normal Duration in Duration Unit */
 public void setDuration (int Duration)
@@ -293,6 +313,8 @@ Integer ii = (Integer)get_Value("Duration");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Duration */
+public static final String COLUMNNAME_Duration = "Duration";
 
 /** DurationUnit AD_Reference_ID=299 */
 public static final int DURATIONUNIT_AD_Reference_ID=299;
@@ -327,6 +349,8 @@ public String getDurationUnit()
 {
 return (String)get_Value("DurationUnit");
 }
+/** Column name DurationUnit */
+public static final String COLUMNNAME_DurationUnit = "DurationUnit";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -349,6 +373,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -366,6 +392,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -384,6 +412,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -402,6 +432,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Duration Limit.
 @param Limit Maximum Duration in Duration Unit */
 public void setLimit (int Limit)
@@ -416,6 +448,8 @@ Integer ii = (Integer)get_Value("Limit");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Limit */
+public static final String COLUMNNAME_Limit = "Limit";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -440,6 +474,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Priority.
 @param Priority Indicates if this request is of a high, medium or low priority. */
 public void setPriority (int Priority)
@@ -454,6 +490,8 @@ Integer ii = (Integer)get_Value("Priority");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Priority */
+public static final String COLUMNNAME_Priority = "Priority";
 
 /** PublishStatus AD_Reference_ID=310 */
 public static final int PUBLISHSTATUS_AD_Reference_ID=310;
@@ -485,6 +523,8 @@ public String getPublishStatus()
 {
 return (String)get_Value("PublishStatus");
 }
+/** Column name PublishStatus */
+public static final String COLUMNNAME_PublishStatus = "PublishStatus";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -497,6 +537,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -509,6 +551,8 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 /** Set Validate Workflow.
 @param ValidateWorkflow Validate Workflow */
 public void setValidateWorkflow (String ValidateWorkflow)
@@ -526,6 +570,8 @@ public String getValidateWorkflow()
 {
 return (String)get_Value("ValidateWorkflow");
 }
+/** Column name ValidateWorkflow */
+public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -544,6 +590,8 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (int Version)
@@ -558,6 +606,8 @@ Integer ii = (Integer)get_Value("Version");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 /** Set Waiting Time.
 @param WaitingTime Workflow Simulation Waiting time */
 public void setWaitingTime (int WaitingTime)
@@ -572,6 +622,8 @@ Integer ii = (Integer)get_Value("WaitingTime");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name WaitingTime */
+public static final String COLUMNNAME_WaitingTime = "WaitingTime";
 
 /** WorkflowType AD_Reference_ID=328 */
 public static final int WORKFLOWTYPE_AD_Reference_ID=328;
@@ -601,6 +653,8 @@ public String getWorkflowType()
 {
 return (String)get_Value("WorkflowType");
 }
+/** Column name WorkflowType */
+public static final String COLUMNNAME_WorkflowType = "WorkflowType";
 /** Set Working Time.
 @param WorkingTime Workflow Simulation Execution Time */
 public void setWorkingTime (int WorkingTime)
@@ -615,4 +669,6 @@ Integer ii = (Integer)get_Value("WorkingTime");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name WorkingTime */
+public static final String COLUMNNAME_WorkingTime = "WorkingTime";
 }

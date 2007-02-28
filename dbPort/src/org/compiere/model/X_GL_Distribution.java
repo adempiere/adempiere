@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_Distribution
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_Distribution extends PO
 {
 /** Standard Constructor
@@ -121,6 +121,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
 /** Account_ID AD_Reference_ID=132 */
 public static final int ACCOUNT_ID_AD_Reference_ID=132;
@@ -140,6 +142,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Any Account.
 @param AnyAcct Match any value of the Account segment */
 public void setAnyAcct (boolean AnyAcct)
@@ -158,6 +162,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyAcct */
+public static final String COLUMNNAME_AnyAcct = "AnyAcct";
 /** Set Any Activity.
 @param AnyActivity Match any value of the Activity segment */
 public void setAnyActivity (boolean AnyActivity)
@@ -176,6 +182,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyActivity */
+public static final String COLUMNNAME_AnyActivity = "AnyActivity";
 /** Set Any Bus.Partner.
 @param AnyBPartner Match any value of the Business Partner segment */
 public void setAnyBPartner (boolean AnyBPartner)
@@ -194,6 +202,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyBPartner */
+public static final String COLUMNNAME_AnyBPartner = "AnyBPartner";
 /** Set Any Campaign.
 @param AnyCampaign Match any value of the Campaign segment */
 public void setAnyCampaign (boolean AnyCampaign)
@@ -212,6 +222,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyCampaign */
+public static final String COLUMNNAME_AnyCampaign = "AnyCampaign";
 /** Set Any Location From.
 @param AnyLocFrom Match any value of the Location From segment */
 public void setAnyLocFrom (boolean AnyLocFrom)
@@ -230,6 +242,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyLocFrom */
+public static final String COLUMNNAME_AnyLocFrom = "AnyLocFrom";
 /** Set Any Location To.
 @param AnyLocTo Match any value of the Location To segment */
 public void setAnyLocTo (boolean AnyLocTo)
@@ -248,6 +262,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyLocTo */
+public static final String COLUMNNAME_AnyLocTo = "AnyLocTo";
 /** Set Any Organization.
 @param AnyOrg Match any value of the Organization segment */
 public void setAnyOrg (boolean AnyOrg)
@@ -266,6 +282,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyOrg */
+public static final String COLUMNNAME_AnyOrg = "AnyOrg";
 /** Set Any Trx Organization.
 @param AnyOrgTrx Match any value of the Transaction Organization segment */
 public void setAnyOrgTrx (boolean AnyOrgTrx)
@@ -284,6 +302,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyOrgTrx */
+public static final String COLUMNNAME_AnyOrgTrx = "AnyOrgTrx";
 /** Set Any Product.
 @param AnyProduct Match any value of the Product segment */
 public void setAnyProduct (boolean AnyProduct)
@@ -302,6 +322,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyProduct */
+public static final String COLUMNNAME_AnyProduct = "AnyProduct";
 /** Set Any Project.
 @param AnyProject Match any value of the Project segment */
 public void setAnyProject (boolean AnyProject)
@@ -320,6 +342,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyProject */
+public static final String COLUMNNAME_AnyProject = "AnyProject";
 /** Set Any Sales Region.
 @param AnySalesRegion Match any value of the Sales Region segment */
 public void setAnySalesRegion (boolean AnySalesRegion)
@@ -338,6 +362,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnySalesRegion */
+public static final String COLUMNNAME_AnySalesRegion = "AnySalesRegion";
 /** Set Any User 1.
 @param AnyUser1 Match any value of the User 1 segment */
 public void setAnyUser1 (boolean AnyUser1)
@@ -356,6 +382,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyUser1 */
+public static final String COLUMNNAME_AnyUser1 = "AnyUser1";
 /** Set Any User 2.
 @param AnyUser2 Match any value of the User 2 segment */
 public void setAnyUser2 (boolean AnyUser2)
@@ -374,6 +402,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AnyUser2 */
+public static final String COLUMNNAME_AnyUser2 = "AnyUser2";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -389,6 +419,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -405,6 +437,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -421,6 +455,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -437,6 +473,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -453,6 +491,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
 /** C_LocFrom_ID AD_Reference_ID=133 */
 public static final int C_LOCFROM_ID_AD_Reference_ID=133;
@@ -472,6 +512,8 @@ Integer ii = (Integer)get_Value("C_LocFrom_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocFrom_ID */
+public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
 /** C_LocTo_ID AD_Reference_ID=133 */
 public static final int C_LOCTO_ID_AD_Reference_ID=133;
@@ -491,6 +533,8 @@ Integer ii = (Integer)get_Value("C_LocTo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocTo_ID */
+public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -507,6 +551,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -523,6 +569,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -540,6 +588,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set GL Distribution.
 @param GL_Distribution_ID General Ledger Distribution */
 public void setGL_Distribution_ID (int GL_Distribution_ID)
@@ -555,6 +605,8 @@ Integer ii = (Integer)get_Value("GL_Distribution_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Distribution_ID */
+public static final String COLUMNNAME_GL_Distribution_ID = "GL_Distribution_ID";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -572,6 +624,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Valid.
 @param IsValid Element is valid */
 public void setIsValid (boolean IsValid)
@@ -590,6 +644,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValid */
+public static final String COLUMNNAME_IsValid = "IsValid";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -606,6 +662,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -630,6 +688,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Org_ID AD_Reference_ID=130 */
 public static final int ORG_ID_AD_Reference_ID=130;
@@ -649,6 +709,8 @@ Integer ii = (Integer)get_Value("Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Org_ID */
+public static final String COLUMNNAME_Org_ID = "Org_ID";
 /** Set Total Percent.
 @param PercentTotal Sum of the Percent details  */
 public void setPercentTotal (BigDecimal PercentTotal)
@@ -664,6 +726,8 @@ BigDecimal bd = (BigDecimal)get_Value("PercentTotal");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PercentTotal */
+public static final String COLUMNNAME_PercentTotal = "PercentTotal";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -696,6 +760,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -714,6 +780,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -733,6 +801,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -752,4 +822,6 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 }

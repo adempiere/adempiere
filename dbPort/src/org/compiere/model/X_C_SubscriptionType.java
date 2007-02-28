@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_SubscriptionType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_SubscriptionType extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_SubscriptionType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SubscriptionType_ID */
+public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -120,6 +122,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Frequency.
 @param Frequency Frequency of events */
 public void setFrequency (int Frequency)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("Frequency");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Frequency */
+public static final String COLUMNNAME_Frequency = "Frequency";
 
 /** FrequencyType AD_Reference_ID=221 */
 public static final int FREQUENCYTYPE_AD_Reference_ID=221;
@@ -163,6 +169,8 @@ public String getFrequencyType()
 {
 return (String)get_Value("FrequencyType");
 }
+/** Column name FrequencyType */
+public static final String COLUMNNAME_FrequencyType = "FrequencyType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -187,4 +195,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintGraph extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Graph.
 @param AD_PrintGraph_ID Graph included in Reports */
 public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("AD_PrintGraph_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintGraph_ID */
+public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
 
 /** Data1_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("Data1_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Data1_PrintFormatItem_ID */
+public static final String COLUMNNAME_Data1_PrintFormatItem_ID = "Data1_PrintFormatItem_ID";
 
 /** Data2_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DATA2_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -158,6 +164,8 @@ Integer ii = (Integer)get_Value("Data2_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Data2_PrintFormatItem_ID */
+public static final String COLUMNNAME_Data2_PrintFormatItem_ID = "Data2_PrintFormatItem_ID";
 
 /** Data3_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DATA3_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -177,6 +185,8 @@ Integer ii = (Integer)get_Value("Data3_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Data3_PrintFormatItem_ID */
+public static final String COLUMNNAME_Data3_PrintFormatItem_ID = "Data3_PrintFormatItem_ID";
 
 /** Data4_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DATA4_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -196,6 +206,8 @@ Integer ii = (Integer)get_Value("Data4_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Data4_PrintFormatItem_ID */
+public static final String COLUMNNAME_Data4_PrintFormatItem_ID = "Data4_PrintFormatItem_ID";
 
 /** Data_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -214,6 +226,8 @@ Integer ii = (Integer)get_Value("Data_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Data_PrintFormatItem_ID */
+public static final String COLUMNNAME_Data_PrintFormatItem_ID = "Data_PrintFormatItem_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -231,6 +245,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** Description_PrintFormatItem_ID AD_Reference_ID=264 */
 public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
@@ -249,6 +265,8 @@ Integer ii = (Integer)get_Value("Description_PrintFormatItem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Description_PrintFormatItem_ID */
+public static final String COLUMNNAME_Description_PrintFormatItem_ID = "Description_PrintFormatItem_ID";
 
 /** GraphType AD_Reference_ID=265 */
 public static final int GRAPHTYPE_AD_Reference_ID=265;
@@ -278,6 +296,8 @@ public String getGraphType()
 {
 return (String)get_Value("GraphType");
 }
+/** Column name GraphType */
+public static final String COLUMNNAME_GraphType = "GraphType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -302,4 +322,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

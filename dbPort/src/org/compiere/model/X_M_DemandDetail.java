@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_DemandDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_DemandDetail extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Demand Detail.
 @param M_DemandDetail_ID Material Demand Line Source Detail */
 public void setM_DemandDetail_ID (int M_DemandDetail_ID)
@@ -123,6 +125,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_DemandDetail_ID()));
 }
+/** Column name M_DemandDetail_ID */
+public static final String COLUMNNAME_M_DemandDetail_ID = "M_DemandDetail_ID";
 /** Set Demand Line.
 @param M_DemandLine_ID Material Demand Line */
 public void setM_DemandLine_ID (int M_DemandLine_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("M_DemandLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DemandLine_ID */
+public static final String COLUMNNAME_M_DemandLine_ID = "M_DemandLine_ID";
 /** Set Forecast Line.
 @param M_ForecastLine_ID Forecast Line */
 public void setM_ForecastLine_ID (int M_ForecastLine_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("M_ForecastLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ForecastLine_ID */
+public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
 /** Set Requisition Line.
 @param M_RequisitionLine_ID Material Requisition Line */
 public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
@@ -170,4 +178,6 @@ Integer ii = (Integer)get_Value("M_RequisitionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_RequisitionLine_ID */
+public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
 }

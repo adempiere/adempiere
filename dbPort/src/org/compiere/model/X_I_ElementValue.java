@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_ElementValue extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 
 /** AccountSign AD_Reference_ID=118 */
 public static final int ACCOUNTSIGN_AD_Reference_ID=118;
@@ -133,6 +135,8 @@ public String getAccountSign()
 {
 return (String)get_Value("AccountSign");
 }
+/** Column name AccountSign */
+public static final String COLUMNNAME_AccountSign = "AccountSign";
 
 /** AccountType AD_Reference_ID=117 */
 public static final int ACCOUNTTYPE_AD_Reference_ID=117;
@@ -167,6 +171,8 @@ public String getAccountType()
 {
 return (String)get_Value("AccountType");
 }
+/** Column name AccountType */
+public static final String COLUMNNAME_AccountType = "AccountType";
 /** Set Account Element.
 @param C_ElementValue_ID Account Element */
 public void setC_ElementValue_ID (int C_ElementValue_ID)
@@ -183,6 +189,8 @@ Integer ii = (Integer)get_Value("C_ElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ElementValue_ID */
+public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
 /** Set Element.
 @param C_Element_ID Accounting Element */
 public void setC_Element_ID (int C_Element_ID)
@@ -199,6 +207,8 @@ Integer ii = (Integer)get_Value("C_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Element_ID */
+public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 /** Set Default Account.
 @param Default_Account Name of the Default Account Column */
 public void setDefault_Account (String Default_Account)
@@ -216,6 +226,8 @@ public String getDefault_Account()
 {
 return (String)get_Value("Default_Account");
 }
+/** Column name Default_Account */
+public static final String COLUMNNAME_Default_Account = "Default_Account";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -233,6 +245,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Element Name.
 @param ElementName Name of the Element */
 public void setElementName (String ElementName)
@@ -250,6 +264,8 @@ public String getElementName()
 {
 return (String)get_Value("ElementName");
 }
+/** Column name ElementName */
+public static final String COLUMNNAME_ElementName = "ElementName";
 /** Set Import Account.
 @param I_ElementValue_ID Import Account Value */
 public void setI_ElementValue_ID (int I_ElementValue_ID)
@@ -265,6 +281,8 @@ Integer ii = (Integer)get_Value("I_ElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_ElementValue_ID */
+public static final String COLUMNNAME_I_ElementValue_ID = "I_ElementValue_ID";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -282,6 +300,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -300,6 +320,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Document Controlled.
 @param IsDocControlled Control account - If an account is controlled by a document, you cannot post manually to it */
 public void setIsDocControlled (boolean IsDocControlled)
@@ -318,6 +340,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDocControlled */
+public static final String COLUMNNAME_IsDocControlled = "IsDocControlled";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -336,6 +360,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -353,6 +379,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** ParentElementValue_ID AD_Reference_ID=362 */
 public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=362;
@@ -372,6 +400,8 @@ Integer ii = (Integer)get_Value("ParentElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ParentElementValue_ID */
+public static final String COLUMNNAME_ParentElementValue_ID = "ParentElementValue_ID";
 /** Set Parent Key.
 @param ParentValue Key if the Parent */
 public void setParentValue (String ParentValue)
@@ -389,6 +419,8 @@ public String getParentValue()
 {
 return (String)get_Value("ParentValue");
 }
+/** Column name ParentValue */
+public static final String COLUMNNAME_ParentValue = "ParentValue";
 /** Set Post Actual.
 @param PostActual Actual Values can be posted */
 public void setPostActual (boolean PostActual)
@@ -407,6 +439,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostActual */
+public static final String COLUMNNAME_PostActual = "PostActual";
 /** Set Post Budget.
 @param PostBudget Budget values can be posted */
 public void setPostBudget (boolean PostBudget)
@@ -425,6 +459,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostBudget */
+public static final String COLUMNNAME_PostBudget = "PostBudget";
 /** Set Post Encumbrance.
 @param PostEncumbrance Post commitments to this account */
 public void setPostEncumbrance (boolean PostEncumbrance)
@@ -443,6 +479,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostEncumbrance */
+public static final String COLUMNNAME_PostEncumbrance = "PostEncumbrance";
 /** Set Post Statistical.
 @param PostStatistical Post statistical quantities to this account? */
 public void setPostStatistical (boolean PostStatistical)
@@ -461,6 +499,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name PostStatistical */
+public static final String COLUMNNAME_PostStatistical = "PostStatistical";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -479,6 +519,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -497,6 +539,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -520,4 +564,6 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

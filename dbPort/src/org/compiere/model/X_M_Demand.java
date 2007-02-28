@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Demand
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Demand extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_Calendar_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Calendar_ID */
+public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
 /** Set Year.
 @param C_Year_ID Calendar Year */
 public void setC_Year_ID (int C_Year_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Year_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Year_ID */
+public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -136,6 +140,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -153,6 +159,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -171,6 +179,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Demand.
 @param M_Demand_ID Material Demand */
 public void setM_Demand_ID (int M_Demand_ID)
@@ -186,6 +196,8 @@ Integer ii = (Integer)get_Value("M_Demand_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Demand_ID */
+public static final String COLUMNNAME_M_Demand_ID = "M_Demand_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -210,6 +222,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -228,4 +242,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

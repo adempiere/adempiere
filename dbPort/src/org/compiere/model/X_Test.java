@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for Test
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_Test extends PO
 {
 /** Standard Constructor
@@ -100,6 +100,8 @@ Integer ii = (Integer)get_Value("Account_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_Acct */
+public static final String COLUMNNAME_Account_Acct = "Account_Acct";
 /** Set BinaryData.
 @param BinaryData Binary Data */
 public void setBinaryData (int BinaryData)
@@ -114,6 +116,8 @@ Integer ii = (Integer)get_Value("BinaryData");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name BinaryData */
+public static final String COLUMNNAME_BinaryData = "BinaryData";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -130,6 +134,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -146,6 +152,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -162,6 +170,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -178,6 +188,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -194,6 +206,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Character Data.
 @param CharacterData Long Character Field */
 public void setCharacterData (String CharacterData)
@@ -206,6 +220,8 @@ public String getCharacterData()
 {
 return (String)get_Value("CharacterData");
 }
+/** Column name CharacterData */
+public static final String COLUMNNAME_CharacterData = "CharacterData";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -223,6 +239,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -240,6 +258,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Locator.
 @param M_Locator_ID Warehouse Locator */
 public void setM_Locator_ID (int M_Locator_ID)
@@ -256,6 +276,8 @@ Integer ii = (Integer)get_Value("M_Locator_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Locator_ID */
+public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -272,6 +294,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -296,6 +320,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -314,6 +340,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -332,6 +360,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Amount.
 @param T_Amount Amount */
 public void setT_Amount (BigDecimal T_Amount)
@@ -346,6 +376,8 @@ BigDecimal bd = (BigDecimal)get_Value("T_Amount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name T_Amount */
+public static final String COLUMNNAME_T_Amount = "T_Amount";
 /** Set Date.
 @param T_Date Date */
 public void setT_Date (Timestamp T_Date)
@@ -358,6 +390,8 @@ public Timestamp getT_Date()
 {
 return (Timestamp)get_Value("T_Date");
 }
+/** Column name T_Date */
+public static final String COLUMNNAME_T_Date = "T_Date";
 /** Set DateTime.
 @param T_DateTime DateTime */
 public void setT_DateTime (Timestamp T_DateTime)
@@ -370,6 +404,8 @@ public Timestamp getT_DateTime()
 {
 return (Timestamp)get_Value("T_DateTime");
 }
+/** Column name T_DateTime */
+public static final String COLUMNNAME_T_DateTime = "T_DateTime";
 /** Set Integer.
 @param T_Integer Integer */
 public void setT_Integer (int T_Integer)
@@ -384,6 +420,8 @@ Integer ii = (Integer)get_Value("T_Integer");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name T_Integer */
+public static final String COLUMNNAME_T_Integer = "T_Integer";
 /** Set Number.
 @param T_Number Number */
 public void setT_Number (BigDecimal T_Number)
@@ -398,6 +436,8 @@ BigDecimal bd = (BigDecimal)get_Value("T_Number");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name T_Number */
+public static final String COLUMNNAME_T_Number = "T_Number";
 /** Set Qty.
 @param T_Qty Qty */
 public void setT_Qty (BigDecimal T_Qty)
@@ -412,6 +452,8 @@ BigDecimal bd = (BigDecimal)get_Value("T_Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name T_Qty */
+public static final String COLUMNNAME_T_Qty = "T_Qty";
 /** Set Test ID.
 @param Test_ID Test ID */
 public void setTest_ID (int Test_ID)
@@ -427,4 +469,6 @@ Integer ii = (Integer)get_Value("Test_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Test_ID */
+public static final String COLUMNNAME_Test_ID = "Test_ID";
 }

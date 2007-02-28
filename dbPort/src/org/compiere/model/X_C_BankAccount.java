@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BankAccount extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ public String getAccountNo()
 {
 return (String)get_Value("AccountNo");
 }
+/** Column name AccountNo */
+public static final String COLUMNNAME_AccountNo = "AccountNo";
 /** Set BBAN.
 @param BBAN Basic Bank Account Number */
 public void setBBAN (String BBAN)
@@ -127,6 +129,8 @@ public String getBBAN()
 {
 return (String)get_Value("BBAN");
 }
+/** Column name BBAN */
+public static final String COLUMNNAME_BBAN = "BBAN";
 
 /** BankAccountType AD_Reference_ID=216 */
 public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
@@ -154,6 +158,8 @@ public String getBankAccountType()
 {
 return (String)get_Value("BankAccountType");
 }
+/** Column name BankAccountType */
+public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 /** Set Bank Account.
 @param C_BankAccount_ID Account at the Bank */
 public void setC_BankAccount_ID (int C_BankAccount_ID)
@@ -169,6 +175,8 @@ Integer ii = (Integer)get_Value("C_BankAccount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankAccount_ID */
+public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 /** Set Bank.
 @param C_Bank_ID Bank */
 public void setC_Bank_ID (int C_Bank_ID)
@@ -190,6 +198,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
 }
+/** Column name C_Bank_ID */
+public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -205,6 +215,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Credit limit.
 @param CreditLimit Amount of Credit allowed */
 public void setCreditLimit (BigDecimal CreditLimit)
@@ -220,6 +232,8 @@ BigDecimal bd = (BigDecimal)get_Value("CreditLimit");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CreditLimit */
+public static final String COLUMNNAME_CreditLimit = "CreditLimit";
 /** Set Current balance.
 @param CurrentBalance Current Balance */
 public void setCurrentBalance (BigDecimal CurrentBalance)
@@ -235,6 +249,8 @@ BigDecimal bd = (BigDecimal)get_Value("CurrentBalance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CurrentBalance */
+public static final String COLUMNNAME_CurrentBalance = "CurrentBalance";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -252,6 +268,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set IBAN.
 @param IBAN International Bank Account Number */
 public void setIBAN (String IBAN)
@@ -269,6 +287,8 @@ public String getIBAN()
 {
 return (String)get_Value("IBAN");
 }
+/** Column name IBAN */
+public static final String COLUMNNAME_IBAN = "IBAN";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -287,4 +307,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 }

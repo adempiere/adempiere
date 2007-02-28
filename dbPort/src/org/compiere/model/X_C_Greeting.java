@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Greeting
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Greeting extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_Greeting_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Greeting_ID */
+public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
 /** Set Greeting.
 @param Greeting For letters, e.g. "Dear 
 {
@@ -138,6 +140,8 @@ public String getGreeting()
 {
 return (String)get_Value("Greeting");
 }
+/** Column name Greeting */
+public static final String COLUMNNAME_Greeting = "Greeting";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -156,6 +160,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set First name only.
 @param IsFirstNameOnly Print only the first name in greetings */
 public void setIsFirstNameOnly (boolean IsFirstNameOnly)
@@ -174,6 +180,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFirstNameOnly */
+public static final String COLUMNNAME_IsFirstNameOnly = "IsFirstNameOnly";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -198,4 +206,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

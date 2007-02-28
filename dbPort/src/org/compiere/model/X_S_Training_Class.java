@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_Training_Class
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_Training_Class extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ public Timestamp getEndDate()
 {
 return (Timestamp)get_Value("EndDate");
 }
+/** Column name EndDate */
+public static final String COLUMNNAME_EndDate = "EndDate";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Training Class.
 @param S_Training_Class_ID The actual training class instance */
 public void setS_Training_Class_ID (int S_Training_Class_ID)
@@ -132,6 +136,8 @@ Integer ii = (Integer)get_Value("S_Training_Class_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_Training_Class_ID */
+public static final String COLUMNNAME_S_Training_Class_ID = "S_Training_Class_ID";
 /** Set Training.
 @param S_Training_ID Repeated Training */
 public void setS_Training_ID (int S_Training_ID)
@@ -147,6 +153,8 @@ Integer ii = (Integer)get_Value("S_Training_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_Training_ID */
+public static final String COLUMNNAME_S_Training_ID = "S_Training_ID";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -166,4 +174,6 @@ return (Timestamp)get_Value("StartDate");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getStartDate()));
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 }

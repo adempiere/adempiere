@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueSystem
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_IssueSystem extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set DB Address.
 @param DBAddress JDBC URL of the database server */
 public void setDBAddress (String DBAddress)
@@ -127,6 +129,8 @@ return (String)get_Value("DBAddress");
 {
 return new KeyNamePair(get_ID(), getDBAddress());
 }
+/** Column name DBAddress */
+public static final String COLUMNNAME_DBAddress = "DBAddress";
 /** Set Profile.
 @param ProfileInfo Information to help profiling the system for solving support issues */
 public void setProfileInfo (String ProfileInfo)
@@ -144,6 +148,8 @@ public String getProfileInfo()
 {
 return (String)get_Value("ProfileInfo");
 }
+/** Column name ProfileInfo */
+public static final String COLUMNNAME_ProfileInfo = "ProfileInfo";
 /** Set Issue System.
 @param R_IssueSystem_ID System creating the issue */
 public void setR_IssueSystem_ID (int R_IssueSystem_ID)
@@ -159,6 +165,8 @@ Integer ii = (Integer)get_Value("R_IssueSystem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueSystem_ID */
+public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
 /** Set Statistics.
 @param StatisticsInfo Information to help profiling the system for solving support issues */
 public void setStatisticsInfo (String StatisticsInfo)
@@ -176,6 +184,8 @@ public String getStatisticsInfo()
 {
 return (String)get_Value("StatisticsInfo");
 }
+/** Column name StatisticsInfo */
+public static final String COLUMNNAME_StatisticsInfo = "StatisticsInfo";
 
 /** SystemStatus AD_Reference_ID=374 */
 public static final int SYSTEMSTATUS_AD_Reference_ID=374;
@@ -205,4 +215,6 @@ public String getSystemStatus()
 {
 return (String)get_Value("SystemStatus");
 }
+/** Column name SystemStatus */
+public static final String COLUMNNAME_SystemStatus = "SystemStatus";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintTableFormat extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_PrintTableFormat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintTableFormat_ID */
+public static final String COLUMNNAME_AD_PrintTableFormat_ID = "AD_PrintTableFormat_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -124,6 +126,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Footer Center.
 @param FooterCenter Content of the center portion of the footer. */
 public void setFooterCenter (String FooterCenter)
@@ -141,6 +145,8 @@ public String getFooterCenter()
 {
 return (String)get_Value("FooterCenter");
 }
+/** Column name FooterCenter */
+public static final String COLUMNNAME_FooterCenter = "FooterCenter";
 /** Set Footer Left.
 @param FooterLeft Content of the left portion of the footer. */
 public void setFooterLeft (String FooterLeft)
@@ -158,6 +164,8 @@ public String getFooterLeft()
 {
 return (String)get_Value("FooterLeft");
 }
+/** Column name FooterLeft */
+public static final String COLUMNNAME_FooterLeft = "FooterLeft";
 /** Set Footer Right.
 @param FooterRight Content of the right portion of the footer. */
 public void setFooterRight (String FooterRight)
@@ -175,6 +183,8 @@ public String getFooterRight()
 {
 return (String)get_Value("FooterRight");
 }
+/** Column name FooterRight */
+public static final String COLUMNNAME_FooterRight = "FooterRight";
 
 /** FunctBG_PrintColor_ID AD_Reference_ID=266 */
 public static final int FUNCTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -194,6 +204,8 @@ Integer ii = (Integer)get_Value("FunctBG_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FunctBG_PrintColor_ID */
+public static final String COLUMNNAME_FunctBG_PrintColor_ID = "FunctBG_PrintColor_ID";
 
 /** FunctFG_PrintColor_ID AD_Reference_ID=266 */
 public static final int FUNCTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -213,6 +225,8 @@ Integer ii = (Integer)get_Value("FunctFG_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name FunctFG_PrintColor_ID */
+public static final String COLUMNNAME_FunctFG_PrintColor_ID = "FunctFG_PrintColor_ID";
 
 /** Funct_PrintFont_ID AD_Reference_ID=267 */
 public static final int FUNCT_PRINTFONT_ID_AD_Reference_ID=267;
@@ -232,6 +246,8 @@ Integer ii = (Integer)get_Value("Funct_PrintFont_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Funct_PrintFont_ID */
+public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
 
 /** HdrLine_PrintColor_ID AD_Reference_ID=266 */
 public static final int HDRLINE_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -251,6 +267,8 @@ Integer ii = (Integer)get_Value("HdrLine_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HdrLine_PrintColor_ID */
+public static final String COLUMNNAME_HdrLine_PrintColor_ID = "HdrLine_PrintColor_ID";
 /** Set Header Stroke.
 @param HdrStroke Width of the Header Line Stroke */
 public void setHdrStroke (BigDecimal HdrStroke)
@@ -265,6 +283,8 @@ BigDecimal bd = (BigDecimal)get_Value("HdrStroke");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name HdrStroke */
+public static final String COLUMNNAME_HdrStroke = "HdrStroke";
 
 /** HdrStrokeType AD_Reference_ID=312 */
 public static final int HDRSTROKETYPE_AD_Reference_ID=312;
@@ -295,6 +315,8 @@ public String getHdrStrokeType()
 {
 return (String)get_Value("HdrStrokeType");
 }
+/** Column name HdrStrokeType */
+public static final String COLUMNNAME_HdrStrokeType = "HdrStrokeType";
 
 /** HdrTextBG_PrintColor_ID AD_Reference_ID=266 */
 public static final int HDRTEXTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -314,6 +336,8 @@ Integer ii = (Integer)get_Value("HdrTextBG_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HdrTextBG_PrintColor_ID */
+public static final String COLUMNNAME_HdrTextBG_PrintColor_ID = "HdrTextBG_PrintColor_ID";
 
 /** HdrTextFG_PrintColor_ID AD_Reference_ID=266 */
 public static final int HDRTEXTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -333,6 +357,8 @@ Integer ii = (Integer)get_Value("HdrTextFG_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name HdrTextFG_PrintColor_ID */
+public static final String COLUMNNAME_HdrTextFG_PrintColor_ID = "HdrTextFG_PrintColor_ID";
 
 /** Hdr_PrintFont_ID AD_Reference_ID=267 */
 public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
@@ -352,6 +378,8 @@ Integer ii = (Integer)get_Value("Hdr_PrintFont_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Hdr_PrintFont_ID */
+public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
 /** Set Header Center.
 @param HeaderCenter Content of the center portion of the header. */
 public void setHeaderCenter (String HeaderCenter)
@@ -369,6 +397,8 @@ public String getHeaderCenter()
 {
 return (String)get_Value("HeaderCenter");
 }
+/** Column name HeaderCenter */
+public static final String COLUMNNAME_HeaderCenter = "HeaderCenter";
 /** Set Header Left.
 @param HeaderLeft Content of the left portion of the header. */
 public void setHeaderLeft (String HeaderLeft)
@@ -386,6 +416,8 @@ public String getHeaderLeft()
 {
 return (String)get_Value("HeaderLeft");
 }
+/** Column name HeaderLeft */
+public static final String COLUMNNAME_HeaderLeft = "HeaderLeft";
 /** Set Header Right.
 @param HeaderRight Content of the right portion of the header. */
 public void setHeaderRight (String HeaderRight)
@@ -403,6 +435,8 @@ public String getHeaderRight()
 {
 return (String)get_Value("HeaderRight");
 }
+/** Column name HeaderRight */
+public static final String COLUMNNAME_HeaderRight = "HeaderRight";
 /** Set Image attached.
 @param ImageIsAttached The image to be printed is attached to the record */
 public void setImageIsAttached (boolean ImageIsAttached)
@@ -421,6 +455,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name ImageIsAttached */
+public static final String COLUMNNAME_ImageIsAttached = "ImageIsAttached";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -438,6 +474,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -456,6 +494,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Paint Boundary Lines.
 @param IsPaintBoundaryLines Paint table boundary lines */
 public void setIsPaintBoundaryLines (boolean IsPaintBoundaryLines)
@@ -474,6 +514,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPaintBoundaryLines */
+public static final String COLUMNNAME_IsPaintBoundaryLines = "IsPaintBoundaryLines";
 /** Set Paint Horizontal Lines.
 @param IsPaintHLines Paint horizontal lines */
 public void setIsPaintHLines (boolean IsPaintHLines)
@@ -492,6 +534,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPaintHLines */
+public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
 /** Set Paint Header Lines.
 @param IsPaintHeaderLines Paint Lines over/under the Header Line  */
 public void setIsPaintHeaderLines (boolean IsPaintHeaderLines)
@@ -510,6 +554,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPaintHeaderLines */
+public static final String COLUMNNAME_IsPaintHeaderLines = "IsPaintHeaderLines";
 /** Set Paint Vertical Lines.
 @param IsPaintVLines Paint vertical lines */
 public void setIsPaintVLines (boolean IsPaintVLines)
@@ -528,6 +574,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPaintVLines */
+public static final String COLUMNNAME_IsPaintVLines = "IsPaintVLines";
 /** Set Print Function Symbols.
 @param IsPrintFunctionSymbols Print Symbols for Functions (Sum, Average, Count) */
 public void setIsPrintFunctionSymbols (boolean IsPrintFunctionSymbols)
@@ -546,6 +594,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrintFunctionSymbols */
+public static final String COLUMNNAME_IsPrintFunctionSymbols = "IsPrintFunctionSymbols";
 /** Set Line Stroke.
 @param LineStroke Width of the Line Stroke */
 public void setLineStroke (BigDecimal LineStroke)
@@ -560,6 +610,8 @@ BigDecimal bd = (BigDecimal)get_Value("LineStroke");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name LineStroke */
+public static final String COLUMNNAME_LineStroke = "LineStroke";
 
 /** LineStrokeType AD_Reference_ID=312 */
 public static final int LINESTROKETYPE_AD_Reference_ID=312;
@@ -590,6 +642,8 @@ public String getLineStrokeType()
 {
 return (String)get_Value("LineStrokeType");
 }
+/** Column name LineStrokeType */
+public static final String COLUMNNAME_LineStrokeType = "LineStrokeType";
 
 /** Line_PrintColor_ID AD_Reference_ID=266 */
 public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
@@ -609,6 +663,8 @@ Integer ii = (Integer)get_Value("Line_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line_PrintColor_ID */
+public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -633,4 +689,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

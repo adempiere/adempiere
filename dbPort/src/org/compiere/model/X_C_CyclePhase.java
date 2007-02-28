@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CyclePhase
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CyclePhase extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("C_CycleStep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CycleStep_ID */
+public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
 /** Set Standard Phase.
 @param C_Phase_ID Standard Phase of the Project Type */
 public void setC_Phase_ID (int C_Phase_ID)
@@ -116,4 +118,6 @@ Integer ii = (Integer)get_Value("C_Phase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Phase_ID */
+public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
 }

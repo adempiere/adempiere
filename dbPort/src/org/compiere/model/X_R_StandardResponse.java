@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_StandardResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_StandardResponse extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Standard Response.
 @param R_StandardResponse_ID Request Standard Response  */
 public void setR_StandardResponse_ID (int R_StandardResponse_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("R_StandardResponse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_StandardResponse_ID */
+public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
 /** Set Response Text.
 @param ResponseText Request Response Text */
 public void setResponseText (String ResponseText)
@@ -144,4 +148,6 @@ public String getResponseText()
 {
 return (String)get_Value("ResponseText");
 }
+/** Column name ResponseText */
+public static final String COLUMNNAME_ResponseText = "ResponseText";
 }

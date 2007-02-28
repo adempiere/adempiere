@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Window extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_Color_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Color_ID */
+public static final String COLUMNNAME_AD_Color_ID = "AD_Color_ID";
 /** Set Image.
 @param AD_Image_ID Image or Icon */
 public void setAD_Image_ID (int AD_Image_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -155,6 +161,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -177,6 +185,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -194,6 +204,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Beta Functionality.
 @param IsBetaFunctionality This functionality is considered Beta */
 public void setIsBetaFunctionality (boolean IsBetaFunctionality)
@@ -212,6 +224,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBetaFunctionality */
+public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -230,6 +244,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -248,6 +264,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -272,6 +290,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -290,6 +310,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Window Height.
 @param WinHeight Window Height */
 public void setWinHeight (int WinHeight)
@@ -304,6 +326,8 @@ Integer ii = (Integer)get_Value("WinHeight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name WinHeight */
+public static final String COLUMNNAME_WinHeight = "WinHeight";
 /** Set Window Width.
 @param WinWidth Window Width */
 public void setWinWidth (int WinWidth)
@@ -318,6 +342,8 @@ Integer ii = (Integer)get_Value("WinWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name WinWidth */
+public static final String COLUMNNAME_WinWidth = "WinWidth";
 
 /** WindowType AD_Reference_ID=108 */
 public static final int WINDOWTYPE_AD_Reference_ID=108;
@@ -349,4 +375,6 @@ public String getWindowType()
 {
 return (String)get_Value("WindowType");
 }
+/** Column name WindowType */
+public static final String COLUMNNAME_WindowType = "WindowType";
 }

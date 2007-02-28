@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_System extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("AD_System_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_System_ID */
+public static final String COLUMNNAME_AD_System_ID = "AD_System_ID";
 /** Set Custom Prefix.
 @param CustomPrefix Prefix for Custom entities */
 public void setCustomPrefix (String CustomPrefix)
@@ -126,6 +128,8 @@ public String getCustomPrefix()
 {
 return (String)get_Value("CustomPrefix");
 }
+/** Column name CustomPrefix */
+public static final String COLUMNNAME_CustomPrefix = "CustomPrefix";
 /** Set DB Address.
 @param DBAddress JDBC URL of the database server */
 public void setDBAddress (String DBAddress)
@@ -143,6 +147,8 @@ public String getDBAddress()
 {
 return (String)get_Value("DBAddress");
 }
+/** Column name DBAddress */
+public static final String COLUMNNAME_DBAddress = "DBAddress";
 /** Set Database Name.
 @param DBInstance Database Name */
 public void setDBInstance (String DBInstance)
@@ -160,6 +166,8 @@ public String getDBInstance()
 {
 return (String)get_Value("DBInstance");
 }
+/** Column name DBInstance */
+public static final String COLUMNNAME_DBInstance = "DBInstance";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -177,6 +185,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Encryption Class.
 @param EncryptionKey Encryption Class used for securing data content */
 public void setEncryptionKey (String EncryptionKey)
@@ -194,6 +204,8 @@ public String getEncryptionKey()
 {
 return (String)get_Value("EncryptionKey");
 }
+/** Column name EncryptionKey */
+public static final String COLUMNNAME_EncryptionKey = "EncryptionKey";
 /** Set ID Range End.
 @param IDRangeEnd End if the ID Range used */
 public void setIDRangeEnd (BigDecimal IDRangeEnd)
@@ -208,6 +220,8 @@ BigDecimal bd = (BigDecimal)get_Value("IDRangeEnd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name IDRangeEnd */
+public static final String COLUMNNAME_IDRangeEnd = "IDRangeEnd";
 /** Set ID Range Start.
 @param IDRangeStart Start of the ID Range used */
 public void setIDRangeStart (BigDecimal IDRangeStart)
@@ -222,6 +236,8 @@ BigDecimal bd = (BigDecimal)get_Value("IDRangeStart");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name IDRangeStart */
+public static final String COLUMNNAME_IDRangeStart = "IDRangeStart";
 /** Set Info.
 @param Info Information */
 public void setInfo (String Info)
@@ -240,6 +256,8 @@ public String getInfo()
 {
 return (String)get_Value("Info");
 }
+/** Column name Info */
+public static final String COLUMNNAME_Info = "Info";
 /** Set Maintain Statistics.
 @param IsAllowStatistics Maintain general statistics */
 public void setIsAllowStatistics (boolean IsAllowStatistics)
@@ -258,6 +276,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllowStatistics */
+public static final String COLUMNNAME_IsAllowStatistics = "IsAllowStatistics";
 /** Set Error Reporting.
 @param IsAutoErrorReport Automatically report Errors */
 public void setIsAutoErrorReport (boolean IsAutoErrorReport)
@@ -276,6 +296,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAutoErrorReport */
+public static final String COLUMNNAME_IsAutoErrorReport = "IsAutoErrorReport";
 /** Set Just Migrated.
 @param IsJustMigrated Value set by Migration for post-Migation tasks. */
 public void setIsJustMigrated (boolean IsJustMigrated)
@@ -294,6 +316,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsJustMigrated */
+public static final String COLUMNNAME_IsJustMigrated = "IsJustMigrated";
 /** Set LDAP Domain.
 @param LDAPDomain Directory service domain name - e.g. adempiere.org */
 public void setLDAPDomain (String LDAPDomain)
@@ -311,6 +335,8 @@ public String getLDAPDomain()
 {
 return (String)get_Value("LDAPDomain");
 }
+/** Column name LDAPDomain */
+public static final String COLUMNNAME_LDAPDomain = "LDAPDomain";
 /** Set LDAP URL.
 @param LDAPHost Connection String to LDAP server starting with ldap:// */
 public void setLDAPHost (String LDAPHost)
@@ -328,6 +354,8 @@ public String getLDAPHost()
 {
 return (String)get_Value("LDAPHost");
 }
+/** Column name LDAPHost */
+public static final String COLUMNNAME_LDAPHost = "LDAPHost";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -352,6 +380,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Processors.
 @param NoProcessors Number of Database Processors */
 public void setNoProcessors (int NoProcessors)
@@ -366,6 +396,8 @@ Integer ii = (Integer)get_Value("NoProcessors");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name NoProcessors */
+public static final String COLUMNNAME_NoProcessors = "NoProcessors";
 /** Set Old Name.
 @param OldName Old Name */
 public void setOldName (String OldName)
@@ -383,6 +415,8 @@ public String getOldName()
 {
 return (String)get_Value("OldName");
 }
+/** Column name OldName */
+public static final String COLUMNNAME_OldName = "OldName";
 /** Set Password.
 @param Password Password of any length (case sensitive) */
 public void setPassword (String Password)
@@ -401,6 +435,8 @@ public String getPassword()
 {
 return (String)get_Value("Password");
 }
+/** Column name Password */
+public static final String COLUMNNAME_Password = "Password";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -419,6 +455,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Profile.
 @param ProfileInfo Information to help profiling the system for solving support issues */
 public void setProfileInfo (String ProfileInfo)
@@ -436,6 +474,8 @@ public String getProfileInfo()
 {
 return (String)get_Value("ProfileInfo");
 }
+/** Column name ProfileInfo */
+public static final String COLUMNNAME_ProfileInfo = "ProfileInfo";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -452,6 +492,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Release No.
 @param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
@@ -469,6 +511,8 @@ public String getReleaseNo()
 {
 return (String)get_Value("ReleaseNo");
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 
 /** ReplicationType AD_Reference_ID=126 */
 public static final int REPLICATIONTYPE_AD_Reference_ID=126;
@@ -498,6 +542,8 @@ public String getReplicationType()
 {
 return (String)get_Value("ReplicationType");
 }
+/** Column name ReplicationType */
+public static final String COLUMNNAME_ReplicationType = "ReplicationType";
 /** Set Statistics.
 @param StatisticsInfo Information to help profiling the system for solving support issues */
 public void setStatisticsInfo (String StatisticsInfo)
@@ -515,6 +561,8 @@ public String getStatisticsInfo()
 {
 return (String)get_Value("StatisticsInfo");
 }
+/** Column name StatisticsInfo */
+public static final String COLUMNNAME_StatisticsInfo = "StatisticsInfo";
 /** Set Summary.
 @param Summary Textual summary of this request */
 public void setSummary (String Summary)
@@ -532,6 +580,8 @@ public String getSummary()
 {
 return (String)get_Value("Summary");
 }
+/** Column name Summary */
+public static final String COLUMNNAME_Summary = "Summary";
 /** Set Support EMail.
 @param SupportEMail EMail address to send support information and updates to */
 public void setSupportEMail (String SupportEMail)
@@ -549,6 +599,8 @@ public String getSupportEMail()
 {
 return (String)get_Value("SupportEMail");
 }
+/** Column name SupportEMail */
+public static final String COLUMNNAME_SupportEMail = "SupportEMail";
 /** Set Support Expires.
 @param SupportExpDate Date when the Adempiere support expires */
 public void setSupportExpDate (Timestamp SupportExpDate)
@@ -561,6 +613,8 @@ public Timestamp getSupportExpDate()
 {
 return (Timestamp)get_Value("SupportExpDate");
 }
+/** Column name SupportExpDate */
+public static final String COLUMNNAME_SupportExpDate = "SupportExpDate";
 /** Set Internal Users.
 @param SupportUnits Number of Internal Users for Adempiere Support */
 public void setSupportUnits (int SupportUnits)
@@ -575,6 +629,8 @@ Integer ii = (Integer)get_Value("SupportUnits");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SupportUnits */
+public static final String COLUMNNAME_SupportUnits = "SupportUnits";
 
 /** SystemStatus AD_Reference_ID=374 */
 public static final int SYSTEMSTATUS_AD_Reference_ID=374;
@@ -604,6 +660,8 @@ public String getSystemStatus()
 {
 return (String)get_Value("SystemStatus");
 }
+/** Column name SystemStatus */
+public static final String COLUMNNAME_SystemStatus = "SystemStatus";
 /** Set Registered EMail.
 @param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
@@ -622,6 +680,8 @@ public String getUserName()
 {
 return (String)get_Value("UserName");
 }
+/** Column name UserName */
+public static final String COLUMNNAME_UserName = "UserName";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -640,4 +700,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

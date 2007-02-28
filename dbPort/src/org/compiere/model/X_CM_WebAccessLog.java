@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_WebAccessLog extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Accept Language.
 @param AcceptLanguage Language accepted based on browser information */
 public void setAcceptLanguage (String AcceptLanguage)
@@ -122,6 +124,8 @@ public String getAcceptLanguage()
 {
 return (String)get_Value("AcceptLanguage");
 }
+/** Column name AcceptLanguage */
+public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
 /** Set Broadcast Server.
 @param CM_BroadcastServer_ID Web Broadcast Server */
 public void setCM_BroadcastServer_ID (int CM_BroadcastServer_ID)
@@ -138,6 +142,8 @@ Integer ii = (Integer)get_Value("CM_BroadcastServer_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_BroadcastServer_ID */
+public static final String COLUMNNAME_CM_BroadcastServer_ID = "CM_BroadcastServer_ID";
 /** Set Media Item.
 @param CM_Media_ID Contains media content like images, flash movies etc. */
 public void setCM_Media_ID (int CM_Media_ID)
@@ -154,6 +160,8 @@ Integer ii = (Integer)get_Value("CM_Media_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Media_ID */
+public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
 /** Set Web Access Log.
 @param CM_WebAccessLog_ID Web Access Log Information */
 public void setCM_WebAccessLog_ID (int CM_WebAccessLog_ID)
@@ -169,6 +177,8 @@ Integer ii = (Integer)get_Value("CM_WebAccessLog_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebAccessLog_ID */
+public static final String COLUMNNAME_CM_WebAccessLog_ID = "CM_WebAccessLog_ID";
 /** Set Web Project.
 @param CM_WebProject_ID A web project is the main data container for Containers, URLs, Ads, Media etc. */
 public void setCM_WebProject_ID (int CM_WebProject_ID)
@@ -185,6 +195,8 @@ Integer ii = (Integer)get_Value("CM_WebProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_WebProject_ID */
+public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 /** Set File Size.
 @param FileSize Size of the File in bytes */
 public void setFileSize (BigDecimal FileSize)
@@ -199,6 +211,8 @@ BigDecimal bd = (BigDecimal)get_Value("FileSize");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FileSize */
+public static final String COLUMNNAME_FileSize = "FileSize";
 /** Set Hyphen.
 @param Hyphen Hyphen */
 public void setHyphen (String Hyphen)
@@ -216,6 +230,8 @@ public String getHyphen()
 {
 return (String)get_Value("Hyphen");
 }
+/** Column name Hyphen */
+public static final String COLUMNNAME_Hyphen = "Hyphen";
 /** Set IP Address.
 @param IP_Address Defines the IP address to transfer data to */
 public void setIP_Address (String IP_Address)
@@ -234,6 +250,8 @@ public String getIP_Address()
 {
 return (String)get_Value("IP_Address");
 }
+/** Column name IP_Address */
+public static final String COLUMNNAME_IP_Address = "IP_Address";
 
 /** LogType AD_Reference_ID=390 */
 public static final int LOGTYPE_AD_Reference_ID=390;
@@ -263,6 +281,8 @@ public String getLogType()
 {
 return (String)get_Value("LogType");
 }
+/** Column name LogType */
+public static final String COLUMNNAME_LogType = "LogType";
 /** Set Page URL.
 @param PageURL Page URL */
 public void setPageURL (String PageURL)
@@ -280,6 +300,8 @@ public String getPageURL()
 {
 return (String)get_Value("PageURL");
 }
+/** Column name PageURL */
+public static final String COLUMNNAME_PageURL = "PageURL";
 /** Set Protocol.
 @param Protocol Protocol */
 public void setProtocol (String Protocol)
@@ -298,6 +320,8 @@ public String getProtocol()
 {
 return (String)get_Value("Protocol");
 }
+/** Column name Protocol */
+public static final String COLUMNNAME_Protocol = "Protocol";
 /** Set Referrer.
 @param Referrer Referring web address */
 public void setReferrer (String Referrer)
@@ -315,6 +339,8 @@ public String getReferrer()
 {
 return (String)get_Value("Referrer");
 }
+/** Column name Referrer */
+public static final String COLUMNNAME_Referrer = "Referrer";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -332,6 +358,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -349,6 +377,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Request Type.
 @param RequestType Request Type */
 public void setRequestType (String RequestType)
@@ -367,6 +397,8 @@ public String getRequestType()
 {
 return (String)get_Value("RequestType");
 }
+/** Column name RequestType */
+public static final String COLUMNNAME_RequestType = "RequestType";
 /** Set Status Code.
 @param StatusCode Status Code */
 public void setStatusCode (int StatusCode)
@@ -381,6 +413,8 @@ Integer ii = (Integer)get_Value("StatusCode");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name StatusCode */
+public static final String COLUMNNAME_StatusCode = "StatusCode";
 /** Set User Agent.
 @param UserAgent Browser Used */
 public void setUserAgent (String UserAgent)
@@ -398,6 +432,8 @@ public String getUserAgent()
 {
 return (String)get_Value("UserAgent");
 }
+/** Column name UserAgent */
+public static final String COLUMNNAME_UserAgent = "UserAgent";
 /** Set Web Session.
 @param WebSession Web Session ID */
 public void setWebSession (String WebSession)
@@ -415,4 +451,6 @@ public String getWebSession()
 {
 return (String)get_Value("WebSession");
 }
+/** Column name WebSession */
+public static final String COLUMNNAME_WebSession = "WebSession";
 }

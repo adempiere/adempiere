@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CycleStep extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("C_CycleStep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CycleStep_ID */
+public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
 /** Set Project Cycle.
 @param C_Cycle_ID Identifier for this Project Reporting Cycle */
 public void setC_Cycle_ID (int C_Cycle_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_Cycle_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Cycle_ID */
+public static final String COLUMNNAME_C_Cycle_ID = "C_Cycle_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -143,6 +147,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Relative Weight.
 @param RelativeWeight Relative weight of this step (0 = ignored) */
 public void setRelativeWeight (BigDecimal RelativeWeight)
@@ -158,6 +164,8 @@ BigDecimal bd = (BigDecimal)get_Value("RelativeWeight");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RelativeWeight */
+public static final String COLUMNNAME_RelativeWeight = "RelativeWeight";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -174,4 +182,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

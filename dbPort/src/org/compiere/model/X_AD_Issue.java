@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Issue extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_Form_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Form_ID */
+public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
 /** Set System Issue.
 @param AD_Issue_ID Automatically created or manually entered System Issue */
 public void setAD_Issue_ID (int AD_Issue_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_Issue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Issue_ID */
+public static final String COLUMNNAME_AD_Issue_ID = "AD_Issue_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Asset.
 @param A_Asset_ID Asset used internally or by customers */
 public void setA_Asset_ID (int A_Asset_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("A_Asset_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_ID */
+public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 /** Set Comments.
 @param Comments Comments or additional information */
 public void setComments (String Comments)
@@ -188,6 +198,8 @@ public String getComments()
 {
 return (String)get_Value("Comments");
 }
+/** Column name Comments */
+public static final String COLUMNNAME_Comments = "Comments";
 /** Set DB Address.
 @param DBAddress JDBC URL of the database server */
 public void setDBAddress (String DBAddress)
@@ -205,6 +217,8 @@ public String getDBAddress()
 {
 return (String)get_Value("DBAddress");
 }
+/** Column name DBAddress */
+public static final String COLUMNNAME_DBAddress = "DBAddress";
 /** Set Database.
 @param DatabaseInfo Database Information */
 public void setDatabaseInfo (String DatabaseInfo)
@@ -222,6 +236,8 @@ public String getDatabaseInfo()
 {
 return (String)get_Value("DatabaseInfo");
 }
+/** Column name DatabaseInfo */
+public static final String COLUMNNAME_DatabaseInfo = "DatabaseInfo";
 /** Set Error Trace.
 @param ErrorTrace System Error Trace */
 public void setErrorTrace (String ErrorTrace)
@@ -239,6 +255,8 @@ public String getErrorTrace()
 {
 return (String)get_Value("ErrorTrace");
 }
+/** Column name ErrorTrace */
+public static final String COLUMNNAME_ErrorTrace = "ErrorTrace";
 
 /** IsReproducible AD_Reference_ID=319 */
 public static final int ISREPRODUCIBLE_AD_Reference_ID=319;
@@ -265,6 +283,8 @@ public String getIsReproducible()
 {
 return (String)get_Value("IsReproducible");
 }
+/** Column name IsReproducible */
+public static final String COLUMNNAME_IsReproducible = "IsReproducible";
 
 /** IsVanillaSystem AD_Reference_ID=319 */
 public static final int ISVANILLASYSTEM_AD_Reference_ID=319;
@@ -291,6 +311,8 @@ public String getIsVanillaSystem()
 {
 return (String)get_Value("IsVanillaSystem");
 }
+/** Column name IsVanillaSystem */
+public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
 
 /** IssueSource AD_Reference_ID=104 */
 public static final int ISSUESOURCE_AD_Reference_ID=104;
@@ -327,6 +349,8 @@ public String getIssueSource()
 {
 return (String)get_Value("IssueSource");
 }
+/** Column name IssueSource */
+public static final String COLUMNNAME_IssueSource = "IssueSource";
 /** Set Issue Summary.
 @param IssueSummary Issue Summary */
 public void setIssueSummary (String IssueSummary)
@@ -351,6 +375,8 @@ return (String)get_Value("IssueSummary");
 {
 return new KeyNamePair(get_ID(), getIssueSummary());
 }
+/** Column name IssueSummary */
+public static final String COLUMNNAME_IssueSummary = "IssueSummary";
 /** Set Java Info.
 @param JavaInfo Java Version Info */
 public void setJavaInfo (String JavaInfo)
@@ -368,6 +394,8 @@ public String getJavaInfo()
 {
 return (String)get_Value("JavaInfo");
 }
+/** Column name JavaInfo */
+public static final String COLUMNNAME_JavaInfo = "JavaInfo";
 /** Set Line.
 @param LineNo Line No */
 public void setLineNo (int LineNo)
@@ -382,6 +410,8 @@ Integer ii = (Integer)get_Value("LineNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LineNo */
+public static final String COLUMNNAME_LineNo = "LineNo";
 /** Set Local Host.
 @param Local_Host Local Host Info */
 public void setLocal_Host (String Local_Host)
@@ -399,6 +429,8 @@ public String getLocal_Host()
 {
 return (String)get_Value("Local_Host");
 }
+/** Column name Local_Host */
+public static final String COLUMNNAME_Local_Host = "Local_Host";
 /** Set Logger.
 @param LoggerName Logger Name */
 public void setLoggerName (String LoggerName)
@@ -416,6 +448,8 @@ public String getLoggerName()
 {
 return (String)get_Value("LoggerName");
 }
+/** Column name LoggerName */
+public static final String COLUMNNAME_LoggerName = "LoggerName";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -434,6 +468,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Operating System.
 @param OperatingSystemInfo Operating System Info */
 public void setOperatingSystemInfo (String OperatingSystemInfo)
@@ -451,6 +487,8 @@ public String getOperatingSystemInfo()
 {
 return (String)get_Value("OperatingSystemInfo");
 }
+/** Column name OperatingSystemInfo */
+public static final String COLUMNNAME_OperatingSystemInfo = "OperatingSystemInfo";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -469,6 +507,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -487,6 +527,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Profile.
 @param ProfileInfo Information to help profiling the system for solving support issues */
 public void setProfileInfo (String ProfileInfo)
@@ -504,6 +546,8 @@ public String getProfileInfo()
 {
 return (String)get_Value("ProfileInfo");
 }
+/** Column name ProfileInfo */
+public static final String COLUMNNAME_ProfileInfo = "ProfileInfo";
 /** Set Known Issue.
 @param R_IssueKnown_ID Known Issue */
 public void setR_IssueKnown_ID (int R_IssueKnown_ID)
@@ -520,6 +564,8 @@ Integer ii = (Integer)get_Value("R_IssueKnown_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueKnown_ID */
+public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
 /** Set Issue Project.
 @param R_IssueProject_ID Implementation Projects */
 public void setR_IssueProject_ID (int R_IssueProject_ID)
@@ -536,6 +582,8 @@ Integer ii = (Integer)get_Value("R_IssueProject_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueProject_ID */
+public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
 /** Set Issue System.
 @param R_IssueSystem_ID System creating the issue */
 public void setR_IssueSystem_ID (int R_IssueSystem_ID)
@@ -552,6 +600,8 @@ Integer ii = (Integer)get_Value("R_IssueSystem_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueSystem_ID */
+public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
 /** Set IssueUser.
 @param R_IssueUser_ID User who reported issues */
 public void setR_IssueUser_ID (int R_IssueUser_ID)
@@ -568,6 +618,8 @@ Integer ii = (Integer)get_Value("R_IssueUser_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueUser_ID */
+public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
 /** Set Request.
 @param R_Request_ID Request from a Business Partner or Prospect */
 public void setR_Request_ID (int R_Request_ID)
@@ -584,6 +636,8 @@ Integer ii = (Integer)get_Value("R_Request_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Request_ID */
+public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -600,6 +654,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Release No.
 @param ReleaseNo Internal Release Number */
 public void setReleaseNo (String ReleaseNo)
@@ -618,6 +674,8 @@ public String getReleaseNo()
 {
 return (String)get_Value("ReleaseNo");
 }
+/** Column name ReleaseNo */
+public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
 /** Set Release Tag.
 @param ReleaseTag Release Tag */
 public void setReleaseTag (String ReleaseTag)
@@ -635,6 +693,8 @@ public String getReleaseTag()
 {
 return (String)get_Value("ReleaseTag");
 }
+/** Column name ReleaseTag */
+public static final String COLUMNNAME_ReleaseTag = "ReleaseTag";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -652,6 +712,8 @@ public String getRemote_Addr()
 {
 return (String)get_Value("Remote_Addr");
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -669,6 +731,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Request Document No.
 @param RequestDocumentNo Adempiere Request Document No */
 public void setRequestDocumentNo (String RequestDocumentNo)
@@ -686,6 +750,8 @@ public String getRequestDocumentNo()
 {
 return (String)get_Value("RequestDocumentNo");
 }
+/** Column name RequestDocumentNo */
+public static final String COLUMNNAME_RequestDocumentNo = "RequestDocumentNo";
 /** Set Response Text.
 @param ResponseText Request Response Text */
 public void setResponseText (String ResponseText)
@@ -703,6 +769,8 @@ public String getResponseText()
 {
 return (String)get_Value("ResponseText");
 }
+/** Column name ResponseText */
+public static final String COLUMNNAME_ResponseText = "ResponseText";
 /** Set Source Class.
 @param SourceClassName Source Class Name */
 public void setSourceClassName (String SourceClassName)
@@ -720,6 +788,8 @@ public String getSourceClassName()
 {
 return (String)get_Value("SourceClassName");
 }
+/** Column name SourceClassName */
+public static final String COLUMNNAME_SourceClassName = "SourceClassName";
 /** Set Source Method.
 @param SourceMethodName Source Method Name */
 public void setSourceMethodName (String SourceMethodName)
@@ -737,6 +807,8 @@ public String getSourceMethodName()
 {
 return (String)get_Value("SourceMethodName");
 }
+/** Column name SourceMethodName */
+public static final String COLUMNNAME_SourceMethodName = "SourceMethodName";
 /** Set Stack Trace.
 @param StackTrace System Log Trace */
 public void setStackTrace (String StackTrace)
@@ -754,6 +826,8 @@ public String getStackTrace()
 {
 return (String)get_Value("StackTrace");
 }
+/** Column name StackTrace */
+public static final String COLUMNNAME_StackTrace = "StackTrace";
 /** Set Statistics.
 @param StatisticsInfo Information to help profiling the system for solving support issues */
 public void setStatisticsInfo (String StatisticsInfo)
@@ -771,6 +845,8 @@ public String getStatisticsInfo()
 {
 return (String)get_Value("StatisticsInfo");
 }
+/** Column name StatisticsInfo */
+public static final String COLUMNNAME_StatisticsInfo = "StatisticsInfo";
 /** Set Support EMail.
 @param SupportEMail EMail address to send support information and updates to */
 public void setSupportEMail (String SupportEMail)
@@ -788,6 +864,8 @@ public String getSupportEMail()
 {
 return (String)get_Value("SupportEMail");
 }
+/** Column name SupportEMail */
+public static final String COLUMNNAME_SupportEMail = "SupportEMail";
 
 /** SystemStatus AD_Reference_ID=374 */
 public static final int SYSTEMSTATUS_AD_Reference_ID=374;
@@ -817,6 +895,8 @@ public String getSystemStatus()
 {
 return (String)get_Value("SystemStatus");
 }
+/** Column name SystemStatus */
+public static final String COLUMNNAME_SystemStatus = "SystemStatus";
 /** Set Registered EMail.
 @param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
@@ -835,6 +915,8 @@ public String getUserName()
 {
 return (String)get_Value("UserName");
 }
+/** Column name UserName */
+public static final String COLUMNNAME_UserName = "UserName";
 /** Set Version.
 @param Version Version of the table definition */
 public void setVersion (String Version)
@@ -853,4 +935,6 @@ public String getVersion()
 {
 return (String)get_Value("Version");
 }
+/** Column name Version */
+public static final String COLUMNNAME_Version = "Version";
 }

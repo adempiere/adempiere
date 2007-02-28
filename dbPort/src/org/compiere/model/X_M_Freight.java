@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Freight extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Region.
 @param C_Region_ID Identifies a geographical Region */
 public void setC_Region_ID (int C_Region_ID)
@@ -137,6 +141,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set Freight Amount.
 @param FreightAmt Freight Amount  */
 public void setFreightAmt (BigDecimal FreightAmt)
@@ -152,6 +158,8 @@ BigDecimal bd = (BigDecimal)get_Value("FreightAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name FreightAmt */
+public static final String COLUMNNAME_FreightAmt = "FreightAmt";
 /** Set Freight Category.
 @param M_FreightCategory_ID Category of the Freight */
 public void setM_FreightCategory_ID (int M_FreightCategory_ID)
@@ -167,6 +175,8 @@ Integer ii = (Integer)get_Value("M_FreightCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_FreightCategory_ID */
+public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 /** Set Freight.
 @param M_Freight_ID Freight Rate */
 public void setM_Freight_ID (int M_Freight_ID)
@@ -182,6 +192,8 @@ Integer ii = (Integer)get_Value("M_Freight_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Freight_ID */
+public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
 /** Set Shipper.
 @param M_Shipper_ID Method or manner of product delivery */
 public void setM_Shipper_ID (int M_Shipper_ID)
@@ -203,6 +215,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_Shipper_ID()));
 }
+/** Column name M_Shipper_ID */
+public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 
 /** To_Country_ID AD_Reference_ID=156 */
 public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
@@ -222,6 +236,8 @@ Integer ii = (Integer)get_Value("To_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name To_Country_ID */
+public static final String COLUMNNAME_To_Country_ID = "To_Country_ID";
 
 /** To_Region_ID AD_Reference_ID=157 */
 public static final int TO_REGION_ID_AD_Reference_ID=157;
@@ -241,6 +257,8 @@ Integer ii = (Integer)get_Value("To_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name To_Region_ID */
+public static final String COLUMNNAME_To_Region_ID = "To_Region_ID";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -254,4 +272,6 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintLabel
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintLabel extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_LabelPrinter_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_LabelPrinter_ID */
+public static final String COLUMNNAME_AD_LabelPrinter_ID = "AD_LabelPrinter_ID";
 /** Set Print Label.
 @param AD_PrintLabel_ID Label Format to print */
 public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_PrintLabel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintLabel_ID */
+public static final String COLUMNNAME_AD_PrintLabel_ID = "AD_PrintLabel_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -153,6 +159,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Landscape.
 @param IsLandscape Landscape orientation */
 public void setIsLandscape (boolean IsLandscape)
@@ -171,6 +179,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsLandscape */
+public static final String COLUMNNAME_IsLandscape = "IsLandscape";
 /** Set Label Height.
 @param LabelHeight Height of the label */
 public void setLabelHeight (int LabelHeight)
@@ -185,6 +195,8 @@ Integer ii = (Integer)get_Value("LabelHeight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LabelHeight */
+public static final String COLUMNNAME_LabelHeight = "LabelHeight";
 /** Set Label Width.
 @param LabelWidth Width of the Label */
 public void setLabelWidth (int LabelWidth)
@@ -199,6 +211,8 @@ Integer ii = (Integer)get_Value("LabelWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LabelWidth */
+public static final String COLUMNNAME_LabelWidth = "LabelWidth";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -223,6 +237,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Printer Name.
 @param PrinterName Name of the Printer */
 public void setPrinterName (String PrinterName)
@@ -240,4 +256,6 @@ public String getPrinterName()
 {
 return (String)get_Value("PrinterName");
 }
+/** Column name PrinterName */
+public static final String COLUMNNAME_PrinterName = "PrinterName";
 }

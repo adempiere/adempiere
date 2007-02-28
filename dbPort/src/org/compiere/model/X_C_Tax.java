@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Tax extends PO
 {
 /** Standard Constructor
@@ -115,6 +115,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
 /** C_Region_ID AD_Reference_ID=157 */
 public static final int C_REGION_ID_AD_Reference_ID=157;
@@ -134,6 +136,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set Tax Category.
 @param C_TaxCategory_ID Tax Category */
 public void setC_TaxCategory_ID (int C_TaxCategory_ID)
@@ -149,6 +153,8 @@ Integer ii = (Integer)get_Value("C_TaxCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_TaxCategory_ID */
+public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -164,6 +170,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -181,6 +189,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -199,6 +209,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Document Level.
 @param IsDocumentLevel Tax is calculated on document level (rather than line by line) */
 public void setIsDocumentLevel (boolean IsDocumentLevel)
@@ -217,6 +229,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDocumentLevel */
+public static final String COLUMNNAME_IsDocumentLevel = "IsDocumentLevel";
 /** Set Sales Tax.
 @param IsSalesTax This is a sales tax (i.e. not a value added tax) */
 public void setIsSalesTax (boolean IsSalesTax)
@@ -235,6 +249,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSalesTax */
+public static final String COLUMNNAME_IsSalesTax = "IsSalesTax";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -253,6 +269,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Tax exempt.
 @param IsTaxExempt Business partner is exempt from tax */
 public void setIsTaxExempt (boolean IsTaxExempt)
@@ -271,6 +289,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxExempt */
+public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -295,6 +315,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** Parent_Tax_ID AD_Reference_ID=158 */
 public static final int PARENT_TAX_ID_AD_Reference_ID=158;
@@ -314,6 +336,8 @@ Integer ii = (Integer)get_Value("Parent_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Parent_Tax_ID */
+public static final String COLUMNNAME_Parent_Tax_ID = "Parent_Tax_ID";
 /** Set Rate.
 @param Rate Rate or Tax or Exchange */
 public void setRate (BigDecimal Rate)
@@ -329,6 +353,8 @@ BigDecimal bd = (BigDecimal)get_Value("Rate");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Rate */
+public static final String COLUMNNAME_Rate = "Rate";
 /** Set Requires Tax Certificate.
 @param RequiresTaxCertificate This tax rate requires the Business Partner to be tax exempt */
 public void setRequiresTaxCertificate (boolean RequiresTaxCertificate)
@@ -347,6 +373,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name RequiresTaxCertificate */
+public static final String COLUMNNAME_RequiresTaxCertificate = "RequiresTaxCertificate";
 
 /** SOPOType AD_Reference_ID=287 */
 public static final int SOPOTYPE_AD_Reference_ID=287;
@@ -376,6 +404,8 @@ public String getSOPOType()
 {
 return (String)get_Value("SOPOType");
 }
+/** Column name SOPOType */
+public static final String COLUMNNAME_SOPOType = "SOPOType";
 /** Set Tax Indicator.
 @param TaxIndicator Short form for Tax to be printed on documents */
 public void setTaxIndicator (String TaxIndicator)
@@ -393,6 +423,8 @@ public String getTaxIndicator()
 {
 return (String)get_Value("TaxIndicator");
 }
+/** Column name TaxIndicator */
+public static final String COLUMNNAME_TaxIndicator = "TaxIndicator";
 
 /** To_Country_ID AD_Reference_ID=156 */
 public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
@@ -412,6 +444,8 @@ Integer ii = (Integer)get_Value("To_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name To_Country_ID */
+public static final String COLUMNNAME_To_Country_ID = "To_Country_ID";
 
 /** To_Region_ID AD_Reference_ID=157 */
 public static final int TO_REGION_ID_AD_Reference_ID=157;
@@ -431,6 +465,8 @@ Integer ii = (Integer)get_Value("To_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name To_Region_ID */
+public static final String COLUMNNAME_To_Region_ID = "To_Region_ID";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -444,4 +480,6 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 }

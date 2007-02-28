@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_BuyerFunds
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_BuyerFunds extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Buyer Funds.
 @param B_BuyerFunds_ID Buyer Funds for Bids on Topics */
 public void setB_BuyerFunds_ID (int B_BuyerFunds_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("B_BuyerFunds_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_BuyerFunds_ID */
+public static final String COLUMNNAME_B_BuyerFunds_ID = "B_BuyerFunds_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Committed Amount.
 @param CommittedAmt The (legal) commitment amount */
 public void setCommittedAmt (BigDecimal CommittedAmt)
@@ -171,6 +179,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommittedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommittedAmt */
+public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
 /** Set Not Committed Aount.
 @param NonCommittedAmt Amount not committed yet */
 public void setNonCommittedAmt (BigDecimal NonCommittedAmt)
@@ -186,4 +196,6 @@ BigDecimal bd = (BigDecimal)get_Value("NonCommittedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name NonCommittedAmt */
+public static final String COLUMNNAME_NonCommittedAmt = "NonCommittedAmt";
 }

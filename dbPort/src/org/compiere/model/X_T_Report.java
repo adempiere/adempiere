@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_T_Report extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Col_0.
 @param Col_0 Col_0 */
 public void setCol_0 (BigDecimal Col_0)
@@ -117,6 +119,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_0");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_0 */
+public static final String COLUMNNAME_Col_0 = "Col_0";
 /** Set Col_1.
 @param Col_1 Col_1 */
 public void setCol_1 (BigDecimal Col_1)
@@ -131,6 +135,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_1");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_1 */
+public static final String COLUMNNAME_Col_1 = "Col_1";
 /** Set Col_10.
 @param Col_10 Col_10 */
 public void setCol_10 (BigDecimal Col_10)
@@ -145,6 +151,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_10");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_10 */
+public static final String COLUMNNAME_Col_10 = "Col_10";
 /** Set Col_11.
 @param Col_11 Col_11 */
 public void setCol_11 (BigDecimal Col_11)
@@ -159,6 +167,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_11");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_11 */
+public static final String COLUMNNAME_Col_11 = "Col_11";
 /** Set Col_12.
 @param Col_12 Col_12 */
 public void setCol_12 (BigDecimal Col_12)
@@ -173,6 +183,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_12");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_12 */
+public static final String COLUMNNAME_Col_12 = "Col_12";
 /** Set Col_13.
 @param Col_13 Col_13 */
 public void setCol_13 (BigDecimal Col_13)
@@ -187,6 +199,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_13");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_13 */
+public static final String COLUMNNAME_Col_13 = "Col_13";
 /** Set Col_14.
 @param Col_14 Col_14 */
 public void setCol_14 (BigDecimal Col_14)
@@ -201,6 +215,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_14");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_14 */
+public static final String COLUMNNAME_Col_14 = "Col_14";
 /** Set Col_15.
 @param Col_15 Col_15 */
 public void setCol_15 (BigDecimal Col_15)
@@ -215,6 +231,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_15");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_15 */
+public static final String COLUMNNAME_Col_15 = "Col_15";
 /** Set Col_16.
 @param Col_16 Col_16 */
 public void setCol_16 (BigDecimal Col_16)
@@ -229,6 +247,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_16");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_16 */
+public static final String COLUMNNAME_Col_16 = "Col_16";
 /** Set Col_17.
 @param Col_17 Col_17 */
 public void setCol_17 (BigDecimal Col_17)
@@ -243,6 +263,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_17");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_17 */
+public static final String COLUMNNAME_Col_17 = "Col_17";
 /** Set Col_18.
 @param Col_18 Col_18 */
 public void setCol_18 (BigDecimal Col_18)
@@ -257,6 +279,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_18");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_18 */
+public static final String COLUMNNAME_Col_18 = "Col_18";
 /** Set Col_19.
 @param Col_19 Col_19 */
 public void setCol_19 (BigDecimal Col_19)
@@ -271,6 +295,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_19");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_19 */
+public static final String COLUMNNAME_Col_19 = "Col_19";
 /** Set Col_2.
 @param Col_2 Col_2 */
 public void setCol_2 (BigDecimal Col_2)
@@ -285,6 +311,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_2");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_2 */
+public static final String COLUMNNAME_Col_2 = "Col_2";
 /** Set Col_20.
 @param Col_20 Col_20 */
 public void setCol_20 (BigDecimal Col_20)
@@ -299,6 +327,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_20");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_20 */
+public static final String COLUMNNAME_Col_20 = "Col_20";
 /** Set Col_3.
 @param Col_3 Col_3 */
 public void setCol_3 (BigDecimal Col_3)
@@ -313,6 +343,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_3");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_3 */
+public static final String COLUMNNAME_Col_3 = "Col_3";
 /** Set Col_4.
 @param Col_4 Col_4 */
 public void setCol_4 (BigDecimal Col_4)
@@ -327,6 +359,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_4");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_4 */
+public static final String COLUMNNAME_Col_4 = "Col_4";
 /** Set Col_5.
 @param Col_5 Col_5 */
 public void setCol_5 (BigDecimal Col_5)
@@ -341,6 +375,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_5");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_5 */
+public static final String COLUMNNAME_Col_5 = "Col_5";
 /** Set Col_6.
 @param Col_6 Col_6 */
 public void setCol_6 (BigDecimal Col_6)
@@ -355,6 +391,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_6");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_6 */
+public static final String COLUMNNAME_Col_6 = "Col_6";
 /** Set Col_7.
 @param Col_7 Col_7 */
 public void setCol_7 (BigDecimal Col_7)
@@ -369,6 +407,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_7");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_7 */
+public static final String COLUMNNAME_Col_7 = "Col_7";
 /** Set Col_8.
 @param Col_8 Col_8 */
 public void setCol_8 (BigDecimal Col_8)
@@ -383,6 +423,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_8");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_8 */
+public static final String COLUMNNAME_Col_8 = "Col_8";
 /** Set Col_9.
 @param Col_9 Col_9 */
 public void setCol_9 (BigDecimal Col_9)
@@ -397,6 +439,8 @@ BigDecimal bd = (BigDecimal)get_Value("Col_9");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Col_9 */
+public static final String COLUMNNAME_Col_9 = "Col_9";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -414,6 +458,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Accounting Fact.
 @param Fact_Acct_ID Accounting Fact */
 public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -429,6 +475,8 @@ Integer ii = (Integer)get_Value("Fact_Acct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Fact_Acct_ID */
+public static final String COLUMNNAME_Fact_Acct_ID = "Fact_Acct_ID";
 /** Set Level no.
 @param LevelNo Level no */
 public void setLevelNo (int LevelNo)
@@ -443,6 +491,8 @@ Integer ii = (Integer)get_Value("LevelNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LevelNo */
+public static final String COLUMNNAME_LevelNo = "LevelNo";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -466,6 +516,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Report Line.
 @param PA_ReportLine_ID Report Line */
 public void setPA_ReportLine_ID (int PA_ReportLine_ID)
@@ -481,6 +533,8 @@ Integer ii = (Integer)get_Value("PA_ReportLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLine_ID */
+public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -496,6 +550,8 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -512,4 +568,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_PriceList_Version extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Discount Schema.
 @param M_DiscountSchema_ID Schema to calculate the trade discount percentage */
 public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("M_DiscountSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_DiscountSchema_ID */
+public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Price List Version.
 @param M_PriceList_Version_ID Identifies a unique instance of a Price List */
 public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("M_PriceList_Version_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_Version_ID */
+public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 
 /** M_Pricelist_Version_Base_ID AD_Reference_ID=188 */
 public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("M_Pricelist_Version_Base_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Pricelist_Version_Base_ID */
+public static final String COLUMNNAME_M_Pricelist_Version_Base_ID = "M_Pricelist_Version_Base_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -194,6 +204,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Create.
 @param ProcCreate Create */
 public void setProcCreate (String ProcCreate)
@@ -211,6 +223,8 @@ public String getProcCreate()
 {
 return (String)get_Value("ProcCreate");
 }
+/** Column name ProcCreate */
+public static final String COLUMNNAME_ProcCreate = "ProcCreate";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -224,4 +238,6 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 }

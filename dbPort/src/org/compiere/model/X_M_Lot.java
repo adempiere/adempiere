@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Lot
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Lot extends PO
 {
 /** Standard Constructor
@@ -99,6 +99,8 @@ public Timestamp getDateFrom()
 {
 return (Timestamp)get_Value("DateFrom");
 }
+/** Column name DateFrom */
+public static final String COLUMNNAME_DateFrom = "DateFrom";
 /** Set Date To.
 @param DateTo End date of a date range */
 public void setDateTo (Timestamp DateTo)
@@ -111,6 +113,8 @@ public Timestamp getDateTo()
 {
 return (Timestamp)get_Value("DateTo");
 }
+/** Column name DateTo */
+public static final String COLUMNNAME_DateTo = "DateTo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -128,6 +132,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -145,6 +151,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Lot Control.
 @param M_LotCtl_ID Product Lot Control */
 public void setM_LotCtl_ID (int M_LotCtl_ID)
@@ -161,6 +169,8 @@ Integer ii = (Integer)get_Value("M_LotCtl_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_LotCtl_ID */
+public static final String COLUMNNAME_M_LotCtl_ID = "M_LotCtl_ID";
 /** Set Lot.
 @param M_Lot_ID Product Lot Definition */
 public void setM_Lot_ID (int M_Lot_ID)
@@ -176,6 +186,8 @@ Integer ii = (Integer)get_Value("M_Lot_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Lot_ID */
+public static final String COLUMNNAME_M_Lot_ID = "M_Lot_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -197,6 +209,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_Product_ID()));
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -215,4 +229,6 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

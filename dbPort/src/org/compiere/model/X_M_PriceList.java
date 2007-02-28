@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_PriceList extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("BasePriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name BasePriceList_ID */
+public static final String COLUMNNAME_BasePriceList_ID = "BasePriceList_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -143,6 +147,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Enforce price limit.
 @param EnforcePriceLimit Do not allow prices below the limit price */
 public void setEnforcePriceLimit (boolean EnforcePriceLimit)
@@ -161,6 +167,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name EnforcePriceLimit */
+public static final String COLUMNNAME_EnforcePriceLimit = "EnforcePriceLimit";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -179,6 +187,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Sales Price list.
 @param IsSOPriceList This is a Sales Price List */
 public void setIsSOPriceList (boolean IsSOPriceList)
@@ -197,6 +207,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOPriceList */
+public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 /** Set Price includes Tax.
 @param IsTaxIncluded Tax is included in the price  */
 public void setIsTaxIncluded (boolean IsTaxIncluded)
@@ -215,6 +227,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTaxIncluded */
+public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -230,6 +244,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -254,6 +270,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Price Precision.
 @param PricePrecision Precision (number of decimals) for the Price */
 public void setPricePrecision (BigDecimal PricePrecision)
@@ -269,4 +287,6 @@ BigDecimal bd = (BigDecimal)get_Value("PricePrecision");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PricePrecision */
+public static final String COLUMNNAME_PricePrecision = "PricePrecision";
 }

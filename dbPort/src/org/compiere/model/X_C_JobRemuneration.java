@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_JobRemuneration extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_JobRemuneration_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_JobRemuneration_ID */
+public static final String COLUMNNAME_C_JobRemuneration_ID = "C_JobRemuneration_ID";
 /** Set Position.
 @param C_Job_ID Job Position */
 public void setC_Job_ID (int C_Job_ID)
@@ -124,6 +126,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
 }
+/** Column name C_Job_ID */
+public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
 /** Set Remuneration.
 @param C_Remuneration_ID Wage or Salary */
 public void setC_Remuneration_ID (int C_Remuneration_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_Remuneration_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Remuneration_ID */
+public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -156,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -169,6 +177,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -181,4 +191,6 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 }

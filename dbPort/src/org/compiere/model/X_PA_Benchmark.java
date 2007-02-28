@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Benchmark
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Benchmark extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ public String getAccumulationType()
 {
 return (String)get_Value("AccumulationType");
 }
+/** Column name AccumulationType */
+public static final String COLUMNNAME_AccumulationType = "AccumulationType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -131,6 +133,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -148,6 +152,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -172,6 +178,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Benchmark.
 @param PA_Benchmark_ID Performance Benchmark */
 public void setPA_Benchmark_ID (int PA_Benchmark_ID)
@@ -187,4 +195,6 @@ Integer ii = (Integer)get_Value("PA_Benchmark_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Benchmark_ID */
+public static final String COLUMNNAME_PA_Benchmark_ID = "PA_Benchmark_ID";
 }

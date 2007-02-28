@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_RfQResponse extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -172,6 +180,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set RfQ Response.
 @param C_RfQResponse_ID Request for Quotation Response from a potential Vendor */
 public void setC_RfQResponse_ID (int C_RfQResponse_ID)
@@ -187,6 +197,8 @@ Integer ii = (Integer)get_Value("C_RfQResponse_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQResponse_ID */
+public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
 /** Set RfQ.
 @param C_RfQ_ID Request for Quotation */
 public void setC_RfQ_ID (int C_RfQ_ID)
@@ -202,6 +214,8 @@ Integer ii = (Integer)get_Value("C_RfQ_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_RfQ_ID */
+public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
 /** Set Check Complete.
 @param CheckComplete Check Complete */
 public void setCheckComplete (String CheckComplete)
@@ -219,6 +233,8 @@ public String getCheckComplete()
 {
 return (String)get_Value("CheckComplete");
 }
+/** Column name CheckComplete */
+public static final String COLUMNNAME_CheckComplete = "CheckComplete";
 /** Set Invited.
 @param DateInvited Date when (last) invitation was sent */
 public void setDateInvited (Timestamp DateInvited)
@@ -231,6 +247,8 @@ public Timestamp getDateInvited()
 {
 return (Timestamp)get_Value("DateInvited");
 }
+/** Column name DateInvited */
+public static final String COLUMNNAME_DateInvited = "DateInvited";
 /** Set Response Date.
 @param DateResponse Date of the Response */
 public void setDateResponse (Timestamp DateResponse)
@@ -243,6 +261,8 @@ public Timestamp getDateResponse()
 {
 return (Timestamp)get_Value("DateResponse");
 }
+/** Column name DateResponse */
+public static final String COLUMNNAME_DateResponse = "DateResponse";
 /** Set Work Complete.
 @param DateWorkComplete Date when work is (planned to be) complete */
 public void setDateWorkComplete (Timestamp DateWorkComplete)
@@ -255,6 +275,8 @@ public Timestamp getDateWorkComplete()
 {
 return (Timestamp)get_Value("DateWorkComplete");
 }
+/** Column name DateWorkComplete */
+public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";
 /** Set Work Start.
 @param DateWorkStart Date when work is (planned to be) started */
 public void setDateWorkStart (Timestamp DateWorkStart)
@@ -267,6 +289,8 @@ public Timestamp getDateWorkStart()
 {
 return (Timestamp)get_Value("DateWorkStart");
 }
+/** Column name DateWorkStart */
+public static final String COLUMNNAME_DateWorkStart = "DateWorkStart";
 /** Set Delivery Days.
 @param DeliveryDays Number of Days (planned) until Delivery */
 public void setDeliveryDays (int DeliveryDays)
@@ -281,6 +305,8 @@ Integer ii = (Integer)get_Value("DeliveryDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DeliveryDays */
+public static final String COLUMNNAME_DeliveryDays = "DeliveryDays";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -298,6 +324,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -315,6 +343,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Complete.
 @param IsComplete It is complete */
 public void setIsComplete (boolean IsComplete)
@@ -333,6 +363,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsComplete */
+public static final String COLUMNNAME_IsComplete = "IsComplete";
 /** Set Selected Winner.
 @param IsSelectedWinner The resonse is the selected winner */
 public void setIsSelectedWinner (boolean IsSelectedWinner)
@@ -351,6 +383,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelectedWinner */
+public static final String COLUMNNAME_IsSelectedWinner = "IsSelectedWinner";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -369,6 +403,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -393,6 +429,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Price.
 @param Price Price */
 public void setPrice (BigDecimal Price)
@@ -408,6 +446,8 @@ BigDecimal bd = (BigDecimal)get_Value("Price");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Price */
+public static final String COLUMNNAME_Price = "Price";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -426,6 +466,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -444,6 +486,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Ranking.
 @param Ranking Relative Rank Number */
 public void setRanking (int Ranking)
@@ -458,4 +502,6 @@ Integer ii = (Integer)get_Value("Ranking");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Ranking */
+public static final String COLUMNNAME_Ranking = "Ranking";
 }

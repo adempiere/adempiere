@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_TreeNodeCMT
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_TreeNodeCMT extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("AD_Tree_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_ID */
+public static final String COLUMNNAME_AD_Tree_ID = "AD_Tree_ID";
 /** Set Node_ID.
 @param Node_ID Node_ID */
 public void setNode_ID (int Node_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("Node_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Node_ID */
+public static final String COLUMNNAME_Node_ID = "Node_ID";
 /** Set Parent.
 @param Parent_ID Parent of Entity */
 public void setParent_ID (int Parent_ID)
@@ -133,6 +137,8 @@ Integer ii = (Integer)get_Value("Parent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Parent_ID */
+public static final String COLUMNNAME_Parent_ID = "Parent_ID";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -149,4 +155,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

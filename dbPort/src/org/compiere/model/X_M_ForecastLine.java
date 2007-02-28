@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ForecastLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_ForecastLine extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Period_ID()));
 }
+/** Column name C_Period_ID */
+public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 /** Set Forecast Line.
 @param M_ForecastLine_ID Forecast Line */
 public void setM_ForecastLine_ID (int M_ForecastLine_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("M_ForecastLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ForecastLine_ID */
+public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
 /** Set Forecast.
 @param M_Forecast_ID Material Forecast */
 public void setM_Forecast_ID (int M_Forecast_ID)
@@ -141,6 +145,8 @@ Integer ii = (Integer)get_Value("M_Forecast_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Forecast_ID */
+public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -156,6 +162,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -171,6 +179,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Calculated Quantity.
 @param QtyCalculated Calculated Quantity */
 public void setQtyCalculated (BigDecimal QtyCalculated)
@@ -186,4 +196,6 @@ BigDecimal bd = (BigDecimal)get_Value("QtyCalculated");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyCalculated */
+public static final String COLUMNNAME_QtyCalculated = "QtyCalculated";
 }

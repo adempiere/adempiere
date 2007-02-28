@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_Product extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getBPartner_Value()
 {
 return (String)get_Value("BPartner_Value");
 }
+/** Column name BPartner_Value */
+public static final String COLUMNNAME_BPartner_Value = "BPartner_Value";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set UOM.
 @param C_UOM_ID Unit of Measure */
 public void setC_UOM_ID (int C_UOM_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("C_UOM_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_UOM_ID */
+public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 /** Set Classification.
 @param Classification Classification for grouping */
 public void setClassification (String Classification)
@@ -168,6 +176,8 @@ public String getClassification()
 {
 return (String)get_Value("Classification");
 }
+/** Column name Classification */
+public static final String COLUMNNAME_Classification = "Classification";
 /** Set Cost per Order.
 @param CostPerOrder Fixed Cost Per Order */
 public void setCostPerOrder (BigDecimal CostPerOrder)
@@ -182,6 +192,8 @@ BigDecimal bd = (BigDecimal)get_Value("CostPerOrder");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CostPerOrder */
+public static final String COLUMNNAME_CostPerOrder = "CostPerOrder";
 /** Set Promised Delivery Time.
 @param DeliveryTime_Promised Promised days between order and delivery */
 public void setDeliveryTime_Promised (int DeliveryTime_Promised)
@@ -196,6 +208,8 @@ Integer ii = (Integer)get_Value("DeliveryTime_Promised");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DeliveryTime_Promised */
+public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -213,6 +227,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Description URL.
 @param DescriptionURL URL for the description */
 public void setDescriptionURL (String DescriptionURL)
@@ -230,6 +246,8 @@ public String getDescriptionURL()
 {
 return (String)get_Value("DescriptionURL");
 }
+/** Column name DescriptionURL */
+public static final String COLUMNNAME_DescriptionURL = "DescriptionURL";
 /** Set Discontinued.
 @param Discontinued This product is no longer available */
 public void setDiscontinued (boolean Discontinued)
@@ -248,6 +266,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Discontinued */
+public static final String COLUMNNAME_Discontinued = "Discontinued";
 /** Set Discontinued by.
 @param DiscontinuedBy Discontinued By */
 public void setDiscontinuedBy (Timestamp DiscontinuedBy)
@@ -260,6 +280,8 @@ public Timestamp getDiscontinuedBy()
 {
 return (Timestamp)get_Value("DiscontinuedBy");
 }
+/** Column name DiscontinuedBy */
+public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
 /** Set Document Note.
 @param DocumentNote Additional information for a Document */
 public void setDocumentNote (String DocumentNote)
@@ -277,6 +299,8 @@ public String getDocumentNote()
 {
 return (String)get_Value("DocumentNote");
 }
+/** Column name DocumentNote */
+public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -294,6 +318,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set ISO Currency Code.
 @param ISO_Code Three letter ISO 4217 Code of the Currency */
 public void setISO_Code (String ISO_Code)
@@ -311,6 +337,8 @@ public String getISO_Code()
 {
 return (String)get_Value("ISO_Code");
 }
+/** Column name ISO_Code */
+public static final String COLUMNNAME_ISO_Code = "ISO_Code";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -328,6 +356,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -346,6 +376,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Import Product.
 @param I_Product_ID Import Item or Service */
 public void setI_Product_ID (int I_Product_ID)
@@ -361,6 +393,8 @@ Integer ii = (Integer)get_Value("I_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_Product_ID */
+public static final String COLUMNNAME_I_Product_ID = "I_Product_ID";
 /** Set Image URL.
 @param ImageURL URL of  image */
 public void setImageURL (String ImageURL)
@@ -378,6 +412,8 @@ public String getImageURL()
 {
 return (String)get_Value("ImageURL");
 }
+/** Column name ImageURL */
+public static final String COLUMNNAME_ImageURL = "ImageURL";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -394,6 +430,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -410,6 +448,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Manufacturer.
 @param Manufacturer Manufacturer of the Product */
 public void setManufacturer (String Manufacturer)
@@ -427,6 +467,8 @@ public String getManufacturer()
 {
 return (String)get_Value("Manufacturer");
 }
+/** Column name Manufacturer */
+public static final String COLUMNNAME_Manufacturer = "Manufacturer";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -444,6 +486,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Minimum Order Qty.
 @param Order_Min Minimum order quantity in UOM */
 public void setOrder_Min (int Order_Min)
@@ -458,6 +502,8 @@ Integer ii = (Integer)get_Value("Order_Min");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Order_Min */
+public static final String COLUMNNAME_Order_Min = "Order_Min";
 /** Set Order Pack Qty.
 @param Order_Pack Package order size in UOM (e.g. order set of 5 units) */
 public void setOrder_Pack (int Order_Pack)
@@ -472,6 +518,8 @@ Integer ii = (Integer)get_Value("Order_Pack");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Order_Pack */
+public static final String COLUMNNAME_Order_Pack = "Order_Pack";
 /** Set Price effective.
 @param PriceEffective Effective Date of Price */
 public void setPriceEffective (Timestamp PriceEffective)
@@ -484,6 +532,8 @@ public Timestamp getPriceEffective()
 {
 return (Timestamp)get_Value("PriceEffective");
 }
+/** Column name PriceEffective */
+public static final String COLUMNNAME_PriceEffective = "PriceEffective";
 /** Set Limit Price.
 @param PriceLimit Lowest price for a product */
 public void setPriceLimit (BigDecimal PriceLimit)
@@ -498,6 +548,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLimit");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLimit */
+public static final String COLUMNNAME_PriceLimit = "PriceLimit";
 /** Set List Price.
 @param PriceList List Price */
 public void setPriceList (BigDecimal PriceList)
@@ -512,6 +564,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceList");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceList */
+public static final String COLUMNNAME_PriceList = "PriceList";
 /** Set PO Price.
 @param PricePO Price based on a purchase order */
 public void setPricePO (BigDecimal PricePO)
@@ -526,6 +580,8 @@ BigDecimal bd = (BigDecimal)get_Value("PricePO");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PricePO */
+public static final String COLUMNNAME_PricePO = "PricePO";
 /** Set Standard Price.
 @param PriceStd Standard Price */
 public void setPriceStd (BigDecimal PriceStd)
@@ -540,6 +596,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceStd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceStd */
+public static final String COLUMNNAME_PriceStd = "PriceStd";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -558,6 +616,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -576,6 +636,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Product Category Key.
 @param ProductCategory_Value Product Category Key */
 public void setProductCategory_Value (String ProductCategory_Value)
@@ -593,6 +655,8 @@ public String getProductCategory_Value()
 {
 return (String)get_Value("ProductCategory_Value");
 }
+/** Column name ProductCategory_Value */
+public static final String COLUMNNAME_ProductCategory_Value = "ProductCategory_Value";
 
 /** ProductType AD_Reference_ID=270 */
 public static final int PRODUCTTYPE_AD_Reference_ID=270;
@@ -625,6 +689,8 @@ public String getProductType()
 {
 return (String)get_Value("ProductType");
 }
+/** Column name ProductType */
+public static final String COLUMNNAME_ProductType = "ProductType";
 /** Set Royalty Amount.
 @param RoyaltyAmt (Included) Amount for copyright, etc. */
 public void setRoyaltyAmt (BigDecimal RoyaltyAmt)
@@ -639,6 +705,8 @@ BigDecimal bd = (BigDecimal)get_Value("RoyaltyAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RoyaltyAmt */
+public static final String COLUMNNAME_RoyaltyAmt = "RoyaltyAmt";
 /** Set SKU.
 @param SKU Stock Keeping Unit */
 public void setSKU (String SKU)
@@ -656,6 +724,8 @@ public String getSKU()
 {
 return (String)get_Value("SKU");
 }
+/** Column name SKU */
+public static final String COLUMNNAME_SKU = "SKU";
 /** Set Shelf Depth.
 @param ShelfDepth Shelf depth required */
 public void setShelfDepth (int ShelfDepth)
@@ -670,6 +740,8 @@ Integer ii = (Integer)get_Value("ShelfDepth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ShelfDepth */
+public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
 /** Set Shelf Height.
 @param ShelfHeight Shelf height required */
 public void setShelfHeight (int ShelfHeight)
@@ -684,6 +756,8 @@ Integer ii = (Integer)get_Value("ShelfHeight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ShelfHeight */
+public static final String COLUMNNAME_ShelfHeight = "ShelfHeight";
 /** Set Shelf Width.
 @param ShelfWidth Shelf width required */
 public void setShelfWidth (int ShelfWidth)
@@ -698,6 +772,8 @@ Integer ii = (Integer)get_Value("ShelfWidth");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name ShelfWidth */
+public static final String COLUMNNAME_ShelfWidth = "ShelfWidth";
 /** Set UPC/EAN.
 @param UPC Bar Code (Universal Product Code or its superset European Article Number) */
 public void setUPC (String UPC)
@@ -715,6 +791,8 @@ public String getUPC()
 {
 return (String)get_Value("UPC");
 }
+/** Column name UPC */
+public static final String COLUMNNAME_UPC = "UPC";
 /** Set Units Per Pallet.
 @param UnitsPerPallet Units Per Pallet */
 public void setUnitsPerPallet (int UnitsPerPallet)
@@ -729,6 +807,8 @@ Integer ii = (Integer)get_Value("UnitsPerPallet");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UnitsPerPallet */
+public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -752,6 +832,8 @@ return (String)get_Value("Value");
 {
 return new KeyNamePair(get_ID(), getValue());
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 /** Set Partner Category.
 @param VendorCategory Product Category of the Business Partner */
 public void setVendorCategory (String VendorCategory)
@@ -769,6 +851,8 @@ public String getVendorCategory()
 {
 return (String)get_Value("VendorCategory");
 }
+/** Column name VendorCategory */
+public static final String COLUMNNAME_VendorCategory = "VendorCategory";
 /** Set Partner Product Key.
 @param VendorProductNo Product Key of the Business Partner */
 public void setVendorProductNo (String VendorProductNo)
@@ -786,6 +870,8 @@ public String getVendorProductNo()
 {
 return (String)get_Value("VendorProductNo");
 }
+/** Column name VendorProductNo */
+public static final String COLUMNNAME_VendorProductNo = "VendorProductNo";
 /** Set Volume.
 @param Volume Volume of a product */
 public void setVolume (int Volume)
@@ -800,6 +886,8 @@ Integer ii = (Integer)get_Value("Volume");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Volume */
+public static final String COLUMNNAME_Volume = "Volume";
 /** Set Weight.
 @param Weight Weight of a product */
 public void setWeight (int Weight)
@@ -814,6 +902,8 @@ Integer ii = (Integer)get_Value("Weight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Weight */
+public static final String COLUMNNAME_Weight = "Weight";
 /** Set UOM Code.
 @param X12DE355 UOM EDI X12 Code */
 public void setX12DE355 (String X12DE355)
@@ -831,4 +921,6 @@ public String getX12DE355()
 {
 return (String)get_Value("X12DE355");
 }
+/** Column name X12DE355 */
+public static final String COLUMNNAME_X12DE355 = "X12DE355";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name AD_Override_Dict */
+public static final String COLUMNNAME_AD_Override_Dict = "AD_Override_Dict";
 /** Set AD_Package_Dir.
 @param AD_Package_Dir AD_Package_Dir */
 public void setAD_Package_Dir (String AD_Package_Dir)
@@ -121,6 +123,8 @@ public String getAD_Package_Dir()
 {
 return (String)get_Value("AD_Package_Dir");
 }
+/** Column name AD_Package_Dir */
+public static final String COLUMNNAME_AD_Package_Dir = "AD_Package_Dir";
 /** Set AD_Package_Imp_Proc_ID.
 @param AD_Package_Imp_Proc_ID AD_Package_Imp_Proc_ID */
 public void setAD_Package_Imp_Proc_ID (int AD_Package_Imp_Proc_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("AD_Package_Imp_Proc_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Package_Imp_Proc_ID */
+public static final String COLUMNNAME_AD_Package_Imp_Proc_ID = "AD_Package_Imp_Proc_ID";
 /** Set AD_Package_Source.
 @param AD_Package_Source AD_Package_Source */
 public void setAD_Package_Source (String AD_Package_Source)
@@ -153,6 +159,8 @@ public String getAD_Package_Source()
 {
 return (String)get_Value("AD_Package_Source");
 }
+/** Column name AD_Package_Source */
+public static final String COLUMNNAME_AD_Package_Source = "AD_Package_Source";
 
 /** AD_Package_Source_Type AD_Reference_ID=50005 */
 public static final int AD_PACKAGE_SOURCE_TYPE_AD_Reference_ID=50005;
@@ -180,6 +188,8 @@ public String getAD_Package_Source_Type()
 {
 return (String)get_Value("AD_Package_Source_Type");
 }
+/** Column name AD_Package_Source_Type */
+public static final String COLUMNNAME_AD_Package_Source_Type = "AD_Package_Source_Type";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -198,4 +208,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

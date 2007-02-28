@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BankStatementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BankStatementLine extends PO
 {
 /** Standard Constructor
@@ -115,6 +115,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Bank statement line.
 @param C_BankStatementLine_ID Line on a statement from this Bank */
 public void setC_BankStatementLine_ID (int C_BankStatementLine_ID)
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("C_BankStatementLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankStatementLine_ID */
+public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
 /** Set Bank Statement.
 @param C_BankStatement_ID Bank Statement of account */
 public void setC_BankStatement_ID (int C_BankStatement_ID)
@@ -145,6 +149,8 @@ Integer ii = (Integer)get_Value("C_BankStatement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BankStatement_ID */
+public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
 /** Set Charge.
 @param C_Charge_ID Additional document charges */
 public void setC_Charge_ID (int C_Charge_ID)
@@ -160,6 +166,8 @@ Integer ii = (Integer)get_Value("C_Charge_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -175,6 +183,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -191,6 +201,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Charge amount.
 @param ChargeAmt Charge Amount */
 public void setChargeAmt (BigDecimal ChargeAmt)
@@ -222,6 +236,8 @@ BigDecimal bd = (BigDecimal)get_Value("ChargeAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ChargeAmt */
+public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
 /** Set Create Payment.
 @param CreatePayment Create Payment */
 public void setCreatePayment (String CreatePayment)
@@ -239,6 +255,8 @@ public String getCreatePayment()
 {
 return (String)get_Value("CreatePayment");
 }
+/** Column name CreatePayment */
+public static final String COLUMNNAME_CreatePayment = "CreatePayment";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -252,6 +270,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -269,6 +289,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set EFT Amount.
 @param EftAmt Electronic Funds Transfer Amount */
 public void setEftAmt (BigDecimal EftAmt)
@@ -283,6 +305,8 @@ BigDecimal bd = (BigDecimal)get_Value("EftAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name EftAmt */
+public static final String COLUMNNAME_EftAmt = "EftAmt";
 /** Set EFT Check No.
 @param EftCheckNo Electronic Funds Transfer Check No */
 public void setEftCheckNo (String EftCheckNo)
@@ -300,6 +324,8 @@ public String getEftCheckNo()
 {
 return (String)get_Value("EftCheckNo");
 }
+/** Column name EftCheckNo */
+public static final String COLUMNNAME_EftCheckNo = "EftCheckNo";
 /** Set EFT Currency.
 @param EftCurrency Electronic Funds Transfer Currency */
 public void setEftCurrency (String EftCurrency)
@@ -317,6 +343,8 @@ public String getEftCurrency()
 {
 return (String)get_Value("EftCurrency");
 }
+/** Column name EftCurrency */
+public static final String COLUMNNAME_EftCurrency = "EftCurrency";
 /** Set EFT Memo.
 @param EftMemo Electronic Funds Transfer Memo */
 public void setEftMemo (String EftMemo)
@@ -334,6 +362,8 @@ public String getEftMemo()
 {
 return (String)get_Value("EftMemo");
 }
+/** Column name EftMemo */
+public static final String COLUMNNAME_EftMemo = "EftMemo";
 /** Set EFT Payee.
 @param EftPayee Electronic Funds Transfer Payee information */
 public void setEftPayee (String EftPayee)
@@ -351,6 +381,8 @@ public String getEftPayee()
 {
 return (String)get_Value("EftPayee");
 }
+/** Column name EftPayee */
+public static final String COLUMNNAME_EftPayee = "EftPayee";
 /** Set EFT Payee Account.
 @param EftPayeeAccount Electronic Funds Transfer Payyee Account Information */
 public void setEftPayeeAccount (String EftPayeeAccount)
@@ -368,6 +400,8 @@ public String getEftPayeeAccount()
 {
 return (String)get_Value("EftPayeeAccount");
 }
+/** Column name EftPayeeAccount */
+public static final String COLUMNNAME_EftPayeeAccount = "EftPayeeAccount";
 /** Set EFT Reference.
 @param EftReference Electronic Funds Transfer Reference */
 public void setEftReference (String EftReference)
@@ -385,6 +419,8 @@ public String getEftReference()
 {
 return (String)get_Value("EftReference");
 }
+/** Column name EftReference */
+public static final String COLUMNNAME_EftReference = "EftReference";
 /** Set EFT Statement Line Date.
 @param EftStatementLineDate Electronic Funds Transfer Statement Line Date */
 public void setEftStatementLineDate (Timestamp EftStatementLineDate)
@@ -397,6 +433,8 @@ public Timestamp getEftStatementLineDate()
 {
 return (Timestamp)get_Value("EftStatementLineDate");
 }
+/** Column name EftStatementLineDate */
+public static final String COLUMNNAME_EftStatementLineDate = "EftStatementLineDate";
 /** Set EFT Trx ID.
 @param EftTrxID Electronic Funds Transfer Transaction ID */
 public void setEftTrxID (String EftTrxID)
@@ -414,6 +452,8 @@ public String getEftTrxID()
 {
 return (String)get_Value("EftTrxID");
 }
+/** Column name EftTrxID */
+public static final String COLUMNNAME_EftTrxID = "EftTrxID";
 /** Set EFT Trx Type.
 @param EftTrxType Electronic Funds Transfer Transaction Type */
 public void setEftTrxType (String EftTrxType)
@@ -431,6 +471,8 @@ public String getEftTrxType()
 {
 return (String)get_Value("EftTrxType");
 }
+/** Column name EftTrxType */
+public static final String COLUMNNAME_EftTrxType = "EftTrxType";
 /** Set EFT Effective Date.
 @param EftValutaDate Electronic Funds Transfer Valuta (effective) Date */
 public void setEftValutaDate (Timestamp EftValutaDate)
@@ -443,6 +485,8 @@ public Timestamp getEftValutaDate()
 {
 return (Timestamp)get_Value("EftValutaDate");
 }
+/** Column name EftValutaDate */
+public static final String COLUMNNAME_EftValutaDate = "EftValutaDate";
 /** Set Interest Amount.
 @param InterestAmt Interest Amount */
 public void setInterestAmt (BigDecimal InterestAmt)
@@ -458,6 +502,8 @@ BigDecimal bd = (BigDecimal)get_Value("InterestAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InterestAmt */
+public static final String COLUMNNAME_InterestAmt = "InterestAmt";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -476,6 +522,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Reversal.
 @param IsReversal This is a reversing transaction */
 public void setIsReversal (boolean IsReversal)
@@ -494,6 +542,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReversal */
+public static final String COLUMNNAME_IsReversal = "IsReversal";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -514,6 +564,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Match Statement.
 @param MatchStatement Match Statement */
 public void setMatchStatement (String MatchStatement)
@@ -531,6 +583,8 @@ public String getMatchStatement()
 {
 return (String)get_Value("MatchStatement");
 }
+/** Column name MatchStatement */
+public static final String COLUMNNAME_MatchStatement = "MatchStatement";
 /** Set Memo.
 @param Memo Memo Text */
 public void setMemo (String Memo)
@@ -548,6 +602,8 @@ public String getMemo()
 {
 return (String)get_Value("Memo");
 }
+/** Column name Memo */
+public static final String COLUMNNAME_Memo = "Memo";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -566,6 +622,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Reference No.
 @param ReferenceNo Your customer or vendor number at the Business Partner's site */
 public void setReferenceNo (String ReferenceNo)
@@ -583,6 +641,8 @@ public String getReferenceNo()
 {
 return (String)get_Value("ReferenceNo");
 }
+/** Column name ReferenceNo */
+public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
 /** Set Statement Line Date.
 @param StatementLineDate Date of the Statement Line */
 public void setStatementLineDate (Timestamp StatementLineDate)
@@ -596,6 +656,8 @@ public Timestamp getStatementLineDate()
 {
 return (Timestamp)get_Value("StatementLineDate");
 }
+/** Column name StatementLineDate */
+public static final String COLUMNNAME_StatementLineDate = "StatementLineDate";
 /** Set Statement amount.
 @param StmtAmt Statement Amount */
 public void setStmtAmt (BigDecimal StmtAmt)
@@ -611,6 +673,8 @@ BigDecimal bd = (BigDecimal)get_Value("StmtAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name StmtAmt */
+public static final String COLUMNNAME_StmtAmt = "StmtAmt";
 /** Set Transaction Amount.
 @param TrxAmt Amount of a transaction */
 public void setTrxAmt (BigDecimal TrxAmt)
@@ -626,6 +690,8 @@ BigDecimal bd = (BigDecimal)get_Value("TrxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TrxAmt */
+public static final String COLUMNNAME_TrxAmt = "TrxAmt";
 /** Set Effective date.
 @param ValutaDate Date when money is available */
 public void setValutaDate (Timestamp ValutaDate)
@@ -639,4 +705,6 @@ public Timestamp getValutaDate()
 {
 return (Timestamp)get_Value("ValutaDate");
 }
+/** Column name ValutaDate */
+public static final String COLUMNNAME_ValutaDate = "ValutaDate";
 }

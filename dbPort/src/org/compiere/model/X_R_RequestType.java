@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_RequestType extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AutoDueDateDays");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AutoDueDateDays */
+public static final String COLUMNNAME_AutoDueDateDays = "AutoDueDateDays";
 
 /** ConfidentialType AD_Reference_ID=340 */
 public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
@@ -141,6 +143,8 @@ public String getConfidentialType()
 {
 return (String)get_Value("ConfidentialType");
 }
+/** Column name ConfidentialType */
+public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -158,6 +162,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Due Date Tolerance.
 @param DueDateTolerance Tolerance in days between the Date Next Action and the date the request is regarded as overdue */
 public void setDueDateTolerance (int DueDateTolerance)
@@ -172,6 +178,8 @@ Integer ii = (Integer)get_Value("DueDateTolerance");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name DueDateTolerance */
+public static final String COLUMNNAME_DueDateTolerance = "DueDateTolerance";
 /** Set Create Change Request.
 @param IsAutoChangeRequest Automatically create BOM (Engineering) Change Request */
 public void setIsAutoChangeRequest (boolean IsAutoChangeRequest)
@@ -190,6 +198,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAutoChangeRequest */
+public static final String COLUMNNAME_IsAutoChangeRequest = "IsAutoChangeRequest";
 /** Set Confidential Info.
 @param IsConfidentialInfo Can enter confidential information */
 public void setIsConfidentialInfo (boolean IsConfidentialInfo)
@@ -208,6 +218,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsConfidentialInfo */
+public static final String COLUMNNAME_IsConfidentialInfo = "IsConfidentialInfo";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -226,6 +238,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set EMail when Due.
 @param IsEMailWhenDue Send EMail when Request becomes due */
 public void setIsEMailWhenDue (boolean IsEMailWhenDue)
@@ -244,6 +258,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEMailWhenDue */
+public static final String COLUMNNAME_IsEMailWhenDue = "IsEMailWhenDue";
 /** Set EMail when Overdue.
 @param IsEMailWhenOverdue Send EMail when Request becomes overdue */
 public void setIsEMailWhenOverdue (boolean IsEMailWhenOverdue)
@@ -262,6 +278,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsEMailWhenOverdue */
+public static final String COLUMNNAME_IsEMailWhenOverdue = "IsEMailWhenOverdue";
 /** Set Indexed.
 @param IsIndexed Index the document for the internal search engine */
 public void setIsIndexed (boolean IsIndexed)
@@ -280,6 +298,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsIndexed */
+public static final String COLUMNNAME_IsIndexed = "IsIndexed";
 /** Set Invoiced.
 @param IsInvoiced Is this invoiced? */
 public void setIsInvoiced (boolean IsInvoiced)
@@ -298,6 +318,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInvoiced */
+public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -316,6 +338,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -340,6 +364,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Request Type.
 @param R_RequestType_ID Type of request (e.g. Inquiry, Complaint, ..) */
 public void setR_RequestType_ID (int R_RequestType_ID)
@@ -355,6 +381,8 @@ Integer ii = (Integer)get_Value("R_RequestType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_RequestType_ID */
+public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 /** Set Status Category.
 @param R_StatusCategory_ID Request Status Category */
 public void setR_StatusCategory_ID (int R_StatusCategory_ID)
@@ -370,4 +398,6 @@ Integer ii = (Integer)get_Value("R_StatusCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_StatusCategory_ID */
+public static final String COLUMNNAME_R_StatusCategory_ID = "R_StatusCategory_ID";
 }

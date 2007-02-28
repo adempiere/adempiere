@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CommissionLine extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtMultiplier");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtMultiplier */
+public static final String COLUMNNAME_AmtMultiplier = "AmtMultiplier";
 /** Set Subtract Amount.
 @param AmtSubtract Subtract Amount for generating commissions */
 public void setAmtSubtract (BigDecimal AmtSubtract)
@@ -123,6 +125,8 @@ BigDecimal bd = (BigDecimal)get_Value("AmtSubtract");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name AmtSubtract */
+public static final String COLUMNNAME_AmtSubtract = "AmtSubtract";
 /** Set Business Partner Group.
 @param C_BP_Group_ID Business Partner Group */
 public void setC_BP_Group_ID (int C_BP_Group_ID)
@@ -139,6 +143,8 @@ Integer ii = (Integer)get_Value("C_BP_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BP_Group_ID */
+public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Commission Line.
 @param C_CommissionLine_ID Commission Line */
 public void setC_CommissionLine_ID (int C_CommissionLine_ID)
@@ -170,6 +178,8 @@ Integer ii = (Integer)get_Value("C_CommissionLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionLine_ID */
+public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
 /** Set Commission.
 @param C_Commission_ID Commission */
 public void setC_Commission_ID (int C_Commission_ID)
@@ -191,6 +201,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Commission_ID()));
 }
+/** Column name C_Commission_ID */
+public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 /** Set Sales Region.
 @param C_SalesRegion_ID Sales coverage region */
 public void setC_SalesRegion_ID (int C_SalesRegion_ID)
@@ -207,6 +219,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Commission only specified Orders.
 @param CommissionOrders Commission only Orders or Invoices, where this Sales Rep is entered */
 public void setCommissionOrders (boolean CommissionOrders)
@@ -225,6 +239,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name CommissionOrders */
+public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -242,6 +258,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Positive only.
 @param IsPositiveOnly Do not generate negative commissions */
 public void setIsPositiveOnly (boolean IsPositiveOnly)
@@ -260,6 +278,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPositiveOnly */
+public static final String COLUMNNAME_IsPositiveOnly = "IsPositiveOnly";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -274,6 +294,8 @@ Integer ii = (Integer)get_Value("Line");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -290,6 +312,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -306,6 +330,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** Org_ID AD_Reference_ID=130 */
 public static final int ORG_ID_AD_Reference_ID=130;
@@ -325,6 +351,8 @@ Integer ii = (Integer)get_Value("Org_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Org_ID */
+public static final String COLUMNNAME_Org_ID = "Org_ID";
 /** Set Multiplier Quantity.
 @param QtyMultiplier Value to multiply quantities by for generating commissions. */
 public void setQtyMultiplier (BigDecimal QtyMultiplier)
@@ -340,6 +368,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyMultiplier");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyMultiplier */
+public static final String COLUMNNAME_QtyMultiplier = "QtyMultiplier";
 /** Set Subtract Quantity.
 @param QtySubtract Quantity to subtract when generating commissions */
 public void setQtySubtract (BigDecimal QtySubtract)
@@ -355,4 +385,6 @@ BigDecimal bd = (BigDecimal)get_Value("QtySubtract");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtySubtract */
+public static final String COLUMNNAME_QtySubtract = "QtySubtract";
 }

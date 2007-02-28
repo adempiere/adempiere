@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ProductOperation
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_ProductOperation extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -121,6 +123,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Product Operation.
 @param M_ProductOperation_ID Product Manufacturing Operation */
 public void setM_ProductOperation_ID (int M_ProductOperation_ID)
@@ -136,6 +140,8 @@ Integer ii = (Integer)get_Value("M_ProductOperation_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductOperation_ID */
+public static final String COLUMNNAME_M_ProductOperation_ID = "M_ProductOperation_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -151,6 +157,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -175,6 +183,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Setup Time.
 @param SetupTime Setup time before starting Production */
 public void setSetupTime (BigDecimal SetupTime)
@@ -189,6 +199,8 @@ BigDecimal bd = (BigDecimal)get_Value("SetupTime");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name SetupTime */
+public static final String COLUMNNAME_SetupTime = "SetupTime";
 /** Set Teardown Time.
 @param TeardownTime Time at the end of the operation */
 public void setTeardownTime (BigDecimal TeardownTime)
@@ -203,6 +215,8 @@ BigDecimal bd = (BigDecimal)get_Value("TeardownTime");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TeardownTime */
+public static final String COLUMNNAME_TeardownTime = "TeardownTime";
 /** Set Runtime per Unit.
 @param UnitRuntime Time to produce one unit */
 public void setUnitRuntime (BigDecimal UnitRuntime)
@@ -217,4 +231,6 @@ BigDecimal bd = (BigDecimal)get_Value("UnitRuntime");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name UnitRuntime */
+public static final String COLUMNNAME_UnitRuntime = "UnitRuntime";
 }

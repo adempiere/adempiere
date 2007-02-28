@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectPhase
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ProjectPhase extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Standard Phase.
 @param C_Phase_ID Standard Phase of the Project Type */
 public void setC_Phase_ID (int C_Phase_ID)
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("C_Phase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Phase_ID */
+public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
 /** Set Project Phase.
 @param C_ProjectPhase_ID Phase of a Project */
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
@@ -140,6 +144,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -155,6 +161,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Committed Amount.
 @param CommittedAmt The (legal) commitment amount */
 public void setCommittedAmt (BigDecimal CommittedAmt)
@@ -170,6 +178,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommittedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommittedAmt */
+public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -187,6 +197,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set End Date.
 @param EndDate Last effective date (inclusive) */
 public void setEndDate (Timestamp EndDate)
@@ -199,6 +211,8 @@ public Timestamp getEndDate()
 {
 return (Timestamp)get_Value("EndDate");
 }
+/** Column name EndDate */
+public static final String COLUMNNAME_EndDate = "EndDate";
 /** Set Generate Order.
 @param GenerateOrder Generate Order */
 public void setGenerateOrder (String GenerateOrder)
@@ -216,6 +230,8 @@ public String getGenerateOrder()
 {
 return (String)get_Value("GenerateOrder");
 }
+/** Column name GenerateOrder */
+public static final String COLUMNNAME_GenerateOrder = "GenerateOrder";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -233,6 +249,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Commitment is Ceiling.
 @param IsCommitCeiling The commitment amount/quantity is the chargeable ceiling  */
 public void setIsCommitCeiling (boolean IsCommitCeiling)
@@ -251,6 +269,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsCommitCeiling */
+public static final String COLUMNNAME_IsCommitCeiling = "IsCommitCeiling";
 /** Set Complete.
 @param IsComplete It is complete */
 public void setIsComplete (boolean IsComplete)
@@ -269,6 +289,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsComplete */
+public static final String COLUMNNAME_IsComplete = "IsComplete";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -285,6 +307,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -303,6 +327,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Planned Amount.
 @param PlannedAmt Planned amount for this project */
 public void setPlannedAmt (BigDecimal PlannedAmt)
@@ -318,6 +344,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedAmt */
+public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 /** Set Unit Price.
 @param PriceActual Actual Price  */
 public void setPriceActual (BigDecimal PriceActual)
@@ -332,6 +360,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceActual */
+public static final String COLUMNNAME_PriceActual = "PriceActual";
 
 /** ProjInvoiceRule AD_Reference_ID=383 */
 public static final int PROJINVOICERULE_AD_Reference_ID=383;
@@ -365,6 +395,8 @@ public String getProjInvoiceRule()
 {
 return (String)get_Value("ProjInvoiceRule");
 }
+/** Column name ProjInvoiceRule */
+public static final String COLUMNNAME_ProjInvoiceRule = "ProjInvoiceRule";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -379,6 +411,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -401,6 +435,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Start Date.
 @param StartDate First effective day (inclusive) */
 public void setStartDate (Timestamp StartDate)
@@ -413,4 +449,6 @@ public Timestamp getStartDate()
 {
 return (Timestamp)get_Value("StartDate");
 }
+/** Column name StartDate */
+public static final String COLUMNNAME_StartDate = "StartDate";
 }

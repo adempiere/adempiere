@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_ProductPrice
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_ProductPrice extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("M_PriceList_Version_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_Version_ID */
+public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Limit Price.
 @param PriceLimit Lowest price for a product */
 public void setPriceLimit (BigDecimal PriceLimit)
@@ -134,6 +138,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceLimit");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceLimit */
+public static final String COLUMNNAME_PriceLimit = "PriceLimit";
 /** Set List Price.
 @param PriceList List Price */
 public void setPriceList (BigDecimal PriceList)
@@ -149,6 +155,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceList");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceList */
+public static final String COLUMNNAME_PriceList = "PriceList";
 /** Set Standard Price.
 @param PriceStd Standard Price */
 public void setPriceStd (BigDecimal PriceStd)
@@ -164,4 +172,6 @@ BigDecimal bd = (BigDecimal)get_Value("PriceStd");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceStd */
+public static final String COLUMNNAME_PriceStd = "PriceStd";
 }

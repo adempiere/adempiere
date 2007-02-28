@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_Product_Category extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_PrintColor_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintColor_ID */
+public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 /** Set Asset Group.
 @param A_Asset_Group_ID Group of Assets */
 public void setA_Asset_Group_ID (int A_Asset_Group_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("A_Asset_Group_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name A_Asset_Group_ID */
+public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -140,6 +144,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -158,6 +164,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Self-Service.
 @param IsSelfService This is a Self-Service entry or this entry can be changed via Self-Service */
 public void setIsSelfService (boolean IsSelfService)
@@ -176,6 +184,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSelfService */
+public static final String COLUMNNAME_IsSelfService = "IsSelfService";
 
 /** MMPolicy AD_Reference_ID=335 */
 public static final int MMPOLICY_AD_Reference_ID=335;
@@ -203,6 +213,8 @@ public String getMMPolicy()
 {
 return (String)get_Value("MMPolicy");
 }
+/** Column name MMPolicy */
+public static final String COLUMNNAME_MMPolicy = "MMPolicy";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -218,6 +230,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -242,6 +256,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Planned Margin %.
 @param PlannedMargin Project's planned margin as a percentage */
 public void setPlannedMargin (BigDecimal PlannedMargin)
@@ -257,6 +273,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedMargin");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedMargin */
+public static final String COLUMNNAME_PlannedMargin = "PlannedMargin";
 /** Set Search Key.
 @param Value Search key for the record in the format required - must be unique */
 public void setValue (String Value)
@@ -275,4 +293,6 @@ public String getValue()
 {
 return (String)get_Value("Value");
 }
+/** Column name Value */
+public static final String COLUMNNAME_Value = "Value";
 }

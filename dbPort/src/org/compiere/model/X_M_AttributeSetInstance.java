@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_AttributeSetInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_M_AttributeSetInstance extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Guarantee Date.
 @param GuaranteeDate Date when guarantee expires */
 public void setGuaranteeDate (Timestamp GuaranteeDate)
@@ -115,6 +117,8 @@ public Timestamp getGuaranteeDate()
 {
 return (Timestamp)get_Value("GuaranteeDate");
 }
+/** Column name GuaranteeDate */
+public static final String COLUMNNAME_GuaranteeDate = "GuaranteeDate";
 /** Set Lot No.
 @param Lot Lot number (alphanumeric) */
 public void setLot (String Lot)
@@ -132,6 +136,8 @@ public String getLot()
 {
 return (String)get_Value("Lot");
 }
+/** Column name Lot */
+public static final String COLUMNNAME_Lot = "Lot";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -153,6 +159,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Attribute Set.
 @param M_AttributeSet_ID Product Attribute Set */
 public void setM_AttributeSet_ID (int M_AttributeSet_ID)
@@ -168,6 +176,8 @@ Integer ii = (Integer)get_Value("M_AttributeSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSet_ID */
+public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 /** Set Lot.
 @param M_Lot_ID Product Lot Definition */
 public void setM_Lot_ID (int M_Lot_ID)
@@ -184,6 +194,8 @@ Integer ii = (Integer)get_Value("M_Lot_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Lot_ID */
+public static final String COLUMNNAME_M_Lot_ID = "M_Lot_ID";
 /** Set Serial No.
 @param SerNo Product Serial Number  */
 public void setSerNo (String SerNo)
@@ -201,4 +213,6 @@ public String getSerNo()
 {
 return (String)get_Value("SerNo");
 }
+/** Column name SerNo */
+public static final String COLUMNNAME_SerNo = "SerNo";
 }

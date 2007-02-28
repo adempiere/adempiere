@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_SLA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_SLA_Goal extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -118,6 +120,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -152,6 +158,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Measure Actual.
 @param MeasureActual Actual value that has been measured. */
 public void setMeasureActual (BigDecimal MeasureActual)
@@ -167,6 +175,8 @@ BigDecimal bd = (BigDecimal)get_Value("MeasureActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MeasureActual */
+public static final String COLUMNNAME_MeasureActual = "MeasureActual";
 /** Set Measure Target.
 @param MeasureTarget Target value for measure */
 public void setMeasureTarget (BigDecimal MeasureTarget)
@@ -182,6 +192,8 @@ BigDecimal bd = (BigDecimal)get_Value("MeasureTarget");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MeasureTarget */
+public static final String COLUMNNAME_MeasureTarget = "MeasureTarget";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -206,6 +218,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set SLA Criteria.
 @param PA_SLA_Criteria_ID Service Level Agreement Criteria */
 public void setPA_SLA_Criteria_ID (int PA_SLA_Criteria_ID)
@@ -221,6 +235,8 @@ Integer ii = (Integer)get_Value("PA_SLA_Criteria_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_SLA_Criteria_ID */
+public static final String COLUMNNAME_PA_SLA_Criteria_ID = "PA_SLA_Criteria_ID";
 /** Set SLA Goal.
 @param PA_SLA_Goal_ID Service Level Agreement Goal */
 public void setPA_SLA_Goal_ID (int PA_SLA_Goal_ID)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("PA_SLA_Goal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_SLA_Goal_ID */
+public static final String COLUMNNAME_PA_SLA_Goal_ID = "PA_SLA_Goal_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -254,6 +272,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -272,6 +292,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Valid from.
 @param ValidFrom Valid from including this date (first day) */
 public void setValidFrom (Timestamp ValidFrom)
@@ -284,6 +306,8 @@ public Timestamp getValidFrom()
 {
 return (Timestamp)get_Value("ValidFrom");
 }
+/** Column name ValidFrom */
+public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 /** Set Valid to.
 @param ValidTo Valid to including this date (last day) */
 public void setValidTo (Timestamp ValidTo)
@@ -296,4 +320,6 @@ public Timestamp getValidTo()
 {
 return (Timestamp)get_Value("ValidTo");
 }
+/** Column name ValidTo */
+public static final String COLUMNNAME_ValidTo = "ValidTo";
 }

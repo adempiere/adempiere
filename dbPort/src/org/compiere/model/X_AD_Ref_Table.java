@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Ref_Table extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_Display");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Display */
+public static final String COLUMNNAME_AD_Display = "AD_Display";
 
 /** AD_Key AD_Reference_ID=3 */
 public static final int AD_KEY_AD_Reference_ID=3;
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("AD_Key");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Key */
+public static final String COLUMNNAME_AD_Key = "AD_Key";
 /** Set Reference.
 @param AD_Reference_ID System Reference and Validation */
 public void setAD_Reference_ID (int AD_Reference_ID)
@@ -145,6 +149,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_Reference_ID()));
 }
+/** Column name AD_Reference_ID */
+public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -160,6 +166,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -182,6 +190,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Display Value.
 @param IsValueDisplayed Displays Value column with the Display column */
 public void setIsValueDisplayed (boolean IsValueDisplayed)
@@ -200,6 +210,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsValueDisplayed */
+public static final String COLUMNNAME_IsValueDisplayed = "IsValueDisplayed";
 /** Set Sql ORDER BY.
 @param OrderByClause Fully qualified ORDER BY clause */
 public void setOrderByClause (String OrderByClause)
@@ -217,6 +229,8 @@ public String getOrderByClause()
 {
 return (String)get_Value("OrderByClause");
 }
+/** Column name OrderByClause */
+public static final String COLUMNNAME_OrderByClause = "OrderByClause";
 /** Set Sql WHERE.
 @param WhereClause Fully qualified SQL WHERE clause */
 public void setWhereClause (String WhereClause)
@@ -234,4 +248,6 @@ public String getWhereClause()
 {
 return (String)get_Value("WhereClause");
 }
+/** Column name WhereClause */
+public static final String COLUMNNAME_WhereClause = "WhereClause";
 }

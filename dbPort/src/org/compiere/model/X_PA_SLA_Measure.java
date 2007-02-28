@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_SLA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_SLA_Measure extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Transaction Date.
 @param DateTrx Transaction Date */
 public void setDateTrx (Timestamp DateTrx)
@@ -124,6 +126,8 @@ return (Timestamp)get_Value("DateTrx");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getDateTrx()));
 }
+/** Column name DateTrx */
+public static final String COLUMNNAME_DateTrx = "DateTrx";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -141,6 +145,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Measure Actual.
 @param MeasureActual Actual value that has been measured. */
 public void setMeasureActual (BigDecimal MeasureActual)
@@ -156,6 +162,8 @@ BigDecimal bd = (BigDecimal)get_Value("MeasureActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MeasureActual */
+public static final String COLUMNNAME_MeasureActual = "MeasureActual";
 /** Set SLA Goal.
 @param PA_SLA_Goal_ID Service Level Agreement Goal */
 public void setPA_SLA_Goal_ID (int PA_SLA_Goal_ID)
@@ -171,6 +179,8 @@ Integer ii = (Integer)get_Value("PA_SLA_Goal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_SLA_Goal_ID */
+public static final String COLUMNNAME_PA_SLA_Goal_ID = "PA_SLA_Goal_ID";
 /** Set SLA Measure.
 @param PA_SLA_Measure_ID Service Level Agreement Measure */
 public void setPA_SLA_Measure_ID (int PA_SLA_Measure_ID)
@@ -186,6 +196,8 @@ Integer ii = (Integer)get_Value("PA_SLA_Measure_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_SLA_Measure_ID */
+public static final String COLUMNNAME_PA_SLA_Measure_ID = "PA_SLA_Measure_ID";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -204,6 +216,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -222,6 +236,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -238,4 +254,6 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 }

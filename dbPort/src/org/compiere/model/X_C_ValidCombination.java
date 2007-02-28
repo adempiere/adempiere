@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ValidCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ValidCombination extends PO
 {
 /** Standard Constructor
@@ -107,6 +107,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
 /** Account_ID AD_Reference_ID=362 */
 public static final int ACCOUNT_ID_AD_Reference_ID=362;
@@ -125,6 +127,8 @@ Integer ii = (Integer)get_Value("Account_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Account_ID */
+public static final String COLUMNNAME_Account_ID = "Account_ID";
 /** Set Alias.
 @param Alias Defines an alternate method of indicating an account combination. */
 public void setAlias (String Alias)
@@ -142,6 +146,8 @@ public String getAlias()
 {
 return (String)get_Value("Alias");
 }
+/** Column name Alias */
+public static final String COLUMNNAME_Alias = "Alias";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
 /** C_Activity_ID AD_Reference_ID=142 */
 public static final int C_ACTIVITY_ID_AD_Reference_ID=142;
@@ -176,6 +184,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
 /** C_BPartner_ID AD_Reference_ID=138 */
 public static final int C_BPARTNER_ID_AD_Reference_ID=138;
@@ -195,6 +205,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
 /** C_Campaign_ID AD_Reference_ID=143 */
 public static final int C_CAMPAIGN_ID_AD_Reference_ID=143;
@@ -214,6 +226,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
 /** C_LocFrom_ID AD_Reference_ID=133 */
 public static final int C_LOCFROM_ID_AD_Reference_ID=133;
@@ -233,6 +247,8 @@ Integer ii = (Integer)get_Value("C_LocFrom_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocFrom_ID */
+public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
 /** C_LocTo_ID AD_Reference_ID=133 */
 public static final int C_LOCTO_ID_AD_Reference_ID=133;
@@ -252,6 +268,8 @@ Integer ii = (Integer)get_Value("C_LocTo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LocTo_ID */
+public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 
 /** C_Project_ID AD_Reference_ID=141 */
 public static final int C_PROJECT_ID_AD_Reference_ID=141;
@@ -271,6 +289,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
 /** C_SalesRegion_ID AD_Reference_ID=144 */
 public static final int C_SALESREGION_ID_AD_Reference_ID=144;
@@ -290,6 +310,8 @@ Integer ii = (Integer)get_Value("C_SalesRegion_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SalesRegion_ID */
+public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 /** Set Sub Account.
 @param C_SubAcct_ID Sub account for Element Value */
 public void setC_SubAcct_ID (int C_SubAcct_ID)
@@ -306,6 +328,8 @@ Integer ii = (Integer)get_Value("C_SubAcct_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_SubAcct_ID */
+public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
 /** Set Combination.
 @param C_ValidCombination_ID Valid Account Combination */
 public void setC_ValidCombination_ID (int C_ValidCombination_ID)
@@ -321,6 +345,8 @@ Integer ii = (Integer)get_Value("C_ValidCombination_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ValidCombination_ID */
+public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
 /** Set Combination.
 @param Combination Unique combination of account elements */
 public void setCombination (String Combination)
@@ -344,6 +370,8 @@ return (String)get_Value("Combination");
 {
 return new KeyNamePair(get_ID(), getCombination());
 }
+/** Column name Combination */
+public static final String COLUMNNAME_Combination = "Combination";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -361,6 +389,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Fully Qualified.
 @param IsFullyQualified This account is fully qualified */
 public void setIsFullyQualified (boolean IsFullyQualified)
@@ -379,6 +409,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsFullyQualified */
+public static final String COLUMNNAME_IsFullyQualified = "IsFullyQualified";
 
 /** M_Product_ID AD_Reference_ID=162 */
 public static final int M_PRODUCT_ID_AD_Reference_ID=162;
@@ -398,6 +430,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
 /** User1_ID AD_Reference_ID=134 */
 public static final int USER1_ID_AD_Reference_ID=134;
@@ -417,6 +451,8 @@ Integer ii = (Integer)get_Value("User1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User1_ID */
+public static final String COLUMNNAME_User1_ID = "User1_ID";
 
 /** User2_ID AD_Reference_ID=137 */
 public static final int USER2_ID_AD_Reference_ID=137;
@@ -436,6 +472,8 @@ Integer ii = (Integer)get_Value("User2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name User2_ID */
+public static final String COLUMNNAME_User2_ID = "User2_ID";
 /** Set User Element 1.
 @param UserElement1_ID User defined accounting Element */
 public void setUserElement1_ID (int UserElement1_ID)
@@ -452,6 +490,8 @@ Integer ii = (Integer)get_Value("UserElement1_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UserElement1_ID */
+public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
 /** Set User Element 2.
 @param UserElement2_ID User defined accounting Element */
 public void setUserElement2_ID (int UserElement2_ID)
@@ -468,4 +508,6 @@ Integer ii = (Integer)get_Value("UserElement2_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name UserElement2_ID */
+public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
 }

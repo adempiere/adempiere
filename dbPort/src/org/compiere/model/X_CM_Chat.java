@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Chat
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_CM_Chat extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Chat Type.
 @param CM_ChatType_ID Type of discussion / chat */
 public void setCM_ChatType_ID (int CM_ChatType_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("CM_ChatType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_ChatType_ID */
+public static final String COLUMNNAME_CM_ChatType_ID = "CM_ChatType_ID";
 /** Set Chat.
 @param CM_Chat_ID Chat or discussion thread */
 public void setCM_Chat_ID (int CM_Chat_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("CM_Chat_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name CM_Chat_ID */
+public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
 
 /** ConfidentialType AD_Reference_ID=340 */
 public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
@@ -166,6 +172,8 @@ public String getConfidentialType()
 {
 return (String)get_Value("ConfidentialType");
 }
+/** Column name ConfidentialType */
+public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -190,6 +198,8 @@ return (String)get_Value("Description");
 {
 return new KeyNamePair(get_ID(), getDescription());
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** ModerationType AD_Reference_ID=395 */
 public static final int MODERATIONTYPE_AD_Reference_ID=395;
@@ -218,6 +228,8 @@ public String getModerationType()
 {
 return (String)get_Value("ModerationType");
 }
+/** Column name ModerationType */
+public static final String COLUMNNAME_ModerationType = "ModerationType";
 /** Set Record ID.
 @param Record_ID Direct internal record ID */
 public void setRecord_ID (int Record_ID)
@@ -233,4 +245,6 @@ Integer ii = (Integer)get_Value("Record_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Record_ID */
+public static final String COLUMNNAME_Record_ID = "Record_ID";
 }

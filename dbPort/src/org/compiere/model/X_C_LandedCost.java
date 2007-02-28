@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_LandedCost extends PO
 {
 /** Standard Constructor
@@ -109,6 +109,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_InvoiceLine_ID()));
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Landed Cost.
 @param C_LandedCost_ID Landed cost to be allocated to material receipts */
 public void setC_LandedCost_ID (int C_LandedCost_ID)
@@ -124,6 +126,8 @@ Integer ii = (Integer)get_Value("C_LandedCost_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LandedCost_ID */
+public static final String COLUMNNAME_C_LandedCost_ID = "C_LandedCost_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -141,6 +145,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** LandedCostDistribution AD_Reference_ID=339 */
 public static final int LANDEDCOSTDISTRIBUTION_AD_Reference_ID=339;
@@ -174,6 +180,8 @@ public String getLandedCostDistribution()
 {
 return (String)get_Value("LandedCostDistribution");
 }
+/** Column name LandedCostDistribution */
+public static final String COLUMNNAME_LandedCostDistribution = "LandedCostDistribution";
 /** Set Cost Element.
 @param M_CostElement_ID Product Cost Element */
 public void setM_CostElement_ID (int M_CostElement_ID)
@@ -189,6 +197,8 @@ Integer ii = (Integer)get_Value("M_CostElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostElement_ID */
+public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
@@ -205,6 +215,8 @@ Integer ii = (Integer)get_Value("M_InOutLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOutLine_ID */
+public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 /** Set Shipment/Receipt.
 @param M_InOut_ID Material Shipment Document */
 public void setM_InOut_ID (int M_InOut_ID)
@@ -221,6 +233,8 @@ Integer ii = (Integer)get_Value("M_InOut_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_InOut_ID */
+public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -237,6 +251,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -255,4 +271,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 }

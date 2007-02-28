@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_NonBusinessDay
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_NonBusinessDay extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("C_Calendar_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Calendar_ID */
+public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
 /** Set Non Business Day.
 @param C_NonBusinessDay_ID Day on which business is not transacted */
 public void setC_NonBusinessDay_ID (int C_NonBusinessDay_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("C_NonBusinessDay_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_NonBusinessDay_ID */
+public static final String COLUMNNAME_C_NonBusinessDay_ID = "C_NonBusinessDay_ID";
 /** Set Date.
 @param Date1 Date when business is not conducted */
 public void setDate1 (Timestamp Date1)
@@ -130,6 +134,8 @@ public Timestamp getDate1()
 {
 return (Timestamp)get_Value("Date1");
 }
+/** Column name Date1 */
+public static final String COLUMNNAME_Date1 = "Date1";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -153,4 +159,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

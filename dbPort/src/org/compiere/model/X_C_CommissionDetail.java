@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_CommissionDetail extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ BigDecimal bd = (BigDecimal)get_Value("ActualAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ActualAmt */
+public static final String COLUMNNAME_ActualAmt = "ActualAmt";
 /** Set Actual Quantity.
 @param ActualQty The actual quantity */
 public void setActualQty (BigDecimal ActualQty)
@@ -120,6 +122,8 @@ BigDecimal bd = (BigDecimal)get_Value("ActualQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ActualQty */
+public static final String COLUMNNAME_ActualQty = "ActualQty";
 /** Set Commission Amount.
 @param C_CommissionAmt_ID Generated Commission Amount  */
 public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("C_CommissionAmt_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionAmt_ID */
+public static final String COLUMNNAME_C_CommissionAmt_ID = "C_CommissionAmt_ID";
 /** Set Commission Detail.
 @param C_CommissionDetail_ID Supporting information for Commission Amounts */
 public void setC_CommissionDetail_ID (int C_CommissionDetail_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("C_CommissionDetail_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CommissionDetail_ID */
+public static final String COLUMNNAME_C_CommissionDetail_ID = "C_CommissionDetail_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -165,6 +173,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -181,6 +191,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Sales Order Line.
 @param C_OrderLine_ID Sales Order Line */
 public void setC_OrderLine_ID (int C_OrderLine_ID)
@@ -197,6 +209,8 @@ Integer ii = (Integer)get_Value("C_OrderLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderLine_ID */
+public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 /** Set Converted Amount.
 @param ConvertedAmt Converted Amount */
 public void setConvertedAmt (BigDecimal ConvertedAmt)
@@ -212,6 +226,8 @@ BigDecimal bd = (BigDecimal)get_Value("ConvertedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ConvertedAmt */
+public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 /** Set Info.
 @param Info Information */
 public void setInfo (String Info)
@@ -229,6 +245,8 @@ public String getInfo()
 {
 return (String)get_Value("Info");
 }
+/** Column name Info */
+public static final String COLUMNNAME_Info = "Info";
 /** Set Reference.
 @param Reference Reference for this record */
 public void setReference (String Reference)
@@ -252,4 +270,6 @@ return (String)get_Value("Reference");
 {
 return new KeyNamePair(get_ID(), getReference());
 }
+/** Column name Reference */
+public static final String COLUMNNAME_Reference = "Reference";
 }

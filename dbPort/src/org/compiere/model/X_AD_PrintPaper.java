@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintPaper
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PrintPaper extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ Integer ii = (Integer)get_Value("AD_PrintPaper_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PrintPaper_ID */
+public static final String COLUMNNAME_AD_PrintPaper_ID = "AD_PrintPaper_ID";
 /** Set Validation code.
 @param Code Validation Code */
 public void setCode (String Code)
@@ -126,6 +128,8 @@ public String getCode()
 {
 return (String)get_Value("Code");
 }
+/** Column name Code */
+public static final String COLUMNNAME_Code = "Code";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -143,6 +147,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DimensionUnits AD_Reference_ID=375 */
 public static final int DIMENSIONUNITS_AD_Reference_ID=375;
@@ -169,6 +175,8 @@ public String getDimensionUnits()
 {
 return (String)get_Value("DimensionUnits");
 }
+/** Column name DimensionUnits */
+public static final String COLUMNNAME_DimensionUnits = "DimensionUnits";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -187,6 +195,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Landscape.
 @param IsLandscape Landscape orientation */
 public void setIsLandscape (boolean IsLandscape)
@@ -205,6 +215,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsLandscape */
+public static final String COLUMNNAME_IsLandscape = "IsLandscape";
 /** Set Bottom Margin.
 @param MarginBottom Bottom Space in 1/72 inch */
 public void setMarginBottom (int MarginBottom)
@@ -219,6 +231,8 @@ Integer ii = (Integer)get_Value("MarginBottom");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MarginBottom */
+public static final String COLUMNNAME_MarginBottom = "MarginBottom";
 /** Set Left Margin.
 @param MarginLeft Left Space in 1/72 inch */
 public void setMarginLeft (int MarginLeft)
@@ -233,6 +247,8 @@ Integer ii = (Integer)get_Value("MarginLeft");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MarginLeft */
+public static final String COLUMNNAME_MarginLeft = "MarginLeft";
 /** Set Right Margin.
 @param MarginRight Right Space in 1/72 inch */
 public void setMarginRight (int MarginRight)
@@ -247,6 +263,8 @@ Integer ii = (Integer)get_Value("MarginRight");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MarginRight */
+public static final String COLUMNNAME_MarginRight = "MarginRight";
 /** Set Top Margin.
 @param MarginTop Top Space in 1/72 inch */
 public void setMarginTop (int MarginTop)
@@ -261,6 +279,8 @@ Integer ii = (Integer)get_Value("MarginTop");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name MarginTop */
+public static final String COLUMNNAME_MarginTop = "MarginTop";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -285,6 +305,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -303,6 +325,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Size X.
 @param SizeX X (horizontal) dimension size */
 public void setSizeX (BigDecimal SizeX)
@@ -317,6 +341,8 @@ BigDecimal bd = (BigDecimal)get_Value("SizeX");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name SizeX */
+public static final String COLUMNNAME_SizeX = "SizeX";
 /** Set Size Y.
 @param SizeY Y (vertical) dimension size */
 public void setSizeY (BigDecimal SizeY)
@@ -331,4 +357,6 @@ BigDecimal bd = (BigDecimal)get_Value("SizeY");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name SizeY */
+public static final String COLUMNNAME_SizeY = "SizeY";
 }

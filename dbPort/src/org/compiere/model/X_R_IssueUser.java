@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueUser
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_IssueUser extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -119,6 +121,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set IssueUser.
 @param R_IssueUser_ID User who reported issues */
 public void setR_IssueUser_ID (int R_IssueUser_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("R_IssueUser_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_IssueUser_ID */
+public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
 /** Set Registered EMail.
 @param UserName Email of the responsible for the System */
 public void setUserName (String UserName)
@@ -158,4 +164,6 @@ return (String)get_Value("UserName");
 {
 return new KeyNamePair(get_ID(), getUserName());
 }
+/** Column name UserName */
+public static final String COLUMNNAME_UserName = "UserName";
 }

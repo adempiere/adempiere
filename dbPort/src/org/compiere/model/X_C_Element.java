@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Element extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_Tree_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_ID */
+public static final String COLUMNNAME_AD_Tree_ID = "AD_Tree_ID";
 /** Set Element.
 @param C_Element_ID Accounting Element */
 public void setC_Element_ID (int C_Element_ID)
@@ -120,6 +122,8 @@ Integer ii = (Integer)get_Value("C_Element_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Element_ID */
+public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -137,6 +141,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** ElementType AD_Reference_ID=116 */
 public static final int ELEMENTTYPE_AD_Reference_ID=116;
@@ -164,6 +170,8 @@ public String getElementType()
 {
 return (String)get_Value("ElementType");
 }
+/** Column name ElementType */
+public static final String COLUMNNAME_ElementType = "ElementType";
 /** Set Balancing.
 @param IsBalancing All transactions within an element value must balance (e.g. cost centers) */
 public void setIsBalancing (boolean IsBalancing)
@@ -182,6 +190,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBalancing */
+public static final String COLUMNNAME_IsBalancing = "IsBalancing";
 /** Set Natural Account.
 @param IsNaturalAccount The primary natural account */
 public void setIsNaturalAccount (boolean IsNaturalAccount)
@@ -200,6 +210,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsNaturalAccount */
+public static final String COLUMNNAME_IsNaturalAccount = "IsNaturalAccount";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -224,6 +236,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Value Format.
 @param VFormat Format of the value;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -243,4 +257,6 @@ public String getVFormat()
 {
 return (String)get_Value("VFormat");
 }
+/** Column name VFormat */
+public static final String COLUMNNAME_VFormat = "VFormat";
 }

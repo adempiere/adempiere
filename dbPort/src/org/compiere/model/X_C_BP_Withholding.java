@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_BP_Withholding extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Withholding.
 @param C_Withholding_ID Withholding type defined */
 public void setC_Withholding_ID (int C_Withholding_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_Withholding_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Withholding_ID */
+public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
 /** Set Exempt reason.
 @param ExemptReason Reason for not withholding */
 public void setExemptReason (String ExemptReason)
@@ -135,6 +139,8 @@ public String getExemptReason()
 {
 return (String)get_Value("ExemptReason");
 }
+/** Column name ExemptReason */
+public static final String COLUMNNAME_ExemptReason = "ExemptReason";
 /** Set Mandatory Withholding.
 @param IsMandatoryWithholding Monies must be withheld */
 public void setIsMandatoryWithholding (boolean IsMandatoryWithholding)
@@ -153,6 +159,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsMandatoryWithholding */
+public static final String COLUMNNAME_IsMandatoryWithholding = "IsMandatoryWithholding";
 /** Set Temporary exempt.
 @param IsTemporaryExempt Temporarily do not withhold taxes */
 public void setIsTemporaryExempt (boolean IsTemporaryExempt)
@@ -171,4 +179,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTemporaryExempt */
+public static final String COLUMNNAME_IsTemporaryExempt = "IsTemporaryExempt";
 }

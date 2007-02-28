@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_UserMail extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_UserMail_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserMail_ID */
+public static final String COLUMNNAME_AD_UserMail_ID = "AD_UserMail_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -122,6 +124,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Delivery Confirmation.
 @param DeliveryConfirmation EMail Delivery confirmation */
 public void setDeliveryConfirmation (String DeliveryConfirmation)
@@ -139,6 +143,8 @@ public String getDeliveryConfirmation()
 {
 return (String)get_Value("DeliveryConfirmation");
 }
+/** Column name DeliveryConfirmation */
+public static final String COLUMNNAME_DeliveryConfirmation = "DeliveryConfirmation";
 
 /** IsDelivered AD_Reference_ID=319 */
 public static final int ISDELIVERED_AD_Reference_ID=319;
@@ -165,6 +171,8 @@ public String getIsDelivered()
 {
 return (String)get_Value("IsDelivered");
 }
+/** Column name IsDelivered */
+public static final String COLUMNNAME_IsDelivered = "IsDelivered";
 /** Set Mail Text.
 @param MailText Text used for Mail message */
 public void setMailText (String MailText)
@@ -182,6 +190,8 @@ public String getMailText()
 {
 return (String)get_Value("MailText");
 }
+/** Column name MailText */
+public static final String COLUMNNAME_MailText = "MailText";
 /** Set Message ID.
 @param MessageID EMail Message ID */
 public void setMessageID (String MessageID)
@@ -199,6 +209,8 @@ public String getMessageID()
 {
 return (String)get_Value("MessageID");
 }
+/** Column name MessageID */
+public static final String COLUMNNAME_MessageID = "MessageID";
 /** Set Mail Template.
 @param R_MailText_ID Text templates for mailings */
 public void setR_MailText_ID (int R_MailText_ID)
@@ -215,6 +227,8 @@ Integer ii = (Integer)get_Value("R_MailText_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_MailText_ID */
+public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 /** Set Subject.
 @param Subject Email Message Subject */
 public void setSubject (String Subject)
@@ -232,6 +246,8 @@ public String getSubject()
 {
 return (String)get_Value("Subject");
 }
+/** Column name Subject */
+public static final String COLUMNNAME_Subject = "Subject";
 /** Set Mail Message.
 @param W_MailMsg_ID Web Store Mail Message Template */
 public void setW_MailMsg_ID (int W_MailMsg_ID)
@@ -248,4 +264,6 @@ Integer ii = (Integer)get_Value("W_MailMsg_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_MailMsg_ID */
+public static final String COLUMNNAME_W_MailMsg_ID = "W_MailMsg_ID";
 }

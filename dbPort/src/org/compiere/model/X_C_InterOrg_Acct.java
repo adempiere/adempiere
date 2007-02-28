@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_InterOrg_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_InterOrg_Acct extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ Integer ii = (Integer)get_Value("AD_OrgTo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTo_ID */
+public static final String COLUMNNAME_AD_OrgTo_ID = "AD_OrgTo_ID";
 /** Set Accounting Schema.
 @param C_AcctSchema_ID Rules for accounting */
 public void setC_AcctSchema_ID (int C_AcctSchema_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("C_AcctSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AcctSchema_ID */
+public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 /** Set Intercompany Due From Acct.
 @param IntercompanyDueFrom_Acct Intercompany Due From / Receivables Account */
 public void setIntercompanyDueFrom_Acct (int IntercompanyDueFrom_Acct)
@@ -135,6 +139,8 @@ Integer ii = (Integer)get_Value("IntercompanyDueFrom_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IntercompanyDueFrom_Acct */
+public static final String COLUMNNAME_IntercompanyDueFrom_Acct = "IntercompanyDueFrom_Acct";
 /** Set Intercompany Due To Acct.
 @param IntercompanyDueTo_Acct Intercompany Due To / Payable Account */
 public void setIntercompanyDueTo_Acct (int IntercompanyDueTo_Acct)
@@ -149,4 +155,6 @@ Integer ii = (Integer)get_Value("IntercompanyDueTo_Acct");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name IntercompanyDueTo_Acct */
+public static final String COLUMNNAME_IntercompanyDueTo_Acct = "IntercompanyDueTo_Acct";
 }

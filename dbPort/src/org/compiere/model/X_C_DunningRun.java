@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningRun
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_DunningRun extends PO
 {
 /** Standard Constructor
@@ -103,6 +103,8 @@ Integer ii = (Integer)get_Value("C_DunningLevel_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningLevel_ID */
+public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 /** Set Dunning Run.
 @param C_DunningRun_ID Dunning Run */
 public void setC_DunningRun_ID (int C_DunningRun_ID)
@@ -118,6 +120,8 @@ Integer ii = (Integer)get_Value("C_DunningRun_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DunningRun_ID */
+public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -135,6 +139,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Dunning Date.
 @param DunningDate Date of Dunning */
 public void setDunningDate (Timestamp DunningDate)
@@ -154,6 +160,8 @@ return (Timestamp)get_Value("DunningDate");
 {
 return new KeyNamePair(get_ID(), String.valueOf(getDunningDate()));
 }
+/** Column name DunningDate */
+public static final String COLUMNNAME_DunningDate = "DunningDate";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -172,6 +180,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -190,6 +200,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Send.
 @param SendIt Send */
 public void setSendIt (String SendIt)
@@ -207,4 +219,6 @@ public String getSendIt()
 {
 return (String)get_Value("SendIt");
 }
+/** Column name SendIt */
+public static final String COLUMNNAME_SendIt = "SendIt";
 }

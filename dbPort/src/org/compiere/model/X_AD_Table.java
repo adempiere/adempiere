@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Table extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Dynamic Validation.
 @param AD_Val_Rule_ID Dynamic Validation Rule */
 public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("AD_Val_Rule_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Val_Rule_ID */
+public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -142,6 +146,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 
 /** AccessLevel AD_Reference_ID=5 */
 public static final int ACCESSLEVEL_AD_Reference_ID=5;
@@ -177,6 +183,27 @@ public String getAccessLevel()
 {
 return (String)get_Value("AccessLevel");
 }
+/** Column name AccessLevel */
+public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+/** Set Copy Columns from Table.
+@param CopyColumnsFromTable Copy Columns from Table */
+public void setCopyColumnsFromTable (String CopyColumnsFromTable)
+{
+if (CopyColumnsFromTable != null && CopyColumnsFromTable.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+CopyColumnsFromTable = CopyColumnsFromTable.substring(0,0);
+}
+set_Value ("CopyColumnsFromTable", CopyColumnsFromTable);
+}
+/** Get Copy Columns from Table.
+@return Copy Columns from Table */
+public String getCopyColumnsFromTable() 
+{
+return (String)get_Value("CopyColumnsFromTable");
+}
+/** Column name CopyColumnsFromTable */
+public static final String COLUMNNAME_CopyColumnsFromTable = "CopyColumnsFromTable";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -194,6 +221,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -216,6 +245,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -233,6 +264,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Import Table.
 @param ImportTable Import Table Columns from Database */
 public void setImportTable (String ImportTable)
@@ -250,6 +283,8 @@ public String getImportTable()
 {
 return (String)get_Value("ImportTable");
 }
+/** Column name ImportTable */
+public static final String COLUMNNAME_ImportTable = "ImportTable";
 /** Set Maintain Change Log.
 @param IsChangeLog Maintain a log of changes */
 public void setIsChangeLog (boolean IsChangeLog)
@@ -268,6 +303,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsChangeLog */
+public static final String COLUMNNAME_IsChangeLog = "IsChangeLog";
 /** Set Records deleteable.
 @param IsDeleteable Indicates if records can be deleted from the database */
 public void setIsDeleteable (boolean IsDeleteable)
@@ -286,6 +323,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDeleteable */
+public static final String COLUMNNAME_IsDeleteable = "IsDeleteable";
 /** Set High Volume.
 @param IsHighVolume Use Search instead of Pick list */
 public void setIsHighVolume (boolean IsHighVolume)
@@ -304,6 +343,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsHighVolume */
+public static final String COLUMNNAME_IsHighVolume = "IsHighVolume";
 /** Set Security enabled.
 @param IsSecurityEnabled If security is enabled, user access to data can be restricted via Roles */
 public void setIsSecurityEnabled (boolean IsSecurityEnabled)
@@ -322,6 +363,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSecurityEnabled */
+public static final String COLUMNNAME_IsSecurityEnabled = "IsSecurityEnabled";
 /** Set View.
 @param IsView This is a view */
 public void setIsView (boolean IsView)
@@ -340,6 +383,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsView */
+public static final String COLUMNNAME_IsView = "IsView";
 /** Set Sequence.
 @param LoadSeq Sequence */
 public void setLoadSeq (int LoadSeq)
@@ -354,6 +399,8 @@ Integer ii = (Integer)get_Value("LoadSeq");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name LoadSeq */
+public static final String COLUMNNAME_LoadSeq = "LoadSeq";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -372,6 +419,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 
 /** PO_Window_ID AD_Reference_ID=284 */
 public static final int PO_WINDOW_ID_AD_Reference_ID=284;
@@ -391,6 +440,8 @@ Integer ii = (Integer)get_Value("PO_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PO_Window_ID */
+public static final String COLUMNNAME_PO_Window_ID = "PO_Window_ID";
 
 /** ReplicationType AD_Reference_ID=126 */
 public static final int REPLICATIONTYPE_AD_Reference_ID=126;
@@ -420,6 +471,8 @@ public String getReplicationType()
 {
 return (String)get_Value("ReplicationType");
 }
+/** Column name ReplicationType */
+public static final String COLUMNNAME_ReplicationType = "ReplicationType";
 /** Set DB Table Name.
 @param TableName Name of the table in the database */
 public void setTableName (String TableName)
@@ -444,4 +497,6 @@ return (String)get_Value("TableName");
 {
 return new KeyNamePair(get_ID(), getTableName());
 }
+/** Column name TableName */
+public static final String COLUMNNAME_TableName = "TableName";
 }

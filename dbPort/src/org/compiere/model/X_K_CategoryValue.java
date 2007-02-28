@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_K_CategoryValue extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Category Value.
 @param K_CategoryValue_ID The value of the category */
 public void setK_CategoryValue_ID (int K_CategoryValue_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("K_CategoryValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_CategoryValue_ID */
+public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
 /** Set Knowledge Category.
 @param K_Category_ID Knowledge Category */
 public void setK_Category_ID (int K_Category_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("K_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name K_Category_ID */
+public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -158,4 +164,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

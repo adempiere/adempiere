@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_Country extends PO
 {
 /** Standard Constructor
@@ -112,6 +112,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set Country.
 @param C_Country_ID Country  */
 public void setC_Country_ID (int C_Country_ID)
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -143,6 +147,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set ISO Country Code.
 @param CountryCode Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html */
 public void setCountryCode (String CountryCode)
@@ -161,6 +167,8 @@ public String getCountryCode()
 {
 return (String)get_Value("CountryCode");
 }
+/** Column name CountryCode */
+public static final String COLUMNNAME_CountryCode = "CountryCode";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -178,6 +186,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Address Print Format.
 @param DisplaySequence Format for printing this Address */
 public void setDisplaySequence (String DisplaySequence)
@@ -196,6 +206,8 @@ public String getDisplaySequence()
 {
 return (String)get_Value("DisplaySequence");
 }
+/** Column name DisplaySequence */
+public static final String COLUMNNAME_DisplaySequence = "DisplaySequence";
 /** Set Local Address Format.
 @param DisplaySequenceLocal Format for printing this Address locally */
 public void setDisplaySequenceLocal (String DisplaySequenceLocal)
@@ -213,6 +225,8 @@ public String getDisplaySequenceLocal()
 {
 return (String)get_Value("DisplaySequenceLocal");
 }
+/** Column name DisplaySequenceLocal */
+public static final String COLUMNNAME_DisplaySequenceLocal = "DisplaySequenceLocal";
 /** Set Bank Account No Format.
 @param ExpressionBankAccountNo Format of the Bank Account */
 public void setExpressionBankAccountNo (String ExpressionBankAccountNo)
@@ -230,6 +244,8 @@ public String getExpressionBankAccountNo()
 {
 return (String)get_Value("ExpressionBankAccountNo");
 }
+/** Column name ExpressionBankAccountNo */
+public static final String COLUMNNAME_ExpressionBankAccountNo = "ExpressionBankAccountNo";
 /** Set Bank Routing No Format.
 @param ExpressionBankRoutingNo Format of the Bank Routing Number */
 public void setExpressionBankRoutingNo (String ExpressionBankRoutingNo)
@@ -247,6 +263,8 @@ public String getExpressionBankRoutingNo()
 {
 return (String)get_Value("ExpressionBankRoutingNo");
 }
+/** Column name ExpressionBankRoutingNo */
+public static final String COLUMNNAME_ExpressionBankRoutingNo = "ExpressionBankRoutingNo";
 /** Set Phone Format.
 @param ExpressionPhone Format of the phone;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -266,6 +284,8 @@ public String getExpressionPhone()
 {
 return (String)get_Value("ExpressionPhone");
 }
+/** Column name ExpressionPhone */
+public static final String COLUMNNAME_ExpressionPhone = "ExpressionPhone";
 /** Set Postal Code Format.
 @param ExpressionPostal Format of the postal code;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -285,6 +305,8 @@ public String getExpressionPostal()
 {
 return (String)get_Value("ExpressionPostal");
 }
+/** Column name ExpressionPostal */
+public static final String COLUMNNAME_ExpressionPostal = "ExpressionPostal";
 /** Set Additional Postal Format.
 @param ExpressionPostal_Add Format of the value;
  Can contain fixed format elements, Variables: "_lLoOaAcCa09" */
@@ -304,6 +326,8 @@ public String getExpressionPostal_Add()
 {
 return (String)get_Value("ExpressionPostal_Add");
 }
+/** Column name ExpressionPostal_Add */
+public static final String COLUMNNAME_ExpressionPostal_Add = "ExpressionPostal_Add";
 /** Set Additional Postal code.
 @param HasPostal_Add Has Additional Postal Code */
 public void setHasPostal_Add (boolean HasPostal_Add)
@@ -322,6 +346,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasPostal_Add */
+public static final String COLUMNNAME_HasPostal_Add = "HasPostal_Add";
 /** Set Country has Region.
 @param HasRegion Country contains Regions */
 public void setHasRegion (boolean HasRegion)
@@ -340,6 +366,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasRegion */
+public static final String COLUMNNAME_HasRegion = "HasRegion";
 /** Set Reverse Local Address Lines.
 @param IsAddressLinesLocalReverse Print Local Address in reverse Order */
 public void setIsAddressLinesLocalReverse (boolean IsAddressLinesLocalReverse)
@@ -358,6 +386,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAddressLinesLocalReverse */
+public static final String COLUMNNAME_IsAddressLinesLocalReverse = "IsAddressLinesLocalReverse";
 /** Set Reverse Address Lines.
 @param IsAddressLinesReverse Print Address in reverse Order */
 public void setIsAddressLinesReverse (boolean IsAddressLinesReverse)
@@ -376,6 +406,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAddressLinesReverse */
+public static final String COLUMNNAME_IsAddressLinesReverse = "IsAddressLinesReverse";
 /** Set Media Size.
 @param MediaSize Java Media Size */
 public void setMediaSize (String MediaSize)
@@ -393,6 +425,8 @@ public String getMediaSize()
 {
 return (String)get_Value("MediaSize");
 }
+/** Column name MediaSize */
+public static final String COLUMNNAME_MediaSize = "MediaSize";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -417,6 +451,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Region.
 @param RegionName Name of the Region */
 public void setRegionName (String RegionName)
@@ -434,4 +470,6 @@ public String getRegionName()
 {
 return (String)get_Value("RegionName");
 }
+/** Column name RegionName */
+public static final String COLUMNNAME_RegionName = "RegionName";
 }

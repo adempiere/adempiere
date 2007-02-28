@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Tree
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Tree extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ Integer ii = (Integer)get_Value("AD_Tree_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tree_ID */
+public static final String COLUMNNAME_AD_Tree_ID = "AD_Tree_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -121,6 +123,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set All Nodes.
 @param IsAllNodes All Nodes are included (Complete Tree) */
 public void setIsAllNodes (boolean IsAllNodes)
@@ -139,6 +143,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAllNodes */
+public static final String COLUMNNAME_IsAllNodes = "IsAllNodes";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -157,6 +163,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -181,6 +189,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -199,6 +209,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 
 /** TreeType AD_Reference_ID=120 */
 public static final int TREETYPE_AD_Reference_ID=120;
@@ -260,4 +272,6 @@ public String getTreeType()
 {
 return (String)get_Value("TreeType");
 }
+/** Column name TreeType */
+public static final String COLUMNNAME_TreeType = "TreeType";
 }

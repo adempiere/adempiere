@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_W_Click extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Accept Language.
 @param AcceptLanguage Language accepted based on browser information */
 public void setAcceptLanguage (String AcceptLanguage)
@@ -119,6 +121,8 @@ public String getAcceptLanguage()
 {
 return (String)get_Value("AcceptLanguage");
 }
+/** Column name AcceptLanguage */
+public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -136,6 +140,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -154,6 +160,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Referrer.
 @param Referrer Referring web address */
 public void setReferrer (String Referrer)
@@ -171,6 +179,8 @@ public String getReferrer()
 {
 return (String)get_Value("Referrer");
 }
+/** Column name Referrer */
+public static final String COLUMNNAME_Referrer = "Referrer";
 /** Set Remote Addr.
 @param Remote_Addr Remote Address */
 public void setRemote_Addr (String Remote_Addr)
@@ -194,6 +204,8 @@ return (String)get_Value("Remote_Addr");
 {
 return new KeyNamePair(get_ID(), getRemote_Addr());
 }
+/** Column name Remote_Addr */
+public static final String COLUMNNAME_Remote_Addr = "Remote_Addr";
 /** Set Remote Host.
 @param Remote_Host Remote host Info */
 public void setRemote_Host (String Remote_Host)
@@ -211,6 +223,8 @@ public String getRemote_Host()
 {
 return (String)get_Value("Remote_Host");
 }
+/** Column name Remote_Host */
+public static final String COLUMNNAME_Remote_Host = "Remote_Host";
 /** Set Target URL.
 @param TargetURL URL for the Target */
 public void setTargetURL (String TargetURL)
@@ -228,6 +242,8 @@ public String getTargetURL()
 {
 return (String)get_Value("TargetURL");
 }
+/** Column name TargetURL */
+public static final String COLUMNNAME_TargetURL = "TargetURL";
 /** Set User Agent.
 @param UserAgent Browser Used */
 public void setUserAgent (String UserAgent)
@@ -245,6 +261,8 @@ public String getUserAgent()
 {
 return (String)get_Value("UserAgent");
 }
+/** Column name UserAgent */
+public static final String COLUMNNAME_UserAgent = "UserAgent";
 /** Set Click Count.
 @param W_ClickCount_ID Web Click Management */
 public void setW_ClickCount_ID (int W_ClickCount_ID)
@@ -261,6 +279,8 @@ Integer ii = (Integer)get_Value("W_ClickCount_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_ClickCount_ID */
+public static final String COLUMNNAME_W_ClickCount_ID = "W_ClickCount_ID";
 /** Set Web Click.
 @param W_Click_ID Individual Web Click */
 public void setW_Click_ID (int W_Click_ID)
@@ -276,4 +296,6 @@ Integer ii = (Integer)get_Value("W_Click_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name W_Click_ID */
+public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";
 }

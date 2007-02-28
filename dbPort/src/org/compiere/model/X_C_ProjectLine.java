@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_ProjectLine extends PO
 {
 /** Standard Constructor
@@ -114,6 +114,8 @@ Integer ii = (Integer)get_Value("C_OrderPO_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_OrderPO_ID */
+public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -130,6 +132,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Project Issue.
 @param C_ProjectIssue_ID Project Issues (Material, Labor) */
 public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
@@ -146,6 +150,8 @@ Integer ii = (Integer)get_Value("C_ProjectIssue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectIssue_ID */
+public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
 /** Set Project Line.
 @param C_ProjectLine_ID Task or step in a project */
 public void setC_ProjectLine_ID (int C_ProjectLine_ID)
@@ -161,6 +167,8 @@ Integer ii = (Integer)get_Value("C_ProjectLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectLine_ID */
+public static final String COLUMNNAME_C_ProjectLine_ID = "C_ProjectLine_ID";
 /** Set Project Phase.
 @param C_ProjectPhase_ID Phase of a Project */
 public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
@@ -177,6 +185,8 @@ Integer ii = (Integer)get_Value("C_ProjectPhase_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectPhase_ID */
+public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 /** Set Project Task.
 @param C_ProjectTask_ID Actual Project Task in a Phase */
 public void setC_ProjectTask_ID (int C_ProjectTask_ID)
@@ -193,6 +203,8 @@ Integer ii = (Integer)get_Value("C_ProjectTask_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ProjectTask_ID */
+public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -208,6 +220,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Committed Amount.
 @param CommittedAmt The (legal) commitment amount */
 public void setCommittedAmt (BigDecimal CommittedAmt)
@@ -222,6 +236,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommittedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommittedAmt */
+public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
 /** Set Committed Quantity.
 @param CommittedQty The (legal) commitment Quantity */
 public void setCommittedQty (BigDecimal CommittedQty)
@@ -236,6 +252,8 @@ BigDecimal bd = (BigDecimal)get_Value("CommittedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name CommittedQty */
+public static final String COLUMNNAME_CommittedQty = "CommittedQty";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -253,6 +271,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Pricing.
 @param DoPricing Pricing */
 public void setDoPricing (String DoPricing)
@@ -270,6 +290,8 @@ public String getDoPricing()
 {
 return (String)get_Value("DoPricing");
 }
+/** Column name DoPricing */
+public static final String COLUMNNAME_DoPricing = "DoPricing";
 /** Set Invoiced Amount.
 @param InvoicedAmt The amount invoiced */
 public void setInvoicedAmt (BigDecimal InvoicedAmt)
@@ -285,6 +307,8 @@ BigDecimal bd = (BigDecimal)get_Value("InvoicedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InvoicedAmt */
+public static final String COLUMNNAME_InvoicedAmt = "InvoicedAmt";
 /** Set Quantity Invoiced .
 @param InvoicedQty The quantity invoiced */
 public void setInvoicedQty (BigDecimal InvoicedQty)
@@ -300,6 +324,8 @@ BigDecimal bd = (BigDecimal)get_Value("InvoicedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name InvoicedQty */
+public static final String COLUMNNAME_InvoicedQty = "InvoicedQty";
 /** Set Printed.
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
@@ -318,6 +344,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrinted */
+public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 /** Set Line No.
 @param Line Unique line for this document */
 public void setLine (int Line)
@@ -338,6 +366,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getLine()));
 }
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
 /** Set Product Category.
 @param M_Product_Category_ID Category of a Product */
 public void setM_Product_Category_ID (int M_Product_Category_ID)
@@ -354,6 +384,8 @@ Integer ii = (Integer)get_Value("M_Product_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_Category_ID */
+public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -370,6 +402,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Planned Amount.
 @param PlannedAmt Planned amount for this project */
 public void setPlannedAmt (BigDecimal PlannedAmt)
@@ -385,6 +419,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedAmt */
+public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 /** Set Planned Margin.
 @param PlannedMarginAmt Project's planned margin amount */
 public void setPlannedMarginAmt (BigDecimal PlannedMarginAmt)
@@ -400,6 +436,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedMarginAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedMarginAmt */
+public static final String COLUMNNAME_PlannedMarginAmt = "PlannedMarginAmt";
 /** Set Planned Price.
 @param PlannedPrice Planned price for this project line */
 public void setPlannedPrice (BigDecimal PlannedPrice)
@@ -415,6 +453,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedPrice");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedPrice */
+public static final String COLUMNNAME_PlannedPrice = "PlannedPrice";
 /** Set Planned Quantity.
 @param PlannedQty Planned quantity for this project */
 public void setPlannedQty (BigDecimal PlannedQty)
@@ -430,6 +470,8 @@ BigDecimal bd = (BigDecimal)get_Value("PlannedQty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PlannedQty */
+public static final String COLUMNNAME_PlannedQty = "PlannedQty";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -448,4 +490,6 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 }

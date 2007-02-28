@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PInstance_Para extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Info.
 @param Info Information */
 public void setInfo (String Info)
@@ -118,6 +120,8 @@ public String getInfo()
 {
 return (String)get_Value("Info");
 }
+/** Column name Info */
+public static final String COLUMNNAME_Info = "Info";
 /** Set Info To.
 @param Info_To Info To */
 public void setInfo_To (String Info_To)
@@ -135,6 +139,8 @@ public String getInfo_To()
 {
 return (String)get_Value("Info_To");
 }
+/** Column name Info_To */
+public static final String COLUMNNAME_Info_To = "Info_To";
 /** Set Process Date.
 @param P_Date Process Parameter */
 public void setP_Date (Timestamp P_Date)
@@ -147,6 +153,8 @@ public Timestamp getP_Date()
 {
 return (Timestamp)get_Value("P_Date");
 }
+/** Column name P_Date */
+public static final String COLUMNNAME_P_Date = "P_Date";
 /** Set Process Date To.
 @param P_Date_To Process Parameter */
 public void setP_Date_To (Timestamp P_Date_To)
@@ -159,6 +167,8 @@ public Timestamp getP_Date_To()
 {
 return (Timestamp)get_Value("P_Date_To");
 }
+/** Column name P_Date_To */
+public static final String COLUMNNAME_P_Date_To = "P_Date_To";
 /** Set Process Number.
 @param P_Number Process Parameter */
 public void setP_Number (BigDecimal P_Number)
@@ -173,6 +183,8 @@ BigDecimal bd = (BigDecimal)get_Value("P_Number");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name P_Number */
+public static final String COLUMNNAME_P_Number = "P_Number";
 /** Set Process Number To.
 @param P_Number_To Process Parameter */
 public void setP_Number_To (BigDecimal P_Number_To)
@@ -187,6 +199,8 @@ BigDecimal bd = (BigDecimal)get_Value("P_Number_To");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name P_Number_To */
+public static final String COLUMNNAME_P_Number_To = "P_Number_To";
 /** Set Process String.
 @param P_String Process Parameter */
 public void setP_String (String P_String)
@@ -204,6 +218,8 @@ public String getP_String()
 {
 return (String)get_Value("P_String");
 }
+/** Column name P_String */
+public static final String COLUMNNAME_P_String = "P_String";
 /** Set Process String To.
 @param P_String_To Process Parameter */
 public void setP_String_To (String P_String_To)
@@ -221,6 +237,8 @@ public String getP_String_To()
 {
 return (String)get_Value("P_String_To");
 }
+/** Column name P_String_To */
+public static final String COLUMNNAME_P_String_To = "P_String_To";
 /** Set Parameter Name.
 @param ParameterName Parameter Name */
 public void setParameterName (String ParameterName)
@@ -244,6 +262,8 @@ return (String)get_Value("ParameterName");
 {
 return new KeyNamePair(get_ID(), getParameterName());
 }
+/** Column name ParameterName */
+public static final String COLUMNNAME_ParameterName = "ParameterName";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -260,4 +280,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

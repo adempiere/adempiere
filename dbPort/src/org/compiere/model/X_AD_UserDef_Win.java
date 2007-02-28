@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_UserDef_Win
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_UserDef_Win extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set Role.
 @param AD_Role_ID Responsibility Role */
 public void setAD_Role_ID (int AD_Role_ID)
@@ -127,6 +129,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 /** Set User defined Window.
 @param AD_UserDef_Win_ID User defined Window */
 public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID)
@@ -142,6 +146,8 @@ Integer ii = (Integer)get_Value("AD_UserDef_Win_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_UserDef_Win_ID */
+public static final String COLUMNNAME_AD_UserDef_Win_ID = "AD_UserDef_Win_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -158,6 +164,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -190,6 +200,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -207,6 +219,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Default.
 @param IsDefault Default value */
 public void setIsDefault (boolean IsDefault)
@@ -225,6 +239,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDefault */
+public static final String COLUMNNAME_IsDefault = "IsDefault";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -243,6 +259,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set User updateable.
 @param IsUserUpdateable The field can be updated by the user */
 public void setIsUserUpdateable (boolean IsUserUpdateable)
@@ -261,6 +279,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsUserUpdateable */
+public static final String COLUMNNAME_IsUserUpdateable = "IsUserUpdateable";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -285,4 +305,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

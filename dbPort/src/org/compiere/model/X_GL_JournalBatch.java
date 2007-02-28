@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_JournalBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_GL_JournalBatch extends PO
 {
 /** Standard Constructor
@@ -111,6 +111,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
 /** C_Period_ID AD_Reference_ID=275 */
 public static final int C_PERIOD_ID_AD_Reference_ID=275;
@@ -145,6 +149,8 @@ Integer ii = (Integer)get_Value("C_Period_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Period_ID */
+public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 /** Set Control Amount.
 @param ControlAmt If not zero, the Debit amount of the document must be equal this amount */
 public void setControlAmt (BigDecimal ControlAmt)
@@ -159,6 +165,8 @@ BigDecimal bd = (BigDecimal)get_Value("ControlAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name ControlAmt */
+public static final String COLUMNNAME_ControlAmt = "ControlAmt";
 /** Set Copy From.
 @param CopyFrom Copy From Record */
 public void setCopyFrom (String CopyFrom)
@@ -176,6 +184,8 @@ public String getCopyFrom()
 {
 return (String)get_Value("CopyFrom");
 }
+/** Column name CopyFrom */
+public static final String COLUMNNAME_CopyFrom = "CopyFrom";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -188,6 +198,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Document Date.
 @param DateDoc Date of the Document */
 public void setDateDoc (Timestamp DateDoc)
@@ -200,6 +212,8 @@ public Timestamp getDateDoc()
 {
 return (Timestamp)get_Value("DateDoc");
 }
+/** Column name DateDoc */
+public static final String COLUMNNAME_DateDoc = "DateDoc";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -218,6 +232,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
@@ -269,6 +285,8 @@ public String getDocAction()
 {
 return (String)get_Value("DocAction");
 }
+/** Column name DocAction */
+public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
@@ -316,6 +334,8 @@ public String getDocStatus()
 {
 return (String)get_Value("DocStatus");
 }
+/** Column name DocStatus */
+public static final String COLUMNNAME_DocStatus = "DocStatus";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -340,6 +360,8 @@ return (String)get_Value("DocumentNo");
 {
 return new KeyNamePair(get_ID(), getDocumentNo());
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set GL Category.
 @param GL_Category_ID General Ledger Category */
 public void setGL_Category_ID (int GL_Category_ID)
@@ -356,6 +378,8 @@ Integer ii = (Integer)get_Value("GL_Category_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_Category_ID */
+public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
 /** Set Journal Batch.
 @param GL_JournalBatch_ID General Ledger Journal Batch */
 public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
@@ -371,6 +395,8 @@ Integer ii = (Integer)get_Value("GL_JournalBatch_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name GL_JournalBatch_ID */
+public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -389,6 +415,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsApproved */
+public static final String COLUMNNAME_IsApproved = "IsApproved";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -422,6 +450,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -440,6 +470,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -458,6 +490,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Total Credit.
 @param TotalCr Total Credit in document currency */
 public void setTotalCr (BigDecimal TotalCr)
@@ -473,6 +507,8 @@ BigDecimal bd = (BigDecimal)get_Value("TotalCr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalCr */
+public static final String COLUMNNAME_TotalCr = "TotalCr";
 /** Set Total Debit.
 @param TotalDr Total debit in document currency */
 public void setTotalDr (BigDecimal TotalDr)
@@ -488,4 +524,6 @@ BigDecimal bd = (BigDecimal)get_Value("TotalDr");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TotalDr */
+public static final String COLUMNNAME_TotalDr = "TotalDr";
 }

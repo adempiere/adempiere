@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_AllocationLine extends PO
 {
 /** Standard Constructor
@@ -104,6 +104,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amount");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amount */
+public static final String COLUMNNAME_Amount = "Amount";
 /** Set Allocation.
 @param C_AllocationHdr_ID Payment allocation */
 public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
@@ -119,6 +121,8 @@ Integer ii = (Integer)get_Value("C_AllocationHdr_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AllocationHdr_ID */
+public static final String COLUMNNAME_C_AllocationHdr_ID = "C_AllocationHdr_ID";
 /** Set Allocation Line.
 @param C_AllocationLine_ID Allocation Line */
 public void setC_AllocationLine_ID (int C_AllocationLine_ID)
@@ -134,6 +138,8 @@ Integer ii = (Integer)get_Value("C_AllocationLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_AllocationLine_ID */
+public static final String COLUMNNAME_C_AllocationLine_ID = "C_AllocationLine_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -150,6 +156,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Cash Journal Line.
 @param C_CashLine_ID Cash Journal Line */
 public void setC_CashLine_ID (int C_CashLine_ID)
@@ -166,6 +174,8 @@ Integer ii = (Integer)get_Value("C_CashLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_CashLine_ID */
+public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -188,6 +198,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Order.
 @param C_Order_ID Order */
 public void setC_Order_ID (int C_Order_ID)
@@ -204,6 +216,8 @@ Integer ii = (Integer)get_Value("C_Order_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Order_ID */
+public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 /** Set Payment.
 @param C_Payment_ID Payment identifier */
 public void setC_Payment_ID (int C_Payment_ID)
@@ -220,6 +234,8 @@ Integer ii = (Integer)get_Value("C_Payment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Payment_ID */
+public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 /** Set Transaction Date.
 @param DateTrx Transaction Date */
 public void setDateTrx (Timestamp DateTrx)
@@ -232,6 +248,8 @@ public Timestamp getDateTrx()
 {
 return (Timestamp)get_Value("DateTrx");
 }
+/** Column name DateTrx */
+public static final String COLUMNNAME_DateTrx = "DateTrx";
 /** Set Discount Amount.
 @param DiscountAmt Calculated amount of discount */
 public void setDiscountAmt (BigDecimal DiscountAmt)
@@ -247,6 +265,8 @@ BigDecimal bd = (BigDecimal)get_Value("DiscountAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name DiscountAmt */
+public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 /** Set Manual.
 @param IsManual This is a manual process */
 public void setIsManual (boolean IsManual)
@@ -265,6 +285,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsManual */
+public static final String COLUMNNAME_IsManual = "IsManual";
 /** Set Over/Under Payment.
 @param OverUnderAmt Over-Payment (unallocated) or Under-Payment (partial payment) Amount */
 public void setOverUnderAmt (BigDecimal OverUnderAmt)
@@ -279,6 +301,8 @@ BigDecimal bd = (BigDecimal)get_Value("OverUnderAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name OverUnderAmt */
+public static final String COLUMNNAME_OverUnderAmt = "OverUnderAmt";
 /** Set Write-off Amount.
 @param WriteOffAmt Amount to write-off */
 public void setWriteOffAmt (BigDecimal WriteOffAmt)
@@ -294,4 +318,6 @@ BigDecimal bd = (BigDecimal)get_Value("WriteOffAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name WriteOffAmt */
+public static final String COLUMNNAME_WriteOffAmt = "WriteOffAmt";
 }

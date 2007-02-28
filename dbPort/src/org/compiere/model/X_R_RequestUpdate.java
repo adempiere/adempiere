@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_R_RequestUpdate extends PO
 {
 /** Standard Constructor
@@ -118,6 +118,8 @@ public String getConfidentialTypeEntry()
 {
 return (String)get_Value("ConfidentialTypeEntry");
 }
+/** Column name ConfidentialTypeEntry */
+public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
 /** Set End Time.
 @param EndTime End of the time span */
 public void setEndTime (Timestamp EndTime)
@@ -130,6 +132,8 @@ public Timestamp getEndTime()
 {
 return (Timestamp)get_Value("EndTime");
 }
+/** Column name EndTime */
+public static final String COLUMNNAME_EndTime = "EndTime";
 
 /** M_ProductSpent_ID AD_Reference_ID=162 */
 public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
@@ -149,6 +153,8 @@ Integer ii = (Integer)get_Value("M_ProductSpent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_ProductSpent_ID */
+public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
 /** Set Quantity Invoiced.
 @param QtyInvoiced Invoiced Quantity */
 public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -163,6 +169,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyInvoiced");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyInvoiced */
+public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 /** Set Quantity Used.
 @param QtySpent Quantity used for this event */
 public void setQtySpent (BigDecimal QtySpent)
@@ -177,6 +185,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtySpent");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtySpent */
+public static final String COLUMNNAME_QtySpent = "QtySpent";
 /** Set Request Update.
 @param R_RequestUpdate_ID Request Updates */
 public void setR_RequestUpdate_ID (int R_RequestUpdate_ID)
@@ -198,6 +208,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
 }
+/** Column name R_RequestUpdate_ID */
+public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
 /** Set Request.
 @param R_Request_ID Request from a Business Partner or Prospect */
 public void setR_Request_ID (int R_Request_ID)
@@ -213,6 +225,8 @@ Integer ii = (Integer)get_Value("R_Request_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name R_Request_ID */
+public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 /** Set Result.
 @param Result Result of the action taken */
 public void setResult (String Result)
@@ -230,6 +244,8 @@ public String getResult()
 {
 return (String)get_Value("Result");
 }
+/** Column name Result */
+public static final String COLUMNNAME_Result = "Result";
 /** Set Start Time.
 @param StartTime Time started */
 public void setStartTime (Timestamp StartTime)
@@ -242,4 +258,6 @@ public Timestamp getStartTime()
 {
 return (Timestamp)get_Value("StartTime");
 }
+/** Column name StartTime */
+public static final String COLUMNNAME_StartTime = "StartTime";
 }

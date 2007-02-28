@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Tab extends PO
 {
 /** Standard Constructor
@@ -117,6 +117,8 @@ Integer ii = (Integer)get_Value("AD_ColumnSortOrder_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ColumnSortOrder_ID */
+public static final String COLUMNNAME_AD_ColumnSortOrder_ID = "AD_ColumnSortOrder_ID";
 
 /** AD_ColumnSortYesNo_ID AD_Reference_ID=258 */
 public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
@@ -136,6 +138,8 @@ Integer ii = (Integer)get_Value("AD_ColumnSortYesNo_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_ColumnSortYesNo_ID */
+public static final String COLUMNNAME_AD_ColumnSortYesNo_ID = "AD_ColumnSortYesNo_ID";
 /** Set Column.
 @param AD_Column_ID Column in the table */
 public void setAD_Column_ID (int AD_Column_ID)
@@ -152,6 +156,8 @@ Integer ii = (Integer)get_Value("AD_Column_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Column_ID */
+public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 /** Set Image.
 @param AD_Image_ID Image or Icon */
 public void setAD_Image_ID (int AD_Image_ID)
@@ -168,6 +174,8 @@ Integer ii = (Integer)get_Value("AD_Image_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Image_ID */
+public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -184,6 +192,8 @@ Integer ii = (Integer)get_Value("AD_Process_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Process_ID */
+public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 /** Set Tab.
 @param AD_Tab_ID Tab within a Window */
 public void setAD_Tab_ID (int AD_Tab_ID)
@@ -199,6 +209,8 @@ Integer ii = (Integer)get_Value("AD_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Tab_ID */
+public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
 /** Set Table.
 @param AD_Table_ID Database Table information */
 public void setAD_Table_ID (int AD_Table_ID)
@@ -214,6 +226,8 @@ Integer ii = (Integer)get_Value("AD_Table_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Table_ID */
+public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -229,6 +243,8 @@ Integer ii = (Integer)get_Value("AD_Window_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Window_ID */
+public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 /** Set Commit Warning.
 @param CommitWarning Warning displayed when saving */
 public void setCommitWarning (String CommitWarning)
@@ -246,6 +262,8 @@ public String getCommitWarning()
 {
 return (String)get_Value("CommitWarning");
 }
+/** Column name CommitWarning */
+public static final String COLUMNNAME_CommitWarning = "CommitWarning";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -263,6 +281,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Display Logic.
 @param DisplayLogic If the Field is displayed, the result determines if the field is actually displayed */
 public void setDisplayLogic (String DisplayLogic)
@@ -280,6 +300,8 @@ public String getDisplayLogic()
 {
 return (String)get_Value("DisplayLogic");
 }
+/** Column name DisplayLogic */
+public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
 
 /** EntityType AD_Reference_ID=389 */
 public static final int ENTITYTYPE_AD_Reference_ID=389;
@@ -302,6 +324,8 @@ public String getEntityType()
 {
 return (String)get_Value("EntityType");
 }
+/** Column name EntityType */
+public static final String COLUMNNAME_EntityType = "EntityType";
 /** Set Has Tree.
 @param HasTree Window has Tree Graph */
 public void setHasTree (boolean HasTree)
@@ -320,6 +344,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name HasTree */
+public static final String COLUMNNAME_HasTree = "HasTree";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -337,6 +363,8 @@ public String getHelp()
 {
 return (String)get_Value("Help");
 }
+/** Column name Help */
+public static final String COLUMNNAME_Help = "Help";
 /** Set Import Fields.
 @param ImportFields Create Fields from Table Columns */
 public void setImportFields (String ImportFields)
@@ -354,6 +382,8 @@ public String getImportFields()
 {
 return (String)get_Value("ImportFields");
 }
+/** Column name ImportFields */
+public static final String COLUMNNAME_ImportFields = "ImportFields";
 
 /** Included_Tab_ID AD_Reference_ID=278 */
 public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
@@ -373,6 +403,8 @@ Integer ii = (Integer)get_Value("Included_Tab_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Included_Tab_ID */
+public static final String COLUMNNAME_Included_Tab_ID = "Included_Tab_ID";
 /** Set Advanced Tab.
 @param IsAdvancedTab This Tab contains advanced Functionality */
 public void setIsAdvancedTab (boolean IsAdvancedTab)
@@ -391,6 +423,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsAdvancedTab */
+public static final String COLUMNNAME_IsAdvancedTab = "IsAdvancedTab";
 /** Set Accounting Tab.
 @param IsInfoTab This Tab contains accounting information */
 public void setIsInfoTab (boolean IsInfoTab)
@@ -409,6 +443,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInfoTab */
+public static final String COLUMNNAME_IsInfoTab = "IsInfoTab";
 /** Set Insert Record.
 @param IsInsertRecord The user can insert a new Record */
 public void setIsInsertRecord (boolean IsInsertRecord)
@@ -427,6 +463,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsInsertRecord */
+public static final String COLUMNNAME_IsInsertRecord = "IsInsertRecord";
 /** Set Read Only.
 @param IsReadOnly Field is read only */
 public void setIsReadOnly (boolean IsReadOnly)
@@ -445,6 +483,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsReadOnly */
+public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
 /** Set Single Row Layout.
 @param IsSingleRow Default for toggle between Single- and Multi-Row (Grid) Layout */
 public void setIsSingleRow (boolean IsSingleRow)
@@ -463,6 +503,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSingleRow */
+public static final String COLUMNNAME_IsSingleRow = "IsSingleRow";
 /** Set Order Tab.
 @param IsSortTab The Tab determines the Order */
 public void setIsSortTab (boolean IsSortTab)
@@ -481,6 +523,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSortTab */
+public static final String COLUMNNAME_IsSortTab = "IsSortTab";
 /** Set TranslationTab.
 @param IsTranslationTab This Tab contains translation information */
 public void setIsTranslationTab (boolean IsTranslationTab)
@@ -499,6 +543,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsTranslationTab */
+public static final String COLUMNNAME_IsTranslationTab = "IsTranslationTab";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -523,6 +569,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Sql ORDER BY.
 @param OrderByClause Fully qualified ORDER BY clause */
 public void setOrderByClause (String OrderByClause)
@@ -540,6 +588,8 @@ public String getOrderByClause()
 {
 return (String)get_Value("OrderByClause");
 }
+/** Column name OrderByClause */
+public static final String COLUMNNAME_OrderByClause = "OrderByClause";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -558,6 +608,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Read Only Logic.
 @param ReadOnlyLogic Logic to determine if field is read only (applies only when field is read-write) */
 public void setReadOnlyLogic (String ReadOnlyLogic)
@@ -575,6 +627,8 @@ public String getReadOnlyLogic()
 {
 return (String)get_Value("ReadOnlyLogic");
 }
+/** Column name ReadOnlyLogic */
+public static final String COLUMNNAME_ReadOnlyLogic = "ReadOnlyLogic";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -591,6 +645,8 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 /** Set Tab Level.
 @param TabLevel Hierarchical Tab Level (0 = top) */
 public void setTabLevel (int TabLevel)
@@ -605,6 +661,8 @@ Integer ii = (Integer)get_Value("TabLevel");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name TabLevel */
+public static final String COLUMNNAME_TabLevel = "TabLevel";
 /** Set Sql WHERE.
 @param WhereClause Fully qualified SQL WHERE clause */
 public void setWhereClause (String WhereClause)
@@ -622,4 +680,6 @@ public String getWhereClause()
 {
 return (String)get_Value("WhereClause");
 }
+/** Column name WhereClause */
+public static final String COLUMNNAME_WhereClause = "WhereClause";
 }

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_Invoice extends PO
 {
 /** Standard Constructor
@@ -105,6 +105,8 @@ Integer ii = (Integer)get_Value("AD_OrgTrx_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_OrgTrx_ID */
+public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -121,6 +123,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Address 1.
 @param Address1 Address line 1 for this location */
 public void setAddress1 (String Address1)
@@ -138,6 +142,8 @@ public String getAddress1()
 {
 return (String)get_Value("Address1");
 }
+/** Column name Address1 */
+public static final String COLUMNNAME_Address1 = "Address1";
 /** Set Address 2.
 @param Address2 Address line 2 for this location */
 public void setAddress2 (String Address2)
@@ -155,6 +161,8 @@ public String getAddress2()
 {
 return (String)get_Value("Address2");
 }
+/** Column name Address2 */
+public static final String COLUMNNAME_Address2 = "Address2";
 /** Set Business Partner Key.
 @param BPartnerValue Key of the Business Partner */
 public void setBPartnerValue (String BPartnerValue)
@@ -172,6 +180,8 @@ public String getBPartnerValue()
 {
 return (String)get_Value("BPartnerValue");
 }
+/** Column name BPartnerValue */
+public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
 /** Set Activity.
 @param C_Activity_ID Business Activity */
 public void setC_Activity_ID (int C_Activity_ID)
@@ -188,6 +198,8 @@ Integer ii = (Integer)get_Value("C_Activity_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Activity_ID */
+public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 /** Set Business Partner .
 @param C_BPartner_ID Identifies a Business Partner */
 public void setC_BPartner_ID (int C_BPartner_ID)
@@ -204,6 +216,8 @@ Integer ii = (Integer)get_Value("C_BPartner_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_ID */
+public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 /** Set Partner Location.
 @param C_BPartner_Location_ID Identifies the (ship to) address for this Business Partner */
 public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
@@ -220,6 +234,8 @@ Integer ii = (Integer)get_Value("C_BPartner_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_BPartner_Location_ID */
+public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 /** Set Campaign.
 @param C_Campaign_ID Marketing Campaign */
 public void setC_Campaign_ID (int C_Campaign_ID)
@@ -236,6 +252,8 @@ Integer ii = (Integer)get_Value("C_Campaign_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Campaign_ID */
+public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 /** Set Country.
 @param C_Country_ID Country  */
 public void setC_Country_ID (int C_Country_ID)
@@ -252,6 +270,8 @@ Integer ii = (Integer)get_Value("C_Country_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Country_ID */
+public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 /** Set Currency.
 @param C_Currency_ID The Currency for this record */
 public void setC_Currency_ID (int C_Currency_ID)
@@ -268,6 +288,8 @@ Integer ii = (Integer)get_Value("C_Currency_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Currency_ID */
+public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 /** Set Document Type.
 @param C_DocType_ID Document type or rules */
 public void setC_DocType_ID (int C_DocType_ID)
@@ -284,6 +306,8 @@ Integer ii = (Integer)get_Value("C_DocType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_DocType_ID */
+public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -300,6 +324,8 @@ Integer ii = (Integer)get_Value("C_InvoiceLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Invoice.
 @param C_Invoice_ID Invoice Identifier */
 public void setC_Invoice_ID (int C_Invoice_ID)
@@ -316,6 +342,8 @@ Integer ii = (Integer)get_Value("C_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Invoice_ID */
+public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 /** Set Address.
 @param C_Location_ID Location or Address */
 public void setC_Location_ID (int C_Location_ID)
@@ -332,6 +360,8 @@ Integer ii = (Integer)get_Value("C_Location_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Location_ID */
+public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 /** Set Payment Term.
 @param C_PaymentTerm_ID The terms of Payment (timing, discount) */
 public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
@@ -348,6 +378,8 @@ Integer ii = (Integer)get_Value("C_PaymentTerm_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_PaymentTerm_ID */
+public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 /** Set Project.
 @param C_Project_ID Financial Project */
 public void setC_Project_ID (int C_Project_ID)
@@ -364,6 +396,8 @@ Integer ii = (Integer)get_Value("C_Project_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Project_ID */
+public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 /** Set Region.
 @param C_Region_ID Identifies a geographical Region */
 public void setC_Region_ID (int C_Region_ID)
@@ -380,6 +414,8 @@ Integer ii = (Integer)get_Value("C_Region_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Region_ID */
+public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 /** Set Tax.
 @param C_Tax_ID Tax identifier */
 public void setC_Tax_ID (int C_Tax_ID)
@@ -396,6 +432,8 @@ Integer ii = (Integer)get_Value("C_Tax_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_Tax_ID */
+public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 /** Set City.
 @param City Identifies a City */
 public void setCity (String City)
@@ -413,6 +451,8 @@ public String getCity()
 {
 return (String)get_Value("City");
 }
+/** Column name City */
+public static final String COLUMNNAME_City = "City";
 /** Set Contact Name.
 @param ContactName Business Partner Contact Name */
 public void setContactName (String ContactName)
@@ -430,6 +470,8 @@ public String getContactName()
 {
 return (String)get_Value("ContactName");
 }
+/** Column name ContactName */
+public static final String COLUMNNAME_ContactName = "ContactName";
 /** Set ISO Country Code.
 @param CountryCode Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html */
 public void setCountryCode (boolean CountryCode)
@@ -448,6 +490,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name CountryCode */
+public static final String COLUMNNAME_CountryCode = "CountryCode";
 /** Set Account Date.
 @param DateAcct Accounting Date */
 public void setDateAcct (Timestamp DateAcct)
@@ -460,6 +504,8 @@ public Timestamp getDateAcct()
 {
 return (Timestamp)get_Value("DateAcct");
 }
+/** Column name DateAcct */
+public static final String COLUMNNAME_DateAcct = "DateAcct";
 /** Set Date Invoiced.
 @param DateInvoiced Date printed on Invoice */
 public void setDateInvoiced (Timestamp DateInvoiced)
@@ -472,6 +518,8 @@ public Timestamp getDateInvoiced()
 {
 return (Timestamp)get_Value("DateInvoiced");
 }
+/** Column name DateInvoiced */
+public static final String COLUMNNAME_DateInvoiced = "DateInvoiced";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -489,6 +537,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Document Type Name.
 @param DocTypeName Name of the Document Type */
 public void setDocTypeName (String DocTypeName)
@@ -506,6 +556,8 @@ public String getDocTypeName()
 {
 return (String)get_Value("DocTypeName");
 }
+/** Column name DocTypeName */
+public static final String COLUMNNAME_DocTypeName = "DocTypeName";
 /** Set Document No.
 @param DocumentNo Document sequence number of the document */
 public void setDocumentNo (String DocumentNo)
@@ -523,6 +575,8 @@ public String getDocumentNo()
 {
 return (String)get_Value("DocumentNo");
 }
+/** Column name DocumentNo */
+public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 /** Set EMail Address.
 @param EMail Electronic Mail Address */
 public void setEMail (String EMail)
@@ -540,6 +594,8 @@ public String getEMail()
 {
 return (String)get_Value("EMail");
 }
+/** Column name EMail */
+public static final String COLUMNNAME_EMail = "EMail";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -557,6 +613,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Import Invoice.
 @param I_Invoice_ID Import Invoice */
 public void setI_Invoice_ID (int I_Invoice_ID)
@@ -572,6 +630,8 @@ Integer ii = (Integer)get_Value("I_Invoice_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_Invoice_ID */
+public static final String COLUMNNAME_I_Invoice_ID = "I_Invoice_ID";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -590,6 +650,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Sales Transaction.
 @param IsSOTrx This is a Sales Transaction */
 public void setIsSOTrx (boolean IsSOTrx)
@@ -608,6 +670,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set Line Description.
 @param LineDescription Description of the Line */
 public void setLineDescription (String LineDescription)
@@ -625,6 +689,8 @@ public String getLineDescription()
 {
 return (String)get_Value("LineDescription");
 }
+/** Column name LineDescription */
+public static final String COLUMNNAME_LineDescription = "LineDescription";
 /** Set Price List.
 @param M_PriceList_ID Unique identifier of a Price List */
 public void setM_PriceList_ID (int M_PriceList_ID)
@@ -641,6 +707,8 @@ Integer ii = (Integer)get_Value("M_PriceList_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_PriceList_ID */
+public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -657,6 +725,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -674,6 +744,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Payment Term Key.
 @param PaymentTermValue Key of the Payment Term */
 public void setPaymentTermValue (String PaymentTermValue)
@@ -691,6 +763,8 @@ public String getPaymentTermValue()
 {
 return (String)get_Value("PaymentTermValue");
 }
+/** Column name PaymentTermValue */
+public static final String COLUMNNAME_PaymentTermValue = "PaymentTermValue";
 /** Set Phone.
 @param Phone Identifies a telephone number */
 public void setPhone (String Phone)
@@ -708,6 +782,8 @@ public String getPhone()
 {
 return (String)get_Value("Phone");
 }
+/** Column name Phone */
+public static final String COLUMNNAME_Phone = "Phone";
 /** Set ZIP.
 @param Postal Postal code */
 public void setPostal (String Postal)
@@ -725,6 +801,8 @@ public String getPostal()
 {
 return (String)get_Value("Postal");
 }
+/** Column name Postal */
+public static final String COLUMNNAME_Postal = "Postal";
 /** Set Unit Price.
 @param PriceActual Actual Price  */
 public void setPriceActual (BigDecimal PriceActual)
@@ -739,6 +817,8 @@ BigDecimal bd = (BigDecimal)get_Value("PriceActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name PriceActual */
+public static final String COLUMNNAME_PriceActual = "PriceActual";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -757,6 +837,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -775,6 +857,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Product Key.
 @param ProductValue Key of the Product */
 public void setProductValue (String ProductValue)
@@ -792,6 +876,8 @@ public String getProductValue()
 {
 return (String)get_Value("ProductValue");
 }
+/** Column name ProductValue */
+public static final String COLUMNNAME_ProductValue = "ProductValue";
 /** Set Ordered Quantity.
 @param QtyOrdered Ordered Quantity */
 public void setQtyOrdered (BigDecimal QtyOrdered)
@@ -806,6 +892,8 @@ BigDecimal bd = (BigDecimal)get_Value("QtyOrdered");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name QtyOrdered */
+public static final String COLUMNNAME_QtyOrdered = "QtyOrdered";
 /** Set Region.
 @param RegionName Name of the Region */
 public void setRegionName (String RegionName)
@@ -823,6 +911,8 @@ public String getRegionName()
 {
 return (String)get_Value("RegionName");
 }
+/** Column name RegionName */
+public static final String COLUMNNAME_RegionName = "RegionName";
 /** Set SKU.
 @param SKU Stock Keeping Unit */
 public void setSKU (String SKU)
@@ -840,6 +930,8 @@ public String getSKU()
 {
 return (String)get_Value("SKU");
 }
+/** Column name SKU */
+public static final String COLUMNNAME_SKU = "SKU";
 
 /** SalesRep_ID AD_Reference_ID=190 */
 public static final int SALESREP_ID_AD_Reference_ID=190;
@@ -859,6 +951,8 @@ Integer ii = (Integer)get_Value("SalesRep_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SalesRep_ID */
+public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 /** Set Tax Amount.
 @param TaxAmt Tax Amount for a document */
 public void setTaxAmt (BigDecimal TaxAmt)
@@ -873,6 +967,8 @@ BigDecimal bd = (BigDecimal)get_Value("TaxAmt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name TaxAmt */
+public static final String COLUMNNAME_TaxAmt = "TaxAmt";
 /** Set Tax Indicator.
 @param TaxIndicator Short form for Tax to be printed on documents */
 public void setTaxIndicator (String TaxIndicator)
@@ -890,6 +986,8 @@ public String getTaxIndicator()
 {
 return (String)get_Value("TaxIndicator");
 }
+/** Column name TaxIndicator */
+public static final String COLUMNNAME_TaxIndicator = "TaxIndicator";
 /** Set UPC/EAN.
 @param UPC Bar Code (Universal Product Code or its superset European Article Number) */
 public void setUPC (String UPC)
@@ -907,4 +1005,6 @@ public String getUPC()
 {
 return (String)get_Value("UPC");
 }
+/** Column name UPC */
+public static final String COLUMNNAME_UPC = "UPC";
 }

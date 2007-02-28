@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ResourceAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_S_ResourceAssignment extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ public Timestamp getAssignDateFrom()
 {
 return (Timestamp)get_Value("AssignDateFrom");
 }
+/** Column name AssignDateFrom */
+public static final String COLUMNNAME_AssignDateFrom = "AssignDateFrom";
 /** Set Assign To.
 @param AssignDateTo Assign resource until */
 public void setAssignDateTo (Timestamp AssignDateTo)
@@ -114,6 +116,8 @@ public Timestamp getAssignDateTo()
 {
 return (Timestamp)get_Value("AssignDateTo");
 }
+/** Column name AssignDateTo */
+public static final String COLUMNNAME_AssignDateTo = "AssignDateTo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -131,6 +135,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Confirmed.
 @param IsConfirmed Assignment is confirmed */
 public void setIsConfirmed (boolean IsConfirmed)
@@ -149,6 +155,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsConfirmed */
+public static final String COLUMNNAME_IsConfirmed = "IsConfirmed";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -167,6 +175,8 @@ public String getName()
 {
 return (String)get_Value("Name");
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -181,6 +191,8 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 /** Set Resource Assignment.
 @param S_ResourceAssignment_ID Resource Assignment */
 public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
@@ -196,6 +208,8 @@ Integer ii = (Integer)get_Value("S_ResourceAssignment_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name S_ResourceAssignment_ID */
+public static final String COLUMNNAME_S_ResourceAssignment_ID = "S_ResourceAssignment_ID";
 /** Set Resource.
 @param S_Resource_ID Resource */
 public void setS_Resource_ID (int S_Resource_ID)
@@ -217,4 +231,6 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getS_Resource_ID()));
 }
+/** Column name S_Resource_ID */
+public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 }

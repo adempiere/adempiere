@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_LandedCostAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_C_LandedCostAllocation extends PO
 {
 /** Standard Constructor
@@ -106,6 +106,8 @@ BigDecimal bd = (BigDecimal)get_Value("Amt");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
 /** Set Base.
 @param Base Calculation Base */
 public void setBase (BigDecimal Base)
@@ -121,6 +123,8 @@ BigDecimal bd = (BigDecimal)get_Value("Base");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Base */
+public static final String COLUMNNAME_Base = "Base";
 /** Set Invoice Line.
 @param C_InvoiceLine_ID Invoice Detail Line */
 public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
@@ -142,6 +146,8 @@ return ii.intValue();
 {
 return new KeyNamePair(get_ID(), String.valueOf(getC_InvoiceLine_ID()));
 }
+/** Column name C_InvoiceLine_ID */
+public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 /** Set Landed Cost Allocation.
 @param C_LandedCostAllocation_ID Allocation for Land Costs */
 public void setC_LandedCostAllocation_ID (int C_LandedCostAllocation_ID)
@@ -157,6 +163,8 @@ Integer ii = (Integer)get_Value("C_LandedCostAllocation_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_LandedCostAllocation_ID */
+public static final String COLUMNNAME_C_LandedCostAllocation_ID = "C_LandedCostAllocation_ID";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
@@ -173,6 +181,8 @@ Integer ii = (Integer)get_Value("M_AttributeSetInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_AttributeSetInstance_ID */
+public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 /** Set Cost Element.
 @param M_CostElement_ID Product Cost Element */
 public void setM_CostElement_ID (int M_CostElement_ID)
@@ -188,6 +198,8 @@ Integer ii = (Integer)get_Value("M_CostElement_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_CostElement_ID */
+public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 /** Set Product.
 @param M_Product_ID Product, Service, Item */
 public void setM_Product_ID (int M_Product_ID)
@@ -203,6 +215,8 @@ Integer ii = (Integer)get_Value("M_Product_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name M_Product_ID */
+public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 /** Set Quantity.
 @param Qty Quantity */
 public void setQty (BigDecimal Qty)
@@ -218,4 +232,6 @@ BigDecimal bd = (BigDecimal)get_Value("Qty");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name Qty */
+public static final String COLUMNNAME_Qty = "Qty";
 }

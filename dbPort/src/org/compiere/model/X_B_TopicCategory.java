@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_TopicCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_B_TopicCategory extends PO
 {
 /** Standard Constructor
@@ -102,6 +102,8 @@ Integer ii = (Integer)get_Value("B_TopicCategory_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_TopicCategory_ID */
+public static final String COLUMNNAME_B_TopicCategory_ID = "B_TopicCategory_ID";
 /** Set Topic Type.
 @param B_TopicType_ID Auction Topic Type */
 public void setB_TopicType_ID (int B_TopicType_ID)
@@ -117,6 +119,8 @@ Integer ii = (Integer)get_Value("B_TopicType_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name B_TopicType_ID */
+public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -134,6 +138,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -158,4 +164,6 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 }

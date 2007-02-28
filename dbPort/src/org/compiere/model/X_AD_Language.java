@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Language
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_Language extends PO
 {
 /** Standard Constructor
@@ -108,6 +108,8 @@ public String getAD_Language()
 {
 return (String)get_Value("AD_Language");
 }
+/** Column name AD_Language */
+public static final String COLUMNNAME_AD_Language = "AD_Language";
 /** Set Language ID.
 @param AD_Language_ID Language ID */
 public void setAD_Language_ID (int AD_Language_ID)
@@ -123,6 +125,8 @@ Integer ii = (Integer)get_Value("AD_Language_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Language_ID */
+public static final String COLUMNNAME_AD_Language_ID = "AD_Language_ID";
 /** Set ISO Country Code.
 @param CountryCode Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html */
 public void setCountryCode (String CountryCode)
@@ -140,6 +144,8 @@ public String getCountryCode()
 {
 return (String)get_Value("CountryCode");
 }
+/** Column name CountryCode */
+public static final String COLUMNNAME_CountryCode = "CountryCode";
 /** Set Date Pattern.
 @param DatePattern Java Date Pattern */
 public void setDatePattern (String DatePattern)
@@ -157,6 +163,8 @@ public String getDatePattern()
 {
 return (String)get_Value("DatePattern");
 }
+/** Column name DatePattern */
+public static final String COLUMNNAME_DatePattern = "DatePattern";
 /** Set Base Language.
 @param IsBaseLanguage The system information is maintained in this language */
 public void setIsBaseLanguage (boolean IsBaseLanguage)
@@ -175,6 +183,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsBaseLanguage */
+public static final String COLUMNNAME_IsBaseLanguage = "IsBaseLanguage";
 /** Set Decimal Point.
 @param IsDecimalPoint The number notation has a decimal point (no decimal comma) */
 public void setIsDecimalPoint (boolean IsDecimalPoint)
@@ -193,6 +203,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsDecimalPoint */
+public static final String COLUMNNAME_IsDecimalPoint = "IsDecimalPoint";
 /** Set System Language.
 @param IsSystemLanguage The screens, etc. are maintained in this Language */
 public void setIsSystemLanguage (boolean IsSystemLanguage)
@@ -211,6 +223,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSystemLanguage */
+public static final String COLUMNNAME_IsSystemLanguage = "IsSystemLanguage";
 /** Set ISO Language Code.
 @param LanguageISO Lower-case two-letter ISO-3166 code - http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt  */
 public void setLanguageISO (String LanguageISO)
@@ -228,6 +242,8 @@ public String getLanguageISO()
 {
 return (String)get_Value("LanguageISO");
 }
+/** Column name LanguageISO */
+public static final String COLUMNNAME_LanguageISO = "LanguageISO";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -252,6 +268,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -270,6 +288,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Time Pattern.
 @param TimePattern Java Time Pattern */
 public void setTimePattern (String TimePattern)
@@ -287,4 +307,6 @@ public String getTimePattern()
 {
 return (String)get_Value("TimePattern");
 }
+/** Column name TimePattern */
+public static final String COLUMNNAME_TimePattern = "TimePattern";
 }

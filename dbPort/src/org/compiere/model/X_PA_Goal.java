@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_PA_Goal extends PO
 {
 /** Standard Constructor
@@ -110,6 +110,8 @@ Integer ii = (Integer)get_Value("AD_Role_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_Role_ID */
+public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
 /** Set User/Contact.
 @param AD_User_ID User within the system - Internal or Business Partner Contact */
 public void setAD_User_ID (int AD_User_ID)
@@ -126,6 +128,8 @@ Integer ii = (Integer)get_Value("AD_User_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_User_ID */
+public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 /** Set Date From.
 @param DateFrom Starting date for a range */
 public void setDateFrom (Timestamp DateFrom)
@@ -138,6 +142,8 @@ public Timestamp getDateFrom()
 {
 return (Timestamp)get_Value("DateFrom");
 }
+/** Column name DateFrom */
+public static final String COLUMNNAME_DateFrom = "DateFrom";
 /** Set Date last run.
 @param DateLastRun Date the process was last run. */
 public void setDateLastRun (Timestamp DateLastRun)
@@ -150,6 +156,8 @@ public Timestamp getDateLastRun()
 {
 return (Timestamp)get_Value("DateLastRun");
 }
+/** Column name DateLastRun */
+public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 /** Set Date To.
 @param DateTo End date of a date range */
 public void setDateTo (Timestamp DateTo)
@@ -162,6 +170,8 @@ public Timestamp getDateTo()
 {
 return (Timestamp)get_Value("DateTo");
 }
+/** Column name DateTo */
+public static final String COLUMNNAME_DateTo = "DateTo";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -179,6 +189,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Performance Goal.
 @param GoalPerformance Target achievement from 0..1 */
 public void setGoalPerformance (BigDecimal GoalPerformance)
@@ -194,6 +206,8 @@ BigDecimal bd = (BigDecimal)get_Value("GoalPerformance");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name GoalPerformance */
+public static final String COLUMNNAME_GoalPerformance = "GoalPerformance";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -212,6 +226,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 /** Set Measure Actual.
 @param MeasureActual Actual value that has been measured. */
 public void setMeasureActual (BigDecimal MeasureActual)
@@ -227,6 +243,8 @@ BigDecimal bd = (BigDecimal)get_Value("MeasureActual");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MeasureActual */
+public static final String COLUMNNAME_MeasureActual = "MeasureActual";
 
 /** MeasureDisplay AD_Reference_ID=367 */
 public static final int MEASUREDISPLAY_AD_Reference_ID=367;
@@ -261,6 +279,8 @@ public String getMeasureDisplay()
 {
 return (String)get_Value("MeasureDisplay");
 }
+/** Column name MeasureDisplay */
+public static final String COLUMNNAME_MeasureDisplay = "MeasureDisplay";
 
 /** MeasureScope AD_Reference_ID=367 */
 public static final int MEASURESCOPE_AD_Reference_ID=367;
@@ -296,6 +316,8 @@ public String getMeasureScope()
 {
 return (String)get_Value("MeasureScope");
 }
+/** Column name MeasureScope */
+public static final String COLUMNNAME_MeasureScope = "MeasureScope";
 /** Set Measure Target.
 @param MeasureTarget Target value for measure */
 public void setMeasureTarget (BigDecimal MeasureTarget)
@@ -311,6 +333,8 @@ BigDecimal bd = (BigDecimal)get_Value("MeasureTarget");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name MeasureTarget */
+public static final String COLUMNNAME_MeasureTarget = "MeasureTarget";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -335,6 +359,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Note.
 @param Note Optional additional user defined information */
 public void setNote (String Note)
@@ -352,6 +378,8 @@ public String getNote()
 {
 return (String)get_Value("Note");
 }
+/** Column name Note */
+public static final String COLUMNNAME_Note = "Note";
 /** Set Color Schema.
 @param PA_ColorSchema_ID Performance Color Schema */
 public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
@@ -367,6 +395,8 @@ Integer ii = (Integer)get_Value("PA_ColorSchema_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ColorSchema_ID */
+public static final String COLUMNNAME_PA_ColorSchema_ID = "PA_ColorSchema_ID";
 
 /** PA_GoalParent_ID AD_Reference_ID=230 */
 public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
@@ -386,6 +416,8 @@ Integer ii = (Integer)get_Value("PA_GoalParent_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_GoalParent_ID */
+public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
 /** Set Goal.
 @param PA_Goal_ID Performance Goal */
 public void setPA_Goal_ID (int PA_Goal_ID)
@@ -401,6 +433,8 @@ Integer ii = (Integer)get_Value("PA_Goal_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Goal_ID */
+public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
 /** Set Measure.
 @param PA_Measure_ID Concrete Performance Measurement */
 public void setPA_Measure_ID (int PA_Measure_ID)
@@ -417,6 +451,8 @@ Integer ii = (Integer)get_Value("PA_Measure_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_Measure_ID */
+public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
 /** Set Relative Weight.
 @param RelativeWeight Relative weight of this step (0 = ignored) */
 public void setRelativeWeight (BigDecimal RelativeWeight)
@@ -432,6 +468,8 @@ BigDecimal bd = (BigDecimal)get_Value("RelativeWeight");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name RelativeWeight */
+public static final String COLUMNNAME_RelativeWeight = "RelativeWeight";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -448,4 +486,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }

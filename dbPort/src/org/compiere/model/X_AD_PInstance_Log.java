@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PInstance_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_AD_PInstance_Log extends PO
 {
 /** Standard Constructor
@@ -101,6 +101,8 @@ Integer ii = (Integer)get_Value("AD_PInstance_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name AD_PInstance_ID */
+public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 /** Set Log.
 @param Log_ID Log */
 public void setLog_ID (int Log_ID)
@@ -116,6 +118,8 @@ Integer ii = (Integer)get_Value("Log_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name Log_ID */
+public static final String COLUMNNAME_Log_ID = "Log_ID";
 /** Set Process Date.
 @param P_Date Process Parameter */
 public void setP_Date (Timestamp P_Date)
@@ -128,6 +132,8 @@ public Timestamp getP_Date()
 {
 return (Timestamp)get_Value("P_Date");
 }
+/** Column name P_Date */
+public static final String COLUMNNAME_P_Date = "P_Date";
 /** Set Process ID.
 @param P_ID Process ID */
 public void setP_ID (int P_ID)
@@ -144,6 +150,8 @@ Integer ii = (Integer)get_Value("P_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name P_ID */
+public static final String COLUMNNAME_P_ID = "P_ID";
 /** Set Process Message.
 @param P_Msg Process Message */
 public void setP_Msg (String P_Msg)
@@ -161,6 +169,8 @@ public String getP_Msg()
 {
 return (String)get_Value("P_Msg");
 }
+/** Column name P_Msg */
+public static final String COLUMNNAME_P_Msg = "P_Msg";
 /** Set Process Number.
 @param P_Number Process Parameter */
 public void setP_Number (BigDecimal P_Number)
@@ -175,4 +185,6 @@ BigDecimal bd = (BigDecimal)get_Value("P_Number");
 if (bd == null) return Env.ZERO;
 return bd;
 }
+/** Column name P_Number */
+public static final String COLUMNNAME_P_Number = "P_Number";
 }

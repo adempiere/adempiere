@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
  you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.1.4 - $Id$ */
+ *  @version Release 3.1.5 - $Id$ */
 public class X_I_ReportLine extends PO
 {
 /** Standard Constructor
@@ -132,6 +132,8 @@ public String getAmountType()
 {
 return (String)get_Value("AmountType");
 }
+/** Column name AmountType */
+public static final String COLUMNNAME_AmountType = "AmountType";
 /** Set Account Element.
 @param C_ElementValue_ID Account Element */
 public void setC_ElementValue_ID (int C_ElementValue_ID)
@@ -148,6 +150,8 @@ Integer ii = (Integer)get_Value("C_ElementValue_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name C_ElementValue_ID */
+public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
 
 /** CalculationType AD_Reference_ID=236 */
 public static final int CALCULATIONTYPE_AD_Reference_ID=236;
@@ -178,6 +182,8 @@ public String getCalculationType()
 {
 return (String)get_Value("CalculationType");
 }
+/** Column name CalculationType */
+public static final String COLUMNNAME_CalculationType = "CalculationType";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -195,6 +201,8 @@ public String getDescription()
 {
 return (String)get_Value("Description");
 }
+/** Column name Description */
+public static final String COLUMNNAME_Description = "Description";
 /** Set Element Key.
 @param ElementValue Key of the element */
 public void setElementValue (String ElementValue)
@@ -212,6 +220,8 @@ public String getElementValue()
 {
 return (String)get_Value("ElementValue");
 }
+/** Column name ElementValue */
+public static final String COLUMNNAME_ElementValue = "ElementValue";
 /** Set Import Error Message.
 @param I_ErrorMsg Messages generated from import process */
 public void setI_ErrorMsg (String I_ErrorMsg)
@@ -229,6 +239,8 @@ public String getI_ErrorMsg()
 {
 return (String)get_Value("I_ErrorMsg");
 }
+/** Column name I_ErrorMsg */
+public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 /** Set Imported.
 @param I_IsImported Has this import been processed */
 public void setI_IsImported (boolean I_IsImported)
@@ -247,6 +259,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name I_IsImported */
+public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 /** Set Import Report Line Set.
 @param I_ReportLine_ID Import Report Line Set values */
 public void setI_ReportLine_ID (int I_ReportLine_ID)
@@ -262,6 +276,8 @@ Integer ii = (Integer)get_Value("I_ReportLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name I_ReportLine_ID */
+public static final String COLUMNNAME_I_ReportLine_ID = "I_ReportLine_ID";
 /** Set Printed.
 @param IsPrinted Indicates if this document / line is printed */
 public void setIsPrinted (boolean IsPrinted)
@@ -280,6 +296,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsPrinted */
+public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 /** Set Summary Level.
 @param IsSummary This is a summary entity */
 public void setIsSummary (boolean IsSummary)
@@ -298,6 +316,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name IsSummary */
+public static final String COLUMNNAME_IsSummary = "IsSummary";
 
 /** LineType AD_Reference_ID=241 */
 public static final int LINETYPE_AD_Reference_ID=241;
@@ -324,6 +344,8 @@ public String getLineType()
 {
 return (String)get_Value("LineType");
 }
+/** Column name LineType */
+public static final String COLUMNNAME_LineType = "LineType";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
@@ -347,6 +369,8 @@ return (String)get_Value("Name");
 {
 return new KeyNamePair(get_ID(), getName());
 }
+/** Column name Name */
+public static final String COLUMNNAME_Name = "Name";
 /** Set Report Line Set.
 @param PA_ReportLineSet_ID Report Line Set */
 public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
@@ -363,6 +387,8 @@ Integer ii = (Integer)get_Value("PA_ReportLineSet_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLineSet_ID */
+public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
 /** Set Report Line.
 @param PA_ReportLine_ID Report Line */
 public void setPA_ReportLine_ID (int PA_ReportLine_ID)
@@ -379,6 +405,8 @@ Integer ii = (Integer)get_Value("PA_ReportLine_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportLine_ID */
+public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
 /** Set Report Source.
 @param PA_ReportSource_ID Restriction of what will be shown in Report Line */
 public void setPA_ReportSource_ID (int PA_ReportSource_ID)
@@ -395,6 +423,8 @@ Integer ii = (Integer)get_Value("PA_ReportSource_ID");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name PA_ReportSource_ID */
+public static final String COLUMNNAME_PA_ReportSource_ID = "PA_ReportSource_ID";
 
 /** PostingType AD_Reference_ID=125 */
 public static final int POSTINGTYPE_AD_Reference_ID=125;
@@ -427,6 +457,8 @@ public String getPostingType()
 {
 return (String)get_Value("PostingType");
 }
+/** Column name PostingType */
+public static final String COLUMNNAME_PostingType = "PostingType";
 /** Set Processed.
 @param Processed The document has been processed */
 public void setProcessed (boolean Processed)
@@ -445,6 +477,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processed */
+public static final String COLUMNNAME_Processed = "Processed";
 /** Set Process Now.
 @param Processing Process Now */
 public void setProcessing (boolean Processing)
@@ -463,6 +497,8 @@ if (oo != null)
 }
 return false;
 }
+/** Column name Processing */
+public static final String COLUMNNAME_Processing = "Processing";
 /** Set Report Line Set Name.
 @param ReportLineSetName Name of the Report Line Set */
 public void setReportLineSetName (String ReportLineSetName)
@@ -480,6 +516,8 @@ public String getReportLineSetName()
 {
 return (String)get_Value("ReportLineSetName");
 }
+/** Column name ReportLineSetName */
+public static final String COLUMNNAME_ReportLineSetName = "ReportLineSetName";
 /** Set Sequence.
 @param SeqNo Method of ordering records;
  lowest number comes first */
@@ -496,4 +534,6 @@ Integer ii = (Integer)get_Value("SeqNo");
 if (ii == null) return 0;
 return ii.intValue();
 }
+/** Column name SeqNo */
+public static final String COLUMNNAME_SeqNo = "SeqNo";
 }
