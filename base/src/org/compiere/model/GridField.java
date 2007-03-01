@@ -630,7 +630,7 @@ public class GridField
 			
 			//	Boolean
 			if (m_vo.displayType == DisplayType.YesNo)
-				return new Boolean ("Y".equals(value));
+				return Boolean.valueOf ("Y".equals(value));
 			
 			//	Default
 			return value;
@@ -1043,13 +1043,13 @@ public class GridField
 			if (LinkColumnName.length() == 0)
 				;
 			else 
-				m_parentValue = new Boolean(m_vo.ColumnName.equals(LinkColumnName));
+				m_parentValue = Boolean.valueOf(m_vo.ColumnName.equals(LinkColumnName));
 			if (m_parentValue)
 				log.config(m_parentValue
 					+ " - Link(" + LinkColumnName + ", W=" + m_vo.WindowNo + ",T=" + m_vo.TabNo
 					+ ") = " + m_vo.ColumnName);
 			else
-				m_parentValue = new Boolean(isIndirectParentValue());
+				m_parentValue = Boolean.valueOf(isIndirectParentValue());
 		}
 		return m_parentValue.booleanValue();
 	}	//	isParentValue
