@@ -290,7 +290,8 @@ public final class MLookup extends Lookup implements Serializable
 	{
 		if (m_info == null)
 			return false;
-		return m_info.IsValidated;
+		//return m_info.IsValidated;
+		return isValidated(m_info);
 	}	//	isValidated
 
 	/**
@@ -618,14 +619,15 @@ public final class MLookup extends Lookup implements Serializable
 			if (!m_info.IsValidated)
 			{
 				String validation = Env.parseContext(m_info.ctx, m_info.WindowNo, m_info.ValidationCode, false);
+				m_info.parsedValidationCode = validation;
 				if (validation.length() == 0 && m_info.ValidationCode.length() > 0)
 				{
 					log.fine(m_info.KeyColumn + ": Loader NOT Validated: " + m_info.ValidationCode);
+					m_lookup.clear();
 					return;
 				}
 				else
-				{
-					m_info.parsedValidationCode = validation;
+				{					
 					log.fine(m_info.KeyColumn + ": Loader Validated: " + validation);
 					int posFrom = sql.lastIndexOf(" FROM ");
 					boolean hasWhere = sql.indexOf(" WHERE ", posFrom) != -1;
