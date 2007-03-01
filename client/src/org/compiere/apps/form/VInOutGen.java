@@ -396,7 +396,6 @@ public class VInOutGen extends CPanel
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
-		System.out.println("AD_PInstance_ID: " + instance.getAD_PInstance_ID());
 		
 		//insert selection
 		StringBuffer insert = new StringBuffer();
