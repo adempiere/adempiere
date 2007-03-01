@@ -726,16 +726,16 @@ public class MCost extends X_M_Cost
 				for (int o = 0; o < orgs.length; o++)
 				{
 					MCost cost = MCost.get (product, M_ASI_ID, 
-						as, orgs[i].getAD_Org_ID(), ce.getM_CostElement_ID());
+						as, orgs[o].getAD_Org_ID(), ce.getM_CostElement_ID());
 					if (cost.is_new())
 					{
 						if (cost.save())
 							s_log.config("Std.Cost for " + product.getName()
-								+ " - " + orgs[i].getName()
+								+ " - " + orgs[o].getName()
 								+ " - " + as.getName());
 						else
 							s_log.warning("Not created: Std.Cost for " + product.getName() 
-								+ " - " + orgs[i].getName()
+								+ " - " + orgs[o].getName()
 								+ " - " + as.getName());
 					}
 				}	//	for all orgs

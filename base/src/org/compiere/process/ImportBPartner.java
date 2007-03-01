@@ -306,6 +306,8 @@ public class ImportBPartner extends SvrProcess
 						bp.setTaxID(impBP.getTaxID());
 					if (impBP.getNAICS() != null)
 						bp.setNAICS(impBP.getNAICS());
+					if (impBP.getDescription() != null)
+						bp.setDescription(impBP.getDescription());
 					if (impBP.getC_BP_Group_ID() != 0)
 						bp.setC_BP_Group_ID(impBP.getC_BP_Group_ID());
 					//
@@ -470,7 +472,7 @@ public class ImportBPartner extends SvrProcess
 					user.setDescription(impBP.getContactDescription());
 					user.setComments(impBP.getComments());
 					user.setPhone(impBP.getPhone());
-					user.setPhone(impBP.getPhone2());
+					user.setPhone2(impBP.getPhone2());
 					user.setFax(impBP.getFax());
 					user.setEMail(impBP.getEMail());
 					user.setBirthday(impBP.getBirthday());
