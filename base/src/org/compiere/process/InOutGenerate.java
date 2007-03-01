@@ -128,8 +128,10 @@ public class InOutGenerate extends SvrProcess
 		
 		if (p_Selection)	//	VInOutGen
 		{
-			m_sql = "SELECT * FROM C_Order "
-				+ "WHERE IsSelected='Y' AND DocStatus='CO' AND IsSOTrx='Y' AND AD_Client_ID=?";
+			m_sql = "SELECT C_Order.* FROM C_Order, T_Selection "
+				+ "WHERE C_Order.DocStatus='CO' AND C_Order.IsSOTrx='Y' AND C_Order.AD_Client_ID=? "
+				+ "AND C_Order.C_Order_ID = T_Selection.T_Selection_ID " 
+				+ "AND T_Selection.AD_PInstance_ID=? ";
 		}
 		else
 		{
@@ -160,7 +162,10 @@ public class InOutGenerate extends SvrProcess
 			pstmt = DB.prepareStatement (m_sql, get_TrxName());
 			int index = 1;
 			if (p_Selection)
+			{
 				pstmt.setInt(index++, Env.getAD_Client_ID(getCtx()));
+				pstmt.setInt(index++, getAD_PInstance_ID());
+			}
 			else	
 			{
 				pstmt.setInt(index++, p_M_Warehouse_ID);
@@ -191,6 +196,7 @@ public class InOutGenerate extends SvrProcess
 			while (rs.next ())		//	Order
 			{
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
+				System.out.println("Shipment for: " + order.getDocumentNo());
 				//	New Header different Shipper, Shipment Location
 				if (!p_ConsolidateDocument 
 					|| (m_shipment != null 
