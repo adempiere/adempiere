@@ -49,12 +49,6 @@ public class MIssue extends X_AD_Issue
 		//
 		MIssue issue = new MIssue(record);
 		String error = issue.report();
-		String errorTrace = issue.getErrorTrace();
-		if (errorTrace != null && errorTrace.length() >= 1900)
-			issue.setErrorTrace(errorTrace.substring(0, 1900));
-		String stackTrace = issue.getStackTrace();
-		if (stackTrace != null && stackTrace.length() >= 1900)
-			issue.setStackTrace(stackTrace.substring(0, 1900));
 		issue.save();
 		if (error != null)
 			return null;
@@ -252,11 +246,8 @@ public class MIssue extends X_AD_Issue
 			return;
 		StackTrace = StackTrace.replace("java.lang.", "");
 		StackTrace = StackTrace.replace("java.sql.", "");
-		
-		//[ 1671816 ] MIssue.create fail for long stack trace
-		//somehow INFOLENGTH-1 doesn't work for postgresql
 		if (StackTrace.length() > INFOLENGTH)
-			StackTrace = StackTrace.substring(0,INFOLENGTH-2);
+			StackTrace = StackTrace.substring(0,INFOLENGTH-1);
 		super.setStackTrace (StackTrace);
 	}	//	setStackTrace
 	
@@ -272,11 +263,8 @@ public class MIssue extends X_AD_Issue
 			return;
 		ErrorTrace = ErrorTrace.replace("java.lang.", "");
 		ErrorTrace = ErrorTrace.replace("java.sql.", "");
-		
-		//[ 1671816 ] MIssue.create fail for long stack trace
-		//somehow INFOLENGTH-1 doesn't work for postgresql
 		if (ErrorTrace.length() > INFOLENGTH)
-			ErrorTrace = ErrorTrace.substring(0,INFOLENGTH-2);
+			ErrorTrace = ErrorTrace.substring(0,INFOLENGTH-1);
 		super.setErrorTrace (ErrorTrace);
 	}	//	setErrorTrace
 
