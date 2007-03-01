@@ -71,5 +71,6 @@
 	<classpathentry kind="lib" path="tools/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="tools/lib/itext-1.4.8.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jpedal.jar"/>
+	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
