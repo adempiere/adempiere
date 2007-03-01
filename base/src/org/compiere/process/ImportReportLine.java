@@ -334,6 +334,7 @@ public class ImportReportLine extends SvrProcess
 			+ "FROM I_ReportLine "
 			+ "WHERE PA_ReportLine_ID IS NOT NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
+		
 		try
 		{
 			//	Insert ReportSource
@@ -364,6 +365,14 @@ public class ImportReportLine extends SvrProcess
 				(sqlt, get_TrxName());
 				*/
 
+			// Delete ReportSource - afalcone 22/02/2007 - F.R. [ 1642250 ] Import ReportLine / Very Slow Reports
+			PreparedStatement pstmt_deleteSource = DB.prepareStatement
+				("DELETE FROM PA_ReportSource "
+				+ "WHERE C_ElementValue_ID IS NULL" 
+				+ " AND PA_ReportSource_ID=?"
+				+ clientCheck, get_TrxName());
+			//End afalcone 22/02/2007 - F.R. [ 1642250 ] Import ReportLine / Very Slow Reports
+			
 			//	Set Imported = Y
 			PreparedStatement pstmt_setImported = DB.prepareStatement
 				("UPDATE I_ReportLine SET I_IsImported='Y',"
@@ -441,6 +450,14 @@ public class ImportReportLine extends SvrProcess
 				if (no != 1)
 					log.log(Level.SEVERE, "Set Imported=" + no);
 				//
+				
+				// afalcone 22/02/2007 - F.R. [ 1642250 ] Import ReportLine / Very Slow Reports
+				// Delete report sources with null account
+				pstmt_deleteSource.setInt(1, PA_ReportSource_ID);
+				no = pstmt_deleteSource.executeUpdate();
+				log.finest("Delete ReportSource with Null Account= " + no + ", I_ReportLine_ID=" + I_ReportLine_ID + ", PA_ReportSource_ID=" + PA_ReportSource_ID);
+				// End afalcone 22/02/2007 - F.R. [ 1642250 ] Import ReportLine / Very Slow Reports
+
 				commit();
 			}
 			rs.close();
@@ -459,6 +476,7 @@ public class ImportReportLine extends SvrProcess
 		sql = new StringBuffer ("UPDATE I_ReportLine "
 			+ "SET I_IsImported='N', Updated=SysDate "
 			+ "WHERE I_IsImported<>'Y'").append(clientCheck);
+		
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		addLog (0, null, new BigDecimal (no), "@Errors@");
 		addLog (0, null, new BigDecimal (noInsertLine), "@PA_ReportLine_ID@: @Inserted@");
