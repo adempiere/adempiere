@@ -246,8 +246,10 @@ public abstract class Convert
 			String group = m.group();       //  SQL string
 			if (group.indexOf('/') != -1)   //  / in string
 				group = group.replace('/', MASK);
-			if (group.indexOf('$') != -1)   //  Group character needs to be escaped
-				group = Util.replace(group, "$", "\\$");
+			//[ 1671816 ] MIssue.create fail for long stack trace
+			//the following 2 line change the length of the string literal
+//			if (group.indexOf('$') != -1)   //  Group character needs to be escaped
+//				group = Util.replace(group, "$", "\\$");
 			//hengsin, [ 1662983 ] Convert cutting backslash from string
 			m.appendReplacement(masked, Matcher.quoteReplacement(group));
 		}
