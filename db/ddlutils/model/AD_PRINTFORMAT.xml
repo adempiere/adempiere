@@ -26,6 +26,7 @@
       <column name="AD_PRINTTABLEFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PRINTERNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="JASPERPROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMAT">
         <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>

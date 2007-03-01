@@ -78,14 +78,14 @@
       <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_FACT_ACCT">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_FACTACCT">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_FACTACCT">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
@@ -126,14 +126,14 @@
       <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_FACT_ACCT">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
+      <index name="FACT_ACCT_DATEACCT">
+        <index-column name="DATEACCT"/>
+      </index>
       <index name="FACT_ACCT_ACCOUNT">
         <index-column name="AD_CLIENT_ID"/>
         <index-column name="AD_ORG_ID"/>
         <index-column name="C_ACCTSCHEMA_ID"/>
         <index-column name="ACCOUNT_ID"/>
-      </index>
-      <index name="FACT_ACCT_DATEACCT">
-        <index-column name="DATEACCT"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

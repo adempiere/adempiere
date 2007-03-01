@@ -29,11 +29,11 @@
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TREPLENISH">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TREPLENISH">
-        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSESOURCE_TREPLENISH">
         <reference local="M_WAREHOUSESOURCE_ID" foreign="M_WAREHOUSE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TREPLENISH">
+        <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
     </table>
   </database>

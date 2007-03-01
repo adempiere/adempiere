@@ -17,11 +17,11 @@
       <column name="PARENT_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_ADORGINFO">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGPARENT_ADORGINFO">
         <reference local="PARENT_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_ADORGINFO">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORGTYPE" name="ADORGTYPE_ADORGINFO">
         <reference local="AD_ORGTYPE_ID" foreign="AD_ORGTYPE_ID"/>

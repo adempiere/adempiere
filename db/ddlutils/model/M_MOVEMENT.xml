@@ -29,11 +29,11 @@
       <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_MMOVEMENT">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MMOVEMENT">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_MMOVEMENT">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MMOVEMENT">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>

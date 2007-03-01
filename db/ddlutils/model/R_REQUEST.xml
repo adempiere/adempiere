@@ -72,11 +72,11 @@
       <foreign-key foreignTable="AD_TABLE" name="ADTABLE_RREQUEST">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUEST">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUEST">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUEST">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUEST">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
@@ -90,11 +90,11 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_RREQUEST">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICEREQUEST_RREQUEST">
-        <reference local="C_INVOICEREQUEST_ID" foreign="C_INVOICE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_INVOICE" name="RINVOICE_RREQUEST">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICEREQUEST_RREQUEST">
+        <reference local="C_INVOICEREQUEST_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_RREQUEST">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>

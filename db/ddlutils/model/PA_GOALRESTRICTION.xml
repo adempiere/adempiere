@@ -18,11 +18,11 @@
       <column name="ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG2_PAGOALRESTRICTION">
-        <reference local="ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_PAGOALRESTRICTION">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG2_PAGOALRESTRICTION">
+        <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PAGOALRESTRICTION">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>

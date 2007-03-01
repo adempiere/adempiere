@@ -30,6 +30,9 @@
       <column name="DOCUMENTDIR" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISPOSTIMMEDIATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISCOSTIMMEDIATE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="STOREATTACHMENTSONFILESYSTEM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
+      <column name="WINDOWSATTACHMENTPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="UNIXATTACHMENTPATH" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <unique name="AD_CLIENT_NAME">
         <unique-column name="NAME"/>
       </unique>

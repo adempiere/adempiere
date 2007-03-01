@@ -27,6 +27,7 @@
       <column name="ISCHANGELOG" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
       <column name="PO_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
+      <column name="COPYCOLUMNSFROMTABLE" primaryKey="false" required="false" type="VARCHAR" size="1" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="TABLECLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
@@ -36,11 +37,11 @@
       <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_TABLE">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE">
-        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE">
         <reference local="PO_WINDOW_ID" foreign="AD_WINDOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE">
+        <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <unique name="AD_TABLE_NAME">
         <unique-column name="TABLENAME"/>

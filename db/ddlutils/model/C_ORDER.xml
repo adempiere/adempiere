@@ -81,11 +81,11 @@
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER">
         <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
@@ -93,20 +93,20 @@
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER">
-        <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER">
         <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER">
+        <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER">
-        <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER">
         <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER">
+        <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER">
         <reference local="BILL_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
@@ -132,11 +132,11 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER">
         <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_REF">
         <reference local="REF_ORDER_ID" foreign="C_ORDER_ID"/>

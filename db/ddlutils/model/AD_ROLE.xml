@@ -33,6 +33,17 @@
       <column name="CONFIRMQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="MAXQUERYRECORDS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="CONNECTIONPROFILE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ACCOUNT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ASSET" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_BPARTNER" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_CASHJOURNAL" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_INOUT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_INVOICE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_ORDER" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_PAYMENT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_PRODUCT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_RESOURCE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
+      <column name="ALLOW_INFO_SCHEDULE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <foreign-key foreignTable="AD_CLIENT" name="AD_ROLECLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

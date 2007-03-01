@@ -57,11 +57,11 @@
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_FACTACCTBAL">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_FACTACCTBAL">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCT_FACTACCTBAL">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_FACTACCTBAL">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCTO_FACTACCTBAL">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>

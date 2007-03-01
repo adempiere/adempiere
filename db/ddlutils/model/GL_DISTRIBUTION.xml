@@ -69,14 +69,14 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLDISTRIBUTION">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST">
-        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDIST">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST">
+        <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDIST">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>

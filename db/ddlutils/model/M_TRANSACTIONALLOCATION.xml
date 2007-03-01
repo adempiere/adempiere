@@ -26,17 +26,17 @@
       <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINST_MTRXALLOC">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINEOUT_MTRXALLOC">
-        <reference local="OUT_M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MTRXALLOC">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINEOUT_MTRXALLOC">
-        <reference local="OUT_M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINEOUT_MTRXALLOC">
+        <reference local="OUT_M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MTRXALLOC">
         <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINEOUT_MTRXALLOC">
+        <reference local="OUT_M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MTRXALLOC">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
@@ -47,11 +47,11 @@
       <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_MTRXALLOC">
         <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_TRANSACTION" name="MTRANSACTIONOUT_MTRXALLOC">
-        <reference local="OUT_M_TRANSACTION_ID" foreign="M_TRANSACTION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_TRANSACTION" name="MTTRANSACTION_MTRXALLOC">
         <reference local="M_TRANSACTION_ID" foreign="M_TRANSACTION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_TRANSACTION" name="MTRANSACTIONOUT_MTRXALLOC">
+        <reference local="OUT_M_TRANSACTION_ID" foreign="M_TRANSACTION_ID"/>
       </foreign-key>
       <index name="M_TRANSACTIONALLOCATION_PRD">
         <index-column name="M_PRODUCT_ID"/>

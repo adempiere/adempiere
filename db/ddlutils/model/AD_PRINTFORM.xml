@@ -25,12 +25,6 @@
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADPRINTFORM">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMINVOICE">
-        <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMSHIPMENT">
-        <reference local="SHIPMENT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMREMITTANCE">
         <reference local="REMITTANCE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
@@ -40,11 +34,11 @@
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMORDER">
         <reference local="ORDER_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_INVOICEADPRINTFORM">
-        <reference local="INVOICE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMINVOICE">
+        <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_SHIPADPRINTFORM">
-        <reference local="SHIPMENT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMSHIPMENT">
+        <reference local="SHIPMENT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
       <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_REMITADPRINTFORM">
         <reference local="REMITTANCE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
@@ -54,6 +48,12 @@
       </foreign-key>
       <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ORDERADPRINTFORM">
         <reference local="ORDER_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_INVOICEADPRINTFORM">
+        <reference local="INVOICE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_SHIPADPRINTFORM">
+        <reference local="SHIPMENT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
       <unique name="AD_PRINTFORM_CLIENT">
         <unique-column name="AD_CLIENT_ID"/>

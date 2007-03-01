@@ -37,11 +37,11 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUTLINE">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUTLINE">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUTLINE">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUTLINE">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -52,11 +52,11 @@
       <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINOUTLINE">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_MINOUTLINE">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_MINOUTLINE">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_MINOUTLINE">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MINOUT">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>

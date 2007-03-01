@@ -73,11 +73,11 @@
       <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG">
-        <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG">
+        <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER">
         <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
@@ -100,11 +100,11 @@
       <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER">
         <reference local="C_INVOICESCHEDULE_ID" foreign="C_INVOICESCHEDULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER">
-        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER">
         <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER">
+        <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>

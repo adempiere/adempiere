@@ -36,11 +36,11 @@
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICEBATCHLINE">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICEBATCHLINE">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICEBATCHLINE">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCHLINE">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
@@ -60,11 +60,11 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CINVOICEBATCHLINE">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_CINVOICEBLINE">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_CINVOICEBLINE">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_CINVOICEBLINE">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICEBATCHLINE">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>

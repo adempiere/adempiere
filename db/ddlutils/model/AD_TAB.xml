@@ -42,11 +42,11 @@
       <foreign-key foreignTable="AD_CLIENT" name="TABCLIENT">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER">
-        <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO">
         <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER">
+        <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>

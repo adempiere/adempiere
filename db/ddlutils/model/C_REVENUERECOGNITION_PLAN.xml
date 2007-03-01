@@ -30,11 +30,11 @@
       <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVENUERECOGNITION_PLAN">
         <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CREVENUERECOGNITIO">
-        <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CREVENUEREC">
         <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CREVENUERECOGNITIO">
+        <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

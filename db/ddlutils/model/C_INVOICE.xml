@@ -62,11 +62,11 @@
       <column name="REF_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="INVOICECOLLECTIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICE">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICE">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICE">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICE">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
@@ -104,11 +104,11 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CINVOICE">
         <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CINVOICE">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CINVOICE">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CINVOICE">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_INVOICE" name="CINVOICE_REF">
         <reference local="REF_INVOICE_ID" foreign="C_INVOICE_ID"/>

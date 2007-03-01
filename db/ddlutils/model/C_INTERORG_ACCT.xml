@@ -13,20 +13,20 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERCOMPANYDUETO_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERCOMPANYDUEFROM_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CINTERORGACCT">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTO_CINTERORGACCT">
         <reference local="AD_ORGTO_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CINTERORGACCT">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CINTERORGACCT">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CINTERORG">
-        <reference local="INTERCOMPANYDUETO_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUEFROM_CINTERO">
         <reference local="INTERCOMPANYDUEFROM_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CINTERORG">
+        <reference local="INTERCOMPANYDUETO_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

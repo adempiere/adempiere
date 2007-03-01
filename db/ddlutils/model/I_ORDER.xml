@@ -64,17 +64,17 @@
       <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="FREIGHTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_IORDER">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IORDER">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_IORDER">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IORDER">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IORDER">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -82,11 +82,11 @@
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IORDER">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCBILLTO_IORDER">
-        <reference local="BILLTO_ID" foreign="C_BPARTNER_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBOLOCATION_IORDER">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCBILLTO_IORDER">
+        <reference local="BILLTO_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IORDER">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>

@@ -33,11 +33,11 @@
       <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_VC">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_VC">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_VC">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_VC">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CVALIDCOMBINATION">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
@@ -60,11 +60,11 @@
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_VC">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
@@ -75,10 +75,6 @@
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_VC">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <index name="C_VALIDCOMBINATION_ALIAS">
-        <index-column name="AD_CLIENT_ID"/>
-        <index-column name="ALIAS"/>
-      </index>
       <unique name="C_VALIDCOMBINATION_ALT">
         <unique-column name="C_ACCTSCHEMA_ID"/>
         <unique-column name="AD_ORG_ID"/>
@@ -98,6 +94,10 @@
         <unique-column name="USERELEMENT1_ID"/>
         <unique-column name="USERELEMENT2_ID"/>
       </unique>
+      <index name="C_VALIDCOMBINATION_ALIAS">
+        <index-column name="AD_CLIENT_ID"/>
+        <index-column name="ALIAS"/>
+      </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
