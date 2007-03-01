@@ -72,5 +72,9 @@
 	<classpathentry kind="lib" path="tools/lib/itext-1.4.8.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jpedal.jar"/>
 	<classpathentry kind="src" path="migration/src"/>
+	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
+	<classpathentry excluding="org/compiere/utils/DigestOfFile.java" kind="src" path="JasperReportsWebApp/src"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/barbecue-1.1.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-0.6.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
