@@ -1179,7 +1179,10 @@ public class VLookup extends JComponent
 		if (e.getSource() != m_combo || e.isTemporary() || m_haveFocus || m_lookup == null)
 			return;
 		if (m_lookup.isValidated() && !m_lookup.hasInactive())
+		{
+			m_haveFocus = true;
 			return;
+		}
 		//
 		m_haveFocus = true;     //  prevents calling focus gained twice
 		m_settingFocus = true;  //  prevents actionPerformed
@@ -1188,7 +1191,14 @@ public class VLookup extends JComponent
 		log.config(m_columnName 
 			+ " - Start    Count=" + m_combo.getItemCount() + ", Selected=" + obj);
 	//	log.fine( "VLookupHash=" + this.hashCode());
+		boolean popupVisible = m_combo.isPopupVisible();
 		m_lookup.fillComboBox(isMandatory(), true, true, true);     //  only validated & active & temporary
+		if (popupVisible)
+		{
+			//refresh
+			m_combo.hidePopup();
+			m_combo.showPopup();
+		}
 		log.config(m_columnName 
 			+ " - Update   Count=" + m_combo.getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
 		m_lookup.setSelectedItem(obj);
@@ -1228,7 +1238,10 @@ public class VLookup extends JComponent
 		if (e.getSource() != m_combo)
 			return;
 		if (m_lookup.isValidated() && !m_lookup.hasInactive())
+		{
+			m_haveFocus = false;
 			return;
+		}
 		//
 		m_settingFocus = true;  //  prevents actionPerformed
 		//
