@@ -18,6 +18,7 @@
     <cp>patches.jar</cp>
     <cp>Adempiere.jar</cp>
     <cp>AdempiereCLib.jar</cp>
+    <cp>CompiereJasperReqs.jar</cp>
   </classPath>
   <jre>
     <path></path>
@@ -35,7 +36,7 @@
     <productVersion>3.1.5.0</productVersion>
     <txtProductVersion>Release 3.1.5</txtProductVersion>
     <productName>Adempier ERP &amp; CRM</productName>
-    <companyName></companyName>
+    <companyName>Adempiere Bazaar</companyName>
     <internalName>Adempiere</internalName>
     <originalFilename>Adempiere.exe</originalFilename>
   </versionInfo>
