@@ -196,7 +196,6 @@ public class InOutGenerate extends SvrProcess
 			while (rs.next ())		//	Order
 			{
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
-				System.out.println("Shipment for: " + order.getDocumentNo());
 				//	New Header different Shipper, Shipment Location
 				if (!p_ConsolidateDocument 
 					|| (m_shipment != null 
