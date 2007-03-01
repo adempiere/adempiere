@@ -111,9 +111,11 @@ public class InvoiceGenerate extends SvrProcess
 		String sql = null;
 		if (p_Selection)	//	VInvoiceGen
 		{
-			sql = "SELECT * FROM C_Order "
-				+ "WHERE IsSelected='Y' AND DocStatus='CO' AND IsSOTrx='Y' "
-				+ "ORDER BY M_Warehouse_ID, PriorityRule, C_BPartner_ID, C_Order_ID";
+			sql = "SELECT C_Order.* FROM C_Order, T_Selection "
+				+ "WHERE C_Order.DocStatus='CO' AND C_Order.IsSOTrx='Y' "
+				+ "AND C_Order.C_Order_ID = T_Selection.T_Selection_ID "
+				+ "AND T_Selection.AD_PInstance_ID=? "
+				+ "ORDER BY C_Order.M_Warehouse_ID, C_Order.PriorityRule, C_Order.C_BPartner_ID, C_Order.C_Order_ID";
 		}
 		else
 		{
@@ -137,12 +139,19 @@ public class InvoiceGenerate extends SvrProcess
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			int index = 1;
-			if (!p_Selection && p_AD_Org_ID != 0)
-				pstmt.setInt(index++, p_AD_Org_ID);
-			if (!p_Selection && p_C_BPartner_ID != 0)
-				pstmt.setInt(index++, p_C_BPartner_ID);
-			if (!p_Selection && p_C_Order_ID != 0)
-				pstmt.setInt(index++, p_C_Order_ID);
+			if (p_Selection) 
+			{
+				pstmt.setInt(index, getAD_PInstance_ID());
+			}
+			else
+			{
+				if (p_AD_Org_ID != 0)
+					pstmt.setInt(index++, p_AD_Org_ID);
+				if (p_C_BPartner_ID != 0)
+					pstmt.setInt(index++, p_C_BPartner_ID);
+				if (p_C_Order_ID != 0)
+					pstmt.setInt(index++, p_C_Order_ID);
+			}
 		}
 		catch (Exception e)
 		{
