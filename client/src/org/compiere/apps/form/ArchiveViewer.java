@@ -22,6 +22,9 @@ import java.beans.*;
 import java.io.*;
 import java.sql.*;
 import java.util.logging.*;
+
+import javax.swing.JSplitPane;
+
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
@@ -33,6 +36,11 @@ import org.adempiere.pdf.viewer.*;
 
 /**
  *	Arvhive Viewer
+ * <p>Change log
+ * <ul>
+ * <li>2007-03-01 - teo_sarca - [ 1671899 ] Archive Viewer: table, process are not translated
+ * <li>2007-03-01 - teo_sarca - [ 1671900 ] Archive Viewer: second tab has no split pane
+ * </ul>
  *	
  *  @author Jorg Janke
  *  @version $Id: ArchiveViewer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
@@ -105,6 +113,7 @@ public class ArchiveViewer extends CTabbedPane
 	private VDate createdQTo = new VDate();
 	//
 	private CPanel viewPanel = new CPanel(new BorderLayout(5,5));
+	private JSplitPane viewPanelSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	private PDFViewerBean pdfViewer = Document.getViewer();
 	private CPanel viewEnterPanel = new CPanel(new GridBagLayout());
 	private CButton bBack = new CButton(Env.getImageIcon("wfBack24.gif"));
@@ -112,7 +121,7 @@ public class ArchiveViewer extends CTabbedPane
 	private CLabel positionInfo = new CLabel(".");
 	private CLabel createdByLabel = new CLabel(Msg.translate(Env.getCtx(), "CreatedBy"));
 	private CTextField createdByField = new CTextField(20);
-	private CLabel createdLabel = new CLabel(Msg.translate(Env.getCtx(), "Created"));
+//	private CLabel createdLabel = new CLabel(Msg.translate(Env.getCtx(), "Created"));
 	private VDate createdField = new VDate();
 	//
 	private CLabel nameLabel = new CLabel(Msg.translate(Env.getCtx(), "Name"));
@@ -132,17 +141,24 @@ public class ArchiveViewer extends CTabbedPane
 	{
 		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
 		//	Processes
-		String sql = "SELECT DISTINCT p.AD_Process_ID, p.Name "
-			+ "FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "
-			+ "WHERE pa.AD_Role_ID=" + AD_Role_ID
+		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
+		String lang = Env.getAD_Language(Env.getCtx());
+		String sql = "SELECT DISTINCT p.AD_Process_ID,"
+				+ (trl ? "trl.Name" : "p.Name ")
+			+ " FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "
+			+ (trl ? "LEFT JOIN AD_Process_Trl trl on (trl.AD_Process_ID=p.AD_Process_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
+			+ " WHERE pa.AD_Role_ID=" + AD_Role_ID
 			+ " AND p.IsReport='Y' AND p.IsActive='Y' AND pa.IsActive='Y' "
 			+ "ORDER BY 2"; 
 		processField = new CComboBox(DB.getKeyNamePairs(sql, true));
 		//	Tables
-		sql = "SELECT DISTINCT t.AD_Table_ID, t.Name "
-			+ "FROM AD_Table t INNER JOIN AD_Tab tab ON (tab.AD_Table_ID=t.AD_Table_ID)"
+		trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Table");
+		sql = "SELECT DISTINCT t.AD_Table_ID,"
+				+ (trl ? "trl.Name" : "t.Name")
+			+ " FROM AD_Table t INNER JOIN AD_Tab tab ON (tab.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Window_Access wa ON (tab.AD_Window_ID=wa.AD_Window_ID) "
-			+ "WHERE wa.AD_Role_ID=" + AD_Role_ID
+			+ (trl ? "LEFT JOIN AD_Table_Trl trl on (trl.AD_Table_ID=t.AD_Table_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
+			+ " WHERE wa.AD_Role_ID=" + AD_Role_ID
 			+ " AND t.IsActive='Y' AND tab.IsActive='Y' "
 			+ "ORDER BY 2";
 		tableField = new CComboBox(DB.getKeyNamePairs(sql, true));
@@ -164,39 +180,39 @@ public class ArchiveViewer extends CTabbedPane
 	{
 		int line = 0;
 		queryPanel.add(reportField, new GridBagConstraints(0, line, 
-			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+			3, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
 		reportField.addActionListener(this);
 		//
 		queryPanel.add(processLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(processField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
 		queryPanel.add(bPartnerLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(bPartnerField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
 		queryPanel.add(tableLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(tableField,new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
 		//
 		queryPanel.add(nameQLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10,0,0,5), 0, 0));
 		queryPanel.add(nameQField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,0,0,0), 0, 0));
 		queryPanel.add(descriptionQLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(descriptionQField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
 		queryPanel.add(helpQLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(helpQField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5,0,0,0), 0, 0));
 		//
 		queryPanel.add(createdByQLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10,0,0,5), 0, 0));
 		queryPanel.add(createdByQField, new GridBagConstraints(1, line, 
-			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,0,0,0), 0, 0));
+			2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,0,0,0), 0, 0));
 		queryPanel.add(createdQLabel, new GridBagConstraints(0, ++line, 
 			1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,0,0,5), 0, 0));
 		queryPanel.add(createdQFrom, new GridBagConstraints(1, line, 
@@ -207,7 +223,8 @@ public class ArchiveViewer extends CTabbedPane
 		//
 		//
 		line = 0;
-		viewPanel.add(pdfViewer, BorderLayout.WEST);
+		viewPanel.add(viewPanelSplit, BorderLayout.CENTER);
+		viewPanelSplit.setLeftComponent(pdfViewer);
 		//
 		bBack.addActionListener(this);
 		bNext.addActionListener(this);
@@ -253,7 +270,7 @@ public class ArchiveViewer extends CTabbedPane
 		//
 		viewEnterPanel.setPreferredSize(new Dimension(220,500));
 		updateArchive.addActionListener(this);
-		viewPanel.add(viewEnterPanel, BorderLayout.CENTER);
+		viewPanelSplit.setRightComponent(viewEnterPanel);
 		this.add(viewPanel, "View");
 		//
 		confirmPanel.addActionListener(this);
