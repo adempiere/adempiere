@@ -78,7 +78,6 @@ public class VInOutGen extends CPanel
 	private FormFrame 		m_frame;
 
 	private boolean			m_selectionActive = true;
-	private String          m_whereClause;
 	private Object 			m_M_Warehouse_ID = null;
 	private Object 			m_C_BPartner_ID = null;
 	/**	Logger			*/
@@ -102,6 +101,9 @@ public class VInOutGen extends CPanel
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
 
+	/** User selection */
+	private ArrayList<Integer> selection = null;
+	
 	/**
 	 *	Static Init.
 	 *  <pre>
@@ -286,8 +288,9 @@ public class VInOutGen extends CPanel
 			return;
 		}
 		//
-		m_whereClause = saveSelection();
-		if (m_whereClause.length() > 0 
+		saveSelection();
+		if (selection != null
+			&& selection.size() > 0
 			&& m_selectionActive	//	on selection tab
 			&& m_M_Warehouse_ID != null)
 			generateShipments ();
@@ -343,13 +346,14 @@ public class VInOutGen extends CPanel
 	 *	Save Selection & return selecion Query or ""
 	 *  @return where clause like C_Order_ID IN (...)
 	 */
-	private String saveSelection()
+	private void saveSelection()
 	{
 		log.info("");
 		//  ID selection may be pending
 		miniTable.editingStopped(new ChangeEvent(this));
 		//  Array of Integers
 		ArrayList<Integer> results = new ArrayList<Integer>();
+		selection = null;
 
 		//	Get selected entries
 		int rows = miniTable.getRowCount();
@@ -362,32 +366,10 @@ public class VInOutGen extends CPanel
 		}
 
 		if (results.size() == 0)
-			return "";
+			return;
 		log.config("Selected #" + results.size());
-
-		//	Query String
-		String keyColumn = "C_Order_ID";
-		StringBuffer sb = new StringBuffer(keyColumn);
-		if (results.size() > 1)
-			sb.append(" IN (");
-		else
-			sb.append("=");
-		//	Add elements
-		for (int i = 0; i < results.size(); i++)
-		{
-			if (i > 0)
-				sb.append(",");
-			if (keyColumn.endsWith("_ID"))
-				sb.append(results.get(i).toString());
-			else
-				sb.append("'").append(results.get(i).toString());
-		}
-
-		if (results.size() > 1)
-			sb.append(")");
-		//
-		log.config(sb.toString());
-		return sb.toString();
+		selection = results;
+		
 	}	//	saveSelection
 
 	
@@ -397,34 +379,14 @@ public class VInOutGen extends CPanel
 	private void generateShipments ()
 	{
 		log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
-	//	String trxName = Trx.createTrxName("IOG");	
-	//	Trx trx = Trx.get(trxName, true);	trx needs to be committed too
-		String trxName = null;
-		Trx trx = null;
+		String trxName = Trx.createTrxName("IOG");	
+		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
+		//String trxName = null;
+		//Trx trx = null;
 		
-		//	Reset Selection
-		String sql = "UPDATE C_Order SET IsSelected = 'N' "
-			+ "WHERE IsSelected='Y'"
-			+ " AND AD_Client_ID=" + Env.getAD_Client_ID(Env.getCtx());
-		int no = DB.executeUpdate(sql, trxName);
-		log.config("Reset=" + no);
-
-		//	Set Selection
-		sql = "UPDATE C_Order SET IsSelected='Y' WHERE " + m_whereClause;
-		no = DB.executeUpdate(sql, trxName);
-		log.fine(sql);
-		if (no == 0)
-		{
-			String msg = "No Shipments";     //  not translated!
-			log.config(msg);
-			info.setText(msg);
-			return;
-		}
-		log.info("Set Selection #" + no);
-
 		m_selectionActive = false;  //  prevents from being called twice
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
-		statusBar.setStatusDB(String.valueOf(no));
+		statusBar.setStatusDB(String.valueOf(selection.size()));
 
 		//	Prepare Process
 		int AD_Process_ID = 199;	  // M_InOutCreate - org.compiere.process.InOutGenerate
@@ -434,6 +396,51 @@ public class VInOutGen extends CPanel
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
+		System.out.println("AD_PInstance_ID: " + instance.getAD_PInstance_ID());
+		
+		//insert selection
+		StringBuffer insert = new StringBuffer();
+		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+		int counter = 0;
+		for(Integer selectedId : selection)
+		{
+			counter++;
+			if (counter > 1)
+				insert.append(" UNION ");
+			insert.append("SELECT ");
+			insert.append(instance.getAD_PInstance_ID());
+			insert.append(", ");
+			insert.append(selectedId);
+			insert.append(" FROM DUAL ");
+			
+			if (counter == 1000) 
+			{
+				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
+				{
+					String msg = "No Shipments";     //  not translated!
+					log.config(msg);
+					info.setText(msg);
+					trx.rollback();
+					return;
+				}
+				insert = new StringBuffer();
+				insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+				counter = 0;
+			}
+		}
+		if (counter > 0)
+		{
+			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
+			{
+				String msg = "No Shipments";     //  not translated!
+				log.config(msg);
+				info.setText(msg);
+				trx.rollback();
+				return;
+			}
+		}
+		
+		//call process
 		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
@@ -485,9 +492,10 @@ public class VInOutGen extends CPanel
 		info.setText(iText.toString());
 
 		//	Reset Selection
+		/*
 		String sql = "UPDATE C_Order SET IsSelected='N' WHERE " + m_whereClause;
 		int no = DB.executeUpdate(sql, null);
-		log.config("Reset=" + no);
+		log.config("Reset=" + no);*/
 
 		//	Get results
 		int[] ids = pi.getIDs();
