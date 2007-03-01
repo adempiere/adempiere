@@ -71,4 +71,19 @@ public class AdempiereComboPopup extends BasicComboPopup
 			(CComboBox)comboBox).hidingPopup();
 	}   //  hided
 	/**/
+	
+	/** 
+	 * @see javax.swing.plaf.basic.BasicComboPopup#getPopupHeightForRowCount(int) 
+	 **/  
+	@Override 
+	protected int getPopupHeightForRowCount(int maxRowCount) 
+	{ 
+		// ensure the combo box sized for the amount of data to be displayed 
+		int rows = comboBox.getItemCount() < comboBox.getMaximumRowCount() 
+			?  comboBox.getItemCount() 
+			:  comboBox.getMaximumRowCount() ;
+		
+		if (rows <= 0 ) rows = 1;
+		return super.getPopupHeightForRowCount(1) * rows; 
+	}
 }   //  AdempiereComboPopup
