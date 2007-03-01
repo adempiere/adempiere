@@ -77,7 +77,6 @@ public class VInvoiceGen extends CPanel
 	private FormFrame 		m_frame;
 
 	private boolean			m_selectionActive = true;
-	private String          m_whereClause;
 	private Object 			m_AD_Org_ID = null;
 	private Object 			m_C_BPartner_ID = null;
 	/**	Logger			*/
@@ -100,7 +99,8 @@ public class VInvoiceGen extends CPanel
 	private CTextPane info = new CTextPane();
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
-
+	private ArrayList<Integer> selections = null;
+	
 	/**
 	 *	Static Init.
 	 *  <pre>
@@ -284,8 +284,8 @@ public class VInvoiceGen extends CPanel
 			return;
 		}
 		//
-		m_whereClause = saveSelection();
-		if (m_whereClause.length() > 0 && m_selectionActive)
+		saveSelection();
+		if (selections != null && selections.size() > 0 && m_selectionActive)
 			generateInvoices ();
 		else
 			dispose();
@@ -336,17 +336,17 @@ public class VInvoiceGen extends CPanel
 	}   //  tableChanged
 
 	/**
-	 *	Save Selection & return selecion Query or ""
-	 *  @return where clause like C_Order_ID IN (...)
+	 *	Save Selection
 	 */
-	private String saveSelection()
+	private void saveSelection()
 	{
 		log.info("");
 		//  ID selection may be pending
 		miniTable.editingStopped(new ChangeEvent(this));
 		//  Array of Integers
 		ArrayList<Integer> results = new ArrayList<Integer>();
-
+		selections = null;
+		
 		//	Get selected entries
 		int rows = miniTable.getRowCount();
 		for (int i = 0; i < rows; i++)
@@ -358,31 +358,9 @@ public class VInvoiceGen extends CPanel
 		}
 
 		if (results.size() == 0)
-			return "";
+			return;
 
-		//	Query String
-		String keyColumn = "C_Order_ID";
-		StringBuffer sb = new StringBuffer(keyColumn);
-		if (results.size() > 1)
-			sb.append(" IN (");
-		else
-			sb.append("=");
-		//	Add elements
-		for (int i = 0; i < results.size(); i++)
-		{
-			if (i > 0)
-				sb.append(",");
-			if (keyColumn.endsWith("_ID"))
-				sb.append(results.get(i).toString());
-			else
-				sb.append("'").append(results.get(i).toString());
-		}
-
-		if (results.size() > 1)
-			sb.append(")");
-		//
-		log.config(sb.toString());
-		return sb.toString();
+		selections = results;
 	}	//	saveSelection
 
 	
@@ -391,33 +369,14 @@ public class VInvoiceGen extends CPanel
 	 */
 	private void generateInvoices ()
 	{
-	//	String trxName = Trx.createTrxName("IVG");
-	//	Trx trx = Trx.get(trxName, true);	trx needs to be committed too
-		String trxName = null;
-		Trx trx = null;
+		String trxName = Trx.createTrxName("IVG");
+		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
+		//String trxName = null;
+		//Trx trx = null;
 		
-		//	Reset Selection
-		String sql = "UPDATE C_Order SET IsSelected = 'N' WHERE IsSelected='Y'"
-			+ " AND AD_Client_ID=" + Env.getAD_Client_ID(Env.getCtx())
-			+ " AND AD_Org_ID=" + Env.getAD_Org_ID(Env.getCtx());
-		int no = DB.executeUpdate(sql, trxName);
-		log.config("Reset=" + no);
-
-		//	Set Selection
-		sql = "UPDATE C_Order SET IsSelected = 'Y' WHERE " + m_whereClause;
-		no = DB.executeUpdate(sql, trxName);
-		if (no == 0)
-		{
-			String msg = "No Invoices";     //  not translated!
-			log.config(msg);
-			info.setText(msg);
-			return;
-		}
-		log.config("Set=" + no);
-
 		m_selectionActive = false;  //  prevents from being called twice
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateGen"));
-		statusBar.setStatusDB(String.valueOf(no));
+		statusBar.setStatusDB(String.valueOf(selections.size()));
 
 		//	Prepare Process
 		int AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
@@ -427,6 +386,49 @@ public class VInvoiceGen extends CPanel
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
+		
+		//insert selection
+		StringBuffer insert = new StringBuffer();
+		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+		int counter = 0;
+		for(Integer selectedId : selections)
+		{
+			counter++;
+			if (counter > 1)
+				insert.append(" UNION ");
+			insert.append("SELECT ");
+			insert.append(instance.getAD_PInstance_ID());
+			insert.append(", ");
+			insert.append(selectedId);
+			insert.append(" FROM DUAL ");
+			
+			if (counter == 1000) 
+			{
+				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
+				{
+					String msg = "No Shipments";     //  not translated!
+					log.config(msg);
+					info.setText(msg);
+					trx.rollback();
+					return;
+				}
+				insert = new StringBuffer();
+				insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+				counter = 0;
+			}
+		}
+		if (counter > 0)
+		{
+			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
+			{
+				String msg = "No Shipments";     //  not translated!
+				log.config(msg);
+				info.setText(msg);
+				trx.rollback();
+				return;
+			}
+		}
+		
 		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
@@ -476,9 +478,10 @@ public class VInvoiceGen extends CPanel
 		info.setText(iText.toString());
 
 		//	Reset Selection
+		/*
 		String sql = "UPDATE C_Order SET IsSelected = 'N' WHERE " + m_whereClause;
 		int no = DB.executeUpdate(sql, null);
-		log.config("Reset=" + no);
+		log.config("Reset=" + no);*/
 
 		//	Get results
 		int[] ids = pi.getIDs();
