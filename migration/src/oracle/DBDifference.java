@@ -1502,7 +1502,7 @@ public class DBDifference {
 								continue;
 							}
 							String value = data2.getValueForColumn(columns2.get(m).getColumnName());
-							if (value != null && value.indexOf(''') != -1) {
+							if (value != null && value.indexOf('\'') != -1) {
 								value = value.replaceAll("'", "''");
 							}
 							if (and) {
