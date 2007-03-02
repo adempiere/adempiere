@@ -69,7 +69,7 @@
       	  <pathelement path="../lib/sybase.jar"/>
      	  <pathelement path="../tools/lib/jconn3.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
-      	  <pathelement path="../JasperReportsTools/lib/itext-1.3.1.jar"/>
+		  <pathelement path="../tools/lib/itext-1.4.8.jar"/>
      	  <pathelement location="../tools/lib/j2ee.jar" />
       </classpath>
     </javac>
@@ -118,7 +118,6 @@
 	<unjar src="../JasperReportsTools/lib/barbecue-1.1.jar" dest="${needed.dir}" />
 	<unjar src="../JasperReportsTools/lib/xercesImpl.jar" dest="${needed.dir}" />
   	<unjar src="../JasperReportsTools/lib/xml-apis.jar" dest="${needed.dir}" />
-  	<unjar src="../JasperReportsTools/lib/itext-1.3.1.jar" dest="${needed.dir}" />
   	<unjar src="../JasperReportsTools/lib/poi-2.0-final-20040126.jar" dest="${needed.dir}" />
   	<unjar src="../JasperReportsTools/lib/iReport.jar" dest="${needed.dir}">
   		<!-- producing an iReport runTime -->
