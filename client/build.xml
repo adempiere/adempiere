@@ -108,6 +108,9 @@
     <delete dir="${build.dir}/META-INF"/>
 	-->
 	
+	<!-- Compile JasperReports classes because it is required when packaging client jar! -->
+	<ant inheritall="false" antfile="../JasperReports/build.xml" dir="../JasperReports"/>
+	
     <!-- put everything from ${build.dir} into Adempiere.jar file -->
     <jar
 	  jarfile="${dist.dir}/Adempiere.jar" 
