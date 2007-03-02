@@ -52,6 +52,22 @@ public class ReportCtl
 	 *  @param IsDirectPrint if true, prints directly - otherwise View
 	 *  @return true if created
 	 */
+	static public boolean start (ProcessInfo pi, boolean IsDirectPrint)
+	{
+		return start(null, -1, pi, IsDirectPrint);
+	}
+	
+	/**
+	 *	Create Report.
+	 *	Called from ProcessCtl.
+	 *	- Check special reports first, if not, create standard Report
+	 *
+	 *  @param parent The window which invoked the printing
+	 *  @param WindowNo The windows number which invoked the printing
+	 *  @param pi process info
+	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @return true if created
+	 */
 	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean IsDirectPrint)
 	{
 		s_log.info("start - " + pi);
@@ -143,13 +159,27 @@ public class ReportCtl
 		preview(re);
 		return true;
 	}	//	startFinReport
-
-
+	
 	/**
 	 * 	Start Document Print for Type.
 	 *  	Called also directly from ProcessDialog, VInOutGen, VInvoiceGen, VPayPrint
 	 * 	@param type document type in ReportEngine
 	 * 	@param Record_ID id
+	 * 	@param IsDirectPrint if true, prints directly - otherwise View
+	 * 	@return true if success
+	 */
+	public static boolean startDocumentPrint (int type, int Record_ID, boolean IsDirectPrint)
+	{
+		return startDocumentPrint(type, Record_ID, null, -1, IsDirectPrint);
+	}
+	
+	/**
+	 * 	Start Document Print for Type.
+	 *  	Called also directly from ProcessDialog, VInOutGen, VInvoiceGen, VPayPrint
+	 * 	@param type document type in ReportEngine
+	 * 	@param Record_ID id
+	 *  @param parent The window which invoked the printing
+	 *  @param WindowNo The windows number which invoked the printing
 	 * 	@param IsDirectPrint if true, prints directly - otherwise View
 	 * 	@return true if success
 	 */
