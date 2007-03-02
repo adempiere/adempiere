@@ -198,6 +198,9 @@ public class ReportCtl
 			
 			//	Execute Process
 			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+			if(worker == null) // Process has been canceled
+				return false;
+			
 			try {
 				worker.start();
 			} catch(java.lang.IllegalThreadStateException itse) {
