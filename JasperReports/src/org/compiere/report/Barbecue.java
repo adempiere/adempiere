@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
-public class Barbecue implements JRRenderable
+public abstract class Barbecue implements JRRenderable
 {
 
 	private static final long serialVersionUID = 5112469398754718739L;
