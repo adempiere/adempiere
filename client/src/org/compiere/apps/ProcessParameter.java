@@ -475,4 +475,24 @@ public class ProcessParameter extends CDialog
 		return m_isOK;
 	}	//	isOK
 
+	public void setVisible(boolean b)
+	{
+		MProcess m_process = new MProcess(Env.getCtx(),
+				m_processInfo.getAD_Process_ID(), null);
+		if(m_process.getShowHelp() != null && m_process.getShowHelp().equals("S"))
+		{
+			// It is defined as a silent process
+			if(saveParameters())
+			{
+				m_isOK = true;
+				dispose();
+			}
+		}
+		else
+		{
+			// Not a silent process
+			super.setVisible(b);
+		}
+	}
+
 }	//	ProcessParameter
