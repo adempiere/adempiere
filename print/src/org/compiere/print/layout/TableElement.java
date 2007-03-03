@@ -1336,8 +1336,9 @@ public class TableElement extends PrintElement
 					;
 				else if (printItems[index] instanceof ImageElement)
 				{
-					g2D.drawImage(((ImageElement)printItems[index]).getImage(),
-						curX, (int)penY, this);
+					Image imageToDraw = ((ImageElement)printItems[index]).getImage();
+					if (imageToDraw.getHeight((ImageElement)printItems[index]) != -1)
+						g2D.drawImage(imageToDraw, curX, (int)penY, this);
 				}
 				else if (printItems[index] instanceof BarcodeElement)
 				{
