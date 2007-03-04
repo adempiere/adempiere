@@ -234,6 +234,7 @@ public class ImageElement extends PrintElement
 				return true;	//	don't bother scaling and prevent div by 0
 
 			// 0 = unlimited so scale to fit restricted dimension
+			/* teo_sarca, [ 1673548 ] Image is not scaled in a report table cell
 			if (p_maxWidth * p_maxHeight != 0)	// scale to maintain aspect ratio
 			{
 				if (p_width/p_height > p_maxWidth/p_maxHeight)
@@ -242,6 +243,13 @@ public class ImageElement extends PrintElement
 				else
 					m_scaleFactor = p_maxHeight/p_height;			
 			}
+			*/
+			m_scaleFactor = 1;
+			if (p_maxWidth != 0 && p_width > p_maxWidth)
+				m_scaleFactor = p_maxWidth / p_width;
+			if (p_maxHeight != 0 && p_height > p_maxHeight && p_maxHeight/p_height < m_scaleFactor)
+				m_scaleFactor = p_maxHeight / p_height;
+			
 			p_width = (float) m_scaleFactor * p_width;
 			p_height = (float) m_scaleFactor * p_height;
 		}
@@ -256,6 +264,18 @@ public class ImageElement extends PrintElement
 	{
 		return m_image;
 	}	//	getImage
+	
+	/**
+	 * Get image scale factor.
+	 * 
+	 * @author teo_sarca - [ 1673548 ] Image is not scaled in a report table cell
+	 * @return scale factor
+	 */
+	public double getScaleFactor() {
+		if (!p_sizeCalculated)
+			p_sizeCalculated = calculateSize();
+		return m_scaleFactor;
+	}
 	
 	/**
 	 * 	Paint Image

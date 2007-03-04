@@ -1558,6 +1558,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							data[row][col] = ImageElement.get (item.get_ID());
 						else
 							data[row][col] = ImageElement.get (item.getImageURL());
+						// Image layout - teo_sarca, [ 1673548 ]
+						if (data[row][col] != null)
+							((ImageElement)data[row][col]).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
 					}
 					else if (item.isBarcode())
 					{

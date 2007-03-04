@@ -1355,7 +1355,19 @@ public class TableElement extends PrintElement
 				{
 					Image imageToDraw = ((ImageElement)printItems[index]).getImage();
 					if (imageToDraw.getHeight((ImageElement)printItems[index]) != -1)
-						g2D.drawImage(imageToDraw, curX, (int)penY, this);
+					{
+						// Draw image using the scale factor - teo_sarca, [ 1673548 ] Image is not scaled in a report table cell 
+						double scale = ((ImageElement)printItems[index]).getScaleFactor();
+						if (scale != 1.0) {
+							AffineTransform transform = new AffineTransform();
+							transform.translate(curX, penY);
+							transform.scale(scale, scale);
+							g2D.drawImage(imageToDraw, transform, this);
+						}
+						else {
+							g2D.drawImage(imageToDraw, curX, (int)penY, this);
+						}
+					}
 				}
 				else if (printItems[index] instanceof BarcodeElement)
 				{
