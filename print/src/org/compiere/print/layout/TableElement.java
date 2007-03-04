@@ -300,6 +300,10 @@ public class TableElement extends PrintElement
 					dataSizes[row][col].addBelow(
 						new Dimension((int)((ImageElement)dataItem).getWidth(), 
 							(int)((ImageElement)dataItem).getHeight()));
+					// Adjust the column width - teo_sarca, [ 1673620 ]
+					float width = (float)Math.ceil(dataSizes[row][col].getWidth());
+					if (colWidth < width)
+						colWidth = width;
 					continue;
 				}
 				else if (dataItem instanceof BarcodeElement)
