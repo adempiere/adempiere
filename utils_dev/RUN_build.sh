@@ -4,26 +4,30 @@
 #
 #	$Header: /cvsroot/adempiere/utils_dev/myDevEnvTemplate.sh,v 1.6 2003/04/27 12:34:16 marekmosiewicz Exp $
 
-SAVED_DIR=`pwd`			#save current dir
-cd `dirname $0`			#change dir to place where script resides - does not work with sym links
-UTILS_DEV=`pwd`			#this is adempiere source
-cd $SAVED_DIR			#back to the saved directory
-
-.  $UTILS_DEV/myDevEnv.sh	#call environment
-
-
-if [ ! $ADEMPIERE_ENV==Y ] ; then
-    echo "Can't set development environemnt - check myDevEnv.sh"
-    exit 1
+#check java home
+if [ $JAVA_HOME ]; then
+  export PATH=$JAVA_HOME/bin:$PATH	
+else
+  echo JAVA_HOME is not set.
+  echo You may not be able to build Adempiere
+  echo Set JAVA_HOME to the directory of your local JDK.
+  exit
 fi
 
+# check jdk
+if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
+   echo "** Need full Java SDK **"
+   exit
+fi
+
+#classpath
+export ANT_CLASSPATH=$CLASSPATH:../tools/lib/ant.jar:../tools/lib/ant-launcher.jar:../tools/lib/ant-swing.jar:../tools/lib/ant-commons-net.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
+
 echo Cleanup ...
-$JAVA_HOME/bin/java -Dant.home="." $ANT_PROPERTIES org.apache.tools.ant.Main clean
+$JAVA_HOME/bin/java -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main clean
 
 echo Building ...
-$JAVA_HOME/bin/java   -Xmx500m  -Dant.home="." $ANT_PROPERTIES org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
-
-ls $ADEMPIERE_INSTALL
+$JAVA_HOME/bin/java   -Xmx500m -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
 
 echo Done ...
 

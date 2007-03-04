@@ -60,7 +60,7 @@
 	<!-- ================================================ -->
 	<target name="install" depends="" description="Environment dependent">
 		<echo message="=========== Install Adempiere"/>
-		<copy todir="${env.ADEMPIERE_INSTALL}">
+		<copy todir="${env.ADEMPIERE_INSTALL}" verbose="true">
 			<fileset dir="install/build" includes="Adempiere_*"/>
 		</copy>
 		<!-- Delete Existing stuff, but not utils + data 	-->
