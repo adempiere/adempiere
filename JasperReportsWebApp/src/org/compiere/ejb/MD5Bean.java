@@ -1,8 +1,8 @@
 /*
- * Créé le 22 mars 2005
+ * CrÃ©Ã© le 22 mars 2005
  *
- * TODO Pour changer le modèle de ce fichier généré, allez à :
- * Fenêtre - Préférences - Java - Style de code - Modèles de code
+ * TODO Pour changer le modÄle de ce fichier gÃ©nÃ©rÃ©, allez Å• :
+ * FenÄ™tre - PrÃ©fÃ©rences - Java - Style de code - ModÄles de code
  */
 package org.compiere.ejb;
 
@@ -39,7 +39,7 @@ public class MD5Bean implements SessionBean {
 	public MD5Bean() {
 		super();
 		log = CLogger.getCLogger(MD5Bean.class);
-			}
+	}
 
 	/* (non-Javadoc)
 	 * @see javax.ejb.SessionBean#setSessionContext(javax.ejb.SessionContext)
@@ -47,7 +47,7 @@ public class MD5Bean implements SessionBean {
 	public void setSessionContext(SessionContext ctx)
 		throws EJBException,
 		RemoteException {
-		// TODO Raccord de méthode auto-généré
+		// TODO Auto-generated method stub
 
 	}
 
@@ -55,7 +55,7 @@ public class MD5Bean implements SessionBean {
 	 * @see javax.ejb.SessionBean#ejbRemove()
 	 */
 	public void ejbRemove() throws EJBException, RemoteException {
-		// TODO Raccord de méthode auto-généré
+		// TODO Auto-generated method stub
 
 	}
 
@@ -63,7 +63,7 @@ public class MD5Bean implements SessionBean {
 	 * @see javax.ejb.SessionBean#ejbActivate()
 	 */
 	public void ejbActivate() throws EJBException, RemoteException {
-		// TODO Raccord de méthode auto-généré
+		// TODO Auto-generated method stub
 
 	}
 
@@ -71,7 +71,7 @@ public class MD5Bean implements SessionBean {
 	 * @see javax.ejb.SessionBean#ejbPassivate()
 	 */
 	public void ejbPassivate() throws EJBException, RemoteException {
-		// TODO Raccord de méthode auto-généré
+		// TODO Auto-generated method stub
 
 	}
 

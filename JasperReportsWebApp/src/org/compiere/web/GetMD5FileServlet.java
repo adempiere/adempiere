@@ -1,8 +1,8 @@
 /*
- * Créé le 22 mars 2005
+ * CrÃ©Ã© le 22 mars 2005
  *
- * TODO Pour changer le modèle de ce fichier généré, allez à :
- * Fenêtre - Préférences - Java - Style de code - Modèles de code
+ * TODO Pour changer le modÄle de ce fichier gÃ©nÃ©rÃ©, allez Å• :
+ * FenÄ™tre - PrÃ©fÃ©rences - Java - Style de code - ModÄles de code
  */
 package org.compiere.web;
 
@@ -48,7 +48,7 @@ public class GetMD5FileServlet extends HttpServlet {
 	
 	public GetMD5FileServlet() {
 		super();
-		// TODO Raccord de constructeur auto-généré		
+		// TODO Raccord de constructeur auto-gÃ©nÃ©rÃ©		
 	}
 
 	public void init(ServletConfig config) throws ServletException {

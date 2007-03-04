@@ -1,8 +1,8 @@
 /*
- * Créé le 26 mars 2005
+ * CrÃ©Ã© le 26 mars 2005
  *
- * TODO Pour changer le modèle de ce fichier généré, allez à :
- * Fenêtre - Préférences - Java - Style de code - Modèles de code
+ * TODO Pour changer le modÄle de ce fichier gÃ©nÃ©rÃ©, allez Å• :
+ * FenÄ™tre - PrÃ©fÃ©rences - Java - Style de code - ModÄles de code
  */
 package org.compiere.utils;
 
