@@ -307,6 +307,13 @@ public class TableElement extends PrintElement
 					dataSizes[row][col].addBelow(
 						new Dimension((int)((BarcodeElement)dataItem).getWidth(), 
 							(int)((BarcodeElement)dataItem).getHeight()));
+					// Check if the overflow is allowed - teo_sarca, [ 1673590 ]
+					if (!((BarcodeElement)dataItem).isAllowOverflow()) {
+						float width = (float)Math.ceil(dataSizes[row][col].getWidth());
+						if (colWidth < width)
+							colWidth = width;
+					}
+					
 					continue;
 				}
 				//	No Width Limitations

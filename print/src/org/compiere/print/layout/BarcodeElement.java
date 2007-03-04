@@ -48,12 +48,15 @@ public class BarcodeElement extends PrintElement
 		createBarcode(code, item);
 		if (m_barcode == null)
 			m_valid = false;
+		m_allowOverflow = item.isHeightOneLine(); // teo_sarca, [ 1673590 ]
 	}	//	BarcodeElement
 
 	/**	Valid					*/
 	private boolean 	m_valid = true;
 	/**	 Barcode				*/
 	private Barcode		m_barcode = null;
+	/**  Allow this field to overflow over next fields */// teo_sarca, [ 1673590 ]
+	private boolean m_allowOverflow = true;
 
 	/**
 	 * 	Create Barcode
@@ -175,6 +178,13 @@ public class BarcodeElement extends PrintElement
 		return true;
 	}	//	calculateSize
 
+	/**
+	 * @author teo_sarca - [ 1673590 ] report table - barcode overflows over next fields
+	 * @return can this element overflow over the next fields
+	 */
+	public boolean isAllowOverflow() { // 
+		return m_allowOverflow;
+	}
 	
 	/**
 	 * 	Paint Element
