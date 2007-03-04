@@ -1523,7 +1523,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			{
 				MPrintFormatItem item = format.getItem(c);
 				Object dataElement = null;
-				if (item.isPrinted() && item.getAD_Column_ID() > 0)	//	Text Columns
+				if (item.isPrinted())	//	Text Columns
 				{
 					if (item.isTypePrintFormat())
 					{
@@ -1533,7 +1533,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					{
 						if (item.isImageField())
 						{
-							Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							Object obj = null;
+							if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
+								obj = printData.getNode(new Integer(item.getAD_Column_ID()));
 							if (obj == null)
 								;
 							else if (obj instanceof PrintDataElement)
@@ -1559,7 +1561,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					}
 					else if (item.isBarcode())
 					{
-						Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+						Object obj = null;
+						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
+							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)
@@ -1582,7 +1586,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					}
 					else
 					{
-						Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+						Object obj = null;
+						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
+							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)
