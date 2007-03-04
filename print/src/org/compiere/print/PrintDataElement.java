@@ -140,6 +140,9 @@ public class PrintDataElement
 			return getValueDisplay_Location();
 		else if (m_columnName.equals("C_BPartner_Location_ID") || m_columnName.equals("Bill_Location_ID"))
 			return getValueDisplay_BPLocation();
+		// ID columns should be printed as ID numbers - teo_sarca [ 1673363 ]
+		else if (m_displayType == DisplayType.ID && m_value instanceof KeyNamePair)
+			return ((KeyNamePair)m_value).getID();
 		else if (m_displayType == 0 || m_value instanceof String || m_value instanceof NamePair)
 			;
 		else if (language != null)	//	Optional formatting of Numbers and Dates
