@@ -1539,7 +1539,17 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							else if (obj instanceof PrintDataElement)
 							{
 								PrintDataElement pde = (PrintDataElement)obj;
-								data[row][col] = ImageElement.get ((String)pde.getValue());
+								// Get the PrintDataElement string value - teo_sarca [ 1673505 ]
+								Object o = pde.getValue();
+								String value = null;
+								if (o == null)
+									value = "";
+								else if (o instanceof KeyNamePair)
+									value = ((KeyNamePair)o).getName();
+								else
+									value = o.toString();
+								
+								data[row][col] = ImageElement.get (value);
 							}
 						}
 						else if (item.isImageIsAttached())
@@ -1555,7 +1565,17 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						else if (obj instanceof PrintDataElement)
 						{
 							PrintDataElement pde = (PrintDataElement)obj;
-							BarcodeElement element = new BarcodeElement ((String)pde.getValue(), item);
+							// Get the PrintDataElement string value - teo_sarca [ 1673505 ]
+							String value = null;
+							Object o = pde.getValue();
+							if (o == null)
+								value = "";
+							if (o instanceof KeyNamePair)
+								value = ((KeyNamePair)o).getID();
+							else
+								value = o.toString();
+							BarcodeElement element = new BarcodeElement (value, item);
+							
 							if (element.isValid())
 								data[row][col] = element;
 						}
