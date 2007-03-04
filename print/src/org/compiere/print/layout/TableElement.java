@@ -1230,14 +1230,19 @@ public class TableElement extends PrintElement
 		AttributedCharacterIterator iter = null;
 		LineBreakMeasurer measurer = null;
 		float usedHeight = 0;
-		if (m_columnHeader[col].toString().length() > 0)
+		
+		// Calculate column header height - teo_sarca [ 1673429 ]  
+		String headerString = m_columnHeader[col].toString();
+		if (headerString.length() == 0)
+			headerString = " ";
+		//if (m_columnHeader[col].toString().length() > 0)
 		{
-			aString = new AttributedString(m_columnHeader[col].toString());
+			aString = new AttributedString(headerString);
 			aString.addAttribute(TextAttribute.FONT, getFont(HEADER_ROW, col));
 			aString.addAttribute(TextAttribute.FOREGROUND, getColor(HEADER_ROW, col));
 			//
 			boolean fastDraw = LayoutEngine.s_FASTDRAW;
-			if (fastDraw && !isView && !Util.is8Bit(m_columnHeader[col].toString()))
+			if (fastDraw && !isView && !Util.is8Bit(headerString))
 				fastDraw = false;
 			iter = aString.getIterator();
 			measurer = new LineBreakMeasurer(iter, g2D.getFontRenderContext());
@@ -1277,7 +1282,8 @@ public class TableElement extends PrintElement
 				if (!m_multiLineHeader)			//	one line only
 					break;
 			}
-		}	//	length > 0
+		}
+		
 		curX += netWidth + H_GAP;
 		curY += V_GAP;
 		//	Y end line
