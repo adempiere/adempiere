@@ -33,7 +33,7 @@ import org.compiere.util.*;
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright (c) Jorg Janke
  *  @version $Id: SubProduct.java,v 1.2 2004/07/24 04:31:52 jjanke Exp $
  */
 public class SubProduct extends PosSubPanel 

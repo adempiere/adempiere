@@ -35,7 +35,7 @@ import org.compiere.util.*;
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright (c) Jorg Janke
  *  @version $Id: SubLines.java,v 1.2 2004/07/21 05:37:51 jjanke Exp $
  */
 public class SubLines extends PosSubPanel implements ActionListener

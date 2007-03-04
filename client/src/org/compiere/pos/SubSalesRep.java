@@ -28,7 +28,7 @@ import org.compiere.util.*;
  *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © Jorg Janke
+ *         *Copyright (c) Jorg Janke
  *  @version $Id: SubSalesRep.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class SubSalesRep extends PosSubPanel implements ActionListener

@@ -398,8 +398,8 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	 * Desplegar panel de Cambio Inicial
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+	 *         *Copyright (c) ConSerTi
 	 */
 	private void cmd_displayInitialChange()
 	{
@@ -424,8 +424,8 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	 * Desplegar panel de Scrutiny de caja 
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ 	 *         *Copyright (c) ConSerTi
 	 */
 	private void cmd_displayCashScrutiny()
 	{
@@ -445,8 +445,8 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	 * Save the initial change of the cash
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+	 *         *Copyright (c) ConSerTi
 	 */
 	private void cmd_saveChange()
 	{
@@ -473,8 +473,8 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	 * for cash scrutiny
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+	 *         *Copyright (c) ConSerTi
 	 */
 	private void cmd_calculateDifference()
 	{
@@ -496,8 +496,8 @@ public class CashSubFunctions extends PosSubPanel implements ActionListener, Inp
 	 * from cash scrutiny in the cash book
 	 * 
 	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright © ConSerTi
+	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+	 *         *Copyright (c) ConSerTi
 	 */
 	private void cmd_annotateDifference()
 	{
