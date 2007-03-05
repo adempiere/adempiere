@@ -23,6 +23,9 @@ DELETE FROM ad_tab_trl
 DELETE FROM ad_tab
       WHERE ad_tab_id = 318;
 
+DELETE FROM ad_window_access
+      WHERE ad_window_id = 190;
+
 DELETE FROM ad_window_trl
       WHERE ad_window_id = 190;
 
