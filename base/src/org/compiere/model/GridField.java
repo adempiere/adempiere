@@ -598,7 +598,7 @@ public class GridField
 		{
 			//	IDs & Integer & CreatedBy/UpdatedBy
 			if (m_vo.ColumnName.endsWith("atedBy")
-					|| (m_vo.ColumnName.endsWith("_ID") && DisplayType.isLookup(m_vo.displayType))) // teo_sarca [ 1672725 ] Process parameter that ends with _ID but is boolean
+					|| (m_vo.ColumnName.endsWith("_ID") && DisplayType.isID(m_vo.displayType))) // teo_sarca [ 1672725 ] Process parameter that ends with _ID but is boolean
 			{
 				try	//	defaults -1 => null
 				{
