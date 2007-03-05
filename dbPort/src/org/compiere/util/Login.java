@@ -29,10 +29,6 @@ import org.compiere.model.*;
 
 /**
  *	Login Manager
- * <p>Change log
- * <ul>
- * <li>2007-03-05 - teo_sarca - [ 1673731 ] On login, show only orgs with write access
- * </ul>
  *	
  *  @author Jorg Janke
  *  @version $Id: Login.java,v 1.6 2006/10/02 05:19:06 jjanke Exp $
@@ -473,9 +469,9 @@ public class Login
 			+ " AND o.IsActive='Y' AND o.IsSummary='N'"
 			+ " AND (r.IsAccessAllOrgs='Y' "
 				+ "OR (r.IsUseUserOrgAccess='N' AND o.AD_Org_ID IN (SELECT AD_Org_ID FROM AD_Role_OrgAccess ra "
-					+ "WHERE ra.AD_Role_ID=r.AD_Role_ID AND ra.IsActive='Y' AND ra.IsReadOnly='N')) "
+					+ "WHERE ra.AD_Role_ID=r.AD_Role_ID AND ra.IsActive='Y')) "
 				+ "OR (r.IsUseUserOrgAccess='Y' AND o.AD_Org_ID IN (SELECT AD_Org_ID FROM AD_User_OrgAccess ua "
-					+ "WHERE ua.AD_User_ID=? AND ua.IsActive='Y' AND ua.IsReadOnly='N'))"		//	#3
+					+ "WHERE ua.AD_User_ID=? AND ua.IsActive='Y'))"		//	#3
 				+ ") "
 			+ "ORDER BY o.Name";
 		//
