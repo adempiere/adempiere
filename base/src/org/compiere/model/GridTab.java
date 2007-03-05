@@ -874,7 +874,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return false;
 		}
 		//	Prevent New Where Main Record is processed
-		if (m_vo.TabNo > 0)
+		//	but not apply for TabLevel=0 - teo_sarca [ 1673902 ]
+		if (m_vo.TabLevel > 0 && m_vo.TabNo > 0)
 		{
 			boolean processed = "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processed"));
 		//	boolean active = "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive"));
