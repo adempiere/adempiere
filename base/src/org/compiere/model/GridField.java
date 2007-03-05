@@ -1040,7 +1040,7 @@ public class GridField
 		else 
 		{
 			String LinkColumnName = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "LinkColumnName");
-			if (LinkColumnName.length() == 0)
+			if (LinkColumnName == null || LinkColumnName.length() == 0)
 				m_parentValue = Boolean.FALSE; // teo_sarca, [ 1673886 ]
 			else 
 				m_parentValue = Boolean.valueOf(m_vo.ColumnName.equals(LinkColumnName));
