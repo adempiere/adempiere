@@ -668,6 +668,31 @@ public class MProduct extends X_M_Product
 		MProductCosting[] costings = MProductCosting.getOfProduct(getCtx(), get_ID(), get_TrxName());
 		for (int i = 0; i < costings.length; i++)
 			costings[i].delete(true, get_TrxName());
+		
+		// [ 1674225 ] Delete Product: Costing deletion error
+		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(),
+				getAD_Client_ID(), get_TrxName());
+		for(int i=0; i<mass.length; i++)
+		{
+			// Get Cost Elements
+			MCostElement[] ces = MCostElement.getCostingMethods(this);
+			MCostElement ce = null;
+			for(int j=0; j<ces.length; j++)
+			{
+				if(MCostElement.COSTINGMETHOD_StandardCosting.equals(ces[i].getCostingMethod()))
+				{
+					ce = ces[i];
+					break;
+				}
+			}
+			
+			if(ce == null)
+				continue;
+			
+			MCost mcost = MCost.get(this, 0, mass[i], 0, ce.getM_CostElement_ID());
+			mcost.delete(true, get_TrxName());
+		}
+		
 		//
 		return delete_Accounting("M_Product_Acct"); 
 	}	//	beforeDelete
