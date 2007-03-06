@@ -1046,7 +1046,7 @@ public final class WebUtil
 		EMail email = wStore.createEMail(to.getEmail(), 
 			subject.toString(), message.toString());
 		//	CC Order
-		if (msgType == MMailMsg.MAILMSGTYPE_OrderAcknowledgement)
+		if (msgType.equals(MMailMsg.MAILMSGTYPE_OrderAcknowledgement))
 		{
 			String orderEMail = wStore.getWebOrderEMail();
 			String storeEMail = wStore.getWStoreEMail();
