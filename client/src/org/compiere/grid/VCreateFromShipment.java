@@ -179,7 +179,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		log.config(e.getPropertyName() + "=" + e.getNewValue());
 
 		//  BPartner - load Order/Invoice/Shipment
-		if (e.getPropertyName() == "C_BPartner_ID")
+		if (e.getPropertyName().equals("C_BPartner_ID"))
 		{
 			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
 			initBPartnerOIS (C_BPartner_ID, false);

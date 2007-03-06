@@ -99,7 +99,7 @@ public class AmtInWords_ES implements AmtInWords
 			String s = Integer.toString (number);
 			if (s.endsWith ("2") && soFar != "")
 				soFar = " VEINTI" + soFar.trim ();
-			else if (soFar == "")
+			else if (soFar.equals(""))
 				soFar = tensNames[number % 10] + soFar;
 			else
 				soFar = tensNames[number % 10] + " Y" + soFar;
@@ -153,7 +153,7 @@ public class AmtInWords_ES implements AmtInWords
 				{
 					s = s.replaceFirst ("NUEVE CIENTOS", "NOVECIENTOS");
 				}
-				if (s == " UNO")
+				if (s.equals(" UNO"))
 				{
 					soFar = majorNames[place] + soFar;
 				}

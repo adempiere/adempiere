@@ -501,12 +501,12 @@ public final class Find extends CDialog
 	{
 		log.info(e.getActionCommand());
 		//
-		if (e.getActionCommand() == ConfirmPanel.A_CANCEL)
+		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 			cmd_cancel();
-		else if (e.getActionCommand() == ConfirmPanel.A_REFRESH)
+		else if (e.getActionCommand().equals(ConfirmPanel.A_REFRESH))
 			cmd_refresh();
 		//
-		else if (e.getActionCommand() == ConfirmPanel.A_NEW)
+		else if (e.getActionCommand().equals(ConfirmPanel.A_NEW))
 		{
 			m_query = MQuery.getNoRecordQuery(m_tableName, true);
 			m_total = 0;

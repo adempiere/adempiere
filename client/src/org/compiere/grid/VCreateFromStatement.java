@@ -92,7 +92,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		log.config(e.getPropertyName() + "=" + e.getNewValue());
 
 		//  BankAccount
-		if (e.getPropertyName() == "C_BankAccount_ID")
+		if (e.getPropertyName().equals("C_BankAccount_ID"))
 		{
 			int C_BankAccount_ID = ((Integer)e.getNewValue()).intValue();
 			loadBankAccount(C_BankAccount_ID);
