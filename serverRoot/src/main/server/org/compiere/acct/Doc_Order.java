@@ -421,12 +421,11 @@ public class Doc_Order extends Doc
 			+ "SET PriceLastPO = (SELECT currencyConvert(ol.PriceActual,ol.C_Currency_ID,po.C_Currency_ID,o.DateOrdered,o.C_ConversionType_ID,o.AD_Client_ID,o.AD_Org_ID) "
 			+ "FROM C_Order o, C_OrderLine ol "
 			+ "WHERE o.C_Order_ID=ol.C_Order_ID"
-			+ " AND po.M_Product_ID=ol.M_Product_ID AND po.C_BPartner_ID=o.C_BPartner_ID"
-			+ " AND ROWNUM=1 AND o.C_Order_ID=").append(get_ID()).append(") ");
+			+ " AND po.M_Product_ID=ol.M_Product_ID AND po.C_BPartner_ID=o.C_BPartner_ID ");
 			//jz + " AND ROWNUM=1 AND o.C_Order_ID=").append(get_ID()).append(") ")
 			if (DB.isOracle()) //jz
 			{
-				sql.append(" AND ROWNUM=1) ");
+				sql.append(" AND ROWNUM=1 ");
 			}
 			else 
 				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
@@ -621,10 +620,18 @@ public class Doc_Order extends Doc
 			+ "(SELECT currencyConvert(ol.PriceActual,ol.C_Currency_ID,a.C_Currency_ID,o.DateOrdered,o.C_ConversionType_ID,o.AD_Client_ID,o.AD_Org_ID) "
 			+ "FROM C_Order o, C_OrderLine ol, C_AcctSchema a "
 			+ "WHERE o.C_Order_ID=ol.C_Order_ID"
-			+ " AND pc.M_Product_ID=ol.M_Product_ID AND pc.C_AcctSchema_ID=a.C_AcctSchema_ID"
-			//TODO FYRACLE many lines for same product
-			+ (DB.isFyracle()?"":" AND ROWNUM=1") 
-			+ " AND pc.C_AcctSchema_ID=").append(C_AcctSchema_ID).append(" AND o.C_Order_ID=")
+			+ " AND pc.M_Product_ID=ol.M_Product_ID AND pc.C_AcctSchema_ID=a.C_AcctSchema_ID ");
+			if (DB.isOracle()) //jz
+			{
+				sql.append(" AND ROWNUM=1 ");
+			}
+			else 
+				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
+						+ "FROM C_Order o1, C_OrderLine ol1 "
+						+ "WHERE o1.C_Order_ID=ol1.C_Order_ID"
+						+ " AND po.M_Product_ID=ol1.M_Product_ID AND po.C_BPartner_ID=o1.C_BPartner_ID")
+						.append("  AND o1.C_Order_ID=").append(get_ID()).append(") ");
+			sql.append(" AND pc.C_AcctSchema_ID=").append(C_AcctSchema_ID).append(" AND o.C_Order_ID=")
 			.append(get_ID()).append(") ")
 			.append("WHERE EXISTS (SELECT * "
 			+ "FROM C_Order o, C_OrderLine ol, C_AcctSchema a "
