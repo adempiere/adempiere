@@ -110,7 +110,7 @@ public final class OFX1ToXML extends InputStream implements Runnable
 
 		try
 		{
-			while(m_ofx != "")
+			while(!m_ofx.equals(""))
 			{
 				addCloseTag = false;
 				tagStart = m_ofx.indexOf('<');
