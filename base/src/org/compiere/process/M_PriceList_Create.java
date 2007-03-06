@@ -208,7 +208,7 @@ public class M_PriceList_Create extends SvrProcess {
 		//
 		//	Delete Old Data	
 		//
-		if (p_DeleteOld == "Y") {
+		if (p_DeleteOld.equals("Y")) {
 			sqldel = "DELETE M_ProductPrice "
 					+ " WHERE	M_PriceList_Version_ID = "
 					+ p_PriceList_Version_ID;
