@@ -1354,7 +1354,7 @@ public class TableElement extends PrintElement
 				else if (printItems[index] instanceof ImageElement)
 				{
 					Image imageToDraw = ((ImageElement)printItems[index]).getImage();
-					if (imageToDraw.getHeight((ImageElement)printItems[index]) != -1)
+					if (imageToDraw != null) // teo_sarca [ 1674706 ] 
 					{
 						// Draw image using the scale factor - teo_sarca, [ 1673548 ] Image is not scaled in a report table cell 
 						double scale = ((ImageElement)printItems[index]).getScaleFactor();

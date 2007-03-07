@@ -224,8 +224,8 @@ public class ImageElement extends PrintElement
 		if (m_image == null)
 			return true;
 		//	we have an image
-		waitForLoad(m_image);
-		if (m_image != null)
+		// if the image was not loaded, consider that there is no image - teo_sarca [ 1674706 ] 
+		if (waitForLoad(m_image) && m_image != null)
 		{
 			p_width = m_image.getWidth(this);
 			p_height = m_image.getHeight(this);
@@ -253,6 +253,12 @@ public class ImageElement extends PrintElement
 			p_width = (float) m_scaleFactor * p_width;
 			p_height = (float) m_scaleFactor * p_height;
 		}
+		// If the image is not loaded set it to null.
+		// This prevents SecurityException when invoking getWidth() or getHeight(). - teo_sarca [ 1674706 ]
+		else {
+			m_image = null;
+		}
+		
 		return true;
 	}	//	calculateSize
 
