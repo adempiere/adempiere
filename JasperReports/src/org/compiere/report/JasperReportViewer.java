@@ -40,8 +40,8 @@ public class JasperReportViewer extends JRViewer {
 		
 		tlbToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 		JButton btnSendByEmail = new JButton();
-        btnSendByEmail.setToolTipText("Send by Email");
-		btnSendByEmail.setText("Email");
+        btnSendByEmail.setToolTipText(Msg.getMsg(Env.getCtx(), "SendMail"));
+		btnSendByEmail.setText(Msg.getMsg(Env.getCtx(), "SendMail"));
 		btnSendByEmail.setPreferredSize(new java.awt.Dimension(85, 23));
         btnSendByEmail.setMaximumSize(new java.awt.Dimension(85, 23));
 		btnSendByEmail.setMinimumSize(new java.awt.Dimension(85, 23));
@@ -50,8 +50,8 @@ public class JasperReportViewer extends JRViewer {
 		tlbToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 		
 		JButton btnExport = new JButton();
-        btnExport.setToolTipText("Export to");
-        btnExport.setText("Export");
+        btnExport.setToolTipText(Msg.getMsg(Env.getCtx(), "SendMail"));
+        btnExport.setText(Msg.getMsg(Env.getCtx(), "Export"));
         btnExport.setPreferredSize(new java.awt.Dimension(85, 23));
         btnExport.setMaximumSize(new java.awt.Dimension(85, 23));
         btnExport.setMinimumSize(new java.awt.Dimension(85, 23));
