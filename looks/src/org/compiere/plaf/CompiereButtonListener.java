@@ -56,7 +56,7 @@ public class CompiereButtonListener extends BasicButtonListener
 	public void propertyChange (PropertyChangeEvent e)
 	{
 		String prop = e.getPropertyName();
-		if (prop == AbstractButton.MNEMONIC_CHANGED_PROPERTY)
+		if (prop.equals(AbstractButton.MNEMONIC_CHANGED_PROPERTY))
 			updateMnemonicBindingX ((AbstractButton)e.getSource());
 		else
 			super.propertyChange (e);
