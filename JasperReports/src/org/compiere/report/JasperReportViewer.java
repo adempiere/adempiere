@@ -50,7 +50,7 @@ public class JasperReportViewer extends JRViewer {
 		tlbToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 		
 		JButton btnExport = new JButton();
-        btnExport.setToolTipText(Msg.getMsg(Env.getCtx(), "SendMail"));
+        btnExport.setToolTipText(Msg.getMsg(Env.getCtx(), "Export"));
         btnExport.setText(Msg.getMsg(Env.getCtx(), "Export"));
         btnExport.setPreferredSize(new java.awt.Dimension(85, 23));
         btnExport.setMaximumSize(new java.awt.Dimension(85, 23));
