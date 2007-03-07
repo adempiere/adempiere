@@ -446,10 +446,10 @@ public class WebField
 			{
 				ValueNamePair p = (ValueNamePair)list[i];
 				key = p.getValue();
-				if (key == null || key.length() == 0)
+				if (key.equals(null) || key.length() == 0)
 					key = "??";
 				String name = p.getName();
-				if (name == null || name.length() == 0)
+				if (name.equals(null) || name.length() == 0)
 					name = "???";
 				name = Util.maskHTML(name);
 				options[i] = new option(key).addElement(name);

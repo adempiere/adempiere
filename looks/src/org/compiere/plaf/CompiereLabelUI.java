@@ -94,7 +94,7 @@ public class CompiereLabelUI extends MetalLabelUI
 		{
 			JLabel label = (JLabel)e.getSource ();
 			String key = getName ();
-			if (key == PRESS)
+			if (key.equals(PRESS))
 			{
 				doPress (label);
 			}

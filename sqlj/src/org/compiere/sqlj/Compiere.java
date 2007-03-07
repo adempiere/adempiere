@@ -66,7 +66,7 @@ public class Compiere implements Serializable
 	 */
 	public static String getProperty (String key) throws SQLException
 	{
-		if (key == null || key.length() == 0)
+		if (key.equals(null) || key.length() == 0)
 			return "null";
 		return System.getProperty(key, "NotFound");
 	}	//	environment
