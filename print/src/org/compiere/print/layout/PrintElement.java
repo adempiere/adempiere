@@ -126,7 +126,7 @@ public abstract class PrintElement implements ImageObserver
 		p_maxWidth = maxWidth;
 		//
 		p_FieldAlignmentType = FieldAlignmentType;
-		if (p_FieldAlignmentType == null || p_FieldAlignmentType == MPrintFormatItem.FIELDALIGNMENTTYPE_Default)
+		if (p_FieldAlignmentType.equals(null) || p_FieldAlignmentType.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Default))
 			p_FieldAlignmentType = MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft;
 		//
 		p_sizeCalculated = calculateSize();
