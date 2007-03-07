@@ -22,7 +22,7 @@ SELECT s.AD_Client_ID, s.AD_Org_ID,
     asi.GuaranteeDate,  -- see PAttributeInstance.java
     daysBetween(asi.GuaranteeDate,getdate()) AS ShelfLifeDays,
     daysBetween(asi.GuaranteeDate,getdate())-p.GuaranteeDaysMin AS GoodForDays,
-    ROUND((daysBetween(asi.GuaranteeDate,getdate())/p.GuaranteeDays)*100,0) AS ShelfLifeRemainingPct
+    CASE WHEN COALESCE(p.GuaranteeDays,0)>0 THEN ROUND((daysBetween(asi.GuaranteeDate,getdate())/p.GuaranteeDays)*100,0) ELSE NULL END AS ShelfLifeRemainingPct
 FROM M_Storage s
   INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)
   INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)
