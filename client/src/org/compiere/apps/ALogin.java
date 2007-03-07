@@ -446,8 +446,11 @@ public final class ALogin extends CDialog
 			else
 			{
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				m_okPressed = true;
-				defaultsOK();	//	disposes
+				m_okPressed = true; 
+				// Dispose if OK - teo_sarca [ 1674663 ]
+				if(!defaultsOK())
+					m_okPressed = false;
+				setCursor(Cursor.getDefaultCursor());
 			}
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
