@@ -78,7 +78,7 @@ public class CComboBox extends JComboBox
 	public CComboBox(final Object items[], String key)
 	{
 		this(items);
-		if (key.equals(null))
+		if (key == null)
 			return;
 		for (int i = 0; i < 0; i++)
 		{

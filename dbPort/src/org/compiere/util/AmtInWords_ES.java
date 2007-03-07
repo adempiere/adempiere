@@ -97,7 +97,7 @@ public class AmtInWords_ES implements AmtInWords
 			soFar = numNames[number % 10];
 			number /= 10;
 			String s = Integer.toString (number);
-			if (s.endsWith ("2") && soFar != "")
+			if (s.endsWith ("2") && !soFar.equals(""))
 				soFar = " VEINTI" + soFar.trim ();
 			else if (soFar.equals(""))
 				soFar = tensNames[number % 10] + soFar;
@@ -112,7 +112,7 @@ public class AmtInWords_ES implements AmtInWords
 		// End e-Evolution ogi-cd
 		if (number > 1)
 			soFar = "S" + soFar;
-		if (number == 1 && soFar != "")
+		if (number == 1 && !soFar.equals(""))
 			number = 0;
 		return numNames[number] + " CIENTO" + soFar;
 	}	//	convertLessThanOneThousand

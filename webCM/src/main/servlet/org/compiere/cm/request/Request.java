@@ -325,7 +325,7 @@ public class Request {
 	private static String getParameterAsString(HttpServletRequest request, String parameterName) {
 		String l_szReturn = new String("");
 		
-		if (!request.getParameter(parameterName).equals(null) && !request.getParameter(parameterName).equals("")) {
+		if (request.getParameter(parameterName) != null && !request.getParameter(parameterName).equals("")) {
 			l_szReturn = request.getParameter(parameterName).toString();
 			l_szReturn = l_szReturn.replace("\r","");
 			l_szReturn = l_szReturn.replace("\n","");
@@ -343,7 +343,7 @@ public class Request {
 	private static int getParameterAsInt(HttpServletRequest request, String parameterName) {
 		int l_nID = 0;
 		
-		if (!request.getParameter(parameterName).equals(null) && !request.getParameter(parameterName).equals("")) {
+		if (request.getParameter(parameterName) != null && !request.getParameter(parameterName).equals("")) {
 			try {
 				l_nID = Integer.parseInt(request.getParameter(parameterName));
 			} catch (Exception e) {
@@ -363,7 +363,7 @@ public class Request {
 	private static BigDecimal getParameterAsBD(HttpServletRequest request, String parameterName) {
 		BigDecimal l_bdValue = new BigDecimal(0);
 		
-		if (!request.getParameter(parameterName).equals(null) && !request.getParameter(parameterName).equals("")) {
+		if (request.getParameter(parameterName) != null && !request.getParameter(parameterName).equals("")) {
 			try {
 				String l_szValue = request.getParameter(parameterName);
 				l_szValue = l_szValue.replace(",", ".");
@@ -404,7 +404,7 @@ public class Request {
 		SimpleDateFormat ger = new SimpleDateFormat("dd.MM.yyyy");
 		long time = 0;
 		
-		if (!request.getParameter(parameterName).equals(null) && !request.getParameter(parameterName).equals("")) {
+		if (request.getParameter(parameterName) != null && !request.getParameter(parameterName).equals("")) {
 			try {
 				myDate = ger.parse(request.getParameter(parameterName).toString());
 				time = myDate.getTime();
