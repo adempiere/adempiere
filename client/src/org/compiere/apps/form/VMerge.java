@@ -45,7 +45,8 @@ public class VMerge extends CPanel
 	/** Error Log			*/
 	private StringBuffer	m_errorLog = new StringBuffer();
 	/**	Connection			*/
-	private Connection		m_con = null;
+	//private Connection		m_con = null;
+	private Trx 			m_trx = null;         
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VMerge.class);
 
@@ -307,13 +308,13 @@ public class VMerge extends CPanel
 			+ ") "
 			+ "ORDER BY t.LoadSeq DESC";
 		PreparedStatement pstmt = null;
-		Savepoint sp = null;
+		
 		try
 		{
-			m_con = DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED);
-			sp = m_con.setSavepoint("merge");
+			
+			m_trx = Trx.get(Trx.createTrxName("merge"), true);
 			//
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, m_trx.createTrxName());
 			pstmt.setString(1, ColumnName);
 			pstmt.setString(2, ColumnName);
 			ResultSet rs = pstmt.executeQuery();
@@ -339,34 +340,29 @@ public class VMerge extends CPanel
 			if (success)
 			{
 				sql = "DELETE " + TableName + " WHERE " + ColumnName + "=" + from_ID;
-				Statement stmt = m_con.createStatement();
-				int count = 0;
-				try
-				{
-					count = stmt.executeUpdate (sql);
-					if (count != 1)
-					{
-						m_errorLog.append(Env.NL).append("DELETE ").append(TableName)
-							.append(" - Count=").append(count);
-						success = false;
-					}
-				}
-				catch (SQLException ex1)
+				
+
+
+				
+				if ( DB.executeUpdate(sql, m_trx.getTrxName()) < 0 )
 				{
 					m_errorLog.append(Env.NL).append("DELETE ").append(TableName)
-						.append(" - ").append(ex1.toString());
-					success = false;
+					.append(" - ");
+				    success = false;
+					log.config(m_errorLog.toString());
+					m_trx.rollback();
+					return false;
 				}
-				stmt.close();
-				stmt = null;
+				
 			}
 			//
 			if (success)
-				m_con.commit();
+				m_trx.commit();
 			else
-				m_con.rollback(sp);
-			m_con.close();
-			m_con = null;
+				m_trx.rollback();
+			
+			m_trx.close();
+
 		}
 		catch (Exception ex)
 		{
@@ -377,15 +373,12 @@ public class VMerge extends CPanel
 		{
 			if (pstmt != null)
 				pstmt.close();
-			if (m_con != null)
-				m_con.close();
+
 		}
 		catch (Exception ex)
 		{
 		}
 		pstmt = null;
-		m_con = null;
-		//
 		return success;
 	}	//	merge
 
@@ -414,36 +407,25 @@ public class VMerge extends CPanel
 			}
 		}
 
-		int count = -1;
-
-		try
+		int count = DB.executeUpdate(sql, m_trx.getTrxName());
+        
+		
+		if (  count < 0 )
 		{
-			Statement stmt = m_con.createStatement ();
-			try
-			{
-				count = stmt.executeUpdate (sql);
-				log.fine(count
-					+ (delete ? " -Delete- " : " -Update- ") + TableName);
-			}
-			catch (SQLException ex1)
-			{
-				count = -1;
-				m_errorLog.append(Env.NL)
-					.append(delete ? "DELETE " : "UPDATE ")
-					.append(TableName).append(" - ").append(ex1.toString())
-					.append(" - ").append(sql);
-			}
-			stmt.close();
-			stmt = null;
-		}
-		catch (SQLException ex)
-		{
+					
 			count = -1;
 			m_errorLog.append(Env.NL)
 				.append(delete ? "DELETE " : "UPDATE ")
-				.append(TableName).append(" - ").append(ex.toString())
+				.append(TableName).append(" - ")
 				.append(" - ").append(sql);
+			log.config(m_errorLog.toString());
+			m_trx.rollback();
+		
 		}
+		log.fine(count
+				+ (delete ? " -Delete- " : " -Update- ") + TableName);
+		
+		
 		return count;
 	}	//	mergeTable
 
