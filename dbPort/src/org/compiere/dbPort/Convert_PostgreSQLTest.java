@@ -28,6 +28,18 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		//[ 1668720 ] Convert failing in alter table
+		sql = "ALTER TABLE GT_TaxBase ADD CONSTRAINT GT_TaxBase_Key PRIMARY KEY (GT_TaxBase_ID)";
+		sqe = "ALTER TABLE GT_TaxBase ADD CONSTRAINT GT_TaxBase_Key PRIMARY KEY (GT_TaxBase_ID)";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
+		//[ 1668720 ] Convert failing in alter table
+		sql = "ALTER TABLE GT_TaxBase ADD GT_TaxBase_ID NUMBER(10) NOT NULL";
+		sqe = "ALTER TABLE GT_TaxBase ADD COLUMN GT_TaxBase_ID NUMERIC(10) NOT NULL";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		//[ 1662983 ] Convert cutting backslash from string
 		sql = "SELECT 'C:\\Documentos\\Test' FROM DUAL";
 		sqe = "SELECT E'C:\\\\Documentos\\\\Test'";

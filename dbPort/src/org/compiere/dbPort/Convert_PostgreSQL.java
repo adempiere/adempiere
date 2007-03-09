@@ -1636,9 +1636,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				begin_col = sqlStatement.toUpperCase().indexOf(" MODIFY ")
 						+ action.length();
 			} else if (sqlStatement.toUpperCase().indexOf(" ADD ") > 0) {
-				action = " ADD ";
-				begin_col = sqlStatement.toUpperCase().indexOf(" ADD ")
-						+ action.length();
+				if (sqlStatement.toUpperCase().indexOf(" ADD CONSTRAINT ") < 0 &&
+						sqlStatement.toUpperCase().indexOf(" ADD FOREIGN KEY " ) < 0 )
+				{
+					action = " ADD ";
+					begin_col = sqlStatement.toUpperCase().indexOf(" ADD ")
+							+ action.length();
+				}
 			}
 
 			// System.out.println( "MODIFY :" +
@@ -1667,15 +1671,20 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				// begin_col + "en column:" + end_col );
 				// System.out.println(" type " + sqlStatement.substring(end_col
 				// + 1));
-				type = sqlStatement.substring(end_col + 1) + " ";
-				// System.out.println(" type 1 :" + type);
-				type = type.substring(0, type.indexOf(' '));
-				// System.out.println(" type:" + type);
+				String rest = sqlStatement.substring(end_col + 1); 
+				
 				if (action.equals(" ADD "))
 					DDL = sqlStatement
 							.substring(0, begin_col - action.length())
-							+ action + "COLUMN " + column + " " + type + "; ";
+							+ action + "COLUMN " + column + " " + rest;
 				else if (action.equals(" MODIFY "))
+				{
+					int typeEnd = rest.indexOf(' ');
+					// System.out.println(" type 1 :" + type);
+					type = rest.substring(0, typeEnd);
+					rest = rest.substring(typeEnd);
+					// System.out.println(" type:" + type);
+					
 					DDL = sqlStatement
 							.substring(0, begin_col - action.length())
 							+ " ALTER COLUMN "
@@ -1684,40 +1693,40 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							+ type
 							+ "; ";
 
-				if (sqlStatement.toUpperCase().indexOf(" DEFAULT ") != -1) {
-					begin_default = sqlStatement.toUpperCase().indexOf(
-							" DEFAULT ") + 9;
-					defaultvalue = sqlStatement.substring(begin_default);
-					int nextspace = defaultvalue.indexOf(' ');
-					String rest = null;
-					if (nextspace > -1) {
-					    rest = defaultvalue.substring(nextspace);
-					    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(' '));
+					if (rest.toUpperCase().indexOf(" DEFAULT ") != -1) {
+						begin_default = rest.toUpperCase().indexOf(
+								" DEFAULT ") + 9;
+						defaultvalue = rest.substring(begin_default);
+						int nextspace = defaultvalue.indexOf(' ');
+						if (nextspace > -1) {
+						    rest = defaultvalue.substring(nextspace);
+						    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(' '));
+						}
+	
+						if (defaultvalue.equalsIgnoreCase("NULL")) {
+							DDL += sqlStatement.substring(0, begin_col
+									- action.length())
+									+ " ALTER COLUMN "
+									+ column
+									+ " SET DEFAULT "
+									+ defaultvalue + "; ";
+						} else {
+							DDL += sqlStatement.substring(0, begin_col
+									- action.length())
+									+ " ALTER COLUMN "
+									+ column
+									+ " SET DEFAULT '"
+									+ defaultvalue + "'; ";
+						}
+						if (rest != null && rest.indexOf(" NOT NULL ") == 0)
+							DDL += sqlStatement.substring(0, begin_col)
+									+ " ALTER COLUMN " + column + " SET " + rest
+									+ ";";
+						// return DDL;
 					}
 
-					if (defaultvalue.equalsIgnoreCase("NULL")) {
-						DDL += sqlStatement.substring(0, begin_col
-								- action.length())
-								+ " ALTER COLUMN "
-								+ column
-								+ " SET DEFAULT "
-								+ defaultvalue + "; ";
-					} else {
-						DDL += sqlStatement.substring(0, begin_col
-								- action.length())
-								+ " ALTER COLUMN "
-								+ column
-								+ " SET DEFAULT '"
-								+ defaultvalue + "'; ";
-					}
-					if (rest != null && rest.indexOf(" NOT NULL ") == 0)
-						DDL += sqlStatement.substring(0, begin_col)
-								+ " ALTER COLUMN " + column + " SET " + rest
-								+ ";";
-					// return DDL;
+					// System.out.println("DDL" + DDL);
 				}
-
-				// System.out.println("DDL" + DDL);
 				return DDL;
 			}
 		}
