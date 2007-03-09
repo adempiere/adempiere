@@ -6,7 +6,8 @@
  -- It also adds lines to some of the new tables.
  
  -- Your data is left unchaged - with the following exceptions: .
- -- ALL ENTRIES IN PA_MEASURE, PA_MEASURECALC AND T_INVENTORYVALUE ARE DELETED
+ -- ALL ENTRIES IN PA_ACHIEVEMENT, PA_MEASURE, PA_GOAL,
+ -- PA_MEASURECALC AND T_INVENTORYVALUE ARE DELETED
  -- If you have CUSTOM DATA in there please do a backup and reapply it after migration.
  -- The code for the deletion is marked with BEWARE
  
@@ -20,6 +21,8 @@
  -- added columns. They are marked with REPLACE_ME so just use the search function
  -- of your editor. So just follow the instructions there.
  
+DELETE FROM PA_ACHIEVEMENT;
+DELETE from PA_GOAL;
  
   CREATE TABLE "AD_CLIENTSHARE" 
    (	"AD_CLIENTSHARE_ID" NUMBER(10,0) NOT NULL ENABLE, 
