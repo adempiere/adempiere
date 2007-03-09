@@ -11,8 +11,9 @@
 @"%JAVA_HOME%\bin\java" -Dant.home="." %ANT_PROPERTIES% org.apache.tools.ant.Main main
 
 @Echo Done ...
-@sleep 60
-@exit
+@Rem Wait 60 second
+@PING 1.1.1.1 -n 1 -w 60000 > NUL
+@Exit
 
 :NOBUILD
 @Echo Check myDevEnv.bat (copy from myDevEnvTemplate.bat)
