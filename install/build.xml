@@ -219,12 +219,10 @@
 	   includes="Adempiere/**" />
 
 	<!-- Create Install TAR		-->
-	<tar longfile="gnu" tarfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar"
+  	<tar longfile="gnu" tarfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"
 	   basedir="${build.dir}"
-	   includes="Adempiere/**" />
-	<gzip zipfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"
-		  src="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar" />
-	<delete file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar" />
+  		includes="Adempiere/**"
+	  	compression="gzip" />
 
 
 	<!-- Create Checksums		-->
