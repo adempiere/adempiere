@@ -404,7 +404,7 @@ public final class Ini implements Serializable
 			s_prop.setProperty(key, SecureInterface.CLEARVALUE_START + value + SecureInterface.CLEARVALUE_END);
 		else
 		{
-			if (value.equals(null))
+			if (value == null)
 				s_prop.setProperty(key, "");
 			else
 			{
