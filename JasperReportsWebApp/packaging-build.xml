@@ -38,7 +38,7 @@
 				<include name="${deploy.name}EJB-client.jar"/>
 			</zipfileset>
 			<zipfileset dir="build" prefix="WEB-INF/classes" includes="org/compiere/web/*.class"/>
-			<zipfileset dir="webroot" includes="*.jrxml, *.html"/>
+			<zipfileset dir="webroot" includes="*.jrxml, *.xml, *.html"/>
 		</jar>
 	</target>
 	
