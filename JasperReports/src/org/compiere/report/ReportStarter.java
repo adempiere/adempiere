@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -138,7 +139,7 @@ public class ReportStarter implements ProcessCall {
     		Hashtable env = new Hashtable();
     		env.put(InitialContext.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
     		env.put(InitialContext.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
-    		env.put(InitialContext.PROVIDER_URL, requestURL.getHost() );
+    		env.put(InitialContext.PROVIDER_URL, requestURL.getHost() + ":" + CConnection.get().getAppsPort());
     		context = new InitialContext(env);
     		if (isRequestedonAS(requestURL) && isMD5HomeInterfaceAvailable())
     		{
@@ -183,12 +184,8 @@ public class ReportStarter implements ProcessCall {
     {
     	try{
     		URL reportURL = new URL(reportLocation); 
-    		InputStream in = reportURL.openStream();
-    		
-    		//String[] tmps = reportURL.getFile().split("/");
-    		
-    		//String cleanFile = tmps[tmps.length-1];
-    		
+			InputStream in = reportURL.openStream();
+			
     		File downloadedFile = new File(localPath);
 
     		if (downloadedFile.exists())
@@ -197,26 +194,57 @@ public class ReportStarter implements ProcessCall {
     		}
     		
     		FileOutputStream fout = new FileOutputStream(downloadedFile);
-    		
-    		int c;
-    		while ((c = in.read()) != -1)
-    		{
-    			fout.write(c);
-    		}
+			
+			byte buf[] = new byte[1024];
+			int s = 0;
+			long tl = 0;
+			
+			while((s = in.read(buf, 0, 1024)) > 0)
+				fout.write(buf, 0, s);
+			
     		in.close();
     		fout.flush();
     		fout.close();
     		return downloadedFile;
+    	} catch (FileNotFoundException e) {
+			if(reportLocation.indexOf("Subreport") == -1) // Only show the warning if it is not a subreport
+				log.warning("404 not found: Report cannot be found on server "+ e.getMessage());
+    		return null;
+    	} catch (IOException e) {
+			log.severe("I/O error when trying to download (sub)report from server "+ e.getMessage());
+    		return null;
     	}
-    	catch (FileNotFoundException e) {
-    		log.severe("404 not found: Report cannot be found on server "+ e.getMessage());
-    		return null;
-    	}    
-    	catch (IOException e) {
-    		log.severe("IO error when trying to download report from server "+ e.getMessage());
-    		return null;
-    	}	
     }
+	
+	/**
+	 * Search for additional subreports deployed to a webcontext if
+	 * the parent report is located there
+	 * @author deathmeat
+	 * @param reportName The original reportname
+	 * @param reportPath The full path to the parent report
+	 * @param fileExtension The file extension of the parent report
+	 * @return An Array of File objects referencing to the downloaded subreports
+	 */
+	private File[] getHttpSubreports(String reportName, String reportPath, String fileExtension)
+	{
+		ArrayList<File> subreports = new ArrayList<File>();
+		String remoteDir = reportPath.substring(0, reportPath.lastIndexOf("/"));
+		
+		// Currently check hardcoded for max. 10 subreports
+		for(int i=1; i<10; i++)
+		{
+			// Check if subreport number i exists
+			File subreport = httpDownloadedReport(remoteDir + "/" + reportName + i + fileExtension);
+			if(subreport == null) // Subreport doesn't exist, abort further approaches
+				break;
+			
+			subreports.add(subreport);
+		}
+		
+		File[] subreportsTemp = new File[0];
+		subreportsTemp = subreports.toArray(subreportsTemp);
+		return subreportsTemp;
+	}
     
     /**
      * @author rlemeill
@@ -359,9 +387,20 @@ public class ReportStarter implements ProcessCall {
             File reportDir = data.getReportDir();
 
             if (jasperReport != null) {
-
+				File[] subreports;
+				
                 // Subreports
-				File[] subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
+				if(reportPath.startsWith("http://") || reportPath.startsWith("https://"))
+				{
+					// Locate and download subreports from remote webcontext
+					subreports = getHttpSubreports(jasperName + "Subreport", reportPath, fileExtension);
+				}
+				else
+				{
+					// Locate subreports from local/remote filesystem
+					subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
+				}
+				
                 for( int i=0; i<subreports.length; i++) {
                     JasperData subData = processReport( subreports[i]);
                     if (subData.getJasperReport()!=null) {
@@ -453,7 +492,7 @@ public class ReportStarter implements ProcessCall {
 		File reportFile = null;
 		
 		// Reports deployement on web server Thanks to Alin Vaida
-		if (reportPath.startsWith("http://")) {
+		if (reportPath.startsWith("http://") || reportPath.startsWith("https://")) {
 			reportFile = httpDownloadedReport(reportPath);
 		} else if(reportPath.startsWith("/")) {
 			reportFile = new File(reportPath);
@@ -589,25 +628,63 @@ public class ReportStarter implements ProcessCall {
      */
     private void JWScorrectClassPath()
     {
-    	try
+		URL jasperreportsAbsoluteURL = Thread.currentThread().getContextClassLoader().getResource("net/sf/jasperreports/engine");
+		String jasperreportsAbsolutePath = "";
+		
+		if(jasperreportsAbsoluteURL.toString().startsWith("jar:http:") || jasperreportsAbsoluteURL.toString().startsWith("jar:https:"))
 		{
-    		Class jnlpClass = Class.forName("javax.jnlp.BasicService");
-    		URL jasperreportsAbsoluteURL = Thread.currentThread().getContextClassLoader().getResource("net/sf/jasperreports/engine");
-    		URL compiereJasperAbsoluteURL = Thread.currentThread().getContextClassLoader().getResource("org/compiere/utils");
-    		String jasperreportsAbsolutePath = jasperreportsAbsoluteURL.toString().split("!")[0].split("file:")[1];
-    		String compiereJasperAbsolutePath = compiereJasperAbsoluteURL.toString().split("!")[0].split("file:")[1];
-    		compiereJasperAbsolutePath = compiereJasperAbsolutePath.replaceAll("%20"," ");
-    		jasperreportsAbsolutePath = jasperreportsAbsolutePath.replaceAll("%20"," ");
-    		String newClassPath = jasperreportsAbsolutePath + System.getProperty("path.separator") + compiereJasperAbsolutePath;
-    		log.info("JasperReports compilation is probably started from JavaWebStart");
-    		log.info("Classpath is corrected to "+newClassPath);
-    		System.setProperty("java.class.path",newClassPath) ;
+			// Jasper classes are deployed to a webserver (Java Webstart)
+			jasperreportsAbsolutePath = jasperreportsAbsoluteURL.toString().split("!")[0].split("jar:")[1];
+			
+			// Download the required jasper libraries if they are not already existing
+			File reqLib = new File(System.getProperty("java.io.tmpdir"), "CompiereJasperReqs.jar");
+			if(!reqLib.exists() && !(reqLib.length() > 0))
+			{
+				try{
+					URL reqLibURL = new URL(jasperreportsAbsolutePath);
+					InputStream in = reqLibURL.openStream();
 
+					FileOutputStream fout = new FileOutputStream(reqLib);
+
+					byte buf[] = new byte[1024];
+					int s = 0;
+					long tl = 0;
+
+					while((s = in.read(buf, 0, 1024)) > 0)
+						fout.write(buf, 0, s);
+
+					in.close();
+					fout.flush();
+					fout.close();
+				} catch (FileNotFoundException e) {
+					log.warning("Required library not found "+ e.getMessage());
+					reqLib.delete();
+					reqLib = null;
+				} catch (IOException e) {
+					log.severe("I/O error downloading required library from server "+ e.getMessage());
+					reqLib.delete();
+					reqLib = null;
+				}
+			}
+
+			jasperreportsAbsolutePath = reqLib.getAbsolutePath();
 		}
-    	catch (ClassNotFoundException e)
+		else
 		{
+			// Jasper classes are locally available (Local client)
+			jasperreportsAbsolutePath = jasperreportsAbsoluteURL.toString().split("!")[0].split("file:")[1];
+		}
+		
+		if(jasperreportsAbsolutePath != null && !jasperreportsAbsolutePath.trim().equals(""))
+		{
+			System.setProperty("java.class.path",
+					System.getProperty("java.class.path") +
+					System.getProperty("path.separator") +
+					jasperreportsAbsolutePath);
+			log.info("Classpath has been corrected to " + System.getProperty("java.class.path"));
 		}
     }
+	
     /**
      * @author rlemeill
      * @param reportFile

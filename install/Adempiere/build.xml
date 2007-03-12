@@ -118,8 +118,13 @@
 		<unjar src="lib/Adempiere.jar" dest="buildALib" />
 		<unjar src="lib/patches.jar" dest="buildALib" />
 		<unjar src="lib/customization.jar" dest="buildALib" />
+		
 		<jar jarfile="lib/Adempiere.jar" index="yes">
 			<fileset dir="buildALib" />
+			<indexjars>
+				<pathelement path="lib/AdempiereCLib.jar"/>
+				<pathelement path="lib/CompiereJasperReqs.jar"/>
+			</indexjars>
 			<manifest>
 	        	<attribute name="Specification-Title" value="Adempiere"/>
 		        <attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -173,9 +178,6 @@
         <unjar src="lib/postgresql.jar" dest="buildCLib" />
 		<!--end vpj-cd e-evolution-->
         <unjar src="lib/fyracle.jar" dest="buildCLib" />
-
-		<!-- adding the specific CompiereJasper libs -->
-		<unjar src="lib/CompiereJasperReqs.jar" dest="buildCLib" />
 		
 		<unjar src="lib/${ADEMPIERE_APPS_TYPE}.jar" dest="buildCLib" />
 
@@ -271,7 +273,7 @@
 	<!-- ==================================================== -->
 	<!-- Setup Lib                                            -->
 	<!-- ==================================================== -->
-	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupALib, setupCLib, setupSLib, signOtherJars" 
+	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupCLib, setupSLib, setupALib, signOtherJars" 
 		description="Setup Adempiere Lib directory">
 
 		<!--	Filter files Overwrite			-->
