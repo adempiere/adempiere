@@ -1042,11 +1042,11 @@ public final class APanel extends CPanel
 		}
 		else	//	Cur Tab Setting
 		{
-			boolean needValidate = false;
+			//boolean needValidate = false;
 			if (m_mWorkbench.getMWindow(0).isTabInitialized(m_curTabIndex) == false)
 			{
 				m_mWorkbench.getMWindow(0).initTab(m_curTabIndex);
-				needValidate = true;
+				//needValidate = true;
 			}
 			m_curGC.activate();
 			m_curTab = m_curGC.getMTab();
@@ -1088,6 +1088,7 @@ public final class APanel extends CPanel
 				m_curTab.navigateCurrent();     //  updates counter
 				m_curGC.dynamicDisplay(0);
 			}
+			/*
 			if (needValidate)
 			{
 				JFrame frame = Env.getFrame(APanel.this);
@@ -1113,7 +1114,7 @@ public final class APanel extends CPanel
 						});
 					}
 				}
-			}
+			}*/
 		//	else		##CHANGE
 		//		m_curTab.navigateCurrent();
 		}
