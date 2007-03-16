@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/itext-1.4.8.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/barbecue-1.0.6d.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
