@@ -52,6 +52,18 @@ public final class AEnv
 		window.setVisible(true);
 		window.toFront();
 	}   //  showCenterScreen
+	
+	/**
+	 * Show frame as maximized.
+	 * @param frame
+	 */
+	public static void showMaximized(Frame frame)
+	{
+		frame.pack();
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		frame.setVisible(true);
+		frame.toFront();
+	}
 
 	/**
 	 *	Position window in center of the screen
@@ -493,7 +505,14 @@ public final class AEnv
 		if (!frame.initWindow(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID)))
 			return;
 		addToWindowManager(frame);
-		AEnv.showCenterScreen(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+		{
+			AEnv.showMaximized(frame);
+		}
+		else
+		{
+			AEnv.showCenterScreen(frame);
+		}
 		frame = null;
 	}	//	zoom
 
@@ -544,7 +563,14 @@ public final class AEnv
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
 		addToWindowManager(frame);
-		AEnv.showCenterScreen(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+		{
+			AEnv.showMaximized(frame);
+		}
+		else
+		{
+			AEnv.showCenterScreen(frame);
+		}
 		frame = null;
 	}	//	zoom
 	

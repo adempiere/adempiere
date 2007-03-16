@@ -236,18 +236,12 @@ public class AMenuStartItem extends Thread implements ActionListener
 			SwingUtilities.invokeLater(m_updatePB);			//	2
 			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) 
 			{
-				frame.pack();
-				frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+				AEnv.showMaximized(frame);
 			}
 			
 			//	Center the window
 			SwingUtilities.invokeLater(m_updatePB);			//	3
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) 
-			{
-				frame.setVisible(true);
-				frame.toFront();
-			} 
-			else
+			if (!(Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED)) ) 
 			{
 				frame.validate();
 				AEnv.showCenterScreen(frame);
@@ -343,10 +337,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 		//	Center the window
 		SwingUtilities.invokeLater(m_updatePB);			//	3
 		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
-			ff.pack();
-			ff.setExtendedState(Frame.MAXIMIZED_BOTH);
-			ff.setVisible(true);
-			ff.toFront();
+			AEnv.showMaximized(ff);
 		} else
 			AEnv.showCenterScreen(ff);
 	}	//	startForm

@@ -1135,7 +1135,14 @@ public class VLookup extends JComponent
 		else
 		{
 			AEnv.addToWindowManager(frame);
-			AEnv.showCenterScreen(frame);
+			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+			{
+				AEnv.showMaximized(frame);
+			}
+			else
+			{
+				AEnv.showCenterScreen(frame);
+			}
 		}
 			//  async window - not able to get feedback
 		frame = null;

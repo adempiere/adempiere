@@ -206,7 +206,14 @@ public class AZoomAcross implements ActionListener
 		if (!frame.initWindow(AD_Window_ID, m_query))
 			return;
 		AEnv.addToWindowManager(frame);
-		AEnv.showCenterScreen(frame);
+		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) 
+		{
+			AEnv.showMaximized(frame);
+		}
+		else
+		{
+			AEnv.showCenterScreen(frame);
+		}
 		frame = null;
 	}	//	launchZoom
 	
