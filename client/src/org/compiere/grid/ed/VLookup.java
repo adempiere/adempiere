@@ -22,6 +22,7 @@ import java.beans.*;
 import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
+
 import org.compiere.apps.*;
 import org.compiere.apps.search.*;
 import org.compiere.model.*;
@@ -43,6 +44,32 @@ import org.compiere.util.*;
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
 {
+	@Override
+	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
+			int condition, boolean pressed) {
+		if (e.getSource() == m_combo || e.getSource() == m_text || e.getSource() == this) {
+			return super.processKeyBinding(ks, e, condition, pressed);
+		}
+		
+		JComponent editorComp = null;
+		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)
+			editorComp = m_combo;
+		else
+			editorComp = m_text;
+		InputMap map = editorComp.getInputMap(condition);
+        ActionMap am = editorComp.getActionMap();
+
+        if(map!=null && am!=null && isEnabled()){
+            Object binding = map.get(ks);
+            Action action = (binding==null) ? null : am.get(binding);
+            if(action!=null){
+                return SwingUtilities.notifyAction(action, ks, e, editorComp,
+                        e.getModifiers());
+            }
+        }
+        return false;
+	}
+
 	/**
 	 *  Create Optional BPartner Search Lookup
 	 *  @param WindowNo window

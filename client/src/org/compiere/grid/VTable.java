@@ -41,6 +41,7 @@ public final class VTable extends CTable
 	{
 		super();
 		setAutoscrolls(true);
+		putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}	//	VTable
 
 	/**	Logger			*/
