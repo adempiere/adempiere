@@ -85,7 +85,10 @@ public class MInOut extends X_M_InOut implements DocAction
 					product.getM_AttributeSet_ID(),
 					allAttributeInstances, minGuaranteeDate, 
 					MClient.MMPOLICY_FiFo.equals(MMPolicy), trxName);
+			} else {
+				continue;
 			}
+			
 			if (!forceDelivery)
 			{
 				BigDecimal maxQty = Env.ZERO;
