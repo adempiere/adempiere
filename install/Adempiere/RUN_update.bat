@@ -17,4 +17,5 @@ goto START
 
 :START
 @"%JAVA%" -classpath lib\CInstall.jar; -DADEMPIERE_HOME=%ADEMPIERE_HOME% -Dant.home="." org.apache.tools.ant.launch.Launcher update
-@pause
+@Rem Wait 10 second
+@PING 1.1.1.1 -n 1 -w 10000 > NUL

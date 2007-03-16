@@ -38,7 +38,8 @@ goto START
 @Echo Set environment variable JAVA_HOME manually
 @Echo or use WinEnv.js in the util directory
 @Echo ***************************************
-@Pause
+@Rem Wait 10 second
+@PING 1.1.1.1 -n 1 -w 10000 > NUL
 @Exit
 
 
@@ -62,4 +63,5 @@ goto START
 
 @Echo .
 @Echo For problems, check log file in base directory
-@pause
+@Rem Wait 10 second
+@PING 1.1.1.1 -n 1 -w 10000 > NUL
