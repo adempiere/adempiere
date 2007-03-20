@@ -983,7 +983,7 @@ public final class AEnv
 		String sqlRolePermission="Select COUNT(AD_ROLE_ID) AS ROWCOUNT FROM AD_ROLE WHERE AD_ROLE_ID=" + roleid  
 	                              + " AND ALLOW_INFO_" + infoWindowName + "='Y'"; 
 
-		System.out.println(sqlRolePermission); 
+		log.config(sqlRolePermission); 
 		PreparedStatement prolestmt = null; 
 		try 
 		{ 
