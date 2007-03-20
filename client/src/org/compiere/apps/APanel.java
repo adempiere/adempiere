@@ -1667,7 +1667,7 @@ public final class APanel extends CPanel
 					infoName, infoDisplay);
 		}
 
-		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query);
+		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo);
 	}	//	cmd_report
 
 	

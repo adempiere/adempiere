@@ -24,6 +24,7 @@ import java.util.logging.*;
 import javax.swing.*;
 import org.compiere.apps.*;
 import org.compiere.model.*;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.*;
 
 /**
@@ -47,6 +48,20 @@ public class AReport implements ActionListener
 	 */
 	public AReport (int AD_Table_ID, JComponent invoker, MQuery	query)
 	{
+		new AReport(AD_Table_ID, invoker, query, null, 0);
+	}
+	
+	/**
+	 *	Constructor
+	 *
+	 *  @param AD_Table_ID table
+	 *  @param invoker component to display popup (optional)
+	 *  @param query query
+	 *  @param parent The invoking parent window
+	 *  @param WindowNo The invoking parent window number
+	 */
+	public AReport (int AD_Table_ID, JComponent invoker, MQuery	query, ASyncProcess parent, int WindowNo)
+	{
 		log.config("AD_Table_ID=" + AD_Table_ID + " " + query);
 		if (!MRole.getDefault().isCanReport(AD_Table_ID))
 		{
@@ -55,6 +70,8 @@ public class AReport implements ActionListener
 		}
 
 		m_query = query;
+		this.parent = parent;
+		this.WindowNo = WindowNo;
 
 		//	See What is there
 		getPrintFormats (AD_Table_ID, invoker);
@@ -68,6 +85,10 @@ public class AReport implements ActionListener
 	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AReport.class);
+	/** The parent window for locking/unlocking during process execution */
+	ASyncProcess parent;
+	/** The parent window number */
+	int WindowNo;
 
 	/**
 	 * 	Get the Print Formats for the table.
@@ -169,8 +190,29 @@ public class AReport implements ActionListener
 			pf.getAD_Table_ID(),
 			Record_ID);
 		info.setDescription(m_query.getInfo());
-		ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
-		new Viewer(re);
+		
+		if(pf != null && pf.getJasperProcess_ID() > 0)
+		{
+			// It's a report using the JasperReports engine
+			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID());
+			
+			//	Execute Process
+			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+			if(worker == null) // Process has been canceled
+				return;
+			
+			try {
+				worker.start();
+			} catch(java.lang.IllegalThreadStateException itse) {
+				// Do nothing
+			}
+		}
+		else
+		{
+			// It's a default report using the standard printing engine
+			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
+			new Viewer(re);
+		}
 	//	if (m_popup.isVisible())
 	//		m_popup.setVisible(false);
 	}	//	launchReport
