@@ -261,6 +261,11 @@ public class ProcessModalDialog extends CDialog
 			if (m_autoStart)
 				bOK.doClick();    // don't ask first click
 		}
+		
+		// Check if the process is a silent one
+		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
+			bOK.doClick();
+		
 		dialog.revalidate();
 		return true;
 	}	//	init
