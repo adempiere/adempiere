@@ -253,6 +253,11 @@ public class ProcessDialog extends CFrame
 				// anyway show resulting window
 			}
 		}
+		
+		// Check if the process is a silent one
+		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
+			bOK.doClick();
+		
 		dialog.revalidate();
 		return true;
 	}	//	init
@@ -319,6 +324,10 @@ public class ProcessDialog extends CFrame
 		afterProcessTask();
 		//	Close automatically
 		if (m_IsReport && !pi.isError())
+			bOK.doClick();
+		
+		// If the process is a silent one and no errors occured, close the dialog
+		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
 			bOK.doClick();
 	}   //  unlockUI
 
