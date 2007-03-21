@@ -202,7 +202,7 @@ public class MStorage extends X_M_Storage
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
 			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
+			while (rs.next ())
 				list.add(new MStorage (ctx, rs, trxName));
 			rs.close ();
 			pstmt.close ();
