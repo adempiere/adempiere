@@ -835,6 +835,15 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				return false;
 		}
 		
+		// deathmeat: [ 1583825 ] No tax recalculation after line changes
+		if((MInvoiceTax.get(this, getPrecision(),
+				true, get_TrxName()).getTaxAmt().doubleValue() == 0.0D))
+		{
+			// Tax line total is zero, delete the line
+			MInvoiceTax.get(this, getPrecision(),
+					true, get_TrxName()).delete(true, get_TrxName());
+		}
+		
 		//	Update Invoice Header
 		String sql = "UPDATE C_Invoice i"
 			+ " SET TotalLines="

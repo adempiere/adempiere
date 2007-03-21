@@ -911,6 +911,15 @@ public class MOrderLine extends X_C_OrderLine
 		if (!tax.save(get_TrxName()))
 			return false;
 		
+		// deathmeat: [ 1583825 ] No tax recalculation after line changes
+		if((MOrderTax.get(this, getPrecision(),
+				true, get_TrxName()).getTaxAmt().doubleValue() == 0.0D))
+		{
+			// Tax line total is zero, delete the line
+			MOrderTax.get(this, getPrecision(),
+					true, get_TrxName()).delete(true, get_TrxName());
+		}
+		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"
 			+ " SET TotalLines="
