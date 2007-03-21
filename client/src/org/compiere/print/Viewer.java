@@ -41,6 +41,8 @@ import org.adempiere.pdf.*;
  * globalqss: integrate phib contribution from 
  *   http://sourceforge.net/tracker/index.php?func=detail&aid=1566335&group_id=176962&atid=879334
  * globalqss: integrate Teo Sarca bug fixing
+ * Colin Rooney 2007/03/20 RFE#1670185 & BUG#1684142
+ *                         Extend security to Info queries
  *   	
  */
 public class Viewer extends CFrame
@@ -389,16 +391,52 @@ public class Viewer extends CFrame
 		//      View
 		JMenu mView = AEnv.getMenu("View");
 		menuBar.add(mView);
-		AEnv.addMenuItem("InfoProduct", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.CTRL_MASK), mView, this);
-		AEnv.addMenuItem("InfoBPartner", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK), mView, this);
-		AEnv.addMenuItem("InfoAccount", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
-		AEnv.addMenuItem("InfoSchedule", null, null, mView, this);
-		mView.addSeparator();
-		AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);
 
+		if (MRole.getDefault().isAllow_Info_Product())
+		{
+			AEnv.addMenuItem("InfoProduct", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK), mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_BPartner())
+		{
+			AEnv.addMenuItem("InfoBPartner", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
+		}
+		if (MRole.getDefault().isShowAcct() && MRole.getDefault().isAllow_Info_Account())
+		{
+			AEnv.addMenuItem("InfoAccount", null, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK), mView, this);
+		}
+		if (MRole.getDefault().isAllow_Info_Schedule())
+		{
+			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
+		}
+		mView.addSeparator();
+		if (MRole.getDefault().isAllow_Info_Order())
+		{
+			AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Invoice())
+		{
+			AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_InOut())
+		{
+			AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Payment())
+		{
+			AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_CashJournal())
+		{
+			AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Resource())
+		{
+			AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Asset())
+		{
+			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
+		}
 		//		Go
 		JMenu mGo = AEnv.getMenu("Go");
 		menuBar.add(mGo);

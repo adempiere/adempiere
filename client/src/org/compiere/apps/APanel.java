@@ -45,6 +45,8 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: APanel.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ *  Colin Rooney 2007/03/20 RFE#1670185 & related BUG#1684142 - Extend Sec to Info Queries
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -208,19 +210,52 @@ public final class APanel extends CPanel
 		//								View
 		JMenu mView = AEnv.getMenu("View");
 		menuBar.add(mView);
-		aProduct =	addAction("InfoProduct",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK),	false);
-		aBPartner =	addAction("InfoBPartner",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.ALT_MASK),	false);
-		if (MRole.getDefault().isShowAcct())
+		if (MRole.getDefault().isAllow_Info_Product())
+		{
+			aProduct =	addAction("InfoProduct",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK),	false);
+		}
+		if (MRole.getDefault().isAllow_Info_BPartner())		
+		{
+			aBPartner =	addAction("InfoBPartner",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.ALT_MASK),	false);
+		}
+		if (MRole.getDefault().isShowAcct() && MRole.getDefault().isAllow_Info_Account())
+		{
 			aAccount =  addAction("InfoAccount",mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK+Event.CTRL_MASK),	false);
-		AEnv.addMenuItem("InfoSchedule", null, null, mView, this);
+		}
+		if (MRole.getDefault().isAllow_Info_Schedule())
+		{
+			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
+		}
 		mView.addSeparator();
-		AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);
-		AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);
+		if (MRole.getDefault().isAllow_Info_Order())
+		{
+			AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Invoice())
+		{
+			AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_InOut())
+		{
+			AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Payment())
+		{
+			AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_CashJournal())
+		{
+			AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Resource())
+		{
+			AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_Asset())
+		{
+			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
+		}
+
 		mView.addSeparator();
 		aAttachment = addAction("Attachment",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),	true);		//	toggle
 		aChat = addAction("Chat",				mView, 	null,	true);		//	toggle
@@ -309,7 +344,10 @@ public final class APanel extends CPanel
 		if (aWorkflow != null)
 			toolBar.add(aWorkflow.getButton());
 		toolBar.add(aRequest.getButton());
-		toolBar.add(aProduct.getButton());
+		if (MRole.getDefault().isAllow_Info_Product())
+		{
+			toolBar.add(aProduct.getButton());
+		}
 		toolBar.addSeparator();
 		toolBar.add(aEnd.getButton());
 		//
