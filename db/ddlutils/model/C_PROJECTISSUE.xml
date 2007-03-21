@@ -23,22 +23,22 @@
       <column name="S_TIMEEXPENSELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_INOUTLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTISSUE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTISSUE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_CPROJECTISSUE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_CPROJECTISSUE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CPROJECTISSUE">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CPROJECTISSUE" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_CPROJECTISSUE">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_CPROJECTISSUE" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTISSUE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTISSUE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_TIMEEXPENSELINE" name="STIMEEXPLINE_CPROJECTISSUE">
+      <foreign-key foreignTable="S_TIMEEXPENSELINE" name="STIMEEXPLINE_CPROJECTISSUE" onDelete="none">
         <reference local="S_TIMEEXPENSELINE_ID" foreign="S_TIMEEXPENSELINE_ID"/>
       </foreign-key>
       <check>

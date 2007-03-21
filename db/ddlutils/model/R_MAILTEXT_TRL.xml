@@ -17,10 +17,10 @@
       <column name="MAILTEXT" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MAILTEXT2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MAILTEXT3" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_RMAILTEXTTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_RMAILTEXTTRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_RMAILTEXTTRL">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_RMAILTEXTTRL" onDelete="cascade">
         <reference local="R_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
       <check>

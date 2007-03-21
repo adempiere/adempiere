@@ -17,10 +17,10 @@
       <column name="DATEFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATETO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="M_LOTCTL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_LOTCTL" name="MLOTCTL_MLOT">
+      <foreign-key foreignTable="M_LOTCTL" name="MLOTCTL_MLOT" onDelete="none">
         <reference local="M_LOTCTL_ID" foreign="M_LOTCTL_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MLOT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MLOT" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

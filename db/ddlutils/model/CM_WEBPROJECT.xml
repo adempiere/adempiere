@@ -22,16 +22,16 @@
       <column name="AD_TREECMS_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TREECMM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TREECMT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TREE" name="ADTREECMC_CMWEBPROJECT">
+      <foreign-key foreignTable="AD_TREE" name="ADTREECMC_CMWEBPROJECT" onDelete="none">
         <reference local="AD_TREECMC_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREECMT_CMWEBPROJECT">
+      <foreign-key foreignTable="AD_TREE" name="ADTREECMT_CMWEBPROJECT" onDelete="none">
         <reference local="AD_TREECMT_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREECMS_CMWEBPROJECT">
+      <foreign-key foreignTable="AD_TREE" name="ADTREECMS_CMWEBPROJECT" onDelete="none">
         <reference local="AD_TREECMS_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREECMM_CMWEBPROJECT">
+      <foreign-key foreignTable="AD_TREE" name="ADTREECMM_CMWEBPROJECT" onDelete="none">
         <reference local="AD_TREECMM_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
       <check>

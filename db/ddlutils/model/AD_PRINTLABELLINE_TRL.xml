@@ -13,10 +13,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PRINTNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_ADPLABELLINETRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_ADPLABELLINETRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTLABELLINE" name="ADPRINTLABELLINE_TRL">
+      <foreign-key foreignTable="AD_PRINTLABELLINE" name="ADPRINTLABELLINE_TRL" onDelete="none">
         <reference local="AD_PRINTLABELLINE_ID" foreign="AD_PRINTLABELLINE_ID"/>
       </foreign-key>
       <check>

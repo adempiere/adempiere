@@ -28,7 +28,7 @@
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBANKSTATEMENT">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBANKSTATEMENT" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
       <check>

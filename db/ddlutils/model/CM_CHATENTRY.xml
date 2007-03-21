@@ -19,16 +19,16 @@
       <column name="MODERATORSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="SUBJECT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CMCHATENTRY">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CMCHATENTRY" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CHCHATENTRY">
+      <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CHCHATENTRY" onDelete="cascade">
         <reference local="CM_CHAT_ID" foreign="CM_CHAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CHATENTRY" name="CMENTRTY_CMENTRYPARENT">
+      <foreign-key foreignTable="CM_CHATENTRY" name="CMENTRTY_CMENTRYPARENT" onDelete="none">
         <reference local="CM_CHATENTRYPARENT_ID" foreign="CM_CHATENTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CHATENTRY" name="CMCHATENTRY_GRANDPARENT">
+      <foreign-key foreignTable="CM_CHATENTRY" name="CMCHATENTRY_GRANDPARENT" onDelete="none">
         <reference local="CM_CHATENTRYGRANDPARENT_ID" foreign="CM_CHATENTRY_ID"/>
       </foreign-key>
       <check>

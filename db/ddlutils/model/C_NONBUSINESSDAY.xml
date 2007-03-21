@@ -13,13 +13,13 @@
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DATE1" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="C_CALENDAR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_NONBUSINESDAYSCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_NONBUSINESDAYSCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_NONBUSINESDAYSORG">
+      <foreign-key foreignTable="AD_ORG" name="C_NONBUSINESDAYSORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CALENDAR" name="C_CALENDARNONBUSINESSDAY">
+      <foreign-key foreignTable="C_CALENDAR" name="C_CALENDARNONBUSINESSDAY" onDelete="none">
         <reference local="C_CALENDAR_ID" foreign="C_CALENDAR_ID"/>
       </foreign-key>
       <check>

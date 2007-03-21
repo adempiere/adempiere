@@ -17,7 +17,7 @@
       <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="WHERECLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MACRO" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_CMWIKITOKEN">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_CMWIKITOKEN" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

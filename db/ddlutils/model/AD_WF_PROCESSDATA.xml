@@ -13,7 +13,7 @@
       <column name="AD_WF_PROCESS_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ATTRIBUTENAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ATTRIBUTEVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCCESS_ADWFPROCESSDATA">
+      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCCESS_ADWFPROCESSDATA" onDelete="cascade">
         <reference local="AD_WF_PROCESS_ID" foreign="AD_WF_PROCESS_ID"/>
       </foreign-key>
       <index name="AD_WF_PROCESSDATA_PROCESS">

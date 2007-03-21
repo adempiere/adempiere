@@ -13,16 +13,16 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="M_SUBSTITUTE_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="M_SUBSTITUTE_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="M_SUBSTITUTE_ORG">
+      <foreign-key foreignTable="AD_ORG" name="M_SUBSTITUTE_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTESUB">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTESUB" onDelete="cascade">
         <reference local="SUBSTITUTE_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTE" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

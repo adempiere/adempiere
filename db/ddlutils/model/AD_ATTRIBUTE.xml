@@ -33,16 +33,16 @@
       <column name="ISHEADING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISFIELDONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADATTRIBUTE">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADATTRIBUTE" onDelete="none">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADATTRIBUTE">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADATTRIBUTE" onDelete="none">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADATTRIBUTE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADATTRIBUTE" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_ADATTRIBUTE">
+      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_ADATTRIBUTE" onDelete="setnull">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
       <check>

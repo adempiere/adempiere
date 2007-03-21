@@ -59,46 +59,46 @@
       <column name="C_SUBSCRIPTIONTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISEXCLUDEAUTODELIVERY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MPRODUCT">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MPRODUCT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_ORG_MPRODUCT">
+      <foreign-key foreignTable="AD_ORG" name="AD_ORG_MPRODUCT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVRECOGNITION_MPRODUCT">
+      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVRECOGNITION_MPRODUCT" onDelete="none">
         <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SUBSCRIPTIONTYPE" name="CSUBSCRIPTIONTYPE_MPRODUCT">
+      <foreign-key foreignTable="C_SUBSCRIPTIONTYPE" name="CSUBSCRIPTIONTYPE_MPRODUCT" onDelete="none">
         <reference local="C_SUBSCRIPTIONTYPE_ID" foreign="C_SUBSCRIPTIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_MPRODUCT">
+      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_MPRODUCT" onDelete="none">
         <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_MPRODUCT">
+      <foreign-key foreignTable="C_UOM" name="CUOM_MPRODUCT" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MPRODUCT">
+      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MPRODUCT" onDelete="cascade">
         <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MPRODUCT">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MPRODUCT" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_FREIGHTCATEGORY" name="MFREIGHTCATEGORY_MPRODUCT">
+      <foreign-key foreignTable="M_FREIGHTCATEGORY" name="MFREIGHTCATEGORY_MPRODUCT" onDelete="none">
         <reference local="M_FREIGHTCATEGORY_ID" foreign="M_FREIGHTCATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MPRODUCT">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MPRODUCT" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCT_MPRODUCTCATEGORY">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCT_MPRODUCTCATEGORY" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_MPRODUCT">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_MPRODUCT" onDelete="none">
         <reference local="R_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_EXPENSETYPE" name="SEXPENSETYPE_MPRODUCT">
+      <foreign-key foreignTable="S_EXPENSETYPE" name="SEXPENSETYPE_MPRODUCT" onDelete="none">
         <reference local="S_EXPENSETYPE_ID" foreign="S_EXPENSETYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_MPRODUCT">
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_MPRODUCT" onDelete="none">
         <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
       </foreign-key>
       <unique name="M_PRODUCT_EXPENSETYPE">

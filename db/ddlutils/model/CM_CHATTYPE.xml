@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="MODERATIONTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_CMCHATTYPE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_CMCHATTYPE" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <unique name="CM_CHATTYPE_TABLE">

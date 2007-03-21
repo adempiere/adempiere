@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TRACKINGURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MSHIPPER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MSHIPPER" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <unique name="M_SHIPPER_NAME">

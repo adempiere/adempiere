@@ -17,19 +17,19 @@
       <column name="MULTIPLYRATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DIVIDERATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_CONVERSION_RATECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_CONVERSION_RATECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_CONVERSION_RATEORG">
+      <foreign-key foreignTable="AD_ORG" name="C_CONVERSION_RATEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CCONVRATE">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CCONVRATE" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCYCONVRATETO">
+      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCYCONVRATETO" onDelete="none">
         <reference local="C_CURRENCY_ID_TO" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCONVERSIONRATE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCONVERSIONRATE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <index name="C_CONVERSIONRATE_ONCE">

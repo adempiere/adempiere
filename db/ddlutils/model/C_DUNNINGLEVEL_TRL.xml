@@ -14,10 +14,10 @@
       <column name="PRINTNAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="NOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CDUNNINGLEVEL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CDUNNINGLEVEL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DUNNINGLEVEL" name="CDUNNINGLEVEL_CDLTRL">
+      <foreign-key foreignTable="C_DUNNINGLEVEL" name="CDUNNINGLEVEL_CDLTRL" onDelete="none">
         <reference local="C_DUNNINGLEVEL_ID" foreign="C_DUNNINGLEVEL_ID"/>
       </foreign-key>
       <check>

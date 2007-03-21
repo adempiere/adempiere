@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_WORKFLOW_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFBLOCK">
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFBLOCK" onDelete="cascade">
         <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <check>

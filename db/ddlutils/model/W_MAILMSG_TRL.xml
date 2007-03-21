@@ -16,10 +16,10 @@
       <column name="MESSAGE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MESSAGE2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MESSAGE3" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_WMAILMSGTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_WMAILMSGTRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="W_MAILMSG" name="WMAILMSG_WMAILMSGTRL">
+      <foreign-key foreignTable="W_MAILMSG" name="WMAILMSG_WMAILMSGTRL" onDelete="cascade">
         <reference local="W_MAILMSG_ID" foreign="W_MAILMSG_ID"/>
       </foreign-key>
       <check>

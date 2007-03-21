@@ -16,7 +16,7 @@
       <column name="CM_CSTAGE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CONTENTHTML" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGEELEMENT">
+      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGEELEMENT" onDelete="cascade">
         <reference local="CM_CSTAGE_ID" foreign="CM_CSTAGE_ID"/>
       </foreign-key>
       <unique name="CM_CSTAGE_ELEMENT_NAME">

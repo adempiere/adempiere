@@ -26,19 +26,19 @@
       <column name="AMTREVALCRDIFF" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_DOCTYPEREVAL_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISALLCURRENCIES" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TINVOICEGL">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TINVOICEGL" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_TINVOICEGL">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_TINVOICEGL" onDelete="none">
         <reference local="C_CONVERSIONTYPEREVAL_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_TINVOICEGL">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_TINVOICEGL" onDelete="none">
         <reference local="C_DOCTYPEREVAL_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_TINVOICEGL">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_TINVOICEGL" onDelete="cascade">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="FACT_ACCT" name="FACTACCT_TINVOICEGL">
+      <foreign-key foreignTable="FACT_ACCT" name="FACTACCT_TINVOICEGL" onDelete="cascade">
         <reference local="FACT_ACCT_ID" foreign="FACT_ACCT_ID"/>
       </foreign-key>
       <check>

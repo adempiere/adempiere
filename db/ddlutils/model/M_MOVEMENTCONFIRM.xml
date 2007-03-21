@@ -20,10 +20,10 @@
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_INVENTORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INVENTORY" name="MINVENTORY_MMOVCONFIRM">
+      <foreign-key foreignTable="M_INVENTORY" name="MINVENTORY_MMOVCONFIRM" onDelete="none">
         <reference local="M_INVENTORY_ID" foreign="M_INVENTORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTCONFIRM">
+      <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTCONFIRM" onDelete="cascade">
         <reference local="M_MOVEMENT_ID" foreign="M_MOVEMENT_ID"/>
       </foreign-key>
       <check>

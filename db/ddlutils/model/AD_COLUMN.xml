@@ -41,28 +41,28 @@
       <column name="ISSYNCDATABASE" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISALWAYSUPDATEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="COLUMNSQL" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="COLUMNCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="COLUMNCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ELEMENT" name="AD_ELEMENT_AD_COLUMN">
+      <foreign-key foreignTable="AD_ELEMENT" name="AD_ELEMENT_AD_COLUMN" onDelete="none">
         <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="COLUMNORG">
+      <foreign-key foreignTable="AD_ORG" name="COLUMNORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADCOLUMN">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADCOLUMN" onDelete="setnull">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNDATATYPE">
+      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNDATATYPE" onDelete="none">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNVALUE">
+      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_COLUMNVALUE" onDelete="none">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_COLUMN">
+      <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_COLUMN" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_COLUMN">
+      <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_COLUMN" onDelete="none">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
       <unique name="AD_COLUMN_NAME">

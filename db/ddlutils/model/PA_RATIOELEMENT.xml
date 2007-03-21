@@ -21,16 +21,16 @@
       <column name="CONSTANTVALUE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="POSTINGTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_PARATIOELEMENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_PARATIOELEMENT" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_MEASURECALC" name="PAMEASURECALC_PARATIOELEMENT">
+      <foreign-key foreignTable="PA_MEASURECALC" name="PAMEASURECALC_PARATIOELEMENT" onDelete="none">
         <reference local="PA_MEASURECALC_ID" foreign="PA_MEASURECALC_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PARATIOELEMENT">
+      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PARATIOELEMENT" onDelete="none">
         <reference local="PA_RATIO_ID" foreign="PA_RATIO_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_RATIO" name="PARATIOUSED_PARATIOELEMENT">
+      <foreign-key foreignTable="PA_RATIO" name="PARATIOUSED_PARATIOELEMENT" onDelete="none">
         <reference local="PA_RATIOUSED_ID" foreign="PA_RATIO_ID"/>
       </foreign-key>
       <check>

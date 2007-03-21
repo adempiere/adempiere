@@ -17,7 +17,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="BINARYDATA" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SCHEDULER" name="ADSCHEDULER_LOG">
+      <foreign-key foreignTable="AD_SCHEDULER" name="ADSCHEDULER_LOG" onDelete="cascade">
         <reference local="AD_SCHEDULER_ID" foreign="AD_SCHEDULER_ID"/>
       </foreign-key>
     </table>

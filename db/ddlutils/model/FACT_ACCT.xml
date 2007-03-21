@@ -48,82 +48,82 @@
       <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AC_CLIENT_FACT_ACCT">
+      <foreign-key foreignTable="AD_CLIENT" name="AC_CLIENT_FACT_ACCT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_ORGTRX_FACT_ACCT">
+      <foreign-key foreignTable="AD_ORG" name="AD_ORGTRX_FACT_ACCT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_ORG_FACT_ACCT">
+      <foreign-key foreignTable="AD_ORG" name="AD_ORG_FACT_ACCT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_FACTACCT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_FACTACCT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_FACTACCT">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_FACTACCT" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_FACTACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_FACTACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_FACTACCT">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_FACTACCT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="C_BUSPARTNER_FACT_ACCT">
+      <foreign-key foreignTable="C_BPARTNER" name="C_BUSPARTNER_FACT_ACCT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="SO_CAMPAIGN_FACT_ACCT">
+      <foreign-key foreignTable="C_CAMPAIGN" name="SO_CAMPAIGN_FACT_ACCT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_FACT_ACCT">
+      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_FACT_ACCT" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_FACTACCT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_FACTACCT" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_FACTACCT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_FACTACCT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_FACTACCT" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT">
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONFROM_FACT_ACCT" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONTO_FACT_ACCT">
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATIONTO_FACT_ACCT" onDelete="none">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PERIOD" name="CPERIOD_FACTACCT">
+      <foreign-key foreignTable="C_PERIOD" name="CPERIOD_FACTACCT" onDelete="none">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="C_PROJECT_FACT_ACCT">
+      <foreign-key foreignTable="C_PROJECT" name="C_PROJECT_FACT_ACCT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_FACTACCT">
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_FACTACCT" onDelete="setnull">
         <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_FACTACCT">
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_FACTACCT" onDelete="setnull">
         <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="C_SALESREGION_FACTACCT">
+      <foreign-key foreignTable="C_SALESREGION" name="C_SALESREGION_FACTACCT" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_FACTACCT">
+      <foreign-key foreignTable="C_TAX" name="CTAX_FACTACCT" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="C_UOM_FACT_ACCT">
+      <foreign-key foreignTable="C_UOM" name="C_UOM_FACT_ACCT" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_FACTACCT">
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_FACTACCT" onDelete="none">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_FACTACCT">
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_FACTACCT" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_FACTACCT">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_FACTACCT" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_FACT_ACCT">
+      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_FACT_ACCT" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="FACT_ACCT_DATEACCT">

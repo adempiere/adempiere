@@ -21,13 +21,13 @@
       <column name="ISQUERYCRITERIA" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="AD_ELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_REFERENCE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADINFOCOLUMN">
+      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADINFOCOLUMN" onDelete="none">
         <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_INFOWINDOW" name="ADINFOWINDOW_ADINFOCOLUMN">
+      <foreign-key foreignTable="AD_INFOWINDOW" name="ADINFOWINDOW_ADINFOCOLUMN" onDelete="cascade">
         <reference local="AD_INFOWINDOW_ID" foreign="AD_INFOWINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADINFOCOLUMN">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADINFOCOLUMN" onDelete="none">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <check>

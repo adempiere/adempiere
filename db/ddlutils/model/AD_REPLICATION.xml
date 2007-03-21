@@ -25,7 +25,7 @@
       <column name="PREFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="SUFFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_REPLICATIONSTRATEGY" name="ADREPLICATIONSTRATEGY_ADREP">
+      <foreign-key foreignTable="AD_REPLICATIONSTRATEGY" name="ADREPLICATIONSTRATEGY_ADREP" onDelete="none">
         <reference local="AD_REPLICATIONSTRATEGY_ID" foreign="AD_REPLICATIONSTRATEGY_ID"/>
       </foreign-key>
       <check>

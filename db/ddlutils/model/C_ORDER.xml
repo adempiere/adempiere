@@ -75,88 +75,88 @@
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CORDER">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CORDER" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER">
+      <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER" onDelete="none">
         <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER" onDelete="none">
         <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER" onDelete="none">
         <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER" onDelete="none">
         <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_CORDER" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONBILL_CORDER" onDelete="none">
         <reference local="BILL_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CORDER">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CORDER" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CASHLINE" name="CCASHLINE_CORDER">
+      <foreign-key foreignTable="C_CASHLINE" name="CCASHLINE_CORDER" onDelete="none">
         <reference local="C_CASHLINE_ID" foreign="C_CASHLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CORDER">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CORDER" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CORDER">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CORDER" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDER">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDER" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER">
+      <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER" onDelete="none">
         <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_REF">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_REF" onDelete="none">
         <reference local="REF_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CORDER">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CORDER" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_SOHEADER">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_SOHEADER" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CORDER">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CORDER" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_SOHEADER">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_SOHEADER" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_CORDER">
+      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_CORDER" onDelete="none">
         <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CORDER">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CORDER" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <index name="C_ORDER_BPARTNER">

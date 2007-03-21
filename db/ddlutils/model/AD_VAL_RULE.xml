@@ -15,10 +15,10 @@
       <column name="TYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CODE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="VAL_RULECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="VAL_RULECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="VAL_RULEORG">
+      <foreign-key foreignTable="AD_ORG" name="VAL_RULEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <check>

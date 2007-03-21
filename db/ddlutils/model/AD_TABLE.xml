@@ -28,19 +28,19 @@
       <column name="REPLICATIONTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="L" autoIncrement="false"/>
       <column name="PO_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COPYCOLUMNSFROMTABLE" primaryKey="false" required="false" type="VARCHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="TABLECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="TABLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="TABLEORG">
+      <foreign-key foreignTable="AD_ORG" name="TABLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_TABLE">
+      <foreign-key foreignTable="AD_VAL_RULE" name="AD_VALRULE_TABLE" onDelete="none">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOWPO_ADTABLE" onDelete="none">
         <reference local="PO_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE">
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TABLE" onDelete="setnull">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <unique name="AD_TABLE_NAME">

@@ -19,10 +19,10 @@
       <column name="DATEWORKSTART" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DELIVERYDAYS" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="DATEWORKCOMPLETE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQRESPONSELINE">
+      <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQRESPONSELINE" onDelete="cascade">
         <reference local="C_RFQLINE_ID" foreign="C_RFQLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_RFQRESPONSE" name="CRFQRESPONSE_LINE">
+      <foreign-key foreignTable="C_RFQRESPONSE" name="CRFQRESPONSE_LINE" onDelete="cascade">
         <reference local="C_RFQRESPONSE_ID" foreign="C_RFQRESPONSE_ID"/>
       </foreign-key>
       <check>

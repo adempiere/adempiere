@@ -19,10 +19,10 @@
       <column name="BINARYDATA" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADARCHIVE">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADARCHIVE" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADARCHIVE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADARCHIVE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

@@ -18,10 +18,10 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSINGLEROW" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TAB" name="ADTAB_ADUSERDEFTAB">
+      <foreign-key foreignTable="AD_TAB" name="ADTAB_ADUSERDEFTAB" onDelete="none">
         <reference local="AD_TAB_ID" foreign="AD_TAB_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USERDEF_WIN" name="ADUSERDEFWIN_ADUSERDEFTAB">
+      <foreign-key foreignTable="AD_USERDEF_WIN" name="ADUSERDEFWIN_ADUSERDEFTAB" onDelete="none">
         <reference local="AD_USERDEF_WIN_ID" foreign="AD_USERDEF_WIN_ID"/>
       </foreign-key>
       <check>

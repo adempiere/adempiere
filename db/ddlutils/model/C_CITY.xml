@@ -17,16 +17,16 @@
       <column name="AREACODE" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="C_COUNTRY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_REGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_CITYCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_CITYCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_CITYORG">
+      <foreign-key foreignTable="AD_ORG" name="C_CITYORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CCITY">
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CCITY" onDelete="none">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="CREGION_CCITY">
+      <foreign-key foreignTable="C_REGION" name="CREGION_CCITY" onDelete="none">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
       <check>

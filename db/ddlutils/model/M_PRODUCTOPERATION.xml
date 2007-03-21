@@ -17,7 +17,7 @@
       <column name="SETUPTIME" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="UNITRUNTIME" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TEARDOWNTIME" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTOPERATION">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTOPERATION" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

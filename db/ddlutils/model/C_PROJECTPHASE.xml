@@ -28,16 +28,16 @@
       <column name="ISCOMMITCEILING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROJINVOICERULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTPHASE">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTPHASE" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PHASE" name="CPHASE_CPROJECTPHASE">
+      <foreign-key foreignTable="C_PHASE" name="CPHASE_CPROJECTPHASE" onDelete="none">
         <reference local="C_PHASE_ID" foreign="C_PHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTPHASE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTPHASE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTPHASE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTPHASE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

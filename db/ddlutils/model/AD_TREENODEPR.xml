@@ -13,7 +13,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PARENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TREE" name="ADTREE_ADTREENODEPR">
+      <foreign-key foreignTable="AD_TREE" name="ADTREE_ADTREENODEPR" onDelete="cascade">
         <reference local="AD_TREE_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
       <index name="AD_TREENODEPR_PARENT">

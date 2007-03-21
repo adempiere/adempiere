@@ -14,16 +14,16 @@
       <column name="C_RECEIVABLE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PREPAYMENT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_RECEIVABLE_SERVICES_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBPCUSTOMERACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBPCUSTOMERACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_CBPCUSTOMER_ACCT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_CBPCUSTOMER_ACCT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPCUSTOMER">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPCUSTOMER" onDelete="none">
         <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPCUSTOMER">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPCUSTOMER" onDelete="none">
         <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

@@ -38,13 +38,13 @@
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="META_LANGUAGE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGELINK">
+      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGELINK" onDelete="setnull">
         <reference local="CM_CSTAGELINK_ID" foreign="CM_CSTAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_TEMPLATE" name="CMTEMPLATE_CMCSTAGE">
+      <foreign-key foreignTable="CM_TEMPLATE" name="CMTEMPLATE_CMCSTAGE" onDelete="cascade">
         <reference local="CM_TEMPLATE_ID" foreign="CM_TEMPLATE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMCSTAGE">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMCSTAGE" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

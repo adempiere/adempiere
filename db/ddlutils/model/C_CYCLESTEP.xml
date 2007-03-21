@@ -14,7 +14,7 @@
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="RELATIVEWEIGHT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CYCLE" name="CCYCLE_CCYCLESTEP">
+      <foreign-key foreignTable="C_CYCLE" name="CCYCLE_CCYCLESTEP" onDelete="cascade">
         <reference local="C_CYCLE_ID" foreign="C_CYCLE_ID"/>
       </foreign-key>
       <check>

@@ -16,10 +16,10 @@
       <column name="BOMQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="BOMTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTBOM">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTBOM" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_BOMPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_BOMPRODUCT" onDelete="none">
         <reference local="M_PRODUCTBOM_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

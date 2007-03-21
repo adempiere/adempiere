@@ -19,13 +19,13 @@
       <column name="SETUPTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="UNITRUNTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TEARDOWNTIME" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_MOPERATIONRESOURCE">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_MOPERATIONRESOURCE" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_JOB" name="CJOB_MOPERATIONRESOURCE">
+      <foreign-key foreignTable="C_JOB" name="CJOB_MOPERATIONRESOURCE" onDelete="none">
         <reference local="C_JOB_ID" foreign="C_JOB_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCTOPERATION" name="MPRODUCTOP_MOPRESOURCE">
+      <foreign-key foreignTable="M_PRODUCTOPERATION" name="MPRODUCTOP_MOPRESOURCE" onDelete="cascade">
         <reference local="M_PRODUCTOPERATION_ID" foreign="M_PRODUCTOPERATION_ID"/>
       </foreign-key>
     </table>

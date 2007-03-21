@@ -61,22 +61,22 @@
       <column name="ISCENTRALLYMAINTAINED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISIMAGEFIELD" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="BARCODETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPRINTFORMATITEM">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPRINTFORMATITEM" onDelete="cascade">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMATITEM">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMATITEM" onDelete="none">
         <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_ADPRINTFORMATITEM">
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_ADPRINTFORMATITEM" onDelete="none">
         <reference local="AD_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_PRINTFORMATITEM">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_PRINTFORMATITEM" onDelete="cascade">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_PRINTFORMATCHILD">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_PRINTFORMATCHILD" onDelete="setnull">
         <reference local="AD_PRINTFORMATCHILD_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTGRAPH" name="ADPRINTGRAPH_PRINTFORMATITEM">
+      <foreign-key foreignTable="AD_PRINTGRAPH" name="ADPRINTGRAPH_PRINTFORMATITEM" onDelete="none">
         <reference local="AD_PRINTGRAPH_ID" foreign="AD_PRINTGRAPH_ID"/>
       </foreign-key>
       <index name="AD_PRINTFORMATITEM_FORMAT">

@@ -70,22 +70,22 @@
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISO_CODE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_IPAYMENT">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_IPAYMENT" onDelete="setnull">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPAYMENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPAYMENT" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_IPAYMENT">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_IPAYMENT" onDelete="setnull">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IPAYMENT">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IPAYMENT" onDelete="setnull">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IPAYMENT">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IPAYMENT" onDelete="setnull">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_IPAYMENT">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_IPAYMENT" onDelete="setnull">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <check>

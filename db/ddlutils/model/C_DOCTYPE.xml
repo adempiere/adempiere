@@ -36,22 +36,22 @@
       <column name="C_DOCTYPEDIFFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCREATECOUNTER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISINDEXED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDOCTYPE">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDOCTYPE" onDelete="none">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_DOCTYPEDOC">
+      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_DOCTYPEDOC" onDelete="none">
         <reference local="DOCNOSEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PROFORMA">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_PROFORMA" onDelete="none">
         <reference local="C_DOCTYPEPROFORMA_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_SHIPMENT">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_SHIPMENT" onDelete="none">
         <reference local="C_DOCTYPESHIPMENT_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_INVOICE">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_INVOICE" onDelete="none">
         <reference local="C_DOCTYPEINVOICE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_CDOCTYPE">
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_CDOCTYPE" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
       </foreign-key>
       <unique name="C_DOCTYPE_NAME">

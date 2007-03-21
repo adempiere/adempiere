@@ -19,13 +19,13 @@
       <column name="SCRAPPEDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_INVENTORYLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MMOVLINECONFIRM">
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MMOVLINECONFIRM" onDelete="none">
         <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_MOVEMENTCONFIRM" name="MMOVEMENTCONFIRM_MMOVLINECONF">
+      <foreign-key foreignTable="M_MOVEMENTCONFIRM" name="MMOVEMENTCONFIRM_MMOVLINECONF" onDelete="cascade">
         <reference local="M_MOVEMENTCONFIRM_ID" foreign="M_MOVEMENTCONFIRM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_MMOVLINECONFIRM">
+      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_MMOVLINECONFIRM" onDelete="cascade">
         <reference local="M_MOVEMENTLINE_ID" foreign="M_MOVEMENTLINE_ID"/>
       </foreign-key>
       <check>

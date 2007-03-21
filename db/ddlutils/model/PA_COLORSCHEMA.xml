@@ -21,16 +21,16 @@
       <column name="MARK4PERCENT" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="AD_PRINTCOLOR4_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR1_PACOLORSCHEMA">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR1_PACOLORSCHEMA" onDelete="none">
         <reference local="AD_PRINTCOLOR1_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR4_PACOLORSCHEMA">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR4_PACOLORSCHEMA" onDelete="none">
         <reference local="AD_PRINTCOLOR4_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR3_PACOLORSCHEMA">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR3_PACOLORSCHEMA" onDelete="none">
         <reference local="AD_PRINTCOLOR3_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR2_PACOLORSCHEMA">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR2_PACOLORSCHEMA" onDelete="none">
         <reference local="AD_PRINTCOLOR2_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
       <check>

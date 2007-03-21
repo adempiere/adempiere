@@ -23,25 +23,25 @@
       <column name="TAXBASEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DATEACCT" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ALLOCATIONLINE" name="CALLOCATIONLINE_CTAXDECLLINE">
+      <foreign-key foreignTable="C_ALLOCATIONLINE" name="CALLOCATIONLINE_CTAXDECLLINE" onDelete="none">
         <reference local="C_ALLOCATIONLINE_ID" foreign="C_ALLOCATIONLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CTAXDECLLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CTAXDECLLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CTAXDECLLINE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CTAXDECLLINE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CTAXDECLLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CTAXDECLLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CTAXDECLLINE">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CTAXDECLLINE" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXDECLLINE">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXDECLLINE" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAXDECLARATION" name="CTAXDECLARATION_CTAXDECLLINE">
+      <foreign-key foreignTable="C_TAXDECLARATION" name="CTAXDECLARATION_CTAXDECLLINE" onDelete="cascade">
         <reference local="C_TAXDECLARATION_ID" foreign="C_TAXDECLARATION_ID"/>
       </foreign-key>
       <check>

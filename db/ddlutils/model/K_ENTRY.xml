@@ -20,13 +20,13 @@
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="AD_SESSION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_KENTRY">
+      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_KENTRY" onDelete="none">
         <reference local="AD_SESSION_ID" foreign="AD_SESSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="K_SOURCE" name="KSOURCE_KENTRY">
+      <foreign-key foreignTable="K_SOURCE" name="KSOURCE_KENTRY" onDelete="none">
         <reference local="K_SOURCE_ID" foreign="K_SOURCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="K_TOPIC" name="KTOPIC_KENTRY">
+      <foreign-key foreignTable="K_TOPIC" name="KTOPIC_KENTRY" onDelete="none">
         <reference local="K_TOPIC_ID" foreign="K_TOPIC_ID"/>
       </foreign-key>
       <check>

@@ -21,19 +21,19 @@
       <column name="REGIONNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ADDRESS3" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ADDRESS4" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CLOCATION">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CLOCATION" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CLOCATION">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CLOCATION" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CITY" name="CCITY_CLOCATION">
+      <foreign-key foreignTable="C_CITY" name="CCITY_CLOCATION" onDelete="none">
         <reference local="C_CITY_ID" foreign="C_CITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="C_COUNTRY_LOCATION">
+      <foreign-key foreignTable="C_COUNTRY" name="C_COUNTRY_LOCATION" onDelete="none">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="C_REGION_LOCATION">
+      <foreign-key foreignTable="C_REGION" name="C_REGION_LOCATION" onDelete="none">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
       <check>

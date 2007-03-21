@@ -29,7 +29,7 @@
       <column name="FILENAME" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATEFORMAT" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCT_CBANKSTMTLOADER">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCT_CBANKSTMTLOADER" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
       <check>

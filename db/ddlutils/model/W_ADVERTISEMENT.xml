@@ -29,16 +29,16 @@
       <column name="PUBLISHSTATUS" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="VERSION" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_WADVERTISEMENT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_WADVERTISEMENT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_WADVERTISEMENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_WADVERTISEMENT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="W_CLICKCOUNT" name="WCLICKCOUNT_WADVERTISEMENT">
+      <foreign-key foreignTable="W_CLICKCOUNT" name="WCLICKCOUNT_WADVERTISEMENT" onDelete="none">
         <reference local="W_CLICKCOUNT_ID" foreign="W_CLICKCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="W_COUNTERCOUNT" name="WCOUNTERCOUNT_WADVERTISEMENT">
+      <foreign-key foreignTable="W_COUNTERCOUNT" name="WCOUNTERCOUNT_WADVERTISEMENT" onDelete="none">
         <reference local="W_COUNTERCOUNT_ID" foreign="W_COUNTERCOUNT_ID"/>
       </foreign-key>
     </table>

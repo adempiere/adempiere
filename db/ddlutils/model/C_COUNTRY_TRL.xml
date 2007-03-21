@@ -15,10 +15,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="REGIONNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CCOUNTRYTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CCOUNTRYTRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CCOUNTRYTRL">
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CCOUNTRYTRL" onDelete="cascade">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
       <check>

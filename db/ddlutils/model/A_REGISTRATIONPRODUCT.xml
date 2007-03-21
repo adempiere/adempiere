@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="A_REGISTRATIONATTRIBUTE" name="AREGATTRIBUTE_AREGPRODUCT">
+      <foreign-key foreignTable="A_REGISTRATIONATTRIBUTE" name="AREGATTRIBUTE_AREGPRODUCT" onDelete="none">
         <reference local="A_REGISTRATIONATTRIBUTE_ID" foreign="A_REGISTRATIONATTRIBUTE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_AREGPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_AREGPRODUCT" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

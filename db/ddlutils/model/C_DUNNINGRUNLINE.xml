@@ -23,13 +23,13 @@
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="C_DUNNINGRUNENTRY" name="CDUNNINGRUNENTRY_LINE">
+      <foreign-key foreignTable="C_DUNNINGRUNENTRY" name="CDUNNINGRUNENTRY_LINE" onDelete="cascade">
         <reference local="C_DUNNINGRUNENTRY_ID" foreign="C_DUNNINGRUNENTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CDUNNINGRUNLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CDUNNINGRUNLINE" onDelete="setnull">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CDUNNINGRUNLINE">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CDUNNINGRUNLINE" onDelete="setnull">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <check>

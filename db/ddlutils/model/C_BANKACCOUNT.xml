@@ -20,10 +20,10 @@
       <column name="IBAN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="BBAN" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANK" name="CBANK_CBANKACCOUNT">
+      <foreign-key foreignTable="C_BANK" name="CBANK_CBANKACCOUNT" onDelete="cascade">
         <reference local="C_BANK_ID" foreign="C_BANK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CBANKACCOUNT">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CBANKACCOUNT" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <index name="C_BANKACCT_BANK">

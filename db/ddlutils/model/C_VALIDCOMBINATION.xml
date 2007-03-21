@@ -30,49 +30,49 @@
       <column name="C_SUBACCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USERELEMENT1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USERELEMENT2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_VC">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_VC" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_VC">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_VC" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_VC">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_VC" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CVALIDCOMBINATION">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CVALIDCOMBINATION" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CVALIDCOMBINATION">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CVALIDCOMBINATION" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_VC">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_VC" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_VC">
+      <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_VC" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCOUNT_VC">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCOUNT_VC" onDelete="cascade">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC">
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC" onDelete="none">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC">
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_VC">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_VC" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_VC">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_VC" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_VC">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_VC" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <unique name="C_VALIDCOMBINATION_ALT">

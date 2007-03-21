@@ -15,13 +15,13 @@
       <column name="FACT_ACCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACCTSCHEMA_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="LINE" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CTAXDECLACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CTAXDECLACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAXDECLARATION" name="CTAXDECL_CTAXDECLACCT">
+      <foreign-key foreignTable="C_TAXDECLARATION" name="CTAXDECL_CTAXDECLACCT" onDelete="none">
         <reference local="C_TAXDECLARATION_ID" foreign="C_TAXDECLARATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="FACT_ACCT" name="FACTACCT_CTAXDECLACCT">
+      <foreign-key foreignTable="FACT_ACCT" name="FACTACCT_CTAXDECLACCT" onDelete="cascade">
         <reference local="FACT_ACCT_ID" foreign="FACT_ACCT_ID"/>
       </foreign-key>
       <check>

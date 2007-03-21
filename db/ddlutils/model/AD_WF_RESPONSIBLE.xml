@@ -16,13 +16,13 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_ADWFRESPONSIBLE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_ADWFRESPONSIBLE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADWFRESPONSIBLE">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADWFRESPONSIBLE" onDelete="none">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFRESPONSIBLE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFRESPONSIBLE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <check>

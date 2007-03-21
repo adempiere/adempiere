@@ -17,10 +17,10 @@
       <column name="STDPRECISION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="COSTINGPRECISION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_UOMCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_UOMCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_UOMORG">
+      <foreign-key foreignTable="AD_ORG" name="C_UOMORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <unique name="C_UOM_NAME">

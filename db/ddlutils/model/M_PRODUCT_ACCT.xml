@@ -21,34 +21,34 @@
       <column name="P_TRADEDISCOUNTGRANT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="P_INVENTORYCLEARING_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="P_COSTADJUSTMENT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODUCTACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODUCTACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PCOGS_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PCOGS_MPRODUCT" onDelete="none">
         <reference local="P_COGS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PEXPENSE_MPRODUCT" onDelete="none">
         <reference local="P_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PASSET_MPRODUCT" onDelete="none">
         <reference local="P_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PINVOICEPV_MPRODUCT" onDelete="none">
         <reference local="P_INVOICEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPURCHASEPV_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPURCHASEPV_MPRODUCT" onDelete="none">
         <reference local="P_PURCHASEPRICEVARIANCE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_MPRODUCT" onDelete="none">
         <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTGRANT_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTGRANT_MPRODUCT" onDelete="none">
         <reference local="P_TRADEDISCOUNTGRANT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_MPRODUCT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_MPRODUCT" onDelete="none">
         <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_M_PRODUCT_ACCT">
+      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_M_PRODUCT_ACCT" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

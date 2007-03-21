@@ -17,13 +17,13 @@
       <column name="A_DISPOSAL_LOSS" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="A_DISPOSAL_GAIN" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="A_ASSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETACCT">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETACCT" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_DEPRECIATION" name="ADEPRECIATION_AASSETACCT">
+      <foreign-key foreignTable="A_DEPRECIATION" name="ADEPRECIATION_AASSETACCT" onDelete="none">
         <reference local="A_DEPRECIATION_ID" foreign="A_DEPRECIATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_AASSETACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_AASSETACCT" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
       <check>

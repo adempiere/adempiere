@@ -16,7 +16,7 @@
       <column name="PROCESSINGDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PAYMENTPROCESSOR" name="CPAYMTPROCESSOR_CPAYMTBATCH">
+      <foreign-key foreignTable="C_PAYMENTPROCESSOR" name="CPAYMTPROCESSOR_CPAYMTBATCH" onDelete="none">
         <reference local="C_PAYMENTPROCESSOR_ID" foreign="C_PAYMENTPROCESSOR_ID"/>
       </foreign-key>
       <check>

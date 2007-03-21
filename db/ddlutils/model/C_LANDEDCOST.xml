@@ -17,19 +17,19 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="LANDEDCOSTDISTRIBUTION" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CLANDEDCOST">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CLANDEDCOST" onDelete="cascade">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTELEMENT" name="CCOSTELEMENT_CLANDEDCOST">
+      <foreign-key foreignTable="M_COSTELEMENT" name="CCOSTELEMENT_CLANDEDCOST" onDelete="none">
         <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_CLANDEDCOST">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_CLANDEDCOST" onDelete="none">
         <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CLANDEDCOST">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CLANDEDCOST" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CLANDEDCOST">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CLANDEDCOST" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

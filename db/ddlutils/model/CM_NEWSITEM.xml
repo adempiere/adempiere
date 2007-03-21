@@ -17,7 +17,7 @@
       <column name="LINKURL" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="PUBDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="CONTENTHTML" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_NEWSCHANNEL" name="CMNEWSCHANNEL_CMNEWSITEM">
+      <foreign-key foreignTable="CM_NEWSCHANNEL" name="CMNEWSCHANNEL_CMNEWSITEM" onDelete="cascade">
         <reference local="CM_NEWSCHANNEL_ID" foreign="CM_NEWSCHANNEL_ID"/>
       </foreign-key>
       <check>

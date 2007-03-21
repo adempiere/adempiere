@@ -17,7 +17,7 @@
       <column name="FUNCTIONSUFFIX" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISXYPOSITION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="XYSEPARATOR" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LABELPRINTER" name="ADLABELPRINTER_FUNCTION">
+      <foreign-key foreignTable="AD_LABELPRINTER" name="ADLABELPRINTER_FUNCTION" onDelete="none">
         <reference local="AD_LABELPRINTER_ID" foreign="AD_LABELPRINTER_ID"/>
       </foreign-key>
       <check>

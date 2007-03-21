@@ -15,10 +15,10 @@
       <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MRMALINE">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MRMALINE" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_RMA" name="MRMA_MRMALINE">
+      <foreign-key foreignTable="M_RMA" name="MRMA_MRMALINE" onDelete="none">
         <reference local="M_RMA_ID" foreign="M_RMA_ID"/>
       </foreign-key>
     </table>

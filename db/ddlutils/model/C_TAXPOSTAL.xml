@@ -13,7 +13,7 @@
       <column name="C_TAX_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="POSTAL" primaryKey="false" required="true" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="POSTAL_TO" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXPOSTAL">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXPOSTAL" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
       <check>

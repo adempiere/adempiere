@@ -17,13 +17,13 @@
       <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_REFLIST_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_REFLIST_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_REFLIST_ORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_REFLIST_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_REFLIST">
+      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_REFLIST" onDelete="cascade">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <unique name="AD_REF_LIST_VALUE">

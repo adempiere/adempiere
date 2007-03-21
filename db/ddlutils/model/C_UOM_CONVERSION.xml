@@ -15,16 +15,16 @@
       <column name="MULTIPLYRATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DIVIDERATE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_UOM_CONVERSIONCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_UOM_CONVERSIONCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_UOM_CONVERSIONORG">
+      <foreign-key foreignTable="AD_ORG" name="C_UOM_CONVERSIONORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="C_UOMCONVERSIONTO">
+      <foreign-key foreignTable="C_UOM" name="C_UOMCONVERSIONTO" onDelete="none">
         <reference local="C_UOM_TO_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_CUOMCONVERSION">
+      <foreign-key foreignTable="C_UOM" name="CUOM_CUOMCONVERSION" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
       <unique name="C_UOM_CONVERSION_PRODUCT">

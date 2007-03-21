@@ -15,10 +15,10 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CODE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADUSERQUERY">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADUSERQUERY" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERQUERY">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERQUERY" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <check>

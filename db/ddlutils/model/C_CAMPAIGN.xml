@@ -18,7 +18,7 @@
       <column name="ENDDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="COSTS" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CHANNEL" name="CCHANNEL_CCAMPAIGN">
+      <foreign-key foreignTable="C_CHANNEL" name="CCHANNEL_CCAMPAIGN" onDelete="none">
         <reference local="C_CHANNEL_ID" foreign="C_CHANNEL_ID"/>
       </foreign-key>
       <unique name="C_CAMPAIGN_VALUE">

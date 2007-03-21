@@ -16,16 +16,16 @@
       <column name="AMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="BASE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CLANDEDCOSTALLOC">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CLANDEDCOSTALLOC" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_CLANDEDCOSTALLOCATION">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_CLANDEDCOSTALLOCATION" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MLANDEDCOSTALLOC">
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MLANDEDCOSTALLOC" onDelete="none">
         <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CLANDEDCOSTALLOC">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CLANDEDCOSTALLOC" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

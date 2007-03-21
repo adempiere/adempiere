@@ -27,13 +27,13 @@
       <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DATEDOC" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_MREQUISITION">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_MREQUISITION" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPROCELIST_MREQUISITION">
+      <foreign-key foreignTable="M_PRICELIST" name="MPROCELIST_MREQUISITION" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MREQUISITION">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MREQUISITION" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

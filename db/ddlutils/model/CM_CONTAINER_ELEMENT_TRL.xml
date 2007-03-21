@@ -16,10 +16,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CMCONTAINERELETRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CMCONTAINERELETRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CONTAINER_ELEMENT" name="CMCONTAINERELEMENT_CMCETRL">
+      <foreign-key foreignTable="CM_CONTAINER_ELEMENT" name="CMCONTAINERELEMENT_CMCETRL" onDelete="cascade">
         <reference local="CM_CONTAINER_ELEMENT_ID" foreign="CM_CONTAINER_ELEMENT_ID"/>
       </foreign-key>
       <check>

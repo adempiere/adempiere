@@ -30,19 +30,19 @@
       <column name="VALUEMAX" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="AD_ELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADPROCESSPARA">
+      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADPROCESSPARA" onDelete="none">
         <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSPARA">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSPARA" onDelete="cascade">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPROCESSPARA">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPROCESSPARA" onDelete="none">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADPROCPARA">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADPROCPARA" onDelete="none">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_AD_PROCESSPARA">
+      <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_AD_PROCESSPARA" onDelete="none">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>
       </foreign-key>
       <index name="AD_PROCESS_PARA_PROCESS">

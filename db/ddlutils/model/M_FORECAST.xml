@@ -17,10 +17,10 @@
       <column name="C_CALENDAR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_YEAR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CALENDAR" name="CCALENDAR_MFORECAST">
+      <foreign-key foreignTable="C_CALENDAR" name="CCALENDAR_MFORECAST" onDelete="none">
         <reference local="C_CALENDAR_ID" foreign="C_CALENDAR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_YEAR" name="CYEAR_MFORECAST">
+      <foreign-key foreignTable="C_YEAR" name="CYEAR_MFORECAST" onDelete="none">
         <reference local="C_YEAR_ID" foreign="C_YEAR_ID"/>
       </foreign-key>
       <check>

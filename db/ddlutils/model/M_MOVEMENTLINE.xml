@@ -23,19 +23,19 @@
       <column name="TARGETQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCETO_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MMOVEMENTLINE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MMOVEMENTLINE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATORTO_MMOVEMENTLINE">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATORTO_MMOVEMENTLINE" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MOVEMENTLINE">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MOVEMENTLINE" onDelete="none">
         <reference local="M_LOCATORTO_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTLINE">
+      <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTLINE" onDelete="cascade">
         <reference local="M_MOVEMENT_ID" foreign="M_MOVEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMOVEMENTLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMOVEMENTLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="M_MOVEMENTLINE_MOVEMENT">

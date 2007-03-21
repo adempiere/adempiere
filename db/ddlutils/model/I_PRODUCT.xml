@@ -55,19 +55,19 @@
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PRICESTD" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="PRICELIMIT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPRODUCT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IPRODUCT" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IPRODUCT">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IPRODUCT" onDelete="setnull">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_IPRODUCT">
+      <foreign-key foreignTable="C_UOM" name="CUOM_IPRODUCT" onDelete="setnull">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_IPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_IPRODUCT" onDelete="setnull">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCATEGORY_IPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCATEGORY_IPRODUCT" onDelete="setnull">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>

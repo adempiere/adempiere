@@ -13,16 +13,16 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CH_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CH_REVENUE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCHARGEACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCHARGEACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHRAGE_CCHARGEACCT">
+      <foreign-key foreignTable="C_CHARGE" name="CCHRAGE_CCHARGEACCT" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHEXPENSE_CCHARGE">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHEXPENSE_CCHARGE" onDelete="none">
         <reference local="CH_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHREVENUE_CCHARGE">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHREVENUE_CCHARGE" onDelete="none">
         <reference local="CH_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

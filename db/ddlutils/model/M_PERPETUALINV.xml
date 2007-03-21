@@ -21,10 +21,10 @@
       <column name="NUMBEROFRUNS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_MPERPETUALINV">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_MPERPETUALINV" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MPERPETUALINV">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MPERPETUALINV" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

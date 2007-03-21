@@ -18,25 +18,25 @@
       <column name="ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_PAGOALRESTRICTION">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_PAGOALRESTRICTION" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG2_PAGOALRESTRICTION">
+      <foreign-key foreignTable="AD_ORG" name="ADORG2_PAGOALRESTRICTION" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PAGOALRESTRICTION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PAGOALRESTRICTION" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_PAGOALRESTRICTION">
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_PAGOALRESTRICTION" onDelete="none">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PAGOALRESTRICTION">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PAGOALRESTRICTION" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_PAGOALRESTRICTION">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_PAGOALRESTRICTION" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_GOAL" name="PAGOAL_PAGOALRESTRICTION">
+      <foreign-key foreignTable="PA_GOAL" name="PAGOAL_PAGOALRESTRICTION" onDelete="none">
         <reference local="PA_GOAL_ID" foreign="PA_GOAL_ID"/>
       </foreign-key>
       <check>

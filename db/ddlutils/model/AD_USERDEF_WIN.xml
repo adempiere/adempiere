@@ -20,13 +20,13 @@
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISUSERUPDATEABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADUSERDEFWIN">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADUSERDEFWIN" onDelete="none">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERDEFWIN">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERDEFWIN" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADUSERDEFWIN">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADUSERDEFWIN" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <check>

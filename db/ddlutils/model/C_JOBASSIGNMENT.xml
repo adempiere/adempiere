@@ -15,10 +15,10 @@
       <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CJOBASSIGNMENT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CJOBASSIGNMENT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_JOB" name="CJOB_CJOBASSIGNMENT">
+      <foreign-key foreignTable="C_JOB" name="CJOB_CJOBASSIGNMENT" onDelete="none">
         <reference local="C_JOB_ID" foreign="C_JOB_ID"/>
       </foreign-key>
       <check>

@@ -51,31 +51,31 @@
       <column name="AD_WINDOW_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADISSUE">
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADISSUE" onDelete="setnull">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADISSUE">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADISSUE" onDelete="setnull">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADISSUE">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADISSUE" onDelete="setnull">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_ADISSUE">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_ADISSUE" onDelete="setnull">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUEKNOWN" name="RKNOWNISSUE_ADISSUE">
+      <foreign-key foreignTable="R_ISSUEKNOWN" name="RKNOWNISSUE_ADISSUE" onDelete="none">
         <reference local="R_ISSUEKNOWN_ID" foreign="R_ISSUEKNOWN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUEPROJECT" name="RISSUEPROJECT_ADISSUE">
+      <foreign-key foreignTable="R_ISSUEPROJECT" name="RISSUEPROJECT_ADISSUE" onDelete="none">
         <reference local="R_ISSUEPROJECT_ID" foreign="R_ISSUEPROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUESYSTEM" name="RISSUESYSTEM_AD_ISSUE">
+      <foreign-key foreignTable="R_ISSUESYSTEM" name="RISSUESYSTEM_AD_ISSUE" onDelete="none">
         <reference local="R_ISSUESYSTEM_ID" foreign="R_ISSUESYSTEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUEUSER" name="RISSUEUSER_ADISSUE">
+      <foreign-key foreignTable="R_ISSUEUSER" name="RISSUEUSER_ADISSUE" onDelete="none">
         <reference local="R_ISSUEUSER_ID" foreign="R_ISSUEUSER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_ADISSUE">
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_ADISSUE" onDelete="setnull">
         <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
       </foreign-key>
       <check>

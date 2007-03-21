@@ -44,19 +44,19 @@
       <column name="ALLOW_INFO_PRODUCT" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ALLOW_INFO_RESOURCE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ALLOW_INFO_SCHEDULE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_ROLECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_ROLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_ROLEORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_ROLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREE_ADROLE">
+      <foreign-key foreignTable="AD_TREE" name="ADTREE_ADROLE" onDelete="none">
         <reference local="AD_TREE_MENU_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSUPERVISOR_ADROLE">
+      <foreign-key foreignTable="AD_USER" name="ADUSERSUPERVISOR_ADROLE" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_AD_ROLE">
+      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCY_AD_ROLE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <check>

@@ -27,43 +27,43 @@
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CASCHEMAELEMENT">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CASCHEMAELEMENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CASCHEMAELEMENT">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CASCHEMAELEMENT" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGID_C_ASCHEMAELEMENT">
+      <foreign-key foreignTable="AD_ORG" name="ADORGID_C_ASCHEMAELEMENT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CASCHEMAELEMENT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CACCTSCHEMAELEMENT">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CACCTSCHEMAELEMENT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENT" name="CELEMENT_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_ELEMENT" name="CELEMENT_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_ELEMENT_ID" foreign="C_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_CASCHEMAELEMENT">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_CASCHEMAELEMENT" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CASCHEMAELEMENT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CASCHEMAELEMENT" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="C_ACCTSCHEMA_ELEMENT_SCHEMA">

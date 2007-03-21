@@ -32,22 +32,22 @@
       <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="CHECKCOMPLETE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CRFQRESPONSE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CRFQRESPONSE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CRFQRESPONSE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CRFQRESPONSE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CRFQRESPONSE">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CRFQRESPONSE" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CRFQRESPONSE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CRFQRESPONSE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_CRFQRESPONSE">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CRFQRESPONSE" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_RFQ" name="CRFQ_CRFQRESPONSE">
+      <foreign-key foreignTable="C_RFQ" name="CRFQ_CRFQRESPONSE" onDelete="cascade">
         <reference local="C_RFQ_ID" foreign="C_RFQ_ID"/>
       </foreign-key>
       <check>

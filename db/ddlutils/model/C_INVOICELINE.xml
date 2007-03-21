@@ -45,64 +45,64 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICELINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICELINE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICELINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICELINE" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_CINVOICELINE">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_CINVOICELINE" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CINVOICELINE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CINVOICELINE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CINVOICELINE">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CINVOICELINE" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CINVOICELINE">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CINVOICELINE" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_CINVLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER1_CINVLINE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CINVLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CINVLINE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICELINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICELINE" onDelete="cascade">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CONVOICELINE_REF">
+      <foreign-key foreignTable="C_INVOICELINE" name="CONVOICELINE_REF" onDelete="none">
         <reference local="REF_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_CINVOICELINE">
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_CINVOICELINE" onDelete="none">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CINVOICELINE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CINVOICELINE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CINVOICELINE">
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CINVOICELINE" onDelete="setnull">
         <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_CINVOICELINE">
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_CINVOICELINE" onDelete="setnull">
         <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICELINE">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICELINE" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_CINVOICELINE">
+      <foreign-key foreignTable="C_UOM" name="CUOM_CINVOICELINE" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_CINVOICELINE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_CINVOICELINE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CINVOICELINE">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_CINVOICELINE" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CINVOICELINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CINVOICELINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_RESOURCEASSIGNMENT" name="SRESOURCEASSIGN_CINVOICELINE">
+      <foreign-key foreignTable="S_RESOURCEASSIGNMENT" name="SRESOURCEASSIGN_CINVOICELINE" onDelete="none">
         <reference local="S_RESOURCEASSIGNMENT_ID" foreign="S_RESOURCEASSIGNMENT_ID"/>
       </foreign-key>
       <index name="C_INVOICELINE_INVOICE">

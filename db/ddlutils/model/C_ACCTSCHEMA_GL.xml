@@ -22,31 +22,31 @@
       <column name="INTERCOMPANYDUEFROM_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PPVOFFSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="COMMITMENTOFFSET_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CACCTSCHEMAGL">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CACCTSCHEMAGL" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INCOMESUMMARY_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INCOMESUMMARY_CSCHEMAGL" onDelete="none">
         <reference local="INCOMESUMMARY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUEFROM_CSCHEMA">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUEFROM_CSCHEMA" onDelete="none">
         <reference local="INTERCOMPANYDUEFROM_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_SUSPENSEERROR_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_SUSPENSEERROR_CSCHEMAGL" onDelete="none">
         <reference local="SUSPENSEERROR_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPVOFFSET_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PPVOFFSET_CSCHEMAGL" onDelete="none">
         <reference local="PPVOFFSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_RETAINEDEARNING_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_RETAINEDEARNING_CSCHEMAGL" onDelete="none">
         <reference local="RETAINEDEARNING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_SUSPENSEBALANCING_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_SUSPENSEBALANCING_CSCHEMAGL" onDelete="none">
         <reference local="SUSPENSEBALANCING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CURRENCYBALANCING_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CURRENCYBALANCING_CSCHEMAGL" onDelete="none">
         <reference local="CURRENCYBALANCING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CSCHEMAGL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CSCHEMAGL" onDelete="none">
         <reference local="INTERCOMPANYDUETO_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

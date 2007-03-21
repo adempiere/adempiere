@@ -34,28 +34,28 @@
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="POSTED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_CONVERSIONTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="C_ACCTSCHEMA_GL_JOURNAL">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="C_ACCTSCHEMA_GL_JOURNAL" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_GLJOURNAL">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_GLJOURNAL" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNAL">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNAL" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLJOURNAL">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLJOURNAL" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_JOURNAL">
+      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_JOURNAL" onDelete="none">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_GLJOURNAL">
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_GLJOURNAL" onDelete="none">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_GLJOURNAL">
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_GLJOURNAL" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_JOURNALBATCH" name="GLJOURNALBATCH_GLJOURNAL">
+      <foreign-key foreignTable="GL_JOURNALBATCH" name="GLJOURNALBATCH_GLJOURNAL" onDelete="cascade">
         <reference local="GL_JOURNALBATCH_ID" foreign="GL_JOURNALBATCH_ID"/>
       </foreign-key>
       <unique name="GL_JOURNAL_DOCNO">

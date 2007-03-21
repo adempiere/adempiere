@@ -18,13 +18,13 @@
       <column name="PAIDUNTILDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ISDUE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="RENEWALDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CSUBSCRIPTION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CSUBSCRIPTION" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SUBSCRIPTIONTYPE" name="CSUBSCRTYPE_CSUBSCRIPTION">
+      <foreign-key foreignTable="C_SUBSCRIPTIONTYPE" name="CSUBSCRTYPE_CSUBSCRIPTION" onDelete="none">
         <reference local="C_SUBSCRIPTIONTYPE_ID" foreign="C_SUBSCRIPTIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CSUBSCRIPTION">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CSUBSCRIPTION" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

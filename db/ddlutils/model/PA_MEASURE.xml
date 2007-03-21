@@ -23,16 +23,16 @@
       <column name="MEASUREDATATYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="PA_BENCHMARK" name="PABENCHMARK_PAMEASURE">
+      <foreign-key foreignTable="PA_BENCHMARK" name="PABENCHMARK_PAMEASURE" onDelete="none">
         <reference local="PA_BENCHMARK_ID" foreign="PA_BENCHMARK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_HIERARCHY" name="PAHIERARCHY_PAMEASURE">
+      <foreign-key foreignTable="PA_HIERARCHY" name="PAHIERARCHY_PAMEASURE" onDelete="none">
         <reference local="PA_HIERARCHY_ID" foreign="PA_HIERARCHY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_MEASURECALC" name="PAMEASURECALC_PAMEASURE">
+      <foreign-key foreignTable="PA_MEASURECALC" name="PAMEASURECALC_PAMEASURE" onDelete="none">
         <reference local="PA_MEASURECALC_ID" foreign="PA_MEASURECALC_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PAMEASURE">
+      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PAMEASURE" onDelete="none">
         <reference local="PA_RATIO_ID" foreign="PA_RATIO_ID"/>
       </foreign-key>
       <check>

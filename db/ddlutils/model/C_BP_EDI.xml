@@ -29,13 +29,13 @@
       <column name="RECEIVEINQUIRYREPLY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="SENDORDER" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="RECEIVEORDERREPLY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CBPEDI">
+      <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CBPEDI" onDelete="none">
         <reference local="AD_SEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="C_BPARTNER_CBPEDI">
+      <foreign-key foreignTable="C_BPARTNER" name="C_BPARTNER_CBPEDI" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CBPEDI">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CBPEDI" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

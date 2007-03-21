@@ -18,13 +18,13 @@
       <column name="OVERUNDERAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="INVOICEAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_ALLOCATIONLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ALLOCATIONLINE" name="CPAYMTALLOCATE_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_ALLOCATIONLINE" name="CPAYMTALLOCATE_CALLOCATIONLINE" onDelete="setnull">
         <reference local="C_ALLOCATIONLINE_ID" foreign="C_ALLOCATIONLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CPAYMENTALLOCATE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CPAYMENTALLOCATE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CPAYMENTALLOCATE">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CPAYMENTALLOCATE" onDelete="cascade">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <check>

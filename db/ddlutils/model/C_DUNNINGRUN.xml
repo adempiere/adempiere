@@ -16,7 +16,7 @@
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="SENDIT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="C_DUNNINGLEVEL" name="CDUNNINGLEVEL_CDUNNINGRUN">
+      <foreign-key foreignTable="C_DUNNINGLEVEL" name="CDUNNINGLEVEL_CDUNNINGRUN" onDelete="none">
         <reference local="C_DUNNINGLEVEL_ID" foreign="C_DUNNINGLEVEL_ID"/>
       </foreign-key>
       <check>

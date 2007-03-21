@@ -15,13 +15,13 @@
       <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_KINDEXSTOP">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_KINDEXSTOP" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_KINDEXSTOP">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_KINDEXSTOP" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_KINDEXSTOP">
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_KINDEXSTOP" onDelete="cascade">
         <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
       </foreign-key>
       <index name="K_INDEXSTOP_KEYWORD">

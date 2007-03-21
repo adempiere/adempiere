@@ -17,10 +17,10 @@
       <column name="PRODUCT" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_WBASKETLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_WBASKETLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="W_BASKET" name="WBASKET_WBASKETLINE">
+      <foreign-key foreignTable="W_BASKET" name="WBASKET_WBASKETLINE" onDelete="none">
         <reference local="W_BASKET_ID" foreign="W_BASKET_ID"/>
       </foreign-key>
       <check>

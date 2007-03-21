@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KENTRYRELATEDID">
+      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KENTRYRELATEDID" onDelete="none">
         <reference local="K_ENTRYRELATED_ID" foreign="K_ENTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KENTRYRELATED">
+      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KENTRYRELATED" onDelete="none">
         <reference local="K_ENTRY_ID" foreign="K_ENTRY_ID"/>
       </foreign-key>
       <check>

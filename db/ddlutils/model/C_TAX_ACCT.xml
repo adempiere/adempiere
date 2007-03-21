@@ -16,25 +16,25 @@
       <column name="T_CREDIT_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="T_RECEIVABLES_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="T_EXPENSE_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CTAXACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CTAXACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXACCT">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXACCT" onDelete="cascade">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CTAX">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CTAX" onDelete="none">
         <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CTAX" onDelete="none">
         <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CTAX">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CTAX" onDelete="none">
         <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CTAX">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CTAX" onDelete="none">
         <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CTAX" onDelete="none">
         <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

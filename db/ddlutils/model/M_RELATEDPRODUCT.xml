@@ -14,10 +14,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MRELATED_PRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MRELATED_PRODUCT" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MRELATEDPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MRELATEDPRODUCT" onDelete="cascade">
         <reference local="RELATEDPRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

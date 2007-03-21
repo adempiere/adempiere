@@ -17,10 +17,10 @@
       <column name="STANDARDQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_PHASE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PROJECTTYPE" name="CPROJECTTYPE_CPHASE">
+      <foreign-key foreignTable="C_PROJECTTYPE" name="CPROJECTTYPE_CPHASE" onDelete="cascade">
         <reference local="C_PROJECTTYPE_ID" foreign="C_PROJECTTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPHASE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPHASE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

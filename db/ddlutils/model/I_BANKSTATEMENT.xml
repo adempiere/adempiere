@@ -60,28 +60,28 @@
       <column name="CREATEPAYMENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="MATCHSTATEMENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKSTATEMENT" name="CBANKSTATEMENT_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_BANKSTATEMENT" name="CBANKSTATEMENT_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_BANKSTATEMENT_ID" foreign="C_BANKSTATEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKSTATEMENTLINE" name="CBANKSTMTLINE_IBANKSTMT">
+      <foreign-key foreignTable="C_BANKSTATEMENTLINE" name="CBANKSTMTLINE_IBANKSTMT" onDelete="setnull">
         <reference local="C_BANKSTATEMENTLINE_ID" foreign="C_BANKSTATEMENTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_IBANKSTMT">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_IBANKSTMT" onDelete="setnull">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_IBANKSTATEMENT">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_IBANKSTATEMENT" onDelete="setnull">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <check>

@@ -17,7 +17,7 @@
       <column name="ASSIGNDATETO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISCONFIRMED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_SRESOURCEASSIGNMENT">
+      <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_SRESOURCEASSIGNMENT" onDelete="none">
         <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
       </foreign-key>
       <check>

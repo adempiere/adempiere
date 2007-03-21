@@ -20,16 +20,16 @@
       <column name="ISREMITTO" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BPARTNERRELATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNERRELATION_LOCATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPRELATION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPRELATION" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPRELATIONBP">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPRELATIONBP" onDelete="none">
         <reference local="C_BPARTNERRELATION_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CBPRELATION">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CBPRELATION" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CBPRELATIONBP">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CBPRELATIONBP" onDelete="none">
         <reference local="C_BPARTNERRELATION_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
     </table>

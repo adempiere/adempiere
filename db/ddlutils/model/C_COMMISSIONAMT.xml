@@ -15,10 +15,10 @@
       <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ACTUALQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="COMMISSIONAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_COMMISSIONLINE" name="CCOMLINE_CCOMAMT">
+      <foreign-key foreignTable="C_COMMISSIONLINE" name="CCOMLINE_CCOMAMT" onDelete="none">
         <reference local="C_COMMISSIONLINE_ID" foreign="C_COMMISSIONLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COMMISSIONRUN" name="CCOMMENTRUN_CCOMMISSIONAMT">
+      <foreign-key foreignTable="C_COMMISSIONRUN" name="CCOMMENTRUN_CCOMMISSIONAMT" onDelete="cascade">
         <reference local="C_COMMISSIONRUN_ID" foreign="C_COMMISSIONRUN_ID"/>
       </foreign-key>
       <index name="C_COMMISSIONAMT_COMLINE">

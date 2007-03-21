@@ -28,16 +28,16 @@
       <column name="FILESIZE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CM_MEDIA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CMWEBACCESSLOG">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CMWEBACCESSLOG" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_BROADCASTSERVER" name="CMBROADCASTSERVER_CMWEBALOG">
+      <foreign-key foreignTable="CM_BROADCASTSERVER" name="CMBROADCASTSERVER_CMWEBALOG" onDelete="none">
         <reference local="CM_BROADCASTSERVER_ID" foreign="CM_BROADCASTSERVER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_MEDIA" name="CMMEDIA_CMWEBACCESSLOG">
+      <foreign-key foreignTable="CM_MEDIA" name="CMMEDIA_CMWEBACCESSLOG" onDelete="none">
         <reference local="CM_MEDIA_ID" foreign="CM_MEDIA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMWEBACCESSLOG">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMWEBACCESSLOG" onDelete="none">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

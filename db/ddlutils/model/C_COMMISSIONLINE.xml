@@ -25,25 +25,25 @@
       <column name="C_BP_GROUP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CCOMMISSIONLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CCOMMISSIONLINE" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCOMMISSIONLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCOMMISSIONLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_COMMISSIONLINE">
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_COMMISSIONLINE" onDelete="none">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONLINE">
+      <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONLINE" onDelete="cascade">
         <reference local="C_COMMISSION_ID" foreign="C_COMMISSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_CCOMMISSIONLINE">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_CCOMMISSIONLINE" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CCOMMISSIONLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CCOMMISSIONLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_CCOMMISSIONLINE">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_CCOMMISSIONLINE" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <index name="C_COMMISSIONLINE_COMMISSION">

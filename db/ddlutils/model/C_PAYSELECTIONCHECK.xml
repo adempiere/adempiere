@@ -22,13 +22,13 @@
       <column name="DISCOUNTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISRECEIPT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BP_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYSELECTIONCHECK">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYSELECTIONCHECK" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CPAYSELECTIONCHECK">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CPAYSELECTIONCHECK" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYSELECTION" name="CPAYSELECTION_CPAYSELECTCHECK">
+      <foreign-key foreignTable="C_PAYSELECTION" name="CPAYSELECTION_CPAYSELECTCHECK" onDelete="none">
         <reference local="C_PAYSELECTION_ID" foreign="C_PAYSELECTION_ID"/>
       </foreign-key>
       <check>

@@ -13,10 +13,10 @@
       <column name="SUBSCRIBEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="OPTOUTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RCONTACTINTEREST">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RCONTACTINTEREST" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_INTERESTAREA" name="RINTERESTAREA_RCONTACTINTEREST">
+      <foreign-key foreignTable="R_INTERESTAREA" name="RINTERESTAREA_RCONTACTINTEREST" onDelete="none">
         <reference local="R_INTERESTAREA_ID" foreign="R_INTERESTAREA_ID"/>
       </foreign-key>
       <unique name="R_CONTACTINTEREST_KEY">

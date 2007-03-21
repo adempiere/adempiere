@@ -14,10 +14,10 @@
       <column name="BPACCESSTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DOCBASETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERBPACCESS">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERBPACCESS" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_ADUSERBPACCESS">
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_ADUSERBPACCESS" onDelete="cascade">
         <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
       </foreign-key>
       <check>

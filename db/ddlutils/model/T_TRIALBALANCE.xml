@@ -46,7 +46,7 @@
       <column name="A_ASSET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ACCOUNTVALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="AD_PINSTANCE_T_TRIALBALANCE">
+      <foreign-key foreignTable="AD_PINSTANCE" name="AD_PINSTANCE_T_TRIALBALANCE" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
     </table>

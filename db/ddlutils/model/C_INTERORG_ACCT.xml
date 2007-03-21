@@ -13,19 +13,19 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERCOMPANYDUETO_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERCOMPANYDUEFROM_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTO_CINTERORGACCT">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTO_CINTERORGACCT" onDelete="none">
         <reference local="AD_ORGTO_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CINTERORGACCT">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CINTERORGACCT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CINTERORGACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CINTERORGACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUEFROM_CINTERO">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUEFROM_CINTERO" onDelete="none">
         <reference local="INTERCOMPANYDUEFROM_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CINTERORG">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_INTERCOMPANYDUETO_CINTERORG" onDelete="none">
         <reference local="INTERCOMPANYDUETO_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

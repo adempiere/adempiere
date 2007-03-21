@@ -26,16 +26,16 @@
       <column name="I_ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVTYPE_ICONVRATE">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVTYPE_ICONVRATE" onDelete="setnull">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSION_RATE" name="CCONVERSIONRATE_ICONVRATE">
+      <foreign-key foreignTable="C_CONVERSION_RATE" name="CCONVERSIONRATE_ICONVRATE" onDelete="setnull">
         <reference local="C_CONVERSION_RATE_ID" foreign="C_CONVERSION_RATE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATETO">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATETO" onDelete="setnull">
         <reference local="C_CURRENCY_ID_TO" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_ICONVRATE" onDelete="setnull">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <check>

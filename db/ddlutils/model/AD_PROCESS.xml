@@ -30,10 +30,10 @@
       <column name="ISSERVERPROCESS" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SHOWHELP" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="JASPERREPORT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPROCESS">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPROCESS" onDelete="none">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_ADPROCESS">
+      <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_ADPROCESS" onDelete="none">
         <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
       </foreign-key>
       <check>

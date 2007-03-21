@@ -14,16 +14,16 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ATTRIBUTE" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_PREFERENCE_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_PREFERENCE_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_PREFERENCE_ORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_PREFERENCE_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="AD_USER_PREFERENCE">
+      <foreign-key foreignTable="AD_USER" name="AD_USER_PREFERENCE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_PREFERENCE">
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_PREFERENCE" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <unique name="AD_PREFERENCE_ATTRIBUTE">

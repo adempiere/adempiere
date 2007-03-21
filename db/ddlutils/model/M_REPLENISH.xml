@@ -15,10 +15,10 @@
       <column name="LEVEL_MIN" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="LEVEL_MAX" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_REPLENISH">
+      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_REPLENISH" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="M_WAREHOUSE_REPLENISH">
+      <foreign-key foreignTable="M_WAREHOUSE" name="M_WAREHOUSE_REPLENISH" onDelete="cascade">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

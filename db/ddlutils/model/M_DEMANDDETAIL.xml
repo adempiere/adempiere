@@ -14,16 +14,16 @@
       <column name="M_FORECASTLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_REQUISITIONLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MDEMANDDETAIL">
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MDEMANDDETAIL" onDelete="cascade">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DEMANDLINE" name="MDEMANDLINE_MDEMANDDETAIL">
+      <foreign-key foreignTable="M_DEMANDLINE" name="MDEMANDLINE_MDEMANDDETAIL" onDelete="cascade">
         <reference local="M_DEMANDLINE_ID" foreign="M_DEMANDLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_FORECASTLINE" name="MFORECASTLINE_MDEMANDDETAIL">
+      <foreign-key foreignTable="M_FORECASTLINE" name="MFORECASTLINE_MDEMANDDETAIL" onDelete="cascade">
         <reference local="M_FORECASTLINE_ID" foreign="M_FORECASTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_REQUISITIONLINE" name="MREQLINE_MDEMANDDETAIL">
+      <foreign-key foreignTable="M_REQUISITIONLINE" name="MREQLINE_MDEMANDDETAIL" onDelete="cascade">
         <reference local="M_REQUISITIONLINE_ID" foreign="M_REQUISITIONLINE_ID"/>
       </foreign-key>
       <check>

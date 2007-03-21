@@ -13,10 +13,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="A_REGISTRATION" name="AREGISTRATION_AREGVALUE">
+      <foreign-key foreignTable="A_REGISTRATION" name="AREGISTRATION_AREGVALUE" onDelete="cascade">
         <reference local="A_REGISTRATION_ID" foreign="A_REGISTRATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_REGISTRATIONATTRIBUTE" name="AREGATTRIBUTE_AREGVALUE">
+      <foreign-key foreignTable="A_REGISTRATIONATTRIBUTE" name="AREGATTRIBUTE_AREGVALUE" onDelete="cascade">
         <reference local="A_REGISTRATIONATTRIBUTE_ID" foreign="A_REGISTRATIONATTRIBUTE_ID"/>
       </foreign-key>
       <check>

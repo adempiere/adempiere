@@ -24,19 +24,19 @@
       <column name="POSTINGTYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="GL_BUDGET_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AMOUNTTYPE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"/>
-      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_PAREPORTLINE">
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_PAREPORTLINE" onDelete="none">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_OPER2">
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_OPER2" onDelete="setnull">
         <reference local="OPER_2_ID" foreign="PA_REPORTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_OPER1">
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_OPER1" onDelete="setnull">
         <reference local="OPER_1_ID" foreign="PA_REPORTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_PARENT">
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_PARENT" onDelete="setnull">
         <reference local="PARENT_ID" foreign="PA_REPORTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINESET" name="PAREPORTLINESET_LINE">
+      <foreign-key foreignTable="PA_REPORTLINESET" name="PAREPORTLINESET_LINE" onDelete="cascade">
         <reference local="PA_REPORTLINESET_ID" foreign="PA_REPORTLINESET_ID"/>
       </foreign-key>
       <check>

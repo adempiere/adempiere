@@ -14,10 +14,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_REFLISTTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_REFLISTTRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REF_LIST" name="AD_REFLISTTRL">
+      <foreign-key foreignTable="AD_REF_LIST" name="AD_REFLISTTRL" onDelete="cascade">
         <reference local="AD_REF_LIST_ID" foreign="AD_REF_LIST_ID"/>
       </foreign-key>
       <check>

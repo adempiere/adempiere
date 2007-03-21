@@ -67,55 +67,55 @@
       <column name="AD_ORGBP_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="FLATDISCOUNT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="TOTALOPENBALANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CBPARTNER">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CBPARTNER" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER">
+      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_C_BUSPARTNER" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNER" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CBPARTNERORG" onDelete="none">
         <reference local="AD_ORGBP_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMATINV_CBPARTNER" onDelete="none">
         <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_CBPARTNER">
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_CBPARTNER" onDelete="setnull">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPBARTNERPARENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPBARTNERPARENT" onDelete="none">
         <reference local="BPARTNER_PARENT_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_CBPARTNER">
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_CBPARTNER" onDelete="none">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CBPARTNER">
+      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CBPARTNER" onDelete="none">
         <reference local="C_DUNNING_ID" foreign="C_DUNNING_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_GREETING" name="CGREETING_CBPARTNER">
+      <foreign-key foreignTable="C_GREETING" name="CGREETING_CBPARTNER" onDelete="none">
         <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER">
+      <foreign-key foreignTable="C_INVOICESCHEDULE" name="CINVOICESCHEDULE_CBPARTNER" onDelete="none">
         <reference local="C_INVOICESCHEDULE_ID" foreign="C_INVOICESCHEDULE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPOPAYMENTTERM_CBPARTNER" onDelete="none">
         <reference local="PO_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CBPARTNER" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER">
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_CBPARTNER" onDelete="none">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER">
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTSPO_CBPARTNER" onDelete="none">
         <reference local="PO_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELISTPO_CBUSPARTNER" onDelete="setnull">
         <reference local="PO_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CBPARTNER">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CBPARTNER" onDelete="setnull">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
       <unique name="C_BPARTNER_VALUE">

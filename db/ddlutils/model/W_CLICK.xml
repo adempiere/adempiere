@@ -20,10 +20,10 @@
       <column name="W_CLICKCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_WCLICK">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_WCLICK" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="W_CLICKCOUNT" name="WCLICKCOUNT_WCLICK">
+      <foreign-key foreignTable="W_CLICKCOUNT" name="WCLICKCOUNT_WCLICK" onDelete="cascade">
         <reference local="W_CLICKCOUNT_ID" foreign="W_CLICKCOUNT_ID"/>
       </foreign-key>
       <check>

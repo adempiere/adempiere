@@ -24,19 +24,19 @@
       <column name="NEWVALUE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADWFEVENTAUDIT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADWFEVENTAUDIT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFEVENTAUDIT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFEVENTAUDIT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFEVENTAUDIT">
+      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFEVENTAUDIT" onDelete="none">
         <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCESS_ADWFEVENTAUDIT">
+      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCESS_ADWFEVENTAUDIT" onDelete="none">
         <reference local="AD_WF_PROCESS_ID" foreign="AD_WF_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIB_ADWFEVENTAUDIT">
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIB_ADWFEVENTAUDIT" onDelete="none">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
       <index name="AD_WF_EVENTAUDIT_PARENT">

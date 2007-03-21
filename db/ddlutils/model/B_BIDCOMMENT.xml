@@ -13,10 +13,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_BIDCOMMENT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_BIDCOMMENT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="B_TOPIC" name="BTOPIC_BBIDCOMMENT">
+      <foreign-key foreignTable="B_TOPIC" name="BTOPIC_BBIDCOMMENT" onDelete="none">
         <reference local="B_TOPIC_ID" foreign="B_TOPIC_ID"/>
       </foreign-key>
       <check>

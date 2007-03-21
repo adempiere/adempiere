@@ -28,16 +28,16 @@
       <column name="EXPRESSIONBANKROUTINGNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="EXPRESSIONBANKACCOUNTNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="MEDIASIZE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_COUNTRYCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_COUNTRYCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CCOUNTRY">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CCOUNTRY" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_COUNTRYORG">
+      <foreign-key foreignTable="AD_ORG" name="C_COUNTRYORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOUNTRY">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOUNTRY" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <unique name="C_COUNTRYCODE">

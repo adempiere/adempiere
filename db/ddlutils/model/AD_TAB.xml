@@ -39,34 +39,34 @@
       <column name="DISPLAYLOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISINSERTRECORD" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISADVANCEDTAB" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="TABCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="TABCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO" onDelete="none">
         <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER" onDelete="none">
         <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB">
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADTAB">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADTAB" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="TABORG">
+      <foreign-key foreignTable="AD_ORG" name="TABORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADTAB">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADTAB" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TAB" name="ADTAB_INCLUDED">
+      <foreign-key foreignTable="AD_TAB" name="ADTAB_INCLUDED" onDelete="none">
         <reference local="INCLUDED_TAB_ID" foreign="AD_TAB_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_TAB">
+      <foreign-key foreignTable="AD_TABLE" name="AD_TABLE_TAB" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TAB">
+      <foreign-key foreignTable="AD_WINDOW" name="AD_WINDOW_TAB" onDelete="cascade">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
       <index name="AD_TAB_TABLE">

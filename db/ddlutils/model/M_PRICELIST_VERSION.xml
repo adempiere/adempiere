@@ -17,10 +17,10 @@
       <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCCREATE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_PRICELIST_VERSION_BASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_MPLVERSION">
+      <foreign-key foreignTable="M_DISCOUNTSCHEMA" name="MDISCOUNTS_MPLVERSION" onDelete="none">
         <reference local="M_DISCOUNTSCHEMA_ID" foreign="M_DISCOUNTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_MPRICELISTVERSION">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_MPRICELISTVERSION" onDelete="cascade">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
       <check>

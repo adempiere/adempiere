@@ -15,10 +15,10 @@
       <column name="TAXAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISTAXINCLUDED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICETAX">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICETAX" onDelete="cascade">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICETAX">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICETAX" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
       <check>

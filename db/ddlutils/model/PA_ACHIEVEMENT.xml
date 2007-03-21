@@ -18,7 +18,7 @@
       <column name="MANUALACTUAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISACHIEVED" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="DATEDOC" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAACHIEVEMENT">
+      <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAACHIEVEMENT" onDelete="none">
         <reference local="PA_MEASURE_ID" foreign="PA_MEASURE_ID"/>
       </foreign-key>
       <check>

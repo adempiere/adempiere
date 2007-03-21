@@ -18,10 +18,10 @@
       <column name="OPERATION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="VALUE2" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADWFNEXTCONDITION">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADWFNEXTCONDITION" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_NODENEXT" name="ADWFNODENEXT_ADWFNEXTCOND">
+      <foreign-key foreignTable="AD_WF_NODENEXT" name="ADWFNODENEXT_ADWFNEXTCOND" onDelete="cascade">
         <reference local="AD_WF_NODENEXT_ID" foreign="AD_WF_NODENEXT_ID"/>
       </foreign-key>
       <check>

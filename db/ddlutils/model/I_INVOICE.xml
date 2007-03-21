@@ -59,64 +59,64 @@
       <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="QTYORDERED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE" onDelete="setnull">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_IINVOICE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_IINVOICE" onDelete="setnull">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IINVOICE">
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IINVOICE" onDelete="setnull">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_IINVOICE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_IINVOICE" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IINVOICE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IINVOICE" onDelete="setnull">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IINVOICE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IINVOICE" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_IINVOICE">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_IINVOICE" onDelete="setnull">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IINVOICE">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IINVOICE" onDelete="setnull">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IINVOICE">
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IINVOICE" onDelete="setnull">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IINVOICE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IINVOICE" onDelete="setnull">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IINVOICE">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IINVOICE" onDelete="setnull">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IINVOICE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_IINVOICE" onDelete="setnull">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVLICELINE_IINVOICE">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVLICELINE_IINVOICE" onDelete="setnull">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_IINVOICE">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_IINVOICE" onDelete="setnull">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_IINVOICE">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_IINVOICE" onDelete="setnull">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_IINVOICE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_IINVOICE" onDelete="setnull">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="CREGION_IINVOICE">
+      <foreign-key foreignTable="C_REGION" name="CREGION_IINVOICE" onDelete="setnull">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_IINVOICE">
+      <foreign-key foreignTable="C_TAX" name="CTAX_IINVOICE" onDelete="setnull">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_IINVOICE">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_IINVOICE" onDelete="setnull">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="NPRODUCT_IINVOICE">
+      <foreign-key foreignTable="M_PRODUCT" name="NPRODUCT_IINVOICE" onDelete="setnull">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

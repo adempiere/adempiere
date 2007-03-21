@@ -17,13 +17,13 @@
       <column name="SEPARATOR" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="REPLENISHMENTCLASS" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="M_WAREHOUSE_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="M_WAREHOUSE_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="M_WAREHOUSE_ORG">
+      <foreign-key foreignTable="AD_ORG" name="M_WAREHOUSE_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_WAREHOUSE">
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_WAREHOUSE" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <unique name="M_WAREHOUSE_NAME">

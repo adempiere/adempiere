@@ -20,16 +20,16 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_WF_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_MESSAGE" name="ADMESSAGE_ADNOTE">
+      <foreign-key foreignTable="AD_MESSAGE" name="ADMESSAGE_ADNOTE" onDelete="none">
         <reference local="AD_MESSAGE_ID" foreign="AD_MESSAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADNOTE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADNOTE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADNOTE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADNOTE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_ACTIVITY" name="ADWFACTIVITY_ADNOTE">
+      <foreign-key foreignTable="AD_WF_ACTIVITY" name="ADWFACTIVITY_ADNOTE" onDelete="none">
         <reference local="AD_WF_ACTIVITY_ID" foreign="AD_WF_ACTIVITY_ID"/>
       </foreign-key>
       <unique name="AD_NOTE_KEY">

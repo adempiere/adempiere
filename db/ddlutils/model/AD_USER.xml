@@ -38,25 +38,25 @@
       <column name="LDAPUSER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CONNECTIONPROFILE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_USER_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_USER_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_ADUSER">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_ADUSER" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_USER_ORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_USER_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SUPERVISOR">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SUPERVISOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_ADUSER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_ADUSER" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_ADUSER">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_ADUSER" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_GREETING" name="CGREETING_ADUSER">
+      <foreign-key foreignTable="C_GREETING" name="CGREETING_ADUSER" onDelete="none">
         <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
       </foreign-key>
       <index name="AD_USER_EMAIL">

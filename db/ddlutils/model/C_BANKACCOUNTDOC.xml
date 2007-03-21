@@ -16,10 +16,10 @@
       <column name="PAYMENTRULE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="CURRENTNEXT" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="CHECK_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CBANKACCOUNTDOC">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CBANKACCOUNTDOC" onDelete="none">
         <reference local="CHECK_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBADOC">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBADOC" onDelete="cascade">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
       <check>

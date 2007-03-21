@@ -22,19 +22,19 @@
       <column name="INVENTORYTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="D" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="QTYINTERNALUSE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINVENTORYLINE">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINVENTORYLINE" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MINVENTORYLINE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MINVENTORYLINE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INVENTORY" name="MINVENTORY_MINVENTORYLINE">
+      <foreign-key foreignTable="M_INVENTORY" name="MINVENTORY_MINVENTORYLINE" onDelete="cascade">
         <reference local="M_INVENTORY_ID" foreign="M_INVENTORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MINVENTORYLINE">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MINVENTORYLINE" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MINVENTORYLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MINVENTORYLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <unique name="M_INVENTORYLINE_PRODUCTLOCATTR">

@@ -17,13 +17,13 @@
       <column name="ISBALANCING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISNATURALACCOUNT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_TREE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CELEMENT">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CELEMENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_ELEMENTORG">
+      <foreign-key foreignTable="AD_ORG" name="C_ELEMENTORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREE_CELEMENT">
+      <foreign-key foreignTable="AD_TREE" name="ADTREE_CELEMENT" onDelete="setnull">
         <reference local="AD_TREE_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
       <unique name="C_ELEMENT_NAME">

@@ -11,7 +11,7 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SUBSCRIPTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_SUBSCRIPTION" name="CSUBCRIPTION_CSUBSCRDELIVERY">
+      <foreign-key foreignTable="C_SUBSCRIPTION" name="CSUBCRIPTION_CSUBSCRDELIVERY" onDelete="none">
         <reference local="C_SUBSCRIPTION_ID" foreign="C_SUBSCRIPTION_ID"/>
       </foreign-key>
     </table>

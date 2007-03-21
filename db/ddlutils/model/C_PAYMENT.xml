@@ -86,49 +86,49 @@
       <column name="C_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISPREPAYMENT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="REF_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CPAYMENT">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CPAYMENT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CPAYMENT">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CPAYMENT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CPAYMENT">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CPAYMENT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMENT">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMENT" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYMENT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CPAYMENT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_BANKACCOUNT" name="CBPBANKACCT_CPAYMENT">
+      <foreign-key foreignTable="C_BP_BANKACCOUNT" name="CBPBANKACCT_CPAYMENT" onDelete="setnull">
         <reference local="C_BP_BANKACCOUNT_ID" foreign="C_BP_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CPAYMENT">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_CPAYMENT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CPAYMENT">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CPAYMENT" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CPAYMENT">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CPAYMENT" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENT">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENT" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CPAYMENT">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CPAYMENT" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CPAYMENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CPAYMENT" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CPAYMENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_CPAYMENT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTBATCH" name="CPAYMENTBATCH_CPAYMENT">
+      <foreign-key foreignTable="C_PAYMENTBATCH" name="CPAYMENTBATCH_CPAYMENT" onDelete="none">
         <reference local="C_PAYMENTBATCH_ID" foreign="C_PAYMENTBATCH_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPAYMENT">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPAYMENT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
       <index name="C_PAYMENT_BANKACCOUNT">

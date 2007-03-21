@@ -16,10 +16,10 @@
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISTRIBUTIONRUN">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISTRIBUTIONRUN" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_MDISTRIBUTIONRUN">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_MDISTRIBUTIONRUN" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
       <check>

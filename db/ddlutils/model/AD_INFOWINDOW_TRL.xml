@@ -15,10 +15,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_INFOWINDOW" name="ADINFOWINDOW_ADINFOWINDOWTRL">
+      <foreign-key foreignTable="AD_INFOWINDOW" name="ADINFOWINDOW_ADINFOWINDOWTRL" onDelete="cascade">
         <reference local="AD_INFOWINDOW_ID" foreign="AD_INFOWINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_ADINFOWINDOWTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_ADINFOWINDOWTRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
       <check>

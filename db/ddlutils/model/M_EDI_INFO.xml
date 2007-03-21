@@ -12,7 +12,7 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="M_EDI_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="INFO" primaryKey="false" required="true" type="CLOB" size="4000" autoIncrement="false"/>
-      <foreign-key foreignTable="M_EDI" name="MEDI_EDIINFO">
+      <foreign-key foreignTable="M_EDI" name="MEDI_EDIINFO" onDelete="none">
         <reference local="M_EDI_ID" foreign="M_EDI_ID"/>
       </foreign-key>
       <check>

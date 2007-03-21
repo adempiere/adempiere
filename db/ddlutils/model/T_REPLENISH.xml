@@ -20,19 +20,19 @@
       <column name="REPLENISHMENTCREATE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
       <column name="M_WAREHOUSESOURCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPLENISH">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPLENISH" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_TREPLENISH">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_TREPLENISH" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TREPLENISH">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TREPLENISH" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSESOURCE_TREPLENISH">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSESOURCE_TREPLENISH" onDelete="setnull">
         <reference local="M_WAREHOUSESOURCE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TREPLENISH">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TREPLENISH" onDelete="cascade">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
     </table>

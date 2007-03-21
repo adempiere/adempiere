@@ -26,7 +26,7 @@
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="CONFIRMATIONNO" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_MINOUTCONFIRM">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_MINOUTCONFIRM" onDelete="cascade">
         <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
       <check>

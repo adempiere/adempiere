@@ -29,16 +29,16 @@
       <column name="GOALPERFORMANCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DATELASTRUN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="AD_ROLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_PAGOAL">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_PAGOAL" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_COLORSCHEMA" name="PACOLORSCHEMA_PAGOAL">
+      <foreign-key foreignTable="PA_COLORSCHEMA" name="PACOLORSCHEMA_PAGOAL" onDelete="none">
         <reference local="PA_COLORSCHEMA_ID" foreign="PA_COLORSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_GOAL" name="PAGOALPARENT_PAGOAL">
+      <foreign-key foreignTable="PA_GOAL" name="PAGOALPARENT_PAGOAL" onDelete="none">
         <reference local="PA_GOALPARENT_ID" foreign="PA_GOAL_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAGOAL">
+      <foreign-key foreignTable="PA_MEASURE" name="PAMEASURE_PAGOAL" onDelete="none">
         <reference local="PA_MEASURE_ID" foreign="PA_MEASURE_ID"/>
       </foreign-key>
       <check>

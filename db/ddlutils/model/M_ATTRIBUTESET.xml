@@ -27,10 +27,10 @@
       <column name="LOTCHARSOVERWRITE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="LOTCHAREOVERWRITE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="SERNOCHAREOVERWRITE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="M_LOTCTL" name="MLOTCTL_MATTRIBUTESET">
+      <foreign-key foreignTable="M_LOTCTL" name="MLOTCTL_MATTRIBUTESET" onDelete="none">
         <reference local="M_LOTCTL_ID" foreign="M_LOTCTL_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_SERNOCTL" name="MSERNOCTL_ATTRIBUTESET">
+      <foreign-key foreignTable="M_SERNOCTL" name="MSERNOCTL_ATTRIBUTESET" onDelete="none">
         <reference local="M_SERNOCTL_ID" foreign="M_SERNOCTL_ID"/>
       </foreign-key>
       <check>

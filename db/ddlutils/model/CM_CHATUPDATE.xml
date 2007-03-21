@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CMCHATUPDATE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CMCHATUPDATE" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CMCHATUPDATE">
+      <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CMCHATUPDATE" onDelete="cascade">
         <reference local="CM_CHAT_ID" foreign="CM_CHAT_ID"/>
       </foreign-key>
       <check>

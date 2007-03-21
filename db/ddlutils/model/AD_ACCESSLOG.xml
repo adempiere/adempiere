@@ -18,10 +18,10 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="REPLY" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADACCESSLOG">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADACCESSLOG" onDelete="cascade">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADACCESLOG">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADACCESLOG" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

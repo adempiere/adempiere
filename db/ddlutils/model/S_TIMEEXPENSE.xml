@@ -22,13 +22,13 @@
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_STIMEEXPENSE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_STIMEEXPENSE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_STIMEEXPENSE">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_STIMEEXPENSE" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_STIMEEXPENSE">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_STIMEEXPENSE" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

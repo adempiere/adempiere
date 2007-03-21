@@ -18,10 +18,10 @@
       <column name="LABELHEIGHT" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="LABELWIDTH" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="AD_LABELPRINTER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LABELPRINTER" name="ADLABELPRINTER_PRINTLABEL">
+      <foreign-key foreignTable="AD_LABELPRINTER" name="ADLABELPRINTER_PRINTLABEL" onDelete="none">
         <reference local="AD_LABELPRINTER_ID" foreign="AD_LABELPRINTER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADPRINTLABEL">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADPRINTLABEL" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

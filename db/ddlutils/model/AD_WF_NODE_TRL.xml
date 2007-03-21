@@ -15,10 +15,10 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_WFNODETRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_WFNODETRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_NODE" name="AD_WFNODETRL">
+      <foreign-key foreignTable="AD_WF_NODE" name="AD_WFNODETRL" onDelete="cascade">
         <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
       </foreign-key>
       <check>

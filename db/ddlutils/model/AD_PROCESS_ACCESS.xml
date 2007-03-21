@@ -12,16 +12,16 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISREADWRITE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_PROCESSACCESS_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_PROCESSACCESS_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_PROCESSTACCESS_ORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_PROCESSTACCESS_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSACCESS">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSACCESS" onDelete="cascade">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADPROCESSACCESS">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADPROCESSACCESS" onDelete="cascade">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
       <check>

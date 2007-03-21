@@ -63,55 +63,55 @@
       <column name="ISINDISPUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUT">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_MINOUT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUT">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MINOUT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MINOUT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="VBPLOCATION_MINOUT">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="VBPLOCATION_MINOUT" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINOUT">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINOUT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINOUT">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_MINOUT" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MINOUT">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MINOUT" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINOUT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINOUT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_MINOUT">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_MINOUT" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MINOUT">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MINOUT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_REF">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_REF" onDelete="none">
         <reference local="REF_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MINOUT">
+      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MINOUT" onDelete="none">
         <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINOUT">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINOUT" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <index name="M_INOUT_ORDER">

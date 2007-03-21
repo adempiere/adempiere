@@ -40,13 +40,13 @@
       <column name="MINIMUMAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ACCEPTDIRECTDEBIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ACCEPTDIRECTDEPOSIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CPAYMENTPROCESSOR">
+      <foreign-key foreignTable="AD_SEQUENCE" name="ADSEQUENCE_CPAYMENTPROCESSOR" onDelete="none">
         <reference local="AD_SEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMTPROCESSOR">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CPAYMTPROCESSOR" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENTPROCESSOR">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CPAYMENTPROCESSOR" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <unique name="C_PAYMENTPROCESSOR_KEY">

@@ -14,10 +14,10 @@
       <column name="M_INOUTLINE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="QTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MPACKAGELINE">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MPACKAGELINE" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PACKAGE" name="MPACKAGE_MPACKAGELINE">
+      <foreign-key foreignTable="M_PACKAGE" name="MPACKAGE_MPACKAGELINE" onDelete="none">
         <reference local="M_PACKAGE_ID" foreign="M_PACKAGE_ID"/>
       </foreign-key>
     </table>

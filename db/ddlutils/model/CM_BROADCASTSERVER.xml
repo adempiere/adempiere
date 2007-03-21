@@ -16,7 +16,7 @@
       <column name="IP_ADDRESS" primaryKey="false" required="true" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="LASTSYNCHRONIZED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMBROADCASTSERVER">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMBROADCASTSERVER" onDelete="setnull">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

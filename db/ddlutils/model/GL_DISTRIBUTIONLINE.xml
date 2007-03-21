@@ -40,49 +40,49 @@
       <column name="USER1_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="OVERWRITEUSER2" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDISTLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDISTLINE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_GLDISTLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_GLDISTLINE" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDISTLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDISTLINE" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLDISTLINE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLDISTLINE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_GLDISTLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_GLDISTLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_GLDISTLINE">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_GLDISTLINE" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDISTLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDISTLINE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDISTLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDISTLINE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDISTLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDISTLINE" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDISTLINE">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDISTLINE" onDelete="none">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDISTLINE">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDISTLINE" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDISTLINE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDISTLINE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_GLDISTLINE">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_GLDISTLINE" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_DISTRIBUTION" name="GLDISTRIBUTION_GLDISTLINE">
+      <foreign-key foreignTable="GL_DISTRIBUTION" name="GLDISTRIBUTION_GLDISTLINE" onDelete="cascade">
         <reference local="GL_DISTRIBUTION_ID" foreign="GL_DISTRIBUTION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_GLDISTLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_GLDISTLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

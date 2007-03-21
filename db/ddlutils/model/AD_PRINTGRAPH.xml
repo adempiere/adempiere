@@ -20,25 +20,25 @@
       <column name="DATA3_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DATA4_PRINTFORMATITEM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_PRINTFORMAT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPRINTGRAPH">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_ADPRINTGRAPH" onDelete="none">
         <reference local="AD_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA1">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA1" onDelete="none">
         <reference local="DATA1_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA2">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA2" onDelete="none">
         <reference local="DATA2_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA4">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA4" onDelete="none">
         <reference local="DATA4_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDESCR">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDESCR" onDelete="none">
         <reference local="DESCRIPTION_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA" onDelete="none">
         <reference local="DATA_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3">
+      <foreign-key foreignTable="AD_PRINTFORMATITEM" name="ADPRINTFORMATITEM_GRAPHDATA3" onDelete="none">
         <reference local="DATA3_PRINTFORMATITEM_ID" foreign="AD_PRINTFORMATITEM_ID"/>
       </foreign-key>
       <check>

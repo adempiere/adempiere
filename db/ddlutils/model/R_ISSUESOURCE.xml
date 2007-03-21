@@ -15,13 +15,13 @@
       <column name="R_ISSUEUSER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="STATISTICSINFO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="PROFILEINFO" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="R_ISSUEPROJECT" name="RISSUEPROJECT_RISSUESOURCE">
+      <foreign-key foreignTable="R_ISSUEPROJECT" name="RISSUEPROJECT_RISSUESOURCE" onDelete="none">
         <reference local="R_ISSUEPROJECT_ID" foreign="R_ISSUEPROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUESYSTEM" name="RISSUESYSTEM_RISSUESOURCE">
+      <foreign-key foreignTable="R_ISSUESYSTEM" name="RISSUESYSTEM_RISSUESOURCE" onDelete="none">
         <reference local="R_ISSUESYSTEM_ID" foreign="R_ISSUESYSTEM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_ISSUEUSER" name="RISSUEUSER_RISSUESOURCE">
+      <foreign-key foreignTable="R_ISSUEUSER" name="RISSUEUSER_RISSUESOURCE" onDelete="none">
         <reference local="R_ISSUEUSER_ID" foreign="R_ISSUEUSER_ID"/>
       </foreign-key>
       <unique name="R_ISSUESOURCE_SPO">

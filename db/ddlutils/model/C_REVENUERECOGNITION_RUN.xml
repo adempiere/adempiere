@@ -13,10 +13,10 @@
       <column name="C_REVENUERECOGNITION_PLAN_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="GL_JOURNAL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="RECOGNIZEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_REVENUERECOGNITION_PLAN" name="CREVRECPLAN_CREFRECRUN">
+      <foreign-key foreignTable="C_REVENUERECOGNITION_PLAN" name="CREVRECPLAN_CREFRECRUN" onDelete="none">
         <reference local="C_REVENUERECOGNITION_PLAN_ID" foreign="C_REVENUERECOGNITION_PLAN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_JOURNAL" name="GLJOURNAL_CREVENUERECRUN">
+      <foreign-key foreignTable="GL_JOURNAL" name="GLJOURNAL_CREVENUERECRUN" onDelete="none">
         <reference local="GL_JOURNAL_ID" foreign="GL_JOURNAL_ID"/>
       </foreign-key>
       <check>

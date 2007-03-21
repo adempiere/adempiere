@@ -49,25 +49,25 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="R_INTERESTAREA_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="INTERESTAREANAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_IBPARTNER">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_IBPARTNER" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IBPARTNER">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IBPARTNER" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_IBPARTNER">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_IBPARTNER" onDelete="setnull">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_IBPARTNER">
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_IBPARTNER" onDelete="setnull">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IPARTNER">
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_IPARTNER" onDelete="setnull">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_GREETING" name="CGREETING_IBPARTNER">
+      <foreign-key foreignTable="C_GREETING" name="CGREETING_IBPARTNER" onDelete="setnull">
         <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="CREGION_IBPARTNER">
+      <foreign-key foreignTable="C_REGION" name="CREGION_IBPARTNER" onDelete="setnull">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
       <check>

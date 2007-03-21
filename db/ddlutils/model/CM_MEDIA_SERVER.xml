@@ -20,7 +20,7 @@
       <column name="USERNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="PASSWORD" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="FOLDER" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMMEDIASERVER">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMMEDIASERVER" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

@@ -30,13 +30,13 @@
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_TAXCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_SRESOURCETYPE">
+      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_SRESOURCETYPE" onDelete="none">
         <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_SRESOURCETYPE">
+      <foreign-key foreignTable="C_UOM" name="CUOM_SRESOURCETYPE" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_SRESOURCETYPE">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_SRESOURCETYPE" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>

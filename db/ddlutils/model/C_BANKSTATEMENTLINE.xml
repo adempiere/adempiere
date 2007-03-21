@@ -43,22 +43,22 @@
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKSTATEMENT" name="CBSTATEMENT_CBSTATEMENTLINE">
+      <foreign-key foreignTable="C_BANKSTATEMENT" name="CBSTATEMENT_CBSTATEMENTLINE" onDelete="cascade">
         <reference local="C_BANKSTATEMENT_ID" foreign="C_BANKSTATEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBANKSTATEMENTLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBANKSTATEMENTLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CBANKSTMTLIME">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CBANKSTMTLIME" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CBANKSTMTLINE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CBANKSTMTLINE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CBANKSTATEMENTLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CBANKSTATEMENTLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CBANKSTMTLINE">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CBANKSTMTLINE" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <index name="C_BANKSTMTLINE_BANKSTMT">

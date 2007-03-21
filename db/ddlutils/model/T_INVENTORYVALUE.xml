@@ -25,25 +25,25 @@
       <column name="COSTSTANDARDAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="COSTAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_COSTELEMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TINVENTORYVALUE">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TINVENTORYVALUE" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_TINVENTORYVALUE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_TINVENTORYVALUE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_TINVENTORYVALUE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_TINVENTORYVALUE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_TINVENTORYVALUE">
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_TINVENTORYVALUE" onDelete="none">
         <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPLVERSION_TINVENTORYVALUE">
+      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPLVERSION_TINVENTORYVALUE" onDelete="none">
         <reference local="M_PRICELIST_VERSION_ID" foreign="M_PRICELIST_VERSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TINVENTORYVALUE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TINVENTORYVALUE" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TINVENTORYVALUE">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_TINVENTORYVALUE" onDelete="cascade">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
     </table>

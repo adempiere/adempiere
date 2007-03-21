@@ -17,13 +17,13 @@
       <column name="B_BUYERFUNDS_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PRIVATENOTE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="B_BUYER" name="BBUYER_BBID">
+      <foreign-key foreignTable="B_BUYER" name="BBUYER_BBID" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="B_BUYERFUNDS" name="BBUYERFUNDS_BBID">
+      <foreign-key foreignTable="B_BUYERFUNDS" name="BBUYERFUNDS_BBID" onDelete="none">
         <reference local="B_BUYERFUNDS_ID" foreign="B_BUYERFUNDS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="B_TOPIC" name="BTOPIC_BBID">
+      <foreign-key foreignTable="B_TOPIC" name="BTOPIC_BBID" onDelete="none">
         <reference local="B_TOPIC_ID" foreign="B_TOPIC_ID"/>
       </foreign-key>
       <check>

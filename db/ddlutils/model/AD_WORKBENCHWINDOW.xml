@@ -18,19 +18,19 @@
       <column name="AD_PROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADWORKBENCHWINDOW">
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADWORKBENCHWINDOW" onDelete="none">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADWORKBENCHWINDOW">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADWORKBENCHWINDOW" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADWORKBENCHWINDOW">
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADWORKBENCHWINDOW" onDelete="none">
         <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWORKBENCHWINDOW">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWORKBENCHWINDOW" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKBENCH" name="ADWORKBENCH_ADWORKBENCHWINDOW">
+      <foreign-key foreignTable="AD_WORKBENCH" name="ADWORKBENCH_ADWORKBENCHWINDOW" onDelete="none">
         <reference local="AD_WORKBENCH_ID" foreign="AD_WORKBENCH_ID"/>
       </foreign-key>
       <check>

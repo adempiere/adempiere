@@ -15,10 +15,10 @@
       <column name="ASSETMARKETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ASSETBOOKVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ASSETACCUMDEPRECIATIONAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="A_ASSET_CHANGE" name="AASSETCHANGE_AASSETCHANGEAMT">
+      <foreign-key foreignTable="A_ASSET_CHANGE" name="AASSETCHANGE_AASSETCHANGEAMT" onDelete="none">
         <reference local="A_ASSET_CHANGE_ID" foreign="A_ASSET_CHANGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_AASSETCHANGEAMT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_AASSETCHANGEAMT" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
       <check>

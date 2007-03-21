@@ -16,7 +16,7 @@
       <column name="OPERATION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="VALUE2" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADFIND">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADFIND" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <check>

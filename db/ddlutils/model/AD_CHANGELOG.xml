@@ -21,13 +21,13 @@
       <column name="ISCUSTOMIZATION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="TRXNAME" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADCHANGELOG">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADCHANGELOG" onDelete="cascade">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_ADCHANGELOG">
+      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_ADCHANGELOG" onDelete="none">
         <reference local="AD_SESSION_ID" foreign="AD_SESSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADCHANGELOG">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADCHANGELOG" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

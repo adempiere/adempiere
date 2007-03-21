@@ -17,10 +17,10 @@
       <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_COLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADWORKBENCH">
+      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADWORKBENCH" onDelete="none">
         <reference local="AD_COLOR_ID" foreign="AD_COLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWORKBENCH">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWORKBENCH" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <check>

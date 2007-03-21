@@ -12,13 +12,13 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CURRENTNEXT" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCE_NOCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCE_NOCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="SEQUENCE_NOORG">
+      <foreign-key foreignTable="AD_ORG" name="SEQUENCE_NOORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_SEQUENCENO">
+      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_SEQUENCENO" onDelete="cascade">
         <reference local="AD_SEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
       <check>

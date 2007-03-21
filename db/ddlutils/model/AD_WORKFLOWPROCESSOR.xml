@@ -22,7 +22,7 @@
       <column name="INACTIVITYALERTDAYS" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="REMINDDAYS" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="ALERTOVERPRIORITY" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWORKFLOWPROCESSOR">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWORKFLOWPROCESSOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
     </table>

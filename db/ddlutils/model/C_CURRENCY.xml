@@ -19,10 +19,10 @@
       <column name="ISEMUMEMBER" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="EMUENTRYDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="EMURATE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_CURRENCYCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_CURRENCYCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_CURRENCYORG">
+      <foreign-key foreignTable="AD_ORG" name="C_CURRENCYORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <unique name="C_CURRENCYISOCODE">

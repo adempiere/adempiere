@@ -49,37 +49,37 @@
       <column name="EMAILRECIPIENT" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="R_MAILTEXT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="WF_NODECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="WF_NODECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADWFNODE">
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADWFNODE" onDelete="none">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWFNODE">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWFNODE" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="WF_NODEORG">
+      <foreign-key foreignTable="AD_ORG" name="WF_NODEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADWFNODE">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADWFNODE" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADWFNODE">
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADWFNODE" onDelete="none">
         <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_BLOCK" name="ADWFBLOCK_ADWFNODE">
+      <foreign-key foreignTable="AD_WF_BLOCK" name="ADWFBLOCK_ADWFNODE" onDelete="setnull">
         <reference local="AD_WF_BLOCK_ID" foreign="AD_WF_BLOCK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFNODE">
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFNODE" onDelete="none">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWFNODE">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWFNODE" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODESUBFLOW">
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODESUBFLOW" onDelete="none">
         <reference local="WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODE">
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODE" onDelete="cascade">
         <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <index name="AD_WF_NODE_WORKFLOW">

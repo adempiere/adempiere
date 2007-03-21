@@ -23,19 +23,19 @@
       <column name="WRITEOFFAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISGENERATED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCT_CCASHLINE">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCT_CCASHLINE" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CASH" name="CCASH_CCASHLINE">
+      <foreign-key foreignTable="C_CASH" name="CCASH_CCASHLINE" onDelete="cascade">
         <reference local="C_CASH_ID" foreign="C_CASH_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CCASHLINE">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CCASHLINE" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCASHLINE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCASHLINE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CCASHLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CCASHLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
       <index name="C_CASHLINE_CASH">

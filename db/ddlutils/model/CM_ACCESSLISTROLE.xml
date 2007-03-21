@@ -11,10 +11,10 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_CMALISTROLE">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_CMALISTROLE" onDelete="cascade">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESSPROFILE_CMALISTROLE">
+      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESSPROFILE_CMALISTROLE" onDelete="cascade">
         <reference local="CM_ACCESSPROFILE_ID" foreign="CM_ACCESSPROFILE_ID"/>
       </foreign-key>
       <check>

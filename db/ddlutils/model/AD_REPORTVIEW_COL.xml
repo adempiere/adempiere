@@ -14,10 +14,10 @@
       <column name="AD_COLUMN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="FUNCTIONCOLUMN" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISGROUPFUNCTION" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADREPORTVIEWCOL">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADREPORTVIEWCOL" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_COL">
+      <foreign-key foreignTable="AD_REPORTVIEW" name="ADREPORTVIEW_COL" onDelete="none">
         <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
       </foreign-key>
       <check>

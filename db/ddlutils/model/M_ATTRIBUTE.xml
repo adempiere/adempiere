@@ -16,7 +16,7 @@
       <column name="ISINSTANCEATTRIBUTE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="M_ATTRIBUTESEARCH_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ATTRIBUTEVALUETYPE" primaryKey="false" required="true" type="CHAR" size="1" default="S" autoIncrement="false"/>
-      <foreign-key foreignTable="M_ATTRIBUTESEARCH" name="MATTRIBUTESEARCH_MATTRIBUTE">
+      <foreign-key foreignTable="M_ATTRIBUTESEARCH" name="MATTRIBUTESEARCH_MATTRIBUTE" onDelete="none">
         <reference local="M_ATTRIBUTESEARCH_ID" foreign="M_ATTRIBUTESEARCH_ID"/>
       </foreign-key>
       <check>

@@ -13,10 +13,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PARAMETERDEFAULT" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADSCHEDULERPARA">
+      <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADSCHEDULERPARA" onDelete="cascade">
         <reference local="AD_PROCESS_PARA_ID" foreign="AD_PROCESS_PARA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_SCHEDULER" name="ADSCHEDULER_ADSCHEDULERPARA">
+      <foreign-key foreignTable="AD_SCHEDULER" name="ADSCHEDULER_ADSCHEDULERPARA" onDelete="cascade">
         <reference local="AD_SCHEDULER_ID" foreign="AD_SCHEDULER_ID"/>
       </foreign-key>
     </table>

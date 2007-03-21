@@ -16,10 +16,10 @@
       <column name="CM_WEBPROJECT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CM_CONTAINER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="FQDN" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMWEBPROJECTDOMAIN">
+      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMWEBPROJECTDOMAIN" onDelete="cascade">
         <reference local="CM_CONTAINER_ID" foreign="CM_CONTAINER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMWPDOMAIN">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMWPDOMAIN" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

@@ -16,10 +16,10 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="ATTRIBUTEVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADWFNODEPARA">
+      <foreign-key foreignTable="AD_PROCESS_PARA" name="ADPROCESSPARA_ADWFNODEPARA" onDelete="cascade">
         <reference local="AD_PROCESS_PARA_ID" foreign="AD_PROCESS_PARA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFNODEPARA">
+      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFNODEPARA" onDelete="none">
         <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
       </foreign-key>
       <check>

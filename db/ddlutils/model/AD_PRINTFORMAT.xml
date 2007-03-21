@@ -27,22 +27,22 @@
       <column name="PRINTERNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="JASPERPROCESS_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMAT">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_ADPRINTFORMAT" onDelete="none">
         <reference local="AD_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFONT" name="AD_PRINTFONT_ADPRINTFORMAT">
+      <foreign-key foreignTable="AD_PRINTFONT" name="AD_PRINTFONT_ADPRINTFORMAT" onDelete="none">
         <reference local="AD_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTPAPER" name="ADPRINTPAPER_ADPRINTFORMAT">
+      <foreign-key foreignTable="AD_PRINTPAPER" name="ADPRINTPAPER_ADPRINTFORMAT" onDelete="none">
         <reference local="AD_PRINTPAPER_ID" foreign="AD_PRINTPAPER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTTABLEFORMAT" name="ADPRINTFORMATTABLE_FORMAT">
+      <foreign-key foreignTable="AD_PRINTTABLEFORMAT" name="ADPRINTFORMATTABLE_FORMAT" onDelete="none">
         <reference local="AD_PRINTTABLEFORMAT_ID" foreign="AD_PRINTTABLEFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REPORTVIEW" name="ADPRINTVIEW_ADPRINTFORMAT">
+      <foreign-key foreignTable="AD_REPORTVIEW" name="ADPRINTVIEW_ADPRINTFORMAT" onDelete="none">
         <reference local="AD_REPORTVIEW_ID" foreign="AD_REPORTVIEW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADPRINTFORMAT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADPRINTFORMAT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <unique name="AD_PRINTFORMAT_NAME">

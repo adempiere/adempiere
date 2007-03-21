@@ -19,10 +19,10 @@
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ENFORCEPRICELIMIT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PRICEPRECISION" primaryKey="false" required="true" type="DECIMAL" size="10" default="2" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MPRICELIST">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MPRICELIST" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="BASEPRICELIST">
+      <foreign-key foreignTable="M_PRICELIST" name="BASEPRICELIST" onDelete="none">
         <reference local="BASEPRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
       <unique name="M_PRICELIST_NAME">

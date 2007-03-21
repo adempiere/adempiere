@@ -18,7 +18,7 @@
       <column name="MESSAGE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MESSAGE2" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MESSAGE3" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="W_STORE" name="WSTORE_WMAILMSG">
+      <foreign-key foreignTable="W_STORE" name="WSTORE_WMAILMSG" onDelete="cascade">
         <reference local="W_STORE_ID" foreign="W_STORE_ID"/>
       </foreign-key>
       <unique name="W_MAILMSG_WSTORE">

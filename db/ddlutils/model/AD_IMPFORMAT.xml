@@ -15,7 +15,7 @@
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="FORMATTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADIMPFORMAT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADIMPFORMAT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <unique name="AD_IMPFORMAT_NAME">

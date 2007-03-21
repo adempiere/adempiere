@@ -18,7 +18,7 @@
       <column name="FROMCLAUSE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="OTHERCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADINFOWINDOW">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADINFOWINDOW" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

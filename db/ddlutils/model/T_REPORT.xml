@@ -31,10 +31,10 @@
       <column name="COL_18" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="COL_19" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="COL_20" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORT">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORT" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_TREPORT">
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_TREPORT" onDelete="cascade">
         <reference local="PA_REPORTLINE_ID" foreign="PA_REPORTLINE_ID"/>
       </foreign-key>
     </table>

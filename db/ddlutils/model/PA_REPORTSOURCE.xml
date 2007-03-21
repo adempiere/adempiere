@@ -22,34 +22,34 @@
       <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_PAREPORTSOURCE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_PAREPORTSOURCE" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_PAREPORTSOURCE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_PAREPORTSOURCE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_PAREPORTSOURCE" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_PAREPORTSOURCE" onDelete="none">
         <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_PAREPORTSOURCE" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_PAREPORTSOURCE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_PAREPORTSOURCE">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_PAREPORTSOURCE" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PAREPORTSOURCE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_PAREPORTSOURCE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_PAREPORTSOURCE">
+      <foreign-key foreignTable="PA_REPORTLINE" name="PAREPORTLINE_PAREPORTSOURCE" onDelete="cascade">
         <reference local="PA_REPORTLINE_ID" foreign="PA_REPORTLINE_ID"/>
       </foreign-key>
       <check>

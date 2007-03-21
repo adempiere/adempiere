@@ -29,13 +29,13 @@
       <column name="REPLY_PRICE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="REPLY_REMARKS" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BP_EDI" name="CBPEDI_MEDI">
+      <foreign-key foreignTable="C_BP_EDI" name="CBPEDI_MEDI" onDelete="none">
         <reference local="C_BP_EDI_ID" foreign="C_BP_EDI_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MEDI">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MEDI" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MEDI">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MEDI" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <unique name="M_EDI_TRX">

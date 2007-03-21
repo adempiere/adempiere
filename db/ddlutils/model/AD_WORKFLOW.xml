@@ -37,16 +37,16 @@
       <column name="WORKFLOWTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="G" autoIncrement="false"/>
       <column name="DOCVALUELOGIC" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="WORKFLOWCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="WORKFLOWCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="WORKFLOWORG">
+      <foreign-key foreignTable="AD_ORG" name="WORKFLOWORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWORKFLOW">
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWORKFLOW" onDelete="none">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKFLOWPROCESSOR" name="ADWORKFLOWPROCESSOR_ADWF">
+      <foreign-key foreignTable="AD_WORKFLOWPROCESSOR" name="ADWORKFLOWPROCESSOR_ADWF" onDelete="setnull">
         <reference local="AD_WORKFLOWPROCESSOR_ID" foreign="AD_WORKFLOWPROCESSOR_ID"/>
       </foreign-key>
       <unique name="AD_WORKFLOW_NAME">

@@ -17,19 +17,19 @@
       <column name="M_COSTELEMENT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CURRENTCOSTPRICE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="CURRENTQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MCOSTQUEUE">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MCOSTQUEUE" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MCOSTQUEUE">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MCOSTQUEUE" onDelete="cascade">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MCOSTQUEUE">
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MCOSTQUEUE" onDelete="cascade">
         <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTTYPE" name="MCOSTTYPE_MCOSTQUEUE">
+      <foreign-key foreignTable="M_COSTTYPE" name="MCOSTTYPE_MCOSTQUEUE" onDelete="cascade">
         <reference local="M_COSTTYPE_ID" foreign="M_COSTTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MCOSTQUEUE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MCOSTQUEUE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="M_COSTQUEUE_PRODUCT">

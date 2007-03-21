@@ -19,25 +19,25 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_LOCATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_TDRDETAIL">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_TDRDETAIL" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_TDRDETAIL">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOCATION_TDRDETAIL" onDelete="cascade">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_TDRDETAIL">
+      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_TDRDETAIL" onDelete="cascade">
         <reference local="M_DISTRIBUTIONLIST_ID" foreign="M_DISTRIBUTIONLIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONLISTLINE" name="MDISTRIBUTIONLLINE_TDRDETAIL">
+      <foreign-key foreignTable="M_DISTRIBUTIONLISTLINE" name="MDISTRIBUTIONLLINE_TDRDETAIL" onDelete="cascade">
         <reference local="M_DISTRIBUTIONLISTLINE_ID" foreign="M_DISTRIBUTIONLISTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONRUN" name="MDISTRIBUTIONRUN_TDRDETAIL">
+      <foreign-key foreignTable="M_DISTRIBUTIONRUN" name="MDISTRIBUTIONRUN_TDRDETAIL" onDelete="cascade">
         <reference local="M_DISTRIBUTIONRUN_ID" foreign="M_DISTRIBUTIONRUN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONRUNLINE" name="MDISTRIBUTIONRLINE_TDRDETAIL">
+      <foreign-key foreignTable="M_DISTRIBUTIONRUNLINE" name="MDISTRIBUTIONRLINE_TDRDETAIL" onDelete="none">
         <reference local="M_DISTRIBUTIONRUNLINE_ID" foreign="M_DISTRIBUTIONRUNLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TDRDETAIL">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TDRDETAIL" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

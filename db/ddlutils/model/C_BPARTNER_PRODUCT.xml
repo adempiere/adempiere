@@ -18,10 +18,10 @@
       <column name="VENDORPRODUCTNO" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="VENDORCATEGORY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
       <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPPRODUCT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPPRODUCT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CBPPRODUCT">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CBPPRODUCT" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

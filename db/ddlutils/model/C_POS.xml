@@ -22,19 +22,19 @@
       <column name="ISMODIFYPRICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_BPARTNERCASHTRX_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CPOS">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CPOS" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_CPOS">
+      <foreign-key foreignTable="C_CASHBOOK" name="CCASHBOOK_CPOS" onDelete="none">
         <reference local="C_CASHBOOK_ID" foreign="C_CASHBOOK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_POSKEYLAYOUT" name="CPOSKEYLAYOUT_CPOS">
+      <foreign-key foreignTable="C_POSKEYLAYOUT" name="CPOSKEYLAYOUT_CPOS" onDelete="none">
         <reference local="C_POSKEYLAYOUT_ID" foreign="C_POSKEYLAYOUT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CPOS">
+      <foreign-key foreignTable="M_PRICELIST" name="MPRICELIST_CPOS" onDelete="none">
         <reference local="M_PRICELIST_ID" foreign="M_PRICELIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CPOS">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_CPOS" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

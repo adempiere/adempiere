@@ -31,31 +31,31 @@
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="APPROVALAMT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINVENTORY">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINVENTORY" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_MINVENTORY">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_MINVENTORY" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINVENTORY">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINVENTORY" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINVENTORY">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MINVENTORY" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINVENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINVENT" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINVENT">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINVENT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MINVENTORY">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MINVENTORY" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PERPETUALINV" name="MPERPETUALINV_MINVENTORY">
+      <foreign-key foreignTable="M_PERPETUALINV" name="MPERPETUALINV_MINVENTORY" onDelete="none">
         <reference local="M_PERPETUALINV_ID" foreign="M_PERPETUALINV_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINVENTORY">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINVENTORY" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

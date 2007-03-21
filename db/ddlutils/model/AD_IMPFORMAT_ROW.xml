@@ -23,10 +23,10 @@
       <column name="CONSTANTVALUE" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="CALLOUT" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="SCRIPT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADIMPFORMATROW">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADIMPFORMATROW" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMPFORMAT" name="ADIMPFORMAT_ADIMPFORMATROW">
+      <foreign-key foreignTable="AD_IMPFORMAT" name="ADIMPFORMAT_ADIMPFORMATROW" onDelete="cascade">
         <reference local="AD_IMPFORMAT_ID" foreign="AD_IMPFORMAT_ID"/>
       </foreign-key>
       <check>

@@ -21,13 +21,13 @@
       <column name="CREATEFROM" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCOMMISSION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CCOMMISSION" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CCOMMISSION">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CCOMMISSION" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOMMISSION">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOMMISSION" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <check>

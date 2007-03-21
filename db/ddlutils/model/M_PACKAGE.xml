@@ -18,10 +18,10 @@
       <column name="DATERECEIVED" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="RECEIVEDINFO" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="SHIPDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_MPACKAGE">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_MPACKAGE" onDelete="none">
         <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MPACKAGE">
+      <foreign-key foreignTable="M_SHIPPER" name="MSHIPPER_MPACKAGE" onDelete="none">
         <reference local="M_SHIPPER_ID" foreign="M_SHIPPER_ID"/>
       </foreign-key>
     </table>

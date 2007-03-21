@@ -17,13 +17,13 @@
       <column name="X" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="Y" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="Z" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="M_WH_LOCATOR_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="M_WH_LOCATOR_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="M_WH_LOCATOR_ORG">
+      <foreign-key foreignTable="AD_ORG" name="M_WH_LOCATOR_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="M_WAREHOUSE_LOCATOR">
+      <foreign-key foreignTable="M_WAREHOUSE" name="M_WAREHOUSE_LOCATOR" onDelete="cascade">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <unique name="M_LOCATION_WHERE">

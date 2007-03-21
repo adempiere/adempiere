@@ -16,7 +16,7 @@
       <column name="WHERECLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ORDERBYCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADREPORTVIEW">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADREPORTVIEW" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

@@ -25,10 +25,10 @@
       <column name="PRICELASTINV" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TOTALINVQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="TOTALINVAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODUCTCOSTING">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MPRODUCTCOSTING" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTCOSTING">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTCOSTING" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

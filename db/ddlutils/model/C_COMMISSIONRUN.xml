@@ -17,7 +17,7 @@
       <column name="GRANDTOTAL" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONRUN">
+      <foreign-key foreignTable="C_COMMISSION" name="CCOMMISSION_CCOMMISSIONRUN" onDelete="none">
         <reference local="C_COMMISSION_ID" foreign="C_COMMISSION_ID"/>
       </foreign-key>
       <check>

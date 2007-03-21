@@ -16,7 +16,7 @@
       <column name="SWIFTCODE" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="ISOWNBANK" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CBANK">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CBANK" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <check>

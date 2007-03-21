@@ -14,13 +14,13 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="M_PRODUCT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_PRODUCT_CATEGORY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_RFQ_TOPICSUBSCRIBER" name="CRFQTOPICSUBSCRIBER_ONLY">
+      <foreign-key foreignTable="C_RFQ_TOPICSUBSCRIBER" name="CRFQTOPICSUBSCRIBER_ONLY" onDelete="cascade">
         <reference local="C_RFQ_TOPICSUBSCRIBER_ID" foreign="C_RFQ_TOPICSUBSCRIBER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CRFQTSUBONLY">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CRFQTSUBONLY" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_CRFQTSUBONLY">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODCATEGORY_CRFQTSUBONLY" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>

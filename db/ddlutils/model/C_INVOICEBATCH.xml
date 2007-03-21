@@ -21,13 +21,13 @@
       <column name="DOCUMENTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCH">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCH" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVENTIONTYPE_CINVOICEBATCH">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVENTIONTYPE_CINVOICEBATCH" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CINVOICEBATCH">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CINVOICEBATCH" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <check>

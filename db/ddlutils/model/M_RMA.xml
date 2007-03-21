@@ -27,7 +27,7 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_MRMA">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_MRMA" onDelete="none">
         <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
     </table>

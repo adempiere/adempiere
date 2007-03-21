@@ -7,7 +7,7 @@
       <column name="V_NUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="V_DATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="V_STRING" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ATTRIBUTE" name="ADATTRIBUTE_ADATTRIBUTEVALUE">
+      <foreign-key foreignTable="AD_ATTRIBUTE" name="ADATTRIBUTE_ADATTRIBUTEVALUE" onDelete="cascade">
         <reference local="AD_ATTRIBUTE_ID" foreign="AD_ATTRIBUTE_ID"/>
       </foreign-key>
     </table>

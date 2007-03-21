@@ -26,16 +26,16 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="M_PRODUCTDOWNLOAD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_AASSETDELIVERY">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_AASSETDELIVERY" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETDELIVERY">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETDELIVERY" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MOUTLINE_AASSETDELIVERY">
+      <foreign-key foreignTable="M_INOUTLINE" name="MOUTLINE_AASSETDELIVERY" onDelete="cascade">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCTDOWNLOAD" name="MPRODUCTDL_AASSETDELIVERY">
+      <foreign-key foreignTable="M_PRODUCTDOWNLOAD" name="MPRODUCTDL_AASSETDELIVERY" onDelete="none">
         <reference local="M_PRODUCTDOWNLOAD_ID" foreign="M_PRODUCTDOWNLOAD_ID"/>
       </foreign-key>
       <check>

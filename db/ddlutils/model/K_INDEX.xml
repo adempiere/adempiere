@@ -18,16 +18,16 @@
       <column name="CM_WEBPROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_DOCTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_KINDEX">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_KINDEX" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_KINDEX">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_KINDEX" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_KINDEX">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_KINDEX" onDelete="cascade">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_KINDEX">
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_KINDEX" onDelete="cascade">
         <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
       </foreign-key>
       <index name="K_INDEX_KEYWORD">

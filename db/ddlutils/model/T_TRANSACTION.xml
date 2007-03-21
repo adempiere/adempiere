@@ -30,34 +30,34 @@
       <column name="SEARCH_ORDER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="SEARCH_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="SEARCH_INOUT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TTRANSACTION">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TTRANSACTION" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_TTRANSACTION">
+      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_TTRANSACTION" onDelete="none">
         <reference local="C_PROJECTISSUE_ID" foreign="C_PROJECTISSUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_TTRANSACTION">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_TTRANSACTION" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_TTRANSACTION">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_TTRANSACTION" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_TTRANSACTION">
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_TTRANSACTION" onDelete="none">
         <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_TTRANSACTION">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_TTRANSACTION" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_TTRANSACTION">
+      <foreign-key foreignTable="M_MOVEMENTLINE" name="MMOVEMENTLINE_TTRANSACTION" onDelete="none">
         <reference local="M_MOVEMENTLINE_ID" foreign="M_MOVEMENTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TTRANSACTION">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_TTRANSACTION" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_TTRANSACTION">
+      <foreign-key foreignTable="M_PRODUCTIONLINE" name="MPRODUCTIONLINE_TTRANSACTION" onDelete="none">
         <reference local="M_PRODUCTIONLINE_ID" foreign="M_PRODUCTIONLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_TRANSACTION" name="MTRANSACTION_TTRANSACTION">
+      <foreign-key foreignTable="M_TRANSACTION" name="MTRANSACTION_TTRANSACTION" onDelete="cascade">
         <reference local="M_TRANSACTION_ID" foreign="M_TRANSACTION_ID"/>
       </foreign-key>
       <check>

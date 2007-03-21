@@ -18,10 +18,10 @@
       <column name="META_KEYWORDS" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="STRUCTUREXML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="CONTAINERXML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CMCSTAGETRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CMCSTAGETRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGETRL">
+      <foreign-key foreignTable="CM_CSTAGE" name="CMCSTAGE_CMCSTAGETRL" onDelete="cascade">
         <reference local="CM_CSTAGE_ID" foreign="CM_CSTAGE_ID"/>
       </foreign-key>
       <check>

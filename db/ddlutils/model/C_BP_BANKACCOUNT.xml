@@ -34,13 +34,13 @@
       <column name="A_COUNTRY" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="BPBANKACCTUSE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CBPBANKACCOUNT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CBPBANKACCOUNT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANK" name="CBANK_CBPBANKACCOUNT">
+      <foreign-key foreignTable="C_BANK" name="CBANK_CBPBANKACCOUNT" onDelete="setnull">
         <reference local="C_BANK_ID" foreign="C_BANK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPBANKACCOUNT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPBANKACCOUNT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <index name="C_BPBANKACCT_BPARTNER">

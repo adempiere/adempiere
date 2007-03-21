@@ -39,46 +39,46 @@
       <column name="QTYREIMBURSED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="PRICEINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="PRICEREIMBURSED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_STIMEEXPENSELINE">
+      <foreign-key foreignTable="C_UOM" name="CUOM_STIMEEXPENSELINE" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_STIMEEXPENSELINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_STIMEEXPENSELINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_RESOURCEASSIGNMENT" name="SRESOURCEASSIGN_STELINE">
+      <foreign-key foreignTable="S_RESOURCEASSIGNMENT" name="SRESOURCEASSIGN_STELINE" onDelete="none">
         <reference local="S_RESOURCEASSIGNMENT_ID" foreign="S_RESOURCEASSIGNMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_TIMEEXPENSE" name="STIMEEXPENSE_LINE">
+      <foreign-key foreignTable="S_TIMEEXPENSE" name="STIMEEXPENSE_LINE" onDelete="cascade">
         <reference local="S_TIMEEXPENSE_ID" foreign="S_TIMEEXPENSE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_TIMETYPE" name="STIMETYPE_STIMEEXPENSELINE">
+      <foreign-key foreignTable="S_TIMETYPE" name="STIMETYPE_STIMEEXPENSELINE" onDelete="none">
         <reference local="S_TIMETYPE_ID" foreign="S_TIMETYPE_ID"/>
       </foreign-key>
       <check>

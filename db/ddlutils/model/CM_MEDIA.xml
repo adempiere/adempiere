@@ -19,7 +19,7 @@
       <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CONTENTTEXT" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
       <column name="DIRECTDEPLOY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMMEDIA">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMMEDIA" onDelete="none">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

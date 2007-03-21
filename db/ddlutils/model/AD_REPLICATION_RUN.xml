@@ -14,7 +14,7 @@
       <column name="AD_REPLICATION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISREPLICATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_REPLICATION" name="ADREPLICATION_ADREPRUN">
+      <foreign-key foreignTable="AD_REPLICATION" name="ADREPLICATION_ADREPRUN" onDelete="cascade">
         <reference local="AD_REPLICATION_ID" foreign="AD_REPLICATION_ID"/>
       </foreign-key>
       <check>

@@ -24,22 +24,22 @@
       <column name="POSTED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="OVERUNDERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_ALLOCATIONHDR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ALLOCATIONHDR" name="CALLOCATION_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_ALLOCATIONHDR" name="CALLOCATION_CALLOCATIONLINE" onDelete="none">
         <reference local="C_ALLOCATIONHDR_ID" foreign="C_ALLOCATIONHDR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CALLOCATIONLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CASHLINE" name="CCASHLINE_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_CASHLINE" name="CCASHLINE_CALLOCATIONLINE" onDelete="none">
         <reference local="C_CASHLINE_ID" foreign="C_CASHLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CALLOCATIONLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_CALLOCATION">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CALLOCATION" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CALLOCATIONLINE">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_CALLOCATIONLINE" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <index name="C_ALLOCATIONLINE_PAYMENT">

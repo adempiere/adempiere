@@ -17,13 +17,13 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="TOTALQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MINQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_RUNLINE">
+      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_RUNLINE" onDelete="cascade">
         <reference local="M_DISTRIBUTIONLIST_ID" foreign="M_DISTRIBUTIONLIST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONRUN" name="MDISTRIBUTIONRUN_LINE">
+      <foreign-key foreignTable="M_DISTRIBUTIONRUN" name="MDISTRIBUTIONRUN_LINE" onDelete="cascade">
         <reference local="M_DISTRIBUTIONRUN_ID" foreign="M_DISTRIBUTIONRUN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MDISTRIBUTIONRUN">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MDISTRIBUTIONRUN" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

@@ -15,10 +15,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="TAXINDICATOR" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CTAXTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CTAXTRL" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXTRL">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CTAXTRL" onDelete="cascade">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
       <check>

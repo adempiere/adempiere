@@ -16,7 +16,7 @@
       <column name="CM_CONTAINER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="CONTENTHTML" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMCONTAINERELEMENT">
+      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMCONTAINERELEMENT" onDelete="cascade">
         <reference local="CM_CONTAINER_ID" foreign="CM_CONTAINER_ID"/>
       </foreign-key>
       <check>

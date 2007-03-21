@@ -18,22 +18,22 @@
       <column name="C_CURRENCY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="TOTALAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="RECOGNIZEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CREVRECPLAN">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CREVRECPLAN" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CREVENUERECPLAN">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CREVENUERECPLAN" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CREVENUERECPLAN">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CREVENUERECPLAN" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVENUERECOGNITION_PLAN">
+      <foreign-key foreignTable="C_REVENUERECOGNITION" name="CREVENUERECOGNITION_PLAN" onDelete="none">
         <reference local="C_REVENUERECOGNITION_ID" foreign="C_REVENUERECOGNITION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CREVENUEREC">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CREVENUEREC" onDelete="none">
         <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CREVENUERECOGNITIO">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PREVENUE_CREVENUERECOGNITIO" onDelete="none">
         <reference local="P_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

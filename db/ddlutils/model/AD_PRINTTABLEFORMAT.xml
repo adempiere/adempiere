@@ -38,28 +38,28 @@
       <column name="HDRSTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="LINESTROKETYPE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISPAINTHEADERLINES" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTBG">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTBG" onDelete="none">
         <reference local="FUNCTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTFG">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEFUNCTFG" onDelete="none">
         <reference local="FUNCTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRLINE">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRLINE" onDelete="none">
         <reference local="HDRLINE_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTBG">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTBG" onDelete="none">
         <reference local="HDRTEXTBG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLELINE">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLELINE" onDelete="none">
         <reference local="LINE_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTFG">
+      <foreign-key foreignTable="AD_PRINTCOLOR" name="ADPRINTCOLOR_TABLEHDRTEXTFG" onDelete="none">
         <reference local="HDRTEXTFG_PRINTCOLOR_ID" foreign="AD_PRINTCOLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEFORMATFUNC">
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEFORMATFUNC" onDelete="none">
         <reference local="FUNCT_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEHDR">
+      <foreign-key foreignTable="AD_PRINTFONT" name="ADPRINTFONT_TABLEHDR" onDelete="none">
         <reference local="HDR_PRINTFONT_ID" foreign="AD_PRINTFONT_ID"/>
       </foreign-key>
       <check>

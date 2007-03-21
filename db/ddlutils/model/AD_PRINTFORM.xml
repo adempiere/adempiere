@@ -22,37 +22,37 @@
       <column name="SHIPMENT_MAILTEXT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROJECT_MAILTEXT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROJECT_PRINTFORMAT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADPRINTFORM">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADPRINTFORM" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMREMITTANCE">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMREMITTANCE" onDelete="none">
         <reference local="REMITTANCE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMPROJECT">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMPROJECT" onDelete="none">
         <reference local="PROJECT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMORDER">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMORDER" onDelete="none">
         <reference local="ORDER_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMINVOICE">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMINVOICE" onDelete="none">
         <reference local="INVOICE_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMSHIPMENT">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_FORMSHIPMENT" onDelete="none">
         <reference local="SHIPMENT_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_REMITADPRINTFORM">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_REMITADPRINTFORM" onDelete="none">
         <reference local="REMITTANCE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_PROJECTADPRINTFORM">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_PROJECTADPRINTFORM" onDelete="none">
         <reference local="PROJECT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ORDERADPRINTFORM">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ORDERADPRINTFORM" onDelete="none">
         <reference local="ORDER_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_INVOICEADPRINTFORM">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_INVOICEADPRINTFORM" onDelete="none">
         <reference local="INVOICE_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_SHIPADPRINTFORM">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_SHIPADPRINTFORM" onDelete="none">
         <reference local="SHIPMENT_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
       <unique name="AD_PRINTFORM_CLIENT">

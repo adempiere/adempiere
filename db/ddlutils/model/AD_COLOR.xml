@@ -27,7 +27,7 @@
       <column name="LINEDISTANCE" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="STARTPOINT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="REPEATDISTANCE" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADCOLOR">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADCOLOR" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <check>

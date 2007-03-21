@@ -68,79 +68,79 @@
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCREATENEWBATCH" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISCREATENEWJOURNAL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGDOC_IGLJOURNAL">
+      <foreign-key foreignTable="AD_ORG" name="ADORGDOC_IGLJOURNAL" onDelete="setnull">
         <reference local="AD_ORGDOC_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IGLJOURNAL">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IGLJOURNAL" onDelete="setnull">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_IGLJOURNAL">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_IGLJOURNAL" onDelete="setnull">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_IGLJOURNAL">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_IGLJOURNAL" onDelete="setnull">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLJOURNAL">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLJOURNAL" onDelete="setnull">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IGLJOURNAL">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_IGLJOURNAL" onDelete="setnull">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IGLJOURNAL">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_IGLJOURNAL" onDelete="setnull">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_IGLJOURNAL">
+      <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_IGLJOURNAL" onDelete="setnull">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IGLJOURNAL">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_IGLJOURNAL" onDelete="setnull">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IGLJOURNAL">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IGLJOURNAL" onDelete="setnull">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEUSER2_IGLJOURNAL">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEUSER2_IGLJOURNAL" onDelete="setnull">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_IGLJOURNAL">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_IGLJOURNAL" onDelete="setnull">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEACCOUNT_IGLJOURNAL">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEACCOUNT_IGLJOURNAL" onDelete="setnull">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_IGLJOURNAL">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_IGLJOURNAL" onDelete="setnull">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_IGLJOURNAL">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_IGLJOURNAL" onDelete="setnull">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PERIOD" name="CPERIOD_IGLJOURNAL">
+      <foreign-key foreignTable="C_PERIOD" name="CPERIOD_IGLJOURNAL" onDelete="setnull">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_IGLJOURNAL">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_IGLJOURNAL" onDelete="setnull">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_IGLJOURNAL">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_IGLJOURNAL" onDelete="setnull">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="CVALIDCOMBINATION_IGLJOURNAL">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="CVALIDCOMBINATION_IGLJOURNAL" onDelete="setnull">
         <reference local="C_VALIDCOMBINATION_ID" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_IGLJOURNAL">
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_IGLJOURNAL" onDelete="setnull">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_IGLJOURNAL">
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_IGLJOURNAL" onDelete="setnull">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_JOURNAL" name="GLJOURNAL_IGLJOURNAL">
+      <foreign-key foreignTable="GL_JOURNAL" name="GLJOURNAL_IGLJOURNAL" onDelete="setnull">
         <reference local="GL_JOURNAL_ID" foreign="GL_JOURNAL_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_JOURNALBATCH" name="GLJOURNALBATCH_IGLJOURNAL">
+      <foreign-key foreignTable="GL_JOURNALBATCH" name="GLJOURNALBATCH_IGLJOURNAL" onDelete="setnull">
         <reference local="GL_JOURNALBATCH_ID" foreign="GL_JOURNALBATCH_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_JOURNALLINE" name="GLJOURBELLINE_IGLJOURNAL">
+      <foreign-key foreignTable="GL_JOURNALLINE" name="GLJOURBELLINE_IGLJOURNAL" onDelete="setnull">
         <reference local="GL_JOURNALLINE_ID" foreign="GL_JOURNALLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_OGLJOURNAL">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_OGLJOURNAL" onDelete="setnull">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

@@ -16,7 +16,7 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
       <column name="VERSION" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ENTITYTYPE" name="ADENRITYTYPE_ADMODIFICATION">
+      <foreign-key foreignTable="AD_ENTITYTYPE" name="ADENRITYTYPE_ADMODIFICATION" onDelete="none">
         <reference local="ENTITYTYPE" foreign="ENTITYTYPE"/>
       </foreign-key>
       <check>

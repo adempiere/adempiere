@@ -14,10 +14,10 @@
       <column name="AD_REPLICATIONTABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="P_MSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISREPLICATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_REPLICATIONTABLE" name="ADREPTABLE_ADREPLOG">
+      <foreign-key foreignTable="AD_REPLICATIONTABLE" name="ADREPTABLE_ADREPLOG" onDelete="setnull">
         <reference local="AD_REPLICATIONTABLE_ID" foreign="AD_REPLICATIONTABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REPLICATION_RUN" name="ADREPLICATIONRUN_ADREPLOG">
+      <foreign-key foreignTable="AD_REPLICATION_RUN" name="ADREPLICATIONRUN_ADREPLOG" onDelete="cascade">
         <reference local="AD_REPLICATION_RUN_ID" foreign="AD_REPLICATION_RUN_ID"/>
       </foreign-key>
       <check>

@@ -12,7 +12,7 @@
       <column name="AMTACCTCR" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="BALANCE" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="QTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORTSTATEMENT">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TREPORTSTATEMENT" onDelete="none">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
     </table>

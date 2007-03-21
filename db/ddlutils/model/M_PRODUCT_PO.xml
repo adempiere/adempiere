@@ -32,22 +32,22 @@
       <column name="QUALITYRATING" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="ROYALTYAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="MANUFACTURER" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="M_PRODUCTPO_CLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="M_PRODUCTPO_CLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="M_PRODUCTPO_ORG">
+      <foreign-key foreignTable="AD_ORG" name="M_PRODUCTPO_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="C_BUSPARTNER_M_PRODUCT_PO">
+      <foreign-key foreignTable="C_BPARTNER" name="C_BUSPARTNER_M_PRODUCT_PO" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MPRODUCTPO">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_MPRODUCTPO" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="C_UOM_M_PRODUCT_PO">
+      <foreign-key foreignTable="C_UOM" name="C_UOM_M_PRODUCT_PO" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_PRODUCTPO">
+      <foreign-key foreignTable="M_PRODUCT" name="M_PRODUCT_PRODUCTPO" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <unique name="M_PRODUCT_PO_VENDORPRODNO">

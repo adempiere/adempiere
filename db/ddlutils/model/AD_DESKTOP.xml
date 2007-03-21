@@ -15,10 +15,10 @@
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="AD_IMAGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_COLOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADDESKTOP">
+      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADDESKTOP" onDelete="none">
         <reference local="AD_COLOR_ID" foreign="AD_COLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADDESKTOP">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADDESKTOP" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
       <check>

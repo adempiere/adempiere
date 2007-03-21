@@ -45,52 +45,52 @@
       <column name="PERCENTTOTAL" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDIST">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_GLDIST" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_GLDIST">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_GLDIST" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDIST">
+      <foreign-key foreignTable="AD_ORG" name="ADORGORG_GLDIST" onDelete="none">
         <reference local="ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_GLDIST">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_GLDIST" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLDIST">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_GLDIST" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_GLDIST">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_GLDIST" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_GLDIST">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_GLDIST" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLDISTRIBUTION">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLDISTRIBUTION" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDIST" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDIST">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDIST" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDIST" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDIST">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDIST" onDelete="none">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDIST">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDIST" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDIST">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDIST" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGOPN_GLDIST">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGOPN_GLDIST" onDelete="none">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_GLDIST">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_GLDIST" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

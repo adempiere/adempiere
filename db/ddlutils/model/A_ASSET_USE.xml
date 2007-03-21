@@ -14,7 +14,7 @@
       <column name="USEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="USEUNITS" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETUSE">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETUSE" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
       <check>

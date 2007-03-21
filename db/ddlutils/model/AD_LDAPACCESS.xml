@@ -16,13 +16,13 @@
       <column name="ISERROR" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SUMMARY" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LDAPPROCESSOR" name="ADLDAPPROCESSOR_ADLDAPACCESS">
+      <foreign-key foreignTable="AD_LDAPPROCESSOR" name="ADLDAPPROCESSOR_ADLDAPACCESS" onDelete="none">
         <reference local="AD_LDAPPROCESSOR_ID" foreign="AD_LDAPPROCESSOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADLDAPACCESS">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADLDAPACCESS" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_INTERESTAREA" name="RINTERESTAREA_ADLDAPACCESS">
+      <foreign-key foreignTable="R_INTERESTAREA" name="RINTERESTAREA_ADLDAPACCESS" onDelete="none">
         <reference local="R_INTERESTAREA_ID" foreign="R_INTERESTAREA_ID"/>
       </foreign-key>
       <check>

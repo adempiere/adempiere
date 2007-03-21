@@ -17,10 +17,10 @@
       <column name="RECORD_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="WHERECLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="OTHERCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMCONTAINERTTABLE">
+      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMCONTAINERTTABLE" onDelete="cascade">
         <reference local="CM_CONTAINER_ID" foreign="CM_CONTAINER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_TEMPLATETABLE" name="CMTTABLE_CMCONTAINERTABLE">
+      <foreign-key foreignTable="CM_TEMPLATETABLE" name="CMTTABLE_CMCONTAINERTABLE" onDelete="cascade">
         <reference local="CM_TEMPLATETABLE_ID" foreign="CM_TEMPLATETABLE_ID"/>
       </foreign-key>
       <check>

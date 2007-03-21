@@ -16,7 +16,7 @@
       <column name="K_TYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISPUBLIC" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISPUBLICWRITE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="K_TYPE" name="KTYPE_KTOPIC">
+      <foreign-key foreignTable="K_TYPE" name="KTYPE_KTOPIC" onDelete="none">
         <reference local="K_TYPE_ID" foreign="K_TYPE_ID"/>
       </foreign-key>
       <check>

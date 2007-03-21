@@ -25,16 +25,16 @@
       <column name="PRICEMATCHDIFFERENCE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_MMATCHPO">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_MMATCHPO" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MMATCHPO">
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_MMATCHPO" onDelete="none">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MMATCHPO">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MMATCHPO" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMATCHPO">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMATCHPO" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="M_MATCHPO_SHIP">

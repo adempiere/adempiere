@@ -19,7 +19,7 @@
       <column name="SUPERVISOR_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="KEEPLOGDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CALERTPROCESSOR">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CALERTPROCESSOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <check>

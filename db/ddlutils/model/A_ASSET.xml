@@ -54,28 +54,28 @@
       <column name="LASTMAINTENANCEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="LASTMAINTENANCEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="NEXTMAINTENENCEUNIT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_AASSET">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_AASSET" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET_GROUP" name="AASSETGROUP_AASSET">
+      <foreign-key foreignTable="A_ASSET_GROUP" name="AASSETGROUP_AASSET" onDelete="none">
         <reference local="A_ASSET_GROUP_ID" foreign="A_ASSET_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_AASSET">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_AASSET" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_AASSET">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_AASSET" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_AASSET">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_AASSET" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_AASSET">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRIBUTESETINSTANCE_AASSET" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_AASSET">
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_AASSET" onDelete="none">
         <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_AASSET">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_AASSET" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

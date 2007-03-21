@@ -28,16 +28,16 @@
       <column name="DOCSTATUS" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="DOCACTION" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNALBATCH">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_GLJOURNALBATCH" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLJOURNALBATCH">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_GLJOURNALBATCH" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_JOURNALBATCH">
+      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_JOURNALBATCH" onDelete="none">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_GLJOURNALBATCH">
+      <foreign-key foreignTable="GL_CATEGORY" name="GLCATEGORY_GLJOURNALBATCH" onDelete="none">
         <reference local="GL_CATEGORY_ID" foreign="GL_CATEGORY_ID"/>
       </foreign-key>
       <unique name="GL_JOURNALBATCH_DOCNO">

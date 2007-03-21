@@ -14,13 +14,13 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="C_COUNTRY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISDEFAULT" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_REGIONCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_REGIONCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_REGIONORG">
+      <foreign-key foreignTable="AD_ORG" name="C_REGIONORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CREGION">
+      <foreign-key foreignTable="C_COUNTRY" name="CCOUNTRY_CREGION" onDelete="none">
         <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
       <unique name="C_REGION_NAME">

@@ -23,16 +23,16 @@
       <column name="WINHEIGHT" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="WINWIDTH" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="ISBETAFUNCTIONALITY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="WINDOWCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="WINDOWCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADWINDOW">
+      <foreign-key foreignTable="AD_COLOR" name="ADCOLOR_ADWINDOW" onDelete="none">
         <reference local="AD_COLOR_ID" foreign="AD_COLOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWINDOW">
+      <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADWINDOW" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="WINDOWORG">
+      <foreign-key foreignTable="AD_ORG" name="WINDOWORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <unique name="AD_WINDOW_NAME">

@@ -14,10 +14,10 @@
       <column name="PRICELIST" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICESTD" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICELIMIT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPRICELISTVER_MPRODUCTPRICE">
+      <foreign-key foreignTable="M_PRICELIST_VERSION" name="MPRICELISTVER_MPRODUCTPRICE" onDelete="cascade">
         <reference local="M_PRICELIST_VERSION_ID" foreign="M_PRICELIST_VERSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTPRICE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTPRICE" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

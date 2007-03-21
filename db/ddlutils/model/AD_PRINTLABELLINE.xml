@@ -19,13 +19,13 @@
       <column name="AD_LABELPRINTERFUNCTION_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="XPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="YPOSITION" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPRINTLABELLINE">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADPRINTLABELLINE" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_LABELPRINTERFUNCTION" name="ADLABELPRINTFUNC_LABELLINE">
+      <foreign-key foreignTable="AD_LABELPRINTERFUNCTION" name="ADLABELPRINTFUNC_LABELLINE" onDelete="none">
         <reference local="AD_LABELPRINTERFUNCTION_ID" foreign="AD_LABELPRINTERFUNCTION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PRINTLABEL" name="ADPRINTLABEL_ADPRINTLABELLINE">
+      <foreign-key foreignTable="AD_PRINTLABEL" name="ADPRINTLABEL_ADPRINTLABELLINE" onDelete="none">
         <reference local="AD_PRINTLABEL_ID" foreign="AD_PRINTLABEL_ID"/>
       </foreign-key>
       <check>

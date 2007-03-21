@@ -18,7 +18,7 @@
       <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="RESULT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RREQUESTUPDATE">
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RREQUESTUPDATE" onDelete="none">
         <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
       </foreign-key>
       <check>

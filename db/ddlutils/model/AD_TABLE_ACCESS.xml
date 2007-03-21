@@ -16,16 +16,16 @@
       <column name="ISCANREPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISCANEXPORT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISEXCLUDE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="AD_DATAACCESSCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="AD_DATAACCESSCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_DATAACCESSORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_DATAACCESSORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADTABLEACCESS">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADTABLEACCESS" onDelete="cascade">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADTABLEACCESS">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADTABLEACCESS" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

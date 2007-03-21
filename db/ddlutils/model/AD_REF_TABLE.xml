@@ -17,22 +17,22 @@
       <column name="WHERECLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ORDERBYCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="REF_TABLECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="REF_TABLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_DISPLAY">
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_DISPLAY" onDelete="none">
         <reference local="AD_DISPLAY" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_ID">
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_ID" onDelete="none">
         <reference local="AD_KEY" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="REF_TABLEORG">
+      <foreign-key foreignTable="AD_ORG" name="REF_TABLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_REFTABLE">
+      <foreign-key foreignTable="AD_REFERENCE" name="AD_REFERENCE_REFTABLE" onDelete="cascade">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADD_TABLE_REFTABLE">
+      <foreign-key foreignTable="AD_TABLE" name="ADD_TABLE_REFTABLE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

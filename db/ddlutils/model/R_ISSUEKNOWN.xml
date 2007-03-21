@@ -22,10 +22,10 @@
       <column name="R_REQUEST_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="R_ISSUERECOMMENDATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="R_ISSUESTATUS" name="RISSUESTATUS_RISSUEKNOWN">
+      <foreign-key foreignTable="R_ISSUESTATUS" name="RISSUESTATUS_RISSUEKNOWN" onDelete="none">
         <reference local="R_ISSUESTATUS_ID" foreign="R_ISSUESTATUS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RISSUEKNOWN">
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RISSUEKNOWN" onDelete="none">
         <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
       </foreign-key>
       <unique name="R_KNOWNISSUE_ALT">

@@ -20,10 +20,10 @@
       <column name="PO_DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PO_HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADELEMENTTRL">
+      <foreign-key foreignTable="AD_ELEMENT" name="ADELEMENT_ADELEMENTTRL" onDelete="cascade">
         <reference local="AD_ELEMENT_ID" foreign="AD_ELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_AD_ELEMENT_TRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="AD_LANGUAGE_AD_ELEMENT_TRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
       <check>

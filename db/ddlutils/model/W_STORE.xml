@@ -44,7 +44,7 @@
       <column name="ISDEFAULT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="URL" primaryKey="false" required="true" type="VARCHAR" size="120" default="http://localhost" autoIncrement="false"/>
       <column name="STYLESHEET" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_WSTORE">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_WSTORE" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
       <unique name="W_STORE_WEBCONTEXT">

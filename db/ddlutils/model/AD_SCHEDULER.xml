@@ -23,10 +23,10 @@
       <column name="WEEKDAY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="SCHEDULETYPE" primaryKey="false" required="true" type="CHAR" size="1" default="F" autoIncrement="false"/>
       <column name="MONTHDAY" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADSCHEDULER">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADSCHEDULER" onDelete="cascade">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADSCHEDULER">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADSCHEDULER" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
     </table>

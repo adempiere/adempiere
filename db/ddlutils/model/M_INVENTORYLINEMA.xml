@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="MOVEMENTQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MINVENTORYLINEMA">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MINVENTORYLINEMA" onDelete="cascade">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MILINEMA">
+      <foreign-key foreignTable="M_INVENTORYLINE" name="MINVENTORYLINE_MILINEMA" onDelete="cascade">
         <reference local="M_INVENTORYLINE_ID" foreign="M_INVENTORYLINE_ID"/>
       </foreign-key>
       <check>

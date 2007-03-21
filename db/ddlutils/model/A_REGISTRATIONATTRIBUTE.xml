@@ -17,10 +17,10 @@
       <column name="COLUMNNAME" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="AD_REFERENCE_VALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_AREGATTRIBUTE">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_AREGATTRIBUTE" onDelete="none">
         <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_AREGATTRIBUTE">
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_AREGATTRIBUTE" onDelete="none">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <check>

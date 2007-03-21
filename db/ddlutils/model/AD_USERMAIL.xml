@@ -18,13 +18,13 @@
       <column name="ISDELIVERED" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="SUBJECT" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="MAILTEXT" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERMAIL">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERMAIL" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ADUSERMAIL">
+      <foreign-key foreignTable="R_MAILTEXT" name="RMAILTEXT_ADUSERMAIL" onDelete="cascade">
         <reference local="R_MAILTEXT_ID" foreign="R_MAILTEXT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="W_MAILMSG" name="WMAILMSG_ADUSERMAIL">
+      <foreign-key foreignTable="W_MAILMSG" name="WMAILMSG_ADUSERMAIL" onDelete="cascade">
         <reference local="W_MAILMSG_ID" foreign="W_MAILMSG_ID"/>
       </foreign-key>
       <check>

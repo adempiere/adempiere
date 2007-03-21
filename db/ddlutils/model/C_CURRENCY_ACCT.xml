@@ -15,22 +15,22 @@
       <column name="UNREALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REALIZEDGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="REALIZEDLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCURRENCYACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CCURRENCYACCT" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCURRENCYACCT">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCURRENCYACCT" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CCURRENCY">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CCURRENCY" onDelete="none">
         <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CCURRENCY">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CCURRENCY" onDelete="none">
         <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CCURRENCY">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CCURRENCY" onDelete="none">
         <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CCURRENCY">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CCURRENCY" onDelete="none">
         <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

@@ -14,10 +14,10 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="GREETING" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="ISTRANSLATED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CGREETINGTRL">
+      <foreign-key foreignTable="AD_LANGUAGE" name="ADLANGUAGE_CGREETINGTRL" onDelete="none">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="C_GREETING" name="CGREETING_CGREETINGTRL">
+      <foreign-key foreignTable="C_GREETING" name="CGREETING_CGREETINGTRL" onDelete="none">
         <reference local="C_GREETING_ID" foreign="C_GREETING_ID"/>
       </foreign-key>
       <check>

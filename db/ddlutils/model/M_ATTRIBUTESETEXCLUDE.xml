@@ -13,10 +13,10 @@
       <column name="M_ATTRIBUTESET_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_MATTRIBUTESETEXCLUDE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_MATTRIBUTESETEXCLUDE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MASEXCLUDE">
+      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MASEXCLUDE" onDelete="none">
         <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
       </foreign-key>
       <check>

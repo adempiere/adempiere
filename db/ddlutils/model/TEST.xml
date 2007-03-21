@@ -31,7 +31,7 @@
       <column name="BINARYDATA" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="CHARACTERDATA" primaryKey="false" required="false" type="CLOB" size="4000" autoIncrement="false"/>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_ACCOUNT_TEST">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_ACCOUNT_TEST" onDelete="none">
         <reference local="ACCOUNT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

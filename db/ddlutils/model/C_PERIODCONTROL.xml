@@ -15,7 +15,7 @@
       <column name="PERIODSTATUS" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PERIODACTION" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_PERIODCONTROL">
+      <foreign-key foreignTable="C_PERIOD" name="C_PERIOD_PERIODCONTROL" onDelete="none">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>
       </foreign-key>
       <check>

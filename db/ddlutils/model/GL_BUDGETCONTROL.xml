@@ -18,10 +18,10 @@
       <column name="COMMITMENTTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISBEFOREAPPROVAL" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="BUDGETCONTROLSCOPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_GLBUDGETCONTROL">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_GLBUDGETCONTROL" onDelete="none">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_GLBUDGETCONTROL">
+      <foreign-key foreignTable="GL_BUDGET" name="GLBUDGET_GLBUDGETCONTROL" onDelete="none">
         <reference local="GL_BUDGET_ID" foreign="GL_BUDGET_ID"/>
       </foreign-key>
       <check>

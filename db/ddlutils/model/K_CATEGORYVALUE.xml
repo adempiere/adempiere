@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="K_CATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="K_CATEGORY" name="KCATEGORY_KCATEGORYVALUE">
+      <foreign-key foreignTable="K_CATEGORY" name="KCATEGORY_KCATEGORYVALUE" onDelete="none">
         <reference local="K_CATEGORY_ID" foreign="K_CATEGORY_ID"/>
       </foreign-key>
       <check>

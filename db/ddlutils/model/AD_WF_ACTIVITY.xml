@@ -26,19 +26,19 @@
       <column name="ENDWAITTIME" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DATELASTALERT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DYNPRIORITYSTART" primaryKey="false" required="false" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_MESSAGE" name="ADMESSAGE_ADWFACTIVITY">
+      <foreign-key foreignTable="AD_MESSAGE" name="ADMESSAGE_ADWFACTIVITY" onDelete="none">
         <reference local="AD_MESSAGE_ID" foreign="AD_MESSAGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFACTIVITY">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADWFACTIVITY" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFACTIVITY">
+      <foreign-key foreignTable="AD_WF_NODE" name="ADWFNODE_ADWFACTIVITY" onDelete="cascade">
         <reference local="AD_WF_NODE_ID" foreign="AD_WF_NODE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCESS_ADWFACTIVITY">
+      <foreign-key foreignTable="AD_WF_PROCESS" name="ADWFPROCESS_ADWFACTIVITY" onDelete="cascade">
         <reference local="AD_WF_PROCESS_ID" foreign="AD_WF_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFACTIVITY">
+      <foreign-key foreignTable="AD_WF_RESPONSIBLE" name="ADWFRESPONSIBLE_ADWFACTIVITY" onDelete="setnull">
         <reference local="AD_WF_RESPONSIBLE_ID" foreign="AD_WF_RESPONSIBLE_ID"/>
       </foreign-key>
       <index name="AD_WF_ACTIVITY_WHO">

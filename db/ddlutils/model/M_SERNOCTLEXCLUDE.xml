@@ -13,10 +13,10 @@
       <column name="M_SERNOCTL_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_MSERNOCTLEXCLUDE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_MSERNOCTLEXCLUDE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_SERNOCTL" name="MSERNOCTL_MSERNOCTLEXCLUDE">
+      <foreign-key foreignTable="M_SERNOCTL" name="MSERNOCTL_MSERNOCTLEXCLUDE" onDelete="none">
         <reference local="M_SERNOCTL_ID" foreign="M_SERNOCTL_ID"/>
       </foreign-key>
       <check>

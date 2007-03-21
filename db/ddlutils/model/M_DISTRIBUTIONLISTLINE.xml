@@ -16,13 +16,13 @@
       <column name="MINQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="RATIO" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISTLISTLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_MDISTLISTLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOC_MDISTLISTLINE">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOC_MDISTLISTLINE" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_LINE">
+      <foreign-key foreignTable="M_DISTRIBUTIONLIST" name="MDISTRIBUTIONLIST_LINE" onDelete="cascade">
         <reference local="M_DISTRIBUTIONLIST_ID" foreign="M_DISTRIBUTIONLIST_ID"/>
       </foreign-key>
       <check>

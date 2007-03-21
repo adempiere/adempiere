@@ -15,13 +15,13 @@
       <column name="KEYWORD" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSORROUTE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSORROUTE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTPROCESSOR" name="RREQUESTPROCESSOR_ROUTE">
+      <foreign-key foreignTable="R_REQUESTPROCESSOR" name="RREQUESTPROCESSOR_ROUTE" onDelete="none">
         <reference local="R_REQUESTPROCESSOR_ID" foreign="R_REQUESTPROCESSOR_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RPROCESSORRULE">
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RPROCESSORRULE" onDelete="none">
         <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
       </foreign-key>
       <check>

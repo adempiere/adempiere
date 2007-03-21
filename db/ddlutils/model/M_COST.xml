@@ -21,25 +21,25 @@
       <column name="FUTURECOSTPRICE" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PERCENT" primaryKey="false" required="false" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOST">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_MCOST" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_M_COST">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_M_COST" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MCOST">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_MCOST" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MCOST">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MASI_MCOST" onDelete="cascade">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MCOST">
+      <foreign-key foreignTable="M_COSTELEMENT" name="MCOSTELEMENT_MCOST" onDelete="cascade">
         <reference local="M_COSTELEMENT_ID" foreign="M_COSTELEMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_COSTTYPE" name="MCOSTTYPE_MCOST">
+      <foreign-key foreignTable="M_COSTTYPE" name="MCOSTTYPE_MCOST" onDelete="cascade">
         <reference local="M_COSTTYPE_ID" foreign="M_COSTTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MCOST">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MCOST" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

@@ -27,7 +27,7 @@
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="REMOTE_HOST" primaryKey="false" required="false" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="REMOTE_ADDR" primaryKey="false" required="false" type="VARCHAR" size="60" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SYSTEM" name="ADSYSTEM_ADREGISTRATION">
+      <foreign-key foreignTable="AD_SYSTEM" name="ADSYSTEM_ADREGISTRATION" onDelete="none">
         <reference local="AD_SYSTEM_ID" foreign="AD_SYSTEM_ID"/>
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>

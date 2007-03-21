@@ -23,10 +23,10 @@
       <column name="PREFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="SUFFIX" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"/>
       <column name="STARTNEWYEAR" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="SEQUENCEORG">
+      <foreign-key foreignTable="AD_ORG" name="SEQUENCEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <unique name="AD_SEQUENCE_NAME">

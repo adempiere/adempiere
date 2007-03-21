@@ -14,10 +14,10 @@
       <column name="ISMANDATORYWITHHOLDING" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISTEMPORARYEXEMPT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="EXEMPTREASON" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPWITHHOLDING">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPWITHHOLDING" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_WITHHOLDING" name="CWITHHOLDING_CBPWITHHOLDING">
+      <foreign-key foreignTable="C_WITHHOLDING" name="CWITHHOLDING_CBPWITHHOLDING" onDelete="none">
         <reference local="C_WITHHOLDING_ID" foreign="C_WITHHOLDING_ID"/>
       </foreign-key>
       <check>

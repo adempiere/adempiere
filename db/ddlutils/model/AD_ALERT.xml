@@ -19,7 +19,7 @@
       <column name="ENFORCEROLESECURITY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_ALERTPROCESSOR_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ALERTPROCESSOR" name="CALERTPROCESSOR_ADALERT">
+      <foreign-key foreignTable="AD_ALERTPROCESSOR" name="CALERTPROCESSOR_ADALERT" onDelete="setnull">
         <reference local="AD_ALERTPROCESSOR_ID" foreign="AD_ALERTPROCESSOR_ID"/>
       </foreign-key>
       <check>

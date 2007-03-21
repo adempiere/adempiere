@@ -20,10 +20,10 @@
       <column name="OFFERAMT" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="BENCHMARKPRICE" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISRFQQTY" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQLINEQTY">
+      <foreign-key foreignTable="C_RFQLINE" name="CRFQLINE_CRFQLINEQTY" onDelete="cascade">
         <reference local="C_RFQLINE_ID" foreign="C_RFQLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_CRFQLINEQTY">
+      <foreign-key foreignTable="C_UOM" name="CUOM_CRFQLINEQTY" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
       <check>

@@ -23,7 +23,7 @@
       <column name="ISSUMMARY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMTEMPLATE">
+      <foreign-key foreignTable="CM_WEBPROJECT" name="CMWEBPROJECT_CMTEMPLATE" onDelete="cascade">
         <reference local="CM_WEBPROJECT_ID" foreign="CM_WEBPROJECT_ID"/>
       </foreign-key>
       <check>

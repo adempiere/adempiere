@@ -11,10 +11,10 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESSPROFILE_CMACCCONTAINER">
+      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESSPROFILE_CMACCCONTAINER" onDelete="cascade">
         <reference local="CM_ACCESSPROFILE_ID" foreign="CM_ACCESSPROFILE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMACCESSCONTAINER">
+      <foreign-key foreignTable="CM_CONTAINER" name="CMCONTAINER_CMACCESSCONTAINER" onDelete="cascade">
         <reference local="CM_CONTAINER_ID" foreign="CM_CONTAINER_ID"/>
       </foreign-key>
       <check>

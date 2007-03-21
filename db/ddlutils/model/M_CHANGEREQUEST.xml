@@ -20,10 +20,10 @@
       <column name="M_FIXCHANGENOTICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISAPPROVED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="M_BOM" name="MBOM_MCHANGEREQUEST">
+      <foreign-key foreignTable="M_BOM" name="MBOM_MCHANGEREQUEST" onDelete="none">
         <reference local="M_BOM_ID" foreign="M_BOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MCR">
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MCR" onDelete="none">
         <reference local="M_CHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
       </foreign-key>
       <check>

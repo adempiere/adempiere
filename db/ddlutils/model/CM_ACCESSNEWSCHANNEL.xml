@@ -11,10 +11,10 @@
       <column name="CREATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESPROFILE_CMANEWSCHANNEL">
+      <foreign-key foreignTable="CM_ACCESSPROFILE" name="CMACCESPROFILE_CMANEWSCHANNEL" onDelete="cascade">
         <reference local="CM_ACCESSPROFILE_ID" foreign="CM_ACCESSPROFILE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_NEWSCHANNEL" name="CNMEWSCHANNEL_CMACCESSNEWSC">
+      <foreign-key foreignTable="CM_NEWSCHANNEL" name="CNMEWSCHANNEL_CMACCESSNEWSC" onDelete="cascade">
         <reference local="CM_NEWSCHANNEL_ID" foreign="CM_NEWSCHANNEL_ID"/>
       </foreign-key>
       <check>

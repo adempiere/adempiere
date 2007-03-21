@@ -13,7 +13,7 @@
       <column name="USERNAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RISSUEUSER">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RISSUEUSER" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <unique name="R_ISSUEUSER_EMAIL">

@@ -19,16 +19,16 @@
       <column name="ACTUALAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="CONVERTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ACTUALQTY" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_COMMISSIONAMT" name="CCOMMISSIONAMT_CCOMDETAIL">
+      <foreign-key foreignTable="C_COMMISSIONAMT" name="CCOMMISSIONAMT_CCOMDETAIL" onDelete="cascade">
         <reference local="C_COMMISSIONAMT_ID" foreign="C_COMMISSIONAMT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOMMISSIONDETAIL">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCOMMISSIONDETAIL" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CCOMMISSIONDET">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CCOMMISSIONDET" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_CCOMMISSIONDETAIL">
+      <foreign-key foreignTable="C_ORDERLINE" name="CORDERLINE_CCOMMISSIONDETAIL" onDelete="none">
         <reference local="C_ORDERLINE_ID" foreign="C_ORDERLINE_ID"/>
       </foreign-key>
       <check>

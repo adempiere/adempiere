@@ -20,10 +20,10 @@
       <column name="C_ORDERLINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="C_CHARGE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MREQUISITIONLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MREQUISITIONLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_REQUISITION" name="MREQUISITION_MREQUISITIONLINE">
+      <foreign-key foreignTable="M_REQUISITION" name="MREQUISITION_MREQUISITIONLINE" onDelete="cascade">
         <reference local="M_REQUISITION_ID" foreign="M_REQUISITION_ID"/>
       </foreign-key>
       <check>

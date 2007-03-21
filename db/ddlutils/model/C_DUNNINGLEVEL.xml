@@ -27,13 +27,13 @@
       <column name="ISSETCREDITSTOP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISSETPAYMENTTERM" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_PAYMENTTERM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDUNNINGLEVEL">
+      <foreign-key foreignTable="AD_PRINTFORMAT" name="ADPRINTFORMAT_CDUNNINGLEVEL" onDelete="none">
         <reference local="DUNNING_PRINTFORMAT_ID" foreign="AD_PRINTFORMAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CDUNNINGLEVEL">
+      <foreign-key foreignTable="C_DUNNING" name="CDUNNING_CDUNNINGLEVEL" onDelete="none">
         <reference local="C_DUNNING_ID" foreign="C_DUNNING_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CDUNNINGLEVEL">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CDUNNINGLEVEL" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
       <check>

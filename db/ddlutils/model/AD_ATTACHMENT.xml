@@ -15,7 +15,7 @@
       <column name="TITLE" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="BINARYDATA" primaryKey="false" required="false" type="BLOB" size="4000" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADATTACHMENT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADATTACHMENT" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <unique name="AD_ATTACHMENT_RECORD">

@@ -14,10 +14,10 @@
       <column name="ASSETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ASSETMARKETVALUEAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETRETIREMENT">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_AASSETRETIREMENT" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_AASSETRETIREMENT">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_AASSETRETIREMENT" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
       <check>

@@ -28,19 +28,19 @@
       <column name="C_BANKACCOUNT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISFOREIGNCURRENCY" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="C_CURRENCY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CELEMENTVALUE">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_CELEMENTVALUE" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CELEMENTVALUE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CELEMENTVALUE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CELEMENTVALUE">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CELEMENTVALUE" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CELEMENTVALUE">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CELEMENTVALUE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENT" name="CELEMENT_CELEMENTVALUE">
+      <foreign-key foreignTable="C_ELEMENT" name="CELEMENT_CELEMENTVALUE" onDelete="cascade">
         <reference local="C_ELEMENT_ID" foreign="C_ELEMENT_ID"/>
       </foreign-key>
       <unique name="C_ELEMENTVALUE_VALUE">

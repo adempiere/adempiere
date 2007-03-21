@@ -21,10 +21,10 @@
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ERRORMSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="OTHERCLAUSE" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ALERT" name="ADALTERT_ARALERTRULE">
+      <foreign-key foreignTable="AD_ALERT" name="ADALTERT_ARALERTRULE" onDelete="none">
         <reference local="AD_ALERT_ID" foreign="AD_ALERT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADALTERTRULE">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADALTERTRULE" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

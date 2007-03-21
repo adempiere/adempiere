@@ -13,16 +13,16 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="RECORD_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCE_AUDITCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="SEQUENCE_AUDITCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="SEQUENCE_AUDITORG">
+      <foreign-key foreignTable="AD_ORG" name="SEQUENCE_AUDITORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_SEQUENCEAUDIT">
+      <foreign-key foreignTable="AD_SEQUENCE" name="AD_SEQUENCE_SEQUENCEAUDIT" onDelete="cascade">
         <reference local="AD_SEQUENCE_ID" foreign="AD_SEQUENCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADSEQUENCEAUDIT">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADSEQUENCEAUDIT" onDelete="cascade">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
       <check>

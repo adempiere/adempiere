@@ -27,10 +27,10 @@
       <column name="CONTENTHTML" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="ISADFLAG" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="ISLOGGED" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_AD_CAT" name="CMADCAT_CMAD">
+      <foreign-key foreignTable="CM_AD_CAT" name="CMADCAT_CMAD" onDelete="none">
         <reference local="CM_AD_CAT_ID" foreign="CM_AD_CAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_MEDIA" name="CMMEDIA_CMAD">
+      <foreign-key foreignTable="CM_MEDIA" name="CMMEDIA_CMAD" onDelete="none">
         <reference local="CM_MEDIA_ID" foreign="CM_MEDIA_ID"/>
       </foreign-key>
       <check>

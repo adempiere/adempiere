@@ -20,10 +20,10 @@
       <column name="ISDECIMALPOINT" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="DATEPATTERN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
       <column name="TIMEPATTERN" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="LANGUAGECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="LANGUAGECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="LANGUAGEORG">
+      <foreign-key foreignTable="AD_ORG" name="LANGUAGEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <check>

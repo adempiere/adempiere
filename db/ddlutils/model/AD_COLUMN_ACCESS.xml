@@ -14,13 +14,13 @@
       <column name="ISREADONLY" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="ISEXCLUDE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_TABLE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADCOLUMNACCESS">
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADCOLUMNACCESS" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADCOLUMNACCESS">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADCOLUMNACCESS" onDelete="none">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADCOLUMNACCESS">
+      <foreign-key foreignTable="AD_TABLE" name="ADTABLE_ADCOLUMNACCESS" onDelete="none">
         <reference local="AD_TABLE_ID" foreign="AD_TABLE_ID"/>
       </foreign-key>
     </table>

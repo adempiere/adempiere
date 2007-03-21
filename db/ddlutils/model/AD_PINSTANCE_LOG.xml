@@ -8,7 +8,7 @@
       <column name="P_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="P_NUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="P_MSG" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_PILOG">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_PILOG" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
     </table>

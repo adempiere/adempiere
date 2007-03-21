@@ -13,10 +13,10 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="CM_AD_CAT" name="CMADCAT_CMTEMPLATEADCAT">
+      <foreign-key foreignTable="CM_AD_CAT" name="CMADCAT_CMTEMPLATEADCAT" onDelete="cascade">
         <reference local="CM_AD_CAT_ID" foreign="CM_AD_CAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_TEMPLATE" name="CMTEMPLATE_CMTEMPLATEADCAT">
+      <foreign-key foreignTable="CM_TEMPLATE" name="CMTEMPLATE_CMTEMPLATEADCAT" onDelete="cascade">
         <reference local="CM_TEMPLATE_ID" foreign="CM_TEMPLATE_ID"/>
       </foreign-key>
       <check>

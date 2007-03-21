@@ -14,7 +14,7 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="PAGEURL" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_WCOUNTERCOUNT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_WCOUNTERCOUNT" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <unique name="W_COUNTERCOUNT_PAGEURL">

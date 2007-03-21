@@ -22,13 +22,13 @@
       <column name="DATEACCT" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="M_ATTRIBUTESETINSTANCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICELINE" name="CONVOICELINE_MMATCHINV">
+      <foreign-key foreignTable="C_INVOICELINE" name="CONVOICELINE_MMATCHINV" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MMATCHINV">
+      <foreign-key foreignTable="M_INOUTLINE" name="MINOUTLINE_MMATCHINV" onDelete="none">
         <reference local="M_INOUTLINE_ID" foreign="M_INOUTLINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMATCHINV">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MMATCHINV" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <index name="M_MATCHINV_SHIP">

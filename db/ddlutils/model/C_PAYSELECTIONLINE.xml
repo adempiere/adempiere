@@ -23,13 +23,13 @@
       <column name="DISCOUNTAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="OPENAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="ISSOTRX" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CPAYSELECTLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CPAYSELECTLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYSELECTION" name="CPAYSEL_CPAYSELLINE">
+      <foreign-key foreignTable="C_PAYSELECTION" name="CPAYSEL_CPAYSELLINE" onDelete="cascade">
         <reference local="C_PAYSELECTION_ID" foreign="C_PAYSELECTION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYSELECTIONCHECK" name="CPAYSELCHECK_CPAYSELLINE">
+      <foreign-key foreignTable="C_PAYSELECTIONCHECK" name="CPAYSELCHECK_CPAYSELLINE" onDelete="none">
         <reference local="C_PAYSELECTIONCHECK_ID" foreign="C_PAYSELECTIONCHECK_ID"/>
       </foreign-key>
       <index name="C_PAYSELLINE_PAYSEL">

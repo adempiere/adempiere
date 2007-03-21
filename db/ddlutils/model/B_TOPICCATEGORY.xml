@@ -13,7 +13,7 @@
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="B_TOPICTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="B_TOPICTYPE" name="BTOPICTYPE_BTOPICCATEGORY">
+      <foreign-key foreignTable="B_TOPICTYPE" name="BTOPICTYPE_BTOPICCATEGORY" onDelete="none">
         <reference local="B_TOPICTYPE_ID" foreign="B_TOPICTYPE_ID"/>
       </foreign-key>
       <check>

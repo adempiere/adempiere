@@ -14,13 +14,13 @@
       <column name="M_ATTRIBUTEVALUE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="VALUE" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
       <column name="VALUENUMBER" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
-      <foreign-key foreignTable="M_ATTRIBUTE" name="MATTRIBUTE_MATTRIBUTEINST">
+      <foreign-key foreignTable="M_ATTRIBUTE" name="MATTRIBUTE_MATTRIBUTEINST" onDelete="none">
         <reference local="M_ATTRIBUTE_ID" foreign="M_ATTRIBUTE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST__MATTRINST">
+      <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST__MATTRINST" onDelete="cascade">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_ATTRIBUTEVALUE" name="MATTRIBUTEVALUE_MATTRINST">
+      <foreign-key foreignTable="M_ATTRIBUTEVALUE" name="MATTRIBUTEVALUE_MATTRINST" onDelete="none">
         <reference local="M_ATTRIBUTEVALUE_ID" foreign="M_ATTRIBUTEVALUE_ID"/>
       </foreign-key>
       <check>

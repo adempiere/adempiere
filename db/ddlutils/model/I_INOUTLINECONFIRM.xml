@@ -20,7 +20,7 @@
       <column name="DIFFERENCEQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="M_INOUTLINECONFIRM" name="MINOUTLINECONFIRM_IMPORT">
+      <foreign-key foreignTable="M_INOUTLINECONFIRM" name="MINOUTLINECONFIRM_IMPORT" onDelete="cascade">
         <reference local="M_INOUTLINECONFIRM_ID" foreign="M_INOUTLINECONFIRM_ID"/>
       </foreign-key>
       <check>

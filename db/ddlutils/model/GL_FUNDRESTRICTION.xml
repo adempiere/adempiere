@@ -14,10 +14,10 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="GL_FUND_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ELEMENTVALUE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_GLFUNDRESTR">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUE_GLFUNDRESTR" onDelete="none">
         <reference local="C_ELEMENTVALUE_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="GL_FUND" name="GLFUND_GLFUNDRESTRICTION">
+      <foreign-key foreignTable="GL_FUND" name="GLFUND_GLFUNDRESTRICTION" onDelete="cascade">
         <reference local="GL_FUND_ID" foreign="GL_FUND_ID"/>
       </foreign-key>
       <check>

@@ -14,10 +14,10 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="STARTDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="ENDDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_STRAININGCLASS">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_STRAININGCLASS" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_TRAINING" name="STRAINING_STRAININGCLASS">
+      <foreign-key foreignTable="S_TRAINING" name="STRAINING_STRAININGCLASS" onDelete="none">
         <reference local="S_TRAINING_ID" foreign="S_TRAINING_ID"/>
       </foreign-key>
       <check>

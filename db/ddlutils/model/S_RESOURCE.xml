@@ -18,13 +18,13 @@
       <column name="ISAVAILABLE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="CHARGEABLEQTY" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SRESOURCE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SRESOURCE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_SRESOURCE">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_SRESOURCE" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="S_RESOURCETYPE" name="SRESOURCETYPE_SRESOURCE">
+      <foreign-key foreignTable="S_RESOURCETYPE" name="SRESOURCETYPE_SRESOURCE" onDelete="cascade">
         <reference local="S_RESOURCETYPE_ID" foreign="S_RESOURCETYPE_ID"/>
       </foreign-key>
       <check>

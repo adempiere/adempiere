@@ -22,19 +22,19 @@
       <column name="C_SALESREGION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_BPARTNER_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_LOCATION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="C_BUSPARTNER_LOCATIONCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="C_BUSPARTNER_LOCATIONCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="C_BUSPARTNER_LOCATIONORG">
+      <foreign-key foreignTable="AD_ORG" name="C_BUSPARTNER_LOCATIONORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPLOCATION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CBPLOCATION" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CBPLOCATION">
+      <foreign-key foreignTable="C_LOCATION" name="CLOCATION_CBPLOCATION" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_BPARTNERLOCATION">
+      <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_BPARTNERLOCATION" onDelete="setnull">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
       <index name="C_BPLOCATION_BPARTNER">

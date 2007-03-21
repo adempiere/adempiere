@@ -21,10 +21,10 @@
       <column name="WEBPARAM6" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="EMAILHEADER" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="EMAILFOOTER" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_LANGUAGE" name="WSTORETRL_ADLANGAUGE">
+      <foreign-key foreignTable="AD_LANGUAGE" name="WSTORETRL_ADLANGAUGE" onDelete="cascade">
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
-      <foreign-key foreignTable="W_STORE" name="WSTORE_WSTORETRL">
+      <foreign-key foreignTable="W_STORE" name="WSTORE_WSTORETRL" onDelete="cascade">
         <reference local="W_STORE_ID" foreign="W_STORE_ID"/>
       </foreign-key>
       <check>

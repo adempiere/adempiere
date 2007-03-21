@@ -15,10 +15,10 @@
       <column name="ISPUBLIC" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="AD_SESSION_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="TEXTMSG" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_KCOMMENT">
+      <foreign-key foreignTable="AD_SESSION" name="ADSESSION_KCOMMENT" onDelete="none">
         <reference local="AD_SESSION_ID" foreign="AD_SESSION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KCOMMENT">
+      <foreign-key foreignTable="K_ENTRY" name="KENTRY_KCOMMENT" onDelete="none">
         <reference local="K_ENTRY_ID" foreign="K_ENTRY_ID"/>
       </foreign-key>
       <check>

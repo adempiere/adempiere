@@ -5,7 +5,7 @@
       <column name="AD_PINSTANCE_ID" primaryKey="true" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="true" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
       <column name="MSGTEXT" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TSPOOL">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TSPOOL" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
     </table>

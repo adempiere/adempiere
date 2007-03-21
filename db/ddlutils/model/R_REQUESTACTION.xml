@@ -47,61 +47,61 @@
       <column name="DATESTARTPLAN" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="QTYINVOICED" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="M_PRODUCTSPENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUESTACTION">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_RREQUESTACTION" onDelete="none">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUESTACTION">
+      <foreign-key foreignTable="AD_USER" name="ADUSERSR_RREQUESTACTION" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTACTION">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTACTION" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUESTACTION">
+      <foreign-key foreignTable="A_ASSET" name="AASSET_RREQUESTACTION" onDelete="none">
         <reference local="A_ASSET_ID" foreign="A_ASSET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_RREQUESTACTION">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_RREQUESTACTION" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_RREQUESTACTION">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_RREQUESTACTION" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_RREQUESTACTION">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_RREQUESTACTION" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_RREQUESTACTION">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_RREQUESTACTION" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_RREQUESTACTION">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_RREQUESTACTION" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_RREQUESTACTION">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_RREQUESTACTION" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_INOUT" name="MINOUT_MREQUESTACTION">
+      <foreign-key foreignTable="M_INOUT" name="MINOUT_MREQUESTACTION" onDelete="none">
         <reference local="M_INOUT_ID" foreign="M_INOUT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_RREQUESTACTION">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_RREQUESTACTION" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_RMA" name="MRMA_RREQUESTACTION">
+      <foreign-key foreignTable="M_RMA" name="MRMA_RREQUESTACTION" onDelete="none">
         <reference local="M_RMA_ID" foreign="M_RMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_CATEGORY" name="RCATEGORY_RREQUESTACTION">
+      <foreign-key foreignTable="R_CATEGORY" name="RCATEGORY_RREQUESTACTION" onDelete="none">
         <reference local="R_CATEGORY_ID" foreign="R_CATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_GROUP" name="RGROUP_RREQUESTACTION">
+      <foreign-key foreignTable="R_GROUP" name="RGROUP_RREQUESTACTION" onDelete="none">
         <reference local="R_GROUP_ID" foreign="R_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RREQUESTACTION">
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RREQUESTACTION" onDelete="none">
         <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RREQUESTACTION">
+      <foreign-key foreignTable="R_REQUESTTYPE" name="RREQUESTTYPE_RREQUESTACTION" onDelete="none">
         <reference local="R_REQUESTTYPE_ID" foreign="R_REQUESTTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_RESOLUTION" name="RRESOLUTION_RREQUESTACTION">
+      <foreign-key foreignTable="R_RESOLUTION" name="RRESOLUTION_RREQUESTACTION" onDelete="none">
         <reference local="R_RESOLUTION_ID" foreign="R_RESOLUTION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_STATUS" name="RSTATUS_RREQUESTACTION">
+      <foreign-key foreignTable="R_STATUS" name="RSTATUS_RREQUESTACTION" onDelete="none">
         <reference local="R_STATUS_ID" foreign="R_STATUS_ID"/>
       </foreign-key>
       <check>

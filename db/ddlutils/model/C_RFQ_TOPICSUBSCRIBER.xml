@@ -16,16 +16,16 @@
       <column name="AD_USER_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="SUBSCRIBEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="OPTOUTDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ARFQTOPICSUBCR">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ARFQTOPICSUBCR" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CRFQTOPICSUBR">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CRFQTOPICSUBR" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOC_CRFQTOPICSUBR">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPARTNERLOC_CRFQTOPICSUBR" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_RFQ_TOPIC" name="C_RFQTOPIC_SUBSCRIBER">
+      <foreign-key foreignTable="C_RFQ_TOPIC" name="C_RFQTOPIC_SUBSCRIBER" onDelete="cascade">
         <reference local="C_RFQ_TOPIC_ID" foreign="C_RFQ_TOPIC_ID"/>
       </foreign-key>
       <check>

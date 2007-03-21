@@ -13,7 +13,7 @@
       <column name="M_PRODUCT_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="NAME" primaryKey="false" required="true" type="VARCHAR" size="60" autoIncrement="false"/>
       <column name="DOWNLOADURL" primaryKey="false" required="true" type="VARCHAR" size="120" autoIncrement="false"/>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTDOWNLOAD">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MPRODUCTDOWNLOAD" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>

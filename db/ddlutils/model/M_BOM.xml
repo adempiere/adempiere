@@ -18,10 +18,10 @@
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="HELP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MBOM">
+      <foreign-key foreignTable="M_CHANGENOTICE" name="MCN_MBOM" onDelete="none">
         <reference local="M_CHANGENOTICE_ID" foreign="M_CHANGENOTICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MBOM">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_MBOM" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <unique name="M_BOM_PRODUCTVERSIONTYPE">

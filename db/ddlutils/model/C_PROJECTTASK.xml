@@ -21,13 +21,13 @@
       <column name="PROJINVOICERULE" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PLANNEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CPROJECTTASK">
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CPROJECTTASK" onDelete="cascade">
         <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TASK" name="CTASK_CPROJECTTASK">
+      <foreign-key foreignTable="C_TASK" name="CTASK_CPROJECTTASK" onDelete="none">
         <reference local="C_TASK_ID" foreign="C_TASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTTASK">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTTASK" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
     </table>

@@ -16,10 +16,10 @@
       <column name="GUARANTEEDATE" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="M_LOT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MATTRIBSETINST">
+      <foreign-key foreignTable="M_ATTRIBUTESET" name="MATTRIBUTESET_MATTRIBSETINST" onDelete="none">
         <reference local="M_ATTRIBUTESET_ID" foreign="M_ATTRIBUTESET_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOT" name="MLOT_MATTRIBUTESETINSTANCE">
+      <foreign-key foreignTable="M_LOT" name="MLOT_MATTRIBUTESETINSTANCE" onDelete="none">
         <reference local="M_LOT_ID" foreign="M_LOT_ID"/>
       </foreign-key>
       <check>

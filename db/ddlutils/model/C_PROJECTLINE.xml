@@ -31,28 +31,28 @@
       <column name="DOPRICING" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTLINE">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTLINE" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDERPO_CPROJECTLINE">
+      <foreign-key foreignTable="C_ORDER" name="CORDERPO_CPROJECTLINE" onDelete="none">
         <reference local="C_ORDERPO_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTLINE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTLINE" onDelete="cascade">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_CPROJECTLINE">
+      <foreign-key foreignTable="C_PROJECTISSUE" name="CPROJECTISSUE_CPROJECTLINE" onDelete="none">
         <reference local="C_PROJECTISSUE_ID" foreign="C_PROJECTISSUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CPROJECTLINE">
+      <foreign-key foreignTable="C_PROJECTPHASE" name="CPROJECTPHASE_CPROJECTLINE" onDelete="setnull">
         <reference local="C_PROJECTPHASE_ID" foreign="C_PROJECTPHASE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_CPROJECTLINE">
+      <foreign-key foreignTable="C_PROJECTTASK" name="CPROJECTTASK_CPROJECTLINE" onDelete="setnull">
         <reference local="C_PROJECTTASK_ID" foreign="C_PROJECTTASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTLINE">
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_CPROJECTLINE" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_CPROJECTLINE">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCAT_CPROJECTLINE" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>

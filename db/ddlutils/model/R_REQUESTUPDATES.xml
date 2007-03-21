@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISSELFSERVICE" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTUPDATES">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTUPDATES" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RRUPDATES">
+      <foreign-key foreignTable="R_REQUEST" name="RREQUEST_RRUPDATES" onDelete="none">
         <reference local="R_REQUEST_ID" foreign="R_REQUEST_ID"/>
       </foreign-key>
       <check>

@@ -15,10 +15,10 @@
       <column name="MSGTIP" primaryKey="false" required="false" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="MSGTYPE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="MESSAGECLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="MESSAGECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="MESSAGEORG">
+      <foreign-key foreignTable="AD_ORG" name="MESSAGEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <unique name="AD_MESSAGE_VALUE">

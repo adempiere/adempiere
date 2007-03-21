@@ -12,10 +12,10 @@
       <column name="UPDATED" primaryKey="false" required="true" type="TIMESTAMP" size="7" default="CURRENT_TIMESTAMP" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISREADWRITE" primaryKey="false" required="true" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADFORMACCESS">
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADFORMACCESS" onDelete="cascade">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADFORMACCESS">
+      <foreign-key foreignTable="AD_ROLE" name="ADROLE_ADFORMACCESS" onDelete="cascade">
         <reference local="AD_ROLE_ID" foreign="AD_ROLE_ID"/>
       </foreign-key>
       <check>

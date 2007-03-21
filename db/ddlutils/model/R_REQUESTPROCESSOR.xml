@@ -24,7 +24,7 @@
       <column name="REMINDDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" default="7" autoIncrement="false"/>
       <column name="INACTIVITYALERTDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="R_REQUESTTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSOR">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_RREQUESTPROCESSOR" onDelete="none">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <check>

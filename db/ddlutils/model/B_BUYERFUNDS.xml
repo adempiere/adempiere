@@ -15,13 +15,13 @@
       <column name="C_PAYMENT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="COMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="NONCOMMITTEDAMT" primaryKey="false" required="true" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="B_BUYER" name="BBUYER_BBUYERFUNDS">
+      <foreign-key foreignTable="B_BUYER" name="BBUYER_BBUYERFUNDS" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_BBUYERSFUNDS">
+      <foreign-key foreignTable="C_ORDER" name="CORDER_BBUYERSFUNDS" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_BBUYERFUNDS">
+      <foreign-key foreignTable="C_PAYMENT" name="CPAYMENT_BBUYERFUNDS" onDelete="none">
         <reference local="C_PAYMENT_ID" foreign="C_PAYMENT_ID"/>
       </foreign-key>
       <check>

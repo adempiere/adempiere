@@ -24,10 +24,10 @@
       <column name="DEFAULTVALUE" primaryKey="false" required="true" type="VARCHAR" size="2000" autoIncrement="false"/>
       <column name="SORTNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
       <column name="SEQNO" primaryKey="false" required="true" type="DECIMAL" size="10" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_FIELD" name="ADFIELD_ADUSERDEFFIELD">
+      <foreign-key foreignTable="AD_FIELD" name="ADFIELD_ADUSERDEFFIELD" onDelete="none">
         <reference local="AD_FIELD_ID" foreign="AD_FIELD_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USERDEF_TAB" name="ADUSERDEFTAB_ADUSERDEFFIELD">
+      <foreign-key foreignTable="AD_USERDEF_TAB" name="ADUSERDEFTAB_ADUSERDEFFIELD" onDelete="none">
         <reference local="AD_USERDEF_TAB_ID" foreign="AD_USERDEF_TAB_ID"/>
       </foreign-key>
       <check>

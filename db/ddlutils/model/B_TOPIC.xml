@@ -23,10 +23,10 @@
       <column name="B_TOPICTYPE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="B_TOPICCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="DECISIONDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="B_TOPICCATEGORY" name="BTOPICCATEGORY_BTOPIC">
+      <foreign-key foreignTable="B_TOPICCATEGORY" name="BTOPICCATEGORY_BTOPIC" onDelete="none">
         <reference local="B_TOPICCATEGORY_ID" foreign="B_TOPICCATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="B_TOPICTYPE" name="BTOPICTYPE_BTOPIC">
+      <foreign-key foreignTable="B_TOPICTYPE" name="BTOPICTYPE_BTOPIC" onDelete="none">
         <reference local="B_TOPICTYPE_ID" foreign="B_TOPICTYPE_ID"/>
       </foreign-key>
       <check>

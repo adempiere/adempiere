@@ -36,49 +36,49 @@
       <column name="C_INVOICE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_INVOICELINE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CINVOICEBATCHLINE" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CINVOICEBATCHLINE" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CINVOICEBATCHLINE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CINVOICEBLINE">
+      <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATION_CINVOICEBLINE" onDelete="none">
         <reference local="C_BPARTNER_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_CHARGE" name="CCHARGE_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_CINVOICEBLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU2_CINVOICEBLINE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_CINVOICEBLINE">
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEU1_CINVOICEBLINE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_INVOICE" name="CINVOICE_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_INVOICE_ID" foreign="C_INVOICE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICEBATCH" name="CINVOICEBATCH_CINVOICEBLINE">
+      <foreign-key foreignTable="C_INVOICEBATCH" name="CINVOICEBATCH_CINVOICEBLINE" onDelete="cascade">
         <reference local="C_INVOICEBATCH_ID" foreign="C_INVOICEBATCH_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CINVOICEBLINE">
+      <foreign-key foreignTable="C_INVOICELINE" name="CINVOICELINE_CINVOICEBLINE" onDelete="none">
         <reference local="C_INVOICELINE_ID" foreign="C_INVOICELINE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICEBATCHLINE">
+      <foreign-key foreignTable="C_TAX" name="CTAX_CINVOICEBATCHLINE" onDelete="none">
         <reference local="C_TAX_ID" foreign="C_TAX_ID"/>
       </foreign-key>
       <check>

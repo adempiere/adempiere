@@ -20,13 +20,13 @@
       <column name="C_TAXCATEGORY_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="C_UOM_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_STRAINING">
+      <foreign-key foreignTable="C_TAXCATEGORY" name="CTAXCATEGORY_STRAINING" onDelete="none">
         <reference local="C_TAXCATEGORY_ID" foreign="C_TAXCATEGORY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_UOM" name="CUOM_STRAINING">
+      <foreign-key foreignTable="C_UOM" name="CUOM_STRAINING" onDelete="none">
         <reference local="C_UOM_ID" foreign="C_UOM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCATEGORY_STRAINING">
+      <foreign-key foreignTable="M_PRODUCT_CATEGORY" name="MPRODUCTCATEGORY_STRAINING" onDelete="none">
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>

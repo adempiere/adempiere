@@ -31,19 +31,19 @@
       <column name="OBSCURETYPE" primaryKey="false" required="false" type="CHAR" size="3" autoIncrement="false"/>
       <column name="AD_REFERENCE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISMANDATORY" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="FIELDCLIENT">
+      <foreign-key foreignTable="AD_CLIENT" name="FIELDCLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_FIELD">
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_FIELD" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_FIELDGROUP" name="ADFIELDGROUP_ADFIELD">
+      <foreign-key foreignTable="AD_FIELDGROUP" name="ADFIELDGROUP_ADFIELD" onDelete="none">
         <reference local="AD_FIELDGROUP_ID" foreign="AD_FIELDGROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="FIELDORG">
+      <foreign-key foreignTable="AD_ORG" name="FIELDORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TAB" name="AD_TAB_FIELD">
+      <foreign-key foreignTable="AD_TAB" name="AD_TAB_FIELD" onDelete="cascade">
         <reference local="AD_TAB_ID" foreign="AD_TAB_ID"/>
       </foreign-key>
       <unique name="AD_FIELD_COLUMN">

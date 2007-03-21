@@ -14,10 +14,10 @@
       <column name="VALIDFROM" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_CORGASSIGNMENT">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_CORGASSIGNMENT" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_CORGASSIGNMENT">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_CORGASSIGNMENT" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
     </table>

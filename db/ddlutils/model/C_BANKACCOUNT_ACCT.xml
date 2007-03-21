@@ -23,46 +23,46 @@
       <column name="B_SETTLEMENTLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="B_REVALUATIONGAIN_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="B_REVALUATIONLOSS_ACCT" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBANKACCOUNTACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBANKACCOUNTACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBANKACCTACCT">
+      <foreign-key foreignTable="C_BANKACCOUNT" name="CBANKACCOUNT_CBANKACCTACCT" onDelete="none">
         <reference local="C_BANKACCOUNT_ID" foreign="C_BANKACCOUNT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTREV_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTREV_CBANKACCOUNT" onDelete="none">
         <reference local="B_INTERESTREV_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTRANSIT_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTRANSIT_CBANKACCOUNT" onDelete="none">
         <reference local="B_INTRANSIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BPAYMENTSELECT_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BPAYMENTSELECT_CBANKACCOUNT" onDelete="none">
         <reference local="B_PAYMENTSELECT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONLOSS_CBANKACCOU">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONLOSS_CBANKACCOU" onDelete="none">
         <reference local="B_REVALUATIONLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTGAIN_CBANKACCOUN">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTGAIN_CBANKACCOUN" onDelete="none">
         <reference local="B_SETTLEMENTGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTLOSS_CBANKACCOUN">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BSETTLEMENTLOSS_CBANKACCOUN" onDelete="none">
         <reference local="B_SETTLEMENTLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNALLOCATEDCASH_CBANKACCOU">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNALLOCATEDCASH_CBANKACCOU" onDelete="none">
         <reference local="B_UNALLOCATEDCASH_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNIDENTIFIED_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BUNIDENTIFIED_CBANKACCOUNT" onDelete="none">
         <reference local="B_UNIDENTIFIED_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BASSET_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BASSET_CBANKACCOUNT" onDelete="none">
         <reference local="B_ASSET_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTEXP_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BINTERESTEXP_CBANKACCOUNT" onDelete="none">
         <reference local="B_INTERESTEXP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BEXPENSE_CBANKACCOUNT">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BEXPENSE_CBANKACCOUNT" onDelete="none">
         <reference local="B_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONGAIN_CBANKACCOU">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_BREVALUATIONGAIN_CBANKACCOU" onDelete="none">
         <reference local="B_REVALUATIONGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

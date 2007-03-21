@@ -13,16 +13,16 @@
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="E_EXPENSE_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="E_PREPAYMENT_ACCT" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBPEMPLOYEEACCT">
+      <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_CBPEMPLOYEEACCT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_C_BPEMPLOYEEACCT">
+      <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_C_BPEMPLOYEEACCT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EEXPENSE_CBPEMPLOYEE">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EEXPENSE_CBPEMPLOYEE" onDelete="none">
         <reference local="E_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EPREPAYMENT_CBPEMPLOYEE">
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_EPREPAYMENT_CBPEMPLOYEE" onDelete="none">
         <reference local="E_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>

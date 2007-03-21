@@ -16,10 +16,10 @@
       <column name="SUBSTITUTE_ID" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="VALIDFROM" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="VALIDTO" primaryKey="false" required="false" type="TIMESTAMP" size="7" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERSUB">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADUSERSUB" onDelete="cascade">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSUB_AD_USERSUB">
+      <foreign-key foreignTable="AD_USER" name="ADUSERSUB_AD_USERSUB" onDelete="cascade">
         <reference local="SUBSTITUTE_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <check>

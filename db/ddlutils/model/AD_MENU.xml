@@ -23,28 +23,28 @@
       <column name="AD_FORM_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_WORKBENCH_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ENTITYTYPE" primaryKey="false" required="true" type="VARCHAR" size="4" default="D" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADMENU">
+      <foreign-key foreignTable="AD_CLIENT" name="ADCLIENT_ADMENU" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADMENU">
+      <foreign-key foreignTable="AD_FORM" name="ADFORM_ADMENU" onDelete="none">
         <reference local="AD_FORM_ID" foreign="AD_FORM_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="AD_MENU_ORG">
+      <foreign-key foreignTable="AD_ORG" name="AD_MENU_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADMENU">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADMENU" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADMENU">
+      <foreign-key foreignTable="AD_TASK" name="ADTASK_ADMENU" onDelete="none">
         <reference local="AD_TASK_ID" foreign="AD_TASK_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADMENU">
+      <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADMENU" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKBENCH" name="ADMENU_ADWORKBENCH">
+      <foreign-key foreignTable="AD_WORKBENCH" name="ADMENU_ADWORKBENCH" onDelete="none">
         <reference local="AD_WORKBENCH_ID" foreign="AD_WORKBENCH_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADMENU">
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADMENU" onDelete="none">
         <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <check>

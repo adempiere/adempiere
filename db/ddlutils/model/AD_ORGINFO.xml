@@ -17,22 +17,22 @@
       <column name="PARENT_ORG_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="AD_ORGTYPE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="M_WAREHOUSE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGPARENT_ADORGINFO">
+      <foreign-key foreignTable="AD_ORG" name="ADORGPARENT_ADORGINFO" onDelete="setnull">
         <reference local="PARENT_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_ADORGINFO">
+      <foreign-key foreignTable="AD_ORG" name="ADORG_ADORGINFO" onDelete="cascade">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORGTYPE" name="ADORGTYPE_ADORGINFO">
+      <foreign-key foreignTable="AD_ORGTYPE" name="ADORGTYPE_ADORGINFO" onDelete="none">
         <reference local="AD_ORGTYPE_ID" foreign="AD_ORGTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_ADORGINFO">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_ADORGINFO" onDelete="setnull">
         <reference local="SUPERVISOR_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_AD_ORGINFO">
+      <foreign-key foreignTable="C_LOCATION" name="C_LOCATION_AD_ORGINFO" onDelete="none">
         <reference local="C_LOCATION_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_ADORGINFO">
+      <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_ADORGINFO" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
       <check>

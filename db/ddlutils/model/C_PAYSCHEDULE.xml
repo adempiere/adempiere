@@ -18,7 +18,7 @@
       <column name="DISCOUNT" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="ISVALID" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="GRACEDAYS" primaryKey="false" required="true" type="DECIMAL" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CPAYSCHEDULE">
+      <foreign-key foreignTable="C_PAYMENTTERM" name="CPAYMENTTERM_CPAYSCHEDULE" onDelete="none">
         <reference local="C_PAYMENTTERM_ID" foreign="C_PAYMENTTERM_ID"/>
       </foreign-key>
       <check>

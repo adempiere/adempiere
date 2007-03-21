@@ -15,7 +15,7 @@
       <column name="SERVICELEVELPROVIDED" primaryKey="false" required="true" type="DECIMAL" autoIncrement="false"/>
       <column name="SERVICEDATE" primaryKey="false" required="true" type="TIMESTAMP" size="7" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="false" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_SERVICELEVEL" name="CSERVICELEVEL_LINE">
+      <foreign-key foreignTable="C_SERVICELEVEL" name="CSERVICELEVEL_LINE" onDelete="cascade">
         <reference local="C_SERVICELEVEL_ID" foreign="C_SERVICELEVEL_ID"/>
       </foreign-key>
       <check>

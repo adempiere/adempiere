@@ -45,25 +45,25 @@
       <column name="C_PROJECT_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_CAMPAIGN_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_ACTIVITY_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TAGING">
+      <foreign-key foreignTable="AD_PINSTANCE" name="ADPINSTANCE_TAGING" onDelete="cascade">
         <reference local="AD_PINSTANCE_ID" foreign="AD_PINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_TAGING">
+      <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_TAGING" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_TAGING">
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_TAGING" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_TAGING">
+      <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_TAGING" onDelete="none">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_TAGING">
+      <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_TAGING" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_TAGING">
+      <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_TAGING" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_TAGING">
+      <foreign-key foreignTable="C_PROJECT" name="CPROJECT_TAGING" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
       </foreign-key>
       <check>

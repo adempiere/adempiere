@@ -16,10 +16,10 @@
       <column name="CREATEDBY" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="UPDATEDBY" primaryKey="false" required="true" type="ID" size="10" autoIncrement="false"/>
       <column name="ISACTIVE" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPINSTANCE">
+      <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPINSTANCE" onDelete="none">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_PINSTANCE">
+      <foreign-key foreignTable="AD_USER" name="ADUSER_PINSTANCE" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <index name="AD_PINSTANCE_RECORD">
