@@ -211,7 +211,8 @@ public class AReport implements ActionListener
 		{
 			// It's a default report using the standard printing engine
 			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
-			new Viewer(re);
+			Viewer viewer = new Viewer(re);
+			AEnv.addToWindowManager(viewer);
 		}
 	//	if (m_popup.isVisible())
 	//		m_popup.setVisible(false);

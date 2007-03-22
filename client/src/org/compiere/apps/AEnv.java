@@ -315,7 +315,7 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Logout"))
 		{
-			AMenu aMenu = (AMenu)Env.getWindow(WindowNo);
+			AMenu aMenu = (AMenu)Env.getWindow(0);
 			aMenu.logout();
 		}
 
