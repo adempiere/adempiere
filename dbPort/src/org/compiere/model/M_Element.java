@@ -217,6 +217,30 @@ public class M_Element extends X_AD_Element
 	}	//	M_Element
 
 	
+	/* (non-Javadoc)
+	 * @see org.compiere.model.PO#beforeSave(boolean)
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		// Column AD_Element.ColumnName should be unique - teo_sarca [ 1613107 ]
+		if (newRecord || is_ValueChanged(COLUMNNAME_ColumnName)) {
+			String columnName = getColumnName().trim();
+			if (getColumnName().length() != columnName.length())
+				setColumnName(columnName);
+			
+			String sql = "select count(*) from AD_Element where UPPER(ColumnName)=?";
+			if (!newRecord)
+				sql += " AND AD_Element_ID<>" + get_ID(); 
+			int no = DB.getSQLValue(null, sql, columnName.toUpperCase());
+			if (no > 0) {
+				log.saveError("SaveErrorNotUnique", Msg.getElement(getCtx(), COLUMNNAME_ColumnName));
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
 	/**
 	 * 	After Save
 	 *	@param newRecord new
