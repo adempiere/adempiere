@@ -560,6 +560,9 @@ public class ImportGLJournal extends SvrProcess
 		}
 		pstmt = null;
 
+		// globalqss (moved the commit here to save the error messages)
+		commit();
+		
 		//	Count Errors
 		int errors = DB.getSQLValue(get_TrxName(), 
 			"SELECT COUNT(*) FROM I_GLJournal WHERE I_IsImported NOT IN ('Y','N')" + clientCheck);
@@ -573,7 +576,8 @@ public class ImportGLJournal extends SvrProcess
 			return "@Errors@=" + errors;
 
 		log.info("Validation Errors=" + errors);
-		commit();
+		// moved commit above to save error messages
+		// commit();
 		
 		/*********************************************************************/
 
@@ -590,7 +594,9 @@ public class ImportGLJournal extends SvrProcess
 		//	Go through Journal Records
 		sql = new StringBuffer ("SELECT * FROM I_GLJournal "
 			+ "WHERE I_IsImported='N'").append (clientCheck)
-			.append(" ORDER BY COALESCE(BatchDocumentNo, TO_NCHAR(I_GLJournal_ID)),	COALESCE(JournalDocumentNo, TO_NCHAR(I_GLJournal_ID)), C_AcctSchema_ID, PostingType, C_DocType_ID, GL_Category_ID, C_Currency_ID, TRUNC(DateAcct), Line, I_GLJournal_ID");
+			.append(" ORDER BY COALESCE(BatchDocumentNo, TO_NCHAR(I_GLJournal_ID)||' '), COALESCE(JournalDocumentNo, " +
+					"TO_NCHAR(I_GLJournal_ID)||' '), C_AcctSchema_ID, PostingType, C_DocType_ID, GL_Category_ID, " +
+					"C_Currency_ID, TRUNC(DateAcct), Line, I_GLJournal_ID");
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString (), get_TrxName());
