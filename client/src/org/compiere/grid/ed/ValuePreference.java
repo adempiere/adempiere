@@ -475,7 +475,7 @@ public class ValuePreference extends CDialog
 		else
 			sql.append("NULL,");
 		//
-		sql.append("'").append(m_Attribute).append("','").append(m_Value).append("')");
+		sql.append(DB.TO_STRING(m_Attribute)).append(",").append(DB.TO_STRING(m_Value)).append(")");
 		//
 		log.fine( sql.toString());
 		no = DB.executeUpdate(sql.toString(), null);
