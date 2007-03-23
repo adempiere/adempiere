@@ -58,8 +58,8 @@ public class RequestProcessor extends AdempiereServer
 		//
 		processEMail();
 		findSalesRep ();
-		processRequests ();
 		processStatus();
+		processRequests ();
 		processECR();
 		//
 		int no = m_model.deleteLog();
