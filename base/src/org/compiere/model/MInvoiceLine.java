@@ -773,7 +773,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 
 		//	Calculations & Rounding
 		setLineNetAmt();
-		if (getTaxAmt().compareTo(Env.ZERO) == 0)
+		// TaxAmt recalculations should be done if the TaxAmt is zero
+		// or this is an Invoice(Customer) - teo_sarca, globalqss [ 1686773 ]
+		if (m_IsSOTrx || getTaxAmt().compareTo(Env.ZERO) == 0)
 			setTaxAmt();
 		//
 		return true;
