@@ -411,7 +411,7 @@ public class MColumn extends X_AD_Column
 		if (dt == DisplayType.YesNo)
 			return "CHAR(1)";
 		if (dt == DisplayType.List)
-			return "CHAR(" + getFieldLength() + ")";
+			return "NVARCHAR2(" + getFieldLength() + ")";
 		else if (!DisplayType.isText(dt))
 			log.severe("Unhandled Data Type = " + dt);
 			
