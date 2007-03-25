@@ -123,6 +123,8 @@ public class MTable extends X_AD_Table
 	
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
+	private static CCache<String,Class> s_classCache = new CCache<String,Class>("PO_Class", 20);
+	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MTable.class);
 	
@@ -169,6 +171,16 @@ public class MTable extends X_AD_Table
 			return null;
 		}
 			
+		//check cache
+		Class cache = s_classCache.get(tableName);
+		if (cache != null) 
+		{
+			//Object.class indicate no PO class for tableName
+			if (cache.equals(Object.class))
+				return null;
+			else
+				return cache;
+		}
 
 		//	Special Naming
 		for (int i = 0; i < s_special.length; i++)
@@ -177,7 +189,10 @@ public class MTable extends X_AD_Table
 			{
 				Class clazz = getPOclass(s_special[i]);
 				if (clazz != null)
+				{
+					s_classCache.put(tableName, clazz);
 					return clazz;
+				}
 				break;
 			}
 		}
@@ -207,25 +222,39 @@ public class MTable extends X_AD_Table
 			StringBuffer name = new StringBuffer(s_packages[i]).append(".M").append(className);
 			Class clazz = getPOclass(name.toString());
 			if (clazz != null)
+			{
+				s_classCache.put(tableName, clazz);
 				return clazz;
+			}
 		}
 
 		//	Adempiere Extension
 		Class clazz = getPOclass("adempiere.model.X_" + tableName);
 		if (clazz != null)
+		{
+			s_classCache.put(tableName, clazz);
 			return clazz;
+		}
 		
 		//hengsin - allow compatibility with compiere plugins
 		//Compiere Extension
 		clazz = getPOclass("compiere.model.X_" + tableName);
 		if (clazz != null)
+		{
+			s_classCache.put(tableName, clazz);
 			return clazz;
+		}
 
 		//	Default
 		clazz = getPOclass("org.compiere.model.X_" + tableName);
 		if (clazz != null)
+		{
+			s_classCache.put(tableName, clazz);
 			return clazz;
+		}
 
+		//Object.class to indicate no PO class for tableName
+		s_classCache.put(tableName, Object.class);
 		return null;
 	}	//	getClass
 	
