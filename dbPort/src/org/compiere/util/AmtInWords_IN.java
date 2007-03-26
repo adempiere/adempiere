@@ -20,6 +20,9 @@ package org.compiere.util;
 /**
  *	Amount in Words for Bahasa Indonesia
  *	
+ *  Bugs item #1569711: remove hard-coded "Rupiah" to support all currency
+ *  Contributor: Armen Rizal (www.goodwill.co.id)
+ *  
  *  @author Halim Englen
  *  @version $Id: AmtInWords_IN.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
  */
@@ -68,7 +71,7 @@ public class AmtInWords_IN implements AmtInWords
   public static String sayNumber(double number) {
         StringBuffer result = new StringBuffer();
         sayNumber(result, number);
-        result.append(" Rupiah");
+        //result.append(" Rupiah");
         return result.toString();
   }
 
@@ -212,7 +215,7 @@ public class AmtInWords_IN implements AmtInWords
 			numDouble = Double.parseDouble(cents);
 			sayNumber(result, numDouble);
 		}
-		result.append(" Rupiah");
+		//result.append(" Rupiah");
 		return result.toString();
 	}	//	getAmtInWords
 
