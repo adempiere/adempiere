@@ -196,12 +196,17 @@ public class CalloutInOut extends CalloutEngine
 				else
 					mTab.setValue("AD_User_ID", ii);
 
-				//	CreditAvailable
-				double CreditAvailable = rs.getDouble("CreditAvailable");
-				if (!rs.wasNull() && CreditAvailable < 0)
-					mTab.fireDataStatusEEvent("CreditLimitOver",
-						DisplayType.getNumberFormat(DisplayType.Amount).format(CreditAvailable),
-						false);
+				//Bugs item #1679818: checking for SOTrx only
+				boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
+				if (IsSOTrx)
+				{
+					//	CreditAvailable
+					double CreditAvailable = rs.getDouble("CreditAvailable");
+					if (!rs.wasNull() && CreditAvailable < 0)
+						mTab.fireDataStatusEEvent("CreditLimitOver",
+							DisplayType.getNumberFormat(DisplayType.Amount).format(CreditAvailable),
+							false);
+				}//
 			}
 			rs.close();
 			pstmt.close();
