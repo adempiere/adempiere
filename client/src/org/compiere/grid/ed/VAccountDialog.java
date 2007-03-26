@@ -889,8 +889,9 @@ public final class VAccountDialog extends CDialog
 			int i = 0;
 			try
 			{
-				java.sql.Statement stmt = DB.createStatement();
-				i = stmt.executeUpdate(sql.toString());
+				java.sql.PreparedStatement stmt = DB.prepareStatement(sql.toString(), 
+						ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, null);
+				i = stmt.executeUpdate();
 				stmt.close();
 			}
 			catch (SQLException e)
