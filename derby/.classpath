@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" sourcepath="C:/Sources/db-derby-10.1.2.1-src/java/engine" kind="lib" path="derby.jar">
-		<attributes>
-			<attribute value="file:/C:/Sources/db-derby-10.1.2.1-bin/javadoc/" name="javadoc_location"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" sourcepath="C:/Sources/db-derby-10.1.2.1-src/java/client" kind="lib" path="derbyclient.jar">
-		<attributes>
-			<attribute value="file:/C:/Sources/db-derby-10.1.2.1-bin/javadoc/" name="javadoc_location"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" sourcepath="C:/Sources/db-derby-10.1.2.1-src/java/drda" kind="lib" path="derbynet.jar"/>
-	<classpathentry exported="true" sourcepath="C:/Sources/db-derby-10.1.2.1-src/java/tools" kind="lib" path="derbytools.jar"/>
+	<classpathentry exported="true" kind="lib" path="derby.jar"/>
+	<classpathentry exported="true" kind="lib" path="derbyclient.jar"/>
+	<classpathentry exported="true" kind="lib" path="derbynet.jar"/>
+	<classpathentry exported="true" kind="lib" path="derbytools.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="lib"/>
 </classpath>
