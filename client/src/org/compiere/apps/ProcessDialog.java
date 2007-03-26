@@ -119,8 +119,6 @@ public class ProcessDialog extends CFrame
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();
-			System.out.println("prefer: " + d);
-			System.out.println("max: " + m);
 			if ( d.height > m.height || d.width > m.width ) {
 				Dimension d1 = new Dimension();
 				d1.height = Math.min(d.height, m.height);
