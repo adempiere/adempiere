@@ -299,6 +299,8 @@ public class MiniTable extends CTable
 			tc.setMaxWidth(20);
 			tc.setPreferredWidth(20);
 			tc.setResizable(false);
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Boolean
 		else if (c == Boolean.class)
@@ -314,6 +316,8 @@ public class MiniTable extends CTable
 				tc.setCellEditor(new DefaultCellEditor(check));
 			}
 			m_minWidth.add(new Integer(30));
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
 		}
 		//  Date
 		else if (c == Timestamp.class)
@@ -324,6 +328,8 @@ public class MiniTable extends CTable
 			else
 				tc.setCellEditor(new MiniCellEditor(c));
 			m_minWidth.add(new Integer(30));
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
 		}
 		//  Amount
 		else if (c == BigDecimal.class)
@@ -339,6 +345,8 @@ public class MiniTable extends CTable
 				tc.setCellEditor(new MiniCellEditor(c));
 				m_minWidth.add(new Integer(80));
 			}
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Number
 		else if (c == Double.class)
@@ -354,6 +362,8 @@ public class MiniTable extends CTable
 				tc.setCellEditor(new MiniCellEditor(c));
 				m_minWidth.add(new Integer(80));
 			}
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Integer
 		else if (c == Integer.class)
@@ -364,6 +374,8 @@ public class MiniTable extends CTable
 			else
 				tc.setCellEditor(new MiniCellEditor(c));
 			m_minWidth.add(new Integer(30));
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  String
 		else
@@ -374,6 +386,8 @@ public class MiniTable extends CTable
 			else
 				tc.setCellEditor(new MiniCellEditor(String.class));
 			m_minWidth.add(new Integer(30));
+			
+			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
 		}
 	//	log.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
 	}   //  setColumnClass

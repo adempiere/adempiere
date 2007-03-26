@@ -104,6 +104,7 @@ public final class VTable extends CTable
 			return;
 		}
 
+		sorting = true;
 		//  other sort column
 		if (modelColumnIndex != p_lastSortIndex)
 			p_asc = true;
@@ -116,6 +117,8 @@ public final class VTable extends CTable
 			+ " - rows=" + rows + ", asc=" + p_asc);
 
 		((GridTable)model).sort(modelColumnIndex, p_asc);
+		
+		sorting = false;
 		//  table model fires "Sorted" DataStatus event which causes MTab to position to row 0
 	}   //  sort
 
