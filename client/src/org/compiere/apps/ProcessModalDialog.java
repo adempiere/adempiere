@@ -124,7 +124,20 @@ public class ProcessModalDialog extends CDialog
 				return d;
 		}
 	};
-	private JScrollPane messagePane = new JScrollPane(message);
+	private JScrollPane messagePane = new JScrollPane(message)
+	{
+		public Dimension getPreferredSize() {
+			Dimension d = super.getPreferredSize();
+			Dimension m = getMaximumSize();
+			if ( d.height > m.height || d.width > m.width ) {
+				Dimension d1 = new Dimension();
+				d1.height = Math.min(d.height, m.height);
+				d1.width = Math.min(d.width, m.width);
+				return d1;
+			} else
+				return d;
+		}
+	};
 	
 	private CPanel centerPanel = null;
 	private ProcessParameterPanel parameterPanel = null;
@@ -150,7 +163,7 @@ public class ProcessModalDialog extends CDialog
 		dialog.add(southPanel, BorderLayout.SOUTH);
 		dialog.add(messagePane, BorderLayout.NORTH);
 		messagePane.setBorder(null);
-		message.setMaximumSize(new Dimension(600, 300));
+		messagePane.setMaximumSize(new Dimension(600, 300));
 		centerPanel = new CPanel();
 		centerPanel.setBorder(null);
 		centerPanel.setLayout(new BorderLayout());

@@ -114,7 +114,20 @@ public class ProcessDialog extends CFrame
 				return d;
 		}
 	};
-	private JScrollPane messagePane = new JScrollPane(message);
+	private JScrollPane messagePane = new JScrollPane(message)
+	{
+		public Dimension getPreferredSize() {
+			Dimension d = super.getPreferredSize();
+			Dimension m = getMaximumSize();
+			if ( d.height > m.height || d.width > m.width ) {
+				Dimension d1 = new Dimension();
+				d1.height = Math.min(d.height, m.height);
+				d1.width = Math.min(d.width, m.width);
+				return d1;
+			} else
+				return d;
+		}
+	};
 	private CButton bPrint = ConfirmPanel.createPrintButton(true);
 	
 	private CPanel centerPanel = null;
@@ -147,7 +160,7 @@ public class ProcessDialog extends CFrame
 		southPanel.add(bOK, null);
 		dialog.add(messagePane, BorderLayout.NORTH);
 		messagePane.setBorder(null);
-		message.setMaximumSize(new Dimension(600, 300));
+		messagePane.setMaximumSize(new Dimension(600, 300));
 		centerPanel = new CPanel();
 		centerPanel.setBorder(null);
 		centerPanel.setLayout(new BorderLayout());
@@ -319,7 +332,10 @@ public class ProcessDialog extends CFrame
 		
 		//no longer needed, hide to give more space to display log
 		parameterPanel.setVisible(false);
-		this.pack();
+		messagePane.setMaximumSize(null);
+		
+		this.validate();
+		AEnv.showCenterScreen(this);
 		//
 		afterProcessTask();
 		//	Close automatically
