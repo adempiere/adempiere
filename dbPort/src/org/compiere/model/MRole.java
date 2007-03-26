@@ -1674,20 +1674,24 @@ public final class MRole extends X_AD_Role
 			tableName = TableNameIn;
 		}
 
-		//	Client Access
-		if (fullyQualified)
-			retSQL.append(tableName).append(".");
-		retSQL.append(getClientWhere(rw));
-		
-		//	Org Access
-		if (!isAccessAllOrgs())
-		{
-			retSQL.append(" AND ");
+		if (! tableName.equals(X_AD_PInstance_Log.Table_Name)) { // globalqss, bug 1662433 
+			//	Client Access
 			if (fullyQualified)
 				retSQL.append(tableName).append(".");
-			retSQL.append(getOrgWhere(rw));
+			retSQL.append(getClientWhere(rw));
+
+			//	Org Access
+			if (!isAccessAllOrgs())
+			{
+				retSQL.append(" AND ");
+				if (fullyQualified)
+					retSQL.append(tableName).append(".");
+				retSQL.append(getOrgWhere(rw));
+			}
+		} else {
+			retSQL.append("1=1");
 		}
-			
+		
 		//	** Data Access	**
 		for (int i = 0; i < ti.length; i++)
 		{

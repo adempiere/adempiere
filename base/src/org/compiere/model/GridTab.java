@@ -311,34 +311,36 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 		}   //  for all fields
 
-		//  Add Standard Fields
-		if (m_mTable.getField("Created") == null)
-		{
-			GridField created = new GridField (GridFieldVO.createStdField(m_vo.ctx,
-				m_vo.WindowNo, m_vo.TabNo,
-				m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, true, true));
-			m_mTable.addField(created);
-		}
-		if (m_mTable.getField("CreatedBy") == null)
-		{
-			GridField createdBy = new GridField (GridFieldVO.createStdField(m_vo.ctx,
-				m_vo.WindowNo, m_vo.TabNo,
-				m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, true, false));
-			m_mTable.addField(createdBy);
-		}
-		if (m_mTable.getField("Updated") == null)
-		{
-			GridField updated = new GridField (GridFieldVO.createStdField(m_vo.ctx,
-				m_vo.WindowNo, m_vo.TabNo,
-				m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, false, true));
-			m_mTable.addField(updated);
-		}
-		if (m_mTable.getField("UpdatedBy") == null)
-		{
-			GridField updatedBy = new GridField (GridFieldVO.createStdField(m_vo.ctx,
-				m_vo.WindowNo, m_vo.TabNo,
-				m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, false, false));
-			m_mTable.addField(updatedBy);
+		if (! m_mTable.getTableName().equals(X_AD_PInstance_Log.Table_Name)) { // globalqss, bug 1662433 
+			//  Add Standard Fields
+			if (m_mTable.getField("Created") == null)
+			{
+				GridField created = new GridField (GridFieldVO.createStdField(m_vo.ctx,
+					m_vo.WindowNo, m_vo.TabNo,
+					m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, true, true));
+				m_mTable.addField(created);
+			}
+			if (m_mTable.getField("CreatedBy") == null)
+			{
+				GridField createdBy = new GridField (GridFieldVO.createStdField(m_vo.ctx,
+					m_vo.WindowNo, m_vo.TabNo,
+					m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, true, false));
+				m_mTable.addField(createdBy);
+			}
+			if (m_mTable.getField("Updated") == null)
+			{
+				GridField updated = new GridField (GridFieldVO.createStdField(m_vo.ctx,
+					m_vo.WindowNo, m_vo.TabNo,
+					m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, false, true));
+				m_mTable.addField(updated);
+			}
+			if (m_mTable.getField("UpdatedBy") == null)
+			{
+				GridField updatedBy = new GridField (GridFieldVO.createStdField(m_vo.ctx,
+					m_vo.WindowNo, m_vo.TabNo,
+					m_vo.AD_Window_ID, m_vo.AD_Tab_ID, false, false, false));
+				m_mTable.addField(updatedBy);
+			}
 		}
 		return true;
 	}	//	loadFields
