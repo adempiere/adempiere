@@ -629,7 +629,7 @@ public class Doc_Order extends Doc
 				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
 						+ "FROM C_Order o1, C_OrderLine ol1 "
 						+ "WHERE o1.C_Order_ID=ol1.C_Order_ID"
-						+ " AND po.M_Product_ID=ol1.M_Product_ID AND po.C_BPartner_ID=o1.C_BPartner_ID")
+						+ " AND pc.M_Product_ID=ol1.M_Product_ID ")
 						.append("  AND o1.C_Order_ID=").append(get_ID()).append(") ");
 			sql.append(" AND pc.C_AcctSchema_ID=").append(C_AcctSchema_ID).append(" AND o.C_Order_ID=")
 			.append(get_ID()).append(") ")
