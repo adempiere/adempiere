@@ -65,6 +65,8 @@ public class CTable extends JTable
 	private final int 			MAXSIZE = 250;
 	/** Model Index of Key Column   */
 	protected int              	p_keyColumnIndex = -1;
+	/** state variable to indicate sorting in progress **/
+	protected boolean sorting;
 	
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(CTable.class.getName());
@@ -207,6 +209,9 @@ public class CTable extends JTable
 		int rows = getRowCount();
 		if (rows == 0)
 			return;
+		
+		sorting = true;
+		
 		//  other column
 		if (modelColumnIndex != p_lastSortIndex)
 			p_asc = true;
@@ -281,7 +286,35 @@ public class CTable extends JTable
 				}
 			}
 		}   //  selected != null
+		
+		sorting = false;
 	}   //  sort
+
+	
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		if (e != null && e.getFirstRow() == 0 && e.getLastRow() == Integer.MAX_VALUE &&
+			e.getColumn() == TableModelEvent.ALL_COLUMNS && e.getType() == TableModelEvent.UPDATE)
+		{
+			if (!sorting)
+			{
+				//reset sort state after refresh
+				p_asc = true;
+				p_lastSortIndex = -1;
+			}
+		}
+		else
+		{
+			if (getRowCount() == 0)
+			{
+				//reset sort state after clear
+				p_asc = true;
+				p_lastSortIndex = -1;
+			}
+		}
+			
+		super.tableChanged(e);
+	}
 
 	/**
 	 *  String Representation
