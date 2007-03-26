@@ -97,14 +97,18 @@ public final class AEnv
 	{
 		window.pack();
 		Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// take into account task bar and other adornments
+		GraphicsConfiguration config = window.getGraphicsConfiguration();
+		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
+		sSize.width -= (insets.left + insets.right);
+		sSize.height -= (insets.top + insets.bottom);
+		
 		Dimension wSize = window.getSize();
-		int maxWidth = (int)(sSize.width*.97);
-		int maxHeight = (int)(sSize.height*.97);
 		//	fit on window
-		if (wSize.height > maxHeight)
-			wSize.height = maxHeight;
-		if (wSize.width > maxWidth)
-			wSize.width = maxWidth;
+		if (wSize.height > sSize.height)
+			wSize.height = sSize.height;
+		if (wSize.width > sSize.width)
+			wSize.width = sSize.width;
 		window.setSize(wSize);
 		//	Center
 		int x = (sSize.width - wSize.width) / 2;
@@ -148,7 +152,7 @@ public final class AEnv
 			y = (sSize.height - wSize.height);
 		}
 		//
-		window.setLocation(x, y);
+		window.setLocation(x + insets.left, y + insets.top);
 	}	//	positionScreen
 
 	/**
@@ -180,14 +184,18 @@ public final class AEnv
 		window.pack();
 		//
 		Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// take into account task bar and other adornments
+		GraphicsConfiguration config = window.getGraphicsConfiguration();
+		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
+		sSize.width -= (insets.left + insets.right);
+		sSize.height -= (insets.top + insets.bottom);
+		
 		Dimension wSize = window.getSize();
-		int maxWidth = (int)(sSize.width*.97);
-		int maxHeight = (int)(sSize.height*.97);
 		//	fit on window
-		if (wSize.height > maxHeight)
-			wSize.height = maxHeight;
-		if (wSize.width > maxWidth)
-			wSize.width = maxWidth;
+		if (wSize.height > sSize.height)
+			wSize.height = sSize.height;
+		if (wSize.width > sSize.width)
+			wSize.width = sSize.width;
 		window.setSize(wSize);
 		//	center in parent
 		Rectangle pBounds = parent.getBounds();
@@ -213,7 +221,7 @@ public final class AEnv
 		//
 	//	System.out.println("Position: x=" + x + " y=" + y + " w=" + wSize.getWidth() + " h=" + wSize.getHeight()
 	//		+ " - Parent loc x=" + pLoc.x + " y=" + y + " w=" + pSize.getWidth() + " h=" + pSize.getHeight());
-		window.setLocation(x, y);
+		window.setLocation(x + insets.left, y + insets.top);
 	}	//	positionCenterScreen
 
 	
