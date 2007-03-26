@@ -147,69 +147,77 @@ public class Doc_MatchPO extends Doc
 			poCost, getQty(),			//	Delivered
 			m_oLine.getDescription(), getTrxName());
 
-		//	Current Costs
+		//	Calculate PPV for standard costing
 		String costingMethod = as.getCostingMethod();
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
 			product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
 		if (pca.getCostingMethod() != null)
 			costingMethod = pca.getCostingMethod();
+		
+		//get standard cost and also makesure cost for other costing method is updated
 		BigDecimal costs = m_pc.getProductCosts(as, getAD_Org_ID(), 
-			costingMethod, m_C_OrderLine_ID, false);	//	non-zero costs
+			MAcctSchema.COSTINGMETHOD_StandardCosting, m_C_OrderLine_ID, false);	//	non-zero costs
 
-		//	No Costs yet - no PPV
-		if (costs == null || costs.signum() == 0)
+		if (MAcctSchema.COSTINGMETHOD_StandardCosting.equals(costingMethod))
 		{
-			p_Error = "Resubmit - No Costs for " + product.getName();
-			log.log(Level.SEVERE, p_Error);
-			return null;
-		}
-
-		//	Difference
-		BigDecimal difference = poCost.subtract(costs);
-		//	Nothing to post
-		if (difference.signum() == 0)
-		{
-			log.log(Level.FINE, "No Cost Difference for M_Product_ID=" + getM_Product_ID());
+			//	No Costs yet - no PPV
+			if (costs == null || costs.signum() == 0)
+			{
+				p_Error = "Resubmit - No Costs for " + product.getName();
+				log.log(Level.SEVERE, p_Error);
+				return null;
+			}
+	
+			//	Difference
+			BigDecimal difference = poCost.subtract(costs);
+			//	Nothing to post
+			if (difference.signum() == 0)
+			{
+				log.log(Level.FINE, "No Cost Difference for M_Product_ID=" + getM_Product_ID());
+				return facts;
+			}
+	
+			//  Product PPV
+			FactLine cr = fact.createLine(null,
+				m_pc.getAccount(ProductCost.ACCTTYPE_P_PPV, as),
+				as.getC_Currency_ID(), difference);
+			if (cr != null)
+			{
+				cr.setQty(getQty());
+				cr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
+				cr.setC_Activity_ID(m_oLine.getC_Activity_ID());
+				cr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
+				cr.setC_Project_ID(m_oLine.getC_Project_ID());
+				cr.setC_UOM_ID(m_oLine.getC_UOM_ID());
+				cr.setUser1_ID(m_oLine.getUser1_ID());
+				cr.setUser2_ID(m_oLine.getUser2_ID());
+			}
+	
+			//  PPV Offset
+			FactLine dr = fact.createLine(null,
+				getAccount(Doc.ACCTTYPE_PPVOffset, as),
+				as.getC_Currency_ID(), difference.negate());
+			if (dr != null)
+			{
+				dr.setQty(getQty().negate());
+				dr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
+				dr.setC_Activity_ID(m_oLine.getC_Activity_ID());
+				dr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
+				dr.setC_Project_ID(m_oLine.getC_Project_ID());
+				dr.setC_UOM_ID(m_oLine.getC_UOM_ID());
+				dr.setUser1_ID(m_oLine.getUser1_ID());
+				dr.setUser2_ID(m_oLine.getUser2_ID());
+			}
+			
+			//
 			facts.add(fact);
 			return facts;
 		}
-
-		//  Product PPV
-		FactLine cr = fact.createLine(null,
-			m_pc.getAccount(ProductCost.ACCTTYPE_P_PPV, as),
-			as.getC_Currency_ID(), difference);
-		if (cr != null)
+		else
 		{
-			cr.setQty(getQty());
-			cr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
-			cr.setC_Activity_ID(m_oLine.getC_Activity_ID());
-			cr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
-			cr.setC_Project_ID(m_oLine.getC_Project_ID());
-			cr.setC_UOM_ID(m_oLine.getC_UOM_ID());
-			cr.setUser1_ID(m_oLine.getUser1_ID());
-			cr.setUser2_ID(m_oLine.getUser2_ID());
+			return facts;
 		}
-
-		//  PPV Offset
-		FactLine dr = fact.createLine(null,
-			getAccount(Doc.ACCTTYPE_PPVOffset, as),
-			as.getC_Currency_ID(), difference.negate());
-		if (dr != null)
-		{
-			dr.setQty(getQty().negate());
-			dr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
-			dr.setC_Activity_ID(m_oLine.getC_Activity_ID());
-			dr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
-			dr.setC_Project_ID(m_oLine.getC_Project_ID());
-			dr.setC_UOM_ID(m_oLine.getC_UOM_ID());
-			dr.setUser1_ID(m_oLine.getUser1_ID());
-			dr.setUser2_ID(m_oLine.getUser2_ID());
-		}
-
-		//
-		facts.add(fact);
-		return facts;
 	}   //  createFact
 
 	/**

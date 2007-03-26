@@ -21,6 +21,7 @@ import java.sql.*;
 import java.util.*;
 
 import org.compiere.model.*;
+
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -62,7 +63,7 @@ public class Doc_InOut extends Doc
 	}   //  loadDocumentDetails
 
 	/**
-	 *	Load Invoice Line
+	 *	Load InOut Line
 	 *	@param inout shipment/receipt
 	 *  @return DocLine Array
 	 */
@@ -199,8 +200,25 @@ public class Doc_InOut extends Doc
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	non-zero costs
+				BigDecimal costs = null;
 				MProduct product = line.getProduct();
+				//get costing method for product
+				String costingMethod = as.getCostingMethod();
+				MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
+					product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
+				if (pca.getCostingMethod() != null)
+					costingMethod = pca.getCostingMethod();
+				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
+					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
+				{
+					int C_OrderLine_ID = line.getC_OrderLine_ID();
+					MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
+					costs = orderLine.getPriceCost();
+				}
+				else
+				{
+					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
+				}
 				if (costs == null || costs.signum() == 0)
 				{
 					p_Error = "Resubmit - No Costs for " + product.getName();
