@@ -55,6 +55,19 @@
     <delete dir="${env.ADEMPIERE_ROOT}"/>
   </target>
 
+    <target name="update-adempiere-jar" depends="init">
+		<ant inheritAll="false" dir="looks" target="looksCompile"/>
+		<ant inheritAll="false" dir="dbPort" target="compile"/>
+		<ant inheritAll="false" dir="print" target="printCompile"/>
+		<ant inheritAll="false" dir="base" target="compile"/>
+		<ant inheritAll="false" dir="extend" target="compile"/>
+		<ant inheritAll="false" dir="client"/>
+	</target>
+	
+	<target name="update-serverRoot" depends="init">
+		<ant inheritAll="false" dir="serverRoot"/>
+	</target>
+	
 	<!-- ================================================ -->
 	<!-- Adempiere Local Install                           -->
 	<!-- ================================================ -->
