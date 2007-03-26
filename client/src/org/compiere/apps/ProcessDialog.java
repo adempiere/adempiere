@@ -119,6 +119,8 @@ public class ProcessDialog extends CFrame
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();
+			System.out.println("prefer: " + d);
+			System.out.println("max: " + m);
 			if ( d.height > m.height || d.width > m.width ) {
 				Dimension d1 = new Dimension();
 				d1.height = Math.min(d.height, m.height);
@@ -165,6 +167,7 @@ public class ProcessDialog extends CFrame
 		centerPanel.setBorder(null);
 		centerPanel.setLayout(new BorderLayout());
 		dialog.add(centerPanel, BorderLayout.CENTER);
+		mainLayout.setVgap(2);
 		//
 		this.getRootPane().setDefaultButton(bOK);
 	}	//	jbInit
@@ -331,8 +334,10 @@ public class ProcessDialog extends CFrame
 		m_isLocked = false;
 		
 		//no longer needed, hide to give more space to display log
-		parameterPanel.setVisible(false);
+		dialog.remove(centerPanel);
 		messagePane.setMaximumSize(null);
+		dialog.remove(messagePane);
+		dialog.add(messagePane, BorderLayout.CENTER);
 		
 		this.validate();
 		AEnv.showCenterScreen(this);
