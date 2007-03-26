@@ -726,15 +726,16 @@ public class MRequest extends X_R_Request
 	 */
 	public File createPDF ()
 	{
-		try
-		{
-			File temp = File.createTempFile(get_TableName()+get_ID()+"_", ".pdf");
-			return createPDF (temp);
-		}
-		catch (Exception e)
-		{
-			log.severe("Could not create PDF - " + e.getMessage());
-		}
+		// globalqss - comment to solve bug [ 1688794 ] System is generating lots of temp files
+//		try
+//		{
+//			File temp = File.createTempFile(get_TableName()+get_ID()+"_", ".pdf");
+//			return createPDF (temp);
+//		}
+//		catch (Exception e)
+//		{
+//			log.severe("Could not create PDF - " + e.getMessage());
+//		}
 		return null;
 	}	//	getPDF
 
