@@ -273,6 +273,7 @@ public final class AMenu extends CFrame
 		mainPanel.add(Box.createHorizontalStrut(3), BorderLayout.WEST);
 
 		//	Tabs
+		centerPane.setFont(centerPane.getFont().deriveFont(centerPane.getFont().getSize2D()+1));
 		paPanel = PAPanel.get();
 		if (paPanel != null)
 		{
