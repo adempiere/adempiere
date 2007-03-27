@@ -216,6 +216,7 @@ public class Doc_InOut extends Doc
 					costs = orderLine.getPriceCost();
 					if (costs == null || costs.signum() == 0)
 						costs = orderLine.getPriceActual();
+					costs = costs.multiply(line.getQty());
 				}
 				else
 				{
