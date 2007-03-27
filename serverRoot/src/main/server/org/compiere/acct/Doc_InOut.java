@@ -214,6 +214,8 @@ public class Doc_InOut extends Doc
 					int C_OrderLine_ID = line.getC_OrderLine_ID();
 					MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
 					costs = orderLine.getPriceCost();
+					if (costs == null || costs.signum() == 0)
+						costs = orderLine.getPriceActual();
 				}
 				else
 				{
