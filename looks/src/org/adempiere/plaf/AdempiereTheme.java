@@ -15,8 +15,10 @@ package org.adempiere.plaf;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.util.logging.Logger;
 
 import javax.swing.UIDefaults;
@@ -141,8 +143,26 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 	/** Default Font            */
 	public static final String      FONT_DEFAULT = "Dialog";
 	/** Default Font Size       */
-	public static final int         FONT_SIZE = 12;
+	public static int         		FONT_SIZE = 12;
 	
+	static {
+		//set font size base on screen resolution
+		try {
+			Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+			if (size.width <= 800)
+				FONT_SIZE = 10;
+			else if (size.width <= 1024)
+				FONT_SIZE = 11;
+			else if (size.width <= 1280)
+				FONT_SIZE = 12;
+			else if  (size.width <= 1400)
+				FONT_SIZE = 13;
+			else if  (size.width <= 1600)
+				FONT_SIZE = 14;
+			else
+				FONT_SIZE = 15;
+		} catch (Throwable t) {}
+	}
 	
 	/**************************************************************************
 	 *  Get Primary 1 (blue in default Metal Theme)
