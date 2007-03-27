@@ -990,29 +990,27 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public static final int		CHECK = 6;
 	/** Dunning = 7				*/
 	public static final int		DUNNING = 7;
-	/** Movement = 8            */
-	public static final int     MOVEMENT = 8;
 
 	private static final String[]	DOC_TABLES = new String[] {
 		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
 		"C_RfQResponse_v",
 		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
-		"C_DunningRunEntry_v", "M_Movement_Header_V" };
+		"C_DunningRunEntry_v" };
 	private static final String[]	DOC_BASETABLES = new String[] {
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry", "M_Movement" };
+		"C_DunningRunEntry" };
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID", "M_Movement_ID"  };
+		"C_DunningRunEntry_ID" };
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		X_C_Order.Table_ID, X_M_InOut.Table_ID, X_C_Invoice.Table_ID, X_C_Project.Table_ID,
 		X_C_RfQResponse.Table_ID,
 		X_C_PaySelectionCheck.Table_ID, X_C_PaySelectionCheck.Table_ID, 
-		X_C_DunningRunEntry.Table_ID, X_M_Movement.Table_ID  };
+		X_C_DunningRunEntry.Table_ID };
 
 	
 	/**************************************************************************
@@ -1101,16 +1099,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " AND pf.AD_Table_ID=725 AND pf.IsTableBased='N'"	//	from RfQ PrintFormat
 				+ " AND rr.C_RfQResponse_ID=? "				//	Info from RfQTopic
 				+ "ORDER BY t.AD_PrintFormat_ID, pf.AD_Client_ID DESC, pf.AD_Org_ID DESC";
-        else if (type == MOVEMENT)
-            sql = "SELECT pf.Movement_PrintFormat_ID,"
-                + " c.IsMultiLingualDocument, COALESCE(dt.DocumentCopies,0) "
-                + "FROM M_Movement d"
-                + " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
-                + " INNER JOIN AD_PrintForm pf ON (d.AD_Client_ID=pf.AD_Client_ID OR pf.AD_Client_ID=0)"
-                + " LEFT OUTER JOIN C_DocType dt ON (d.C_DocType_ID=dt.C_DocType_ID) "
-                + "WHERE d.M_Movement_ID=?"                 //  info from PrintForm
-                + " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) AND pf.Movement_PrintFormat_ID IS NOT NULL "
-                + "ORDER BY pf.AD_Client_ID DESC, pf.AD_Org_ID DESC";
 		else	//	Get PrintFormat from Org or 0 of document client
 			sql = "SELECT pf.Order_PrintFormat_ID,pf.Shipment_PrintFormat_ID,"		//	1..2
 				//	Prio: 1. BPartner 2. DocType, 3. PrintFormat (Org)	//	see InvoicePrint
@@ -1153,12 +1141,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 					else
 						DocumentNo = rs.getString(5);
 				}
-                else if (type == MOVEMENT) {
-                    AD_PrintFormat_ID = rs.getInt(1);
-                    copies = rs.getInt(3);
-                    if (copies == 0)
-                    	copies = 1;
-                }
 				else
 				{
 					//	Set PrintFormat

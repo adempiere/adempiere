@@ -87,9 +87,9 @@ public class ReportCtl
 			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
 		else if (pi.getAD_Process_ID() == 313)		//	C_Payment
 			return startCheckPrint(pi.getRecord_ID(), IsDirectPrint);
+		/**
         else if (pi.getAD_Process_ID() == 290)      // Movement Submission by VHARCQ
             return startDocumentPrint(ReportEngine.MOVEMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
-		/**
 		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(CHECK, pi, IsDirectPrint);
 		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
