@@ -45,9 +45,10 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		if (line == null || line.getC_Invoice_ID() == 0)
 			return null;
 		int C_Tax_ID = line.getC_Tax_ID();
-		if (oldTax && line.is_ValueChanged("C_Tax_ID"))
+		boolean isOldTax = oldTax && line.is_ValueChanged(MInvoiceLine.COLUMNNAME_C_Tax_ID); 
+		if (isOldTax)
 		{
-			Object old = line.get_ValueOld("C_Tax_ID");
+			Object old = line.get_ValueOld(MInvoiceLine.COLUMNNAME_C_Tax_ID);
 			if (old == null)
 				return null;
 			C_Tax_ID = ((Integer)old).intValue();
@@ -94,6 +95,12 @@ public class MInvoiceTax extends X_C_InvoiceTax
 			retValue.setPrecision(precision);
 			s_log.fine("(old=" + oldTax + ") " + retValue);
 			return retValue;
+		}
+		// If the old tax was required and there is no MInvoiceTax for that
+		// return null, and not create another MInvoiceTax - teo_sarca [ 1583825 ]
+		else {
+			if (isOldTax)
+				return null;
 		}
 		
 		//	Create New

@@ -866,15 +866,8 @@ public class MOrderLine extends X_C_OrderLine
 		if (!newRecord && is_ValueChanged("C_Tax_ID"))
 		{
 			//	Recalculate Tax for old Tax
-			MOrderTax tax = MOrderTax.get (this, getPrecision(), 
-				true, get_TrxName());	//	old Tax
-			if (tax != null)
-			{
-				if (!tax.calculateTaxFromLines())
-					return false;
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
+			if (!updateOrderTax(true))
+				return false;
 		}
 		return updateHeaderTax();
 	}	//	afterSave
@@ -898,27 +891,38 @@ public class MOrderLine extends X_C_OrderLine
 	}	//	afterDelete
 	
 	/**
+	 * Recalculate order tax
+	 * @param oldTax true if the old C_Tax_ID should be used
+	 * @return true if success, false otherwise
+	 * 
+	 * @author teo_sarca [ 1583825 ]
+	 */
+	private boolean updateOrderTax(boolean oldTax) {
+		MOrderTax tax = MOrderTax.get (this, getPrecision(), oldTax, get_TrxName());
+		if (tax != null) {
+			if (!tax.calculateTaxFromLines())
+				return false;
+			if (tax.getTaxAmt().signum() != 0) {
+				if (!tax.save(get_TrxName()))
+					return false;
+			}
+			else {
+				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
+					return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated
 	 */
 	private boolean updateHeaderTax()
 	{
 		//	Recalculate Tax for this Tax
-		MOrderTax tax = MOrderTax.get (this, getPrecision(), 
-			false, get_TrxName());	//	current Tax
-		if (!tax.calculateTaxFromLines())
+		if (!updateOrderTax(false))
 			return false;
-		if (!tax.save(get_TrxName()))
-			return false;
-		
-		// deathmeat: [ 1583825 ] No tax recalculation after line changes
-		if((MOrderTax.get(this, getPrecision(),
-				true, get_TrxName()).getTaxAmt().doubleValue() == 0.0D))
-		{
-			// Tax line total is zero, delete the line
-			MOrderTax.get(this, getPrecision(),
-					true, get_TrxName()).delete(true, get_TrxName());
-		}
 		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"

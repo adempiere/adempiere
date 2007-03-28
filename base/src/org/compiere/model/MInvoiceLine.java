@@ -781,6 +781,29 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		return true;
 	}	//	beforeSave
 	
+	/**
+	 * Recalculate invoice tax
+	 * @param oldTax true if the old C_Tax_ID should be used
+	 * @return true if success, false otherwise
+	 * 
+	 * @author teo_sarca [ 1583825 ]
+	 */
+	private boolean updateInvoiceTax(boolean oldTax) {
+		MInvoiceTax tax = MInvoiceTax.get (this, getPrecision(), oldTax, get_TrxName());
+		if (tax != null) {
+			if (!tax.calculateTaxFromLines())
+				return false;
+			if (tax.getTaxAmt().signum() != 0) {
+				if (!tax.save(get_TrxName()))
+					return false;
+			}
+			else {
+				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
+					return false;
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * 	After Save
@@ -795,15 +818,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (!newRecord && is_ValueChanged("C_Tax_ID"))
 		{
 			//	Recalculate Tax for old Tax
-			MInvoiceTax tax = MInvoiceTax.get (this, getPrecision(), 
-				true, get_TrxName());	//	old Tax
-			if (tax != null)
-			{
-				if (!tax.calculateTaxFromLines())
-					return false;
-				if (!tax.save(get_TrxName()))
-					return true;
-			}
+			if (!updateInvoiceTax(true))
+				return false;
 		}
 		return updateHeaderTax();
 	}	//	afterSave
@@ -827,24 +843,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	private boolean updateHeaderTax()
 	{
 		//	Recalculate Tax for this Tax
-		MInvoiceTax tax = MInvoiceTax.get (this, getPrecision(), 
-			false, get_TrxName());	//	current Tax
-		if (tax != null)
-		{
-			if (!tax.calculateTaxFromLines())
-				return false;
-			if (!tax.save(get_TrxName()))
-				return false;
-		}
-		
-		// deathmeat: [ 1583825 ] No tax recalculation after line changes
-		if((MInvoiceTax.get(this, getPrecision(),
-				true, get_TrxName()).getTaxAmt().doubleValue() == 0.0D))
-		{
-			// Tax line total is zero, delete the line
-			MInvoiceTax.get(this, getPrecision(),
-					true, get_TrxName()).delete(true, get_TrxName());
-		}
+		if (!updateInvoiceTax(false))
+			return false;
 		
 		//	Update Invoice Header
 		String sql = "UPDATE C_Invoice i"
