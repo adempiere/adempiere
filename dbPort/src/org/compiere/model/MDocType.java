@@ -289,8 +289,8 @@ public class MDocType extends X_C_DocType
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getAD_Org_ID() != 0)
-			setAD_Org_ID(0);
+		/*if (getAD_Org_ID() != 0)
+			setAD_Org_ID(0);*/
 		return true;
 	}	//	beforeSave
 	
