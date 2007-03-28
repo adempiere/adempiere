@@ -207,7 +207,7 @@ public class ReplenishReport extends SvrProcess
 				+ "SELECT " + getAD_PInstance_ID()
 				+ ", r.M_Warehouse_ID, r.M_Product_ID, r.AD_Client_ID, r.AD_Org_ID,"
 				+ " r.ReplenishType, r.Level_Min, r.Level_Max,"
-				+ " null, 1, 1, 0, ";
+			    + " 0, 1, 1, 0, ";
 			if (p_ReplenishmentCreate == null)
 				sql += "null";
 			else
@@ -274,13 +274,6 @@ public class ReplenishReport extends SvrProcess
 		if (no != 0)
 			log.fine("Update Type-2=" + no);
 	
-		//	Delete rows where nothing to order
-		sql = "DELETE T_Replenish "
-			+ "WHERE QtyToOrder < 1"
-			+ " AND AD_PInstance_ID=" + getAD_PInstance_ID();
-		no = DB.executeUpdate(sql, get_TrxName());
-		if (no != 0)
-			log.fine("Delete No QtyToOrder=" + no);
 
 		//	Minimum Order Quantity
 		sql = "UPDATE T_Replenish"
@@ -357,6 +350,14 @@ public class ReplenishReport extends SvrProcess
 				replenish.save();
 			}
 		}
+		
+		//	Delete rows where nothing to order
+		sql = "DELETE T_Replenish "
+			+ "WHERE QtyToOrder < 1"
+		    + " AND AD_PInstance_ID=" + getAD_PInstance_ID();
+		no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 0)
+			log.fine("Delete No QtyToOrder=" + no);
 	}	//	fillTable
 
 	/**
