@@ -314,8 +314,8 @@ public class ReplenishReport extends SvrProcess
 		
 		//	Custom Replenishment
 		String className = wh.getReplenishmentClass();
-		if (className == null || className.length() == 0)
-			return;
+		if (className != null && className.length() > 0)
+		{	
 		//	Get Replenishment Class
 		ReplenishInterface custom = null;
 		try
@@ -350,7 +350,7 @@ public class ReplenishReport extends SvrProcess
 				replenish.save();
 			}
 		}
-		
+		}
 		//	Delete rows where nothing to order
 		sql = "DELETE T_Replenish "
 			+ "WHERE QtyToOrder < 1"
