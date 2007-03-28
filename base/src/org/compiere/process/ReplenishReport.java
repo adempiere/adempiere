@@ -316,40 +316,40 @@ public class ReplenishReport extends SvrProcess
 		String className = wh.getReplenishmentClass();
 		if (className != null && className.length() > 0)
 		{	
-		//	Get Replenishment Class
-		ReplenishInterface custom = null;
-		try
-		{
-			Class clazz = Class.forName(className);
-			custom = (ReplenishInterface)clazz.newInstance();
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereUserError("No custom Replenishment class "
-				+ className + " - " + e.toString());
-		}
-		
-		X_T_Replenish[] replenishs = getReplenish("ReplenishType='9'");
-		for (int i = 0; i < replenishs.length; i++)
-		{
-			X_T_Replenish replenish = replenishs[i];
-			if (replenish.getReplenishType().equals(X_T_Replenish.REPLENISHTYPE_Custom))
+			//	Get Replenishment Class
+			ReplenishInterface custom = null;
+			try
 			{
-				BigDecimal qto = null;
-				try
-				{
-					qto = custom.getQtyToOrder(wh, replenish);
-				}
-				catch (Exception e)
-				{
-					log.log(Level.SEVERE, custom.toString(), e);
-				}
-				if (qto == null)
-					qto = Env.ZERO;
-				replenish.setQtyToOrder(qto);
-				replenish.save();
+				Class clazz = Class.forName(className);
+				custom = (ReplenishInterface)clazz.newInstance();
 			}
-		}
+			catch (Exception e)
+			{
+				throw new AdempiereUserError("No custom Replenishment class "
+						+ className + " - " + e.toString());
+			}
+
+			X_T_Replenish[] replenishs = getReplenish("ReplenishType='9'");
+			for (int i = 0; i < replenishs.length; i++)
+			{
+				X_T_Replenish replenish = replenishs[i];
+				if (replenish.getReplenishType().equals(X_T_Replenish.REPLENISHTYPE_Custom))
+				{
+					BigDecimal qto = null;
+					try
+					{
+						qto = custom.getQtyToOrder(wh, replenish);
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, custom.toString(), e);
+					}
+					if (qto == null)
+						qto = Env.ZERO;
+					replenish.setQtyToOrder(qto);
+					replenish.save();
+				}
+			}
 		}
 		//	Delete rows where nothing to order
 		sql = "DELETE T_Replenish "
