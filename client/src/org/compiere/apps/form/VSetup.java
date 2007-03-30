@@ -20,6 +20,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.sql.*;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.logging.*;
 import javax.swing.*;
 
@@ -214,14 +216,21 @@ public class VSetup extends CPanel
 	 */
 	private void dynInit()
 	{
+		// Using current locale for default values - teo_sarca [ 1691388 ] 
+		Locale locale = Locale.getDefault();
+		Currency currency = Currency.getInstance(locale);
 		//	Currency
-		String sql = "SELECT C_Currency_ID, Description FROM C_Currency ORDER BY 1";	//	USD first
+		String sql = "SELECT C_Currency_ID, Description, ISO_Code FROM C_Currency ORDER BY 2";	// teo_sarca [ 1691388 ]
 		try
 		{
 			Statement stmt = DB.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next())
+			while (rs.next()) {
 				fCurrency.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
+				// Currency from locale will be the default currency - teo_sarca [ 1691388 ]
+				if (currency != null && currency.getCurrencyCode().equals(rs.getString(3)))
+					fCurrency.setSelectedIndex(fCurrency.getItemCount() - 1);
+			}
 			rs.close();
 			stmt.close();
 		}
@@ -229,16 +238,22 @@ public class VSetup extends CPanel
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -currency", e1);
 		}
-		fCurrency.setSelectedIndex(0);
 
 		//	Country
-		sql = "SELECT C_Country_ID, Name FROM C_Country ORDER BY 1";     //  US first
+		int C_Country_ID = 0;
+		sql = "SELECT C_Country_ID, Name, CountryCode FROM C_Country ORDER BY 2";     // teo_sarca [ 1691388 ]
 		try
 		{
 			Statement stmt = DB.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next())
+			while (rs.next()) {
 				fCountry.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
+				// Country from locale will be the default country - teo_sarca [ 1691388 ]
+				if (locale.getCountry().equals(rs.getString(3))) {
+					fCountry.setSelectedIndex(fCountry.getItemCount() - 1);
+					C_Country_ID = rs.getInt(1);
+				}
+			}
 			rs.close();
 			stmt.close();
 		}
@@ -246,17 +261,23 @@ public class VSetup extends CPanel
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -country", e1);
 		}
-		fCountry.setSelectedIndex(0);
 
 		//	Region (optional)
-		sql = "SELECT C_Region_ID, Name FROM C_Region ORDER BY C_Country_ID, Name";
+		sql = "SELECT C_Region_ID, Name, C_Country_ID FROM C_Region ORDER BY C_Country_ID, Name";
+		boolean isSelected = false;
 		try
 		{
 			fRegion.addItem(new KeyNamePair(0, " "));
 			Statement stmt = DB.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next())
+			while (rs.next()) {
 				fRegion.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
+				// First region for selected country will be the default - teo_sarca [ 1691388 ]
+				if (!isSelected && rs.getInt(3) == C_Country_ID) {
+					fRegion.setSelectedIndex(fRegion.getItemCount() - 1);
+					isSelected = true;
+				}
+			}
 			rs.close();
 			stmt.close();
 		}
@@ -264,7 +285,6 @@ public class VSetup extends CPanel
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -region", e1);
 		}
-		fRegion.setSelectedIndex(0);
 
 		//  General Listeners
 		confirmPanel.addActionListener(this);
