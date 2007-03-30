@@ -36,18 +36,18 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	 *	@param C_BPartner_ID bp
 	 *	@return array of locations
 	 */
-	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID)
+	public MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID)
 	{
 		ArrayList<MBPartnerLocation> list = new ArrayList<MBPartnerLocation>();
 		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add(new MBPartnerLocation(ctx, rs, null));
+				list.add(new MBPartnerLocation(ctx, rs, trxName));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
@@ -93,6 +93,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			setIsPayFrom (true);
 			setIsBillTo (true);
 		}
+		this.trxName = trxName;
 	}	//	MBPartner_Location
 
 	/**
@@ -113,9 +114,11 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	 * 	@param rs current row of result set to be loaded
 	 *	@param trxName transaction
 	 */
+	private String trxName = null;
 	public MBPartnerLocation (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
+		this.trxName = trxName;
 	}	//	MBPartner_Location
 
 	/**	Cached Location			*/
@@ -173,7 +176,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		makeUnique(address);
 		
 		//	Check uniqueness
-		MBPartnerLocation[] locations = MBPartnerLocation.getForBPartner(getCtx(), getC_BPartner_ID());
+		MBPartnerLocation[] locations = getForBPartner(getCtx(), getC_BPartner_ID());
 		boolean unique = locations.length == 0;
 		while (!unique)
 		{

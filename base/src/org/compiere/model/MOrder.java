@@ -1593,6 +1593,8 @@ public class MOrder extends X_C_Order implements DocAction
 				}
 				if (!oTax.delete(true, get_TrxName()))
 					return false;
+				if (!oTax.save(get_TrxName()))
+					return false;
 			}
 			else
 			{
