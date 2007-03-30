@@ -19,6 +19,7 @@ package org.compiere.util;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.Collator;
 import java.util.Comparator;
 
 /**
@@ -45,6 +46,8 @@ public final class MSort implements Comparator, Serializable
 	{
 		index = new_index;
 		data = new_data;
+		// Create string collator for login language - teo_sarca, [ 1672820 ]
+		m_collator = Collator.getInstance(Language.getLoginLanguage().getLocale());  
 	}	//	MSort
 
 	/** Direct access index */
@@ -54,6 +57,9 @@ public final class MSort implements Comparator, Serializable
 
 	/** Multiplier          */
 	private int		m_multiplier = 1;		//	Asc by default
+	
+	/** String Collator */
+	private Collator m_collator = null;
 
 	/**
 	 *	Sort Ascending
@@ -106,8 +112,7 @@ public final class MSort implements Comparator, Serializable
 		//	String
 		if (cmp1 instanceof String && cmp2 instanceof String)
 		{
-			String s = (String)cmp1;
-			return s.compareToIgnoreCase((String)cmp2) * m_multiplier;
+			return m_collator.compare(cmp1, cmp2) * m_multiplier; // teo_sarca [ 1672820 ]
 		}
 		//	Date
 		else if (cmp1 instanceof Timestamp && cmp2 instanceof Timestamp)
@@ -136,7 +141,7 @@ public final class MSort implements Comparator, Serializable
 
 		//  Convert to string value
 		String s = cmp1.toString();
-		return s.compareToIgnoreCase(cmp2.toString()) * m_multiplier;
+		return m_collator.compare(s, cmp2.toString()) * m_multiplier;  // teo_sarca [ 1672820 ]
 	}	//	compare
 
 	/**
