@@ -476,11 +476,11 @@ public final class ImpFormatRow
 		if (hasComma && m_decimalPoint.equals(","))
 			info = info.replace(',', '.');
 
-		//	remove everything but digits & '.'
+		//	remove everything but digits & '.' & '-'
 		char[] charArray = info.toCharArray();
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < charArray.length; i++)
-			if (Character.isDigit(charArray[i]) || charArray[i] == '.')
+			if (Character.isDigit(charArray[i]) || charArray[i] == '.' || charArray[i] == '-')
 				sb.append(charArray[i]);
 
 		if (sb.length() == 0)
