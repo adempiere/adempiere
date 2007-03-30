@@ -540,6 +540,31 @@ public final class Env
 	 *	Get Context and convert it to an integer (0 if error)
 	 *  @param ctx context
 	 *  @param WindowNo window no
+	 *  @param context context key
+	 *  @param onlyWindow  if true, no defaults are used unless explicitly asked for
+	 *  @return value or 0
+	 */
+	public static int getContextAsInt(Properties ctx, int WindowNo, String context, boolean onlyWindow)
+	{
+		String s = getContext(ctx, WindowNo, context, onlyWindow);
+		if (s.length() == 0)
+			return 0;
+		//
+		try
+		{
+			return Integer.parseInt(s);
+		}
+		catch (NumberFormatException e)
+		{
+			s_log.log(Level.SEVERE, "(" + context + ") = " + s, e);
+		}
+		return 0;
+	}	//	getContextAsInt
+
+	/**
+	 *	Get Context and convert it to an integer (0 if error)
+	 *  @param ctx context
+	 *  @param WindowNo window no
 	 *  @param TabNo tab no
 	 * 	@param context context key
 	 *  @return value or 0
