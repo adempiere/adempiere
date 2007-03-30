@@ -490,19 +490,28 @@ public class VPAttributeDialog extends CDialog
 	{
 		log.config("");
 		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "M_Warehouse_ID");
+		// teo_sarca [ 1564520 ] Inventory Move: can't select existing attributes
+		int M_Locator_ID = 0;
+		if (m_AD_Column_ID == 8551) { // TODO: hardcoded: M_MovementLine[324].M_AttributeSetInstance_ID[8551]
+			M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
+		}
+		
 		String title = "";
 		//	Get Text
-		String sql = "SELECT p.Name, w.Name FROM M_Product p, M_Warehouse w "
-			+ "WHERE p.M_Product_ID=? AND w.M_Warehouse_ID=?";
+		String sql = "SELECT p.Name, w.Name, w.M_Warehouse_ID FROM M_Product p, M_Warehouse w "
+			+ "WHERE p.M_Product_ID=? AND w.M_Warehouse_ID"
+				+ (M_Locator_ID <= 0 ? "=?" : " IN (SELECT M_Warehouse_ID FROM M_Locator where M_Locator_ID=?)"); // teo_sarca [ 1564520 ]
 		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			pstmt.setInt(2, M_Warehouse_ID);
+			pstmt.setInt(2, M_Locator_ID <= 0 ? M_Warehouse_ID : M_Locator_ID);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
+			if (rs.next()) {
 				title = rs.getString(1) + " - " + rs.getString(2);
+				M_Warehouse_ID = rs.getInt(3); // fetch the actual warehouse - teo_sarca [ 1564520 ]
+			}
 			rs.close();
 			pstmt.close();
 			pstmt = null;
@@ -523,7 +532,7 @@ public class VPAttributeDialog extends CDialog
 		}
 		//		
 		PAttributeInstance pai = new PAttributeInstance(this, title, 
-			M_Warehouse_ID, 0, m_M_Product_ID, m_C_BPartner_ID);
+			M_Warehouse_ID, M_Locator_ID, m_M_Product_ID, m_C_BPartner_ID);
 		if (pai.getM_AttributeSetInstance_ID() != -1)
 		{
 			m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
