@@ -78,7 +78,7 @@ public class MWorkflow extends X_AD_Workflow
 				ResultSet rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
-					MWorkflow wf = new MWorkflow (ctx, rs, trxName); //Bug 1568766
+					MWorkflow wf = new MWorkflow (ctx, rs, null); 
 					newKey = "C" + wf.getAD_Client_ID() + "T" + wf.getAD_Table_ID();
 					if (!newKey.equals(oldKey) && list.size() > 0)
 					{
@@ -119,6 +119,14 @@ public class MWorkflow extends X_AD_Workflow
 		}
 		//	Look for Entry
 		MWorkflow[] retValue = (MWorkflow[])s_cacheDocValue.get(key);
+		//set trxName to all workflow instance
+		if ( retValue != null && retValue.length > 0 )
+		{
+			for(int i = 0; i < retValue.length; i++)
+			{
+				retValue[i].set_TrxName(trxName);
+			}
+		}
 		return retValue;
 	}	//	getDocValue
 	
