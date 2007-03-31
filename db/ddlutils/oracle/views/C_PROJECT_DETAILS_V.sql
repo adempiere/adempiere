@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW C_PROJECT_DETAILS_V
  INVOICEDQTY, COMMITTEDQTY)
 AS 
 SELECT pl.AD_Client_ID, pl.AD_Org_ID, pl.IsActive, pl.Created, pl.CreatedBy, pl.Updated, pl.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
     pj.C_Project_ID, pl.C_ProjectLine_ID,
     pl.Line, 
     pl.PlannedQty, pl.PlannedPrice, pl.PlannedAmt, pl.PlannedMarginAmt,

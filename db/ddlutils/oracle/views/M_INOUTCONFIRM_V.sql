@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW M_INOUTCONFIRM_V
  DELIVERYVIARULE, M_SHIPPER_ID, PRIORITYRULE, PROCESSED)
 AS 
 SELECT ioc.AD_Client_ID, ioc.AD_Org_ID, ioc.IsActive, ioc.Created, ioc.CreatedBy, ioc.Updated, ioc.UpdatedBy,
-  cast('en_US' as varchar) AS AD_Language,
+  cast('en_US' as varchar2(6)) AS AD_Language,
   ioc.M_InOutConfirm_ID,
   ioc.DocumentNo, ioc.ConfirmType,
   ioc.IsApproved, ioc.IsCancelled, ioc.Description,

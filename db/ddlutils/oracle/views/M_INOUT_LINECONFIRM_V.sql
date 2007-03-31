@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW M_INOUT_LINECONFIRM_V
  M_ATTRIBUTESET_ID, SERNO, LOT, M_LOT_ID, GUARANTEEDATE)
 AS 
 SELECT iolc.AD_Client_ID, iolc.AD_Org_ID, iolc.IsActive, iolc.Created, iolc.CreatedBy, iolc.Updated, iolc.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
     iolc.M_InOutLineConfirm_ID, iolc.M_InOutConfirm_ID,
     iolc.TargetQty, iolc.ConfirmedQty, iolc.DifferenceQty, iolc.ScrappedQty,
     iolc.Description, iolc.Processed,

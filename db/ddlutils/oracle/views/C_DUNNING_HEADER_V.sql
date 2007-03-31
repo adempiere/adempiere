@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW C_DUNNING_HEADER_V
  REFERENCENO, POSTAL, AMT, QTY, NOTE)
 AS 
 SELECT dr.AD_Client_ID, dr.AD_Org_ID, dr.IsActive, dr.Created, dr.CreatedBy, dr.Updated, dr.UpdatedBy, 
-	cast('en_US' as varchar) AS AD_Language, dr.C_DunningRun_ID, C_DunningRunEntry_ID,
+	cast('en_US' as varchar2(6)) AS AD_Language, dr.C_DunningRun_ID, C_DunningRunEntry_ID,
     dr.DunningDate, dl.PrintName, dl.Note AS DocumentNote,
     dre.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,
