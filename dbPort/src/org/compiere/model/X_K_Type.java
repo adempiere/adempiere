@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_K_Type extends PO
 {
 /** Standard Constructor

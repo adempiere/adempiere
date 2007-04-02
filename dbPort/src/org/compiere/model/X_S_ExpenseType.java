@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_ExpenseType
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_S_ExpenseType extends PO
 {
 /** Standard Constructor

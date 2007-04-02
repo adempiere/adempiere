@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_AD_OrgInfo extends PO
 {
 /** Standard Constructor
@@ -142,6 +142,42 @@ return (String)get_Value("DUNS");
 }
 /** Column name DUNS */
 public static final String COLUMNNAME_DUNS = "DUNS";
+/** Set ISIC.
+@param LCO_ISIC_ID ISIC */
+public void setLCO_ISIC_ID (int LCO_ISIC_ID)
+{
+if (LCO_ISIC_ID <= 0) set_Value ("LCO_ISIC_ID", null);
+ else 
+set_Value ("LCO_ISIC_ID", Integer.valueOf(LCO_ISIC_ID));
+}
+/** Get ISIC.
+@return ISIC */
+public int getLCO_ISIC_ID() 
+{
+Integer ii = (Integer)get_Value("LCO_ISIC_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name LCO_ISIC_ID */
+public static final String COLUMNNAME_LCO_ISIC_ID = "LCO_ISIC_ID";
+/** Set Tax Payer Type.
+@param LCO_TaxPayerType_ID Tax Payer Type */
+public void setLCO_TaxPayerType_ID (int LCO_TaxPayerType_ID)
+{
+if (LCO_TaxPayerType_ID <= 0) set_Value ("LCO_TaxPayerType_ID", null);
+ else 
+set_Value ("LCO_TaxPayerType_ID", Integer.valueOf(LCO_TaxPayerType_ID));
+}
+/** Get Tax Payer Type.
+@return Tax Payer Type */
+public int getLCO_TaxPayerType_ID() 
+{
+Integer ii = (Integer)get_Value("LCO_TaxPayerType_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name LCO_TaxPayerType_ID */
+public static final String COLUMNNAME_LCO_TaxPayerType_ID = "LCO_TaxPayerType_ID";
 /** Set Warehouse.
 @param M_Warehouse_ID Storage Warehouse and Service Point */
 public void setM_Warehouse_ID (int M_Warehouse_ID)

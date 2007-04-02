@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_K_CategoryValue extends PO
 {
 /** Standard Constructor

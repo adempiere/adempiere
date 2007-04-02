@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_AD_Client extends PO
 {
 /** Standard Constructor
@@ -521,7 +521,7 @@ return false;
 /** Column name StoreAttachmentsOnFileSystem */
 public static final String COLUMNNAME_StoreAttachmentsOnFileSystem = "StoreAttachmentsOnFileSystem";
 /** Set Unix Attachment Path.
-@param UnixAttachmentPath Unix Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+@param UnixAttachmentPath Unix Attachment Path */
 public void setUnixAttachmentPath (String UnixAttachmentPath)
 {
 if (UnixAttachmentPath != null && UnixAttachmentPath.length() > 255)
@@ -532,7 +532,7 @@ UnixAttachmentPath = UnixAttachmentPath.substring(0,254);
 set_Value ("UnixAttachmentPath", UnixAttachmentPath);
 }
 /** Get Unix Attachment Path.
-@return Unix Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+@return Unix Attachment Path */
 public String getUnixAttachmentPath() 
 {
 return (String)get_Value("UnixAttachmentPath");
@@ -560,7 +560,7 @@ return (String)get_Value("Value");
 /** Column name Value */
 public static final String COLUMNNAME_Value = "Value";
 /** Set Windows Attachment Path.
-@param WindowsAttachmentPath Windows Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+@param WindowsAttachmentPath Windows Attachment Path */
 public void setWindowsAttachmentPath (String WindowsAttachmentPath)
 {
 if (WindowsAttachmentPath != null && WindowsAttachmentPath.length() > 255)
@@ -571,7 +571,7 @@ WindowsAttachmentPath = WindowsAttachmentPath.substring(0,254);
 set_Value ("WindowsAttachmentPath", WindowsAttachmentPath);
 }
 /** Get Windows Attachment Path.
-@return Windows Attachment Path - If you change this value make sure to copy the attachments to the new path! */
+@return Windows Attachment Path */
 public String getWindowsAttachmentPath() 
 {
 return (String)get_Value("WindowsAttachmentPath");

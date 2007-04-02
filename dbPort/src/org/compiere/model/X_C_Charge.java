@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Charge
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_C_Charge extends PO
 {
 /** Standard Constructor
@@ -239,6 +239,24 @@ return false;
 }
 /** Column name IsTaxIncluded */
 public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
+/** Set Withholding Category.
+@param LCO_WithholdingCategory_ID Withholding Category */
+public void setLCO_WithholdingCategory_ID (int LCO_WithholdingCategory_ID)
+{
+if (LCO_WithholdingCategory_ID <= 0) set_Value ("LCO_WithholdingCategory_ID", null);
+ else 
+set_Value ("LCO_WithholdingCategory_ID", Integer.valueOf(LCO_WithholdingCategory_ID));
+}
+/** Get Withholding Category.
+@return Withholding Category */
+public int getLCO_WithholdingCategory_ID() 
+{
+Integer ii = (Integer)get_Value("LCO_WithholdingCategory_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name LCO_WithholdingCategory_ID */
+public static final String COLUMNNAME_LCO_WithholdingCategory_ID = "LCO_WithholdingCategory_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)

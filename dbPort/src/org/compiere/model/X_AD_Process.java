@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_AD_Process extends PO
 {
 /** Standard Constructor
@@ -362,7 +362,7 @@ return false;
 /** Column name IsServerProcess */
 public static final String COLUMNNAME_IsServerProcess = "IsServerProcess";
 /** Set Jasper Report.
-@param JasperReport In this column you store the JasperReport filename */
+@param JasperReport Jasper Report */
 public void setJasperReport (String JasperReport)
 {
 if (JasperReport != null && JasperReport.length() > 255)
@@ -373,7 +373,7 @@ JasperReport = JasperReport.substring(0,254);
 set_Value ("JasperReport", JasperReport);
 }
 /** Get Jasper Report.
-@return In this column you store the JasperReport filename */
+@return Jasper Report */
 public String getJasperReport() 
 {
 return (String)get_Value("JasperReport");
@@ -426,14 +426,16 @@ public static final int SHOWHELP_AD_Reference_ID=50007;
 public static final String SHOWHELP_AskUserForFutureUse = "A";
 /** Don't show help = N */
 public static final String SHOWHELP_DonTShowHelp = "N";
+/** Run silently - Take Defaults = S */
+public static final String SHOWHELP_RunSilently_TakeDefaults = "S";
 /** Show Help = Y */
 public static final String SHOWHELP_ShowHelp = "Y";
 /** Set Show Help.
 @param ShowHelp Show Help */
 public void setShowHelp (String ShowHelp)
 {
-if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("Y"));
- else throw new IllegalArgumentException ("ShowHelp Invalid value - " + ShowHelp + " - Reference_ID=50007 - A - N - Y");
+if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("S") || ShowHelp.equals("Y"));
+ else throw new IllegalArgumentException ("ShowHelp Invalid value - " + ShowHelp + " - Reference_ID=50007 - A - N - S - Y");
 if (ShowHelp != null && ShowHelp.length() > 1)
 {
 log.warning("Length > 1 - truncated");

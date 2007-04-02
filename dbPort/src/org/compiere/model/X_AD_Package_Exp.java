@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_AD_Package_Exp extends PO
 {
 /** Standard Constructor
@@ -229,7 +229,7 @@ return (String)get_Value("Instructions");
 /** Column name Instructions */
 public static final String COLUMNNAME_Instructions = "Instructions";
 /** Set Name.
-@param Name Name */
+@param Name Alphanumeric identifier of the entity */
 public void setName (String Name)
 {
 if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
@@ -241,7 +241,7 @@ Name = Name.substring(0,59);
 set_Value ("Name", Name);
 }
 /** Get Name.
-@return Name */
+@return Alphanumeric identifier of the entity */
 public String getName() 
 {
 return (String)get_Value("Name");

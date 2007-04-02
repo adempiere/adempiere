@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_AD_Table extends PO
 {
 /** Standard Constructor
@@ -185,8 +185,8 @@ return (String)get_Value("AccessLevel");
 }
 /** Column name AccessLevel */
 public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-/** Set Copy Columns from Table.
-@param CopyColumnsFromTable Copy Columns from Table */
+/** Set Copy Columns From Table.
+@param CopyColumnsFromTable Copy Columns From Table */
 public void setCopyColumnsFromTable (String CopyColumnsFromTable)
 {
 if (CopyColumnsFromTable != null && CopyColumnsFromTable.length() > 1)
@@ -196,8 +196,8 @@ CopyColumnsFromTable = CopyColumnsFromTable.substring(0,0);
 }
 set_Value ("CopyColumnsFromTable", CopyColumnsFromTable);
 }
-/** Get Copy Columns from Table.
-@return Copy Columns from Table */
+/** Get Copy Columns From Table.
+@return Copy Columns From Table */
 public String getCopyColumnsFromTable() 
 {
 return (String)get_Value("CopyColumnsFromTable");

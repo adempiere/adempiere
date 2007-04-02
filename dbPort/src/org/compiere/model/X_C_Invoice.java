@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.1.5 - $Id$ */
+ *  @version Release 3.1.6 - $Id$ */
 public class X_C_Invoice extends PO
 {
 /** Standard Constructor
@@ -1199,4 +1199,20 @@ return ii.intValue();
 }
 /** Column name User2_ID */
 public static final String COLUMNNAME_User2_ID = "User2_ID";
+/** Set Withholding Amount.
+@param WithholdingAmt Withholding Amount */
+public void setWithholdingAmt (BigDecimal WithholdingAmt)
+{
+set_Value ("WithholdingAmt", WithholdingAmt);
+}
+/** Get Withholding Amount.
+@return Withholding Amount */
+public BigDecimal getWithholdingAmt() 
+{
+BigDecimal bd = (BigDecimal)get_Value("WithholdingAmt");
+if (bd == null) return Env.ZERO;
+return bd;
+}
+/** Column name WithholdingAmt */
+public static final String COLUMNNAME_WithholdingAmt = "WithholdingAmt";
 }
