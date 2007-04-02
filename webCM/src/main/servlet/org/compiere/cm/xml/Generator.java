@@ -50,7 +50,6 @@ import org.compiere.model.X_CM_TemplateTable;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
 import org.compiere.util.WebInfo;
-import org.w3c.dom.Document;
 
 /**
  * This Generator builds up the XML for the XSLT Template Engine

@@ -25,7 +25,6 @@ import javax.swing.JToggleButton;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
-import org.compiere.util.Trace;
 
 /**
  *  Adempiere Color Taggle Button

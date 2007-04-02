@@ -22,11 +22,8 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-
 import org.apache.tools.ant.*;
 import org.compiere.*;
-import org.compiere.apps.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 

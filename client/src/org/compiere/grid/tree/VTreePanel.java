@@ -23,7 +23,6 @@ import java.awt.dnd.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
@@ -34,7 +33,6 @@ import javax.swing.tree.*;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.model.*;
-import org.compiere.plaf.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 

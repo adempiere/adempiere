@@ -25,7 +25,6 @@ import javax.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.*;
-import org.compiere.plaf.*;
 
 /**
  *  Init Dialog

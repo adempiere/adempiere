@@ -20,8 +20,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.mail.internet.*;
-import javax.naming.*;
-import javax.naming.directory.*;
 
 import org.compiere.util.*;
 

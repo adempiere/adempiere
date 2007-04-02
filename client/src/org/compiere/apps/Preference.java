@@ -28,15 +28,12 @@ import javax.swing.event.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.table.*;
-//
-import org.adempiere.plaf.PLAFEditor;
 import org.adempiere.plaf.PLAFEditorPanel;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
 import org.compiere.model.*;
-import org.compiere.plaf.*;
 import org.compiere.print.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;

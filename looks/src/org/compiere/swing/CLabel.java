@@ -20,8 +20,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import org.compiere.plaf.*;
-
 /**
  *  Label with Mnemonics interpretation
  *

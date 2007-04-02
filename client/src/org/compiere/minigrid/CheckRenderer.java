@@ -21,7 +21,6 @@ import javax.swing.table.*;
 import java.awt.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
 
 /**
  *  Check Box Renderer based on Boolean values

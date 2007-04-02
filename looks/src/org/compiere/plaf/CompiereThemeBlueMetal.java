@@ -18,7 +18,6 @@ package org.compiere.plaf;
 
 import java.awt.*;
 
-import javax.swing.UIDefaults;
 import javax.swing.plaf.*;
 
 /**

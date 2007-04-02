@@ -24,7 +24,6 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.process.*;
 
 
 /**

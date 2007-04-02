@@ -18,13 +18,11 @@ package org.compiere.model;
 
 import java.awt.*;
 import java.io.*;
-import java.rmi.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import org.apache.ecs.xhtml.*;
-import org.compiere.db.*;
 import org.compiere.plaf.*;
 import org.compiere.util.*;
 

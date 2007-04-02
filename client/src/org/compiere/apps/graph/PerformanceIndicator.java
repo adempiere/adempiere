@@ -18,7 +18,6 @@ package org.compiere.apps.graph;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.*;
 import java.text.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -29,10 +28,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 //import java.awt.R`;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

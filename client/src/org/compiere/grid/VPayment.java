@@ -29,7 +29,6 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
-import org.compiere.plaf.*;
 import org.compiere.process.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;

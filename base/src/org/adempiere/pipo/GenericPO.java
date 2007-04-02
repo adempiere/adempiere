@@ -23,8 +23,6 @@ package org.adempiere.pipo;
 // import for GenericPO
 import java.util.*;
 import java.sql.*;
-import java.math.*;
-import org.compiere.util.*;
 import org.compiere.model.*;
 
 public class GenericPO extends PO {

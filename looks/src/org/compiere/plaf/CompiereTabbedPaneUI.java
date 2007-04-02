@@ -22,8 +22,6 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.plaf.metal.*;
 
-import org.adempiere.plaf.AdempierePLAF;
-
 /**
  *  Same implementation detail as in AdempierePanelUI.
  *  Additional handling of dwawing tabs.

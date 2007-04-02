@@ -19,7 +19,6 @@ package org.compiere.util;
 import java.io.*;
 import java.math.*;
 import java.net.*;
-import java.rmi.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;

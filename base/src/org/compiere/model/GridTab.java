@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.beans.*;
 import java.io.*;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.text.*;
 import java.util.*;

@@ -20,8 +20,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
-import javax.swing.JOptionPane;
-
 import org.compiere.model.*;
 
 /**

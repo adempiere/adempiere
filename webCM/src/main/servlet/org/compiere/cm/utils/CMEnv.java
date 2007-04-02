@@ -16,10 +16,8 @@
  *****************************************************************************/
 package org.compiere.cm.utils;
 
-import java.util.Enumeration;
 import java.util.Properties;
 
-import org.compiere.model.MClient;
 import org.compiere.util.Env;
 
 public class CMEnv {

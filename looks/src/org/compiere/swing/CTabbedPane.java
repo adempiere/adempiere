@@ -25,8 +25,6 @@ import javax.swing.*;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
-import org.compiere.plaf.CompierePanelUI;
-import org.compiere.util.Trace;
 import sun.swing.*;
 
 /**

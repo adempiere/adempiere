@@ -22,7 +22,6 @@ import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
-import org.compiere.plaf.*;
 import org.adempiere.plaf.*;
 
 

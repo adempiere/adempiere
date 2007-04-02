@@ -22,8 +22,6 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 
-import org.adempiere.plaf.AdempierePLAF;
-
 /**
  *  Adempiere CheckBox
  *

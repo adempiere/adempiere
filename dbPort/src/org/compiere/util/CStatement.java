@@ -16,10 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.math.*;
-import java.rmi.*;
 import java.sql.*;
-import java.util.*;
 import java.util.logging.*;
 
 import javax.sql.*;

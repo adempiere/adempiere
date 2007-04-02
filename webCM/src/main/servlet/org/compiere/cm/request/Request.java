@@ -20,16 +20,11 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.compiere.model.MColumn;
 import org.compiere.model.MRequest;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.X_AD_Reference;
 import org.compiere.util.DB;
 
 /**

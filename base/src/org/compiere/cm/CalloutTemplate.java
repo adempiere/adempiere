@@ -16,11 +16,7 @@
  *****************************************************************************/
 package org.compiere.cm;
 
-import java.math.*;
-import java.sql.*;
 import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
 import org.compiere.model.*;
 
 /**

@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.adempiere.plaf;
 
-import java.awt.*;
 import javax.swing.plaf.*;
 
 /**

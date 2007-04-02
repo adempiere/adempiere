@@ -20,8 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import org.compiere.plaf.*;
-
 /**
  *	Conveniance Dialog Class.
  *	Adempiere Background + Dispose on Close  

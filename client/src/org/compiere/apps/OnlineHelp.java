@@ -27,7 +27,6 @@ import javax.swing.text.*;
 import javax.swing.text.html.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
 import org.compiere.util.Env;
 
 /**

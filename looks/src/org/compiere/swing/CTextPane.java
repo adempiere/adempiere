@@ -24,7 +24,6 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
 
 /**
  *	Adempiere TextPane - A ScrollPane with a JTextPane.

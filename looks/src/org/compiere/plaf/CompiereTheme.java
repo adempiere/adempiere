@@ -25,9 +25,6 @@ import javax.swing.plaf.metal.*;
 
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ExtendedTheme;
-import org.compiere.util.*;
-
-import sun.awt.*;
 
 /**
  *  Compiere User definable Theme (if used in Metal L&F).

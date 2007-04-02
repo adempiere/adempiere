@@ -18,15 +18,11 @@ package org.compiere.cm.utils;
 
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.Adempiere;
-import org.compiere.model.MCStage;
 import org.compiere.model.MContainer;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.model.MWebProject;
-import org.compiere.util.CLogger;
 
 public class TreeXML {
 	protected StringBuffer xmlContainer = new StringBuffer(" ");

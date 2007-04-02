@@ -3,7 +3,6 @@
  */
 package org.compiere.report;
 
-import java.awt.Component;
 import java.util.logging.Level;
 import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.engine.JasperPrint;

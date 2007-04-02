@@ -26,7 +26,6 @@ import javax.swing.plaf.metal.*;
 
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
-import org.compiere.plaf.CompiereThemeEditor;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 

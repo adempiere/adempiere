@@ -19,7 +19,6 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
-import java.util.logging.*;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.*;
 

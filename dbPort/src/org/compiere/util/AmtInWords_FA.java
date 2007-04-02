@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.compiere.util.*;
-
-
 /**
  *	Amount in Words for Persian
  *

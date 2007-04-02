@@ -24,7 +24,6 @@ import javax.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
-import org.compiere.swing.*;
 import org.compiere.util.*;
 
 /**

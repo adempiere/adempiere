@@ -25,7 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.Util;
 
 /**
  *  Convert SQL to Target DB

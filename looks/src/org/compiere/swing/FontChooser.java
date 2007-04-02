@@ -22,7 +22,6 @@ import java.util.*;
 import javax.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.swing.*;
 
 /**
  *  Font Chooser Dialog

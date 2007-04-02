@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.Frame;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.logging.*;

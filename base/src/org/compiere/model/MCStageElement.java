@@ -18,8 +18,6 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
 
 /**
  * CStage Element

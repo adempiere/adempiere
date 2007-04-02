@@ -24,8 +24,6 @@ import java.net.*;
 import java.util.logging.*;
 import javax.swing.*;
 
-import org.adempiere.plaf.AdempierePLAF;
-
 import com.sun.image.codec.jpeg.*;
 
 /**

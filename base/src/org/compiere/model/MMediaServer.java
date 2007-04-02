@@ -18,13 +18,11 @@ package org.compiere.model;
 
 import java.io.*;
 import java.sql.*;
-import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 
 import org.apache.commons.net.ftp.*;
 import org.compiere.util.*;
-import com.sun.org.apache.bcel.internal.generic.*;
 
 /**
  * 	Media Server Model

@@ -21,7 +21,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import org.compiere.util.*;
-import com.sun.org.apache.bcel.internal.generic.*;
 
 
 /**

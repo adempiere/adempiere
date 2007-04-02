@@ -17,7 +17,6 @@
 package org.compiere.process;
 
 import java.math.*;
-import java.sql.*;
 import java.util.logging.*;
 
 import org.compiere.model.*;

@@ -18,7 +18,6 @@ package org.compiere.swing;
 
 import java.awt.*;
 import javax.swing.*;
-import org.compiere.plaf.*;
 
 /**
  * 	Adempiere Frame

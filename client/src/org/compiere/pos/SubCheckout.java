@@ -16,9 +16,7 @@ package org.compiere.pos;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.math.*;
-import java.util.Properties;
 
 import javax.swing.border.TitledBorder;
 

@@ -14,15 +14,12 @@
 package org.compiere.db;
 
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.sql.DataSource;
@@ -32,7 +29,6 @@ import org.compiere.dbPort.Convert_Oracle;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Language;
-import org.firebirdsql.jdbc.FBConnection;
 import org.firebirdsql.pool.DriverConnectionPoolDataSource;
 import org.firebirdsql.pool.FBWrappingDataSource;
 

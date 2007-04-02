@@ -28,7 +28,6 @@ import org.compiere.*;
 import org.compiere.db.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
-import org.compiere.plaf.*;
 import org.compiere.print.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;

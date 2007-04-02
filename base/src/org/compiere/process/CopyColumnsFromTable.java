@@ -15,9 +15,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
 import java.util.logging.*;
-import org.compiere.db.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 

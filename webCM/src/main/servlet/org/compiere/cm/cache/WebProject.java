@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import java.util.*;
 import org.compiere.model.*;
 
 /**

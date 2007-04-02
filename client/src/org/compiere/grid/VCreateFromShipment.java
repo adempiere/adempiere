@@ -27,7 +27,6 @@ import javax.swing.table.*;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
-import org.compiere.plaf.*;
 import org.compiere.util.*;
 
 /**

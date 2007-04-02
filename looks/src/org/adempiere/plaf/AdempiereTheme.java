@@ -28,10 +28,8 @@ import javax.swing.plaf.FontUIResource;
 //import org.compiere.plaf.ColorBlind;
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ExtendedTheme;
-import org.compiere.util.Ini;
 
 import com.jgoodies.looks.plastic.PlasticScrollBarUI;
-import com.jgoodies.looks.plastic.theme.*;
 
 
 /**

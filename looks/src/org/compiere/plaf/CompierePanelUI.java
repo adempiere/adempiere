@@ -21,8 +21,6 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-import org.adempiere.plaf.AdempierePLAF;
-
 /**
  *  Panel UI.
  *  The default properties can be set via

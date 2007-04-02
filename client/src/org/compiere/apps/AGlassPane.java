@@ -22,7 +22,6 @@ import javax.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.*;
-import org.compiere.plaf.*;
 import java.util.logging.*;
 import org.compiere.util.*;
 

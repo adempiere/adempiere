@@ -29,7 +29,6 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.Util;
 
 import java.util.Properties;
 import java.util.logging.*;

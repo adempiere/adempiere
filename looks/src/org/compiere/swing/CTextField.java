@@ -23,7 +23,6 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
 
 /**
  *  Adempiere Text Field
