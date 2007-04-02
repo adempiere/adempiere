@@ -21,17 +21,17 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCURRENCYACCT" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CCURRENCY" onDelete="none">
-        <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CCURRENCY" onDelete="none">
+        <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CCURRENCY" onDelete="none">
         <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CCURRENCY" onDelete="none">
+        <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CCURRENCY" onDelete="none">
         <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CCURRENCY" onDelete="none">
-        <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

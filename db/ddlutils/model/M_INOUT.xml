@@ -69,11 +69,11 @@
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_MINOUT" onDelete="none">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT" onDelete="none">
-        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_SR_MINOUT" onDelete="none">
         <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_MINOUT" onDelete="none">
+        <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_MINOUT" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
@@ -93,11 +93,11 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_MINOUT" onDelete="none">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MINOUT" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MINOUT" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_MINOUT" onDelete="none">
         <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
@@ -114,14 +114,14 @@
       <foreign-key foreignTable="M_WAREHOUSE" name="MWAREHOUSE_MINOUT" onDelete="none">
         <reference local="M_WAREHOUSE_ID" foreign="M_WAREHOUSE_ID"/>
       </foreign-key>
+      <index name="M_INOUT_DOCUMENTNO">
+        <index-column name="DOCUMENTNO"/>
+      </index>
       <index name="M_INOUT_ORDER">
         <index-column name="C_ORDER_ID"/>
       </index>
       <index name="M_INOUT_BPARTNER">
         <index-column name="C_BPARTNER_ID"/>
-      </index>
-      <index name="M_INOUT_DOCUMENTNO">
-        <index-column name="DOCUMENTNO"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

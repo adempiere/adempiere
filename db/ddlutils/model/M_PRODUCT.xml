@@ -101,12 +101,6 @@
       <foreign-key foreignTable="S_RESOURCE" name="SRESOURCE_MPRODUCT" onDelete="none">
         <reference local="S_RESOURCE_ID" foreign="S_RESOURCE_ID"/>
       </foreign-key>
-      <unique name="M_PRODUCT_EXPENSETYPE">
-        <unique-column name="S_EXPENSETYPE_ID"/>
-      </unique>
-      <index name="M_PRODUCT_UPC">
-        <index-column name="UPC"/>
-      </index>
       <unique name="M_PRODUCT_VALUE">
         <unique-column name="AD_CLIENT_ID"/>
         <unique-column name="VALUE"/>
@@ -120,6 +114,12 @@
       <unique name="M_PRODUCT_RESOURCE">
         <unique-column name="S_RESOURCE_ID"/>
       </unique>
+      <unique name="M_PRODUCT_EXPENSETYPE">
+        <unique-column name="S_EXPENSETYPE_ID"/>
+      </unique>
+      <index name="M_PRODUCT_UPC">
+        <index-column name="UPC"/>
+      </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

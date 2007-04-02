@@ -41,11 +41,11 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_MMOVEMENT" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MMOVE" onDelete="none">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_MMOVE" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_MMOVE" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_MMOVEMENT" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>

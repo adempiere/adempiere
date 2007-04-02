@@ -75,11 +75,14 @@
       <column name="ISDROPSHIP" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="VOLUME" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
       <column name="WEIGHT" primaryKey="false" required="false" type="DECIMAL" autoIncrement="false"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER" onDelete="none">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_CORDER" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_CORDER" onDelete="none">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
+      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSERBILL_CORDER" onDelete="none">
         <reference local="BILL_USER_ID" foreign="AD_USER_ID"/>
@@ -87,20 +90,17 @@
       <foreign-key foreignTable="AD_USER" name="ADUSER_CORDER" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSER_SR_CORDER" onDelete="none">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_CORDER" onDelete="none">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER" onDelete="none">
-        <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERPAY_CORDER" onDelete="none">
         <reference local="PAY_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CORDER" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_BPARTNER" name="CBPARTNERBILL_CORDER" onDelete="none">
+        <reference local="BILL_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER_LOCATION" name="CBPLOCATIONPAY_CORDER" onDelete="none">
         <reference local="PAY_LOCATION_ID" foreign="C_BPARTNER_LOCATION_ID"/>
@@ -126,17 +126,17 @@
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CORDER" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER" onDelete="none">
-        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPETARGET_CORDER" onDelete="none">
         <reference local="C_DOCTYPETARGET_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      <foreign-key foreignTable="C_DOCTYPE" name="C_DOCTYPE_CORDER" onDelete="none">
+        <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENRVALUEUSER2_CORDER" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_CORDER" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDER_REF" onDelete="none">
         <reference local="REF_ORDER_ID" foreign="C_ORDER_ID"/>

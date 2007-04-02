@@ -68,14 +68,14 @@
       <column name="USER2_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="ISCREATENEWBATCH" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="ISCREATENEWJOURNAL" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGDOC_IGLJOURNAL" onDelete="setnull">
-        <reference local="AD_ORGDOC_ID" foreign="AD_ORG_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORG_IGLJOURNAL" onDelete="setnull">
+        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IGLJOURNAL" onDelete="setnull">
         <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_ORG" name="ADORG_IGLJOURNAL" onDelete="setnull">
-        <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGDOC_IGLJOURNAL" onDelete="setnull">
+        <reference local="AD_ORGDOC_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_IGLJOURNAL" onDelete="setnull">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
@@ -98,20 +98,20 @@
       <foreign-key foreignTable="C_DOCTYPE" name="CDOCTYPE_IGLJOURNAL" onDelete="setnull">
         <reference local="C_DOCTYPE_ID" foreign="C_DOCTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEUSER2_IGLJOURNAL" onDelete="setnull">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_IGLJOURNAL" onDelete="setnull">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEUSER2_IGLJOURNAL" onDelete="setnull">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELVALUEACCOUNT_IGLJOURNAL" onDelete="setnull">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_IGLJOURNAL" onDelete="setnull">
-        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCTO_IGLJOURNAL" onDelete="setnull">
         <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_IGLJOURNAL" onDelete="setnull">
+        <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PERIOD" name="CPERIOD_IGLJOURNAL" onDelete="setnull">
         <reference local="C_PERIOD_ID" foreign="C_PERIOD_ID"/>

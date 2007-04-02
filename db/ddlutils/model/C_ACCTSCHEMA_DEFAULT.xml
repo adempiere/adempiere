@@ -74,54 +74,6 @@
       <foreign-key foreignTable="C_ACCTSCHEMA" name="CACCTSCHEMA_DEFAULT" onDelete="cascade">
         <reference local="C_ACCTSCHEMA_ID" foreign="C_ACCTSCHEMA_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT" onDelete="none">
-        <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT" onDelete="none">
-        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CSCHEMADEFAULT" onDelete="none">
-        <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CSCHEMADEFAULT" onDelete="none">
-        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CSCHEMADEFAULT" onDelete="none">
-        <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CSCHEMADEFAULT" onDelete="none">
-        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CSCHEMADEFAULT" onDelete="none">
-        <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CSCHEMADEFA" onDelete="none">
-        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CSCHEMADEFAU" onDelete="none">
-        <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CSCHEMADEFAU" onDelete="none">
-        <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITYSERVICES_CSCHEMAD" onDelete="none">
-        <reference local="V_LIABILITY_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CSCHEMADEFAULT" onDelete="none">
-        <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CSCHEMADEFAULT" onDelete="none">
-        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WDIFFERENCES_CSCHEMADEFAULT" onDelete="none">
-        <reference local="W_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVACTUALADJUST_CSCHEMADEF" onDelete="none">
-        <reference local="W_INVACTUALADJUST_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_CSCHEMADEFAULT" onDelete="none">
-        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WITHHOLDING_CSCHEMADEFAULT" onDelete="none">
         <reference local="WITHHOLDING_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
@@ -244,6 +196,54 @@
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PTDISCOUNTREC_CSCHEMADEFAUL" onDelete="none">
         <reference local="P_TRADEDISCOUNTREC_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDGAIN_CSCHEMADEFAULT" onDelete="none">
+        <reference local="REALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_REALIZEDLOSS_CSCHEMADEFAULT" onDelete="none">
+        <reference local="REALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TCREDIT_CSCHEMADEFAULT" onDelete="none">
+        <reference local="T_CREDIT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TDUE_CSCHEMADEFAULT" onDelete="none">
+        <reference local="T_DUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TEXPENSE_CSCHEMADEFAULT" onDelete="none">
+        <reference local="T_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TLIABILITY_CSCHEMADEFAULT" onDelete="none">
+        <reference local="T_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_TREC_CSCHEMADEFAULT" onDelete="none">
+        <reference local="T_RECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CSCHEMADEFA" onDelete="none">
+        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDGAIN_CSCHEMADEFAU" onDelete="none">
+        <reference local="UNREALIZEDGAIN_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNREALIZEDLOSS_CSCHEMADEFAU" onDelete="none">
+        <reference local="UNREALIZEDLOSS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITYSERVICES_CSCHEMAD" onDelete="none">
+        <reference local="V_LIABILITY_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CSCHEMADEFAULT" onDelete="none">
+        <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CSCHEMADEFAULT" onDelete="none">
+        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WDIFFERENCES_CSCHEMADEFAULT" onDelete="none">
+        <reference local="W_DIFFERENCES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVACTUALADJUST_CSCHEMADEF" onDelete="none">
+        <reference local="W_INVACTUALADJUST_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WINVENTORY_CSCHEMADEFAULT" onDelete="none">
+        <reference local="W_INVENTORY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

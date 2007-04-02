@@ -51,20 +51,20 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="SOCAMPAIGN_VC" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC" onDelete="none">
-        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEACCOUNT_VC" onDelete="cascade">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER1_VC" onDelete="none">
         <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC" onDelete="none">
-        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CELEMENTVALUEUSER2_VC" onDelete="none">
+        <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="MLOCATIONFROM_VC" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="MLOCATIONTO_VC" onDelete="none">
+        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_VC" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>
@@ -75,6 +75,10 @@
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_VC" onDelete="none">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
+      <index name="C_VALIDCOMBINATION_ALIAS">
+        <index-column name="AD_CLIENT_ID"/>
+        <index-column name="ALIAS"/>
+      </index>
       <unique name="C_VALIDCOMBINATION_ALT">
         <unique-column name="C_ACCTSCHEMA_ID"/>
         <unique-column name="AD_ORG_ID"/>
@@ -94,10 +98,6 @@
         <unique-column name="USERELEMENT1_ID"/>
         <unique-column name="USERELEMENT2_ID"/>
       </unique>
-      <index name="C_VALIDCOMBINATION_ALIAS">
-        <index-column name="AD_CLIENT_ID"/>
-        <index-column name="ALIAS"/>
-      </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>

@@ -70,11 +70,11 @@
       <foreign-key foreignTable="AD_ORG" name="ADORG_IORDER" onDelete="setnull">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IORDER" onDelete="setnull">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_IORDER" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IORDER" onDelete="setnull">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IORDER" onDelete="setnull">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>

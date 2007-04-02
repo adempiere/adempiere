@@ -19,11 +19,11 @@
       <foreign-key foreignTable="AD_ORG" name="M_SUBSTITUTE_ORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTESUB" onDelete="cascade">
-        <reference local="SUBSTITUTE_ID" foreign="M_PRODUCT_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTE" onDelete="cascade">
         <reference local="M_PRODUCT_ID" foreign="M_PRODUCT_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_PRODUCT" name="MPRODUCT_SUBSTITUTESUB" onDelete="cascade">
+        <reference local="SUBSTITUTE_ID" foreign="M_PRODUCT_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

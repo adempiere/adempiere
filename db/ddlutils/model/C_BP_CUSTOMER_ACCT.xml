@@ -20,11 +20,11 @@
       <foreign-key foreignTable="C_BPARTNER" name="CBUSPARTNER_CBPCUSTOMER_ACCT" onDelete="cascade">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPCUSTOMER" onDelete="none">
-        <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPCUSTOMER" onDelete="none">
         <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPCUSTOMER" onDelete="none">
+        <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

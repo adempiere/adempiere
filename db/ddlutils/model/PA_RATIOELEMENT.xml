@@ -27,11 +27,11 @@
       <foreign-key foreignTable="PA_MEASURECALC" name="PAMEASURECALC_PARATIOELEMENT" onDelete="none">
         <reference local="PA_MEASURECALC_ID" foreign="PA_MEASURECALC_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PARATIOELEMENT" onDelete="none">
-        <reference local="PA_RATIO_ID" foreign="PA_RATIO_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="PA_RATIO" name="PARATIOUSED_PARATIOELEMENT" onDelete="none">
         <reference local="PA_RATIOUSED_ID" foreign="PA_RATIO_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="PA_RATIO" name="PARATIO_PARATIOELEMENT" onDelete="none">
+        <reference local="PA_RATIO_ID" foreign="PA_RATIO_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

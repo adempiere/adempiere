@@ -40,6 +40,18 @@
         <reference local="M_PRODUCT_CATEGORY_ID" foreign="M_PRODUCT_CATEGORY_ID"/>
       </foreign-key>
       <check>
+        <rule><![CDATA[OnWednesday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnThursday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnFriday in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[OnSaturday in ('Y','N')]]></rule>
+      </check>
+      <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
       <check>
@@ -62,18 +74,6 @@
       </check>
       <check>
         <rule><![CDATA[OnTuesday in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[OnWednesday in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[OnThursday in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[OnFriday in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[OnSaturday in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

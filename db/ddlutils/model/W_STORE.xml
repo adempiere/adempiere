@@ -51,6 +51,15 @@
         <unique-column name="WEBCONTEXT"/>
       </unique>
       <check>
+        <rule><![CDATA[IsMenuInterests in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuRegistrations in ('Y','N')]]></rule>
+      </check>
+      <check>
+        <rule><![CDATA[IsMenuContact in ('Y','N')]]></rule>
+      </check>
+      <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
       <check>
@@ -73,15 +82,6 @@
       </check>
       <check>
         <rule><![CDATA[IsMenuRequests in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMenuInterests in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMenuRegistrations in ('Y','N')]]></rule>
-      </check>
-      <check>
-        <rule><![CDATA[IsMenuContact in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

@@ -76,11 +76,11 @@
       <foreign-key foreignTable="AD_WINDOW" name="ADWINDOW_ADWFNODE" onDelete="none">
         <reference local="AD_WINDOW_ID" foreign="AD_WINDOW_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODESUBFLOW" onDelete="none">
-        <reference local="WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODE" onDelete="cascade">
         <reference local="AD_WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_WORKFLOW" name="ADWORKFLOW_ADWFNODESUBFLOW" onDelete="none">
+        <reference local="WORKFLOW_ID" foreign="AD_WORKFLOW_ID"/>
       </foreign-key>
       <index name="AD_WF_NODE_WORKFLOW">
         <index-column name="AD_WORKFLOW_ID"/>

@@ -20,11 +20,11 @@
       <foreign-key foreignTable="AD_CLIENT" name="REF_TABLECLIENT" onDelete="none">
         <reference local="AD_CLIENT_ID" foreign="AD_CLIENT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_DISPLAY" onDelete="none">
-        <reference local="AD_DISPLAY" foreign="AD_COLUMN_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_ID" onDelete="none">
         <reference local="AD_KEY" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_REFTABLE_DISPLAY" onDelete="none">
+        <reference local="AD_DISPLAY" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="REF_TABLEORG" onDelete="none">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>

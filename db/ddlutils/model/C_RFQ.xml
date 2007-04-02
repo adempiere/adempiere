@@ -39,11 +39,11 @@
       <column name="PROCESSING" primaryKey="false" required="false" type="CHAR" size="1" autoIncrement="false"/>
       <column name="PROCESSED" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="DOCUMENTNO" primaryKey="false" required="true" type="VARCHAR" size="30" default="." autoIncrement="false"/>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_CRFQ" onDelete="none">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_CRFQ" onDelete="none">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_CRFQ" onDelete="none">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_BPARTNER" name="CBPARTNER_CRFQ" onDelete="none">
         <reference local="C_BPARTNER_ID" foreign="C_BPARTNER_ID"/>

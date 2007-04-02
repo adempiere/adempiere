@@ -25,11 +25,11 @@
       <foreign-key foreignTable="CM_CHAT" name="CMCHAT_CHCHATENTRY" onDelete="cascade">
         <reference local="CM_CHAT_ID" foreign="CM_CHAT_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="CM_CHATENTRY" name="CMENTRTY_CMENTRYPARENT" onDelete="none">
-        <reference local="CM_CHATENTRYPARENT_ID" foreign="CM_CHATENTRY_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="CM_CHATENTRY" name="CMCHATENTRY_GRANDPARENT" onDelete="none">
         <reference local="CM_CHATENTRYGRANDPARENT_ID" foreign="CM_CHATENTRY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="CM_CHATENTRY" name="CMENTRTY_CMENTRYPARENT" onDelete="none">
+        <reference local="CM_CHATENTRYPARENT_ID" foreign="CM_CHATENTRY_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

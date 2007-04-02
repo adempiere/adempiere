@@ -26,11 +26,11 @@
       <foreign-key foreignTable="M_ATTRIBUTESETINSTANCE" name="MATTRSETINST_MMOVEMENTLINE" onDelete="none">
         <reference local="M_ATTRIBUTESETINSTANCE_ID" foreign="M_ATTRIBUTESETINSTANCE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="M_LOCATOR" name="MLOCATORTO_MMOVEMENTLINE" onDelete="none">
-        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="M_LOCATOR" name="MLOCATOR_MOVEMENTLINE" onDelete="none">
         <reference local="M_LOCATORTO_ID" foreign="M_LOCATOR_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="M_LOCATOR" name="MLOCATORTO_MMOVEMENTLINE" onDelete="none">
+        <reference local="M_LOCATOR_ID" foreign="M_LOCATOR_ID"/>
       </foreign-key>
       <foreign-key foreignTable="M_MOVEMENT" name="MMOVEMENT_MMOVEMENTLINE" onDelete="cascade">
         <reference local="M_MOVEMENT_ID" foreign="M_MOVEMENT_ID"/>

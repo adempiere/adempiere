@@ -58,20 +58,20 @@
       <foreign-key foreignTable="C_CAMPAIGN" name="CCAMPAIGN_GLDISTLINE" onDelete="none">
         <reference local="C_CAMPAIGN_ID" foreign="C_CAMPAIGN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDISTLINE" onDelete="none">
-        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER2_GLDISTLINE" onDelete="none">
         <reference local="USER2_ID" foreign="C_ELEMENTVALUE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEUSER1_GLDISTLINE" onDelete="none">
+        <reference local="USER1_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ELEMENTVALUE" name="CEVALUEACCT_GLDISTLINE" onDelete="none">
         <reference local="ACCOUNT_ID" foreign="C_ELEMENTVALUE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDISTLINE" onDelete="none">
-        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_LOCATION" name="CLOCFROM_GLDISTLINE" onDelete="none">
         <reference local="C_LOCFROM_ID" foreign="C_LOCATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_LOCATION" name="CLOCTO_GLDISTLINE" onDelete="none">
+        <reference local="C_LOCTO_ID" foreign="C_LOCATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_GLDISTLINE" onDelete="none">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>

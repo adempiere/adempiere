@@ -31,11 +31,11 @@
       <column name="DOPRICING" primaryKey="false" required="false" type="CHAR" size="1" default="Y" autoIncrement="false"/>
       <column name="C_PROJECTPHASE_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
       <column name="C_PROJECTTASK_ID" primaryKey="false" required="false" type="ID" size="10" autoIncrement="false"/>
-      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTLINE" onDelete="none">
-        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_ORDER" name="CORDERPO_CPROJECTLINE" onDelete="none">
         <reference local="C_ORDERPO_ID" foreign="C_ORDER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_ORDER" name="CORDER_CPROJECTLINE" onDelete="none">
+        <reference local="C_ORDER_ID" foreign="C_ORDER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_PROJECT" name="CPROJECT_CPROJECTLINE" onDelete="cascade">
         <reference local="C_PROJECT_ID" foreign="C_PROJECT_ID"/>

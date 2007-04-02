@@ -59,17 +59,17 @@
       <column name="LINEDESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
       <column name="QTYORDERED" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
       <column name="PRICEACTUAL" primaryKey="false" required="false" type="DECIMAL" default="0" autoIncrement="false"/>
-      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE" onDelete="setnull">
-        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_ORG" name="ADORG_IINVOICE" onDelete="setnull">
         <reference local="AD_ORG_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IINVOICE" onDelete="setnull">
-        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
+      <foreign-key foreignTable="AD_ORG" name="ADORGTRX_IINVOICE" onDelete="setnull">
+        <reference local="AD_ORGTRX_ID" foreign="AD_ORG_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_USER" name="ADUSER_IINVOICE" onDelete="setnull">
         <reference local="AD_USER_ID" foreign="AD_USER_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_USER" name="ADUSERSALESREP_IINVOICE" onDelete="setnull">
+        <reference local="SALESREP_ID" foreign="AD_USER_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_ACTIVITY" name="CACTIVITY_IINVOICE" onDelete="setnull">
         <reference local="C_ACTIVITY_ID" foreign="C_ACTIVITY_ID"/>

@@ -26,11 +26,11 @@
       <foreign-key foreignTable="C_CONVERSIONTYPE" name="CCONVERSIONTYPE_CCONVRATE" onDelete="none">
         <reference local="C_CONVERSIONTYPE_ID" foreign="C_CONVERSIONTYPE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCYCONVRATETO" onDelete="none">
-        <reference local="C_CURRENCY_ID_TO" foreign="C_CURRENCY_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_CURRENCY" name="CCURRENCY_CCONVERSIONRATE" onDelete="none">
         <reference local="C_CURRENCY_ID" foreign="C_CURRENCY_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_CURRENCY" name="C_CURRENCYCONVRATETO" onDelete="none">
+        <reference local="C_CURRENCY_ID_TO" foreign="C_CURRENCY_ID"/>
       </foreign-key>
       <index name="C_CONVERSIONRATE_ONCE">
         <index-column name="AD_CLIENT_ID"/>

@@ -20,10 +20,10 @@
         <reference local="AD_LANGUAGE" foreign="AD_LANGUAGE"/>
       </foreign-key>
       <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+        <rule><![CDATA[IsTranslated in ('Y','N')]]></rule>
       </check>
       <check>
-        <rule><![CDATA[IsTranslated in ('Y','N')]]></rule>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

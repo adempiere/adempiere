@@ -33,6 +33,9 @@
       <foreign-key foreignTable="AD_TREE" name="ADTREEPROJECT_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_PROJECT_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="AD_TREE" name="ADTREESALESREG_ADCLIENTINFO" onDelete="none">
+        <reference local="AD_TREE_SALESREGION_ID" foreign="AD_TREE_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="AD_TREE" name="ADTREEPRODUCT_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_PRODUCT_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
@@ -41,9 +44,6 @@
       </foreign-key>
       <foreign-key foreignTable="AD_TREE" name="ADTREEMENU_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_MENU_ID" foreign="AD_TREE_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="AD_TREE" name="ADTREESALESREG_ADCLIENTINFO" onDelete="none">
-        <reference local="AD_TREE_SALESREGION_ID" foreign="AD_TREE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_TREE" name="ADTREEBPARTNER_ADCLIENTINFO" onDelete="none">
         <reference local="AD_TREE_BPARTNER_ID" foreign="AD_TREE_ID"/>

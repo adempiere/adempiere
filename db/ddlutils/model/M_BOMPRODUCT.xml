@@ -43,10 +43,10 @@
         <reference local="M_PRODUCTOPERATION_ID" foreign="M_PRODUCTOPERATION_ID"/>
       </foreign-key>
       <check>
-        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
+        <rule><![CDATA[IsPhantom in ('Y','N')]]></rule>
       </check>
       <check>
-        <rule><![CDATA[IsPhantom in ('Y','N')]]></rule>
+        <rule><![CDATA[IsActive in ('Y','N')]]></rule>
       </check>
     </table>
   </database>

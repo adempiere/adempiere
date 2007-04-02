@@ -45,11 +45,11 @@
       <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTYESNO" onDelete="none">
         <reference local="AD_COLUMNSORTYESNO_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER" onDelete="none">
-        <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_COLUMN" name="AD_COLUMN_AD_TAB" onDelete="none">
         <reference local="AD_COLUMN_ID" foreign="AD_COLUMN_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_COLUMN" name="ADCOLUMN_ADTABSORTORDER" onDelete="none">
+        <reference local="AD_COLUMNSORTORDER_ID" foreign="AD_COLUMN_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_IMAGE" name="ADIMAGE_ADTAB" onDelete="none">
         <reference local="AD_IMAGE_ID" foreign="AD_IMAGE_ID"/>

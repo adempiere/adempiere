@@ -37,11 +37,11 @@
       <foreign-key foreignTable="C_SALESREGION" name="CSALESREGION_BPARTNERLOCATION" onDelete="setnull">
         <reference local="C_SALESREGION_ID" foreign="C_SALESREGION_ID"/>
       </foreign-key>
-      <index name="C_BPLOCATION_BPARTNER">
-        <index-column name="C_BPARTNER_ID"/>
-      </index>
       <index name="C_BPLOCATION_UPDATED">
         <index-column name="UPDATED"/>
+      </index>
+      <index name="C_BPLOCATION_BPARTNER">
+        <index-column name="C_BPARTNER_ID"/>
       </index>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

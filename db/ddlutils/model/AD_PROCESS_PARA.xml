@@ -36,11 +36,11 @@
       <foreign-key foreignTable="AD_PROCESS" name="ADPROCESS_ADPROCESSPARA" onDelete="cascade">
         <reference local="AD_PROCESS_ID" foreign="AD_PROCESS_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPROCESSPARA" onDelete="none">
-        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCEVALUE_ADPROCPARA" onDelete="none">
         <reference local="AD_REFERENCE_VALUE_ID" foreign="AD_REFERENCE_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="AD_REFERENCE" name="ADREFERENCE_ADPROCESSPARA" onDelete="none">
+        <reference local="AD_REFERENCE_ID" foreign="AD_REFERENCE_ID"/>
       </foreign-key>
       <foreign-key foreignTable="AD_VAL_RULE" name="ADVALRULE_AD_PROCESSPARA" onDelete="none">
         <reference local="AD_VAL_RULE_ID" foreign="AD_VAL_RULE_ID"/>

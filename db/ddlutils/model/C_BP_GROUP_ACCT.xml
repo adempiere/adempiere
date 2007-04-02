@@ -31,14 +31,26 @@
       <foreign-key foreignTable="C_BP_GROUP" name="CBPGROUP_CBPGROUPACCT" onDelete="none">
         <reference local="C_BP_GROUP_ID" foreign="C_BP_GROUP_ID"/>
       </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CBPGROUP" onDelete="none">
+        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WRITEOFF_CBPGROUP" onDelete="none">
+        <reference local="WRITEOFF_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CBPGROUP" onDelete="none">
+        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPGROUP" onDelete="none">
+        <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDRECEIPTS_CBPGROU" onDelete="none">
         <reference local="NOTINVOICEDRECEIPTS_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDREC_CBPGROUP" onDelete="none">
         <reference local="NOTINVOICEDRECEIVABLES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_WRITEOFF_CBPGROUP" onDelete="none">
-        <reference local="WRITEOFF_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDREVENUE_CBPGROUP" onDelete="none">
+        <reference local="NOTINVOICEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PAYDISCOUNTEXP_CBPGROUP" onDelete="none">
         <reference local="PAYDISCOUNT_EXP_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
@@ -46,26 +58,14 @@
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_PAYDISCOUNTREV_CBPGROUP" onDelete="none">
         <reference local="PAYDISCOUNT_REV_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_UNEARNEDREVENUE_CBPGROUP" onDelete="none">
-        <reference local="UNEARNEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CBPGROUP" onDelete="none">
+        <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITYSERVICES_CBPGROUP" onDelete="none">
         <reference local="V_LIABILITY_SERVICES_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VLIABILITY_CBPGROUP" onDelete="none">
-        <reference local="V_LIABILITY_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_VPREPAYMENT_CBPGROUP" onDelete="none">
-        <reference local="V_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CRECEIVABLE_CBPGROUP" onDelete="none">
-        <reference local="C_RECEIVABLE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CPREPAYMENT_CBPGROUP" onDelete="none">
         <reference local="C_PREPAYMENT_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_NOTINVOICEDREVENUE_CBPGROUP" onDelete="none">
-        <reference local="NOTINVOICEDREVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

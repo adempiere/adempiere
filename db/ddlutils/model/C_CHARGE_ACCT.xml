@@ -19,11 +19,11 @@
       <foreign-key foreignTable="C_CHARGE" name="CCHRAGE_CCHARGEACCT" onDelete="none">
         <reference local="C_CHARGE_ID" foreign="C_CHARGE_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHEXPENSE_CCHARGE" onDelete="none">
-        <reference local="CH_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHREVENUE_CCHARGE" onDelete="none">
         <reference local="CH_REVENUE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_VALIDCOMBINATION" name="VC_CHEXPENSE_CCHARGE" onDelete="none">
+        <reference local="CH_EXPENSE_ACCT" foreign="C_VALIDCOMBINATION_ID"/>
       </foreign-key>
       <check>
         <rule><![CDATA[IsActive in ('Y','N')]]></rule>

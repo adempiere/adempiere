@@ -28,17 +28,17 @@
       <column name="ISTAXEXEMPT" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
       <column name="SOPOTYPE" primaryKey="false" required="true" type="CHAR" size="1" default="B" autoIncrement="false"/>
       <column name="ISSALESTAX" primaryKey="false" required="true" type="CHAR" size="1" default="N" autoIncrement="false"/>
-      <foreign-key foreignTable="C_COUNTRY" name="C_COUNTRY_C_TAX" onDelete="none">
-        <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
-      </foreign-key>
       <foreign-key foreignTable="C_COUNTRY" name="C_COUNTRYTO_C_TAX" onDelete="none">
         <reference local="TO_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
-      <foreign-key foreignTable="C_REGION" name="C_REGIONTO_C_TAX" onDelete="none">
-        <reference local="TO_REGION_ID" foreign="C_REGION_ID"/>
+      <foreign-key foreignTable="C_COUNTRY" name="C_COUNTRY_C_TAX" onDelete="none">
+        <reference local="C_COUNTRY_ID" foreign="C_COUNTRY_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_REGION" name="C_REGION_C_TAX" onDelete="none">
         <reference local="C_REGION_ID" foreign="C_REGION_ID"/>
+      </foreign-key>
+      <foreign-key foreignTable="C_REGION" name="C_REGIONTO_C_TAX" onDelete="none">
+        <reference local="TO_REGION_ID" foreign="C_REGION_ID"/>
       </foreign-key>
       <foreign-key foreignTable="C_TAX" name="CTAX_PARENT" onDelete="none">
         <reference local="PARENT_TAX_ID" foreign="C_TAX_ID"/>
