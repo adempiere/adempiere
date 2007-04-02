@@ -1326,7 +1326,7 @@ public class ConfigurationData
 		//begin e-evolution vpj-cd 02/07/2005 PostgreSQL
 		//null	
 		//null,
-		new ConfigFyracle(this),
+//		new ConfigFyracle(this),
 		new ConfigPostgreSQL(this)  
 //		new ConfigEDB(this)
 		//		end e-evolution vpj-cd 02/07/2005 PostgreSQL
