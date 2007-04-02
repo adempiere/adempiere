@@ -1,12 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <data>
+  <AD_WORKFLOW_TRL AD_WORKFLOW_ID="109" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Configuración de Replicación" DESCRIPTION="Configuración de replicación de datos" ISTRANSLATED="Y">
+    <HELP><![CDATA[La replicación de datos le permite sincronizar datos de instancias remotas con una oficina central.  Todas las acciones son inicializadas desde la oficina central.<p>
+<b>Sistema Central:</b><br>
+- configurar el sistema con todas las organizaciones, ROLES, etc.<br>
+- correr la migración para asegurar que todo esté actualizado<br>
+- exportar el sistema central
+<p>
+<b>Sistema Remoto:</b>
+- instalar la versión exacta como en el sistema central<br>
+- importar datos del sistema central en las localizaciones remotas
+<p>
+<b>Sistema Central:</b>
+- Definir Replicación por cada Remoto<br>
+- Asegurarse que el rango de IDs es único por remoto - de lo contrario se perderán transacciones!<br>
+- Inicialmente empezar la corrida de replicación para fijar el Remoto
+<p>
+** Ingresar Transacciones **
+<p>
+<b>Sistema Central:</b><br>
+- Empezar la corrida de replicación cuando se requiera]]></HELP>
+  </AD_WORKFLOW_TRL>
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="117" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso Transporte" DESCRIPTION="(Proceso de envío Estándar)" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="122" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso Diario Remesa" DESCRIPTION="(Proceso Diario de Remesa EsStandard Process Jornal Batch)" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="118" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso Factura" DESCRIPTION="(Proceso de Factura Estándar)" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="119" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso Efectivo" DESCRIPTION="(Proceso Estandar Efectivo)" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="120" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso Pagos" DESCRIPTION="(Proceso de Pagos Estándar)" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="123" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Proceso ADM (RMA)" DESCRIPTION="(Proceso estándar de ADM (RMA) " ISTRANSLATED="Y" />
-  <AD_WORKFLOW_TRL AD_WORKFLOW_ID="109" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="** Inválido **" ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="101" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Definir Proyecto y su uso" DESCRIPTION="Definición de proyectos y sus Informes" HELP="Los proyectos permiten monitorear el estado y progreso de oportunidades de ventas; proyectos de servicios y de inversión. Un proyecto es un proceso que se comienza y puede involucrar múltiples pasos o fases y requiere recursos de más de una área." ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="103" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Definir Lenguaje" DESCRIPTION="Definir un nuevo lenguaje y traducir sus elementos." HELP="Definir un nuevo lenguaje como un lenguaje del sistema." ISTRANSLATED="Y" />
   <AD_WORKFLOW_TRL AD_WORKFLOW_ID="104" AD_LANGUAGE="es_MX" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-11-10 00:02:24.0" CREATEDBY="100" UPDATED="2006-11-10 00:14:58.0" UPDATEDBY="100" NAME="Revisión de Configuración Inicial de Compañía" DESCRIPTION="Revisar la Configuración de una nueva compañía a nivel de sistema" ISTRANSLATED="Y">
