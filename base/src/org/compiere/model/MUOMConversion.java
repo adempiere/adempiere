@@ -709,11 +709,11 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		}
 
 		//	The Product UoM needs to be the smallest UoM - Multiplier  must be > 0
-		/*if (getM_Product_ID() != 0 && getDivideRate().compareTo(Env.ONE) < 0)
+		if (getM_Product_ID() != 0 && getDivideRate().compareTo(Env.ONE) < 0)
 		{
 			log.saveError("ProductUOMConversionRateError", "");
 			return false;
-		}*/
+		}
 		return true;
 	}	//	beforeSave
 	
