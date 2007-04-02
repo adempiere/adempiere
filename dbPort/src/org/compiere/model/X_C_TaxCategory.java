@@ -162,26 +162,6 @@ return false;
 }
 /** Column name IsDefault */
 public static final String COLUMNNAME_IsDefault = "IsDefault";
-/** Set Is Withholding.
-@param IsWithholding Is Withholding */
-public void setIsWithholding (boolean IsWithholding)
-{
-set_Value ("IsWithholding", Boolean.valueOf(IsWithholding));
-}
-/** Get Is Withholding.
-@return Is Withholding */
-public boolean isWithholding() 
-{
-Object oo = get_Value("IsWithholding");
-if (oo != null) 
-{
- if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
- return "Y".equals(oo);
-}
-return false;
-}
-/** Column name IsWithholding */
-public static final String COLUMNNAME_IsWithholding = "IsWithholding";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)

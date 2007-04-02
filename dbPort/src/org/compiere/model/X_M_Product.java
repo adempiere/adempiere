@@ -594,24 +594,6 @@ return false;
 }
 /** Column name IsWebStoreFeatured */
 public static final String COLUMNNAME_IsWebStoreFeatured = "IsWebStoreFeatured";
-/** Set Withholding Category.
-@param LCO_WithholdingCategory_ID Withholding Category */
-public void setLCO_WithholdingCategory_ID (int LCO_WithholdingCategory_ID)
-{
-if (LCO_WithholdingCategory_ID <= 0) set_Value ("LCO_WithholdingCategory_ID", null);
- else 
-set_Value ("LCO_WithholdingCategory_ID", Integer.valueOf(LCO_WithholdingCategory_ID));
-}
-/** Get Withholding Category.
-@return Withholding Category */
-public int getLCO_WithholdingCategory_ID() 
-{
-Integer ii = (Integer)get_Value("LCO_WithholdingCategory_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name LCO_WithholdingCategory_ID */
-public static final String COLUMNNAME_LCO_WithholdingCategory_ID = "LCO_WithholdingCategory_ID";
 /** Set Attribute Set Instance.
 @param M_AttributeSetInstance_ID Product Attribute Set Instance */
 public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
