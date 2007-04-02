@@ -2,5 +2,3 @@
 2. Open Adempiere.xml from launch4j and start the build process
 3. A new Adempiere.exe file will be written into the Release folder.
 
-TODO
-* New Adempiere icon file ( Adempiere.ico )
