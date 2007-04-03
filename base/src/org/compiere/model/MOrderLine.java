@@ -866,8 +866,9 @@ public class MOrderLine extends X_C_OrderLine
 		if (!newRecord && is_ValueChanged("C_Tax_ID"))
 		{
 			//	Recalculate Tax for old Tax
-			if (!updateOrderTax(true))
-				return false;
+			if (!m_parent.isProcessed())
+				if (!updateOrderTax(true))
+					return false;
 		}
 		return updateHeaderTax();
 	}	//	afterSave
@@ -921,8 +922,9 @@ public class MOrderLine extends X_C_OrderLine
 	private boolean updateHeaderTax()
 	{
 		//	Recalculate Tax for this Tax
-		if (!updateOrderTax(false))
-			return false;
+		if (!m_parent.isProcessed())
+			if (!updateOrderTax(false))
+				return false;
 		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"
