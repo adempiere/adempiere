@@ -176,25 +176,27 @@ public final class FactLine extends X_Fact_Acct
 	 */
 	public boolean setAmtSource (int C_Currency_ID, BigDecimal AmtSourceDr, BigDecimal AmtSourceCr)
 	{
-        // begin Victor Perez e-evolution 30.08.2005
-		// fix Debit & Credit 
-		if (AmtSourceDr != null)
-		{	
-			if (AmtSourceDr.compareTo(Env.ZERO) == -1)
+		if (! m_acctSchema.isAllowNegativePosting()) {
+	        // begin Victor Perez e-evolution 30.08.2005
+			// fix Debit & Credit 
+			if (AmtSourceDr != null)
 			{	
-				AmtSourceCr = AmtSourceDr.abs();
-				AmtSourceDr = Env.ZERO;
+				if (AmtSourceDr.compareTo(Env.ZERO) == -1)
+				{	
+					AmtSourceCr = AmtSourceDr.abs();
+					AmtSourceDr = Env.ZERO;
+				}
 			}
-		}
-		if (AmtSourceCr != null)
-		{	
-			if (AmtSourceCr.compareTo(Env.ZERO) == -1)
+			if (AmtSourceCr != null)
 			{	
-				AmtSourceDr = AmtSourceCr.abs();
-				AmtSourceCr = Env.ZERO;
+				if (AmtSourceCr.compareTo(Env.ZERO) == -1)
+				{	
+					AmtSourceDr = AmtSourceCr.abs();
+					AmtSourceCr = Env.ZERO;
+				}
 			}
+			// end Victor Perez e-evolution 30.08.2005
 		}
-		// end Victor PÃ©rez e-evolution 30.08.2005
 		
 		setC_Currency_ID (C_Currency_ID);
 		if (AmtSourceDr != null)
@@ -228,19 +230,21 @@ public final class FactLine extends X_Fact_Acct
 	 */
 	public void setAmtAcct(BigDecimal AmtAcctDr, BigDecimal AmtAcctCr)
 	{
-        // begin Victor Perez e-evolution 30.08.2005
-		// fix Debit & Credit 
-		if (AmtAcctDr.compareTo(Env.ZERO) == -1)
-		{	
-			AmtAcctCr = AmtAcctDr.abs();
-			AmtAcctDr = Env.ZERO;
+		if (! m_acctSchema.isAllowNegativePosting()) {
+	        // begin Victor Perez e-evolution 30.08.2005
+			// fix Debit & Credit 
+			if (AmtAcctDr.compareTo(Env.ZERO) == -1)
+			{	
+				AmtAcctCr = AmtAcctDr.abs();
+				AmtAcctDr = Env.ZERO;
+			}
+			if (AmtAcctCr.compareTo(Env.ZERO) == -1)
+			{	
+				AmtAcctDr = AmtAcctCr.abs();
+				AmtAcctCr = Env.ZERO;
+			}
+			// end Victor Perez e-evolution 30.08.2005
 		}
-		if (AmtAcctCr.compareTo(Env.ZERO) == -1)
-		{	
-			AmtAcctDr = AmtAcctCr.abs();
-			AmtAcctCr = Env.ZERO;
-		}
-		// end Victor Perez e-evolution 30.08.2005
 		setAmtAcctDr (AmtAcctDr);
 		setAmtAcctCr (AmtAcctCr);
 	}   //  setAmtAcct

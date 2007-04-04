@@ -435,6 +435,26 @@ return false;
 }
 /** Column name IsAdjustCOGS */
 public static final String COLUMNNAME_IsAdjustCOGS = "IsAdjustCOGS";
+/** Set Allow Negative Posting.
+@param IsAllowNegativePosting Allow to post negative accounting values */
+public void setIsAllowNegativePosting (boolean IsAllowNegativePosting)
+{
+set_Value ("IsAllowNegativePosting", Boolean.valueOf(IsAllowNegativePosting));
+}
+/** Get Allow Negative Posting.
+@return Allow to post negative accounting values */
+public boolean isAllowNegativePosting() 
+{
+Object oo = get_Value("IsAllowNegativePosting");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Column name IsAllowNegativePosting */
+public static final String COLUMNNAME_IsAllowNegativePosting = "IsAllowNegativePosting";
 /** Set Correct tax for Discounts/Charges.
 @param IsDiscountCorrectsTax Correct the tax for payment discount and charges */
 public void setIsDiscountCorrectsTax (boolean IsDiscountCorrectsTax)
