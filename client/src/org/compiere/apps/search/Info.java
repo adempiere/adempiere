@@ -490,7 +490,9 @@ public abstract class Info extends CDialog
 			no = -2;
 		}
 		log.fine("#" + no + " - " + (System.currentTimeMillis()-start) + "ms");
-		if (no > 1000)
+		//Armen: add role checking (Patch #1694788 )
+		MRole role = MRole.getDefault(); 		
+		if (role.isQueryMax(no))
 			return ADialog.ask(p_WindowNo, this, "InfoHighRecordCount", String.valueOf(no));
 		return true;
 	}	//	testCount
