@@ -1790,6 +1790,7 @@ public abstract class PO
 		//	throw new DBException(e);
 			return false;
 		}
+		// Call ModelValidators TYPE_NEW/TYPE_CHANGE
 		String errorMsg = ModelValidationEngine.get().fireModelChange
 			(this, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
 		if (errorMsg != null)
@@ -1833,6 +1834,15 @@ public abstract class PO
 			log.saveError("Error", e.toString(), false);
 			success = false;
 		//	throw new DBException(e);
+		}
+		// Call ModelValidators TYPE_AFTER_NEW/TYPE_AFTER_CHANGE - teo_sarca [ 1675490 ]
+		if (success) {
+			String errorMsg = ModelValidationEngine.get().fireModelChange
+				(this, newRecord ? ModelValidator.TYPE_AFTER_NEW : ModelValidator.TYPE_AFTER_CHANGE);
+			if (errorMsg != null) {
+				log.saveError("Error", errorMsg);
+				success = false;
+			}
 		}
 		//	OK
 		if (success)
@@ -2443,7 +2453,7 @@ public abstract class PO
 			log.saveError("CannotDelete", errorMsg);
 			return false;
 		}
-		//
+		// Call ModelValidators TYPE_DELETE
 		errorMsg = ModelValidationEngine.get().fireModelChange
 			(this, ModelValidator.TYPE_DELETE);
 		if (errorMsg != null)
@@ -2543,6 +2553,14 @@ public abstract class PO
 		//	throw new DBException(e);
 		}
 
+		// Call ModelValidators TYPE_AFTER_DELETE - teo_sarca [ 1675490 ]
+		if (success) {
+			errorMsg = ModelValidationEngine.get().fireModelChange(this, ModelValidator.TYPE_AFTER_DELETE);
+			if (errorMsg != null) {
+				log.saveError("Error", errorMsg);
+				success = false;
+			}
+		}
 		//	Reset
 		if (success)
 		{

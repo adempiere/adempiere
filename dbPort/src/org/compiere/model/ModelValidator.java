@@ -28,14 +28,20 @@ package org.compiere.model;
 public interface ModelValidator
 {
 	/** Model Change Type New		*/
+	public static final int TYPE_BEFORE_NEW = 1;			// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_NEW = 1;
-	public static final int	CHANGETYPE_NEW = 1;
+	public static final int	CHANGETYPE_NEW = 1;				// Compatibility with Compiere 260c
+	public static final int TYPE_AFTER_NEW = 4;			// teo_sarca [ 1675490 ] 
 	/** Model Change Type Change	*/
+	public static final int	TYPE_BEFORE_CHANGE = 2;		// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_CHANGE = 2;
-	public static final int	CHANGETYPE_CHANGE = 2;
+	public static final int	CHANGETYPE_CHANGE = 2;			// Compatibility with Compiere 260c
+	public static final int	TYPE_AFTER_CHANGE = 5;			// teo_sarca [ 1675490 ] 
 	/** Model Change Type Delete	*/
+	public static final int	TYPE_BEFORE_DELETE = 3;		// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_DELETE = 3;
-	public static final int	CHANGETYPE_DELETE = 3;
+	public static final int	CHANGETYPE_DELETE = 3;			// Compatibility with Compiere 260c
+	public static final int	TYPE_AFTER_DELETE = 6;			// teo_sarca [ 1675490 ] 
 	
 	/** Called before document is prepared */
 	public static final int TIMING_BEFORE_PREPARE = 1;
