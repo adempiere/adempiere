@@ -73,13 +73,8 @@ public class Adempiere implements Serializable
 
 	/** Oracle Server					*/
 	public static final String TYPE_ORACLE = "oracle";
-	/** Derby Server					*/
-	public static final String TYPE_DERBY = "derby";
-    //begin e-evolution vpj-cd 02/02/2005 PostgreSQL
 	/** PostgreSQL **/
 	public static final String TYPE_POSTGRESQL = "PostgreSQL";
-        public static final String TYPE_EDB = "EDB";
-	//end e-evolution vpj-cd 02/02/2005 PostgreSQL	
 	/** Server Type						*/        
 	public static String 	s_type = null;
 	
@@ -94,8 +89,6 @@ public class Adempiere implements Serializable
 			String vendor = System.getProperty("java.vendor");
 			if (vendor.startsWith("Oracle"))
 				s_type = TYPE_ORACLE;
-			else if (vendor.startsWith("Derby"))
-				s_type = TYPE_DERBY;
 			else
 				s_type = "??";
 		}
@@ -115,20 +108,8 @@ public class Adempiere implements Serializable
 		return false;
 	}	//	isOracle
 	
-	/**
-	 * 	Is this Derby ?
-	 *	@return true if Derby
-	 */
-	static boolean isDerby()
-	{
-		if (s_type == null)
-			getServerType();
-		if (s_type != null)
-			return TYPE_DERBY.equals(s_type);
-		return false;
-	}	//	isDerby
         
-                    //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
+    //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
 	/**
 	 * 	Is this PostgreSQL ?
 	 *	@return true if PostgreSQL

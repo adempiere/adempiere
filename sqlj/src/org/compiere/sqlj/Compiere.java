@@ -73,13 +73,10 @@ public class Compiere implements Serializable
 
 	/** Oracle Server					*/
 	public static final String TYPE_ORACLE = "oracle";
-	/** Derby Server					*/
-	public static final String TYPE_DERBY = "derby";
         
 	//begin e-evolution vpj-cd 02/02/2005 PostgreSQL
 	/** PostgreSQL **/
 	public static final String TYPE_POSTGRESQL = "PostgreSQL";
-    public static final String TYPE_EDB = "EDB";
 	//end e-evolution vpj-cd 02/02/2005 PostgreSQL	
         
 	/** Server Type						*/
@@ -96,8 +93,6 @@ public class Compiere implements Serializable
 			String vendor = System.getProperty("java.vendor");
 			if (vendor.startsWith("Oracle"))
 				s_type = TYPE_ORACLE;
-			else if (vendor.startsWith("Derby"))
-				s_type = TYPE_DERBY;
 			else
 				s_type = "??";
 		}
@@ -117,20 +112,7 @@ public class Compiere implements Serializable
 		return false;
 	}	//	isOracle
 	
-	/**
-	 * 	Is this Derby ?
-	 *	@return true if Derby
-	 */
-	static boolean isDerby()
-	{
-		if (s_type == null)
-			getServerType();
-		if (s_type != null)
-			return TYPE_DERBY.equals(s_type);
-		return false;
-	}	//	isDerby
-	
-                    //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
+    //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
 	/**
 	 * 	Is this PostgreSQL ?
 	 *	@return true if PostgreSQL
@@ -143,16 +125,8 @@ public class Compiere implements Serializable
 			return TYPE_POSTGRESQL.equals(s_type);
 		return false;
 	}	
-        //	isEDB
-        	static boolean isEDB()
-	{
-		if (s_type == null)
-			getServerType();
-		if (s_type != null)
-			return TYPE_EDB.equals(s_type);
-		return false;
-	}	//	isEDB
 	//end vpj-cd e-evolution 02/22/2005 PostgreSQL
+	
 	/**
 	 * 	Get Connection URL
 	 *	@return connection URL
@@ -164,12 +138,7 @@ public class Compiere implements Serializable
 		
 		if (isOracle())
 			s_url = "jdbc:default:connection:";
-		else if (isDerby())
-			s_url = "jdbc:default:connection";
-                    //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
 		else if (isPostgreSQL())
-			return "jdbc:default:connection";
-                else if (isEDB())
 			return "jdbc:default:connection";
 		return "jdbc:default:connection";
 		//
