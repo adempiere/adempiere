@@ -25,19 +25,14 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${lib.dir}/oracle.jar"/>
     <pathelement path="${lib.dir}/postgresql.jar"/>
-    <pathelement path="${lib.dir}/derby.jar"/>
     <pathelement path="${lib.dir}/postgresql.jar"/>
-    <pathelement path="${lib.dir}/fyracle.jar"/>
     <pathelement path="${lib.dir}/jboss.jar"/>
     <pathelement path="${lib.dir}/CCTools.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="${lib.dir}/customization.jar"/>
     <pathelement path="${lib.dir}/patches.jar"/>
     <pathelement path="${toolslib.dir}/junit.jar"/>
-    <pathelement path="../derby/derbyclient.jar"/>
-    <pathelement path="../derby/derbynet.jar"/>
-    <pathelement path="../derby/derbytools.jar"/>
-
+    
     <!-- Recursive relationship: require AppsServer -->
     <pathelement path="../base/Base.jar"/>
     <!-- <pathelement path="../interfaces/Interfaces.jar"/> -->

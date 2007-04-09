@@ -585,20 +585,7 @@ public final class DB
 		return false;
 	}	//	isOracle
 
-	/**
-	 * 	Do we have a Derby DB ?
-	 *	@return true if connected to Derby
-	 */
-	
-	public static boolean isDerby()
-	{
-		if (s_cc != null)
-			return s_cc.isDerby();
-		log.severe("No Database Connection");
-		return false;
-	}	//	isDerby
-
-            //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
+    //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
 	/**
 	 * 	Do we have a Postgre DB ?
 	 *	@return true if connected to PostgreSQL
@@ -610,29 +597,8 @@ public final class DB
                 log.severe("No Database");
 		return false;
 	}	//	isPostgreSQL
-            //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
+    //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
 	
-	public static boolean isFyracle()
-	{
-		if (s_cc != null)
-			return s_cc.isFyracle();
-                log.severe("No Database");
-		return false;
-	}	//	isFyracle
- 	
-	/**
-	 * 	Do we have a Postgre DB ?
-	 *	@return true if connected to PostgreSQL
-	 */
-//	public static boolean isEDB()
-//	{
-//		if (s_cc != null)
-//			return s_cc.isEDB();
-//                log.severe("No Database");
-//		return false;
-//	}	//	isPostgreSQL
-        //end vpj-cd e-evolution 02/07/2005 PostgreSQL
-        
 	/**
 	 * 	Get Database Info
 	 *	@return info

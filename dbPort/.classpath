@@ -9,9 +9,7 @@
 	<classpathentry kind="lib" path="/interfaces/Interfaces.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jnlp.jar"/>
 	<classpathentry kind="lib" path="/lib/oracle.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/derby"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
-	<classpathentry kind="lib" path="/lib/fyracle.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/itext-1.4.8.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>

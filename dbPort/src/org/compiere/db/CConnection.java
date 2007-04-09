@@ -834,12 +834,6 @@ public class CConnection implements Serializable
 			setViaFirewall (false);
 		}
 		
-		/*
-		if (isDerby())
-		{
-			if (getDbPort () != DB_Derby.DEFAULT_PORT)
-				setDbPort (DB_Derby.DEFAULT_PORT);
-		}*/
         // begin vpj-cd e-evolution 09 ene 2006
 		//  PostgreSQL
 		if (isPostgreSQL ())
@@ -848,11 +842,6 @@ public class CConnection implements Serializable
 				setDbPort (DB_PostgreSQL.DEFAULT_PORT);
 		}
 		//end vpj-cd e-evolution 09 ene 2006
-		if (isFyracle())
-		{
-			if (getDbPort () != DB_Fyracle.DEFAULT_PORT)
-				setDbPort (DB_Fyracle.DEFAULT_PORT);
-		}		
 	} 	//  setType
 
 	/**
@@ -875,26 +864,6 @@ public class CConnection implements Serializable
 	} 	//  isOracle
 
 	/**
-	 *  Is Apache Derby
-	 *  @return true if Derby
-	 */
-	
-	public boolean isDerby ()
-	{
-		return Database.DB_DERBY.equals (m_type);
-	} 	//  isDerby
-
-        
- //begin e-evolution vpj-cd 30 nov 2005
-    /**
-     *  Is PostgreSQL DB
-     *  @return true if PostgreSQL
-     */
-//	public boolean isEDB ()
-//	{
-//	return Database.DB_EDB.equals (m_type);
-//	} 	//  isPostgreSQL
-	/**
 	 *  Is PostgreSQL DB
 	 *  @return true if PostgreSQL
 	 */
@@ -902,16 +871,7 @@ public class CConnection implements Serializable
 	{
 		return Database.DB_POSTGRESQL.equals (m_type);
 	} 	//  isPostgreSQL
-    //end
-	/**
-	 *  Is Fyracle DB
-	 *  @return true if PostgreSQL
-	 */
-	public boolean isFyracle ()
-	{
-		return Database.DB_FYRACLE.equals (m_type);
-	} 	//  isPostgreSQL
-    //end        
+
 	/**
 	 *  Is Database Connection OK
 	 *  @return true if database connection is OK

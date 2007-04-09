@@ -828,10 +828,7 @@ public class CreateAdempiere
 		//jz: changed the password from "" to null
 		 //begin vpj-cd e-Evolution 03/03/2005 PostgreSQL
 		//PostgreSQL
-		//CreateCompiere cc = new CreateCompiere (Database.DB_DERBY, "localhost", 1527, null);
-		//cc.setCompiereUser("adempiere", "adempiere");
-		//cc.setDatabaseName("adempiere", "adempiere");
-                CreateAdempiere cc = new CreateAdempiere (Database.DB_POSTGRESQL, "127.0.0.2", 5432 , "adempiere");
+        CreateAdempiere cc = new CreateAdempiere (Database.DB_POSTGRESQL, "127.0.0.2", 5432 , "adempiere");
 		cc.setAdempiereUser("adempiere", "adempiere");
 		cc.setDatabaseName("adempiere", "adempiere");
                 // end begin vpj-cd e-Evolution 03/03/2005 PostgreSQL
