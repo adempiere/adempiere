@@ -127,8 +127,6 @@ public class Adempiere implements Serializable
 	{
 		if (s_type == null)
 			getServerType();
-		if (s_type != null)
-			return TYPE_EDB.equals(s_type);
 		return false;
 	}	//	isEDB
 	//end vpj-cd e-evolution 02/22/2005 PostgreSQL
@@ -145,12 +143,7 @@ public class Adempiere implements Serializable
 		
 		if (isOracle())
 			s_url = "jdbc:default:connection:";
-		else if (isDerby())
-			s_url = "jdbc:default:connection";
-                 //begin vpj-cd e-evolution 02/22/2005 PostgreSQL
 		else if (isPostgreSQL())
-			return "jdbc:default:connection";
-                else if (isEDB())
 			return "jdbc:default:connection";
 		return "jdbc:default:connection";
 		//
