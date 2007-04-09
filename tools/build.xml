@@ -19,7 +19,6 @@
   <property name="buildServer.dir" value="build/Server"/>
   <property name="buildJBoss.dir" value="build/JBoss"/>
   <property name="buildOracle.dir" value="build/Oracle"/>
-  <property name="buildDerby.dir" value="build/Derby"/>
   <property name="buildPostgreSQL.dir" value="build/PostgreSQL"/>
   <property name="jboss.dir" value="../jboss"/>
   <property name="dist.dir" value="../lib"/>
@@ -50,7 +49,6 @@
     <mkdir dir="${buildServer.dir}"/>
     <mkdir dir="${buildJBoss.dir}"/>
     <mkdir dir="${buildOracle.dir}"/>
-    <mkdir dir="${buildDerby.dir}"/>
     <mkdir dir="${buildPostgreSQL.dir}"/>
     <!-- check for the distribution directory -->
     <mkdir dir="${dist.dir}"/>
@@ -153,25 +151,6 @@
       </manifest>
     </jar>
 
-    <!-- Derby Lib			-->
-    <unjar src="../derby/derbyclient.jar" dest="${buildDerby.dir}"/>
-
-    <!-- Clean up			-->
-
-    <!-- Create derby.jar file 	-->
-    <jar jarfile="${dist.dir}/derby.jar">
-      <fileset dir="${buildDerby.dir}"/>
-      <manifest>
-		<attribute name="Specification-Title" value="Derby DB - IBM"/>
-		<attribute name="Specification-Version" value="10.1.2.1"/>
-		<attribute name="Specification-Vendor" value="IBM"/>
-		<attribute name="Implementation-Title" value="Derby ${env.ADEMPIERE_VERSION}"/>
-		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
-		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
-      </manifest>
-    </jar>
-
     <!-- PostgreSQL Lib			-->
     <unjar src="lib/postgresql.jar" dest="${buildPostgreSQL.dir}"/>
 
@@ -219,10 +198,6 @@
     <unjar src="lib/barbecue-1.0.6d.jar" dest="${buildServer.dir}"/>
     <unjar src="lib/commons-net-1.4.0.jar" dest="${buildServer.dir}"/>
 
-  	<!-- Derby Server			-->
-    <unjar src="../derby/derby.jar" dest="${buildServer.dir}"/>
-    <unjar src="../derby/derbynet.jar" dest="${buildServer.dir}"/>
-    <unjar src="../derby/derbytools.jar" dest="${buildServer.dir}"/>
     <!-- Adempiere look and feel -->
 	<unjar src="lib/looks-2.0.4.jar" dest="${buildServer.dir}"/>
   	<!-- PDF -->
@@ -333,7 +308,6 @@
     <delete file="${dist.dir}/CSTools.jar" failonerror="false"/>
     <delete file="${dist.dir}/jboss.jar" failonerror="false"/>
     <delete file="${dist.dir}/oracle.jar" failonerror="false"/>
-    <delete file="${dist.dir}/derby.jar" failonerror="false"/>
     <delete file="${dist.dir}/postgresql.jar" failonerror="false"/>
   </target>
 
