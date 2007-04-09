@@ -366,7 +366,7 @@ public class MCashLine extends X_C_CashLine
 	{
 		String sql = "UPDATE C_Cash c"
 			+ " SET StatementDifference="
-			//FYRACLE replace null with 0 there is no difference with this
+			//replace null with 0 there is no difference with this
 				+ "(SELECT COALESCE(SUM(currencyConvert(cl.Amount, cl.C_Currency_ID, cb.C_Currency_ID, c.DateAcct, 0, c.AD_Client_ID, c.AD_Org_ID)),0) "
 				+ "FROM C_CashLine cl, C_CashBook cb "
 				+ "WHERE cb.C_CashBook_ID=c.C_CashBook_ID"

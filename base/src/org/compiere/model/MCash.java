@@ -47,24 +47,14 @@ public class MCash extends X_C_Cash implements DocAction
 		MCash retValue = null;
 		//	Existing Journal
 		String sql;
-		if(DB.isFyracle()){
-			 sql = "SELECT * FROM C_Cash c "
-				+ "WHERE c.AD_Org_ID=?"						//	#1
-				//FYRACLE PATCH
-				+ " AND cast(c.StatementDate as date)=?"			//	#2
-				+ " AND c.Processed='N'"
-				+ " AND EXISTS (SELECT * FROM C_CashBook cb "
-					+ "WHERE c.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=c.AD_Org_ID"
-					+ " AND cb.C_Currency_ID=?)";			//	#3		
-		}else{
-		    sql = "SELECT * FROM C_Cash c "
-			+ "WHERE c.AD_Org_ID=?"						//	#1
-			+ " AND TRUNC(c.StatementDate)=?"			//	#2
-			+ " AND c.Processed='N'"
-			+ " AND EXISTS (SELECT * FROM C_CashBook cb "
-				+ "WHERE c.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=c.AD_Org_ID"
-				+ " AND cb.C_Currency_ID=?)";			//	#3
-		}
+	    sql = "SELECT * FROM C_Cash c "
+		+ "WHERE c.AD_Org_ID=?"						//	#1
+		+ " AND TRUNC(c.StatementDate)=?"			//	#2
+		+ " AND c.Processed='N'"
+		+ " AND EXISTS (SELECT * FROM C_CashBook cb "
+			+ "WHERE c.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=c.AD_Org_ID"
+			+ " AND cb.C_Currency_ID=?)";			//	#3
+		
 		PreparedStatement pstmt = null;
 		try
 		{
