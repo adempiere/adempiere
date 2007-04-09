@@ -571,42 +571,29 @@ public final class Find extends CDialog
 		m_query = new MQuery(m_tableName);
 		if (hasValue && !valueField.getText().equals("%") && valueField.getText().length() != 0)
 		{
-			//@TODO Fyracle bug with upper
-			String value;
-			if(DB.isFyracle()){
-				value = valueField.getText();	
-			}else{
-				value = valueField.getText().toUpperCase();
-			}
+			String value = valueField.getText().toUpperCase();
+			
 			if (!value.endsWith("%"))
 				value += "%";
-			m_query.addRestriction((DB.isFyracle()?"Value":"UPPER(Value)"), MQuery.LIKE, value, valueLabel.getText(), value);
+			m_query.addRestriction("UPPER(Value)", MQuery.LIKE, value, valueLabel.getText(), value);
 		}
 		//
 		if (hasDocNo && !docNoField.getText().equals("%") && docNoField.getText().length() != 0)
 		{
-			String value;
-			if(DB.isFyracle()){
-				value = docNoField.getText();	
-			}else{
-				value = docNoField.getText().toUpperCase();
-			}
+			String value = docNoField.getText().toUpperCase();
+			
 			if (!value.endsWith("%"))
 				value += "%";
-			m_query.addRestriction((DB.isFyracle()?"DocumentNo":"UPPER(DocumentNo)"), MQuery.LIKE, value, docNoLabel.getText(), value);
+			m_query.addRestriction("UPPER(DocumentNo)", MQuery.LIKE, value, docNoLabel.getText(), value);
 		}
 		//
 		if ((hasName) && !nameField.getText().equals("%") && nameField.getText().length() != 0)
 		{
-			String value;
-			if(DB.isFyracle()){
-				value = nameField.getText();	
-			}else{
-				value = nameField.getText().toUpperCase();
-			}
+			String value = nameField.getText().toUpperCase();
+			
 			if (!value.endsWith("%"))
 				value += "%";
-			m_query.addRestriction((DB.isFyracle()?"Name":"UPPER(Name)"), MQuery.LIKE, value, nameLabel.getText(), value);
+			m_query.addRestriction("UPPER(Name)", MQuery.LIKE, value, nameLabel.getText(), value);
 		}
 		//
 		if (hasDescription && !descriptionField.getText().equals("%") && descriptionField.getText().length() != 0)
