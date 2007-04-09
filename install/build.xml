@@ -34,7 +34,6 @@
 	<pathelement path="${lib.dir}/Adempiere.jar"/>
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
-	<pathelement path="${lib.dir}/fyracle.jar"/>
 	<pathelement path="../tools/lib/ant.jar"/>
 	<pathelement path="../tools/lib/ant-launcher.jar"/>
   </path>

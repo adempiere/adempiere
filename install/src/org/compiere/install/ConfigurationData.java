@@ -820,16 +820,6 @@ public class ConfigurationData
 		String ccType = Database.DB_ORACLE;
 		if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
 			ccType = Database.DB_POSTGRESQL;
-		/*
-		if (getDatabaseType().equals(DBTYPE_DERBY))
-			ccType = Database.DB_DERBY;
-		//begin vpj-cd e-evolution 03/17/2005 PostgreSQL
-		else if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
-			ccType = Database.DB_POSTGRESQL;
-		else if (getDatabaseType().equals(DBTYPE_FYRACLE))
-			ccType = Database.DB_FYRACLE;*/
-               
-		//end vpj-cd e-evolution 03/17/2005 PostgreSQL
 		CConnection cc = null;
 		try
 		{
@@ -1292,30 +1282,21 @@ public class ConfigurationData
 	 * 	Database Settings
 	 *************************************************************************/
 	
-	/** Derby/Cloudscape	*/
-	//private static String	DBTYPE_DERBY = "<derby>";
 	/** Oracle directory	*/
 	private static String	DBTYPE_ORACLE = "oracle";
 	/** Oracle XP	*/
 	private static String	DBTYPE_ORACLEXE = "oracleXE";
         
-        // begin e-evolution vpj-cd 02/07/2005 PostgreSQL
 	/** PostgreSQL          */
 	private static String	DBTYPE_POSTGRESQL = "postgresql";
-    //private static String	DBTYPE_EDB = "enterprisedb";
-    //private static String	DBTYPE_FYRACLE = "fyracle";
-        
-	// end e-evolution vpj-cd 02/07/2005 PostgreSQL
 	
 	/** Database Types		*/
 	static String[]	DBTYPE = new String[]
-		{DBTYPE_ORACLEXE,
+	{	DBTYPE_ORACLEXE,
 		DBTYPE_ORACLE, 
-		//DBTYPE_FYRACLE,
         //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
         DBTYPE_POSTGRESQL 
-                 
-        };
+    };
 	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		
 	/** Database Configs	*/
@@ -1324,11 +1305,7 @@ public class ConfigurationData
 		new ConfigOracle(this,true), 
 		new ConfigOracle(this,false), 
 		//begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-		//null	
-		//null,
-//		new ConfigFyracle(this),
 		new ConfigPostgreSQL(this)  
-//		new ConfigEDB(this)
 		//		end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		};
 
