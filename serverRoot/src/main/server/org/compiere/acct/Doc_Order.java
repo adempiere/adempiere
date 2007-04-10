@@ -428,7 +428,7 @@ public class Doc_Order extends Doc
 				sql.append(" AND ROWNUM=1 ");
 			}
 			else 
-				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
+				sql.append(" AND ol.C_OrderLine_ID = (SELECT MIN(ol1.C_OrderLine_ID) "
 						+ "FROM C_Order o1, C_OrderLine ol1 "
 						+ "WHERE o1.C_Order_ID=ol1.C_Order_ID"
 						+ " AND po.M_Product_ID=ol1.M_Product_ID AND po.C_BPartner_ID=o1.C_BPartner_ID")
@@ -626,7 +626,7 @@ public class Doc_Order extends Doc
 				sql.append(" AND ROWNUM=1 ");
 			}
 			else 
-				sql.append(" AND o.UPDATED IN (SELECT MAX(o1.UPDATED) "
+				sql.append(" AND ol.C_OrderLine_ID = (SELECT MIN(ol1.C_OrderLine_ID) "
 						+ "FROM C_Order o1, C_OrderLine ol1 "
 						+ "WHERE o1.C_Order_ID=ol1.C_Order_ID"
 						+ " AND pc.M_Product_ID=ol1.M_Product_ID ")
