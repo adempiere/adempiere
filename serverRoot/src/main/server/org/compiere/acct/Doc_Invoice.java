@@ -879,7 +879,7 @@ public class Doc_Invoice extends Doc
 			}
 			else 
 			{
-				sql.append(" AND i.UPDATED IN (SELECT MAX(i1.UPDATED) "
+				sql.append(" AND il.C_InvoiceLine_ID = (SELECT MIN(il1.C_InvoiceLine_ID) "
 						+ "FROM C_Invoice i1, C_InvoiceLine il1 "
 						+ "WHERE i1.C_Invoice_ID=il1.C_Invoice_ID"
 						+ " AND po.M_Product_ID=il1.M_Product_ID AND po.C_BPartner_ID=i1.C_BPartner_ID")
