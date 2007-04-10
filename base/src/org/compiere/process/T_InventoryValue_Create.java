@@ -163,7 +163,7 @@ public class T_InventoryValue_Create extends SvrProcess
 	           + "SET PricePO = "
 	           + "(SELECT currencyConvert (po.PriceList,po.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue, null, T_InventoryValue.AD_Client_ID, T_InventoryValue.AD_Org_ID) "
 	           + "FROM M_Product_PO po WHERE po.M_Product_ID=T_InventoryValue.M_Product_ID "
-	           + "AND po.IsCurrentVendor='Y' AND ROWNUM=1), "
+	           + "AND po.IsCurrentVendor='Y' AND po.C_BPartner_ID = (SELECT MIN(po1.C_BPartner_ID) FROM M_Product_PO po1 WHERE po1.M_Product_ID=T_InventoryValue.M_Product_ID AND po1.IsCurrentVendor='Y')), "
 	           + "PriceList = " 
 	           + "(SELECT currencyConvert(pp.PriceList,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue, null, T_InventoryValue.AD_Client_ID, T_InventoryValue.AD_Org_ID) "
 	           + "FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp "
