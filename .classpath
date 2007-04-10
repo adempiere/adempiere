@@ -48,7 +48,6 @@
 	<classpathentry kind="lib" path="tools/lib/postgresql.jar"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/fyracle.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
@@ -58,10 +57,6 @@
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
-	<classpathentry kind="lib" path="derby/derby.jar"/>
-	<classpathentry kind="lib" path="derby/derbyclient.jar"/>
-	<classpathentry kind="lib" path="derby/derbynet.jar"/>
-	<classpathentry kind="lib" path="derby/derbytools.jar"/>
 	<classpathentry kind="lib" path="tools/lib/xdoclet-1.2.3.jar"/>
 	<classpathentry kind="lib" path="tools/lib/xdoclet-ejb-module-1.2.3.jar"/>
 	<classpathentry kind="lib" path="tools/lib/xdoclet-web-module-1.2.3.jar"/>
