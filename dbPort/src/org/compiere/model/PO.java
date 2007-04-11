@@ -1904,7 +1904,7 @@ public abstract class PO
 			if (m_newValues[i] != null)
 				return true;	//	something changed
 		}
-		if (m_custom.size() > 0)
+		if (m_custom != null && m_custom.size() > 0)
 			return true; // there are custom columns modified
 		return false;
 	}	//	is_Change
