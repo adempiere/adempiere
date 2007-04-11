@@ -271,7 +271,7 @@ public class CalloutPayment extends CalloutEngine
 			}
 		}
 		//	Order Waiting Payment (can only be SO)
-		if (C_Order_ID != 0 && !dt.isSOTrx())
+		if (C_Order_ID != 0 && dt != null && !dt.isSOTrx())
 			return "PaymentDocTypeInvoiceInconsistent";
 		
 		return "";
