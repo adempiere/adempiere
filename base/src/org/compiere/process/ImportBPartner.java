@@ -149,7 +149,7 @@ public class ImportBPartner extends SvrProcess
 
 		//	Set Region
 		sql = new StringBuffer ("UPDATE I_BPartner i "
-			+ "Set RegionName=(SELECT MAX(Name FROM C_Region r"
+			+ "Set RegionName=(SELECT MAX(Name) FROM C_Region r"
 			+ " WHERE r.IsDefault='Y' AND r.C_Country_ID=i.C_Country_ID"
 			+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) " );
 		sql.append("WHERE RegionName IS NULL AND C_Region_ID IS NULL"
