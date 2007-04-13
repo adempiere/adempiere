@@ -25,7 +25,7 @@ dropdb -U postgres $ADEMPIERE_DB_NAME
 
 dropuser -U postgres $ADEMPIERE_DB_USER
 
-createuser -U postgres -a -d $ADEMPIERE_DB_USER
+createuser -U postgres -a -d $ADEMPIERE_DB_USER -P
 
 createdb $ADEMPIERE_DB_NAME -E UNICODE -O $ADEMPIERE_DB_USER -U $ADEMPIERE_DB_USER
 

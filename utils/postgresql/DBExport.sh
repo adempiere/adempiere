@@ -18,7 +18,7 @@ if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" ]
     exit 1
 fi
 
-pg_dump $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/ExpDat.dmp 
+pg_dump -U $1 $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/ExpDat.dmp 
 
 cd $ADEMPIERE_HOME/data
 jar cvfM ExpDat.jar ExpDat.dmp ExpDat.log
