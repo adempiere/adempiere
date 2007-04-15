@@ -22,7 +22,7 @@ import java.util.*;
  *  Swedish Base Resource Bundle Translation
  *
  * 	@author 	Thomas Dilts
- * 	@version 	$Id: ALoginRes_sv.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 	@version 	$Id: ALoginRes_sv.java, 2007/04/15 09:38:27 usrdno Exp $
  */
 public final class ALoginRes_sv extends ListResourceBundle
 {
@@ -32,37 +32,37 @@ public final class ALoginRes_sv extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "Connection",         "Anslutning" },
-	{ "Defaults",           "Standardinst�llningar" },
+	{ "Defaults",           "Standardinställningar" },
 	{ "Login",              "Adempiere inloggning" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Avsluta" },
-	{ "Help",               "Hj�lp" },
+	{ "Help",               "Hjälp" },
 	{ "About",              "Om" },
-	{ "Host",               "V�rddatorn" },
+	{ "Host",               "Värddator" },
 	{ "Database",           "Databas" },
-	{ "User",               "Anv�ndarnamn" },
-	{ "EnterUser",          "Ange program anv�ndarnamn" },
-	{ "Password",           "L�senord" },
-	{ "EnterPassword",      "Ange program l�senord" },
-	{ "Language",           "Spr�k" },
-	{ "SelectLanguage",     "V�lj ditt spr�k" },
+	{ "User",               "Användarnamn" },
+	{ "EnterUser",          "Ange användarnamn" },
+	{ "Password",           "Lösenord" },
+	{ "EnterPassword",      "Ange lösenord" },
+	{ "Language",           "Språk" },
+	{ "SelectLanguage",     "Välj språk" },
 	{ "Role",               "Roll" },
 	{ "Client",             "Klient" },
 	{ "Organization",       "Organisation" },
 	{ "Date",               "Datum" },
 	{ "Warehouse",          "Lager" },
 	{ "Printer",            "Skrivare" },
-	{ "Connected",          "Anslutad" },
+	{ "Connected",          "Ansluten" },
 	{ "NotConnected",       "Ej ansluten" },
 	{ "DatabaseNotFound",   "Hittade inte databasen" },
-	{ "UserPwdError",       "User does not match password" },
+	{ "UserPwdError",       "Felaktig användare/lösenord" },
 	{ "RoleNotFound",       "Hittade inte rollen" },
 	{ "Authorized",         "Auktoriserad" },
 	{ "Ok",                 "Ok" },
 	{ "Cancel",             "Avbryt" },
 	{ "VersionConflict",    "Versionskonflikt:" },
 	{ "VersionInfo",        "Server <> Klient" },
-	{ "PleaseUpgrade",      "K�r updateringsprogram" }
+	{ "PleaseUpgrade",      "Uppgradering nödvändig" }
 	};
 
 	/**
