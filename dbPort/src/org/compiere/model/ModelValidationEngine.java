@@ -311,4 +311,36 @@ public class ModelValidationEngine
 		return sb.toString();
 	}	//	toString
 	
+	/**
+	 * After Load Preferences into Context for selected client.
+	 * @param ctx context
+	 * @see org.compiere.util.Login#loadPreferences(KeyNamePair, KeyNamePair, java.sql.Timestamp, String)
+	 * @author Teo Sarca - FR [ 1670025 ] - https://sourceforge.net/tracker/index.php?func=detail&aid=1670025&group_id=176962&atid=879335
+	 */
+	public void afterLoadPreferences (Properties ctx)
+	{
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		for (int i = 0; i < m_validators.size(); i++) 
+		{
+			ModelValidator validator = (ModelValidator)m_validators.get(i);
+			if (AD_Client_ID == validator.getAD_Client_ID())
+			{
+				java.lang.reflect.Method m = null;
+				try {
+					m = validator.getClass().getMethod("afterLoadPreferences", new Class[]{Properties.class});
+				}
+				catch(NoSuchMethodException e) {
+					// ignore
+				}
+				try {
+					if (m != null)
+						m.invoke(validator, ctx);
+				}
+				catch (Exception e) {
+					log.warning("" + validator + ": " + e.getLocalizedMessage());
+				}
+			}
+		}
+	}
+
 }	//	ModelValidatorEngine
