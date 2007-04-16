@@ -16,6 +16,7 @@ package org.compiere.dbPort;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -55,6 +56,11 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	public boolean isOracle() {
 		return false;
 	} // isOracle
+	
+	@Override
+	protected Map getConvertMap() {
+		return m_map;
+	}
 
 	/**
 	 * Convert single Statements. - remove comments - process
@@ -66,46 +72,30 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	protected ArrayList<String> convertStatement(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
 
-		// remove comments
-		String statement = sqlStatement;
-		/** Vector to save previous values of quoted strings **/
-		Vector<String> retVars = new Vector<String>();
-		try 
-		{
-			statement = replaceQuotedStrings(statement,retVars);
-			statement = convertMapStatement(removeComments(statement));
-			statement = recoverQuotedStrings(statement,retVars);
-		}
-		catch (RuntimeException e) {
-			System.err.println(sqlStatement);
-			throw e;
-		}
-		// log.info("------------------------------------------------------------");
-		// log.info(statement);
-		// log.info("------------------->");
-
+		String statement = convertWithConvertMap(sqlStatement);
+		
 		String cmpString = statement.toUpperCase();
 		boolean isCreate = cmpString.startsWith("CREATE ");
 
 		// Process
 		if (isCreate && cmpString.indexOf(" FUNCTION ") != -1)
-			result.addAll(convertFunction(statement));
+			result.add(statement);
 		else if (isCreate && cmpString.indexOf(" TRIGGER ") != -1)
-			result.addAll(convertTrigger(statement));
+			result.add(statement);
 		else if (isCreate && cmpString.indexOf(" PROCEDURE ") != -1)
-			result.addAll(convertProcedure(statement));
+			result.add(statement);
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
-			result.addAll(convertView(statement));
+			result.add(statement);
 		// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
 		else if (cmpString.indexOf("ALTER TABLE") != -1) {
 			result.add(convertDDL(convertComplexStatement(statement)));
+		/*
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
-			result.add(convertRowNum(convertAlias(convertComplexStatement(statement))));
+			result.add(convertRowNum(convertComplexStatement(convertAlias(statement))));*/
 		} else if (cmpString.indexOf("DELETE ") != -1
 				&& cmpString.indexOf("DELETE FROM") == -1) {
 			statement = convertDelete(statement);
-			cmpString = statement;
-			result.add(convertComplexStatement(convertAlias(cmpString)));
+			result.add(convertComplexStatement(convertAlias(statement)));
 		} else if (cmpString.indexOf("DELETE FROM") != -1) {
 			result.add(convertComplexStatement(convertAlias(statement)));
 		} else if (cmpString.indexOf("UPDATE ") != -1) {
@@ -114,94 +104,12 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			result.add(convertComplexStatement(convertAlias(statement)));
 		}
 		// end vpj-cd e-evolution 02/24/2005 PostgreSQL
-		// Simple Statement
-
-		//
-		// log.info("<-------------------");
-		// for (int i = 0; i < result.size(); i++)
-		// log.info(result.get(i));
-		// log.info("------------------------------------------------------------");
-
-		//System.out.println(result.get(0));
+		
 		return result;
 	} // convertStatement
 
-	/**
-	 * Convert simple SQL Statement. Based on ConvertMap
-	 * 
-	 * @param sqlStatement
-	 * @return converted Statement
-	 */
-	private String convertMapStatement(String sqlStatement) {
-		// Error Checks
-		if (sqlStatement.toUpperCase().indexOf("EXCEPTION WHEN") != -1) {
-			String error = "Exception clause needs to be converted: "
-					+ sqlStatement;
-			log.info(error);
-			m_conversionError = error;
-			return sqlStatement;
-		}
-
-		// Carlos Ruiz - globalqss
-		// Standard Statement -- change the keys in ConvertMap
-		
-		String retValue = sqlStatement;
-
-		Pattern p;
-		Matcher m;
-
-		// for each iteration in the conversion map
-		Iterator iter = m_map.keySet().iterator();
-		while (iter.hasNext()) {
-
-		    // replace the key on convertmap (i.e.: number by numeric)   
-			String regex = (String) iter.next();
-			String replacement = (String) m_map.get(regex);
-			try {
-				p = Pattern.compile(regex, REGEX_FLAGS);
-				m = p.matcher(retValue);
-				retValue = m.replaceAll(replacement);
-
-			} catch (Exception e) {
-				String error = "Error expression: " + regex + " - " + e;
-				log.info(error);
-				m_conversionError = error;
-			}
-		}
-
-		return retValue;
-	} // convertSimpleStatement
-
-	private String replaceQuotedStrings(String retValue, Vector<String>retVars) {
-		// save every value  
-		// Pattern p = Pattern.compile("'[[\\w]*[-:,\\(\\)]*[ ]*]*'");
-		// Carlos Ruiz - globalqss - better matching regexp
-		retVars.clear();
-		Pattern p = Pattern.compile("'[[^']*]*'");
-		Matcher m = p.matcher(retValue);
-		while (m.find()) {
-			retVars.addElement(new String(retValue.substring(m.start(), m.end())));
-		}
-		retValue = m.replaceAll("<-->");
-		return retValue;
-	}
-
-	private String recoverQuotedStrings(String retValue, Vector<String>retVars) {
-		Pattern p = Pattern.compile("<-->", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
-		Matcher m = p.matcher(retValue);
-		for (int cont = 0; cont < retVars.size(); cont++) {
-			//hengsin, special character in replacement can cause exception
-			String replacement = (String) retVars.get(cont);
-			replacement = escapeBackSlash(replacement);
-			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
-			if (retValue.indexOf(replacement) < 0)
-				System.err.println("Failed to recover: " + replacement);
-			m = p.matcher(retValue);
-		}
-		return retValue;
-	}
-	
-	private String escapeBackSlash(String in)
+	@Override
+	protected String escapeQuotedString(String in)
 	{
 		StringBuffer out = new StringBuffer();
 		boolean escape = false;
@@ -225,550 +133,28 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		}
 	}
 
-	/**
-	 * Clean up Statement. Remove all comments and while spaces Database
-	 * specific functionality can me tagged as follows:
-	 * 
-	 * <pre>
-	 *  	 /*ORACLE&gt;* /
-	 *        Oracle Specific Statement
-	 *  	 /*&lt;ORACLE* /
-	 *  	 /*POSTGRESQL&gt;
-	 *        PostgreSQL Specicic Statements
-	 *  	&lt;POSTGRESQL* /
-	 * </pre>
-	 * 
-	 * @param statement
-	 * @return sql statement
-	 */
-	protected String removeComments(String statement) {
-		String clean = statement.trim();
-
-		// Remove /*ORACLE>*/ /*<ORACLE*/
-		Matcher m = Pattern.compile("\\/\\*ORACLE>.*<ORACLE\\*\\/",
-				Pattern.DOTALL).matcher(clean);
-		clean = m.replaceAll("");
-
-		// Remove /.POSTGRESQL>
-		m = Pattern.compile("\\/\\*POSTGRESQL>").matcher(clean);
-		clean = m.replaceAll("");
-		// Remove <POSTGRESQL./
-		m = Pattern.compile("<POSTGRESQL\\*\\/").matcher(clean);
-		clean = m.replaceAll("");
-
-		// Remove /* */
-		m = Pattern.compile("\\/\\*.*\\*\\/", Pattern.DOTALL).matcher(clean);
-		clean = m.replaceAll("");
-		/**
-		 * // Remove -- m = Pattern.compile("--.*$").matcher(clean); // up to
-		 * EOL clean = m.replaceAll(""); m =
-		 * Pattern.compile("--.*[\\n\\r]").matcher(clean); // -- at BOL clean =
-		 * m.replaceAll("");
-		 */
-		// Convert cr/lf/tab to single space
-		m = Pattern.compile("\\s+").matcher(clean);
-		clean = m.replaceAll(" ");
-
-		clean = clean.trim();
-		return clean;
-	} // removeComments
-
-	/**
-	 * Convert Function.
-	 * 
-	 * <pre>
-	 *        CREATE OR REPLACE FUNCTION AD_Message_Get
-	 *        (p_AD_Message IN VARCHAR, p_AD_Language IN VARCHAR)
-	 *        RETURN VARCHAR AS
-	 *        ...
-	 *        END AD_Message_Get;
-	 *    =&gt;
-	 *        CREATE FUNCTION AD_Message_Get
-	 *        (VARCHAR, VARCHAR)
-	 *        RETURNS VARCHAR AS '
-	 *        DECLARE
-	 *        p_AD_Message ALIAS FOR $1;
-	 *        p_AD_Language ALIAS FOR $2;
-	 *        ....
-	 *        END;
-	 *        ' LANGUAGE 'plpgsql';
-	 * </pre>
-	 * 
-	 * @param sqlStatement
-	 * @return CREATE and DROP Function statement
-	 */
-	private ArrayList<String> convertFunction(String sqlStatement) {
-		ArrayList<String> result = new ArrayList<String>();
-		// Convert statement - to avoid handling contents of comments
-		String stmt = sqlStatement;
-		// Double quotes '
-		stmt = Pattern.compile("'").matcher(stmt).replaceAll("''");
-		// remove OR REPLACE
-		int orReplacePos = stmt.toUpperCase().indexOf(" OR REPLACE ");
-		if (orReplacePos != -1)
-			stmt = "CREATE" + stmt.substring(orReplacePos + 11);
-
-		// Line separators
-		String match = "(\\([^\\)]*\\))" // (.) Parameter
-				+ "|(\\bRETURN \\w+ (AS)|(IS))" // RETURN CLAUSE
-				+ "|(;)" // Statement End
-				// Nice to have - for readability
-				+ "|(\\bBEGIN\\b)" // BEGIN
-				+ "|(\\bTHEN\\b)" + "|(\\bELSE\\b)" + "|(\\bELSIF\\b)";
-		Matcher m = Pattern.compile(match, Pattern.CASE_INSENSITIVE).matcher(
-				stmt);
-
-		StringBuffer sb = new StringBuffer();
-		// First group -> ( )
-		// CREATE OR REPLACE FUNCTION AD_Message_Get ( p_AD_Message IN VARCHAR,
-		// p_AD_Language IN VARCHAR)
-		// CREATE FUNCTION AD_Message_Get (VARCHAR, VARCHAR)
-		m.find();
-		m.appendReplacement(sb, "");
-		String name = sb.substring(6).trim();
-		StringBuffer signature = new StringBuffer();
-		//
-		String group = m.group().trim();
-		// log.info("Group: " + group);
-		StringBuffer alias = new StringBuffer();
-		// Parameters
-		if (group.startsWith("(") && group.endsWith(")")) {
-			// Default not supported
-			if (group.toUpperCase().indexOf(" DEFAULT ") != -1) {
-				String error = "DEFAULT in Parameter not supported";
-				log.info(error);
-				m_conversionError = error;
-				return result;
-			}
-			signature.append("(");
-			if (group.length() > 2) {
-				group = group.substring(1, group.length() - 1);
-				// Paraneters are delimited by ,
-				String[] parameters = group.split(",");
-				for (int i = 0; i < parameters.length; i++) {
-					if (i != 0)
-						signature.append(", ");
-					// name ALIAS FOR $1
-					String p = parameters[i].trim();
-					alias.append(p.substring(0, p.indexOf(' '))).append(
-							" ALIAS FOR $").append(i + 1).append(";\n");
-					// Datatape
-					signature.append(p.substring(p.lastIndexOf(' ') + 1));
-				}
-			}
-			signature.append(")");
-			sb.append(signature);
-			// log.info("Alias: " + alias.toString());
-			// log.info("Signature: " + signature.toString());
-		}
-		// No Parameters
-		else {
-			String error = "Missing Parameter ()";
-			log.info(error);
-			m_conversionError = error;
-			return result;
-		}
-		sb.append("\n");
-		// Need to create drop statement
-		if (orReplacePos != -1) {
-			String drop = "DROP " + name + signature.toString();
-			// log.info(drop);
-			result.add(drop);
-		}
-		// log.info("1>" + sb.toString() + "<1");
-
-		// Second Group -> RETURN VARCHAR AS
-		// RETURNS VARCHAR AS
-		m.find();
-		group = m.group();
-		m.appendReplacement(sb, "");
-		if (group.startsWith("RETURN"))
-			sb.append("RETURNS").append(group.substring(group.indexOf(' ')));
-		sb.append(" '\nDECLARE\n").append(alias); // add aliases here
-		// log.info("2>" + sb.toString() + "<2");
-
-		// remainder statements
-		while (m.find()) {
-			String group2 = m.group();
-			if (group2.indexOf('$') != -1) // Group character needs to be
-				// escaped
-				group2 = Util.replace(group2, "$", "\\$");
-			m.appendReplacement(sb, group2);
-			sb.append("\n");
-		}
-		m.appendTail(sb);
-
-		// finish
-		sb.append("' LANGUAGE 'plpgsql';");
-		// log.info(">" + sb.toString() + "<");
-		result.add(sb.toString());
-		//
-		return result;
-	} // convertFunction
-
-	/**
-	 * Convert Procedure.
-	 * 
-	 * <pre>
-	 *        CREATE OR REPLACE PROCEDURE AD_Message_X
-	 *        (p_AD_Message IN VARCHAR, p_AD_Language IN VARCHAR)
-	 *        ...
-	 *        END AD_Message_X;
-	 *    =&gt;
-	 *        CREATE FUNCTION AD_Message_X
-	 *        (VARCHAR, VARCHAR)
-	 *        RETURNS VARCHAR AS '
-	 *        DECLARE
-	 *        p_AD_Message ALIAS FOR $1;
-	 *        p_AD_Language ALIAS FOR $2;
-	 *        ....
-	 *        END;
-	 *        ' LANGUAGE 'plpgsql';
-	 * </pre>
-	 * 
-	 * @param sqlStatement
-	 * @return CREATE and DROP Function statement
-	 */
-	private ArrayList<String> convertProcedure(String sqlStatement) {
-		ArrayList<String> result = new ArrayList<String>();
-		// Convert statement - to avoid handling contents of comments
-		String stmt = sqlStatement;
-		// Double quotes '
-		stmt = Pattern.compile("'").matcher(stmt).replaceAll("''");
-		// remove OR REPLACE
-		int orReplacePos = stmt.toUpperCase().indexOf(" OR REPLACE ");
-		if (orReplacePos != -1)
-			stmt = "CREATE" + stmt.substring(orReplacePos + 11);
-
-		// Line separators
-		String match = "(\\([^\\)]*\\))" // (.) Parameter
-				+ "|(\\bRETURN \\w+ (AS)|(IS))" // RETURN CLAUSE
-				+ "|(;)" // Statement End
-				// Nice to have - for readability
-				+ "|(\\bBEGIN\\b)" // BEGIN
-				+ "|(\\bTHEN\\b)" + "|(\\bELSE\\b)" + "|(\\bELSIF\\b)";
-		Matcher m = Pattern.compile(match, Pattern.CASE_INSENSITIVE).matcher(
-				stmt);
-
-		StringBuffer sb = new StringBuffer();
-		// First group -> ( )
-		// CREATE OR REPLACE FUNCTION AD_Message_Get ( p_AD_Message IN VARCHAR,
-		// p_AD_Language IN VARCHAR)
-		// CREATE FUNCTION AD_Message_Get (VARCHAR, VARCHAR)
-		m.find();
-		m.appendReplacement(sb, "");
-		String name = sb.substring(6).trim();
-		StringBuffer signature = new StringBuffer();
-		//
-		String group = m.group().trim();
-		// log.info("Group: " + group);
-		StringBuffer alias = new StringBuffer();
-		// Parameters
-		if (group.startsWith("(") && group.endsWith(")")) {
-			// Default not supported
-			if (group.toUpperCase().indexOf(" DEFAULT ") != -1) {
-				String error = "DEFAULT in Parameter not supported";
-				log.info(error);
-				m_conversionError = error;
-				return result;
-			}
-			signature.append("(");
-			if (group.length() > 2) {
-				group = group.substring(1, group.length() - 1);
-				// Paraneters are delimited by ,
-				String[] parameters = group.split(",");
-				for (int i = 0; i < parameters.length; i++) {
-					if (i != 0)
-						signature.append(", ");
-					// name ALIAS FOR $1
-					String p = parameters[i].trim();
-					alias.append(p.substring(0, p.indexOf(' '))).append(
-							" ALIAS FOR $").append(i + 1).append(";\n");
-					// Datatape
-					signature.append(p.substring(p.lastIndexOf(' ') + 1));
-				}
-			}
-			signature.append(")");
-			sb.append(signature);
-			// log.info("Alias: " + alias.toString());
-			// log.info("Signature: " + signature.toString());
-		}
-		// No Parameters
-		else {
-			String error = "Missing Parameter ()";
-			log.info(error);
-			m_conversionError = error;
-			return result;
-		}
-		sb.append("\n");
-		// Need to create drop statement
-		if (orReplacePos != -1) {
-			String drop = "DROP " + name + signature.toString();
-			// log.info(drop);
-			result.add(drop);
-		}
-		// log.info("1>" + sb.toString() + "<1");
-
-		// Second Group -> RETURN VARCHAR AS
-		// RETURNS VARCHAR AS
-		m.find();
-		group = m.group();
-		m.appendReplacement(sb, "");
-		if (group.startsWith("RETURN"))
-			sb.append("RETURNS").append(group.substring(group.indexOf(' ')));
-		sb.append(" '\nDECLARE\n").append(alias); // add aliases here
-		// log.info("2>" + sb.toString() + "<2");
-
-		// remainder statements
-		while (m.find()) {
-			String group2 = m.group();
-			if (group2.indexOf('$') != -1) // Group character needs to be
-				// escaped
-				group2 = Util.replace(group2, "$", "\\$");
-			m.appendReplacement(sb, group2);
-			sb.append("\n");
-		}
-		m.appendTail(sb);
-
-		// finish
-		sb.append("' LANGUAGE 'plpgsql';");
-		// log.info(">" + sb.toString() + "<");
-		result.add(sb.toString());
-		//
-		return result;
-	} // convertProcedure
-
-	/**
-	 * Convert Trigger.
-	 * 
-	 * <pre>
-	 *        DROP FUNCTION emp_trgF();
-	 *        CREATE FUNCTION emp_trg () RETURNS OPAQUE AS '....
-	 *            RETURN NEW; ...
-	 *            ' LANGUAGE 'plpgsql';
-	 *        DROP TRIGGER emp_trg ON emp;
-	 *        CREATE TRIGGER emp_trg BEFORE INSERT OR UPDATE ON emp
-	 *        FOR EACH ROW EXECUTE PROCEDURE emp_trgF();
-	 * </pre>
-	 * 
-	 * @param sqlStatement
-	 * @return CREATE and DROP TRIGGER and associated Function statement
-	 */
-	private ArrayList<String> convertTrigger(String sqlStatement) {
-		ArrayList<String> result = new ArrayList<String>();
-		// Convert statement - to avoid handling contents of comments
-		String stmt = sqlStatement;
-
-		// Trigger specific replacements
-		stmt = Pattern.compile("\\bINSERTING\\b").matcher(stmt).replaceAll(
-				"TG_OP='INSERT'");
-		stmt = Pattern.compile("\\bUPDATING\\b").matcher(stmt).replaceAll(
-				"TG_OP='UPDATE'");
-		stmt = Pattern.compile("\\bDELETING\\b").matcher(stmt).replaceAll(
-				"TG_OP='DELETE'");
-		stmt = Pattern.compile(":new.").matcher(stmt).replaceAll("NEW.");
-		stmt = Pattern.compile(":old.").matcher(stmt).replaceAll("OLD.");
-
-		// Double quotes '
-		stmt = Pattern.compile("'").matcher(stmt).replaceAll("''");
-		// remove OR REPLACE
-		int orReplacePos = stmt.toUpperCase().indexOf(" OR REPLACE ");
-		// trigger Name
-		int triggerPos = stmt.toUpperCase().indexOf(" TRIGGER ") + 9;
-		String triggerName = stmt.substring(triggerPos);
-		triggerName = triggerName.substring(0, triggerName.indexOf(' '));
-		// table name
-		String tableName = stmt
-				.substring(stmt.toUpperCase().indexOf(" ON ") + 4);
-		tableName = tableName.substring(0, tableName.indexOf(' '));
-
-		// Function Drop
-		if (orReplacePos != -1) {
-			String drop = "DROP FUNCTION " + triggerName + "F()";
-			// log.info(drop);
-			result.add(drop);
-		}
-
-		// Function & Trigger
-		int pos = stmt.indexOf("DECLARE ");
-		if (pos == -1)
-			pos = stmt.indexOf("BEGIN ");
-		String functionCode = stmt.substring(pos);
-		StringBuffer triggerCode = new StringBuffer("CREATE TRIGGER ");
-		triggerCode.append(triggerName).append("\n").append(
-				stmt.substring(triggerPos + triggerName.length(), pos)).append(
-				"\nEXECUTE PROCEDURE ").append(triggerName).append("F();");
-
-		// Add NEW to existing Return --> DELETE Trigger ?
-		functionCode = Pattern.compile("\\bRETURN;", Pattern.CASE_INSENSITIVE)
-				.matcher(functionCode).replaceAll("RETURN NEW;");
-		// Add final return and change name
-		functionCode = Pattern.compile("\\bEND " + triggerName + ";",
-				Pattern.CASE_INSENSITIVE).matcher(functionCode).replaceAll(
-				"\nRETURN NEW;\nEND " + triggerName + "F;");
-
-		// Line separators
-		String match = "(\\(.*\\))" // (.) Parameter
-				+ "|(;)" // Statement End
-				// Nice to have - for readability
-				+ "|(\\bBEGIN\\b)" // BEGIN
-				+ "|(\\bTHEN\\b)" + "|(\\bELSE\\b)" + "|(\\bELSIF\\b)";
-		Matcher m = Pattern.compile(match, Pattern.CASE_INSENSITIVE).matcher(
-				functionCode);
-
-		// Function Header
-		StringBuffer sb = new StringBuffer("CREATE FUNCTION ");
-		sb.append(triggerName).append("F() RETURNS OPAQUE AS '\n");
-
-		// remainder statements
-		while (m.find()) {
-			String group = m.group();
-			if (group.indexOf('$') != -1) // Group character needs to be
-				// escaped
-				group = Util.replace(group, "$", "\\$");
-			m.appendReplacement(sb, group);
-			sb.append("\n");
-		}
-		m.appendTail(sb);
-
-		// finish Function
-		sb.append("' LANGUAGE 'plpgsql';");
-		// log.info(">" + sb.toString() + "<");
-		result.add(sb.toString());
-
-		// Trigger Drop
-		if (orReplacePos != -1) {
-			String drop = "DROP TRIGGER " + triggerName.toLowerCase() + " ON "
-					+ tableName;
-			// log.info(drop);
-			result.add(drop);
-		}
-
-		// Trigger
-		// Remove Column references OF ... ON
-		String trigger = Pattern.compile("\\sOF.*ON\\s").matcher(triggerCode)
-				.replaceAll(" ON ");
-		// log.info(trigger);
-		result.add(trigger);
-
-		//
-		return result;
-	} // convertTrigger
-
-	/**
-	 * Convert View. Handle CREATE OR REPLACE
-	 * 
-	 * @param sqlStatement
-	 * @return converted statement(s)
-	 */
-	private ArrayList<String> convertView(String sqlStatement) {
-		ArrayList<String> result = new ArrayList<String>();
-		String stmt = sqlStatement;
-
-		// remove OR REPLACE
-		int orReplacePos = stmt.toUpperCase().indexOf(" OR REPLACE ");
-		if (orReplacePos != -1) {
-			int index = stmt.indexOf(" VIEW ");
-			int space = stmt.indexOf(' ', index + 6);
-			String drop = "DROP VIEW " + stmt.substring(index + 6, space);
-			result.add(drop);
-			//
-			String create = "CREATE" + stmt.substring(index);
-			result.add(create);
-		} else
-			// simple statement
-			result.add(stmt);
-		return result;
-	} // convertView
-
 	/***************************************************************************
-	 * Converts Decode, Outer Join and Sequence.
+	 * Converts Decode and Outer Join.
 	 * 
 	 * <pre>
 	 *        DECODE (a, 1, 'one', 2, 'two', 'none')
 	 *         =&gt; CASE WHEN a = 1 THEN 'one' WHEN a = 2 THEN 'two' ELSE 'none' END
-	 *  
-	 *        AD_Error_Seq.nextval
-	 *         =&gt; nextval('AD_Error_Seq')
-	 *  
-	 *        RAISE_APPLICATION_ERROR (-20100, 'Table Sequence not found')
-	 *         =&gt; RAISE EXCEPTION 'Table Sequence not found'
 	 *  
 	 * </pre>
 	 * 
 	 * @param sqlStatement
 	 * @return converted statement
 	 */
-	private String convertComplexStatement(String sqlStatement) {
+	protected String convertComplexStatement(String sqlStatement) {
 		String retValue = sqlStatement;
 		StringBuffer sb = null;
 
 		// Convert all decode parts
-		while (retValue.indexOf("DECODE") != -1)
+		while (retValue.toUpperCase().indexOf("DECODE") != -1)
 			retValue = convertDecode(retValue);
 
-		/**
-		 * Sequence Handling --------------------------------------------------
-		 * AD_Error_Seq.nextval => nextval('AD_Error_Seq')
-		 */
-		Matcher m = Pattern.compile("\\w+\\.(nextval)|(curval)",
-				Pattern.CASE_INSENSITIVE).matcher(retValue);
-		sb = new StringBuffer();
-		while (m.find()) {
-			String group = m.group();
-			// System.out.print("-> " + group);
-			int pos = group.indexOf('.');
-			String seqName = group.substring(0, pos);
-			String funcName = group.substring(pos + 1);
-			group = funcName + "('" + seqName + "')";
-			// log.info(" => " + group);
-			if (group.indexOf('$') != -1) // Group character needs to be
-				// escaped
-				group = Util.replace(group, "$", "\\$");
-			m.appendReplacement(sb, group);
-		}
-		m.appendTail(sb);
-		retValue = sb.toString();
-
-		/**
-		 * RAISE --------------------------------------------------------------
-		 * RAISE_APPLICATION_ERROR (-20100, 'Table Sequence not found') => RAISE
-		 * EXCEPTION 'Table Sequence not found'
-		 */
-		m = Pattern.compile("RAISE_APPLICATION_ERROR\\s*\\(.+'\\)",
-				Pattern.CASE_INSENSITIVE).matcher(retValue);
-		sb = new StringBuffer();
-		while (m.find()) {
-			String group = m.group();
-			System.out.print("-> " + group);
-			String result = "RAISE EXCEPTION "
-					+ group.substring(group.indexOf('\''), group
-							.lastIndexOf('\'') + 1);
-			log.info(" => " + result);
-
-			if (result.indexOf('$') != -1) // Group character needs to be
-				// escaped
-				result = Util.replace(result, "$", "\\$");
-			m.appendReplacement(sb, result);
-		}
-		m.appendTail(sb);
-		retValue = sb.toString();
-
-		// Truncate Handling -------------------------------------------------
-		// begin vpj-cd e-evolution 16/07/2005
-		// while (retValue.indexOf("TRUNC") != -1)
-		//Hengsin, replace by trunc implementation in pl/pgsql
-		/*
-		if (retValue.indexOf("TRUNC(((TRUNC(") != -1)
-			retValue = Util.replace(retValue, "TRUNC(((TRUNC(", "(((TRUNC(");
-		// end vpj-cd e-evolution 16/07/2005
-
-		while (retValue.indexOf("TRUNC") != -1)
-			retValue = convertTrunc(retValue);
-		*/
-		
 		// Outer Join Handling -----------------------------------------------
-		int index = retValue.indexOf("SELECT ");
+		int index = retValue.toUpperCase().indexOf("SELECT ");
 		if (index != -1 && retValue.indexOf("(+)", index) != -1)
 			retValue = convertOuterJoin(retValue);
 
@@ -788,6 +174,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @param sqlStatement
 	 * @return converted statement
 	 */
+	/*
 	private String convertRowNum(String sqlStatement) {
 		// log.info("RowNum<== " + sqlStatement);
 
@@ -916,94 +303,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// return retValue;
 		// end e-evolution PostgreSQL
 	} // convertRowNum
-
-	/**
-	 * Hengsin, Replace by trunc implementation in pl/pgsql
-	 * Convert TRUNC. Assumed that it is used for date only!
-	 * 
-	 * @param sqlStatement
-	 * @return converted statement
-	 */
-	/*
-	private String convertTrunc(String sqlStatement) {
 	*/
-		/**
-		 * <pre>
-		 *        TRUNC(myDate)
-		 *        =&gt; DATE_Trunc('day',myDate)
-		 *  
-		 *        TRUNC(myDate,'oracleFormat')
-		 *        =&gt; DATE_Trunc('pgFormat',myDate)
-		 *  
-		 *        Oracle          =&gt;  PostgreSQL  (list not complete!)
-		 *            Q               quarter
-		 *            MM              month
-		 *            DD              day
-		 *        Spacial handling of DAY,DY  (Starting dat of the week)
-		 *        =&gt; DATE_Trunc('day',($1-DATE_PART('dow',$1)));
-		 * </pre>
-		 * 
-		 * //begin vpj-cd e-evolution 07/12/2005
-		 */
-	/*
-		// index = sqlStatement.indexOf("TRUNC(");
-		// beforeStatement = sqlStatement.substring(0, index);
-		// beforeStatement = sqlStatement.replaceFirst("TRUNC" , "DATE_Trunc");
-		
-		int find = -1;
-		find = sqlStatement.indexOf(",'Q'");
-		if (find != -1)
-
-		{
-
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('quarter',");
-			sqlStatement = sqlStatement.replaceFirst(",'Q'", "");
-			return sqlStatement;
-		}
-		find = sqlStatement.indexOf(",'Y'");
-		if (find != -1) {
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('year',");
-			sqlStatement = sqlStatement.replaceFirst(",'Y'", "");
-			return sqlStatement;
-		}
-		find = sqlStatement.indexOf(",'MM'");
-		if (find != -1)
-
-		{
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('month',");
-			sqlStatement = sqlStatement.replaceFirst(",'MM'", "");
-			return sqlStatement;
-		}
-		find = sqlStatement.indexOf(",'DD'");
-		if (find != -1) {
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('day',");
-			sqlStatement = sqlStatement.replaceFirst(",'DD'", "");
-			return sqlStatement;
-		}
-		find = sqlStatement.indexOf(",'DY'");
-		if (find != -1) {
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('day',");
-			sqlStatement = sqlStatement.replaceFirst(",'DY'", "");
-			return sqlStatement;
-		}
-		if (find == -1) {
-			sqlStatement = sqlStatement.replaceFirst("TRUNC\\(",
-					"DATE_Trunc('day',");
-			// sqlStatement = sqlStatement.replaceFirst(",'DY'", "");
-			return sqlStatement;
-		}
-		//System.out.println("SQL=" + sqlStatement);
-		return sqlStatement;
-
-		// end vpj-cd e-evolution 09/02/2005 PostgreSQL
-	} // convertTrunc
-	*/
-	// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
 
 	/***************************************************************************
 	 * Converts Update.
@@ -1479,36 +779,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return false;
 	}
 	
-	/*
-	private boolean isOperator(String token)
-	{
-		if ("=".equals(token))
-			return true;
-		else if ("<>".equals(token))
-			return true;
-		else if (">".equals(token))
-			return true;
-		else if ("<".equals(token))
-			return true;
-		else if ("<=".equals(token))
-			return true;
-		else if (">=".equals(token))
-			return true;
-		else if ("||".equals(token))
-			return true;
-		else if ("+".equals(token))
-			return true;
-		else if ("-".equals(token))
-			return true;
-		else if ("*".equals(token))
-			return true;
-		else if ("/".equals(token))
-			return true;
-		else if ("!=".equals(token))
-			return true;
-		else
-			return false;
-	}*/
 	
 	/**
 	 * Check if token is a valid sql identifier
@@ -1555,29 +825,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		return false;
 	}
 
-	/***************************************************************************
-	 * Converts Delete.
-	 * 
-	 * <pre>
-	 *        DELETE C_Order i WHERE  
-	 *         =&gt; DELETE FROM C_Order WHERE  
-	 * </pre>
-	 * 
-	 * @param sqlStatement
-	 * @return converted statement
-	 */
-	private String convertDelete(String sqlStatement) {
-
-		int index = sqlStatement.toUpperCase().indexOf("DELETE ");
-		if (index < 7) {
-			return "DELETE FROM " + sqlStatement.substring(index + 7);
-
-		}
-
-		return sqlStatement;
-	} // convertDelete
-
-        
 	// begin vpj-cd e-evolution 08/02/2005
 	/***************************************************************************
 	 * convertAlias - for compatibility with 8.1
@@ -1733,31 +980,4 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 		return sqlStatement;
 	}
-
-/*
-   	private String convertIgnore(String sqlStatement) {
-		String vars[] = new String[20];
-		int cont = 1;
-		Pattern p = Pattern.compile("'[[\\w]*[,]*[ ]*]*'",
-				Pattern.CASE_INSENSITIVE);
-		Matcher m = p.matcher(sqlStatement);
-		while (m.find()) {
-			vars[cont++] = sqlStatement.substring(m.start(), m.end());
-		}
-		vars[0] = m.replaceAll("<-->");
-		String retVar[] = new String[cont];
-		for (int i = 0; i < cont; i++)
-			retVar[i] = vars[i];
-
-		p = Pattern.compile("<-->");
-		m = p.matcher(retVar[0]);
-		cont = 1;
-		for (cont = 1; cont < retVar.length; cont++) {
-			retVar[0] = m.replaceFirst(retVar[cont]);
-			m = p.matcher(retVar[0]);
-		}
-		return null;
-	}
-*/
-	
 } // Convert

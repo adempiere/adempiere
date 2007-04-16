@@ -21,6 +21,11 @@ import java.util.logging.Level;
 import org.compiere.util.CLogger;
 import org.compiere.util.Util;
 
+/***
+ * Convert from oracle syntax to sql 92 standard
+ * @author Low Heng Sin
+ *
+ */
 public abstract class Convert_SQL92 extends Convert {
 	
 	/**	Logger	*/
@@ -392,4 +397,27 @@ public abstract class Convert_SQL92 extends Convert {
 	//	log.info("DECODE==> " + sb.toString());
 		return sb.toString();
 	}	//  convertDecode
+	
+	/***************************************************************************
+	 * Converts Delete.
+	 * 
+	 * <pre>
+	 *        DELETE C_Order i WHERE  
+	 *         =&gt; DELETE FROM C_Order WHERE  
+	 * </pre>
+	 * 
+	 * @param sqlStatement
+	 * @return converted statement
+	 */
+	protected String convertDelete(String sqlStatement) {
+
+		int index = sqlStatement.toUpperCase().indexOf("DELETE ");
+		if (index < 7) {
+			return "DELETE FROM " + sqlStatement.substring(index + 7);
+
+		}
+
+		return sqlStatement;
+	} // convertDelete
+
 }

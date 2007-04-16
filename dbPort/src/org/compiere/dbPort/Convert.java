@@ -21,6 +21,9 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -275,6 +278,151 @@ public abstract class Convert
 	}   //  convertIt
 
 	/**
+	 * Clean up Statement. Remove while spaces, carrige return and tab 
+	 * 
+	 * @param statement
+	 * @return sql statement
+	 */
+	protected String cleanUpStatement(String statement) {
+		String clean = statement.trim();
+
+		// Convert cr/lf/tab to single space
+		Matcher m = Pattern.compile("\\s+").matcher(clean);
+		clean = m.replaceAll(" ");
+
+		clean = clean.trim();
+		return clean;
+	} // removeComments
+	
+	/**
+	 * Utility method to replace quoted string with a predefined marker
+	 * @param retValue
+	 * @param retVars
+	 * @return string
+	 */
+	protected String replaceQuotedStrings(String retValue, Vector<String>retVars) {
+		// save every value  
+		// Carlos Ruiz - globalqss - better matching regexp
+		retVars.clear();
+		Pattern p = Pattern.compile("'[[^']*]*'");
+		Matcher m = p.matcher(retValue);
+		while (m.find()) {
+			retVars.addElement(new String(retValue.substring(m.start(), m.end())));
+		}
+		retValue = m.replaceAll("<-->");
+		return retValue;
+	}
+
+	/**
+	 * Utility method to recover quoted string store in retVars
+	 * @param retValue
+	 * @param retVars
+	 * @return string
+	 */
+	protected String recoverQuotedStrings(String retValue, Vector<String>retVars) {
+		Pattern p = Pattern.compile("<-->", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
+		Matcher m = p.matcher(retValue);
+		for (int cont = 0; cont < retVars.size(); cont++) {
+			//hengsin, special character in replacement can cause exception
+			String replacement = (String) retVars.get(cont);
+			replacement = escapeQuotedString(replacement);
+			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
+			if (retValue.indexOf(replacement) < 0)
+				System.err.println("Failed to recover: " + replacement);
+			m = p.matcher(retValue);
+		}
+		return retValue;
+	}
+	
+	/**
+	 * hook for database specific escape of quoted string ( if needed )
+	 * @param in
+	 * @return string
+	 */
+	protected String escapeQuotedString(String in)
+	{
+		return in;
+	}
+	
+	/**
+	 * Convert simple SQL Statement. Based on ConvertMap
+	 * 
+	 * @param sqlStatement
+	 * @return converted Statement
+	 */
+	private String applyConvertMap(String sqlStatement) {
+		// Error Checks
+		if (sqlStatement.toUpperCase().indexOf("EXCEPTION WHEN") != -1) {
+			String error = "Exception clause needs to be converted: "
+					+ sqlStatement;
+			log.info(error);
+			m_conversionError = error;
+			return sqlStatement;
+		}
+
+		// Carlos Ruiz - globalqss
+		// Standard Statement -- change the keys in ConvertMap
+		
+		String retValue = sqlStatement;
+
+		Pattern p;
+		Matcher m;
+
+		// for each iteration in the conversion map
+		Map convertMap = getConvertMap();
+		if (convertMap != null) {
+			Iterator iter = convertMap.keySet().iterator();
+			while (iter.hasNext()) {
+	
+			    // replace the key on convertmap (i.e.: number by numeric)   
+				String regex = (String) iter.next();
+				String replacement = (String) convertMap.get(regex);
+				try {
+					p = Pattern.compile(regex, REGEX_FLAGS);
+					m = p.matcher(retValue);
+					retValue = m.replaceAll(replacement);
+	
+				} catch (Exception e) {
+					String error = "Error expression: " + regex + " - " + e;
+					log.info(error);
+					m_conversionError = error;
+				}
+			}
+		}
+		return retValue;
+	} // convertSimpleStatement
+	
+	/**
+	 * do convert map base conversion
+	 * @param sqlStatement
+	 * @return string
+	 */
+	protected String convertWithConvertMap(String sqlStatement) {
+		/** Vector to save previous values of quoted strings **/
+		Vector<String> retVars = new Vector<String>();
+		try 
+		{
+			sqlStatement = replaceQuotedStrings(sqlStatement,retVars);
+			sqlStatement = applyConvertMap(cleanUpStatement(sqlStatement));
+			sqlStatement = recoverQuotedStrings(sqlStatement,retVars);
+		}
+		catch (RuntimeException e) {
+			log.warning(e.getLocalizedMessage());
+			m_exception = e;
+		}
+		
+		return sqlStatement;
+	}
+	
+	/**
+	 * Get convert map for use in sql convertion
+	 * @return map
+	 */
+	protected Map getConvertMap() {
+		return null;
+	}
+	
+	/**
 	 *  Convert single Statements.
 	 *  - remove comments
 	 *      - process FUNCTION/TRIGGER/PROCEDURE
@@ -284,5 +432,10 @@ public abstract class Convert
 	 */
 	protected abstract ArrayList<String> convertStatement (String sqlStatement);
 
+	/**
+	 * True if the database support native oracle dialect, false otherwise.
+	 * @return boolean
+	 */
 	public abstract boolean isOracle();
+	
 }   //  Convert
