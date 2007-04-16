@@ -326,6 +326,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setPriorityRule(order.getPriorityRule());
 	}	//	MInOut
 
 	/**
