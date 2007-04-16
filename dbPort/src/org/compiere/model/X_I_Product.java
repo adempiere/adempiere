@@ -908,10 +908,10 @@ public static final String COLUMNNAME_Weight = "Weight";
 @param X12DE355 UOM EDI X12 Code */
 public void setX12DE355 (String X12DE355)
 {
-if (X12DE355 != null && X12DE355.length() > 2)
+if (X12DE355 != null && X12DE355.length() > 4)
 {
-log.warning("Length > 2 - truncated");
-X12DE355 = X12DE355.substring(0,1);
+log.warning("Length > 4 - truncated");
+X12DE355 = X12DE355.substring(0,3);
 }
 set_Value ("X12DE355", X12DE355);
 }
