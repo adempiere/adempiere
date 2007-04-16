@@ -173,7 +173,7 @@ public class MMovementLine extends X_M_MovementLine
 		}
 
 		//	Qty Precision
-		if (newRecord || is_ValueChanged("QtyEntered"))
+		if (newRecord || is_ValueChanged(COLUMNNAME_MovementQty))
 			setMovementQty(getMovementQty());
 		
 		//      Mandatory Instance
