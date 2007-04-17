@@ -2276,6 +2276,13 @@ public final class APanel extends CPanel
 	}
 	
 	/**
+	 * Set the tab index of the panels JTabbedPane.
+	 */
+	public void setSelectedTabIndex(int index) {
+ 		m_curWinTab.setSelectedIndex(index);
+	}
+	
+	/**
 	 * Get the name of the selected tab in the panels JTabbedPane.
 	 * @return name of selected tab
 	 */
