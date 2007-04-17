@@ -1,0 +1,1833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_Menu">
+<row id="100" trl="Y">
+	<value column="Name" original="Invoice Inquiry">請求書問い合せ</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="Task">タスク</value>
+	<value column="Description" original="Maintain Tasks">タスクをメンテナンスします。</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="Currency">通貨</value>
+	<value column="Description" original="Maintain Currencies">通貨をメンテナンスします。</value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Currency Rate">通貨レート</value>
+	<value column="Description" original="Maintain Currency Conversion Rates">通貨交換比率をメンテナンスします。</value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="Calendar Year and Period">カレンダーと期間</value>
+	<value column="Description" original="Maintain Calendars Years Periods">カレンダーと期間をメンテナンスします。</value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="Account Element">会計要素</value>
+	<value column="Description" original="Maintain Account Elements">会計要素をメンテナンスします。</value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Account Combination">勘定科目の組み合わせ</value>
+	<value column="Description" original="Maintain Valid Account Combinations ">有効な勘定科目の組み合わせをメンテナンスします。</value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Unit of Measure">測定単位(UOM)</value>
+	<value column="Description" original="Maintain Unit of Measure ">測定単位をメンテナンスします。</value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="Location">住所</value>
+	<value column="Description" original="Maintain Location Address">所在地の住所をメンテナンスします。</value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="Country Region and City">国の地域と市</value>
+	<value column="Description" original="Maintain Countries Regions and Cities">国の地域(県や市など)メンテナンスします。</value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="Business Partner">ビジネスパートナー</value>
+	<value column="Description" original="Maintain Business Partners">ビジネスパートナーをメンテナンスします。</value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="Accounting Schema">会計スキーマ</value>
+	<value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">会計スキーマをメンテナンスします - 変更が有効になるには、再ログインしてください。</value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="Test">テスト</value>
+	<value column="Description" original="Test Screen">テストスクリーン</value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="Attachment">添付</value>
+	<value column="Description" original="Maintain Attachments">添付をメンテナンスします。</value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="Preference">設定</value>
+	<value column="Description" original="Maintain System Client Org and User Preferences">システムクライアント組織とユーザー設定をメンテナンスします。</value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="Project">プロジェクト(サービス)</value>
+	<value column="Description" original="Maintain Projects">サービスプロジェクトをメンテナンスします。</value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="GL Category">総勘定元帳カテゴリ</value>
+	<value column="Description" original="Maintain General Ledger Categories">総勘定元帳カテゴリをメンテナンスします。</value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="GL Journal">総勘定元帳仕訳帳</value>
+	<value column="Description" original="Enter and change Manual Journal Entries">手動仕訳帳科目を入力、変更します。</value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="Activity (ABC)">活動(ABC)</value>
+	<value column="Description" original="Maintain Activities for Activity Based Costing">活動基準原価計算のための活動をメンテナンスします。</value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="Document Type">ドキュメントタイプ</value>
+	<value column="Description" original="Maintain Document Types">ドキュメントタイプをメンテナンスします。</value>
+</row>
+<row id="123" trl="Y">
+	<value column="Name" original="Tax Rate">課税率</value>
+	<value column="Description" original="Maintain Taxes and their Rates">税金とそれらの率をメンテナンスします。</value>
+</row>
+<row id="124" trl="Y">
+	<value column="Name" original="Tax Category">税金カテゴリ</value>
+	<value column="Description" original="Maintain Tax Categories">税金カテゴリをメンテナンスします</value>
+</row>
+<row id="125" trl="Y">
+	<value column="Name" original="Warehouse &amp; Locators">倉庫 &amp; 場所</value>
+	<value column="Description" original="Maintain Warehouses and Locators">倉庫と場所をメンテナンスします。</value>
+</row>
+<row id="126" trl="Y">
+	<value column="Name" original="Product">製品</value>
+	<value column="Description" original="Maintain Products">製品をメンテナンスします。</value>
+</row>
+<row id="127" trl="Y">
+	<value column="Name" original="Payment Term">支払期間</value>
+	<value column="Description" original="Maintain Payment Terms">支払期間をメンテナンスします。</value>
+</row>
+<row id="128" trl="Y">
+	<value column="Name" original="Shipper">荷主</value>
+	<value column="Description" original="Maintain Shippers">荷主をメンテナンスします。</value>
+</row>
+<row id="129" trl="Y">
+	<value column="Name" original="Sales Order">受注</value>
+	<value column="Description" original="Enter and change sales orders">受注を入力、変更してください。</value>
+</row>
+<row id="130" trl="Y">
+	<value column="Name" original="Product Category">製品カテゴリ</value>
+	<value column="Description" original="Maintain Product Categories">製品カテゴリをメンテナンスします。</value>
+</row>
+<row id="132" trl="Y">
+	<value column="Name" original="Price List">プライスリスト</value>
+	<value column="Description" original="Maintain Product Price Lists">製品プライスリストをメンテナンスします。</value>
+</row>
+<row id="133" trl="Y">
+	<value column="Name" original="Invoice Schedule">請求書スケジュール</value>
+	<value column="Description" original="Maintain Invoicing Schedule">請求書を送るスケジュールをメンテナンスします。</value>
+</row>
+<row id="134" trl="Y">
+	<value column="Name" original="Marketing Campaign">マーケティング活動</value>
+	<value column="Description" original="Maintain Marketing Campaigns">販売活動をメンテナンスします。</value>
+</row>
+<row id="135" trl="Y">
+	<value column="Name" original="GL Budget">一般会計予算</value>
+	<value column="Description" original="Maintain General Ledger Budgets">一般会計予算をメンテナンスします。</value>
+</row>
+<row id="136" trl="Y">
+	<value column="Name" original="Marketing Channel">販売経路</value>
+	<value column="Description" original="Maintain Marketing  Channels">販売経路をメンテナンスします。</value>
+</row>
+<row id="137" trl="Y">
+	<value column="Name" original="Sales Region">販売地域</value>
+	<value column="Description" original="Maintain Sales Regions">販売地域をメンテナンスします。</value>
+</row>
+<row id="138" trl="Y">
+	<value column="Name" original="Element">要素</value>
+	<value column="Description" original="Maintain System Elements">システム・エレメントをメンテナンスします。</value>
+</row>
+<row id="139" trl="Y">
+	<value column="Name" original="Table and Column">テーブルとカラム</value>
+	<value column="Description" original="Maintain Tables and Columns">テーブルとカラムをメンテナンスします。</value>
+</row>
+<row id="140" trl="Y">
+	<value column="Name" original="Reference">参照</value>
+	<value column="Description" original="Maintain System References">システム参照をメンテナンスします。</value>
+</row>
+<row id="141" trl="Y">
+	<value column="Name" original="Window, Tab &amp; Field">ウィンドウ、タブ &amp; フィールド</value>
+	<value column="Description" original="Maintain Windows, Tabs &amp; Fields">ウィンドウ、タブ、フィールドをメンテナンスします。</value>
+</row>
+<row id="142" trl="Y">
+	<value column="Name" original="Validation Rules">入力値検証ルール</value>
+	<value column="Description" original="Maintain dynamic Validation Rules for columns and fields">カラムとフィールドに動的な妥当性検証ルールを設定します。</value>
+</row>
+<row id="143" trl="Y">
+	<value column="Name" original="Message">メッセージ</value>
+	<value column="Description" original="Maintain Information and Error Messages">情報とエラーメッセージをメンテナンスします。</value>
+</row>
+<row id="144" trl="Y">
+	<value column="Name" original="Menu">メニュー</value>
+	<value column="Description" original="Maintain Menu">メンテナンスメニュー</value>
+</row>
+<row id="145" trl="Y">
+	<value column="Name" original="Language">言語</value>
+	<value column="Description" original="Maintain Languages">言語を設定してください。</value>
+</row>
+<row id="147" trl="Y">
+	<value column="Name" original="User">ユーザー</value>
+	<value column="Description" original="Maintain Users of the system">システムのユーザーを設定します。</value>
+</row>
+<row id="148" trl="Y">
+	<value column="Name" original="Client">クライアント</value>
+	<value column="Description" original="Maintain Clients/Tenants">クライアント/テナントをメンテナンスします。</value>
+</row>
+<row id="149" trl="Y">
+	<value column="Name" original="Organization">組織</value>
+	<value column="Description" original="Maintain Organizations">組織をメンテナンスします。</value>
+</row>
+<row id="150" trl="Y">
+	<value column="Name" original="Role">役割</value>
+	<value column="Description" original="Maintain User Responsibilities">ユーザーの権限をメンテナンスします。</value>
+</row>
+<row id="151" trl="Y">
+	<value column="Name" original="Document Sequence">ドキュメント連続番号</value>
+	<value column="Description" original="Maintain System and Document Sequences">システムとドキュメント連続番号をメンテナンスします。</value>
+</row>
+<row id="152" trl="Y">
+	<value column="Name" original="Workflow">作業フロー</value>
+	<value column="Description" original="Maintain Workflow">作業フローをメンテナンスします。</value>
+</row>
+<row id="153" trl="Y">
+	<value column="Name" original="Application Dictionary">アプリケーション設定</value>
+	<value column="Description" original="Maintain Application Dictionary">アプリケーションの設定を行います。</value>
+</row>
+<row id="155" trl="Y">
+	<value column="Name" original="General Rules">一般ルール</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="156" trl="Y">
+	<value column="Name" original="Client Rules">システム利用者設定</value>
+	<value column="Description" original="Maintain Client Rules">システム利用者設定を変更します。</value>
+</row>
+<row id="157" trl="Y">
+	<value column="Name" original="Data">データ</value>
+	<value column="Description" original="Maintain Data">データをメンテナンスします。</value>
+</row>
+<row id="158" trl="Y">
+	<value column="Name" original="Performance Measurement">パフォーマンス測定</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="159" trl="Y">
+	<value column="Name" original="Utility">ユーティリティ</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="160" trl="Y">
+	<value column="Name" original="Project Management">プロジェクト管理</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="161" trl="Y">
+	<value column="Name" original="System Rules">システムルール</value>
+	<value column="Description" original="General System Rules">一般システムルール</value>
+</row>
+<row id="163" trl="Y">
+	<value column="Name" original="Data Import">データのインポート</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="164" trl="Y">
+	<value column="Name" original="Accounting Rules">会計ルール</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="165" trl="Y">
+	<value column="Name" original="Business Partner Rules">ビジネスパートナールール</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="166" trl="Y">
+	<value column="Name" original="Quote-to-Invoice">見積から請求まで</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="167" trl="Y">
+	<value column="Name" original="Material Management Rules">資材管理ルール</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="169" trl="Y">
+	<value column="Name" original="Accounting Fact Details">会計事実の詳細</value>
+	<value column="Description" original="Query Accounting Facts">会計事実にクエリをします。</value>
+</row>
+<row id="170" trl="Y">
+	<value column="Name" original="Tree">ツリー</value>
+	<value column="Description" original="Maintain Tree definition">ツリー定義をメンテナンスします。</value>
+</row>
+<row id="171" trl="Y">
+	<value column="Name" original="Bank">銀行</value>
+	<value column="Description" original="Maintain Bank">銀行をメンテナンスします。</value>
+</row>
+<row id="172" trl="Y">
+	<value column="Name" original="Dunning">督促</value>
+	<value column="Description" original="Maintain Dunning Levels">催促レベルをメンテナンスします。</value>
+</row>
+<row id="173" trl="Y">
+	<value column="Name" original="Withholding (1099)">源泉徴収(1099)</value>
+	<value column="Description" original="Maintain Withholding Certificates">源泉徴収証明書をメンテナンスします。</value>
+</row>
+<row id="174" trl="Y">
+	<value column="Name" original="Charge">料金</value>
+	<value column="Description" original="Maintain Charges">料金をメンテナンスします。</value>
+</row>
+<row id="175" trl="Y">
+	<value column="Name" original="Organization Rules">組織ルール</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="176" trl="Y">
+	<value column="Name" original="Report &amp; Process">レポート &amp; プロセス</value>
+	<value column="Description" original="Maintain Reports &amp; Processes">レポート &amp; プロセスをメンテナンスします。</value>
+</row>
+<row id="178" trl="Y">
+	<value column="Name" original="Invoice (Customer)">請求書(販売先)</value>
+	<value column="Description" original="Customer Invoice Entry">販売先請求書エントリー</value>
+</row>
+<row id="179" trl="Y">
+	<value column="Name" original="Physical Inventory">物理的な在庫</value>
+	<value column="Description" original="Enter Physical Inventory">物理的な在庫を入力してください。</value>
+</row>
+<row id="180" trl="Y">
+	<value column="Name" original="Shipment (Customer)">出荷(販売先)</value>
+	<value column="Description" original="Customer Inventory Shipments Customer Returns">販売先在庫出荷の販売先からの返却です。</value>
+</row>
+<row id="181" trl="Y">
+	<value column="Name" original="Inventory Move">在庫移動</value>
+	<value column="Description" original="Inventory Move">在庫移動</value>
+</row>
+<row id="183" trl="Y">
+	<value column="Name" original="Material Management">資材管理</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="185" trl="Y">
+	<value column="Name" original="Import Business Partner">ビジネスパートナーのインポート</value>
+	<value column="Description" original="Import Business Partner">ビジネスパートナーをインポートします。</value>
+</row>
+<row id="186" trl="Y">
+	<value column="Name" original="Revenue Recognition">収益認識</value>
+	<value column="Description" original="Revenue Recognition Rules">収益認識ルール</value>
+</row>
+<row id="187" trl="Y">
+	<value column="Name" original="Perpetual Inventory">恒常在庫</value>
+	<value column="Description" original="Maintain Perpetual Inventory Rules">恒常在庫ルールをメンテナンスします。</value>
+</row>
+<row id="188" trl="Y">
+	<value column="Name" original="Vendor Details">仕入先の詳細</value>
+	<value column="Description" original="Maintain Vendor Details">仕入先の詳細をメンテナンスします。</value>
+</row>
+<row id="190" trl="Y">
+	<value column="Name" original="Greeting">敬称</value>
+	<value column="Description" original="Maintain Greetings">敬称をメンテナンスします。</value>
+</row>
+<row id="192" trl="Y">
+	<value column="Name" original="Generate Invoices">請求書を生成</value>
+	<value column="Description" original="Generate and print Invoices from open Orders">開いている注文から請求書を生成して、印刷します。</value>
+</row>
+<row id="193" trl="Y">
+	<value column="Name" original="Generate Shipments">出荷を生成</value>
+	<value column="Description" original="Generate and print Shipments from open Orders">開いている注文から出荷を発生して、印刷します。</value>
+</row>
+<row id="194" trl="Y">
+	<value column="Name" original="Order Transactions">受注取引</value>
+	<value column="Description" original="Sales Order Transaction Report ">受注取引レポート</value>
+</row>
+<row id="195" trl="Y">
+	<value column="Name" original="Open Orders">開いている注文</value>
+	<value column="Description" original="Open Order Report">開いている注文のレポート</value>
+</row>
+<row id="196" trl="Y">
+	<value column="Name" original="Replenish Report">在庫補給レポート</value>
+	<value column="Description" original="Inventory Replenish Report">在庫の補充レポートです。</value>
+</row>
+<row id="197" trl="Y">
+	<value column="Name" original="Product Transaction Summary">製品取引概要</value>
+	<value column="Description" original="Product Transaction Summary">製品取引概要です。</value>
+</row>
+<row id="200" trl="Y">
+	<value column="Name" original="Request Processor">処理を要求</value>
+	<value column="Description" original="Define Request Processors">要求プロセッサを定義してください。</value>
+</row>
+<row id="201" trl="Y">
+	<value column="Name" original="Report View">レポートビュー</value>
+	<value column="Description" original="Maintain Report Views">レポートビューをメンテナンスします。</value>
+</row>
+<row id="202" trl="Y">
+	<value column="Name" original="Invoice Transactions (Acct)">請求書取引(Acct)</value>
+	<value column="Description" original="Invoice Transactions by Accounting Date">会計日付での請求書取引です。</value>
+</row>
+<row id="203" trl="Y">
+	<value column="Name" original="Requisition-to-Invoice">請求書に対する要求</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="204" trl="Y">
+	<value column="Name" original="Material Receipt">資材領収書</value>
+	<value column="Description" original="Vendor Shipments (Receipts)">仕入先の出荷(領収書)です。</value>
+</row>
+<row id="205" trl="Y">
+	<value column="Name" original="Purchase Order">発注</value>
+	<value column="Description" original="Manage Purchase Orders">発注を管理します。</value>
+</row>
+<row id="206" trl="Y">
+	<value column="Name" original="Invoice (Vendor)">請求書(仕入先)</value>
+	<value column="Description" original="Vendor Invoice Entry">仕入先請求書エントリー</value>
+</row>
+<row id="210" trl="Y">
+	<value column="Name" original="Daily Invoice">毎日の請求書</value>
+	<value column="Description" original="Imvoice Report per Day">１日単位の請求書の報告です。</value>
+</row>
+<row id="211" trl="Y">
+	<value column="Name" original="Monthly Invoice">毎月の請求書</value>
+	<value column="Description" original="Imvoice Report per Month">１月単位の請求書の報告です。</value>
+</row>
+<row id="212" trl="Y">
+	<value column="Name" original="Monthly Invoice Prod Cat">毎月の製品別請求書</value>
+	<value column="Description" original="Imvoice Report by Product Category per Month">1ヶ月あたりの製品カテゴリ別請求書報告です。</value>
+</row>
+<row id="213" trl="Y">
+	<value column="Name" original="Weekly Invoice Prod Cat">毎週の製品別請求書</value>
+	<value column="Description" original="Imvoice Report by Product Category per Week">１週間あたりの製品カテゴリ別請求書報告です。</value>
+</row>
+<row id="214" trl="Y">
+	<value column="Name" original="Monthly Invoice Vendor">毎月の仕入先別請求書</value>
+	<value column="Description" original="Imvoice Report by Product Vendor per Month">１ヶ月あたりの仕入先別製品請求書報告です。</value>
+</row>
+<row id="215" trl="Y">
+	<value column="Name" original="Weekly Invoice">毎週の請求書</value>
+	<value column="Description" original="Imvoice Report per Week">１週単位の請求書報告です。</value>
+</row>
+<row id="216" trl="Y">
+	<value column="Name" original="Form">フォーム</value>
+	<value column="Description" original="Special Forms">特別なフォーム</value>
+</row>
+<row id="217" trl="Y">
+	<value column="Name" original="Generate Invoices (manual)">請求書を生成(手動)</value>
+	<value column="Description" original="Select and generate invoices">請求書を選択して、生成してください。</value>
+</row>
+<row id="218" trl="Y">
+	<value column="Name" original="System Admin">システム管理設定</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="219" trl="Y">
+	<value column="Name" original="Project Setup and Use">プロジェクトセットアップと使用</value>
+	<value column="Description" original="Setup of projects and project reporting">プロジェクトとプロジェクト報告のセットアップです。</value>
+</row>
+<row id="220" trl="Y">
+	<value column="Name" original="Java Version">Javaバージョン</value>
+	<value column="Description" original="Displays the version of the default Java VM">デフォルトのJavaVMのバージョンを表示します。</value>
+</row>
+<row id="221" trl="Y">
+	<value column="Name" original="Error Message">エラーメッセージ</value>
+	<value column="Description" original="Display Error Messages">エラーメッセージを表示します。</value>
+</row>
+<row id="222" trl="Y">
+	<value column="Name" original="Import Loader Format">インポートローダー形式</value>
+	<value column="Description" original="Maintain Import Loader Formats">インポートローダー形式をメンテナンスします。</value>
+</row>
+<row id="223" trl="Y">
+	<value column="Name" original="Import File Loader">インポートファイルローダー</value>
+	<value column="Description" original="Load flat Files into import tables">フラットなファイルをインポートテーブルにロードします。</value>
+</row>
+<row id="224" trl="Y">
+	<value column="Name" original="Language Setup">言語初期設定</value>
+	<value column="Description" original="Setup a new Language of the system and translate elements">システムの新しい言語ををセットアップした後、要素を翻訳してください。</value>
+</row>
+<row id="225" trl="Y">
+	<value column="Name" original="Initial Client Setup">初期のクライアントセットアップ</value>
+	<value column="Description" original="Initial new Client/Tenant Setup">初期の新しいクライアント/テナントセットアップです。</value>
+</row>
+<row id="227" trl="Y">
+	<value column="Name" original="Vendor Selection">仕入先選択</value>
+	<value column="Description" original="Products with more than one vendor">複数のの仕入先がある製品は仕入先を選択します。</value>
+</row>
+<row id="228" trl="Y">
+	<value column="Name" original="Production">生産</value>
+	<value column="Description" original="Production based on Bill of Materials">部品構成表に基づく生産です。</value>
+</row>
+<row id="229" trl="Y">
+	<value column="Name" original="Material Transactions">資材取引</value>
+	<value column="Description" original="Material Transactions">資材の取引です。</value>
+</row>
+<row id="230" trl="Y">
+	<value column="Name" original="Quarterly Invoice Customer by Product">製品別の四半期の請求販売先</value>
+	<value column="Description" original="Invoice Report by Customer and Product Category per Quarter">四半期単位の販売先と製品カテゴリの請求書レポートです。</value>
+</row>
+<row id="231" trl="Y">
+	<value column="Name" original="Quarterly Invoice Customer by Vendor">仕入先別の四半期の請求販売先</value>
+	<value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter">四半期単位の販売先と製品仕入先別の請求書レポートです。</value>
+</row>
+<row id="232" trl="Y">
+	<value column="Name" original="Business Partner Group">ビジネスパートナーグループ</value>
+	<value column="Description" original="Maintain Business Partner Groups">ビジネスパートナーグループをメンテナンスします。</value>
+</row>
+<row id="233" trl="Y">
+	<value column="Name" original="Notice">通知</value>
+	<value column="Description" original="View System Notices">システム通知を表示します。</value>
+</row>
+<row id="234" trl="Y">
+	<value column="Name" original="Bank Statement">銀行取引明細書</value>
+	<value column="Description" original="Process Bank Statements">銀行取引明細書を処理します。</value>
+</row>
+<row id="235" trl="Y">
+	<value column="Name" original="Payment">支払い</value>
+	<value column="Description" original="Process Payments and Receipts">支払いと受領を処理します。</value>
+</row>
+<row id="236" trl="Y">
+	<value column="Name" original="Open Items">開いている項目</value>
+	<value column="Description" original="">未確定の残高です。</value>
+</row>
+<row id="237" trl="Y">
+	<value column="Name" original="Request">要求</value>
+	<value column="Description" original="Work on your requests">要求に取り組みます。</value>
+</row>
+<row id="238" trl="Y">
+	<value column="Name" original="Mail Template">メールテンプレート</value>
+	<value column="Description" original="Maintain Mail Template">メールテンプレートをメンテナンスします。</value>
+</row>
+<row id="239" trl="Y">
+	<value column="Name" original="Custom Attribute">カスタム属性</value>
+	<value column="Description" original="Maintain custom entity attributes">カスタム事業主体属性をメンテナンスします。</value>
+</row>
+<row id="240" trl="Y">
+	<value column="Name" original="Cashbook">現金出納帳</value>
+	<value column="Description" original="Maintain Cashbook">現金出納帳をメンテナンスします。</value>
+</row>
+<row id="241" trl="Y">
+	<value column="Name" original="Cash Journal">現金仕訳帳</value>
+	<value column="Description" original="Cash transactions">現金取引です。</value>
+</row>
+<row id="243" trl="Y">
+	<value column="Name" original="Open Items">開いている項目</value>
+	<value column="Description" original="Open Item (Invoice) List">開いている項目(請求書)リストです。</value>
+</row>
+<row id="244" trl="Y">
+	<value column="Name" original="UnReconciled Payments">一致していない支払い</value>
+	<value column="Description" original="Payments not reconciled with Bank Statement">銀行取引明細書と一致していない支払いです。</value>
+</row>
+<row id="245" trl="Y">
+	<value column="Name" original="Payment Allocation">支払い割り当て</value>
+	<value column="Description" original="Allocate invoices and payments">請求書と支払いを割り当てます。</value>
+</row>
+<row id="246" trl="Y">
+	<value column="Name" original="Allocation">割り当て</value>
+	<value column="Description" original="Payment - Invoice - Allocation">支払い -請求書- 割り当て　です。</value>
+</row>
+<row id="249" trl="Y">
+	<value column="Name" original="Field Group">フィールドグループ</value>
+	<value column="Description" original="Define Field Group">フィールドグループを定義してください。</value>
+</row>
+<row id="251" trl="Y">
+	<value column="Name" original="View Allocation">ビュー割り当て</value>
+	<value column="Description" original="View and Reverse Allocations ">ビューと逆転の割り当てです。</value>
+</row>
+<row id="252" trl="Y">
+	<value column="Name" original="Invoice Transactions (Doc)">請求書取引(Doc)</value>
+	<value column="Description" original="Invoice Transactions by Invoice Date">請求書日付で取引の請求書を送ります。</value>
+</row>
+<row id="253" trl="Y">
+	<value column="Name" original="Invoice Detail &amp; Margin">請求書の詳細と粗利益</value>
+	<value column="Description" original="Invoice (Line) Detail and Margin Report">請求書(ライン)の詳細と粗利益レポート</value>
+</row>
+<row id="254" trl="Y">
+	<value column="Name" original="Generate Charges">料金を生成</value>
+	<value column="Description" original="Generate Charges from natural accounts">自然な会計から料金を生成します。</value>
+</row>
+<row id="255" trl="Y">
+	<value column="Name" original="Payment Selection">支払い選択</value>
+	<value column="Description" original="Select Invoices for Payment">支払いのための請求書を選択してください。</value>
+</row>
+<row id="256" trl="Y">
+	<value column="Name" original="Product Transaction Value">製品取引額</value>
+	<value column="Description" original="Product Transaction Value">製品取引額です。</value>
+</row>
+<row id="257" trl="Y">
+	<value column="Name" original="Commission">コミッション</value>
+	<value column="Description" original="Maintain Commissions and Royalties">コミッションとロイヤリティをメンテナンスします。</value>
+</row>
+<row id="258" trl="Y">
+	<value column="Name" original="Project Reporting">プロジェクト報告</value>
+	<value column="Description" original="Maintain Project Reporting Cycles">プロジェクト報告サイクルをメンテナンスします。</value>
+</row>
+<row id="260" trl="Y">
+	<value column="Name" original="Project Status Summary">プロジェクト状況概要</value>
+	<value column="Description" original="Project Status of Project Cycle">プロジェクトサイクルのプロジェクト状況です。</value>
+</row>
+<row id="261" trl="Y">
+	<value column="Name" original="Initial Client Setup Review">初期クライアントのセットアップレビュー</value>
+	<value column="Description" original="Review of system level setup of a new  Client">新しいクライアントのシステムレベルセットアップのレビューです。</value>
+</row>
+<row id="263" trl="Y">
+	<value column="Name" original="Partner Relations">パートナー関連</value>
+	<value column="Description" original="Customer Relations and Partner Management">顧客対応とパートナー管理</value>
+</row>
+<row id="264" trl="Y">
+	<value column="Name" original="Commission Run">コミッション実行</value>
+	<value column="Description" original="Check and modify Commissions">コミッションをチェック、変更します。</value>
+</row>
+<row id="265" trl="Y">
+	<value column="Name" original="Accounting Setup">会計セットアップ</value>
+	<value column="Description" original="Review and change Accounting Setup">レビューと会計セットアップの変更です。</value>
+</row>
+<row id="266" trl="Y">
+	<value column="Name" original="Business Partner Setup">ビジネスパートナーセットアップ</value>
+	<value column="Description" original="Setup Business Partner Rules">セットアップビジネスパートナールールです。</value>
+</row>
+<row id="267" trl="Y">
+	<value column="Name" original="Price List Setup">価格リストセットアップ</value>
+	<value column="Description" original="Define your Price Lists and Discounts">価格リストと割引を設定してください。</value>
+</row>
+<row id="268" trl="Y">
+	<value column="Name" original="Product Setup">製品セットアップ</value>
+	<value column="Description" original="Set up Products">製品をセットアップしてください。</value>
+</row>
+<row id="269" trl="Y">
+	<value column="Name" original="Sales Setup">販売セットアップ</value>
+	<value column="Description" original="Setup Sales">販売をセットアップします。</value>
+</row>
+<row id="270" trl="Y">
+	<value column="Name" original="Tax Setup">税金セットアップ</value>
+	<value column="Description" original="Setup tax calculation">税金計算をセットアップします。</value>
+</row>
+<row id="271" trl="Y">
+	<value column="Name" original="Service">サービス</value>
+	<value column="Description" original="Service Management">サービス管理です。</value>
+</row>
+<row id="272" trl="Y">
+	<value column="Name" original="Sales and Marketing">販売とマーケティング</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="275" trl="Y">
+	<value column="Name" original="Performance Goal">成績目標</value>
+	<value column="Description" original="Define Performance Goals">成績目標を設定してください。</value>
+</row>
+<row id="276" trl="Y">
+	<value column="Name" original="Performance Measure Calculation">成績測定計算</value>
+	<value column="Description" original="Define how you calculate your performance measures">成績測定をどのような方法で計算するかを設定してください。</value>
+</row>
+<row id="277" trl="Y">
+	<value column="Name" original="Performance Measurement Setup">成績測定セットアップ</value>
+	<value column="Description" original="Setup your Performance Measurement">成績測定をセットアップしてください。</value>
+</row>
+<row id="278" trl="Y">
+	<value column="Name" original="Performance Analysis">成績分析</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="279" trl="Y">
+	<value column="Name" original="Performance Measure">成績測定</value>
+	<value column="Description" original="Define your Performance Measures">成績の測定方法を設定してください。</value>
+</row>
+<row id="280" trl="Y">
+	<value column="Name" original="Financial Reporting">財務報告</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="281" trl="Y">
+	<value column="Name" original="Financial Report">営業報告</value>
+	<value column="Description" original="Maintain Financial Reports">営業報告をメンテナンスします。</value>
+</row>
+<row id="282" trl="Y">
+	<value column="Name" original="Report Column Set">レポートカラムセット</value>
+	<value column="Description" original="Maintain Financial Report Column Sets">営業報告カラムセットをメンテナンスします。</value>
+</row>
+<row id="283" trl="Y">
+	<value column="Name" original="Report Line Set">レポートラインセット</value>
+	<value column="Description" original="Maintain Financial Report Line Sets">営業報告ラインセットをメンテナンスします。</value>
+</row>
+<row id="284" trl="Y">
+	<value column="Name" original="Service Level">サービスレベル</value>
+	<value column="Description" original="Maintain Service Levels">サービスレベルをメンテナンスします。</value>
+</row>
+<row id="286" trl="Y">
+	<value column="Name" original="Payment Selection (manual)">支払い選択(手動)</value>
+	<value column="Description" original="Manual Payment Selection">手動の支払い選択です。</value>
+</row>
+<row id="287" trl="Y">
+	<value column="Name" original="Payment Print/Export">支払い印刷/エクスポート</value>
+	<value column="Description" original="Print or export your payments">支払いを印刷、またはエクスポートします。</value>
+</row>
+<row id="288" trl="Y">
+	<value column="Name" original="Cash Journal Detail">現金仕訳帳の詳細</value>
+	<value column="Description" original="Detail Cash Journal Information">詳細な現金仕訳帳の情報です。</value>
+</row>
+<row id="289" trl="Y">
+	<value column="Name" original="Database export">データベースのエクスポート</value>
+	<value column="Description" original="Export (save) the database">データベースをエクスポートします(保存します)。</value>
+</row>
+<row id="290" trl="Y">
+	<value column="Name" original="Find (indirect use)">検索(間接的な使用)</value>
+	<value column="Description" original="Find Dialog (indirect use)">ダイアログウィンドウを検索します。(間接的な使用)</value>
+</row>
+<row id="292" trl="Y">
+	<value column="Name" original="Material Transactions (indirect use)">材料取引(間接的な使用)</value>
+	<value column="Description" original="Material Transactions (indirect use)">材料取引です。(間接的な使用)</value>
+</row>
+<row id="293" trl="Y">
+	<value column="Name" original="Print Form">フォームを印刷</value>
+	<value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">印刷フォームをメンテナンスします。(請求書、小切手)</value>
+</row>
+<row id="294" trl="Y">
+	<value column="Name" original="System Color">システムカラー</value>
+	<value column="Description" original="Maintain System Colors">システムカラーをメンテナンスします。</value>
+</row>
+<row id="295" trl="Y">
+	<value column="Name" original="Desktop">デスクトップ</value>
+	<value column="Description" original="Maintain Desktop">デスクトップをメンテナンスします。</value>
+</row>
+<row id="296" trl="Y">
+	<value column="Name" original="System Image">システム画像</value>
+	<value column="Description" original="Maintain Images and Icons">画像とアイコンをメンテナンスします。</value>
+</row>
+<row id="300" trl="Y">
+	<value column="Name" original="Workbench">作業台</value>
+	<value column="Description" original="Maintain Workbench">作業台をメンテナンスします。</value>
+</row>
+<row id="301" trl="Y">
+	<value column="Name" original="Sales">販売</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="302" trl="Y">
+	<value column="Name" original="Database transfer">データベース転送</value>
+	<value column="Description" original="Transfer the database">データベースを転送します。</value>
+</row>
+<row id="303" trl="Y">
+	<value column="Name" original="Synchronize Terminology">用語を同期化</value>
+	<value column="Description" original="Synchronize the terminology within the system.">システムの中で用語を同期させます。</value>
+</row>
+<row id="304" trl="Y">
+	<value column="Name" original="Receivables Write-Off">売掛金帳消し</value>
+	<value column="Description" original="Write off open receivables">開いている売掛金勘定を取り消します。</value>
+</row>
+<row id="306" trl="Y">
+	<value column="Name" original="Resubmit Posting">仕訳を再送信</value>
+	<value column="Description" original="Resubmit posting of documents with posting errors or locked documents">エラーになった仕訳を再送信します。</value>
+</row>
+<row id="307" trl="Y">
+	<value column="Name" original="Reset Accounting">勘定科目をリセット</value>
+	<value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">勘定科目をリセットします。** 開始する前に、会計サーバーを停止してください。**</value>
+</row>
+<row id="308" trl="Y">
+	<value column="Name" original="Request (all)">要求(すべて)</value>
+	<value column="Description" original="View and work on all requests">すべての要求の仕事、ビューです。</value>
+</row>
+<row id="309" trl="Y">
+	<value column="Name" original="Request Setup">セットアップを要求</value>
+	<value column="Description" original="Set up the client to process requests">要求を処理するためのクライアントをセットアップします。</value>
+</row>
+<row id="310" trl="Y">
+	<value column="Name" original="Discount Schema">割引スキーマ</value>
+	<value column="Description" original="Maintain Trade Discount Schema">取引割引スキーマをメンテナンスします。</value>
+</row>
+<row id="311" trl="Y">
+	<value column="Name" original="Inventory Valuation Report">棚卸評価レポート</value>
+	<value column="Description" original="Inventory Valuation Report">棚卸評価レポートです。</value>
+</row>
+<row id="312" trl="Y">
+	<value column="Name" original="Matching PO-Receipt-Invoice">対応している注文-領収書-請求書</value>
+	<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">対応している発注、領収書、仕入先請求書です。</value>
+</row>
+<row id="313" trl="Y">
+	<value column="Name" original="Standard Cost Update">標準原価アップデート</value>
+	<value column="Description" original="Set standard and future cost price">標準かつ将来の原価を設定します。</value>
+</row>
+<row id="314" trl="Y">
+	<value column="Name" original="Product Costing Report (old)">製品原価計算レポート(旧)</value>
+	<value column="Description" original="Product Cost Report">製品原価報告書です。</value>
+</row>
+<row id="315" trl="Y">
+	<value column="Name" original="Matched Invoices">合致した請求書</value>
+	<value column="Description" original="View Matched Invoices">合致した請求書を表示します。</value>
+</row>
+<row id="316" trl="Y">
+	<value column="Name" original="Matched Purchase Orders">合致した発注</value>
+	<value column="Description" original="View Matched Purchase Orders">合致した発注を表示します。</value>
+</row>
+<row id="317" trl="Y">
+	<value column="Name" original="Expense Type">支出タイプ</value>
+	<value column="Description" original="Maintain Expense Report Types">経費報告書タイプをメンテナンスします。</value>
+</row>
+<row id="318" trl="Y">
+	<value column="Name" original="Expense Report">経費報告書</value>
+	<value column="Description" original="Time and Expense Report">時間と経費の報告書です。</value>
+</row>
+<row id="319" trl="Y">
+	<value column="Name" original="Resource">資源</value>
+	<value column="Description" original="Maintain Resources">資源をメンテナンスします。</value>
+</row>
+<row id="320" trl="Y">
+	<value column="Name" original="Resource Type">資源タイプ</value>
+	<value column="Description" original="Maintain Resource Types">資源タイプをメンテナンスします。</value>
+</row>
+<row id="321" trl="Y">
+	<value column="Name" original="Recompile DB Objects">DBオブジェクトを再コンパイル</value>
+	<value column="Description" original="Recompile Database Objects">データベースオブジェクトを再コンパイルします。</value>
+</row>
+<row id="322" trl="Y">
+	<value column="Name" original="Print Format">印刷フォーマット</value>
+	<value column="Description" original="Maintain Print Format">印刷フォーマットをメンテナンスします。</value>
+</row>
+<row id="323" trl="Y">
+	<value column="Name" original="Print Font">印刷フォント</value>
+	<value column="Description" original="Maintain Print Font">印刷フォントをメンテナンスします。</value>
+</row>
+<row id="324" trl="Y">
+	<value column="Name" original="Print Color">印刷カラー</value>
+	<value column="Description" original="Maintain Print Color">印刷カラーをメンテナンスします。</value>
+</row>
+<row id="325" trl="Y">
+	<value column="Name" original="Print Paper">印刷紙</value>
+	<value column="Description" original="Maintain Print Paper">印刷紙をメンテナンスします。</value>
+</row>
+<row id="326" trl="Y">
+	<value column="Name" original="Printing">印刷</value>
+	<value column="Description" original="Print Definition">印刷設定です。</value>
+</row>
+<row id="327" trl="Y">
+	<value column="Name" original="Expenses (to be invoiced)">経費(請求予定の)</value>
+	<value column="Description" original="View expenses and charges not invoiced to customers">販売先へ請求していない経費や料金です。</value>
+</row>
+<row id="328" trl="Y">
+	<value column="Name" original="Create Sales Orders from Expense">経費から受注を作成</value>
+	<value column="Description" original="Create Sales Orders for Customers from Expense Reports">経費報告書から販売先への受注を作成します。</value>
+</row>
+<row id="329" trl="Y">
+	<value column="Name" original="Create AP Expense Invoices">未払い金費用請求書を作成</value>
+	<value column="Description" original="Create AP Invoices from Expenses to be paid to employees">従業員に支払うために、経費から未払い金の請求書を作成します。</value>
+</row>
+<row id="331" trl="Y">
+	<value column="Name" original="Print Table Format">テーブルフォーマットを印刷</value>
+	<value column="Description" original="Define Report Table Format">レポートテーブルフォーマットを定義してください。</value>
+</row>
+<row id="332" trl="Y">
+	<value column="Name" original="Request Type">リクエストタイプ</value>
+	<value column="Description" original="Maintain Request Types">リクエストタイプをメンテナンスします。</value>
+</row>
+<row id="333" trl="Y">
+	<value column="Name" original="Interest Area">対象地域</value>
+	<value column="Description" original="Interest Area or Topic">関心がある区域、またはトピックです。</value>
+</row>
+<row id="334" trl="Y">
+	<value column="Name" original="System">システム</value>
+	<value column="Description" original="System Definition">システム定義です。</value>
+</row>
+<row id="335" trl="Y">
+	<value column="Name" original="Generate PO from Sales Order">受注から発注を生成</value>
+	<value column="Description" original="Create Purchase Order from Sales Orders">受注から発注を作成します。</value>
+</row>
+<row id="336" trl="Y">
+	<value column="Name" original="Translation Import/Export">翻訳インポート/エクスポート</value>
+	<value column="Description" original="Import or Export Language Translation">言語翻訳のインポートまたはエクスポートを行います。</value>
+</row>
+<row id="337" trl="Y">
+	<value column="Name" original="Reopen Request">要求を再開</value>
+	<value column="Description" original="Reopen closed requests">閉じている要求を再開します。</value>
+</row>
+<row id="338" trl="Y">
+	<value column="Name" original="Import Report Line Set">レポートラインセットをインポート</value>
+	<value column="Description" original="Import Report Line Sets">レポートラインセットをインポートします。</value>
+</row>
+<row id="339" trl="Y">
+	<value column="Name" original="Import Account">勘定科目のインポート</value>
+	<value column="Description" original="Import Natural Account Values">自然な勘定科目値をインポートします。</value>
+</row>
+<row id="340" trl="Y">
+	<value column="Name" original="Import Product">製品のインポート</value>
+	<value column="Description" original="Import Products">製品をインポートします。</value>
+</row>
+<row id="341" trl="Y">
+	<value column="Name" original="System Translation Check">システム翻訳チェック</value>
+	<value column="Description" original="Check System Language Translations">システム言語翻訳をチェックします。</value>
+</row>
+<row id="342" trl="Y">
+	<value column="Name" original="Asset">資産</value>
+	<value column="Description" original="Asset used internally or by customers">内部利用または販売先によって使用されている資産です。</value>
+</row>
+<row id="343" trl="Y">
+	<value column="Name" original="Asset Group">資産グループ</value>
+	<value column="Description" original="Group of Assets">資産のグループです。</value>
+</row>
+<row id="344" trl="Y">
+	<value column="Name" original="Training">トレーニング</value>
+	<value column="Description" original="Repeated Training">繰り返されたトレーニングです。</value>
+</row>
+<row id="345" trl="Y">
+	<value column="Name" original="Assets">資産</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="346" trl="Y">
+	<value column="Name" original="Generate Shipments (manual)">出荷を生成(手動)</value>
+	<value column="Description" original="Select and generate shipments">出荷を選択して生成してください。</value>
+</row>
+<row id="347" trl="Y">
+	<value column="Name" original="Print Invoices">請求書を印刷</value>
+	<value column="Description" original="Print Invoices to paper or send PDF">紙に請求書を印刷するか、またはPDFを送ります。</value>
+</row>
+<row id="348" trl="Y">
+	<value column="Name" original="Deliver Assets">資産を提供</value>
+	<value column="Description" original="Deliver Customer Assets electronically">電子的に販売先の資産を提供します。</value>
+</row>
+<row id="349" trl="Y">
+	<value column="Name" original="Expenses (not reimbursed)">経費(未払い)</value>
+	<value column="Description" original="View expenses and charges not reimbursed">返済されていない経費と料金のビューです。</value>
+</row>
+<row id="350" trl="Y">
+	<value column="Name" original="Statement of Accounts">決算報告</value>
+	<value column="Description" original="Report Account Statement Beginning Balance and Transactions">帳簿期首残高レポートと取引情報</value>
+</row>
+<row id="351" trl="Y">
+	<value column="Name" original="SQL Process">SQLプロセス</value>
+	<value column="Description" original="Process SQL Statements">SQL文を実行します。</value>
+</row>
+<row id="352" trl="Y">
+	<value column="Name" original="Accounting Fact Balances">会計事実残高</value>
+	<value column="Description" original="Query Accounting Daily Balances">会計日計表にクエリします。</value>
+</row>
+<row id="353" trl="Y">
+	<value column="Name" original="Attribute Set">属性セット</value>
+	<value column="Description" original="Maintain Product Attribute Set">製品属性セットをメンテナンスします。</value>
+</row>
+<row id="354" trl="Y">
+	<value column="Name" original="Serial No Control">シリアルナンバー管理</value>
+	<value column="Description" original="Product Serial Number Control">製品通し番号を管理します。</value>
+</row>
+<row id="355" trl="Y">
+	<value column="Name" original="Lot Control">ロット管理</value>
+	<value column="Description" original="Product Lot Control">製品ロットを管理します。</value>
+</row>
+<row id="356" trl="Y">
+	<value column="Name" original="Lot">ロット</value>
+	<value column="Description" original="Product Lot Definition">製品ロット定義です。</value>
+</row>
+<row id="357" trl="Y">
+	<value column="Name" original="Product Attributes">製品属性</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="358" trl="Y">
+	<value column="Name" original="Attribute Search">属性検索</value>
+	<value column="Description" original="Common Search Attribute ">一般的な検索属性です。</value>
+</row>
+<row id="359" trl="Y">
+	<value column="Name" original="Attribute">属性</value>
+	<value column="Description" original="Product Attribute">製品属性</value>
+</row>
+<row id="360" trl="Y">
+	<value column="Name" original="Expense Invoice (Alpha)">支出請求書(アルファ版)</value>
+	<value column="Description" original="Payables expense invoices - This is Alpha Functionality">買掛金支出請求書です。 --これはアルファ版の機能です。</value>
+</row>
+<row id="361" trl="Y">
+	<value column="Name" original="Recurring">再帰</value>
+	<value column="Description" original="Recurring Document">再帰ドキュメントです。</value>
+</row>
+<row id="362" trl="Y">
+	<value column="Name" original="Role Data Access">役割のデータアクセス</value>
+	<value column="Description" original="Maintain Data Access Rules">データアクセスルールをメンテナンスします。</value>
+</row>
+<row id="363" trl="Y">
+	<value column="Name" original="Import Inventory">在庫情報をインポート</value>
+	<value column="Description" original="Import Inventory Transactions">在庫取引をインポートします。</value>
+</row>
+<row id="364" trl="Y">
+	<value column="Name" original="Project Type">プロジェクトタイプ</value>
+	<value column="Description" original="Maintain Project Type and Phase">プロジェクトタイプとフェーズをメンテナンスします。</value>
+</row>
+<row id="365" trl="Y">
+	<value column="Name" original="Print Label">ラベルを印刷</value>
+	<value column="Description" original="Print Label Format">ラベル形式を印刷します。</value>
+</row>
+<row id="366" trl="Y">
+	<value column="Name" original="Session Audit">セッション監査</value>
+	<value column="Description" original="Audit of User Sessions">ユーザセッションの監査です。</value>
+</row>
+<row id="367" trl="Y">
+	<value column="Name" original="Security">セキュリティ</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="368" trl="Y">
+	<value column="Name" original="Change Audit">監査変更</value>
+	<value column="Description" original="Audit of data changes">監査データを変更します。</value>
+</row>
+<row id="369" trl="Y">
+	<value column="Name" original="Time Type">時間のタイプ</value>
+	<value column="Description" original="Maintain Time Recording Type">時間の記録方式をメンテナンスします。</value>
+</row>
+<row id="370" trl="Y">
+	<value column="Name" original="Cost Type">原価タイプ</value>
+	<value column="Description" original="Maintain Cost Types">原価タイプをメンテナンスします。</value>
+</row>
+<row id="371" trl="Y">
+	<value column="Name" original="Advertisement">広告</value>
+	<value column="Description" original="Web Advertisement">ウェブ広告です。</value>
+</row>
+<row id="372" trl="Y">
+	<value column="Name" original="Web">ウェブ</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="373" trl="Y">
+	<value column="Name" original="Import Bank Statement">銀行取引明細書をインポート</value>
+	<value column="Description" original="Import Bank Statements">銀行取引明細書をインポートします。</value>
+</row>
+<row id="374" trl="Y">
+	<value column="Name" original="Import Payment">支払いをインポート</value>
+	<value column="Description" original="Import Payments">支払いをインポートします。</value>
+</row>
+<row id="375" trl="Y">
+	<value column="Name" original="Click">クリック</value>
+	<value column="Description" original="Maintain Web Click">ウェブクリックをメンテナンスします。</value>
+</row>
+<row id="376" trl="Y">
+	<value column="Name" original="Import Order">注文データのインポート</value>
+	<value column="Description" original="Import Orders">注文データをインポートします。</value>
+</row>
+<row id="377" trl="Y">
+	<value column="Name" original="Invoice Payment Schedule">請求書支払いスケジュール</value>
+	<value column="Description" original="Maintain Invoice Payment Schedule">請求書支払いスケジュールをメンテナンスします。</value>
+</row>
+<row id="378" trl="Y">
+	<value column="Name" original="Import GL Journal">総勘定元帳のインポート</value>
+	<value column="Description" original="Import General Ledger Journals">総勘定元帳をインポートします。</value>
+</row>
+<row id="379" trl="Y">
+	<value column="Name" original="Alert">警告</value>
+	<value column="Description" original="Adempiere Alert">Adempiere警告です。</value>
+</row>
+<row id="380" trl="Y">
+	<value column="Name" original="Counter">カウンタ</value>
+	<value column="Description" original="Web Counter">ウェブのカウンタです。</value>
+</row>
+<row id="381" trl="Y">
+	<value column="Name" original="Freight Category">貨物カテゴリ</value>
+	<value column="Description" original="Maintain Freight Categories">貨物カテゴリをメンテナンスします。</value>
+</row>
+<row id="382" trl="Y">
+	<value column="Name" original="Import Invoice">請求書をインポート</value>
+	<value column="Description" original="Import Invoices">請求書を取り込みます。</value>
+</row>
+<row id="383" trl="Y">
+	<value column="Name" original="Cache Reset">キャッシュリセット</value>
+	<value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">システムのキャッシュをリセットします。** 処理を実行する前にすべてのウィンドウを閉じてください。 **</value>
+</row>
+<row id="384" trl="Y">
+	<value column="Name" original="Accounting Dimensions">会計の面</value>
+	<value column="Description" original="Maintain Non-Account Dimension Trees">非会計次元ツリーをメンテナンスします。</value>
+</row>
+<row id="385" trl="Y">
+	<value column="Name" original="Replication">複製</value>
+	<value column="Description" original="Maintain Data Replication Targets">データ複製の対象をメンテナンスします。</value>
+</row>
+<row id="386" trl="Y">
+	<value column="Name" original="Replication Strategy">データ複製方針</value>
+	<value column="Description" original="Maintain Data Replication Strategy">データの複製方針をメンテナンスします。</value>
+</row>
+<row id="387" trl="Y">
+	<value column="Name" original="Project (Lines/Issues)">プロジェクト(注文)</value>
+	<value column="Description" original="Maintain Sales Order and Work Order Details">受注プロジェクトと工事指図書をメンテナンスします。</value>
+</row>
+<row id="388" trl="Y">
+	<value column="Name" original="Knowledge Base">知識ベース</value>
+	<value column="Description" original="Maintain Knowledge Base">知識ベースをメンテナンスします。</value>
+</row>
+<row id="389" trl="Y">
+	<value column="Name" original="Knowledge Category">知識カテゴリ</value>
+	<value column="Description" original="Maintain Knoweledge Categories and Values">知識カテゴリと値をメンテナンスします。</value>
+</row>
+<row id="390" trl="Y">
+	<value column="Name" original="Knowledge Synonym">知識同義語</value>
+	<value column="Description" original="Knowlege Keyword Synonym">知識キーワード同義語です。</value>
+</row>
+<row id="391" trl="Y">
+	<value column="Name" original="Knowledge Source">知識ソース</value>
+	<value column="Description" original="Source of Knowledge Entries">知識エントリーの源泉です。</value>
+</row>
+<row id="392" trl="Y">
+	<value column="Name" original="Knowledge Base">知識</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="393" trl="Y">
+	<value column="Name" original="Update Accounting Balance">帳簿残高を更新</value>
+	<value column="Description" original="Update Daily Accounting Balances">毎日の帳簿残高を更新します。</value>
+</row>
+<row id="394" trl="Y">
+	<value column="Name" original="Business Partner Info">ビジネスパートナー情報</value>
+	<value column="Description" original="Document Information of Business Partners">ビジネスパートナーの文書情報です。</value>
+</row>
+<row id="395" trl="Y">
+	<value column="Name" original="Replication Setup">複製セットアップ</value>
+	<value column="Description" original="Setup of data replication">データ複製のセットアップです。</value>
+</row>
+<row id="396" trl="Y">
+	<value column="Name" original="Send Mail Text">メールテキストを送信</value>
+	<value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">選択したインターネットまたはビジネスパートナーで、有効な購読者にメールを送信します。</value>
+</row>
+<row id="397" trl="Y">
+	<value column="Name" original="Merge Entities">事業主体を併合</value>
+	<value column="Description" original="Merge From Entity to To Entity - Delete From">２つの事業主体を併合します。 - 削除対象</value>
+</row>
+<row id="398" trl="Y">
+	<value column="Name" original="Project Cycle Report">プロジェクトサイクルレポート</value>
+	<value column="Description" original="Report Projects based on Project Cycle">プロジェクトサイクルに基づくレポートプロジェクトです。</value>
+</row>
+<row id="399" trl="Y">
+	<value column="Name" original="Customer Assets">顧客資産</value>
+	<value column="Description" original="Report Customer Assets with Delivery Count">配送がある顧客資産をレポートします。</value>
+</row>
+<row id="400" trl="Y">
+	<value column="Name" original="Asset Delivery Details">資産配送の詳細</value>
+	<value column="Description" original="Report Asset Deliveries Details">資産配送の詳細をレポートします。</value>
+</row>
+<row id="401" trl="Y">
+	<value column="Name" original="Issue to Project">プロジェクトへの問題</value>
+	<value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">受領または手動の在庫場所からの、プロジェクトへの材料発行です。</value>
+</row>
+<row id="402" trl="Y">
+	<value column="Name" original="Generate PO from Project">プロジェクトから発注を生成</value>
+	<value column="Description" original="Generate PO from Project Line(s)">プロジェクト詳細から発注を生成します。</value>
+</row>
+<row id="403" trl="Y">
+	<value column="Name" original="Project Detail Accounting Report">プロジェクト詳細会計報告</value>
+	<value column="Description" original="Accounting Fact Details of Project">プロジェクトの会計事実の詳細です。</value>
+</row>
+<row id="404" trl="Y">
+	<value column="Name" original="Project Lines not Issued">発行されていないプロジェクト詳細</value>
+	<value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">作業依頼書または資産プロジェクトの、プロジェクトリストの詳細です。(プロジェクトへ発行されていないものです)</value>
+</row>
+<row id="405" trl="Y">
+	<value column="Name" original="Project POs not Issued">発行されていないプロジェクトの発注</value>
+	<value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">作業依頼書または資産プロジェクトの生成された発注が付いている、プロジェクト詳細のリストです。これらはプロジェクトへ発行されていません。</value>
+</row>
+<row id="406" trl="Y">
+	<value column="Name" original="RePrice Order/Invoice">注文/請求書を再価格設定</value>
+	<value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">価格が公開されている注文または請求書の最新価格リストバージョンを基に価格を再計算します。</value>
+</row>
+<row id="407" trl="Y">
+	<value column="Name" original="Quote convert">見積を変換</value>
+	<value column="Description" original="Convert open Proposal or Quotation to Order">開いている提案または見積を注文に変換します。</value>
+</row>
+<row id="408" trl="Y">
+	<value column="Name" original="Label Printer">ラベルプリンタ</value>
+	<value column="Description" original="Maintain Label Printer Definition">ラベルプリンタ設定をメンテナンスします。</value>
+</row>
+<row id="409" trl="Y">
+	<value column="Name" original="Verify Document Types">ドキュメントタイプを確認</value>
+	<value column="Description" original="Verify Document Types and Period Controls">ドキュメントタイプを確認します。</value>
+</row>
+<row id="410" trl="Y">
+	<value column="Name" original="Project Margin (Work Order)">プロジェクト粗利益(作業依頼書)</value>
+	<value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">作業依頼書プロジェクトライン(計画収入)対プロジェクト問題(コスト)です。</value>
+</row>
+<row id="411" trl="Y">
+	<value column="Name" original="Storage Detail">ストレージの詳細</value>
+	<value column="Description" original="Storage Detail Report">ストレージ詳細レポートです。</value>
+</row>
+<row id="412" trl="Y">
+	<value column="Name" original="Transaction Detail">取引の詳細</value>
+	<value column="Description" original="Transaction Detail Report">取引詳細レポートです。</value>
+</row>
+<row id="413" trl="Y">
+	<value column="Name" original="Aging">過去のレポート</value>
+	<value column="Description" original="Aging Report">古いレポートです。</value>
+</row>
+<row id="414" trl="Y">
+	<value column="Name" original="Sales Rep Info">営業担当者情報</value>
+	<value column="Description" original="Company Agent (Sales Rep) Information">会社の行為者(販売員)の情報です。</value>
+</row>
+<row id="415" trl="Y">
+	<value column="Name" original="Clicks Monthy">月間クリック数</value>
+	<value column="Description" original="Clicks per Month">１ヶ月あたりのクリック数です。</value>
+</row>
+<row id="416" trl="Y">
+	<value column="Name" original="Clicks Unprocessed">未処理クリック数</value>
+	<value column="Description" original="Unprocessed Clicks">処理できなかったクリック数です。</value>
+</row>
+<row id="417" trl="Y">
+	<value column="Name" original="UnPosted Documents">未送信ドキュメント</value>
+	<value column="Description" original="Unposted Documents">送信されていないドキュメントです。</value>
+</row>
+<row id="418" trl="Y">
+	<value column="Name" original="Currency Type">通貨タイプ</value>
+	<value column="Description" original="Maintain Currency Conversion Rate Types">通貨の転換レートタイプをメンテナンスします。</value>
+</row>
+<row id="419" trl="Y">
+	<value column="Name" original="POS">POS</value>
+	<value column="Description" original="Point Of Sales Terminal">Position Of Sales、販売時点情報管理端末です。</value>
+</row>
+<row id="420" trl="Y">
+	<value column="Name" original="Business Partner Organization">ビジネスパートナー組織</value>
+	<value column="Description" original="Set and verify Organization ownership of Business Partners">ビジネスパートナーの組織の所有権を設定、確認してください。</value>
+</row>
+<row id="421" trl="Y">
+	<value column="Name" original="Product Organization">製品組織</value>
+	<value column="Description" original="Set and verify Organization ownership of Products">製品組織の所有権を設定、確認してください。</value>
+</row>
+<row id="422" trl="Y">
+	<value column="Name" original="Warehouse Organization">倉庫組織</value>
+	<value column="Description" original="Set and verify Organization ownership of Warehouse">倉庫組織の所有権を設定、確認してください。</value>
+</row>
+<row id="423" trl="Y">
+	<value column="Name" original="Load Bank Statement">銀行取引明細書をロード</value>
+	<value column="Description" original="Load Bank Statement">銀行取引明細書をロードします。</value>
+</row>
+<row id="424" trl="Y">
+	<value column="Name" original="Delete Import">インポートを削除</value>
+	<value column="Description" original="Delete all data in Import Table">インポートテーブルのすべてのデータを削除します。</value>
+</row>
+<row id="425" trl="Y">
+	<value column="Name" original="Import Currency Rate">通貨交換比率のインポート</value>
+	<value column="Description" original="Import Currency Conversion Rates">通貨交換比率をインポートします。</value>
+</row>
+<row id="426" trl="Y">
+	<value column="Name" original="BOM Drop">部品構成表を表示</value>
+	<value column="Description" original="Drop (expand) Bill of Materials">部品構成表をドロップします。(広げます)</value>
+</row>
+<row id="427" trl="Y">
+	<value column="Name" original="Workflow Responsible">作業フローの責任</value>
+	<value column="Description" original="Responsible for Workflow Execution">作業フロー実行の責任です。</value>
+</row>
+<row id="428" trl="Y">
+	<value column="Name" original="Workflow Process">作業フロープロセス</value>
+	<value column="Description" original="Monitor workflow processes">作業フロープロセスを監視します。</value>
+</row>
+<row id="429" trl="Y">
+	<value column="Name" original="Workflow Activities (all)">作業フロー活動(すべて)</value>
+	<value column="Description" original="Monitor all Workflow activities">すべての作業フロー活動をモニターします。</value>
+</row>
+<row id="430" trl="Y">
+	<value column="Name" original="Registration Attributes">登録属性</value>
+	<value column="Description" original="Asset Registration Attributes">資産の登録属性です。</value>
+</row>
+<row id="431" trl="Y">
+	<value column="Name" original="Registration">登録</value>
+	<value column="Description" original="User Asset Registration">ユーザー資産を登録します。</value>
+</row>
+<row id="432" trl="Y">
+	<value column="Name" original="Invoice Tax">請求書税</value>
+	<value column="Description" original="Invoice Tax Reconciliation">請求書税金の合意です。</value>
+</row>
+<row id="433" trl="Y">
+	<value column="Name" original="Accounting Fact Details">会計事実の詳細</value>
+	<value column="Description" original="Accounting Fact Details Report">会計事実の詳細レポートです。</value>
+</row>
+<row id="434" trl="Y">
+	<value column="Name" original="Accounting Fact Daily">１日の会計記録</value>
+	<value column="Description" original="Accounting Fact Details summarized by Accounting Date">会計日付によってまとめられた会計事実の詳細です。</value>
+</row>
+<row id="435" trl="Y">
+	<value column="Name" original="Accounting Fact Period">期間別の会計事実</value>
+	<value column="Description" original="Accounting Fact Details summarized by Accounting Period">会計期間によってまとめられた会計事実の詳細です。</value>
+</row>
+<row id="436" trl="Y">
+	<value column="Name" original="Reopen Order">注文を再開</value>
+	<value column="Description" original="Open previously closed Order">以前に閉じた注文を開きます。</value>
+</row>
+<row id="437" trl="Y">
+	<value column="Name" original="Bank Statement Matcher">銀行取引明細書の相手</value>
+	<value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">ビジネスパートナー、請求書、支払いへ銀行取引明細書をマッチさせるためのアルゴリズムです。</value>
+</row>
+<row id="438" trl="Y">
+	<value column="Name" original="Payment Batch">支払いバッチ処理</value>
+	<value column="Description" original="Process Payment Patches for EFT">EFTのための支払いパッチ処理を実行します。</value>
+</row>
+<row id="439" trl="Y">
+	<value column="Name" original="Workflow Processor">作業フロープロセッサ</value>
+	<value column="Description" original="Maintain Workflow Processor and Logs">作業フロープロセッサとログをメンテナンスします。</value>
+</row>
+<row id="440" trl="Y">
+	<value column="Name" original="Accounting Processor">会計プロセッサ</value>
+	<value column="Description" original="Maintain Accounting Processor and Logs">会計プロセッサとログをメンテナンスします。</value>
+</row>
+<row id="441" trl="Y">
+	<value column="Name" original="Organization Type">組織タイプ</value>
+	<value column="Description" original="Maintain Organization Types">組織タイプをメンテナンスします。</value>
+</row>
+<row id="442" trl="Y">
+	<value column="Name" original="Auction Buyer">オークションの購入者</value>
+	<value column="Description" original="Maintain Auction Buyer Information">オークションの買い手情報をメンテナンスしてください。</value>
+</row>
+<row id="443" trl="Y">
+	<value column="Name" original="Auction Seller">オークションの売り手</value>
+	<value column="Description" original="Maintain Auction Seller Information">オークションの売り手情報をメンテナンスしてください。</value>
+</row>
+<row id="444" trl="Y">
+	<value column="Name" original="Package">パッケージ</value>
+	<value column="Description" original="Manage Shipment Packages">出荷パッケージを管理します。</value>
+</row>
+<row id="445" trl="Y">
+	<value column="Name" original="Distribution List">発送先リスト</value>
+	<value column="Description" original="Maintain Distribution Lists">発送先リストをメンテナンスします。</value>
+</row>
+<row id="446" trl="Y">
+	<value column="Name" original="Alert Processor">警告プロセッサ</value>
+	<value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">警告プロセッサ/サーバーパラメータとログをメンテナンスします。</value>
+</row>
+<row id="447" trl="Y">
+	<value column="Name" original="Bid Topic">トピックに入札</value>
+	<value column="Description" original="Topic with Bids and Offers">入札と出品があるトピックです。</value>
+</row>
+<row id="448" trl="Y">
+	<value column="Name" original="Subscription Type">購読タイプ</value>
+	<value column="Description" original="Maintain Subscription Types">購読タイプをメンテナンスします。</value>
+</row>
+<row id="449" trl="Y">
+	<value column="Name" original="Subscription">購読</value>
+	<value column="Description" original="Maintain Subscriptions and Deliveries">購読と配送をメンテナンスします。</value>
+</row>
+<row id="450" trl="Y">
+	<value column="Name" original="Scheduler">スケジューラー</value>
+	<value column="Description" original="Maintain Schedule Processes and Logs">スケジュールのプロセスとログをメンテナンスします。</value>
+</row>
+<row id="451" trl="Y">
+	<value column="Name" original="Partner Relation">パートナー関連</value>
+	<value column="Description" original="Maintain Business Partner Relations">ビジネスパートナー関連をメンテナンスします。</value>
+</row>
+<row id="452" trl="Y">
+	<value column="Name" original="RfQ Topic">見積依頼トピック</value>
+	<value column="Description" original="Maintain RfQ Topics and Subscribers">見積依頼トピックと加入者をメンテナンスします。</value>
+</row>
+<row id="453" trl="Y">
+	<value column="Name" original="Auction Topic Type">オークションのトピックタイプ</value>
+	<value column="Description" original="Maintain Auction Topic Type and Categories">オークションのトピックタイプとカテゴリをメンテナンスします。</value>
+</row>
+<row id="454" trl="Y">
+	<value column="Name" original="RfQ">見積依頼</value>
+	<value column="Description" original="Manage Request for Quotations">見積り要求を管理します。</value>
+</row>
+<row id="455" trl="Y">
+	<value column="Name" original="RMA">材料返却認可</value>
+	<value column="Description" original="Manage Return Material Authorization">材料返却の承認を管理します。</value>
+</row>
+<row id="456" trl="Y">
+	<value column="Name" original="Server">サーバー</value>
+	<value column="Description" original="Adempiere Server Maintenance">Adempiereサーバーのメンテナンスです。</value>
+</row>
+<row id="457" trl="Y">
+	<value column="Name" original="Sales Orders">受注</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="458" trl="Y">
+	<value column="Name" original="Sales Invoices">販売請求書</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="459" trl="Y">
+	<value column="Name" original="Shipments">出荷</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="460" trl="Y">
+	<value column="Name" original="Market Place">市場</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="461" trl="Y">
+	<value column="Name" original="Sequence Check">連続番号チェック</value>
+	<value column="Description" original="Check System and Document Sequences">システムとドキュメント連続番号をチェックします。</value>
+</row>
+<row id="462" trl="Y">
+	<value column="Name" original="Dunning Run">督促実施</value>
+	<value column="Description" original="Manage Dunning Runs">督促の実施を管理します。</value>
+</row>
+<row id="463" trl="Y">
+	<value column="Name" original="Requisition">材料請求</value>
+	<value column="Description" original="Material Requisition">材料請求です。</value>
+</row>
+<row id="464" trl="Y">
+	<value column="Name" original="GL Distribution">総勘定元帳分配</value>
+	<value column="Description" original="General Ledger Distribution">総勘定元帳の分配です。</value>
+</row>
+<row id="465" trl="Y">
+	<value column="Name" original="Tree Maintenance">ツリーのメンテナンス</value>
+	<value column="Description" original="Maintain Trees">ツリー構造をメンテナンスします。</value>
+</row>
+<row id="466" trl="Y">
+	<value column="Name" original="RfQ Response">見積依頼応答</value>
+	<value column="Description" original="Manage RfQ Responses">見積依頼応答を管理してください。</value>
+</row>
+<row id="467" trl="Y">
+	<value column="Name" original="RfQ Response">見積依頼応答</value>
+	<value column="Description" original="Detail RfQ Responses">詳細な見積依頼の応答です。</value>
+</row>
+<row id="468" trl="Y">
+	<value column="Name" original="RfQ Unanswered">未回答の見積依頼</value>
+	<value column="Description" original="Outstanding RfQ Responses">未払いの見積依頼の応答です。</value>
+</row>
+<row id="469" trl="Y">
+	<value column="Name" original="Workflow Editor">作業フローエディタ</value>
+	<value column="Description" original="Edit Workflows">作業フローを編集します。</value>
+</row>
+<row id="470" trl="Y">
+	<value column="Name" original="Workflow Activities">作業フロー活動</value>
+	<value column="Description" original="My active workflow activities">個人の有効な作業フロー活動です。</value>
+</row>
+<row id="471" trl="Y">
+	<value column="Name" original="Open Requisitions">公開中の要求</value>
+	<value column="Description" original="Detail Open Requisition Information">公開中の要求情報の詳細です。</value>
+</row>
+<row id="472" trl="Y">
+	<value column="Name" original="Distribution Run">配送実行</value>
+	<value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">配送実施は、選択されたパートナーのリストに製品を配送するために注文を作成します。</value>
+</row>
+<row id="473" trl="Y">
+	<value column="Name" original="UnLink Business Partner Org">ビジネスパートナー組織のリンクをはずす</value>
+	<value column="Description" original="UnLink Business Partner from an Organization">ビジネスパートナーのリンクを組織からはずします。</value>
+</row>
+<row id="474" trl="Y">
+	<value column="Name" original="Asset Delivery Month">月間配送状況</value>
+	<value column="Description" original="Report Asset Deliveries Summary per month">1カ月あたりの資産配送の概要レポートです。</value>
+</row>
+<row id="475" trl="Y">
+	<value column="Name" original="Access Audit">アクセス監査</value>
+	<value column="Description" original="Audit of Access to data or resources">データ、リソースへのアクセスの監査です。</value>
+</row>
+<row id="476" trl="Y">
+	<value column="Name" original="Counter Document">カウンタドキュメント</value>
+	<value column="Description" original="Maintain Counter Document Types">カウンタドキュメントタイプをメンテナンスします。</value>
+</row>
+<row id="477" trl="Y">
+	<value column="Name" original="Demand">需要</value>
+	<value column="Description" original="Maintain Material Demand">資材の需要をメンテナンスします。</value>
+</row>
+<row id="478" trl="Y">
+	<value column="Name" original="Forecast">予測</value>
+	<value column="Description" original="Maintain Material Forecast">資材の需要予測をメンテナンスします。</value>
+</row>
+<row id="479" trl="Y">
+	<value column="Name" original="Ship/Receipt Confirm">発送/領収の確認/</value>
+	<value column="Description" original="Material Shipment or Receipt Confirmation">材料の出荷、領収の確認です。</value>
+</row>
+<row id="480" trl="Y">
+	<value column="Name" original="RMA Type">材料返却認可タイプ</value>
+	<value column="Description" original="Return Material Authorization Type">材料返却認可タイプです。</value>
+</row>
+<row id="481" trl="Y">
+	<value column="Name" original="Open Confirmation Details">公開されている確認の詳細</value>
+	<value column="Description" original="Open Shipment or Receipt Confirmation Details">公開されている出荷または領収の確認詳細です。</value>
+</row>
+<row id="482" trl="Y">
+	<value column="Name" original="Open Confirmations">公開中の確認</value>
+	<value column="Description" original="Open Shipment or Receipt Confirmations">公開されている出荷、領収の確認です。</value>
+</row>
+<row id="483" trl="Y">
+	<value column="Name" original="Process Audit">プロセス監査</value>
+	<value column="Description" original="Audit process use">プロセスの利用を監査します。</value>
+</row>
+<row id="484" trl="Y">
+	<value column="Name" original="Move Confirmation">移動確認</value>
+	<value column="Description" original="Confirm Inventory Moves">在庫移動を確認します。</value>
+</row>
+<row id="485" trl="Y">
+	<value column="Name" original="Print Format Detail">印刷フォーマットの詳細</value>
+	<value column="Description" original="Print Format Detail Report">印刷フォーマット詳細レポートです。</value>
+</row>
+<row id="486" trl="Y">
+	<value column="Name" original="Import Confirmations">確認をインポート</value>
+	<value column="Description" original="Import Receipt/Shipment Confirmation Lines">領収書/出荷確認ラインをインポートします。</value>
+</row>
+<row id="487" trl="Y">
+	<value column="Name" original="Reset Password">パスワードのリセット</value>
+	<value column="Description" original="Reset Passwords for User">ユーザのためにパスワードをリセットします。</value>
+</row>
+<row id="488" trl="Y">
+	<value column="Name" original="SLA Criteria">SLA評価基準</value>
+	<value column="Description" original="Service Level Agreement Criteria">サービス・レベル・アグリーメント評価基準です。</value>
+</row>
+<row id="489" trl="Y">
+	<value column="Name" original="SLA by Partner">パートナーによるSLA</value>
+	<value column="Description" original="Service Level Agreement">サービス・レベル・アグリーメントです。</value>
+</row>
+<row id="490" trl="Y">
+	<value column="Name" original="Price List Schema">価格リストスキーマ</value>
+	<value column="Description" original="Maintain Price List Schema">価格リストスキーマをメンテナンスします。</value>
+</row>
+<row id="491" trl="Y">
+	<value column="Name" original="POS Terminal">POS端末</value>
+	<value column="Description" original="Maintain your Point of Sales Terminal">POS端末をメンテナンスします。</value>
+</row>
+<row id="492" trl="Y">
+	<value column="Name" original="POS Key Layout">POSのキーレイアウト</value>
+	<value column="Description" original="POS Function Key Layout">POS機能キーレイアウトです。</value>
+</row>
+<row id="493" trl="Y">
+	<value column="Name" original="Material Receipt Details">資材領収の詳細</value>
+	<value column="Description" original="Material Receipt Detail Information">資材の領収の詳細情報です。</value>
+</row>
+<row id="494" trl="Y">
+	<value column="Name" original="Shipment Details">出荷の詳細</value>
+	<value column="Description" original="Shipment Detail Information">出荷詳細情報です。</value>
+</row>
+<row id="495" trl="Y">
+	<value column="Name" original="Role Access Update">役割のアクセスのアップデート</value>
+	<value column="Description" original="Update the access rights of a role or roles of a client">役割のアクセス権またはクライアントの役割を更新します。</value>
+</row>
+<row id="496" trl="Y">
+	<value column="Name" original="Reset Allocation">割り当てのリセット</value>
+	<value column="Description" original="Reset (delete) allocation of invoices to payments">支払い請求書の割り当てをリセット(削除)します。</value>
+</row>
+<row id="497" trl="Y">
+	<value column="Name" original="Auto Allocation">自動割り当て</value>
+	<value column="Description" original="Automatic allocation of invoices to payments">支払いへの請求書の自動割り当てです。</value>
+</row>
+<row id="498" trl="Y">
+	<value column="Name" original="System Registration">システム登録</value>
+	<value column="Description" original="Register your System">システムを登録します。</value>
+</row>
+<row id="499" trl="Y">
+	<value column="Name" original="Reapply Customizations">カスタマイズを再適用</value>
+	<value column="Description" original="If you identified customizations in the Change Log, you can reapply them">変更ログでカスタマイズを特定したら、そのカスタマイズを再び使うことができます。</value>
+</row>
+<row id="500" trl="Y">
+	<value column="Name" original="Workflow to Client">クライアントへの作業フロー</value>
+	<value column="Description" original="Move custom workflow elements to the current client">現在のクライアントにカスタム作業フロー要素を移動します。</value>
+</row>
+<row id="501" trl="Y">
+	<value column="Name" original="Workflow">作業フロー</value>
+	<value column="Description" original="Adempiere Workflow">Adempiere 作業フロー</value>
+</row>
+<row id="502" trl="Y">
+	<value column="Name" original="Trial Balance">試算表</value>
+	<value column="Description" original="Trial Balance for a period or date range">特定の期間、日にち範囲の試算表です。</value>
+</row>
+<row id="503" trl="Y">
+	<value column="Name" original="Internal Use Inventory">内部利用の在庫</value>
+	<value column="Description" original="Enter Internal Use of Inventory">内部で使用するための在庫を入力してください。</value>
+</row>
+<row id="504" trl="Y">
+	<value column="Name" original="Product UOM Convert">製品測定単位変換</value>
+	<value column="Description" original="Brack-up or repackage same Products with different UOM">測定単位が異なっていて同じ製品を、保存または包装します。</value>
+</row>
+<row id="505" trl="Y">
+	<value column="Name" original="Print Dunning Letters">督促状を印刷</value>
+	<value column="Description" original="Print Dunning letters to paper or send PDF">紙またはPDFの督促状を印刷します。</value>
+</row>
+<row id="506" trl="Y">
+	<value column="Name" original="Validate Business Partner">ビジネスパートナー情報を検証</value>
+	<value column="Description" original="Check data consistency of Business Partner">ビジネスパートナーのデータの一貫性をチェックします。</value>
+</row>
+<row id="507" trl="Y">
+	<value column="Name" original="Order Batch Process">注文バッチ処理プロセス</value>
+	<value column="Description" original="Process Orders in Batch">バッチ処理における注文を処理します。</value>
+</row>
+<row id="508" trl="Y">
+	<value column="Name" original="Archive Viewer">アーカイブビューアー</value>
+	<value column="Description" original="View automatically archived Documents">自動的に格納されたドキュメントを表示します。</value>
+</row>
+<row id="509" trl="Y">
+	<value column="Name" original="UnAllocated Invoices">未割り当ての請求書</value>
+	<value column="Description" original="Invoices not allocated to Payments">支払いに割り当てられていない請求書です。</value>
+</row>
+<row id="510" trl="Y">
+	<value column="Name" original="UnAllocated Payments">未割り当ての支払い</value>
+	<value column="Description" original="Payments not allocated to Invoices">請求書に割り当てられていない支払いです。</value>
+</row>
+<row id="511" trl="Y">
+	<value column="Name" original="Payment Details">支払明細書</value>
+	<value column="Description" original="Payment Detail Report">支払い詳細のレポートです。</value>
+</row>
+<row id="512" trl="Y">
+	<value column="Name" original="Business Partner Open">ビジネスパートナーオープン</value>
+	<value column="Description" original="Business Partner Open Amount">ビジネスのパートナーオープンの量です。</value>
+</row>
+<row id="513" trl="Y">
+	<value column="Name" original="Commission Run Detail">コミッション実行の詳細</value>
+	<value column="Description" original="Commission Run Detail Report">コミッション実行の詳細レポートです。</value>
+</row>
+<row id="514" trl="Y">
+	<value column="Name" original="Synchronize Doc Translation">ドキュメント翻訳を同期化</value>
+	<value column="Description" original="Synchronize Document Translation">ドキュメント翻訳をシンクロナイズします。</value>
+</row>
+<row id="515" trl="Y">
+	<value column="Name" original="Material Reference">材料参照</value>
+	<value column="Description" original="Material Transactions Cross Reference (used/resourced)">材料取引の相互参照です。(中古/資源にされた)</value>
+</row>
+<row id="516" trl="Y">
+	<value column="Name" original="Invoice Batch">請求書バッチ処理</value>
+	<value column="Description" original="Expense Invoice Batch">費用請求書バッチ処理</value>
+</row>
+<row id="517" trl="Y">
+	<value column="Name" original="Window Customization">ウィンドウのカスタマイズ</value>
+	<value column="Description" original="Define Window Customization for Role/User">役割/ユーザのためにウィンドウのカスタマイズを行えます。</value>
+</row>
+<row id="518" trl="Y">
+	<value column="Name" original="EDI Definition">EDI定義</value>
+	<value column="Description" original="Maintain EDI Definition">EDI(Electronic Data Interchange) 設定を行います。</value>
+</row>
+<row id="519" trl="Y">
+	<value column="Name" original="EDI Transaction">EDI取引</value>
+	<value column="Description" original="">EDI(Electronic Data Interchange)取引です。</value>
+</row>
+<row id="520" trl="Y">
+	<value column="Name" original="Product Costs">製品コスト</value>
+	<value column="Description" original="Maintain Product Costs">製品コストをメンテナンスします。</value>
+</row>
+<row id="521" trl="Y">
+	<value column="Name" original="Cost Element">原価要素</value>
+	<value column="Description" original="Maintain Product Cost Element">製品原価要素をメンテナンスします。</value>
+</row>
+<row id="522" trl="Y">
+	<value column="Name" original="Costing">原価計算</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="523" trl="Y">
+	<value column="Name" original="Request Status">リクエストステータス</value>
+	<value column="Description" original="Maintain Request Status">リクエストステータスをメンテナンスします。</value>
+</row>
+<row id="524" trl="Y">
+	<value column="Name" original="Request Standard Response">標準のレスポンスを要求</value>
+	<value column="Description" original="Maintain Request Standard Response ">要求の標準の応答をメンテナンスします。</value>
+</row>
+<row id="525" trl="Y">
+	<value column="Name" original="Request Resolution">解決を要求</value>
+	<value column="Description" original="Maintain Request Resolutions">要求解決をメンテナンスします。</value>
+</row>
+<row id="526" trl="Y">
+	<value column="Name" original="Request Group">グループを要求</value>
+	<value column="Description" original="Maintain Request Group">要求グループをメンテナンスします。</value>
+</row>
+<row id="527" trl="Y">
+	<value column="Name" original="Request Category">カテゴリを要求</value>
+	<value column="Description" original="Maintain Request Category">要求カテゴリをメンテナンスします。</value>
+</row>
+<row id="528" trl="Y">
+	<value column="Name" original="Request">要求</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="529" trl="Y">
+	<value column="Name" original="Web Store">ウェブストア</value>
+	<value column="Description" original="Define Web Store">ウェブストアを設定してください。</value>
+</row>
+<row id="530" trl="Y">
+	<value column="Name" original="Position">役職</value>
+	<value column="Description" original="Maintain Job Positions">仕事の役職をメンテナンスします。</value>
+</row>
+<row id="531" trl="Y">
+	<value column="Name" original="Position Category">役職のカテゴリ</value>
+	<value column="Description" original="Maintain Job Position Categories">仕事の役職カテゴリをメンテナンスします。</value>
+</row>
+<row id="532" trl="Y">
+	<value column="Name" original="Remuneration">報酬</value>
+	<value column="Description" original="Maintain Remuneration">報酬をメンテナンスします。</value>
+</row>
+<row id="533" trl="Y">
+	<value column="Name" original="BOM Change Notice">部品構成表変更通知</value>
+	<value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">部品構成表(エンジニアリング)変更通知(バージョン)をメンテナンスします。</value>
+</row>
+<row id="534" trl="Y">
+	<value column="Name" original="Product BOM">製品の部品構成表</value>
+	<value column="Description" original="Maintain Product Bill of Materials">製品の部品構成表をメンテナンスします。</value>
+</row>
+<row id="535" trl="Y">
+	<value column="Name" original="Invoice Requests">請求書要求</value>
+	<value column="Description" original="Create Invoice for Requests">要求のための請求書を作成します。</value>
+</row>
+<row id="536" trl="Y">
+	<value column="Name" original="Change Notice">変更通知</value>
+	<value column="Description" original="Maintain (Engineering) Change Notice (Version)">(エンジニアリングの)変更通知(バージョン)をメンテナンスしてください。</value>
+</row>
+<row id="537" trl="Y">
+	<value column="Name" original="Storage Cleanup">ストレージクリーンアップ</value>
+	<value column="Description" original="Inventory Storage Cleanup">在庫ストレージをクリーンアップします。</value>
+</row>
+<row id="538" trl="Y">
+	<value column="Name" original="Invoice Not Realized Gain/Loss">未実現利益/損失に請求書を発行</value>
+	<value column="Description" original="Invoice Not Realized Gain &amp; Loss Report">実現していな利益/損失に請求書を発行します。</value>
+</row>
+<row id="540" trl="Y">
+	<value column="Name" original="Product Cost">製品原価</value>
+	<value column="Description" original="Product Cost Report">製品原価の報告書です。</value>
+</row>
+<row id="541" trl="Y">
+	<value column="Name" original="Product Cost Summary">製品原価概要</value>
+	<value column="Description" original="Product Cost Summary Report">製品原価の概略報告です。</value>
+</row>
+<row id="542" trl="Y">
+	<value column="Name" original="Product Cost Detail">製品原価の詳細</value>
+	<value column="Description" original="Product Invoice Cost Detail Report">製品請求書の詳細価格レポートです。</value>
+</row>
+<row id="543" trl="Y">
+	<value column="Name" original="Order Detail">注文の詳細</value>
+	<value column="Description" original="Order Detail Report">注文詳細レポートです。</value>
+</row>
+<row id="544" trl="Y">
+	<value column="Name" original="Business Partner Detail">ビジネスパートナーの詳細</value>
+	<value column="Description" original="Business Partner Detail Report">ビジネスパートナーの詳細レポートです。</value>
+</row>
+<row id="545" trl="Y">
+	<value column="Name" original="Attribute Set Instance">属性セットインスタンス</value>
+	<value column="Description" original="View Attribute Set Instance detail and use">属性セットインスタンスの詳細と利用を表示します。</value>
+</row>
+<row id="546" trl="Y">
+	<value column="Name" original="Create Costing Records">原価計算レコードを作成</value>
+	<value column="Description" original="Create Costing Records">原価計算レコードを作成します。</value>
+</row>
+<row id="547" trl="Y">
+	<value column="Name" original="Tax Declaration">税金申告</value>
+	<value column="Description" original="Define the declaration to the tax authorities">税当局への申告を定義してください。</value>
+</row>
+<row id="548" trl="Y">
+	<value column="Name" original="Reporting Hierarchy">報告書の階層構造</value>
+	<value column="Description" original="Define Reporting Hierarchy">報告書の階層構造を設定してください。</value>
+</row>
+<row id="549" trl="Y">
+	<value column="Name" original="Create PO from Requisition">要求から発注を作成</value>
+	<value column="Description" original="Create Purchase Orders from Requisitions">要求から発注を作成してください。</value>
+</row>
+<row id="550" trl="Y">
+	<value column="Name" original="Budget Control">予算管理</value>
+	<value column="Description" original="Maintain Budget Controls">予算管理をメンテナンスします。</value>
+</row>
+<row id="551" trl="N">
+	<value column="Name" original="GL Fund (Alpha)">総勘定元帳資金(アルファ版)</value>
+	<value column="Description" original="Maintain Fund Controls">資金統制をメンテナンスします。</value>
+</row>
+<row id="552" trl="Y">
+	<value column="Name" original="System Issue Report">システムエラーメッセージレポート</value>
+	<value column="Description" original="Automatically created or manually entered System Issue Reports">自動的、または手動で作成されたシステムエラーメッセージレポートです。</value>
+</row>
+<row id="553" trl="Y">
+	<value column="Name" original="Quarter Invoice Product">四半期請求書製品</value>
+	<value column="Description" original="Imvoice Report by Product per Quarter">四半期ごとの製品の請求書レポートです。</value>
+</row>
+<row id="554" trl="Y">
+	<value column="Name" original="Monthly Invoice Product">毎月の請求書製品</value>
+	<value column="Description" original="Imvoice Report by Product per Month">一月ごとの請求書レポートです。</value>
+</row>
+<row id="555" trl="Y">
+	<value column="Name" original="Performance Indicators">パフォーマンスインディケータ</value>
+	<value column="Description" original="View Performance Indicators">パフォーマンスインディケータを表示します。</value>
+</row>
+<row id="556" trl="Y">
+	<value column="Name" original="Performance Color Schema">パフォーマンス表示の色スキーマ</value>
+	<value column="Description" original="Maintain Performance Color Schema">パフォーマンス表示の色スキーマをメンテナンスします。</value>
+</row>
+<row id="557" trl="Y">
+	<value column="Name" original="Performance Benchmark">パフォーマンスベンチマーク</value>
+	<value column="Description" original="Performance Benchmark">パフォーマンスベンチマーク</value>
+</row>
+<row id="558" trl="Y">
+	<value column="Name" original="Performance Ratio">パフォーマンス比率</value>
+	<value column="Description" original="Maintain Performance Ratios">パフォーマンス比率をメンテナンスします。</value>
+</row>
+<row id="559" trl="Y">
+	<value column="Name" original="Issue Recommendation">問題の推薦</value>
+	<value column="Description" original="Maintain Issue Recommendation">問題の推薦をメンテナンスします。</value>
+</row>
+<row id="560" trl="Y">
+	<value column="Name" original="Issue Status">問題のステータス</value>
+	<value column="Description" original="Maintain Issue Status">問題のステータスをメンテナンスします。</value>
+</row>
+<row id="561" trl="Y">
+	<value column="Name" original="Known Issue">既知の問題</value>
+	<value column="Description" original="Maintain Known Issue">既知の問題をメンテナンスします。</value>
+</row>
+<row id="562" trl="Y">
+	<value column="Name" original="Issue Project">問題のプロジェクト</value>
+	<value column="Description" original="Maintain Issue Management Project Links">問題のプロジェクトをメンテナンスします。</value>
+</row>
+<row id="563" trl="Y">
+	<value column="Name" original="Issue User">問題報告ユーザー</value>
+	<value column="Description" original="User who reported Issues">問題を報告したユーザーです。</value>
+</row>
+<row id="564" trl="Y">
+	<value column="Name" original="Issue System">問題システム</value>
+	<value column="Description" original="Maintain Systems">システムをメンテナンスします。</value>
+</row>
+<row id="565" trl="N">
+	<value column="Name" original="Product Attribute Grid">製品属性グリッド</value>
+	<value column="Description" original="Maintain Products with Attributes in a Table Grid">テーブルグリッド内の属性付き製品をメンテナンスします。</value>
+</row>
+<row id="566" trl="N">
+	<value column="Name" original="Collaboration">協業</value>
+	<value column="Description" original="Collaboration and Content Management">協業とコンテンツ管理</value>
+</row>
+<row id="570" trl="N">
+	<value column="Name" original="Template">テンプレート</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="573" trl="N">
+	<value column="Name" original="Media Item">メディア項目</value>
+	<value column="Description" original="Maintain Web Media">ウェブメディアをメンテナンスします。</value>
+</row>
+<row id="574" trl="N">
+	<value column="Name" original="News Channel">ニュースチャネル</value>
+	<value column="Description" original="Define News Channels, write and publish articles">ニュースチャネルを定義して、記事を作成、発行します。</value>
+</row>
+<row id="576" trl="N">
+	<value column="Name" original="Web Ad Management">Web Ad Management</value>
+	<value column="Description" original="Content Management Ad Management defines the needed categories and items">Content Management Ad Management defines the needed categories and items</value>
+</row>
+<row id="578" trl="N">
+	<value column="Name" original="View Chat">View Chat</value>
+	<value column="Description" original="View discussions / chats">View discussions / chats</value>
+</row>
+<row id="579" trl="N">
+	<value column="Name" original="Web Project">Web Project</value>
+	<value column="Description" original="Maintain Web Project (Content Management)">Maintain Web Project (Content Management)</value>
+</row>
+<row id="583" trl="N">
+	<value column="Name" original="Chat Type">Chat Type</value>
+	<value column="Description" original="Maintain Chat Types">Maintain Chat Types</value>
+</row>
+<row id="584" trl="N">
+	<value column="Name" original="Deploy Web Project">Deploy Web Project</value>
+	<value column="Description" original="Deploy Web Project">Deploy Web Project</value>
+</row>
+<row id="585" trl="N">
+	<value column="Name" original="Verify BOMs">Verify BOMs</value>
+	<value column="Description" original="Verify BOM Structures">Verify BOM Structures</value>
+</row>
+<row id="586" trl="N">
+	<value column="Name" original="Entity Type">Entity Type</value>
+	<value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
+</row>
+<row id="587" trl="N">
+	<value column="Name" original="Web Access">Web Access</value>
+	<value column="Description" original="Maintain Web Access">Maintain Web Access</value>
+</row>
+<row id="588" trl="N">
+	<value column="Name" original="Web Broadcast Server">Web Broadcast Server</value>
+	<value column="Description" original="Maintain Web Broadcast Server">Maintain Web Broadcast Server</value>
+</row>
+<row id="589" trl="N">
+	<value column="Name" original="Info Window">情報ウィンドウ</value>
+	<value column="Description" original="Define Info and search/select Window">Define Info and search/select Window</value>
+</row>
+<row id="590" trl="N">
+	<value column="Name" original="Text Index">Text Index</value>
+	<value column="Description" original="Maintain Text Search Index">Maintain Text Search Index</value>
+</row>
+<row id="591" trl="N">
+	<value column="Name" original="Text Index Stop">Text Index Stop</value>
+	<value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
+</row>
+<row id="592" trl="N">
+	<value column="Name" original="Text Search Log">Text Search Log</value>
+	<value column="Description" original="View Text Search Log">View Text Search Log</value>
+</row>
+<row id="593" trl="N">
+	<value column="Name" original="Rebuild Index">Rebuild Index</value>
+	<value column="Description" original=""></value>
+</row>
+<row id="594" trl="N">
+	<value column="Name" original="LDAP Server">LDAP Server</value>
+	<value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP Server to authenticate and authorize external systems based on Adempiere</value>
+</row>
+<row id="50001" trl="N">
+	<value column="Name" original="Application Packaging">Application Packaging</value>
+	<value column="Description" original="Import and export packaging">Import and export packaging</value>
+</row>
+<row id="50002" trl="N">
+	<value column="Name" original="Packages Installed">Packages Installed</value>
+	<value column="Description" original="List of packages installed">List of packages installed</value>
+</row>
+<row id="50003" trl="N">
+	<value column="Name" original="Package Maintenance">Package Maintenance</value>
+	<value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
+</row>
+<row id="50004" trl="N">
+	<value column="Name" original="PackOut - Create a package">PackOut - Create a package</value>
+	<value column="Description" original="Package build Application">Package build Application</value>
+</row>
+<row id="50005" trl="N">
+	<value column="Name" original="Common Package Details">Common Package Details</value>
+	<value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
+</row>
+<row id="50006" trl="N">
+	<value column="Name" original="PackIn - Import a package">PackIn - Import a package</value>
+	<value column="Description" original="Imports a package">Imports a package</value>
+</row>
+<row id="50007" trl="N">
+	<value column="Name" original="CopyRole">CopyRole</value>
+	<value column="Description" original="Copy Role">Copy Role</value>
+</row>
+</adempiereTrl>

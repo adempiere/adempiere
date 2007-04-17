@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="C_PaymentTerm">
+<row id="100" trl="N">
+	<value column="Name" original="30 Net">30 ネット</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="105" trl="N">
+	<value column="Name" original="Immediate">すぐに</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="106" trl="N">
+	<value column="Name" original="2%10 Net 30">2%10 正味 30</value>
+	<value column="Description" original="2% discount if paid in 10 days, net due in 30 days">10日以内なら２％引き。正味の支払いは30日間</value>
+	<value column="DocumentNote" original="Payment Term Note: Long Term Contracts are eligible for payment discounts.">支払期間注意:長期間契約は支払い割り引きを受けるのに有利です。</value>
+</row>
+<row id="107" trl="N">
+	<value column="Name" original="30 Days Net">30日間のネット</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="108" trl="N">
+	<value column="Name" original="50% Immediate - 50% in 30 days">50％すぐに - 30日間で50％</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+</adempiereTrl>

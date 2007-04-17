@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="C_Country">
+<row id="100" trl="Y">
+	<value column="Name" original="United States">合衆国</value>
+	<value column="Description" original="United States of America">アメリカ合衆国</value>
+	<value column="RegionName" original="State">州</value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="Germany - Deutschland">ドイツ</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="France">フランス</value>
+	<value column="Description" original="France">フランス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Belgium">ベルギー</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="Nederland">オランダ</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Spain">スペイン</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Switzerland">スイス</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="Austria">オーストリア</value>
+	<value column="Description" original="Osterreich">sterreich</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="Canada">カナダ</value>
+	<value column="Description" original=""></value>
+	<value column="RegionName" original="Province">州</value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="Afghanistan">アフガニスタン</value>
+	<value column="Description" original="Afghanistan">アフガニスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="Albania">アルバニア</value>
+	<value column="Description" original="Albania">アルバニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="112" trl="Y">
+	<value column="Name" original="Algeria">アルジェリア</value>
+	<value column="Description" original="Algeria">アルジェリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="American Samoa">アメリカ領サモア</value>
+	<value column="Description" original="American Samoa">アメリカ領サモア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="Andorra">アンドラ</value>
+	<value column="Description" original="Andorra">アンドラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="Angola">アンゴラ</value>
+	<value column="Description" original="Angola">アンゴラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="Anguilla">アンギラ</value>
+	<value column="Description" original="Anguilla">アンギラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="Antarctica">南極大陸</value>
+	<value column="Description" original="Antarctica">南極大陸</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="Antigua And Barbuda">アンティグアバーブーダ</value>
+	<value column="Description" original="Antigua And Barbuda">アンティグアバーブーダ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="119" trl="Y">
+	<value column="Name" original="Argentina">アルゼンチン</value>
+	<value column="Description" original="Argentina">アルゼンチン</value>
+	<value column="RegionName" original="Provincia "></value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="Armenia">アルメニア</value>
+	<value column="Description" original="Armenia">アルメニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="Aruba">アルーバ</value>
+	<value column="Description" original="Aruba">アルーバ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="122" trl="Y">
+	<value column="Name" original="Australia">オーストラリア</value>
+	<value column="Description" original="Australia">オーストラリア</value>
+	<value column="RegionName" original="State">州</value>
+</row>
+<row id="124" trl="Y">
+	<value column="Name" original="Azerbaijan">アゼルバイジャン</value>
+	<value column="Description" original="Azerbaijan">アゼルバイジャン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="125" trl="Y">
+	<value column="Name" original="Bahamas">バハマ</value>
+	<value column="Description" original="Bahamas">バハマ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="126" trl="Y">
+	<value column="Name" original="Bahrain">バーレーン</value>
+	<value column="Description" original="Bahrain">バーレーン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="127" trl="Y">
+	<value column="Name" original="Bangladesh">バングラデシュ</value>
+	<value column="Description" original="Bangladesh">バングラデシュ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="128" trl="Y">
+	<value column="Name" original="Barbados">バルバドス</value>
+	<value column="Description" original="Barbados">バルバドス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="129" trl="Y">
+	<value column="Name" original="Belarus">ベラルーシ</value>
+	<value column="Description" original="Belarus">ベラルーシ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="131" trl="Y">
+	<value column="Name" original="Belize">ベリーズ</value>
+	<value column="Description" original="Belize">ベリーズ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="132" trl="Y">
+	<value column="Name" original="Benin">ベナン</value>
+	<value column="Description" original="Benin">ベナン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="133" trl="Y">
+	<value column="Name" original="Bermuda">バーミューダー諸島</value>
+	<value column="Description" original="Bermuda">バーミューダー諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="134" trl="Y">
+	<value column="Name" original="Bhutan">ブータン</value>
+	<value column="Description" original="Bhutan">ブータン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="135" trl="Y">
+	<value column="Name" original="Bolivia">ボリビア</value>
+	<value column="Description" original="Bolivia">ボリビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="136" trl="Y">
+	<value column="Name" original="Bosnia And Herzegovina">ボスニアとヘルツェゴビナ</value>
+	<value column="Description" original="Bosnia And Herzegovina">ボスニアとヘルツェゴビナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="137" trl="Y">
+	<value column="Name" original="Botswana">ボツワナ</value>
+	<value column="Description" original="Botswana">ボツワナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="138" trl="Y">
+	<value column="Name" original="Bouvet Island">ブーベー島</value>
+	<value column="Description" original="Bouvet Island">ブーベー島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="139" trl="Y">
+	<value column="Name" original="Brazil">ブラジル</value>
+	<value column="Description" original="Brazil">ブラジル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="140" trl="Y">
+	<value column="Name" original="British Indian Ocean Territory">イギリスのインド洋領土</value>
+	<value column="Description" original="British Indian Ocean Territory">イギリスのインド洋領土</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="141" trl="Y">
+	<value column="Name" original="Brunei Darussalam">ブルネイ・ダルサラーム国</value>
+	<value column="Description" original="Brunei Darussalam">ブルネイ・ダルサラーム国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="142" trl="Y">
+	<value column="Name" original="Bulgaria">ブルガリア</value>
+	<value column="Description" original="Bulgaria">ブルガリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="143" trl="Y">
+	<value column="Name" original="Burkina Faso">ブルキナファソ</value>
+	<value column="Description" original="Burkina Faso">ブルキナファソ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="144" trl="Y">
+	<value column="Name" original="Burundi">ブルンジ</value>
+	<value column="Description" original="Burundi">ブルンジ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="145" trl="Y">
+	<value column="Name" original="Cambodia">カンボジア</value>
+	<value column="Description" original="Cambodia">カンボジア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="146" trl="Y">
+	<value column="Name" original="Cameroon">カメルーン</value>
+	<value column="Description" original="Cameroon">カメルーン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="148" trl="Y">
+	<value column="Name" original="Cape Verde">カボベルデ</value>
+	<value column="Description" original="Cape Verde">カボベルデ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="149" trl="Y">
+	<value column="Name" original="Cayman Islands">カイマン諸島</value>
+	<value column="Description" original="Cayman Islands">カイマン諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="150" trl="Y">
+	<value column="Name" original="Central African Republic">中央アフリカ共和国</value>
+	<value column="Description" original="Central African Republic">中央アフリカ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="151" trl="Y">
+	<value column="Name" original="Chad">チャド</value>
+	<value column="Description" original="Chad">チャド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="152" trl="Y">
+	<value column="Name" original="Chile">チリ</value>
+	<value column="Description" original="Chile">チリ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="153" trl="Y">
+	<value column="Name" original="China">中国</value>
+	<value column="Description" original="China">中国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="154" trl="Y">
+	<value column="Name" original="Christmas Island">クリスマス諸島</value>
+	<value column="Description" original="Christmas Island">クリスマス諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="155" trl="Y">
+	<value column="Name" original="Cocos (keeling) Islands">ココス(キール)諸島</value>
+	<value column="Description" original="Cocos (keeling) Islands">ココス(キール)諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="156" trl="Y">
+	<value column="Name" original="Colombia">コロンビア</value>
+	<value column="Description" original="Colombia">コロンビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="157" trl="Y">
+	<value column="Name" original="Comoros">コモロ</value>
+	<value column="Description" original="Comoros">コモロ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="158" trl="Y">
+	<value column="Name" original="Congo">コンゴ</value>
+	<value column="Description" original="Congo">コンゴ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="159" trl="Y">
+	<value column="Name" original="Congo The Democratic Republic Of The">コンゴ民主共和国</value>
+	<value column="Description" original="Congo The Democratic Republic Of The">コンゴ民主共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="160" trl="Y">
+	<value column="Name" original="Cook Islands">クック諸島</value>
+	<value column="Description" original="Cook Islands">クック諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="161" trl="Y">
+	<value column="Name" original="Costa Rica">コスタリカ</value>
+	<value column="Description" original="Costa Rica">コスタリカ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="162" trl="Y">
+	<value column="Name" original="Cote D'ivoire">コートディヴォアール</value>
+	<value column="Description" original="Cote D'ivoire">コートディヴォアール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="163" trl="Y">
+	<value column="Name" original="Croatia">クロアチア</value>
+	<value column="Description" original="Croatia">クロアチア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="164" trl="Y">
+	<value column="Name" original="Cuba">キューバ</value>
+	<value column="Description" original="Cuba">キューバ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="165" trl="Y">
+	<value column="Name" original="Cyprus">キプロス</value>
+	<value column="Description" original="Cyprus">キプロス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="166" trl="Y">
+	<value column="Name" original="Czech Republic">チェコ共和国</value>
+	<value column="Description" original="Czech Republic">チェコ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="167" trl="Y">
+	<value column="Name" original="Denmark">デンマーク</value>
+	<value column="Description" original="Denmark">デンマーク</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="168" trl="Y">
+	<value column="Name" original="Djibouti">ジブチ</value>
+	<value column="Description" original="Djibouti">ジブチ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="169" trl="Y">
+	<value column="Name" original="Dominica">ドミニカ共和国</value>
+	<value column="Description" original="Dominica">ドミニカ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="170" trl="Y">
+	<value column="Name" original="Dominican Republic">ドミニカ共和国</value>
+	<value column="Description" original="Dominican Republic">ドミニカ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="171" trl="Y">
+	<value column="Name" original="Ecuador">エクアドル</value>
+	<value column="Description" original="Ecuador">エクアドル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="172" trl="Y">
+	<value column="Name" original="Egypt">エジプト</value>
+	<value column="Description" original="Egypt">エジプト</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="173" trl="Y">
+	<value column="Name" original="El Salvador">エルサルバドル</value>
+	<value column="Description" original="El Salvador">エルサルバドル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="174" trl="Y">
+	<value column="Name" original="Equatorial Guinea">赤道ギニア</value>
+	<value column="Description" original="Equatorial Guinea">赤道ギニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="175" trl="Y">
+	<value column="Name" original="Eritrea">エリトリア</value>
+	<value column="Description" original="Eritrea">エリトリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="176" trl="Y">
+	<value column="Name" original="Estonia">エストニア</value>
+	<value column="Description" original="Estonia">エストニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="177" trl="Y">
+	<value column="Name" original="Ethiopia">エチオピア</value>
+	<value column="Description" original="Ethiopia">エチオピア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="178" trl="Y">
+	<value column="Name" original="Falkland Islands (malvinas)">フォークランド諸島(「悪-ビナ」)</value>
+	<value column="Description" original="Falkland Islands (malvinas)">フォークランド諸島(「悪-ビナ」)</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="179" trl="Y">
+	<value column="Name" original="Faroe Islands">Faroe諸島</value>
+	<value column="Description" original="Faroe Islands">Faroe諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="180" trl="Y">
+	<value column="Name" original="Fiji">フィジー</value>
+	<value column="Description" original="Fiji">フィジー</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="181" trl="Y">
+	<value column="Name" original="Finland">フィンランド</value>
+	<value column="Description" original="Finland">フィンランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="183" trl="Y">
+	<value column="Name" original="French Guiana">仏領ギアナ</value>
+	<value column="Description" original="French Guiana">仏領ギアナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="184" trl="Y">
+	<value column="Name" original="French Polynesia">フランスのポリネシア</value>
+	<value column="Description" original="French Polynesia">フランスのポリネシア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="185" trl="Y">
+	<value column="Name" original="French Southern Territories">フランスの南部の領土</value>
+	<value column="Description" original="French Southern Territories">フランスの南部の領土</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="186" trl="Y">
+	<value column="Name" original="Gabon">ガボン</value>
+	<value column="Description" original="Gabon">ガボン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="187" trl="Y">
+	<value column="Name" original="Gambia">ガンビア</value>
+	<value column="Description" original="Gambia">ガンビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="188" trl="Y">
+	<value column="Name" original="Georgia">ジョージア</value>
+	<value column="Description" original="Georgia">ジョージア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="190" trl="Y">
+	<value column="Name" original="Ghana">ガーナ</value>
+	<value column="Description" original="Ghana">ガーナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="191" trl="Y">
+	<value column="Name" original="Gibraltar">ジブラルタル</value>
+	<value column="Description" original="Gibraltar">ジブラルタル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="192" trl="Y">
+	<value column="Name" original="Greece">ギリシア</value>
+	<value column="Description" original="Greece">ギリシア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="193" trl="Y">
+	<value column="Name" original="Greenland">グリーンランド</value>
+	<value column="Description" original="Greenland">グリーンランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="194" trl="Y">
+	<value column="Name" original="Grenada">グレナダ</value>
+	<value column="Description" original="Grenada">グレナダ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="195" trl="Y">
+	<value column="Name" original="Guadeloupe">グアドループ</value>
+	<value column="Description" original="Guadeloupe">グアドループ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="196" trl="Y">
+	<value column="Name" original="Guam">グアム</value>
+	<value column="Description" original="Guam">グアム</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="197" trl="Y">
+	<value column="Name" original="Guatemala">グアテマラ</value>
+	<value column="Description" original="Guatemala">グアテマラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="198" trl="Y">
+	<value column="Name" original="Guinea">ギニア</value>
+	<value column="Description" original="Guinea">ギニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="199" trl="Y">
+	<value column="Name" original="Guinea-bissau">ギニア-bissau</value>
+	<value column="Description" original="Guinea-bissau">ギニア-bissau</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="200" trl="Y">
+	<value column="Name" original="Guyana">ガイアナ</value>
+	<value column="Description" original="Guyana">ガイアナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="201" trl="Y">
+	<value column="Name" original="Haiti">ハイチ</value>
+	<value column="Description" original="Haiti">ハイチ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="202" trl="Y">
+	<value column="Name" original="Heard Island And Mcdonald Islands">ハード島とマクドナルド諸島</value>
+	<value column="Description" original="Heard Island And Mcdonald Islands">ハード島とマクドナルド諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="203" trl="Y">
+	<value column="Name" original="Holy See (vatican City State)">教皇庁(バチカン市国)</value>
+	<value column="Description" original="Holy See (vatican City State)">教皇庁(バチカン市国)</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="204" trl="Y">
+	<value column="Name" original="Honduras">ホンジュラス</value>
+	<value column="Description" original="Honduras">ホンジュラス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="205" trl="Y">
+	<value column="Name" original="Hong Kong">香港</value>
+	<value column="Description" original="Hong Kong">香港</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="206" trl="Y">
+	<value column="Name" original="Hungary">ハンガリー</value>
+	<value column="Description" original="Hungary">ハンガリー</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="207" trl="Y">
+	<value column="Name" original="Iceland">アイスランド</value>
+	<value column="Description" original="Iceland">アイスランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="208" trl="Y">
+	<value column="Name" original="India">インド</value>
+	<value column="Description" original="India">インド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="209" trl="Y">
+	<value column="Name" original="Indonesia">インドネシア</value>
+	<value column="Description" original="Indonesia">インドネシア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="210" trl="Y">
+	<value column="Name" original="Iran Islamic Republic Of">イラン・イスラム共和国</value>
+	<value column="Description" original="Iran Islamic Republic Of">イラン・イスラム共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="211" trl="Y">
+	<value column="Name" original="Iraq">イラク</value>
+	<value column="Description" original="Iraq">イラク</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="212" trl="Y">
+	<value column="Name" original="Ireland">アイルランド</value>
+	<value column="Description" original="Ireland">アイルランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="213" trl="Y">
+	<value column="Name" original="Israel">イスラエル</value>
+	<value column="Description" original="Israel">イスラエル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="214" trl="Y">
+	<value column="Name" original="Italy">イタリア</value>
+	<value column="Description" original="Italy">イタリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="215" trl="Y">
+	<value column="Name" original="Jamaica">ジャマイカ</value>
+	<value column="Description" original="Jamaica">ジャマイカ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="216" trl="Y">
+	<value column="Name" original="Japan">日本</value>
+	<value column="Description" original="Japan">日本</value>
+	<value column="RegionName" original="Prefecture">県</value>
+</row>
+<row id="217" trl="Y">
+	<value column="Name" original="Jordan">ヨルダン</value>
+	<value column="Description" original="Jordan">ヨルダン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="218" trl="Y">
+	<value column="Name" original="Kazakhstan">カザフスタン</value>
+	<value column="Description" original="Kazakhstan">カザフスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="219" trl="Y">
+	<value column="Name" original="Kenya">ケニア</value>
+	<value column="Description" original="Kenya">ケニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="220" trl="Y">
+	<value column="Name" original="Kiribati">キリバチ</value>
+	<value column="Description" original="Kiribati">キリバチ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="221" trl="Y">
+	<value column="Name" original="Korea Democratic People's Republic Of">韓国民主人民共和国</value>
+	<value column="Description" original="Korea Democratic People's Republic Of">韓国民主人民共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="222" trl="Y">
+	<value column="Name" original="Korea Republic Of">韓国共和国</value>
+	<value column="Description" original="Korea Republic Of">韓国共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="223" trl="Y">
+	<value column="Name" original="Kuwait">クウェート</value>
+	<value column="Description" original="Kuwait">クウェート</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="224" trl="Y">
+	<value column="Name" original="Kyrgyzstan">キルギスタン</value>
+	<value column="Description" original="Kyrgyzstan">キルギスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="225" trl="Y">
+	<value column="Name" original="Lao People's Democratic Republic">ラオス人民民主共和国</value>
+	<value column="Description" original="Lao People's Democratic Republic">ラオス人民民主共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="226" trl="Y">
+	<value column="Name" original="Latvia">ラトビア</value>
+	<value column="Description" original="Latvia">ラトビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="227" trl="Y">
+	<value column="Name" original="Lebanon">レバノン</value>
+	<value column="Description" original="Lebanon">レバノン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="228" trl="Y">
+	<value column="Name" original="Lesotho">レソト</value>
+	<value column="Description" original="Lesotho">レソト</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="229" trl="Y">
+	<value column="Name" original="Liberia">リベリア</value>
+	<value column="Description" original="Liberia">リベリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="230" trl="Y">
+	<value column="Name" original="Libyan Arab Jamahiriya">リビア</value>
+	<value column="Description" original="Libyan Arab Jamahiriya">リビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="231" trl="Y">
+	<value column="Name" original="Liechtenstein">リヒテンシュタイン</value>
+	<value column="Description" original="Liechtenstein">リヒテンシュタイン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="232" trl="Y">
+	<value column="Name" original="Lithuania">リトアニア</value>
+	<value column="Description" original="Lithuania">リトアニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="233" trl="Y">
+	<value column="Name" original="Luxembourg">ルクセンブルク</value>
+	<value column="Description" original="Luxembourg">ルクセンブルク</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="234" trl="Y">
+	<value column="Name" original="Macao">マカオ</value>
+	<value column="Description" original="Macao">マカオ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="235" trl="Y">
+	<value column="Name" original="Macedonia Former Yugoslav Republic Of">マケドニア旧ユーゴスラビア共和国</value>
+	<value column="Description" original="Macedonia Former Yugoslav Republic Of">マケドニア旧ユーゴスラビア共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="236" trl="Y">
+	<value column="Name" original="Madagascar">マダガスカル</value>
+	<value column="Description" original="Madagascar">マダガスカル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="237" trl="Y">
+	<value column="Name" original="Malawi">マラウィ</value>
+	<value column="Description" original="Malawi">マラウィ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="238" trl="Y">
+	<value column="Name" original="Malaysia">マレーシア</value>
+	<value column="Description" original="Malaysia">マレーシア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="239" trl="Y">
+	<value column="Name" original="Maldives">モルジブ</value>
+	<value column="Description" original="Maldives">モルジブ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="240" trl="Y">
+	<value column="Name" original="Mali">マリ</value>
+	<value column="Description" original="Mali">マリ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="241" trl="Y">
+	<value column="Name" original="Malta">マルタ</value>
+	<value column="Description" original="Malta">マルタ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="242" trl="Y">
+	<value column="Name" original="Marshall Islands">マーシャル諸島共和国</value>
+	<value column="Description" original="Marshall Islands">マーシャル諸島共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="243" trl="Y">
+	<value column="Name" original="Martinique">マルチニーク</value>
+	<value column="Description" original="Martinique">マルチニーク</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="244" trl="Y">
+	<value column="Name" original="Mauritania">モーリタニア</value>
+	<value column="Description" original="Mauritania">モーリタニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="245" trl="Y">
+	<value column="Name" original="Mauritius">モーリシャス</value>
+	<value column="Description" original="Mauritius">モーリシャス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="246" trl="Y">
+	<value column="Name" original="Mayotte">マイヨット</value>
+	<value column="Description" original="Mayotte">マイヨット</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="247" trl="Y">
+	<value column="Name" original="Mexico">メキシコ</value>
+	<value column="Description" original="Mexico">メキシコ</value>
+	<value column="RegionName" original="State">Estado</value>
+</row>
+<row id="248" trl="Y">
+	<value column="Name" original="Micronesia Federated States Of">ミクロネシア連邦</value>
+	<value column="Description" original="Micronesia Federated States Of">ミクロネシア連邦</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="249" trl="Y">
+	<value column="Name" original="Moldova Republic Of">モルドバ共和国</value>
+	<value column="Description" original="Moldova Republic Of">モルドバ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="250" trl="Y">
+	<value column="Name" original="Monaco">モナコ</value>
+	<value column="Description" original="Monaco">モナコ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="251" trl="Y">
+	<value column="Name" original="Mongolia">モンゴリア</value>
+	<value column="Description" original="Mongolia">モンゴリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="252" trl="Y">
+	<value column="Name" original="Montserrat">モントセラト</value>
+	<value column="Description" original="Montserrat">モントセラト</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="253" trl="Y">
+	<value column="Name" original="Morocco">モロッコ</value>
+	<value column="Description" original="Morocco">モロッコ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="254" trl="Y">
+	<value column="Name" original="Mozambique">モザンビーク</value>
+	<value column="Description" original="Mozambique">モザンビーク</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="255" trl="Y">
+	<value column="Name" original="Myanmar">ミャンマー</value>
+	<value column="Description" original="Myanmar">ミャンマー</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="256" trl="Y">
+	<value column="Name" original="Namibia">ナミビア</value>
+	<value column="Description" original="Namibia">ナミビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="257" trl="Y">
+	<value column="Name" original="Nauru">ナウル</value>
+	<value column="Description" original="Nauru">ナウル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="258" trl="Y">
+	<value column="Name" original="Nepal">ネパール</value>
+	<value column="Description" original="Nepal">ネパール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="260" trl="Y">
+	<value column="Name" original="Netherlands Antilles">オランダアンティル</value>
+	<value column="Description" original="Netherlands Antilles">オランダアンティル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="261" trl="Y">
+	<value column="Name" original="New Caledonia">ニューカレドニア</value>
+	<value column="Description" original="New Caledonia">ニューカレドニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="262" trl="Y">
+	<value column="Name" original="New Zealand">ニュージーランド</value>
+	<value column="Description" original="New Zealand">ニュージーランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="263" trl="Y">
+	<value column="Name" original="Nicaragua">ニカラグア</value>
+	<value column="Description" original="Nicaragua">ニカラグア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="264" trl="Y">
+	<value column="Name" original="Niger">ニジェール</value>
+	<value column="Description" original="Niger">ニジェール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="265" trl="Y">
+	<value column="Name" original="Nigeria">ナイジェリア</value>
+	<value column="Description" original="Nigeria">ナイジェリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="266" trl="Y">
+	<value column="Name" original="Niue">ニウエ</value>
+	<value column="Description" original="Niue">ニウエ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="267" trl="Y">
+	<value column="Name" original="Norfolk Island">ノーフォーク島</value>
+	<value column="Description" original="Norfolk Island">ノーフォーク島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="268" trl="Y">
+	<value column="Name" original="Northern Mariana Islands">北マリアナ諸島</value>
+	<value column="Description" original="Northern Mariana Islands">北マリアナ諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="269" trl="Y">
+	<value column="Name" original="Norway">ノルウェー</value>
+	<value column="Description" original="Norway">ノルウェー</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="270" trl="Y">
+	<value column="Name" original="Oman">オーマン</value>
+	<value column="Description" original="Oman">オーマン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="271" trl="Y">
+	<value column="Name" original="Pakistan">パキスタン</value>
+	<value column="Description" original="Pakistan">パキスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="272" trl="Y">
+	<value column="Name" original="Palau">パラオ</value>
+	<value column="Description" original="Palau">パラオ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="273" trl="Y">
+	<value column="Name" original="Palestinian Territory Occupied">パレスチナ領土</value>
+	<value column="Description" original="Palestinian Territory Occupied">パレスチナ領土</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="274" trl="Y">
+	<value column="Name" original="Panama">パナマ</value>
+	<value column="Description" original="Panama">パナマ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="275" trl="Y">
+	<value column="Name" original="Papua New Guinea">パプアニューギニア</value>
+	<value column="Description" original="Papua New Guinea">パプアニューギニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="276" trl="Y">
+	<value column="Name" original="Paraguay">パラグアイ</value>
+	<value column="Description" original="Paraguay">パラグアイ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="277" trl="Y">
+	<value column="Name" original="Peru">ペルー</value>
+	<value column="Description" original="Peru">ペルー</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="278" trl="Y">
+	<value column="Name" original="Philippines">フィリピン</value>
+	<value column="Description" original="Philippines">フィリピン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="279" trl="Y">
+	<value column="Name" original="Pitcairn">ピトケアン</value>
+	<value column="Description" original="Pitcairn">ピトケアン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="280" trl="Y">
+	<value column="Name" original="Poland">ポーランド</value>
+	<value column="Description" original="Poland">ポーランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="281" trl="Y">
+	<value column="Name" original="Portugal">ポルトガル</value>
+	<value column="Description" original="Portugal">ポルトガル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="282" trl="Y">
+	<value column="Name" original="Puerto Rico">プエルトリコ</value>
+	<value column="Description" original="Puerto Rico">プエルトリコ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="283" trl="Y">
+	<value column="Name" original="Qatar">カタール</value>
+	<value column="Description" original="Qatar">カタール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="284" trl="Y">
+	<value column="Name" original="Reunion">Reunion</value>
+	<value column="Description" original="Reunion">Reunion</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="285" trl="Y">
+	<value column="Name" original="Romania">ルーマニア</value>
+	<value column="Description" original="Romania">ルーマニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="286" trl="Y">
+	<value column="Name" original="Russian Federation">ロシア連邦</value>
+	<value column="Description" original="Russian Federation">ロシア連邦</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="287" trl="Y">
+	<value column="Name" original="Rwanda">ルワンダ</value>
+	<value column="Description" original="Rwanda">ルワンダ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="288" trl="Y">
+	<value column="Name" original="Saint Helena">セントヘレナ</value>
+	<value column="Description" original="Saint Helena">セントヘレナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="289" trl="Y">
+	<value column="Name" original="Saint Kitts And Nevis">セントクリストファー・ネイビス</value>
+	<value column="Description" original="Saint Kitts And Nevis">セントクリストファー・ネイビス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="290" trl="Y">
+	<value column="Name" original="Saint Lucia">セントルシア</value>
+	<value column="Description" original="Saint Lucia">セントルシア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="291" trl="Y">
+	<value column="Name" original="Saint Pierre And Miquelon">サンピエール島・ミクロン島</value>
+	<value column="Description" original="Saint Pierre And Miquelon">サンピエール島・ミクロン島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="292" trl="Y">
+	<value column="Name" original="Saint Vincent And The Grenadines">セントビンセントおよびグレナディーン諸島</value>
+	<value column="Description" original="Saint Vincent And The Grenadines">セントビンセントおよびグレナディーン諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="293" trl="Y">
+	<value column="Name" original="Samoa">サモア</value>
+	<value column="Description" original="Samoa">サモア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="294" trl="Y">
+	<value column="Name" original="San Marino">サン・マリノ</value>
+	<value column="Description" original="San Marino">サン・マリノ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="295" trl="Y">
+	<value column="Name" original="Sao Tome And Principe">サントメ・プリンシペ民主共和国</value>
+	<value column="Description" original="Sao Tome And Principe">サントメ・プリンシペ民主共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="296" trl="Y">
+	<value column="Name" original="Saudi Arabia">サウジアラビア</value>
+	<value column="Description" original="Saudi Arabia">サウジアラビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="297" trl="Y">
+	<value column="Name" original="Senegal">セネガル</value>
+	<value column="Description" original="Senegal">セネガル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="298" trl="Y">
+	<value column="Name" original="Seychelles">セイシェル</value>
+	<value column="Description" original="Seychelles">セイシェル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="299" trl="Y">
+	<value column="Name" original="Sierra Leone">シエラレオネ</value>
+	<value column="Description" original="Sierra Leone">シエラレオネ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="300" trl="Y">
+	<value column="Name" original="Singapore">シンガポール</value>
+	<value column="Description" original="Singapore">シンガポール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="301" trl="Y">
+	<value column="Name" original="Slovakia">スロバキア</value>
+	<value column="Description" original="Slovakia">スロバキア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="302" trl="Y">
+	<value column="Name" original="Slovenia">スロベニア</value>
+	<value column="Description" original="Slovenia">スロベニア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="303" trl="Y">
+	<value column="Name" original="Solomon Islands">ソロモン諸島</value>
+	<value column="Description" original="Solomon Islands">ソロモン諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="304" trl="Y">
+	<value column="Name" original="Somalia">ソマリア</value>
+	<value column="Description" original="Somalia">ソマリア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="305" trl="Y">
+	<value column="Name" original="South Africa">南アフリカ</value>
+	<value column="Description" original="South Africa">南アフリカ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="306" trl="Y">
+	<value column="Name" original="South Georgia And The South Sandwich Islands">サウスジョージアと南サンドイッチ諸島</value>
+	<value column="Description" original="South Georgia And The South Sandwich Islands">サウスジョージアと南サンドイッチ諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="308" trl="Y">
+	<value column="Name" original="Sri Lanka">スリランカ</value>
+	<value column="Description" original="Sri Lanka">スリランカ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="309" trl="Y">
+	<value column="Name" original="Sudan">スーダン</value>
+	<value column="Description" original="Sudan">スーダン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="310" trl="Y">
+	<value column="Name" original="Suriname">スリナム</value>
+	<value column="Description" original="Suriname">スリナム</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="311" trl="Y">
+	<value column="Name" original="Svalbard And Jan Mayen">スバールバル諸島・ヤンマイエン島</value>
+	<value column="Description" original="Svalbard And Jan Mayen">スバールバル諸島・ヤンマイエン島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="312" trl="Y">
+	<value column="Name" original="Swaziland">スワジランド</value>
+	<value column="Description" original="Swaziland">スワジランド</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="313" trl="Y">
+	<value column="Name" original="Sweden">スウェーデン</value>
+	<value column="Description" original="Sweden">スウェーデン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="315" trl="Y">
+	<value column="Name" original="Syrian Arab Republic">シリア・アラブ共和国</value>
+	<value column="Description" original="Syrian Arab Republic">シリア・アラブ共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="316" trl="Y">
+	<value column="Name" original="Taiwan">台湾</value>
+	<value column="Description" original="Taiwan">台湾</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="317" trl="Y">
+	<value column="Name" original="Tajikistan">タジキスタン</value>
+	<value column="Description" original="Tajikistan">タジキスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="318" trl="Y">
+	<value column="Name" original="Tanzania United Republic Of">タンザニア連合共和国</value>
+	<value column="Description" original="Tanzania United Republic Of">タンザニア連合共和国</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="319" trl="Y">
+	<value column="Name" original="Thailand">タイ</value>
+	<value column="Description" original="Thailand">タイ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="320" trl="Y">
+	<value column="Name" original="Timor-leste">チモール</value>
+	<value column="Description" original="Timor-leste">チモール</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="321" trl="Y">
+	<value column="Name" original="Togo">トーゴ</value>
+	<value column="Description" original="Togo">トーゴ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="322" trl="Y">
+	<value column="Name" original="Tokelau">トケラウ</value>
+	<value column="Description" original="Tokelau">トケラウ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="323" trl="Y">
+	<value column="Name" original="Tonga">トンガ</value>
+	<value column="Description" original="Tonga">トンガ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="324" trl="Y">
+	<value column="Name" original="Trinidad And Tobago">トリニダード・ドバゴ</value>
+	<value column="Description" original="Trinidad And Tobago">トリニダード・ドバゴ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="325" trl="Y">
+	<value column="Name" original="Tunisia">チュニジア</value>
+	<value column="Description" original="Tunisia">チュニジア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="326" trl="Y">
+	<value column="Name" original="Turkey">トルコ</value>
+	<value column="Description" original="Turkey">トルコ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="327" trl="Y">
+	<value column="Name" original="Turkmenistan">トルクメニスタン</value>
+	<value column="Description" original="Turkmenistan">トルクメニスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="328" trl="Y">
+	<value column="Name" original="Turks And Caicos Islands">タークス・カイコス諸島</value>
+	<value column="Description" original="Turks And Caicos Islands">タークス・カイコス諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="329" trl="Y">
+	<value column="Name" original="Tuvalu">ツバル</value>
+	<value column="Description" original="Tuvalu">ツバル</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="330" trl="Y">
+	<value column="Name" original="Uganda">ウガンダ</value>
+	<value column="Description" original="Uganda">ウガンダ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="331" trl="Y">
+	<value column="Name" original="Ukraine">ウクライナ</value>
+	<value column="Description" original="Ukraine">ウクライナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="332" trl="Y">
+	<value column="Name" original="United Arab Emirates">アラブ首長国連邦</value>
+	<value column="Description" original="United Arab Emirates">アラブ首長国連邦</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="333" trl="Y">
+	<value column="Name" original="United Kingdom">イギリス</value>
+	<value column="Description" original="United Kingdom">イギリス</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="335" trl="Y">
+	<value column="Name" original="United States Minor Outlying Islands">United States Minor Outlying Islands</value>
+	<value column="Description" original="United States Minor Outlying Islands">United States Minor Outlying Islands</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="336" trl="Y">
+	<value column="Name" original="Uruguay">ウルグアイ</value>
+	<value column="Description" original="Uruguay">ウルグアイ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="337" trl="Y">
+	<value column="Name" original="Uzbekistan">ウズベキスタン</value>
+	<value column="Description" original="Uzbekistan">ウズベキスタン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="338" trl="Y">
+	<value column="Name" original="Vanuatu">バヌアツ</value>
+	<value column="Description" original="Vanuatu">バヌアツ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="339" trl="Y">
+	<value column="Name" original="Venezuela">ベネズエラ</value>
+	<value column="Description" original="Venezuela">ベネズエラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="340" trl="Y">
+	<value column="Name" original="Viet Nam">ベトナム</value>
+	<value column="Description" original="Viet Nam">ベトナム</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="341" trl="Y">
+	<value column="Name" original="Virgin Islands British">イギリス領ヴァージン諸島</value>
+	<value column="Description" original="Virgin Islands British">イギリス領ヴァージン諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="342" trl="Y">
+	<value column="Name" original="Virgin Islands U.s.">米国領ヴァージン諸島</value>
+	<value column="Description" original="Virgin Islands U.s.">米国領ヴァージン諸島</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="343" trl="Y">
+	<value column="Name" original="Wallis And Futuna">ワリスとフチュナ</value>
+	<value column="Description" original="Wallis And Futuna">ワリスとフチュナ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="344" trl="Y">
+	<value column="Name" original="Western Sahara">西サハラ</value>
+	<value column="Description" original="Western Sahara">西サハラ</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="345" trl="Y">
+	<value column="Name" original="Yemen">イエメン</value>
+	<value column="Description" original="Yemen">イエメン</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="346" trl="Y">
+	<value column="Name" original="Yugoslavia">ユーゴスラビア</value>
+	<value column="Description" original="Yugoslavia">ユーゴスラビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="347" trl="Y">
+	<value column="Name" original="Zambia">ザンビア</value>
+	<value column="Description" original="Zambia">ザンビア</value>
+	<value column="RegionName" original=""></value>
+</row>
+<row id="348" trl="Y">
+	<value column="Name" original="Zimbabwe">ジンバブエ</value>
+	<value column="Description" original="Zimbabwe">ジンバブエ</value>
+	<value column="RegionName" original=""></value>
+</row>
+</adempiereTrl>

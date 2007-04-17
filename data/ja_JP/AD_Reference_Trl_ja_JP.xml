@@ -1,0 +1,1600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_Reference">
+<row id="1" trl="Y">
+	<value column="Name" original="AD_Reference Data Types">AD_Reference データ型</value>
+	<value column="Description" original="Data Type selection">データ型選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="2" trl="Y">
+	<value column="Name" original="AD_Reference Validation Types">AD_Reference 妥当性検証タイプ</value>
+	<value column="Description" original="Reference Validation Type list">参照妥当性検証リスト</value>
+	<value column="Help" original="e.g. I - Independent ">e.g. I - Independent</value>
+</row>
+<row id="3" trl="Y">
+	<value column="Name" original="AD_Column ColumName">AD_Column カラム名</value>
+	<value column="Description" original="Column selection">カラム選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="4" trl="Y">
+	<value column="Name" original="AD_Reference Values">AD_Reference 値</value>
+	<value column="Description" original="Reference (List and Table) selection">参照(リストとテーブル)選択</value>
+	<value column="Help" original="(not DataType and Independent)">(データ型でない及び独立)</value>
+</row>
+<row id="5" trl="Y">
+	<value column="Name" original="AD_Table Access Levels">AD_Table アクセスレベル</value>
+	<value column="Description" original="Table Access and Sharing Level list">テーブルアクセスと共有リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="10" trl="Y">
+	<value column="Name" original="String">文字列</value>
+	<value column="Description" original="Character String">文字列</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="11" trl="Y">
+	<value column="Name" original="Integer">整数</value>
+	<value column="Description" original="10 Digit numeric">１０桁の数値</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="12" trl="Y">
+	<value column="Name" original="Amount">量</value>
+	<value column="Description" original="Number with 4 decimals">4つの数値の数</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="13" trl="Y">
+	<value column="Name" original="ID">ID</value>
+	<value column="Description" original="10 Digit Identifier">１０桁の数値の識別子</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="14" trl="Y">
+	<value column="Name" original="Text">テキスト</value>
+	<value column="Description" original="Character String up to 2000 characters">２０００文字までの文字列型</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="15" trl="Y">
+	<value column="Name" original="Date">日付</value>
+	<value column="Description" original="Date mm/dd/yyyy">日付 mm/dd/yyyy 月/日/年</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="16" trl="Y">
+	<value column="Name" original="Date+Time">日付+時間</value>
+	<value column="Description" original="Date with time">時間付き日付</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="17" trl="Y">
+	<value column="Name" original="List">リスト</value>
+	<value column="Description" original="Reference List">リファレンスリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="18" trl="Y">
+	<value column="Name" original="Table">テーブル</value>
+	<value column="Description" original="Table List">テーブルリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="19" trl="Y">
+	<value column="Name" original="Table Direct">テーブル直接</value>
+	<value column="Description" original="Direct Table Access">直接テーブルアクセス</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="20" trl="Y">
+	<value column="Name" original="Yes-No">はい - いいえ</value>
+	<value column="Description" original="CheckBox">チェックボックス</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="21" trl="Y">
+	<value column="Name" original="Location (Address)">住所(アドレス)</value>
+	<value column="Description" original="Location/Address">住所/アドレス</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="22" trl="Y">
+	<value column="Name" original="Number">数</value>
+	<value column="Description" original="Float Number">浮動小数点</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="23" trl="Y">
+	<value column="Name" original="Binary">バイナリ</value>
+	<value column="Description" original="Binary Data">バイナリ・データ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="24" trl="Y">
+	<value column="Name" original="Time">時間</value>
+	<value column="Description" original="Time">時間</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="25" trl="Y">
+	<value column="Name" original="Account">アカウント</value>
+	<value column="Description" original="Account Element">アカウント要素</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="26" trl="Y">
+	<value column="Name" original="RowID">行ID</value>
+	<value column="Description" original="Row ID Data Type">行ID型</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="27" trl="Y">
+	<value column="Name" original="Color">色</value>
+	<value column="Description" original="Color element">カラー要素</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="28" trl="Y">
+	<value column="Name" original="Button">ボタン</value>
+	<value column="Description" original="Command Button - starts a process">コマンドボタン - 処理を開始</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="29" trl="Y">
+	<value column="Name" original="Quantity">数量</value>
+	<value column="Description" original="Quantity data type">数量のデータ型</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="30" trl="Y">
+	<value column="Name" original="Search">検索</value>
+	<value column="Description" original="Search Field">フィールド検索</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="31" trl="Y">
+	<value column="Name" original="Locator (WH)">ロケータ(WH)</value>
+	<value column="Description" original="Warehouse Locator Data type">倉庫ロケーターデータ型</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="32" trl="Y">
+	<value column="Name" original="Image">画像</value>
+	<value column="Description" original="Binary Image Data">バイナリイメージデータ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="33" trl="Y">
+	<value column="Name" original="Assignment">割当</value>
+	<value column="Description" original="Resource Assignment">資源割当</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="34" trl="Y">
+	<value column="Name" original="Memo">メモ</value>
+	<value column="Description" original="Large Text Editor - Character String up to 2000 characters">大きいテキストエディタ - 文字型最大2000文字まで</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="35" trl="Y">
+	<value column="Name" original="Product Attribute">製品属性</value>
+	<value column="Description" original="Product Attribute">製品属性</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="36" trl="Y">
+	<value column="Name" original="Text Long">テキスト</value>
+	<value column="Description" original="Text (Long) - Text &gt; 2000 characters">テキスト(長い) - テキスト &gt; 2000文字</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="37" trl="Y">
+	<value column="Name" original="Costs+Prices">費用 + 価格</value>
+	<value column="Description" original="Costs + Prices (minimum currency precision, but if exists more)">費用 + 価格(最小の通貨精度、もっと細かい数値が存在する可能性)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="38" trl="N">
+	<value column="Name" original="FilePath">ファイルパス</value>
+	<value column="Description" original="Local File Path">ローカルファイルパス</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="39" trl="N">
+	<value column="Name" original="FileName">ファイル名</value>
+	<value column="Description" original="Local File">ローカルファイル</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="40" trl="N">
+	<value column="Name" original="URL">URL</value>
+	<value column="Description" original="URL">URL</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="42" trl="N">
+	<value column="Name" original="Printer Name">プリンタ名</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="100" trl="Y">
+	<value column="Name" original="AD_Validation Rules Parent">AD_Validation 親テーブルの統制</value>
+	<value column="Description" original="Validation rule Parent selection">妥当性検証ルールの親選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="AD_Validation Rule Types">AD_Validation ルールタイプ</value>
+	<value column="Description" original="Validation Rule Type list">妥当性検証ルールタイプリスト</value>
+	<value column="Help" original="e.g. S - SQL">e.g. S - SQL</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="AD_Message">AD_Message</value>
+	<value column="Description" original="Message selection">メッセージ選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="AD_Message Type">AD_Message タイプ</value>
+	<value column="Description" original="Message Type list">メッセージタイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="AD_Menu Action">AD_Menu 動作</value>
+	<value column="Description" original="Menu Action list">メニュー動作リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="AD_Menu Parent">AD_Menu 親</value>
+	<value column="Description" original="Menu Parent selection">メニューの親選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="AD_Language">AD_Language</value>
+	<value column="Description" original="Language selection">言語選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="AD_Window Types">AD_Window タイプ</value>
+	<value column="Description" original="Window Type list">ウィンドウタイプリスト</value>
+	<value column="Help" original="e.g. M = Multi/Single (one uppercase character)">e.g. M = Multi/Single (大文字が１文字)</value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="AD_WF_Next Nodes">AD_WF_Next ノード</value>
+	<value column="Description" original="Next workflow node selection">次の作業フローノード選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="AD_User">AD_User</value>
+	<value column="Description" original="User selection">ユーザー選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="C_Conversion_Rate Types">C_Conversion_Rate タイプ</value>
+	<value column="Description" original="Conversion Rate Type list">変換比率タイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="112" trl="Y">
+	<value column="Name" original="C_Currencies">C_Currencies</value>
+	<value column="Description" original="Currencies with dynamic exchange rate selection">動的な為替比率選択がある通貨</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="AD_Org Parent">AD_Org 親</value>
+	<value column="Description" original="Organization Parent selection">組織の親選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="C_UOM">C_UOM</value>
+	<value column="Description" original="Unit of Measure selection">測定単位の選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="C_Period Type">C_Period タイプ</value>
+	<value column="Description" original="Period Type list">期間のタイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="C_Element Type">C_Element タイプ</value>
+	<value column="Description" original="Account Element Types">会計要素タイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="C_ElementValue AccountType">C_ElementValue AccountType</value>
+	<value column="Description" original="Account Type list">アカウントタイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="C_ElementValue Account Sign">C_ElementValue アカウント サイン</value>
+	<value column="Description" original="Account Sign list">アカウントサインリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="AD_TreeType Type">AD_TreeType タイプ</value>
+	<value column="Description" original="Tree Type list">ツリーのタイプリスト</value>
+	<value column="Help" original="Determines which element to use as the base for the information">情報のためにどの要素を基本として使用するかを決定します。</value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="X12DE98 Entity Identifier Code">X12DE98エンティティIDコード</value>
+	<value column="Description" original="X12DE98 Entity Identifier Code list">X12DE98 Entity Identifier Codeリスト</value>
+	<value column="Help" original="Identify organizational entity physical location property or individual list">組織的な実体、物理的な住所、または個人のリストを特定します。</value>
+</row>
+<row id="122" trl="Y">
+	<value column="Name" original="C_AcctSchema Costing Method">C_AcctSchema 原価計算方法</value>
+	<value column="Description" original="Costing Method list">原価計算方法リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="123" trl="Y">
+	<value column="Name" original="C_AcctSchema GAAP">C_AcctSchema GAAP</value>
+	<value column="Description" original="General Accepted Accounting Principle list">一般会計原則(GAAP)リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="124" trl="Y">
+	<value column="Name" original="C_BPartner Parent">C_BPartner Parent</value>
+	<value column="Description" original="Business Partner Parent selection">ビジネスパートナー親選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="125" trl="Y">
+	<value column="Name" original="_Posting Type">_Posting タイプ</value>
+	<value column="Description" original="Posting Type (Actual Budget etc.) list">仕訳タイプ(実際予算など)リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="126" trl="Y">
+	<value column="Name" original="AD_Table Replication Type">AD_Table 複製タイプ</value>
+	<value column="Description" original="Replication Type">複製タイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="128" trl="Y">
+	<value column="Name" original="AD_Sequence for Documents">ドキュメントのための AD_Sequence</value>
+	<value column="Description" original="Sequence for Document selection">ドキュメント選択のための連続番号</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="129" trl="Y">
+	<value column="Name" original="AD_Client">AD_Client</value>
+	<value column="Description" original="Client selection">クライアント選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="130" trl="Y">
+	<value column="Name" original="AD_Org (Trx)">AD_Org (Trx)</value>
+	<value column="Description" original="Organization selection, no summary, no 0">組織選択、概要なし、０なし</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="131" trl="Y">
+	<value column="Name" original="_Document Status">_Document Status</value>
+	<value column="Description" original="Document Status list">ドキュメント状態リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="132" trl="Y">
+	<value column="Name" original="Account_ID (Trx)">Account_ID (Trx)</value>
+	<value column="Description" original="Account selection based on Client">クライアントに基づく勘定科目選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="133" trl="Y">
+	<value column="Name" original="C_Location">C_Location</value>
+	<value column="Description" original="Location selection">住所の選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="134" trl="Y">
+	<value column="Name" original="Account_ID - User1">Account_ID - ユーザー１</value>
+	<value column="Description" original="User1 selection based on Client">クライアントに基づくユーザー１選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="135" trl="Y">
+	<value column="Name" original="_Document Action">_Document Action</value>
+	<value column="Description" original="Document action list">ドキュメント動作リスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="136" trl="Y">
+	<value column="Name" original="C_AcctSchema">C_AcctSchema</value>
+	<value column="Description" original="Accounting Schema selection">会計スキーマ選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="137" trl="Y">
+	<value column="Name" original="Account_ID - User2">Account_ID - ユーザー２</value>
+	<value column="Description" original="User2 selection based on Client">クライアントに基づくユーザー２選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="138" trl="Y">
+	<value column="Name" original="C_BPartner (Trx)">C_BPartner (Trx)</value>
+	<value column="Description" original="Business Partner selection (no Summary)">ビジネスパートナー選択(概要なし)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="141" trl="Y">
+	<value column="Name" original="C_Project (No summary)">C_Project(概要なし)</value>
+	<value column="Description" original="Project selection">プロジェクト選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="142" trl="Y">
+	<value column="Name" original="C_Activity (No summary)">C_C_Activity(概要なし)</value>
+	<value column="Description" original="Activity selection">活動選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="143" trl="Y">
+	<value column="Name" original="C_Campaign (No summary)">C_Campaign(概要なし)</value>
+	<value column="Description" original="Campaign selection">キャンペーン選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="144" trl="Y">
+	<value column="Name" original="C_Sales Region (No summary)">C_Sales Region(概要なし)</value>
+	<value column="Description" original="Sales Region selection (No summary)">販売地域選択(概要なし)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="145" trl="Y">
+	<value column="Name" original="C_Element">C_Element</value>
+	<value column="Description" original="Element selection">要素選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="148" trl="Y">
+	<value column="Name" original="C_DocType SubTypeSO">C_DocType SubTypeSO</value>
+	<value column="Description" original="Order Types list">注文タイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="149" trl="Y">
+	<value column="Name" original="C_Payment CreditCard Type">C_Payment CreditCard Type</value>
+	<value column="Description" original="C_Payment Credit Card Type list">支払い クレジットカードタイプリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="150" trl="Y">
+	<value column="Name" original="C_Order InvoiceRule">C_Order InvoiceRule</value>
+	<value column="Description" original="Invoicing Rules list">請求ルールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="151" trl="Y">
+	<value column="Name" original="C_Order DeliveryRule">C_Order 配送ルール</value>
+	<value column="Description" original="Delivery Rules list">配送ルールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="152" trl="Y">
+	<value column="Name" original="C_Order DeliveryViaRule">C_Order 配送経由ルール</value>
+	<value column="Description" original="Delivery via Rule list">配送経由ルールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="153" trl="Y">
+	<value column="Name" original="C_Order FreightCostRule">C_Order 運送費ルール</value>
+	<value column="Description" original="Freight cost Rule list">運送費ルールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="154" trl="Y">
+	<value column="Name" original="_PriorityRule">_PriorityRule</value>
+	<value column="Description" original="Priority scale list">優先順位スケールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="155" trl="Y">
+	<value column="Name" original="M_DiscountPriceList RoundingRule">M_DiscountPriceList RoundingRule</value>
+	<value column="Description" original="Price Rounding Rule list">価格丸めルールリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="156" trl="Y">
+	<value column="Name" original="C_Country">C_Country</value>
+	<value column="Description" original="Country selection">国の選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="157" trl="Y">
+	<value column="Name" original="C_Region">C_Region</value>
+	<value column="Description" original="Region selection">地域選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="158" trl="Y">
+	<value column="Name" original="C_Tax">C_Tax</value>
+	<value column="Description" original="Tax selection">税金選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="159" trl="Y">
+	<value column="Name" original="C_BPartner Location">C_BPartner 住所</value>
+	<value column="Description" original="Locations of a Business Partner">ビジネスパートナーの所在地</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="161" trl="Y">
+	<value column="Name" original="M_Product Parent">M_Product Parent 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="162" trl="Y">
+	<value column="Name" original="M_Product (no summary)">M_Product(概要なし)</value>
+	<value column="Description" original="Product selection, no summary">製品選択、概要なし</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="163" trl="Y">
+	<value column="Name" original="M_Product Category ">M_Product カテゴリ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="164" trl="Y">
+	<value column="Name" original="M_Replenish Type">M_Replenish タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="166" trl="Y">
+	<value column="Name" original="M_PriceList">M_PriceList</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="167" trl="Y">
+	<value column="Name" original="Weekdays">平日</value>
+	<value column="Description" original="List of days">日にちのリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="168" trl="Y">
+	<value column="Name" original="C_InvoiceSchedule InvoiceFrequency">C_InvoiceSchedule 請求頻度</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="169" trl="Y">
+	<value column="Name" original="C_Project Parent">C_Project 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="170" trl="Y">
+	<value column="Name" original="C_DocType">C_DocType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="171" trl="Y">
+	<value column="Name" original="M_Product (stocked)">M_Product (備蓄)</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="172" trl="Y">
+	<value column="Name" original="C_DocType SO">C_DocType 販売注文</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="173" trl="Y">
+	<value column="Name" original="C_BPartner Customers">C_BPartner 顧客</value>
+	<value column="Description" original="Customer selection">顧客選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="174" trl="Y">
+	<value column="Name" original="AD_Workflow">AD_Workflow</value>
+	<value column="Description" original="Workflows">作業フロー</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="175" trl="Y">
+	<value column="Name" original="C_ValidCombination">C_ValidCombination</value>
+	<value column="Description" original="Valid Account combinations">有効な勘定科目の組み合わせ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="176" trl="Y">
+	<value column="Name" original="C_PeriodControl Action">C_PeriodControl 動作</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="177" trl="Y">
+	<value column="Name" original="C_PeriodControl Status">C_PeriodControl 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="178" trl="Y">
+	<value column="Name" original="GL_Budget Status">GL_Budget 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="179" trl="Y">
+	<value column="Name" original="C_SalesRegion Parent">C_SalesRegion 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="180" trl="Y">
+	<value column="Name" original="_ErrorType">_ErrorType</value>
+	<value column="Description" original="List of type of errors">エラーのタイプのリスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="181" trl="Y">
+	<value column="Name" original="C_AcctSchema ElementType">C_AcctSchema 要素タイプ</value>
+	<value column="Description" original="Element Types for Accounting Elements">会計要素のための要素タイプ</value>
+	<value column="Help" original="Hardcoded Element Types">固定値の要素タイプ</value>
+</row>
+<row id="182" trl="Y">
+	<value column="Name" original="C_ElementValue (all)">C_ElementValue (すべて)</value>
+	<value column="Description" original="Element Values">要素値</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="183" trl="Y">
+	<value column="Name" original="C_DocType DocBaseType">C_DocType ドキュメント基本タイプ</value>
+	<value column="Description" original="Base Document Types">基本のドキュメントタイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="184" trl="Y">
+	<value column="Name" original="AD_Tree">AD_Tree</value>
+	<value column="Description" original="Tree selection">ツリー選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="188" trl="Y">
+	<value column="Name" original="M_PriceList Version">M_PriceList バージョン</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="189" trl="Y">
+	<value column="Name" original="M_Transaction Movement Type">M_Transaction 移動タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="190" trl="Y">
+	<value column="Name" original="AD_User - SalesRep">AD_User - 販売代表</value>
+	<value column="Description" original="Sales Representative">販売担当者</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="191" trl="Y">
+	<value column="Name" original="M_Locator">M_Locator</value>
+	<value column="Description" original="Warehouse Locator">倉庫位置情報</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="192" trl="Y">
+	<value column="Name" original="C_BPartner Vendors">C_BPartner 仕入先</value>
+	<value column="Description" original="Vendor selection">仕入先選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="193" trl="Y">
+	<value column="Name" original="C_BankAccount for Credit Card">クレジットカードのためのC_BankAccount</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="194" trl="Y">
+	<value column="Name" original="M_DiscountPriceList Base">M_DiscountPriceList 基礎</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="195" trl="Y">
+	<value column="Name" original="_Payment Rule">_Payment ルール</value>
+	<value column="Description" original="In &amp; Out Payment Options">In &amp; Out 支払い選択肢</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="196" trl="Y">
+	<value column="Name" original="C_RevenueRecognition Frequency">C_RevenueRecognition 頻度</value>
+	<value column="Description" original="Frequency of Revenue Recognition">収益認識の頻度</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="197" trl="Y">
+	<value column="Name" original="M_Warehouse of Client">クライアントのM_Warehouse</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="198" trl="Y">
+	<value column="Name" original="M_Inventory ReportType">M_Inventory 報告タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="199" trl="Y">
+	<value column="Name" original="M_PriceList_Version for Client">クライアントのためのM_PriceList_Version</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="200" trl="Y">
+	<value column="Name" original="C_Charge">C_Charge</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="201" trl="Y">
+	<value column="Name" original="C_BP_EDI EDI Type">C_BP_EDI EDIタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="202" trl="Y">
+	<value column="Name" original="M_EDI Status">M_EDI 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="203" trl="Y">
+	<value column="Name" original="M_EDI Trx Type">M_EDI 取引タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="204" trl="Y">
+	<value column="Name" original="AD_Find AndOr">AD_Find AndOr</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="205" trl="Y">
+	<value column="Name" original="AD_Find Operation">AD_Find 操作</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="206" trl="Y">
+	<value column="Name" original="AD_Table Posting">AD_Table 仕訳</value>
+	<value column="Description" original="Posting Tables">仕訳テーブル</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="207" trl="Y">
+	<value column="Name" original="GL Category Type">総勘定元帳カテゴリタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="208" trl="Y">
+	<value column="Name" original="AD_ImpFormat Type">AD_ImpFormat タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="209" trl="Y">
+	<value column="Name" original="AD_ImpFormat FormatType">AD_ImpFormat フォーマットタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="210" trl="Y">
+	<value column="Name" original="AD_ImpFormat_Row Type">AD_ImpFormat_Row タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="211" trl="Y">
+	<value column="Name" original="M_Product BOM (stocked)">M_Product 部品構成表(在庫)</value>
+	<value column="Description" original="Products that are BOMs and stocked">部品構成表と在庫の製品</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="212" trl="Y">
+	<value column="Name" original="M_InventoryCount QtyRange">M_InventoryCount QtyRange</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="213" trl="Y">
+	<value column="Name" original="C_Payment AVS">C_Payment AVS</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="214" trl="Y">
+	<value column="Name" original="C_Payment Tender Type">C_Payment 支払いタイプ</value>
+	<value column="Description" original="Direct Debit/Deposit - Check - CC">直接 借方/預金 - 小切手 - CC</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="215" trl="Y">
+	<value column="Name" original="C_Payment Trx Type">C_Payment 取引タイプ</value>
+	<value column="Description" original="CC Trx Type">CC Trx タイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="216" trl="Y">
+	<value column="Name" original="C_Bank Account Type">C_Bank 口座タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="217" trl="Y">
+	<value column="Name" original="C_Cash Trx Type">C_Cash 取引タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="218" trl="Y">
+	<value column="Name" original="R_Request Request Type">R_Request 要求タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="219" trl="Y">
+	<value column="Name" original="R_Request Next Action">R_Request 次の動作</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="221" trl="Y">
+	<value column="Name" original="_Frequency Type">_Frequency タイプ</value>
+	<value column="Description" original="Processor Frequency Type">プロセッサ頻度タイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="222" trl="Y">
+	<value column="Name" original="R_Request Due Type">R_Request 支払い義務タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="223" trl="Y">
+	<value column="Name" original="C_BPartner Vendors Avtive">C_BPartner 仕入先有効</value>
+	<value column="Description" original="Vendor selection">仕入先選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="224" trl="Y">
+	<value column="Name" original="C_Commission DocBasis">C_Commission DocBasis</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="225" trl="Y">
+	<value column="Name" original="C_Commission Frequency">C_Commission 頻度</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="226" trl="Y">
+	<value column="Name" original="AD_Role User Level">AD_Role ユーザーレベル</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="227" trl="Y">
+	<value column="Name" original="C_PaymentTerm">C_PaymentTerm</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="228" trl="Y">
+	<value column="Name" original="PA_Goal">PA_Goal</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="229" trl="Y">
+	<value column="Name" original="PA_Achievement Parent">PA_Achievement 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="230" trl="Y">
+	<value column="Name" original="PA_Goal Parent">PA_Goal 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="231" trl="Y">
+	<value column="Name" original="PA_Measure Type">PA_Measure タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="232" trl="Y">
+	<value column="Name" original="C_BPartner Vendor or SalesRep">C_BPartner 仕入先または販売担当者</value>
+	<value column="Description" original="Vendor or SalesRep selection">仕入先または販売担当者選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="233" trl="Y">
+	<value column="Name" original="C_Period (Open)">C_Period (開く)</value>
+	<value column="Description" original="Periods Sorted by Date">日付で並べられた期間</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="234" trl="Y">
+	<value column="Name" original="_Posted Status">_Posted 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="235" trl="Y">
+	<value column="Name" original="PA_Report AmountType">PA_Report 量タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="236" trl="Y">
+	<value column="Name" original="PA_Report CalculationType">PA_Report 計算タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="237" trl="Y">
+	<value column="Name" original="PA_Report ColumnType">PA_Report カラムタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="238" trl="Y">
+	<value column="Name" original="PA_Report CurrencyType">PA_Report 通貨タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="239" trl="Y">
+	<value column="Name" original="PA_ReportColumn">PA_ReportColumn</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="240" trl="Y">
+	<value column="Name" original="PA_ReportLine">PA_ReportLine</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="241" trl="Y">
+	<value column="Name" original="PA_Report LineType">PA_Report LineType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="242" trl="Y">
+	<value column="Name" original="PA_ReportLine Parent">PA_ReportLine 親</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="243" trl="Y">
+	<value column="Name" original="AD_Color Type">AD_Color タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="244" trl="Y">
+	<value column="Name" original="AD_Column Key ColumnNames">AD_Column キーカラム名</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="245" trl="Y">
+	<value column="Name" original="_Entity Type">_Entity タイプ</value>
+	<value column="Description" original="Entity Type (Dictionary, ..)">実体タイプ(辞書など)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="246" trl="Y">
+	<value column="Name" original="M_Discount CumulativeLevel">M_Discount 累積レベル</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="247" trl="Y">
+	<value column="Name" original="M_Discount Type">M_Discount タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="248" trl="Y">
+	<value column="Name" original="AD_Color StartPoint">AD_Color 開始位置</value>
+	<value column="Description" original="Nord-West-..">Nord-West-..</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="249" trl="Y">
+	<value column="Name" original="M_DiscountSchema">M_DiscountSchema</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="250" trl="Y">
+	<value column="Name" original="CostUpdate Source">費用更新ソース</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="251" trl="Y">
+	<value column="Name" original="AD_Column Name">AD_Column 名前</value>
+	<value column="Description" original="Column selection">カラム選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="252" trl="Y">
+	<value column="Name" original="C_BPartner Employee">C_BPartner 従業員</value>
+	<value column="Description" original="Business Partners who are Employee">従業員のビジネスパートナー</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="253" trl="Y">
+	<value column="Name" original="AD_Print Field Alignment">AD_Print フィールド整列</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="254" trl="Y">
+	<value column="Name" original="AD_Print Line Alignment">AD_Print 行整列</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="255" trl="Y">
+	<value column="Name" original="AD_Print Format Type">AD_Print フォーマットタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="256" trl="Y">
+	<value column="Name" original="AD_Print Area">AD_Print 範囲</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="257" trl="Y">
+	<value column="Name" original="AD_Column Integer">AD_Column 整数</value>
+	<value column="Description" original="Integer Type only (Name)">整数型のみ(名前)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="258" trl="Y">
+	<value column="Name" original="AD_Column YesNo">AD_Column YesNo</value>
+	<value column="Description" original="Coluns YesNo (Name)">YesNoのカラム(名前)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="259" trl="Y">
+	<value column="Name" original="AD_PrintFormat">AD_PrintFormat</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="261" trl="Y">
+	<value column="Name" original="AD_PrintFormat Invoice">AD_PrintFormat 請求書</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="262" trl="Y">
+	<value column="Name" original="AD_PrintFormat Order">AD_PrintFormat 注文</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="263" trl="Y">
+	<value column="Name" original="AD_PrintFormat Shipment">AD_PrintFormat 出荷</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="264" trl="Y">
+	<value column="Name" original="AD_PrintFormatItem">AD_PrintFormatItem</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="265" trl="Y">
+	<value column="Name" original="AD_Print Graph Type">AD_Print グラフタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="266" trl="Y">
+	<value column="Name" original="AD_PrintColor">AD_PrintColor</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="267" trl="Y">
+	<value column="Name" original="AD_PrintFont">AD_PrintFont</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="268" trl="Y">
+	<value column="Name" original="AD_PrintFormat Check">AD_PrintFormat 小切手</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="269" trl="Y">
+	<value column="Name" original="AD_PrintFormat Not TableBased">AD_PrintFormat テーブルを基にしない</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="270" trl="Y">
+	<value column="Name" original="M_Product_ProductType">M_Product_ProductType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="271" trl="Y">
+	<value column="Name" original="C_OrderLine">C_OrderLine</value>
+	<value column="Description" original="Order Line">注文詳細</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="272" trl="Y">
+	<value column="Name" original="I_ElementValue Column">I_ElementValue カラム</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="274" trl="Y">
+	<value column="Name" original="R_MailText">R_MailText</value>
+	<value column="Description" original="Mail Text">メールテキスト</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="275" trl="Y">
+	<value column="Name" original="C_Period (all)">C_Period (すべて)</value>
+	<value column="Description" original="Periods Sorted by Date">日付で並べられた期間</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="276" trl="Y">
+	<value column="Name" original="AD_Org (all)">AD_Org(すべて)</value>
+	<value column="Description" original="Organization selection">組織選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="277" trl="Y">
+	<value column="Name" original="C_BPartner Employee w Address">C_BPartner 従業員+住所</value>
+	<value column="Description" original="Business Partners who are Employee and have addresses">住所情報を持った従業員のビジネスパートナー</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="278" trl="Y">
+	<value column="Name" original="AD_Tab">AD_Tab</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="279" trl="Y">
+	<value column="Name" original="M_Product BOM Product TypeX">M_Product 部品構成表製品 TypeX</value>
+	<value column="Description" original="Old">古い</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="280" trl="Y">
+	<value column="Name" original="AD_Print Label Line Type">AD_Print ラベルラインタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="282" trl="Y">
+	<value column="Name" original="C_Recurring Type">C_Recurring タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="283" trl="Y">
+	<value column="Name" original="C_Recurring Frequency">C_Recurring 頻度</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="284" trl="Y">
+	<value column="Name" original="AD_Window">AD_Window</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="285" trl="Y">
+	<value column="Name" original="K_Entry Related">K_Entry 関連</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="286" trl="Y">
+	<value column="Name" original="AD_User - Internal">AD_User - 内部</value>
+	<value column="Description" original="Employee or SalesRep">従業員または販売担当者</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="287" trl="Y">
+	<value column="Name" original="C_Tax SPPOType">C_Tax SPPOType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="288" trl="Y">
+	<value column="Name" original="C_ProjectType Category">C_ProjectType カテゴリ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="289" trl="Y">
+	<value column="Name" original="C_BPartner SOCreditStatus">C_BPartner 発注信用状態</value>
+	<value column="Description" original="Sales Credit Status">売上債権状態</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="290" trl="Y">
+	<value column="Name" original="C_Order">C_Order</value>
+	<value column="Description" original="Order">注文</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="291" trl="Y">
+	<value column="Name" original="AD_Field ObscureType">AD_Field 不明瞭タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="292" trl="Y">
+	<value column="Name" original="M_Inventory Type">M_Inventory タイプ</value>
+	<value column="Description" original="Inventory Type (Difference - Charge)">在庫タイプ(違い - 料金)</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="293" trl="Y">
+	<value column="Name" original="AD_Table_Access RuleType">AD_Table_Access ルールタイプ</value>
+	<value column="Description" original="AccessRuleType">AccessRuleType</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="294" trl="Y">
+	<value column="Name" original="M_TransactionAllocation Type">M_TransactionAllocation タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="295" trl="Y">
+	<value column="Name" original="M_InOutLine">M_InOutLine</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="296" trl="Y">
+	<value column="Name" original="M_InventoryLine">M_InventoryLine</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="297" trl="Y">
+	<value column="Name" original="M_ProductionLine">M_ProductionLine</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="298" trl="Y">
+	<value column="Name" original="M_Transaction">M_Transaction</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="299" trl="Y">
+	<value column="Name" original="WF_DurationUnit">WF_DurationUnit</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="300" trl="Y">
+	<value column="Name" original="WF_Transition Type">WF_Transition タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="301" trl="Y">
+	<value column="Name" original="WF_Join_Split">WF_Join_Split</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="302" trl="Y">
+	<value column="Name" original="WF_Action">WF_Action</value>
+	<value column="Description" original="Superset of Menu Action">メニュー動作のスーパーセット</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="303" trl="Y">
+	<value column="Name" original="WF_Start-Finish Mode">WF_Start-Finish モード</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="304" trl="Y">
+	<value column="Name" original="WF_Participant Type">WF_Participant タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="305" trl="Y">
+	<value column="Name" original="WF_Instance State">WF_Instance 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="306" trl="Y">
+	<value column="Name" original="WF_EventType">WF_EventType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="307" trl="Y">
+	<value column="Name" original="WF_SubFlow Execution">WF_SubFlow 実行</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="308" trl="Y">
+	<value column="Name" original="WF_LoopType">WF_LoopType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="310" trl="Y">
+	<value column="Name" original="_PublishStatus">_PublishStatus</value>
+	<value column="Description" original="Publication Status">出版状態</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="311" trl="Y">
+	<value column="Name" original="AD_Language Maintenance">AD_Language メンテナンス</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="312" trl="Y">
+	<value column="Name" original="AD_PrintTableFormat Stroke">AD_PrintTableFormat ストローク</value>
+	<value column="Description" original="Stroke Type">ストロークタイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="313" trl="Y">
+	<value column="Name" original="M_RelatedProduct Type">M_RelatedProduct タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="314" trl="Y">
+	<value column="Name" original="C_RfQ QuoteType">C_RfQ 見積タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="315" trl="Y">
+	<value column="Name" original="B_TopicType AuctionType">B_TopicType オークションタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="316" trl="Y">
+	<value column="Name" original="AD_User - Supervisor">AD_User - 監督者</value>
+	<value column="Description" original="Employee or SalesRep - or System">従業員、販売担当者、またはシステム</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="318" trl="Y">
+	<value column="Name" original="AD_Scheduler Type">AD_Scheduler タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="319" trl="Y">
+	<value column="Name" original="_YesNo">_YesNo</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="320" trl="Y">
+	<value column="Name" original="M_InOutConfirm Type">M_InOutConfirm タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="321" trl="Y">
+	<value column="Name" original="C_DocType RMA">C_DocType RMA</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="322" trl="Y">
+	<value column="Name" original="AD_Org (all but 0)">AD_Org (0以外すべて)</value>
+	<value column="Description" original="Organization selection">組織選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="323" trl="Y">
+	<value column="Name" original="C_Allocation">C_Allocation</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="324" trl="Y">
+	<value column="Name" original="M_AttributeSet MandatoryType">M_AttributeSet 必須タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="325" trl="Y">
+	<value column="Name" original="M_DiscountSchema not PL">価格リストでない M_DiscountSchema</value>
+	<value column="Description" original="Not Price List Discount Schema">価格リスト割り引きスキーマでない</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="326" trl="Y">
+	<value column="Name" original="M_Attribute Value Type">M_Attribute 値タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="327" trl="Y">
+	<value column="Name" original="AD_Language System">AD_Language システム</value>
+	<value column="Description" original="Language selection">言語選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="328" trl="Y">
+	<value column="Name" original="AD_Workflow Type">AD_Workflow タイプ</value>
+	<value column="Description" original="Workflow Type">作業フロータイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="329" trl="Y">
+	<value column="Name" original="M_Replenishment Create">M_Replenishment 作成</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="330" trl="Y">
+	<value column="Name" original="AD_Role PreferenceType">AD_Role 設定タイプ</value>
+	<value column="Description" original="Preference Type">設定タイプ</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="331" trl="Y">
+	<value column="Name" original="Account_ID">Account_ID</value>
+	<value column="Description" original="Account selection based on Client">クライアントに基づくアカウント選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="332" trl="Y">
+	<value column="Name" original="APAR">APAR</value>
+	<value column="Description" original="AP and/or AR">買掛金 and/or 売掛金</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="333" trl="Y">
+	<value column="Name" original="AD_PrintFormatItem ShapeType">AD_PrintFormatItem 形状タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="334" trl="Y">
+	<value column="Name" original="AD_Client AutoArchive">AD_Client 自動圧縮</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="335" trl="N">
+	<value column="Name" original="_MMPolicy">_MMPolicy</value>
+	<value column="Description" original="Material Movement Policy">材料移動方針</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="336" trl="N">
+	<value column="Name" original="C_Invoice">C_Invoice</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="337" trl="N">
+	<value column="Name" original="M_InOut">M_InOut</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="338" trl="N">
+	<value column="Name" original="M_CostElement Type">M_CostElement タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="339" trl="N">
+	<value column="Name" original="C_LandedCost Distribution">C_LandedCost 分配</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="340" trl="N">
+	<value column="Name" original="R_Request Confidential">R_Request 機密</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="341" trl="N">
+	<value column="Name" original="R_Request">R_Request</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="342" trl="N">
+	<value column="Name" original="W_MailMsg Type">W_MailMsg タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="343" trl="N">
+	<value column="Name" original="C_Payment">C_Payment</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="344" trl="N">
+	<value column="Name" original="AD_User NotificationType">AD_User 通知タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="345" trl="N">
+	<value column="Name" original="R_Status">R_Status</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="346" trl="N">
+	<value column="Name" original="C_Remuneration Type">C_Remuneration タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="347" trl="N">
+	<value column="Name" original="M_BOM Type">M_BOM タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="348" trl="N">
+	<value column="Name" original="M_BOM Use">M_BOM 使用</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="349" trl="N">
+	<value column="Name" original="M_BOMProduct Type">M_BOMProduct タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="350" trl="N">
+	<value column="Name" original="C_BP_Group PriorityBase">C_BP_Group 優先順位基礎</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="351" trl="N">
+	<value column="Name" original="M_ChangeNotice">M_ChangeNotice</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="352" trl="N">
+	<value column="Name" original="C_ConversionType">C_ConversionType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="353" trl="N">
+	<value column="Name" original="C_BPartner SalesRep">C_BPartner 販売担当者</value>
+	<value column="Description" original="BP SalesRep selection">BP 販売担当者選択</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="354" trl="N">
+	<value column="Name" original="AD_Column Encrypted">AD_Column 暗号化済</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="355" trl="N">
+	<value column="Name" original="C_AcctSchema CostingLevel">C_AcctSchema 原価計算レベル</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="356" trl="N">
+	<value column="Name" original="C_Greeting">C_Greeting</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="358" trl="N">
+	<value column="Name" original="AD_User BP AccessType">AD_User BP アクセスタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="359" trl="N">
+	<value column="Name" original="C_AcctSchema CommitmentType">C_AcctSchema 合意事項タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="360" trl="N">
+	<value column="Name" original="C_Invoice MatchRequirement">C_Invoice 一致要求</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="361" trl="N">
+	<value column="Name" original="GL_BudgetControl Scope">GL_BudgetControl 範囲</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="362" trl="N">
+	<value column="Name" original="C_ElementValue (trx)">C_ElementValue (trx)</value>
+	<value column="Description" original="Element Values">要素値</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="363" trl="N">
+	<value column="Name" original="AD_WF_Node EMailRecipient">AD_WF_Node 電子メール受取人</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="364" trl="N">
+	<value column="Name" original="AD_User ConnectionProfile">AD_User 接続プロファイル</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="365" trl="N">
+	<value column="Name" original="AD_Client ShareType">AD_Client 共有タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="366" trl="N">
+	<value column="Name" original="R_Request TaskStatus">R_Request タスク状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="367" trl="N">
+	<value column="Name" original="PA_Goal Scope">PA_Goal 範囲</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="368" trl="N">
+	<value column="Name" original="PA_Goal Restriction Type">PA_Goal 制限タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="369" trl="N">
+	<value column="Name" original="PA_Measure DataType">PA_Measure データタイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="370" trl="N">
+	<value column="Name" original="PA_Benschmark Accumulation Type">PA_Benschmark 累計タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="371" trl="N">
+	<value column="Name" original="PA_Ratio">PA_Ratio</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="372" trl="N">
+	<value column="Name" original="PA_Ratio ElementType">PA_Ratio 要素タイプ</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="373" trl="N">
+	<value column="Name" original="PA_Ratio Operand">PA_Ratio オペランド</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="374" trl="N">
+	<value column="Name" original="AD_System Status">AD_System 状態</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="375" trl="N">
+	<value column="Name" original="AD_PrintPaper Units">AD_PrintPaper Units</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="376" trl="N">
+	<value column="Name" original="M_Inventory CountSet">M_Inventory CountSet</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="377" trl="N">
+	<value column="Name" original="AD_PrintFormatItem BarcodeType">AD_PrintFormatItem BarcodeType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="383" trl="N">
+	<value column="Name" original="C_Project InvoiceRule">C_Project InvoiceRule</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="384" trl="N">
+	<value column="Name" original="C_Project LineLevel">C_Project LineLevel</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="385" trl="N">
+	<value column="Name" original="CM_Container Type">CM_Container Type</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="386" trl="N">
+	<value column="Name" original="CM_Container">CM_Container</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="387" trl="N">
+	<value column="Name" original="CM_CStage">CM_CStage</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="388" trl="N">
+	<value column="Name" original="CM_Media Media Type">CM_Media Media Type</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="389" trl="N">
+	<value column="Name" original="_EntityTypeNew">_EntityTypeNew</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="390" trl="N">
+	<value column="Name" original="CM_WebAccessLog Type">CM_WebAccessLog Type</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="391" trl="N">
+	<value column="Name" original="K_IndexLog QuerySource">K_IndexLog QuerySource</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="392" trl="N">
+	<value column="Name" original="C_AcctSchema TaxCorrectionType">C_AcctSchema TaxCorrectionType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="393" trl="N">
+	<value column="Name" original="C_BPartner BPBankAcctUse">C_BPartner BPBankAcctUse</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="394" trl="N">
+	<value column="Name" original="C_Invice InvoiceCollectionType">C_Invice InvoiceCollectionType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="395" trl="N">
+	<value column="Name" original="CM_Chat ModerationType">CM_Chat ModerationType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="396" trl="N">
+	<value column="Name" original="CM_ChatEntry ModeratorStatus">CM_ChatEntry ModeratorStatus</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="397" trl="N">
+	<value column="Name" original="CM_WikiToken Type">CM_WikiToken Type</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="398" trl="N">
+	<value column="Name" original="CM_Chat EntryType">CM_Chat EntryType</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="399" trl="N">
+	<value column="Name" original="CM_ChatEntry">CM_ChatEntry</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="50001" trl="N">
+	<value column="Name" original="AD_Package_Type">AD_Package_Type</value>
+	<value column="Description" original="Defines the type of packages available">Defines the type of packages available</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="50002" trl="N">
+	<value column="Name" original="Package_Releases">Package_Releases</value>
+	<value column="Description" original="List of Package Releases">List of Package Releases</value>
+	<value column="Help" original="Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.">Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.</value>
+</row>
+<row id="50003" trl="N">
+	<value column="Name" original="AD_Package_Exp_DB">AD_Package_Exp_DB</value>
+	<value column="Description" original="List of database types">List of database types</value>
+	<value column="Help" original="This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.">This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.</value>
+</row>
+<row id="50004" trl="N">
+	<value column="Name" original="AD_Package_Build_Type">AD_Package_Build_Type</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+<row id="50005" trl="N">
+	<value column="Name" original="AD_Package_Source_Type">AD_Package_Source_Type</value>
+	<value column="Description" original="List of package source types">List of package source types</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="50007" trl="N">
+	<value column="Name" original="ShowHelp List">ShowHelp List</value>
+	<value column="Description" original=""></value>
+	<value column="Help" original=""></value>
+</row>
+</adempiereTrl>

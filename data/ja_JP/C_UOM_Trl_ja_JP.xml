@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="C_UOM">
+<row id="100" trl="Y">
+	<value column="Name" original="Each">それぞれ</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="Ea ">Ea</value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="Hour">時間</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="h  ">h</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="Day">日</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="d  ">d</value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Minutes">分</value>
+	<value column="Description" original="(lowest unit for resorce assigments)">(資源割り当ての最小単位)</value>
+	<value column="UOMSymbol" original="m  ">m</value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="Work Day">労働日</value>
+	<value column="Description" original="8 hour">8時間</value>
+	<value column="UOMSymbol" original="D  ">D</value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="Week">週</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="w  ">w</value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Month">月</value>
+	<value column="Description" original="30 days">30日間</value>
+	<value column="UOMSymbol" original="m  ">m</value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Working Month">月労働日数</value>
+	<value column="Description" original="20 days">20日間</value>
+	<value column="UOMSymbol" original="M  ">M</value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="Year">年</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="y  ">y</value>
+</row>
+<row id="109" trl="N">
+	<value column="Name" original="6-Pack">6パック</value>
+	<value column="Description" original=""></value>
+	<value column="UOMSymbol" original="6Pk">6Pk</value>
+</row>
+</adempiereTrl>

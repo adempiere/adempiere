@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="C_Tax">
+<row id="104" trl="N">
+	<value column="Name" original="Standard">標準</value>
+	<value column="Description" original=""></value>
+	<value column="TaxIndicator" original=""></value>
+</row>
+<row id="105" trl="N">
+	<value column="Name" original="CT Sales">CT販売</value>
+	<value column="Description" original=""></value>
+	<value column="TaxIndicator" original="6%CT">6%CT</value>
+</row>
+<row id="106" trl="N">
+	<value column="Name" original="GST">GST</value>
+	<value column="Description" original="Canadian Federal Sales Tax">カナダ連邦政府の消費税</value>
+	<value column="TaxIndicator" original="GST">GST</value>
+</row>
+<row id="107" trl="N">
+	<value column="Name" original="PST">PST</value>
+	<value column="Description" original="Canadian Provintial Tax">カナダの地方税</value>
+	<value column="TaxIndicator" original="PST">PST</value>
+</row>
+<row id="108" trl="N">
+	<value column="Name" original="GST/PST">GST/PST</value>
+	<value column="Description" original="Canadian Federal &amp; State Tax">カナダ連邦政府と州税</value>
+	<value column="TaxIndicator" original="Tax">税金</value>
+</row>
+<row id="109" trl="N">
+	<value column="Name" original="Exempt">免税者</value>
+	<value column="Description" original="Used when Business Partners are exempt from tax">ビジネスパートナーが免税されているとき使用されます。</value>
+	<value column="TaxIndicator" original=""></value>
+</row>
+</adempiereTrl>

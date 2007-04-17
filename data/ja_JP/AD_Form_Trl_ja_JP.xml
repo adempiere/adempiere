@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_Form">
+<row id="100" trl="Y">
+	<value column="Name" original="Generate Invoices (manual)">請求書を生成(手動)</value>
+	<value column="Description" original="Select and generate invoices">請求書を選択して、生成してください。</value>
+	<value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for.">注文から請求書を生成します。&#10;請求書を作るのために注文を選択してください。</value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="Import File Loader">インポートファイルローダー</value>
+	<value column="Description" original="Load flat Files into import tables">フラットなファイルをインポートテーブルに読み込むためにロードします。</value>
+	<value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">インポートファイルローダーは、フラットなファイルの中身を分析して、インポートテーブルにロードします。コメントは'['で始まり、']'で終わり、処理の際には無視されます。例： [Some Heading]</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="Initial Client Setup">初期のクライアントセットアップ</value>
+	<value column="Description" original="Initial new Client/Tenant Setup">初期の新しいクライアント/テナントセットアップです。</value>
+	<value column="Help" original="Set up a new Client/Tenant of the system">システムの新しいクライアント/テナントをセットアップします。</value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Material Transactions">材料取引</value>
+	<value column="Description" original="Material Transactions">材料取引</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="Payment Allocation">支払い割り当て</value>
+	<value column="Description" original="Allocate invoices and payments">請求書と支払いを割り当ててください。</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="Generate Charges">料金を生成</value>
+	<value column="Description" original="Generate Charges from natural accounts">自然な勘定科目から料金を生成します。</value>
+	<value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account.">一般経費勘定科目を使用する新しい料金を生成するために、上側を使用して下さい。自然な勘定科目に基づく料金を生成するために、下側の部分を使用してください。</value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Payment Print/Export">支払い印刷/エクスポート</value>
+	<value column="Description" original="Print or export your payments">支払いを印刷するか、またはエクスポートしてください。</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Payment Selection (manual)">支払い選択(手動)</value>
+	<value column="Description" original="Manual Payment Selection">手動の支払い選択です。</value>
+	<value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">支払いのための仕入先請求書を選択してください。 請求書を見ないなら、異なった(処理された)支払い選択に含まれていない事を確認してください。</value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="Matching PO-Receipt-Invoice">同一取引の購買注文-領収-請求書</value>
+	<value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">購買注文、領収書、仕入先請求書を組み合わせてください。</value>
+	<value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected.">受領と請求が処理されるのを確認してください。 部分的な出荷をマッチさせたいなら、"同じ数量"が選択されないのを確かめてください。</value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="Translation Import/Export">翻訳インポート/エクスポート</value>
+	<value column="Description" original="Import or Export Language Translation">言語翻訳をインポートまたはエクスポート</value>
+	<value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage.">外部ツール内の翻訳用xml　へ / から 翻訳情報を インポート / エクスポートします。言語はシステム言語として利用可能で確認されている必要があります。</value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="Generate Shipments (manual)">出荷を生成(手動)</value>
+	<value column="Description" original="Select and generate shipments">出荷を選択、生成します。</value>
+	<value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">注文から出荷を生成します。&#10; 出荷を生成するために注文を選択してください。</value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="SQL Process">SQLプロセス</value>
+	<value column="Description" original="Process SQL Statements">SQL文を処理します。</value>
+	<value column="Help" original="Process SQL DDL Statements">SQL文を処理します。</value>
+</row>
+<row id="112" trl="Y">
+	<value column="Name" original="Merge Entities">経済主体を併合</value>
+	<value column="Description" original="Merge From Entity to To Entity - Delete From">経済主体同士を併合します。-  ～から削除</value>
+	<value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;危険 -- 今行っている操作は実行すると元に戻せません。&lt;/i&gt;&#10;元の経済主体(例えば、顧客 A)のすべての情報が、合併先の経済主体(例えば、顧客 B)に変わります。&#10;元の経済主体(例えば、顧客 A)は削除されます。&#10;&lt;p&gt;&lt;b&gt;元に戻したり、変更を追跡することは出来ません。実行前にバックアップしてください。&lt;/b&gt;ヒストリーレコードを変更しようとしていることに注意してください。(例えば、請求書など)&lt;/p&gt;&#10;
+&lt;p&gt;&lt;b&gt;副作用：&lt;/b&gt;合併処理は製品原価をゆがめます。ビジネスパートナーのオープンアイテムバランスが正しくなくなります。&#10;&lt;p&gt;&lt;b&gt;制約：&lt;/b&gt;会計と請求書の衝突はこのパージョンでは解決されません。&#10;</value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="POS">POS</value>
+	<value column="Description" original="Point Of Sales Terminal">販売時点情報管理(Point Of Sales)端末</value>
+	<value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">POS端末を通して取引を入力します。自動的に、スキャンまたはクレジットカードswipesは認識されます。</value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="BOM Drop">部品構成表ドロップ</value>
+	<value column="Description" original="Drop (expand) Bill of Materials">部品構成表をドロップします(広げます)</value>
+	<value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">材料の拡張された部品構成表を注文、請求書などに落とします。ドキュメントは、草案段階にある必要があります。部品構成表に含まれている項目が、注文、請求書などの価格リストに載っていることを確認してください。そうでないと、価格がゼロになります。</value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="Tree Maintenance">ツリーのメンテナンス</value>
+	<value column="Description" original="Maintain Trees">木構造をメンテナンスします。</value>
+	<value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">木構造を見て変更してください。特定のウィンドウにある項目をメンテナンスします。</value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="Workflow Editor">作業フローエディタ</value>
+	<value column="Description" original="Edit Workflows">作業フローの編集</value>
+	<value column="Help" original="Edit the graphical layout of workflows">作業フローのグラフィカルなレイアウトを編集してください。</value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="Workflow Activities">作業フロー活動</value>
+	<value column="Description" original="My active workflow activities">作業フロー活動の個人設定です。</value>
+	<value column="Help" original="View active worflow activities">アクティブな作業フローを表示します。</value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="Archive Viewer">アーカイブビューアー</value>
+	<value column="Description" original="View automatically archived Documents">自動的に格納されたドキュメントを見てください。</value>
+	<value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">クライアント自動アーカイブレベルによって、ドキュメントとレポートは、ビューのために保存、利用が可能です。レポートビューアーでは、手動でドキュメントかレポートを格納することができます。オリジナルドキュメントにアクセスする手段を持っている場合にだけ、アーカイブを見ることができます。</value>
+</row>
+<row id="119" trl="Y">
+	<value column="Name" original="Performance Indicators">パフォーマンスインディケータ</value>
+	<value column="Description" original="View Performance Indicators">パフォーマンスインディケータを表示します。</value>
+	<value column="Help" original="View all Performance Indicators and Goals">すべてのパフォーマンスインジケーターとゴールを表示します。</value>
+</row>
+<row id="120" trl="N">
+	<value column="Name" original="Product Attribute Grid">製品属性グリッド</value>
+	<value column="Description" original="Maintain Products with Attributes in a Table Grid">テーブルグリッド内の属性を使って、製品をメンテナンスします。</value>
+	<value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">製品属性がテーブルグリッドにある場合は、複数の属性を選択して表示、メンテナンスすることが出来ます。</value>
+</row>
+</adempiereTrl>

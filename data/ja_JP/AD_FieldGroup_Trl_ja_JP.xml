@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="ja_JP" table="AD_FieldGroup">
+<row id="101" trl="Y">
+	<value column="Name" original="Status">状態</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="Quantities">数量</value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Amounts">量</value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="Reference">参照</value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="History">履歴</value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Product">製品</value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Business Partner">ビジネスパートナー</value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="Warehouse">倉庫</value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="Bank">銀行</value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="Cash Book">現金出納帳</value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="Tax">税金</value>
+</row>
+<row id="112" trl="Y">
+	<value column="Name" original="Project">プロジェクト</value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="General">一般</value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="Action">アクション</value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="Standard Cost">標準原価</value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="Actual Costs">実際原価</value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="Statistics">統計</value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="Defaults">初期値</value>
+</row>
+<row id="119" trl="Y">
+	<value column="Name" original="Request Management">要求管理</value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="Web Store">ウェブストア</value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="Internal">内部</value>
+</row>
+<row id="122" trl="Y">
+	<value column="Name" original="External">外部</value>
+</row>
+<row id="123" trl="Y">
+	<value column="Name" original="Common">共通</value>
+</row>
+<row id="124" trl="Y">
+	<value column="Name" original="Shipment">発送</value>
+</row>
+<row id="125" trl="Y">
+	<value column="Name" original="Document">文書</value>
+</row>
+<row id="126" trl="Y">
+	<value column="Name" original="Line">ライン</value>
+</row>
+<row id="127" trl="Y">
+	<value column="Name" original="Simulation">シミュレーション</value>
+</row>
+<row id="128" trl="Y">
+	<value column="Name" original="Calculations">計算</value>
+</row>
+<row id="129" trl="Y">
+	<value column="Name" original="Proxy">代理</value>
+</row>
+<row id="130" trl="Y">
+	<value column="Name" original="Delivery">配送</value>
+</row>
+<row id="131" trl="Y">
+	<value column="Name" original="Invoicing">請求</value>
+</row>
+<row id="132" trl="Y">
+	<value column="Name" original="Only ..">～のみ</value>
+</row>
+<row id="133" trl="Y">
+	<value column="Name" original="Selection">選択</value>
+</row>
+<row id="134" trl="Y">
+	<value column="Name" original="Workflow">作業フロー</value>
+</row>
+<row id="135" trl="Y">
+	<value column="Name" original="Access">アクセス</value>
+</row>
+</adempiereTrl>

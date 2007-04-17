@@ -1,0 +1,1364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_Window">
+<row id="100" trl="Y">
+	<value column="Name" original="Table and Column">テーブルとカラム</value>
+	<value column="Description" original="Maintain Tables and Columns">テーブルとカラムをメンテナンスします。</value>
+	<value column="Help" original="The Table and Column Window defines all tables with their columns">テーブルとカラムウィンドウは、すべてのテーブルとテーブル内のカラムを定義します。</value>
+</row>
+<row id="101" trl="Y">
+	<value column="Name" original="Reference">参照</value>
+	<value column="Description" original="Maintain System References">システム参照をメンテナンスします。</value>
+	<value column="Help" original="The Reference Window defines field/display types and validations. This window is for System Admin use only.">参照ウィンドウは、フィールド/画面タイプと妥当性を定義します。このウィンドウはシステム管理者だけが使用します。</value>
+</row>
+<row id="102" trl="Y">
+	<value column="Name" original="Window, Tab &amp; Field">ウィンドウ、タブ &amp; フィールド</value>
+	<value column="Description" original="Maintain Windows, Tabs &amp; Fields">ウィンドウ、タブ &amp; フィールドをメンテナンスします。</value>
+	<value column="Help" original="The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window.">ウィンドウ、タブ &amp; フィールドウィンドウは、各ウィンドウ内でのテーブルとカラムの表示方法を定義します。</value>
+</row>
+<row id="103" trl="Y">
+	<value column="Name" original="Validation Rules">妥当性検証ルール</value>
+	<value column="Description" original="Maintain dynamic Validation Rules for columns and fields">カラムとフィールドのための動的な妥当性検証ルールをメンテナンスします。</value>
+	<value column="Help" original="The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only.">妥当性検証ルールウィンドウは、カラムとフィールドを入力、メンテナンスするとき使用されるすべての動的なルールを定義します。このウィンドウはシステム管理者だけが使用します。</value>
+</row>
+<row id="104" trl="Y">
+	<value column="Name" original="Message">メッセージ</value>
+	<value column="Description" original="Maintain Information and Error Messages">情報とエラーメッセージをメンテナンスします。</value>
+	<value column="Help" original="The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only.">メッセージウィンドウは、システムが生成した各メッセージのために、メッセージの文字と簡単な説明を定義します。このウィンドウはシステム管理者だけが使用します。</value>
+</row>
+<row id="105" trl="Y">
+	<value column="Name" original="Menu">メニュー</value>
+	<value column="Description" original="Maintain Menu">メニューをメンテナンスします。</value>
+	<value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.">メニューウィンドウは、表示されるメニューを定義します。このウィンドウはシステム管理者だけが使用します。各ユーザーが見るメニュー項目は定義されたセキュリティで決定されます。</value>
+</row>
+<row id="106" trl="Y">
+	<value column="Name" original="Language">言語</value>
+	<value column="Description" original="Maintain Languages">言語をメンテナンスします。</value>
+	<value column="Help" original="The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.&#10;If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.&#10;&#10;For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).&#10;&#10;Verify the translation creates missing translation records. Start this process after creating a new language.">言語ウィンドウは、複数の言語を定義することが出来ます。これは、ユーザーが同じデータにアクセスしても異なった言語で画面を表示することが出来ます。&#10;もし言語がシステム言語なら、ユーザーインターフェイスをその言語にすることが出来ます。そうでなければ印刷のときにだけ使えます。&#10;&#10;言語コードは、Javaの慣習コードを使うことをお勧めします。(例 fr_CN - Canadian French, ja_JP - 日本語)&#10;&#10;足りない翻訳レコードを確認してください。この処理は新しい言語レコードを作成してから実行してください。</value>
+</row>
+<row id="107" trl="Y">
+	<value column="Name" original="Matched Invoices">組み合わされた請求書</value>
+	<value column="Description" original="View Matched Invoices">組み合わされた請求書を表示します。</value>
+	<value column="Help" original="View detals of matched invoice lines to material receipt lines">材料への組み合わされた請求書詳細を表示します。</value>
+</row>
+<row id="108" trl="Y">
+	<value column="Name" original="User">ユーザー</value>
+	<value column="Description" original="Maintain Users of the system">システムのユーザーをメンテナンスします。</value>
+	<value column="Help" original="The User Window allows you to maintain User of the system.  Users can log into the system and have access to functionality via one or more roles.  A user can also be a business aprtner contact.">ユーザーウィンドウは、システム上のユーザーをメンテナンスします。ユーザーはシステムの各機能にアクセスする権限を役割として与えられます。ユーザーはビジネスパートナーとしてレコードに登録することも出来ます。</value>
+</row>
+<row id="109" trl="Y">
+	<value column="Name" original="Client">クライアント</value>
+	<value column="Description" original="Maintain Clients/Tenants">クライアント/テナントをメンテナンスします。</value>
+	<value column="Help" original="The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's). To create new Clients, run the Initial Client Setup with the System Administrator Role.&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.">クライアントは最上位のレベルの独立した経済主体です。それぞれのクライアントは、複数の組織を持っていて、会計パラメータを定義します。(会計スキーマ、ツリー定義、必須でない測定単位)　新しいクライアントを作成するには、クライアントセットアップをシステム管理者として実行してください。&#10;このウィンドウでは新しいクライアントを作成しないでください。セキュリティとアクセスルールのため「初期クライアントセットアップ」を使ってください。ここで新しいクライアントを作成すると必要な情報が設定されず表示することが出来ません。</value>
+</row>
+<row id="110" trl="Y">
+	<value column="Name" original="Organization">組織</value>
+	<value column="Description" original="Maintain Organizations">組織をメンテナンスします。</value>
+	<value column="Help" original="The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed">組織ウィンドウは、組織実体を定義して、メンテナンスします。組織は、文書と取引が分類処理される法人またはサブユニットです。</value>
+</row>
+<row id="111" trl="Y">
+	<value column="Name" original="Role">役割</value>
+	<value column="Description" original="Maintain User Responsibilities">ユーザーの権限をメンテナンスします。</value>
+	<value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data.&#10;You can add users to the role.&#10;Note that access information is cached and requires re-login or reset of cache.">役割ウィンドウは、このシステムのユーザーが持っている異なった役割を定義します。役割はウィンドウ、タスク、レポートなどへのアクセスを制御します。クライアントに関しては、管理者とユーザーの役割は事前に定義されます。特定の機能またはデータへアクセス出来るようにするために役割を加えることができます。役割にはユーザーを加えることができます。このアクセス情報はキャッシュされます。設定を有効にするには再ログインかリセットを必要とします。</value>
+</row>
+<row id="112" trl="Y">
+	<value column="Name" original="Document Sequence">ドキュメント連続番号</value>
+	<value column="Description" original="Maintain System and Document Sequences">システムとドキュメント連続番号をメンテナンスします。</value>
+	<value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.">ドキュメント連続番号ウィンドウは、どのようにドキュメント番号の連続性を定義します。&#10;ドキュメント番号の生成を変更してください。接頭辞または接尾辞を追加や開始番号の変更が出来ます。</value>
+</row>
+<row id="113" trl="Y">
+	<value column="Name" original="Workflow">作業フロー</value>
+	<value column="Description" original="Maintain Workflow">作業フローをメンテナンスします。</value>
+	<value column="Help" original="The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow.">作業フローウィンドウは、システム内の作業フローを定義して、アクセスレベル、ノード、ステップを設定します。。</value>
+</row>
+<row id="114" trl="Y">
+	<value column="Name" original="Task">タスク</value>
+	<value column="Description" original="Maintain Tasks">タスクをメンテナンスします。</value>
+	<value column="Help" original="The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks.">タスクウィンドウは、タスクのために作業フローに使用される異なったタスクとアクセスレベルを定義します。</value>
+</row>
+<row id="115" trl="Y">
+	<value column="Name" original="Currency">通貨</value>
+	<value column="Description" original="Maintain Currencies">通貨をメンテナンスします。</value>
+	<value column="Help" original="The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) ">通貨ウィンドウは、ドキュメントかレポートに使用されるすべての通貨を定義します。システムレベルで利用されている通貨を定義して、統計的な利用のためだけにクライアントレベルで通貨を加えください。(例えば、不安定通貨のため) </value>
+</row>
+<row id="116" trl="Y">
+	<value column="Name" original="Currency Rate">通貨レート</value>
+	<value column="Description" original="Maintain Currency Conversion Rates">通貨交換比率をメンテナンスします。</value>
+	<value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another. Note that only the multiply rate is used; The divide rate is for visualization only.">通貨レートウィンドウは、１個の通貨から別の通貨へドキュメント量を変換するとき使用される交換比率を定義します。使用されるレートは掛け算だけにしてください。割り算は表示の目的のみです。</value>
+</row>
+<row id="117" trl="Y">
+	<value column="Name" original="Calendar Year and Period">暦年と期間</value>
+	<value column="Description" original="Maintain Calendars Years Periods">暦年と期間をメンテナンスします。</value>
+	<value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">暦年と期間ウィンドウは期間の管理とレポートに使用されるカレンダーを定義します。また、標準的でないカレンダー(例えば、7月から開始して6月までのカレンダー)を定義することもできます。</value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="Account Element">会計要素</value>
+	<value column="Description" original="Maintain Account Elements">会計要素をメンテナンスします。</value>
+	<value column="Help" original="The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. &#10;One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments. ">会計要素ウィンドウは、会計要素とユーザー定義要素を定義して、メンテナンスするために使用されます。&#10;会計セグメントのひとつは標準のセグメントです。(会計チャート) 並列で会計報告を作成するために別の会計セグメントを作成することが出来ます。</value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="Unit of Measure">測定単位</value>
+	<value column="Description" original="Maintain Unit of Measure ">測定単位をメンテナンスします。</value>
+	<value column="Help" original="The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).">測定単位ウィンドウは、金額ではない測定単位を定義するために使用されます。また、測定の単位の間の変換が許されるかどうかや、どのように処理されるかも定義します。変換方法が明示的に定義されないなら、システムはいくつかの自動変換を提供します。(例えば、分、時間、日、営業日など)&#10;変換は、直接である必要があります(つまり、A-Bの変換とB-Cの変換があっても、システムはA-Cを変換することが出来ないので、明示的に、A-Cを定義する必要があります)。</value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="Location">住所</value>
+	<value column="Description" original="Maintain Location Address">住所をメンテナンスします。</value>
+	<value column="Help" original="The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)">住所ウィンドウは、システム内で住所データを定義します。このウィンドウはシステム管理者専用です。ユーザーは、住所のボタンか、または適切なウィンドウ上のタブを使用することで、住所のエントリーにアクセスします。(例：受注エントリー、ビジネスパートナー)</value>
+</row>
+<row id="122" trl="Y">
+	<value column="Name" original="Country Region and City">都道府県と市</value>
+	<value column="Description" original="Maintain Countries Regions and Cities">都道府県と市をメンテナンスします。</value>
+	<value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">都道府県と市ウィンドウは、どんな住所フィールドでも使用できる異なった実体を定義します。このウィンドウは、国と都道府県の関連付けとともに、住所のフォーマットも定義します。&#10;&lt;p&gt;通常はシステムレベルだけで国を定義します。</value>
+</row>
+<row id="123" trl="Y">
+	<value column="Name" original="Business Partner">ビジネスパートナー</value>
+	<value column="Description" original="Maintain Business Partners">ビジネスパートナーをメンテナンスします。</value>
+	<value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions">ビジネスパートナーウィンドウは、商取引を行うすべての経済主体を定義します。これは顧客、仕入先、および従業員を含んでいます。製品の入力やインポートをする前に、仕入先を定義しなければなりません。受注を生成する前に、顧客を定義しなければなりません。このウィンドウは、ビジネスパートナーに関するすべての情報を保持します。そして、入力された値は、すべてのドキュメント取引を生成するために使用されます。</value>
+</row>
+<row id="125" trl="Y">
+	<value column="Name" original="Accounting Schema">会計スキーマ</value>
+	<value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">会計スキーマをメンテナンスします。--変更を有効にするには再ログインする必要があります。</value>
+	<value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.&#10;">会計スキーマウィンドウは、会計構造を構成する会計手法と要素を定義します。ビジネスパートナー、製品、住所などのために、詳細な会計要素を作成、有効化してください。&#10;総勘定元帳とデフォルトの勘定科目を見直し、変更できます。取引で使われる実際の勘定科目は、実行する組織によって異なります。ほとんどの情報は、処理の流れによって提供されます。</value>
+</row>
+<row id="127" trl="Y">
+	<value column="Name" original="Test">テスト</value>
+	<value column="Description" original="Test Screen">テストスクリーン</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="128" trl="Y">
+	<value column="Name" original="Attachment">添付</value>
+	<value column="Description" original="Maintain Attachments">添付をメンテナンスします。</value>
+	<value column="Help" original="For System Maintenance Only.  The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment.">システム保守のためだけに使われます。添付のメンテナンスウィンドウは、添付の属性を表示するために診断目的で使用されます。</value>
+</row>
+<row id="129" trl="Y">
+	<value column="Name" original="Preference">設定</value>
+	<value column="Description" original="Maintain System Client Org and User Preferences">システムクライアント組織とユーザー設定をメンテナンスします。</value>
+	<value column="Help" original="System Admin use only.">システム管理者専用です。</value>
+</row>
+<row id="130" trl="Y">
+	<value column="Name" original="Project">プロジェクト(サービス)</value>
+	<value column="Description" original="Maintain Projects">サービスプロジェクトをメンテナンスします。</value>
+	<value column="Help" original="The Project Window is used to define the projects which will can be tracked by phases and tasks.">プロジェクトウィンドウは、ドキュメントで利用されるプロジェクトを定義するのに使用されます。</value>
+</row>
+<row id="131" trl="Y">
+	<value column="Name" original="GL Category">総勘定元帳カテゴリ</value>
+	<value column="Description" original="Maintain General Ledger Categories">総勘定元帳カテゴリをメンテナンスします。</value>
+	<value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">総勘定元帳カテゴリウィンドウは、仕訳帳で使用するためにカテゴリを定義します。これらのカテゴリは任意に分類する方法を提供します。また、仕訳帳での報告にも使われます。</value>
+</row>
+<row id="132" trl="Y">
+	<value column="Name" original="GL Journal">総勘定元帳</value>
+	<value column="Description" original="Enter and change Manual Journal Entries">手動で仕訳帳に入力、変更が出来ます。</value>
+	<value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">総勘定元帳ウィンドウは、手動の仕訳記入を入力、変更することが出来ます。</value>
+</row>
+<row id="134" trl="Y">
+	<value column="Name" original="Activity (ABC)">活動(ABC)</value>
+	<value column="Description" original="Maintain Activities for Activity Based Costing">活動基準原価計算のための活動をメンテナンスします。</value>
+	<value column="Help" original="The Activity Based Costing Window defines the different activities for which you want to capture costs.">活動基準原価計算(Activity Based Costing)ウィンドウは、コストを計算したい異なった活動を定義します。</value>
+</row>
+<row id="135" trl="Y">
+	<value column="Name" original="Document Type">ドキュメントタイプ</value>
+	<value column="Description" original="Maintain Document Types">ドキュメントタイプをメンテナンスします。</value>
+	<value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">ドキュメントタイプウィンドウは、システムで使用されるためのすべてのドキュメントを定義します。それぞれのドキュメントタイプは、それぞれのドキュメントの処理の基礎を提供します。印刷される名前、ドキュメント連続番号を提供します。</value>
+</row>
+<row id="137" trl="Y">
+	<value column="Name" original="Tax Rate">課税率</value>
+	<value column="Description" original="Maintain Taxes and their Rates">税と課税率をメンテナンスします。</value>
+	<value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.">課税率ウィンドウは、それぞれの税金カテゴリに使用される異なった税金を定義します。例えば、各州の消費税を定義します。</value>
+</row>
+<row id="138" trl="Y">
+	<value column="Name" original="Tax Category">税金カテゴリ</value>
+	<value column="Description" original="Maintain Tax Categories">税金カテゴリをメンテナンスします。</value>
+	<value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.">税金カテゴリウィンドウは、税金カテゴリの入力、メンテナンスするために使用されます。それぞれの製品は、課税率の変更を容易にする税金カテゴリに関連付けられます。</value>
+</row>
+<row id="139" trl="Y">
+	<value column="Name" original="Warehouse &amp; Locators">倉庫と住所</value>
+	<value column="Description" original="Maintain Warehouses and Locators">倉庫と住所をメンテナンスします。</value>
+	<value column="Help" original="The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse.">倉庫と住所ウィンドウは、倉庫内の在庫や会計パラメータで使用される倉庫と住所を定義します。</value>
+</row>
+<row id="140" trl="Y">
+	<value column="Name" original="Product">製品</value>
+	<value column="Description" original="Maintain Products">製品をメンテナンスします。</value>
+	<value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">製品ウィンドウは、組織によって使用されるすべての製品を定義します。これらの製品は、顧客に販売されたもの、製品を製造するために使われたもの、購入したものを含んでいます。</value>
+</row>
+<row id="141" trl="Y">
+	<value column="Name" original="Payment Term">支払期間</value>
+	<value column="Description" original="Maintain Payment Terms">支払期間をメンテナンスします。</value>
+	<value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">支払期間ウィンドウは、顧客へ提示した、または仕入先から提示された、異なった支払い期間を定義します。各請求書は支払期間を含まなければなりません。標準の請求書では、支払期間の名前とドキュメントのメモは印刷されます。</value>
+</row>
+<row id="142" trl="Y">
+	<value column="Name" original="Shipper">荷主</value>
+	<value column="Description" original="Maintain Shippers">荷主をメンテナンスします。</value>
+	<value column="Help" original="The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected.">荷主ウィンドウは、組織によって使用される、異なった発送方法を定義します。荷主の発送方法が受注で使用されるとき、事前に定義された荷主を選択しなければなりません。</value>
+</row>
+<row id="143" trl="Y">
+	<value column="Name" original="Sales Order">受注</value>
+	<value column="Description" original="Enter and change sales orders">販売注文を入力、変更してください。</value>
+	<value column="Help" original="The Order Window allows you to enter and modify Sales Orders.  ">受注ウィンドウは、受注情報の入力、変更が出来ます。</value>
+</row>
+<row id="144" trl="Y">
+	<value column="Name" original="Product Category">製品カテゴリ</value>
+	<value column="Description" original="Maintain Product Categories">製品カテゴリをメンテナンスします。</value>
+	<value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">製品カテゴリは、製品の異なったグループを定義します。価格リストの生成、利幅の定義、簡単に異なった会計パラメータの割当を行うためなどに、これらのグループを使用することができます。</value>
+</row>
+<row id="146" trl="Y">
+	<value column="Name" original="Price List">価格リスト</value>
+	<value column="Description" original="Maintain Product Price Lists">製品価格リストをメンテナンスします。</value>
+	<value column="Help" original="The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.&#10;&lt;BR&gt;&#10;All pricelists have three prices: List, Standard and Limit&#10;&lt;BR&gt;&#10;First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.&#10;&lt;BR&gt; &#10;Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.">価格リストウィンドウは、ビジネスパートナーのための製品価格リストを生成します。価格リストは通貨と税金処理を決定します。価格リストバージョンは、異なった日付範囲のために平行したメンテナンスを可能にします。最新の価格リストバージョンは、ドキュメント日付に基づいて使用されます。&#10;&lt;BR&gt;&#10;
+すべての価格リストには、3つの価格があります: リスト価格、標準価格、および限度価格です。&#10;&lt;BR&gt;&#10;
+最初のステップは、基本価格リストの作成です。手動で製品を加えて、手動で価格を入れるか、または自動で価格を作成することができます。基本価格リストは、リスト価格（公式小売価格）付きの購入価格であることがよくあり、標準価格（購入価格）です。限度価格は、割引やリベート後の最終購入価格をチェックするために使うことが出来ます。&#10;&lt;BR&gt; &#10;価格リストは、計算やコピーが出来ます。計算を速くするために、パラメータは保管されて、新しい価格リストバージョンを作成するときに使われます。</value>
+</row>
+<row id="147" trl="Y">
+	<value column="Name" original="Invoice Schedule">請求書スケジュール</value>
+	<value column="Description" original="Maintain Invoicing Schedule">請求スケジュールをメンテナンスします。</value>
+	<value column="Help" original="The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer.">請求書スケジュールウィンドウは、概要請求書を作るために、頻度と締め切り日付を定義します。顧客が複数の出荷のために一つの請求書を必要とするなら、適切な請求書スケジュールを定義して、それを顧客に関連づけてください。</value>
+</row>
+<row id="149" trl="Y">
+<value column="Name" original="Marketing Campaign">販売活動</value>
+<value column="Description" original="Maintain Marketing Campaigns">Maintain Marketing Campaigns</value>
+<value column="Help" original="The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.">The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.</value>
+</row>
+<row id="150" trl="Y">
+<value column="Name" original="Marketing Channel">販売経路</value>
+<value column="Description" original="Maintain Marketing  Channels">Maintain Marketing  Channels</value>
+<value column="Help" original="The Marketing Channel Window defines the different channels used in Marketing Campaigns">The Marketing Channel Window defines the different channels used in Marketing Campaigns</value>
+</row>
+<row id="151" trl="Y">
+<value column="Name" original="Element">要素</value>
+<value column="Description" original="Maintain System Elements">Maintain System Elements</value>
+<value column="Help" original="The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments">The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments</value>
+</row>
+<row id="152" trl="Y">
+<value column="Name" original="Sales Region">販売領域</value>
+<value column="Description" original="Maintain Sales Regions">Maintain Sales Regions</value>
+<value column="Help" original="The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions">The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions</value>
+</row>
+<row id="153" trl="Y">
+<value column="Name" original="Account Combination">アカウント組み合わせ</value>
+<value column="Description" original="Maintain Valid Account Combinations ">Maintain Valid Account Combinations </value>
+<value column="Help" original="The Account Combination Window defines and displays valid account combinations. ">The Account Combination Window defines and displays valid account combinations. </value>
+</row>
+<row id="154" trl="Y">
+<value column="Name" original="GL Budget">総勘定元帳</value>
+<value column="Description" original="Maintain General Ledger Budgets">Maintain General Ledger Budgets</value>
+<value column="Help" original=""/>
+</row>
+<row id="158" trl="Y">
+<value column="Name" original="Bank">銀行</value>
+<value column="Description" original="Maintain Bank">Maintain Bank</value>
+<value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner">The Bank Window is used to define the banks and accounts associated with an organization or business partner</value>
+</row>
+<row id="159" trl="Y">
+<value column="Name" original="Dunning">督促</value>
+<value column="Description" original="Maintain Dunning Levels">Maintain Dunning Levels</value>
+<value column="Help" original="The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  ">The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  </value>
+</row>
+<row id="160" trl="Y">
+<value column="Name" original="Withholding (1099)">源泉徴収(1099)</value>
+<value column="Description" original="Maintain Withholding Certificates">Maintain Withholding Certificates</value>
+<value column="Help" original="The Withholding Window defines the rule used for calculating withholding amounts.">The Withholding Window defines the rule used for calculating withholding amounts.</value>
+</row>
+<row id="161" trl="Y">
+<value column="Name" original="Charge">料金</value>
+<value column="Description" original="Maintain Charges">Maintain Charges</value>
+<value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.</value>
+</row>
+<row id="162" trl="Y">
+<value column="Name" original="Accounting Fact Details">会計事実の詳細</value>
+<value column="Description" original="Query Accounting Facts">Query Accounting Facts</value>
+<value column="Help" original="Query the detail accounting transactions">Query the detail accounting transactions</value>
+</row>
+<row id="163" trl="Y">
+<value column="Name" original="Tree">ツリー</value>
+<value column="Description" original="Maintain Tree definition">Maintain Tree definition</value>
+<value column="Help" original="The Tree Window defines the descriptors and images that will be used when a Tree is displayed.">The Tree Window defines the descriptors and images that will be used when a Tree is displayed.</value>
+</row>
+<row id="165" trl="Y">
+<value column="Name" original="Report &amp; Process">レポートとプロセス</value>
+<value column="Description" original="Maintain Reports &amp; Processes">Maintain Reports &amp; Processes</value>
+<value column="Help" original="The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.">The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.</value>
+</row>
+<row id="167" trl="Y">
+<value column="Name" original="Invoice (Customer)">請求書(顧客)</value>
+<value column="Description" original="Customer Invoice Entry">Customer Invoice Entry</value>
+<value column="Help" original="The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.">The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.</value>
+</row>
+<row id="168" trl="Y">
+<value column="Name" original="Physical Inventory">物理在庫</value>
+<value column="Description" original="Enter Physical Inventory">Enter Physical Inventory</value>
+<value column="Help" original="The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.">The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.</value>
+</row>
+<row id="169" trl="Y">
+<value column="Name" original="Shipment (Customer)">出荷(顧客)</value>
+<value column="Description" original="Customer Inventory Shipments Customer Returns">Customer Inventory Shipments Customer Returns</value>
+<value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.</value>
+</row>
+<row id="170" trl="Y">
+<value column="Name" original="Inventory Move">在庫移動</value>
+<value column="Description" original="Inventory Move">Inventory Move</value>
+<value column="Help" original="The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.">The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.</value>
+</row>
+<row id="172" trl="Y">
+<value column="Name" original="Import Business Partner">ビジネスパートナーのインポート</value>
+<value column="Description" original="Import Business Partner">Import Business Partner</value>
+<value column="Help" original="The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+</row>
+<row id="174" trl="Y">
+<value column="Name" original="Revenue Recognition">収益認識</value>
+<value column="Description" original="Revenue Recognition Rules">Revenue Recognition Rules</value>
+<value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.</value>
+</row>
+<row id="175" trl="Y">
+<value column="Name" original="Perpetual Inventory">恒常在庫</value>
+<value column="Description" original="Maintain Perpetual Inventory Rules">Maintain Perpetual Inventory Rules</value>
+<value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.</value>
+</row>
+<row id="176" trl="Y">
+<value column="Name" original="Vendor Details">仕入先の詳細</value>
+<value column="Description" original="Maintain Vendor Details">Maintain Vendor Details</value>
+<value column="Help" original="The Vendor Details Window allows you to display and maintain all products for a selected Vendor.">The Vendor Details Window allows you to display and maintain all products for a selected Vendor.</value>
+</row>
+<row id="178" trl="Y">
+<value column="Name" original="Greeting">敬称</value>
+<value column="Description" original="Maintain Greetings">Maintain Greetings</value>
+<value column="Help" original="The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.">The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.</value>
+</row>
+<row id="180" trl="Y">
+<value column="Name" original="Report View">レポートビュー</value>
+<value column="Description" original="Maintain Report Views">Maintain Report Views</value>
+<value column="Help" original="The Report View Window defines the views used when generating reports.  This window is for System Admin use only.">The Report View Window defines the views used when generating reports.  This window is for System Admin use only.</value>
+</row>
+<row id="181" trl="Y">
+<value column="Name" original="Purchase Order">発注書</value>
+<value column="Description" original="Manage Purchase Orders">Manage Purchase Orders</value>
+<value column="Help" original="The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order">The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order</value>
+</row>
+<row id="183" trl="Y">
+<value column="Name" original="Invoice (Vendor)">請求書(仕入先)</value>
+<value column="Description" original="Vendor Invoice Entry">Vendor Invoice Entry</value>
+<value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.">The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.</value>
+</row>
+<row id="184" trl="Y">
+<value column="Name" original="Material Receipt">材料領収書</value>
+<value column="Description" original="Vendor Shipments (Receipts)">Vendor Shipments (Receipts)</value>
+<value column="Help" original="The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.">The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.</value>
+</row>
+<row id="185" trl="Y">
+<value column="Name" original="EDI Definition">EDI定義</value>
+<value column="Description" original="Maintain EDI Definition">Maintain EDI Definition</value>
+<value column="Help" original="The EDI Definition Window defines the parameters to be used when processing EDI Transactions">The EDI Definition Window defines the parameters to be used when processing EDI Transactions</value>
+</row>
+<row id="186" trl="Y">
+<value column="Name" original="EDI Transaction">EDI取引</value>
+<value column="Description" original="">Transaccion de EDI</value>
+<value column="Help" original="">Define transacciones de EDI</value>
+</row>
+<row id="187" trl="Y">
+<value column="Name" original="Form">フォーム</value>
+<value column="Description" original="Special Forms">Special Forms</value>
+<value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">The Forms Window defines any window which is not automatically generated.  For System Admin use only.</value>
+</row>
+<row id="188" trl="Y">
+<value column="Name" original="Error Message">エラーメッセージ</value>
+<value column="Description" original="Display Error Messages">Display Error Messages</value>
+<value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.">The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.</value>
+</row>
+<row id="189" trl="Y">
+<value column="Name" original="Import Loader Format">インポートローダー形式</value>
+<value column="Description" original="Maintain Import Loader Formats">Maintain Import Loader Formats</value>
+<value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">The Import Loader Format Window is used for defining the file layout for product information which will be imported.</value>
+</row>
+<row id="191" trl="Y">
+<value column="Name" original="Production">生産</value>
+<value column="Description" original="Production based on Bill of Materials">Production based on Bill of Materials</value>
+<value column="Help" original="The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials">The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials</value>
+</row>
+<row id="192" trl="Y">
+<value column="Name" original="Business Partner Group">ビジネスパートナーグループ</value>
+<value column="Description" original="Maintain Business Partner Groups">Maintain Business Partner Groups</value>
+<value column="Help" original="The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.">The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.</value>
+</row>
+<row id="193" trl="Y">
+<value column="Name" original="Notice">通知</value>
+<value column="Description" original="View System Notices">View System Notices</value>
+<value column="Help" original="The system creates messages while performing processes. In this window you can view them.">The system creates messages while performing processes. In this window you can view them.</value>
+</row>
+<row id="194" trl="Y">
+<value column="Name" original="Bank Statement">銀行取引明細書</value>
+<value column="Description" original="Process Bank Statements">Process Bank Statements</value>
+<value column="Help" original="The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.">The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.</value>
+</row>
+<row id="195" trl="Y">
+<value column="Name" original="Payment">支払い</value>
+<value column="Description" original="Process Payments and Receipts">Process Payments and Receipts</value>
+<value column="Help" original="The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.">The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.</value>
+</row>
+<row id="196" trl="Y">
+<value column="Name" original="Custom Attribute">カスタム属性</value>
+<value column="Description" original="Maintain custom entity attributes">Maintain custom entity attributes</value>
+<value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.</value>
+</row>
+<row id="197" trl="Y">
+<value column="Name" original="Cashbook">現金出納帳</value>
+<value column="Description" original="Maintain Cashbook">Maintain Cashbook</value>
+<value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">The Cashbook Window defines the bank and account against which cash transactions will be processed.</value>
+</row>
+<row id="198" trl="Y">
+<value column="Name" original="Cash Journal">現金仕訳帳</value>
+<value column="Description" original="Cash transactions">Cash transactions</value>
+<value column="Help" original="The Cash Journal Window is used to record disbursements from and receipts to Petty Cash">The Cash Journal Window is used to record disbursements from and receipts to Petty Cash</value>
+</row>
+<row id="200" trl="Y">
+<value column="Name" original="Field Group">フィールドグループ</value>
+<value column="Description" original="Define Field Group">Define Field Group</value>
+<value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only.">The Field Group Window allows you to define subsections in a tab.  For System Admin use only.</value>
+</row>
+<row id="201" trl="Y">
+<value column="Name" original="Request">要求</value>
+<value column="Description" original="Work on your requests">Work on your requests</value>
+<value column="Help" original="The Request Window is used to define and track any request assigned to you.">The Request Window is used to define and track any request assigned to you.</value>
+</row>
+<row id="203" trl="Y">
+<value column="Name" original="Request Processor">要求プロセッサ</value>
+<value column="Description" original="Define Request Processors">Define Request Processors</value>
+<value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.">The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.</value>
+</row>
+<row id="204" trl="Y">
+<value column="Name" original="Mail Template">メールテンプレート</value>
+<value column="Description" original="Maintain Mail Template">Maintain Mail Template</value>
+<value column="Help" original="Mail templates can contain variables of the user, business partner or a general object.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.">Mail templates can contain variables of the user, business partner or a general object.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;
+So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;
+For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.</value>
+</row>
+<row id="205" trl="Y">
+<value column="Name" original="View Allocation">ビュー割当</value>
+<value column="Description" original="View and Reverse Allocations ">View and Reverse Allocations </value>
+<value column="Help" original="The Reverse Allocation Window allows you to view and reverse a payment allocation">The Reverse Allocation Window allows you to view and reverse a payment allocation</value>
+</row>
+<row id="206" trl="Y">
+<value column="Name" original="Payment Selection">支払い選択</value>
+<value column="Description" original="Select Invoices for Payment">Select Invoices for Payment</value>
+<value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">The Payment Selection Window allows you to select and process the invoices you want to pay.
+(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.
+
+(b) If you are happy with the Payment Selection, you create the payments.
+
+(c) You print or export your payments in the Window Payment Print/Export</value>
+</row>
+<row id="207" trl="Y">
+<value column="Name" original="Commission">手数料</value>
+<value column="Description" original="Maintain Commissions and Royalties">Maintain Commissions and Royalties</value>
+<value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">Define how and when you want the commissions to be calculated and to whom to pay it.
+The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).</value>
+</row>
+<row id="208" trl="Y">
+<value column="Name" original="Project Reporting">プロジェクト報告</value>
+<value column="Description" original="Maintain Project Reporting Cycles">Maintain Project Reporting Cycles</value>
+<value column="Help" original="The Project Cycle Window defines the steps associated with a specific Project.&#10;You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.">The Project Cycle Window defines the steps associated with a specific Project.
+You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.</value>
+</row>
+<row id="210" trl="Y">
+<value column="Name" original="Commission Run">手数料実行</value>
+<value column="Description" original="Check and modify Commissions">Check and modify Commissions</value>
+<value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.">The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.</value>
+</row>
+<row id="212" trl="Y">
+<value column="Name" original="Performance Goal">成績目標</value>
+<value column="Description" original="Define Performance Goals">Define Performance Goals</value>
+<value column="Help" original="The Performance Goal Window allows you to define performance goals or all, a role or a user">The Performance Goal Window allows you to define performance goals or all, a role or a user</value>
+</row>
+<row id="213" trl="Y">
+<value column="Name" original="Performance Measure Calculation">成績測定計算</value>
+<value column="Description" original="Define how you calculate your performance measures">Define how you calculate your performance measures</value>
+<value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. &#10;The sql needs to return a single value.  Please check examples.&lt;br&gt;&#10;The date trestriction is defined in the Goal. &#10;Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.">The Performance Measure Calculation defines how performance measures will be calculated. 
+The sql needs to return a single value.  Please check examples.&lt;br&gt;
+The date trestriction is defined in the Goal. 
+Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.</value>
+</row>
+<row id="215" trl="Y">
+<value column="Name" original="Performance Measure">成績測定</value>
+<value column="Description" original="Define your Performance Measures">Define your Performance Measures</value>
+<value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.</value>
+</row>
+<row id="216" trl="Y">
+<value column="Name" original="Financial Report">営業報告</value>
+<value column="Description" original="Maintain Financial Reports">Maintain Financial Reports</value>
+<value column="Help" original="Financial Reports are the combination of a Report Column Set and Line Set.">Financial Reports are the combination of a Report Column Set and Line Set.</value>
+</row>
+<row id="217" trl="Y">
+<value column="Name" original="Report Column Set">レポートカラムセット</value>
+<value column="Description" original="Maintain Financial Report Column Sets">Maintain Financial Report Column Sets</value>
+<value column="Help" original="The Report Column Set defines what data is printed in the columns of a report.">The Report Column Set defines what data is printed in the columns of a report.</value>
+</row>
+<row id="218" trl="Y">
+<value column="Name" original="Report Line Set">レポート詳細セット</value>
+<value column="Description" original="Maintain Financial Report Line Sets">Maintain Financial Report Line Sets</value>
+<value column="Help" original="The Line Set determines, which lines are printed in a Financial Report">The Line Set determines, which lines are printed in a Financial Report</value>
+</row>
+<row id="220" trl="Y">
+<value column="Name" original="Service Level">サービスレベル</value>
+<value column="Description" original="Maintain Service Levels">Maintain Service Levels</value>
+<value column="Help" original="Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.">Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.</value>
+</row>
+<row id="221" trl="Y">
+<value column="Name" original="Find (indirect use)">検索(間接的な使用)</value>
+<value column="Description" original="Find Dialog (indirect use)">Find Dialog (indirect use)</value>
+<value column="Help" original=""/>
+</row>
+<row id="223" trl="Y">
+<value column="Name" original="Material Transactions (indirect use)">材料取引(間接的な使用)</value>
+<value column="Description" original="Material Transactions (indirect use)">Material Transactions (indirect use)</value>
+<value column="Help" original="">材料取引の設定です。</value>
+</row>
+<row id="224" trl="Y">
+<value column="Name" original="Print Form">フォームを印刷</value>
+<value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Maintain Print Forms (Invoices, Checks, ..) used</value>
+<value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;
+The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).</value>
+</row>
+<row id="225" trl="Y">
+<value column="Name" original="System Color">システム色</value>
+<value column="Description" original="Maintain System Colors">Maintain System Colors</value>
+<value column="Help" original="System colors are used for background and indicators">System colors are used for background and indicators</value>
+</row>
+<row id="226" trl="Y">
+<value column="Name" original="Desktop">デスクトップ</value>
+<value column="Description" original="Maintain Desktop">Maintain Desktop</value>
+<value column="Help" original="Desktop is a collection of Workbenches">Desktop is a collection of Workbenches</value>
+</row>
+<row id="227" trl="Y">
+<value column="Name" original="System Image">システムイメージ</value>
+<value column="Description" original="Maintain Images and Icons">Maintain Images and Icons</value>
+<value column="Help" original=""/>
+</row>
+<row id="228" trl="Y">
+<value column="Name" original="Matched Purchase Orders">組み合わせた購買注文</value>
+<value column="Description" original="View Matched Purchase Orders">View Matched Purchase Orders</value>
+<value column="Help" original="View detals of matched purchase order lines to invoice lines and material receipt lines">View detals of matched purchase order lines to invoice lines and material receipt lines</value>
+</row>
+<row id="229" trl="Y">
+<value column="Name" original="Window Customization">ウィンドウのカスタマイズ</value>
+<value column="Description" original="Define Window Customization for Role/User">Define Window Customization for Role/User</value>
+<value column="Help" original="The customization values defined here overwrite/replace the default system definition if defined.">The customization values defined here overwrite/replace the default system definition if defined.</value>
+</row>
+<row id="231" trl="Y">
+<value column="Name" original="Workbench">作業台</value>
+<value column="Description" original="Maintain Workbench">Maintain Workbench</value>
+<value column="Help" original="Workbenches are a collection of Windows">Workbenches are a collection of Windows</value>
+</row>
+<row id="232" trl="Y">
+<value column="Name" original="Request (all)">要求(すべて)</value>
+<value column="Description" original="View and work on all requests">View and work on all requests</value>
+<value column="Help" original="This Request window is used to view all available requests">This Request window is used to view all available requests</value>
+</row>
+<row id="233" trl="Y">
+<value column="Name" original="Discount Schema">割り引きスキーマ</value>
+<value column="Description" original="Maintain Trade Discount Schema">Maintain Trade Discount Schema</value>
+<value column="Help" original="Trade discount schema calculates the trade discount percentage">Trade discount schema calculates the trade discount percentage</value>
+</row>
+<row id="234" trl="Y">
+<value column="Name" original="Expense Type">費用タイプ</value>
+<value column="Description" original="Maintain Expense Report Types">Maintain Expense Report Types</value>
+<value column="Help" original="">Mantiene diferentes tipos de informe de gastos</value>
+</row>
+<row id="235" trl="Y">
+<value column="Name" original="Expense Report">経費報告書</value>
+<value column="Description" original="Time and Expense Report">Time and Expense Report</value>
+<value column="Help" original="The time and expense report allows you to capture time spent on a project, billable time and to claim expenses.">The time and expense report allows you to capture time spent on a project, billable time and to claim expenses.</value>
+</row>
+<row id="236" trl="Y">
+<value column="Name" original="Resource">リソース</value>
+<value column="Description" original="Maintain Resources">Maintain Resources</value>
+<value column="Help" original="Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.</value>
+</row>
+<row id="237" trl="Y">
+<value column="Name" original="Resource Type">リソースタイプ</value>
+<value column="Description" original="Maintain Resource Types">Maintain Resource Types</value>
+<value column="Help" original="Maintain Resource types and their principal availability.">Maintain Resource types and their principal availability.</value>
+</row>
+<row id="238" trl="Y">
+<value column="Name" original="Print Color">印刷色</value>
+<value column="Description" original="Maintain Print Color">Maintain Print Color</value>
+<value column="Help" original="Colors used for printing">Colors used for printing</value>
+</row>
+<row id="239" trl="Y">
+<value column="Name" original="Print Font">印刷フォント</value>
+<value column="Description" original="Maintain Print Font">Maintain Print Font</value>
+<value column="Help" original="Font used for printing">Font used for printing</value>
+</row>
+<row id="240" trl="Y">
+<value column="Name" original="Print Format">印刷フォーマット</value>
+<value column="Description" original="Maintain Print Format">Maintain Print Format</value>
+<value column="Help" original="The print format determines how data is rendered for print.">The print format determines how data is rendered for print.</value>
+</row>
+<row id="241" trl="Y">
+<value column="Name" original="Print Paper">印刷</value>
+<value column="Description" original="Maintain Print Paper">Maintain Print Paper</value>
+<value column="Help" original="Printer Paper Size, Orientation and Margins">Printer Paper Size, Orientation and Margins</value>
+</row>
+<row id="242" trl="Y">
+<value column="Name" original="Expenses (to be invoiced)">費用(請求する)</value>
+<value column="Description" original="View expenses and charges not invoiced to customers">View expenses and charges not invoiced to customers</value>
+<value column="Help" original="Before invoicing to customers, check the expense lines to be invoiced">Before invoicing to customers, check the expense lines to be invoiced</value>
+</row>
+<row id="243" trl="Y">
+<value column="Name" original="Print Table Format">印刷テーブルフォーマット</value>
+<value column="Description" original="Define Report Table Format">Define Report Table Format</value>
+<value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. Please note that the Report Table FOrmat is cached to improve performance.">The Print Table Format lets you define how table header, etc. is printed. Please note that the Report Table FOrmat is cached to improve performance.</value>
+</row>
+<row id="244" trl="Y">
+<value column="Name" original="Request Type">要求タイプ</value>
+<value column="Description" original="Maintain Request Types">Maintain Request Types</value>
+<value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.</value>
+</row>
+<row id="245" trl="Y">
+<value column="Name" original="Interest Area">関心地域</value>
+<value column="Description" original="Interest Area or Topic">Interest Area or Topic</value>
+<value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.</value>
+</row>
+<row id="246" trl="Y">
+<value column="Name" original="System">システム</value>
+<value column="Description" original="System Definition">System Definition</value>
+<value column="Help" original="Common System Definition - Only one Record - Do not add additional records.">Common System Definition - Only one Record - Do not add additional records.</value>
+</row>
+<row id="247" trl="Y">
+<value column="Name" original="Import Product">製品のインポート</value>
+<value column="Description" original="Import Products">Import Products</value>
+<value column="Help" original="The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+</row>
+<row id="248" trl="Y">
+<value column="Name" original="Import Account">勘定科目のインポート</value>
+<value column="Description" original="Import Natural Account Values">Import Natural Account Values</value>
+<value column="Help" original="The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+</row>
+<row id="249" trl="Y">
+<value column="Name" original="Import Report Line Set">レポート詳細セットのインポート</value>
+<value column="Description" original="Import Report Line Sets">Import Report Line Sets</value>
+<value column="Help" original="The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+</row>
+<row id="250" trl="Y">
+<value column="Name" original="System Translation Check">システム翻訳チェック</value>
+<value column="Description" original="Check System Language Translations">Check System Language Translations</value>
+<value column="Help" original="Verify your language translations for selected entities. You should use Translation Export / Import for effective translation. This window allows you to check the translation of the main translation entities.">Verify your language translations for selected entities. You should use Translation Export / Import for effective translation. This window allows you to check the translation of the main translation entities.</value>
+</row>
+<row id="251" trl="Y">
+<value column="Name" original="Asset">資産</value>
+<value column="Description" original="Asset used internally or by customers">Asset used internally or by customers</value>
+<value column="Help" original="An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.">An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.</value>
+</row>
+<row id="252" trl="Y">
+<value column="Name" original="Asset Group">資産グループ</value>
+<value column="Description" original="Group of Assets">Group of Assets</value>
+<value column="Help" original="The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.">The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.</value>
+</row>
+<row id="253" trl="Y">
+<value column="Name" original="Training">トレーニング</value>
+<value column="Description" original="Repeated Training">Repeated Training</value>
+<value column="Help" original="The training may have multiple actual classes">The training may have multiple actual classes</value>
+</row>
+<row id="254" trl="Y">
+<value column="Name" original="Expenses (not reimbursed)">費用(還付されない)</value>
+<value column="Description" original="View expenses and charges not reimbursed">View expenses and charges not reimbursed</value>
+<value column="Help" original="Before reimbursing expenses, check the open expense items">Before reimbursing expenses, check the open expense items</value>
+</row>
+<row id="255" trl="Y">
+<value column="Name" original="Accounting Fact Balances">会計事実貸借</value>
+<value column="Description" original="Query Accounting Daily Balances">Query Accounting Daily Balances</value>
+<value column="Help" original="Query daily account balances">Query daily account balances</value>
+</row>
+<row id="256" trl="Y">
+<value column="Name" original="Attribute Set">属性セット</value>
+<value column="Description" original="Maintain Product Attribute Set">Maintain Product Attribute Set</value>
+<value column="Help" original="Define Product Attribute Sets to add additional attributes and values to the product. You need to define a Attribute Set if you want to enable Serial and Lot Number tracking.">Define Product Attribute Sets to add additional attributes and values to the product. You need to define a Attribute Set if you want to enable Serial and Lot Number tracking.</value>
+</row>
+<row id="257" trl="Y">
+<value column="Name" original="Lot">ロット</value>
+<value column="Description" original="Product Lot Definition">Product Lot Definition</value>
+<value column="Help" original="Maintain the individual Lot of a Product">Maintain the individual Lot of a Product</value>
+</row>
+<row id="258" trl="Y">
+<value column="Name" original="Lot Control">ロット管理</value>
+<value column="Description" original="Product Lot Control">Product Lot Control</value>
+<value column="Help" original="Definition to create Lot numbers for Products">Definition to create Lot numbers for Products</value>
+</row>
+<row id="259" trl="Y">
+<value column="Name" original="Serial No Control">連続番号管理</value>
+<value column="Description" original="Product Serial Number Control">Product Serial Number Control</value>
+<value column="Help" original="Definition to create Serial numbers for Products">Definition to create Serial numbers for Products</value>
+</row>
+<row id="260" trl="Y">
+<value column="Name" original="Attribute">属性</value>
+<value column="Description" original="Product Attribute">Product Attribute</value>
+<value column="Help" original="Product Attribute like Color, Size, etc.">Product Attribute like Color, Size, etc.</value>
+</row>
+<row id="261" trl="Y">
+<value column="Name" original="Attribute Search">属性検索</value>
+<value column="Description" original="Common Search Attribute ">Common Search Attribute </value>
+<value column="Help" original="Attributes are specific to a Product Attribute Set (e.g. Size for T-Shirts: S,M,L). If you have multiple attributes and want to search under a common sttribute, you define a search sttribute. Example: have one Size search attribute combining the values of all different sizes (Size for Dress Shirt  XL,L,M,S,XS). The Attribute Search allows you to have all values available for selection.  This eases the maintenance of the individual product attribute.">Attributes are specific to a Product Attribute Set (e.g. Size for T-Shirts: S,M,L). If you have multiple attributes and want to search under a common sttribute, you define a search sttribute. Example: have one Size search attribute combining the values of all different sizes (Size for Dress Shirt  XL,L,M,S,XS). The Attribute Search allows you to have all values available for selection.  This eases the maintenance of the individual product attribute.</value>
+</row>
+<row id="262" trl="Y">
+<value column="Name" original="Expense Invoice (Alpha)">費用請求書(アルファ版)</value>
+<value column="Description" original="Payables expense invoices - This is Alpha Functionality">Payables expense invoices - This is Alpha Functionality</value>
+<value column="Help" original="Enter expense invoices from your vendors">Enter expense invoices from your vendors</value>
+</row>
+<row id="263" trl="Y">
+<value column="Name" original="Print Label">印刷ラベル</value>
+<value column="Description" original="Print Label Format">Print Label Format</value>
+<value column="Help" original="Maintain Format to print Labels">Maintain Format to print Labels</value>
+</row>
+<row id="264" trl="Y">
+<value column="Name" original="Session Audit">セッション監査</value>
+<value column="Description" original="Audit of User Sessions">Audit of User Sessions</value>
+<value column="Help" original="History of Online or Web Sessions">History of Online or Web Sessions</value>
+</row>
+<row id="265" trl="Y">
+<value column="Name" original="Project Type">プロジェクトタイプ</value>
+<value column="Description" original="Maintain Project Type and Phase">Maintain Project Type and Phase</value>
+<value column="Help" original="Maintain Project Types and their Phases with standard performance information">Maintain Project Types and their Phases with standard performance information</value>
+</row>
+<row id="266" trl="Y">
+<value column="Name" original="Recurring">再帰</value>
+<value column="Description" original="Recurring Document">Recurring Document</value>
+<value column="Help" original="Create new documents based on existing one">Create new documents based on existing one</value>
+</row>
+<row id="267" trl="Y">
+<value column="Name" original="Import Inventory">在庫のインポート</value>
+<value column="Description" original="Import Inventory Transactions">Import Inventory Transactions</value>
+<value column="Help" original="Validate and Import Inventory Transactions">Validate and Import Inventory Transactions</value>
+</row>
+<row id="268" trl="Y">
+<value column="Name" original="Role Data Access">役割のデータ・アクセス</value>
+<value column="Description" original="Maintain Data Access Rules">Maintain Data Access Rules</value>
+<value column="Help" original="Maintain Data Access Roles of Roles/Responsibilties.&#10;Note that access information is cached and requires re-login or reset of cache.">Maintain Data Access Roles of Roles/Responsibilties.
+Note that access information is cached and requires re-login or reset of cache.</value>
+</row>
+<row id="269" trl="Y">
+<value column="Name" original="Advertisement">広告</value>
+<value column="Description" original="Web Advertisement">Web Advertisement</value>
+<value column="Help" original="Maintain Advertisements on the Web">Maintain Advertisements on the Web</value>
+</row>
+<row id="270" trl="Y">
+<value column="Name" original="Change Audit">変更監査</value>
+<value column="Description" original="Audit of data changes">Audit of data changes</value>
+<value column="Help" original="Log of data changes">Log of data changes</value>
+</row>
+<row id="271" trl="Y">
+<value column="Name" original="Cost Type">原価タイプ</value>
+<value column="Description" original="Maintain Cost Types">Maintain Cost Types</value>
+<value column="Help" original="You can define multiple cost types. A cost type selected in an Accounting Schema is used for accounting.">You can define multiple cost types. A cost type selected in an Accounting Schema is used for accounting.</value>
+</row>
+<row id="272" trl="Y">
+<value column="Name" original="Time Type">時間タイプ</value>
+<value column="Description" original="Maintain Time Recording Type">Maintain Time Recording Type</value>
+<value column="Help" original="Maintain different types of time for reporting">Maintain different types of time for reporting</value>
+</row>
+<row id="273" trl="Y">
+<value column="Name" original="Click">クリック</value>
+<value column="Description" original="Maintain Web Click">Maintain Web Click</value>
+<value column="Help" original="Web Clicks allow you to track number of clicks.  Example:&#10;&amp;lt;a href=&quot;http://www.adempiere.com/wstore/click?http://www.adempiere.de&quot; target=&quot;_blank&quot;&amp;gt;&#10;where &quot;http://www.adempiere.com/wstore/click&quot; is your side and &quot;http://www.adempiere.de&quot; is the target page.&#10;If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.&#10;">Web Clicks allow you to track number of clicks.  Example:
+&amp;lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&amp;gt;
+where "http://www.adempiere.com/wstore/click" is your side and "http://www.adempiere.de" is the target page.
+If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.
+</value>
+</row>
+<row id="274" trl="Y">
+<value column="Name" original="Counter">カウンタ</value>
+<value column="Description" original="Web Counter">Web Counter</value>
+<value column="Help" original="A web counter maintains how often a page or item was displayed.  Add a call to&#10;http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)&#10;">A web counter maintains how often a page or item was displayed.  Add a call to
+http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
+</value>
+</row>
+<row id="275" trl="Y">
+<value column="Name" original="Invoice Payment Schedule">請求書支払いスケジュール</value>
+<value column="Description" original="Maintain Invoice Payment Schedule">Maintain Invoice Payment Schedule</value>
+<value column="Help" original="Maintain Payment Schedule of unpaid invoices">Maintain Payment Schedule of unpaid invoices</value>
+</row>
+<row id="276" trl="Y">
+<value column="Name" original="Alert">警告</value>
+<value column="Description" original="Adempiere Alert">Adempiere Alert</value>
+<value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
+</row>
+<row id="277" trl="Y">
+<value column="Name" original="Import Bank Statement">銀行取引明細書のインポート</value>
+<value column="Description" original="Import Bank Statements">Import Bank Statements</value>
+<value column="Help" original=""/>
+</row>
+<row id="278" trl="Y">
+<value column="Name" original="Import GL Journal">総勘定元帳のインポート</value>
+<value column="Description" original="Import General Ledger Journals">Import General Ledger Journals</value>
+<value column="Help" original="You way want to check the balance of the import with &quot;Validate Only&quot; before importing. &#10;Unbalanced Journals are imported; the handling is based on your settings for the posting process. The optional balance check checks the entire import, not individual batches and journals.">You way want to check the balance of the import with "Validate Only" before importing. 
+Unbalanced Journals are imported; the handling is based on your settings for the posting process. The optional balance check checks the entire import, not individual batches and journals.</value>
+</row>
+<row id="279" trl="Y">
+<value column="Name" original="Import Invoice">請求書のインポート</value>
+<value column="Description" original="Import Invoices">Import Invoices</value>
+<value column="Help" original="Import invoiced loaded">Import invoiced loaded</value>
+</row>
+<row id="280" trl="Y">
+<value column="Name" original="Import Payment">支払いのインポート</value>
+<value column="Description" original="Import Payments">Import Payments</value>
+<value column="Help" original=""/>
+</row>
+<row id="281" trl="Y">
+<value column="Name" original="Import Order">注文のインポート</value>
+<value column="Description" original="Import Orders">Import Orders</value>
+<value column="Help" original="Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for &quot;don't know&quot;.&#10;In general, selection boxes are not selected if the value is not &quot;Y&quot; (i.e. could be null or any other value). All tests are made on &quot;Y&quot; or &quot;not Y&quot; - i.e. NULL values are not &quot;not Y&quot;, but NULL (don't know) - see SQL Language introductions. ">Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for "don't know".
+In general, selection boxes are not selected if the value is not "Y" (i.e. could be null or any other value). All tests are made on "Y" or "not Y" - i.e. NULL values are not "not Y", but NULL (don't know) - see SQL Language introductions. </value>
+</row>
+<row id="282" trl="Y">
+<value column="Name" original="Freight Category">貨物カテゴリ</value>
+<value column="Description" original="Maintain Freight Categories">Maintain Freight Categories</value>
+<value column="Help" original="Freight Categories are used to calculate the Freight for the Shipper selected">Freight Categories are used to calculate the Freight for the Shipper selected</value>
+</row>
+<row id="283" trl="Y">
+<value column="Name" original="Accounting Dimensions">会計次元</value>
+<value column="Description" original="Maintain Non-Account Dimension Trees">Maintain Non-Account Dimension Trees</value>
+<value column="Help" original="Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!&#10;">Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!
+</value>
+</row>
+<row id="284" trl="Y">
+<value column="Name" original="Replication">複製</value>
+<value column="Description" original="Maintain Data Replication Targets">Maintain Data Replication Targets</value>
+<value column="Help" original="Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;&#10;Before(!) entering transactions, Start the Replication Run to set up the remote system.">Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;
+Before(!) entering transactions, Start the Replication Run to set up the remote system.</value>
+</row>
+<row id="285" trl="Y">
+<value column="Name" original="Replication Strategy">複製戦略</value>
+<value column="Description" original="Maintain Data Replication Strategy">Maintain Data Replication Strategy</value>
+<value column="Help" original="The Data Replication Strategy determines which tables and how they are replicated. Note that the migration does not syncronize Application Dictionary items.">The Data Replication Strategy determines which tables and how they are replicated. Note that the migration does not syncronize Application Dictionary items.</value>
+</row>
+<row id="286" trl="Y">
+<value column="Name" original="Project (Lines/Issues)">プロジェクト(注文します)</value>
+<value column="Description" original="Maintain Sales Order and Work Order Details">Maintain Sales Order and Work Order Details</value>
+<value column="Help" original="The Project Window is used to maintain details of Projects Lines and Issues accross Phases/Tasks">The Project Window is used to maintain details of Projects Lines and Issues accross Phases/Tasks</value>
+</row>
+<row id="287" trl="Y">
+<value column="Name" original="Knowledge Category">知識カテゴリ</value>
+<value column="Description" original="Maintain Knoweledge Categories and Values">Maintain Knoweledge Categories and Values</value>
+<value column="Help" original="Set up knowledge categories and values as a search aid. Examples are Release Version, Product Area, etc. Knowledge Category values act like keyworks.">Set up knowledge categories and values as a search aid. Examples are Release Version, Product Area, etc. Knowledge Category values act like keyworks.</value>
+</row>
+<row id="288" trl="Y">
+<value column="Name" original="Knowledge Base">知識ベース</value>
+<value column="Description" original="Maintain Knowledge Base">Maintain Knowledge Base</value>
+<value column="Help" original="Maintain Type, Topics, Entries and theit Comments, Categories, Related Entries">Maintain Type, Topics, Entries and theit Comments, Categories, Related Entries</value>
+</row>
+<row id="289" trl="Y">
+<value column="Name" original="Knowledge Source">知識ソース</value>
+<value column="Description" original="Source of Knowledge Entries">Source of Knowledge Entries</value>
+<value column="Help" original="The Source of a Knowlegde Entry is a pointer to the originating system. The Knowledge Entry has an additional entry (Description URL)  for more detailed info.">The Source of a Knowlegde Entry is a pointer to the originating system. The Knowledge Entry has an additional entry (Description URL)  for more detailed info.</value>
+</row>
+<row id="290" trl="Y">
+<value column="Name" original="Knowledge Synonym">知識同義語</value>
+<value column="Description" original="Knowlege Keyword Synonym">Knowlege Keyword Synonym</value>
+<value column="Help" original="Search Synonyms for Knowledge Keywords; Example: Product = Item">Search Synonyms for Knowledge Keywords; Example: Product = Item</value>
+</row>
+<row id="291" trl="Y">
+<value column="Name" original="Business Partner Info">ビジネスパートナー情報</value>
+<value column="Description" original="Document Information of Business Partners">Document Information of Business Partners</value>
+<value column="Help" original=""/>
+</row>
+<row id="292" trl="Y">
+<value column="Name" original="Label Printer">ラベルプリンタ</value>
+<value column="Description" original="Maintain Label Printer Definition">Maintain Label Printer Definition</value>
+<value column="Help" original=""/>
+</row>
+<row id="293" trl="Y">
+<value column="Name" original="Sales Rep Info">短倍担当者情報</value>
+<value column="Description" original="Company Agent (Sales Rep) Information">Company Agent (Sales Rep) Information</value>
+<value column="Help" original="This window allows you to view Company agent related information">This window allows you to view Company agent related information</value>
+</row>
+<row id="294" trl="Y">
+<value column="Name" original="UnPosted Documents">未仕訳ドキュメント</value>
+<value column="Description" original="Unposted Documents">Unposted Documents</value>
+<value column="Help" original="View unposted documents">View unposted documents</value>
+</row>
+<row id="295" trl="Y">
+<value column="Name" original="Currency Type">通貨タイプ</value>
+<value column="Description" original="Maintain Currency Conversion Rate Types">Maintain Currency Conversion Rate Types</value>
+<value column="Help" original="The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</value>
+</row>
+<row id="296" trl="Y">
+<value column="Name" original="Import Currency Rate">通貨率のインポート</value>
+<value column="Description" original="Import Currency Conversion Rates">Import Currency Conversion Rates</value>
+<value column="Help" original="The rates are imported after validation of currencies and conversion rate type as well as rates. The multiply rate is used. If a reciprocal rate is to be created, the divide rate is used. ">The rates are imported after validation of currencies and conversion rate type as well as rates. The multiply rate is used. If a reciprocal rate is to be created, the divide rate is used. </value>
+</row>
+<row id="297" trl="Y">
+<value column="Name" original="Workflow Process">作業フロープロセス</value>
+<value column="Description" original="Monitor workflow processes">Monitor workflow processes</value>
+<value column="Help" original="View and Maintain Workflow Process Instance Information">View and Maintain Workflow Process Instance Information</value>
+</row>
+<row id="298" trl="Y">
+<value column="Name" original="Workflow Activities (all)">作業フロー活動(すべて)</value>
+<value column="Description" original="Monitor all Workflow activities">Monitor all Workflow activities</value>
+<value column="Help" original="Maintain all Workflow activities">Maintain all Workflow activities</value>
+</row>
+<row id="299" trl="Y">
+<value column="Name" original="Workflow Responsible">作業フロー責任</value>
+<value column="Description" original="Responsible for Workflow Execution">Responsible for Workflow Execution</value>
+<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+</row>
+<row id="300" trl="Y">
+<value column="Name" original="Registration Attributes">登録属性</value>
+<value column="Description" original="Asset Registration Attributes">Asset Registration Attributes</value>
+<value column="Help" original="Define the individual values for the Asset Registration">Define the individual values for the Asset Registration</value>
+</row>
+<row id="301" trl="Y">
+<value column="Name" original="Registration">登録</value>
+<value column="Description" original="User Asset Registration">User Asset Registration</value>
+<value column="Help" original="User Registration of an Asset">User Registration of an Asset</value>
+</row>
+<row id="302" trl="Y">
+<value column="Name" original="Bank Statement Matcher">銀行取引明細書の組み合わせ方法</value>
+<value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments</value>
+<value column="Help" original="An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements">An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements</value>
+</row>
+<row id="303" trl="Y">
+<value column="Name" original="Payment Batch">支払いバッチ</value>
+<value column="Description" original="Process Payment Patches for EFT">Process Payment Patches for EFT</value>
+<value column="Help" original="Electronic Fund Transfer Payment Batch.">Electronic Fund Transfer Payment Batch.</value>
+</row>
+<row id="304" trl="Y">
+<value column="Name" original="Organization Type">組織タイプ</value>
+<value column="Description" original="Maintain Organization Types">Maintain Organization Types</value>
+<value column="Help" original="Organization Type allows you to categorize your organizations for reporting purposes">Organization Type allows you to categorize your organizations for reporting purposes</value>
+</row>
+<row id="305" trl="Y">
+<value column="Name" original="Scheduler">スケジューラ</value>
+<value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
+<value column="Help" original="Schedule processes to be executed asynchronously">Schedule processes to be executed asynchronously</value>
+</row>
+<row id="306" trl="Y">
+<value column="Name" original="Workflow Processor">作業フロープロセッサ</value>
+<value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
+<value column="Help" original="Workflow Processor Server Parameters">Workflow Processor Server Parameters</value>
+</row>
+<row id="307" trl="Y">
+<value column="Name" original="Bid Topic">トピックへ入札</value>
+<value column="Description" original="Topic with Bids and Offers">Topic with Bids and Offers</value>
+<value column="Help" original="Manage Topics and veiw Bids and Offers">Manage Topics and veiw Bids and Offers</value>
+</row>
+<row id="308" trl="Y">
+<value column="Name" original="Auction Topic Type">オークションのトピックタイプ</value>
+<value column="Description" original="Maintain Auction Topic Type and Categories">Maintain Auction Topic Type and Categories</value>
+<value column="Help" original="The Auction Topic Type determines what kind of auction is used for a particular area">The Auction Topic Type determines what kind of auction is used for a particular area</value>
+</row>
+<row id="309" trl="Y">
+<value column="Name" original="Auction Seller">オークションの売り手</value>
+<value column="Description" original="Maintain Auction Seller Information">Maintain Auction Seller Information</value>
+<value column="Help" original="A seller is a User in the system participating in Auctions">A seller is a User in the system participating in Auctions</value>
+</row>
+<row id="310" trl="Y">
+<value column="Name" original="Auction Buyer">オークションの購入者</value>
+<value column="Description" original="Maintain Auction Buyer Information">Maintain Auction Buyer Information</value>
+<value column="Help" original="A buyer is a User in the system participating in Auctions">A buyer is a User in the system participating in Auctions</value>
+</row>
+<row id="311" trl="Y">
+<value column="Name" original="Accounting Processor">会計プロセッサ</value>
+<value column="Description" original="Maintain Accounting Processor and Logs">Maintain Accounting Processor and Logs</value>
+<value column="Help" original="Accounting Processor/Server Parameters and Logs">Accounting Processor/Server Parameters and Logs</value>
+</row>
+<row id="312" trl="Y">
+<value column="Name" original="Alert Processor">警告プロセッサ</value>
+<value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Maintain Alert Processor/Server Parameter and Logs</value>
+<value column="Help" original="Alert Processor/Server Parameter">Alert Processor/Server Parameter</value>
+</row>
+<row id="313" trl="Y">
+<value column="Name" original="Partner Relation">パートナー関係</value>
+<value column="Description" original="Maintain Business Partner Relations">Maintain Business Partner Relations</value>
+<value column="Help" original="Business Partner Relation allow to maintain Third Party Relationship rules: who receives invoices for shipments or pays for invoices.">Business Partner Relation allow to maintain Third Party Relationship rules: who receives invoices for shipments or pays for invoices.</value>
+</row>
+<row id="314" trl="Y">
+<value column="Name" original="RfQ Topic">見積要求話題</value>
+<value column="Description" original="Maintain RfQ Topics and Subscribers">Maintain RfQ Topics and Subscribers</value>
+<value column="Help" original="A Request for Quotation Topic allows you to maintain a subscriber list of potential Vendors to respond to RfQs">A Request for Quotation Topic allows you to maintain a subscriber list of potential Vendors to respond to RfQs</value>
+</row>
+<row id="315" trl="Y">
+<value column="Name" original="RfQ">見積要求</value>
+<value column="Description" original="Manage Request for Quotations">Manage Request for Quotations</value>
+<value column="Help" original="Request for Quotation to be sent out to vendors of a RfQ Topic. After Vendor selection, optionally create Sales Order or Quote for Customer as well as Purchase Order  for Vendor(s)">Request for Quotation to be sent out to vendors of a RfQ Topic. After Vendor selection, optionally create Sales Order or Quote for Customer as well as Purchase Order  for Vendor(s)</value>
+</row>
+<row id="316" trl="Y">
+<value column="Name" original="Subscription">購読</value>
+<value column="Description" original="Maintain Subscriptions and Deliveries">Maintain Subscriptions and Deliveries</value>
+<value column="Help" original="Subscription of a Business Partner of a Product to renew">Subscription of a Business Partner of a Product to renew</value>
+</row>
+<row id="317" trl="Y">
+<value column="Name" original="Subscription Type">購読タイプ</value>
+<value column="Description" original="Maintain Subscription Types">Maintain Subscription Types</value>
+<value column="Help" original="Subscription type and renewal frequency">Subscription type and renewal frequency</value>
+</row>
+<row id="318" trl="Y">
+<value column="Name" original="Distribution List">発送先リスト</value>
+<value column="Description" original="Maintain Distribution Lists">Maintain Distribution Lists</value>
+<value column="Help" original="Distribution list contain business partners and a distribution quantity or ratio for creating Orders">Distribution list contain business partners and a distribution quantity or ratio for creating Orders</value>
+</row>
+<row id="319" trl="Y">
+<value column="Name" original="Package">パッケージ</value>
+<value column="Description" original="Manage Shipment Packages">Manage Shipment Packages</value>
+<value column="Help" original="A Shipment can have one or more Packages.  A Package may be tracked.">A Shipment can have one or more Packages.  A Package may be tracked.</value>
+</row>
+<row id="320" trl="Y">
+<value column="Name" original="RMA">材料返却承認</value>
+<value column="Description" original="Manage Return Material Authorization">Manage Return Material Authorization</value>
+<value column="Help" original="A Return Material Authorization may be required to accept returns and to create Credit Memos">A Return Material Authorization may be required to accept returns and to create Credit Memos</value>
+</row>
+<row id="321" trl="Y">
+<value column="Name" original="Dunning Run">催促実行</value>
+<value column="Description" original="Manage Dunning Runs">Manage Dunning Runs</value>
+<value column="Help" original="Manage Dunning Runs">Manage Dunning Runs</value>
+</row>
+<row id="322" trl="Y">
+<value column="Name" original="Requisition">要求</value>
+<value column="Description" original="Material Requisition">Material Requisition</value>
+<value column="Help" original="Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.">Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.</value>
+</row>
+<row id="323" trl="Y">
+<value column="Name" original="GL Distribution">総勘定元帳配分</value>
+<value column="Description" original="General Ledger Distribution">General Ledger Distribution</value>
+<value column="Help" original="If the account combination criteria of the Distribution is met, the posting to the account combination is replaced by the account combinations of the distribution lines.  The distribution is a one-step operation based on the percentage of the lines.">If the account combination criteria of the Distribution is met, the posting to the account combination is replaced by the account combinations of the distribution lines.  The distribution is a one-step operation based on the percentage of the lines.</value>
+</row>
+<row id="324" trl="Y">
+<value column="Name" original="RfQ Response">見積要求応答</value>
+<value column="Description" original="Manage RfQ Responses">Manage RfQ Responses</value>
+<value column="Help" original=""/>
+</row>
+<row id="325" trl="Y">
+<value column="Name" original="Distribution Run">分配実行</value>
+<value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Distribution Run create Orders to distribute products to a selected list of partners</value>
+<value column="Help" original="Distribution Run defines how Orders are created based on Distribution Lists">Distribution Run defines how Orders are created based on Distribution Lists</value>
+</row>
+<row id="326" trl="Y">
+<value column="Name" original="Access Audit">アクセス監査</value>
+<value column="Description" original="Audit of Access to data or resources">Audit of Access to data or resources</value>
+<value column="Help" original="Logging needs to be explicitly enabled / written.">Logging needs to be explicitly enabled / written.</value>
+</row>
+<row id="327" trl="Y">
+<value column="Name" original="Counter Document">カウンタドキュメント</value>
+<value column="Description" original="Maintain Counter Document Types">Maintain Counter Document Types</value>
+<value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a "Standard Order" creates a "Standard PO". 
+If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.
+If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
+</row>
+<row id="328" trl="Y">
+<value column="Name" original="Forecast">予測</value>
+<value column="Description" original="Maintain Material Forecast">Maintain Material Forecast</value>
+<value column="Help" original="Material Forecast">Material Forecast</value>
+</row>
+<row id="329" trl="Y">
+<value column="Name" original="Demand">要求</value>
+<value column="Description" original="Maintain Material Demand">Maintain Material Demand</value>
+<value column="Help" original="Material Demand can be based on Forecast, Requisitions, Open Orders">Material Demand can be based on Forecast, Requisitions, Open Orders</value>
+</row>
+<row id="330" trl="Y">
+<value column="Name" original="Ship/Receipt Confirm">出荷/受領確認</value>
+<value column="Description" original="Material Shipment or Receipt Confirmation">Material Shipment or Receipt Confirmation</value>
+<value column="Help" original="Confirmation of Shipment or Receipt - Created from the Shipment/Receipt">Confirmation of Shipment or Receipt - Created from the Shipment/Receipt</value>
+</row>
+<row id="331" trl="Y">
+<value column="Name" original="RMA Type">材料返還承認のタイプ</value>
+<value column="Description" original="Return Material Authorization Type">Return Material Authorization Type</value>
+<value column="Help" original="Maintain the types of RMA">Maintain the types of RMA</value>
+</row>
+<row id="332" trl="Y">
+<value column="Name" original="Process Audit">監査を処理</value>
+<value column="Description" original="Audit process use">Audit process use</value>
+<value column="Help" original="Process Instance Information">Process Instance Information</value>
+</row>
+<row id="333" trl="Y">
+<value column="Name" original="Move Confirmation">在庫移動確認</value>
+<value column="Description" original="Confirm Inventory Moves">Confirm Inventory Moves</value>
+<value column="Help" original="The document is automatically created when the document type of the movement indicates In Transit.. If there is a difference quantity, a Physical Inventory is created for the source (from) warehouse. If there is a scrapped quantity, a Physical Inventory is created for the target (to) warehouse.">The document is automatically created when the document type of the movement indicates In Transit.. If there is a difference quantity, a Physical Inventory is created for the source (from) warehouse. If there is a scrapped quantity, a Physical Inventory is created for the target (to) warehouse.</value>
+</row>
+<row id="334" trl="Y">
+<value column="Name" original="Import Confirmations">インポートの確認</value>
+<value column="Description" original="Import Receipt/Shipment Confirmation Lines">Import Receipt/Shipment Confirmation Lines</value>
+<value column="Help" original="Import Confirmation data of existing Receipt/Shipment Confirmations">Import Confirmation data of existing Receipt/Shipment Confirmations</value>
+</row>
+<row id="335" trl="Y">
+<value column="Name" original="SLA Criteria">SLA評価基準</value>
+<value column="Description" original="Service Level Agreement Criteria">Service Level Agreement Criteria</value>
+<value column="Help" original="Define a criteria to measure service level agreements (e.g. Quality, Delivery meets Promised date, ..)">Define a criteria to measure service level agreements (e.g. Quality, Delivery meets Promised date, ..)</value>
+</row>
+<row id="336" trl="Y">
+<value column="Name" original="SLA by Partner">パートナーによるSLA</value>
+<value column="Description" original="Service Level Agreement">Service Level Agreement</value>
+<value column="Help" original="Maintain Service Level Agreements for Business Partners">Maintain Service Level Agreements for Business Partners</value>
+</row>
+<row id="337" trl="Y">
+<value column="Name" original="Price List Schema">価格リストスキーマ</value>
+<value column="Description" original="Maintain Price List Schema">Maintain Price List Schema</value>
+<value column="Help" original="Price List schema defines calculation rules for price lists">Price List schema defines calculation rules for price lists</value>
+</row>
+<row id="338" trl="Y">
+<value column="Name" original="POS Terminal">POS端末</value>
+<value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal</value>
+<value column="Help" original="The POS Terminal defines the defaults and functions available for the POS Form">The POS Terminal defines the defaults and functions available for the POS Form</value>
+</row>
+<row id="339" trl="Y">
+<value column="Name" original="POS Key Layout">POSのキーレイアウト</value>
+<value column="Description" original="POS Function Key Layout">POS Function Key Layout</value>
+<value column="Help" original=""/>
+</row>
+<row id="340" trl="Y">
+<value column="Name" original="System Registration">システム登録</value>
+<value column="Description" original="Register your System">Register your System</value>
+<value column="Help" original="System Registration - Only one Record - Do not add additional records.">System Registration - Only one Record - Do not add additional records.</value>
+</row>
+<row id="341" trl="Y">
+<value column="Name" original="Internal Use Inventory">内部利用在庫</value>
+<value column="Description" original="Enter Internal Use of Inventory">Enter Internal Use of Inventory</value>
+<value column="Help" original="The Internal Use of Inventory Window allows enter the quantity of used products.">The Internal Use of Inventory Window allows enter the quantity of used products.</value>
+</row>
+<row id="342" trl="Y">
+<value column="Name" original="Invoice Batch">請求書バッチ</value>
+<value column="Description" original="Expense Invoice Batch">Expense Invoice Batch</value>
+<value column="Help" original="Enter expense invoices in batch.  After creating the lines, the actual invoices are created when processing the batch">Enter expense invoices in batch.  After creating the lines, the actual invoices are created when processing the batch</value>
+</row>
+<row id="343" trl="Y">
+<value column="Name" original="Cost Element">原価要素</value>
+<value column="Description" original="Maintain Product Cost Element">Maintain Product Cost Element</value>
+<value column="Help" original="You can define your own product cost elements.">You can define your own product cost elements.</value>
+</row>
+<row id="344" trl="Y">
+<value column="Name" original="Product Costs">製品コスト</value>
+<value column="Description" original="Maintain Product Costs">Maintain Product Costs</value>
+<value column="Help" original="Maintain Product Cost Elements">Maintain Product Cost Elements</value>
+</row>
+<row id="345" trl="Y">
+<value column="Name" original="Request Category">要求カテゴリ</value>
+<value column="Description" original="Maintain Request Category">Maintain Request Category</value>
+<value column="Help" original="Category or Topic of the Request ">Category or Topic of the Request </value>
+</row>
+<row id="346" trl="Y">
+<value column="Name" original="Request Group">要求グループ</value>
+<value column="Description" original="Maintain Request Group">Maintain Request Group</value>
+<value column="Help" original="Group of requests (e.g. version numbers, responsibility, ...)">Group of requests (e.g. version numbers, responsibility, ...)</value>
+</row>
+<row id="347" trl="Y">
+<value column="Name" original="Request Resolution">要求解決</value>
+<value column="Description" original="Maintain Request Resolutions">Maintain Request Resolutions</value>
+<value column="Help" original="Resolution status (e.g. Fixed, Rejected, ..)">Resolution status (e.g. Fixed, Rejected, ..)</value>
+</row>
+<row id="348" trl="Y">
+<value column="Name" original="Request Standard Response">要求標準応答</value>
+<value column="Description" original="Maintain Request Standard Response ">Maintain Request Standard Response </value>
+<value column="Help" original="Text blocks to be copied into request response text">Text blocks to be copied into request response text</value>
+</row>
+<row id="349" trl="Y">
+<value column="Name" original="Request Status">要求状態</value>
+<value column="Description" original="Maintain Request Status">Maintain Request Status</value>
+<value column="Help" original="Status if the request (open, closed, investigating, ..)">Status if the request (open, closed, investigating, ..)</value>
+</row>
+<row id="350" trl="Y">
+<value column="Name" original="Web Store">ウェブストア</value>
+<value column="Description" original="Define Web Store">Define Web Store</value>
+<value column="Help" original="Define the web store setup.  ">Define the web store setup.  </value>
+</row>
+<row id="351" trl="Y">
+<value column="Name" original="Position">役職</value>
+<value column="Description" original="Maintain Job Positions">Maintain Job Positions</value>
+<value column="Help" original="Maintain internal (employee) or external positions">Maintain internal (employee) or external positions</value>
+</row>
+<row id="352" trl="Y">
+<value column="Name" original="Position Category">役職カテゴリ</value>
+<value column="Description" original="Maintain Job Position Categories">Maintain Job Position Categories</value>
+<value column="Help" original=""/>
+</row>
+<row id="353" trl="Y">
+<value column="Name" original="Remuneration">報酬</value>
+<value column="Description" original="Maintain Remuneration">Maintain Remuneration</value>
+<value column="Help" original="Wages and Salaries">Wages and Salaries</value>
+</row>
+<row id="354" trl="Y">
+<value column="Name" original="Product BOM">製品部品構成表</value>
+<value column="Description" original="Maintain Product Bill of Materials">Maintain Product Bill of Materials</value>
+<value column="Help" original=""/>
+</row>
+<row id="355" trl="Y">
+<value column="Name" original="BOM Change Notice">部品構成表の変更通知</value>
+<value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Maintain Bill of Materials (Engineering) Change Notice (Version)</value>
+<value column="Help" original="Change notices can be linked to BOMs or be stand alone.">Change notices can be linked to BOMs or be stand alone.</value>
+</row>
+<row id="356" trl="Y">
+<value column="Name" original="Change Notice">変更通知</value>
+<value column="Description" original="Maintain (Engineering) Change Notice (Version)">Maintain (Engineering) Change Notice (Version)</value>
+<value column="Help" original="Stand-alone change notice - Change notices could also be directly linked to BOMs">Stand-alone change notice - Change notices could also be directly linked to BOMs</value>
+</row>
+<row id="358" trl="Y">
+<value column="Name" original="Attribute Set Instance">属性セットインスタンス</value>
+<value column="Description" original="View Attribute Set Instance detail and use">View Attribute Set Instance detail and use</value>
+<value column="Help" original=""/>
+</row>
+<row id="359" trl="Y">
+<value column="Name" original="Tax Declaration">税金申告</value>
+<value column="Description" original="Define the declaration to the tax authorities">Define the declaration to the tax authorities</value>
+<value column="Help" original="The tax declaration allows you to create supporting information and reconcile the documents with the accounting">The tax declaration allows you to create supporting information and reconcile the documents with the accounting</value>
+</row>
+<row id="360" trl="Y">
+<value column="Name" original="Reporting Hierarchy">報告の階層構造</value>
+<value column="Description" original="Define Reporting Hierarchy">Define Reporting Hierarchy</value>
+<value column="Help" original="Reporting Hierarchy allows you to select different Hierarchies/Trees for the report.&#10;Accounting Segments like Organization, Account, Product may have several hierarchies to accomodate different views on the business">Reporting Hierarchy allows you to select different Hierarchies/Trees for the report.
+Accounting Segments like Organization, Account, Product may have several hierarchies to accomodate different views on the business</value>
+</row>
+<row id="361" trl="Y">
+<value column="Name" original="Budget Control">予算管理</value>
+<value column="Description" original="Maintain Budget Controls">Maintain Budget Controls</value>
+<value column="Help" original="Budget Control allows you to restrict the use of expenditures, commitments (Purchase Orders) and reservations (Requisitions). If defined, you mey not be able to approve Requisitions, Purchse Orders, or AP Invoices.">Budget Control allows you to restrict the use of expenditures, commitments (Purchase Orders) and reservations (Requisitions). If defined, you mey not be able to approve Requisitions, Purchse Orders, or AP Invoices.</value>
+</row>
+<row id="362" trl="N">
+<value column="Name" original="GL Fund (Alpha)">総勘定元帳資金(アルファ版)</value>
+<value column="Description" original="Maintain Fund Controls">Maintain Fund Controls</value>
+<value column="Help" original="General Ledger Funds Control allows you to restrict the use of funds.  This is independent from budget control.">General Ledger Funds Control allows you to restrict the use of funds.  This is independent from budget control.</value>
+</row>
+<row id="363" trl="Y">
+<value column="Name" original="System Issue Report">システム問題レポート</value>
+<value column="Description" original="Automatically created or manually entered System Issue Reports">Automatically created or manually entered System Issue Reports</value>
+<value column="Help" original="System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.">System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.</value>
+</row>
+<row id="364" trl="Y">
+<value column="Name" original="Performance Color Schema">成績グラフの色スキーマ</value>
+<value column="Description" original="Maintain Performance Color Schema">Maintain Performance Color Schema</value>
+<value column="Help" original="Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).">Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).</value>
+</row>
+<row id="365" trl="Y">
+<value column="Name" original="Performance Benchmark">成績ベンチマーク</value>
+<value column="Description" original="Performance Benchmark">Performance Benchmark</value>
+<value column="Help" original="Data Series to compare internal performance with (e.g. stock price, ...)">Data Series to compare internal performance with (e.g. stock price, ...)</value>
+</row>
+<row id="366" trl="Y">
+<value column="Name" original="Performance Ratio">成績比率</value>
+<value column="Description" original="Maintain Performance Ratios">Maintain Performance Ratios</value>
+<value column="Help" original="Calculation instruction for a ratio">Calculation instruction for a ratio</value>
+</row>
+<row id="367" trl="Y">
+<value column="Name" original="Issue Recommendation">問題推薦</value>
+<value column="Description" original="Maintain Issue Recommendation">Maintain Issue Recommendation</value>
+<value column="Help" original=""/>
+</row>
+<row id="368" trl="Y">
+<value column="Name" original="Issue Status">問題状態</value>
+<value column="Description" original="Maintain Issue Status">Maintain Issue Status</value>
+<value column="Help" original="Status of an Issue">Status of an Issue</value>
+</row>
+<row id="369" trl="Y">
+<value column="Name" original="Known Issue">既知の問題</value>
+<value column="Description" original="Maintain Known Issue">Maintain Known Issue</value>
+<value column="Help" original=""/>
+</row>
+<row id="370" trl="Y">
+<value column="Name" original="Issue Project">問題プロジェクト</value>
+<value column="Description" original="Maintain Issue Management Project Links">Maintain Issue Management Project Links</value>
+<value column="Help" original="Maintain Issue Management Project Links - automatically generated.">Maintain Issue Management Project Links - automatically generated.</value>
+</row>
+<row id="371" trl="Y">
+<value column="Name" original="Issue User">問題報告ユーザー</value>
+<value column="Description" original="User who reported Issues">User who reported Issues</value>
+<value column="Help" original=""/>
+</row>
+<row id="372" trl="Y">
+<value column="Name" original="Issue System">問題システム</value>
+<value column="Description" original="Maintain Systems">Maintain Systems</value>
+<value column="Help" original=""/>
+</row>
+<row id="373" trl="N">
+<value column="Name" original="Web Project">ウェブプロジェクト</value>
+<value column="Description" original="Maintain Web Project (Content Management)">Maintain Web Project (Content Management)</value>
+<value column="Help" original="At the level of the web project you define the project itself, it's domains and media servers. Each project needs to have at least one domain and one media server.">At the level of the web project you define the project itself, it's domains and media servers. Each project needs to have at least one domain and one media server.</value>
+</row>
+<row id="374" trl="N">
+<value column="Name" original="Template">テンプレート</value>
+<value column="Description" original=""/>
+<value column="Help" original=""/>
+</row>
+<row id="375" trl="N">
+<value column="Name" original="Web Ad Management">ウェブ広告管理</value>
+<value column="Description" original="Content Management Ad Management defines the needed categories and items">Content Management Ad Management defines the needed categories and items</value>
+<value column="Help" original="Ad Management is used to create and manage advertisements in your conten management">Ad Management is used to create and manage advertisements in your conten management</value>
+</row>
+<row id="376" trl="N">
+<value column="Name" original="News Channel">ニュースチャネル</value>
+<value column="Description" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
+<value column="Help" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
+</row>
+<row id="377" trl="N">
+<value column="Name" original="View Chat">チャット表示</value>
+<value column="Description" original="View discussions / chats">View discussions / chats</value>
+<value column="Help" original="View chat / discussion threads">View chat / discussion threads</value>
+</row>
+<row id="379" trl="N">
+<value column="Name" original="Media Item">メディア項目</value>
+<value column="Description" original="Maintain Web Media">Maintain Web Media</value>
+<value column="Help" original="Maintain Content Management Media">Maintain Content Management Media</value>
+</row>
+<row id="380" trl="N">
+<value column="Name" original="Chat Type">チャットタイプ</value>
+<value column="Description" original="Maintain Chat Types">Maintain Chat Types</value>
+<value column="Help" original="Chat Types">Chat Types</value>
+</row>
+<row id="381" trl="N">
+<value column="Name" original="Entity Type">エンティティタイプ</value>
+<value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
+<value column="Help" original="The entity type determines the ownership of Application Dictionary entries.  The types &quot;Dictionary&quot; and &quot;Adempiere&quot; should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).</value>
+</row>
+<row id="383" trl="N">
+<value column="Name" original="Web Access">ウェブアクセス</value>
+<value column="Description" original="Maintain Web Access">Maintain Web Access</value>
+<value column="Help" original="Define access to collaboration management content.  You can assign the profile to a internal role or for external access to business partner group.">Define access to collaboration management content.  You can assign the profile to a internal role or for external access to business partner group.</value>
+</row>
+<row id="384" trl="N">
+<value column="Name" original="Web Broadcast Server">ウェブブロードキャストサーバー</value>
+<value column="Description" original="Maintain Web Broadcast Server">Maintain Web Broadcast Server</value>
+<value column="Help" original=""/>
+</row>
+<row id="385" trl="N">
+<value column="Name" original="Info Window">情報ウィンドウ</value>
+<value column="Description" original="Define Info and search/select Window">Define Info and search/select Window</value>
+<value column="Help" original="The Info window is used to search and select records as well as display information relevant to the selection.">The Info window is used to search and select records as well as display information relevant to the selection.</value>
+</row>
+<row id="386" trl="N">
+<value column="Name" original="Text Index">テキストインデックス</value>
+<value column="Description" original="Maintain Text Search Index">Maintain Text Search Index</value>
+<value column="Help" original="Text search index keyword and excerpt across documents">Text search index keyword and excerpt across documents</value>
+</row>
+<row id="387" trl="N">
+<value column="Name" original="Text Index Stop">テキストインデックス停止</value>
+<value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
+<value column="Help" original=""/>
+</row>
+<row id="388" trl="N">
+<value column="Name" original="Text Search Log">Text Search Log</value>
+<value column="Description" original="View Text Search Log">View Text Search Log</value>
+<value column="Help" original=""/>
+</row>
+<row id="389" trl="N">
+<value column="Name" original="LDAP Server">LDAP Server</value>
+<value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP Server to authenticate and authorize external systems based on Adempiere</value>
+<value column="Help" original="The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The &quot;o&quot; is the Client key and the optional &quot;ou&quot; is the Interest Area key.">The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The "o" is the Client key and the optional "ou" is the Interest Area key.</value>
+</row>
+<row id="50001" trl="N">
+<value column="Name" original="Packages Installed">Packages Installed</value>
+<value column="Description" original="List of packages installed">List of packages installed</value>
+<value column="Help" original=""/>
+</row>
+<row id="50002" trl="N">
+<value column="Name" original="Package Maintenance">Package Maintenance</value>
+<value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
+<value column="Help" original="Review package installation.  Also perform package rollback if required">Review package installation.  Also perform package rollback if required</value>
+</row>
+<row id="50003" trl="N">
+<value column="Name" original="PackOut - Create a package">PackOut - Create a package</value>
+<value column="Description" original="Package build Application">Package build Application</value>
+<value column="Help" original=""/>
+</row>
+<row id="50004" trl="N">
+<value column="Name" original="Common Package Details">Common Package Details</value>
+<value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
+<value column="Help" original="Create and maintain common package element details">Create and maintain common package element details</value>
+</row>
+<row id="50005" trl="N">
+<value column="Name" original="PackIn - Import a package">PackIn - Import a package</value>
+<value column="Description" original="Imports a package">Imports a package</value>
+<value column="Help" original="Imports a package previously created by PackOut">Imports a package previously created by PackOut</value>
+</row>
+</adempiereTrl>

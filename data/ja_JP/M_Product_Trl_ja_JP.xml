@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="M_Product">
+<row id="122" trl="N">
+	<value column="Name" original="Standard">標準</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="123" trl="N">
+	<value column="Name" original="Oak Tree">オークの木</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original="Oak Trees may grow quite a bit.">オークの木はかなり大きく育ちます。</value>
+</row>
+<row id="124" trl="N">
+	<value column="Name" original="Elm Tree">ニレ</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="125" trl="N">
+	<value column="Name" original="Grass Seed Container">草の実の容器</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="126" trl="N">
+	<value column="Name" original="Planting Service">植え付けサービス</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="127" trl="N">
+	<value column="Name" original="Rose Bush">ローズ・ブッシュ</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="128" trl="N">
+	<value column="Name" original="Azalea Bush">つつじ低木</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="129" trl="N">
+	<value column="Name" original="Holly Bush">ホリー・ブッシュ</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="130" trl="N">
+	<value column="Name" original="Plum Tree">梅</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="131" trl="N">
+	<value column="Name" original="Travel cost">旅行費用</value>
+	<value column="Description" original="Travel related costs">旅行関連の費用です。</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="132" trl="N">
+	<value column="Name" original="Mary Consultant">メアリコンサルタント</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="133" trl="N">
+	<value column="Name" original="Patio Chair">中庭いす</value>
+	<value column="Description" original="Nice Chair for outdoors">屋外用のナイスなイス</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="134" trl="N">
+	<value column="Name" original="Patio Table">中庭テーブル</value>
+	<value column="Description" original="Nice Table for outdoors">屋外で使ういいかんじのテーブル</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="135" trl="N">
+	<value column="Name" original="Patio Sun Screen">中庭用の日よけ</value>
+	<value column="Description" original="Protect from UV">紫外線から保護します。</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="136" trl="N">
+	<value column="Name" original="Fertilizer #50">肥料#50</value>
+	<value column="Description" original="50 # Bag of Lawn Fertilizer">50 芝生肥料の#バッグ</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="137" trl="N">
+	<value column="Name" original="Mulch 10#">根囲い10#</value>
+	<value column="Description" original="10# Bag of Mulch">10#根囲いのバッグ</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="138" trl="N">
+	<value column="Name" original="Hoe 4 ft">4足鍬</value>
+	<value column="Description" original="4 Foot Metal Hoe">4 足の金属くわ</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="139" trl="N">
+	<value column="Name" original="Rake Bamboo">熊手</value>
+	<value column="Description" original="4 Foot Bamboo Rake">4 足の熊手</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="140" trl="N">
+	<value column="Name" original="Rake Metal">傾斜金属</value>
+	<value column="Description" original="4 Foot Metal Rake">4 足の金属傾斜</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="141" trl="N">
+	<value column="Name" original="Weeder">草刈り</value>
+	<value column="Description" original="Hand Weeder">手作業の草刈り</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="142" trl="N">
+	<value column="Name" original="Transplanter">移植機</value>
+	<value column="Description" original="Hand Transplanter">手作業の移植機</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="143" trl="N">
+	<value column="Name" original="Grass Seeder">草の種まき機</value>
+	<value column="Description" original="Manual Grass Seeder">手動の草の種まき機</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="144" trl="N">
+	<value column="Name" original="Lawn Tiller">芝生植え付け</value>
+	<value column="Description" original="Manual Lawn Tiller">手動の芝生植え付け</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="145" trl="N">
+	<value column="Name" original="Patio Furniture Set">パティオの家具セット</value>
+	<value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">テーブル１、イス4、日よけ１</value>
+	<value column="DocumentNote" original="&#9;">&#9;</value>
+</row>
+<row id="146" trl="N">
+	<value column="Name" original="How To Plant">植物の植え方</value>
+	<value column="Description" original="Information on how to best to plant your future.">最良の植物を植える方法に関する情報です。</value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="147" trl="N">
+	<value column="Name" original="TShirt - Red Large">Tシャツ--赤大</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+<row id="148" trl="N">
+	<value column="Name" original="TShirt - Green Large">Tシャツ--緑大</value>
+	<value column="Description" original=""></value>
+	<value column="DocumentNote" original=""></value>
+</row>
+</adempiereTrl>

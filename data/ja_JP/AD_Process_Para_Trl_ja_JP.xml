@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_Process_Para">
+<row id="227" trl="Y">
+	<value column="Name" original="Delete existing Accounting Entries">既存の勘定科目を削除</value>
+	<value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">選択された勘定科目は削除されます! 危険な操作です!</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="233" trl="Y">
+	<value column="Name" original="Pricelist Version">価格リストバージョン</value>
+	<value column="Description" original="Only used if Price List is used to set future/standard cost price">価格リストが、将来/標準費用価格の設定に使われる場合にだけ、使用されます。</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="302" trl="Y">
+	<value column="Name" original="Overwrite Payment Rule">対象支払いルール</value>
+	<value column="Description" original="Overwrite how to pay the invoice">どう請求書を支払うかを設定します。</value>
+	<value column="Help" original="The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.">支払いルールは請求書支払いの方法を示します。</value>
+</row>
+<row id="315" trl="N">
+	<value column="Name" original="From User">ユーザからメール送信</value>
+	<value column="Description" original="Send EMail from user">ユーザからEMailを送ります。</value>
+	<value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">選択されたユーザからメールを送ります--もしくは、クライアントの要求Eメールアドレスからメールを送ります。</value>
+</row>
+<row id="452" trl="Y">
+	<value column="Name" original="Maintenance Mode">メンテナンスモード</value>
+	<value column="Description" original="Language Maintenance Mode">言語メンテナンスモード</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="467" trl="Y">
+	<value column="Name" original="Existing Organization">既存の組織</value>
+	<value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">利用者の中の組織的な実体です。新しい組織を作成したいなら空にしてください。</value>
+	<value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">組織はあなたのクライアントか法人の単位です--例えば店、部です。あなたは組織の間のデータを共有することができます。</value>
+</row>
+<row id="469" trl="Y">
+	<value column="Name" original="Limit Access to Role">役割(ロール)のアクセスを制限</value>
+	<value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">役割が選択されなければ、利用者のすべての(非手動)の役割へのアクセスを承諾します。</value>
+	<value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">役割は、セキュリティとアクセスを設定します。システムで役割を与えられるユーザーに対して設定します。</value>
+</row>
+<row id="493" trl="Y">
+	<value column="Name" original="New User/Contact">新しいユーザ/コンタクト</value>
+	<value column="Description" original="User within the system - Internal or Business Partner Contact">システムの中のユーザ(内部利用者かビジネスパートナー)</value>
+	<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">ユーザーはシステムで一意に決まるユーザーを特定します。これは、内部のユーザかビジネスパートナーです。</value>
+</row>
+<row id="494" trl="Y">
+	<value column="Name" original="New Workflow Responsible">新しい作業フローの責任</value>
+	<value column="Description" original="Responsible for Workflow Execution">作業フロー実行の責任です。</value>
+	<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">作業フローの最終責任は、実際の責任者と関連付けられます。作業フローの責任はその実際のユーザーを見つける方法を定義します。</value>
+</row>
+<row id="496" trl="Y">
+	<value column="Name" original="New User/Contact">新しいユーザ/コンタクト</value>
+	<value column="Description" original="User within the system - Internal or Business Partner Contact">システムの中のユーザ--内部ユーザーかビジネスパートナーです。</value>
+	<value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">ユーザーはシステムで一意に決まるユーザーを特定します。これは、内部のユーザかビジネスパートナーです。</value>
+</row>
+<row id="497" trl="Y">
+	<value column="Name" original="New Workflow Responsible">新しい作業フローの責任</value>
+	<value column="Description" original="Responsible for Workflow Execution">作業フロー実行の責任です。</value>
+	<value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">作業フローの最終責任は、実際の責任者と関連付けられます。作業フローの責任はその実際のユーザーを見つける方法を定義します。</value>
+</row>
+<row id="523" trl="Y">
+	<value column="Name" original="Default Sales Rep">デフォルトの販売担当者</value>
+	<value column="Description" original="If not defined on Business Partner Level">ビジネスパートナーレベルで定義されていない場合に使われます。</value>
+	<value column="Help" original=""></value>
+</row>
+<row id="524" trl="Y">
+	<value column="Name" original="Dunning Currency">督促通貨</value>
+	<value column="Description" original="Currency to create Dunning Letters">督促状を作成する通貨です。</value>
+	<value column="Help" original=""></value>
+</row></adempiereTrl>

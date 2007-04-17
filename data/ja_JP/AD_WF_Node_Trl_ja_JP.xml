@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.1.4_2007-01-23 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070217-2220 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ja_JP" table="AD_WF_Node">
+<row id="116" trl="Y">
+	<value column="Name" original="Accounting Schema">会計スキーマ</value>
+	<value column="Description" original="Project as Account Segment">会計セグメントとしてのプロジェクトです。</value>
+	<value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">プロジェクトごとの会計報告を可能にするために、会計要素にプロジェクトセグメントを作成してください。</value>
+</row>
+<row id="118" trl="Y">
+	<value column="Name" original="System Elements">システム要素</value>
+	<value column="Description" original="Translate System Elements">システム要素を翻訳します。</value>
+	<value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">システム要素は、中央のラベル、説明、ヘルプの定義で使用されます。要素を翻訳すると、対応するウィンドウ内のフィールド、パラメータ、レポートは翻訳(上書き)されます。</value>
+</row>
+<row id="119" trl="Y">
+	<value column="Name" original="Messages">メッセージ</value>
+	<value column="Description" original="Translate Messages">メッセージを翻訳します。</value>
+	<value column="Help" original="Translate the messages used in Windows, Forms and Processes">ウィンドウ、フォーム、およびプロセスで使用されるメッセージを翻訳します。</value>
+</row>
+<row id="120" trl="Y">
+	<value column="Name" original="Reference">リファレンス</value>
+	<value column="Description" original="Translate References">リファレンスを翻訳します。</value>
+	<value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">リファレンスは選択可能なリストとして使用されています。リストエレメントだけを翻訳してください!</value>
+</row>
+<row id="121" trl="Y">
+	<value column="Name" original="Window &amp; Tab">ウィンドウ&amp; タブ</value>
+	<value column="Description" original="Translate Windows and Tabs">ウィンドウとタブを翻訳します。</value>
+	<value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">名前、説明、およびヘルプをウィンドウとタブのために翻訳します。中央でメンテナンスされるなら、フィールドの大部分は既に翻訳されています。</value>
+</row>
+<row id="122" trl="Y">
+	<value column="Name" original="Form">フォーム</value>
+	<value column="Description" original="Translate Forms">フォームを翻訳します。</value>
+	<value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">フォームは特別なウィンドウです。フォームの名前、説明、およびヘルプを翻訳する必要があります。</value>
+</row>
+<row id="123" trl="Y">
+	<value column="Name" original="Report &amp; Process">レポート &amp; プロセス</value>
+	<value column="Description" original="Translate Reports and Processes">レポートとプロセスを翻訳します。</value>
+	<value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">名前、説明、およびヘルプをレポートとプロセスのために翻訳してください。集中的にメンテナンスされるなら、パラメータを翻訳する必要はありません。</value>
+</row>
+<row id="140" trl="Y">
+	<value column="Name" original="User">ユーザ</value>
+	<value column="Description" original="Define Sales Representative as User">ユーザとして営業担当を定義します。</value>
+	<value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">ユーザーは1つ以上の役割で、システムにログイン、アクセスすることができます。セットアップするビジネスパートナーを選択してください。これにより、ユーザーはシステム内で営業担当として扱われます。</value>
+</row>
+<row id="141" trl="Y">
+	<value column="Name" original="Business Partner">ビジネスパートナー</value>
+	<value column="Description" original="Set up Sales Representative as Business Partner">ビジネスパートナーとして販売担当をセットアップします。</value>
+	<value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">従業員としての営業担当と従業員タブ内の営業担当をセットアップします。支払いを作成したい場合は、仕入先の部分もセットアップしてください。</value>
+</row>
+<row id="146" trl="Y">
+	<value column="Name" original="Workflow">作業フロー</value>
+	<value column="Description" original="Translate Workflows">作業フローを翻訳します。</value>
+	<value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">作業フローと作業フローノードの名前、説明、およびヘルプを翻訳します。リストエレメントのみを翻訳してください!</value>
+</row>
+<row id="152" trl="Y">
+	<value column="Name" original="Check Client Setup">クライアントセットアップをチェック</value>
+	<value column="Description" original="Check Client setup for Requests">要求にしたがってクライアントセットアップをチェックします。</value>
+	<value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">リクエストの確認のためにはメールアドレスを持っている必要があります。また、メールユーザとパスワードをすれば、リクエストをメールユーザフォルダーから読んだり、システムにインポートできます。</value>
+</row>
+<row id="153" trl="Y">
+	<value column="Name" original="Check Users">ユーザをチェック</value>
+	<value column="Description" original="Check users for Request processing">要求処理がないかどうかユーザをチェックします。</value>
+	<value column="Help" original="Please ensure that users have a email address and supervisor assigned.">ユーザがEメールアドレスと監督者を割り当てられていることを確認にしてください。</value>
+</row>
+<row id="155" trl="Y">
+	<value column="Name" original="Check Business Partners">ビジネスパートナーをチェック</value>
+	<value column="Description" original="Check Business Partners for Request processing">要求処理がないかどうかビジネスパートナーをチェックします。</value>
+	<value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">ビジネスパートナーにメールを送ることができます。ビジネスパートナーと送信者がEメールアドレスを持っていなければなりません。</value>
+</row>
+<row id="180" trl="N">
+	<value column="Name" original="Verify completed Requisition">完了した要求を確認</value>
+	<value column="Description" original="Just a test case for a manual interaction.">手動操作のテストケースです。</value>
+	<value column="Help" original="Enter and maintain Material Requisitions">材料要求を入力、メンテナンスします。</value>
+</row>
+</adempiereTrl>
