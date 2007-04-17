@@ -279,6 +279,7 @@ public class ReplenishReport extends SvrProcess
 		sql = "UPDATE T_Replenish"
 			+ " SET QtyToOrder = Order_Min "
 			+ "WHERE QtyToOrder < Order_Min"
+			+ " AND QtyToOrder > 0" 
 			+ " AND AD_PInstance_ID=" + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
@@ -288,6 +289,7 @@ public class ReplenishReport extends SvrProcess
 		sql = "UPDATE T_Replenish"
 			+ " SET QtyToOrder = QtyToOrder - MOD(QtyToOrder, Order_Pack) + Order_Pack "
 			+ "WHERE MOD(QtyToOrder, Order_Pack) <> 0"
+			+ " AND QtyToOrder > 0"
 			+ " AND AD_PInstance_ID=" + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
