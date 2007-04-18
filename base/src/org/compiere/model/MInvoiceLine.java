@@ -733,6 +733,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		log.fine("New=" + newRecord);
+		// Re-set invoice header (need to update m_IsSOTrx flag) - phib [ 1686773 ]
+		setInvoice(getParent());
 		//	Charge
 		if (getC_Charge_ID() != 0)
 		{
