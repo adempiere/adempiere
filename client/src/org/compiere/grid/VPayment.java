@@ -1021,7 +1021,22 @@ public class VPayment extends CDialog
 							m_needSave = true;
 						}
 						if (cl.save())
+						{	
 							log.config("CashCreated");
+							if(invoice == null && C_Invoice_ID != 0)
+							{
+								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);								
+								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
+								invoice.save();
+							}
+							if(order == null && C_Order_ID != 0)
+							{
+								order = new MOrder (Env.getCtx(), C_Order_ID, null);
+								order.setC_CashLine_ID(cl.getC_CashLine_ID());
+								order.save();
+							}
+							log.config("Update Order & Invoice with CashLine");
+						}	
 						else
 							ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCreated");
 					}
