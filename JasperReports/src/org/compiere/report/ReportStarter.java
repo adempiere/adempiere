@@ -408,7 +408,11 @@ public class ReportStarter implements ProcessCall {
                 }
 
                 params.put("RECORD_ID", new Integer( Record_ID));
-
+                
+                // contribution from Ricardo (ralexsander)
+                // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
+                params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
+                
                 Language currLang = Env.getLanguage(Env.getCtx());
                 params.put("CURRENT_LANG", currLang.getAD_Language());
                 // Resources				
