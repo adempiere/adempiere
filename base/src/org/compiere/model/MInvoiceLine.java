@@ -189,6 +189,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setIsDescription(oLine.isDescription());
 		setDescription(oLine.getDescription());
 		//
+		if(oLine.getM_Product_ID() == 0)
 		setC_Charge_ID(oLine.getC_Charge_ID());
 		//
 		setM_Product_ID(oLine.getM_Product_ID());
@@ -236,6 +237,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setC_UOM_ID(sLine.getC_UOM_ID());
 		setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 	//	setS_ResourceAssignment_ID(sLine.getS_ResourceAssignment_ID());
+		if(getM_Product_ID() == 0)
 		setC_Charge_ID(sLine.getC_Charge_ID());
 		//
 		int C_OrderLine_ID = sLine.getC_OrderLine_ID();
