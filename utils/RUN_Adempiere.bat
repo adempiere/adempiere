@@ -49,6 +49,6 @@ set ADEMPIERE_HOME=%~dp0..
 @SET SECURE=
 
 :START
-@"%JAVA%" -Xms32m -Xmx512m -DADEMPIERE_HOME=%ADEMPIERE_HOME% %PROP% %SECURE% -classpath %CLASSPATH% org.compiere.Adempiere 
+@"%JAVA%" -Xms32m -Xmx512m -DADEMPIERE_HOME=%ADEMPIERE_HOME% %PROP% %SECURE% -classpath "%CLASSPATH%" org.compiere.Adempiere 
 
 @sleep 15
