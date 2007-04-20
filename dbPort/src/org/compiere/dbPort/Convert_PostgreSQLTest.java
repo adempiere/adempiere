@@ -28,6 +28,12 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		// [ 1704261 ] can not import currency rate
+		sql = "UPDATE I_Conversion_Rate i SET MultiplyRate = 1 / DivideRate WHERE (MultiplyRate IS NULL OR MultiplyRate = 0) AND DivideRate IS NOT NULL AND DivideRate<>0 AND I_IsImported<>'Y' AND AD_Client_ID=1000000";
+		sqe = "UPDATE I_Conversion_Rate SET MultiplyRate = 1 / DivideRate WHERE (MultiplyRate IS NULL OR MultiplyRate = 0) AND DivideRate IS NOT NULL AND DivideRate<>0 AND I_IsImported<>'Y' AND AD_Client_ID=1000000";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		//[ 1668720 ] Convert failing in alter table
 		sql = "ALTER TABLE GT_TaxBase ADD CONSTRAINT GT_TaxBase_Key PRIMARY KEY (GT_TaxBase_ID)";
 		sqe = "ALTER TABLE GT_TaxBase ADD CONSTRAINT GT_TaxBase_Key PRIMARY KEY (GT_TaxBase_ID)";

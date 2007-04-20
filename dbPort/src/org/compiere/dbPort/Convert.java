@@ -261,7 +261,7 @@ public abstract class Convert
 
 		
 		//  Statements ending with /
-		String[] sql = tempResult.split("\\s/\\s");  // ("(;\\s)|(\\s/\\s)");
+		String[] sql = tempResult.split("^/$");  // ("(;\\s)|(\\s/\\s)");
 		ArrayList<String> result = new ArrayList<String> (sql.length);
 		//  process statements
 		for (int i = 0; i < sql.length; i++)
