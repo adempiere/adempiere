@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -18,6 +18,7 @@ package org.compiere.print.layout;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.math.BigDecimal;
 import java.net.*;
 import java.util.*;
 import java.util.logging.*;
@@ -84,6 +85,38 @@ public class ImageElement extends PrintElement
 		return new ImageElement(image.getImage());
 	}	//	get
 
+	/**
+	 *	Create Image from database column
+	 *	@param data the printdataelement, containing the reference
+	 *	@param imageURLString image url - containing just the AD_Image_ID reference
+	 *	@return image element
+	 */
+	public static ImageElement get(PrintDataElement data, String imageURLString)
+	{
+		Object key = imageURLString;
+		ImageElement image = (ImageElement)s_cache.get(key);
+		if (image == null)
+		{
+			BigDecimal imkeybd = (BigDecimal) data.getValue();
+			MImage im = null;
+			if (imkeybd != null && imkeybd.intValue() > 0) {
+				im = new MImage(Env.getCtx(), imkeybd.intValue(), null);
+			} else {
+				im = null;
+			}
+			if (im != null) {
+				image = new ImageElement(im.getImage());
+				s_cache.put(key, image);
+			}
+		}
+		if (image == null) {
+			Image imnull = null;
+			return new ImageElement(imnull);
+		}
+		else
+			return new ImageElement(image.getImage());
+	}	//	get
+	
 	/**	60 minute Cache						*/
 	private static CCache<Object,ImageElement>	s_cache 
 		= new CCache<Object,ImageElement>("ImageElement", 10, 60);
@@ -311,5 +344,5 @@ public class ImageElement extends PrintElement
 		transform.scale(m_scaleFactor, m_scaleFactor); 
 		g2D.drawImage(m_image, transform, this);
 	}	//	paint
-	
+
 }	//	ImageElement

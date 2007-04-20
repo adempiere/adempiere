@@ -966,7 +966,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						element = ImageElement.get (item.get_ID());
 					else
 						element = ImageElement.get (item.getImageURL());
-					element.layout(maxWidth, item.getMaxHeight(), false, alignment);
+					if (element != null)
+						element.layout(maxWidth, item.getMaxHeight(), false, alignment);
 				}
 				else if (item.isTypeField())		//**	Field
 				{
@@ -1321,7 +1322,12 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			else	//	should create an empty area
 				return null;
 		}
-		ImageElement element = ImageElement.get (url);
+		ImageElement element = null;
+		if (data.getDisplayType() == DisplayType.Image) {
+			element = ImageElement.get (data, url);
+		} else {
+			element = ImageElement.get (url);
+		}
 		return element;
 	}	//	createImageElement
 	
