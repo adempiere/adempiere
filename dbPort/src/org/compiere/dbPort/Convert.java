@@ -222,63 +222,27 @@ public abstract class Convert
 	/**************************************************************************
 	 *  Conversion routine (stops at first error).
 	 *  <pre>
-	 *  - mask / in Strings
-	 *  - break into single statement
-	 *  - unmask statements
-	 *  - for each statement: convertStatement
-	 *      - remove comments
-	 *          - process FUNCTION/TRIGGER/PROCEDURE
-	 *          - process Statement: convertSimpleStatement
-	 *              - based on ConvertMap
-	 *              - convertComplexStatement
-	 *                  - decode, sequence, exception
+	 *  - convertStatement
+	 *      - convertWithConvertMap
+	 *      - convertComplexStatement
+	 *      - decode, sequence, exception
 	 *  </pre>
 	 *  @param sqlStatements
 	 *  @return array of converted statements
 	 */
 	protected String[] convertIt (String sqlStatements)
 	{
-		//  Need to mask / in SQL Strings !
+		ArrayList<String> result = new ArrayList<String> ();
+		result.addAll(convertStatement(sqlStatements));     //  may return more than one target statement
 		
-		final char MASK = '\u001F';      //  Unit Separator
-		StringBuffer masked = new StringBuffer(sqlStatements.length());
-		Matcher m = Pattern.compile("'[^']+'", Pattern.DOTALL).matcher(sqlStatements);
-		while (m.find())
-		{
-			String group = m.group();       //  SQL string
-			if (group.indexOf('/') != -1)   //  / in string
-				group = group.replace('/', MASK);
-			//[ 1671816 ] MIssue.create fail for long stack trace
-			//the following 2 line change the length of the string literal
-//			if (group.indexOf('$') != -1)   //  Group character needs to be escaped
-//				group = Util.replace(group, "$", "\\$");
-			//hengsin, [ 1662983 ] Convert cutting backslash from string
-			m.appendReplacement(masked, Matcher.quoteReplacement(group));
-		}
-		m.appendTail(masked);
-		String tempResult = masked.toString();
-		/** @todo Need to mask / in comments */
-
-		
-		//  Statements ending with /
-		String[] sql = tempResult.split("^/$");  // ("(;\\s)|(\\s/\\s)");
-		ArrayList<String> result = new ArrayList<String> (sql.length);
-		//  process statements
-		for (int i = 0; i < sql.length; i++)
-		{
-			String statement = sql[i];
-			if (statement.indexOf(MASK) != -1)
-				statement = statement.replace(MASK, '/');
-			result.addAll(convertStatement(statement));     //  may return more than one target statement
-		}
 		//  convert to array
-		sql = new String[result.size()];
+		String[] sql = new String[result.size()];
 		result.toArray(sql);
 		return sql;
 	}   //  convertIt
 
 	/**
-	 * Clean up Statement. Remove while spaces, carrige return and tab 
+	 * Clean up Statement. Remove trailing spaces, carrige return and tab 
 	 * 
 	 * @param statement
 	 * @return sql statement
