@@ -145,13 +145,14 @@ public class PackOut extends SvrProcess
 			ResultSet rs1 = pstmt1.executeQuery();
 			while (rs1.next()){		
 				//Create the package documentation
-				File file = new File("");
-				fileSeperator = file.separator;
-				packagedir = rs1.getString("File_Directory");			
+				fileSeperator = File.separator;
+				packagedir = rs1.getString("File_Directory").trim();			
+				if (!packagedir.endsWith("/") && !packagedir.endsWith("\\"))
+					packagedir += fileSeperator;
 				packagename = packagedir + rs1.getString("Name");
 				includesdir = rs1.getString("Name") + fileSeperator+"**";
-				boolean success = (new File(rs1.getString("File_Directory") + rs1.getString("Name")+fileSeperator+"doc"+fileSeperator )).mkdirs();
-				String file_document = rs1.getString("File_Directory") + rs1.getString("Name") +fileSeperator+ "doc"+fileSeperator+rs1.getString("Name")+"Doc.xml";		
+				boolean success = (new File(packagename+fileSeperator+"doc"+fileSeperator )).mkdirs();
+				String file_document = packagename +fileSeperator+ "doc"+fileSeperator+rs1.getString("Name")+"Doc.xml";		
 				fw_document = new FileOutputStream (file_document, false);		
 				StreamResult streamResult_document = new StreamResult(fw_document);	
 				SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
@@ -222,8 +223,8 @@ public class PackOut extends SvrProcess
 				hd_documemt.startElement("","","filenotes",atts);
 				hd_documemt.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
 				hd_documemt.endElement("","","filenotes");			
-				success = (new File(rs1.getString("File_Directory") + rs1.getString("Name")+fileSeperator+ "dict"+fileSeperator)).mkdirs();		
-				String file_menu = rs1.getString("File_Directory") + rs1.getString("Name") +fileSeperator+ "dict"+fileSeperator+"PackOut.xml";		
+				success = (new File(packagename+fileSeperator+ "dict"+fileSeperator)).mkdirs();		
+				String file_menu = packagename+fileSeperator+ "dict"+fileSeperator+"PackOut.xml";		
 				fw_menu = new FileOutputStream (file_menu, false);
 				StreamResult streamResult_menu = new StreamResult(fw_menu);	
 				SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
@@ -403,6 +404,12 @@ public class PackOut extends SvrProcess
 			pstmt1 = null;
 		}
 		
+		// Close streams - teo_sarca [ 1704762 ]
+		if (fw_document != null)
+			fw_document.close();
+		if (fw_menu != null)
+			fw_menu.close();
+		
 		//create compressed packages
 		//set the files
 		File srcFolder = new File("");
@@ -433,7 +440,7 @@ public class PackOut extends SvrProcess
 	public void CreateApplication (AttributesImpl atts, TransformerHandler hd_menu, int menu_id) throws SAXException
 	{
 		String sql = null;
-		int x = 0;
+		//int x = 0;
 		sql = "SELECT A.Node_ID, B.AD_Menu_ID, B.Name, B.AD_WINDOW_ID, B.AD_WORKFLOW_ID, B.AD_TASK_ID, "
 			+ "B.AD_PROCESS_ID, B.AD_FORM_ID, B.AD_WORKBENCH_ID "
 			+ "FROM AD_TreeNoDemm A, AD_Menu B "
@@ -2420,8 +2427,8 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","isActive","CDATA",TrueFalse);
 		
 		sql = "SELECT isReadOnly FROM AD_Role_OrgAccess WHERE AD_Org_ID="+ org_id +" and AD_Role_ID=?";
-		String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-		atts.addAttribute("","","isReadOnly","CDATA",TrueFalse);
+		String isReadOnly = DB.getSQLValueString(null,sql,role_id);
+		atts.addAttribute("","","isReadOnly","CDATA",isReadOnly);
 		
 		return atts;
 	}
@@ -2473,7 +2480,7 @@ public class PackOut extends SvrProcess
     
         sql = "SELECT isReadWrite FROM AD_Window_Access WHERE AD_Window_ID="+ window_id +" and AD_Role_ID=?";
         String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-        atts.addAttribute("","","isReadWrite","CDATA",TrueFalse);        
+        atts.addAttribute("","","isReadWrite","CDATA",isReadWrite);        
         
         return atts;
 	}
@@ -2498,7 +2505,7 @@ public class PackOut extends SvrProcess
     
         sql = "SELECT isReadWrite FROM AD_Process_Access WHERE AD_Process_ID="+ process_id +" and AD_Role_ID=?";
         String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-        atts.addAttribute("","","isReadWrite","CDATA",TrueFalse);        
+        atts.addAttribute("","","isReadWrite","CDATA",isReadWrite);        
     
         return atts;
 	}
@@ -2523,7 +2530,7 @@ public class PackOut extends SvrProcess
 		
 		sql = "SELECT isReadWrite FROM AD_Form_Access WHERE AD_Form_ID="+ form_id +" and AD_Role_ID=?";
 		String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-		atts.addAttribute("","","isReadWrite","CDATA",TrueFalse);        
+		atts.addAttribute("","","isReadWrite","CDATA",isReadWrite);        
 		
 		return atts;
         
@@ -2549,7 +2556,7 @@ public class PackOut extends SvrProcess
 		
 		sql = "SELECT isReadWrite FROM AD_Workflow_Access WHERE AD_Workflow_ID="+ workflow_id +" and AD_Role_ID=?";
 		String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-		atts.addAttribute("","","isReadWrite","CDATA",TrueFalse);        
+		atts.addAttribute("","","isReadWrite","CDATA",isReadWrite);        
 	        
         return atts;
 	}
@@ -2574,7 +2581,7 @@ public class PackOut extends SvrProcess
 		
 		sql = "SELECT isReadWrite FROM AD_Task_Access WHERE AD_Task_ID="+ task_id +" and AD_Role_ID=?";
 		String isReadWrite = DB.getSQLValueString(null,sql,role_id);
-		atts.addAttribute("","","isReadWrite","CDATA",TrueFalse);    
+		atts.addAttribute("","","isReadWrite","CDATA",isReadWrite);    
         return atts;
 	}
 
