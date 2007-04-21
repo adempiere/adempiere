@@ -2099,7 +2099,7 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","VFormat","CDATA",(m_Column.getVFormat () != null ? m_Column.getVFormat ():""));
 		atts.addAttribute("","","ValueMax","CDATA",(m_Column.getValueMax () != null ? m_Column.getValueMax ():""));
 		atts.addAttribute("","","ValueMin","CDATA",(m_Column.getValueMin () != null ? m_Column.getValueMin ():""));
-		atts.addAttribute("","","Value","CDATA",(m_Column.getVersion()!= null ? "" + m_Column.getVersion ():"0.0"));
+		atts.addAttribute("","","Version","CDATA",(m_Column.getVersion()!= null ? "" + m_Column.getVersion ():"0.0"));
 		return atts;
 	}
 	

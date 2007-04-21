@@ -910,7 +910,8 @@ public class PackInHandler extends DefaultHandler {
 					m_Column.setValueMax(atts.getValue("ValueMax"));
 				if (atts.getValue("ValueMin") != null)
 					m_Column.setValueMin(atts.getValue("ValueMin"));
-				m_Column.setVersion(new BigDecimal("0.0"));
+				if (atts.getValue("Version") != null)
+					m_Column.setVersion(new BigDecimal(atts.getValue("Version")));
 				
 				// Setup Element.
 				id = get_IDWithColumn("AD_Element", "ColumnName", m_Column.getColumnName());
@@ -2236,7 +2237,7 @@ public class PackInHandler extends DefaultHandler {
 				if (DisplayId ==0){
 					m_Column = new MColumn(m_ctx,0,m_trxName);
 					m_Column.setAD_Table_ID(tableId);
-					m_Column.setVersion(new BigDecimal("1"));
+					// m_Column.setVersion(new BigDecimal("1")); // use constructor value
 					m_Column.setColumnName(name);		    	
 					m_Column.setName(name);
 					m_Column.setAD_Reference_ID(30);
@@ -2252,7 +2253,7 @@ public class PackInHandler extends DefaultHandler {
 				if (keyId ==0){
 					m_Column = new MColumn(m_ctx,0,m_trxName);
 					m_Column.setAD_Table_ID(tableId);
-					m_Column.setVersion(new BigDecimal("1"));
+					//m_Column.setVersion(new BigDecimal("1")); // use constructor value
 					m_Column.setColumnName(name);
 					m_Column.setName(name);
 					m_Column.setAD_Reference_ID(30);
