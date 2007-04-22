@@ -33,6 +33,8 @@ import org.compiere.util.*;
  *
  *  @author 	Initial: Jirimuto
  *  @version 	$Id: VFile.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author 	Teo Sarca
  */
 public class VFile extends JComponent
 	implements VEditor, ActionListener, KeyListener
@@ -249,11 +251,17 @@ public class VFile extends JComponent
 		String m_value = m_text.getText();
 		//
 		log.config(m_value);
-		
+		//
+		String fieldName = null;
+		if (m_field != null)
+			fieldName = m_field.getHeader();
+		else
+			fieldName = Msg.getElement(Env.getCtx(), m_columnName); 
+		//
 		JFileChooser chooser = new JFileChooser(m_value);
 		chooser.setMultiSelectionEnabled(false);
 		chooser.setFileSelectionMode(m_selectionMode);
-		chooser.setDialogTitle(Msg.getElement(Env.getCtx(), m_columnName));
+		chooser.setDialogTitle(fieldName);
 		chooser.setDialogType(m_dialogType);
 		//	
 		int returnVal = -1;
@@ -262,7 +270,7 @@ public class VFile extends JComponent
 		else if (m_dialogType == JFileChooser.OPEN_DIALOG)
 			returnVal = chooser.showOpenDialog(this);
 		else //	if (m_dialogType == JFileChooser.CUSTOM_DIALOG)
-			returnVal= chooser.showDialog(this, Msg.getElement(Env.getCtx(), m_columnName));
+			returnVal= chooser.showDialog(this, fieldName);
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return;
 		
