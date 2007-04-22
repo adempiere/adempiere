@@ -114,7 +114,7 @@ public class VEditorFactory
 		else if (displayType == DisplayType.FilePath || displayType == DisplayType.FileName)
 		{
 			VFile file = new VFile (columnName, mandatory, readOnly, updateable,
-				displayType == DisplayType.FileName);
+				mField.getFieldLength(), displayType == DisplayType.FileName);
 			file.setName(columnName);
 			file.setField(mField);
 			editor = file;

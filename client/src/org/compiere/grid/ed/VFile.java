@@ -23,6 +23,7 @@ import java.io.*;
 
 import javax.swing.*;
 
+import org.compiere.model.*;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.*;
 import org.compiere.util.*;
@@ -34,7 +35,7 @@ import org.compiere.util.*;
  *  @version 	$Id: VFile.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VFile extends JComponent
-	implements VEditor, ActionListener
+	implements VEditor, ActionListener, KeyListener
 {
 	/**
 	 *	Constructor
@@ -46,11 +47,12 @@ public class VFile extends JComponent
 	 * 	@param files Files only if false Directory only
 	 */
 	public VFile(String columnName, boolean mandatory, 
-		boolean isReadOnly, boolean isUpdateable, boolean files)
+		boolean isReadOnly, boolean isUpdateable, int fieldLength, boolean files)
 	{
 		super();
 		super.setName(columnName);
 		m_columnName = columnName;
+		m_fieldLength = fieldLength;
 		if (files)	//	default Directories
 			m_selectionMode = JFileChooser.FILES_ONLY;
 		String col = columnName.toLowerCase();
@@ -78,6 +80,7 @@ public class VFile extends JComponent
 		m_text.setFont(AdempierePLAF.getFont_Field());
 		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
 		m_text.addMouseListener(new VFile_mouseAdapter(this));
+		m_text.addKeyListener(this);
 		this.add(m_text, BorderLayout.CENTER);
 
 		//	Editable
@@ -95,14 +98,21 @@ public class VFile extends JComponent
 	{
 		m_text = null;
 		m_button = null;
+		m_field = null;
 	}   //  dispose
 
 	/** The Text Field                  */
-	private JTextField			m_text = new JTextField(VLookup.DISPLAY_LENGTH);
+	private CTextField			m_text = new CTextField(VLookup.DISPLAY_LENGTH);
 	/** The Button                      */
 	private CButton				m_button = new CButton();
 	/** Column Name						*/
 	private String				m_columnName;
+	private String				m_oldText;
+	private String				m_initialText;
+	/** Field Length				*/
+	private int					m_fieldLength;
+	/**	Setting new value			*/
+	private volatile boolean	m_setting = false;
 	/** Selection Mode					*/
 	private int					m_selectionMode = JFileChooser.DIRECTORIES_ONLY;
 	/** Save/Open						*/
@@ -192,13 +202,14 @@ public class VFile extends JComponent
 	public void setValue(Object value)
 	{
 		if (value == null)
-		{
-			m_text.setText(null);
-		}
+			m_oldText = "";
 		else
-		{
-			m_text.setText(value.toString());
-		}
+			m_oldText = value.toString();
+		//	only set when not updated here
+		if (m_setting)
+			return;
+		m_text.setText (m_oldText);
+		m_initialText = m_oldText;
 	}	//	setValue
 
 	/**
@@ -257,6 +268,15 @@ public class VFile extends JComponent
 		
 		File selectedFile = chooser.getSelectedFile();
 		m_text.setText(selectedFile.getAbsolutePath() );
+		//  Data Binding
+		try
+		{
+			fireVetoableChange(m_columnName, m_oldText, m_text.getText());
+		}
+		catch (PropertyVetoException pve)	
+		{
+		}
+
 	}	//	actionPerformed
 
 	/**
@@ -269,12 +289,69 @@ public class VFile extends JComponent
 	}   //  addActionListener
 
 	/**
-	 *  Set Field/WindowNo for ValuePreference (NOP)
-	 *  @param mField Model Field
+	 *  Action Listener Interface
+	 *  @param listener
 	 */
-	public void setField (org.compiere.model.GridField mField)
+	public void removeActionListener(ActionListener listener)
 	{
+		m_text.removeActionListener(listener);
+	}   //  removeActionListener
+
+	/**
+	 *  Set Field/WindowNo 
+	 *  @param mField field
+	 */
+	public void setField (GridField mField)
+	{
+		m_field = mField;
 	}   //  setField
+
+	/** Grid Field				*/
+	private GridField 	m_field = null;
+	
+	/**
+	 *  Get Field
+	 *  @return gridField
+	 */
+	public GridField getField()
+	{
+		return m_field;
+	}   //  getField
+	
+	public void keyPressed(KeyEvent e) {
+	}
+
+	public void keyTyped(KeyEvent e) {
+	}
+
+	/**
+	 *	Key Released.
+	 *	if Escape Restore old Text
+	 *  @param e event
+	 *  @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	public void keyReleased(KeyEvent e) {
+		if (CLogMgt.isLevelFinest())
+			log.finest("Key=" + e.getKeyCode() + " - " + e.getKeyChar() + " -> " + m_text.getText());
+		//  ESC
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			m_text.setText(m_initialText);
+		//	Ignore keys that do not alter the text
+		else if (e.getKeyChar() == KeyEvent.CHAR_UNDEFINED)
+			return;
+		m_setting = true;
+		try
+		{
+			String clear = m_text.getText();
+			if (clear.length() > m_fieldLength)
+				clear = clear.substring(0, m_fieldLength);
+			fireVetoableChange (m_columnName, m_oldText, clear);
+		}
+		catch (PropertyVetoException pve)	
+		{
+		}
+		m_setting = false;
+	}
 
 }	//	VFile
 
