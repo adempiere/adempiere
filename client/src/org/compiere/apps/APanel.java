@@ -159,9 +159,11 @@ public final class APanel extends CPanel
 	}	//	jbInit
 
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
-							aNew, aCopy, aDelete, aIgnore, aPrint,
+							aNew, aCopy, aDelete, aPrint,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
+	/** Ignore Button		*/
+	public AppsAction		aIgnore;
 	/** Save Button			*/
 	public AppsAction		aSave;
 	/** Private Lock Button	*/
@@ -1077,6 +1079,11 @@ public final class APanel extends CPanel
 			m_curAPanelTab = (APanelTab)m_curWinTab.getSelectedComponent();
 			m_curAPanelTab.registerAPanel(this);
 			m_curAPanelTab.loadData();
+			// Consider that APanelTab (e.g. VSortTab) is not navigable - teo_sarca [ 1705444 ]
+			aFirst.setEnabled(false);
+			aPrevious.setEnabled(false);
+			aNext.setEnabled(false);
+			aLast.setEnabled(false);
 		}
 		else	//	Cur Tab Setting
 		{
@@ -1644,6 +1651,11 @@ public final class APanel extends CPanel
 	private void cmd_ignore()
 	{
 		m_curGC.stopEditor(false);
+		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ] 
+		if (m_curAPanelTab != null)
+		{
+			m_curAPanelTab.loadData();
+		}
 		m_curTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
 	}   //  cmd_ignore
