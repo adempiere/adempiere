@@ -426,7 +426,7 @@ public class MColumn extends X_AD_Column
 	public String getConstraint(String tableName)
 	{
 		if (isKey())
-			return "CONSTRAINT " + tableName + "_Key PRIMARY KEY (" + getColumnName() + ")";
+			return "CONSTRAINT " + tableName.substring(0, 26) + "_Key PRIMARY KEY (" + getColumnName() + ")";
 		/**
 		if (getAD_Reference_ID() == DisplayType.TableDir 
 			|| getAD_Reference_ID() == DisplayType.Search)
