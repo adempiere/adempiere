@@ -93,28 +93,18 @@ public class ImageElement extends PrintElement
 	 */
 	public static ImageElement get(PrintDataElement data, String imageURLString)
 	{
-		Object key = imageURLString;
+		Object key = (BigDecimal) data.getValue();
 		ImageElement image = (ImageElement)s_cache.get(key);
 		if (image == null)
 		{
 			BigDecimal imkeybd = (BigDecimal) data.getValue();
-			MImage im = null;
-			if (imkeybd != null && imkeybd.intValue() > 0) {
-				im = new MImage(Env.getCtx(), imkeybd.intValue(), null);
-			} else {
-				im = null;
-			}
-			if (im != null) {
-				image = new ImageElement(im.getImage());
-				s_cache.put(key, image);
-			}
+			int imkeyint = 0;
+			if (imkeybd != null)
+				imkeyint = imkeybd.intValue();
+			image = new ImageElement(imkeyint, false);
+			s_cache.put(key, image);
 		}
-		if (image == null) {
-			Image imnull = null;
-			return new ImageElement(imnull);
-		}
-		else
-			return new ImageElement(image.getImage());
+		return new ImageElement(image.getImage());
 	}	//	get
 	
 	/**	60 minute Cache						*/
@@ -180,6 +170,19 @@ public class ImageElement extends PrintElement
 		loadAttachment(AD_PrintFormatItem_ID);
 	}	//	ImageElement
 
+	/**
+	 *	Create Image from Attachment or Column
+	 * 	@param record_ID_ID record id from printformat or column
+	 * 	@param isAttachment flag to indicate if is attachment or is a column from DB
+	 */
+	private ImageElement(int record_ID, boolean isAttachment)
+	{
+		if (isAttachment)
+			loadAttachment(record_ID);
+		else
+			loadFromDB(record_ID);
+	}	//	ImageElement
+
 	/**	The Image			*/
 	private Image	m_image = null;
 	/** Scale				*/
@@ -216,6 +219,31 @@ public class ImageElement extends PrintElement
 	}	//	getURL;
 
 	/**
+	 * 	Load from DB
+	 * 	@param record_ID record id
+	 */
+	private void loadFromDB(int record_ID)
+	{
+		MImage mimage = MImage.get(Env.getCtx(), record_ID);
+		if (mimage == null)
+		{
+			log.log(Level.WARNING, "No Image - record_ID=" + record_ID);
+			return;
+		}
+
+		byte[] imageData = mimage.getData();
+		if (imageData != null)
+			m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+		if (m_image != null)
+			log.fine(mimage.toString() 
+				+ " - Size=" + imageData.length);
+		else
+			log.log(Level.WARNING, mimage.toString()
+				+ " - not loaded (must be gif or jpg) - record_ID=" + record_ID);
+	}	//	loadFromDB
+
+	
+	/**
 	 * 	Load Attachment
 	 * 	@param AD_PrintFormatItem_ID record id
 	 */
@@ -244,7 +272,6 @@ public class ImageElement extends PrintElement
 				+ " - not loaded (must be gif or jpg) - AD_PrintFormatItem_ID=" + AD_PrintFormatItem_ID);
 	}	//	loadAttachment
 
-	
 	/**************************************************************************
 	 * 	Calculate Image Size.
 	 * 	Set p_width & p_height
