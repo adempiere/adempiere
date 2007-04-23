@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_WF_Node">
+ <row id="116" trl="Y">
+  <value column="Name" original="Accounting Schema">Plan de conturi</value>
+  <value column="Description" original="Project as Account Segment">Proiect ca un segment de contabilitate</value>
+  <value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">Permite raportarea conturilor unui proiect, crează şi activează un proiect cu elementele de structură contabilă.</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="System Elements">Elemente Sistem</value>
+  <value column="Description" original="Translate System Elements">Traduce Elementele Sistem</value>
+  <value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">Elementele Sistem sunt utilizate la definirea centralizată a etichetelor câmpurilor, descrierilor şi ajutorului. Când se traduce un Element se traduc (se înlocuiesc) informaţiile corespunzătoare ale Câmpurilor din Ferestre, Parametri şi Rapoarte</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Messages">Mesaje</value>
+  <value column="Description" original="Translate Messages">Traducere Mesajele</value>
+  <value column="Help" original="Translate the messages used in Windows, Forms and Processes">Traduce mesajele utilizate în Ferestre, Formulare şi Procese</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Reference">Referinţă</value>
+  <value column="Description" original="Translate References">Traducere Referinţele</value>
+  <value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">Referinţele sunt utilizate ca liste de selectare predefinite. Trebuie să traduceţi numai Lista Elementelor!!!</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Window &amp; Tab">Fereastră şi Tab</value>
+  <value column="Description" original="Translate Windows and Tabs">Traduce Ferestrele şi Tab-urile</value>
+  <value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Traduce Nume, Descriere şi Ajutor pentru Fereastră şi Tab. Cele mai multe Câmpuri sunt deja traduse, dacă sunt întreţinute centralizat.</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="Form">Formular</value>
+  <value column="Description" original="Translate Forms">Traducere Formularele</value>
+  <value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Formularele sunt ecrane speciale şi trebuie traduse numele, descrierea şi Ajutorul lor.</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Report &amp; Process">Raport şi Proces</value>
+  <value column="Description" original="Translate Reports and Processes">Traduce Rapoartele şi Procesele</value>
+  <value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Traduce NUme, Descriere şi Ajutor pentru Procese şi Rapoarte. Nu trebuie să traduceţi Parametrii, dacă ei sunt întreţinuţi centralizat.</value>
+ </row>
+ <row id="140" trl="Y">
+  <value column="Name" original="User">Utilizator</value>
+  <value column="Description" original="Define Sales Representative as User">Defineşte un Reprezentant Vânzări ca Utilizator</value>
+  <value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">Utilizatorul poate intra în sistemul şi să aibă acces la funcţiile ei prin unul sau mai multe roluri. Selectaţi Partenerul pe care tocmai l-aţi iniţializat. Aceasta îi permite utilizatorului să fie tratat,  în sistem, ca un reprezentant de vânzări</value>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="Business Partner">Partener</value>
+  <value column="Description" original="Set up Sales Representative as Business Partner">Iniţializare Reprezentant Vânzări ca Partener</value>
+  <value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">Iniţializează reprezentantul de vânzări ca Angajat şi Reprezentant Vânzări în tabul "Angajat". De asemenea iniţializază partea de Furnizor, dacă verţi să creaţi plăţi.</value>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Name" original="Workflow">Flux</value>
+  <value column="Description" original="Translate Workflows">Traducere Fluxuri</value>
+  <value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">Traducere de Nume, Descriere şi Asistenţă a Fluxului şi a Nodurilor sale. Trebuie să traduceţi numai Elementele de Listă!!!</value>
+ </row>
+ <row id="152" trl="Y">
+  <value column="Name" original="Check Client Setup">Verifică Iniţializare Societate</value>
+  <value column="Description" original="Check Client setup for Requests">Verifică iniţializarea Societăţii pentru Cereri</value>
+  <value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">Trebuie să aveţi un server de email şi o adresă de email de  la care se trimit cererile şi notificările. Opţional, dacă definiţi un utilizator şi o parolă de email, cererile sunt citite din directorul de email al utilizatorului şi importate în sistem</value>
+ </row>
+ <row id="153" trl="Y">
+  <value column="Name" original="Check Users">Verifică Utilizatorii</value>
+  <value column="Description" original="Check users for Request processing">Verifică utilizatorii pentru procesare Cerere</value>
+  <value column="Help" original="Please ensure that users have a email address and supervisor assigned.">Vă rog să vă asiguraţi că utilizatorii au o adresă de email şi un supervizor desemnat</value>
+ </row>
+ <row id="155" trl="Y">
+  <value column="Name" original="Check Business Partners">Verifică Partenerii</value>
+  <value column="Description" original="Check Business Partners for Request processing">Verifică Partenerii pentru procesare Cerere</value>
+  <value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">Puteţi trimite email-uri Partenerilor de afaceri. Asiguraţi-vă că Partenerii sau persoanele de contact au adresă de email</value>
+ </row>
+</adempiereTrl>

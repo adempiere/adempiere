@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Process_Para">
+ <row id="227" trl="Y">
+  <value column="Name" original="Delete existing Accounting Entries">Şterge conturile actuale</value>
+  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Conturile selectate vor fi şterse ! PERICULOS !!!</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="233" trl="Y">
+  <value column="Name" original="Pricelist Version">Versiunea Listei de preţuri</value>
+  <value column="Description" original="Only used if Price List is used to set future/standard cost price">Se utilizează numai dacă s-a utilizat preţul de cost viitor.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="302" trl="Y">
+  <value column="Name" original="Overwrite Payment Rule">Regulă de Plată Destinaţie</value>
+  <value column="Description" original="Overwrite how to pay the invoice">Cum plătiţi factura</value>
+  <value column="Help" original="The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.">Regula de Plată indică metoda de achitare a facturii.</value>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="From User">From User</value>
+  <value column="Description" original="Send EMail from user">Send EMail from user</value>
+  <value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">The email is sent from the user selected - otherwise it is sent from the request email address of the client</value>
+ </row>
+ <row id="452" trl="Y">
+  <value column="Name" original="Maintenance Mode">Mod Întreţinere</value>
+  <value column="Description" original="Language Maintenance Mode">Mod Întreţinere Limbă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="467" trl="Y">
+  <value column="Name" original="Existing Organization">Organizaţie Existentă</value>
+  <value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Entitate organizaţională în interiorul societăţii - rămâne gol, dacă doriţi să creaţi o organizaţie nouă</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">O Organizaţie este o unitate a Societăţii sau o entitate legală - ex. magazin, departament. Datele pot fi accesate între Organizaţii.</value>
+ </row>
+ <row id="469" trl="Y">
+  <value column="Name" original="Limit Access to Role">Limitează Accesul la Rol</value>
+  <value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">Dacă nu este selectat un Rol, permite accesul la toate rolurile (ne-manuale) ale Societăţii</value>
+  <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">Rolul determină securitatea şi accesul unui utilizator la Sistem.</value>
+ </row>
+ <row id="493" trl="Y">
+  <value column="Name" original="New User/Contact">Utilizator/Contact Nou</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">Utilizator în cadrul sistemului - Intern sau Contact Partner</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Utilizator identifică un utilizator unic în sistem. Acesta poate fi un utilizator intern sau contact de partner</value>
+ </row>
+ <row id="494" trl="Y">
+  <value column="Name" original="New Workflow Responsible">Responsabil Nou de Flux</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsabil pentru executarea Fluxului</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Ultima responsabilitate pentru un flux este cu un utilizator actual. Responsabilul de Flux permite definirea căilor de găsire a Utilizatorului actual.</value>
+ </row>
+ <row id="496" trl="Y">
+  <value column="Name" original="New User/Contact">Utilizator/Contact Nou</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">Utilizator în cadrul sistemului - Intern sau Contact Partner</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Utilizator identifică un utilizator unic în sistem. Acesta poate fi un utilizator intern sau contact de partner</value>
+ </row>
+ <row id="497" trl="Y">
+  <value column="Name" original="New Workflow Responsible">Responsabil Nou de Flux</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsabil pentru executarea Fluxului</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Ultima responsabilitate pentru un flux este cu un utilizator actual. Responsabilul de Flux permite definirea căilor de găsire a Utilizatorului actual.</value>
+ </row>
+ <row id="523" trl="Y">
+  <value column="Name" original="Default Sales Rep">Rep Vânzări Implicit</value>
+  <value column="Description" original="If not defined on Business Partner Level">Dacă nu este definit la nivel de Partener</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="524" trl="Y">
+  <value column="Name" original="Dunning Currency">Valută Somaţie</value>
+  <value column="Description" original="Currency to create Dunning Letters">Valută pentru creere Scrisoare de Somaţie</value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

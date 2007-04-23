@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Form">
+ <row id="100" trl="Y">
+  <value column="Name" original="Generate Invoices (manual)">Generare Facturi (manual)</value>
+  <value column="Description" original="Select and generate invoices">Selectare şi generare facturi</value>
+  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for.">Generează Facturi din Comenzi. 
+Selectează comenzile pentru care se vor genera facturile</value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Import File Loader">Import Fişier Text</value>
+  <value column="Description" original="Load flat Files into import tables">Încarcă fişierul text în tabelul de import</value>
+  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">Analizează conţinutul fişierelor text şi le încarcă în tabelele de import conform formatalui selectat. Comentariile între paranteze drepte '[ ]' vor fi ignorate; ex. [ Un antet].</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Initial Client Setup">Prima Iniţializare a Societăţii</value>
+  <value column="Description" original="Initial new Client/Tenant Setup">Setup Client Iniţial</value>
+  <value column="Help" original="Set up a new Client/Tenant of the system">Stabileşte o Societate/Chiriaş nou pentru Sistem.</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Material Transactions">Tranzacţie Articol</value>
+  <value column="Description" original="Material Transactions">Tranzacţie Articol</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Payment Allocation">Alocare Plată</value>
+  <value column="Description" original="Allocate invoices and payments">Alocare facturi şi plăţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Generate Charges">Generare cont debitor</value>
+  <value column="Description" original="Generate Charges from natural accounts">Generează Debite din conturi</value>
+  <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account.">Folosiţi partea de sus pentru a crea conturi debitoare noi utilizând conturile generale debitoare. Folosiţi parte de jos pentru a crea conturi debitoare bazate pe contul natural.</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Payment Print/Export">Imprimare/Export Plată</value>
+  <value column="Description" original="Print or export your payments">Imprimă sau exportă plăţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Payment Selection (manual)">Selectare Plată (manual)</value>
+  <value column="Description" original="Manual Payment Selection">Selectarea manuală a plăţii</value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Selectaţi facturi furnizori pentru plată. Dacă nu vedeţi o factură, asiguraţi-vă că nu e inclusă într-o altă Selecţie Plată.</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Matching PO-Receipt-Invoice">Corelare Comandă - Recepţie - Factură</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Corelare Comandă, Recepţie şi Factură Furnizor</value>
+  <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."> Asiguraţi-vă că Recpţiile şi Facturile sunt prelucrate. Dacă doriţi să potriviţi transportul parţial,  asiguraţi-vă că nu e selectată Aceeaşi Cantitate</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Translation Import/Export">Import/Export Traducere</value>
+  <value column="Description" original="Import or Export Language Translation">Importă sau Exportă limba de traducere</value>
+  <value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage.">Import/Export  info Traducere în/din xml pentru traducerea cu unelte externe. Notă: Limba trebuie să fie permisă şi verificată în Sistem Limbă</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Generate Shipments (manual)">Generare Expediţie (manual)</value>
+  <value column="Description" original="Select and generate shipments">Selectează şi generează Expediţie</value>
+  <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">Generează Expediţii din Comenzi.  
+Selectaţi comenzile pentru a genera expediţii pentru ele.</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="SQL Process">Întreţinere Parolă</value>
+  <value column="Description" original="Process SQL Statements">Întreţinerea parolelor</value>
+  <value column="Help" original="Process SQL DDL Statements">Întreţine Parolele pentru Utilizatori şi Parteneri</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Merge Entities">Fuziune Entităţi</value>
+  <value column="Description" original="Merge From Entity to To Entity - Delete From">Fuziune 'Din  Entitate' cu 'În Entitate' -Şterge 'Din Entitate'</value>
+  <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.">&lt;i&gt;Periculos - Vă rog să fiţi conştient de ceea ce faceţi!&lt;/i&gt;
+Totate instanţele din 'Din Entitate' (ex. Client A) se modifică în 'În Entitate' (ex. Client B). 
+'Din Entitate' (ex. Client A) se şterge. 
+&lt;p&gt;&lt;b&gt;NU există posibilitate de revenire nici de jurnalizare !  Vă rog să faceţi întâi o copie&lt;/b&gt; Vă rog să fiţi conştient că s-ar putea să modificaţi înregistrările de istoric (ex. facturi, etc.) ! &lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Efecte Secundare:&lt;/b&gt; Unind Produsele probabil modificaţi costurile produselor; Unind Parteneri poate să aibă drept rezultat o balanţă de articol deschis incorect.
+&lt;p&gt;&lt;b&gt;Restricţii:&lt;/b&gt; Conflictele de Contabilitate şi Stoc nu sunt rezolvate în această versiune.
+</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="POS">POS</value>
+  <value column="Description" original="Point Of Sales Terminal">Terminal POS</value>
+  <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Introduceţi Tranzacţii prin Terminal POS.  În mod automat, sunt recunoscute scanările sau cărţile de credit.</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="BOM Drop">Adaugă Lista de Consum Specific</value>
+  <value column="Description" original="Drop (expand) Bill of Materials">Adaugă (expandează) Lista de Consum Specific</value>
+  <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Adăugaţi  Lista de Consum Specific extinsă la Comandă, Factură, etc. Documentele trebuie să fie în stadiul de schiţă. Asiguraţi-vă căobiectele incluse în Lista de Consum Specific se află pe lista de preţ a Comenzii, Facturii, etc, altfel preţul va fi zero!</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Tree Maintenance">Întreţinere Ierarhie</value>
+  <value column="Description" original="Maintain Trees">Întreţine Ierarhiile</value>
+  <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Vizualizează şi modifică ierarhiile. Întreţine înregistrările în Ferestrele lor specifice.</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Workflow Editor">Editor de Flux</value>
+  <value column="Description" original="Edit Workflows">Editare Fluxuri</value>
+  <value column="Help" original="Edit the graphical layout of workflows">Editează prezentarea grafică a Fluxului</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Workflow Activities">Activităţi Flux</value>
+  <value column="Description" original="My active workflow activities">Activităţile Fluxului meu activ</value>
+  <value column="Help" original="View active worflow activities">Vizualizarea activităţilor Fluxului activ</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Archive Viewer">Consultare Arhivă</value>
+  <value column="Description" original="View automatically archived Documents">Vizualizează Documentele arhivate automat</value>
+  <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">În funcţie de Nivelul de Arhivare Automată a Societăţii, documentele şi rapoartele sunt salvate şi disponibile pentru vizualizare. În Vizualizatorul de Rapoarte puteţi arhiva manual Documente şi Raporte. Puteţi numai să vizualizaţi arhivele, dacă aveţi acces la documentul original.</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Performance Indicators">Indicatoare de performanţă</value>
+  <value column="Description" original="View Performance Indicators">Vizualizarea Indicatorilor de performanţă</value>
+  <value column="Help" original="View all Performance Indicators and Goals">Arată toate indicatoarele de performanţă şi obiectivele</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Product Attribute Grid">Matrice de atribute</value>
+  <value column="Description" original="Maintain Products with Attributes in a Table Grid">Afişează produsele a căror atribute se regăses în matricea generată</value>
+  <value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">Afişează produsele a căror atribute se regăsesc în matricea generată prin selectarea unor atributelor. </value>
+ </row>
+</adempiereTrl>

@@ -1,0 +1,1605 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Reference">
+ <row id="1" trl="Y">
+  <value column="Name" original="AD_Reference Data Types">Tipuri de Date AD_Referinţă</value>
+  <value column="Description" original="Data Type selection">Selectare Tip Dată</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="2" trl="Y">
+  <value column="Name" original="AD_Reference Validation Types">Tipuri de Validare AD_Referinţă</value>
+  <value column="Description" original="Reference Validation Type list">Listă de Tipuri de Validare Referinţă</value>
+  <value column="Help" original="e.g. I - Independent ">ex. I - Independent</value>
+ </row>
+ <row id="3" trl="Y">
+  <value column="Name" original="AD_Column ColumName">AD_Coloană NumeColoană</value>
+  <value column="Description" original="Column selection">Selectare Coloană</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="4" trl="Y">
+  <value column="Name" original="AD_Reference Values">Valori AD_Referinţă</value>
+  <value column="Description" original="Reference (List and Table) selection">Selectare Referinţă (Listă şi Tabel)</value>
+  <value column="Help" original="(not DataType and Independent)">(fără TipDată şi Independent)</value>
+ </row>
+ <row id="5" trl="Y">
+  <value column="Name" original="AD_Table Access Levels">Nivele Acces AD_Tabel</value>
+  <value column="Description" original="Table Access and Sharing Level list">Listă cu nivele de acces şi partajare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="10" trl="Y">
+  <value column="Name" original="String">Şir de caractere</value>
+  <value column="Description" original="Character String">Şir de caractere</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="11" trl="Y">
+  <value column="Name" original="Integer">Număr întreg</value>
+  <value column="Description" original="10 Digit numeric">Număr din 10 cifre</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="12" trl="Y">
+  <value column="Name" original="Amount">Sumă de bani</value>
+  <value column="Description" original="Number with 4 decimals">Număr cu 4 zecimale</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="13" trl="Y">
+  <value column="Name" original="ID">ID</value>
+  <value column="Description" original="10 Digit Identifier">Identificator din 10 cifre</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="14" trl="Y">
+  <value column="Name" original="Text">Text (până la 2000 caractere)</value>
+  <value column="Description" original="Character String up to 2000 characters">Şir de Caractere până la 2000 de caractere</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="15" trl="Y">
+  <value column="Name" original="Date">Data</value>
+  <value column="Description" original="Date mm/dd/yyyy">Data ll/zz/aaaa</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="16" trl="Y">
+  <value column="Name" original="Date+Time">DataOra</value>
+  <value column="Description" original="Date with time">Data şi ora</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="17" trl="Y">
+  <value column="Name" original="List">Listă</value>
+  <value column="Description" original="Reference List">Listă de Referinţă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="18" trl="Y">
+  <value column="Name" original="Table">Tabel</value>
+  <value column="Description" original="Table List">Listă tabel</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="19" trl="Y">
+  <value column="Name" original="Table Direct">Tabel (Direct)</value>
+  <value column="Description" original="Direct Table Access">Acces direct la Tabel</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="20" trl="Y">
+  <value column="Name" original="Yes-No">Da-Nu</value>
+  <value column="Description" original="CheckBox">Casetă de Validare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="21" trl="Y">
+  <value column="Name" original="Location (Address)">Locaţie (Adresă)</value>
+  <value column="Description" original="Location/Address">Locaţie/Adresă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="22" trl="Y">
+  <value column="Name" original="Number">Număr real</value>
+  <value column="Description" original="Float Number">Număr real</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="23" trl="Y">
+  <value column="Name" original="Binary">Informaţie Binară</value>
+  <value column="Description" original="Binary Data">Informaţie Binară</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="24" trl="Y">
+  <value column="Name" original="Time">Ora</value>
+  <value column="Description" original="Time">Ora</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="25" trl="Y">
+  <value column="Name" original="Account">Cont</value>
+  <value column="Description" original="Account Element">Element Cont</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="26" trl="Y">
+  <value column="Name" original="RowID">RowID</value>
+  <value column="Description" original="Row ID Data Type">Tip Dată RowID</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="27" trl="Y">
+  <value column="Name" original="Color">Culoare</value>
+  <value column="Description" original="Color element">Element Culoare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="28" trl="Y">
+  <value column="Name" original="Button">Buton</value>
+  <value column="Description" original="Command Button - starts a process">Buton - demarează un Proces</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="29" trl="Y">
+  <value column="Name" original="Quantity">Cantitate</value>
+  <value column="Description" original="Quantity data type">Cantitate (Tip dată)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="30" trl="Y">
+  <value column="Name" original="Search">Caută</value>
+  <value column="Description" original="Search Field">Câmp de căutate</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="31" trl="Y">
+  <value column="Name" original="Locator (WH)">Locator (Depozit)</value>
+  <value column="Description" original="Warehouse Locator Data type">Locator din depozit</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="32" trl="Y">
+  <value column="Name" original="Image">Imagine</value>
+  <value column="Description" original="Binary Image Data">Dată Imagine Binară</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="33" trl="Y">
+  <value column="Name" original="Assignment">Repartizare Resursă</value>
+  <value column="Description" original="Resource Assignment">Repartizare Resursă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="34" trl="Y">
+  <value column="Name" original="Memo">Memo (până la 2000 de caractere)</value>
+  <value column="Description" original="Large Text Editor - Character String up to 2000 characters">Text lung - până la 2000 de caractere</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="35" trl="Y">
+  <value column="Name" original="Product Attribute">Atribut produs</value>
+  <value column="Description" original="Product Attribute">Atribut produs</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="36" trl="Y">
+  <value column="Name" original="Text Long">Text Lung (peste 2000 caractere)</value>
+  <value column="Description" original="Text (Long) - Text &gt; 2000 characters">Text (Lung) peste 2000 de caractere</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="37" trl="Y">
+  <value column="Name" original="Costs+Prices">Costuri+Preţuri</value>
+  <value column="Description" original="Costs + Prices (minimum currency precision, but if exists more)">Costuri+Preţuri (precizia valutară minimă, dar poate fi mai mare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="38" trl="Y">
+  <value column="Name" original="FilePath">Director local</value>
+  <value column="Description" original="Local File Path">Calea unui director de pe staţia locală</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="39" trl="Y">
+  <value column="Name" original="FileName">Fişier local</value>
+  <value column="Description" original="Local File">Calea unui fişier de pe staţia locală</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="40" trl="Y">
+  <value column="Name" original="URL">URL</value>
+  <value column="Description" original="URL">Adresă URL</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="42" trl="Y">
+  <value column="Name" original="Printer Name">Nume imprimantă</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="100" trl="Y">
+  <value column="Name" original="AD_Validation Rules Parent">AD_Validation Rules Parent</value>
+  <value column="Description" original="Validation rule Parent selection">Validation rule Parent selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="AD_Validation Rule Types">AD_Validation Rule Types</value>
+  <value column="Description" original="Validation Rule Type list">Validation Rule Type list</value>
+  <value column="Help" original="e.g. S - SQL">e.g. S - SQL</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="AD_Message">AD_Mesaj</value>
+  <value column="Description" original="Message selection">Selectare Mesaj</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="AD_Message Type">Tip AD_Mesaj</value>
+  <value column="Description" original="Message Type list">Lista Tipurilor de Mesaje</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="AD_Menu Action">Acţiune AD_Meniu</value>
+  <value column="Description" original="Menu Action list">Listă de Acţiuni Meniu</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="AD_Menu Parent">Părinte AD_Meniu</value>
+  <value column="Description" original="Menu Parent selection">Selectare Părinte Meniu</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="AD_Language">AD_Language</value>
+  <value column="Description" original="Language selection">Selectare Limbă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="AD_Window Types">Tip AD_Fereastra</value>
+  <value column="Description" original="Window Type list">Lista Tipurilor de Ferestre</value>
+  <value column="Help" original="e.g. M = Multi/Single (one uppercase character)">ex. M = Multi/Singular (un caracter majuscul)</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="AD_WF_Next Nodes">AD_WF_Next Nodes</value>
+  <value column="Description" original="Next workflow node selection">Selectarea următorului nod din flux</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="AD_User">AD_Utilizator</value>
+  <value column="Description" original="User selection">Selecţie Utilizator</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="C_Conversion_Rate Types">C_Conversion_Rate Types (Tipuri cursuri de conversie)</value>
+  <value column="Description" original="Conversion Rate Type list">Lista tipurilor de Cursuri de Conversie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="C_Currencies">Monedă</value>
+  <value column="Description" original="Currencies with dynamic exchange rate selection">Selectare monede cu curs de schimb dinamic</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="AD_Org Parent">Părinte AD_Org</value>
+  <value column="Description" original="Organization Parent selection">Selectare Părinte Organizaţie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="C_UOM">C_UOM (toate)</value>
+  <value column="Description" original="Unit of Measure selection">Selectare Unitate de Măsură</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="C_Period Type">C_Period Type</value>
+  <value column="Description" original="Period Type list">Lista tipurilor de perioade</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="C_Element Type">Tip C_Element</value>
+  <value column="Description" original="Account Element Types">Tipuri de Conturi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="C_ElementValue AccountType">TipCont C_ValoareElement</value>
+  <value column="Description" original="Account Type list">Lista tipurilor de cont</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="C_ElementValue Account Sign">Semn Cont C_ValoareElement</value>
+  <value column="Description" original="Account Sign list">Lista semnelor contului</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="AD_TreeType Type">Tip AD_TipIerarhie</value>
+  <value column="Description" original="Tree Type list">Lista Tipurilor de Ierarhie</value>
+  <value column="Help" original="Determines which element to use as the base for the information">Determină care element se utilizează ca bază pentru informaţii</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="X12DE98 Entity Identifier Code">X12DE98 Entity Identifier Code</value>
+  <value column="Description" original="X12DE98 Entity Identifier Code list">X12DE98 Entity Identifier Code list</value>
+  <value column="Help" original="Identify organizational entity physical location property or individual list">Identify organizational entity physical location property or individual list</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="C_AcctSchema Costing Method">C_AcctSchema Costing Method</value>
+  <value column="Description" original="Costing Method list">Lista metodelor de Stabilire a preţului</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="C_AcctSchema GAAP">C_AcctSchema GAAP</value>
+  <value column="Description" original="General Accepted Accounting Principle list">General Accepted Accounting Principle list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="C_BPartner Parent">Părinte_Partner</value>
+  <value column="Description" original="Business Partner Parent selection">Selectare Părinte Partener</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="_Posting Type">_Posting Type</value>
+  <value column="Description" original="Posting Type (Actual Budget etc.) list">Lista Tipurilor de înregistrare contabilă (Buget, Real etc.)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="AD_Table Replication Type">AD_Table Tip replicare</value>
+  <value column="Description" original="Replication Type">Tip Replicare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="AD_Sequence for Documents">AD_Secvenţă pentru Documente</value>
+  <value column="Description" original="Sequence for Document selection">Selectare "Secvenţă pentru Documente"</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="AD_Client">AD_Societate</value>
+  <value column="Description" original="Client selection">Selectare Societate</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="AD_Org (Trx)">AD_Org (Trx)</value>
+  <value column="Description" original="Organization selection, no summary, no 0">Selectarea organizatiei, fără organizaţii de grupare, fără organizaţia 0</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="_Document Status">_Document Status (Stare Document)</value>
+  <value column="Description" original="Document Status list">Lista stărilor documentelor</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Account_ID (Trx)">Account_ID (fără cele de grupare)</value>
+  <value column="Description" original="Account selection based on Client">Selectare Cont</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="C_Location">C_Location</value>
+  <value column="Description" original="Location selection">Selectare Locaţie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Account_ID - User1">Account_ID - User1</value>
+  <value column="Description" original="User1 selection based on Client">Selecţie Utilizator1</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="_Document Action">_Document Action (Acţiune Document)</value>
+  <value column="Description" original="Document action list">Listă Acţiune Document</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="136" trl="Y">
+  <value column="Name" original="C_AcctSchema">C_AcctSchema</value>
+  <value column="Description" original="Accounting Schema selection">Selectare schemă contabilă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="137" trl="Y">
+  <value column="Name" original="Account_ID - User2">Account_ID - User2</value>
+  <value column="Description" original="User2 selection based on Client">Selecţie Utilizator2</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="138" trl="Y">
+  <value column="Name" original="C_BPartner (Trx)">C_BPartener (fară cele de grupare)</value>
+  <value column="Description" original="Business Partner selection (no Summary)">Selecţie Partener (fară cele de grupare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="C_Project (No summary)">C_Proiect (fără cele de grupare)</value>
+  <value column="Description" original="Project selection">Selectare Proiect</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="142" trl="Y">
+  <value column="Name" original="C_Activity (No summary)">C_Activity (fară cele de grupare)</value>
+  <value column="Description" original="Activity selection">Selectare Activitate</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="143" trl="Y">
+  <value column="Name" original="C_Campaign (No summary)">Campanie (fară grupări)</value>
+  <value column="Description" original="Campaign selection">Selectare Campanie (fară cele de grupare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="144" trl="Y">
+  <value column="Name" original="C_Sales Region (No summary)">C_Sales Region (fără cele de grupare)</value>
+  <value column="Description" original="Sales Region selection (No summary)">Selectare zonă comercială (fără cele de grupare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="145" trl="Y">
+  <value column="Name" original="C_Element">Element</value>
+  <value column="Description" original="Element selection">Selectare Element</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="148" trl="Y">
+  <value column="Name" original="C_DocType SubTypeSO">C_DocType SubTypeSO</value>
+  <value column="Description" original="Order Types list">Lisă Tipuri de Comandă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="149" trl="Y">
+  <value column="Name" original="C_Payment CreditCard Type">Tip C_Plată Carte de Credit</value>
+  <value column="Description" original="C_Payment Credit Card Type list">Lista tipurilor de carţi de credit</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="150" trl="Y">
+  <value column="Name" original="C_Order InvoiceRule">C_Order InvoiceRule</value>
+  <value column="Description" original="Invoicing Rules list">Lista regulilor de facturare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="151" trl="Y">
+  <value column="Name" original="C_Order DeliveryRule">C_Comandă RegulăLivrare</value>
+  <value column="Description" original="Delivery Rules list">Lista Regulilor de livrare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="152" trl="Y">
+  <value column="Name" original="C_Order DeliveryViaRule">C_Comandă RegulăLivrarePrin</value>
+  <value column="Description" original="Delivery via Rule list">Lista Regulilor de livrare prin</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="153" trl="Y">
+  <value column="Name" original="C_Order FreightCostRule">C_Comandă FreightCostRule</value>
+  <value column="Description" original="Freight cost Rule list">Lista regulilor de cost transport</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="154" trl="Y">
+  <value column="Name" original="_PriorityRule">_RegulăPrioritate</value>
+  <value column="Description" original="Priority scale list">Lista scalei de priorităţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="155" trl="Y">
+  <value column="Name" original="M_DiscountPriceList RoundingRule">M_DiscountPriceList RoundingRule</value>
+  <value column="Description" original="Price Rounding Rule list">Lista regulilor de rotunjire</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="156" trl="Y">
+  <value column="Name" original="C_Country">Ţară</value>
+  <value column="Description" original="Country selection">Selectare Ţară</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="157" trl="Y">
+  <value column="Name" original="C_Region">C_Regiune</value>
+  <value column="Description" original="Region selection">Selectare Regiune</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="158" trl="Y">
+  <value column="Name" original="C_Tax">C_Tax (toate)</value>
+  <value column="Description" original="Tax selection">Selectare taxă (toate)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="159" trl="Y">
+  <value column="Name" original="C_BPartner Location">C_BPartner Location</value>
+  <value column="Description" original="Locations of a Business Partner">Locaţia (adresa) unui Partener de afaceri</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="161" trl="Y">
+  <value column="Name" original="M_Product Parent">M_Product (doar cele de grupare)</value>
+  <value column="Description" original="">Selectare produs părinte</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="162" trl="Y">
+  <value column="Name" original="M_Product (no summary)">M_Product (fără cele grupare)</value>
+  <value column="Description" original="Product selection, no summary">Selectare Produs(fără cele grupare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="163" trl="Y">
+  <value column="Name" original="M_Product Category ">M_Categorie_Produs</value>
+  <value column="Description" original="">Selectare categorie de produs</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="164" trl="Y">
+  <value column="Name" original="M_Replenish Type">Tip M_Replanificare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="166" trl="Y">
+  <value column="Name" original="M_PriceList">M_ListăPreţ</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="167" trl="Y">
+  <value column="Name" original="Weekdays">Zilele săptămânii</value>
+  <value column="Description" original="List of days">Lista zilelor săptămânii</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="168" trl="Y">
+  <value column="Name" original="C_InvoiceSchedule InvoiceFrequency">C_Planificare Factură Frecvenţă factură</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="169" trl="Y">
+  <value column="Name" original="C_Project Parent">C_Proiect (doar cele de grupare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="170" trl="Y">
+  <value column="Name" original="C_DocType">TipDoc (toate)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="171" trl="Y">
+  <value column="Name" original="M_Product (stocked)">M_Product (stocat)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="172" trl="Y">
+  <value column="Name" original="C_DocType SO">TipDoc OdV</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="173" trl="Y">
+  <value column="Name" original="C_BPartner Customers">C_BPartener (clienţi)</value>
+  <value column="Description" original="Customer selection">Selectare Clienţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="174" trl="Y">
+  <value column="Name" original="AD_Workflow">AD_Flux</value>
+  <value column="Description" original="Workflows">Fluxuri</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="175" trl="Y">
+  <value column="Name" original="C_ValidCombination">C_CombinaţieValidă</value>
+  <value column="Description" original="Valid Account combinations">Combinaţii valide de Cont</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="176" trl="Y">
+  <value column="Name" original="C_PeriodControl Action">Acţiune C_ControlPerioadă</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="177" trl="Y">
+  <value column="Name" original="C_PeriodControl Status">Stare C_ControlPerioadă</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="178" trl="Y">
+  <value column="Name" original="GL_Budget Status">Stare Buget_CM</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="179" trl="Y">
+  <value column="Name" original="C_SalesRegion Parent">C_SalesRegion (doar cele de grupare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="180" trl="Y">
+  <value column="Name" original="_ErrorType">_TipEroare</value>
+  <value column="Description" original="List of type of errors">Lista tipurilor de erori</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="181" trl="Y">
+  <value column="Name" original="C_AcctSchema ElementType">Tip Element Schemă Contabilitate</value>
+  <value column="Description" original="Element Types for Accounting Elements">Tipuri de Elemente pentru Elemente Contabile </value>
+  <value column="Help" original="Hardcoded Element Types">Hardcoded Element Types</value>
+ </row>
+ <row id="182" trl="Y">
+  <value column="Name" original="C_ElementValue (all)">Valoare Element (toate)</value>
+  <value column="Description" original="Element Values">Valorile Elementului</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="183" trl="Y">
+  <value column="Name" original="C_DocType DocBaseType">C_Tip Document Tip Document de bază</value>
+  <value column="Description" original="Base Document Types">Tipuri de Document de bază</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="184" trl="Y">
+  <value column="Name" original="AD_Tree">AD_Ierarhie</value>
+  <value column="Description" original="Tree selection">Selectare Ierarhie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="188" trl="Y">
+  <value column="Name" original="M_PriceList Version">Versiune M_Listă de Preţ</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="189" trl="Y">
+  <value column="Name" original="M_Transaction Movement Type">Tip Mişcare M_Tranzacţie</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="190" trl="Y">
+  <value column="Name" original="AD_User - SalesRep">AD_Utilizator - RepVânzări</value>
+  <value column="Description" original="Sales Representative">Reprezentant Vânzări</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="191" trl="Y">
+  <value column="Name" original="M_Locator">M_Locator</value>
+  <value column="Description" original="Warehouse Locator">Locator depozit</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="192" trl="Y">
+  <value column="Name" original="C_BPartner Vendors">Furnizori</value>
+  <value column="Description" original="Vendor selection">Selectare Furnizori</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="193" trl="Y">
+  <value column="Name" original="C_BankAccount for Credit Card">Cont bancar pentru Card</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="194" trl="Y">
+  <value column="Name" original="M_DiscountPriceList Base">Listă de M_Reducere Preţ de Bază</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="195" trl="Y">
+  <value column="Name" original="_Payment Rule">_Payment Rule (Regulă Plată)</value>
+  <value column="Description" original="In &amp; Out Payment Options">Regulă de plată/încasare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="196" trl="Y">
+  <value column="Name" original="C_RevenueRecognition Frequency">C_RevenueRecognition Frequency</value>
+  <value column="Description" original="Frequency of Revenue Recognition">Frequency of Revenue Recognition</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="197" trl="Y">
+  <value column="Name" original="M_Warehouse of Client">M_Warehouse -urile Societăţii</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="198" trl="Y">
+  <value column="Name" original="M_Inventory ReportType">TipRaport M_Stoc</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="199" trl="Y">
+  <value column="Name" original="M_PriceList_Version for Client">Versiune M_Listă de Preţ pentru Societate</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="200" trl="Y">
+  <value column="Name" original="C_Charge">Diverse</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="201" trl="Y">
+  <value column="Name" original="C_BP_EDI EDI Type">Tip C_BP_EDI EDI</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="202" trl="Y">
+  <value column="Name" original="M_EDI Status">Stare M_EDI</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="203" trl="Y">
+  <value column="Name" original="M_EDI Trx Type">Tip M_EDI Trx</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="204" trl="Y">
+  <value column="Name" original="AD_Find AndOr">AD_Găseşte ŞiSau</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="205" trl="Y">
+  <value column="Name" original="AD_Find Operation">AD_Găseşte Operaţie</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="206" trl="Y">
+  <value column="Name" original="AD_Table Posting">AD_Tabel (cu suport de contabilitate)</value>
+  <value column="Description" original="Posting Tables">Tabel pentru înregistrări contabile</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="207" trl="Y">
+  <value column="Name" original="GL Category Type">Tip Categorie CM</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="208" trl="Y">
+  <value column="Name" original="AD_ImpFormat Type">Tip AD_FormatImp</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="209" trl="Y">
+  <value column="Name" original="AD_ImpFormat FormatType">FormatTip AD_ImpFormat </value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="210" trl="Y">
+  <value column="Name" original="AD_ImpFormat_Row Type">Tip AD_ImpFormat_Rînd</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="211" trl="Y">
+  <value column="Name" original="M_Product BOM (stocked)">M_Product BOM (stocat)</value>
+  <value column="Description" original="Products that are BOMs and stocked">Produse care sunt pe LCS şi sunt stocate</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="212" trl="Y">
+  <value column="Name" original="M_InventoryCount QtyRange">M_InventoryCount QtyRange</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="213" trl="Y">
+  <value column="Name" original="C_Payment AVS">C_Payment AVS</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="214" trl="Y">
+  <value column="Name" original="C_Payment Tender Type">C_Payment - Tip plată</value>
+  <value column="Description" original="Direct Debit/Deposit - Check - CC">Debit/Depozit Direct - Cec - CC</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="215" trl="Y">
+  <value column="Name" original="C_Payment Trx Type">Tip C_Payment Trx</value>
+  <value column="Description" original="CC Trx Type">Tip CC Trx</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="216" trl="Y">
+  <value column="Name" original="C_Bank Account Type">Tip C_Bank Account</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="217" trl="Y">
+  <value column="Name" original="C_Cash Trx Type">Tip C_Cash Trx</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="218" trl="Y">
+  <value column="Name" original="R_Request Request Type">Tip R_Request Request</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="219" trl="Y">
+  <value column="Name" original="R_Request Next Action">Acţiune R_Request Next</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="221" trl="Y">
+  <value column="Name" original="_Frequency Type">Tip _Frecvenţă</value>
+  <value column="Description" original="Processor Frequency Type">Tip Frecvenţă Procesor</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="222" trl="Y">
+  <value column="Name" original="R_Request Due Type">Tip R_Request Due</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="223" trl="Y">
+  <value column="Name" original="C_BPartner Vendors Avtive">C_BPartner Vendors Avtive</value>
+  <value column="Description" original="Vendor selection">Selectare Furnizor</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="224" trl="Y">
+  <value column="Name" original="C_Commission DocBasis">C_Comision DocBasis</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="225" trl="Y">
+  <value column="Name" original="C_Commission Frequency">Frecvenţă C_Comision</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="226" trl="Y">
+  <value column="Name" original="AD_Role User Level">Nivel Utilizator AD_Rol</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="227" trl="Y">
+  <value column="Name" original="C_PaymentTerm">C_PaymentTerm</value>
+  <value column="Description" original="">Termeni de plată</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="228" trl="Y">
+  <value column="Name" original="PA_Goal">PA_Goal</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="229" trl="Y">
+  <value column="Name" original="PA_Achievement Parent">Părinte PA_Achievement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="230" trl="Y">
+  <value column="Name" original="PA_Goal Parent">Părinte PA_Goal</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="231" trl="Y">
+  <value column="Name" original="PA_Measure Type">Tip PA_Măsură</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="232" trl="Y">
+  <value column="Name" original="C_BPartner Vendor or SalesRep">Furnizor sau RepVânzări</value>
+  <value column="Description" original="Vendor or SalesRep selection">Selectare furnizor sau rep. vânzări</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="233" trl="Y">
+  <value column="Name" original="C_Period (Open)">C_Period (Deschisă)</value>
+  <value column="Description" original="Periods Sorted by Date">Perioade ordonate după dată</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="234" trl="Y">
+  <value column="Name" original="_Posted Status">_Stare Contabilizare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="235" trl="Y">
+  <value column="Name" original="PA_Report AmountType">TipValoare PA_Raport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="236" trl="Y">
+  <value column="Name" original="PA_Report CalculationType">TipCalculare PA_Raport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="237" trl="Y">
+  <value column="Name" original="PA_Report ColumnType">TipColoană PA_Raport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="238" trl="Y">
+  <value column="Name" original="PA_Report CurrencyType">TipValută PA_Raport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="239" trl="Y">
+  <value column="Name" original="PA_ReportColumn">PA_ColoanăRaport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="240" trl="Y">
+  <value column="Name" original="PA_ReportLine">PA_LinieRaport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="241" trl="Y">
+  <value column="Name" original="PA_Report LineType">TipLinie PA_Raport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="242" trl="Y">
+  <value column="Name" original="PA_ReportLine Parent">Părinte PA_LinieRaport</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="243" trl="Y">
+  <value column="Name" original="AD_Color Type">Tip AD_Culoare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="244" trl="Y">
+  <value column="Name" original="AD_Column Key ColumnNames">AD_Column Cheie</value>
+  <value column="Description" original="">Numai coloanele cheie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="245" trl="Y">
+  <value column="Name" original="_Entity Type">_ Tip Entitate</value>
+  <value column="Description" original="Entity Type (Dictionary, ..)">Tip Entitate (Dicţionar, ..)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="246" trl="Y">
+  <value column="Name" original="M_Discount CumulativeLevel">NivelTotalizare M_Reducere</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="247" trl="Y">
+  <value column="Name" original="M_Discount Type">Tip M_Reducere</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="248" trl="Y">
+  <value column="Name" original="AD_Color StartPoint">AD_Culoare Punct Început</value>
+  <value column="Description" original="Nord-West-..">Nord-West-..</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="249" trl="Y">
+  <value column="Name" original="M_DiscountSchema">M_SchemăReducere</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="250" trl="Y">
+  <value column="Name" original="CostUpdate Source">M_Product_Costing Source</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="251" trl="Y">
+  <value column="Name" original="AD_Column Name">AD_Column Nume</value>
+  <value column="Description" original="Column selection">Selectare Coloană</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="252" trl="Y">
+  <value column="Name" original="C_BPartner Employee">C_Partener (angajat)</value>
+  <value column="Description" original="Business Partners who are Employee">Parteneri care sunt angajaţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="253" trl="Y">
+  <value column="Name" original="AD_Print Field Alignment">AD_Print Field Alignment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="254" trl="Y">
+  <value column="Name" original="AD_Print Line Alignment">AD_Print Line Alignment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="255" trl="Y">
+  <value column="Name" original="AD_Print Format Type">Tip Format AD_Imprimantă</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="256" trl="Y">
+  <value column="Name" original="AD_Print Area">AD_Print Area</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="257" trl="Y">
+  <value column="Name" original="AD_Column Integer">AD_Coloană Întreg</value>
+  <value column="Description" original="Integer Type only (Name)">Numai tipul întreg (Nume)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="258" trl="Y">
+  <value column="Name" original="AD_Column YesNo">AD_Column DaNu</value>
+  <value column="Description" original="Coluns YesNo (Name)">Numai coloane Da-Nu</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="259" trl="Y">
+  <value column="Name" original="AD_PrintFormat">AD_PrintFormat</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="261" trl="Y">
+  <value column="Name" original="AD_PrintFormat Invoice">AD_PrintFormat Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="262" trl="Y">
+  <value column="Name" original="AD_PrintFormat Order">AD_PrintFormat Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="263" trl="Y">
+  <value column="Name" original="AD_PrintFormat Shipment">AD_PrintFormat Shipment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="264" trl="Y">
+  <value column="Name" original="AD_PrintFormatItem">AD_PrintFormatItem</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="265" trl="Y">
+  <value column="Name" original="AD_Print Graph Type">AD_Print Graph Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="266" trl="Y">
+  <value column="Name" original="AD_PrintColor">AD_PrintColor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="267" trl="Y">
+  <value column="Name" original="AD_PrintFont">AD_PrintFont</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="268" trl="Y">
+  <value column="Name" original="AD_PrintFormat Check">AD_PrintFormat Check</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="269" trl="Y">
+  <value column="Name" original="AD_PrintFormat Not TableBased">AD_PrintFormat Not TableBased</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="270" trl="Y">
+  <value column="Name" original="M_Product_ProductType">M_Product_ProductType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="271" trl="Y">
+  <value column="Name" original="C_OrderLine">C_OrderLine</value>
+  <value column="Description" original="Order Line">Linie Comandă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="272" trl="Y">
+  <value column="Name" original="I_ElementValue Column">I_ElementValue Column</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="274" trl="Y">
+  <value column="Name" original="R_MailText">R_MailText</value>
+  <value column="Description" original="Mail Text">Mail Text</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="275" trl="Y">
+  <value column="Name" original="C_Period (all)">C_Period (toate)</value>
+  <value column="Description" original="Periods Sorted by Date">Perioade ordonate după dată</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="276" trl="Y">
+  <value column="Name" original="AD_Org (all)">AD_Org (toate)</value>
+  <value column="Description" original="Organization selection">Selectare Organizaţie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="277" trl="Y">
+  <value column="Name" original="C_BPartner Employee w Address">C_BPartner Employee w Address</value>
+  <value column="Description" original="Business Partners who are Employee and have addresses">Parteneri care sunt angajaţi şi au definite adrese şi utilizatori</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="278" trl="Y">
+  <value column="Name" original="AD_Tab">AD_Tab</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="279" trl="Y">
+  <value column="Name" original="M_Product BOM Product TypeX">M_Product Tip LCS (OLD)</value>
+  <value column="Description" original="Old"/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="280" trl="Y">
+  <value column="Name" original="AD_Print Label Line Type">AD_Print Label Line Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="282" trl="Y">
+  <value column="Name" original="C_Recurring Type">C_Recurring Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="283" trl="Y">
+  <value column="Name" original="C_Recurring Frequency">C_Recurring Frequency</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="284" trl="Y">
+  <value column="Name" original="AD_Window">AD_Fereastra</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="285" trl="Y">
+  <value column="Name" original="K_Entry Related">K_Entry Related</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="286" trl="Y">
+  <value column="Name" original="AD_User - Internal">AD_User - Internal</value>
+  <value column="Description" original="Employee or SalesRep">Employee or SalesRep</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="287" trl="Y">
+  <value column="Name" original="C_Tax SPPOType">C_Tax SPOType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="288" trl="Y">
+  <value column="Name" original="C_ProjectType Category">Categorie C_ProjectType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="289" trl="Y">
+  <value column="Name" original="C_BPartner SOCreditStatus">C_BPartner SOCreditStatus</value>
+  <value column="Description" original="Sales Credit Status">Sales Credit Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="290" trl="Y">
+  <value column="Name" original="C_Order">C_Order</value>
+  <value column="Description" original="Order">Comandă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="291" trl="Y">
+  <value column="Name" original="AD_Field ObscureType">AD_Field ObscureType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="292" trl="Y">
+  <value column="Name" original="M_Inventory Type">M_Inventory Type</value>
+  <value column="Description" original="Inventory Type (Difference - Charge)">Tip de stoc (Diferenţă - Încărcare)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="293" trl="Y">
+  <value column="Name" original="AD_Table_Access RuleType">AD_Table_Access RuleType</value>
+  <value column="Description" original="AccessRuleType">AccessRuleType</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="294" trl="Y">
+  <value column="Name" original="M_TransactionAllocation Type">M_TransactionAllocation, tip</value>
+  <value column="Description" original="">Tipul de alocare a materialelor în cazul unei tranzacţii.</value>
+  <value column="Help" original="">Cunoscut şi sub numele de politica materialelor.</value>
+ </row>
+ <row id="295" trl="Y">
+  <value column="Name" original="M_InOutLine">M_InOutLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="296" trl="Y">
+  <value column="Name" original="M_InventoryLine">M_LinieStoc</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="297" trl="Y">
+  <value column="Name" original="M_ProductionLine">M_ProductionLine</value>
+  <value column="Description" original="">Selectare productie (linie)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="298" trl="Y">
+  <value column="Name" original="M_Transaction">M_Tranzacţie</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="299" trl="Y">
+  <value column="Name" original="WF_DurationUnit">WF_DurationUnit</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="300" trl="Y">
+  <value column="Name" original="WF_Transition Type">Tip WF_Transition</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="301" trl="Y">
+  <value column="Name" original="WF_Join_Split">WF_Join_Split</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="302" trl="Y">
+  <value column="Name" original="WF_Action">WF_Action</value>
+  <value column="Description" original="Superset of Menu Action">Supertip pentru actiune meniu</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="303" trl="Y">
+  <value column="Name" original="WF_Start-Finish Mode">Mod WF_Start-Finish</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="304" trl="Y">
+  <value column="Name" original="WF_Participant Type">Tip WF_Participant</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="305" trl="Y">
+  <value column="Name" original="WF_Instance State">Stare WF_Instance</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="306" trl="Y">
+  <value column="Name" original="WF_EventType">WF_EventType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="307" trl="Y">
+  <value column="Name" original="WF_SubFlow Execution">WF_SubFlow Execution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="308" trl="Y">
+  <value column="Name" original="WF_LoopType">WF_LoopType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="310" trl="Y">
+  <value column="Name" original="_PublishStatus">_PublishStatus</value>
+  <value column="Description" original="Publication Status">Starea publicării</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="311" trl="Y">
+  <value column="Name" original="AD_Language Maintenance">Întreţinere AD_Limba</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="312" trl="Y">
+  <value column="Name" original="AD_PrintTableFormat Stroke">AD_PrintTableFormat Stroke</value>
+  <value column="Description" original="Stroke Type">Stroke Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="313" trl="Y">
+  <value column="Name" original="M_RelatedProduct Type">M_RelatedProduct, tip</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="314" trl="Y">
+  <value column="Name" original="C_RfQ QuoteType">C_RfQ QuoteType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="315" trl="Y">
+  <value column="Name" original="B_TopicType AuctionType">B_TopicType AuctionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="316" trl="Y">
+  <value column="Name" original="AD_User - Supervisor">AD_User - Supervisor</value>
+  <value column="Description" original="Employee or SalesRep - or System">Employee or SalesRep - or System</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="318" trl="Y">
+  <value column="Name" original="AD_Scheduler Type">Tip AD_Scheduler</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="319" trl="Y">
+  <value column="Name" original="_YesNo">_DaNu</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="320" trl="Y">
+  <value column="Name" original="M_InOutConfirm Type">Tip M_InOutConfirm</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="321" trl="Y">
+  <value column="Name" original="C_DocType RMA">TipDoc ARM</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="322" trl="Y">
+  <value column="Name" original="AD_Org (all but 0)">AD_Org (all but 0)</value>
+  <value column="Description" original="Organization selection">Selectare Organizaţie</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="323" trl="Y">
+  <value column="Name" original="C_Allocation">C_Allocation</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="324" trl="Y">
+  <value column="Name" original="M_AttributeSet MandatoryType">M_AttributeSet MandatoryType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="325" trl="Y">
+  <value column="Name" original="M_DiscountSchema not PL">M_DiscountSchema not PL</value>
+  <value column="Description" original="Not Price List Discount Schema">Not Price List Discount Schema</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="326" trl="Y">
+  <value column="Name" original="M_Attribute Value Type">Tip Valoare M_Attribute</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="327" trl="Y">
+  <value column="Name" original="AD_Language System">AD_Language System</value>
+  <value column="Description" original="Language selection">Selectare Limbă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="328" trl="Y">
+  <value column="Name" original="AD_Workflow Type">Tip AD_Workflow</value>
+  <value column="Description" original="Workflow Type">Tip Workflow</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="329" trl="Y">
+  <value column="Name" original="M_Replenishment Create">Crează M_Replenishment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="330" trl="Y">
+  <value column="Name" original="AD_Role PreferenceType">AD_Role PreferenceType</value>
+  <value column="Description" original="Preference Type">Tip Preferinţă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="331" trl="Y">
+  <value column="Name" original="Account_ID">Account_ID</value>
+  <value column="Description" original="Account selection based on Client">Selectare cont</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="332" trl="Y">
+  <value column="Name" original="APAR">Cr Dr</value>
+  <value column="Description" original="AP and/or AR">Cont de Credit şi/sau Debit</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="333" trl="Y">
+  <value column="Name" original="AD_PrintFormatItem ShapeType">AD_PrintFormatItem ShapeType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="334" trl="Y">
+  <value column="Name" original="AD_Client AutoArchive">AD_Client AutoArchive</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="335" trl="Y">
+  <value column="Name" original="_MMPolicy">_MMPolicy</value>
+  <value column="Description" original="Material Movement Policy">Politica de mişcare a stocurilor</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="336" trl="Y">
+  <value column="Name" original="C_Invoice">Factură</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="337" trl="Y">
+  <value column="Name" original="M_InOut">M_InOut</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="338" trl="Y">
+  <value column="Name" original="M_CostElement Type">Tip M_ElementCost</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="339" trl="Y">
+  <value column="Name" original="C_LandedCost Distribution">C_LandedCost Distribution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="340" trl="Y">
+  <value column="Name" original="R_Request Confidential">R_Request Confidential</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="341" trl="Y">
+  <value column="Name" original="R_Request">R_Cerere</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="342" trl="Y">
+  <value column="Name" original="W_MailMsg Type">W_MailMsg Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="343" trl="Y">
+  <value column="Name" original="C_Payment">C_Payment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="344" trl="Y">
+  <value column="Name" original="AD_User NotificationType">AD_User NotificationType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="345" trl="Y">
+  <value column="Name" original="R_Status">R_Stare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="346" trl="Y">
+  <value column="Name" original="C_Remuneration Type">Tip C_Remunerare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="347" trl="Y">
+  <value column="Name" original="M_BOM Type">Tip M_LCS</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="348" trl="Y">
+  <value column="Name" original="M_BOM Use">M_BOM Use</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="349" trl="Y">
+  <value column="Name" original="M_BOMProduct Type">M_BOMProduct Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="350" trl="Y">
+  <value column="Name" original="C_BP_Group PriorityBase">C_BP_Group PriorityBase</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="351" trl="Y">
+  <value column="Name" original="M_ChangeNotice">M_ChangeNotice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="352" trl="Y">
+  <value column="Name" original="C_ConversionType">TipConversie</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="353" trl="Y">
+  <value column="Name" original="C_BPartner SalesRep">RepVânzări</value>
+  <value column="Description" original="BP SalesRep selection">Selectare Reprezentant vânzări</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="354" trl="N">
+  <value column="Name" original="AD_Column Encrypted">AD_Column Encrypted</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="355" trl="Y">
+  <value column="Name" original="C_AcctSchema CostingLevel">C_AcctSchema CostingLevel</value>
+  <value column="Description" original="">Nivel stabilire preţuri</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="356" trl="Y">
+  <value column="Name" original="C_Greeting">Mod adresare</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="358" trl="N">
+  <value column="Name" original="AD_User BP AccessType">AD_User BP AccessType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="359" trl="N">
+  <value column="Name" original="C_AcctSchema CommitmentType">C_AcctSchema CommitmentType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="360" trl="N">
+  <value column="Name" original="C_Invoice MatchRequirement">C_Invoice MatchRequirement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="361" trl="N">
+  <value column="Name" original="GL_BudgetControl Scope">GL_BudgetControl Scope</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="362" trl="Y">
+  <value column="Name" original="C_ElementValue (trx)">Valoare Element (trx)</value>
+  <value column="Description" original="Element Values">Valorile Elementului</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="AD_WF_Node EMailRecipient">AD_WF_Node EMailRecipient</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="AD_User ConnectionProfile">AD_User ConnectionProfile</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="AD_Client ShareType">AD_Client ShareType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original="R_Request TaskStatus">R_Request TaskStatus</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="PA_Goal Scope">PA_Goal Scope</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="368" trl="Y">
+  <value column="Name" original="PA_Goal Restriction Type">Tip Restricţie pe obiectiv</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="PA_Measure DataType">PA_Measure DataType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original="PA_Benschmark Accumulation Type">PA_Benschmark Accumulation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="PA_Ratio">PA_Ratio</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="PA_Ratio ElementType">PA_Ratio ElementType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="373" trl="N">
+  <value column="Name" original="PA_Ratio Operand">PA_Ratio Operand</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="374" trl="N">
+  <value column="Name" original="AD_System Status">AD_System Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="375" trl="N">
+  <value column="Name" original="AD_PrintPaper Units">AD_PrintPaper Units</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="376" trl="N">
+  <value column="Name" original="M_Inventory CountSet">M_Inventory CountSet</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="AD_PrintFormatItem BarcodeType">AD_PrintFormatItem BarcodeType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="383" trl="N">
+  <value column="Name" original="C_Project InvoiceRule">C_Project InvoiceRule</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="C_Project LineLevel">C_Project LineLevel</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="385" trl="N">
+  <value column="Name" original="CM_Container Type">CM_Container Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="386" trl="N">
+  <value column="Name" original="CM_Container">CM_Container</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="CM_CStage">CM_CStage</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="CM_Media Media Type">CM_Media Media Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="389" trl="Y">
+  <value column="Name" original="_EntityTypeNew">_EntityTypeNew</value>
+  <value column="Description" original="">Tipul entităţii</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="390" trl="N">
+  <value column="Name" original="CM_WebAccessLog Type">CM_WebAccessLog Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="391" trl="N">
+  <value column="Name" original="K_IndexLog QuerySource">K_IndexLog QuerySource</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="392" trl="N">
+  <value column="Name" original="C_AcctSchema TaxCorrectionType">C_AcctSchema TaxCorrectionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="393" trl="N">
+  <value column="Name" original="C_BPartner BPBankAcctUse">C_BPartner BPBankAcctUse</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="394" trl="N">
+  <value column="Name" original="C_Invoice InvoiceCollectionType">C_Invice InvoiceCollectionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="395" trl="N">
+  <value column="Name" original="CM_Chat ModerationType">CM_Chat ModerationType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="396" trl="N">
+  <value column="Name" original="CM_ChatEntry ModeratorStatus">CM_ChatEntry ModeratorStatus</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="397" trl="N">
+  <value column="Name" original="CM_WikiToken Type">CM_WikiToken Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="398" trl="N">
+  <value column="Name" original="CM_Chat EntryType">CM_Chat EntryType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="399" trl="N">
+  <value column="Name" original="CM_ChatEntry">CM_ChatEntry</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="400" trl="N">
+  <value column="Name" original="AD_Process_JasperReports">AD_Process_JasperReports</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="AD_Package_Type">AD_Package_Type</value>
+  <value column="Description" original="Defines the type of packages available">Defines the type of packages available</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Package_Releases">Package_Releases</value>
+  <value column="Description" original="List of Package Releases">List of Package Releases</value>
+  <value column="Help" original="Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.">Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="AD_Package_Exp_DB">AD_Package_Exp_DB</value>
+  <value column="Description" original="List of database types">List of database types</value>
+  <value column="Help" original="This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.">This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="AD_Package_Build_Type">AD_Package_Build_Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="AD_Package_Source_Type">AD_Package_Source_Type</value>
+  <value column="Description" original="List of package source types">List of package source types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="ShowHelp List">ShowHelp List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

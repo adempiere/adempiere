@@ -1,0 +1,3196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Message">
+ <row id="101" trl="Y">
+  <value column="MsgText" original="zero">zero</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="102" trl="Y">
+  <value column="MsgText" original="one">un</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="103" trl="Y">
+  <value column="MsgText" original="two">doi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="104" trl="Y">
+  <value column="MsgText" original="three">trei</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="105" trl="Y">
+  <value column="MsgText" original="four">patru</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="106" trl="Y">
+  <value column="MsgText" original="five">cinci</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="107" trl="Y">
+  <value column="MsgText" original="six">şase</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="108" trl="Y">
+  <value column="MsgText" original="seven">şapte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="109" trl="Y">
+  <value column="MsgText" original="eight">opt</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="110" trl="Y">
+  <value column="MsgText" original="nine">nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="111" trl="Y">
+  <value column="MsgText" original="About ">Despre </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="112" trl="Y">
+  <value column="MsgText" original="Access">Acces</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="113" trl="Y">
+  <value column="MsgText" original="You cannot change the record">Nu puteţi modifica înregistrarea</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi drepturi suficiente</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="MsgText" original="You cannot delete this record">Nu puteţi şterge înregistrarea</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi drepturi suficiente</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="MsgText" original="You cannot insert a record">Nu puteţi adăuga înregistrarea</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi drepturi suficiente</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="MsgText" original="You cannot update this record">Nu puteţi actualiza înregistrarea</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi drepturi suficiente</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="MsgText" original="Client &amp; Organization Data">Date despre Societate şi Organizaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="118" trl="Y">
+  <value column="MsgText" original="You cannot delete records of this file for audit reasons">Nu puteţi să ştergeţi înregistrări din acest fişier din motive de audit</value>
+  <value column="MsgTip" original="If not a transaction, you can deactivate the recorrd with deselecting the 'Active' flag ">Dacă nu este o tranzacţie, puteţi dezactiva înregistrarea deselectând indicatorul 'Activ'</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="MsgText" original="Organization Data">Date Organizaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="120" trl="Y">
+  <value column="MsgText" original="Shared Data">Date Comune</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="121" trl="Y">
+  <value column="MsgText" original="System Data">Date Sistem</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="122" trl="Y">
+  <value column="MsgText" original="System &amp; Client Data">Date despre Sistem şi Societate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="123" trl="Y">
+  <value column="MsgText" original="With your current role, you cannot update this information">Cu Rolul curent, nu puteţi să actualizaţi această informaţie</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi drepturi suficiente</value>
+ </row>
+ <row id="124" trl="Y">
+  <value column="MsgText" original="With your current role and settings, you cannot view this information">Cu rolul şi setările curente, nu puteţi să vedeţi aceste informaţii</value>
+  <value column="MsgTip" original="You don't have the privileges (your Role does not allow to access the information) - or - set profile (e.g. if you want to see accounting records, Show Accounting must be set)">Nu aveţi drepturi suficiente (acest Rol nu vă permite să aveţi acces la informaţii) - sau - profilul (ex. dacă doriţi să vedeţi înregistrările din contabilitate, trebuie stabilit 'Arată contabilitatea')</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="MsgText" original="Adempiere, Inc.">© Jorg Janke - ComPiere, Inc. 1999-2002</value>
+  <value column="MsgTip" original="http://www.adempiere.org">http://www.compiere.org</value>
+ </row>
+ <row id="126" trl="Y">
+  <value column="MsgText" original="40 Old Tannery Rd Monroe CT 06460 USA">40 Old Tannery Rd Monroe CT 06460 USA</value>
+  <value column="MsgTip" original="Phone (203) 445-8182">Phone (203) 445-8182</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="MsgText" original="Adempiere Online">Adempiere Online</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="128" trl="Y">
+  <value column="MsgText" original="Account Combination">Combinaţie cont</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="129" trl="Y">
+  <value column="MsgText" original="Create new Account or update Alias">Crează cont nou sau actualizează alias</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="130" trl="Y">
+  <value column="MsgText" original="Account not updated">Contul nu s-a actualizat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="131" trl="Y">
+  <value column="MsgText" original="Account Viewer">Consultare cont</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="132" trl="Y">
+  <value column="MsgText" original="This action is not allowed in this context">Această acţiune nu este permisă în acest contex</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="133" trl="Y">
+  <value column="MsgText" original="This action is not supported">Această acţiune nu este suportată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="134" trl="Y">
+  <value column="MsgText" original="Address">Adresa</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="135" trl="Y">
+  <value column="MsgText" original="&amp;Advanced">&amp;Avansat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="136" trl="Y">
+  <value column="MsgText" original="Alias">Alias</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="137" trl="Y">
+  <value column="MsgText" original="All records">Toate înregistrările</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="138" trl="Y">
+  <value column="MsgText" original="Prefer selecting a matching invoice and payment pair and process each at a time.">Este de preferat selectarea unei facturi şi a plăţii corespunzătoare şi procesarea lor simultană.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="139" trl="Y">
+  <value column="MsgText" original="Record cannot be changed">Înregistrarea nu se poate modifica</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="140" trl="Y">
+  <value column="MsgText" original="Amount">Suma</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="141" trl="Y">
+  <value column="MsgText" original="Amount Due">Suma scadentă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="142" trl="Y">
+  <value column="MsgText" original="Payment Amount">Suma de plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="143" trl="Y">
+  <value column="MsgText" original="From Amount">De la suma</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="144" trl="Y">
+  <value column="MsgText" original="Amount To">La suma</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="145" trl="Y">
+  <value column="MsgText" original="Application">Aplicaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="146" trl="Y">
+  <value column="MsgText" original="Applied">Aplicat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="147" trl="Y">
+  <value column="MsgText" original="At first record">La prima înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="148" trl="Y">
+  <value column="MsgText" original="At last record">La ultima înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="149" trl="Y">
+  <value column="MsgText" original="Attachment">Notă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="150" trl="Y">
+  <value column="MsgText" original="Do you want to delete this (complete) Attachment?">Vreţi să ştergeţi această Notă (complet) ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="151" trl="Y">
+  <value column="MsgText" original="Select a file to attach to this entity">Selecteză un fişier pentru a fi ataşat la această entitate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="152" trl="Y">
+  <value column="MsgText" original="Attachment not found">Nu s-a găsit nota</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="153" trl="Y">
+  <value column="MsgText" original="Cannot add Attachment to this entity">Nu se poate ataşa fişierul la această entitate</value>
+  <value column="MsgTip" original="Attachments require a single key and this entity is probably an Association (with two keys) or an entity without an unique numeric key.">Anexa necesită o cheie unică. Înregistrarea utilizată este, probabil, o asociere cu două chei, fără o cheie numerică unică.</value>
+ </row>
+ <row id="154" trl="Y">
+  <value column="MsgText" original="Automatic Write-Off">Calculul automat al sumei nerecuperate</value>
+  <value column="MsgTip" original="Automatic calculation of write-off amount to close the open item">Calculul automat al sumei nerecuperate pentru a închide documentul deschis.</value>
+ </row>
+ <row id="155" trl="Y">
+  <value column="MsgText" original="Automatic Commit">Înregistrare automată</value>
+  <value column="MsgTip" original="Automatic saving of data">Salvarea automată a datelor</value>
+ </row>
+ <row id="156" trl="Y">
+  <value column="MsgText" original="Automatic Login">Login automat</value>
+  <value column="MsgTip" original="Log in with current user ID automatically">Deschiderea automată a sesiunii cu ID utilizator curent</value>
+ </row>
+ <row id="157" trl="Y">
+  <value column="MsgText" original="Available Choices">Alegeri disponibile</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="158" trl="Y">
+  <value column="MsgText" original="Business Partner not found">Nu s-a găsit Partenerul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="159" trl="Y">
+  <value column="MsgText" original="Business Partner not saved">Nu s-a salvat Partenerul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="160" trl="Y">
+  <value column="MsgText" original="Add to Bar">Adaugă la Bară</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="161" trl="Y">
+  <value column="MsgText" original="Bar Chart">Grafic cu bare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="162" trl="Y">
+  <value column="MsgText" original="Remove from Bar">Suprimă din bară</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="163" trl="Y">
+  <value column="MsgText" original="Business Partner">Partener</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="164" trl="Y">
+  <value column="MsgText" original="Calculator">Calculator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="165" trl="Y">
+  <value column="MsgText" original="Calendar">Calendar</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="166" trl="Y">
+  <value column="MsgText" original="&amp;Cancel">&amp;Anulare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="167" trl="Y">
+  <value column="MsgText" original="&amp;Cancel Query">&amp;Întrerupe Interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="168" trl="Y">
+  <value column="MsgText" original="Cannot change Document Type">Nu se poate modifica Tipul Documentului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="169" trl="Y">
+  <value column="MsgText" original="You cannot delete this record (you might be able to e-activate it)">Nu puteţi şterge această înregistrare (eventual, puteţi să o dezactivaţi)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="170" trl="Y">
+  <value column="MsgText" original="Cannot delete completed/processed transactions">Nu se pot şterge tranzacţiile finalizate/procesate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="171" trl="Y">
+  <value column="MsgText" original="Change of the default Cashbook ignored.&#10;Please change Cashbook only after completion of transaction">Modificarea Registrului de Casă implicit ignorată.
+Modificaţi Registrul de Casă numai după terminarea tranzacţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="172" trl="Y">
+  <value column="MsgText" original="Charge created">Cost/Cheltuială creată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="173" trl="Y">
+  <value column="MsgText" original="Create Charge from Account">Crează cheltuială din cont</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="174" trl="Y">
+  <value column="MsgText" original="Generate Charges">Generează Cost/Cheltuială</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="175" trl="Y">
+  <value column="MsgText" original="Create Account and Charge">Crează cont şi cheltuială</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="176" trl="Y">
+  <value column="MsgText" original="Charge NOT created">Cheltuiala NU s-a creat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="177" trl="Y">
+  <value column="MsgText" original="City">Localitate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="178" trl="Y">
+  <value column="MsgText" original="Client">Societate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="179" trl="Y">
+  <value column="MsgText" original="Shared Services">Servicii comune</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="180" trl="Y">
+  <value column="MsgText" original="Close Window">Închide fereastra</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="181" trl="Y">
+  <value column="MsgText" original="Combination">Combinaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="182" trl="Y">
+  <value column="MsgText" original="Connection">Conexiune</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="183" trl="Y">
+  <value column="MsgText" original="Contact">Contact</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="184" trl="Y">
+  <value column="MsgText" original="Control Amount differs from Balance">Suma de control diferă faţă de sold</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="185" trl="Y">
+  <value column="MsgText" original="Error while executing currency conversion routine">Eroare la execuţia rutinei de conversie a valutei</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="186" trl="Y">
+  <value column="MsgText" original="Converted">Convertit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="187" trl="Y">
+  <value column="MsgText" original="Copied">Copiat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="188" trl="Y">
+  <value column="MsgText" original="&amp;Copy Record">&amp;Copiază Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="189" trl="Y">
+  <value column="MsgText" original="Update copied record and save or ignore">Actualizează înregistrările copiate şi salvează sau ignoră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="190" trl="Y">
+  <value column="MsgText" original="Could not copy: ">Nu se poate copia: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="191" trl="Y">
+  <value column="MsgText" original="Country">Ţara</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="192" trl="Y">
+  <value column="MsgText" original="Create">Crează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="193" trl="Y">
+  <value column="MsgText" original="Create New Record">Crează înregistrare nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="194" trl="Y">
+  <value column="MsgText" original="Created">Creat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="195" trl="Y">
+  <value column="MsgText" original="Credit Card Expiration Date Format must be &quot;MMYY&quot;">Formatul datei de expirare a Cărţii de credit este "LLAA"</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="196" trl="Y">
+  <value column="MsgText" original="Credit Card Expiration Date Month invalid">Luna datei expirării Cărţii de credit este invalidă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="197" trl="Y">
+  <value column="MsgText" original="Credit Card Expiration Date Year invalid">Anul datei expirării Cărţii de credit este invalid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="198" trl="Y">
+  <value column="MsgText" original="Credit Card is expired">Cartea de credit nu mai este valabilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="199" trl="Y">
+  <value column="MsgText" original="Credit Card Number not valid">Numărul cardului este invalid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="200" trl="Y">
+  <value column="MsgText" original="There seems to be a Credit Card Number problem.&#10;Continue?">Se pare că este o problemă cu numărul Cărţii de credit.
+Continuaţi ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="201" trl="Y">
+  <value column="MsgText" original="Credit Card Validation Code not correct.">Codul de validare a Cărţii de Credit nu este corect.</value>
+  <value column="MsgTip" original="You find the four digit validation number printed on AMEX right above the credit card number. On other cards it is a three digit number printed on the signature field after the credit card number.">Codul de validare pentru AMEX este format din 4 caractere şi se găseşte în dreapta, deasupra numărului cărţii de credit.  Pe alte carduri este un număr din 3 cifre tipărit în câmpul de semnătură, după numărul cardului.</value>
+ </row>
+ <row id="202" trl="Y">
+  <value column="MsgText" original="Note: Over Credit Limit ">Notă : Depăşire în curs de autorizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="203" trl="Y">
+  <value column="MsgText" original="Currency Conversion">Conversie Valută</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="204" trl="Y">
+  <value column="MsgText" original="Current Settings">Parametri actuali</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="205" trl="Y">
+  <value column="MsgText" original="Customize">Personalizează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="206" trl="Y">
+  <value column="MsgText" original="Database Error.">Eroare de Bază de Date</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="207" trl="Y">
+  <value column="MsgText" original="Data requeried from database">Date actualizate (din Baza de Date)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="208" trl="Y">
+  <value column="MsgText" original="Database">Bază de Date</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="209" trl="Y">
+  <value column="MsgText" original="Date">Data</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="210" trl="Y">
+  <value column="MsgText" original="Date from">Din Data de</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="211" trl="Y">
+  <value column="MsgText" original="Date to">Până în data de</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="212" trl="Y">
+  <value column="MsgText" original="Trace Level">Nivel depanare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="213" trl="Y">
+  <value column="MsgText" original="Default Error ">Eroare Implicită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="214" trl="Y">
+  <value column="MsgText" original="&amp;Delete record">&amp;Şterge înregistrarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="215" trl="Y">
+  <value column="MsgText" original="Could not delete record: ">Înregistrarea nu s-a şters: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="216" trl="Y">
+  <value column="MsgText" original="Record not deleted - dependent record found">Înregistrarea nu s-a şters. Există înregistrări dependente de aceasta.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="217" trl="Y">
+  <value column="MsgText" original="Do you want to delete the record?">Vreţi să ştergeţi înregistrarea ? </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="218" trl="Y">
+  <value column="MsgText" original="Deleted">Şters</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="219" trl="Y">
+  <value column="MsgText" original="Description">Descriere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="220" trl="Y">
+  <value column="MsgText" original="Detail record">Detaliu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="221" trl="Y">
+  <value column="MsgText" original="Difference">Diferenţa</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="222" trl="Y">
+  <value column="MsgText" original="Trade Discount">Reducere comercială</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="223" trl="Y">
+  <value column="MsgText" original="Discount Date">Dată reducere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="224" trl="Y">
+  <value column="MsgText" original="Category Discount invalid (above or below 100)">Categorie Reducere invalidă (&gt; sau &lt; ca 100)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="225" trl="Y">
+  <value column="MsgText" original="Display Document Info">Afişează Info Document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="226" trl="Y">
+  <value column="MsgText" original="Display Quantity">Afişează Cantitatea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="227" trl="Y">
+  <value column="MsgText" original="Display Source Info">Afişează Info Sursă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="228" trl="Y">
+  <value column="MsgText" original="Document is being processed">Document în curs de procesare.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="229" trl="Y">
+  <value column="MsgText" original="Copy">Copiază</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="230" trl="Y">
+  <value column="MsgText" original="Drill">Detalii</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="231" trl="Y">
+  <value column="MsgText" original="EFT">EFT</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="232" trl="Y">
+  <value column="MsgText" original="EMail">EMail</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="233" trl="Y">
+  <value column="MsgText" original="EMail to Support">EMail la Suport</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="234" trl="Y">
+  <value column="MsgText" original="&amp;Edit">&amp;Editare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="235" trl="Y">
+  <value column="MsgText" original="Editor">Editor</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="236" trl="Y">
+  <value column="MsgText" original="e&amp;Xit Window">Închide fereastră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="237" trl="Y">
+  <value column="MsgText" original="Enter &amp;Query">Introduceţi Interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="238" trl="Y">
+  <value column="MsgText" original="Enter text to search for in tree">Formulează text de căutare pentru</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="239" trl="Y">
+  <value column="MsgText" original="Environment">Mediu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="240" trl="Y">
+  <value column="MsgText" original="Error: ">Eroare : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="241" trl="Y">
+  <value column="MsgText" original="Execute Query">Execută interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="242" trl="Y">
+  <value column="MsgText" original="Exit Application">Ieşire aplicaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="243" trl="Y">
+  <value column="MsgText" original="Are you sure you want to exit the application?">Sunteţi sigur că vreţi să terminaţi aplicaţia ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="244" trl="Y">
+  <value column="MsgText" original="Expand all">Expandează tot</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="245" trl="Y">
+  <value column="MsgText" original="&amp;Expand Tree">&amp;Expandează Ierarhia</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="246" trl="Y">
+  <value column="MsgText" original="Expense">Cheltuială</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="247" trl="Y">
+  <value column="MsgText" original="Expires (MMYY)">Expiră  (LLAA)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="248" trl="Y">
+  <value column="MsgText" original="Export">Export</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="249" trl="Y">
+  <value column="MsgText" original="Export to Excel">Exportă în Excel</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="250" trl="Y">
+  <value column="MsgText" original="Export Records">Export înregistrări (date)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="251" trl="Y">
+  <value column="MsgText" original="Process failed: ">Proces nereuşit : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="252" trl="Y">
+  <value column="MsgText" original="Field">Câmp</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="253" trl="Y">
+  <value column="MsgText" original="&amp;File">&amp;Fişier</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="254" trl="Y">
+  <value column="MsgText" original="csv - Excel Comma Separated Values file">Fişier Excel de tip CSV</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="255" trl="Y">
+  <value column="MsgText" original="Cannot create file">Nu se poate crea fişierul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="256" trl="Y">
+  <value column="MsgText" original="html - HTML file">Fişier html - HTML</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="257" trl="Y">
+  <value column="MsgText" original="Import File Loader">Încărcător de Fişier Import</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="258" trl="Y">
+  <value column="MsgText" original="&lt;Select File to Load&gt;">&lt;Selecteză fişierul pentru încărcare&gt;</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="259" trl="Y">
+  <value column="MsgText" original="Select the file to load matching the Import Format">Selectează fişierul care se potriveşte la Formatul de Import</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="260" trl="Y">
+  <value column="MsgText" original="Select a Import Format">Selectaţi un Format de Import</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="261" trl="Y">
+  <value column="MsgText" original="Rows in file / loaded and ready to import:">Linii în fişier încărcate şi gata de  import:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="262" trl="Y">
+  <value column="MsgText" original="Invalid File Extension">Extensie de fişier incorectă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="263" trl="Y">
+  <value column="MsgText" original="pdf - Acrobat PDF file">pdf - Fişier Acrobat PDF</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="264" trl="Y">
+  <value column="MsgText" original="ps - Postscript file">ps - Fişier Postscript</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="265" trl="Y">
+  <value column="MsgText" original="rtf - Rich Text Format file">rtf - Fişier RTF</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="266" trl="Y">
+  <value column="MsgText" original="txt - Tab delimited file">txt - Fişier Text delimitat cu tab</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="267" trl="Y">
+  <value column="MsgText" original="Error writing file">Eroare la scrierea fişierului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="268" trl="Y">
+  <value column="MsgText" original="xml - XML file">xml - Fişier XML</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="269" trl="Y">
+  <value column="MsgText" original="Fill mandatory fields: ">Completarea câmpurilor este obligatorie : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="270" trl="Y">
+  <value column="MsgText" original="&amp;Lookup Record">&amp;Căută înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="271" trl="Y">
+  <value column="MsgText" original="Available Columns">Coloane disponibile</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="272" trl="Y">
+  <value column="MsgText" original="Select columns and order them">Selectează coloane şi ordonează-le</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="273" trl="Y">
+  <value column="MsgText" original="Selected Columns">Coloane selectate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="274" trl="Y">
+  <value column="MsgText" original="Customize Find">Căutare personalizată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="275" trl="Y">
+  <value column="MsgText" original="Select a row or enter search criteria">Selectaţi o înregistrare sau introduceţi criterii de căutare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="276" trl="Y">
+  <value column="MsgText" original="Enter Query criteria with optional % wildcard (case insensitive)">Introduceţi criteriile de interogare, eventual cu % (unde % înlocuieşte unul sau mai multe caractere)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="277" trl="Y">
+  <value column="MsgText" original="No Records found">Nu s-au găsit înregistrari (date)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="278" trl="Y">
+  <value column="MsgText" original="First record">Prima înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="279" trl="Y">
+  <value column="MsgText" original="First Page">Prima pagină</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="280" trl="Y">
+  <value column="MsgText" original="From">De la</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="281" trl="Y">
+  <value column="MsgText" original="Callout Function not found">Funcţie externă negăsită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="282" trl="Y">
+  <value column="MsgText" original="Callout Function Error">Eroare Funcţie externă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="283" trl="Y">
+  <value column="MsgText" original="Generate">Generează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="284" trl="Y">
+  <value column="MsgText" original="&amp;Go">&amp;Du-te</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="285" trl="Y">
+  <value column="MsgText" original="Go To Page">Du-te la pagina</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="286" trl="Y">
+  <value column="MsgText" original="Column for Name (X-Axis)">Coloana pentru Nume (Axa-X)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="287" trl="Y">
+  <value column="MsgText" original="Greeting">Mod adresare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="288" trl="Y">
+  <value column="MsgText" original="Summarize">Totalizează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="289" trl="Y">
+  <value column="MsgText" original="Group by">Grupare după</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="290" trl="Y">
+  <value column="MsgText" original="Heading">Antet</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="291" trl="Y">
+  <value column="MsgText" original="&amp;Help">&amp;Asistare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="292" trl="Y">
+  <value column="MsgText" original="Histor&amp;Y records">Istoric</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="293" trl="Y">
+  <value column="MsgText" original="&amp;Menu">&amp;Meniu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="294" trl="Y">
+  <value column="MsgText" original="Host">Server</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="295" trl="Y">
+  <value column="MsgText" original="&amp;Undo changes">&amp;Ignoră modificările</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="296" trl="Y">
+  <value column="MsgText" original="Could not ignore changes: ">Nu se pot ignora modificările : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="297" trl="Y">
+  <value column="MsgText" original="Changes ignored">Modificările au fost ignorate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="298" trl="Y">
+  <value column="MsgText" original="Info">Info</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="299" trl="Y">
+  <value column="MsgText" original="Account Info">Info Cont</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="300" trl="Y">
+  <value column="MsgText" original="Business Partner Info">Info Partener</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="301" trl="Y">
+  <value column="MsgText" original="Shipment Info">Info Recepţie/Expediţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="302" trl="Y">
+  <value column="MsgText" original="Invoice Info">Info Factură</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="303" trl="Y">
+  <value column="MsgText" original="Order Info">Info Comandă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="304" trl="Y">
+  <value column="MsgText" original="Payment Info">Info Încasare/Plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="305" trl="Y">
+  <value column="MsgText" original="Product &amp;Info">Info Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="306" trl="Y">
+  <value column="MsgText" original="Inserted">Inserat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="307" trl="Y">
+  <value column="MsgText" original="Generate Invoices (manual)">Generează Facturi (manual)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="308" trl="Y">
+  <value column="MsgText" original="Generating invoices">Generare facturi în curs..</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="309" trl="Y">
+  <value column="MsgText" original="Invoices are generated depending on the &quot;Invoicing Rule&quot; selection in the Order">Facturile se vor genera în funcţie de 'Regulă facturare' selectată din Comenzi.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="310" trl="Y">
+  <value column="MsgText" original="Select shipments to generate invoices">Selectare expediţii pentru generare facturi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="311" trl="Y">
+  <value column="MsgText" original="One or more Product is more than once in the count list.  Lines deactivated.">Unul sau mai multe Produse este prezent de mai multe ori în această listă.  Liniile au fost dezactivate.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="312" trl="Y">
+  <value column="MsgText" original="Invoice">Factură</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="313" trl="Y">
+  <value column="MsgText" original="Receipt (Shipment) already exists for this invoice">O livrare (Expediţie) există deja pentru această factură.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="314" trl="Y">
+  <value column="MsgText" original="Document must be completed first">Documentul trebuie să fie întâi completat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="315" trl="Y">
+  <value column="MsgText" original="Insert Item here">Inserează articol aici</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="316" trl="Y">
+  <value column="MsgText" original="Move Item">Mută Articol</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="317" trl="Y">
+  <value column="MsgText" original="Last record">Ultima înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="318" trl="Y">
+  <value column="MsgText" original="Last Page">Ultima pagină</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="319" trl="Y">
+  <value column="MsgText" original="Length">Lungime</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="320" trl="Y">
+  <value column="MsgText" original="Level">Nivel</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="321" trl="Y">
+  <value column="MsgText" original="Load">Încarcă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="322" trl="Y">
+  <value column="MsgText" original="Loading ....">Încarcare în curs ...</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="323" trl="Y">
+  <value column="MsgText" original="Location/Address">Locaţie/Adresă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="324" trl="Y">
+  <value column="MsgText" original="Enter new Location/Address">Introduceţi o nouă Locaţie/Adresă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="325" trl="Y">
+  <value column="MsgText" original="Update Location/Address">Actualizează Locaţie/Adresă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="326" trl="Y">
+  <value column="MsgText" original="Login">Login</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="327" trl="Y">
+  <value column="MsgText" original="Login (success)">Login reuşit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="328" trl="Y">
+  <value column="MsgText" original="Margin">Margine</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="329" trl="Y">
+  <value column="MsgText" original="Match From">Conectare de la</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="330" trl="Y">
+  <value column="MsgText" original="Search Mode">Mod Căutare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="331" trl="Y">
+  <value column="MsgText" original="Match To">Conectare la</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="332" trl="Y">
+  <value column="MsgText" original="Matched">Conectat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="333" trl="Y">
+  <value column="MsgText" original="Matching">Conectare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="334" trl="Y">
+  <value column="MsgText" original="&amp;Menu">&amp;Meniu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="335" trl="Y">
+  <value column="MsgText" original="Go to Menu">Afişează Meniul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="336" trl="Y">
+  <value column="MsgText" original="Menu cannot load: ">Meniul nu se încărcă :</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="337" trl="Y">
+  <value column="MsgText" original="Message not sent.&#10;&#10;Problem: ">Mesajul nu s-a expediat.
+
+Problema : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="338" trl="Y">
+  <value column="MsgText" original="Message sent.">Mesaj expediat.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="339" trl="Y">
+  <value column="MsgText" original=" Messages">Mesaje</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="340" trl="Y">
+  <value column="MsgText" original="Grid t&amp;Oggle">Inversare afişaj</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="341" trl="Y">
+  <value column="MsgText" original="Multi-Currency">Multi-Valută</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="342" trl="Y">
+  <value column="MsgText" original="No">Nu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="343" trl="Y">
+  <value column="MsgText" original="&amp;Name">&amp;Nume</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="344" trl="Y">
+  <value column="MsgText" original="Navigate">Navigare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="345" trl="Y">
+  <value column="MsgText" original="Navigate or Update record">Navigare sau Actualizare înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="346" trl="Y">
+  <value column="MsgText" original="&lt;Query active&gt; Navigate or Update record">&lt;Interogare activă&gt; Navigare sau Actualizare înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="347" trl="Y">
+  <value column="MsgText" original="&amp;New Record">Înregistrare &amp;nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="348" trl="Y">
+  <value column="MsgText" original="Enter data for new record and save or ignore">Introduceţi date pentru o nouă înregistrare şi salvaţi sau ignoraţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="349" trl="Y">
+  <value column="MsgText" original="Could not add new record:">Nu se poate adăga o înregistrare nouă:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="350" trl="Y">
+  <value column="MsgText" original="New Value">Valoare nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="351" trl="Y">
+  <value column="MsgText" original="Next record">Înregistrarea următoare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="352" trl="Y">
+  <value column="MsgText" original="Next Page">Pagina următoare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="353" trl="Y">
+  <value column="MsgText" original="Did not find next Sequence Number">Nu s-a găsit următorul Număr de secvenţă</value>
+  <value column="MsgTip" original="Contact System Administrator">Contactaţi Administratorul de sistem</value>
+ </row>
+ <row id="354" trl="Y">
+  <value column="MsgText" original="No">Nu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="355" trl="Y">
+  <value column="MsgText" original="Message Not Found">Nu s-a găsit mesajul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="356" trl="Y">
+  <value column="MsgText" original="Number of lines">Număr de linii</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="357" trl="Y">
+  <value column="MsgText" original="Number of Payments">Număr de plăţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="358" trl="Y">
+  <value column="MsgText" original="No records found; Enter data for new record">Nu s-au găsit înregistrări. Introduceţi date pentru o înregistrare nouă.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="359" trl="Y">
+  <value column="MsgText" original="Did not find valid Accounting Information.">Nu s-au găsit parametri valizi ai contului.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="360" trl="Y">
+  <value column="MsgText" original="NOT Active">NU este Activ</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="361" trl="Y">
+  <value column="MsgText" original="Not sufficient on stock:">Stoc insuficient :</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="362" trl="Y">
+  <value column="MsgText" original="* Not found *">* Nu s-a găsit *</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="363" trl="Y">
+  <value column="MsgText" original="Not Matched">Nu s-a conectat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="364" trl="Y">
+  <value column="MsgText" original="Not Unique:">Nu este Unic:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="365" trl="Y">
+  <value column="MsgText" original="Number of Rows x Columns">Numărul de Linii x Coloane</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="366" trl="Y">
+  <value column="MsgText" original="&amp;OK">&amp;OK</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="367" trl="Y">
+  <value column="MsgText" original="Show old/completed Transactions">Arată Tranzacţii vechi/finalizate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="368" trl="Y">
+  <value column="MsgText" original="Old Value">Valoare precedentă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="369" trl="Y">
+  <value column="MsgText" original="Online">Online</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="370" trl="Y">
+  <value column="MsgText" original="Customers only">Numai clienţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="371" trl="Y">
+  <value column="MsgText" original="Only Due Invoices">Numai facturile scadente</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="372" trl="Y">
+  <value column="MsgText" original="Only Vendors">Numai furnizori</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="373" trl="Y">
+  <value column="MsgText" original="Open">Deschisă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="374" trl="Y">
+  <value column="MsgText" original="Open">Neplătită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="375" trl="Y">
+  <value column="MsgText" original="Options">Opţiuni</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="376" trl="Y">
+  <value column="MsgText" original="Order by">Comandat de</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="377" trl="Y">
+  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Linie(i) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00} {3}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="378" trl="Y">
+  <value column="MsgText" original="Org">Org</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="379" trl="Y">
+  <value column="MsgText" original="Another Process for this record is active, retry later">Pentru această înregistrare este activ un alt Proces. Încercaţi mai târziu.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="380" trl="Y">
+  <value column="MsgText" original="Page">Pagina</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="381" trl="Y">
+  <value column="MsgText" original="Page break">Salt de pagină</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="382" trl="Y">
+  <value column="MsgText" original="Page {P} of {N}">Pagina de la {P} la {N}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="383" trl="Y">
+  <value column="MsgText" original="Two Pages">Două Pagini</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="384" trl="Y">
+  <value column="MsgText" original="Whole Page">Toată pagina</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="385" trl="Y">
+  <value column="MsgText" original="Page Width">Lăţime pagină</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="386" trl="Y">
+  <value column="MsgText" original="Parameter">Parametru</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="387" trl="Y">
+  <value column="MsgText" original="Error:  Parameter missing">Eroare:  Parametri lipsă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="388" trl="Y">
+  <value column="MsgText" original="Parent Record">Înregistrare Părinte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="389" trl="Y">
+  <value column="MsgText" original="Password">Parola</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="390" trl="Y">
+  <value column="MsgText" original="Payment">Plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="391" trl="Y">
+  <value column="MsgText" original="Payment Allocation">Alocare Plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="392" trl="Y">
+  <value column="MsgText" original="Bank Account Number is not valid">Numărul contului bancar este invalid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="393" trl="Y">
+  <value column="MsgText" original="Bank Check Number is not valid">Numărul contului de cec este invalid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="394" trl="Y">
+  <value column="MsgText" original="Bank Routing Number is not valid">Cheia bancară este invalidă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="395" trl="Y">
+  <value column="MsgText" original="Enter the payment after completing the transaction">Introduceţi plata după completarea tranzacţiei</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="396" trl="Y">
+  <value column="MsgText" original="Created Payment:">Plăţi create:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="397" trl="Y">
+  <value column="MsgText" original="Payment discount">Reducere plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="398" trl="Y">
+  <value column="MsgText" original="An error occurred when processing the payment:">A apărut o eroare în timpul prelucrării plăţii:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="399" trl="Y">
+  <value column="MsgText" original="No Payment Processor for this Payment Type.">Nu există Procesor de plată pentru acest Tip Plată.</value>
+  <value column="MsgTip" original="Create Payment Processor for your Bank Account.">Creaţi Procesor de Plată pentru Contul din Bancă.</value>
+ </row>
+ <row id="400" trl="Y">
+  <value column="MsgText" original="Payment process failed">Procesul de plată nereuşit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="401" trl="Y">
+  <value column="MsgText" original="Payment successfully processed">Plată procesată cu succes</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="402" trl="Y">
+  <value column="MsgText" original="The amount is zero.&#10;Enter the payment after completing the transaction">Valoarea este zero.
+Introduceţi plata după terminarea tranzacţiei.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="403" trl="Y">
+  <value column="MsgText" original="Next Calendar Period not found">Nu s-a găsit următoarea Perioadă contabilă</value>
+  <value column="MsgTip" original="Please set up future Periods ">Vă rog să stabiliţi Perioadele viitoare</value>
+ </row>
+ <row id="404" trl="Y">
+  <value column="MsgText" original="Calendar Period not found">Nu s-a găsit Perioada contabilă</value>
+  <value column="MsgTip" original="Check setup of Calendar and Accounting Schema as well as Accounting Schema assignment to Client or Organization">Verificaţi parametri Perioadei Contabile, Schema Contabilă şi de asemenea, legătura la Societate sau Organizaţie.</value>
+ </row>
+ <row id="405" trl="Y">
+  <value column="MsgText" original="No valid period for this accounting date.">Nu există perioadă validă corespunzătoare acestei date.</value>
+  <value column="MsgTip" original="Check your calendar setup.">Verificaţi parametri calendarului.</value>
+ </row>
+ <row id="406" trl="Y">
+  <value column="MsgText" original="Pie Chart">Diagramă sector</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="407" trl="Y">
+  <value column="MsgText" original="Document must be Complete or Closed to view Accounting">Documentul trebuie să fie Complet sau Închis pentru a vedea Contabilitatea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="408" trl="Y">
+  <value column="MsgText" original="Post now and create Accounting entries?">Contabilizaţi şi generaţi înregistrarea contabilă ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="409" trl="Y">
+  <value column="MsgText" original="Posting: Server Error">Eroare de contabilizare : Eroare Server</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="410" trl="Y">
+  <value column="MsgText" original="ZIP">Cod poştal</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="411" trl="Y">
+  <value column="MsgText" original="ZIP+4">ZlP + 4 </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="412" trl="Y">
+  <value column="MsgText" original="Posting Error">Eroare de contabilizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="413" trl="Y">
+  <value column="MsgText" original="Posting Error">Eroare de contabilizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="414" trl="Y">
+  <value column="MsgText" original="Posting Error: Source Not Balanced">Eroare de contabilizare : Sursă neechilibrată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="415" trl="Y">
+  <value column="MsgText" original="Posting Error: Source Currency not convertible">Eroare de contabilizare : Valuta sursă nu este convertibilă</value>
+  <value column="MsgTip" original="Define exchange rate from the source currency to your accounting currencies">Definiţi cursul de schimb de la valuta sursă la contul de valută</value>
+ </row>
+ <row id="416" trl="Y">
+  <value column="MsgText" original="Posting Error: Invalid Account">Eroare de contabilizare : Cont invalid</value>
+  <value column="MsgTip" original="Account is no longer Active; Reactivate account value or choose new">Contul nu mai este activ. Reactivaţi contul sau alegeţi o valoare nouă.</value>
+ </row>
+ <row id="417" trl="Y">
+  <value column="MsgText" original="Posting Error: Period Closed">Eroare de contabilizare : Perioadă închisă</value>
+  <value column="MsgTip" original="(Re-) Open Period or change Accounting Date">(Re)Deschide Perioada sau schimbă data contabilizării.</value>
+ </row>
+ <row id="418" trl="Y">
+  <value column="MsgText" original="Preference">Preferinţă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="419" trl="Y">
+  <value column="MsgText" original="Preferences">Preferinţe</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="420" trl="Y">
+  <value column="MsgText" original="Previous record">Înregistrarea anterioară</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="421" trl="Y">
+  <value column="MsgText" original="Previous Page">Pagina anterioară</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="422" trl="Y">
+  <value column="MsgText" original="Price History">Istoric preţ</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="423" trl="Y">
+  <value column="MsgText" original="Pricelist Version">Versiune Listă de preţuri</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="424" trl="Y">
+  <value column="MsgText" original="No active and valid price list version found">Nu s-a găsit o versiune de listă de preţuri activă sau validă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="425" trl="Y">
+  <value column="MsgText" original="&amp;Print">&amp;Tipăreşte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="426" trl="Y">
+  <value column="MsgText" original="Customize Report">Personalizare raport</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="427" trl="Y">
+  <value column="MsgText" original="Defined [Displayed]">Definit [Afişat]</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="428" trl="Y">
+  <value column="MsgText" original="Print Invoices">Tipăreşte Facturi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="429" trl="Y">
+  <value column="MsgText" original="Print only most recent Invoice ?&#10;(No: print all invoices of order)">Tipăreşte numai Facturile recente ?
+(Nu: tipăreşte toate facturile comenzii)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="430" trl="Y">
+  <value column="MsgText" original="Print Screen">Tipăreşte Ecranul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="431" trl="Y">
+  <value column="MsgText" original="Page Setup">Iniţializare pagină</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="432" trl="Y">
+  <value column="MsgText" original="Print Shipments">Tipăreşte Expediţia</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="433" trl="Y">
+  <value column="MsgText" original="Printed">Tipărit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="434" trl="Y">
+  <value column="MsgText" original="Printer">Imprimantă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="435" trl="Y">
+  <value column="MsgText" original="Printing">Tipărire în curs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="436" trl="Y">
+  <value column="MsgText" original="Is the printout OK ?">Tipărirea OK ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="437" trl="Y">
+  <value column="MsgText" original="Process">Proces</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="438" trl="Y">
+  <value column="MsgText" original="Process cancelled">Proces întrerupt</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="439" trl="Y">
+  <value column="MsgText" original="Process failed">Proces nereuşit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="440" trl="Y">
+  <value column="MsgText" original="Cannot start process - No procedure name">Nu se poate lansa procesul - Nu există nume de procedură</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="441" trl="Y">
+  <value column="MsgText" original="Process finished successful">Proces terminat cu succes</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="442" trl="Y">
+  <value column="MsgText" original="Process failed during execution">Proces nereuşit în timpul execuţiei</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="443" trl="Y">
+  <value column="MsgText" original="Error:     ">Eroare :     </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="444" trl="Y">
+  <value column="MsgText" original="Information: ">Informare : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="445" trl="Y">
+  <value column="MsgText" original="Warning: ">Atenţionare :</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="446" trl="Y">
+  <value column="MsgText" original="Process could not be submitted">Procesul nu va fi pornit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="447" trl="Y">
+  <value column="MsgText" original="Processing ... Please wait ...">Prelucrare în curs ... Vă rog aşteptaţi ...</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="448" trl="Y">
+  <value column="MsgText" original="Available">Disponibil</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="449" trl="Y">
+  <value column="MsgText" original="Quantity">Cantitate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="450" trl="Y">
+  <value column="MsgText" original="Query Enter">Introducere Interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="451" trl="Y">
+  <value column="MsgText" original="Query Cancel">Întrerupere Interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="452" trl="Y">
+  <value column="MsgText" original="Query Enter">Introducere Interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="453" trl="Y">
+  <value column="MsgText" original="Enter Query criteria">Introduceţi criteriile de Interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="454" trl="Y">
+  <value column="MsgText" original="Query Execute">Execută Interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="455" trl="Y">
+  <value column="MsgText" original="Include in Query">Include în Interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="456" trl="Y">
+  <value column="MsgText" original="No records with given criteria.  Do you want to change the query criteria?">Nu există înregistrări cu aceste criterii.  Vreţi să modificaţii criteriile ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="457" trl="Y">
+  <value column="MsgText" original="Record is Read Only">Înregistrarea se poate Numai citi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="458" trl="Y">
+  <value column="MsgText" original="Re-Post ">Re-contabilizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="459" trl="Y">
+  <value column="MsgText" original="Repost document recreates accounting for this document">Re-contabilizează documentul pentru regenerarea înscrierilor contabile</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="460" trl="Y">
+  <value column="MsgText" original="Record">Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="461" trl="Y">
+  <value column="MsgText" original="Problems accessing the record: ">Probleme cu accesarea înregistrării: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="462" trl="Y">
+  <value column="MsgText" original="Record found">Înregistrare găsită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="463" trl="Y">
+  <value column="MsgText" original="Record saved">Înregistrare salvată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="464" trl="Y">
+  <value column="MsgText" original="Records">Înregistrări</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="465" trl="Y">
+  <value column="MsgText" original="Re&amp;Query">Împrospătează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="466" trl="Y">
+  <value column="MsgText" original="ReQuery all">Împrospătează tot</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="467" trl="Y">
+  <value column="MsgText" original="Could not requery data: ">Nu se pot împrospăta datele : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="468" trl="Y">
+  <value column="MsgText" original="Data requeried">Date împrospătate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="469" trl="Y">
+  <value column="MsgText" original="Requerying data ...">Împrospătare date ...</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="470" trl="Y">
+  <value column="MsgText" original="Region/State">Regiune/Stat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="471" trl="Y">
+  <value column="MsgText" original="Remaining">Rest</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="472" trl="Y">
+  <value column="MsgText" original="Remittance Advice">Aviz de Plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="473" trl="Y">
+  <value column="MsgText" original="&amp;Report">&amp;Raport</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="474" trl="Y">
+  <value column="MsgText" original="Report Find">Caută Raport</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="475" trl="Y">
+  <value column="MsgText" original="Save Report as PDF, CSV, HTML or TXT file">Salvează raportul în fişier format  PDF, CSV, HTML sau TXT</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="476" trl="Y">
+  <value column="MsgText" original="Reports">Rapoarte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="477" trl="Y">
+  <value column="MsgText" original="Could not send EMail">Nu se poate transmite e-mailul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="478" trl="Y">
+  <value column="MsgText" original="EMail from {0} to {1}">e-mail de la {0} la {1}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="479" trl="Y">
+  <value column="MsgText" original="Cannot send EMail:&#10;No originator (from) address - Check User">Nu se poate transmite e-mailul:
+Nu există adresă de emitent - Verificaţi Utilizatorul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="480" trl="Y">
+  <value column="MsgText" original="Cannot send EMail:&#10;No Mail Server (SMTP) found; Check Client Info">Nu se poate transmite e-mail-ul:
+Nu s-a găsit serverul (SMTP); Verificaţi Info Societate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="481" trl="Y">
+  <value column="MsgText" original="Cannot send EMail:&#10;No destination (to) address - Check Contact">Nu se poate transmite EMail-ul:
+Nu există adresă de destinatar- Verificaţi Contactul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="482" trl="Y">
+  <value column="MsgText" original="EMail sent">e-mail transmis</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="483" trl="Y">
+  <value column="MsgText" original="Request {0} was transferred by {1} from {2} to {3} ">Sesizarea {0} a fost transferată de {1} de la {2} la {3}  </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="484" trl="Y">
+  <value column="MsgText" original="Alert: Request {0} overdue">Alertă: Sesizarea {0} a depăşit termenul de scadenţă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="485" trl="Y">
+  <value column="MsgText" original="Escalated Request {0} to {1}">Sesizarea {0} escaladată la {1}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="486" trl="Y">
+  <value column="MsgText" original="Enter required information: ">Introduceţi informaţiile solicitate : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="487" trl="Y">
+  <value column="MsgText" original="Revenue">Total facturat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="488" trl="Y">
+  <value column="MsgText" original="Reversed by document">Anulat de document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="489" trl="Y">
+  <value column="MsgText" original="Role and Client/Organization inconsistent">Rol şi Societate/Organizaţie inconsitent</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="490" trl="Y">
+  <value column="MsgText" original="Credit available">Credit disponibil</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="491" trl="Y">
+  <value column="MsgText" original="Product is reserved or was already delivered or invoiced.  Set quantity to zero.&#10;Details: ">Produs rezervat sau deja livrat sau facturat. Stabiliţi cantitatea la zero.
+Detalii: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="492" trl="Y">
+  <value column="MsgText" original="Entry in a key field was not unique - a record with that value already exists.&#10;&#10;Details: ">Există deja o înregistrare cu această cheie.
+
+Detalii: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="493" trl="Y">
+  <value column="MsgText" original="The record is referenced by other records.&#10;&#10;Details: ">Această înregistrare a fost referenţiată de alte înregistrări.
+
+Detalii: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="494" trl="Y">
+  <value column="MsgText" original="Same Business Partner">Acelaşi partener</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="495" trl="Y">
+  <value column="MsgText" original="Same Product">Acelaşi Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="496" trl="Y">
+  <value column="MsgText" original="Same Quantity">Aceeaşi Cantitate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="497" trl="Y">
+  <value column="MsgText" original="&amp;Save changes">&amp;Salvează modificările</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="498" trl="Y">
+  <value column="MsgText" original="Do you want to save changes?">Vreţi să salvaţi modificările ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="499" trl="Y">
+  <value column="MsgText" original="Save Info in Cookie">Salvează informaţia într-un 'cookie'</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="500" trl="Y">
+  <value column="MsgText" original="Could not save changes: ">Nu se pot salva modificările : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="501" trl="Y">
+  <value column="MsgText" original="Could not save changes - data was changed after query.">Nu se pot salva modificările - Datele s-au modificat după interogare. </value>
+  <value column="MsgTip" original="System will re-query record.">Sistemul va re-interoga înregistrarea.</value>
+ </row>
+ <row id="502" trl="Y">
+  <value column="MsgText" original="Could not save record - Require unique data: ">Nu se poate salva înregistrarea - Necesită date unice :</value>
+  <value column="MsgTip" original="Please change information.">Modificaţi informaţiile.</value>
+ </row>
+ <row id="503" trl="Y">
+  <value column="MsgText" original="Record not saved. Row not found!">Înregistrarea nu s-a salvat. Nu s-a găsit înregistrarea !</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="504" trl="Y">
+  <value column="MsgText" original="Not saved">Nu s-a salvat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="505" trl="Y">
+  <value column="MsgText" original="Could not post record: ">Nu se poate contabiliza înregistrarea: </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="506" trl="Y">
+  <value column="MsgText" original="Record saved">Înregistrare salvată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="507" trl="Y">
+  <value column="MsgText" original="Schema">Schema</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="508" trl="Y">
+  <value column="MsgText" original="Script">Script</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="509" trl="Y">
+  <value column="MsgText" original="Script Editor">Editor de Script</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="510" trl="Y">
+  <value column="MsgText" original="Script Error">Eroare de Script</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="511" trl="Y">
+  <value column="MsgText" original="Script Help">Ajutor Script</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="512" trl="Y">
+  <value column="MsgText" original="Result">Rezultat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="513" trl="Y">
+  <value column="MsgText" original="Result Variable">Variabilă Rezultat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="514" trl="Y">
+  <value column="MsgText" original="Available Variables">Variabile disponibile</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="515" trl="Y">
+  <value column="MsgText" original="Search records">Caută înregistrări</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="516" trl="Y">
+  <value column="MsgText" original="Search Criteria">Criterii de căutare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="517" trl="Y">
+  <value column="MsgText" original="Could not locate record: ">Nu se poate localiza înregistrarea : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="518" trl="Y">
+  <value column="MsgText" original="All / Any">Toate / Oricare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="519" trl="Y">
+  <value column="MsgText" original="Search for using All criteria (AND) - or Any criteria (OR)">Căutare pentru a folosi TOATE criteriile (ŞI)-sau ORICE criteriu (SAU)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="520" trl="Y">
+  <value column="MsgText" original="Nothing to search on here">Căutare imposibilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="521" trl="Y">
+  <value column="MsgText" original="Select Record &amp; Return">Selectare înregistrare şi retur</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="522" trl="Y">
+  <value column="MsgText" original="Query Error - probably wrong criteria entered">Eroare de interogare - probabil s-a introdus un criteriu greşit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523" trl="Y">
+  <value column="MsgText" original="Rows found - Enter query criteria (optionally with %)">Date găsite - Introduceţi criteriul de interogare (opţional cu %)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="524" trl="Y">
+  <value column="MsgText" original="Select">Selectare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="525" trl="Y">
+  <value column="MsgText" original="Available Choices">Alegeri disponibile</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="526" trl="Y">
+  <value column="MsgText" original="Select Document">Selectare document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="527" trl="Y">
+  <value column="MsgText" original="Select File">Selectare fişier</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="528" trl="Y">
+  <value column="MsgText" original="Search and select an entry">Caută şi selectează o înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="529" trl="Y">
+  <value column="MsgText" original="Select Menu Item">Selectaţi articol de meniu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="530" trl="Y">
+  <value column="MsgText" original="Select Program">Selectaţi Programul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="531" trl="Y">
+  <value column="MsgText" original="Select Columns for Select Window">Selectaţi coloane din fereastră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="532" trl="Y">
+  <value column="MsgText" original="Move columns wanted into the Selected box and sequence their order">Mută coloanele dorite în caseta selectată şi numerotează ordinea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="533" trl="Y">
+  <value column="MsgText" original="Selected Choices">Posibilităţile selectate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="534" trl="Y">
+  <value column="MsgText" original="Selected">Selectat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="535" trl="Y">
+  <value column="MsgText" original="Send EMail">Trimite e-mail</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="536" trl="Y">
+  <value column="MsgText" original="Send Mail">Trimite scrisoare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="537" trl="Y">
+  <value column="MsgText" original="Sequence">Secvenţă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="538" trl="Y">
+  <value column="MsgText" original="Could not find document sequence:">Nu se găseşte documentul cu numărul de secvenţă :</value>
+  <value column="MsgTip" original="Check Document Definition and Document Sequence Rules">Verificaţi definiţia documentului şi regulile de numerotare a documentului.</value>
+ </row>
+ <row id="539" trl="Y">
+  <value column="MsgText" original="Could not find next Table ID sequence">Nu se găseşte următorul număr de secvenţă</value>
+  <value column="MsgTip" original="Check with your System Administrator">Consultaţi Administratorul de sistem.</value>
+ </row>
+ <row id="540" trl="Y">
+  <value column="MsgText" original="Could not find Sequence for: ">Nu se găseşte Secvenţa pentru : </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="541" trl="Y">
+  <value column="MsgText" original="Create Objects on Server">Crează Obiecte pe Server</value>
+  <value column="MsgTip" original="Create complex objects on Application Server (slow communication lines)">Crează obiecte complexe pe Serverul de aplicaţie (linii de comunicaţie lente)</value>
+ </row>
+ <row id="542" trl="Y">
+  <value column="MsgText" original="Document must be completed first">Documentul trebuie completat în prealabil</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="543" trl="Y">
+  <value column="MsgText" original="Show Accounting Tabs">Afişează Tabul Contabilitate</value>
+  <value column="MsgTip" original="Show accounting information">Afişează informaţii despre contabilitate</value>
+ </row>
+ <row id="544" trl="Y">
+  <value column="MsgText" original="Show Translation Tabs">Afişează Tabul Traducere</value>
+  <value column="MsgTip" original="Show translation information">Afişează informaţii despre traducere</value>
+ </row>
+ <row id="545" trl="Y">
+  <value column="MsgText" original="Single-Record Display">Afişează o singură Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="546" trl="Y">
+  <value column="MsgText" original="Sort by">Sortare după</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="547" trl="Y">
+  <value column="MsgText" original="Sorted">Sortat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="548" trl="Y">
+  <value column="MsgText" original="Standard">Standard</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="549" trl="Y">
+  <value column="MsgText" original="Start">Start</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="550" trl="Y">
+  <value column="MsgText" original="Do you want to start the Process?">Vreţi să porniţi Procesul ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="551" trl="Y">
+  <value column="MsgText" original="Start selected Report">Porniţi Procesul selectat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="552" trl="Y">
+  <value column="MsgText" original="Start Reports">Porniţi Rapoarte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="553" trl="Y">
+  <value column="MsgText" original="Start Search ...">Căutare...</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="554" trl="Y">
+  <value column="MsgText" original="Subject">Subiect</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="555" trl="Y">
+  <value column="MsgText" original="Process completed successfully">Proces terminat cu succes</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="556" trl="Y">
+  <value column="MsgText" original="Sum">Suma</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="557" trl="Y">
+  <value column="MsgText" original="System">Sistem</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="558" trl="Y">
+  <value column="MsgText" original="Tab">Tab</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="559" trl="Y">
+  <value column="MsgText" original="Cannot execute task: ">Nu se poate executa Sarcina</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="560" trl="Y">
+  <value column="MsgText" original=" Tasks">Sarcini</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="561" trl="Y">
+  <value column="MsgText" original="Criteria for Tax not found">Criteriu de TVA negăsit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="562" trl="Y">
+  <value column="MsgText" original="Could not find tax">Cod TVA necunoscut</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="563" trl="Y">
+  <value column="MsgText" original="Test">Test</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="564" trl="Y">
+  <value column="MsgText" original="Timeout - Try to check results later">Timpul a expirat  - Încercaţi să verificaţi rezultatul mai târziu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="565" trl="Y">
+  <value column="MsgText" original="To">La</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="566" trl="Y">
+  <value column="MsgText" original="Today">Azi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="567" trl="Y">
+  <value column="MsgText" original="&amp;Tools">&amp;Unelte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="568" trl="Y">
+  <value column="MsgText" original="Totals">Totaluri</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="569" trl="Y">
+  <value column="MsgText" original="Trx">Tranzacţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="570" trl="Y">
+  <value column="MsgText" original="User Interface Theme">Temă Interfaţă Utilizator</value>
+  <value column="MsgTip" original="Window  - Metal - Adempiere">Fereastră  - Metal - Compiere</value>
+ </row>
+ <row id="571" trl="Y">
+  <value column="MsgText" original="Under Limit Price">Sub Preţul limită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="572" trl="Y">
+  <value column="MsgText" original="Update">Actualizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="573" trl="Y">
+  <value column="MsgText" original="Update data for copied record and save or ignore">Actualizază datele înregistrării copiate şi salvează sau ignoră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="574" trl="Y">
+  <value column="MsgText" original="Updated">Actualizat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="575" trl="Y">
+  <value column="MsgText" original="User">Utilizator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="576" trl="Y">
+  <value column="MsgText" original="User Interface">Interfaţă Utilizator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="577" trl="Y">
+  <value column="MsgText" original="User defined message">Mesaj definit de utilizator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="578" trl="Y">
+  <value column="MsgText" original="User and Password inconsistent">Utilizator şi Parolă necorespunzătoare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="579" trl="Y">
+  <value column="MsgText" original="Payment print/export">Tipărire/export Plată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="580" trl="Y">
+  <value column="MsgText" original="For some payments, there were not enough room for all remittance lines.&#10;Do you want to print separate Remittance advice ?">Pentru unele plăţi, nu va fi spaţiu pentru toate liniile de remiză.
+Doriţi să tipăriţi remizele separat ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="581" trl="Y">
+  <value column="MsgText" original="No Bank Account Documents (Checks) for this Bank Account and Payment Rule.">Nu există documente bancare (Cecuri) pentru acest cont bancar şi această Regulă de Plată.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="582" trl="Y">
+  <value column="MsgText" original="No Payments available for Print/Export">Nu sunt Plăţi disponibile pentru Tipărire/Export</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="583" trl="Y">
+  <value column="MsgText" original="Do you want to print Remittance Advice ?">Vreţi să tipăriţi Remitenţele ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="584" trl="Y">
+  <value column="MsgText" original="Generate EFT Payments">Generează Plăţi de tip EFT</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="585" trl="Y">
+  <value column="MsgText" original="Is the payment print correct ?">Plata este corect tipărită ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="586" trl="Y">
+  <value column="MsgText" original="Payment selection (manual)">Selectare plată (manual)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="587" trl="Y">
+  <value column="MsgText" original="Generate Payments from Payment Selection?">Generează Plăţi din Selectare plată ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="588" trl="Y">
+  <value column="MsgText" original="No Bank Account with Document (e.g. Check)">Nu există bănci / conturi bancare definite</value>
+  <value column="MsgTip" original="">* Verificaţi dacă există bănci definite pe organizaţiile pe care aveţi acces cu rolul curent</value>
+ </row>
+ <row id="589" trl="Y">
+  <value column="MsgText" original="Print/export generated Payments?">Tipărire/Export Plăţi generate ?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="590" trl="Y">
+  <value column="MsgText" original="Initial Client Setup">Parametri de iniţializare Societate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="591" trl="Y">
+  <value column="MsgText" original="Material Transaction Info">Info Tranzacţie material</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="592" trl="Y">
+  <value column="MsgText" original="&amp;Key">&amp;Cheie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="593" trl="Y">
+  <value column="MsgText" original="Value Preference">Valoare impicită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="594" trl="Y">
+  <value column="MsgText" original="Preference Value deleted">Valoare Preferinţă ştearsă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="595" trl="Y">
+  <value column="MsgText" original="Preference Value set">Valoare Preferinţă adăugată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="596" trl="Y">
+  <value column="MsgText" original="Preference Value NOT found">Valoarea Preferinţă NU s-a găsit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="597" trl="Y">
+  <value column="MsgText" original="Preference Value NOT set">Valoarea Preferinţă NU s-a înregistrat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="598" trl="Y">
+  <value column="MsgText" original="For level">Pentru nivel</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="599" trl="Y">
+  <value column="MsgText" original="&amp;View">&amp;Vizualizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="600" trl="Y">
+  <value column="MsgText" original="Graph">Grafic</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="601" trl="Y">
+  <value column="MsgText" original="Enter Selection and Display criteria and start Query">Introduceţi criteriile de selectare şi afişare şi executaţi interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="602" trl="Y">
+  <value column="MsgText" original="&amp;Enter Query">&amp;Introduceţi Interogarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="603" trl="Y">
+  <value column="MsgText" original="View Result">Vizualizare rezultat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="604" trl="Y">
+  <value column="MsgText" original="Cannot start Workflow - Definition not correct">Nu se poate porni Fluxul - Definiţie incorectă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="605" trl="Y">
+  <value column="MsgText" original="Exit Workflow">Ieşire flux</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="606" trl="Y">
+  <value column="MsgText" original="Next workflow step">Pasul următor din Flux</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="607" trl="Y">
+  <value column="MsgText" original="Previous workflow step">Pasul anterior din Flux</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="608" trl="Y">
+  <value column="MsgText" original="Back to start of workflow">Înapoi la început de flux</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="609" trl="Y">
+  <value column="MsgText" original="Please upgrade your Browser, if dependent field selections remain empty after change of Role.">Actualizaţi Browser-ul, dacă anumite câmpuri rămân goale după schimbarea Rolului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="610" trl="Y">
+  <value column="MsgText" original="Database currently not available">Baza de Date nu este accesibilă momentan</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="611" trl="Y">
+  <value column="MsgText" original="Waiting for Payment (if required you can close the order)">În aşteptarea plăţii/încasării (dacă se solicită, puteţi închide comanda)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="612" trl="Y">
+  <value column="MsgText" original="&amp;Warehouse">&amp;Depozit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="613" trl="Y">
+  <value column="MsgText" original="Record Info ">Info Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="614" trl="Y">
+  <value column="MsgText" original="Window">F&amp;ereastră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="615" trl="Y">
+  <value column="MsgText" original="Write-off">Sumă nerecuperabilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="616" trl="Y">
+  <value column="MsgText" original="Yes">Da</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="617" trl="Y">
+  <value column="MsgText" original="Yes">Da</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="618" trl="Y">
+  <value column="MsgText" original="&amp;Zoom">&amp;Zoom</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="619" trl="Y">
+  <value column="MsgText" original="Document Zoom">Zoom Document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="620" trl="Y">
+  <value column="MsgText" original="of">de</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="621" trl="Y">
+  <value column="MsgText" original="Print only most recent Shipment ?&#10;(No: print all shipments of order)">Tipăreşte numai cea mai recentă Expediţie ?
+(Nu : tipăreşte toate expediţiile comenzii)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="622" trl="Y">
+  <value column="MsgText" original="Resource Assignment">Repartizare Resursă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="623" trl="Y">
+  <value column="MsgText" original="{0} Line(s) - Total: {1,number,#,##0.00} {2}">{0} Linie(i) - Total: {1,number,#,##0.00} {2}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="624" trl="Y">
+  <value column="MsgText" original="Week">Săptămână</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="625" trl="Y">
+  <value column="MsgText" original="Day">Zi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="626" trl="Y">
+  <value column="MsgText" original="Month">Lună</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="627" trl="Y">
+  <value column="MsgText" original="Resource Info">Info Resurse</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="628" trl="Y">
+  <value column="MsgText" original="Resource is not available or not active">Resursa nu este disponibilă sau nu este activă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="629" trl="Y">
+  <value column="MsgText" original="Resource is unavailable">Resursa nu este disponibilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="630" trl="Y">
+  <value column="MsgText" original="Not a business day">Zi nelucrătoare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="631" trl="Y">
+  <value column="MsgText" original="Time not available">Ora nu este disponibilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="632" trl="Y">
+  <value column="MsgText" original="Day not  available">Ziua nu este disponibilă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="633" trl="Y">
+  <value column="MsgText" original="Schedule Info">Info Programare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="634" trl="Y">
+  <value column="MsgText" original="Landscape">Panoramă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="635" trl="Y">
+  <value column="MsgText" original="Portrait">Portret</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="636" trl="Y">
+  <value column="MsgText" original="No Currency Conversion Rate between currencies found">Nu s-a găsit cursul de conversie dintre valute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="637" trl="Y">
+  <value column="MsgText" original="Operator">Operator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="638" trl="Y">
+  <value column="MsgText" original="Query Value">Valoare interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="639" trl="Y">
+  <value column="MsgText" original="To Query Value">La Valoare interogare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="640" trl="Y">
+  <value column="MsgText" original="Validation Error">Eroare de Validare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="641" trl="Y">
+  <value column="MsgText" original="Data Rows">Linii de date</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="642" trl="Y">
+  <value column="MsgText" original="Data Columns">Coloane de Date</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="643" trl="Y">
+  <value column="MsgText" original="No Document Print Format defined">Nu este definit formatul de tipărire pentru document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="644" trl="Y">
+  <value column="MsgText" original="Translate Print Format">Traducere Format tipărire</value>
+  <value column="MsgTip" original="If you do not have Multi-Lingual Document enabled, you can translate a Report here.">Dacă nu este bifată opţiunea Multi-Limbă, puteţi traduce un Raport aici.</value>
+ </row>
+ <row id="645" trl="Y">
+  <value column="MsgText" original="Translate">Traducere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="646" trl="Y">
+  <value column="MsgText" original="New Report">Raport nou</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="647" trl="Y">
+  <value column="MsgText" original="Average">Mediu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="648" trl="Y">
+  <value column="MsgText" original="Count">Numără</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="649" trl="Y">
+  <value column="MsgText" original="Screen Shot">Copie ecran</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="650" trl="Y">
+  <value column="MsgText" original="Database Version Error">Eroare de versiune de Bază de date</value>
+  <value column="MsgTip" original="The program assumes Database version {0}, but Database has Version {1}. &#10;This is likely to cause hard to fix errors. &#10;Please stop and migrate the database immediately.">Programul presupune că versiunea Bazei de Date este {0}, dar versiunea Bazei de Date este {1} . 
+Probabil din acest motiv apar dificultăţi în corectarea erorilor.
+
+Închideţi aplicaţia şi transferaţi Baza de Date pe versiunea corespunzătoare.</value>
+ </row>
+ <row id="651" trl="Y">
+  <value column="MsgText" original="Always Preview Print">Totdeauna vizualizează înainte de tipărire</value>
+  <value column="MsgTip" original="Don't print direct - even Documents">Nu tipări direct, chiar dacă sunt documente</value>
+ </row>
+ <row id="652" trl="Y">
+  <value column="MsgText" original="All">Toate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="653" trl="Y">
+  <value column="MsgText" original="Year">An</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="654" trl="Y">
+  <value column="MsgText" original="How long back in History?">Cât de în urmă în Istoric ?</value>
+  <value column="MsgTip" original="View history records back in time.">Vizualizarea înregistrărilor din Istoric.</value>
+ </row>
+ <row id="655" trl="Y">
+  <value column="MsgText" original="To be matched">În curs de corelare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="656" trl="Y">
+  <value column="MsgText" original="Store Password">Memorează parola</value>
+  <value column="MsgTip" original="Store Password for fast Login (security risk)">Memorează parola pentru accesare rapidă (risc de securitate)</value>
+ </row>
+ <row id="657" trl="Y">
+  <value column="MsgText" original="Cash Journal Info">Info Lichidităţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="658" trl="Y">
+  <value column="MsgText" original="Resource Info">Info Asignare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="659" trl="Y">
+  <value column="MsgText" original="Absolute Amount">Valoare absolută</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="660" trl="Y">
+  <value column="MsgText" original="Import">Import</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="661" trl="Y">
+  <value column="MsgText" original="Errors">Erori</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="662" trl="Y">
+  <value column="MsgText" original="Purchase">Achiziţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="663" trl="Y">
+  <value column="MsgText" original="No Application Server found">Nu s-a găsit Serverul de aplicaţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="664" trl="Y">
+  <value column="MsgText" original="Optional">Opţional</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="665" trl="Y">
+  <value column="MsgText" original="Load Accounting Values">Încărcare conturi</value>
+  <value column="MsgTip" original="Format: Accounting__.csv">Format: PlanConturi__.csv</value>
+ </row>
+ <row id="666" trl="Y">
+  <value column="MsgText" original="No Tax Exempt Rate found (define a tax exempt tax rate)">Nu s-a găsit exceptare de la Taxe (definiţi exceptări de taxe la nivel de Curs Taxe)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="667" trl="Y">
+  <value column="MsgText" original="No Database Connection">Nu există Conexiune la Baza de Date</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="668" trl="Y">
+  <value column="MsgText" original="Generating shipments">Generare expediţii/recepţii</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="670" trl="Y">
+  <value column="MsgText" original="Select orders to generate shipments">Selectaţi comenzile pentru generarea expediţiilor</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="671" trl="Y">
+  <value column="MsgText" original="Shipments are generated depending on the &quot;Delivery Rule&quot; selection in the Order">Expediţiile sunt generate în funcţie de 'Regula livrare' selectată în Comandă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="672" trl="Y">
+  <value column="MsgText" original="Shipment">Expediţie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="673" trl="Y">
+  <value column="MsgText" original="Sent">Trimis</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="674" trl="Y">
+  <value column="MsgText" original="You need to restrict the selection.">Trebuie să limitaţi selecţia</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="675" trl="Y">
+  <value column="MsgText" original="Beginning Balance">Sold iniţial</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="676" trl="Y">
+  <value column="MsgText" original="Invalid Arguments - Check Parameters">Argumente invalide - Verificaţi Parametri</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="677" trl="Y">
+  <value column="MsgText" original="Charge cannot be selected, if there is an existing Product selection (either-or). A charge needs to have it's own line.">Modificarea nu se poate selecta, dacă există o selectare de Produs. Un cont debitor trebuie să aibă propria sa linie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="678" trl="Y">
+  <value column="MsgText" original="Payment Document Type and Invoice type (AP/AR) inconsistent.">Incoerenţă între tipul documentului de plată/încasare şi tipul facturii furnizor/client.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="679" trl="Y">
+  <value column="MsgText" original="(Re) Select Invoice">(Re)Selectare Factură</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="680" trl="Y">
+  <value column="MsgText" original="Online Payment Failed">Plată online nereuşită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="688" trl="Y">
+  <value column="MsgText" original="Load Error">Eroare de încărcare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="689" trl="Y">
+  <value column="MsgText" original="Merge From (deleted)">Fuziune din (se şterge)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="690" trl="Y">
+  <value column="MsgText" original="Merge To (surviving)">Fuziune în (rămâne)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="691" trl="Y">
+  <value column="MsgText" original="Merge From entity to To entity ?&#10;** NO Undo nor Trace -- You need to have a Backup **">Fuzionare 'De la entitate' la 'La entitate' ?
+** NU se poate reveni, nu există jurnalizare -- Aveţi nevoie de o copie (backup) **</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="692" trl="Y">
+  <value column="MsgText" original="Merge Success">Fuziune reuşită</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="693" trl="Y">
+  <value column="MsgText" original="Merge Error - Please review:">Eroare Fuziune - Vă rog să revedeţi:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="694" trl="Y">
+  <value column="MsgText" original="Language Setup Error">Eroare Iniţializare Limbă</value>
+  <value column="MsgTip" original="Check Language Setup">Verificaţi Inţializarea Limbii</value>
+ </row>
+ <row id="695" trl="Y">
+  <value column="MsgText" original="No Product Attribute Set defined">NU este definit Setul de atribute al Produsului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="696" trl="Y">
+  <value column="MsgText" original="No Product Attribute Information">Nu există Informaţii Atribut Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="697" trl="Y">
+  <value column="MsgText" original="No Products with Attributes to select">Nu există Produse cu Atribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="698" trl="Y">
+  <value column="MsgText" original="Context">Context</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="699" trl="Y">
+  <value column="MsgText" original="Asset Info">Info bunuri</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="700" trl="Y">
+  <value column="MsgText" original="Reset">Reset</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="701" trl="Y">
+  <value column="MsgText" original="Product Attributes">Atribute Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="702" trl="Y">
+  <value column="MsgText" original="Product Attribute Instance">Solicitare Atribute Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="703" trl="Y">
+  <value column="MsgText" original="SQL Statement">Declaraţie SQL</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="704" trl="Y">
+  <value column="MsgText" original="Private Record Lock">Blocare înregistrare personală</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="705" trl="Y">
+  <value column="MsgText" original="Product Attribute Info">Info Atribute Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="706" trl="Y">
+  <value column="MsgText" original="You cannot create Reports for this Information.">Nu puteţi crea rapoarte din aceste informaţii.</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi privilegiile</value>
+ </row>
+ <row id="707" trl="Y">
+  <value column="MsgText" original="You cannot export this Information.">Nu puteţi exporta aceste Informaţii.</value>
+  <value column="MsgTip" original="You don't have the privileges">Nu aveţi privilegiile</value>
+ </row>
+ <row id="708" trl="Y">
+  <value column="MsgText" original="Client Data">Date Societate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="709" trl="Y">
+  <value column="MsgText" original="Record Access Dialog">Dialog de acces înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="710" trl="Y">
+  <value column="MsgText" original="Role Info">Info Rol</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="711" trl="Y">
+  <value column="MsgText" original="Include">Include</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="712" trl="Y">
+  <value column="MsgText" original="Exclude">Exclude</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="713" trl="Y">
+  <value column="MsgText" original="Dictionary Maintenance">Întreţinere Dicţionar</value>
+  <value column="MsgTip" original="Only for internal Adempiere Dictionary Maintenence - DO NOT SELECT">Numai pentru întreţinerea internă a Dicţionarului Compiere - NU SELECTAŢI</value>
+ </row>
+ <row id="714" trl="Y">
+  <value column="MsgText" original="No Translation">Nu există traducere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="715" trl="Y">
+  <value column="MsgText" original="Select existing Record">Selectează înregistrările existente</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="716" trl="Y">
+  <value column="MsgText" original="New Record">Înregistrare nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="717" trl="Y">
+  <value column="MsgText" original="Edit Record">Editează Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="718" trl="Y">
+  <value column="MsgText" original="Show All">Arată Tot</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="719" trl="Y">
+  <value column="MsgText" original="Document has Lines without MANDATORY Product Attribute Set Instance - complete first">Documetul are Linii cu câmpuri OBLIGATORII de Instanţă Set de Atribute Produs - completaţi-le întâi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="720" trl="Y">
+  <value column="MsgText" original="Select existing record">Selectează înregistrările existente</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="721" trl="Y">
+  <value column="MsgText" original="Size">Dimensiune</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="722" trl="Y">
+  <value column="MsgText" original="Bold">Bold</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="723" trl="Y">
+  <value column="MsgText" original="Italic">Înclinat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="724" trl="Y">
+  <value column="MsgText" original="Underline">Subliniere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="725" trl="Y">
+  <value column="MsgText" original="Font Family">Grup de fonturi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="726" trl="Y">
+  <value column="MsgText" original="Font Style">Stil Font</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="727" trl="Y">
+  <value column="MsgText" original="Left">Stânga</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="728" trl="Y">
+  <value column="MsgText" original="Center">Centru</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="729" trl="Y">
+  <value column="MsgText" original="Right">Dreapta</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="730" trl="Y">
+  <value column="MsgText" original="Align">Aliniere</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="731" trl="Y">
+  <value column="MsgText" original="Font">Font</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="732" trl="Y">
+  <value column="MsgText" original="System Not Setup for Replication (see log)">Sistem neiniţializat pentru Replicare (vezi jurnalul)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="734" trl="Y">
+  <value column="MsgText" original="Mean">Principal</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="735" trl="Y">
+  <value column="MsgText" original="Minimum">Minim</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="736" trl="Y">
+  <value column="MsgText" original="Maximum">Maxim</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="737" trl="Y">
+  <value column="MsgText" original="Variance">Varianţa</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="738" trl="Y">
+  <value column="MsgText" original="Std.Deviation">Deviaţie Std.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="739" trl="Y">
+  <value column="MsgText" original="Running Total">Execuţie Total</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="740" trl="Y">
+  <value column="MsgText" original="Select Product">Selectează Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="741" trl="Y">
+  <value column="MsgText" original="Total VM Memory {0,number,integer} kB - Free {1,number,integer} kB">Total memorie {0,number,integer} kB - Liber {1,number,integer} kB</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="743" trl="Y">
+  <value column="MsgText" original="ssv - Semicolon Separated Values file">ssv - Fişier cu câmpuri separate prin punct şi virgulă (;)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="744" trl="Y">
+  <value column="MsgText" original="Save Attachment to Disk">Salvează nota pe disc</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="745" trl="Y">
+  <value column="MsgText" original="Do you want to delete this Attachment entry?">Vreţi să ştergeţi această Notă?</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="746" trl="Y">
+  <value column="MsgText" original="jpg - JPEG Graphic file">jpg - Fişier grafic JPEG</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="747" trl="Y">
+  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Download {0} for {1}  Versiunea = {2} - Lot = {3} - SerNo = {4} Dată Garanţie = {5,data,scurt}  Thank you for using Adempiere Customer Asset Management </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="748" trl="Y">
+  <value column="MsgText" original="You are writing off a significant percentage of the open amount.">Introduceţi manual suma nerecuperabilă</value>
+  <value column="MsgTip" original="Deselect Automatic Write-off to manually enter the write-off amount">Deselectaţi Calcul automat a sumei nerecuperabile pentru o introduce manual.</value>
+ </row>
+ <row id="749" trl="Y">
+  <value column="MsgText" original="Answer">Răspuns</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="750" trl="Y">
+  <value column="MsgText" original="Forward">Spre aprobare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="751" trl="Y">
+  <value column="MsgText" original="You have no Activities">Nu aveţi Activităţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="752" trl="Y">
+  <value column="MsgText" original="Your Workflow Activities">Actvităţile Fluxului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="753" trl="Y">
+  <value column="MsgText" original="Workflow Result">Rezultatul Fluxului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="754" trl="Y">
+  <value column="MsgText" original="Cannot Forward">Nu se poate înainte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="755" trl="Y">
+  <value column="MsgText" original="Active Workflow for this Record exists (complete first):">Există Flux Activ pentru această înregistrare (întâi se completaază):</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="756" trl="Y">
+  <value column="MsgText" original="Period Closed">Perioadă închisă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="757" trl="Y">
+  <value column="MsgText" original="Active &amp;Workflows">Fluxuri active</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="758" trl="Y">
+  <value column="MsgText" original="No Zoom Target for this Record">Nu există detalii pentru această înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="759" trl="Y">
+  <value column="MsgText" original="&amp;Zoom Across (where used)">&amp;Zoom transversal (unde este utilizabil)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="760" trl="Y">
+  <value column="MsgText" original="Order">Comandă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="761" trl="Y">
+  <value column="MsgText" original="Counter Document">Document Numărător</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="762" trl="Y">
+  <value column="MsgText" original="Set Window Size">Stabileşte dimensiune fereastră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="763" trl="Y">
+  <value column="MsgText" original="Set Window Size for all users&#10;(Cancel to reset to default)">Stabileşte dimensiune fereastră pentru toţi utilizatorii
+(Anulaţi pentru a reveni la valorile implicite)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="764" trl="Y">
+  <value column="MsgText" original="Account used is Document Controlled - Do not use for manual Journals.">Contul utilizat este Controlat de document - Nu-l utilizaţi pentru operaţii manuale.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="765" trl="Y">
+  <value column="MsgText" original="Warehouse Organization is not Document Organization">Organizaţia depozitului nu este o Organizaţie Document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="766" trl="Y">
+  <value column="MsgText" original="Business Partner is on Credit Stop">Partenerul este pe modul 'Credit oprit'</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="767" trl="Y">
+  <value column="MsgText" original="Business Partner is on Credit Hold">Partenerul este pe modul 'Credit sub control'</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="768" trl="Y">
+  <value column="MsgText" original="Business Partner with this Order over Credit Hold">Cu aceasă comandă, partenerul depăşeşte Creditul acordat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="769" trl="Y">
+  <value column="MsgText" original="Business Partner with open Shipments over Credit Hold">Partener cu sold la livrare peste creditul acordat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="770" trl="Y">
+  <value column="MsgText" original="Not Invoiced Amount">Nu există suma facturată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="771" trl="Y">
+  <value column="MsgText" original="Old Password is Mandatory">Parola veche este obligatorie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="772" trl="Y">
+  <value column="MsgText" original="Old Password does not match">Nu se potriveşte Parola veche</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="773" trl="Y">
+  <value column="MsgText" original="No POS Terminal defined for User">Nu s-a definit un terminal POS pentru Utilizator</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="774" trl="Y">
+  <value column="MsgText" original="Select POS Terminal">Selectaţi terminalul POS</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="775" trl="Y">
+  <value column="MsgText" original="Register">Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="776" trl="Y">
+  <value column="MsgText" original="Summary">Rezumat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="777" trl="Y">
+  <value column="MsgText" original="&amp;Product">&amp;Produs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="778" trl="Y">
+  <value column="MsgText" original="&amp;Business Partner">&amp;Partener</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="779" trl="Y">
+  <value column="MsgText" original="Checkout">Verifică</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="780" trl="Y">
+  <value column="MsgText" original="Cash Given">Numerar ridicat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="781" trl="Y">
+  <value column="MsgText" original="Return">Rest</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="782" trl="Y">
+  <value column="MsgText" original="Cash">Numerar</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="783" trl="Y">
+  <value column="MsgText" original="Exp MM/YY">Exp. LL/AA</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="784" trl="Y">
+  <value column="MsgText" original="Current Line">Linia curentă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="785" trl="Y">
+  <value column="MsgText" original="Log Out">Log Out</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="786" trl="Y">
+  <value column="MsgText" original="Plus (add)">Plus (adunare)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="787" trl="Y">
+  <value column="MsgText" original="Minus (subtract)">Minus (scădere)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="788" trl="Y">
+  <value column="MsgText" original="Product Attribute Set has no Instance attributes (e.g. Serial No)">Setul de atribute a Produsului nu are Instanţă de atribute (ex. Nr Serie)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="789" trl="Y">
+  <value column="MsgText" original="No Inventory Available:">NU există stoc disponibil:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="790" trl="Y">
+  <value column="MsgText" original="The Product UoM needs to be the smallest UoM">Unitatea de Măsură a Produsului trebuie să fie cea mai mică UM</value>
+  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5">Coedficientul de divizare trebiue să fie &gt;= 1 şi totdeauna rezultatul este o UM validă. 
+Exemplu: pentru a converti BUC în Pereche, coeficientul de multiplicare este 0.5</value>
+ </row>
+ <row id="791" trl="Y">
+  <value column="MsgText" original="Select the Product UoM as the From Unit of Measure:">UM nu este unitatea de măsură a produsului selectat. Unitatea de măsură (UM) este:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="792" trl="Y">
+  <value column="MsgText" original="Unconfirmed Qty">Cant. neconfirmată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="793" trl="Y">
+  <value column="MsgText" original="Inventory Replenishment">Replanificare stoc</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="794" trl="Y">
+  <value column="MsgText" original="Request {0} - Due">Sesizarea {0} - este scadentă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="795" trl="Y">
+  <value column="MsgText" original="Inactivity Alert: Request {0}">Alertă de inactivitate: Sesizarea {0}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="796" trl="Y">
+  <value column="MsgText" original="Workflow Not Valid">Fluxul nu este valid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="797" trl="Y">
+  <value column="MsgText" original="Inactivity Alert: Workflow Activity {0}">Alertă Inactivitate: Activitate Flux {0}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="798" trl="Y">
+  <value column="MsgText" original="Alert Workflow Activity: Max Wait Time Ended {0}">Alertă Activitate Flux: Sfârşit Timp Max de Aşteptare {0}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="799" trl="Y">
+  <value column="MsgText" original="Alert Workflow Activity Over Priority {0}">Alertă Activitate Flux peste Prioritate {0}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="800" trl="Y">
+  <value column="MsgText" original="Failed">Nereuşit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="801" trl="Y">
+  <value column="MsgText" original="** Voided">** Anulat(ă)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="802" trl="Y">
+  <value column="MsgText" original="Unbalanced Journal and Suspense Balancing not enabled">Jurnal neechilibrat şi Întrerupere Balanţă nepermisă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="803" trl="Y">
+  <value column="MsgText" original="Selection">Selectare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="804" trl="Y">
+  <value column="MsgText" original="Display">Ecran</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="805" trl="Y">
+  <value column="MsgText" original="Product is not on PriceList">Produsul nu este în Lista de preţuri</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="806" trl="Y">
+  <value column="MsgText" original="Added">Adăugat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="807" trl="Y">
+  <value column="MsgText" original="Error while creating the Accounting Setup. &#10;Check the error log and the format of the Accounting*.cvs file - No duplicate Accounts and all all defaut accounts must be included (even if you will not use them).">Eroare la crearea contabilităţii.
+Verifică jurnalul de erori şi formatul fişierului Contabilitate*.cvs - Nu trebuie incluse conturi duplicate. Toate conturile implicite trebuie incluse (chiar dacă nu le ve-ţi folosi).</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="808" trl="Y">
+  <value column="MsgText" original="For Internal Use of Inventory you need to define a Charge">Pentru utilizare internă a stocului trebuie să definiţi o cheltuială</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="809" trl="Y">
+  <value column="MsgText" original="Save to File">Salvează fişierul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="810" trl="Y">
+  <value column="MsgText" original="Errors Only">Numai erorori</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="811" trl="Y">
+  <value column="MsgText" original="Trace Level">Nivel Jurnalizare</value>
+  <value column="MsgTip" original="Detail of Trace Information - INFO is usually sufficient">Detaliu de Informaţii Jurnalizare-Info de obicei insuficent </value>
+ </row>
+ <row id="812" trl="Y">
+  <value column="MsgText" original="Trace Information">Informaţii de Jurnalizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="813" trl="Y">
+  <value column="MsgText" original="Trace File">Fişier de Jurnalizare</value>
+  <value column="MsgTip" original="Create Trace file in Adempiere directory or in user home directory">Crează Fişier de jurnalizare în directorul Compiere sau în directorul utilizatorului</value>
+ </row>
+ <row id="814" trl="Y">
+  <value column="MsgText" original="Run Processes on Server">Execută Procesul pe server</value>
+  <value column="MsgTip" original="Run Processes on Application Server (slow communication lines)">Execută Procesele pe Serverul de aplicaţie (linii de comunicaţie lente)</value>
+ </row>
+ <row id="815" trl="Y">
+  <value column="MsgText" original="Create New Request">Crează sesizare nouă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="816" trl="Y">
+  <value column="MsgText" original="Show all Requests">Afişează toate sesizările</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="817" trl="Y">
+  <value column="MsgText" original="Show active Requests">Afişează sesizările active</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="818" trl="Y">
+  <value column="MsgText" original="Documents">Documente</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="819" trl="Y">
+  <value column="MsgText" original="Reports">Rapoarte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="820" trl="Y">
+  <value column="MsgText" original="No Archives for this Record">Nu există Arhivă pentru acestă Înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="821" trl="Y">
+  <value column="MsgText" original="&amp;Check Requests">Sesizare - &amp;Urmărire</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="822" trl="Y">
+  <value column="MsgText" original="&amp;Archived Documents/Reports">&amp;Documente arhivate şi rapoarte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="823" trl="Y">
+  <value column="MsgText" original="Document Archived">Document arhivat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="824" trl="Y">
+  <value column="MsgText" original="Archive Error">Eroare de Arhivare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="825" trl="Y">
+  <value column="MsgText" original="All Reports">Toate rapoartele</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="826" trl="Y">
+  <value column="MsgText" original="Organization * (0) not allowed">Organizaţia * (0) nu est permisă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="827" trl="Y">
+  <value column="MsgText" original="Credit Memo">Credit Memo</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="828" trl="Y">
+  <value column="MsgText" original="{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}">{0} Linii {1,number,#,##0.00}  - Total: {2,number,#,##0.00}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="829" trl="Y">
+  <value column="MsgText" original="Press OK to start 'After Migration' process ... may take a few minutes">Apasă tasta OK pentru aporni procesul 'După migrare' ... poate dura câteva minute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="830" trl="Y">
+  <value column="MsgText" original="Invalid:">Invalid:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="831" trl="Y">
+  <value column="MsgText" original="Resource Assignment could Not be deleted.  It may be used in an Order or Invoice.  &#10;Delete Order/Invoice line with the Assignment.">Nu se poate şterge asignarea resurselor . Probabil se utilizează într-o Comandă sau Factură. Ştergeţi linia cu asignare din Comandă/Factură. </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="832" trl="Y">
+  <value column="MsgText" original="Yes">Da</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="833" trl="Y">
+  <value column="MsgText" original="No">Nu</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="834" trl="Y">
+  <value column="MsgText" original="Request Update">Actualizare sesizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="835" trl="Y">
+  <value column="MsgText" original="Show Advanced Tabs">Arată Taburi Avansate</value>
+  <value column="MsgTip" original="Show Tabs with advanced functionality like Matching, Allocation, etc.">Arată Taburi cu funcţionalităţi avansate ca de exemplu: Corelare, Alocare, etc.</value>
+ </row>
+ <row id="836" trl="Y">
+  <value column="MsgText" original="Request Status Timeout">Timeout stare sesizare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="837" trl="Y">
+  <value column="MsgText" original="Document Status changed - Requery Record">S-a modificat Starea Documentului - Reinterogaţi Înregistrarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="838" trl="Y">
+  <value column="MsgText" original="Will retrieve high number of records - &#10;Do you want to continue?">Se va afişa un număr mare de înregistrări - Continuaţi ? </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="839" trl="Y">
+  <value column="MsgText" original="Create new node">Crează nod nou</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="840" trl="Y">
+  <value column="MsgText" original="Delete Node">Şterge Nodul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="841" trl="Y">
+  <value column="MsgText" original="Add Line">Adaugă Linie</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="842" trl="Y">
+  <value column="MsgText" original="Delete Line">Şterge linia</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="843" trl="Y">
+  <value column="MsgText" original="Not Approved">Nu s-a aprobat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="844" trl="Y">
+  <value column="MsgText" original="Available to Promise">Disponibil pentru promisiune</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="845" trl="Y">
+  <value column="MsgText" original="Insufficient Qty on Hand">Cant. insuficientă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="846" trl="Y">
+  <value column="MsgText" original="Payment is allocated (Charge, Invoice, Order)">Plata este alocată (Cheltuială, Factură, Comandă)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="847" trl="Y">
+  <value column="MsgText" original="Costing Level defined on Client Level - You cannot specify Organization nor Attribute">Nivel de Costuri definit la Nivel de Societate - Nu puteţi specifica nici Organizaţia, nici Atributul</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="848" trl="Y">
+  <value column="MsgText" original="You cannot delete this record (it is used)">Nu puteţi să ştergeţi această înregistrare (se utilizează)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="849" trl="Y">
+  <value column="MsgText" original="A record already exists">Există deja o înregistrare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="850" trl="Y">
+  <value column="MsgText" original="You subscribed to this Interest Area. To unsubscribe, log in, go to Interest Area and click Un-subscribe.">Sunteţi înscris la această Zonă de interes. Pentru a anula înscrierea, vă logaţi, mergeţi la Zonă de interes şi clic pe Anulare înscriere.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="851" trl="Y">
+  <value column="MsgText" original="Force">Forţează</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="852" trl="Y">
+  <value column="MsgText" original="Query returned more records then allowed in role - requery">Interogarea furnizează mai multe înregistrări decât permite rolul - a se reinteroga</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="853" trl="Y">
+  <value column="MsgText" original="Automatic New Record">Înregistrare nouă (automat)</value>
+  <value column="MsgTip" original="When no record exists, automatically create a New Record">Când nu există nici o înregistrare, adaugă automat una nouă</value>
+ </row>
+ <row id="854" trl="Y">
+  <value column="MsgText" original="Force Posting - Overwrite Locking">Forţează înregistrarea contabilă - Suprascrie blocarea</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="855" trl="Y">
+  <value column="MsgText" original="Alternative">Alternativă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="856" trl="Y">
+  <value column="MsgText" original="Unconfirmed Move">Transfer neconfirmat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="857" trl="Y">
+  <value column="MsgText" original="Connection Profile changed - You need to re-login to be effective.">S-a modificat profilul de conectare. Trebuie să re-logaţi din nou.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="858" trl="Y">
+  <value column="MsgText" original="Workflow &amp;Activities">Flux &amp;Activităţi</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="859" trl="Y">
+  <value column="MsgText" original="&amp;Workflow">Flux de &amp;lucru</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="860" trl="Y">
+  <value column="MsgText" original="&amp;Lookup">&amp;Caută</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="861" trl="Y">
+  <value column="MsgText" original="Please select the parent tab first:">Vă rog să selectaţi întâi tabul părinte:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="862" trl="Y">
+  <value column="MsgText" original="Please select the parent tab before selecting a dependent tab">Vă rog să selectaţi tabul părinte înainte de a selecta un tab dependent</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="863" trl="Y">
+  <value column="MsgText" original="&amp;OK">&amp;OK</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="864" trl="Y">
+  <value column="MsgText" original="&amp;Document No">&amp;Nr. document</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="865" trl="Y">
+  <value column="MsgText" original="Cache Windows">Ţine ferestrele în memoria cache</value>
+  <value column="MsgTip" original="Cache Window Definitions on Client">Ţine definiţiile ferestrelelor în memoria cache pentru Societate</value>
+ </row>
+ <row id="866" trl="Y">
+  <value column="MsgText" original="&amp;Performance">Pe&amp;rformanţă</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="867" trl="Y">
+  <value column="MsgText" original="System Name">Numele sistemului</value>
+  <value column="MsgTip" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Numele sistemului Adempiere instalat, ex. Alfa S.A.</value>
+ </row>
+ <row id="868" trl="N">
+  <value column="MsgText" original="Existing Support Contract">Existing Support Contract</value>
+  <value column="MsgTip" original="Sign up for Adempiere Support - also supports the product development">Sign up for Adempiere Support - also supports the product development</value>
+ </row>
+ <row id="869" trl="Y">
+  <value column="MsgText" original="Supported Users">Utilizatori suportaţi</value>
+  <value column="MsgTip" original="Max Users of Support Contract Purchased">Numărul maxim de utilizatori conform contractului</value>
+ </row>
+ <row id="870" trl="Y">
+  <value column="MsgText" original="Insufficient Inventory Available:">Stoc disponibil insuficient:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="871" trl="Y">
+  <value column="MsgText" original="Document Processed">Document procesat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="872" trl="Y">
+  <value column="MsgText" original="Not reserved">Nu este rezervată</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="873" trl="Y">
+  <value column="MsgText" original="Process started ... still running (requery later)">Procesul este în execuţie... (reveniţi mai târziu)</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="874" trl="Y">
+  <value column="MsgText" original="Start as Background Process">Porneşte procesul în background</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="875" trl="Y">
+  <value column="MsgText" original="Attribute Grid">Matrice de atribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="876" trl="Y">
+  <value column="MsgText" original="Mode">Mod</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="877" trl="Y">
+  <value column="MsgText" original="View">View</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="878" trl="Y">
+  <value column="MsgText" original="Create PO">Creză OdV</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="879" trl="Y">
+  <value column="MsgText" original="Price update">Actualizare preţ</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="880" trl="Y">
+  <value column="MsgText" original="URL not valid or cannot be displayed.">URL-ul nu este valid sau nu se poate afişa.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="881" trl="Y">
+  <value column="MsgText" original="No Document Lines found">Nu există Linii</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="882" trl="Y">
+  <value column="MsgText" original="Chat">Chat</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="883" trl="Y">
+  <value column="MsgText" original="Not Valid">Nu este valid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="884" trl="Y">
+  <value column="MsgText" original="Scheduler Result">Rezultatul programării</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="885" trl="Y">
+  <value column="MsgText" original="Bank account for business partner not found">Nu s-a găsit contul de bancă pentru partener</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="886" trl="Y">
+  <value column="MsgText" original="User EMail address was not verified - Please verify EMail">Nu s-a verificat adresa de e-mail a utilizatorului. Vă rog să verificaţi e-mailul.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="887" trl="Y">
+  <value column="MsgText" original="User Subscription not found">Nu se găseşte subscrierea utilizatorului</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="888" trl="Y">
+  <value column="MsgText" original="Select &amp;All">Selectare &amp;Tot</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="MsgText" original="Close All Windows">Închide toate ferestrele</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="MsgText" original="Close Other Windows">Închide celelalte ferestre</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="MsgText" original="Validate Connection on Startup">Validează conexiunea la pornire</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="MsgText" original="Single Instance per Window">O singură instaţă per fereastră</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="MsgText" original="Open Window Maximized">Deschide ferestre maximizate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="MsgText" original="Delete Selected Items">Şterge articolele selectate</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="MsgText" original="Save Parent Tab First">Întâi salvaţi tabul părinte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="MsgText" original="Charset">Set de caractere</value>
+  <value column="MsgTip" original="Charset used for import / export">Setul de caractere utilizat la  import / export </value>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="MsgText" original="Implementation Vendor">Furnizor implementare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="MsgText" original="Implementation Version">Versiune implementare</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="MsgText" original="If you change the attachment storage method, the old attachments are no longer available to your client.">Dacă schimbaţi modul în care se stochează fişierele ataşate, vechile fişiere ataşate nu for mai fi disponibile pentru acestă societate.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="50011" trl="Y">
+  <value column="MsgText" original="Make sure to copy the attachments to the new path!">Copiaţi notele în noua cale de căutare!</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="MsgText" original="test">test</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="MsgText" original="test">test</value>
+  <value column="MsgTip" original=""/>
+ </row>
+</adempiereTrl>

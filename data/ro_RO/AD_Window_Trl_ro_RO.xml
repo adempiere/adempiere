@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Window">
+ <row id="100" trl="Y">
+  <value column="Name" original="Table and Column">Tabel şi Coloană</value>
+  <value column="Description" original="Maintain Tables and Columns">Întreţine Tabelele şi Coloanele</value>
+  <value column="Help" original="The Table and Column Window defines all tables with their columns">Fereastra Tabel şi Coloană defineşte toate tabelele cu coloanele (câmpuri) lor</value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Reference">Referinţă</value>
+  <value column="Description" original="Maintain System References">Întreţine Referinţele Sistem</value>
+  <value column="Help" original="The Reference Window defines field/display types and validations. This window is for System Admin use only.">Fereastra Referinţă defineşte fiecare tip de câmp şi parametri săi. Acest ecran este utilizat numai de Administratorul de Sistem.</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Window, Tab &amp; Field">Fereastră, Tab, Câmp</value>
+  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Întreţine Ferestrele, Tab-uri &amp; Câmpurile</value>
+  <value column="Help" original="The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window.">Acest ecran defineşte modul de prezentare a tabelelor, şi coloanelor în fiecare fereastră</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Validation Rules">Reguli de validare</value>
+  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Întreţine regulile de validare dinamică pentru coloane şi câmpuri</value>
+  <value column="Help" original="The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only.">Acest ecran defineşte toate regulile utilizate când se introduc şi întreţin coloane şi câmpuri. Această funcţie este rezervată numai Administratorului de Sistem.</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Message">Mesaj</value>
+  <value column="Description" original="Maintain Information and Error Messages">Întreţine Informările şi Mesajele de Eroare</value>
+  <value column="Help" original="The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only.">Acest ecran defineşte Textul Mesajului şi a Sugestiei pentru fiecare mesaj generat de Sistem. Această funcţie este rezervată numai Administratorului de Sistem.</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Menu">Meniu</value>
+  <value column="Description" original="Maintain Menu">Întreţine Meniul</value>
+  <value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.">Acest ecran permite definirea Meniului care va fi afişat de Sistem. Această funcţie este rezervată numai Administratorului de Sistem. Articolele de meniu pe care le vor vedea utilizatorii depinde, pentru fiecare, de nivelul de securitate definit</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Language">Limba</value>
+  <value column="Description" original="Maintain Languages">Întreţine limbile</value>
+  <value column="Help" original="The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.&#10;If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.&#10;&#10;For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).&#10;&#10;Verify the translation creates missing translation records. Start this process after creating a new language.">Fereastra Limbă permite definirea mai multor limbi pentru Utilizator. Aceata permite utilizatorului să acceseze aceleaşi date dar Ferestrele, Tab-urile şi Câmpurile vor apărea în limbi diferite. Dacă o limbă este Limbă Sistem poţi schimba Interfaţa la această limbă (după traducere). Altfel, limba este utilizată numai pentru imprimarea documentelor.
+ Pentru cod limbă utilizaţi convenţia Java a ţării şi limbii (ex. fr_CN - Canadian French).
+
+ Verificarea traducerii crează înregistrările lipsă. lansaţi acest proces după crearea noii limbi.</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Matched Invoices">Facturi conectate</value>
+  <value column="Description" original="View Matched Invoices">Vizualizarea facturilor conectate</value>
+  <value column="Help" original="View detals of matched invoice lines to material receipt lines"/>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="User">Utilizator</value>
+  <value column="Description" original="Maintain Users of the system">Întreţinerea utilizatorilor sistemului</value>
+  <value column="Help" original="The User Window allows you to maintain User of the system.  Users can log into the system and have access to functionality via one or more roles.  A user can also be a business aprtner contact.">Fereastra Utilizator permite definirea fiecărui Utilizator al Sistemului. Utilizatorii pot intra în sistem şi vor avea acces la funcţionalităţi prin unul sau mai multe roluri.</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Client">Societate</value>
+  <value column="Description" original="Maintain Clients/Tenants">Întreţine Societăţile</value>
+  <value column="Help" original="The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's). To create new Clients, run the Initial Client Setup with the System Administrator Role.&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.">Societatea este nivelul ce mai înalt al unei entităţi cu personalitate juridică. Fiecare Societatate va avea una sau mai multe Organizaţii care depind de ea. Fiecare Societate definişte structura sa contabilă (planul de conturi, structura conturilor, unităţi de măsură nemonetare, etc.). Pentru a crea o Societate nouă, executaţi 'Prima Iniţializare Societate' cu Rol de Administrator de Sistem.
+NU creaţi o societate nouă în această fereastră, ci utilizaţi 'Prima Iniţializare Societate' pentru a stabili nivelul de securitate necesar şi regulile de acces. Dacă ve-ţi crea o societate nouă aici, nu o să aveţi posibilitatea să o vedeţi şi nici infrastructura societăţii nu se va iniţializa</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Organization">Organizaţie</value>
+  <value column="Description" original="Maintain Organizations">Întreţine Organizaţiile</value>
+  <value column="Help" original="The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed">Fereastra Organizaţie vă permite să definiţi şi întreţineţi entităţile Organizaţionale. O Organizaţie este de obicei o entitate legală sau o subunitate pentru care documentele şi tranzacţiile sunt prelucrate.</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Role">Rol</value>
+  <value column="Description" original="Maintain User Responsibilities">Întreţine Responsabilităţile Utilizatorilor</value>
+  <value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data.&#10;You can add users to the role.&#10;Note that access information is cached and requires re-login or reset of cache.">
+Fereastra Rol vă permite să definiţi diferite roluri pe care le vor avea utilizatorii sistemului. Rolurile controleză accesul la ferestre, sarcini, raporte, etc. Pentru o societate se predefinesc rolurile Administrator şi User. Puteţi adăuga roluri suplimentare pentru funcţionalităţi specifice şi puteţi modifica accesul anumitor roluri.
+Puteţi adăuga utilizatori la rol.
+Reţineţi că informaţiile de acces sunt memorate şi trebuie să vă reconecţi sau să resetaţi memoria (cache).</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Document Sequence">Secvenţă Document</value>
+  <value column="Description" original="Maintain System and Document Sequences">Întreţine Secvenţele Sistem şi Document</value>
+  <value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.">Descrie metoda de numerotare a documentelor. Puteţi să adăugaţi un prefix sau un sufix la numărul documentului sau pteţi să modificaţi valoarea curentă.</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="Workflow">Flux</value>
+  <value column="Description" original="Maintain Workflow">Întreţine Fluxurile</value>
+  <value column="Help" original="The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow.">Fereastra Flux defineşte Fluxurile în sistem, nivelul de acces pentru Flux şi Noduri sau Paşi în interiorul Fluxului.</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="Task">Sarcină</value>
+  <value column="Description" original="Maintain Tasks">Întreţine Sarcinile</value>
+  <value column="Help" original="The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks.">Fereastra 'Întreţine Sarcinile' defineşte diferite sarcini utilizate în fluxuri şi nivelul de acces pentru acele sarcini.</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Currency">Valută</value>
+  <value column="Description" original="Maintain Currencies">Întreţine valutele</value>
+  <value column="Help" original="The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) ">Această fereastră defineşte orice valută care va fi folosită în documente şi rapoarte. Veţi defini valutele folosite la nivelul Sistem şi veţi adăuga valute la nivelul Societate doar pentru valutele statistice (ex valute  instabile).</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Currency Rate">Curs de conversie</value>
+  <value column="Description" original="Maintain Currency Conversion Rates">Întreţine Cursurile de conversie valutară</value>
+  <value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another. Note that only the multiply rate is used; The divide rate is for visualization only.">Această fereastră se foloseşte pentru a defini cursurile de conversie care se vor folosi la convertirea sumelor dintr-o valută în alta. Notă: se foloseşte doar rata de multiplicare..</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Calendar Year and Period">Calendar An şi Perioadă</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Întreţine Calendarele Anuale şi Perioadele</value>
+  <value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">Această fereastră defineşte calendarele care se vor folosi la controale periodice şi la rapoarte. Puteţi defini şi un calendar  non-standard (ex.an business din iulie până în iunie)</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Account Element">Plan de conturi</value>
+  <value column="Description" original="Maintain Account Elements">Întreţine Planul de conturi</value>
+  <value column="Help" original="The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. &#10;One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments.">Fereastra Element Cont este utilizată la definirea şi întreţinerea Planului de conturi şi la definirea Planurilor de conturi personalizate. Unul din aceste planuri este planul de bază. Puteţi să adăugaţi conturi noi pentru raportare paralelă sau pentru definirea de Planuri personalizate.</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Unit of Measure">Unitate de măsură (UM)</value>
+  <value column="Description" original="Maintain Unit of Measure ">Întreţine unităţile de măsură şi conversiile între acestea</value>
+  <value column="Help" original="The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).">Această fereastră se foloseşte la definirea unităţilor de măsură non-monetare. De asemenea, arată dacă conversia între unităţile de măsură e permisă şi modul în care se poate face. Sistemul asigură unele conversii automate între unităţi de măsură (ex.minut, oră,zi, zi de lucru,etc) dacă ele nu sunt definite explicit aici.</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Location">Locaţie</value>
+  <value column="Description" original="Maintain Location Address">Administrează Adresele</value>
+  <value column="Help" original="The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)">Această fereastră defineşte adresa în sistem şi este doar pentru Adninistratorul de sistem. Utilizatorii vor accesa înregistrările de locaţii folosind butonul locaţie sau tabul din fereastra corespunzătoare (Înregistrare Comandă sau Partener)</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="Country Region and City">Ţară, Regiune şi Localitate</value>
+  <value column="Description" original="Maintain Countries Regions and Cities">Întreţine Ţările, Regiunile şi Localităţile</value>
+  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">Această fereastră defineşte diferitele entităţi care pot fi folosite în orice câmp de adresă. Defineşte formatul adresei şi asocierea Regiunilor cu Ţările şi Oraşele.
+Veţi defini de obicei Ţările la nivelul Sistem.</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Business Partner">Partener</value>
+  <value column="Description" original="Maintain Business Partners">Întreţine Partenerii de Afaceri</value>
+  <value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions">Această fereastră vă permite să definiţi orice societate cu care tranzacţionaţi. Această fereastră deţine toate informaţiile legate de partener iar valorile introduse vor fi folosite la generarea toturor documentelor de tranzacţii.</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Accounting Schema">Schema contabilă</value>
+  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Întreţine Schemele contabile. Pentru ca modificările să fie efective, trebuie să vă reconectaţi.</value>
+  <value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.">Fereastra Schema contabilă defineşte o metodă de contabilitate şi conturile care se vor utiliza. Crează şi activează elementele pentru o contabilitate detaliată a Partenerilor, produselor, Locaţiilor etc.
+Revizuiţi şi modificaţi conturile implicite ale Cărţii mari. Conturile utilizate în tranzacţii depind de organizaţiile pentru care se efectuează aceste tranzacţii.</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Test">Test</value>
+  <value column="Description" original="Test Screen">Ecran Test</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Attachment">Notiţă</value>
+  <value column="Description" original="Maintain Attachments">Întreţine Notiţele ataşate</value>
+  <value column="Help" original="For System Maintenance Only.  The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment.">Doar pentru Administrare de Sistem. Fereastra Întreţine Notele ataşate se foloseşte în scopul diagnosticării pentru a afişa atributele unei notiţe ataşate.</value>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Preference">Preferinţă</value>
+  <value column="Description" original="Maintain System Client Org and User Preferences">Întreţine Preferinţele Sistem, Partener, Serviciu şi Utilizator</value>
+  <value column="Help" original="System Admin use only.">Accesibil numai pentru SuperUtilizator</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Project">Proiect (Service)</value>
+  <value column="Description" original="Maintain Projects">Întreţine Proiectele de Service</value>
+  <value column="Help" original="The Project Window is used to define the projects which will can be tracked by phases and tasks.">Această Fereastră se foloseşte pentru a defini proiecte care vor fi urmărite via documente.</value>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="GL Category">Categorie Jurnal</value>
+  <value column="Description" original="Maintain General Ledger Categories">Întreţine Categoriile de Jurnale</value>
+  <value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">Această fereastră vă permite să definiţi categoriile care se vor folosi în jurnale. Aceste categorii asigură o metodă de grupare şi raportare opţională a jurnalelor.</value>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="GL Journal">Jurnal diverse</value>
+  <value column="Description" original="Enter and change Manual Journal Entries">Introducerea şi modificarea înregistrărilor contabile manuale</value>
+  <value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">Jurnal de diverse pemite introducerea şi modificarea înregistrărilor manuale în jurnal.</value>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Activity (ABC)">Activitate Contabilitate Analitică</value>
+  <value column="Description" original="Maintain Activities for Activity Based Costing">Întreţine Activităţile pentru contabilitatea analitică</value>
+  <value column="Help" original="The Activity Based Costing Window defines the different activities for which you want to capture costs.">Fereastra 'Activitate Contabilitate Analitică' defineşte diferite activităţi pentru care vreţi să prindeţi costuri.</value>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="Document Type">Tip de Document</value>
+  <value column="Description" original="Maintain Document Types">Întreţine Tipurile de Document</value>
+  <value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">Această Fereastră defineşte orice document care se va folosi în sistem.Fiecare tip de document asigură baza pentru prelucrarea fiecărui document şi controlează numele tipărit şi secvenţa de document folosită.</value>
+ </row>
+ <row id="137" trl="Y">
+  <value column="Name" original="Tax Rate">Cotă TVA</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Întreţine TVA şi Taxe</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.">Indică  taxele folosite pentru fiecare categorie de taxe. Se pot defini mai multe categorii de taxe deoarece în unele ţări, cum ar fi SUA acestea diferă de la un stat la altul, cu ar fi Taxele de Vânzări </value>
+ </row>
+ <row id="138" trl="Y">
+  <value column="Name" original="Tax Category">Categorie Taxă</value>
+  <value column="Description" original="Maintain Tax Categories">Întreţine Categoriile de Taxe</value>
+  <value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.">Se foloseşte pentru a introduce şi întreţine Categoriile de Taxe. Fiecare produs e asociat cu o categorie de taxă care facilitează schimbarea taxelor.</value>
+ </row>
+ <row id="139" trl="Y">
+  <value column="Name" original="Warehouse &amp; Locators">Depozit şi Locatori</value>
+  <value column="Description" original="Maintain Warehouses and Locators">Întreţine Depozitele şi Locatorii</value>
+  <value column="Help" original="The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse.">Această fereastră defineşte orice Depozit, Locator şi parametrii de contabilitate care se vor folosi pentru stocuri.</value>
+ </row>
+ <row id="140" trl="Y">
+  <value column="Name" original="Product">Produs</value>
+  <value column="Description" original="Maintain Products">Întreţine Produsele</value>
+  <value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">Fereastra Produs defineşte toate produsele utilizate de o organizaţie. Aceste produse includ cele vândute clienţilor, cele utilizate în producţie şi vândute clienţilor şi produsele achiziţionate de o organizaţie.</value>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="Payment Term">Termene de plată</value>
+  <value column="Description" original="Maintain Payment Terms">Întreţine Termenele de plată</value>
+  <value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">Această fereastră defineşte diferitele termene de plată care le oferiţi cumpărătorilor şi care vă sunt oferite de furnizori. Fiecare factură trebuie să conţină un Termen de Plată.</value>
+ </row>
+ <row id="142" trl="Y">
+  <value column="Name" original="Shipper">Transportator</value>
+  <value column="Description" original="Maintain Shippers">Întreţine Transportatorii</value>
+  <value column="Help" original="The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected.">Această Fereastră defineşte diferitele transporturi folosite de o Organizaţie. Când se foloseşte o metodă de livrare a Transportatorului pentru o Comandă, trebuie selectat un  Transportator predefinit.</value>
+ </row>
+ <row id="143" trl="Y">
+  <value column="Name" original="Sales Order">Ordin de Vânzare</value>
+  <value column="Description" original="Enter and change sales orders">Adaugă şi modifică ordinele de vânzare</value>
+  <value column="Help" original="The Order Window allows you to enter and modify Sales Orders.  ">Fereastra Ordin Vânzare permite adăugarea şi modificarea ordinelor de vânzare.</value>
+ </row>
+ <row id="144" trl="Y">
+  <value column="Name" original="Product Category">Categorie Produs</value>
+  <value column="Description" original="Maintain Product Categories">Înteţine Categoriile de Produs</value>
+  <value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">Această Fereastră permite definirea unor grupe de produse. Aceste grupuri se pot folosi la generarea Listelor de Preţ, definirea marjelor şi pentru atribuirea diferiţilor parametrii de contabilitate produselor.</value>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Name" original="Price List">Listă de preţuri</value>
+  <value column="Description" original="Maintain Product Price Lists">Întreţine Lista de preţuri</value>
+  <value column="Help" original="The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.&#10;&lt;BR&gt;&#10;All pricelists have three prices: List, Standard and Limit&#10;&lt;BR&gt;&#10;First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.&#10;&lt;BR&gt; &#10;Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.">Fereastra Listă de preţuri permite generarea listelor de preţuri pentru Partenerii tăi. Listele de preţuri stabilesc modul de tratare a valutei şi a TVA. Versiunile de Liste de preţuri permit întreţinerea unor liste paralele pentru diferite intervale de timp. Cea mai utilizată versiune de Listă de preţuri se bazează pe data documentului. &lt;BR&gt; Toate Listele de preţuri au trei preţuri : tarif, standard şi minim &lt;BR&gt; Primul pas este crearea unei liste de preţuri de bază. Se pot adăuga manual produse şi să se completeze preţul sau se pot crea automat. Lista de preţuri de bază este, în general, lista preţurilor de achiziţie (oficială), preţul standard (negociat). Preţul minim se poate utiliza pentru a verifica costurile finale de achiziţie după reduceri, rabaturi, etc. &lt;BR&gt; Listele de preţuri se pot calcula şi tipări. Pentru a mări viteza de calcul, parametrii sunt memoraţi şi utilizaţi la crearea unei versiuni noi de listă.</value>
+ </row>
+ <row id="147" trl="Y">
+  <value column="Name" original="Invoice Schedule">Planificare facturare</value>
+  <value column="Description" original="Maintain Invoicing Schedule">Întreţine Planificare facturării</value>
+  <value column="Help" original="The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer.">Fereastra "Planificare Facturare" defineşte frecvenţa şi data delimitării facturilor pe anul verificat, pentru a genera facturi totalizatoare. Dacă un client solicită o singură factură pentru mai multe expediţii, veţi defini planificatea facturii corespunzătoare şi o asociaţi cu Clientul.</value>
+ </row>
+ <row id="149" trl="Y">
+  <value column="Name" original="Marketing Campaign">Campanie Marketing</value>
+  <value column="Description" original="Maintain Marketing Campaigns">Întreţine campaniile de Marketing</value>
+  <value column="Help" original="The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.">Defineşte data de început şi de sfârşit a unei campanii.  It also gives a running balance of the invoice amounts which referred to this campaign</value>
+ </row>
+ <row id="150" trl="Y">
+  <value column="Name" original="Marketing Channel">Canal de Marketing</value>
+  <value column="Description" original="Maintain Marketing  Channels">Întreţine Canalele de Marketing</value>
+  <value column="Help" original="The Marketing Channel Window defines the different channels used in Marketing Campaigns">Fereastra Canal Marketing defineşte canalele de marketing utilizate în Campaniile de Marketing.</value>
+ </row>
+ <row id="151" trl="Y">
+  <value column="Name" original="Element">Element</value>
+  <value column="Description" original="Maintain System Elements">Întreţine Elementele</value>
+  <value column="Help" original="The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments">Fereastra Element Sistem vă permite să definiţi numele câmpurilor, descriere lor şi Asistenţa/Comentariile asociate</value>
+ </row>
+ <row id="152" trl="Y">
+  <value column="Name" original="Sales Region">Zonă comercială</value>
+  <value column="Description" original="Maintain Sales Regions">Întreţine Zonele comerciale</value>
+  <value column="Help" original="The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions">Fereastra Zonă comercială defineşte zonele unde vă desfăşuraţi activitatea comercială. Puteţi genera rapoarte bazate pe Zone comerciale</value>
+ </row>
+ <row id="153" trl="Y">
+  <value column="Name" original="Account Combination">Combinaţie Cont</value>
+  <value column="Description" original="Maintain Valid Account Combinations ">Administrează combinaţiile de conturi</value>
+  <value column="Help" original="The Account Combination Window defines and displays valid account combinations. ">Fereastra Combinaţie Cont defineşte şi afişează combinaţiile de cont valide.</value>
+ </row>
+ <row id="154" trl="Y">
+  <value column="Name" original="GL Budget">Jurnal bugete</value>
+  <value column="Description" original="Maintain General Ledger Budgets">Administrează Jurnalul de bugetele</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="158" trl="Y">
+  <value column="Name" original="Bank">Banca</value>
+  <value column="Description" original="Maintain Bank">Administrează Banca</value>
+  <value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner">Fereastra "Banca" este utilizată la definirea băncilor şi a conturilor asociate cu o Organizaţie sau un Partener</value>
+ </row>
+ <row id="159" trl="Y">
+  <value column="Name" original="Dunning">Somaţie</value>
+  <value column="Description" original="Maintain Dunning Levels">Administrează nivelele de somaţie</value>
+  <value column="Help" original="The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  ">Fereastra "Somaţie" definşte parametri care se vor utiliza la generarea Scrisorilor de Somaţie. Fiecarea client se poate asocia cu un Cod de Somaţie.</value>
+ </row>
+ <row id="160" trl="Y">
+  <value column="Name" original="Withholding (1099)">Reţinere</value>
+  <value column="Description" original="Maintain Withholding Certificates">Întreţine Reţinerile</value>
+  <value column="Help" original="The Withholding Window defines the rule used for calculating withholding amounts.">Fereastra Reţinere defineşte regula utilizată la calculul sumelor reţinute.</value>
+ </row>
+ <row id="161" trl="Y">
+  <value column="Name" original="Charge">Diverse</value>
+  <value column="Description" original="Maintain Charges">Administrează cheltuielile</value>
+  <value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">Ferastra "Diverse" defineşte tipurile de cheltuieli care se pot contracta (asuma). Acestea pot include cheltuieli cu banca, cu furnizorii şi de manipulare.</value>
+ </row>
+ <row id="162" trl="Y">
+  <value column="Name" original="Accounting Fact Details">Detalii operaţii contabile</value>
+  <value column="Description" original="Query Accounting Facts">Interogarea Operaţiilor contabile</value>
+  <value column="Help" original="Query the detail accounting transactions">Permite consultarea operaţiilor contabile</value>
+ </row>
+ <row id="163" trl="Y">
+  <value column="Name" original="Tree">Imagine Ierarhie şi Nod</value>
+  <value column="Description" original="Maintain Tree definition">Întreţine definiţia Ierarhiei</value>
+  <value column="Help" original="The Tree Window defines the descriptors and images that will be used when a Tree is displayed.">Acest ecran defineşte descriptorii şi imaginile care se vor utiliza la afişarea unei Ierarhii.</value>
+ </row>
+ <row id="165" trl="Y">
+  <value column="Name" original="Report &amp; Process">Tipărire şi Proces</value>
+  <value column="Description" original="Maintain Reports &amp; Processes">Întreţine tipăririle şi procesele</value>
+  <value column="Help" original="The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.">Fereastra permite definirea parametrilor şi a regulilor de acces pentru fiecare Raport şi Proces în cadrul sistemului. Este doar pentru Administratorul de sistem.</value>
+ </row>
+ <row id="167" trl="Y">
+  <value column="Name" original="Invoice (Customer)">Factură (Client)</value>
+  <value column="Description" original="Customer Invoice Entry">Introducere Facturi client</value>
+  <value column="Help" original="The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.">Fereastra vă permite să afişaţi şi introduceţi facturi pentru un client. Facturile pot fi generate din Comandă de Vânzări sau documente de livrare. </value>
+ </row>
+ <row id="168" trl="Y">
+  <value column="Name" original="Physical Inventory">Inventar fizic</value>
+  <value column="Description" original="Enter Physical Inventory">Introducere Inventar fizic</value>
+  <value column="Help" original="The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.">Fereastra vă permite să generaţi liste de numărare a stocului. Aceste numărări pot fi prelucrate şi vor actualiza inventarul actual cu noile numere.</value>
+ </row>
+ <row id="169" trl="Y">
+  <value column="Name" original="Shipment (Customer)">Expediţie (Client)</value>
+  <value column="Description" original="Customer Inventory Shipments Customer Returns">Expediţie la Client şi Retururi de la Client</value>
+  <value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">Fereastra Expediţie defineşte expediţia care s-a făcut sau se va face către un client. Se generează dintr-un Ordin de Vânzare. Documentul de Expediţie va generă Factura clientului</value>
+ </row>
+ <row id="170" trl="Y">
+  <value column="Name" original="Inventory Move">Mişcare de stoc</value>
+  <value column="Description" original="Inventory Move">Mişcare de stoc</value>
+  <value column="Help" original="The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.">Fereastra  Mişcare de stoc vă permite să transferaţi stocul dintr-un depozit în altul. După ce s-au introdus liniile corespunzătoare, la finalizare se va ajusta stocul.</value>
+ </row>
+ <row id="172" trl="Y">
+  <value column="Name" original="Import Business Partner">Import Partener</value>
+  <value column="Description" original="Import Business Partner">Import Partener</value>
+  <value column="Help" original="The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Această fereastră este un tabel provizoriu care se foloseşte la importarea datelor externe în sistem. Selectând butonul 'Proces' se va face fie adăugarea fie modificarea înregistrărilor corespunzătoare.</value>
+ </row>
+ <row id="174" trl="Y">
+  <value column="Name" original="Revenue Recognition">Recunoaştere venituri</value>
+  <value column="Description" original="Revenue Recognition Rules">Reguli de Recunoaştere a veniturilor</value>
+  <value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">Defineşte intervalul la care se va recunoşte venitul. Alternativ, recunoşterea venitului poate fi legată la nivelele de service.</value>
+ </row>
+ <row id="175" trl="Y">
+  <value column="Name" original="Perpetual Inventory">Frecvenţă inventar</value>
+  <value column="Description" original="Maintain Perpetual Inventory Rules">Stabileşte regulile de inventariere</value>
+  <value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">Frecvenţă inventarul defineşte regulile care se vor aplica la generarea listelor de inventar.</value>
+ </row>
+ <row id="176" trl="Y">
+  <value column="Name" original="Vendor Details">Detalii furnizor</value>
+  <value column="Description" original="Maintain Vendor Details">Întreţine Detalii furnizor</value>
+  <value column="Help" original="The Vendor Details Window allows you to display and maintain all products for a selected Vendor.">Acest ecran vă permite să afişaţi şi să întreţineţi toate produsele pentru un furnizor selectat.</value>
+ </row>
+ <row id="178" trl="Y">
+  <value column="Name" original="Greeting">Mod de adresare</value>
+  <value column="Description" original="Maintain Greetings">Întreţine modul de adresare</value>
+  <value column="Help" original="The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.">Acest ecran vă permite să definiţi un mod de adresare care să fie asociat cu un Partener sau cu o persoană de contact.</value>
+ </row>
+ <row id="180" trl="Y">
+  <value column="Name" original="Report View">Consultare raport</value>
+  <value column="Description" original="Maintain Report Views">Gestionează vizualizarea rapoartelor</value>
+  <value column="Help" original="The Report View Window defines the views used when generating reports.  This window is for System Admin use only.">Acest ecran defineşte vizualizările folosite la generarea rapoartelor şi este doar pentru Administratorul de Sistem</value>
+ </row>
+ <row id="181" trl="Y">
+  <value column="Name" original="Purchase Order">Comandă de Achiziţie</value>
+  <value column="Description" original="Manage Purchase Orders">Întreţine Comenzile de Achiziţie (CdA)</value>
+  <value column="Help" original="The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order">Această fereastră defineşte o comandă de achiziţie pentru o organizaţie. Când se introduce o Comandă Achiziţie, puteţi genera un document de Expediţie sau o Factură </value>
+ </row>
+ <row id="183" trl="Y">
+  <value column="Name" original="Invoice (Vendor)">Factură (Furnizor)</value>
+  <value column="Description" original="Vendor Invoice Entry">Înregistrare Factură furnizor</value>
+  <value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.">Acest ecran permite afişarea şi înregistrarea Facturilor unui Furnizor. Facturile Furnizor pot fi generate şi din Comenzile de Achiziţie sau Notele de recepţie.</value>
+ </row>
+ <row id="184" trl="Y">
+  <value column="Name" original="Material Receipt">Notă de recepţie (NIR)</value>
+  <value column="Description" original="Vendor Shipments (Receipts)">Transport Furnizor (Recepţie)</value>
+  <value column="Help" original="The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.">Fereastra defineşte recepţia unui produs sau material  de la un furnizor. Expediţia poate fi introdusă manual sau poate fi generată dintr-o Comandă de Achiziţie sau o Factură furnizor</value>
+ </row>
+ <row id="185" trl="Y">
+  <value column="Name" original="EDI Definition">Parametri EDI</value>
+  <value column="Description" original="Maintain EDI Definition">Gestionarea Parametrilor EDI</value>
+  <value column="Help" original="The EDI Definition Window defines the parameters to be used when processing EDI Transactions">Fereastra defineşte parametri care se vor folosi la prelucrarea Tranzacţiilor EDI</value>
+ </row>
+ <row id="186" trl="Y">
+  <value column="Name" original="EDI Transaction">Tranzacţie EDI</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="187" trl="Y">
+  <value column="Name" original="Form">Formular</value>
+  <value column="Description" original="Special Forms">Formulare speciale</value>
+  <value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">Fereastra defineşte orice fereastră care nu e generată automat  şi este doar pentru Administratorul de Sistem.</value>
+ </row>
+ <row id="188" trl="Y">
+  <value column="Name" original="Error Message">Mesaj de eroare</value>
+  <value column="Description" original="Display Error Messages">Afişează Mesaje de eroare</value>
+  <value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.">Acest ecran afişează toate mesajele de eroare generate şi este doar pentru Administratorul de Sistem. Înregistrările trebuie şterse manual</value>
+ </row>
+ <row id="189" trl="Y">
+  <value column="Name" original="Import Loader Format">Format Import încărcător</value>
+  <value column="Description" original="Maintain Import Loader Formats">Întreţine Formatele fişierelor de import</value>
+  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Acest ecran se utilizeză la definirea modului de aranjare în pagină a fişierului cu informaţiile care se vor importa</value>
+ </row>
+ <row id="191" trl="Y">
+  <value column="Name" original="Production">Producţie</value>
+  <value column="Description" original="Production based on Bill of Materials">Producţie bazată pe Lista de Consum Specific</value>
+  <value column="Help" original="The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials">Acest ecran defineşte acele mişcări de stoc care apar când un produs e creat din lista de consum specific.</value>
+ </row>
+ <row id="192" trl="Y">
+  <value column="Name" original="Business Partner Group">Grup Parteneri</value>
+  <value column="Description" original="Maintain Business Partner Groups">Întreţine Grupurile de Parteneri</value>
+  <value column="Help" original="The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.">Acest ecran vă permite să definiţi parametrii de contabilitate la un nivel de grup. Dacă definiţi parametrii de contabilitate pentru un grup, orice Partener care face parte din acest grup va avea automat aceşti parametrii. Apoi puteţi face orice modificări necesare la nivelul Partener..</value>
+ </row>
+ <row id="193" trl="Y">
+  <value column="Name" original="Notice">Notă</value>
+  <value column="Description" original="View System Notices">Afişează mesaje Sistem</value>
+  <value column="Help" original="The system creates messages while performing processes. In this window you can view them.">Sistemul crează mesaje în timp ce prelucrează. În această fereastră le puteţi vedea.</value>
+ </row>
+ <row id="194" trl="Y">
+  <value column="Name" original="Bank Statement">Extras bancar</value>
+  <value column="Description" original="Process Bank Statements">Întreţine Extrasele bancare</value>
+  <value column="Help" original="The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.">Acest ecran vă permite să vă verificaţi extrasele bancare. Puteţi fie să introduceţi liniile din extras în tabul Linie Extras sau să selectaţi butonul 'Crează Din' pentru a genera automat extrasul din toate plăţile nerezolvate către acest cont bancar. Odată ce aţi terminat rezolvarea lor, selectaţi butonul 'Prelucrează Extras' pentru a marca plăţile care se rezolvă şi pentru a actualiza conturile potrivite ale CM </value>
+ </row>
+ <row id="195" trl="Y">
+  <value column="Name" original="Payment">Plată-Încasare</value>
+  <value column="Description" original="Process Payments and Receipts">Procesează Plăţi şi Încasări</value>
+  <value column="Help" original="The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.">Acest ecran vă permite să introduceţi plăţile şi chitanţele pentru facturi. Dacă plata se face pentru o singură factură atunci ea poate fi prelucrată aici. Dacă e pentru mai multe facturi sau este o plată parţială atunci ea trebuie prelucrată în Fereastra Alocare Plăţi.
+		</value>
+ </row>
+ <row id="196" trl="Y">
+  <value column="Name" original="Custom Attribute">Atribut Specific</value>
+  <value column="Description" original="Maintain custom entity attributes">Gestionează atributele specifice</value>
+  <value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">Permite introducerea informaţiilor adiţionale pentru o entitate. Se adresează doar administratorului de sistem</value>
+ </row>
+ <row id="197" trl="Y">
+  <value column="Name" original="Cashbook">Registru Casă</value>
+  <value column="Description" original="Maintain Cashbook">Întreţine Registrul de Casă</value>
+  <value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">Acest ecran defineşte banca şi contul unde vor fi prelucrate trazacţiile cu numerar.</value>
+ </row>
+ <row id="198" trl="Y">
+  <value column="Name" original="Cash Journal">Jurnal Casă</value>
+  <value column="Description" original="Cash transactions">Operaţii cu Casa</value>
+  <value column="Help" original="The Cash Journal Window is used to record disbursements from and receipts to Petty Cash">Fereastra Jurnal Casă se foloseşte pentru a înregistra plăţi şi încasări în numerar</value>
+ </row>
+ <row id="200" trl="Y">
+  <value column="Name" original="Field Group">Grup Câmp</value>
+  <value column="Description" original="Define Field Group">Defineşte Grupul de câmpuri</value>
+  <value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only.">Fereastra Grup Câmp vă permite să definiţi sub-secţiuni într-un Tab. Accesibil numai de Administratorul de Sistem.</value>
+ </row>
+ <row id="201" trl="Y">
+  <value column="Name" original="Request">Sesizare</value>
+  <value column="Description" original="Work on your requests">Prelucrează sesizările, întrebările, revendicările, etc.</value>
+  <value column="Help" original="The Request Window is used to define and track any request assigned to you.">Fereastra Sesizare este utilizată la definirea şi urmărirea (tracking) cererilor, care vi se adresează.
+Cererea, văzută într-un sens mai larg poate fi o întrebare, o revendicare, o invitaţie, o avertizare.
+În general cererea se poate crea din orice document Adempiere.</value>
+ </row>
+ <row id="203" trl="Y">
+  <value column="Name" original="Request Processor">Procesor de sesizări</value>
+  <value column="Description" original="Define Request Processors">Defineşte Procesoarele de sesizări</value>
+  <value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.">Fereastra vă permite să definiţi diferite procese care doriţi să apară, frecvenţa şi perioada lor. Un Procesor de sesizări poate fi doar pentru un anumit Tip de sesizări sau pentru toate.</value>
+ </row>
+ <row id="204" trl="Y">
+  <value column="Name" original="Mail Template">Şablon de scrisoare</value>
+  <value column="Description" original="Maintain Mail Template">Întreţine şabloanele de scrisori</value>
+  <value column="Help" original="Mail templates can contain variables of the user, business partner or a general object.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection."/>
+ </row>
+ <row id="205" trl="Y">
+  <value column="Name" original="View Allocation">Vizualizare alocare</value>
+  <value column="Description" original="View and Reverse Allocations ">Vizualizare şi anulare alocări</value>
+  <value column="Help" original="The Reverse Allocation Window allows you to view and reverse a payment allocation">Fereastra vă permite să vizualizaţi şi să anulaţi alocarea plăţilor</value>
+ </row>
+ <row id="206" trl="Y">
+  <value column="Name" original="Payment Selection">Selectare Plăţi</value>
+  <value column="Description" original="Select Invoices for Payment">Selectaţi Facturi pentru Plată</value>
+  <value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">Fereastra vă permite să selectaţi şi prelucraţi facturile care doriţi să le plătiţi.
+(a) Puteţi să creaţi o Selecţie Plată şi să selectaţi manual facturile sau  să generaţi sugestiile pe baza unui criteriu. Puteţi schimba suma de plătit sau să ştergeţi factura pe care nu doriţi să o plătiţi.
+
+(b) Dacă Selecţie Plată vă mulţumeşte, creaţi plăţile. 
+
+(c) Tipăriţi sau exportaţi plăţile în fereastra Plată Tipărire/Export.</value>
+ </row>
+ <row id="207" trl="Y">
+  <value column="Name" original="Commission">Comision</value>
+  <value column="Description" original="Maintain Commissions and Royalties">Întreţine Comisioanele şi Onorariile</value>
+  <value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">Definiţi cînd şi cum doriţi să fie calculate comisioanele şi cui să fie plătite.
+Fereastra Comisioane vă permite să definiţi cum să fie plătite comisioanele şi onorariile. Puteţi plăti mai multe comisioane pentru aceeaşi comandă sau factură (ex. pentru persoana care intră în tranzacţie, pentru cea care e responsabilă cu vânzarea produsului)</value>
+ </row>
+ <row id="208" trl="Y">
+  <value column="Name" original="Project Reporting">Ciclu de Proiect</value>
+  <value column="Description" original="Maintain Project Reporting Cycles">Întreţine Ciclurile Proiectelor</value>
+  <value column="Help" original="The Project Cycle Window defines the steps associated with a specific Project.&#10;You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.">Fereastra  defineşte paşii asociaţi cu un anumit proiect.
+Puteţi defini mai multe cicluri Proiect pentru a diferenţia tipurile de proiect.Ciclurile de proiect pot folosi toate sau un subset al Stării Proiectului (ex Un ciclu poate include toţi paşii de la posibil client până la contractant-ciclul service poate include paşi de la instalare până la acceptul cumpărătorului.</value>
+ </row>
+ <row id="210" trl="Y">
+  <value column="Name" original="Commission Run">Calcul Comision</value>
+  <value column="Description" original="Check and modify Commissions">Verifică şi modifică Comisioanele</value>
+  <value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.">Fereastra Calcul Comision afişează rezultatele prelucrării comisioanelor. Când se selectează procesul "Generează Comision" din Fereastra Comisioane, rezultatele sunt afişate aici. Dacă rezultatul este satisfăcător, se generează o factură Cont Creditor pentru a plăti comisionul.</value>
+ </row>
+ <row id="212" trl="Y">
+  <value column="Name" original="Performance Goal">Obiectiv Performanţă</value>
+  <value column="Description" original="Define Performance Goals">Defineşte Obiectivele Performanţei</value>
+  <value column="Help" original="The Performance Goal Window allows you to define performance goals or all, a role or a user">Fereastra Obiectiv Performanţă vă permite să definiţi obiectivele performanţei.</value>
+ </row>
+ <row id="213" trl="Y">
+  <value column="Name" original="Performance Measure Calculation">Calcul Măsură Performanţă</value>
+  <value column="Description" original="Define how you calculate your performance measures">Defineşte cum să calculaţi măsurile performanţei</value>
+  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. &#10;The sql needs to return a single value.  Please check examples.&lt;br&gt;&#10;The date trestriction is defined in the Goal. &#10;Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.">Verificaţi întâi declaraţia în SQL*Plus. Declaraţia SELECT trebuie să întoarcă o singură valoare!
+Orice restricţie pentru intervale de date, Organizaţii, Parteneri, Produse se vor face prin fereastra "Măsură Performanţă". Acesta este un model generic.
+Ca această urmărire să fie ceva tehnic, sistemul are câteva exemple predefinite</value>
+ </row>
+ <row id="215" trl="Y">
+  <value column="Name" original="Performance Measure">Măsura Performanţei</value>
+  <value column="Description" original="Define your Performance Measures">Defineşte Măsurile Performanţei</value>
+  <value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">Fereastra Măsura Performanţei vă permite să definiţi regulile şi restricţiile pentru măsurarea performanţei. De exemplu, puteţi să restricţionaţi măsurarea performanţei la vânzări pentru o anumită categorie de produse pentru o perioadă de timp definită.</value>
+ </row>
+ <row id="216" trl="Y">
+  <value column="Name" original="Financial Report">Raport financiar</value>
+  <value column="Description" original="Maintain Financial Reports">Întreţine Rapoartele financiare</value>
+  <value column="Help" original="Financial Reports are the combination of a Report Column Set and Line Set.">Rapoartele Financiare sunt o combinaţie între 'Set Coloane Raport' şi 'Set Linii Raport'</value>
+ </row>
+ <row id="217" trl="Y">
+  <value column="Name" original="Report Column Set">Set coloane raport</value>
+  <value column="Description" original="Maintain Financial Report Column Sets">Întreţine Seturile de Coloane pentru Raportul Fianaciar</value>
+  <value column="Help" original="The Report Column Set defines what data is printed in the columns of a report.">Set Coloane Raport defineşte ce date se tipăresc în coloanele unui Raport Financiar</value>
+ </row>
+ <row id="218" trl="Y">
+  <value column="Name" original="Report Line Set">Set linii raport</value>
+  <value column="Description" original="Maintain Financial Report Line Sets">Întreţine Seturile de linii pentru raportul fianaciar</value>
+  <value column="Help" original="The Line Set determines, which lines are printed in a Financial Report">Set linii raport determină, care linii se tipăresc într-un raport financiar</value>
+ </row>
+ <row id="220" trl="Y">
+  <value column="Name" original="Service Level">Nivel Service</value>
+  <value column="Description" original="Maintain Service Levels">Întreţine Nivele de Service</value>
+  <value column="Help" original="Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.">Nivele de Service sunt generate când se generează o factură cu produse bazate pe reguli de recunoştere a veniturilor. Trebuie actualizat nivelul de service prin adăugarea unei linii noi.</value>
+ </row>
+ <row id="221" trl="Y">
+  <value column="Name" original="Find (indirect use)">Caută (utilizare indirectă)</value>
+  <value column="Description" original="Find Dialog (indirect use)">Fereastră de Căutare (utilizare indirectă)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="223" trl="Y">
+  <value column="Name" original="Material Transactions (indirect use)">Mişcarea articolelor</value>
+  <value column="Description" original="Material Transactions (indirect use)">Mişcarea articolelor</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="224" trl="Y">
+  <value column="Name" original="Print Form">Formular tipărire</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Gestionează formatul de tipărire (facuri, cecuri...)</value>
+  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Definiţi documentele pe care le folosiţi pentru aceată Societate/Organizaţie. Notă:formatul cecului e definit în Fereastra Cont bancar.
+Cea mmai mare prioritate o are Formatul Tipărire pe care îl definiţi într-un Tip Document (ex. un format de Factură Export). Următorul nivel este setul de Formate de Tipărire pe care îl definiţi pentru organizaţia pentru care se tipăreşte documentul. Setul de Formate de Tipărire implicit este cel definit pentru toate organizaţiile unei Societăţi (Organizaţia=*). </value>
+ </row>
+ <row id="225" trl="Y">
+  <value column="Name" original="System Color">Culoare Sistem</value>
+  <value column="Description" original="Maintain System Colors">Gestionează culorile sistemului</value>
+  <value column="Help" original="System colors are used for background and indicators">Culorile sistemului sunt folosite pentru fundaluri şi indicatori</value>
+ </row>
+ <row id="226" trl="Y">
+  <value column="Name" original="Desktop">Birou</value>
+  <value column="Description" original="Maintain Desktop">Gestionează biroul</value>
+  <value column="Help" original="Desktop is a collection of Workbenches">Biroul este o colecţie de mese de lucru</value>
+ </row>
+ <row id="227" trl="Y">
+  <value column="Name" original="System Image">Imagine Sistem</value>
+  <value column="Description" original="Maintain Images and Icons">Întreţine Imaginile şi Iconurile</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="228" trl="Y">
+  <value column="Name" original="Matched Purchase Orders">CdA conectate</value>
+  <value column="Description" original="View Matched Purchase Orders">Vizualizare Comenzile de Achiziţie conectate</value>
+  <value column="Help" original="View detals of matched purchase order lines to invoice lines and material receipt lines">Vizualizarea liniilor Comenzii de Achiziţie conectate la linii facturi şi linii expediţie/recepţie</value>
+ </row>
+ <row id="229" trl="Y">
+  <value column="Name" original="Window Customization">Fereastră Utilizator</value>
+  <value column="Description" original="Define Window Customization for Role/User">Defineşte personalizarea ferestrei pentru Rol/Utilizator</value>
+  <value column="Help" original="The customization values defined here overwrite/replace the default system definition if defined.">Valorile personalizate definite aici vor înlocui definiţia implicită a sistemului.</value>
+ </row>
+ <row id="231" trl="Y">
+  <value column="Name" original="Workbench">Masă de lucru</value>
+  <value column="Description" original="Maintain Workbench">Gestionează mese de lucru</value>
+  <value column="Help" original="Workbenches are a collection of Windows">Mesele de lucru sunt o colecţie de ferestre</value>
+ </row>
+ <row id="232" trl="Y">
+  <value column="Name" original="Request (all)">Sesizări (toate)</value>
+  <value column="Description" original="View and work on all requests">Vizualizează şi tratează toate sesizările</value>
+  <value column="Help" original="This Request window is used to view all available requests">Se foloseşte pentru a vizualiza toate sesizările disponibile</value>
+ </row>
+ <row id="233" trl="Y">
+  <value column="Name" original="Discount Schema">Schemă Reducere</value>
+  <value column="Description" original="Maintain Trade Discount Schema">Întreţine Schema Reducerilor comerciale</value>
+  <value column="Help" original="Trade discount schema calculates the trade discount percentage">Se foloseşte pentru a calcula procentajul reducerilor comerciale</value>
+ </row>
+ <row id="234" trl="Y">
+  <value column="Name" original="Expense Type">Tip de Cheltuială</value>
+  <value column="Description" original="Maintain Expense Report Types">Întreţine tipurile de cheltuieli</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="235" trl="Y">
+  <value column="Name" original="Expense Report">Raport cheltuieli</value>
+  <value column="Description" original="Time and Expense Report">Raport cheltuieli şi timp</value>
+  <value column="Help" original="The time and expense report allows you to capture time spent on a project, billable time and to claim expenses.">Vă permite să aflaţi timpul cheltuit cu un proiect, timpul facturabil şi să pretindeţi cheltuielile.</value>
+ </row>
+ <row id="236" trl="Y">
+  <value column="Name" original="Resource">Resursă</value>
+  <value column="Description" original="Maintain Resources">Întreţine Resursele</value>
+  <value column="Help" original="Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">Întreţine Resursele dumneavoastră. Se crează şi sincronizează automat. Actualizează Nume, Unitate de Măsură etc. în Resurse. A nu se schimba în produs.</value>
+ </row>
+ <row id="237" trl="Y">
+  <value column="Name" original="Resource Type">Tip de Resursă</value>
+  <value column="Description" original="Maintain Resource Types">Întreţine Tipurile de Resurse</value>
+  <value column="Help" original="Maintain Resource types and their principal availability.">Întreţine tipurile de resurse şi disponibillitatea lor principală.</value>
+ </row>
+ <row id="238" trl="Y">
+  <value column="Name" original="Print Color">Culoare Tipărire</value>
+  <value column="Description" original="Maintain Print Color">Întreţine culorile de tipărire</value>
+  <value column="Help" original="Colors used for printing">acest ecran defineşte culorile folosite pentru tipărire</value>
+ </row>
+ <row id="239" trl="Y">
+  <value column="Name" original="Print Font">Font tipărire</value>
+  <value column="Description" original="Maintain Print Font">Întreţine Fontul de tipărire</value>
+  <value column="Help" original="Font used for printing">Fontul (set de caractere cu formă specifică) utilizat la tipărire</value>
+ </row>
+ <row id="240" trl="Y">
+  <value column="Name" original="Print Format">Format tipărire</value>
+  <value column="Description" original="Maintain Print Format">Întreţine Formatul de tipărire</value>
+  <value column="Help" original="The print format determines how data is rendered for print.">Formatul de Tipărire defineşte modul în care datele sunt aranjate pentru tipărire</value>
+ </row>
+ <row id="241" trl="Y">
+  <value column="Name" original="Print Paper">Pune în pagină</value>
+  <value column="Description" original="Maintain Print Paper">Pune în pagină</value>
+  <value column="Help" original="Printer Paper Size, Orientation and Margins">Acest ecran permite definirea punerii în pagină (formatul, dimensiunile, orientarea şi marginile hârtiei)</value>
+ </row>
+ <row id="242" trl="Y">
+  <value column="Name" original="Expenses (to be invoiced)">Cheltuieli (nefacturate)</value>
+  <value column="Description" original="View expenses and charges not invoiced to customers">Vizualizare cheltuieli nefacturate la clienţi</value>
+  <value column="Help" original="Before invoicing to customers, check the expense lines to be invoiced">Înainte de facturare, verificaţi liniile cu cheltuieli care vor fi facturate</value>
+ </row>
+ <row id="243" trl="Y">
+  <value column="Name" original="Print Table Format">Format Tabel tipărire</value>
+  <value column="Description" original="Define Report Table Format">Defineşte Formatul Tabelului de tipărire</value>
+  <value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. Please note that the Report Table FOrmat is cached to improve performance.">Vă arată cum se tipăreşte antetul tabelului. Notă:Formatul Tabelului de tipărire  se memoreză pentru o performanţă mai bună</value>
+ </row>
+ <row id="244" trl="Y">
+  <value column="Name" original="Request Type">Tip de Sesizare</value>
+  <value column="Description" original="Maintain Request Types">Întreţine Tipurile de sesizări</value>
+  <value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Tipurile de sesizări se folosesc pentru a prelucra şi categorisi sesizările. Opţiunile sunt Interogare Cont, Garanţie, etc</value>
+ </row>
+ <row id="245" trl="Y">
+  <value column="Name" original="Interest Area">Zonă de interes</value>
+  <value column="Description" original="Interest Area or Topic">Zonă de interes</value>
+  <value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">Zona de Interes reflectă interesul pentru un Subiect în funcţie de un contact. Zona de interes poate fi utilizată în campaniile de marketing.</value>
+ </row>
+ <row id="246" trl="Y">
+  <value column="Name" original="System">Sistem</value>
+  <value column="Description" original="System Definition">Definiţie Sistem</value>
+  <value column="Help" original="Common System Definition - Only one Record - Do not add additional records.">Definiţia generală a Sistemului - O singură înregistrare - Nu adăugaţi alte înregistrări</value>
+ </row>
+ <row id="247" trl="Y">
+  <value column="Name" original="Import Product">Import Produs</value>
+  <value column="Description" original="Import Products">Import Produse</value>
+  <value column="Help" original="The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Fereastra Import Produse este un tabel temporar care se foloseşte când importăm date externe în sistem. Selectând butonul 'Proces' fie se vor adăuga fie se vor modifica înregistrările corespunzătoare.</value>
+ </row>
+ <row id="248" trl="Y">
+  <value column="Name" original="Import Account">Import cont</value>
+  <value column="Description" original="Import Natural Account Values">Import Valoare cont</value>
+  <value column="Help" original="The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Fereastra Valoare Cont este un tabel temporar care se foloseşte când importăm date externe în sistem. Selectând butonul 'Proces' fie se vor adăuga sau modifica înregistrările corespunzătoare.</value>
+ </row>
+ <row id="249" trl="Y">
+  <value column="Name" original="Import Report Line Set">Import Set linii raport</value>
+  <value column="Description" original="Import Report Line Sets">Import Seturi de linii de raport</value>
+  <value column="Help" original="The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">Fereastra Import Seturi de Linii de raport este un tabel temporar care se foloseşte când importăm date externe în sistem. Selectând butonul 'Proces' fie se vor adăuga fie se vor modifica înregistrările corespunzătoare</value>
+ </row>
+ <row id="250" trl="Y">
+  <value column="Name" original="System Translation Check">Verificare traducere</value>
+  <value column="Description" original="Check System Language Translations">Verifică Traducerea limbii</value>
+  <value column="Help" original="Verify your language translations for selected entities. You should use Translation Export / Import for effective translation. This window allows you to check the translation of the main translation entities.">Verifică traducerea limbii pentru articolele selectate</value>
+ </row>
+ <row id="251" trl="Y">
+  <value column="Name" original="Asset">Imobilizare</value>
+  <value column="Description" original="Asset used internally or by customers">Imobilizare utilizată intern sau de clienţi</value>
+  <value column="Help" original="An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.">O Imobilizare se crează  prin achiziţionarea sau livrarea unui produs. O imobilizare poate fi utilizată intern sau poate fi a unui client.</value>
+ </row>
+ <row id="252" trl="Y">
+  <value column="Name" original="Asset Group">Grup Imobilizare</value>
+  <value column="Description" original="Group of Assets">Grup de Imobilizări</value>
+  <value column="Help" original="The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.">Grupul de Imobilizări determină conturile implicite. Dacă un grup de imobilizări este selectat în Categorie Produs, se crează imobilizări la livrarea imobilizării.</value>
+ </row>
+ <row id="253" trl="Y">
+  <value column="Name" original="Training">Pregătire</value>
+  <value column="Description" original="Repeated Training">Pregătire repetată</value>
+  <value column="Help" original="The training may have multiple actual classes">Pregătirea poate avea mai multe clase</value>
+ </row>
+ <row id="254" trl="Y">
+  <value column="Name" original="Expenses (not reimbursed)">Cheltuieli (nerambursate)</value>
+  <value column="Description" original="View expenses and charges not reimbursed">Vizualizare cheltuieli nerambursate</value>
+  <value column="Help" original="Before reimbursing expenses, check the open expense items">Înainte de a rambursa cheltuieli, verificaţi articolele de cheltuieli deschise</value>
+ </row>
+ <row id="255" trl="Y">
+  <value column="Name" original="Accounting Fact Balances">Contări zilnice</value>
+  <value column="Description" original="Query Accounting Daily Balances">Consultare Contări zilnice</value>
+  <value column="Help" original="Query daily account balances">Consultare Contări zilnice</value>
+ </row>
+ <row id="256" trl="Y">
+  <value column="Name" original="Attribute Set">Set atribute</value>
+  <value column="Description" original="Maintain Product Attribute Set">Întreţine Setul de atribute al  Produsului</value>
+  <value column="Help" original="Define Product Attribute Sets to add additional attributes and values to the product. You need to define a Attribute Set if you want to enable Serial and Lot Number tracking.">Definiţi Setul de atribute al  Produsului pentru a adăuga atribute şi valori adiţionale produsului. Trebuie să definiţi un Set de atribute dacă doriţi să fie permisă urmărirea Nr Lot şi Nr Serial</value>
+ </row>
+ <row id="257" trl="Y">
+  <value column="Name" original="Lot">Lot</value>
+  <value column="Description" original="Product Lot Definition">Definiţie Lot Produs</value>
+  <value column="Help" original="Maintain the individual Lot of a Product">Întreţine Lotul individual al Produsului</value>
+ </row>
+ <row id="258" trl="Y">
+  <value column="Name" original="Lot Control">Control Lot</value>
+  <value column="Description" original="Product Lot Control">Control Lot Produs</value>
+  <value column="Help" original="Definition to create Lot numbers for Products">Definiţie pentru a crea numere de Lot pentru Produse</value>
+ </row>
+ <row id="259" trl="Y">
+  <value column="Name" original="Serial No Control">Control Nr. serie</value>
+  <value column="Description" original="Product Serial Number Control">Control Număr serie Produs</value>
+  <value column="Help" original="Definition to create Serial numbers for Products">Definiţie pentru a crea Numere de Serie pentru Produse</value>
+ </row>
+ <row id="260" trl="Y">
+  <value column="Name" original="Attribute">Atribut</value>
+  <value column="Description" original="Product Attribute">Atribut Produs</value>
+  <value column="Help" original="Product Attribute like Color, Size, etc.">Atribut Produs ca Dimensiune, Culoare, etc.</value>
+ </row>
+ <row id="261" trl="Y">
+  <value column="Name" original="Attribute Search">Caută Atribut</value>
+  <value column="Description" original="Common Search Attribute ">Căutare generală de Atribut</value>
+  <value column="Help" original="Attributes are specific to a Product Attribute Set (e.g. Size for T-Shirts: S,M,L). If you have multiple attributes and want to search under a common sttribute, you define a search sttribute. Example: have one Size search attribute combining the values of all different sizes (Size for Dress Shirt  XL,L,M,S,XS). The Attribute Search allows you to have all values available for selection.  This eases the maintenance of the individual product attribute.">Atributele sunt specifice pentru un Set de atribute a unui produs (ex. Mărime for Pantaloni: S,M,L). Dacă aveţi mai multe atribute şi vreţi să căutaţi sub un atribut general, trebuie să definiţi un atribut de căutare. Exemplu: aveţi un atribut de căuare Mărime care combină valorile tuturor mărimilor  (Mărime pt Fustă, Rochie XL,L,M,S,XS). Caută Atribut vă permite să aveţi toate valorile disponibile pentru o selecţie. Aceasta uşurează întreţinerea atributelor produselor individual.</value>
+ </row>
+ <row id="262" trl="Y">
+  <value column="Name" original="Expense Invoice (Alpha)">Prelucrare factură furnizor (alpha)</value>
+  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Facturi furnizor pentru servicii</value>
+  <value column="Help" original="Enter expense invoices from your vendors">Introduceţi facturi furnizor</value>
+ </row>
+ <row id="263" trl="Y">
+  <value column="Name" original="Print Label">Tipărire etichetă</value>
+  <value column="Description" original="Print Label Format">Format Tipărire Etichetă</value>
+  <value column="Help" original="Maintain Format to print Labels">Întreţine Formatul la tipărirea Etichetelor</value>
+ </row>
+ <row id="264" trl="Y">
+  <value column="Name" original="Session Audit">Audit Sesiune</value>
+  <value column="Description" original="Audit of User Sessions">Auditul Sesiunii Utilizator</value>
+  <value column="Help" original="History of Online or Web Sessions">Istoric a Sesiunilor Online sau Web</value>
+ </row>
+ <row id="265" trl="Y">
+  <value column="Name" original="Project Type">Tip de Proiect</value>
+  <value column="Description" original="Maintain Project Type and Phase">Întreţine Tipul şi Faza Proiectului</value>
+  <value column="Help" original="Maintain Project Types and their Phases with standard performance information">Întreţine Tipurile de Proiect şi Fazele lor cu informaţii standard</value>
+ </row>
+ <row id="266" trl="Y">
+  <value column="Name" original="Recurring">Recurent</value>
+  <value column="Description" original="Recurring Document">Document recurent</value>
+  <value column="Help" original="Create new documents based on existing one">Crează documente noi pe baza unui document existent</value>
+ </row>
+ <row id="267" trl="Y">
+  <value column="Name" original="Import Inventory">Import Stoc</value>
+  <value column="Description" original="Import Inventory Transactions">Import de stocuri</value>
+  <value column="Help" original="Validate and Import Inventory Transactions">Validează şi Importă Mişcări de stocuri</value>
+ </row>
+ <row id="268" trl="Y">
+  <value column="Name" original="Role Data Access">Accesul la date al Rolului</value>
+  <value column="Description" original="Maintain Data Access Rules">Întreţine Regulile de Acces la date</value>
+  <value column="Help" original="Maintain Data Access Roles of Roles/Responsibilties.&#10;Note that access information is cached and requires re-login or reset of cache.">Întreţine Regulile de Acces la date al Rolurilor/Responsabililor.
+Notă:informaţiile de acces sunt în cache şi e necesară re-logarea sau resetarea cacheului</value>
+ </row>
+ <row id="269" trl="Y">
+  <value column="Name" original="Advertisement">Reclamă</value>
+  <value column="Description" original="Web Advertisement">Reclamă Web</value>
+  <value column="Help" original="Maintain Advertisements on the Web">Întreţine Reclamele de pe Web</value>
+ </row>
+ <row id="270" trl="Y">
+  <value column="Name" original="Change Audit">Audit Modificări</value>
+  <value column="Description" original="Audit of data changes">Auditul modificărilor de date</value>
+  <value column="Help" original="Log of data changes">Jurnal de modificare a datelor</value>
+ </row>
+ <row id="271" trl="Y">
+  <value column="Name" original="Cost Type">Tip de Cost</value>
+  <value column="Description" original="Maintain Cost Types">Întreţine Tipurile de Cost</value>
+  <value column="Help" original="You can define multiple cost types. A cost type selected in an Accounting Schema is used for accounting.">Puteţi defini mai multe tipuri de cost. Un tip de cost selectat într-o schemă de contabilitate se foloseşte în contabilitate.</value>
+ </row>
+ <row id="272" trl="Y">
+  <value column="Name" original="Time Type">Tip de Timp</value>
+  <value column="Description" original="Maintain Time Recording Type">Întreţine Tipul de Înregistrare a Timpului</value>
+  <value column="Help" original="Maintain different types of time for reporting">Întreţine diferite formate de timp pentru raportare</value>
+ </row>
+ <row id="273" trl="Y">
+  <value column="Name" original="Click">Clic</value>
+  <value column="Description" original="Maintain Web Click">Întreţine Web Click</value>
+  <value column="Help" original="Web Clicks allow you to track number of clicks.  Example:&#10;&amp;lt;a href=&quot;http://www.adempiere.com/wstore/click?http://www.adempiere.de&quot; target=&quot;_blank&quot;&amp;gt;&#10;where &quot;http://www.adempiere.com/wstore/click&quot; is your side and &quot;http://www.adempiere.de&quot; is the target page.&#10;If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks."/>
+ </row>
+ <row id="274" trl="Y">
+  <value column="Name" original="Counter">Contor</value>
+  <value column="Description" original="Web Counter">Contor Web</value>
+  <value column="Help" original="A web counter maintains how often a page or item was displayed.  Add a call to&#10;http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)&#10;"/>
+ </row>
+ <row id="275" trl="Y">
+  <value column="Name" original="Invoice Payment Schedule">Programare încasare factură</value>
+  <value column="Description" original="Maintain Invoice Payment Schedule">Întreţine programul de încasare a facturii</value>
+  <value column="Help" original="Maintain Payment Schedule of unpaid invoices">Întreţine programul de încasare pentru facturile neachitate</value>
+ </row>
+ <row id="276" trl="Y">
+  <value column="Name" original="Alert">Alertă</value>
+  <value column="Description" original="Adempiere Alert">Alertă Adempiere</value>
+  <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Alertele Adempiere vă permit să definiţi condiţii sistem când să fiţi avertizaţi</value>
+ </row>
+ <row id="277" trl="Y">
+  <value column="Name" original="Import Bank Statement">Import Extras bancar</value>
+  <value column="Description" original="Import Bank Statements">Import Extras bancar</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="278" trl="Y">
+  <value column="Name" original="Import GL Journal">Import Jurnal</value>
+  <value column="Description" original="Import General Ledger Journals">Import Jurnal</value>
+  <value column="Help" original="You way want to check the balance of the import with &quot;Validate Only&quot; before importing. &#10;Unbalanced Journals are imported; the handling is based on your settings for the posting process. The optional balance check checks the entire import, not individual batches and journals.">S-ar putea să doriţi să verificaţi balanţa de import cu "Doar Validează" înainte de a importa. Se importă şi jurnalele neechilibrate, iar prelucrarea se bazează pe setările stabilite pentru procesarea înregistrărilor contabile. Setările stabilite sunt valabile pentru întregul jurnal. Nu se pot stabili setări pe teancuri de jurnale.</value>
+ </row>
+ <row id="279" trl="Y">
+  <value column="Name" original="Import Invoice">Import Factură</value>
+  <value column="Description" original="Import Invoices">Import Facturi</value>
+  <value column="Help" original="Import invoiced loaded"/>
+ </row>
+ <row id="280" trl="Y">
+  <value column="Name" original="Import Payment">Import Plată</value>
+  <value column="Description" original="Import Payments">Import Plăţi</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="281" trl="Y">
+  <value column="Name" original="Import Order">Import Comandă</value>
+  <value column="Description" original="Import Orders">Import Comenzi</value>
+  <value column="Help" original="Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for &quot;don't know&quot;.&#10;In general, selection boxes are not selected if the value is not &quot;Y&quot; (i.e. could be null or any other value). All tests are made on &quot;Y&quot; or &quot;not Y&quot; - i.e. NULL values are not &quot;not Y&quot;, but NULL (don't know) - see SQL Language introductions.">Vă rog setaţi selecţia D/N în încărcătorul de import în mod explicit şi nu le lăsaţi NULL. O valoare NULĂ înseamnă  "Nu ştiu ".
+În general casetele de selecţie nu se selectează dacă valoarea nu este "D". Toate testele se fac cu "D"sau "D negat"-valorile Nule nu sunt  "D negat".</value>
+ </row>
+ <row id="282" trl="Y">
+  <value column="Name" original="Freight Category">Categorie Transport</value>
+  <value column="Description" original="Maintain Freight Categories">Întreţine Categoriile de Transport</value>
+  <value column="Help" original="Freight Categories are used to calculate the Freight for the Shipper selected">Categoriile de Transport se utilizează pentru a calcula Transportul pentru Expeditorul selectat</value>
+ </row>
+ <row id="283" trl="Y">
+  <value column="Name" original="Accounting Dimensions">Dimensiuni contabile</value>
+  <value column="Description" original="Maintain Non-Account Dimension Trees">Administrează Ierarhiile Dimensiunilor extra-contabile</value>
+  <value column="Help" original="Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!">Gestioneaza arborii segmentelor de arbori  extra-contabile. Segmentele de Arbori contabili sunt gestionate în fereastra Element Contabil. Notă:nu veţi putea crea noi entităţi în această fereastră dacă nu aveţi setările implicite pentru toate valorile obligatorii.</value>
+ </row>
+ <row id="284" trl="Y">
+  <value column="Name" original="Replication">Replicare</value>
+  <value column="Description" original="Maintain Data Replication Targets">Întreţine Destinaţiile Replicării Datelor</value>
+  <value column="Help" original="Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;&#10;Before(!) entering transactions, Start the Replication Run to set up the remote system.">Detalii ale Destinaţiei Replicării Datelor. Setaţi complet sistemul pe sistemul central înainte de a seta replicarea. Definiţi destinaţia Replicării aici şi exportaţi baza de date şi apoi importaţi-o în sistemul de la distanţă.
+ Înainte (!) de a introduce tranzacţiile, porniţi Execuţia Replicării pentru a seta sistemul de la distanţă.</value>
+ </row>
+ <row id="285" trl="Y">
+  <value column="Name" original="Replication Strategy">Strategie de replicare</value>
+  <value column="Description" original="Maintain Data Replication Strategy">Întreţine Strategia replicării datelor</value>
+  <value column="Help" original="The Data Replication Strategy determines which tables and how they are replicated. Note that the migration does not syncronize Application Dictionary items.">Determină ce tabele şi cum sunt ele replicate. Migrarea nu se sincronizează cu obiectele Dicţionarului aplicaţie</value>
+ </row>
+ <row id="286" trl="Y">
+  <value column="Name" original="Project (Lines/Issues)">Proiect (Comandă)</value>
+  <value column="Description" original="Maintain Sales Order and Work Order Details">Întreţine Proiectele de Vânzări şi Lucru</value>
+  <value column="Help" original="The Project Window is used to maintain details of Projects Lines and Issues accross Phases/Tasks">Fereastra se utilizează pentru a defini proiecte care să fie urmărite prin documente</value>
+ </row>
+ <row id="287" trl="Y">
+  <value column="Name" original="Knowledge Category">Categorie bază de cunoştinţe (KB)</value>
+  <value column="Description" original="Maintain Knoweledge Categories and Values">Întreţine categoriile de bază de cunoştinţe (KB) şi valorile acestora</value>
+  <value column="Help" original="Set up knowledge categories and values as a search aid. Examples are Release Version, Product Area, etc. Knowledge Category values act like keyworks.">Iniţializaţi categoriile şi valorile acestora ca un ajutor în cautare (ex. Versiune, Zonă Produs etc).
+Valorile categoriilor acţionează ca şi cuvintele cheie (ex. ver1.0, ver1.1 etc).</value>
+ </row>
+ <row id="288" trl="Y">
+  <value column="Name" original="Knowledge Base">Bază de cunoştinţe (KB)</value>
+  <value column="Description" original="Maintain Knowledge Base">Întreţine baza cunoştinţe (KB)</value>
+  <value column="Help" original="Maintain Type, Topics, Entries and theit Comments, Categories, Related Entries">Întreţine Tipuri, Subiecte, Înregistrări şi Comentariile lor, Categorii, Înregistrări asociate</value>
+ </row>
+ <row id="289" trl="Y">
+  <value column="Name" original="Knowledge Source">Sursă informaţie</value>
+  <value column="Description" original="Source of Knowledge Entries">Sursă informaţie</value>
+  <value column="Help" original="The Source of a Knowlegde Entry is a pointer to the originating system. The Knowledge Entry has an additional entry (Description URL)  for more detailed info.">Sursa informaţiei este o referinţă la sistemul din care provine informaţia originală.
+Informaţia are o intrare adiţională (descriere URL) pentru a referi o pagină de web care conţine detaliile.
+</value>
+ </row>
+ <row id="290" trl="Y">
+  <value column="Name" original="Knowledge Synonym">Sinonim cheie informaţie</value>
+  <value column="Description" original="Knowlege Keyword Synonym">Sinonim cuvînt cheie informaţie</value>
+  <value column="Help" original="Search Synonyms for Knowledge Keywords; Example: Product = Item">Defineşte sinonime pentru cuvintele cheie ataşate unei informaţii (Examplu: Produs = Articol).
+Aceste sinonime sunt foarte utile pentru idexarea şi regăsirea informaţiilor folosind un limbaj cât mai natural.
+</value>
+ </row>
+ <row id="291" trl="Y">
+  <value column="Name" original="Business Partner Info">Info Partener</value>
+  <value column="Description" original="Document Information of Business Partners">Documentaţie despre Partener</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="292" trl="Y">
+  <value column="Name" original="Label Printer">Imprimantă pentru etichete</value>
+  <value column="Description" original="Maintain Label Printer Definition">Întreţine Definiţia imprimantei pentru etichete</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="293" trl="Y">
+  <value column="Name" original="Sales Rep Info">Info Agent</value>
+  <value column="Description" original="Company Agent (Sales Rep) Information">Info Agent al Companiei</value>
+  <value column="Help" original="This window allows you to view Company agent related information">Această fereastră vă permite să vedeţi informaţiile despre un Agent al Companiei</value>
+ </row>
+ <row id="294" trl="Y">
+  <value column="Name" original="UnPosted Documents">Documente neînregistrate</value>
+  <value column="Description" original="Unposted Documents">Documente neînregistrate</value>
+  <value column="Help" original="View unposted documents">Vizualizează Documente neînregistrate în contabilitate</value>
+ </row>
+ <row id="295" trl="Y">
+  <value column="Name" original="Currency Type">Tip de Valută</value>
+  <value column="Description" original="Maintain Currency Conversion Rate Types">Întreţine Tipurile de Rată a Conversiei Valutei</value>
+  <value column="Help" original="The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.">Vă permite să definiţi diferite tipuri de conversie</value>
+ </row>
+ <row id="296" trl="Y">
+  <value column="Name" original="Import Currency Rate">Import Curs valutar</value>
+  <value column="Description" original="Import Currency Conversion Rates">Importare rată de conversiei a valutei</value>
+  <value column="Help" original="The rates are imported after validation of currencies and conversion rate type as well as rates. The multiply rate is used. If a reciprocal rate is to be created, the divide rate is used. ">Ratele sunt importate după validarea valutelor şi a  tipurilor de rate de conversie. Se foloseşte rata de multiplicare. Dacă se crează o rată reciprocă, se foloseşte rata de diviziune</value>
+ </row>
+ <row id="297" trl="Y">
+  <value column="Name" original="Workflow Process">Proces de Flux</value>
+  <value column="Description" original="Monitor workflow processes">Monitorizează procesele fluxului</value>
+  <value column="Help" original="View and Maintain Workflow Process Instance Information">Vizualizează şi întreţine Informaţiile despre Procesele Fluxului de Lucru</value>
+ </row>
+ <row id="298" trl="Y">
+  <value column="Name" original="Workflow Activities (all)">Activităţi Flux (toate)</value>
+  <value column="Description" original="Monitor all Workflow activities">Monitorizează toate activităţile fluxului</value>
+  <value column="Help" original="Maintain all Workflow activities">Monitorizează toate activităţile fluxului</value>
+ </row>
+ <row id="299" trl="Y">
+  <value column="Name" original="Workflow Responsible">Responsabil de Flux</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsabil pentru Execuţia Fluxului</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Adevărata responsabilitate a fluxului este legată de utilizator. Responsabil Flux vă permite să definiţi moduri de a găsi acel utilizator</value>
+ </row>
+ <row id="300" trl="Y">
+  <value column="Name" original="Registration Attributes">Atribute de înregistrare</value>
+  <value column="Description" original="Asset Registration Attributes">Atribute de înregistrare Imobilizare</value>
+  <value column="Help" original="Define the individual values for the Asset Registration">Defineşte valorile individuale pentru  Înregistrarea Imobilizării</value>
+ </row>
+ <row id="301" trl="Y">
+  <value column="Name" original="Registration">Înregistrare</value>
+  <value column="Description" original="User Asset Registration">Înregistrare imobilizare Utilizator</value>
+  <value column="Help" original="User Registration of an Asset">Înregistrare Utilizator a unei imobilizări</value>
+ </row>
+ <row id="302" trl="Y">
+  <value column="Name" original="Bank Statement Matcher">Identificator Extras bancar</value>
+  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algoritm pentru a corela Extrasul bancar, facturile şi plăţile</value>
+  <value column="Help" original="An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements">Algoritm pentru a găsi Parteneri,  Facturile, Plăţi în Extrasele bancare importate</value>
+ </row>
+ <row id="303" trl="Y">
+  <value column="Name" original="Payment Batch">Plăţi electronice</value>
+  <value column="Description" original="Process Payment Patches for EFT">Process Payment Patches for EFT</value>
+  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Electronic Fund Transfer Payment Batch.</value>
+ </row>
+ <row id="304" trl="Y">
+  <value column="Name" original="Organization Type">Tip de Organizaţie</value>
+  <value column="Description" original="Maintain Organization Types">Întreţine Tipurile de Organizaţie</value>
+  <value column="Help" original="Organization Type allows you to categorize your organizations for reporting purposes">Tip Organizaţie vă permite să stabiliţi categorii pentru organizaţii în scopul raportărilor</value>
+ </row>
+ <row id="305" trl="Y">
+  <value column="Name" original="Scheduler">Planificator</value>
+  <value column="Description" original="Maintain Schedule Processes and Logs">Administrează Planificarea Proceselor şi Jurnalizărilor</value>
+  <value column="Help" original="Schedule processes to be executed asynchronously">Planifică procese pentru a fi executate în mod asincron</value>
+ </row>
+ <row id="306" trl="Y">
+  <value column="Name" original="Workflow Processor">Procesor de Flux</value>
+  <value column="Description" original="Maintain Workflow Processor and Logs">Administrează Procesorul de Flux şi Jurnalizările</value>
+  <value column="Help" original="Workflow Processor Server Parameters">Parametrii Serverului Procesorului de Flux</value>
+ </row>
+ <row id="307" trl="Y">
+  <value column="Name" original="Bid Topic">Subiect Licitaţie</value>
+  <value column="Description" original="Topic with Bids and Offers">Subiect cu Licitaţii şi Oferte</value>
+  <value column="Help" original="Manage Topics and veiw Bids and Offers">Administrează Subiectele şi vizualizează Licitaţiile şi Ofertele</value>
+ </row>
+ <row id="308" trl="Y">
+  <value column="Name" original="Auction Topic Type">Tip de Subiect licitaţie</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Întreţine Tipurile de Subiect de lictaţie şi Categoriile</value>
+  <value column="Help" original="The Auction Topic Type determines what kind of auction is used for a particular area">Tip de Subiect Licitaţie determină ce fel de licitaţie se aplică pentru o anumită zonă</value>
+ </row>
+ <row id="309" trl="Y">
+  <value column="Name" original="Auction Seller">Vânzător la licitaţie</value>
+  <value column="Description" original="Maintain Auction Seller Information">Întreţine informaţiile despre Vânzătorul la licitaţie</value>
+  <value column="Help" original="A seller is a User in the system participating in Auctions">Un vânzător este un Utilizator în sistem care participă la licitaţii</value>
+ </row>
+ <row id="310" trl="Y">
+  <value column="Name" original="Auction Buyer">Cumpărător la licitaţie</value>
+  <value column="Description" original="Maintain Auction Buyer Information">Întreţine informaţiile despre Cumpărătorul la licitaţie</value>
+  <value column="Help" original="A buyer is a User in the system participating in Auctions">Un cumpărător este un Utilizator în sistem care participă la licitaţii</value>
+ </row>
+ <row id="311" trl="Y">
+  <value column="Name" original="Accounting Processor">Procesor de Contabilitate</value>
+  <value column="Description" original="Maintain Accounting Processor and Logs">Întreţine Procesorul de Contabilitate şi Jurnalele</value>
+  <value column="Help" original="Accounting Processor/Server Parameters and Logs">Parametrii şi Jurnalele Procesorului/Serverului de Contabilitate</value>
+ </row>
+ <row id="312" trl="Y">
+  <value column="Name" original="Alert Processor">Procesor de Alertă</value>
+  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Întreţine Parametrii  Procesorului/Serverului de Alertă şi a Jurnalizării</value>
+  <value column="Help" original="Alert Processor/Server Parameter">Parametru Procesor/Server de Alertă</value>
+ </row>
+ <row id="313" trl="Y">
+  <value column="Name" original="Partner Relation">Relaţie Partener</value>
+  <value column="Description" original="Maintain Business Partner Relations">Întreţine Relaţiile Partener</value>
+  <value column="Help" original="Business Partner Relation allow to maintain Third Party Relationship rules: who receives invoices for shipments or pays for invoices.">Vă permite să întreţineţi reguli de Relaţii cu Terţi: cine primeşte facturile pentru expediţii şi cine le plăteşte </value>
+ </row>
+ <row id="314" trl="Y">
+  <value column="Name" original="RfQ Topic">Subiect CdO</value>
+  <value column="Description" original="Maintain RfQ Topics and Subscribers">Întreţine subiectele şi abonaţii la Cererile de Ofertă</value>
+  <value column="Help" original="A Request for Quotation Topic allows you to maintain a subscriber list of potential Vendors to respond to RfQs">Un subiect al Cererii de Ofertă vă permite să întreţineţi o listă de abonaţi a potenţialilor furnizori care să răspundă la Cererile de Ofertă.</value>
+ </row>
+ <row id="315" trl="Y">
+  <value column="Name" original="RfQ">Cerere de Ofertă</value>
+  <value column="Description" original="Manage Request for Quotations">Întreţine Cererile de Ofertă</value>
+  <value column="Help" original="Request for Quotation to be sent out to vendors of a RfQ Topic. After Vendor selection, optionally create Sales Order or Quote for Customer as well as Purchase Order  for Vendor(s)">Cererile de Ofertă care trebuie trimise la furnizori. După selectarea furnizorului, se poate crea opţional Ordin de Vânzare sau Cotare pentru client dar şi Comandă de Achiziţie.</value>
+ </row>
+ <row id="316" trl="Y">
+  <value column="Name" original="Subscription">Subscripţie</value>
+  <value column="Description" original="Maintain Subscriptions and Deliveries">Întreţine Subscripţiile şi Livrările</value>
+  <value column="Help" original="Subscription of a Business Partner of a Product to renew">Subscripţia unui Partener pentru reînnoirea unui Produs</value>
+ </row>
+ <row id="317" trl="Y">
+  <value column="Name" original="Subscription Type">Tip de Subscripţie</value>
+  <value column="Description" original="Maintain Subscription Types">Întreţine Tipurile de Subscripţii</value>
+  <value column="Help" original="Subscription type and renewal frequency">Tipul subscripţiei şi frecvenţa de reînnoire (prelungire)</value>
+ </row>
+ <row id="318" trl="Y">
+  <value column="Name" original="Distribution List">Listă de distribuţie</value>
+  <value column="Description" original="Maintain Distribution Lists">Întreţine Listele de distribuţie</value>
+  <value column="Help" original="Distribution list contain business partners and a distribution quantity or ratio for creating Orders">Listă Distribuţie conţine parteneri de afaceri şi o cantitate de distribuţie sau o proporţie pentru crearea Comenzilor</value>
+ </row>
+ <row id="319" trl="Y">
+  <value column="Name" original="Package">Colet</value>
+  <value column="Description" original="Manage Shipment Packages">Administrează Coletele pentru Expediţie</value>
+  <value column="Help" original="A Shipment can have one or more Packages.  A Package may be tracked.">O Expediţie poate avea una sau mai multe Colete. Un Colet poate fi urmărit.</value>
+ </row>
+ <row id="320" trl="Y">
+  <value column="Name" original="RMA">Autorizare de retur</value>
+  <value column="Description" original="Manage Return Material Authorization">Întreţine Autorizarea de retur a materialelor</value>
+  <value column="Help" original="A Return Material Authorization may be required to accept returns and to create Credit Memos">S-ar putea să fie necesară o Autorizare de retur de material pentru ca retururile să fie acceptate şi să se creeze stornări</value>
+ </row>
+ <row id="321" trl="Y">
+  <value column="Name" original="Dunning Run">Execuţie Somaţie</value>
+  <value column="Description" original="Manage Dunning Runs">Întreţine Execuţiile Somaţiilor</value>
+  <value column="Help" original="Manage Dunning Runs">Întreţine Execuţiile Somaţiilor</value>
+ </row>
+ <row id="322" trl="Y">
+  <value column="Name" original="Requisition">Necesar</value>
+  <value column="Description" original="Material Requisition">Comandă de materiale</value>
+  <value column="Help" original="Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.">Înregistrează şi administrează Comenzile de materiale</value>
+ </row>
+ <row id="323" trl="Y">
+  <value column="Name" original="GL Distribution">Distribuţie înregistrare</value>
+  <value column="Description" original="General Ledger Distribution">Distribuţie înregistrare</value>
+  <value column="Help" original="If the account combination criteria of the Distribution is met, the posting to the account combination is replaced by the account combinations of the distribution lines.  The distribution is a one-step operation based on the percentage of the lines.">Dacă se îndeplineşte criteriul de combinaţie de conturi a machetei, plasarea în combinaţia de conturi e înlocuită de combinaţia liniilor de distribuţie. Distribuţia este o operaţie cu un singur pas bazată pe procentajul liniilor.</value>
+ </row>
+ <row id="324" trl="Y">
+  <value column="Name" original="RfQ Response">Răspuns la CdO</value>
+  <value column="Description" original="Manage RfQ Responses">Administrează răspunsurile la Cererile de Ofertă</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="325" trl="Y">
+  <value column="Name" original="Distribution Run">Execuţie Distribuţie</value>
+  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Execuţie Distribuţie crează Comenzi pentru a distribui produsele unei liste selectate de parteneri</value>
+  <value column="Help" original="Distribution Run defines how Orders are created based on Distribution Lists">Execuţie Distribuţie defineşte cum sunt create Comenzile pe baza Listelor de Distribuţie</value>
+ </row>
+ <row id="326" trl="Y">
+  <value column="Name" original="Access Audit">Access Audit</value>
+  <value column="Description" original="Audit of Access to data or resources">Auditul accesuluui la date sau resurse</value>
+  <value column="Help" original="Logging needs to be explicitly enabled / written.">Logarea (înregistrarea) trebuie să fie permisă/scrisă în mod explicit</value>
+ </row>
+ <row id="327" trl="Y">
+  <value column="Name" original="Counter Document">Contor de document</value>
+  <value column="Description" original="Maintain Counter Document Types">Întreţine Tipuri de Contoare de document</value>
+  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">Când folosim documente explicite pentru tranzacţii între organizaţii (după ce s-a făcut legătura partenerului la Organizaţie) puteţi să determinaţi  ce tip de document este contorul de document, pe baza tipului de document din tranzacţia originală. Exemplu: o "Comandă Standard" crează o "Comandă Achiziţie Standard"  
+Dacă definiţi o relaţie aici, veţi suprascrie tipul de contor de document implicit în definiţia Tipului de Document. Aceasta vă permite să definiţi o hartografiere specifică.
+ Dacă nu e definit, se foloseşte primul tip de document care se potriveşte</value>
+ </row>
+ <row id="328" trl="Y">
+  <value column="Name" original="Forecast">Prognoză</value>
+  <value column="Description" original="Maintain Material Forecast">Întreţine Prognoză Material</value>
+  <value column="Help" original="Material Forecast">Prognoză Material</value>
+ </row>
+ <row id="329" trl="Y">
+  <value column="Name" original="Demand">Solicitare</value>
+  <value column="Description" original="Maintain Material Demand">Întreţine Solicitările de Material</value>
+  <value column="Help" original="Material Demand can be based on Forecast, Requisitions, Open Orders">Solicitare Material se poate baza pe Prognoză, Rechiziţii, Comenzi Deschise</value>
+ </row>
+ <row id="330" trl="Y">
+  <value column="Name" original="Ship/Receipt Confirm">Confirmare expediţie/recepţie</value>
+  <value column="Description" original="Material Shipment or Receipt Confirmation">Confirmare expediţie sau recepţie de Material</value>
+  <value column="Help" original="Confirmation of Shipment or Receipt - Created from the Shipment/Receipt">Confirmarea expediţiei sau a recepţiei - Creată din 'Expediţie/Recepţie'</value>
+ </row>
+ <row id="331" trl="Y">
+  <value column="Name" original="RMA Type">Tip de Autorizare de retur</value>
+  <value column="Description" original="Return Material Authorization Type">Tip de Autorizare de retur de material</value>
+  <value column="Help" original="Maintain the types of RMA">Întreţine tipurile de Autorizare de retur de materiale</value>
+ </row>
+ <row id="332" trl="Y">
+  <value column="Name" original="Process Audit">Audit Proces</value>
+  <value column="Description" original="Audit process use">Utilizare Audit proces</value>
+  <value column="Help" original="Process Instance Information">Informaţii despre Instanţa de Proces</value>
+ </row>
+ <row id="333" trl="Y">
+  <value column="Name" original="Move Confirmation">Confirmare mişcare</value>
+  <value column="Description" original="Confirm Inventory Moves">Confirmare mişcare de stoc</value>
+  <value column="Help" original="The document is automatically created when the document type of the movement indicates In Transit.. If there is a difference quantity, a Physical Inventory is created for the source (from) warehouse. If there is a scrapped quantity, a Physical Inventory is created for the target (to) warehouse.">Documentul se crează automat când tipul de document al mişcării indică În tranzit. Dacă există o cantitate de diferenţă se crează un stoc pentru depozitul sursă. Dacă există un rest de cantitate, se crează un stoc către depozitul ţintă.</value>
+ </row>
+ <row id="334" trl="Y">
+  <value column="Name" original="Import Confirmations">Import Confirmări</value>
+  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Importare Linii de Confirmări recepţii/expediţii</value>
+  <value column="Help" original="Import Confirmation data of existing Receipt/Shipment Confirmations">Importare date de confirmare al Confirmărilor de recepţii/expediţii existente</value>
+ </row>
+ <row id="335" trl="Y">
+  <value column="Name" original="SLA Criteria">Criterii ANS</value>
+  <value column="Description" original="Service Level Agreement Criteria">Criterii de Acord Nivel Servicii</value>
+  <value column="Help" original="Define a criteria to measure service level agreements (e.g. Quality, Delivery meets Promised date, ..)">Defineşte un criteriu de măsură al acordurilor de nivel servicii (ex Calitate, Livrarea s-a făcut la data promisă,...)</value>
+ </row>
+ <row id="336" trl="Y">
+  <value column="Name" original="SLA by Partner">ANS după Partener</value>
+  <value column="Description" original="Service Level Agreement">Acord Nivel Servicii</value>
+  <value column="Help" original="Maintain Service Level Agreements for Business Partners">Administrează Acordurile de Nivel Servicii pentru Parteneri</value>
+ </row>
+ <row id="337" trl="Y">
+  <value column="Name" original="Price List Schema">Schemă Listă de preţuri</value>
+  <value column="Description" original="Maintain Price List Schema">Întreţine Schema Listei de preţuri</value>
+  <value column="Help" original="Price List schema defines calculation rules for price lists">Schema Listei de preţuri defineşte regulile de calculare a listelor de preţuri</value>
+ </row>
+ <row id="338" trl="Y">
+  <value column="Name" original="POS Terminal">Terminal POS</value>
+  <value column="Description" original="Maintain your Point of Sales Terminal">Administrează Terminalul POS</value>
+  <value column="Help" original="The POS Terminal defines the defaults and functions available for the POS Form">Terminalul POS defineşte funcţiile disponibile pentru POS</value>
+ </row>
+ <row id="339" trl="Y">
+  <value column="Name" original="POS Key Layout">Tastatură POS</value>
+  <value column="Description" original="POS Function Key Layout">Modul de aşezare a tastelor de funcţii a terminalului POS</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="340" trl="Y">
+  <value column="Name" original="System Registration">Înregistrare de Sistem</value>
+  <value column="Description" original="Register your System">Înregistrare de Sistem</value>
+  <value column="Help" original="System Registration - Only one Record - Do not add additional records.">Înregistrare Sistem - Doar una singură - Nu adăugaţi alte Înregistrări</value>
+ </row>
+ <row id="341" trl="Y">
+  <value column="Name" original="Internal Use Inventory">Stoc utilizat intern</value>
+  <value column="Description" original="Enter Internal Use of Inventory">Bonuri de Predare-Restituire</value>
+  <value column="Help" original="The Internal Use of Inventory Window allows enter the quantity of used products.">Fereastra 'Stoc utilizat intern permite' introducerea cantităţii de produse predate sau restituite</value>
+ </row>
+ <row id="342" trl="Y">
+  <value column="Name" original="Invoice Batch">Teanc de facturi</value>
+  <value column="Description" original="Expense Invoice Batch">Teanc de facturi furnizor</value>
+  <value column="Help" original="Enter expense invoices in batch.  After creating the lines, the actual invoices are created when processing the batch">Introduceţi facturile furnizorilor în teanc.  După crearea liniilor, facturile curente se crează când se procesează teancul.</value>
+ </row>
+ <row id="343" trl="Y">
+  <value column="Name" original="Cost Element">Element de cost</value>
+  <value column="Description" original="Maintain Product Cost Element">Întreţine  Element de  cost al produsului</value>
+  <value column="Help" original="You can define your own product cost elements.">Puteţi să vă definiţi propriile elemente de cost a produsului</value>
+ </row>
+ <row id="344" trl="Y">
+  <value column="Name" original="Product Costs">Costuri Produs</value>
+  <value column="Description" original="Maintain Product Costs">Administrează Costurile Produsului</value>
+  <value column="Help" original="Maintain Product Cost Elements"/>
+ </row>
+ <row id="345" trl="Y">
+  <value column="Name" original="Request Category">Categorie sesizare</value>
+  <value column="Description" original="Maintain Request Category">Administrează Categoriile de sesizări</value>
+  <value column="Help" original="Category or Topic of the Request ">Categoria sau Subiectul sesizării</value>
+ </row>
+ <row id="346" trl="Y">
+  <value column="Name" original="Request Group">Grup de sesizări</value>
+  <value column="Description" original="Maintain Request Group">Administrează Grupul de sesizare</value>
+  <value column="Help" original="Group of requests (e.g. version numbers, responsibility, ...)">Gruparea sesizărilor (ex. numere de versiune, responsibilitate, ...)</value>
+ </row>
+ <row id="347" trl="Y">
+  <value column="Name" original="Request Resolution">Rezoluţie sesizare</value>
+  <value column="Description" original="Maintain Request Resolutions">Administrează rezoluţiile date sesizărilor</value>
+  <value column="Help" original="Resolution status (e.g. Fixed, Rejected, ..)">Starea rezoluţiei (ex soluţionată, respinsă,...)</value>
+ </row>
+ <row id="348" trl="Y">
+  <value column="Name" original="Request Standard Response">Răspuns standard la sesizare</value>
+  <value column="Description" original="Maintain Request Standard Response ">Administrează răspunsul standard la sesizare</value>
+  <value column="Help" original="Text blocks to be copied into request response text">Paragrafe de copiat în textul răspunsului</value>
+ </row>
+ <row id="349" trl="Y">
+  <value column="Name" original="Request Status">Stare sesizare</value>
+  <value column="Description" original="Maintain Request Status">Administrează Starea sesizarii</value>
+  <value column="Help" original="Status if the request (open, closed, investigating, ..)">Starea sesizarii (deschisă, închisă, în investigare, ..)</value>
+ </row>
+ <row id="350" trl="Y">
+  <value column="Name" original="Web Store">Magazin virtual</value>
+  <value column="Description" original="Define Web Store">Defineşte Magazinul virtual</value>
+  <value column="Help" original="Define the web store setup.  "/>
+ </row>
+ <row id="351" trl="Y">
+  <value column="Name" original="Position">Post</value>
+  <value column="Description" original="Maintain Job Positions">Gestionează Posturile de lucru</value>
+  <value column="Help" original="Maintain internal (employee) or external positions"/>
+ </row>
+ <row id="352" trl="Y">
+  <value column="Name" original="Position Category">Categorie Post</value>
+  <value column="Description" original="Maintain Job Position Categories">Gestionează Categoriile de posturi de lucru</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="353" trl="Y">
+  <value column="Name" original="Remuneration">Remunerare</value>
+  <value column="Description" original="Maintain Remuneration">Gestionează Remunerarea</value>
+  <value column="Help" original="Wages and Salaries">Salarii şi Plăţi conform muncii</value>
+ </row>
+ <row id="354" trl="Y">
+  <value column="Name" original="Product BOM">Produs tip LCS</value>
+  <value column="Description" original="Maintain Product Bill of Materials">Gestionează Produsele de tip Lista de Cosum Specific</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="355" trl="Y">
+  <value column="Name" original="BOM Change Notice">Notă de modificare a LCS</value>
+  <value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Întreţine (versiunile) Notei de modificare (Proiectare)</value>
+  <value column="Help" original="Change notices can be linked to BOMs or be stand alone.">Notele de modificare pot fi în legătură cu LCS sau pot fi individuale</value>
+ </row>
+ <row id="356" trl="Y">
+  <value column="Name" original="Change Notice">Notă de modificare</value>
+  <value column="Description" original="Maintain (Engineering) Change Notice (Version)">Întreţine (versiunile) Notei de modificare (Proiectare)</value>
+  <value column="Help" original="Stand-alone change notice - Change notices could also be directly linked to BOMs">Nota de modificare individuală-poate fii de asemenea şi în legătură directă cu LCS</value>
+ </row>
+ <row id="358" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Instanţă Set atribute</value>
+  <value column="Description" original="View Attribute Set Instance detail and use">Vizualizare detalii Instanţă Set atribute şi utilizare</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="359" trl="Y">
+  <value column="Name" original="Tax Declaration">Declaraţie de taxe</value>
+  <value column="Description" original="Define the declaration to the tax authorities">Defineşte desclaraţiile către autorităţile fiscale</value>
+  <value column="Help" original="The tax declaration allows you to create supporting information and reconcile the documents with the accounting">Declaraţia de taxe permite crearea informaţiilor şi reconcilierea documentelor cu contabilitatea</value>
+ </row>
+ <row id="360" trl="Y">
+  <value column="Name" original="Reporting Hierarchy">Raportare ierarhică</value>
+  <value column="Description" original="Define Reporting Hierarchy">Defineşte Raportarea ierarhică</value>
+  <value column="Help" original="Reporting Hierarchy allows you to select different Hierarchies/Trees for the report.&#10;Accounting Segments like Organization, Account, Product may have several hierarchies to accomodate different views on the business">Raportarea ierarhică permite selectarea unor rapoarte Ierarhizate/Arbori.
+Segmente de contabilizare ca de exemplu Organizaţia, Contul, Produsul pot avea diferite ierarhii adaptate la puncte de vedere a afacerii.</value>
+ </row>
+ <row id="361" trl="Y">
+  <value column="Name" original="Budget Control">Control bugetar</value>
+  <value column="Description" original="Maintain Budget Controls">Control bugetar</value>
+  <value column="Help" original="Budget Control allows you to restrict the use of expenditures, commitments (Purchase Orders) and reservations (Requisitions). If defined, you mey not be able to approve Requisitions, Purchse Orders, or AP Invoices.">Prin controlul bugetar se pot limita cheltuielile (facturi), angajamentele (comenzi furnizor) şi rezervările (cereri de ofertă). Dacă se definesc, nu se pot aproba documentele decât în limita de control.</value>
+ </row>
+ <row id="362" trl="Y">
+  <value column="Name" original="GL Fund (Alpha)">Jurnal de fonduri</value>
+  <value column="Description" original="Maintain Fund Controls">Administrează controlul fondurilor</value>
+  <value column="Help" original="General Ledger Funds Control allows you to restrict the use of funds.  This is independent from budget control.">Jurnalul de fonduri vă permite să introduceţi restricţii la utilizarea fondurilor. Acest control este independent de controlul bugetului.</value>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="System Issue Report">System Issue Report</value>
+  <value column="Description" original="Automatically created or manually entered System Issue Reports">Automatically created or manually entered System Issue Reports</value>
+  <value column="Help" original="System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.">System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.</value>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="Performance Color Schema">Performance Color Schema</value>
+  <value column="Description" original="Maintain Performance Color Schema">Maintain Performance Color Schema</value>
+  <value column="Help" original="Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).">Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).</value>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="Performance Benchmark">Performance Benchmark</value>
+  <value column="Description" original="Performance Benchmark">Performance Benchmark</value>
+  <value column="Help" original="Data Series to compare internal performance with (e.g. stock price, ...)">Data Series to compare internal performance with (e.g. stock price, ...)</value>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original="Performance Ratio">Performance Ratio</value>
+  <value column="Description" original="Maintain Performance Ratios">Maintain Performance Ratios</value>
+  <value column="Help" original="Calculation instruction for a ratio">Calculation instruction for a ratio</value>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="Issue Recommendation">Issue Recommendation</value>
+  <value column="Description" original="Maintain Issue Recommendation">Maintain Issue Recommendation</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="368" trl="N">
+  <value column="Name" original="Issue Status">Issue Status</value>
+  <value column="Description" original="Maintain Issue Status">Maintain Issue Status</value>
+  <value column="Help" original="Status of an Issue">Status of an Issue</value>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="Known Issue">Known Issue</value>
+  <value column="Description" original="Maintain Known Issue">Maintain Known Issue</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original="Issue Project">Issue Project</value>
+  <value column="Description" original="Maintain Issue Management Project Links">Maintain Issue Management Project Links</value>
+  <value column="Help" original="Maintain Issue Management Project Links - automatically generated.">Maintain Issue Management Project Links - automatically generated.</value>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="Issue User">Issue User</value>
+  <value column="Description" original="User who reported Issues">User who reported Issues</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="Issue System">Issue System</value>
+  <value column="Description" original="Maintain Systems">Maintain Systems</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="373" trl="Y">
+  <value column="Name" original="Web Project">Proiect Web</value>
+  <value column="Description" original="Maintain Web Project (Content Management)">Întreţine Proiectul Web (Managementul conţinutului)</value>
+  <value column="Help" original="At the level of the web project you define the project itself, it's domains and media servers. Each project needs to have at least one domain and one media server.">La nivelul proiectului web se defineşte însuşi proiectul, domeniile sale şi serverul de media. Fiecare proiect trebuie să aibă cel puţin un domeniu şi un server de media.</value>
+ </row>
+ <row id="374" trl="Y">
+  <value column="Name" original="Template">Şablon</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="375" trl="Y">
+  <value column="Name" original="Web Ad Management">Management reclamă web</value>
+  <value column="Description" original="Content Management Ad Management defines the needed categories and items">Managementul reclamelor defineşte categoriile şi articolele necesare în managementul conţinutului</value>
+  <value column="Help" original="Ad Management is used to create and manage advertisements in your conten management">Managementul reclamelor se utilizează la crearea şi administrarea reclamelor în managementul conţinutului.</value>
+ </row>
+ <row id="376" trl="Y">
+  <value column="Name" original="News Channel">Canal de ştiri</value>
+  <value column="Description" original="Define News Channels, write and publish articles">Defineşte Canale de ştiri, scrie şi publică articole</value>
+  <value column="Help" original="Define News Channels, write and publish articles">Defineşte Canale de ştiri, scrie şi publică articole.</value>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="View Chat">View Chat</value>
+  <value column="Description" original="View discussions / chats">View discussions / chats</value>
+  <value column="Help" original="View chat / discussion threads">View chat / discussion threads</value>
+ </row>
+ <row id="379" trl="Y">
+  <value column="Name" original="Media Item">Articol media</value>
+  <value column="Description" original="Maintain Web Media">Întreţine media web</value>
+  <value column="Help" original="Maintain Content Management Media">Întreţine Media managementului conţinutului</value>
+ </row>
+ <row id="380" trl="Y">
+  <value column="Name" original="Chat Type">Tip de Chat</value>
+  <value column="Description" original="Maintain Chat Types">Întreţine tipurile de chat</value>
+  <value column="Help" original="Chat Types">Tipuri de chat</value>
+ </row>
+ <row id="381" trl="N">
+  <value column="Name" original="Entity Type">Entity Type</value>
+  <value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
+  <value column="Help" original="The entity type determines the ownership of Application Dictionary entries.  The types &quot;Dictionary&quot; and &quot;Adempiere&quot; should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).</value>
+ </row>
+ <row id="383" trl="Y">
+  <value column="Name" original="Web Access">Acces Web</value>
+  <value column="Description" original="Maintain Web Access">Înteţine accesul la web</value>
+  <value column="Help" original="Define access to collaboration management content.  You can assign the profile to a internal role or for external access to business partner group.">Defineşte accesul la conţinutul mamagementului colaborării. Se poate asigna profilul la un rol intern sau pentru un acces extern la un grup de parteneri.</value>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="Web Broadcast Server">Web Broadcast Server</value>
+  <value column="Description" original="Maintain Web Broadcast Server">Maintain Web Broadcast Server</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="385" trl="Y">
+  <value column="Name" original="Info Window">Fereastră Info</value>
+  <value column="Description" original="Define Info and search/select Window">Defineşte fereastră de informare şi căutare/selectare</value>
+  <value column="Help" original="The Info window is used to search and select records as well as display information relevant to the selection.">Info Ferastră se foloseşte pentru căutarea şi selectarea documentelor precum şi pentru afişarea informaţiilor relevante din selecţie.</value>
+ </row>
+ <row id="386" trl="Y">
+  <value column="Name" original="Text Index">Index de text</value>
+  <value column="Description" original="Maintain Text Search Index">Întreţine indexul de căutare a textului</value>
+  <value column="Help" original="Text search index keyword and excerpt across documents">Cuvânt cheie de căutare (index) şi fragmente de-a lungul documentelor</value>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="Text Index Stop">Text Index Stop</value>
+  <value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="Text Search Log">Text Search Log</value>
+  <value column="Description" original="View Text Search Log">View Text Search Log</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="389" trl="N">
+  <value column="Name" original="LDAP Server">LDAP Server</value>
+  <value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP Server to authenticate and authorize external systems based on Adempiere</value>
+  <value column="Help" original="The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The &quot;o&quot; is the Client key and the optional &quot;ou&quot; is the Interest Area key.">The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The "o" is the Client key and the optional "ou" is the Interest Area key.</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Packages Installed">Packages Installed</value>
+  <value column="Description" original="List of packages installed">List of packages installed</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Package Maintenance">Package Maintenance</value>
+  <value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
+  <value column="Help" original="Review package installation.  Also perform package rollback if required">Review package installation.  Also perform package rollback if required</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="PackOut - Create a package">PackOut - Create a package</value>
+  <value column="Description" original="Package build Application">Package build Application</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Common Package Details">Common Package Details</value>
+  <value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
+  <value column="Help" original="Create and maintain common package element details">Create and maintain common package element details</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="PackIn - Import a package">PackIn - Import a package</value>
+  <value column="Description" original="Imports a package">Imports a package</value>
+  <value column="Help" original="Imports a package previously created by PackOut">Imports a package previously created by PackOut</value>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Name" original="System Configurator">Configurare sistem</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

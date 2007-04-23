@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_FieldGroup">
+ <row id="101" trl="Y">
+  <value column="Name" original="Status">Stare</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Quantities">Cantităţi</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Amounts">Sume</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Reference">Referinţă</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="History">Istoric</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Product">Produs</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Business Partner">Partener</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Warehouse">Depozit</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Bank">Banca</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Cash Book">Registrul Casă</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Tax">Taxă</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Project">Proiect</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="General">General</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="Action">Acţiune</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Standard Cost">Cost standard</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Actual Costs">Costuri reale</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Statistics">Statistici</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Defaults">Implicite</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Request Management">Management Cerere</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Web Store">Magazin Virtual</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Internal">Intern</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="External">Extern</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Common">Comun</value>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="Shipment">Transport</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Document">Document</value>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Line">Linie</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Simulation">Simulare</value>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Calculations">Calcule</value>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Proxy">Proxy</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Delivery">Livrare</value>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Invoicing">Facturare</value>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Only ..">Numai ..</value>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="Selection">Selectare</value>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Workflow">Flux de lucru</value>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="Access">Acces</value>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Allow Info In Role">Acces la ferestrele info</value>
+ </row>
+</adempiereTrl>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="ro_RO" table="AD_Field">
+ <row id="1546" trl="Y">
+  <value column="Name" original="Link Column">Coloana Principală</value>
+  <value column="Description" original="Link Column for Multi-Parent tables">Coloană pentru index multiplu</value>
+  <value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">Arată care coloană este cheia principală pentru acele situaţii când există mai multe chei. Se defineşte numai dacă tabelul are mai multe coloane părinte (ex. AD_User_Roles).</value>
+ </row>
+ <row id="2124" trl="Y">
+  <value column="Name" original="Language">Limba</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Limba acestui Partener, dacă Multi-Limba este activată</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">Identifică limba utilizată la afişarea şi formatarea documentelor. E necesar ca la nivel la Societate, documentele Multi-Limbă să fie selectate  şi să fie creată/încărcată limba.</value>
+ </row>
+ <row id="3665" trl="Y">
+  <value column="Name" original="Start Node">Nod de Start</value>
+  <value column="Description" original="Workflow Node, step or process">Nod Flux, pas sau proces</value>
+  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">Nodul Flux indică un pas sau un proces în Flux.</value>
+ </row>
+ <row id="4055" trl="Y">
+  <value column="Name" original="Tax Amount">Valoare Taxă</value>
+  <value column="Description" original="Tax Amount for Credit Card transaction">Valoare Taxă pentru Tranzacţie cu Cartea de Credit</value>
+  <value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">Indică valoarea totală a Taxei. Valoare Taxă se utilizează numai la procesarea Cărţilor de Credit</value>
+ </row>
+ <row id="4253" trl="Y">
+  <value column="Name" original="Only Currency">Numai Valută</value>
+  <value column="Description" original="Restrict accepting only this currency">Restricţie. Se acceptă numai această valută.</value>
+  <value column="Help" original="The Only Currency field indicates that this bank account accepts only the currency identified here.">Arată că acest cont bancar acceptă numai valuta identificată aici.</value>
+ </row>
+ <row id="4462" trl="Y">
+  <value column="Name" original="Business Partner / Sales Rep">Partener / Rep Vânzări</value>
+  <value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Identifică un Partener (Rep Furnizor) beneficiar al Comisionului.</value>
+  <value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">Partenerul poate fi un furnizor sau un Reprezentant de Vânzări (delegat)</value>
+ </row>
+ <row id="4725" trl="Y">
+  <value column="Name" original="Acknowledge">Confirmare</value>
+  <value column="Description" original="System Notice acknowledged">Confirmare Notă Sistem</value>
+  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">Caseta de validare Confirmare arată că această notă nu trebuie reţinută.</value>
+ </row>
+ <row id="5092" trl="Y">
+  <value column="Name" original="Driving Column">Coloană Directoare</value>
+  <value column="Description" original="Column which controls all tabs in the workbench">Coloana care controlează toate Tab-urile de pe Masa de lucru</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="5899" trl="Y">
+  <value column="Name" original="System Name">Nume</value>
+  <value column="Description" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Identificatorul alfanumeric al entităţii</value>
+  <value column="Help" original="The name if the system to differentiate support contracts">Numele unei entităţi (înregistrare) este utilizată ca o opţiune implicită de căutare în plus faţă de cheia de căutare. Numele are o lungime maximă de 60 de caractere.</value>
+ </row>
+ <row id="6344" trl="N">
+  <value column="Name" original="Attribute Set Instance">Instanţă Set Atribute</value>
+  <value column="Description" original="Product Attribute Values">Valorile Atributelor Produsului</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Valorile Atributelor actuale a Produsului. Atributele Instanţă Produs sunt definite în tranzacţiile actuale.</value>
+ </row>
+ <row id="8985" trl="Y">
+  <value column="Name" original="Document No">Nr Document</value>
+  <value column="Description" original="Document sequence number of the document">Document sequence number of the document</value>
+  <value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">Numărul documentului este generat, de obicei, automat de către sistem şi determinat de tip document al documentului. Dacă documentul nu este salvat, numărul preliminar este afişat în "&lt;&gt;".
+
+Dacă tipul document al documentului nu are definită o secventă automat, câmpul este gol când se crează un document nou. Aceasta se întâmplă la documentele care au un număr extern (ex. factura furnizorului).  Dacă lăsaţi câmpul gol, sistemul generează un număr. Secvenţa de documt utilizată pentru acest număr de rezervă este definită în fereastra "Întreţine Secvenţa" cu numele "NrDocument_&lt;NumeTabel&gt;", unde NumeTabel este numele actual al tabelului (ex. C_Order).</value>
+ </row>
+ <row id="10097" trl="Y">
+  <value column="Name" original="Value">Valoare</value>
+  <value column="Description" original="Condition Value">Valoare pentru condiţie</value>
+  <value column="Help" original="">Pentru câmpuri de tip Da-Nu folosiţi valorile true şi false în loc de Y şi N.</value>
+ </row>
+ <row id="10886" trl="Y">
+  <value column="Name" original="Overwrite Project">Înlocuieşte Proiect</value>
+  <value column="Description" original="Overwrite the account segment Project with the value specified">Înlocuieşte segmentul de cont a Proiectului cu valoarea specificată</value>
+  <value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">Dacă nu se înlocieşte, se utilizează valoarea combinaţiei de cont originară. Dacă s-a selectat, dar nu s-a specificat, valoarea segmentului va fi NULL.</value>
+ </row>
+ <row id="11799" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Instanţă Set Atribute</value>
+  <value column="Description" original="Product Attribute Values">Valorile Atributelor Produsului</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Valorile Atributelor efective a Produsului. Atributele Instanţă Produs sunt definite în tranzacţiile actuale.</value>
+ </row>
+ <row id="12732" trl="N">
+  <value column="Name" original="Language">Language</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value>
+ </row>
+ <row id="13179" trl="N">
+  <value column="Name" original="UserName">UserName</value>
+  <value column="Description" original="UserName / Login to use for login">UserName / Login to use for login</value>
+  <value column="Help" original="UserName / Login to use for the login&#10;Email of the responsible person for the system (registered in WebStore)">UserName / Login to use for the login Email of the responsible person for the system (registered in WebStore)</value>
+ </row>
+ <row id="13424" trl="Y">
+  <value column="Name" original="Mandatory Overwrite">Obligatoriu (suprascriere)</value>
+  <value column="Description" original="Overwrite Field Mandatory status">Suprascrie opţiunea "Obligatoriu" din coloană</value>
+  <value column="Help" original="The field must have a value for the record to be saved to the database.">Câmpul trebuie să conţină o valoare pentru ca înregistrarea să fie salvată în Baza de date.</value>
+ </row>
+ <row id="13425" trl="Y">
+  <value column="Name" original="Reference Overwrite">Referinţă (suprascriere)</value>
+  <value column="Description" original="System Reference - optional Overwrite">Referinţă Sistem - suprascriere (opţional)</value>
+  <value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">Puteţi suprascrie referinţa (din coloană).
+Utilizaţi această opţiune doar dacă cunoaşteţi consecinţele.</value>
+ </row>
+ <row id="13755" trl="N">
+  <value column="Name" original="Search Key">Search Key</value>
+  <value column="Description" original="Search key for the record in the format required">Search key for the record in the format required</value>
+  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7 bit lower case alpha numeric - max length 8 - can be used for operating system names.</value>
+ </row>
+ <row id="50066" trl="N">
+  <value column="Name" original="AD_Package_Exp_ID">AD_Package_Exp_ID</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50067" trl="N">
+  <value column="Name" original="Processed">Processed</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50068" trl="N">
+  <value column="Name" original="IsActive">IsActive</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50069" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50070" trl="N">
+  <value column="Name" original="Organization">Organization</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50071" trl="N">
+  <value column="Name" original="Name of Package">Name of Package</value>
+  <value column="Description" original="Name of Package">Name of Package</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50075" trl="N">
+  <value column="Name" original="Creation Directory">Creation Directory</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50076" trl="N">
+  <value column="Name" original="Created By">Created By</value>
+  <value column="Description" original="User who created the package">User who created the package</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50077" trl="N">
+  <value column="Name" original="Create Date">Create Date</value>
+  <value column="Description" original="Date when Package was created">Date when Package was created</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50080" trl="N">
+  <value column="Name" original="Processed By">Processed By</value>
+  <value column="Description" original="User who Processed the package">User who Processed the package</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50081" trl="N">
+  <value column="Name" original="Processed Date">Processed Date</value>
+  <value column="Description" original="Date when the package was processed">Date when the package was processed</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50082" trl="N">
+  <value column="Name" original="Description of Package">Description of Package</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50085" trl="N">
+  <value column="Name" original="Export Package">Export Package</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50086" trl="N">
+  <value column="Name" original="AD_Package_Exp_Detail_ID">AD_Package_Exp_Detail_ID</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50087" trl="N">
+  <value column="Name" original="Item Name">Item Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50088" trl="N">
+  <value column="Name" original="Processing">Processing</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50089" trl="N">
+  <value column="Name" original="IsActive">IsActive</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50090" trl="N">
+  <value column="Name" original="Processed">Processed</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50091" trl="N">
+  <value column="Name" original="Package Build ID">Package Build ID</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50092" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50093" trl="N">
+  <value column="Name" original="Organization">Organization</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50096" trl="N">
+  <value column="Name" original="Type">Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50097" trl="N">
+  <value column="Name" original="Menu">Menu</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50099" trl="N">
+  <value column="Name" original="Source File Directory">Source File Directory</value>
+  <value column="Description" original="Current location of source file">Current location of source file</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50103" trl="N">
+  <value column="Name" original="Table">Table</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50108" trl="N">
+  <value column="Name" original="Form">Form</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50109" trl="N">
+  <value column="Name" original="Process">Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50110" trl="N">
+  <value column="Name" original="Workflow">Workflow</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50112" trl="N">
+  <value column="Name" original="Workbench">Workbench</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50117" trl="N">
+  <value column="Name" original="Notes">Notes</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>
