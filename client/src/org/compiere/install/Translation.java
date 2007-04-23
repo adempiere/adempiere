@@ -223,12 +223,17 @@ public class Translation
 			//
 			DOMSource source = new DOMSource(document);
 			TransformerFactory tFactory = TransformerFactory.newInstance();
+			tFactory.setAttribute("indent-number", Integer.valueOf(1)); // teo_sarca [ 1705883 ]
 			Transformer transformer = tFactory.newTransformer();
-			//	Output
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // teo_sarca [ 1705883 ]
+			//	Output, wrapped with a writer - teo_sarca [ 1705883 ]
 			out.createNewFile();
-			StreamResult result = new StreamResult(out);
+			Writer writer = new OutputStreamWriter(new FileOutputStream(out), "utf-8"); 
+			StreamResult result = new StreamResult(writer);
 			//	Transform
 			transformer.transform (source, result);
+			// Close writer - teo_sarca [ 1705883 ] 
+			writer.close();
 		}
 		catch (SQLException e)
 		{
