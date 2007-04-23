@@ -101,7 +101,7 @@ INSERT INTO AD_ELEMENT_TRL
    SELECT e.ad_element_id, l.AD_LANGUAGE, e.ad_client_id, e.ad_org_id,
           e.isactive, e.created, e.createdby, e.updated, e.updatedby, e.NAME,
           e.printname, e.description, e.HELP, e.po_name, e.po_printname,
-          e.po_description, e.po_help, 'N' istranslated
+          e.po_description, e.po_help, 'N'
      FROM AD_ELEMENT e, AD_LANGUAGE l
     WHERE e.ad_element_id = 50065
       AND l.issystemlanguage = 'Y'
@@ -117,7 +117,7 @@ INSERT INTO AD_COLUMN_TRL
              created, createdby, updated, updatedby, NAME, istranslated)
    SELECT c.ad_column_id, l.AD_LANGUAGE, c.ad_client_id, c.ad_org_id,
           c.isactive, c.created, c.createdby, c.updated, c.updatedby, c.NAME,
-          'N' istranslated
+          'N'
      FROM AD_COLUMN c, AD_LANGUAGE l
     WHERE c.ad_column_id = 50210
       AND l.issystemlanguage = 'Y'
@@ -134,7 +134,7 @@ INSERT INTO AD_FIELD_TRL
              istranslated)
    SELECT f.ad_field_id, l.AD_LANGUAGE, f.ad_client_id, f.ad_org_id,
           f.isactive, f.created, f.createdby, f.updated, f.updatedby, f.NAME,
-          f.description, f.HELP, 'N' istranslated
+          f.description, f.HELP, 'N'
      FROM AD_FIELD f, AD_LANGUAGE l
     WHERE f.ad_field_id = 50180
       AND l.issystemlanguage = 'Y'
