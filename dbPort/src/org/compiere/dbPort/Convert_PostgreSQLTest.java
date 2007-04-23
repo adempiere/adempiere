@@ -28,6 +28,13 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		// Convert.recoverQuotedStrings() error on strings with "<-->" - teo_sarca [ 1705768 ]
+		// http://sourceforge.net/tracker/index.php?func=detail&aid=1705768&group_id=176962&atid=879332
+		sql = "SELECT 'Partner <--> Organization', 's2\\$', 's3' FROM DUAL";
+		sqe = "SELECT 'Partner <--> Organization', E's2\\\\$', 's3'";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		// [ 1704261 ] can not import currency rate
 		sql = "UPDATE I_Conversion_Rate i SET MultiplyRate = 1 / DivideRate WHERE (MultiplyRate IS NULL OR MultiplyRate = 0) AND DivideRate IS NOT NULL AND DivideRate<>0 AND I_IsImported<>'Y' AND AD_Client_ID=1000000";
 		sqe = "UPDATE I_Conversion_Rate SET MultiplyRate = 1 / DivideRate WHERE (MultiplyRate IS NULL OR MultiplyRate = 0) AND DivideRate IS NOT NULL AND DivideRate<>0 AND I_IsImported<>'Y' AND AD_Client_ID=1000000";

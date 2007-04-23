@@ -286,16 +286,16 @@ public abstract class Convert
 	protected String recoverQuotedStrings(String retValue, Vector<String>retVars) {
 		Pattern p = Pattern.compile("<-->", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
 		Matcher m = p.matcher(retValue);
-		for (int cont = 0; cont < retVars.size(); cont++) {
+		StringBuffer sb = new StringBuffer();
+		// Parse the string step by step - teo_sarca [ 1705768 ]
+		for (int cont = 0; cont < retVars.size() && m.find(); cont++) {
 			//hengsin, special character in replacement can cause exception
 			String replacement = (String) retVars.get(cont);
 			replacement = escapeQuotedString(replacement);
-			retValue = m.replaceFirst(Matcher.quoteReplacement(replacement));
-			if (retValue.indexOf(replacement) < 0)
-				System.err.println("Failed to recover: " + replacement);
-			m = p.matcher(retValue);
+			m.appendReplacement(sb, Matcher.quoteReplacement(replacement));
 		}
-		return retValue;
+		m.appendTail(sb);
+		return sb.toString();
 	}
 	
 	/**
