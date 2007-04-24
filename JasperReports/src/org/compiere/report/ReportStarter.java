@@ -520,7 +520,7 @@ public class ReportStarter implements ProcessCall {
                      "WHERE AD_PInstance_ID="+AD_PInstance_ID;
         Statement pstmt = null;
         try {
-            pstmt = DB.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
+            pstmt = DB.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, trxName);
             pstmt.executeUpdate(sql);
             pstmt.close();
         } catch (SQLException e) {
