@@ -80,7 +80,9 @@ public final class InfoProduct extends Info implements ActionListener
 	private static final String s_productFrom =
 		"M_Product p"
 		+ " LEFT OUTER JOIN M_ProductPrice pr ON (p.M_Product_ID=pr.M_Product_ID AND pr.IsActive='Y')"
-		+ " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)";
+		+ " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
+		+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID)"
+		+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
 
 	/**  Array of Column Info    */
 	private static Info_Column[] s_productLayout = null;
@@ -100,6 +102,8 @@ public final class InfoProduct extends Info implements ActionListener
 	private VComboBox pickPriceList = new VComboBox();
 	private CLabel labelWarehouse = new CLabel();
 	private VComboBox pickWarehouse = new VComboBox();
+	private CLabel labelVendor = new CLabel();
+	private CTextField fieldVendor = new CTextField(10);
 
 	/**	Search Button				*/
 	private CButton		m_InfoPAttributeButton = new CButton(Env.getImageIcon("PAttribute16.gif"));
@@ -143,6 +147,10 @@ public final class InfoProduct extends Info implements ActionListener
 		m_InfoPAttributeButton.setMargin(new Insets(2,2,2,2));
 		m_InfoPAttributeButton.setToolTipText(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
 		m_InfoPAttributeButton.addActionListener(this);
+		
+		labelVendor.setText(Msg.translate(Env.getCtx(), "Vendor"));
+		fieldVendor.setBackground(AdempierePLAF.getInfoBackground());
+		fieldVendor.addActionListener(this);
 
 		//	Line 1
 		parameterPanel.setLayout(new ALayout());
@@ -158,6 +166,8 @@ public final class InfoProduct extends Info implements ActionListener
 		parameterPanel.add(fieldName, null);
 		parameterPanel.add(labelSKU, null);
 		parameterPanel.add(fieldSKU, null);
+		parameterPanel.add(labelVendor, null);
+		parameterPanel.add(fieldVendor, null);
 		parameterPanel.add(labelPriceList, null);
 		parameterPanel.add(pickPriceList, null);
 		
@@ -411,7 +421,11 @@ public final class InfoProduct extends Info implements ActionListener
 		String sku = fieldSKU.getText().toUpperCase();
 		if (!(sku.equals("") || sku.equals("%")))
 			where.append(" AND UPPER(p.SKU) LIKE ?");
-
+		//	=> Vendor
+		String vendor = fieldVendor.getText().toUpperCase();
+		if (!(vendor.equals("") || vendor.equals("%")))
+			where.append(" AND UPPER(bp.Name) LIKE ?");
+		
 		return where.toString();
 	}	//	getSQLWhere
 
@@ -494,6 +508,16 @@ public final class InfoProduct extends Info implements ActionListener
 				sku += "%";
 			pstmt.setString(index++, sku);
 			log.fine("SKU: " + sku);
+		}
+
+		//  => Vendor
+		String vendor = fieldVendor.getText().toUpperCase();
+		if (!(vendor.equals("") || vendor.equals("%")))
+		{
+			if (!vendor.endsWith("%"))
+				vendor += "%";
+			pstmt.setString(index++, vendor);
+			log.fine("Vendor: " + vendor);
 		}
 
 	}   //  setParameters
@@ -735,6 +759,7 @@ public final class InfoProduct extends Info implements ActionListener
 				list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyUnconfirmedMove"), "(SELECT SUM(c.TargetQty) FROM M_MovementLineConfirm c INNER JOIN M_MovementLine ml ON (c.M_MovementLine_ID=ml.M_MovementLine_ID) INNER JOIN M_Locator l ON (ml.M_LocatorTo_ID=l.M_Locator_ID) WHERE c.Processed='N' AND l.M_Warehouse_ID=? AND ml.M_Product_ID=p.M_Product_ID) AS QtyUnconfirmedMove", Double.class));
 			}
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Margin"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID)-bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS Margin", BigDecimal.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Vendor"), "bp.Name", String.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceLimit"), "bomPriceLimit(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceLimit", BigDecimal.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "IsInstanceAttribute"), "pa.IsInstanceAttribute", Boolean.class));
 			s_productLayout = new Info_Column[list.size()];
