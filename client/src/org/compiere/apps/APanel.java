@@ -1346,6 +1346,17 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aMulti.getName()))
 				m_curGC.switchRowPresentation();
 			//	Go
+			else if (cmd.equals(aHome.getName())) {
+				// show main menu - teo_sarca [ 1706409 ] 
+				JFrame menuWin = Env.getWindow(0);
+				int state = menuWin.getExtendedState();
+				if ((state & JFrame.ICONIFIED) != 0)
+					state &= ~JFrame.ICONIFIED;
+				setBusy(false, false);
+				menuWin.setExtendedState(state);
+				menuWin.toFront();
+				return;
+			}
 			else if (cmd.equals(aFirst.getName()))
 			{	/*cmd_save(false);*/
 				m_curGC.getTable().removeEditor();
