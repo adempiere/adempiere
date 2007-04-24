@@ -232,6 +232,27 @@ return ii.intValue();
 }
 /** Column name M_Product_Category_ID */
 public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
+
+/** M_Product_Category_Parent_ID AD_Reference_ID=163 */
+public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
+/** Set Parent Product Category.
+@param M_Product_Category_Parent_ID Parent Product Category */
+public void setM_Product_Category_Parent_ID (int M_Product_Category_Parent_ID)
+{
+if (M_Product_Category_Parent_ID <= 0) set_Value ("M_Product_Category_Parent_ID", null);
+ else 
+set_Value ("M_Product_Category_Parent_ID", Integer.valueOf(M_Product_Category_Parent_ID));
+}
+/** Get Parent Product Category.
+@return Parent Product Category */
+public int getM_Product_Category_Parent_ID() 
+{
+Integer ii = (Integer)get_Value("M_Product_Category_Parent_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name M_Product_Category_Parent_ID */
+public static final String COLUMNNAME_M_Product_Category_Parent_ID = "M_Product_Category_Parent_ID";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)

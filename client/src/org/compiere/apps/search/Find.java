@@ -22,6 +22,7 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -616,9 +617,12 @@ public final class Find extends CDialog
 				// globalqss - Carlos Ruiz - 20060711
 				// fix a bug with virtualColumn + isSelectionColumn not yielding results
 				GridField field = getTargetMField(ColumnName);
+				boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
 				String ColumnSQL = field.getColumnSQL(false);
 				if (value.toString().indexOf('%') != -1)
 					m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, ved.getDisplay());
+				else if (isProductCategoryField && value instanceof Integer) 
+					m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
 				else
 					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
 				/*
@@ -698,6 +702,7 @@ public final class Find extends CDialog
 			String infoName = column.toString();
 			//
 			GridField field = getTargetMField(ColumnName);
+			boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
 			String ColumnSQL = field.getColumnSQL(false);
 			//	Op
 			Object op = advancedTable.getValueAt(row, INDEX_OPERATOR);
@@ -730,11 +735,117 @@ public final class Find extends CDialog
 				m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
 					infoName, infoDisplay, infoDisplay_to);
 			}
+			else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+				if (!(parsedValue instanceof Integer)) {
+					continue;
+				}
+				m_query
+
+				.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
+			}
 			else
 				m_query.addRestriction(ColumnSQL, Operator, parsedValue,
 					infoName, infoDisplay);
 		}
 	}	//	cmd_save
+
+	/**
+	 * Checks the given column.
+	 * @param columnId
+	 * @return true if the column is a product category column
+	 */
+	private boolean isProductCategoryField(int columnId) {
+		X_AD_Column col = new X_AD_Column(Env.getCtx(), columnId, null);
+		if (col.get_ID() == 0) {
+			return false; // column not found...
+		}
+		return MProduct.COLUMNNAME_M_Product_Category_ID.equals(col.getColumnName());
+	}
+
+	/**
+	 * Returns a sql where string with the given category id and all of its subcategory ids.
+	 * It is used as restriction in MQuery.
+	 * @param productCategoryId
+	 * @return
+	 */
+	private String getSubCategoryWhereClause(int productCategoryId) {
+		//if a node with this id is found later in the search we have a loop in the tree
+		int subTreeRootParentId = 0;
+		String retString = " M_Product_Category_ID IN (";
+		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
+		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
+		try {
+			Statement stmt = DB.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				if(rs.getInt(1)==productCategoryId) {
+					subTreeRootParentId = rs.getInt(2);
+				}
+				categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
+			}
+			retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
+			retString += ") ";
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, sql, e);
+			retString = "";
+		} catch (AdempiereSystemError e) {
+			log.log(Level.SEVERE, sql, e);
+			retString = "";
+		}
+		return retString;
+	}
+
+	/**
+	 * Recursive search for subcategories with loop detection.
+	 * @param productCategoryId
+	 * @param categories
+	 * @param loopIndicatorId
+	 * @return comma seperated list of category ids
+	 * @throws AdempiereSystemError if a loop is detected
+	 */
+	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
+		String ret = "";
+		final Iterator iter = categories.iterator();
+		while (iter.hasNext()) {
+			SimpleTreeNode node = (SimpleTreeNode) iter.next();
+			if (node.getParentId() == productCategoryId) {
+				if (node.getNodeId() == loopIndicatorId) {
+					throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
+				}
+				ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
+			}
+		}
+		log.fine(ret);
+		return ret + productCategoryId;
+	}
+
+	/**
+	 * Simple tree node class for product category tree search.
+	 * @author Karsten Thiemann, kthiemann@adempiere.org
+	 *
+	 */
+	private class SimpleTreeNode {
+
+		private int nodeId;
+
+		private int parentId;
+
+		public SimpleTreeNode(int nodeId, int parentId) {
+			this.nodeId = nodeId;
+			this.parentId = parentId;
+		}
+
+		public int getNodeId() {
+			return nodeId;
+		}
+
+		public int getParentId() {
+			return parentId;
+		}
+	}
+
 
 	/**
 	 * 	Parse Value
