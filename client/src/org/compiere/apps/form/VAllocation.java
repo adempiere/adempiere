@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -43,10 +43,22 @@ import org.compiere.util.*;
  *
  * @author  Jorg Janke
  * @version $Id: VAllocation.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
  */
 public class VAllocation extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
+	
+	private static final int INDICATOR_NONE = 0;
+	private static final int INDICATOR_TOTAL_PAY = 1;
+	private static final int INDICATOR_SUBPAYMENT_SO = 2;
+	private static final int INDICATOR_GREATER_PAYMENT_SO = 3;
+	private static final int INDICATOR_CREDIT_MEMO = 4;
+	private static final int INDICATOR_GREATER_PAYMENT_PO = 5;
+	private static final int INDICATOR_GREATER_INVOICED_PO = 6;
+	private static final int INDICATOR_GREATER_CREDIT = 7;
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -87,6 +99,19 @@ public class VAllocation extends CPanel
 	private int         m_noInvoices = 0;
 	private int         m_noPayments = 0;
 
+    //Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+    BigDecimal totalPayment = new BigDecimal(0.0);
+	BigDecimal totalInvoiced = new BigDecimal(0.0);
+	BigDecimal totalCredit = new BigDecimal(0.0);
+	int npayments = 0;
+	int ninvoices = 0;
+	int ncredits = 0;
+	int indicator = INDICATOR_NONE;
+	int rowlastinvoice = 0;
+	int iforinvoice = 0;
+	int iforcredit = 0;
+	//-END--------------------------------
+	
 	//  Index	changed if multi-currency
 	private int         i_payment = 7;
 	//
@@ -548,6 +573,7 @@ public class VAllocation extends CPanel
 	 */
 	public void tableChanged(TableModelEvent e)
 	{
+		//Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
 		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
 		//  Not a table update
 		if (!isUpdate)
@@ -568,6 +594,8 @@ public class VAllocation extends CPanel
 		log.config("Row=" + row 
 			+ ", Col=" + col + ", InvoiceTable=" + isInvoice);
 
+        boolean issubpayment = false; //Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+        
 		//  Payments
 		if (!isInvoice)
 		{
@@ -579,6 +607,30 @@ public class VAllocation extends CPanel
 				{
 					BigDecimal amount = (BigDecimal)payment.getValueAt(row, i_open);   //  Open Amount
 					payment.setValueAt(amount, row, i_payment);
+					
+					//Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+					issubpayment = revision_subpayment();
+					log.fine("Payment-issubpayment: " + issubpayment);
+					if (issubpayment)
+					{
+						TableModel invoice = invoiceTable.getModel();
+						rowlastinvoice=getrowinvoice();
+						if(rowlastinvoice > -1)
+							if(totalInvoiced.subtract(totalPayment).compareTo(new BigDecimal(0.0)) < 0)
+							{
+								invoice.setValueAt(totalInvoiced, rowlastinvoice, i_applied);
+							}
+							else
+							{
+								invoice.setValueAt(totalPayment, rowlastinvoice, i_applied);
+							}
+					}
+					else if (totalPayment==totalInvoiced)
+					{
+						TableModel invoice = invoiceTable.getModel();
+						invoice.setValueAt((BigDecimal)invoice.getValueAt(rowlastinvoice, i_open), rowlastinvoice, i_applied);
+					}
+					//-End-------------
 				}
 				else    //  de-selected
 					payment.setValueAt(Env.ZERO, row, i_payment);
@@ -596,6 +648,19 @@ public class VAllocation extends CPanel
 				amount = amount.subtract((BigDecimal)invoice.getValueAt(row, i_discount));
 				invoice.setValueAt(Env.ZERO, row, i_writeOff);     //  to be sure
 				invoice.setValueAt(amount, row, i_applied);
+				
+				//Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+				issubpayment = revision_subpayment();
+				log.fine("Invoice-issubpayment: " + issubpayment);
+				rowlastinvoice = row;
+				if (issubpayment){
+					log.fine("End Process SubPayment");
+					if(amount.subtract(totalPayment).compareTo(new BigDecimal(0.0)) < 0)
+						invoice.setValueAt(amount, row, i_applied);
+					else
+						invoice.setValueAt(totalPayment, row, i_applied);
+				}
+				//---END----------
 			}
 			else    //  de-selected
 			{
@@ -676,6 +741,7 @@ public class VAllocation extends CPanel
 				Timestamp ts = (Timestamp)invoice.getValueAt(i, 1);
 				allocDate = TimeUtil.max(allocDate, ts);
 				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_applied);
+				// ?? BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_open); //MultiAllocation Fabian Aguilar OFBConsulting
 				totalInv = totalInv.add(bd);  //  Applied Inv
 				m_noInvoices++;
 				log.fine("Invoice_" + i + " = " + bd + " - Total=" + totalPay);
@@ -683,7 +749,6 @@ public class VAllocation extends CPanel
 		}
 		invoiceInfo.setText(String.valueOf(m_noInvoices) + " - "
 			+ Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(totalInv) + " ");
-
 
 		//	Set AllocationDate
 		if (allocDate != null)
@@ -693,10 +758,84 @@ public class VAllocation extends CPanel
 		//  Difference
 		BigDecimal difference = totalPay.subtract(totalInv);
 		differenceField.setText(format.format(difference));
+		
+		// modification fabian-subpayments 040506
+		ninvoices = m_noInvoices;
+		npayments = m_noPayments;
+		log.config("Npayments:" + npayments + " Ninvoice:" + ninvoices);
+		totalPayment = totalPay;
+		totalInvoiced = totalInv;
+		log.info("Total-Pay:" + totalPay + " TotalInv: " + totalInv
+				+ " Diference: " + difference + " npayments=" + npayments
+				+ " ninvoices=" + ninvoices);
+		totalCredit = new BigDecimal("0");
+
+		boolean enableAllocButton = false;
+		indicator = INDICATOR_NONE;
+
+		if (difference.compareTo(new BigDecimal(0.0)) == 0 && npayments == 1) 
+		{//----------------------------------
+			indicator = INDICATOR_TOTAL_PAY; //totalpay=totalinvoiced
+			enableAllocButton = true;
+		}
+		else if (difference.compareTo(new BigDecimal(0.0)) < 0
+				&& npayments == 1 && ninvoices == 1
+				&& totalPay.compareTo(new BigDecimal(0.0)) > 0
+				&& totalInv.compareTo(new BigDecimal(0.0)) > 0)
+		{
+			indicator = INDICATOR_SUBPAYMENT_SO; //subpayment issotrx=y
+			enableAllocButton = true;
+		}
+		else if (difference.compareTo(new BigDecimal(0.0)) > 0
+				&& npayments == 1 && ninvoices == 1
+				&& totalPay.compareTo(new BigDecimal(0.0)) > 0
+				&& totalInv.compareTo(new BigDecimal(0.0)) > 0)
+		{
+			indicator = INDICATOR_GREATER_PAYMENT_SO; //totalpay>totalinvoiced  issotrx=y
+			enableAllocButton = true;
+		}
+		else if (difference.compareTo(new BigDecimal(0.0)) <= 0
+				&& npayments == 0 && ninvoices > 0)
+		{
+			indicator = INDICATOR_CREDIT_MEMO; //Credit Memo
+			if (revision_subcredit())
+				enableAllocButton = true;
+		}
+		else if (difference.compareTo(new BigDecimal(0.0)) < 0
+				&& npayments == 1 && ninvoices == 1
+				&& totalPay.compareTo(new BigDecimal(0.0)) < 0
+				&& totalInv.compareTo(new BigDecimal(0.0)) < 0)
+		{
+			indicator = INDICATOR_GREATER_PAYMENT_PO; //totalpay>totalinvoiced  issotrx=n
+			enableAllocButton = true;
+		}
+		//special case vendor subpayments
+		else if (difference.compareTo(new BigDecimal(0.0)) > 0
+				&& npayments == 1 && ninvoices == 1
+				&& totalPay.compareTo(new BigDecimal(0.0)) < 0
+				&& totalInv.compareTo(new BigDecimal(0.0)) < 0)
+		{
+			indicator = INDICATOR_GREATER_INVOICED_PO; // totalpay<totalinvoiced  issotrx=n
+			enableAllocButton = true;
+		}
+		else if (difference.compareTo(new BigDecimal(0.0)) > 0
+				&& npayments == 0 && ninvoices > 0)
+		{
+			indicator = INDICATOR_GREATER_CREDIT;
+			if (revision_subcredit()) // creditmemo > invoiced
+				enableAllocButton = true;
+		}
+
+		log.info("Enable Allocate Button=" + enableAllocButton + " Indicator=" + indicator);
+		allocateButton.setEnabled(enableAllocButton);
+
+		/* Old Code Not Multi Allocation
 		if (difference.compareTo(new BigDecimal(0.0)) == 0)
 			allocateButton.setEnabled(true);
 		else
 			allocateButton.setEnabled(false);
+		 */ //End old Code
+		
 	}   //  calculate
 
 	/**
@@ -843,6 +982,37 @@ public class VAllocation extends CPanel
 				BigDecimal OverUnderAmt = ((BigDecimal)invoice.getValueAt(i, i_open))
 					.subtract(AppliedAmt).subtract(DiscountAmt).subtract(WriteOffAmt);
 
+				//Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+				if (indicator == INDICATOR_SUBPAYMENT_SO) {
+					OverUnderAmt=((BigDecimal)invoice.getValueAt(i, i_open)).subtract(totalPayment);
+					AppliedAmt=totalPayment;
+				}
+
+				if (indicator == INDICATOR_GREATER_INVOICED_PO) {
+					OverUnderAmt=totalInvoiced.subtract(totalPayment);	
+					AppliedAmt=totalPayment;
+				}
+
+				if (indicator == INDICATOR_GREATER_PAYMENT_PO) {
+					OverUnderAmt=new BigDecimal("0");
+					AppliedAmt=totalInvoiced;
+				}
+
+				if (indicator == INDICATOR_GREATER_CREDIT) {
+					OverUnderAmt=new BigDecimal("0");
+					AppliedAmt=totalInvoiced;
+				}
+
+				if (indicator == INDICATOR_CREDIT_MEMO) { //subpayment with credit note
+					log.fine("**AppliedAmt: " + AppliedAmt);
+					if(AppliedAmt.compareTo(new BigDecimal(0.0)) > 0)
+					{
+						OverUnderAmt=AppliedAmt.add(totalCredit) ;
+						AppliedAmt=totalCredit.abs();
+					}
+				}
+				//------END---------------------------
+				
 				log.config("Invoice #" + i + " - AppliedAmt=" + AppliedAmt);// + " -> " + AppliedAbs);
 				//  loop through all payments until invoice applied
 				int noPayments = 0;
@@ -889,6 +1059,15 @@ public class VAllocation extends CPanel
 				{
 					int C_Payment_ID = 0;
 					log.config(" ... no payment - TotalApplied=" + totalAppliedAmt);
+					
+					//Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+					if( indicator == INDICATOR_GREATER_CREDIT) {
+						if(i==iforcredit)
+						AppliedAmt=AppliedAmt.negate();
+
+					}
+					//--------END------------------------
+					
 					//  Create Allocation
 					log.fine("C_Payment_ID=" + C_Payment_ID + ", C_Invoice_ID=" + C_Invoice_ID
 						+ ", Amount=" + AppliedAmt + ", Discount=" + DiscountAmt + ", WriteOff=" + WriteOffAmt);
@@ -967,14 +1146,18 @@ public class VAllocation extends CPanel
 				String sql = "SELECT invoiceOpen(C_Invoice_ID, 0) "
 					+ "FROM C_Invoice WHERE C_Invoice_ID=?";
 				BigDecimal open = DB.getSQLValueBD(trx.getTrxName(), sql, C_Invoice_ID);
-				if (open != null && open.signum() == 0)
-				{
+				//if (open != null && open.signum() == 0) Fabian Aguilar
+				// Enable MultiAllocation Fabian Aguilar OFBConsulting
+				if (open != null
+						&& open.signum() == 0
+						&& indicator != INDICATOR_SUBPAYMENT_SO
+						&& indicator != INDICATOR_GREATER_INVOICED_PO
+						&& (indicator != INDICATOR_CREDIT_MEMO && getrowinvoice() != i)) {
 					sql = "UPDATE C_Invoice SET IsPaid='Y' "
 						+ "WHERE C_Invoice_ID=" + C_Invoice_ID;
 					int no = DB.executeUpdate(sql, trx.getTrxName());
-					log.config("Invoice #" + i + " is paid");
-				}
-				else
+					log.config("Invoice #" + i + " is paid - updated=" + no);
+				} else
 					log.config("Invoice #" + i + " is not paid - " + open);
 			}
 		}
@@ -983,15 +1166,173 @@ public class VAllocation extends CPanel
 		{
 			int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
 			MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trx.getTrxName());
-			if (pay.testAllocation())
+			//if (pay.testAllocation()) Fabian Aguilar
+			//Enable MultiAllocation Fabian Aguilar OFBConsulting
+			if ((pay.testAllocation() || indicator == INDICATOR_SUBPAYMENT_SO)
+					&& indicator != INDICATOR_GREATER_PAYMENT_SO
+					&& indicator != INDICATOR_GREATER_PAYMENT_PO)
 				pay.save();
 			log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
-				+ " fully allocated");
+					+ " fully allocated");
 		}
 		paymentList.clear();
 		amountList.clear();
 		trx.commit();
 		trx.close();
 	}   //  saveData
+
+	//	Begin Enable MultiAllocation Fabian Aguilar OFBConsulting
+	private boolean revision_subpayment()
+	{
+		log.fine("Recalculating grid");
+
+		//  Payment
+		TableModel payment = paymentTable.getModel();
+		BigDecimal totalPay = new BigDecimal(0.0);
+		int rows = payment.getRowCount();
+		m_noPayments = 0;
+		for (int i = 0; i < rows; i++)
+		{
+			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			{
+				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_payment);
+				totalPay = totalPay.add(bd);  //  Applied Pay
+				m_noPayments++;
+				log.fine("Payment_" + i + " = " + bd + " - Total=" + totalPay);
+			}
+		}
+
+		//  Invoices
+		TableModel invoice = invoiceTable.getModel();
+		BigDecimal totalInv = new BigDecimal(0.0);
+		rows = invoice.getRowCount();
+		m_noInvoices = 0;
+
+		for (int i = 0; i < rows; i++)
+		{
+			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			{
+				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_open);
+				totalInv = totalInv.add(bd);  //  Applied Inv
+				m_noInvoices++;
+				log.fine( "Invoice_" + i + " = " + bd + " - Total=" + totalPay);
+			}
+		}
+		totalPayment=totalPay;
+		totalInvoiced=totalInv;
+		log.fine("**totalPayment: "+ totalPayment +" totalInvoiced: " + totalInvoiced);
+		if (m_noInvoices==1 && m_noPayments==1 )
+		{
+			BigDecimal difference = totalPay.subtract(totalInv); 
+			if (difference.compareTo(new BigDecimal(0.0)) < 0)
+				return true;
+		}
+		return false;
+	}
+
+	private boolean revision_subcredit()
+	{
+		log.fine("Recalculating grid");
+
+		//  Payment
+		TableModel payment = paymentTable.getModel();
+		BigDecimal totalPay = new BigDecimal(0.0);
+		int rows = payment.getRowCount();
+		m_noPayments = 0;
+		for (int i = 0; i < rows; i++)
+		{
+			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			{
+				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_payment);
+				totalPay = totalPay.add(bd);  //  Applied Pay
+				m_noPayments++;
+				log.info("Payment_" + i + " = " + bd + " - Total=" + totalPay);
+			}
+		}
+
+		//  Invoices
+		TableModel invoice = invoiceTable.getModel();
+		BigDecimal totalInv = new BigDecimal(0.0);
+		BigDecimal totalCrd = new BigDecimal(0.0);
+		rows = invoice.getRowCount();
+		m_noInvoices = 0;
+		ncredits=0;
+		totalCredit=new BigDecimal("0.0");
+		for (int i = 0; i < rows; i++)
+		{
+			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			{
+				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_open);
+				log.info("*Value:"+bd);
+				if(bd.compareTo(new BigDecimal(0.0)) < 0)
+				{
+					ncredits++;
+					totalCrd=totalCrd.add(bd);
+					iforcredit=i;
+				}
+				else
+				{
+					m_noInvoices++;
+					totalInv = totalInv.add(bd);  //  Applied Inv
+					iforinvoice=i;
+				}
+				log.info( "Invoice_" + i + " = " + bd + " - Total=" + totalPay);
+			}
+		}
+		log.info("totalInvoiced= "+ totalInv + "--totalcredit= " + totalCrd);
+		totalPayment=totalPay;
+		totalInvoiced=totalInv;
+		totalCredit=totalCrd;
+		log.info("inv-cr: "+totalInv.subtract(totalCrd));
+		if (m_noInvoices == 1
+				&& m_noPayments == 0
+				&& ncredits == 1
+				&& totalInv.subtract(totalCrd).compareTo(new BigDecimal(0.0)) >= 0)
+		{
+			log.info("return true");
+			return true;
+		}
+		return false;
+	}
+
+	private int getrowinvoice()
+	{
+
+		log.fine("Finding row");
+
+		//  Invoices
+		TableModel invoice = invoiceTable.getModel();
+		BigDecimal totalInv = new BigDecimal(0.0);
+		BigDecimal totalCrd = new BigDecimal(0.0);
+		int rows = invoice.getRowCount();
+		m_noInvoices = 0;
+		ncredits=0;
+		totalCredit=new BigDecimal("0.0");
+		int myrow=-1;
+		for (int i = 0; i < rows; i++)
+		{
+			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+			{
+				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_open);
+				if(bd.compareTo(new BigDecimal(0.0)) < 0)
+				{
+					ncredits++;
+					totalCrd=totalCrd.add(bd);
+				}
+				else
+				{
+					m_noInvoices++;
+					totalInv = totalInv.add(bd);  //  Applied Inv
+					myrow=i;
+				}
+				//log.fine( "Invoice_" + i + " = " + bd + " - Total=" + totalPay);
+
+			}
+		}
+		log.fine("totalInvoiced= "+ totalInv + "--totalcredit= " + totalCrd);
+
+		return myrow;
+	}
+	//END---
 
 }   //  VAllocation
