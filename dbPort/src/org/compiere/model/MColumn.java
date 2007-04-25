@@ -427,8 +427,15 @@ public class MColumn extends X_AD_Column
 	 */
 	public String getConstraint(String tableName)
 	{
-		if (isKey())
-			return "CONSTRAINT " + tableName.substring(0, 26) + "_Key PRIMARY KEY (" + getColumnName() + ")";
+		if (isKey()) {
+			String constraintName;
+			if (tableName.length() > 26)
+				// Oracle restricts object names to 30 characters
+				constraintName = tableName.substring(0, 26) + "_Key";
+			else
+				constraintName = tableName + "_Key";
+			return "CONSTRAINT " + constraintName + " PRIMARY KEY (" + getColumnName() + ")";
+		}
 		/**
 		if (getAD_Reference_ID() == DisplayType.TableDir 
 			|| getAD_Reference_ID() == DisplayType.Search)
