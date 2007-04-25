@@ -25,6 +25,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 
 /**
@@ -45,7 +46,7 @@ public class CalloutProductCategory extends CalloutEngine
 	 *  @param value New Value
 	 *  @return "" or error message
 	 */
-	public  String testForLoop (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	public  String testForLoop (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value, Object oldValue)
 	{
 		if (isCalloutActive() || value == null)
 			return "";
@@ -69,8 +70,8 @@ public class CalloutProductCategory extends CalloutEngine
 			rs.close();
 			stmt.close();
 			if(hasLoop(newParentCategoryId, categories, productCategoryId)) {
-				mField.setValue(0, false);
-				
+				mTab.setValue("M_Product_Category_Parent_ID", oldValue);
+
 				setCalloutActive(false);
 				return "ProductCategoryLoopDetected";
 			}
