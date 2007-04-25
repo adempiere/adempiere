@@ -1006,12 +1006,25 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 									+ " SET DEFAULT "
 									+ defaultvalue + "; ";
 						} else {
-							DDL += sqlStatement.substring(0, begin_col
-									- action.length())
-									+ " ALTER COLUMN "
-									+ column
-									+ " SET DEFAULT '"
-									+ defaultvalue + "'; ";
+							// Check if default value is already quoted, no need to double quote
+							if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
+							{
+								DDL += sqlStatement.substring(0, begin_col
+										- action.length())
+										+ " ALTER COLUMN "
+										+ column
+										+ " SET DEFAULT "
+										+ defaultvalue + "; ";
+							}
+							else
+							{
+								DDL += sqlStatement.substring(0, begin_col
+										- action.length())
+										+ " ALTER COLUMN "
+										+ column
+										+ " SET DEFAULT '"
+										+ defaultvalue + "'; ";
+							}
 						}
 						if (rest != null && rest.indexOf(" NOT NULL ") == 0)
 							DDL += sqlStatement.substring(0, begin_col)
