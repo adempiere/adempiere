@@ -557,11 +557,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String joinField = null;
 			
 			boolean useSubQuery = false;
-			String joinFieldsUpper = joinFields.toUpperCase(); 
-			if (joinFieldsUpper.indexOf("SUM(") >=0 || joinFieldsUpper.indexOf("SUM (") >= 0
-				|| joinFieldsUpper.indexOf("MAX(") >=0 || joinFieldsUpper.indexOf("MAX (") >= 0
-				|| joinFieldsUpper.indexOf("MIN(") >=0 || joinFieldsUpper.indexOf("MIN (") >= 0
-				|| joinFieldsUpper.indexOf("COUNT(") >=0 || joinFieldsUpper.indexOf("COUNT (") >= 0)
+			if (useAggregateFunction(joinFields))
 				useSubQuery = true;
 
 			while (f > 0) {
@@ -653,6 +649,58 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 
 	} // convertDecode
 	
+	/**
+	 * Check if one of the field is using standard sql aggregate function
+	 * @param fields
+	 * @return boolean
+	 */
+	private boolean useAggregateFunction(String fields) 
+	{
+		String fieldsUpper = fields.toUpperCase();
+		int size = fieldsUpper.length();
+		StringBuffer buffer = new StringBuffer();
+		String token = null;
+		for (int i = 0; i < size; i++)
+		{
+			char ch = fieldsUpper.charAt(i);
+			if (Character.isWhitespace(ch))
+			{
+				if (buffer.length() > 0)
+				{
+					token = buffer.toString();
+					buffer = new StringBuffer();
+				}
+			}
+			else
+			{
+				if (isOperator(ch)) 
+				{
+					if (buffer.length() > 0)
+					{
+						token = buffer.toString();
+						buffer = new StringBuffer();
+					}
+					else
+					{
+						token = null;
+					}
+					if (ch == '(' && token != null)
+					{
+						if (token.equals("SUM") || token.equals("MAX") || token.equals("MIN")
+							|| token.equals("COUNT") || token.equals("AVG"))
+						{
+							return true;
+						}
+					}					
+				}
+				else
+					buffer.append(ch);
+			}
+		}
+		
+		return false;
+	}
+
 	/**
 	 * Add table alias to identifier in where clause
 	 * @param where
@@ -824,7 +872,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			return true;
 		return false;
 	}
-
+	
 	// begin vpj-cd e-evolution 08/02/2005
 	/***************************************************************************
 	 * convertAlias - for compatibility with 8.1
