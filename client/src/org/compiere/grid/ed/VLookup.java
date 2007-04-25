@@ -661,7 +661,8 @@ public class VLookup extends JComponent
 		{
 			//  happens if VLookup is used outside of APanel/GridController (no property listener)
 			log.fine(m_columnName + " - Value explicitly set - new=" + value + ", old=" + m_value);
-			setValue(value);
+			if (getListeners(PropertyChangeListener.class).length <= 0)
+				setValue(value);
 		}
 	}	//	actionCombo
 
