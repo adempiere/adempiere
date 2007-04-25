@@ -873,7 +873,7 @@ public class PackOut extends SvrProcess
 				int key1 = 0;
 				String nameatts = ""; 
 				for (i=1 ;i <= columns;i++){
-					col_Name = meta.getColumnName(i);					
+					col_Name = meta.getColumnName(i).toUpperCase();
 					if (col_Name.equals("NAME") && rs.getObject("name") != null)
 						nameatts = ""+rs.getObject("name");					
 					String sql2 = "SELECT ColumnName FROM AD_Column "
@@ -907,7 +907,7 @@ public class PackOut extends SvrProcess
 				hd_menu.startElement("","","drow",atts);				
 				for (i=1 ;i <= columns;i++){
 					atts.clear();
-					col_Name = meta.getColumnName(i);
+					col_Name = meta.getColumnName(i).toUpperCase();
 					String sql2 = "Select A.ColumnName, B.Name "
 						+ "From AD_Column A, AD_Reference B " 
 						+ "Where Upper(A.columnname) = ? and " 
