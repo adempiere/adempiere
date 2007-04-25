@@ -142,7 +142,8 @@ public final class VAccountDialog extends CDialog
 	 */
 	void jbInit() throws Exception
 	{
-		titledBorder = new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(134, 134, 134)), "Parameter");
+		// [ 1707303 ] Account Combination Form(VAccountDialog) translation issue
+		titledBorder = new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(134, 134, 134)), Msg.getMsg(Env.getCtx(),"Parameter"));
 		//
 		panelLayout.setHgap(5);
 		panelLayout.setVgap(5);
