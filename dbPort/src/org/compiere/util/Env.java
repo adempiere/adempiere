@@ -1474,6 +1474,11 @@ public final class Env
 				s_hiddenWindows.remove(i);
 				s_log.info(hidden.toString());
 				hidden.setVisible(true);
+				// De-iconify window - teo_sarca [ 1707221 ]
+				int state = hidden.getExtendedState();
+				if ((state & CFrame.ICONIFIED) > 0)
+					hidden.setExtendedState(state & ~CFrame.ICONIFIED);
+				//
 				hidden.toFront();
 				return hidden;
 			}

@@ -42,6 +42,21 @@ import org.compiere.util.*;
 public final class AEnv
 {
 	/**
+	 * Show window: de-iconify and bring it to front
+	 * @author teo_sarca [ 1707221 ]
+	 */
+	public static void showWindow(Window window) {
+		window.setVisible(true);
+		if (window instanceof Frame) {
+			Frame f = (Frame)window;
+			int state = f.getExtendedState();
+			if ((state & Frame.ICONIFIED) > 0)
+				f.setExtendedState(state & ~Frame.ICONIFIED);
+		}
+		window.toFront();
+	}
+
+	/**
 	 *  Show in the center of the screen.
 	 *  (pack, set location and set visibility)
 	 * 	@param window Window to position
@@ -49,8 +64,7 @@ public final class AEnv
 	public static void showCenterScreen(Window window)
 	{
 		positionCenterScreen(window);
-		window.setVisible(true);
-		window.toFront();
+		showWindow(window);
 	}   //  showCenterScreen
 	
 	/**
@@ -83,8 +97,7 @@ public final class AEnv
 	public static void showScreen(Window window, int position)
 	{
 		positionScreen(window, position);
-		window.setVisible(true);
-		window.toFront();
+		showWindow(window);
 	}   //  showScreen
 
 
@@ -164,8 +177,7 @@ public final class AEnv
 	public static void showCenterWindow(Window parent, Window window)
 	{
 		positionCenterWindow(parent, window);
-		window.setVisible(true);
-		window.toFront();
+		showWindow(window);
 	}   //  showCenterWindow
 
 	/**
@@ -223,7 +235,7 @@ public final class AEnv
 	//		+ " - Parent loc x=" + pLoc.x + " y=" + y + " w=" + pSize.getWidth() + " h=" + pSize.getHeight());
 		window.setLocation(x + insets.left, y + insets.top);
 	}	//	positionCenterScreen
-
+	
 	
 	/*************************************************************************
 	 * 	Get Button
@@ -382,7 +394,7 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Home"))
 		{
-			Env.getWindow(0).toFront();
+			showWindow(Env.getWindow(0));
 		}
 
 		//  Tools Menu  ------------------------

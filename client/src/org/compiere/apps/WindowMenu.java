@@ -127,7 +127,7 @@ public class WindowMenu extends JMenu {
             menu.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     CFrame frame = ((ChildMenuItem)ae.getSource()).getWindow();
-                    frame.toFront();
+                    AEnv.showWindow(frame);
                 }
             });
             //menu.setIcon(array[i].getIconImage());
