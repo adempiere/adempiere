@@ -29,12 +29,12 @@ public class IniRes_ja extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Adempiere_License",   "\u30e9\u30a4\u30bb\u30f3\u30b9" },
-	{ "Do_you_accept",      "\u4ed4\u306e\u30e9\u30a4\u30bb\u30f3\u30b9\u306b\u8cdb\u6210\u3057\u307e\u3059\u304b\uff1f" },
-	{ "No",                 "\u3044\u3048" },
+	{ "Adempiere_License",  "\u30e9\u30a4\u30bb\u30f3\u30b9" },
+	{ "Do_you_accept",      "\u3053\u306e\u30e9\u30a4\u30bb\u30f3\u30b9\u306b\u540c\u610f\u3057\u307e\u3059\u304b\uff1f" },
+	{ "No",                 "\u3044\u3044\u3048" },
 	{ "Yes_I_Understand",   "\u306f\u3044" },
 	{ "license_htm",        "org/adempiere/license.htm" },
-	{ "License_rejected",   "\u7121\u52b9\u306e\u30e9\u30a4\u30bb\u30f3\u30b9" }
+	{ "License_rejected",   "\u30e9\u30a4\u30bb\u30f3\u30b9\u306b\u540c\u610f\u3057\u307e\u305b\u3093\u3067\u3057\u305f" }
 	};
 
 	/**
