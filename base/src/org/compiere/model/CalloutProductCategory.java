@@ -70,7 +70,7 @@ public class CalloutProductCategory extends CalloutEngine
 			rs.close();
 			stmt.close();
 			if(hasLoop(newParentCategoryId, categories, productCategoryId)) {
-				mTab.setValue("M_Product_Category_Parent_ID", oldValue);
+				mTab.setValue(MProductCategory.COLUMNNAME_M_Product_Category_Parent_ID, oldValue);
 
 				setCalloutActive(false);
 				return "ProductCategoryLoopDetected";
