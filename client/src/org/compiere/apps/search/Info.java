@@ -937,6 +937,9 @@ public abstract class Info extends CDialog
 	 */
 	class Worker extends Thread
 	{
+		private PreparedStatement m_pstmt = null;
+		private ResultSet m_rs = null;
+		
 		/**
 		 *  Do Work (load data)
 		 */
@@ -961,13 +964,18 @@ public abstract class Info extends CDialog
 
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(dataSql, null);
-				setParameters (pstmt, false);	//	no count
+				m_pstmt = DB.prepareStatement(dataSql, null);
+				setParameters (m_pstmt, false);	//	no count
 				log.fine("Start query - " + (System.currentTimeMillis()-start) + "ms");
-				ResultSet rs = pstmt.executeQuery();
+				m_rs = m_pstmt.executeQuery();
 				log.fine("End query - " + (System.currentTimeMillis()-start) + "ms");
-				while (!isInterrupted() & rs.next())
+				while (m_rs.next())
 				{
+					if (this.isInterrupted()) {
+						log.finer("Interrupted");
+						close();
+						return;
+					}
 					int row = p_table.getRowCount();
 					p_table.setRowCount(row+1);
 					int colOffset = 1;  //  columns start with 1
@@ -977,41 +985,39 @@ public abstract class Info extends CDialog
 						Class c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
 						if (c == IDColumn.class)
-							data = new IDColumn(rs.getInt(colIndex));
+							data = new IDColumn(m_rs.getInt(colIndex));
 						else if (c == Boolean.class)
-							data = new Boolean("Y".equals(rs.getString(colIndex)));
+							data = new Boolean("Y".equals(m_rs.getString(colIndex)));
 						else if (c == Timestamp.class)
-							data = rs.getTimestamp(colIndex);
+							data = m_rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)
-							data = rs.getBigDecimal(colIndex);
+							data = m_rs.getBigDecimal(colIndex);
 						else if (c == Double.class)
-							data = new Double(rs.getDouble(colIndex));
+							data = new Double(m_rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(rs.getInt(colIndex));
+							data = new Integer(m_rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)
 						{
-							String display = rs.getString(colIndex);
-							int key = rs.getInt(colIndex+1);
+							String display = m_rs.getString(colIndex);
+							int key = m_rs.getInt(colIndex+1);
 							data = new KeyNamePair(key, display);
 							colOffset++;
 						}
 						else
-							data = rs.getString(colIndex);
+							data = m_rs.getString(colIndex);
 						//  store
 						p_table.setValueAt(data, row, col);
 					//	log.fine( "r=" + row + ", c=" + col + " " + m_layout[col].getColHeader(),
 					//  	"data=" + data.toString() + " " + data.getClass().getName() + " * " + m_table.getCellRenderer(row, col));
 					}
 				}
-				if (isInterrupted())
-					log.finer("Interrupted");
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, dataSql, e);
 			}
+			close();
+			//
 			int no = p_table.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis()-start) + "ms");
 			p_table.autoSize();
@@ -1027,6 +1033,23 @@ public abstract class Info extends CDialog
 				p_table.requestFocus();
 			}
 		}   //  run
+		
+		/**
+		 *	Close ResultSet and Statement
+		 */
+		private void close() {
+			try {
+				if (m_rs != null)
+					m_rs.close();
+				if (m_pstmt != null)
+					m_pstmt.close();
+			}
+			catch (SQLException e) {
+				log.log(Level.SEVERE, "closeRS", e);
+			}
+			m_rs = null;
+			m_pstmt = null;
+		}
 	}   //  Worker
 
 }	//	Info
