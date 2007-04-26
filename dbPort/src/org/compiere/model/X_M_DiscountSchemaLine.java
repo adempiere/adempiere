@@ -285,6 +285,8 @@ public static final int LIMIT_ROUNDING_AD_Reference_ID=155;
 public static final String LIMIT_ROUNDING_WholeNumber00 = "0";
 /** Nickel .05, .10, .15, ... = 5 */
 public static final String LIMIT_ROUNDING_Nickel051015 = "5";
+/** Ending in 9/5 = 9 */
+public static final String LIMIT_ROUNDING_EndingIn95 = "9";
 /** Currency Precision = C */
 public static final String LIMIT_ROUNDING_CurrencyPrecision = "C";
 /** Dime .10, .20, .30, ... = D */
@@ -300,8 +302,8 @@ public static final String LIMIT_ROUNDING_Ten10002000 = "T";
 public void setLimit_Rounding (String Limit_Rounding)
 {
 if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");
-if (Limit_Rounding.equals("0") || Limit_Rounding.equals("5") || Limit_Rounding.equals("C") || Limit_Rounding.equals("D") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("T"));
- else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - 5 - C - D - N - Q - T");
+if (Limit_Rounding.equals("0") || Limit_Rounding.equals("5") || Limit_Rounding.equals("9") || Limit_Rounding.equals("C") || Limit_Rounding.equals("D") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("T"));
+ else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");
 if (Limit_Rounding.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -441,6 +443,8 @@ public static final int LIST_ROUNDING_AD_Reference_ID=155;
 public static final String LIST_ROUNDING_WholeNumber00 = "0";
 /** Nickel .05, .10, .15, ... = 5 */
 public static final String LIST_ROUNDING_Nickel051015 = "5";
+/** Ending in 9/5 = 9 */
+public static final String LIST_ROUNDING_EndingIn95 = "9";
 /** Currency Precision = C */
 public static final String LIST_ROUNDING_CurrencyPrecision = "C";
 /** Dime .10, .20, .30, ... = D */
@@ -456,8 +460,8 @@ public static final String LIST_ROUNDING_Ten10002000 = "T";
 public void setList_Rounding (String List_Rounding)
 {
 if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");
-if (List_Rounding.equals("0") || List_Rounding.equals("5") || List_Rounding.equals("C") || List_Rounding.equals("D") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("T"));
- else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - 5 - C - D - N - Q - T");
+if (List_Rounding.equals("0") || List_Rounding.equals("5") || List_Rounding.equals("9") || List_Rounding.equals("C") || List_Rounding.equals("D") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("T"));
+ else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");
 if (List_Rounding.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -691,6 +695,8 @@ public static final int STD_ROUNDING_AD_Reference_ID=155;
 public static final String STD_ROUNDING_WholeNumber00 = "0";
 /** Nickel .05, .10, .15, ... = 5 */
 public static final String STD_ROUNDING_Nickel051015 = "5";
+/** Ending in 9/5 = 9 */
+public static final String STD_ROUNDING_EndingIn95 = "9";
 /** Currency Precision = C */
 public static final String STD_ROUNDING_CurrencyPrecision = "C";
 /** Dime .10, .20, .30, ... = D */
@@ -706,8 +712,8 @@ public static final String STD_ROUNDING_Ten10002000 = "T";
 public void setStd_Rounding (String Std_Rounding)
 {
 if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");
-if (Std_Rounding.equals("0") || Std_Rounding.equals("5") || Std_Rounding.equals("C") || Std_Rounding.equals("D") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("T"));
- else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - 5 - C - D - N - Q - T");
+if (Std_Rounding.equals("0") || Std_Rounding.equals("5") || Std_Rounding.equals("9") || Std_Rounding.equals("C") || Std_Rounding.equals("D") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("T"));
+ else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");
 if (Std_Rounding.length() > 1)
 {
 log.warning("Length > 1 - truncated");
