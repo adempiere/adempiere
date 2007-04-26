@@ -50,13 +50,11 @@ import org.compiere.model.X_AD_Ref_List;
 import org.compiere.model.X_AD_ReportView;
 import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.model.X_AD_Role;
-import org.compiere.model.X_AD_Window_Access;
-import org.compiere.model.X_AD_Process_Access;
-import org.compiere.model.X_AD_Form_Access;
-import org.compiere.model.X_AD_Workflow_Access;
-import org.compiere.model.X_AD_Task_Access;
-import org.compiere.model.X_AD_Role_OrgAccess;
-import org.compiere.model.X_AD_User_Roles;
+import org.compiere.model.X_AD_Workflow;
+import org.compiere.model.X_AD_Val_Rule;
+import org.compiere.model.X_AD_WF_Node;
+import org.compiere.model.X_AD_WF_NodeNext;
+import org.compiere.model.X_AD_WF_NextCondition;
 import org.compiere.util.DB;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -69,6 +67,7 @@ import org.compiere.process.*;
  *  @author Robert Klein
  *  @version $Id: PackOut.java,v 1.0
  *  
+ * Contributor: William G. Heath - Export of workflows and dynamic validations
  */
 
 public class PackOut extends SvrProcess
@@ -78,6 +77,11 @@ public class PackOut extends SvrProcess
 	private X_AD_Window m_Window = null;    
     private X_AD_Process_Para m_Processpara = null;
     private X_AD_Table m_Table = null;
+    private X_AD_Workflow m_Workflow = null;
+    private X_AD_WF_Node m_WF_Node = null;
+    private X_AD_WF_NodeNext m_WF_NodeNext = null;
+    private X_AD_WF_NextCondition m_WF_NodeNextCondition = null;
+    private X_AD_Val_Rule m_ValRule = null;
     private X_AD_Column m_Column = null;
     private X_AD_Tab m_Tab = null;
     private X_AD_PrintFormat m_Printformat = null;
@@ -96,21 +100,12 @@ public class PackOut extends SvrProcess
     private X_AD_Preference m_Preference= null;
     private X_AD_ImpFormat m_ImpFormat= null;
     private X_AD_ImpFormat_Row m_ImpFormat_Row= null;
-    private X_AD_Window_Access m_Window_Access = null;
-    private X_AD_Process_Access m_Process_Access = null;
-    private X_AD_Form_Access m_Form_Access = null;
-    private X_AD_Workflow_Access m_Workflow_Access = null;
-    private X_AD_Task_Access m_Task_Access = null;
-    private X_AD_Role_OrgAccess m_Role_OrgAccess = null;
-    private X_AD_User_Roles m_User_Role = null;
     private String PackOutVer = "005";
     private String packagedir = null;
     private String packagename = null;
     private String includesdir = null;
     private int Table_ID[] = new int [1000];
     private int Table_Count = 0;
-    private int PK_AD_Client_ID = 0;
-    private int PK_AD_Org_ID = 0;
     String fileSeperator=null;
     /**
 	 *  Prepare - e.g., get Parameters.
@@ -247,7 +242,7 @@ public class PackOut extends SvrProcess
 				atts.addAttribute("","","PackOutVer","CDATA",PackOutVer);		
 				
 				hd_menu.startElement("","","adempiereAD",atts);		
-				atts.clear();			
+				atts.clear();
 				String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" ORDER BY Line ASC";
 				
 				PreparedStatement pstmt = null;		
@@ -294,11 +289,14 @@ public class PackOut extends SvrProcess
 							CreateSnipit (rs.getString("Destination_Directory"),rs.getString("Destination_FileName"),rs.getString("AD_Package_Code_Old"),
 									rs.getString("AD_Package_Code_New"),  rs.getString("ReleaseNo"), atts, hd_menu);
 						else if (Type.compareTo("F") == 0)
-							//TODO Create Workflow
 							CreateWorkflow (rs.getInt("AD_Workflow_ID"), atts, hd_menu);
+						else if (Type.compareTo("V") == 0)
+							CreateDynamicRuleValidation(rs.getInt("AD_Val_Rule_ID"), atts, hd_menu);
 						else if (Type.compareTo("C") == 0){
+							log.log(Level.SEVERE,"In PackOut.java handling Code or Other 2pack module creation");
 							
 							String fullDirectory = rs1.getString("File_Directory") + rs1.getString("Name")+rs.getString("Target_Directory");
+							log.log(Level.SEVERE,"fullDirectory" + fullDirectory);
 							String targetDirectoryModified=null;
 							char fileseperator1 = '/';
 							char fileseperator2 = '\\';
@@ -594,10 +592,149 @@ public class PackOut extends SvrProcess
 		CopyFile (sourceName, copyName );
 	}
 	
+	public void CreateDynamicRuleValidation (int AD_Val_Rule_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
+	{
+		log.info("");
+			
+		String sql = "SELECT Name FROM AD_Val_Rule WHERE  AD_Val_Rule_ID= " + AD_Val_Rule_ID;
+
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement (sql, get_TrxName());		
+
+		try {
+
+			ResultSet rs = pstmt.executeQuery();		
+
+			while (rs.next())
+			{
+				m_ValRule = new X_AD_Val_Rule (getCtx(), AD_Val_Rule_ID, null);										
+				atts = createdynamicvalidationruleBinding(atts,m_ValRule);	
+				hd_menu.startElement("","","dynvalrule",atts);
+				hd_menu.endElement("","","dynvalrule");
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+
+		catch (Exception e){
+			log.log(Level.SEVERE,"getProcess", e);
+		}
+		finally{
+			try	{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e){}
+			pstmt = null;
+		}
+	}
+
 	public void CreateWorkflow (int AD_Workflow_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
 	{
-		//TODO Create workflow
+		log.info("");
+
+		String sql = "SELECT Name FROM AD_Workflow WHERE  AD_Workflow_ID= " + AD_Workflow_ID;
+		int ad_wf_nodenext_id = 0;
+		int ad_wf_nodenextcondition_id = 0;
+
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement (sql, get_TrxName());		
+
+		try {
+
+			ResultSet rs = pstmt.executeQuery();		
+
+			while (rs.next())
+			{
+				m_Workflow = new X_AD_Workflow (getCtx(), AD_Workflow_ID, null);										
+				atts = createworkflowBinding(atts,m_Workflow);	
+				hd_menu.startElement("","","workflow",atts);
+				String sql1 = "SELECT * FROM AD_WF_Node WHERE AD_Workflow_ID = " + AD_Workflow_ID;				
+
+				PreparedStatement pstmt1 = null;
+				pstmt1 = DB.prepareStatement (sql1, get_TrxName());		
+
+				try {
+
+					ResultSet rs1 = pstmt1.executeQuery();		
+
+					while (rs1.next()){
+
+						if (rs1.getInt("AD_WF_Node_ID")>0)
+							m_WF_Node = new X_AD_WF_Node(getCtx(), rs1.getInt("AD_WF_Node_ID"), null);
+
+						atts = createwf_nodeBinding(atts,m_WF_Node);
+						hd_menu.startElement("","","workflowNode",atts);
+						hd_menu.endElement("","","workflowNode");
+					}
+					// Generated workflowNodeNext(s) and  workflowNodeNextCondition(s)
+					ResultSet rs2 = pstmt1.executeQuery();		
+					while (rs2.next()){
+						if (rs2.getInt("AD_WF_Node_ID")>0)
+
+							m_WF_Node = new X_AD_WF_Node(getCtx(), rs2.getInt("AD_WF_Node_ID"), null);
+						ad_wf_nodenext_id = 0;
+
+						sql = "SELECT ad_wf_nodenext_id from ad_wf_nodenext WHERE ad_wf_node_id = ?";
+						ad_wf_nodenext_id = DB.getSQLValue(null,sql,m_WF_Node.getAD_WF_Node_ID());       
+						if (ad_wf_nodenext_id > 0){
+							m_WF_NodeNext = new X_AD_WF_NodeNext(getCtx(), ad_wf_nodenext_id, null);
+							atts = createwf_nodenextBinding(atts,m_WF_NodeNext);
+							hd_menu.startElement("","","workflowNodeNext",atts);
+							hd_menu.endElement("","","workflowNodeNext");
+							ad_wf_nodenextcondition_id = 0;
+
+							sql = "SELECT ad_wf_nextcondition_id from ad_wf_nextcondition WHERE ad_wf_nodenext_id = ?";
+							ad_wf_nodenextcondition_id = DB.getSQLValue(null,sql,m_WF_Node.getAD_WF_Node_ID());       
+							log.info("ad_wf_nodenextcondition_id: " + String.valueOf(ad_wf_nodenextcondition_id));
+							if (ad_wf_nodenextcondition_id > 0){
+								m_WF_NodeNextCondition = new X_AD_WF_NextCondition(getCtx(), ad_wf_nodenextcondition_id, null);
+								atts = createwf_nodenextconditionBinding(atts,m_WF_NodeNextCondition);
+								hd_menu.startElement("","","workflowNodeNextCondition",atts);
+								hd_menu.endElement("","","workflowNodeNextCondition");
+							}  
+						}
+					}
+
+					rs2.close();
+					rs1.close();
+					pstmt1.close();
+					pstmt1 = null;
+				}
+				catch (Exception e)	{
+					log.log(Level.SEVERE,"getProcess", e);
+				}
+				finally	{
+					try	{
+						if (pstmt1 != null)
+							pstmt1.close ();
+					}
+					catch (Exception e){}
+					pstmt1 = null;
+				}	
+				hd_menu.endElement("","","workflow");
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+
+		catch (Exception e){
+			log.log(Level.SEVERE,"getProcess", e);
+		}
+		finally{
+			try	{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e){}
+			pstmt = null;
+		}
+
 	}
+
+
 	
 	public void CreateWorkbench (int AD_Workbench_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
 	{
@@ -1968,7 +2105,81 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","isRange","CDATA",(m_Processpara.isRange()== true ? "true":"false"));
 		return atts;
 	}
+
+	public static AttributesImpl createdynamicvalidationruleBinding( AttributesImpl atts, X_AD_Val_Rule m_ValRule) 
+	{
+		atts.clear();
+		atts.addAttribute("","","Name","CDATA",(m_ValRule.getName () != null ? m_ValRule.getName ():""));        
+		//FIXME:  may not need this I guess
+		//atts.addAttribute("","","AccessLevel","CDATA",(m_ValRule.getAccessLevel () != null ? m_ValRule.getAccessLevel ():""));
+		atts.addAttribute("","","Code","CDATA",(m_ValRule.getCode() != null ? m_ValRule.getCode ():""));
+		atts.addAttribute("","","Description","CDATA",(m_ValRule.getDescription () != null ? m_ValRule.getDescription ():""));
+		atts.addAttribute("","","EntityType","CDATA",(m_ValRule.getEntityType () != null ? m_ValRule.getEntityType ():""));
+		atts.addAttribute("","","Type","CDATA",(m_ValRule.getType () != null ? m_ValRule.getType ():""));
+		atts.addAttribute("","","isActive","CDATA",(m_ValRule.isActive()== true ? "true":"false"));
+		return atts;
+	}
 	
+	public static AttributesImpl createworkflowBinding( AttributesImpl atts, X_AD_Workflow m_Workflow) 
+	{
+		String sql = null;
+		String name = null;        
+		atts.clear();
+		atts.addAttribute("","","Name","CDATA",(m_Workflow.getName () != null ? m_Workflow.getName ():""));        
+		if (m_Workflow.getAD_Table_ID()> 0 ){
+			sql = "SELECT Name FROM AD_Table WHERE AD_Table_ID=?";
+			name = DB.getSQLValueString(null,sql,m_Workflow.getAD_Table_ID());        
+			atts.addAttribute("","","ADTableNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADTableNameID","CDATA","");
+
+		if (m_Workflow.getAD_WF_Node_ID()> 0 ){
+			sql = "SELECT Name FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
+			name = DB.getSQLValueString(null,sql,m_Workflow.getAD_WF_Node_ID());        
+			atts.addAttribute("","","ADWorkflowNodeNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowNodeNameID","CDATA","");
+		if (m_Workflow.getAD_WF_Responsible_ID()> 0 ){
+			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
+			name = DB.getSQLValueString(null,sql,m_Workflow.getAD_WF_Responsible_ID());       
+			atts.addAttribute("","","ADWorkflowResponsibleNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowResponsibleNameID","CDATA","");
+		if (m_Workflow.getAD_WorkflowProcessor_ID()> 0 ){
+			sql = "SELECT Name FROM  AD_WorkflowProcessor_ID WHERE AD_WorkflowProcessor_ID=?";
+			name = DB.getSQLValueString(null,sql,m_Workflow.getAD_WorkflowProcessor_ID());        
+			atts.addAttribute("","","ADWorkflowProcessorNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowProcessorNameID","CDATA","");	
+		atts.addAttribute("","","AccessLevel","CDATA",(m_Workflow.getAccessLevel () != null ? m_Workflow.getAccessLevel ():""));
+		atts.addAttribute("","","DurationUnit","CDATA",(m_Workflow.getDurationUnit() != null ? m_Workflow.getDurationUnit ():""));
+		atts.addAttribute("","","Help","CDATA",(m_Workflow.getHelp() != null ? m_Workflow.getHelp():""));
+		atts.addAttribute("","","Description","CDATA",(m_Workflow.getDescription () != null ? m_Workflow.getDescription ():""));
+		atts.addAttribute("","","EntityType","CDATA",(m_Workflow.getEntityType () != null ? m_Workflow.getEntityType ():""));
+		atts.addAttribute("","","Author","CDATA",(m_Workflow.getAuthor () != null ? m_Workflow.getAuthor ():""));
+		atts.addAttribute("","","Version","CDATA",(""+m_Workflow.getVersion() != null ? ""+m_Workflow.getVersion ():""));
+		//FIXME:  Handle dates
+        	//atts.addAttribute("","","ValidFrom","CDATA",(m_Workflow.getValidFrom ().toGMTString() != null ? m_Workflow.getValidFrom().toGMTString():""));
+        	//atts.addAttribute("","","ValidTo","CDATA",(m_Workflow.getValidTo ().toGMTString() != null ? m_Workflow.getValidTo().toGMTString():""));
+		atts.addAttribute("","","Priority","CDATA",(""+m_Workflow.getPriority ()));
+		atts.addAttribute("","","Limit","CDATA",(""+m_Workflow.getLimit()));
+		atts.addAttribute("","","Duration","CDATA",(""+m_Workflow.getDuration()));
+		atts.addAttribute("","","Cost","CDATA",(""+m_Workflow.getCost () ));
+		atts.addAttribute("","","WorkingTime","CDATA",(""+m_Workflow.getWorkingTime() ));
+		atts.addAttribute("","","WaitingTime","CDATA",(""+m_Workflow.getWaitingTime() ));
+		atts.addAttribute("","","PublishStatus","CDATA",(m_Workflow.getPublishStatus() != null ? m_Workflow.getPublishStatus():""));
+		atts.addAttribute("","","WorkflowType","CDATA",(m_Workflow.getWorkflowType () != null ? m_Workflow.getWorkflowType ():""));
+		atts.addAttribute("","","DocValueLogic","CDATA",(m_Workflow.getDocValueLogic() != null ? m_Workflow.getDocValueLogic():""));
+		atts.addAttribute("","","isValid","CDATA",(m_Workflow.isValid()== true ? "true":"false"));
+		//Doesn't appear to be necessary
+		//atts.addAttribute("","","SetupTime","CDATA",(""+m_Workflow.getSetupTime() != null ? ""+m_Workflow.getSetupTime():""));
+		return atts;
+	}
+
 	public static AttributesImpl createtableBinding( AttributesImpl atts, X_AD_Table m_Table) 
 	{
 		String sql = null;
@@ -2017,6 +2228,207 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","LoadSeq","CDATA",(m_Table.getLoadSeq ()> 0 ? "" + m_Table.getLoadSeq ():""));        
 		atts.addAttribute("","","ReplicationType","CDATA",(m_Table.getReplicationType () != null ? m_Table.getReplicationType ():""));
 		atts.addAttribute("","","TableName","CDATA",(m_Table.getTableName () != null ? m_Table.getTableName ():""));
+		return atts;
+	}
+
+	public static AttributesImpl createwf_nodeBinding( AttributesImpl atts, X_AD_WF_Node m_WF_Node) 
+	{    
+		String sql = null;
+		String name = null;
+		atts.clear();
+
+		atts.addAttribute("","","Name","CDATA",(m_WF_Node.getName () != null ? m_WF_Node.getName():""));
+
+		if (m_WF_Node.getAD_Workflow_ID()> 0 ){
+			sql = "SELECT Name FROM AD_Workflow WHERE AD_Workflow_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Workflow_ID());       
+			atts.addAttribute("","","ADWorkflowNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowNameID","CDATA","");
+
+		if (m_WF_Node.getAD_Window_ID()> 0 ){
+			sql = "SELECT Name FROM AD_Window WHERE AD_Window_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Window_ID());
+		}
+		if (name != null )
+			atts.addAttribute("","","ADWindowNameID","CDATA",name);            
+		else
+			atts.addAttribute("","","ADWindowNameID","CDATA","");     
+
+        	if (m_WF_Node.getAD_Task_ID()> 0 ){
+            		sql = "SELECT Name FROM AD_Task WHERE AD_Task_ID=?";
+            		name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Task_ID());
+        	}
+        	if (name != null )
+            		atts.addAttribute("","","ADTaskNameID","CDATA",name);
+        	else
+        		atts.addAttribute("","","ADTaskNameID","CDATA","");	
+
+		if (m_WF_Node.getAD_Process_ID()> 0 ){        
+			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Process_ID());        
+			atts.addAttribute("","","ADProcessNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADProcessNameID","CDATA","");            
+		if (m_WF_Node.getAD_Form_ID()> 0 ){
+			sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Form_ID());                
+			atts.addAttribute("","","ADFormNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADFormNameID","CDATA","");        
+		if (m_WF_Node.getAD_WF_Block_ID()> 0 ){
+			sql = "SELECT Name FROM AD_WF_Block WHERE AD_WF_Block_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_WF_Block_ID());                
+			atts.addAttribute("","","ADWorkflowBlockNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowBlockNameID","CDATA","");        
+		if (m_WF_Node.getAD_WF_Responsible_ID()> 0 ){
+			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_WF_Responsible_ID());       
+			atts.addAttribute("","","ADWorkflowResponsibleNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADWorkflowResponsibleNameID","CDATA","");
+
+		if (m_WF_Node.getAD_Image_ID()> 0 ){
+			sql = "SELECT Name FROM AD_Image WHERE AD_Image_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Image_ID());
+		}        
+		if (name != null )
+			atts.addAttribute("","","ADImageNameID","CDATA",name);
+		else
+			atts.addAttribute("","","ADImageNameID","CDATA","");	
+		if (m_WF_Node.getAD_Column_ID()> 0 ){
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_Node.getAD_Column_ID());
+			atts.addAttribute("","","ADColumnNameID","CDATA",name);
+		}
+		else
+			atts.addAttribute("","","ADColumnNameID","CDATA","");	
+		atts.addAttribute("","","isActive","CDATA",(m_WF_Node.isActive()== true ? "true":"false"));
+		atts.addAttribute("","","Description","CDATA",(m_WF_Node.getDescription () != null ? m_WF_Node.getDescription ():""));
+		atts.addAttribute("","","Help","CDATA",(m_WF_Node.getHelp () != null ? m_WF_Node.getHelp ():""));
+		atts.addAttribute("","","isCentrallyMaintained","CDATA",(m_WF_Node.isCentrallyMaintained ()== true ? "true":"false"));
+
+		atts.addAttribute("","","Action","CDATA",(m_WF_Node.getAction () != null ? m_WF_Node.getAction ():""));
+		atts.addAttribute("","","EntityType","CDATA",(m_WF_Node.getEntityType () != null ? m_WF_Node.getEntityType ():""));
+		atts.addAttribute("","","XPosition","CDATA",(""+m_WF_Node.getXPosition ()));
+		atts.addAttribute("","","YPosition","CDATA",(""+m_WF_Node.getYPosition ()));
+		atts.addAttribute("","","SubflowExecution","CDATA",(m_WF_Node.getSubflowExecution () != null ? m_WF_Node.getSubflowExecution ():""));
+		atts.addAttribute("","","StartMode","CDATA",(m_WF_Node.getStartMode () != null ? m_WF_Node.getStartMode ():""));
+		atts.addAttribute("","","Priority","CDATA",(""+m_WF_Node.getPriority ()));
+		atts.addAttribute("","","Duration","CDATA",(""+m_WF_Node.getDuration () ));
+		atts.addAttribute("","","Cost","CDATA",(""+m_WF_Node.getCost () ));
+		atts.addAttribute("","","WorkingTime","CDATA",(""+m_WF_Node.getWorkingTime() ));
+		atts.addAttribute("","","WaitingTime","CDATA",(""+m_WF_Node.getWaitingTime() ));
+		atts.addAttribute("","","JoinElement","CDATA",(m_WF_Node.getJoinElement() != null ? m_WF_Node.getJoinElement():""));
+		atts.addAttribute("","","SplitElement","CDATA",(m_WF_Node.getSplitElement() != null ? m_WF_Node.getSplitElement():""));
+		atts.addAttribute("","","WaitTime","CDATA",(""+m_WF_Node.getWaitTime() ));
+		atts.addAttribute("","","AttributeName","CDATA",(m_WF_Node.getAttributeName() != null ? m_WF_Node.getAttributeName():""));
+		atts.addAttribute("","","AttributeValue","CDATA",(m_WF_Node.getAttributeValue() != null ? m_WF_Node.getAttributeValue():""));
+		atts.addAttribute("","","DocAction","CDATA",(m_WF_Node.getDocAction() != null ? m_WF_Node.getDocAction():""));
+		atts.addAttribute("","","DynPriorityUnit","CDATA",(m_WF_Node.getDynPriorityUnit() != null ? m_WF_Node.getDynPriorityUnit():""));
+		atts.addAttribute("","","DynPriorityChange","CDATA",(""+m_WF_Node.getDynPriorityChange() ));
+
+		return atts;
+	}
+
+	public static AttributesImpl createwf_nodenextBinding( AttributesImpl atts, X_AD_WF_NodeNext m_WF_NodeNext) 
+	//public AttributesImpl createwf_nodenextBinding( AttributesImpl atts, X_AD_WF_NodeNext m_WF_NodeNext, X_AD_WF_Node m_WF_Node) 
+	{    
+		String sql = null;
+		String name = null;
+		atts.clear();
+		//log.log(Level.INFO,"m_WF_NodeNext.getAD_WF_Node_ID: ", m_WF_NodeNext.getAD_WF_Node_ID());
+		//log.log(Level.INFO,"m_WF_NodeNext.getAD_WF_Next_ID: ", m_WF_NodeNext.getAD_WF_Next_ID());
+
+		if (m_WF_NodeNext.getAD_WF_Node_ID() > 0 ){
+			sql = "SELECT AD_Workflow.Name FROM AD_Workflow, AD_WF_Node WHERE  AD_Workflow.AD_Workflow_ID = AD_WF_Node.AD_Workflow_ID and AD_WF_Node.AD_WF_Node_ID =?";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNext.getAD_WF_Node_ID());       
+			atts.addAttribute("","","ADWorkflowNameID","CDATA",name);
+			sql = "SELECT Name FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNext.getAD_WF_Node_ID());       
+			atts.addAttribute("","","ADWorkflowNodeNameID","CDATA",name);
+		}
+
+		if (m_WF_NodeNext.getAD_WF_Next_ID() > 0 ){
+			sql = "SELECT Name FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNext.getAD_WF_Next_ID());       
+			//log.log(Level.INFO,"node next name: ", name);
+			atts.addAttribute("","","ADWorkflowNodeNextNameID","CDATA",name);
+		}
+
+                // FIXME: don't know if I need org_id or not
+		//sql = "SELECT Name FROM AD_Org WHERE AD_Org_ID=?";
+		//name = DB.getSQLValueString(null,sql,org_id);
+		//atts.addAttribute("","","orgname","CDATA",name);
+
+		atts.addAttribute("","","isActive","CDATA",(m_WF_NodeNext.isActive()== true ? "true":"false"));
+		atts.addAttribute("","","EntityType","CDATA",(m_WF_NodeNext.getEntityType () != null ? m_WF_NodeNext.getEntityType ():""));
+		atts.addAttribute("","","Description","CDATA",(m_WF_NodeNext.getDescription () != null ? m_WF_NodeNext.getDescription ():""));
+		atts.addAttribute("","","SeqNo","CDATA",(String.valueOf(m_WF_NodeNext.getSeqNo ()) != null ? String.valueOf(m_WF_NodeNext.getSeqNo ()):""));
+		atts.addAttribute("","","IsStdUserWorkflow","CDATA",(String.valueOf(m_WF_NodeNext.isStdUserWorkflow ()) != null ? String.valueOf(m_WF_NodeNext.isStdUserWorkflow ()):""));
+
+		return atts;
+	}
+
+	public static AttributesImpl createwf_nodenextconditionBinding( AttributesImpl atts, X_AD_WF_NextCondition m_WF_NodeNextCondition) 
+	{    
+		String sql = null;
+		String name = null;
+		atts.clear();
+
+		if (m_WF_NodeNextCondition.getAD_WF_NodeNext_ID() > 0 ){
+			//FIXME:  it appears nodes point back to themselves
+			// so a group by is necessary
+			sql = "SELECT AD_Workflow.Name FROM AD_Workflow, AD_WF_Node, AD_WF_NodeNext WHERE  AD_Workflow.AD_Workflow_ID = AD_WF_Node.AD_Workflow_ID and AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Node_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID = ? group by AD_Workflow.Name";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNextCondition.getAD_WF_NodeNext_ID());       
+			atts.addAttribute("","","ADWorkflowNameID","CDATA",name);
+			//FIXME:  it appears nodes point back to themselves
+			// so a group by is necessary
+			sql = "SELECT AD_WF_Node.Name FROM AD_WF_Node, AD_WF_NodeNext WHERE AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Node_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID =  ? group by AD_WF_Node.Name";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNextCondition.getAD_WF_NodeNext_ID());       
+			atts.addAttribute("","","ADWorkflowNodeNameID","CDATA",name);
+			//FIXME:  it appears nodes point back to themselves
+			// so a group by is necessary
+			sql = "SELECT AD_WF_Node.Name FROM AD_WF_Node, AD_WF_NodeNext, AD_WF_NextCondition WHERE AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Next_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID =  ? group by AD_WF_Node.Name";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNextCondition.getAD_WF_NodeNext_ID());       
+			//log.log(Level.INFO,"node next name: ", name);
+			atts.addAttribute("","","ADWorkflowNodeNextNameID","CDATA",name);
+		}
+
+		if (m_WF_NodeNextCondition.getAD_Column_ID()> 0 ){
+
+			sql = "SELECT AD_Table.TableName FROM AD_Table, AD_Column, AD_WF_NextCondition  WHERE AD_Column.AD_Table_ID=AD_Table.AD_Table_ID and AD_Column.AD_Column_ID = ?";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNextCondition.getAD_Column_ID());       
+			atts.addAttribute("","","ADTableNameID","CDATA",name);
+
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
+			name = DB.getSQLValueString(null,sql,m_WF_NodeNextCondition.getAD_Column_ID());
+			atts.addAttribute("","","ADColumnNameID","CDATA",name);
+		}
+else {
+			atts.addAttribute("","","ADTableNameID","CDATA",name);
+			atts.addAttribute("","","ADColumnNameID","CDATA","");
+  		}
+
+                // FIXME: don't know if I need org_id or not
+		//sql = "SELECT Name FROM AD_Org WHERE AD_Org_ID=?";
+		//name = DB.getSQLValueString(null,sql,org_id);
+		//atts.addAttribute("","","orgname","CDATA",name);
+
+		atts.addAttribute("","","isActive","CDATA",(m_WF_NodeNextCondition.isActive()== true ? "true":"false"));
+		atts.addAttribute("","","EntityType","CDATA",(m_WF_NodeNextCondition.getEntityType () != null ? m_WF_NodeNextCondition.getEntityType ():""));
+		atts.addAttribute("","","AndOr","CDATA",(m_WF_NodeNextCondition.getAndOr () != null ? m_WF_NodeNextCondition.getAndOr ():""));
+		atts.addAttribute("","","Operation","CDATA",(m_WF_NodeNextCondition.getOperation () != null ? m_WF_NodeNextCondition.getOperation ():""));
+		atts.addAttribute("","","Value","CDATA",(m_WF_NodeNextCondition.getValue () != null ? m_WF_NodeNextCondition.getValue ():""));
+		atts.addAttribute("","","Value2","CDATA",(m_WF_NodeNextCondition.getValue2 () != null ? m_WF_NodeNextCondition.getValue2 ():""));
+		atts.addAttribute("","","SeqNo","CDATA",(String.valueOf(m_WF_NodeNextCondition.getSeqNo ()) != null ? String.valueOf(m_WF_NodeNextCondition.getSeqNo ()):""));
+
 		return atts;
 	}
 	

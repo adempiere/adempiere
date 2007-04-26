@@ -296,6 +296,24 @@ return ii.intValue();
 }
 /** Column name AD_Table_ID */
 public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+/** Set Dynamic Validation.
+@param AD_Val_Rule_ID Dynamic Validation Rule */
+public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
+{
+if (AD_Val_Rule_ID <= 0) set_Value ("AD_Val_Rule_ID", null);
+ else 
+set_Value ("AD_Val_Rule_ID", Integer.valueOf(AD_Val_Rule_ID));
+}
+/** Get Dynamic Validation.
+@return Dynamic Validation Rule */
+public int getAD_Val_Rule_ID() 
+{
+Integer ii = (Integer)get_Value("AD_Val_Rule_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name AD_Val_Rule_ID */
+public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
 /** Set Window.
 @param AD_Window_ID Data entry or display window */
 public void setAD_Window_ID (int AD_Window_ID)
@@ -666,6 +684,8 @@ public static final String TYPE_CodeSnipit = "SNI";
 public static final String TYPE_SQLStatement = "SQL";
 /** Table = T */
 public static final String TYPE_Table = "T";
+/** Dynamic Validation Rule = V */
+public static final String TYPE_DynamicValidationRule = "V";
 /** Window = W */
 public static final String TYPE_Window = "W";
 /** Form = X */
@@ -675,8 +695,8 @@ public static final String TYPE_Form = "X";
 public void setType (String Type)
 {
 if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X");
+if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - V - W - X");
 if (Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");
