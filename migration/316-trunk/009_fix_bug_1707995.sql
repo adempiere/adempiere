@@ -10,3 +10,11 @@ UPDATE AD_COLUMN set ad_val_rule_id = 271 where ad_column_id = 2204;
 
 
 COMMIT;
+
+UPDATE AD_SEQUENCE
+   SET currentnextsys = (SELECT MAX (ad_val_rule_id) + 1
+                           FROM AD_VAL_RULE
+                          WHERE ad_val_rule_id < 1000000)
+ WHERE NAME = 'AD_Val_Rule';
+
+COMMIT;

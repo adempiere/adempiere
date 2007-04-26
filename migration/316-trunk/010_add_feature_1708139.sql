@@ -8,3 +8,11 @@ INSERT INTO AD_REF_LIST
 		9, 'Ending in 9/5', 'The price ends in either a 5 or 9 whole unit',155,NULL,NULL,'D');
 
 COMMIT;
+
+UPDATE AD_SEQUENCE
+   SET currentnextsys = (SELECT MAX (ad_ref_list_id) + 1
+                           FROM AD_REF_LIST
+                          WHERE ad_ref_list_id < 1000000)
+ WHERE NAME = 'AD_Ref_List';
+
+COMMIT;
