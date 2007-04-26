@@ -1039,7 +1039,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					}
 					else if ( rest.toUpperCase().indexOf("NULL") >= 0) {
 						DDL += sqlStatement.substring(0, begin_col - action.length())
-						+ " ALTER COLUMN " + column + " SET " + rest.trim()
+						+ " ALTER COLUMN " + column + " DROP NOT NULL" 
 						+ ";";
 					}
 
