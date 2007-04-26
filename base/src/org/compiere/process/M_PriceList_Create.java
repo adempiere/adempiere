@@ -605,11 +605,15 @@ public class M_PriceList_Create extends SvrProcess {
 				sqlupd = "UPDATE	M_ProductPrice p "
 						+ " SET	PriceList = DECODE('"
 						+ dl.getString("List_Rounding") + "',"
-						+ " 'N', PriceList, " + " '0', ROUND(PriceList, 0)," //Even .00
+						+ " 'N', PriceList, " 
+						+ " '0', ROUND(PriceList, 0)," //Even .00
 						+ " 'D', ROUND(PriceList, 1)," //Dime .10
 						+ " 'T', ROUND(PriceList, -1), " //Ten 10.00
 						+ " '5', ROUND(PriceList*20,0)/20," //Nickle .05
 						+ " 'Q', ROUND(PriceList*4,0)/4," //Quarter .25
+						+ " '9', CASE"  //Whole 9 or 5
+							+ " WHEN MOD(ROUND(PriceList),10)<=5 THEN ROUND(PriceList)+(5-MOD(ROUND(PriceList),10))"
+							+ " WHEN MOD(ROUND(PriceList),10)>5 THEN ROUND(PriceList)+(9-MOD(ROUND(PriceList),10)) END,"
 						+ " ROUND(PriceList, " + v.getInt("StdPrecision")
 						+ "))," //Currency
 						+ " PriceStd = DECODE('" + dl.getString("Std_Rounding")
@@ -619,6 +623,9 @@ public class M_PriceList_Create extends SvrProcess {
 						+ "'T', ROUND(PriceStd, -1)," //Ten 10.00
 						+ "'5', ROUND(PriceStd*20,0)/20," //Nickle .05
 						+ "'Q', ROUND(PriceStd*4,0)/4," //Quarter .25	
+						+ " '9', CASE"  //Whole 9 or 5
+							+ " WHEN MOD(ROUND(PriceStd),10)<=5 THEN ROUND(PriceStd)+(5-MOD(ROUND(PriceStd),10))"
+							+ " WHEN MOD(ROUND(PriceStd),10)>5 THEN ROUND(PriceStd)+(9-MOD(ROUND(PriceStd),10)) END,"
 						+ "ROUND(PriceStd, " + v.getInt("StdPrecision") + "))," //Currency
 						+ "PriceLimit = DECODE('"
 						+ dl.getString("Limit_Rounding") + "', "
@@ -627,7 +634,10 @@ public class M_PriceList_Create extends SvrProcess {
 						+ "		'D', ROUND(PriceLimit, 1),	" //	Dime .10
 						+ "		'T', ROUND(PriceLimit, -1),	" //	Ten 10.00
 						+ "		'5', ROUND(PriceLimit*20,0)/20,	" //	Nickle .05
-						+ "		'Q', ROUND(PriceLimit*4,0)/4,		" //Quarter .25	
+						+ "		'Q', ROUND(PriceLimit*4,0)/4,		" //Quarter .25
+						+ "     '9', CASE"  //Whole 9 or 5
+								+ " WHEN MOD(ROUND(PriceLimit),10)<=5 THEN ROUND(PriceLimit)+(5-MOD(ROUND(PriceLimit),10))"
+								+ " WHEN MOD(ROUND(PriceLimit),10)>5 THEN ROUND(PriceLimit)+(9-MOD(ROUND(PriceLimit),10)) END,"
 						+ "		ROUND(PriceLimit, " + v.getInt("StdPrecision")
 						+ ")) " //	Currency
 						+ " WHERE	M_PriceList_Version_ID="
