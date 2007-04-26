@@ -1163,13 +1163,22 @@ public class GridField
 			|| m_vo.displayType == DisplayType.RowID)
 			;	//	ignore
 		else if (newValue instanceof Boolean)
+		{
+			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				((Boolean)newValue).booleanValue());
+		}
 		else if (newValue instanceof Timestamp)
+		{
+			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+		}
 		else
+		{
+			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
+		}
 		
 		//  Does not fire, if same value
 		Object oldValue = m_oldValue;
@@ -1506,4 +1515,35 @@ public class GridField
 		}
 		return result;
 	}			
+	
+	/** Initial context value for this field - teo_sarca [ 1699826 ] */
+	private String m_backupValue = null;
+	
+	/** Is the initial context value for this field backup ? - teo_sarca [ 1699826 ] */
+	private boolean m_isBackupValue = false;
+	
+	/**
+	 * Backup the context value
+	 * @author teo_sarca [ 1699826 ]
+	 */
+	private final void backupValue() {
+		if (!m_isBackupValue) {
+			m_backupValue = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName);
+			if (CLogMgt.isLevelFinest())
+				log.finest("Backup " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+			m_isBackupValue = true;
+		}
+	}
+	
+	/**
+	 * Restore the backup value if any
+	 * @author teo_sarca [ 1699826 ]
+	 */
+	public void restoreValue() {
+		if (m_isBackupValue) {
+			if (CLogMgt.isLevelFinest())
+				log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
+		}
+	}
 }   //  MField

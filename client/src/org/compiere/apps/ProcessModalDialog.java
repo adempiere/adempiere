@@ -191,6 +191,7 @@ public class ProcessModalDialog extends CDialog
 	public void dispose()
 	{
 		m_valid = false;
+		parameterPanel.restoreContext(); // teo_sarca [ 1699826 ]
 		super.dispose();
 	}	//	dispose
 

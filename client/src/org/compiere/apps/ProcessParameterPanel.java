@@ -442,5 +442,21 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 
 			return true;
 		}	//	saveParameters
+		
+		/**
+		 * Restore window context.
+		 * @author teo_sarca [ 1699826 ]
+		 * @see org.compiere.model.GridField#restoreValue()
+		 */
+		protected void restoreContext() {
+			for (GridField f : m_mFields) {
+				if (f != null)
+					f.restoreValue();
+			}
+			for (GridField f : m_mFields2) {
+				if (f != null)
+					f.restoreValue();
+			}
+		}
 	}	//	ProcessParameterPanel
 
