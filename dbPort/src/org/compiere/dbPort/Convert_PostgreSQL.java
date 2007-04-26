@@ -1009,10 +1009,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							// Check if default value is already quoted, no need to double quote
 							if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
 							{
-								DDL += sqlStatement.substring(0, begin_col
-										- action.length())
-										+ " ALTER COLUMN "
-										+ column
+							DDL += sqlStatement.substring(0, begin_col
+									- action.length())
+									+ " ALTER COLUMN "
+									+ column
 										+ " SET DEFAULT "
 										+ defaultvalue + "; ";
 							}
@@ -1022,15 +1022,25 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 										- action.length())
 										+ " ALTER COLUMN "
 										+ column
-										+ " SET DEFAULT '"
-										+ defaultvalue + "'; ";
+									+ " SET DEFAULT '"
+									+ defaultvalue + "'; ";
 							}
 						}
-						if (rest != null && rest.indexOf(" NOT NULL ") == 0)
-							DDL += sqlStatement.substring(0, begin_col)
-									+ " ALTER COLUMN " + column + " SET " + rest
+						if (rest != null && rest.toUpperCase().indexOf("NOT NULL") >= 0)
+							DDL += sqlStatement.substring(0, begin_col - action.length())
+									+ " ALTER COLUMN " + column + " SET " + rest.trim()
 									+ ";";
 						// return DDL;
+					}
+					else if ( rest.toUpperCase().indexOf("NOT NULL") >= 0 ) {
+						DDL += sqlStatement.substring(0, begin_col - action.length())
+						+ " ALTER COLUMN " + column + " SET " + rest.trim()
+						+ ";";
+					}
+					else if ( rest.toUpperCase().indexOf("NULL") >= 0) {
+						DDL += sqlStatement.substring(0, begin_col - action.length())
+						+ " ALTER COLUMN " + column + " SET " + rest.trim()
+						+ ";";
 					}
 
 					// System.out.println("DDL" + DDL);

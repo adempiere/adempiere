@@ -28,6 +28,12 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		//[ 1707611 ] Column synchronization for mandatory columns doesn't work
+		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NOT NULL";
+		sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer SET NOT NULL;";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		// Convert.recoverQuotedStrings() error on strings with "<-->" - teo_sarca [ 1705768 ]
 		// http://sourceforge.net/tracker/index.php?func=detail&aid=1705768&group_id=176962&atid=879332
 		sql = "SELECT 'Partner <--> Organization', 's2\\$', 's3' FROM DUAL";
