@@ -20,6 +20,8 @@
 package org.compiere.process;
 
 import java.sql.*;
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.logging.*;
 
 import org.compiere.util.*;
@@ -295,8 +297,8 @@ public class M_PriceList_Create extends SvrProcess {
 							// globalqss - detected bug, JDBC returns zero for null values
 							// so we're going to use NULLIF(value, 0)
 							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID")
-							+ ",0) IS NULL OR p.M_Product_Category_ID="
-							+ dl.getInt("M_Product_Category_ID") + ")"
+							+ ",0) IS NULL OR p.M_Product_Category_ID IN ("
+							+ getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
 							+ " AND (NULLIF(" + dl.getInt("C_BPartner_ID")
 							+ ",0) IS NULL OR po.C_BPartner_ID="
 							+ dl.getInt("C_BPartner_ID") + ")" 
@@ -324,8 +326,8 @@ public class M_PriceList_Create extends SvrProcess {
 							//Optional Restrictions
 							//
 							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID")
-							+ ",0) IS NULL OR p.M_Product_Category_ID="
-							+ dl.getInt("M_Product_Category_ID") + ")"
+							+ ",0) IS NULL OR p.M_Product_Category_ID IN ("
+							+ getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
 							+ " AND	(NULLIF(" + dl.getInt("C_BPartner_ID")
 							+ ",0) IS NULL OR EXISTS "
 							+ " (SELECT m_product_id"
@@ -719,5 +721,82 @@ public class M_PriceList_Create extends SvrProcess {
 		msg += sql;
 		throw new AdempiereUserError(msg);
 	}
+	
+	/**
+	 * Returns a sql where string with the given category id and all of its subcategory ids.
+	 * It is used as restriction in MQuery.
+	 * @param productCategoryId
+	 * @return
+	 */
+	private String getSubCategoryWhereClause(int productCategoryId) throws SQLException, AdempiereSystemError{
+		//if a node with this id is found later in the search we have a loop in the tree
+		int subTreeRootParentId = 0;
+		String retString = " ";
+		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
+		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
+		Statement stmt = DB.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			if(rs.getInt(1)==productCategoryId) {
+				subTreeRootParentId = rs.getInt(2);
+			}
+			categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
+		}
+		retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
+		rs.close();
+		stmt.close();
+		return retString;
+	}
+
+	/**
+	 * Recursive search for subcategories with loop detection.
+	 * @param productCategoryId
+	 * @param categories
+	 * @param loopIndicatorId
+	 * @return comma seperated list of category ids
+	 * @throws AdempiereSystemError if a loop is detected
+	 */
+	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
+		String ret = "";
+		final Iterator iter = categories.iterator();
+		while (iter.hasNext()) {
+			SimpleTreeNode node = (SimpleTreeNode) iter.next();
+			if (node.getParentId() == productCategoryId) {
+				if (node.getNodeId() == loopIndicatorId) {
+					throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
+				}
+				ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
+			}
+		}
+		log.fine(ret);
+		return ret + productCategoryId;
+	}
+
+	/**
+	 * Simple tree node class for product category tree search.
+	 * @author Karsten Thiemann, kthiemann@adempiere.org
+	 *
+	 */
+	private class SimpleTreeNode {
+
+		private int nodeId;
+
+		private int parentId;
+
+		public SimpleTreeNode(int nodeId, int parentId) {
+			this.nodeId = nodeId;
+			this.parentId = parentId;
+		}
+
+		public int getNodeId() {
+			return nodeId;
+		}
+
+		public int getParentId() {
+			return parentId;
+		}
+	}
+
+
 
 } // M_PriceList_Create
