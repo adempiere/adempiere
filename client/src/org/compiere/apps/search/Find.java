@@ -104,6 +104,8 @@ public final class Find extends CDialog
 	private GridField[]		m_findFields;
 	/** Resulting query             */
 	private MQuery			m_query = null;
+	/** Is cancel ?					*/
+	private boolean			m_isCancel = false; // teo_sarca [ 1708717 ]
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(Find.class);
 	
@@ -635,7 +637,7 @@ public final class Find extends CDialog
 			}
 		}	//	editors
 
-
+		m_isCancel = false; // teo_sarca [ 1708717 ]
 		//	Test for no records
 		if (getNoOfRecords(m_query, true) != 0)
 			dispose();
@@ -647,6 +649,7 @@ public final class Find extends CDialog
 	 */
 	private void cmd_ok_Advanced()
 	{
+		m_isCancel = false; // teo_sarca [ 1708717 ]
 		//	save pending
 		if (bSave.isEnabled())
 			cmd_save();
@@ -662,6 +665,7 @@ public final class Find extends CDialog
 		log.info("");
 		m_query = null;
 		m_total = 999999;
+		m_isCancel = true; // teo_sarca [ 1708717 ]
 		dispose();
 	}	//	cmd_ok
 
@@ -946,7 +950,7 @@ public final class Find extends CDialog
 	public MQuery getQuery()
 	{
 		MRole role = MRole.getDefault();
-		if (role.isQueryMax(getTotalRecords()))
+		if (role.isQueryMax(getTotalRecords()) && !m_isCancel)
 		{
 			m_query = MQuery.getNoRecordQuery (m_tableName, false);
 			m_total = 0;
@@ -970,7 +974,8 @@ public final class Find extends CDialog
 	 *	Get the number of records of target tab
 	 *  @param query where clause for target tab
 	 * 	@param alertZeroRecords show dialog if there are no records
-	 *  @return number of selected records
+	 *  @return number of selected records;
+	 *          if the results are more then allowed this method will return 0
 	 */
 	private int getNoOfRecords (MQuery query, boolean alertZeroRecords)
 	{
@@ -1018,8 +1023,11 @@ public final class Find extends CDialog
 			ADialog.info(m_targetWindowNo, this, "FindZeroRecords");
 		//	More then allowed
 		else if (query != null && role.isQueryMax(m_total))
+		{
 			ADialog.error(m_targetWindowNo, this, "FindOverMax", 
 				m_total + " > " + role.getMaxQueryRecords());
+			m_total = 0; // return 0 if more then allowed - teo_sarca [ 1708717 ]
+		}
 		else
 			log.config("#" + m_total);
 		//
