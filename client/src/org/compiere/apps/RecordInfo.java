@@ -311,8 +311,6 @@ public class RecordInfo extends CDialog
 				if (OldValue != null)
 				{
 					Object key = OldValue; 
-					if (column.getAD_Reference_ID() != DisplayType.List)
-						key = new Integer(OldValue);
 					NamePair pp = lookup.get(key);
 					if (pp != null)
 						showOldValue = pp.getName();
@@ -320,8 +318,6 @@ public class RecordInfo extends CDialog
 				if (NewValue != null)
 				{
 					Object key = NewValue; 
-					if (column.getAD_Reference_ID() != DisplayType.List)
-						key = new Integer(NewValue);
 					NamePair pp = lookup.get(key);
 					if (pp != null)
 						showNewValue = pp.getName();
