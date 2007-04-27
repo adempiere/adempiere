@@ -28,6 +28,22 @@ public final class Convert_PostgreSQLTest {
 		String sqe;
 		String[] r;
 		
+		//[ 1707959 ] Copy from other PrintFormat doesn't work anymore
+		sql = "UPDATE AD_PrintFormatItem_Trl new " +
+    		"SET (PrintName, PrintNameSuffix, IsTranslated) = (" +
+    		"SELECT PrintName, PrintNameSuffix, IsTranslated " +
+    		"FROM AD_PrintFormatItem_Trl old " +
+    		"WHERE old.AD_Language=new.AD_Language" +
+    		" AND AD_PrintFormatItem_ID =0) " +
+    		"WHERE  AD_PrintFormatItem_ID=1" +
+    		" AND EXISTS (SELECT AD_PrintFormatItem_ID " +
+    		" FROM AD_PrintFormatItem_trl old" +
+    		" WHERE old.AD_Language=new.AD_Language" +
+    		" AND AD_PrintFormatItem_ID =2)";
+		sqe = "UPDATE AD_PrintFormatItem_Trl SET PrintName=\"old\".PrintName,PrintNameSuffix=\"old\".PrintNameSuffix,IsTranslated=\"old\".IsTranslated FROM AD_PrintFormatItem_Trl \"old\" WHERE \"old\".AD_Language=AD_PrintFormatItem_Trl.AD_Language AND \"old\".AD_PrintFormatItem_ID =0 AND AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID=1 AND EXISTS (SELECT AD_PrintFormatItem_ID FROM AD_PrintFormatItem_trl \"old\" WHERE \"old\".AD_Language=AD_PrintFormatItem_Trl.AD_Language AND AD_PrintFormatItem_ID =2)";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
 		//[ 1707611 ] Column synchronization for mandatory columns doesn't work
 		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NOT NULL";
 		sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer SET NOT NULL;";

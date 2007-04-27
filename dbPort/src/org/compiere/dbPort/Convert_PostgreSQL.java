@@ -911,6 +911,17 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			if (alias.indexOf('(') > 0) alias = alias.substring(0, alias.indexOf('('));
 			String converted = sqlStatement.replaceFirst("\\s"+alias+"\\s", " ");
 			converted = converted.replaceAll("\\b"+alias+"\\.", table+".");
+			converted = converted.replaceAll("[+]"+alias+"\\.", "+"+table+".");
+			converted = converted.replaceAll("[-]"+alias+"\\.", "-"+table+".");
+			converted = converted.replaceAll("[*]"+alias+"\\.", "*"+table+".");
+			converted = converted.replaceAll("[/]"+alias+"\\.", "/"+table+".");
+			converted = converted.replaceAll("[%]"+alias+"\\.", "%"+table+".");
+			converted = converted.replaceAll("[<]"+alias+"\\.", "<"+table+".");
+			converted = converted.replaceAll("[>]"+alias+"\\.", ">"+table+".");
+			converted = converted.replaceAll("[=]"+alias+"\\.", "="+table+".");
+			converted = converted.replaceAll("[|]"+alias+"\\.", "|"+table+".");
+			converted = converted.replaceAll("[(]"+alias+"\\.", "("+table+".");
+			converted = converted.replaceAll("[)]"+alias+"\\.", ")"+table+".");
 			return converted;
 		} else {
 			return sqlStatement;
