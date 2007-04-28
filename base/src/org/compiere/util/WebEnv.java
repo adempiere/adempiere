@@ -49,8 +49,7 @@ public class WebEnv
 	private static final String     DIR_IMAGE   = "images";         //  /adempiere/images
 	/** Stylesheet Name                         */
 	private static final String     STYLE_STD   = "standard.css";   //  /adempiere/standard.css
-	/** Small Logo.
-	/** Removing/modifying the adempiere logo is a violation of the license	*/
+	/** Small Logo. */
 	private static final String     LOGO        = "LogoSmall.gif";  //  /adempiere/LogoSmall.gif
 	/** Store Sub-Directory under BASE          */
 	private static final String     DIR_STORE   = "store";          //  /adempiere/store
@@ -217,7 +216,6 @@ public class WebEnv
 
 	/**
 	 *  Get Logo Path.
-	 *	Removing/modifying the adempiere logo is a violation of the license
 	 *  <p>
 	 *  /adempiere/LogoSmall.gif
 	 *  @return url to logo
@@ -229,15 +227,11 @@ public class WebEnv
 
 	/**
 	 *  Get Logo Image HTML tag.
-	 *	Removing/modifying the adempiere logo or copyright notice is a violation of the license
 	 *  @return Image
 	 */
 	public static img getLogo()
 	{
-		/** Removing/modifying the adempiere logo is a violation of the license	*/
 		return new img(getLogoURL()).setAlign(AlignType.RIGHT)
-		//	Changing the copyright notice in any way violates the license 
-		//	and you'll be held liable for any damage claims
 			.setAlt("&copy; Jorg Janke/adempiere");	
 	}   //  getLogo
 

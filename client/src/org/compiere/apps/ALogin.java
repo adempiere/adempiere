@@ -148,7 +148,6 @@ public final class ALogin extends CDialog
 		titleLabel.setRequestFocusEnabled(false);
 		titleLabel.setToolTipText(Adempiere.getURL());
 		titleLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		/** Removing/modifying the Adempiere logo is a violation of the license	*/
 		titleLabel.setIcon(Adempiere.getImageIconLogo());
 		titleLabel.setText(Adempiere.getSubtitle());
 		titleLabel.setVerticalTextPosition(SwingConstants.BOTTOM);

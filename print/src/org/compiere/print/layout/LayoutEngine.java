@@ -811,7 +811,6 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	private void createStandardHeaderFooter()
 	{
-		/** Removing/modifying the Adempiere logo/trademark/copyright is a violation of the license	*/
 		PrintElement element = new ImageElement(org.compiere.Adempiere.getImageLogoSmall(true));	//	48x15
 	//	element = new ImageElement(org.compiere.Adempiere.getImageLogo());	//	100x30
 		element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
@@ -837,9 +836,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		font = tf.getPageFooter_Font();
 		color = tf.getPageFooterFG_Color();
 		//
-		/** Removing/modifying the Adempiere logo/trademark/copyright is a violation of the license	*/
 		element = new StringElement(Adempiere.ADEMPIERE_R, font, color, null, true);
-		/** If you have a valid Adempiere support contract, you can use the following	*/
+		/** You can use the following to customize reports for your product name  */
 	//	element = new StringElement(Adempiere.NAME, font, color, null, true);
 		element.layout (m_footer.width, 0, true, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
 		Point ft = m_footer.getLocation();

@@ -186,7 +186,6 @@ public class Splash extends Frame
 		 */
 		public CImage ()
 		{
-			/** Removing/modifying the Adempiere logo is a violation of the license	*/
 			m_image = Adempiere.getImageLogo();
 			tracker.addImage(m_image, 0);
 		}

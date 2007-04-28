@@ -48,7 +48,6 @@ public final class AboutBox extends CDialog implements ActionListener
 		}
 		//
 		labelVersion.setText(Adempiere.MAIN_VERSION + " @ " + Adempiere.DATE_VERSION);
-		/** Removing/modifying the Adempiere copyright notice is a violation of the license	*/
 		labelCopyright.setText(Adempiere.COPYRIGHT);
 		infoArea.setText(CLogMgt.getInfo(null).toString());
 		//  create 5 pt border
@@ -103,7 +102,6 @@ public final class AboutBox extends CDialog implements ActionListener
 		imageControl.setAlignmentX((float) 0.5);
 		imageControl.setHorizontalAlignment(SwingConstants.CENTER);
 		imageControl.setHorizontalTextPosition(SwingConstants.CENTER);
-		/** Removing/modifying the Adempiere copyright notice is a violation of the license	*/
 		imageControl.setIcon(Adempiere.getImageIconLogo());
 		imageControl.setText(Adempiere.getSubtitle());
 		imageControl.setVerticalTextPosition(SwingConstants.BOTTOM);
