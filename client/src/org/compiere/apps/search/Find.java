@@ -393,6 +393,10 @@ public final class Find extends CDialog
 			editor.setMandatory(false);
 			editor.setReadWrite(true);
 		}
+		// Add action listener to custom text fields - teo_sarca [ 1709292 ]
+		if (editor instanceof CTextField) {
+			((CTextField)editor).addActionListener(this);
+		}
 		CLabel label = VEditorFactory.getLabel(mField);
 		//
 		if (displayLength > 0)		//	set it back
@@ -486,6 +490,11 @@ public final class Find extends CDialog
 		}
 		m_pstmt = null;
 
+		// Remove action listener from custom fields - teo_sarca [ 1709292 ]
+		for (VEditor editor : m_sEditors) {
+			if (editor instanceof CTextField)
+				((CTextField)editor).removeActionListener(this);
+		}
 		//  TargetFields
 		if (m_targetFields != null)
 			m_targetFields.clear();
