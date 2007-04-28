@@ -67,8 +67,23 @@ public final class AMenu extends CFrame
 			System.exit(1);		
 		MSession.get (Env.getCtx(), true);		//	Start Session
 
+		// Setting close operation/listner - teo_sarca [ 1684168 ]
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowListener() {
+			public void windowClosing(WindowEvent e) {
+				if (!ADialog.ask(0, null, "ExitApplication?"))
+					return;
+				dispose();
+			}
+			public void windowActivated(WindowEvent e) {}
+			public void windowClosed(WindowEvent e) {}
+			public void windowDeactivated(WindowEvent e) {}
+			public void windowDeiconified(WindowEvent e) {}
+			public void windowIconified(WindowEvent e) {}
+			public void windowOpened(WindowEvent e) {}
+		});
+		
 		//	Preparation
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		wfActivity = new WFActivity(this); 
 		wfPanel = new WFPanel(this);
 		treePanel = new VTreePanel (m_WindowNo, true, false);	//	!editable & hasBar
