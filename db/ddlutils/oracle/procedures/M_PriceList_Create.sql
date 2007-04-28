@@ -112,8 +112,7 @@ BEGIN
 			FROM	M_Product_PO po
 			WHERE	IsCurrentVendor='Y' AND IsActive='Y'
 			  AND EXISTS (	SELECT M_Product_ID FROM M_Product_PO x 
-							WHERE x.M_Product_ID=po.M_Product_ID
-							  AND IsCurrentVendor='Y' AND IsActive='Y' 
+							WHERE x.M_Product_ID=po.M_Product_ID 
 							GROUP BY M_Product_ID HAVING COUNT(*) > 1 )
 			ORDER BY 1;
 		--	All vendors of Product - expensive first
@@ -189,7 +188,11 @@ BEGIN
 			  AND	(p.AD_Client_ID=v_Client_ID OR p.AD_Client_ID=0)
 			  AND	p.IsActive='Y' AND po.IsActive='Y' AND po.IsCurrentVendor='Y'
 			--	Optional Restrictions
-			  AND (dl.M_Product_Category_ID IS NULL OR p.M_Product_Category_ID=dl.M_Product_Category_ID)
+			  AND (dl.M_Product_Category_ID IS NULL OR p.M_Product_Category_ID IN (
+                              SELECT M_Product_Category_ID FROM M_Product_Category 
+                              START WITH M_Product_Category_ID=dl.M_Product_Category_ID
+                              CONNECT BY M_Product_Category_Parent_ID = PRIOR M_Product_Category_ID
+                          ))
 			  AND (dl.C_BPartner_ID IS NULL OR po.C_BPartner_ID=dl.C_BPartner_ID)
 			  AND (dl.M_Product_ID IS NULL OR p.M_Product_ID=dl.M_Product_ID);
 		ELSE
@@ -201,7 +204,11 @@ BEGIN
 			  AND	pp.M_PriceList_Version_ID=v_PriceList_Version_Base_ID
 			  AND	p.IsActive='Y' AND pp.IsActive='Y'
 			--	Optional Restrictions
-			  AND	(dl.M_Product_Category_ID IS NULL OR p.M_Product_Category_ID=dl.M_Product_Category_ID)
+			  AND (dl.M_Product_Category_ID IS NULL OR p.M_Product_Category_ID IN (
+                              SELECT M_Product_Category_ID FROM M_Product_Category 
+                              START WITH M_Product_Category_ID=dl.M_Product_Category_ID
+                              CONNECT BY M_Product_Category_Parent_ID = PRIOR M_Product_Category_ID
+                          ))
 			  AND	(dl.C_BPartner_ID IS NULL OR EXISTS 
 					(SELECT * FROM M_Product_PO po WHERE po.M_Product_ID=p.M_Product_ID AND po.C_BPartner_ID=dl.C_BPartner_ID))
 			  AND	(dl.M_Product_ID IS NULL OR p.M_Product_ID=dl.M_Product_ID);
@@ -379,4 +386,3 @@ EXCEPTION
 		RETURN;
 
 END M_PriceList_Create;
-/
