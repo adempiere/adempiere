@@ -69,6 +69,7 @@ public class VMerge extends CPanel
 	static private String[]	s_delete_Product = new String[]
 		{"M_Product_PO", "M_Replenish", "T_Replenish", 
 		"M_ProductPrice", "M_Product_Costing",
+		"M_Cost", // teo_sarca [ 1704554 ]
 		"M_Product_Trl", "M_Product_Acct"};		//	M_Storage
 
 	private String[]	m_columnName = null;
@@ -314,7 +315,7 @@ public class VMerge extends CPanel
 			
 			m_trx = Trx.get(Trx.createTrxName("merge"), true);
 			//
-			pstmt = DB.prepareStatement(sql, m_trx.createTrxName());
+			pstmt = DB.prepareStatement(sql, Trx.createTrxName());
 			pstmt.setString(1, ColumnName);
 			pstmt.setString(2, ColumnName);
 			ResultSet rs = pstmt.executeQuery();
@@ -405,6 +406,14 @@ public class VMerge extends CPanel
 				delete = true;
 				sql = "DELETE " + TableName + " WHERE " + ColumnName + "=" + from_ID;
 			}
+		}
+		// Delete newly created MCost records - teo_sarca [ 1704554 ]
+		if (delete && X_M_Cost.Table_Name.equals(TableName) && M_PRODUCT_ID.equals(ColumnName))
+		{
+			sql += " AND " + X_M_Cost.COLUMNNAME_CurrentCostPrice + "=0"
+				+ " AND " + X_M_Cost.COLUMNNAME_CurrentQty + "=0"
+				+ " AND " + X_M_Cost.COLUMNNAME_CumulatedAmt + "=0"
+				+ " AND " + X_M_Cost.COLUMNNAME_CumulatedQty + "=0";
 		}
 
 		int count = DB.executeUpdate(sql, m_trx.getTrxName());
