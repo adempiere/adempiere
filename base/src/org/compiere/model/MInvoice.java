@@ -2011,18 +2011,14 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			m_processMsg = "@PeriodClosed@";
 			return false;
 		}
-		
-		if(!getPaymentRule().equals(MInvoice.PAYMENTRULE_Cash))
-		{			
-			//
-			MAllocationHdr[] allocations = MAllocationHdr.getOfInvoice(getCtx(), 
-				getC_Invoice_ID(), get_TrxName());
-			for (int i = 0; i < allocations.length; i++)
-			{
-				allocations[i].setDocAction(DocAction.ACTION_Reverse_Correct);
-				allocations[i].reverseCorrectIt();
-				allocations[i].save(get_TrxName());
-			}
+		//
+		MAllocationHdr[] allocations = MAllocationHdr.getOfInvoice(getCtx(), 
+			getC_Invoice_ID(), get_TrxName());
+		for (int i = 0; i < allocations.length; i++)
+		{
+			allocations[i].setDocAction(DocAction.ACTION_Reverse_Correct);
+			allocations[i].reverseCorrectIt();
+			allocations[i].save(get_TrxName());
 		}
 		//	Reverse/Delete Matching
 		if (!isSOTrx())
@@ -2054,7 +2050,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return false;
 		}
 		reversal.setReversal(true);
-
 		
 		//	Reverse Line Qty
 		MInvoiceLine[] rLines = reversal.getLines(false);
@@ -2114,8 +2109,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Payment_ID(0);
 		setIsPaid(true);
 		
-		if(!getPaymentRule().equals(MInvoice.PAYMENTRULE_Cash))
-		{
 		//	Create Allocation
 		MAllocationHdr alloc = new MAllocationHdr(getCtx(), false, getDateAcct(), 
 			getC_Currency_ID(), 
@@ -2141,7 +2134,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			//	Process It
 			if (alloc.processIt(DocAction.ACTION_Complete))
 				alloc.save();
-		}
 		}
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
