@@ -890,6 +890,18 @@ public class GridController extends CPanel
 					{
 						if (!comp.isVisible())
 							comp.setVisible(true);		//  visibility
+						/**
+						 * Feature Request [1707462]
+						 * Enable runtime change of VFormat
+						 * @author fer_luck
+						 */
+						if (comp instanceof VString){
+							VString vs = (VString)comp;
+							if(!vs.getVFormat().equals(mField.getVFormat()) && mField.getVFormat() != null){
+								vs.setVFormat(mField.getVFormat());
+							}
+						}
+						//End Feature Request [1707462]
 						if (comp instanceof VEditor)
 						{
 							VEditor ve = (VEditor)comp;

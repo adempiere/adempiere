@@ -2506,5 +2506,15 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_listenerList.add(DataStatusListener.class, l);
 	}
 
-
+	/**
+	 * Feature Request [1707462]
+	 * Enable runtime change of VFormat
+	 * @param Identifier field ident
+	 * @param strNewFormat new mask
+	 * @author fer_luck
+	 */
+	public void setFieldVFormat (String identifier, String strNewFormat)
+	{
+		m_mTable.setFieldVFormat(identifier, strNewFormat);
+	}	//	setFieldVFormat	
 }	//	MTab

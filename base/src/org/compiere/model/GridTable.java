@@ -3072,4 +3072,24 @@ public class GridTable extends AbstractTableModel
 
 	}	//	Loader
 
+	/**
+	 * Feature Request [1707462]
+	 * Enable runtime change of VFormat
+	 * @param Identifier field ident
+	 * @param strNewFormat new mask
+	 * @author fer_luck
+	 */
+	protected void setFieldVFormat (String identifier, String strNewFormat)
+	{
+		int cols = m_fields.size();
+		for (int i = 0; i < cols; i++)
+		{
+			GridField field = (GridField)m_fields.get(i);
+			if (identifier.equalsIgnoreCase(field.getColumnName())){
+				field.setVFormat(strNewFormat);
+				m_fields.set(i, field);
+				break;
+			}
+		}
+	}	//	setFieldVFormat	
 }

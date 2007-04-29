@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
+import javax.swing.event.CaretListener;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.*;
@@ -257,6 +258,26 @@ public final class VString extends CTextField
 			ValuePreference.addMenu (this, popupMenu);
 	}   //  setField
 
+	/**
+	 *  Feature Request [1707462]
+	 *  Set VFormat
+	 *  @param strMask mask
+	 *  @author fer_luck
+	 */
+	public void setVFormat (String strMask)
+	{
+		m_VFormat = strMask;
+		//Get the actual caret from the field, if there's no
+		//caret then just catch the exception and continue
+		//creating the new caret.
+		try{
+			CaretListener [] cl = this.getCaretListeners();
+			this.removeCaretListener(cl[0]);
+		} catch(ClassCastException ex ){
+			log.fine("VString.setVFormat - No caret Listeners");
+		}
+		setDocument(new MDocString(m_VFormat, m_fieldLength, this));
+	}   //  setVFormat
 	
 	/**
 	 * 	Set Text (optionally obscured)
@@ -297,6 +318,17 @@ public final class VString extends CTextField
 		return text;
 	}	//	getText
 
+	/**
+	 *  Feature Request [1707462]
+	 *  Get VFormat
+	 *  @return strMask mask
+	 *  @author fer_luck
+	 */
+	public String getVFormat ()
+	{
+		return this.m_VFormat;
+	}	//	getVFormat
+	
 	/**
 	 * 	Focus Gained.
 	 * 	Enabled with Obscure

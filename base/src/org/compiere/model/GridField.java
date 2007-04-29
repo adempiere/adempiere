@@ -1546,4 +1546,15 @@ public class GridField
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
 		}
 	}
+	
+	/**
+	 * Feature Request [1707462]
+	 * Enable user to change VFormat on runtime
+	 * @param strNewFormat VFormat mask
+	 * @author fer_luck
+	 */
+	public void setVFormat(String strNewFormat){
+		m_vo.VFormat = strNewFormat;
+	} //setVFormat
+		
 }   //  MField

@@ -26,13 +26,14 @@ import java.util.*;
  */
 public final class ALoginRes_pt extends ListResourceBundle
 {
-	// TODO Run native2ascii to convert to plain ASCII !! 
 	
 	/** Translation Content     */
+	//Characters encoded to UTF8 Hex, so no more problems with svn commits
+	//Fernando Lucktemberg - CenturuyOn Consultoria
 	static final Object[][] contents = new String[][]
 	{
-	{ "Connection",         "ConexÔøΩo" },
-	{ "Defaults",           "PadrÔøΩes" },
+	{ "Connection",         "Conex\u00e3o" },
+	{ "Defaults",           "Padr\u00f5es" },
 	{ "Login",              "Adempiere Login" },
 	{ "File",               "Arquivo" },
 	{ "Exit",               "Sair" },
@@ -40,29 +41,29 @@ public final class ALoginRes_pt extends ListResourceBundle
 	{ "About",              "Sobre" },
 	{ "Host",               "Servidor" },
 	{ "Database",           "Banco de Dados" },
-	{ "User",               "ID UsuÔøΩrio" },
-	{ "EnterUser",          "Entre com o ID UsuÔøΩrio da AplicaÔøΩÔøΩo" },
+	{ "User",               "Usu\u00e1rio" },
+	{ "EnterUser",          "Entre com o Usu\u00e1rio da Aplica\u00e7\u00e3o" },
 	{ "Password",           "Senha" },
-	{ "EnterPassword",      "Entre com a Senha da AplicaÔøΩÔøΩo" },
+	{ "EnterPassword",      "Entre com a senha da Aplica\u00e7\u00e3o" },
 	{ "Language",           "Idioma" },
 	{ "SelectLanguage",     "Selecione o idioma" },
 	{ "Role",               "Regra" },
 	{ "Client",             "Cliente" },
-	{ "Organization",       "OrganizaÔøΩÔøΩo" },
+	{ "Organization",       "Organiza\u00e7\u00e3o" },
 	{ "Date",               "Data" },
-	{ "Warehouse",          "DepÔøΩsito" },
+	{ "Warehouse",          "Dep\u00f3sito" },
 	{ "Printer",            "Impressora" },
 	{ "Connected",          "Conectado" },
-	{ "NotConnected",       "NÔøΩo conectado" },
-	{ "DatabaseNotFound",   "Banco de Dados nÔøΩo encontrado" },
-	{ "UserPwdError",       "UsuÔøΩrio/Senha invÔøΩlidos" },
-	{ "RoleNotFound",       "Regra nÔøΩo encontrada/incorreta" },
+	{ "NotConnected",       "N\u00e3o conectado" },
+	{ "DatabaseNotFound",   "Banco de Dados n\u00e3o encontrado" },
+	{ "UserPwdError",       "Usu\u00e1rio/Senha inv\u00e1lidos" },
+	{ "RoleNotFound",       "Regra n\u00e3o encontrada/incorreta" },
 	{ "Authorized",         "Autorizado" },
 	{ "Ok",                 "Ok" },
 	{ "Cancel",             "Cancelar" },
-	{ "VersionConflict",    "Conflito de VersÔøΩes:" },
+	{ "VersionConflict",    "Conflito de Vers\u00f5es:" },
 	{ "VersionInfo",        "Servidor <> Cliente" },
-	{ "PleaseUpgrade",      "Favor executar o programa de atualizaÔøΩÔøΩo" }
+	{ "PleaseUpgrade",      "Favor executar o programa de atualização" }
 	};
 
 	/**

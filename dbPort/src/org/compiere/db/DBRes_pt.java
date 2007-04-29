@@ -27,31 +27,33 @@ import java.util.*;
 public class DBRes_pt extends ListResourceBundle
 {
 	/** Data        */
+	//Characters encoded to UTF8 Hex, so no more problems with svn commits
+	//Fernando Lucktemberg - CenturuyOn Consultoria
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Adempiere Conexão" },
+	{ "CConnectionDialog",  "Adempiere Conex\u00e3o" },
 	{ "Name",               "Nome" },
-	{ "AppsHost",           "Servidor de Aplicação" },
-	{ "AppsPort",           "Porta TCP da Aplicação" },
-	{ "TestApps",           "Testar Aplicação" },
+	{ "AppsHost",           "Servidor de Aplica\u00e7\u00e3o" },
+	{ "AppsPort",           "Porta TCP da Aplica\u00e7\u00e3o" },
+	{ "TestApps",           "Testar Aplica\u00e7\u00e3o" },
 	{ "DBHost",             "Servidor do Banco de Dado" },
 	{ "DBPort",             "Porta TCP do Banco de Dados" },
 	{ "DBName",             "Nome do Banco de Dados" },
-	{ "DBUidPwd",           "Usuário / Senha" },
+	{ "DBUidPwd",           "Usu\u00e1rio / Senha" },
 	{ "ViaFirewall",        "via Firewall" },
 	{ "FWHost",             "Servidor de Firewall" },
 	{ "FWPort",             "Porta TCP do Firewall" },
 	{ "TestConnection",     "Testar Banco de Dados" },
 	{ "Type",               "Tipo de Banco de Dados" },
-	{ "BequeathConnection", "Conexão Bequeath" },
+	{ "BequeathConnection", "Conex\u00e3o Bequeath" },
 	{ "Overwrite",          "Sobrescrever" },
 	{ "ConnectionProfile",	"Connection" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
-	{ "ConnectionError",    "Erro de Conexão" },
-	{ "ServerNotActive",    "Servidor não Ativo" }
+	{ "ConnectionError",    "Erro de Conex\u00e3o" },
+	{ "ServerNotActive",    "Servidor n\u00e3o Ativo" }
 	};
 
 	/**

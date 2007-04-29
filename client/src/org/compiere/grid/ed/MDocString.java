@@ -40,6 +40,7 @@ import org.compiere.util.*;
  *		A	any Letters & Digits NO space converted to upper case
  *		c	any Letters & Digits or space
  *		C	any Letters & Digits or space converted to upper case
+ *		Z	any character converted to upper case
  *  </pre>
  *  @see VString
  * 	@author 	Jorg Janke
@@ -105,6 +106,11 @@ public final class MDocString extends PlainDocument implements CaretListener
 		m_mask = m_mask.replace('O', SPACE);		//	O	any Letter a..Z or space converted to upper case
 		m_mask = m_mask.replace('0', SPACE);		//	0	Digits 0..9 NO space
 		m_mask = m_mask.replace('9', SPACE);		//	9	Digits 0..9 or space
+		/**
+		 *  Feature Request [1707462]
+		 *  Convert any to Uppercase
+		 */
+		m_mask = m_mask.replace('Z', SPACE);		//	Z	any character converted to upper case
 
 		//	Check Caret
 		if (m_tc == null || m_tc.getCaret() instanceof VOvrCaret)
@@ -135,7 +141,7 @@ public final class MDocString extends PlainDocument implements CaretListener
 		}
 
 		/**	Formating required **/
-		log.finest("Offset=" + offset
+		log.finest("Offsret=" + offset
 			+ ", String=" + string + ", MaxLength=" + m_maxLength 
 			+ ", Format=" + m_VFormat + ", Mask=" + m_mask
 			+ ", Text=" + getText() + ", Length=" + getText().length());
@@ -248,6 +254,14 @@ public final class MDocString extends PlainDocument implements CaretListener
 			case SPACE:		//	any character
 				break;
 			//
+			/**
+			 *  Feature Request [1707462]
+			 *  Convert any to Uppercase
+			 */
+			case 'Z':		//	Z	any character converted to upper case
+				string = string.toUpperCase();
+				break;
+			//  ----
 			default:		//	other
 				return;
 		}	//	switch
