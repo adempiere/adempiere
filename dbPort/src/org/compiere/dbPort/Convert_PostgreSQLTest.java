@@ -44,14 +44,22 @@ public final class Convert_PostgreSQLTest {
 		r = convert.convert(sql);
 		verify(sql, r, sqe);
 		
+		//[ 1707540 ] Dependency problem when modifying AD Columns and Sync.
 		//[ 1707611 ] Column synchronization for mandatory columns doesn't work
 		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NOT NULL";
-		sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer SET NOT NULL;";
+		//sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer SET NOT NULL;";
+		sqe = "insert into t_alter_column values('test','T_Integer','NUMERIC(10)','NOT NULL',null)";
 		r = convert.convert(sql);
 		verify(sql, r, sqe);
 		
 		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NULL";
-		sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer DROP NOT NULL;";
+		//sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer DROP NOT NULL;";
+		sqe = "insert into t_alter_column values('test','T_Integer','NUMERIC(10)','NULL',null)";
+		r = convert.convert(sql);
+		verify(sql, r, sqe);
+		
+		sql = "ALTER TABLE Test MODIFY T_Integer NOT NULL";
+		sqe = "insert into t_alter_column values('test','T_Integer',null,'NOT NULL',null)";
 		r = convert.convert(sql);
 		verify(sql, r, sqe);
 		
@@ -94,7 +102,8 @@ public final class Convert_PostgreSQLTest {
 		// Line 407 of ImportProduct.java
 		
 		sql = "ALTER TABLE LPI_Publication MODIFY AD_Client_ID NUMERIC(10) DEFAULT NULL";
-		sqe = "ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID TYPE NUMERIC(10); ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID SET DEFAULT NULL; ";
+		//sqe = "ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID TYPE NUMERIC(10); ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID SET DEFAULT NULL; ";
+		sqe = "insert into t_alter_column values('lpi_publication','AD_Client_ID','NUMERIC(10)',null,'NULL')";
 
         r = convert.convert(sql);
         verify(sql, r, sqe);

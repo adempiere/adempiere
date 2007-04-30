@@ -967,6 +967,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String column = null;
 			String type = null;
 			String defaultvalue = null;
+			String nullclause = null;
 			String DDL = null;
 
 			if (begin_col != -1) {
@@ -985,19 +986,25 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							+ action + "COLUMN " + column + " " + rest;
 				else if (action.equals(" MODIFY "))
 				{
-					int typeEnd = rest.indexOf(' ');
-					// System.out.println(" type 1 :" + type);
-					type = rest.substring(0, typeEnd);
-					rest = rest.substring(typeEnd);
-					// System.out.println(" type:" + type);
-					
+					rest = rest.trim();
+					if (rest.toUpperCase().startsWith("NOT ") || rest.toUpperCase().startsWith("NULL "))
+					{
+						type = null;
+					}
+					else 
+					{
+						int typeEnd = rest.indexOf(' ');
+						type = rest.substring(0, typeEnd).trim();
+						rest = rest.substring(typeEnd);
+					}
+					/*
 					DDL = sqlStatement
 							.substring(0, begin_col - action.length())
 							+ " ALTER COLUMN "
 							+ column
 							+ " TYPE "
 							+ type
-							+ "; ";
+							+ "; ";*/
 
 					if (rest.toUpperCase().indexOf(" DEFAULT ") != -1) {
 						begin_default = rest.toUpperCase().indexOf(
@@ -1007,8 +1014,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						if (nextspace > -1) {
 						    rest = defaultvalue.substring(nextspace);
 						    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(' '));
+						} else {
+							rest = "";
 						}
-	
+						// Check if default value is already quoted
+						if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
+							defaultvalue = defaultvalue.substring(1, defaultvalue.length() - 1);
+						/*
 						if (defaultvalue.equalsIgnoreCase("NULL")) {
 							DDL += sqlStatement.substring(0, begin_col
 									- action.length())
@@ -1036,25 +1048,50 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 									+ " SET DEFAULT '"
 									+ defaultvalue + "'; ";
 							}
-						}
+						}*/
 						if (rest != null && rest.toUpperCase().indexOf("NOT NULL") >= 0)
+							nullclause = "NOT NULL";
+						else if (rest != null && rest.toUpperCase().indexOf("NULL") >= 0)
+							nullclause = "NULL";
+							/*
 							DDL += sqlStatement.substring(0, begin_col - action.length())
 									+ " ALTER COLUMN " + column + " SET " + rest.trim()
-									+ ";";
+									+ ";";*/
 						// return DDL;
 					}
-					else if ( rest.toUpperCase().indexOf("NOT NULL") >= 0 ) {
+					else if ( rest != null && rest.toUpperCase().indexOf("NOT NULL") >= 0 ) {
+						nullclause = "NOT NULL";
+						/*
 						DDL += sqlStatement.substring(0, begin_col - action.length())
 						+ " ALTER COLUMN " + column + " SET " + rest.trim()
-						+ ";";
+						+ ";";*/
 					}
-					else if ( rest.toUpperCase().indexOf("NULL") >= 0) {
+					else if ( rest != null && rest.toUpperCase().indexOf("NULL") >= 0) {
+						nullclause = "NULL";
+						/*
 						DDL += sqlStatement.substring(0, begin_col - action.length())
 						+ " ALTER COLUMN " + column + " DROP NOT NULL" 
-						+ ";";
+						+ ";";*/
 					}
 
-					// System.out.println("DDL" + DDL);
+					DDL = "insert into t_alter_column values('";
+					String tableName = sqlStatement.substring(0, begin_col - action.length());
+					tableName = tableName.toUpperCase().replaceAll("ALTER TABLE", "");
+					tableName = tableName.trim().toLowerCase();
+					DDL = DDL + tableName + "','" + column + "',";
+					if (type != null)
+						DDL = DDL + "'" + type +"',";
+					else
+						DDL = DDL + "null,";
+					if (nullclause != null)
+						DDL = DDL + "'" + nullclause + "',";
+					else
+						DDL = DDL + "null,";
+					if (defaultvalue != null)
+						DDL = DDL + "'" + defaultvalue + "'";
+					else
+						DDL = DDL + "null";
+					DDL = DDL + ")";					
 				}
 				return DDL;
 			}
