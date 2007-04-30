@@ -22,97 +22,99 @@ import java.util.*;
  *	Setup Resources
  *
  * 	@translator 	Jaume Teixi
- * 	@version 	$Id: SetupRes_ca.java,v 1.2 2006/07/30 00:57:42 jjanke Exp $
+ * 	@author 	Jordi Luna
+ * 	@version 	$Id: SetupRes_ca.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
 public class SetupRes_ca extends ListResourceBundle
 {
 	/**	Translation Info	*/
 	static final Object[][] contents = new String[][]{
-	{ "AdempiereServerSetup", "Configuraci� Servidor Adempiere" },
-	{ "Ok", 				"D'Acord" },
-	{ "File", 				"Fitxer" },
-	{ "Exit", 				"Sortir" },
-	{ "Help", 				"Ajuda" },
-	{ "PleaseCheck", 		"Sisplau Comproveu" },
-	{ "UnableToConnect",	"No s'ha pogut obtenir l'ajuda de la web del Adempiere" },
-
-	{ "AdempiereHomeInfo", 	"Adempiere Home �s la Carpeta Principal" },
-	{ "AdempiereHome", 		"Adempiere Home" },
-	{ "WebPortInfo", 		"Web (HTML) Port" },
-	{ "WebPort", 			"Web Port" },
-	{ "AppsServerInfo", 	"Nom Servidor Aplicaci�" },
-	{ "AppsServer", 		"Servidor Aplicaci�" },
-	{ "DatabaseTypeInfo", 	"Tipus Base de Dades" },
-	{ "DatabaseType", 		"Tipus Base de Dades" },
-	{ "DatabaseNameInfo", 	"Nom Base de Dades" },
-	{ "DatabaseName", 		"Nom Base de Dades (SID)" },
-	{ "DatabasePortInfo", 	"Port Listener Base de Dades" },
-	{ "DatabasePort", 		"Port Base de Dades" },
-	{ "DatabaseUserInfo", 	"ID Usuari Adempiere Base de Dades" },
-	{ "DatabaseUser", 		"Usuari Base de Dades" },
-	{ "DatabasePasswordInfo", "Contrasenya Usuari Adempiere Base de Dades" },
-	{ "DatabasePassword", 	"Contrasenya Base de Dades" },
-	{ "TNSNameInfo", 		"TNS o Nom Global Base de Dades" },
-	{ "TNSName", 			"Nom TNS" },
-	{ "SystemPasswordInfo", "Contrasenya Usuari System" },
-	{ "SystemPassword", 	"Contrasenya System" },
-	{ "MailServerInfo", 	"Servidor Correu" },
-	{ "MailServer", 		"Servidor Correu" },
-	{ "AdminEMailInfo", 	"Email Administrador Adempiere" },
-	{ "AdminEMail", 		"Email Admin" },
-	{ "DatabaseServerInfo", "Nom Servidor Base de Dades" },
-	{ "DatabaseServer", 	"Servidor Base de Dades" },
-	{ "JavaHomeInfo", 		"Carpeta Java Home" },
-	{ "JavaHome", 			"Java Home" },
-	{ "JNPPortInfo", 		"Port JNP Servidor Aplicaci�" },
-	{ "JNPPort", 			"Port JNP" },
-	{ "MailUserInfo", 		"Usuari Correu Adempiere" },
-	{ "MailUser", 			"Usuari Correu" },
-	{ "MailPasswordInfo", 	"Contrasenya Usuari Correu Adempiere" },
-	{ "MailPassword", 		"Contrasenya Correu" },
-	{ "KeyStorePassword",		"Key Store Password" },
-	{ "KeyStorePasswordInfo",	"Password for SSL Key Store" },
+	{ "AdempiereServerSetup",	"Configuraci\u00f3 Servidor Adempiere" },
+	{ "Ok", 					"Acceptar" },
+	{ "File", 					"Fitxer" },
+	{ "Exit", 					"Sortir" },
+	{ "Help", 					"Ajuda" },
+	{ "PleaseCheck", 			"Sisplau Comproveu" },
+	{ "UnableToConnect",		"No s'ha pogut obtenir ajuda de la web d'Adempiere" },
+	//
+	{ "AdempiereHomeInfo", 		"Adempiere Home \u00e9s la Carpeta Principal" },
+	{ "AdempiereHome", 			"Adempiere Home" },
+	{ "WebPortInfo", 			"Port Web (HTML)" },
+	{ "WebPort", 				"Port Web" },
+	{ "AppsServerInfo", 		"Nom Servidor Aplicaci\u00f3" },
+	{ "AppsServer", 			"Servidor Aplicaci\u00f3" },
+	{ "DatabaseTypeInfo", 		"Tipus Base de Dades" },
+	{ "DatabaseType", 			"Tipus Base de Dades" },
+	{ "DatabaseNameInfo", 		"Nom Base de Dades (Serve\u00ef)" },
+	{ "DatabaseName", 			"Nom Base de Dades" },
+	{ "DatabasePortInfo", 		"Port Escolta Base de Dades" },
+	{ "DatabasePort", 			"Port Base de Dades" },
+	{ "DatabaseUserInfo", 		"ID Usuari Base de Dades Adempiere" },
+	{ "DatabaseUser", 			"Usuari Base de Dades" },
+	{ "DatabasePasswordInfo", 	"Contrasenya Usuari Base de Dades Adempiere" },
+	{ "DatabasePassword", 		"Contrasenya Base de Dades" },
+	{ "TNSNameInfo", 			"Bases de Dades Trobades" },
+	{ "TNSName", 				"Buscar Bases de Dades" },
+	{ "SystemPasswordInfo", 	"Contrasenya Usuari System" },
+	{ "SystemPassword", 		"Contrasenya System" },
+	{ "MailServerInfo", 		"Servidor Correu" },
+	{ "MailServer", 			"Servidor Correu" },
+	{ "AdminEMailInfo", 		"Email Administrador Adempiere" },
+	{ "AdminEMail", 			"Email Admin" },
+	{ "DatabaseServerInfo", 	"Nom Servidor Base de Dades" },
+	{ "DatabaseServer", 		"Servidor Base de Dades" },
+	{ "JavaHomeInfo", 			"Carpeta Java Home" },
+	{ "JavaHome", 				"Java Home" },
+	{ "JNPPortInfo", 			"Port JNP Servidor Aplicaci\u00f3" },
+	{ "JNPPort", 				"Port JNP" },
+	{ "MailUserInfo", 			"Usuari Correu Adempiere" },
+	{ "MailUser", 				"Usuari Correu" },
+	{ "MailPasswordInfo", 		"Contrasenya Usuari Correu Adempiere" },
+	{ "MailPassword", 			"Contrasenya Correu" },
+	{ "KeyStorePassword",		"Contrasenya Key Store" },
+	{ "KeyStorePasswordInfo",	"Contrasenya per SSL Key Store" },
 	//
 	{ "JavaType",				"Java VM"},
-	{ "JavaTypeInfo",			"Java VM Vendor"},
-	{ "AppsType",				"Server Type"},
-	{ "AppsTypeInfo",			"J2EE Application Server Type"},
-	{ "DeployDir",				"Deployment"},
-	{ "DeployDirInfo",			"J2EE Deployment Directory"},
-	{ "ErrorDeployDir",			"Error Deployment Directory"},
+	{ "JavaTypeInfo",			"Prove\u00efdor Java VM"},
+	{ "AppsType",				"Tipus Servidor"},
+	{ "AppsTypeInfo",			"Tipus Servidor Aplicacions J2EE"},
+	{ "DeployDir",				"Desplegament"},
+	{ "DeployDirInfo",			"Directori Desplegament J2EE"},
+	{ "ErrorDeployDir",			"Error Directori Desplegament"},
 	//
-	{ "TestInfo", 			"Provar Configuraci�" },
-	{ "Test", 				"Provar" },
-	{ "SaveInfo", 			"Guardar Configuraci�" },
-	{ "Save", 				"Guardar" },
-	{ "HelpInfo", 			"Obtenir Ajuda" },
-
-	{ "ServerError", 		"Error Configuraci� Servidor" },
-	{ "ErrorJavaHome", 		"Error Java Home" },
+	{ "TestInfo", 				"Provar Configuraci\u00f3" },
+	{ "Test", 					"Provar" },
+	{ "SaveInfo", 				"Guardar Configuraci\u00f3" },
+	{ "Save", 					"Guardar" },
+	{ "HelpInfo", 				"Obtenir Ajuda" },
+	//
+	{ "ServerError", 			"Error Configuraci\u00f3 Servidor" },
+	{ "ErrorJavaHome", 			"Error Java Home" },
 	{ "ErrorAdempiereHome", 	"Error Adempiere Home" },
-	{ "ErrorAppsServer", 	"Error Servidor Aplicaci� (no emprar localhost)" },
-	{ "ErrorWebPort", 		"Error Port Web" },
-	{ "ErrorJNPPort", 		"Error Port JNP" },
-	{ "ErrorDatabaseServer", "Error Servidor Base de Dades (no emprar localhost)" },
-	{ "ErrorDatabasePort", 	"Error Port Base de Dades" },
-	{ "ErrorJDBC", 			"Error Connexi� JDBC" },
-	{ "ErrorTNS", 			"Error Connexi� TNS" },
-	{ "ErrorMailServer", 	"Error Servidor Correu (no emprar localhost)" },
-	{ "ErrorMail", 			"Error Correu" },
-	{ "ErrorSave", 			"Error Guardant Fitxer" },
+	{ "ErrorAppsServer", 		"Error Servidor Aplicaci\u00f3 (no utilitzar localhost)" },
+	{ "ErrorWebPort", 			"Error Port Web" },
+	{ "ErrorJNPPort", 			"Error Port JNP" },
+	{ "ErrorDatabaseServer",	"Error Servidor Base de Dades (no utilitzar localhost)" },
+	{ "ErrorDatabasePort", 		"Error Port Base de Dades" },
+	{ "ErrorJDBC", 				"Error Connexi\u00f3 JDBC" },
+	{ "ErrorTNS", 				"Error Connexi\u00f3 TNS" },
+	{ "ErrorMailServer", 		"Error Servidor Correu (no utilitzar localhost)" },
+	{ "ErrorMail", 				"Error Correu" },
+	{ "ErrorSave", 				"Error Guardant Fitxer" },
 
-	{ "EnvironmentSaved",	"Entorn Guardat\nCal reiniciar el servidor." },
-	{ "RMIoverHTTP", 		"Tunnel Objects via HTTP" },
-	{ "RMIoverHTTPInfo", 	"RMI over HTTP allows to go through firewalls" }
+	{ "EnvironmentSaved", 		"Arxiu d'Entorn guardat .... comen\u00e7ant Desplegament\n"
+		+ "Pot tornar a engegar el Servidor de l'Aplicaci\u00f3 quan el programa finalitzi.\n"
+		+ "Si us plau comprobi l'arxiu d'errors\n" }
+	
 	};
 
 	/**
-	 * 	Get Contents
-	 * 	@return contents
+	 * 	Get Content
+	 * 	@return content array
 	 */
 	public Object[][] getContents()
 	{
 		return contents;
 	}	//	getContents
 
-}	//	SerupRes
+}	//	SetupRes
