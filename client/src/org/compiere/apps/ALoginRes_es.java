@@ -22,6 +22,7 @@ import java.util.*;
  *  Base Resource Bundle
  *
  * 	@author 	Erwin Cortes
+ *  @translator Jordi Luna
  * 	@version 	$Id: ALoginRes_es.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
 public final class ALoginRes_es extends ListResourceBundle
