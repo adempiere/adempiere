@@ -31,38 +31,38 @@ public final class ALoginRes_ca extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Connection",         "Connexi�" },
-	{ "Defaults",           "Predeterminats" },
-	{ "Login",              "Acc�s Adempiere" },
+	{ "Connection",         "Connexi\u00f3" },
+	{ "Defaults",           "Valors Predeterminats" },
+	{ "Login",              "Acc\u00e9s Adempiere" },
 	{ "File",               "Fitxer" },
 	{ "Exit",               "Sortir" },
 	{ "Help",               "Ajuda" },
 	{ "About",              "Referent" },
 	{ "Host",               "Servidor" },
 	{ "Database",           "Base de Dades" },
-	{ "User",               "ID Usuari" },
-	{ "EnterUser",          "Entrar ID Usuari Aplicaci�" },
+	{ "User",               "Usuari" },
+	{ "EnterUser",          "Introdu\u00efr Usuari Aplicaci\u00f3" },
 	{ "Password",           "Contrasenya" },
-	{ "EnterPassword",      "Entrar Contrasenya Usuari Aplicaci�" },
+	{ "EnterPassword",      "Entrar Contrasenya Usuari Aplicaci\u00f3" },
 	{ "Language",           "Idioma" },
-	{ "SelectLanguage",     "Seleccioneu el Vostre Idioma" },
+	{ "SelectLanguage",     "Seleccioni Idioma" },
 	{ "Role",               "Rol" },
-	{ "Client",             "Client" },
-	{ "Organization",       "Organitzaci�" },
+	{ "Client",             "Entitat" },
+	{ "Organization",       "Organitzaci\u00f3" },
 	{ "Date",               "Data" },
 	{ "Warehouse",          "Magatzem" },
 	{ "Printer",            "Impressora" },
 	{ "Connected",          "Connectat" },
 	{ "NotConnected",       "No Connectat" },
 	{ "DatabaseNotFound",   "No s'ha trobat la Base de Dades" },
-	{ "UserPwdError",       "No coincid�ix l'Usuari i la Contrasenya" },
+	{ "UserPwdError",       "No coincideix l'Usuari i la Contrasenya" },
 	{ "RoleNotFound",       "Rol no trobat/completat" },
 	{ "Authorized",         "Autoritzat" },
-	{ "Ok",                 "D'Acord" },
+	{ "Ok",                 "Acceptar" },
 	{ "Cancel",             "Cancel.lar" },
 	{ "VersionConflict",    "Conflicte Versions:" },
 	{ "VersionInfo",        "Servidor <> Client" },
-	{ "PleaseUpgrade",      "Sisplau Actualitzeu el Programa" }
+	{ "PleaseUpgrade",      "Descarregui una nova versi\u00f3 del Programa" }
 	};
 
 	/**
@@ -73,4 +73,4 @@ public final class ALoginRes_ca extends ListResourceBundle
 	{
 		return contents;
 	}   //  getContents
-}   //  ALoginRes
+}   //  ALoginRes_ca
