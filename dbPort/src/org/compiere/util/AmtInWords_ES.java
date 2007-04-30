@@ -20,6 +20,7 @@ package org.compiere.util;
  *	Spanish Amount in Words
  *	
  *  @author Jorg Janke - http://www.rgagnon.com/javadetails/java-0426.html
+ *  @translator Jordi Luna
  *  @version $Id: AmtInWords_ES.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
  */
 public class AmtInWords_ES implements AmtInWords
