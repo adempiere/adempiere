@@ -19,40 +19,40 @@ package org.compiere.util;
 /**
  *	Spanish Amount in Words
  *	
- *  @author Jorg Janke - http://www.rgagnon.com/javadetails/java-0426.html
- *  @version $Id: AmtInWords_ES.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ *  @author Jordi Luna
+ *  @version $Id: AmtInWords_CA.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
  */
-public class AmtInWords_ES implements AmtInWords
+public class AmtInWords_CA implements AmtInWords
 {
 	/**
-	 * 	AmtInWords_ES
+	 * 	AmtInWords_CA
 	 */
-	public AmtInWords_ES ()
+	public AmtInWords_CA ()
 	{
 		super ();
-	} //	AmtInWords_ES
+	} //	AmtInWords_CA
 
 	private static final String[]	majorNames	= {
 		"", 
 		" MIL", 
-		" MILL\u00d3N",
-		" BILL\u00d3N", 
-		" TRILL\u00d3N", 
-		" CUATRILL\u00d3N", 
-		" QUINTILL\u00d3N"  
+		" MILI\u00d3",
+		" BILI\u00d3", 
+		" TRILI\u00d3", 
+		" QUATRILI\u00d3", 
+		" QUINTILI\u00d3N"  
 		};
 
 	private static final String[]	tensNames	= { 
 		"", 
-		" DIEZ", 
-		" VEINTE",
-		" TREINTA", 
-		" CUARENTA", 
-		" CINCUENTA", 
-		" SESENTA", 
-		" SETENTA",
-		" OCHENTA", 
-		" NOVENTA"
+		" DEU", 
+		" VINT",
+		" TRENTA", 
+		" QUARANTA", 
+		" CINQUANTA", 
+		" SEIXANTA", 
+		" SETANTA",
+		" VUITANTA", 
+		" NORANTA"
 		};
 
 	private static final String[]	numNames	= { 
@@ -60,22 +60,22 @@ public class AmtInWords_ES implements AmtInWords
 		" UN",
 		" DOS",
 		" TRES", 
-		" CUATRO", 
-		" CINCO", 
-		" SEIS", 
-		" SIETE", 
-		" OCHO", 
-		" NUEVE",
-		" DIEZ", 
+		" QUATRE", 
+		" CINC", 
+		" SIS", 
+		" SET", 
+		" VUIT", 
+		" NOU",
+		" DEU", 
 		" ONCE", 
-		" DOCE", 
-		" TRECE", 
-		" CATORCE", 
-		" QUINCE",
-		" DIECIS\u00c9IS", 
-		" DIECISIETE", 
-		" DIECIOCHO", 
-		" DIECINUEVE"
+		" DOTZE", 
+		" TRETZE", 
+		" CATORZE", 
+		" QUINZE",
+		" SETZE", 
+		" DISSET", 
+		" DIVUIT", 
+		" DINOU"
 		};
 
 	/**
@@ -98,11 +98,11 @@ public class AmtInWords_ES implements AmtInWords
 			number /= 10;
 			String s = Integer.toString (number);
 			if (s.endsWith ("2") && !soFar.equals(""))
-				soFar = " VEINTI" + soFar.trim ();
+				soFar = " VINT-I-" + soFar.trim ();
 			else if (soFar.equals(""))
 				soFar = tensNames[number % 10] + soFar;
 			else
-				soFar = tensNames[number % 10] + " Y" + soFar;
+				soFar = tensNames[number % 10] + "-" + soFar;
 			number /= 10;
 		}
 		if (number == 0)
@@ -114,7 +114,7 @@ public class AmtInWords_ES implements AmtInWords
 			soFar = "S" + soFar;
 		if (number == 1 && !soFar.equals(""))
 			number = 0;
-		return numNames[number] + " CIENTO" + soFar;
+		return numNames[number] + " CENT" + soFar;
 	}	//	convertLessThanOneThousand
 
 	/**
@@ -126,12 +126,12 @@ public class AmtInWords_ES implements AmtInWords
 	{
 		/* special case */
 		if (number == 0)
-			return "CERO";
+			return "ZERO";
 		String prefix = "";
 		if (number < 0)
 		{
 			number = -number;
-			prefix = "MENOS";
+			prefix = "MENYS";
 		}
 		String soFar = "";
 		int place = 0;
@@ -141,19 +141,39 @@ public class AmtInWords_ES implements AmtInWords
 			if (n != 0)
 			{
 				String s = convertLessThanOneThousand (n);
-				if (s.startsWith ("CINCO CIENTOS", 1))
+				if (s.startsWith ("DOS CENTS", 1))
 				{
-					s = s.replaceFirst ("CINCO CIENTOS", "QUINIENTOS");
+					s = s.replaceFirst ("DOS CENTS", "DOS-CENTS");
 				}
-				if (s.startsWith ("SIETE CIENTOS", 1))
+				if (s.startsWith ("TRES CENTS", 1))
 				{
-					s = s.replaceFirst ("SIETE CIENTOS", "SETECIENTOS");
+					s = s.replaceFirst ("TRES CENTS", "TRES-CENTS");
 				}
-				if (s.startsWith ("NUEVE CIENTOS", 1))
+				if (s.startsWith ("QUATRE CENTS", 1))
 				{
-					s = s.replaceFirst ("NUEVE CIENTOS", "NOVECIENTOS");
+					s = s.replaceFirst ("QUATRE CENTS", "QUATRE-CENTS");
 				}
-				if (s.equals(" UNO"))
+				if (s.startsWith ("CINC CENTS", 1))
+				{
+					s = s.replaceFirst ("CINC CENTS", "CINC-CENTS");
+				}
+				if (s.startsWith ("SIS CENTS", 1))
+				{
+					s = s.replaceFirst ("SIS CENTS", "SIS-CENTS");
+				}
+				if (s.startsWith ("SET CENTS", 1))
+				{
+					s = s.replaceFirst ("SET CENTS", "SET-CENTS");
+				}
+				if (s.startsWith ("VUIT CENTS", 1))
+				{
+					s = s.replaceFirst ("VUIT CENTS", "VUIT-CENTS");
+				}
+				if (s.startsWith ("NOU CENTS", 1))
+				{
+					s = s.replaceFirst ("NOU CENTS", "NOU-CENTS");
+				}
+				if (s.equals(" UN"))
 				{
 					soFar = majorNames[place] + soFar;
 				}
@@ -203,11 +223,11 @@ public class AmtInWords_ES implements AmtInWords
 				sb.append (' ')
 					.append (cents)
 					.append ("/100");
-				//	.append ("/100 PESOS");
+				//	.append ("/100 EUROS");
 				break;
 			}
 		}
 		return sb.toString ();
 	}	//	getAmtInWords
 	
-}	//	AmtInWords_ES
+}	//	AmtInWords_CA

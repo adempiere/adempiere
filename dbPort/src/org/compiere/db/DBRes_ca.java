@@ -22,36 +22,36 @@ import java.util.*;
  *  Connection Resource Strings
  *
  *  @author Jaume Teixi
+ *  @author		Jordi Luna
  *  @version    $Id: DBRes_ca.java,v 1.2 2006/07/30 00:55:13 jjanke Exp $
  */
 public class DBRes_ca extends ListResourceBundle
 {
 	/** Data        */
-	static final Object[][] contents = new String[][]
-	{
-	{ "CConnectionDialog",  "Connexi� Adempiere" },
+	static final Object[][] contents = new String[][]{
+	{ "CConnectionDialog",  "Connexi\u00f3 Adempiere" },
 	{ "Name",               "Nom" },
-	{ "AppsHost",           "Servidor Aplicaci�" },
-	{ "AppsPort",           "Port Aplicaci�" },
-	{ "TestApps",           "Provar Aplicaci�" },
+	{ "AppsHost",           "Servidor Aplicaci\u00f3" },
+	{ "AppsPort",           "Port Aplicaci\u00f3" },
+	{ "TestApps",           "Provar Servidor Aplicaci\u00f3" },
 	{ "DBHost",             "Servidor Base de Dades" },
 	{ "DBPort",             "Port Base de Dades" },
 	{ "DBName",             "Nom Base de Dades" },
 	{ "DBUidPwd",           "Usuari / Contrasenya" },
-	{ "ViaFirewall",        "via Tallafocs" },
-	{ "FWHost",             "Servidor Tallafocs" },
-	{ "FWPort",             "Port Tallafocs" },
+	{ "ViaFirewall",        "via Firewall" },
+	{ "FWHost",             "Servidor Firewall" },
+	{ "FWPort",             "Port Firewall" },
 	{ "TestConnection",     "Provar Base de Dades" },
 	{ "Type",               "Tipus Base de Dades" },
-	{ "BequeathConnection", "Delegar Connexi�" },
+	{ "BequeathConnection", "Delegar Connexi\u00f3" },
 	{ "Overwrite",          "Sobrescriure" },
-	{ "ConnectionProfile",	"Connection" },
+	{ "ConnectionProfile",	"Connexi\u00f3" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
-	{ "ConnectionError",    "Error Connexi�" },
-	{ "ServerNotActive",    "Servidor No Actiu" }
+	{ "ConnectionError",    "Error Connexi\u00f3" },
+	{ "ServerNotActive",    "Servidor no Actiu" }
 	};
 
 	/**

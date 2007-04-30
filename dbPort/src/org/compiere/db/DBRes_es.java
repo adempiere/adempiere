@@ -22,31 +22,37 @@ import java.util.*;
  *  Connection Resource Strings
  *
  *  @author     Erwin Cortes
+ *  @author     Jordi Luna
  *  @version    $Id: DBRes_es.java,v 1.2 2006/07/30 00:55:13 jjanke Exp $
  */
 public class DBRes_es extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog",  "Conexión ADempiere" },
+	{ "CConnectionDialog",  "Conexi\u00f3n ADempiere" },
 	{ "Name",               "Nombre" },
-	{ "AppsHost",           "Servidor de Aplicación" },
-	{ "AppsPort",           "Puerto de Aplicación" },
-	{ "TestApps",           "Test de Aplicación" },
+	{ "AppsHost",           "Servidor de Aplicaci\u00f3n" },
+	{ "AppsPort",           "Puerto de Aplicaci\u00f3n" },
+	{ "TestApps",           "Test de Aplicaci\u00f3n" },
 	{ "DBHost",             "Host de Base de Datos" },
 	{ "DBPort",             "Puerto de Base de Datos" },
 	{ "DBName",             "Nombre de Base de datos" },
-	{ "DBUidPwd",           "Usuario / Contraseña" },
-	{ "ViaFirewall",        "vía Firewall" },
+	{ "DBUidPwd",           "Usuario / Contrase\u00f1a" },
+	{ "ViaFirewall",        "v\u00eda Firewall" },
 	{ "FWHost",             "Servidor de Firewall" },
 	{ "FWPort",             "Puerto del Firewall" },
 	{ "TestConnection",     "Test de Base de datos" },
 	{ "Type",               "Tipo de Base de Datos" },
-	{ "BequeathConnection", "Conexión Heredada" },
+	{ "BequeathConnection", "Delegar Conexi\u00f3n" },
 	{ "Overwrite",          "Sobreescribir" },
-	{ "RMIoverHTTP", 		"Tunelizar Objetos vía HTTP" },
-	{ "ConnectionError",    "Error en conexión" },
-	{ "ServerNotActive",    "Servidor inactivo" }};
+	{ "ConnectionProfile",	"Conexi\u00f3n" },
+	{ "LAN",		 		"LAN" },
+	{ "TerminalServer",		"Terminal Server" },
+	{ "VPN",		 		"VPN" },
+	{ "WAN", 				"WAN" },
+	{ "ConnectionError",    "Error Conexi\u00f3n" },
+	{ "ServerNotActive",    "Servidor no Activo" }
+	};
 
 	/**
 	 * Get Contsnts
