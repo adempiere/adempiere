@@ -92,6 +92,9 @@
 			<param name="file.name" value="${basedir}/functions/trunc.sql" />
 		</antcall>
 		<antcall target="load">
+			<param name="file.name" value="${basedir}/functions/altercolumn.sql" />
+		</antcall>
+		<antcall target="load">
 			<param name="file.name" value="${basedir}/operators.sql" />
 		</antcall>
 
