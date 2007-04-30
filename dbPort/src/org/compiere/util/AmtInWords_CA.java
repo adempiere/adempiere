@@ -67,7 +67,7 @@ public class AmtInWords_CA implements AmtInWords
 		" VUIT", 
 		" NOU",
 		" DEU", 
-		" ONCE", 
+		" ONZE", 
 		" DOTZE", 
 		" TRETZE", 
 		" CATORZE", 
