@@ -15,15 +15,21 @@
 @echo Re-Create user and database
 @echo -------------------------------------
 @dropdb -U postgres %ADEMPIERE_DB_NAME%
-@dropuser -U postgres %ADEMPIERE_DB_USER%
-@createuser -U postgres -a -d %ADEMPIERE_DB_USER% -P
-@createdb %ADEMPIERE_DB_NAME% -E UNICODE -O %ADEMPIERE_DB_USER% -U %ADEMPIERE_DB_USER%
+@dropuser -U postgres %2
+@set ADEMPIERE_CREATE_ROLE_SQL=CREATE ROLE %2 SUPERUSER LOGIN PASSWORD '%3'
+@psql -U postgres -c "%ADEMPIERE_CREATE_ROLE_SQL%"
+@set ADEMPIERE_CREATE_ROLE_SQL=
+
+PGPASSWORD=%3
+@createdb %ADEMPIERE_DB_NAME% -E UNICODE -O %2 -U %2
 
 @echo -------------------------------------
 @echo Import Adempiere_pg.dmp
 @echo -------------------------------------
-@psql -d %ADEMPIERE_DB_NAME% -U %ADEMPIERE_DB_USER% -f %ADEMPIERE_HOME%/data/Adempiere_pg.dmp
+@psql -d %ADEMPIERE_DB_NAME% -U %2 -c "drop schema sqlj cascade"
+@psql -d %ADEMPIERE_DB_NAME% -U %2 -f %ADEMPIERE_HOME%/data/Adempiere_pg.dmp
 
+PGPASSWORD=
 @goto end
 
 :environment
@@ -33,6 +39,6 @@
 
 :usage
 @echo Usage:		%0 <systemAccount> <AdempiereID> <AdempierePwd>
-@echo Example:	%0 system/manager Adempiere Adempiere
+@echo Example:	%0 postgres Adempiere Adempiere
 
 :end
