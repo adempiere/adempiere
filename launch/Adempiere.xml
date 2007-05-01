@@ -29,12 +29,12 @@
     <maxHeapSize>512</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>3.1.6.0</fileVersion>
-    <txtFileVersion>Release 3.1.6</txtFileVersion>
-    <fileDescription>Adempiere ERP &amp; CRM 3.1.6</fileDescription>
+    <fileVersion>3.2.0.0</fileVersion>
+    <txtFileVersion>Release 3.2.0</txtFileVersion>
+    <fileDescription>Adempiere ERP &amp; CRM 3.2.0</fileDescription>
     <copyright>Adempiere</copyright>
-    <productVersion>3.1.6.0</productVersion>
-    <txtProductVersion>Release 3.1.6</txtProductVersion>
+    <productVersion>3.2.0.0</productVersion>
+    <txtProductVersion>Release 3.2.0</txtProductVersion>
     <productName>Adempier ERP &amp; CRM</productName>
     <companyName>Adempiere Bazaar</companyName>
     <internalName>Adempiere</internalName>
