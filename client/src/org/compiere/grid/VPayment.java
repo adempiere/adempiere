@@ -1023,19 +1023,23 @@ public class VPayment extends CDialog
 						if (cl.save())
 						{	
 							log.config("CashCreated");
-							if(invoice == null && C_Invoice_ID != 0)
+							if (invoice == null && C_Invoice_ID != 0)
 							{
 								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);	
-							}	
+							}
+							if (invoice != null) {
 								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
 								invoice.save();
+							}
 							
-							if(order == null && C_Order_ID != 0)
+							if (order == null && C_Order_ID != 0)
 							{
 								order = new MOrder (Env.getCtx(), C_Order_ID, null);
-							}	
+							}
+							if (order != null) {
 								order.setC_CashLine_ID(cl.getC_CashLine_ID());
 								order.save();
+							}
 							log.config("Update Order & Invoice with CashLine");
 						}	
 						else
