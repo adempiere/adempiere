@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Greeting
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_C_Greeting extends PO
 {
 /** Standard Constructor

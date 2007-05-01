@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_GLJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_I_GLJournal extends PO
 {
 /** Standard Constructor

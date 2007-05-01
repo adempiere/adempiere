@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_AD_User extends PO
 {
 /** Standard Constructor

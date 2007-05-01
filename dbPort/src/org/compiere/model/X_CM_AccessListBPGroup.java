@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessListBPGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_CM_AccessListBPGroup extends PO
 {
 /** Standard Constructor

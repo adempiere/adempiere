@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Template_Ad_Cat
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_CM_Template_Ad_Cat extends PO
 {
 /** Standard Constructor

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_AD_Package_Exp_Common extends PO
 {
 /** Standard Constructor
@@ -563,6 +563,8 @@ public static final String TYPE_CodeSnipit = "SNI";
 public static final String TYPE_SQLStatement = "SQL";
 /** Table = T */
 public static final String TYPE_Table = "T";
+/** Dynamic Validation Rule = V */
+public static final String TYPE_DynamicValidationRule = "V";
 /** Window = W */
 public static final String TYPE_Window = "W";
 /** Form = X */
@@ -571,8 +573,8 @@ public static final String TYPE_Form = "X";
 @param Type Type of Validation (SQL, Java Script, Java Language) */
 public void setType (String Type)
 {
-if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X");
+if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - V - W - X");
 if (Type != null && Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");

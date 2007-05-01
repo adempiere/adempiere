@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.1.6 - $Id$ */
+ *  @version Release 3.2.0 - $Id$ */
 public class X_I_ElementValue extends PO
 {
 /** Standard Constructor
@@ -382,8 +382,8 @@ return (String)get_Value("Name");
 /** Column name Name */
 public static final String COLUMNNAME_Name = "Name";
 
-/** ParentElementValue_ID AD_Reference_ID=362 */
-public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=362;
+/** ParentElementValue_ID AD_Reference_ID=182 */
+public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 /** Set Parent Account.
 @param ParentElementValue_ID The parent (summary) account */
 public void setParentElementValue_ID (int ParentElementValue_ID)
