@@ -1,6 +1,8 @@
 --Enable Brazil in country Table
 UPDATE c_country SET hasregion = 'Y' WHERE c_country_id = 139;
 
+COMMIT;
+
 --Add Brazilian States
 INSERT INTO c_region VALUES (441, 0, 0, 'Y', '2007-04-30 16:40:42', 0, '2007-04-30 16:40:42', 0, 'AC', 'Acre', 139, 'N');
 INSERT INTO c_region VALUES (442, 0, 0, 'Y', '2007-04-30 16:40:57', 0, '2007-04-30 16:40:57', 0, 'AL', 'Alagoas', 139, 'N');
@@ -30,3 +32,12 @@ INSERT INTO c_region VALUES (465, 0, 0, 'Y', '2007-04-30 16:45:40', 0, '2007-04-
 INSERT INTO c_region VALUES (466, 0, 0, 'Y', '2007-04-30 16:45:53', 0, '2007-04-30 16:45:53', 0, 'SE', 'Sergipe', 139, 'N');
 INSERT INTO c_region VALUES (467, 0, 0, 'Y', '2007-04-30 16:46:03', 0, '2007-04-30 16:46:03', 0, 'TO', 'Tocantins', 139, 'N');
 
+COMMIT;
+
+UPDATE AD_SEQUENCE
+   SET currentnextsys = (SELECT MAX (c_region_id) + 1
+                           FROM C_REGION
+                          WHERE c_region_id < 1000000)
+ WHERE NAME = 'C_Region';
+
+COMMIT;
