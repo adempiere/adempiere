@@ -422,10 +422,12 @@ public class WFActivity extends CPanel
 		else
 			log.log(Level.SEVERE, "Unknown Node Action: " + node.getAction());
 		//
-		if (m_menu != null)
-		{
-			m_menu.updateInfo();	//	calls loadActivities - updates menu tab
-		}
+		// globalqss - comment following lines to solve the
+		// Bug [ 1711626 ] Workflow tab just allow to navigate first two activities
+		// if (m_menu != null)
+		// {
+		// 	m_menu.updateInfo();	//	calls loadActivities - updates menu tab
+		// }
 		//	End
 		if (m_index+1 >= m_activities.length)
 		{
