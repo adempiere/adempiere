@@ -45,8 +45,10 @@ public final class Env
 {
 	/**	Logging								*/
 	private static CLogger				s_log = CLogger.getCLogger(Env.class);
-	
+		
 	private static String	UNIX_BROWSER = "netscape";
+	
+	private static String   MAC_BROWSER = "open";
 	
 	/**
 	 *	Exit System
@@ -1361,8 +1363,12 @@ public final class Env
 		s_log.info(url);
 		//  OS command
 		String cmd = "rundll32 url.dll,FileProtocolHandler ";
-		if (!isWindows())
-			cmd = UNIX_BROWSER + " ";
+		if (!isWindows()){
+			if(isMac())
+				cmd = MAC_BROWSER + " ";
+			else
+				cmd = UNIX_BROWSER + " ";
+		}
 		//
 		String execute = cmd + url;
 		try
