@@ -1,5 +1,5 @@
 --Enable Brazil in country Table
-UPDATE c_country SET hasregion = 'Y' WHERE c_country_id = 139;
+UPDATE c_country SET hasregion = 'Y', regionname = 'Estado' WHERE c_country_id = 139;
 
 COMMIT;
 
