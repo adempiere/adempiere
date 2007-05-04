@@ -20,7 +20,7 @@
 @psql -U postgres -c "%ADEMPIERE_CREATE_ROLE_SQL%"
 @set ADEMPIERE_CREATE_ROLE_SQL=
 
-@PGPASSWORD=%3
+@set PGPASSWORD=%3
 @createdb %ADEMPIERE_DB_NAME% -E UNICODE -O %2 -U %2
 
 @echo -------------------------------------
@@ -29,7 +29,7 @@
 @psql -d %ADEMPIERE_DB_NAME% -U %2 -c "drop schema sqlj cascade"
 @psql -d %ADEMPIERE_DB_NAME% -U %2 -f %ADEMPIERE_HOME%/data/Adempiere_pg.dmp
 
-@PGPASSWORD=
+@set PGPASSWORD=
 @goto end
 
 :environment
