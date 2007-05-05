@@ -272,15 +272,15 @@ public final class Fact
 		line.setDocumentInfo(m_doc, null);
 		line.setPostingType(m_postingType);
 
+		//	Account
+		line.setAccount(m_acctSchema, m_acctSchema.getSuspenseBalancing_Acct());
+
 		//  Amount
 		if (diff.signum() < 0)   //  negative balance => DR
 			line.setAmtSource(m_doc.getC_Currency_ID(), diff.abs(), Env.ZERO);
 		else                                //  positive balance => CR
 			line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, diff);
 			
-		//	Account
-		line.setAccount(m_acctSchema, m_acctSchema.getSuspenseBalancing_Acct());
-
 		//  Convert
 		line.convert();
 		//
