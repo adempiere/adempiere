@@ -223,6 +223,19 @@ public class VInOutGen extends CPanel
 			sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
 		if (m_C_BPartner_ID != null)
 			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
+		
+		// bug - [ 1713317 ] Generate Shipments (manual) show locked records
+		/* begin - Exclude locked records; @Trifon */
+		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+		if (lockedIDs != null)
+		{
+			if (sql.length() > 0)
+				sql.append(" AND ");
+			sql.append("C_Order_ID").append(lockedIDs);
+		}
+		/* eng - Exclude locked records; @Trifon */
+		  
 		//
 		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
 		log.fine(sql.toString());
