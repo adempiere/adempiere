@@ -102,6 +102,10 @@ public final class EMail implements Serializable
 	private String  			m_messageHTML;
 	/**	Mail SMTP Server			*/
 	private String  			m_smtpHost;
+	/**	Mail SMTP Server Port		*/
+	private int  				m_smtpPort = 0; // @Trifon
+	/**	SMTP enable start TLS		*/
+	private boolean 			m_smtpStarttlsEnable = false; // @Trifon
 	/**	Attachments					*/
 	private ArrayList<Object>	m_attachments;
 	/**	UserName and Password		*/
@@ -149,6 +153,13 @@ public final class EMail implements Serializable
 		{
 			if (m_auth != null)		//	createAuthenticator was called
 				props.put("mail.smtp.auth", "true");
+			if (m_smtpPort > 0) {
+				props.put("mail.smtp.port", "587"); // @Trifon TODO
+			}
+			if (m_smtpStarttlsEnable) {
+				props.put("mail.smtp.starttls.enable", "true"); // @Trifon
+			}
+			
 			session = Session.getInstance(props, m_auth);
 			session.setDebug(CLogMgt.isLevelFinest());
 		}
