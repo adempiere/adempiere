@@ -181,16 +181,16 @@ public class GenerateModel
 			+ "super (ctx, rs, trxName);"
 			+ "}"	//	Load Constructor End
 			//
-			+ "/** AD_Table_ID=").append(AD_Table_ID).append(" */\n"
 			// globalqss - Grant independence to GenerateModel from AD_Table_ID
-			// + "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
-			+ "public static final int Table_ID=MTable.getTable_ID(\"").append(tableName).append("\");\n"
-			//	
 			+ "/** TableName=").append(tableName).append(" */\n"
 			+ "public static final String Table_Name=\"").append(tableName).append("\";\n"
+			// + "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
+			+ "/** AD_Table_ID=").append(AD_Table_ID).append(" */\n"
+			+ "public static final int Table_ID=MTable.getTable_ID(Table_Name);\n"
+			//	
 			// globalqss
 			// + "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");\n"
-			+ "protected static KeyNamePair Model = new KeyNamePair(Table_ID,\"").append(tableName).append("\");\n" 
+			+ "protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n" 
 			//	
 			+ "protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");"
 			+ "/** AccessLevel\n@return ").append(accessLevelInfo).append("\n*/\n"
