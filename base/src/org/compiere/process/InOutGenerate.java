@@ -47,6 +47,8 @@ public class InOutGenerate extends SvrProcess
 	private String		p_docAction = DocAction.ACTION_Complete;
 	/** Consolidate				*/
 	private boolean		p_ConsolidateDocument = true;
+    /** Shipment Date                       */
+	private Timestamp       p_DateShipped = null;
 	
 	/**	The current Shipment	*/
 	private MInOut 		m_shipment = null;
@@ -96,13 +98,18 @@ public class InOutGenerate extends SvrProcess
 				p_ConsolidateDocument = "Y".equals(para[i].getParameter());
 			else if (name.equals("DocAction"))
 				p_docAction = (String)para[i].getParameter();
+			else if (name.equals("MovementDate"))
+                p_DateShipped = (Timestamp)para[i].getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 			
-			//	Login Date
-			m_movementDate = Env.getContextAsDate(getCtx(), "#Date");
-			if (m_movementDate == null)
-				m_movementDate = new Timestamp(System.currentTimeMillis());
+			//  juddm - added ability to specify a shipment date from Generate Shipments
+			if (p_DateShipped == null) {
+				m_movementDate = Env.getContextAsDate(getCtx(), "#Date");
+			    if (m_movementDate == null)
+			    	m_movementDate = new Timestamp(System.currentTimeMillis());
+                } else
+                	m_movementDate = p_DateShipped;
 			//	DocAction check
 			if (!DocAction.ACTION_Complete.equals(p_docAction))
 				p_docAction = DocAction.ACTION_Prepare;
