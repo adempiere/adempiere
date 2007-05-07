@@ -1504,8 +1504,19 @@ public class MOrder extends X_C_Order implements DocAction
 					//	Get default Location
 					if (M_Locator_ID == 0)
 					{
+						// try to take default locator for product first
+						// if it is from the selected warehouse
 						MWarehouse wh = MWarehouse.get(getCtx(), line.getM_Warehouse_ID());
-						M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
+						M_Locator_ID = product.getM_Locator_ID();
+						if (M_Locator_ID!=0) {
+							MLocator locator = new MLocator(getCtx(), product.getM_Locator_ID(), get_TrxName());
+							//product has default locator defined but is not from the order warehouse
+							if(locator.getM_Warehouse_ID()!=wh.get_ID()) {
+								M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
+							}
+						} else {
+							M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
+						}
 					}
 					//	Update Storage
 					if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID, 
