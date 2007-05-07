@@ -173,6 +173,7 @@ public final class APanel extends CPanel
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
 							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, aDeleteSelection;
 	
+	private SwitchAction aSwitchLinesDownAction, aSwitchLinesUpAction;
 	/**************************************************************************
 	 *	Create Menu and Toolbar and registers keyboard actions.
 	 *  - started from constructor
@@ -636,6 +637,7 @@ public final class APanel extends CPanel
 									log.log(Level.SEVERE, "Not Included = " + gc);
 							}
 						}
+						initSwitchLineAction();
 					}	//	normal tab
 
 					if (!included)	//  Add to TabbedPane
@@ -995,8 +997,10 @@ public final class APanel extends CPanel
 				m_curWinTab = (JTabbedPane)tp.getSelectedComponent();
 			else
 				throw new java.lang.IllegalArgumentException("Window does not contain Tabs");
-			if (m_curWinTab.getSelectedComponent() instanceof GridController)
+			if (m_curWinTab.getSelectedComponent() instanceof GridController) {
 				m_curGC = (GridController)m_curWinTab.getSelectedComponent();
+				initSwitchLineAction();
+			}
 		//	else if (m_curWinTab.getSelectedComponent() instanceof APanelTab)
 		//		isAPanelTab = true;
 			else
@@ -1069,8 +1073,10 @@ public final class APanel extends CPanel
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
 			previousIndex = m_curTabIndex;
 			m_curTabIndex = tpIndex;
-			if (!isAPanelTab)
+			if (!isAPanelTab) {
 				m_curGC = gc;
+				initSwitchLineAction();
+			}
 		}
 
 		//	Sort Tab Handling
@@ -1357,15 +1363,39 @@ public final class APanel extends CPanel
 				m_curGC.getTable().removeEditor();
 				m_curTab.navigate(0);
 			}
-			else if (cmd.equals(aPrevious.getName()))
-			{	/*cmd_save(false);*/
+			else if (cmd.equals(aSwitchLinesUpAction.getName())) 
+			{
+				//up-key + shift
 				m_curGC.getTable().removeEditor();
-				m_curTab.navigateRelative(-1);
-			}
-			else if (cmd.equals(aNext.getName()))
-			{	/*cmd_save(false); */
+				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				m_curGC.getTable().requestFocus();
+			} 
+			else if (cmd.equals(aPrevious.getName())) 
+			{ /* cmd_save(false); */
+				//up-image + shift
 				m_curGC.getTable().removeEditor();
-				m_curTab.navigateRelative(+1);
+				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
+					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				} else {
+					m_curTab.navigateRelative(-1);
+				}
+			} 
+			else if (cmd.equals(aSwitchLinesDownAction.getName())) 
+			{
+				//down-key + shift
+				m_curGC.getTable().removeEditor();
+				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				m_curGC.getTable().requestFocus();
+			} 
+			else if (cmd.equals(aNext.getName())) 
+			{ /* cmd_save(false); */
+				//down-image + shift
+				m_curGC.getTable().removeEditor();
+				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
+					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+				} else {
+					m_curTab.navigateRelative(+1);
+				}
 			}
 			else if (cmd.equals(aLast.getName()))
 			{	/*cmd_save(false);*/
@@ -2323,5 +2353,75 @@ public final class APanel extends CPanel
 		s += "]";
 		return s;
 	}   //  toString
+
+	/**
+	 * Simple action class for the resort of tablelines (switch line no). Delegates actionPerformed
+	 * to APanel.
+	 * 
+	 * @author Karsten Thiemann, kthiemann@adempiere.org
+	 * 
+	 */
+	class SwitchAction extends AbstractAction {
+		
+		/** the action listener - APanel */
+		private ActionListener al;
+
+		/** action name */
+		private String name;
+
+		/**
+		 * Constructor.
+		 * @param name
+		 * @param accelerator
+		 * @param al
+		 */
+		SwitchAction(String name, KeyStroke accelerator, ActionListener al) {
+			super(name);
+			putValue(Action.NAME, name); // Display
+			putValue(Action.SHORT_DESCRIPTION, name); // Tooltip
+			putValue(Action.ACCELERATOR_KEY, accelerator); // KeyStroke
+			putValue(Action.ACTION_COMMAND_KEY, name); // ActionCammand
+			this.al = al;
+			this.name = name;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			al.actionPerformed(e);
+		} // actionPerformed
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	/**
+	 * Removes the default KeyStroke action for the up/down keys and adds switch
+	 * line actions.
+	 */
+	private void initSwitchLineAction() {
+		aSwitchLinesDownAction = new SwitchAction("switchLinesDown", KeyStroke.getKeyStroke(
+				KeyEvent.VK_DOWN, Event.SHIFT_MASK), this);
+		aSwitchLinesUpAction = new SwitchAction("switchLinesUp", KeyStroke.getKeyStroke(
+				KeyEvent.VK_UP, Event.SHIFT_MASK), this);
+
+		JTable table = m_curGC.getTable();
+		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+
+		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK),
+				aSwitchLinesDownAction.getName());
+		getActionMap().put(aSwitchLinesDownAction.getName(), aSwitchLinesDownAction);
+		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK),
+				aSwitchLinesUpAction.getName());
+		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
+	}
 
 }	//	APanel

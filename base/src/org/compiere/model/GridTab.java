@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.beans.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
@@ -2517,4 +2518,80 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		m_mTable.setFieldVFormat(identifier, strNewFormat);
 	}	//	setFieldVFormat	
+
+	/**
+	 * Switches the line/seqNo of the two rows
+	 * @param from row index
+	 * @param to row index
+	 * @param sortColumn column index of sort column
+	 * @param ascending sorting modus
+	 */
+	public void switchRows(int from, int to, int sortColumn, boolean ascending) {
+		log.fine(from + " - " + to + " - " + sortColumn + " - " + ascending);
+		// nothing to do
+		if (from == to) {
+			log.finest("nothing to do - from == to");
+			return;
+		}
+		//check if lines are editable
+		if(!(m_mTable.isRowEditable(from)&& m_mTable.isRowEditable(to))){
+			log.finest("row not editable - return");
+			return;
+		}
+		// Row range check
+		to = verifyRow(to);
+		if (to == -1) {
+			log.finest("Row range check - return");
+			return;
+		}
+
+		// Check, if we have old uncommitted data
+		m_mTable.dataSave(to, false);
+
+		//find the line column
+		int lineCol = m_mTable.findColumn("Line");
+		if (lineCol == -1) {
+			lineCol = m_mTable.findColumn("SeqNo");
+		}
+		if(lineCol == -1){
+			//no Line, no SeqNo
+			return;
+		}
+		//get the line/seq numbers
+		Integer lineNoCurrentRow = null;
+		Integer lineNoNextRow = null;
+		if (m_mTable.getValueAt(from, lineCol) instanceof Integer) {
+			lineNoCurrentRow = (Integer) m_mTable.getValueAt(from, lineCol);
+			lineNoNextRow = (Integer) m_mTable.getValueAt(to, lineCol);
+		} else if (m_mTable.getValueAt(from, lineCol) instanceof BigDecimal) {
+			lineNoCurrentRow = new Integer(((BigDecimal) m_mTable.getValueAt(from, lineCol))
+					.intValue());
+			lineNoNextRow = new Integer(((BigDecimal) m_mTable.getValueAt(to, lineCol))
+					.intValue());
+		} else {
+			log.fine("unknown value format - return");
+			return;
+		}
+		//don't sort special lines like taxes
+		if (lineNoCurrentRow >= 9900
+				|| lineNoNextRow >= 9900) {
+			log.fine("don't sort - might be special lines");
+			return; 
+		}
+		// switch the line numbers and save new values
+		m_mTable.setValueAt(lineNoNextRow, from, lineCol);
+		setCurrentRow(to, false);
+		m_mTable.dataSave(true);
+		m_mTable.setValueAt(lineNoCurrentRow, to, lineCol);
+		setCurrentRow(from, false);
+		m_mTable.dataSave(true);
+		//resort
+		if(sortColumn != -1) {
+			m_mTable.sort(sortColumn, ascending);
+		} else {
+			m_mTable.sort(lineCol, true);
+		}
+		navigate(to);
+	}	
+
 }	//	MTab
