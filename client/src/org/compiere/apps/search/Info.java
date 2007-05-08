@@ -922,7 +922,7 @@ public abstract class Info extends CDialog
 		//  Double click with selected row => exit
 		if (e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
 		{
-			dispose(true);	        //  double_click same as OK
+			zoom(); // replacing dispose(true) so that it wouldnt just exit;	        //  double_click same as OK
 		}
 		//  Right Click => start Calculator
 		else if (SwingUtilities.isRightMouseButton(e))
