@@ -1,64 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Workflow">
-	<row id="101" trl="Y">
-		<value column="Name" original="Project Setup and Use">Настройка проектов и отчетность по ним</value>
-		<value column="Description" original="Setup of projects and project reporting"/>
-		<value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.</value>
-	</row>
-	<row id="103" trl="Y">
-		<value column="Name" original="Language Setup">Новый язык</value>
-		<value column="Description" original="Setup a new Language of the system and translate elements">Добавление нового языка в систему</value>
-		<value column="Help" original="Define a new language as a system language."/>
-	</row>
-	<row id="104" trl="Y">
-		<value column="Name" original="Initial Client Setup Review">Просмотр создания нового клиента</value>
-		<value column="Description" original="Review of system level setup of a new  Client"/>
-		<value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.\nYou may want to check also the following Workflows:\n- Accounting Setup\n- Business Partner Setup\n- Product Setup\n- Price list Setup\n- Warehouse Setup\n- Tax Setup\n</value>
-	</row>
-	<row id="105" trl="Y">
-		<value column="Name" original="Accounting Setup">Настройка учета</value>
-		<value column="Description" original="Review and change Accounting Setup"/>
-		<value column="Help" original="This workflow allows you to review and change yout Accounting Rules. "/>
-	</row>
-	<row id="106" trl="Y">
-		<value column="Name" original="Business Partner Setup">Создание бизнес партнера</value>
-		<value column="Description" original="Setup Business Partner Rules"/>
-		<value column="Help" original="This workflow defines the Business Partners and the supporting rules."/>
-	</row>
-	<row id="107" trl="Y">
-		<value column="Name" original="Product Setup">Настройка продуктов</value>
-		<value column="Description" original="Set up Products"/>
-		<value column="Help" original="Define your products manually. You should verify the settings especially if you import your products."/>
-	</row>
-	<row id="108" trl="Y">
-		<value column="Name" original="Price List Setup">Настройка прайс-листов</value>
-		<value column="Description" original="Define your Price Lists and Discounts"/>
-		<value column="Help" original="You define your price lists after entering or importing your products">You define your price lists after entering or importing your products</value>
-	</row>
-	<row id="109" trl="N">
-		<value column="Name" original="** Invalid **">** Invalid **</value>
-		<value column="Description" original=""/>
-		<value column="Help" original=""/>
-	</row>
-	<row id="110" trl="Y">
-		<value column="Name" original="Tax Setup">Настройки налогов</value>
-		<value column="Description" original="Setup tax calculation"/>
-		<value column="Help" original="Setup the tax calculation for products, services and charges"/>
-	</row>
-	<row id="111" trl="Y">
-		<value column="Name" original="Sales Setup">Настройки продаж</value>
-		<value column="Description" original="Setup Sales"/>
-		<value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns."/>
-	</row>
-	<row id="112" trl="Y">
-		<value column="Name" original="Performance Measurement Setup">Настройка измерений производительности</value>
-		<value column="Description" original="Setup your Performance Measurement"/>
-		<value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced ScoreCard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced ScoreCard, etc.\n\nMost important: Do your analysis first!\n- What are your goals and how do you measure it?\n\nWhen you are setting up the system, you do it in reverse:\nFirst you define how you measure it and last you define the goals for the measurements.\nYou have three ways measuring performance:\n- via quantifiable measures (e.g. sales of $3 million in Q1)\n- via manual measures\n- via achievements (tasks)\n\nThe system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)</value>
-	</row>
-	<row id="113" trl="Y">
-		<value column="Name" original="Requet Setup">Настройка запросов</value>
-		<value column="Description" original="Set up the client to process requests"/>
-		<value column="Help" original=""/>
-	</row>
+  <row id="101" trl="Y">
+    <value column="Name" original="Project Setup and Use">Настройка проектов и отчетность по ним</value>
+    <value column="Description" original="Setup of projects and project reporting"/>
+    <value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">Проекты позволяют мониторить статус торговых возможностей, сервисных проектов и инвестиционных проектов. Проект - это процесс, который должен предприниматься и может включать в себя многие шаги или фазы и ему требуются ресурсы из более чем одной области.</value>
+  </row>
+  <row id="103" trl="Y">
+    <value column="Name" original="Language Setup">Новый язык</value>
+    <value column="Description" original="Setup a new Language of the system and translate elements">Добавление нового языка в систему</value>
+    <value column="Help" original="Define a new language as a system language."/>
+  </row>
+  <row id="104" trl="Y">
+    <value column="Name" original="Initial Client Setup Review">Просмотр создания нового клиента</value>
+    <value column="Description" original="Review of system level setup of a new  Client"/>
+    <value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">В этом workflow просматривается системная установка нового Клиента, которая выполняется автоматически Initial Client Setup. Вы можете захотеть проверить также следущие Workflows: Бухгалтерские Настройки - Бизнес Партнера Настройки - Товаров Настройки - Прайс Листа Настройки - Склада Настройки - Налогов Настройки</value>
+  </row>
+  <row id="105" trl="Y">
+    <value column="Name" original="Accounting Setup">Бухгалтерские настройки</value>
+    <value column="Description" original="Review and change Accounting Setup">Просмотр и изменение бухгалтерских настроек</value>
+    <value column="Help" original="This workflow allows you to review and change your Accounting Rules. "/>
+  </row>
+  <row id="106" trl="Y">
+    <value column="Name" original="Business Partner Setup">Настройки бизнес-партнера</value>
+    <value column="Description" original="Setup Business Partner Rules"/>
+    <value column="Help" original="This workflow defines the Business Partners and the supporting rules."/>
+  </row>
+  <row id="107" trl="Y">
+    <value column="Name" original="Product Setup">Настройки товаров</value>
+    <value column="Description" original="Set up Products"/>
+    <value column="Help" original="Define your products manually. You should verify the settings especially if you import your products."/>
+  </row>
+  <row id="108" trl="Y">
+    <value column="Name" original="Price List Setup">Настройки прайс-листов</value>
+    <value column="Description" original="Define your Price Lists and Discounts"/>
+    <value column="Help" original="You define your price lists after entering or importing your products. In addition to price lists, you can define discounts for business partners.  Assign specific Price Lists and Discounst to Business Partners.">Вы должны определить ваши прайс-листы после ввода или импортирования ваших товаров</value>
+  </row>
+  <row id="109" trl="Y">
+    <value column="Name" original="Replication Setup">Настройки репликаций</value>
+    <value column="Description" original="Setup of data replication"/>
+    <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required&#10;"/>
+  </row>
+  <row id="110" trl="Y">
+    <value column="Name" original="Tax Setup">Настройки налогов</value>
+    <value column="Description" original="Setup tax calculation"/>
+    <value column="Help" original="Setup the tax calculation for products, services and charges"/>
+  </row>
+  <row id="111" trl="Y">
+    <value column="Name" original="Sales Setup">Настройки продаж</value>
+    <value column="Description" original="Setup Sales"/>
+    <value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns."/>
+  </row>
+  <row id="112" trl="Y">
+    <value column="Name" original="Performance Measurement Setup">Настройки измерения продуктивности</value>
+    <value column="Description" original="Setup your Performance Measurement"/>
+    <value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced Scorecard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">Это workflow проведет вас по установке вашего измерения продуктивности, базирующегося на ключевых индикаторах продуктивности, балансовой ScoreCard, и т.д. Очень важно: сделайте сначала ваш анализ! Какие ваши цели и как вы будете измерять их? Когда вы установите систему, сделайте это в обратном порядке: сначала определите Как измерять? и последним определите цели для измерения. Вы имеете три способа измерения продуктивности: через количественные измерения  (например, продажи в $3 миллиона как Q1) - через измерения вручную - через  выполнение (задач). Система будет конвертировать измерения в проценты (базирующиеся на целях и измерении достигнутого - или на итоговом числе и достигнутых результатах)</value>
+  </row>
+  <row id="113" trl="Y">
+    <value column="Name" original="Request Setup">Настройки запросов</value>
+    <value column="Description" original="Set up the client to process requests"/>
+    <value column="Help" original=""/>
+  </row>
+  <row id="114" trl="Y">
+    <value column="Name" original="Requisition Setup">Настройки заявок</value>
+    <value column="Description" original=""/>
+    <value column="Help" original=""/>
+  </row>
+  <row id="115" trl="Y">
+    <value column="Name" original="Process_Requisition">Процесс_Заявка</value>
+    <value column="Description" original="(Standard Process_Requisition)">Пример workflow с утверждением (GardenWorld)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="116" trl="Y">
+    <value column="Name" original="Process_Order">Процесс_Заказ</value>
+    <value column="Description" original="(Standard Process Order)">(Стандартный процесс Заказ)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="117" trl="Y">
+    <value column="Name" original="Process_Shipment">Процесс_Отгрузка</value>
+    <value column="Description" original="(Standard Process Shipment)">(Стандартный процесс Отгрузка)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="118" trl="Y">
+    <value column="Name" original="Process_Invoice">Процесс_Инвойс</value>
+    <value column="Description" original="(Standard Process Onvoice)">(Стандартный процесс Инвойс)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="119" trl="Y">
+    <value column="Name" original="Process_Cash">Процесс_Наличные</value>
+    <value column="Description" original="(Standard Process Cash)">(Стандартный процесс Наличные)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="120" trl="Y">
+    <value column="Name" original="Process_Payment">Процесс_Оплата</value>
+    <value column="Description" original="(Standard Process Payment)">(Стандартный процесс Оплата)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="121" trl="Y">
+    <value column="Name" original="Process_Journal">Процесс_Журнал</value>
+    <value column="Description" original="(Standard Process Journal)">(Стандартный процесс Журнал)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="122" trl="Y">
+    <value column="Name" original="Process_JournalBatch">Процесс_ПакетЖурналов</value>
+    <value column="Description" original="(Standard Process Jornal Batch)">(Стандартный процесс Пакет журналов)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="123" trl="Y">
+    <value column="Name" original="Process_RMA">Процесс_RMA</value>
+    <value column="Description" original="(Standard Process_RMA)">(Стандартный процесс возврата материалов)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="124" trl="Y">
+    <value column="Name" original="Process_InOutConfirm">Процесс_InOutПодтверждение</value>
+    <value column="Description" original="(Standard Process Confirmation)">(Стандартный процесс Подтверждение)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="125" trl="Y">
+    <value column="Name" original="Process_Allocation">Процесс_Распределение</value>
+    <value column="Description" original="(Standard Process Allocation)">(Стандартный процесс Распределение)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="126" trl="Y">
+    <value column="Name" original="Process_TimeExpense">Процесс_ЗатратыВремени</value>
+    <value column="Description" original="(Standard Process Time Expense)">(Стандартный процесс Затраты времени)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="127" trl="Y">
+    <value column="Name" original="Process_Inventory">Процесс_Инвентаризация</value>
+    <value column="Description" original="(Standard Process Inventory)">(Стандартный процесс Инвентаризация)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="128" trl="Y">
+    <value column="Name" original="Process_Movement">Процесс_Перемещение</value>
+    <value column="Description" original="(Standard Process Movement)">(Стандартный процесс Перемещение)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="129" trl="Y">
+    <value column="Name" original="Process_MovementConfirm">Процесс_ПодтверждениеПеремещения</value>
+    <value column="Description" original="(Standard Process Movement Confirmation)">(Стандартный процесс Подтверждение перемещения)</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="130" trl="Y">
+    <value column="Name" original="Process_BankStatement">Процесс_ВыпискаБанка</value>
+    <value column="Description" original="(Standard Process Bank Statement)">(Стандартный процесс Выписка банка)</value>
+    <value column="Help" original=""/>
+  </row>
 </adempiereTrl>

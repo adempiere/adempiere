@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Process_Para">
-	<row id="227" trl="N">
-		<value column="Name" original="Delete existing Accounting Entries">Delete existing Accounting Entries</value>
-		<value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">The selected accounting entries will be deleted!  DANGEROUS !!!</value>
-		<value column="Help" original=""/>
-	</row>
-	<row id="233" trl="N">
-		<value column="Name" original="Pricelist Version">Pricelist Version</value>
-		<value column="Description" original="Only used if Price List is used to set future cost price">Only used if Price List is used to set future cost price</value>
-		<value column="Help" original=""/>
-	</row>
+  <row id="227" trl="Y">
+    <value column="Name" original="Delete existing Accounting Entries">Удалить существующие бухг. записи</value>
+    <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Выбранные бухг. записи будут удалены! ОПАСНО !!!</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="233" trl="Y">
+    <value column="Name" original="Pricelist Version">Версия прайс-листа</value>
+    <value column="Description" original="Only used if Price List is used to set future/standard cost price">Используется только, если прайс-лист задействован для установки цены будущей/стандартной стоимости</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="302" trl="Y">
+    <value column="Name" original="Overwrite Payment Rule">Правило способа оплаты</value>
+    <value column="Description" original="Overwrite how to pay the invoice">Как вы будете оплачивать инвойс</value>
+    <value column="Help" original="The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.">Правило оплаты показывает метод  оплаты инвойса.</value>
+  </row>
+  <row id="315" trl="Y">
+    <value column="Name" original="From User">От пользователя</value>
+    <value column="Description" original="Send EMail from user">Отправить email от пользователя</value>
+    <value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">Email отправляется от выбранного пользователя. Иначе - отправляется от email адреса запроса клиента</value>
+  </row>
+  <row id="452" trl="Y">
+    <value column="Name" original="Maintenance Mode">Режим поддержки</value>
+    <value column="Description" original="Language Maintenance Mode">Режим поддержка Языка</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="467" trl="Y">
+    <value column="Name" original="Existing Organization">Существующая  организация</value>
+    <value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Организация, связанная с клиентом. Оставьте пустым, если вы хотите создать новую организацию</value>
+    <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">Организация - это отдел вашего клиента или юридического лица. Например, склад или отдел. Вы можете сделать общими данные между организациями.</value>
+  </row>
+  <row id="469" trl="Y">
+    <value column="Name" original="Limit Access to Role">Ограничение доступа для роли</value>
+    <value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">Если роль не выбрана, то предоставляется доступ для всех ролей клиента (не-вручную)</value>
+    <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">Роль определяет уровень безопасности и доступа пользователей в систему. Для тех пользователей системы, кому назначена эта роль.</value>
+  </row>
+  <row id="493" trl="Y">
+    <value column="Name" original="New User/Contact">Новый пользователь/контакт</value>
+    <value column="Description" original="User within the system - Internal or Business Partner Contact">Пользователь с внутренним (системным) контактом или контактом бизнес-партнера</value>
+    <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Каждый пользователь идентифицируется как уникальный пользователь в системе. Это может быть внутренний (системный) пользователь или контакт бизнес-партнера</value>
+  </row>
+  <row id="494" trl="Y">
+    <value column="Name" original="New Workflow Responsible">Новый ответственный за workflow</value>
+    <value column="Description" original="Responsible for Workflow Execution">Ответственный за выполнение workflow</value>
+    <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Максимальная ответственность за workflow возложена на конкретного пользователя. Ответственность за workflow позволяет определить пути для поиска этого конкретного gользователя.</value>
+  </row>
+  <row id="496" trl="Y">
+    <value column="Name" original="New User/Contact">Новый пользователь/контакт</value>
+    <value column="Description" original="User within the system - Internal or Business Partner Contact">Пользователь с внутренним (системным) котактом или контактом бизнес-партнера</value>
+    <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Каждый Пользователь идентифицируется как уникальный пользователь в системе. Это может быть контакт внутреннего (системного) пользователя или контакт бизнес-партнера</value>
+  </row>
+  <row id="497" trl="Y">
+    <value column="Name" original="New Workflow Responsible">Новый ответственный за workflow</value>
+    <value column="Description" original="Responsible for Workflow Execution">Ответственный за выполнение workflow</value>
+    <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Максимальная ответственность возложенная на конкретного пользователя. Ответственность за workflow позволяет определить пути для поиска конкретного Пользователя.</value>
+  </row>
+  <row id="523" trl="Y">
+    <value column="Name" original="Default Sales Rep">Торг. пред по умолчанию</value>
+    <value column="Description" original="If not defined on Business Partner Level">Если это не определено на уровне бизнес-партнера</value>
+    <value column="Help" original=""/>
+  </row>
+  <row id="524" trl="Y">
+    <value column="Name" original="Dunning Currency">Валюта долга</value>
+    <value column="Description" original="Currency to create Dunning Letters">Валюта для создания писем с требованием долга</value>
+    <value column="Help" original=""/>
+  </row>
 </adempiereTrl>

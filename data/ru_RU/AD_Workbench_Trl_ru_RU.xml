@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.3d/2002-12-10 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.3b  December 11 2002 - ComPiere, Inc.-->
+<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Workbench">
-	<row id="100" trl="N">
-		<value column="Name" original="Sales">Sales</value>
-		<value column="Description" original=""/>
-		<value column="Help" original=""/>
-	</row>
+  <row id="100" trl="Y">
+    <value column="Name" original="Sales">Продажи</value>
+    <value column="Description" original=""/>
+    <value column="Help" original=""/>
+  </row>
 </adempiereTrl>
