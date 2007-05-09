@@ -568,7 +568,9 @@ public class MProduct extends X_M_Product
 		}	//	storage
 		
 		//	Reset Stocked if not Item
-		if (isStocked() && !PRODUCTTYPE_Item.equals(getProductType()))
+		//AZ Goodwill: Bug Fix isStocked always return false
+		//if (isStocked() && !PRODUCTTYPE_Item.equals(getProductType()))
+		if (!PRODUCTTYPE_Item.equals(getProductType()))
 			setIsStocked(false);
 		
 		//	UOM reset
