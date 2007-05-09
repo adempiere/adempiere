@@ -2087,8 +2087,8 @@ public final class MPayment extends X_C_Payment
 			isReceipt() ? X_C_DocType.DOCBASETYPE_ARReceipt : X_C_DocType.DOCBASETYPE_APPayment))
 			dateAcct = new Timestamp(System.currentTimeMillis());
 		
-		//	Auto Reconcile if not on Bank Statement
-		boolean reconciled = false; //	getC_BankStatementLine_ID() == 0;
+		//	Auto Reconcile if not on Bank Statement				
+		boolean reconciled = getC_BankStatementLine_ID() == 0; //AZ Goodwill
 
 		//	Create Reversal
 		MPayment reversal = new MPayment (getCtx(), 0, get_TrxName());
