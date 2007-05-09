@@ -65,9 +65,23 @@ public class Product
 			String serNo = rs.getString(2);
 			if (serNo != null && serNo.length() > 0)
 				sb.append("#").append(serNo).append(" ");
-			Date guarantee = rs.getDate(3);
+			Date guaranteeDate = null;
+			//either date or timestamp
+			Object guarantee = rs.getObject(3);
 			if (guarantee != null)
-				sb.append(guarantee).append(" ");
+			{
+				if (guarantee instanceof Timestamp)
+				{
+					Timestamp ts = (Timestamp)guarantee;
+					guaranteeDate = new Date(ts.getTime());
+				}
+				else 
+				{
+					guaranteeDate = (Date)guaranteeDate;
+				}
+			}
+			if (guaranteeDate != null)
+				sb.append(guaranteeDate).append(" ");
 		}
 		rs.close();
 		pstmt.close();
