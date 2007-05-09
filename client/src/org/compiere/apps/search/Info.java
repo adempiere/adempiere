@@ -919,10 +919,13 @@ public abstract class Info extends CDialog
 	//		"ClickCount=" + e.getClickCount() + ", Right=" + SwingUtilities.isRightMouseButton(e)
 	//		+ ", r=" + m_table.getSelectedRow() + ", c=" + m_table.getSelectedColumn());
 
-		//  Double click with selected row => exit
+		//  Double click with selected row => exit/zoom
 		if (e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
 		{
-			zoom(); // replacing dispose(true) so that it wouldnt just exit;	        //  double_click same as OK
+			if (p_WindowNo == 0)
+				zoom(); 
+			else
+				dispose(true);
 		}
 		//  Right Click => start Calculator
 		else if (SwingUtilities.isRightMouseButton(e))
