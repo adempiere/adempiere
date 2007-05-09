@@ -66,9 +66,9 @@ public final class FactLine extends X_Fact_Acct
 	/** Accounting Schema		*/
 	private MAcctSchema	m_acctSchema = null;
 	/** Document Header			*/
-	private Doc			m_doc = null;
+	private IDoc			m_doc = null;
 	/** Document Line 			*/
-	private DocLine 	m_docLine = null;
+	private IDocLine 	m_docLine = null;
 	
 	/**
 	 * 	Create Reversal (negate DR/CR) of the line
@@ -280,7 +280,7 @@ public final class FactLine extends X_Fact_Acct
 	 *  @param doc document
 	 *  @param docLine doc line
 	 */
-	public void setDocumentInfo(Doc doc, DocLine docLine)
+	public void setDocumentInfo(IDoc doc, IDocLine docLine)
 	{
 		m_doc = doc;
 		m_docLine = docLine;
@@ -391,7 +391,7 @@ public final class FactLine extends X_Fact_Acct
 	 * 	Get Document Line
 	 *	@return doc line
 	 */
-	protected DocLine getDocLine()
+	protected IDocLine getDocLine()
 	{
 		return m_docLine;
 	}	//	getDocLine
@@ -610,7 +610,7 @@ public final class FactLine extends X_Fact_Acct
 	public boolean convert ()
 	{
 		//  Document has no currency
-		if (getC_Currency_ID() == Doc.NO_CURRENCY)
+		if (getC_Currency_ID() == IDoc.NO_CURRENCY)
 			setC_Currency_ID (m_acctSchema.getC_Currency_ID());
 
 		if (m_acctSchema.getC_Currency_ID() == getC_Currency_ID())
@@ -722,7 +722,7 @@ public final class FactLine extends X_Fact_Acct
 		//	Prio 3 - get from doc - if not GL
 		if (m_doc != null && super.getAD_Org_ID() == 0)
 		{
-			if (Doc.DOCTYPE_GLJournal.equals (m_doc.getDocumentType()))
+			if (IDoc.DOCTYPE_GLJournal.equals (m_doc.getDocumentType()))
 			{
 				setAD_Org_ID (m_acct.getAD_Org_ID()); //	inter-company GL
 				log.finer("AD_Org_ID=" + super.getAD_Org_ID() + " (3 from Acct)");
@@ -736,7 +736,7 @@ public final class FactLine extends X_Fact_Acct
 		//	Prio 4 - get from account - if not GL
 		if (m_doc != null && super.getAD_Org_ID() == 0)
 		{
-			if (Doc.DOCTYPE_GLJournal.equals (m_doc.getDocumentType()))
+			if (IDoc.DOCTYPE_GLJournal.equals (m_doc.getDocumentType()))
 			{
 				setAD_Org_ID (m_doc.getAD_Org_ID());
 				log.finer("AD_Org_ID=" + super.getAD_Org_ID() + " (4 from Document)");
@@ -844,7 +844,7 @@ public final class FactLine extends X_Fact_Acct
 				setUser2_ID (m_acct.getUser2_ID());
 			
 			//  Revenue Recognition for AR Invoices
-			if (m_doc.getDocumentType().equals(Doc.DOCTYPE_ARInvoice) 
+			if (m_doc.getDocumentType().equals(IDoc.DOCTYPE_ARInvoice) 
 				&& m_docLine != null 
 				&& m_docLine.getC_RevenueRecognition_ID() != 0)
 			{

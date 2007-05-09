@@ -73,6 +73,10 @@ public interface ModelValidator
 	public static final int TIMING_AFTER_REVERSECORRECT = 13;
 	/** Called after document is reverseaccrual */
 	public static final int TIMING_AFTER_REVERSEACCRUAL = 14;
+	 /** Called before document is posted */
+    public static final int TIMING_BEFORE_POST = 15;
+    /** Called after document is posted */
+    public static final int TIMING_AFTER_POST = 16;
 
 	/**
 	 * 	Initialize Validation
