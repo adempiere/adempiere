@@ -159,10 +159,23 @@ public interface IDoc {
 	public abstract BigDecimal getAmount(int AmtType); //	getAmount
 
 	/**
+	 *	Set the Amount
+	 *  @param AmtType see AMTTYPE_*
+	 *  @param amt Amount
+	 */
+	public void setAmount(int AmtType, BigDecimal amt);
+
+	/**
 	 *  Get Amount with index 0
 	 *  @return Amount (primary document amount)
 	 */
 	public abstract BigDecimal getAmount(); //  getAmount
+
+	/**
+	 *  Set Quantity
+	 *  @param qty Quantity
+	 */
+	public void setQty (BigDecimal qty);
 
 	/**
 	 *  Get Quantity
@@ -291,10 +304,22 @@ public interface IDoc {
 	public abstract boolean isMultiCurrency(); //	isMultiCurrency
 
 	/**
+	 * 	Set Multi Currency
+	 *	@param mc multi currency
+	 */
+	public void setIsMultiCurrency (boolean mc);
+
+	/**
 	 * 	Is Tax Included
 	 *	@return tax incl
 	 */
 	public abstract boolean isTaxIncluded(); //	isTaxIncluded
+
+	/**
+	 * 	Set Tax Includedy
+	 *	@param ti Tax Included
+	 */
+	public void setIsTaxIncluded (boolean ti);
 
 	/**
 	 * 	Get C_ConversionType_ID
@@ -321,10 +346,22 @@ public interface IDoc {
 	public abstract Timestamp getDateAcct(); //	getDateAcct
 
 	/**
+	 * 	Set Date Acct
+	 *	@param da accounting date
+	 */
+	public void setDateAcct (Timestamp da);
+
+	/**
 	 * 	Get Document Date
 	 *	@return currency
 	 */
 	public abstract Timestamp getDateDoc(); //	getDateDoc
+
+	/**
+	 * 	Set Date Doc
+	 *	@param dd document date
+	 */
+	public void setDateDoc (Timestamp dd);
 
 	/**
 	 * 	Is Document Posted
@@ -363,10 +400,22 @@ public interface IDoc {
 	public abstract int getC_BankAccount_ID(); //	getC_BankAccount_ID
 
 	/**
+	 * 	Set C_BankAccount_ID
+	 *	@param C_BankAccount_ID bank acct
+	 */
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
+
+	/**
 	 * 	Get C_CashBook_ID
 	 *	@return CashBook
 	 */
 	public abstract int getC_CashBook_ID(); //	getC_CashBook_ID
+
+	/**
+	 * 	Set C_CashBook_ID
+	 *	@param C_CashBook_ID cash book
+	 */
+	public void setC_CashBook_ID (int C_CashBook_ID);
 
 	/**
 	 * 	Get M_Warehouse_ID
@@ -379,6 +428,12 @@ public interface IDoc {
 	 *	@return BPartner
 	 */
 	public abstract int getC_BPartner_ID(); //	getC_BPartner_ID
+
+	/**
+	 * 	Set C_BPartner_ID
+	 *	@param C_BPartner_ID bp
+	 */
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
 	/**
 	 * 	Get C_BPartner_Location_ID
@@ -435,10 +490,22 @@ public interface IDoc {
 	public abstract int getC_LocFrom_ID(); //	getC_LocFrom_ID
 
 	/**
+	 * 	Set C_LocFrom_ID
+	 *	@param C_LocFrom_ID loc from
+	 */
+	public void setC_LocFrom_ID(int C_LocFrom_ID);
+
+	/**
 	 * 	Get C_LocTo_ID
 	 *	@return loc to
 	 */
 	public abstract int getC_LocTo_ID(); //	getC_LocTo_ID
+
+	/**
+	 * 	Set C_LocTo_ID
+	 *	@param C_LocTo_ID loc to
+	 */
+	public void setC_LocTo_ID(int C_LocTo_ID);
 
 	/**
 	 * 	Get User1_ID
@@ -484,6 +551,13 @@ public interface IDoc {
 	 */
 	public String getDocumentType();
 	
+	/**
+	 *  Load Document Type and GL Info.
+	 * 	Set p_DocumentType and p_GL_Category_ID
+	 *	@param DocumentType
+	 */
+	public void setDocumentType (String DocumentType);
+
 	/**
 	 * 	Set C_SalesRegion_ID
 	 *	@param C_SalesRegion_ID id

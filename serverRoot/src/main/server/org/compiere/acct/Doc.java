@@ -776,10 +776,8 @@ public abstract class Doc implements IDoc
 	}   //  unlock
 
 
-	/**************************************************************************
-	 *  Load Document Type and GL Info.
-	 * 	Set p_DocumentType and p_GL_Category_ID
-	 * 	@return document type
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#getDocumentType()
 	 */
 	public String getDocumentType()
 	{
@@ -788,12 +786,10 @@ public abstract class Doc implements IDoc
 		return m_DocumentType;
 	}   //  getDocumentType
 
-	/**
-	 *  Load Document Type and GL Info.
-	 * 	Set p_DocumentType and p_GL_Category_ID
-	 *	@param DocumentType
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setDocumentType()
 	 */
-	protected void setDocumentType (String DocumentType)
+	public void setDocumentType (String DocumentType)
 	{
 		if (DocumentType != null)
 			m_DocumentType = DocumentType;
@@ -876,7 +872,6 @@ public abstract class Doc implements IDoc
 			throw new IllegalStateException("Document Type not found");
 	}	//	setDocumentType
 
-	
 	/* (non-Javadoc)
 	 * @see org.compiere.acct.IDoc#isBalanced()
 	 */
@@ -1017,12 +1012,10 @@ public abstract class Doc implements IDoc
 		return m_Amounts[AmtType];
 	}	//	getAmount
 
-	/**
-	 *	Set the Amount
-	 *  @param AmtType see AMTTYPE_*
-	 *  @param amt Amount
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setAmount(int, BigDecimal)
 	 */
-	protected void setAmount(int AmtType, BigDecimal amt)
+	public void setAmount(int AmtType, BigDecimal amt)
 	{
 		if (AmtType < 0 || AmtType >= m_Amounts.length)
 			return;
@@ -1040,11 +1033,10 @@ public abstract class Doc implements IDoc
 		return m_Amounts[0];
 	}   //  getAmount
 
-	/**
-	 *  Set Quantity
-	 *  @param qty Quantity
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setQty(BigDecimal)
 	 */
-	protected void setQty (BigDecimal qty)
+	public void setQty (BigDecimal qty)
 	{
 		m_qty = qty;
 	}   //  setQty
@@ -1424,11 +1416,10 @@ public abstract class Doc implements IDoc
 		return m_MultiCurrency;
 	}	//	isMultiCurrency
 
-	/**
-	 * 	Set Multi Currency
-	 *	@param mc multi currency
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setIsMultiCurrency(boolean)
 	 */
-	protected void setIsMultiCurrency (boolean mc)
+	public void setIsMultiCurrency (boolean mc)
 	{
 		m_MultiCurrency = mc;
 	}	//	setIsMultiCurrency
@@ -1441,11 +1432,10 @@ public abstract class Doc implements IDoc
 		return m_TaxIncluded;
 	}	//	isTaxIncluded
 
-	/**
-	 * 	Set Tax Includedy
-	 *	@param ti Tax Included
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setIsTaxIncluded(boolean)
 	 */
-	protected void setIsTaxIncluded (boolean ti)
+	public void setIsTaxIncluded (boolean ti)
 	{
 		m_TaxIncluded = ti;
 	}	//	setIsTaxIncluded
@@ -1505,11 +1495,10 @@ public abstract class Doc implements IDoc
 		throw new IllegalStateException("No DateAcct");
 	}	//	getDateAcct
 
-	/**
-	 * 	Set Date Acct
-	 *	@param da accounting date
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setDateAcct(Timestamp)
 	 */
-	protected void setDateAcct (Timestamp da)
+	public void setDateAcct (Timestamp da)
 	{
 		m_DateAcct = da;
 	}	//	setDateAcct
@@ -1533,11 +1522,10 @@ public abstract class Doc implements IDoc
 		throw new IllegalStateException("No DateDoc");
 	}	//	getDateDoc
 	
-	/**
-	 * 	Set Date Doc
-	 *	@param dd document date
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setDateDoc(Timestamp)
 	 */
-	protected void setDateDoc (Timestamp dd)
+	public void setDateDoc (Timestamp dd)
 	{
 		m_DateDoc = dd;
 	}	//	setDateDoc
@@ -1650,15 +1638,14 @@ public abstract class Doc implements IDoc
 		return m_C_BankAccount_ID;
 	}	//	getC_BankAccount_ID
 
-	/**
-	 * 	Set C_BankAccount_ID
-	 *	@param C_BankAccount_ID bank acct
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setC_BankAccount_ID(int)
 	 */
-	protected void setC_BankAccount_ID (int C_BankAccount_ID)
+	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
 		m_C_BankAccount_ID = C_BankAccount_ID;
 	}	//	setC_BankAccount_ID
-		
+
 	/* (non-Javadoc)
 	 * @see org.compiere.acct.IDoc#getC_CashBook_ID()
 	 */
@@ -1679,11 +1666,10 @@ public abstract class Doc implements IDoc
 		return m_C_CashBook_ID;
 	}	//	getC_CashBook_ID
 
-	/**
-	 * 	Set C_CashBook_ID
-	 *	@param C_CashBook_ID cash book
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setC_CashBook_ID(int)
 	 */
-	protected void setC_CashBook_ID (int C_CashBook_ID)
+	public void setC_CashBook_ID (int C_CashBook_ID)
 	{
 		m_C_CashBook_ID = C_CashBook_ID;
 	}	//	setC_CashBook_ID
@@ -1724,11 +1710,10 @@ public abstract class Doc implements IDoc
 		return m_C_BPartner_ID;
 	}	//	getC_BPartner_ID
 
-	/**
-	 * 	Set C_BPartner_ID
-	 *	@param C_BPartner_ID bp
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setC_BPartner_ID()
 	 */
-	protected void setC_BPartner_ID (int C_BPartner_ID)
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		m_C_BPartner_ID = C_BPartner_ID;
 	}	//	setC_BPartner_ID
@@ -1875,11 +1860,10 @@ public abstract class Doc implements IDoc
 		return m_C_LocFrom_ID;
 	}	//	getC_LocFrom_ID
 	
-	/**
-	 * 	Set C_LocFrom_ID
-	 *	@param C_LocFrom_ID loc from
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setC_LocFrom_ID(int)
 	 */
-	protected void setC_LocFrom_ID(int C_LocFrom_ID)
+	public void setC_LocFrom_ID(int C_LocFrom_ID)
 	{
 		m_C_LocFrom_ID = C_LocFrom_ID;
 	}	//	setC_LocFrom_ID
@@ -1892,11 +1876,10 @@ public abstract class Doc implements IDoc
 		return m_C_LocTo_ID;
 	}	//	getC_LocTo_ID
 
-	/**
-	 * 	Set C_LocTo_ID
-	 *	@param C_LocTo_ID loc to
+	/* (non-Javadoc)
+	 * @see org.compiere.acct.IDoc#setC_LocTo_ID(int)
 	 */
-	protected void setC_LocTo_ID(int C_LocTo_ID)
+	public void setC_LocTo_ID(int C_LocTo_ID)
 	{
 		m_C_LocTo_ID = C_LocTo_ID;
 	}	//	setC_LocTo_ID
