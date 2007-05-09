@@ -26,6 +26,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 import org.compiere.*;
+import org.compiere.acct.Doc;
 import org.compiere.util.*;
 import org.w3c.dom.*;
 
@@ -3410,5 +3411,24 @@ public abstract class PO
 		}
 		return document;
 	}	//	getDocument
+	
+	/* Doc - To be used on ModelValidator to get the corresponding Doc from the PO */
+	private Doc m_doc;
+
+	/**
+	 *      Set the accounting document associated to the PO - for use in POST ModelValidator
+	 *      @param doc Document
+	 */
+	public void setDoc(Doc doc) {
+		m_doc = doc;
+	}
+
+	/**
+	 *      Set the accounting document associated to the PO - for use in POST ModelValidator
+	 *      @return Doc Document
+	 */
+	public Doc getDoc() {
+		return m_doc;
+	}	
 	
 }   //  PO

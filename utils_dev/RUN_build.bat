@@ -12,6 +12,8 @@
 @SET ANT_CLASSPATH=%CLASSPATH%;..\tools\lib\ant.jar;..\tools\lib\ant-launcher.jar;..\tools\lib\ant-swing.jar;..\tools\lib\ant-commons-net.jar;..\tools\lib\commons-net-1.4.0.jar
 @SET ANT_CLASSPATH=%ANT_CLASSPATH%;"%JAVA_HOME%\lib\tools.jar"
 
+@SET ANT_OPTS="-Xms512m -Xmx512m"
+
 @echo Cleanup ...
 @"%JAVA_HOME%\bin\java" -classpath %ANT_CLASSPATH% -Dant.home="." org.apache.tools.ant.Main clean
 

@@ -21,7 +21,7 @@
     <pathelement path="${classpath}"/>
     <pathelement location="../tools/lib/j2ee.jar" />
     <pathelement location="../JasperReports/CompiereJasper.jar" />
-  	<pathelement location="../dbPort/dbPort.jar" />
+    <pathelement location="../base/Base.jar" />
   </path>
 
   <target name="compile">
