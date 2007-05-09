@@ -35,7 +35,7 @@ public final class Fact
 	 *  @param  acctSchema  Account Schema to create accounts
 	 *  @param  defaultPostingType  the default Posting type (actual,..) for this posting
 	 */
-	public Fact (IDoc document, MAcctSchema acctSchema, String defaultPostingType)
+	public Fact (Doc document, MAcctSchema acctSchema, String defaultPostingType)
 	{
 		m_doc = document;
 		m_acctSchema = acctSchema;
@@ -49,7 +49,7 @@ public final class Fact
 	private CLogger			log = CLogger.getCLogger(getClass());
 
 	/** Document            */
-	private IDoc             m_doc = null;
+	private Doc             m_doc = null;
 	/** Accounting Schema   */
 	private MAcctSchema	    m_acctSchema = null;
 	/** Transaction			*/
@@ -95,7 +95,7 @@ public final class Fact
 	 *  @param  creditAmt  credit amount, can be null
 	 *  @return Fact Line
 	 */
-	public FactLine createLine (IDocLine docLine, MAccount account,
+	public FactLine createLine (DocLine docLine, MAccount account,
 		int C_Currency_ID, BigDecimal debitAmt, BigDecimal creditAmt)
 	{
 	//	log.fine("createLine - " + account	+ " - Dr=" + debitAmt + ", Cr=" + creditAmt);
@@ -161,7 +161,7 @@ public final class Fact
 	 *  @param  Amt if negative Cr else Dr
 	 *  @return FactLine
 	 */
-	public FactLine createLine (IDocLine docLine, MAccount accountDr, MAccount accountCr,
+	public FactLine createLine (DocLine docLine, MAccount accountDr, MAccount accountCr,
 		int C_Currency_ID, BigDecimal Amt)
 	{
 		if (Amt.signum() < 0)
@@ -180,7 +180,7 @@ public final class Fact
 	 *  @param  Amt if negative Cr else Dr
 	 *  @return FactLine
 	 */
-	public FactLine createLine (IDocLine docLine, MAccount account,
+	public FactLine createLine (DocLine docLine, MAccount account,
 		int C_Currency_ID, BigDecimal Amt)
 	{
 		if (Amt.signum() < 0)
@@ -272,15 +272,15 @@ public final class Fact
 		line.setDocumentInfo(m_doc, null);
 		line.setPostingType(m_postingType);
 
+		//	Account
+		line.setAccount(m_acctSchema, m_acctSchema.getSuspenseBalancing_Acct());
+
 		//  Amount
 		if (diff.signum() < 0)   //  negative balance => DR
 			line.setAmtSource(m_doc.getC_Currency_ID(), diff.abs(), Env.ZERO);
 		else                                //  positive balance => CR
 			line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, diff);
 			
-		//	Account
-		line.setAccount(m_acctSchema, m_acctSchema.getSuspenseBalancing_Acct());
-
 		//  Convert
 		line.convert();
 		//

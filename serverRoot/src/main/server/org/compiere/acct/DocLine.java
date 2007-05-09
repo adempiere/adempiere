@@ -28,7 +28,7 @@ import org.compiere.util.*;
  *  @author 	Jorg Janke
  *  @version 	$Id: DocLine.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
  */
-public class DocLine implements IDocLine
+public class DocLine
 {	
 	/**
 	 *	Create Document Line
@@ -103,8 +103,9 @@ public class DocLine implements IDocLine
 	/** Period						*/
 	private int					m_C_Period_ID = -1;
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_Currency_ID()
+	/**
+	 *  Get Currency
+	 *  @return c_Currency_ID
 	 */
 	public int getC_Currency_ID ()
 	{
@@ -123,8 +124,9 @@ public class DocLine implements IDocLine
 		return m_C_Currency_ID;
 	}   //  getC_Currency_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_ConversionType_ID()
+	/**
+	 *  Get Conversion Type
+	 *  @return C_ConversionType_ID
 	 */
 	public int getC_ConversionType_ID ()
 	{
@@ -152,8 +154,9 @@ public class DocLine implements IDocLine
 		m_C_ConversionType_ID = C_ConversionType_ID;
 	}	//	setC_ConversionType_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setAmount(java.math.BigDecimal)
+	/**
+	 *  Set Amount (DR)
+	 *  @param sourceAmt source amt
 	 */
 	public void setAmount (BigDecimal sourceAmt)
 	{
@@ -161,8 +164,10 @@ public class DocLine implements IDocLine
 		m_AmtSourceCr = Env.ZERO;
 	}   //  setAmounts
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setAmount(java.math.BigDecimal, java.math.BigDecimal)
+	/**
+	 *  Set Amounts
+	 *  @param amtSourceDr source amount dr
+	 *  @param amtSourceCr source amount cr
 	 */
 	public void setAmount (BigDecimal amtSourceDr, BigDecimal amtSourceCr)
 	{
@@ -170,8 +175,11 @@ public class DocLine implements IDocLine
 		m_AmtSourceCr = amtSourceCr == null ? Env.ZERO : amtSourceCr;
 	}   //  setAmounts
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setConvertedAmt(int, java.math.BigDecimal, java.math.BigDecimal)
+	/**
+	 *  Set Converted Amounts
+	 *  @param C_AcctSchema_ID acct schema
+	 *  @param amtAcctDr acct amount dr
+	 *  @param amtAcctCr acct amount cr
 	 */
 	public void setConvertedAmt (int C_AcctSchema_ID, BigDecimal amtAcctDr, BigDecimal amtAcctCr)
 	{
@@ -180,48 +188,54 @@ public class DocLine implements IDocLine
 		m_AmtAcctCr = amtAcctCr;
 	}   //  setConvertedAmt
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAmtSource()
+	/**
+	 *  Line Net Amount or Dr-Cr
+	 *  @return balance
 	 */
 	public BigDecimal getAmtSource()
 	{
 		return m_AmtSourceDr.subtract(m_AmtSourceCr);
 	}   //  getAmount
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAmtSourceDr()
+	/**
+	 *  Get (Journal) Line Source Dr Amount
+	 *  @return DR source amount
 	 */
 	public BigDecimal getAmtSourceDr()
 	{
 		return m_AmtSourceDr;
 	}   //  getAmtSourceDr
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAmtSourceCr()
+	/**
+	 *  Get (Journal) Line Source Cr Amount
+	 *  @return CR source amount
 	 */
 	public BigDecimal getAmtSourceCr()
 	{
 		return m_AmtSourceCr;
 	}   //  getAmtSourceCr
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAmtAcctDr()
+	/**
+	 *  Line Journal Accounted Dr Amount
+	 *  @return DR accounted amount
 	 */
 	public BigDecimal getAmtAcctDr()
 	{
 		return m_AmtAcctDr;
 	}   //  getAmtAcctDr
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAmtAcctCr()
+	/**
+	 *  Line Journal Accounted Cr Amount
+	 *  @return CR accounted amount
 	 */
 	public BigDecimal getAmtAcctCr()
 	{
 		return m_AmtAcctCr;
 	}   //  getAmtAccrCr
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getChargeAmt()
+	/**
+	 *  Charge Amount
+	 *  @return charge amount
 	 */
 	public BigDecimal getChargeAmt()
 	{
@@ -235,8 +249,11 @@ public class DocLine implements IDocLine
 		return Env.ZERO;
 	}   //  getChargeAmt
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setAmount(java.math.BigDecimal, java.math.BigDecimal, java.math.BigDecimal)
+	/**
+	 *  Set Product Amounts
+	 *  @param LineNetAmt Line Net Amt
+	 *  @param PriceList Price List
+	 *  @param Qty Qty for discount calc
 	 */
 	public void setAmount (BigDecimal LineNetAmt, BigDecimal PriceList, BigDecimal Qty)
 	{
@@ -254,24 +271,27 @@ public class DocLine implements IDocLine
 	//		+ " => Amount=" + getAmount());
 	}   //  setAmounts
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getDiscount()
+	/**
+	 *  Line Discount
+	 *  @return discount amount
 	 */
 	public BigDecimal getDiscount()
 	{
 		return m_DiscountAmt;
 	}   //  getDiscount
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getListAmount()
+	/**
+	 *  Line List Amount
+	 *  @return list amount
 	 */
 	public BigDecimal getListAmount()
 	{
 		return m_ListAmt;
 	}   //  getListAmount
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setLineNetAmtDifference(java.math.BigDecimal)
+	/**
+	 * 	Set Line Net Amt Difference
+	 *	@param diff difference (to be subtracted)
 	 */
 	public void setLineNetAmtDifference (BigDecimal diff)
 	{
@@ -284,16 +304,18 @@ public class DocLine implements IDocLine
 		log.fine(msg);
 	}	//	setLineNetAmtDifference
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setDateAcct(java.sql.Timestamp)
+	/**************************************************************************
+	 *  Set Accounting Date
+	 *  @param dateAcct acct date
 	 */
 	public void setDateAcct (Timestamp dateAcct)
 	{
 		m_DateAcct = dateAcct;
 	}   //  setDateAcct
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getDateAcct()
+	/**
+	 *  Get Accounting Date
+	 *  @return accounting date
 	 */
 	public Timestamp getDateAcct ()
 	{
@@ -310,16 +332,18 @@ public class DocLine implements IDocLine
 		return m_DateAcct;
 	}   //  getDateAcct
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setDateDoc(java.sql.Timestamp)
+	/**
+	 *  Set Document Date
+	 *  @param dateDoc doc date
 	 */
 	public void setDateDoc (Timestamp dateDoc)
 	{
 		m_DateDoc = dateDoc;
 	}   //  setDateDoc
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getDateDoc()
+	/**
+	 *  Get Document Date
+	 *  @return document date
 	 */
 	public Timestamp getDateDoc ()
 	{
@@ -337,24 +361,30 @@ public class DocLine implements IDocLine
 	}   //  getDateDoc
 
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setAccount(org.compiere.model.MAccount)
+	/**************************************************************************
+	 *  Set GL Journal Account
+	 *  @param acct account
 	 */
 	public void setAccount (MAccount acct)
 	{
 		m_account = acct;
 	}   //  setAccount
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAccount()
+	/**
+	 *  Get GL Journal Account
+	 *  @return account
 	 */
 	public MAccount getAccount()
 	{
 		return m_account;
 	}   //  getAccount
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAccount(int, org.compiere.model.MAcctSchema)
+	/**
+	 *  Line Account from Product (or Charge).
+	 *
+	 *  @param  AcctType see ProductCost.ACCTTYPE_* (0..3)
+	 *  @param as Accounting schema
+	 *  @return Requested Product Account
 	 */
 	public MAccount getAccount (int AcctType, MAcctSchema as)
 	{
@@ -388,8 +418,11 @@ public class DocLine implements IDocLine
 		return 0;
 	}	//	getC_Charge_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getChargeAccount(org.compiere.model.MAcctSchema, java.math.BigDecimal)
+	/**
+	 *  Get Charge Account
+	 *  @param as account schema
+	 *  @param amount amount for expense(+)/revenue(-)
+	 *  @return Charge Account or null
 	 */
 	public MAccount getChargeAccount (MAcctSchema as, BigDecimal amount)
 	{
@@ -403,7 +436,7 @@ public class DocLine implements IDocLine
 	 * 	Get Period
 	 * 	@return C_Period_ID
 	 */
-	public int getC_Period_ID()
+	protected int getC_Period_ID()
 	{
 		if (m_C_Period_ID == -1)
 		{
@@ -429,32 +462,36 @@ public class DocLine implements IDocLine
 		m_C_Period_ID = C_Period_ID;
 	}	//	setC_Period_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_AcctSchema_ID()
+	/**************************************************************************
+	 *  Get (Journal) AcctSchema
+	 *  @return C_AcctSchema_ID
 	 */
 	public int getC_AcctSchema_ID()
 	{
 		return m_C_AcctSchema_ID;
 	}   //  getC_AcctSchema_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#get_ID()
+	/**
+	 * 	Get Line ID
+	 *	@return id
 	 */
 	public int get_ID()
 	{
 		return p_po.get_ID();
 	}	//	get_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAD_Org_ID()
+	/**
+	 * 	Get AD_Org_ID
+	 *	@return org
 	 */
 	public int getAD_Org_ID()
 	{
 		return p_po.getAD_Org_ID();
 	}	//	getAD_Org_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getOrder_Org_ID()
+	/**
+	 * 	Get Order AD_Org_ID
+	 *	@return order org if defined
 	 */
 	public int getOrder_Org_ID()
 	{
@@ -469,8 +506,9 @@ public class DocLine implements IDocLine
 		return getAD_Org_ID();
 	}	//	getOrder_Org_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getM_Product_ID()
+	/**
+	 *  Product
+	 *  @return M_Product_ID
 	 */
 	public int getM_Product_ID()
 	{
@@ -484,8 +522,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getM_Product_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#isItem()
+	/**
+	 * 	Is this an Item Product (vs. not a Service, a charge)
+	 *	@return true if product
 	 */
 	public boolean isItem()
 	{
@@ -502,8 +541,9 @@ public class DocLine implements IDocLine
 		return m_isItem.booleanValue();
 	}	//	isItem
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getM_AttributeSetInstance_ID()
+	/**
+	 *  ASI
+	 *  @return M_AttributeSetInstance_ID
 	 */
 	public int getM_AttributeSetInstance_ID()
 	{
@@ -517,8 +557,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getM_AttributeSetInstance_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getM_Locator_ID()
+	/**
+	 *  Get Warehouse Locator (from)
+	 *  @return M_Locator_ID
 	 */
 	public int getM_Locator_ID()
 	{
@@ -532,8 +573,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getM_Locator_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getM_LocatorTo_ID()
+	/**
+	 *  Get Warehouse Locator To
+	 *  @return M_Locator_ID
 	 */
 	public int getM_LocatorTo_ID()
 	{
@@ -547,24 +589,27 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getM_LocatorTo_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setProductionBOM(boolean)
+	/**
+	 * 	Set Production BOM flag
+	 *	@param productionBOM flag
 	 */
 	public void setProductionBOM(boolean productionBOM)
 	{
 		m_productionBOM = productionBOM;
 	}	//	setProductionBOM
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#isProductionBOM()
+	/**
+	 * 	Is this the BOM to be produced
+	 *	@return true if BOM
 	 */
 	public boolean isProductionBOM()
 	{
 		return m_productionBOM;
 	}	//	isProductionBOM
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getM_ProductionPlan_ID()
+	/**
+	 *  Get Production Plan
+	 *  @return M_ProductionPlan_ID
 	 */
 	public int getM_ProductionPlan_ID()
 	{
@@ -578,8 +623,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getM_ProductionPlan_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_OrderLine_ID()
+	/**
+	 *  Get Order Line Reference
+	 *  @return C_OrderLine_ID
 	 */
 	public int getC_OrderLine_ID()
 	{
@@ -593,40 +639,45 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_OrderLine_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_LocFrom_ID()
+	/**
+	 * 	Get C_LocFrom_ID
+	 *	@return loc from
 	 */
 	public int getC_LocFrom_ID()
 	{
 		return m_C_LocFrom_ID;
 	}	//	getC_LocFrom_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setC_LocFrom_ID(int)
+	/**
+	 * 	Set C_LocFrom_ID
+	 *	@param C_LocFrom_ID loc from
 	 */
 	public void setC_LocFrom_ID(int C_LocFrom_ID)
 	{
 		m_C_LocFrom_ID = C_LocFrom_ID;
 	}	//	setC_LocFrom_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_LocTo_ID()
+	/**
+	 * 	Get C_LocTo_ID
+	 *	@return loc to
 	 */
 	public int getC_LocTo_ID()
 	{
 		return m_C_LocTo_ID;
 	}	//	getC_LocTo_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setC_LocTo_ID(int)
+	/**
+	 * 	Set C_LocTo_ID
+	 *	@param C_LocTo_ID loc to
 	 */
 	public void setC_LocTo_ID(int C_LocTo_ID)
 	{
 		m_C_LocTo_ID = C_LocTo_ID;
 	}	//	setC_LocTo_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getProductCost()
+	/**
+	 * 	Get Product Cost Info
+	 *	@return product cost
 	 */
 	public ProductCost getProductCost()
 	{
@@ -636,8 +687,12 @@ public class DocLine implements IDocLine
 		return m_productCost;
 	}	//	getProductCost
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getProductCosts(org.compiere.model.MAcctSchema, int, boolean)
+	/**
+	 *  Get Total Product Costs
+	 *  @param as accounting schema
+	 *  @param AD_Org_ID trx org
+	 *	@param zeroCostsOK zero/no costs are OK
+	 *  @return costs
 	 */
 	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK)
 	{
@@ -651,8 +706,9 @@ public class DocLine implements IDocLine
 		return Env.ZERO;
 	}   //  getProductCosts
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getProduct()
+	/**
+	 * 	Get Product 
+	 *	@return product or null if no product
 	 */
 	public MProduct getProduct()
 	{
@@ -664,8 +720,9 @@ public class DocLine implements IDocLine
 		return null;
 	}	//	getProduct
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_RevenueRecognition_ID()
+	/**
+	 *  Get Revenue Recognition
+	 *  @return C_RevenueRecognition_ID or 0
 	 */
 	public int getC_RevenueRecognition_ID()
 	{
@@ -675,8 +732,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_RevenueRecognition_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_UOM_ID()
+	/**
+	 *  Quantity UOM
+	 *  @return Transaction or Storage M_UOM_ID
 	 */
 	public int getC_UOM_ID()
 	{
@@ -696,8 +754,10 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_UOM
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#setQty(java.math.BigDecimal, boolean)
+	/**
+	 *  Quantity
+	 *  @param qty transaction Qty
+	 * 	@param isSOTrx SL order trx (i.e. negative qty)
 	 */
 	public void setQty (BigDecimal qty, boolean isSOTrx)
 	{
@@ -710,8 +770,9 @@ public class DocLine implements IDocLine
 		getProductCost().setQty (qty);
 	}   //  setQty
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getQty()
+	/**
+	 *  Quantity
+	 *  @return transaction Qty
 	 */
 	public BigDecimal getQty()
 	{
@@ -720,8 +781,9 @@ public class DocLine implements IDocLine
 
 	
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getDescription()
+	/**
+	 *  Description
+	 *  @return doc line description
 	 */
 	public String getDescription()
 	{
@@ -731,8 +793,9 @@ public class DocLine implements IDocLine
 		return null;
 	}	//	getDescription
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_Tax_ID()
+	/**
+	 *  Line Tax
+	 *  @return C_Tax_ID
 	 */
 	public int getC_Tax_ID()
 	{
@@ -746,8 +809,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}	//	getC_Tax_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getLine()
+	/**
+	 *  Get Line Number
+	 *  @return line no
 	 */
 	public int getLine()
 	{
@@ -761,8 +825,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getLine
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_BPartner_ID()
+	/**
+	 *  Get BPartner
+	 *  @return C_BPartner_ID
 	 */
 	public int getC_BPartner_ID()
 	{
@@ -791,8 +856,9 @@ public class DocLine implements IDocLine
 	}	//	setC_BPartner_ID
 	
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_BPartner_Location_ID()
+	/**
+	 * 	Get C_BPartner_Location_ID
+	 *	@return BPartner Location
 	 */
 	public int getC_BPartner_Location_ID()
 	{
@@ -806,8 +872,9 @@ public class DocLine implements IDocLine
 		return m_doc.getC_BPartner_Location_ID();
 	}	//	getC_BPartner_Location_ID
 	
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getAD_OrgTrx_ID()
+	/**
+	 *  Get TrxOrg
+	 *  @return AD_OrgTrx_ID
 	 */
 	public int getAD_OrgTrx_ID()
 	{
@@ -821,8 +888,10 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getAD_OrgTrx_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_SalesRegion_ID()
+	/**
+	 *  Get SalesRegion.
+	 *  - get Sales Region from BPartner
+	 *  @return C_SalesRegion_ID
 	 */
 	public int getC_SalesRegion_ID()
 	{
@@ -846,8 +915,9 @@ public class DocLine implements IDocLine
 		return m_C_SalesRegion_ID;
 	}   //  getC_SalesRegion_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_Project_ID()
+	/**
+	 *  Get Project
+	 *  @return C_Project_ID
 	 */
 	public int getC_Project_ID()
 	{
@@ -861,8 +931,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_Project_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_Campaign_ID()
+	/**
+	 *  Get Campaign
+	 *  @return C_Campaign_ID
 	 */
 	public int getC_Campaign_ID()
 	{
@@ -876,8 +947,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_Campaign_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getC_Activity_ID()
+	/**
+	 *  Get Activity
+	 *  @return C_Activity_ID
 	 */
 	public int getC_Activity_ID()
 	{
@@ -891,8 +963,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getC_Activity_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getUser1_ID()
+	/**
+	 *  Get User 1
+	 *  @return user defined 1
 	 */
 	public int getUser1_ID()
 	{
@@ -906,8 +979,9 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getUser1_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.acct.IDocLine#getUser2_ID()
+	/**
+	 *  Get User 2
+	 *  @return user defined 2
 	 */
 	public int getUser2_ID()
 	{
@@ -921,9 +995,11 @@ public class DocLine implements IDocLine
 		return 0;
 	}   //  getUser2_ID
         
-        	/* (non-Javadoc)
-			 * @see org.compiere.acct.IDocLine#getValue(java.lang.String)
-			 */
+        	/**
+	 *  Get User Defined Column
+	 *  @param ColumnName column name
+	 *  @return user defined column value
+	 */
 	public int getValue(String ColumnName)
 	{
 		int index = p_po.get_ColumnIndex(ColumnName);
