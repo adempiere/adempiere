@@ -21,7 +21,6 @@
   <path id="project.class.path">
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
-    <pathelement path="../dbPort/dbPort.jar"/>
     <pathelement path="../base/Base.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
   </path>
