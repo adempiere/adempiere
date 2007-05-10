@@ -63,6 +63,13 @@
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
     <pathelement location="../tools/lib/j2ee.jar" />
+	<pathelement location="../tools/lib/jnlp.jar" />
+	<pathelement location="../tools/lib/servlet-api.jar" />
+	<pathelement location="../tools/lib/mail.jar" />
+	<pathelement location="../tools/lib/bsh-1.3.0.jar" />
+	<pathelement location="../lib/oracle.jar" />
+	<pathelement location="../lib/jboss.jar" />
+	<pathelement location="../lib/postgresql.jar" />
     <pathelement location="${build.classes.dir}" />
   </path>
 
