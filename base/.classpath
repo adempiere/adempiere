@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/tools"/>
-	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
@@ -14,5 +13,6 @@
 	<classpathentry kind="lib" path="/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="/lib/postgresql.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.0.6d.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
