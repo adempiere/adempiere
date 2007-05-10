@@ -25,14 +25,10 @@
     <pathelement path="${jar.path}/oracle.jar"/>
     <pathelement path="${jar.path}/postgresql.jar"/>
     <pathelement path="${jar.path}/jboss.jar"/>
-    <pathelement path="../dbPort/dbPort.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
-    <pathelement path="../print/Print.jar"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
     <pathelement path="../tools/lib/jnlp.jar"/>
-
-    <pathelement path="../interfaces/Interfaces.jar"/>
     <pathelement path="../tools/lib/servlet.jar" />
   </path>
 
