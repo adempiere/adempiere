@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/JasperReports"/>
-	<classpathentry kind="src" path="/dbPort"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="lib" path="/tools/lib/j2ee.jar"/>
 	<classpathentry kind="output" path="build"/>
