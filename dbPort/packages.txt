@@ -1,2 +1,0 @@
-org.compiere.db
-org.compiere.dbPort
