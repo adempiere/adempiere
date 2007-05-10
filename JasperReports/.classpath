@@ -3,10 +3,8 @@
 	<classpathentry excluding="org/compiere/report/ReportExporter.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/base"/>
-	<classpathentry kind="src" path="/dbPort"/>
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/looks"/>
-	<classpathentry kind="src" path="/print"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="lib" path="/lib/oracle.jar"/>
