@@ -53,7 +53,6 @@
 	      <pathelement path="${classpath}"/>
 		  <pathelement path="../client/build"/>
 	      <pathelement path="../base/Base.jar"/>
-		  <pathelement path="../dbPort/dbPort.jar"/>
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
 	      <pathelement path="../looks/CLooks.jar"/>
@@ -66,8 +65,6 @@
 		  <pathelement path="../JasperReportsTools/lib/barbecue-1.1.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/xercesImpl.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/xml-apis.jar"/>
-      	  <pathelement path="../lib/sybase.jar"/>
-     	  <pathelement path="../tools/lib/jconn3.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
 		  <pathelement path="../tools/lib/itext-1.4.8.jar"/>
      	  <pathelement location="../tools/lib/j2ee.jar" />
