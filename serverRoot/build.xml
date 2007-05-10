@@ -28,9 +28,9 @@
   <property name="build.classes.dir" value="${build.dir}/classes"/>
   <property name="build.war.dir" value="${build.dir}/war"/>
 
-  <property name="interfaces.dir" value="../interfaces"/>
-  <property name="src.interfaces.dir" value="../interfaces/src"/>
-  <property name="build.interfaces.dir" value="../interfaces/classes"/>
+  <property name="interfaces.dir" value="../base"/>
+  <property name="src.interfaces.dir" value="../base/src"/>
+  <property name="build.interfaces.dir" value="../base/classes"/>
 
 
   <target name="adempiereRootInit">
@@ -40,7 +40,7 @@
     <uptodate property="interfaces.uptodate"
 		targetfile="${interfaces.dir}/Interfaces.jar">
       <srcfiles dir="${src.ejb.dir}" includes="**/*.java"/>
-      <srcfiles dir="${src.interfaces.dir}" includes="**/*.java"/>
+      <srcfiles dir="${src.interfaces.dir}" includes="**/interfaces/*.java"/>
     </uptodate>
   	
   </target>
@@ -229,11 +229,6 @@
     <delete file="../lib/adempiereRootBase.war"/>
     <delete file="../lib/adempiereRoot.jar"/>
     <delete file="../lib/adempiereRoot.xml"/>
-	<!-- This is boring to delete these
-    <delete>
-      <fileset dir="${src.interfaces.dir}" includes="**/*.java"/>
-    </delete>
-    -->
   </target>
 
 </project>
