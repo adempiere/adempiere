@@ -25,16 +25,12 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/Base.jar"/>
-    <pathelement path="../print/Print.jar"/>
-    <pathelement path="../dbPort/dbPort.jar"/>
-    <pathelement path="../lib/freepdf.jar"/>
     <pathelement path="../lib/customization.jar"/>
     <pathelement path="../lib/patches.jar"/>
     <pathelement path="../lib/jcommon-1.0.5.jar"/>
     <pathelement path="../lib/jfreechart-1.0.2.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../extend/Extend.jar"/>
-    <pathelement path="../interfaces/Interfaces.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
   </path>
 
@@ -52,11 +48,8 @@
 		targetfile="${dist.dir}/${jar.name}.jar">
       <srcfiles dir="${src}" includes="**/*.java"/>
       <srcfiles dir="..\base" includes="Base.jar"/>
-      <srcfiles dir="..\dbPort" includes="dbPort.jar"/>
       <srcfiles dir="..\looks" includes="CLooks.jar"/>
-      <srcfiles dir="..\print" includes="Print.jar"/>
       <srcfiles dir="..\extend" includes="Extend.jar"/>
-      <srcfiles dir="..\interfaces" includes="Interfaces.jar"/>
     </uptodate>
   </target>
 
@@ -94,19 +87,6 @@
   <!-- Distribution                                -->
   <!-- =========================================== -->
   <target name="clientDistribute" depends="clientCompile" unless="jar.uptodate">
-    <!-- get included jars -->
-	<!--
-    <unjar src="..\base\Base.jar" dest="${build.dir}" overwrite="true"/>
-    <unjar src="..\dbPort\dbPort.jar" dest="${build.dir}" overwrite="true"/>
-    <unjar src="..\looks\CLooks.jar" dest="${build.dir}" overwrite="true"/>
-    <unjar src="..\print\Print.jar" dest="${build.dir}" overwrite="true"/>
-    <unjar src="..\extend\Extend.jar" dest="${build.dir}" overwrite="true"/>
-    -->
-    <!-- <unjar src="..\interfaces\Interfaces.jar" dest="${build.dir}" /> -->
-	<!--
-  	<unjar src="..\JasperReports\CompiereJasper.jar" dest="${build.dir}" />
-    <delete dir="${build.dir}/META-INF"/>
-	-->
 	
 	<!-- Compile JasperReports classes because it is required when packaging client jar! -->
 	<ant inheritall="false" antfile="../JasperReports/build.xml" dir="../JasperReports"/>
@@ -118,9 +98,7 @@
 	  duplicate="preserve"
 	  index="yes">
 	  <fileset dir="../base/build" />
-	  <fileset dir="../dbPort/build" />
 	  <fileset dir="../looks/build" />
-	  <fileset dir="../print/build" />
 	  <fileset dir="../extend/build" />
       <zipgroupfileset file="../JasperReports/CompiereJasper.jar"/>
 	  <manifest>
@@ -135,12 +113,6 @@
         <attribute name="Class-Path" value="AdempiereSLib.jar"/>
       </manifest> 
     </jar>
-
-    <!-- Sign Jar 
-    signjar jar="${dist.dir}/Adempiere.jar" 
-	alias="adempiere" 
-	storepass="${password}"
-      keystore="../keystore/myKeystore" -->
   </target>
 
 
