@@ -30,7 +30,6 @@
 
   <property name="interfaces.dir" value="../base"/>
   <property name="src.interfaces.dir" value="../base/src"/>
-  <property name="build.interfaces.dir" value="../base/classes"/>
 
 
   <target name="adempiereRootInit">
@@ -112,15 +111,26 @@
   <target name="adempiereRootCompile" depends="adempiereRootXdoclet">
     <mkdir dir="${build.classes.dir}"/>
 
+    <!-- Compile interface -->
+    <javac
+	  destdir="${build.classes.dir}"
+	  debug="on"
+	  deprecation="off"
+	  optimize="on"
+        encoding="UTF-8"
+	  classpathref="base.path">
+      <src path="${src.interfaces.dir}"/>
+	<include name="org/compiere/interfaces/*"/>
+    </javac>
+
     <!--	Compile all -->
     <javac
 	  destdir="${build.classes.dir}"
 	  debug="on"
 	  deprecation="off"
 	  optimize="on"
-	  classpathref="base.path">
+      classpathref="base.path">
       <src path="${src.ejb.dir}"/>
-      <src path="${src.interfaces.dir}"/>
       <src path="${src.servlet.dir}"/>
       <src path="${src.server.dir}"/>
     </javac>
@@ -184,36 +194,9 @@
 
 
   <!-- =========================================== -->
-  <!-- Creates the interface archive               -->
-  <!-- =========================================== -->
-  <target name="adempiereRootInterfaces" depends="adempiereRootCompile">
-
-    <!-- Copy MBeans to interfaces		-->
-    <copy todir="${src.interfaces.dir}">
-      <fileset dir="${src.server.dir}" includes="**/*MBean.java"/>
-    </copy>
-
-    <!-- Compile interfaces			-->
-    <mkdir dir="${build.interfaces.dir}"/>
-    <javac
-	  srcdir="${src.interfaces.dir}"
-	  destdir="${build.interfaces.dir}"
-	  debug="off"
-	  deprecation="on"
-	  optimize="on"
-	  classpathref="base.path">
-    </javac>
-    <!-- Jar Interfaces				-->
-    <jar
-	  destfile="${interfaces.dir}/Interfaces.jar"
-	  basedir="${build.interfaces.dir}" />
-  </target>
-
-
-  <!-- =========================================== -->
   <!-- Deploy Server Files		                   -->
   <!-- =========================================== -->
-  <target name="adempiereRootDeployServer" depends="adempiereRootJar,adempiereRootWar,adempiereRootInterfaces">
+  <target name="adempiereRootDeployServer" depends="adempiereRootJar,adempiereRootWar,adempiereRootCompile">
 	<copy todir="../lib">
 		<fileset dir="${build.deploy.dir}"/>
 	</copy>
