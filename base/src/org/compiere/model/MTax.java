@@ -239,6 +239,8 @@ public class MTax extends X_C_Tax
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
+				MTaxPostal taxpostal = new MTaxPostal(getCtx(), rs, null);
+				list.add (taxpostal);
 			}
 			rs.close ();
 			pstmt.close ();
@@ -257,8 +259,10 @@ public class MTax extends X_C_Tax
 			pstmt = null;
 		}
 		
-		m_postals = new MTaxPostal[list.size ()];
-		list.toArray (m_postals);
+		if (list.size() > 0) { 
+			m_postals = new MTaxPostal[list.size ()];
+			list.toArray (m_postals);
+		}
 		return m_postals;
 	}	//	getPostals
 	
