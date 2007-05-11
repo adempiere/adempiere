@@ -272,6 +272,9 @@ public class MTax extends X_C_Tax
 	 */
 	public boolean isPostal()
 	{
+		if(getPostals(false) == null)
+			return false;
+		
 		return getPostals(false).length > 0;
 	}	//	isPostal
 	
