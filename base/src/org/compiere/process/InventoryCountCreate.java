@@ -20,6 +20,9 @@ import java.math.*;
 import java.sql.*;
 
 import org.compiere.model.*;
+
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -172,7 +175,7 @@ public class InventoryCountCreate extends SvrProcess
 			sql.append(" AND UPPER(p.Value) LIKE ?");
 		//
 		if (p_M_Product_Category_ID != 0)
-			sql.append(" AND p.M_Product_Category_ID=?");
+			sql.append(" AND p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(p_M_Product_Category_ID) + ")");
 		
 		//	Do not overwrite existing records
 		if (!p_DeleteOld)
@@ -198,8 +201,6 @@ public class InventoryCountCreate extends SvrProcess
 				pstmt.setString(index++, p_LocatorValue.toUpperCase());
 			if (p_ProductValue != null) 
 				pstmt.setString(index++, p_ProductValue.toUpperCase());
-			if (p_M_Product_Category_ID != 0)
-				pstmt.setInt(index++, p_M_Product_Category_ID);
 			if (!p_DeleteOld)
 				pstmt.setInt(index++, p_M_Inventory_ID);
 			ResultSet rs = pstmt.executeQuery ();
@@ -329,5 +330,80 @@ public class InventoryCountCreate extends SvrProcess
 			return 1;
 		return 0;
 	}	//	createInventoryLine
+	
+	/**
+	 * Returns a sql where string with the given category id and all of its subcategory ids.
+	 * It is used as restriction in MQuery.
+	 * @param productCategoryId
+	 * @return
+	 */
+	private String getSubCategoryWhereClause(int productCategoryId) throws SQLException, AdempiereSystemError{
+		//if a node with this id is found later in the search we have a loop in the tree
+		int subTreeRootParentId = 0;
+		String retString = " ";
+		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
+		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
+		Statement stmt = DB.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			if(rs.getInt(1)==productCategoryId) {
+				subTreeRootParentId = rs.getInt(2);
+			}
+			categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
+		}
+		retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
+		rs.close();
+		stmt.close();
+		return retString;
+	}
+
+	/**
+	 * Recursive search for subcategories with loop detection.
+	 * @param productCategoryId
+	 * @param categories
+	 * @param loopIndicatorId
+	 * @return comma seperated list of category ids
+	 * @throws AdempiereSystemError if a loop is detected
+	 */
+	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
+		String ret = "";
+		final Iterator iter = categories.iterator();
+		while (iter.hasNext()) {
+			SimpleTreeNode node = (SimpleTreeNode) iter.next();
+			if (node.getParentId() == productCategoryId) {
+				if (node.getNodeId() == loopIndicatorId) {
+					throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
+				}
+				ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
+			}
+		}
+		log.fine(ret);
+		return ret + productCategoryId;
+	}
+
+	/**
+	 * Simple tree node class for product category tree search.
+	 * @author Karsten Thiemann, kthiemann@adempiere.org
+	 *
+	 */
+	private class SimpleTreeNode {
+
+		private int nodeId;
+
+		private int parentId;
+
+		public SimpleTreeNode(int nodeId, int parentId) {
+			this.nodeId = nodeId;
+			this.parentId = parentId;
+		}
+
+		public int getNodeId() {
+			return nodeId;
+		}
+
+		public int getParentId() {
+			return parentId;
+		}
+	}
 	
 }	//	InventoryCountCreate
