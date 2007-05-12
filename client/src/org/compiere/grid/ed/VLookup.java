@@ -267,9 +267,6 @@ public class VLookup extends JComponent
 	private boolean				m_comboActive = true;
 	/** The Value								*/
 	private Object				m_value;
-	/** Zoom started - requery values			*/
-	private boolean				m_zoomStarted = false;
-
 
 	//	Popup
 	JPopupMenu 					popupMenu = new JPopupMenu();
@@ -445,10 +442,6 @@ public class VLookup extends JComponent
 			return;
 		}
 
-		//	Set Display
-		if (m_zoomStarted)	//	assume new value
-			m_lookup.removeAllElements();
-		m_zoomStarted = false;
 		m_lastDisplay = m_lookup.getDisplay(value);
 		if (m_lastDisplay.equals("<-1>"))
 		{
@@ -1175,7 +1168,6 @@ public class VLookup extends JComponent
 			//  async window - not able to get feedback
 		frame = null;
 		//
-		m_zoomStarted = true;
 		setCursor(Cursor.getDefaultCursor());
 	}	//	actionZoom
 
