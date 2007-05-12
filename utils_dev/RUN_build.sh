@@ -24,10 +24,10 @@ fi
 export ANT_CLASSPATH=$CLASSPATH:../tools/lib/ant.jar:../tools/lib/ant-launcher.jar:../tools/lib/ant-swing.jar:../tools/lib/ant-commons-net.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
 
 echo Cleanup ...
-$JAVA_HOME/bin/java -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main clean
+$JAVA_HOME/bin/java -Xmx512m -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main clean
 
 echo Building ...
-$JAVA_HOME/bin/java   -Xmx500m -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
+$JAVA_HOME/bin/java -Xmx512m -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
 
 echo Done ...
 
