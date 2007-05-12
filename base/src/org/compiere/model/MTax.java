@@ -229,7 +229,7 @@ public class MTax extends X_C_Tax
 		if (m_postals != null && !requery)
 			return m_postals;
 	
-		String sql = "SELECT * FROM C_TaxPostal WHERE C_Tax_ID=? ORDER BY Postal, Postal_To";
+		String sql = "SELECT * FROM C_TaxPostal WHERE IsActive='Y' AND C_Tax_ID=? ORDER BY Postal, Postal_To";
 		ArrayList<MTaxPostal> list = new ArrayList<MTaxPostal>();
 		PreparedStatement pstmt = null;
 		try
