@@ -654,8 +654,26 @@ public final class Fact
 			MDistribution[] distributions = MDistribution.get (dLine.getAccount(), 
 				m_postingType, m_doc.getC_DocType_ID());
 			//	No Distribution for this line
+			//AZ Goodwill
+			//The above "get" only work in GL Journal because it's using ValidCombination Account
+			//Old:
+			//if (distributions == null || distributions.length == 0)
+			//	continue;
+			//For other document, we try the followings (from FactLine):
+			//New:	
 			if (distributions == null || distributions.length == 0)
-				continue;
+			{
+				distributions = MDistribution.get (dLine.getCtx(), dLine.getC_AcctSchema_ID(),
+					m_postingType, m_doc.getC_DocType_ID(),
+					dLine.getAD_Org_ID(), dLine.getAccount_ID(),
+					dLine.getM_Product_ID(), dLine.getC_BPartner_ID(), dLine.getC_Project_ID(),
+					dLine.getC_Campaign_ID(), dLine.getC_Activity_ID(), dLine.getAD_OrgTrx_ID(),
+					dLine.getC_SalesRegion_ID(), dLine.getC_LocTo_ID(), dLine.getC_LocFrom_ID(),
+					dLine.getUser1_ID(), dLine.getUser2_ID());
+				if (distributions == null || distributions.length == 0)
+					continue;
+			}
+			//end AZ
 			//	Just the first
 			if (distributions.length > 1)
 				log.warning("More then one Distributiion for " + dLine.getAccount());
@@ -703,8 +721,7 @@ public final class Fact
 			m_lines.add(newLines.get(i));
 		
 		return true;
-	}	//	distribute
-	
+	}	//	distribute	
 	
 	/**************************************************************************
 	 * String representation
