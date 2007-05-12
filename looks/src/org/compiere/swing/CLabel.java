@@ -19,6 +19,7 @@ package org.compiere.swing;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 /**
  *  Label with Mnemonics interpretation
@@ -212,6 +213,14 @@ public class CLabel extends JLabel
 		super.setText (text);
 		if (text != null && getName() == null)
 			setName(text);
+		//workaround for focus accelerator issue
+		if (getLabelFor() != null && getLabelFor() instanceof JTextComponent)
+		{
+			if ( m_savedMnemonic > 0)
+				((JTextComponent)getLabelFor()).setFocusAccelerator(m_savedMnemonic);
+			else
+				((JTextComponent)getLabelFor()).setFocusAccelerator('\0');
+		}
 	}   //  setText
 
 	/**
@@ -223,6 +232,7 @@ public class CLabel extends JLabel
 	 */
 	private String createMnemonic(String text)
 	{
+		m_savedMnemonic = 0;
 		if (text == null)
 			return text;
 		int pos = text.indexOf('&');
@@ -254,9 +264,22 @@ public class CLabel extends JLabel
 	 */
 	public void setLabelFor (Component c)
 	{
+		//reset old if any
+		if (getLabelFor() != null && getLabelFor() instanceof JTextComponent)
+		{
+			((JTextComponent)getLabelFor()).setFocusAccelerator('\0');
+		}
 		super.setLabelFor (c);
 		if (c.getName() == null)
 			c.setName(getName());
+		//workaround for focus accelerator issue
+		if (c instanceof JTextComponent)
+		{
+			if (m_savedMnemonic > 0) 
+			{
+				((JTextComponent)c).setFocusAccelerator(m_savedMnemonic);
+			}
+		}
 	}	//	setLabelFor
 
 	
