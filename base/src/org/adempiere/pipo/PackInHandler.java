@@ -514,6 +514,18 @@ public class PackInHandler extends DefaultHandler {
 				m_Tab.setSeqNo (Integer.parseInt(atts.getValue("SeqNo")));
 				m_Tab.setTabLevel (Integer.parseInt(atts.getValue("TabLevel")));
 				m_Tab.setWhereClause (atts.getValue("WhereClause"));
+				if (atts.getValue("ReadOnlyLogic") != null) {
+					m_Tab.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
+				}
+				if (atts.getValue("DisplayLogic") != null) {
+					m_Tab.setDisplayLogic(atts.getValue("DisplayLogic"));
+				}
+				if (atts.getValue("isInsertRecord") != null) {
+					m_Tab.setIsInsertRecord(Boolean.valueOf(atts.getValue("isInsertRecord")).booleanValue());
+				}
+				if (atts.getValue("isAdvancedTab") != null) {
+					m_Tab.setIsAdvancedTab(Boolean.valueOf(atts.getValue("isAdvancedTab")).booleanValue());
+				}
 				if (m_Tab.save(m_trxName) == true){		    	
 					record_log (1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn("AD_Table", "TableName", "AD_Tab"));           		        		
 				} else {
@@ -1306,6 +1318,9 @@ public class PackInHandler extends DefaultHandler {
 					 || m_Column.is_ValueChanged("ColumnName")
 					 || m_Column.is_ValueChanged("IsMandatory")
 					);
+				// Don't create database column for virtual columns
+				if (m_Column.isVirtualColumn())
+					recreateColumn = false;
 				
 				// changed default ??
 				// m_Column.is_ValueChanged("DefaultValue") doesn't work well with nulls
@@ -1883,7 +1898,6 @@ public class PackInHandler extends DefaultHandler {
 			m_ImpFormat.setName(atts.getValue("Name"));
 			m_ImpFormat.setDescription(atts.getValue("Description"));
 			m_ImpFormat.setFormatType(atts.getValue("FormatType"));
-			m_ImpFormat.save(m_trxName);
 			if (m_ImpFormat.save(m_trxName) == true){		    	
 				record_log (1, m_ImpFormat.getName(),"ImpFormat", m_ImpFormat.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn("AD_Table", "TableName", "AD_ImpFormat"));           		        		
 			}
@@ -1923,7 +1937,6 @@ public class PackInHandler extends DefaultHandler {
 			m_ImpFormat_row.setScript(atts.getValue("Script"));
 			m_ImpFormat_row.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 			m_ImpFormat_row.setStartNo(Integer.parseInt(atts.getValue("StartNo")));	    
-			m_ImpFormat_row.save(m_trxName);
 			if (m_ImpFormat_row.save(m_trxName) == true){		    	
 				record_log (1, m_ImpFormat_row.getName(),"ImpFormat", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn("AD_Table", "TableName", "m_ImpFormat_row"));           		        		
 			}
@@ -2562,7 +2575,6 @@ public class PackInHandler extends DefaultHandler {
 				m_Ref_List.setName(atts.getValue("Name"));
 				m_Ref_List.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 				m_Ref_List.setValue(atts.getValue("Value"));
-				m_Ref_List.save(m_trxName);	        
 				if (m_Ref_List.save(m_trxName) == true){		    	
 					record_log (1, m_Ref_List.getName(),"Reference List", m_Ref_List.get_ID(),AD_Backup_ID, Object_Status,"AD_Ref_List",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_List"));           		        		
 				}
@@ -2778,7 +2790,7 @@ public class PackInHandler extends DefaultHandler {
 				}
 			}
 			// globalqss: set AD_Client_ID to the client setted in adempieredata
-			if (m_AD_Client_ID > 0)
+			if (m_AD_Client_ID > 0 && genericPO.getAD_Client_ID() != m_AD_Client_ID)
 				genericPO.setValue("AD_Client_ID", m_AD_Client_ID);
 			// if new. TODO: no defaults for keyXname.
 			if (!d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
@@ -2818,7 +2830,7 @@ public class PackInHandler extends DefaultHandler {
 				if (atts.getValue("value") != null && !atts.getValue("value").equals("null")) {
 					if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
 							|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
-							|| atts.getValue("class").equals("Table")|| atts.getValue("class").equals("Button")
+							|| atts.getValue("class").equals("Button")
 							|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
 						genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
 					}
@@ -3100,7 +3112,6 @@ public class PackInHandler extends DefaultHandler {
         m_Menu.setIsSOTrx(Boolean.valueOf(d_menu[i][11]).booleanValue());
         m_Menu.setIsSummary(Boolean.valueOf(d_menu[i][12]).booleanValue());
         m_Menu.setIsActive(Boolean.valueOf(d_menu[i][15]).booleanValue());
-        m_Menu.save(m_trxName);
         if (m_Menu.save(m_trxName) == true){
 	    	try {				
 	    		idDetail = record_log (1, m_Menu.getName(),"Menu", m_Menu.get_ID(),AD_Backup_ID, Object_Status,"AD_Menu",get_IDWithColumn("AD_Table", "TableName", "AD_Menu"));
@@ -3776,7 +3787,6 @@ public class PackInHandler extends DefaultHandler {
     	 **************************************** */
     	// row element, adempieredata
     	if (elementValue.equals("drow")){		
-    		genericPO.save(m_trxName);
     		if (genericPO.save(m_trxName)== true)
     			record_log (1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, Object_Status,d_tablename,get_IDWithColumn("AD_Table", "TableName", d_tablename));
     		else

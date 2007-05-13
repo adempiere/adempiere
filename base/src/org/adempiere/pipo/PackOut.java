@@ -1871,6 +1871,10 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","SeqNo","CDATA",(m_Tab.getSeqNo () >= 0 ? "" + m_Tab.getSeqNo ():"0"));
 		atts.addAttribute("","","TabLevel","CDATA",(m_Tab.getTabLevel () >= 0 ? "" + m_Tab.getTabLevel ():""));
 		atts.addAttribute("","","WhereClause","CDATA",(m_Tab.getWhereClause () != null ? m_Tab.getWhereClause ():""));
+		atts.addAttribute("","","ReadOnlyLogic","CDATA",(m_Tab.getReadOnlyLogic() != null ? m_Tab.getReadOnlyLogic ():""));        
+		atts.addAttribute("","","DisplayLogic","CDATA",(m_Tab.getDisplayLogic() != null ? m_Tab.getDisplayLogic ():""));        
+		atts.addAttribute("","","isInsertRecord","CDATA",(m_Tab.isInsertRecord()== true ? "true":"false"));        
+		atts.addAttribute("","","isAdvancedTab","CDATA",(m_Tab.isAdvancedTab()== true ? "true":"false"));        
 		atts.addAttribute("","","Syncfields","CDATA","false");                
 		return atts;		
 	}
