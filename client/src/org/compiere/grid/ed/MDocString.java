@@ -130,7 +130,8 @@ public final class MDocString extends PlainDocument implements CaretListener
 		throws BadLocationException
 	{
 		//	Max Length
-		if (offset >= m_maxLength)
+		//  // @Trifon - [ 1718897 ] User can enter more characters than max size field
+		if (getLength() + string.length() > m_maxLength)
 			return;
 		//	We have no Format or inserted not manually (assuming correct Format)
 		if (m_VFormat.length() == 0 || string.length() != 1)
@@ -141,7 +142,7 @@ public final class MDocString extends PlainDocument implements CaretListener
 		}
 
 		/**	Formating required **/
-		log.finest("Offsret=" + offset
+		log.finest("Offset=" + offset
 			+ ", String=" + string + ", MaxLength=" + m_maxLength 
 			+ ", Format=" + m_VFormat + ", Mask=" + m_mask
 			+ ", Text=" + getText() + ", Length=" + getText().length());
