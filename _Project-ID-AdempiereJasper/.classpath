@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="plugins/org.compiere.compilo.importer.core-311.0.2.zip"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
