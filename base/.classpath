@@ -16,5 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.5.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/junit.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
