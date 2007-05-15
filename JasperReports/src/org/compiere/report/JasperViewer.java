@@ -136,7 +136,7 @@ public class JasperViewer extends javax.swing.JFrame {
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             //this is for test only prefer testingby calling org.compiere.report.JaserViewer JDBC_CONNECTION JDBC_USER JDBC_PASS
-            return DriverManager.getConnection("jdbc:oracle:thin:@abalone.lesmuids.com:1521:abalone", "compiere", "compiere");
+            return DriverManager.getConnection("jdbc:oracle:thin:@abalone.lesmuids.com:1521:abalone", "adempiere", "adempiere");
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

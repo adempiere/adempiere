@@ -516,7 +516,7 @@ public class PDFViewerBean extends JPanel {
     	}
     	
         try {
-            tmpFile = File.createTempFile("compiere", ".pdf");
+            tmpFile = File.createTempFile("adempiere", ".pdf");
             tmpFile.deleteOnExit();
         } catch (IOException e) {
             e.printStackTrace();
