@@ -2518,13 +2518,27 @@ public class PackInHandler extends DefaultHandler {
 			String DBType = atts.getValue("DBType");
 			PreparedStatement pstmt = DB.prepareStatement(atts.getValue("statement"), m_trxName);	    
 			try {
-				if(DBType.equals("ALL")){				
+				if(DBType.equals("ALL")) {
 					int n = pstmt.executeUpdate();				
 					log.info("Executed SQL Statement: "+ atts.getValue("statement"));
 				}
-				else if(DB.isOracle() == true && DBType.equals("Oracle")){
+				else if(DB.isOracle() == true && DBType.equals("Oracle")) {
 					pstmt.executeUpdate();
 					log.info("Executed SQL Statement for Oracle: "+ atts.getValue("statement"));
+				}
+				else if(DB.isPostgreSQL() == true && DBType.equals("PostgreSQL")){
+					// Avoid convert layer - command specific for postgresql
+					//
+					// pstmt = DB.prepareStatement(sql, null);					
+					// pstmt.executeUpdate();
+					//
+					Connection m_con = DB.getConnectionRW(true);
+					Statement stmt = m_con.createStatement();
+					int n = stmt.executeUpdate (atts.getValue("statement"));
+					log.info("Executed SQL Statement for PostgreSQL: "+ atts.getValue("statement"));
+					// Postgres needs to commit DDL statements
+					if (m_con != null && !m_con.getAutoCommit())
+						m_con.commit();
 				}
 				/*			else if(DB.isSybase() == true && DBType.equals("Sybase")){
 				 pstmt.executeUpdate();
