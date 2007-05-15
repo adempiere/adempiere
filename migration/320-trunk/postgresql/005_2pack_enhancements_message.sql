@@ -1,4 +1,4 @@
-ALTER TABLE AD_PACKAGE_EXP_DETAIL ADD ad_message_id NUMBER(10);
+ALTER TABLE AD_PACKAGE_EXP_DETAIL ADD ad_message_id NUMERIC;
 
 INSERT INTO AD_COLUMN
             (ad_column_id, ad_client_id, ad_org_id, isactive,
