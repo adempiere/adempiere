@@ -10,10 +10,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2004 Marco LOMBARDO. lombardo@mayking.com
- * Contributor(s): Robert KLEIN. robeklein@hotmail.com
- *_____________________________________________
+ *                                                                            *
+ * Copyright (C) 2004 Marco LOMBARDO. lombardo@mayking.com                    *
+ * Contributor: Robert KLEIN. robeklein@hotmail.com                           *
+ * Contributor: Tim Heath                                                     *
  *****************************************************************************/
 
 package org.adempiere.pipo;
@@ -80,6 +80,7 @@ public class PackInHandler extends DefaultHandler {
     private X_AD_Process_Para m_Process_para = null;
     private MTask m_Task = null;    
     private MForm m_Form = null;
+    private MMessage m_Message = null;
     private X_AD_Workbench m_Workbench = null;
     private X_AD_WorkbenchWindow m_Workbenchwindow = null;
     private X_AD_Reference m_Reference = null;
@@ -771,12 +772,40 @@ public class PackInHandler extends DefaultHandler {
 				}
 			}
 		}
+		else if (elementValue.equals("message")) {
+			log.info(elementValue+" "+atts.getValue("Value"));
+			String entitytype = atts.getValue("EntityType");
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
+				String value = atts.getValue("Value");
+				int id = get_IDWithColumn("AD_Message", "value", value);
+
+				m_Message = new MMessage(m_ctx, id, m_trxName);
+				if (id > 0){		
+					AD_Backup_ID = copyRecord("AD_Message",m_Message);
+					Object_Status = "Update";			
+				}
+				else{
+					Object_Status = "New";
+					AD_Backup_ID =0;
+				}    	    
+				m_Message.setMsgText(atts.getValue("MsgText").replaceAll("'","''").replaceAll(",",""));
+				m_Message.setMsgTip(atts.getValue("MsgTip").replaceAll("'","''").replaceAll(",",""));
+				m_Message.setEntityType(atts.getValue("EntityType"));
+				m_Message.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
+				m_Message.setValue(value);
+				m_Message.setMsgType(atts.getValue("MsgType"));		        
+				if (m_Message.save(m_trxName) == true){		    	
+					record_log (1, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn("AD_Message", "value", "AD_Message"));           		        		
+				}
+				else{
+					record_log (0, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn("AD_Message", "value", "AD_Message"));
+				}
+			}
+		}
 		else if (elementValue.equals("dynvalrule")) {
 			log.info(elementValue+" "+atts.getValue("Name"));
 			String entitytype = atts.getValue("EntityType");
-			//FIXME:  understand how to change m_UpdateMode to true
-			//if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
-			if (entitytype.equals("U") || entitytype.equals("D")) {
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
 				String name = atts.getValue("Name");
 				int id = get_IDWithColumn("AD_Val_Rule", "name", name);
 				
@@ -810,15 +839,13 @@ public class PackInHandler extends DefaultHandler {
 			String entitytype = atts.getValue("EntityType");
 			log.info("entitytype "+atts.getValue("EntityType"));
 
-			//FIXME:  understand how to change m_UpdateMode to true
-			//if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
-			if (entitytype.equals("U") || entitytype.equals("D")) {
-			        log.info("entitytype is a U or D");
-				
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
+				log.info("entitytype is a U or D");
+
 				String workflowName = atts.getValue("Name");
-				
+
 				int id = get_IDWithColumn("AD_Workflow", "name", workflowName);
-				
+
 				m_Workflow = new MWorkflow(m_ctx, id, m_trxName);
 				if (id > 0){		
 					AD_Backup_ID = copyRecord("AD_Workflow",m_Workflow);
@@ -838,13 +865,13 @@ public class PackInHandler extends DefaultHandler {
 					String Name = atts.getValue("ADTableNameID");	    	
 					id = get_IDWithColumn("AD_Table", "TableName", Name);
 					m_Workflow.setAD_Table_ID(id);
-				
+
 				}
 				if (atts.getValue("ADWorkflowProcessorNameID")!= null){
 					String Name = atts.getValue("ADWorkflowProcessorNameID");	    	
 					id = get_IDWithColumn("AD_WorkflowProcessor", "Name", Name);
 					m_Workflow.setAD_WorkflowProcessor_ID(id);
-				
+
 				}
 				m_Workflow.setName(workflowName);
 				m_Workflow.setAccessLevel (atts.getValue("AccessLevel"));		    
@@ -867,19 +894,19 @@ public class PackInHandler extends DefaultHandler {
 				m_Workflow.setAD_WF_Node_ID(-1);
 //				log.info("in3");
 				attsOut.clear();          
-			        log.info("about to execute m_Workflow.save");
+				log.info("about to execute m_Workflow.save");
 				if (m_Workflow.save(m_trxName) == true){		    	
-			         	log.info("m_Workflow save success");
+					log.info("m_Workflow save success");
 					record_log (1, m_Workflow.getName(),"Workflow", m_Workflow.get_ID(),AD_Backup_ID, Object_Status,"AD_Workflow",get_IDWithColumn("AD_Workflow", "Name", "AD_Workflow"));           		        		
 				}
 				else{
-			         	log.info("m_Workflow save failure");
+					log.info("m_Workflow save failure");
 					record_log (0, m_Workflow.getName(),"Workflow", m_Workflow.get_ID(),AD_Backup_ID, Object_Status,"AD_Workflow",get_IDWithColumn("AD_Workflow", "Name", "AD_Workflow"));
 				}            
 			} else {
-			        log.info("entitytype is not a U or D");
-				
- 			}		
+				log.info("entitytype is not a U or D");
+
+			}		
 		}
 		// workflowNode element.
 		else if (elementValue.equals("workflowNode")) {
@@ -888,21 +915,19 @@ public class PackInHandler extends DefaultHandler {
 			String entitytype = atts.getValue("EntityType");
 			log.info("entitytype "+atts.getValue("EntityType"));
 			
-			//FIXME:  understand how to change m_UpdateMode to true
-			//if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
-			if (entitytype.equals("U") || entitytype.equals("D")) {
-			        log.info("entitytype is a U or D");
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
+				log.info("entitytype is a U or D");
 
 				String workflowName = atts.getValue("ADWorkflowNameID");
-				
+
 				int workflowId = get_IDWithColumn("AD_Workflow", "name", workflowName);
-				
+
 				String workflowNodeName = atts.getValue("Name");
 
 				sqlB = new StringBuffer ("SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");		
 
-			 	int id = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
-				
+				int id = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
+
 				m_WFNode = new MWFNode(m_ctx, id, m_trxName);
 				if (id > 0){		
 					AD_Backup_ID = copyRecord("AD_WF_Node",m_WFNode);
@@ -933,7 +958,7 @@ public class PackInHandler extends DefaultHandler {
 					id = get_IDWithColumn("AD_WF_Responsible", "Name", name);
 					m_WFNode.setAD_WF_Responsible_ID(id);   
 				}
-				
+
 				if (atts.getValue("ADWindowNameID")!= null){
 					String name = atts.getValue("ADWindowNameID");	    
 					id = get_IDWithColumn("AD_Window", "Name", name);
@@ -949,13 +974,13 @@ public class PackInHandler extends DefaultHandler {
 					id = get_IDWithColumn("AD_WF_Block", "Name", name);
 					m_WFNode.setAD_WF_Block_ID(id);   
 				}
-			/* FIXME:  Do we need TaskName ?
+				/* FIXME:  Do we need TaskName ?
 			if (atts.getValue("ADTaskNameID")!=null){
 				String name = atts.getValue("ADTaskNameID");		
 				sqlB = new StringBuffer ("SELECT AD_Task_ID FROM AD_Task WHERE Name= ?");
 				taskid = DB.getSQLValue(m_trxName,sqlB.toString(),name);
 			}
- */
+				 */
 				m_WFNode.setEntityType(atts.getValue("EntityType"));
 				m_WFNode.setAction(atts.getValue("Action"));
 				m_WFNode.setDocAction(atts.getValue("DocAction"));
@@ -982,50 +1007,48 @@ public class PackInHandler extends DefaultHandler {
 				m_WFNode.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 //				log.info("in3");
 				attsOut.clear();          
-			        log.info("about to execute m_WFNode.save");
+				log.info("about to execute m_WFNode.save");
 				if (m_WFNode.save(m_trxName) == true){		    	
-			         	log.info("m_WFNode save success");
+					log.info("m_WFNode save success");
 					record_log (1, m_WFNode.getName(),"WFNode", m_WFNode.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_Node",get_IDWithColumn("AD_WF_Node", "Name", "AD_WF_Node"));           		        		
 				}
 				else{
-			         	log.info("m_WFNode save failure");
+					log.info("m_WFNode save failure");
 					record_log (0, m_WFNode.getName(),"WFNode", m_WFNode.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_Node",get_IDWithColumn("AD_WF_Node", "Name", "AD_WF_Node"));
 				}            
 			} else {
-			        log.info("entitytype is not a U or D");
-				
- 			}		
+				log.info("entitytype is not a U or D");
+
+			}		
 		}
 		// workflowNodeNext element.
 		else if (elementValue.equals("workflowNodeNext")) {
 			log.info("In PackInHandler.java with element workflowNodeNext");
 			String entitytype = atts.getValue("EntityType");
 			log.info("entitytype "+atts.getValue("EntityType"));
-			
-			//FIXME:  understand how to change m_UpdateMode to true
-			//if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
-			if (entitytype.equals("U") || entitytype.equals("D")) {
-			        log.info("entitytype is a U or D");
-				
+
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
+				log.info("entitytype is a U or D");
+
 
 				String workflowName = atts.getValue("ADWorkflowNameID");
-				
+
 				int workflowId = get_IDWithColumn("AD_Workflow", "name", workflowName);
-				
+
 				String workflowNodeName = atts.getValue("ADWorkflowNodeNameID");
 				String workflowNodeNextName = atts.getValue("ADWorkflowNodeNextNameID");
 
 				sqlB = new StringBuffer ("SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");		
 
-			 	int wfNodeId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
+				int wfNodeId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
 
-			 	int wfNodeNextId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeNextName);
-				
+				int wfNodeNextId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeNextName);
+
 				sqlB = new StringBuffer ("SELECT  ad_wf_nodenext_id FROM AD_WF_NodeNext  WHERE ad_wf_node_id =? and ad_wf_next_id =?");		
 
 				//int id = get_IDWithColumn("AD_WF_Node", "name", workflowNodeName);
-			 	int id = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeId,wfNodeNextId);
-				
+				int id = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeId,wfNodeNextId);
+
 				m_WFNodeNext = new MWFNodeNext(m_ctx, id, m_trxName);
 				if (id > 0){		
 					AD_Backup_ID = copyRecord("AD_WF_NodeNext",m_WFNodeNext);
@@ -1043,51 +1066,49 @@ public class PackInHandler extends DefaultHandler {
 				m_WFNodeNext.setIsStdUserWorkflow(atts.getValue("IsStdUserWorkflow") != null ? Boolean.valueOf(atts.getValue("IsStdUserWorkflow")).booleanValue():true);
 //				log.info("m_WFNodeNext.get_ID: " + String.valueOf(m_WFNodeNext.get_ID));
 				attsOut.clear();          
-			        log.info("about to execute m_WFNodeNext.save");
+				log.info("about to execute m_WFNodeNext.save");
 				if (m_WFNodeNext.save(m_trxName) == true){		    	
-			         	log.info("m_WFNodeNext save success");
+					log.info("m_WFNodeNext save success");
 					record_log (1, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",get_IDWithColumn("AD_WF_NodeNext", "ad_wf_nodenext_id", "AD_WF_NodeNext"));           		        		
 				}
 				else{
-			         	log.info("m_WFNodeNext save failure");
+					log.info("m_WFNodeNext save failure");
 					record_log (0, String.valueOf(m_WFNodeNext.get_ID()),"WFNode", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",get_IDWithColumn("AD_WF_NodeNext", "ad_wf_nodenext_id", "AD_WF_NodeNext"));
 				}            
 			} else {
-			        log.info("entitytype is not a U or D");
-				
- 			}		
+				log.info("entitytype is not a U or D");
+
+			}		
 		}
 		// workflowNodeNextCondition element.
 		else if (elementValue.equals("workflowNodeNextCondition")) {
 			log.info("In PackInHandler.java with element workflowNodeNextCondition");
 			String entitytype = atts.getValue("EntityType");
 			log.info("entitytype "+atts.getValue("EntityType"));
-			
-			//FIXME:  understand how to change m_UpdateMode to true
-			//if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
-			if (entitytype.equals("U") || entitytype.equals("D")) {
-			        log.info("entitytype is a U or D");
-				
+
+			if (entitytype.equals("U") || entitytype.equals("D") && m_UpdateMode.equals("true")) {
+				log.info("entitytype is a U or D");
+
 
 				String workflowName = atts.getValue("ADWorkflowNameID");
-				
+
 				int workflowId = get_IDWithColumn("AD_Workflow", "name", workflowName);
-				
+
 				String workflowNodeName = atts.getValue("ADWorkflowNodeNameID");
 				String workflowNodeNextName = atts.getValue("ADWorkflowNodeNextNameID");
 
 				sqlB = new StringBuffer ("SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");		
 
-			 	int wfNodeId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
+				int wfNodeId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
 
-			 	int wfNodeNextId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeNextName);
-				
+				int wfNodeNextId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeNextName);
+
 				sqlB = new StringBuffer ("SELECT  ad_wf_nodenext_id FROM AD_WF_NodeNext  WHERE ad_wf_node_id =? and ad_wf_next_id =?");		
-			 	int wfNodeNextTablePKId = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeId,wfNodeNextId);
+				int wfNodeNextTablePKId = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeId,wfNodeNextId);
 
 				sqlB = new StringBuffer ("SELECT  ad_wf_nextcondition_id FROM AD_WF_NextCondition  WHERE ad_wf_nodenext_id =?");		
-			 	int id = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeNextTablePKId);
-				
+				int id = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeNextTablePKId);
+
 				m_WFNodeNextCondition = new MWFNextCondition(m_ctx, id, m_trxName);
 				if (id > 0){		
 					AD_Backup_ID = copyRecord("AD_WF_NextCondition",m_WFNodeNextCondition);
@@ -1099,8 +1120,8 @@ public class PackInHandler extends DefaultHandler {
 				}
 
 				sqlB = new StringBuffer ("SELECT  AD_Column.ad_column_id FROM AD_Column, AD_Table WHERE AD_Column.ad_table_id = AD_Table.ad_table_id and AD_Table.name = '" + atts.getValue("ADTableNameID") + "' and AD_Column.name = ?");		
-			 	//int columnId = DB.getSQLValue(m_trxName,sqlB.toString(),atts.getValue("ADTableNameID"), atts.getValue("ADColumnNameID"));
-			 	int columnId = DB.getSQLValue(m_trxName,sqlB.toString(),atts.getValue("ADColumnNameID"));
+				//int columnId = DB.getSQLValue(m_trxName,sqlB.toString(),atts.getValue("ADTableNameID"), atts.getValue("ADColumnNameID"));
+				int columnId = DB.getSQLValue(m_trxName,sqlB.toString(),atts.getValue("ADColumnNameID"));
 				m_WFNodeNextCondition.setAD_Column_ID(columnId);
 
 				m_WFNodeNextCondition.setAD_WF_NodeNext_ID(wfNodeNextTablePKId);
@@ -1113,19 +1134,19 @@ public class PackInHandler extends DefaultHandler {
 				m_WFNodeNextCondition.setValue(atts.getValue("Value"));
 				m_WFNodeNextCondition.setValue2(atts.getValue("Value2"));
 				attsOut.clear();          
-			        log.info("about to execute m_WFNodeNextCondition.save");
+				log.info("about to execute m_WFNodeNextCondition.save");
 				if (m_WFNodeNextCondition.save(m_trxName) == true){		    	
-			         	log.info("m_WFNodeNextCondition save success");
+					log.info("m_WFNodeNextCondition save success");
 					record_log (1, String.valueOf(m_WFNodeNextCondition.get_ID()),"WFNextCondition", m_WFNodeNextCondition.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NextCondition",get_IDWithColumn("AD_WF_NextCondition", "ad_wf_nextcondition_id", "AD_WF_NextCondition"));           		        		
 				}
 				else{
-			         	log.info("m_WFNodeNextCondition save failure");
+					log.info("m_WFNodeNextCondition save failure");
 					record_log (0, String.valueOf(m_WFNodeNextCondition.get_ID()),"WFNextCondition", m_WFNodeNextCondition.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NextCondition",get_IDWithColumn("AD_WF_NextCondition", "ad_wf_nextcondition_id", "AD_WF_NextCondition"));
 				}            
 			} else {
-			        log.info("entitytype is not a U or D");
-				
- 			}		
+				log.info("entitytype is not a U or D");
+
+			}		
 		}
 		// table element.
 		else if (elementValue.equals("table")) {

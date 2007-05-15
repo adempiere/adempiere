@@ -30,6 +30,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.adempiere.pipo.CreateZipFile;
 import org.compiere.model.X_AD_Column;
 import org.compiere.model.X_AD_Field;
+import org.compiere.model.X_AD_Package_Exp;
+import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Process;
 import org.compiere.model.X_AD_Process_Para;
 import org.compiere.model.X_AD_Tab;
@@ -52,6 +54,7 @@ import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.model.X_AD_Role;
 import org.compiere.model.X_AD_Workflow;
 import org.compiere.model.X_AD_Val_Rule;
+import org.compiere.model.X_AD_Message;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.model.X_AD_WF_NodeNext;
 import org.compiere.model.X_AD_WF_NextCondition;
@@ -78,6 +81,7 @@ public class PackOut extends SvrProcess
     private X_AD_Process_Para m_Processpara = null;
     private X_AD_Table m_Table = null;
     private X_AD_Workflow m_Workflow = null;
+    private X_AD_Message m_Message = null;
     private X_AD_WF_Node m_WF_Node = null;
     private X_AD_WF_NodeNext m_WF_NodeNext = null;
     private X_AD_WF_NextCondition m_WF_NodeNextCondition = null;
@@ -141,13 +145,13 @@ public class PackOut extends SvrProcess
 			while (rs1.next()){		
 				//Create the package documentation
 				fileSeperator = File.separator;
-				packagedir = rs1.getString("File_Directory").trim();			
+				packagedir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_File_Directory).trim();			
 				if (!packagedir.endsWith("/") && !packagedir.endsWith("\\"))
 					packagedir += fileSeperator;
-				packagename = packagedir + rs1.getString("Name");
-				includesdir = rs1.getString("Name") + fileSeperator+"**";
+				packagename = packagedir + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name);
+				includesdir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name) + fileSeperator+"**";
 				boolean success = (new File(packagename+fileSeperator+"doc"+fileSeperator )).mkdirs();
-				String file_document = packagename +fileSeperator+ "doc"+fileSeperator+rs1.getString("Name")+"Doc.xml";		
+				String file_document = packagename +fileSeperator+ "doc"+fileSeperator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
 				fw_document = new FileOutputStream (file_document, false);		
 				StreamResult streamResult_document = new StreamResult(fw_document);	
 				SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
@@ -162,25 +166,25 @@ public class PackOut extends SvrProcess
 				hd_documemt.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
 				hd_documemt.startElement("","","adempiereDocument",atts);
 				hd_documemt.startElement("","","header",atts);		
-				hd_documemt.characters((rs1.getString("Name")+" Package Description").toCharArray(),0,(rs1.getString("Name")+" Package Description").length());
+				hd_documemt.characters((rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+" Package Description").toCharArray(),0,(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+" Package Description").length());
 				hd_documemt.endElement("","","header");
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
 				hd_documemt.endElement("","","H1");
 				hd_documemt.startElement("","","packagename",atts);		
-				hd_documemt.characters(rs1.getString("Name").toCharArray(),0,rs1.getString("Name").length());
+				hd_documemt.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name).length());
 				hd_documemt.endElement("","","packagename");					
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Creator:" ).toCharArray(),0,("Creator:").length());
 				hd_documemt.endElement("","","H1");
 				hd_documemt.startElement("","","creator",atts);
-				hd_documemt.characters(rs1.getString("UserName").toCharArray(),0,rs1.getString("UserName").length());
+				hd_documemt.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName).length());
 				hd_documemt.endElement("","","creator");					
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Email Address:" ).toCharArray(),0,("Email Address:" ).length());
 				hd_documemt.endElement("","","H1");
 				hd_documemt.startElement("","","creatorcontact",atts);
-				hd_documemt.characters(rs1.getString("Email").toCharArray(),0,rs1.getString("Email").length());
+				hd_documemt.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail).length());
 				hd_documemt.endElement("","","creatorcontact");					
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Created:" ).toCharArray(),0,("Created:" ).length());
@@ -198,13 +202,13 @@ public class PackOut extends SvrProcess
 				hd_documemt.characters(("Description:" ).toCharArray(),0,("Description:" ).length());
 				hd_documemt.endElement("","","H1");
 				hd_documemt.startElement("","","description",atts);
-				hd_documemt.characters(rs1.getString("Description").toCharArray(),0,rs1.getString("Description").length());
+				hd_documemt.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description).length());
 				hd_documemt.endElement("","","description");					
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Instructions:" ).toCharArray(),0,("Instructions:" ).length());
 				hd_documemt.endElement("","","H1");
 				hd_documemt.startElement("","","instructions",atts);
-				hd_documemt.characters(rs1.getString("Instructions").toCharArray(),0,rs1.getString("Instructions").length());
+				hd_documemt.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Instructions).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Instructions).length());
 				hd_documemt.endElement("","","instructions");
 				hd_documemt.startElement("","","H1",atts);		
 				hd_documemt.characters(("Files in Package:" ).toCharArray(),0,("Files in Package:" ).length());
@@ -230,13 +234,13 @@ public class PackOut extends SvrProcess
 				hd_menu.setResult(streamResult_menu);
 				hd_menu.startDocument();
 				atts.clear();
-				atts.addAttribute("","","Name","CDATA",rs1.getString("Name"));
-				atts.addAttribute("","","Version","CDATA",rs1.getString("PK_Version"));
-				atts.addAttribute("","","CompVer","CDATA",rs1.getString("ReleaseNo"));
-				atts.addAttribute("","","DataBase","CDATA",rs1.getString("Version"));
-				atts.addAttribute("","","Description","CDATA",rs1.getString("Description"));
-				atts.addAttribute("","","creator","CDATA",rs1.getString("UserName"));
-				atts.addAttribute("","","creatorcontact","CDATA",rs1.getString("Email"));
+				atts.addAttribute("","","Name","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name));
+				atts.addAttribute("","","Version","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_PK_Version));
+				atts.addAttribute("","","CompVer","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_ReleaseNo));
+				atts.addAttribute("","","DataBase","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Version));
+				atts.addAttribute("","","Description","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description));
+				atts.addAttribute("","","creator","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName));
+				atts.addAttribute("","","creatorcontact","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail));
 				atts.addAttribute("","","createddate","CDATA",rs1.getString("Created"));
 				atts.addAttribute("","","updateddate","CDATA",rs1.getString("Updated"));
 				atts.addAttribute("","","PackOutVer","CDATA",PackOutVer);		
@@ -251,51 +255,58 @@ public class PackOut extends SvrProcess
 				try {			
 					ResultSet rs = pstmt.executeQuery();
 					while (rs.next()){
-						String Type = rs.getString("Type");
-						log.info(rs.getString("Line"));
+						String Type = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Type);
+						log.info(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Line));
 						if (Type.compareTo("M") == 0){
-							m_Menu = new X_AD_Menu (getCtx(), rs.getInt("AD_Menu_ID"), null);
+							m_Menu = new X_AD_Menu (getCtx(), rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID), null);
 							if (m_Menu.isSummary() == false) {
-								CreateApplication (atts, hd_menu, rs.getInt("AD_Menu_ID"));							
+								CreateApplication (atts, hd_menu, rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID));							
 							}
 							else {
 								atts = createmenuBinding(atts,m_Menu);
 								hd_menu.startElement("","","menu",atts);
-								CreateModule (atts, hd_menu, rs.getInt("AD_Menu_ID"));
+								CreateModule (atts, hd_menu, rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID));
 								hd_menu.endElement("","","menu");
 							}
 						}
 						else if (Type.compareTo("P") == 0)
-							CreateProcess ( rs.getInt("AD_Process_ID"), atts, hd_menu );
+							CreateProcess ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID), atts, hd_menu );
 						else if (Type.compareTo("R") == 0)
-							CreateReportview ( rs.getInt("AD_ReportView_ID"), atts, hd_menu );
+							CreateReportview ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ReportView_ID), atts, hd_menu );
 						else if (Type.compareTo("D") == 0)
-							CreateData ( rs.getInt("AD_Table_ID"), rs.getString("SQLStatement"), atts, hd_menu );
+							CreateData ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID), rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement), atts, hd_menu );
 						else if (Type.compareTo("T") == 0)
-							CreateTable (rs.getInt("AD_Table_ID"), atts, hd_menu);
+							CreateTable (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID), atts, hd_menu);
 						else if (Type.compareTo("X") == 0)
-							CreateForm (rs.getInt("AD_Form_ID"), atts, hd_menu);
+							CreateForm (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Form_ID), atts, hd_menu);
 						else if (Type.compareTo("W") == 0)
-							CreateWindow (rs.getInt("AD_Window_ID"), atts, hd_menu);				
+							CreateWindow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID), atts, hd_menu);				
 						else if (Type.compareTo("B") == 0)
-							CreateWorkbench (rs.getInt("AD_Workbench_ID"), atts, hd_menu);
+							CreateWorkbench (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workbench_ID), atts, hd_menu);
 						else if (Type.compareTo("S") == 0)
-							CreateRoles (rs.getInt("AD_Role_ID"), atts, hd_menu);
+							CreateRoles (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID), atts, hd_menu);
 						else if (Type.compareTo("SQL") == 0)
-							CreateSQL (rs.getString("SQLStatement"), rs.getString("DBType"), atts, hd_menu);
+							CreateSQL (rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement), rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_DBType), atts, hd_menu);
 						else if (Type.compareTo("IMP") == 0)
-							CreateImp (rs.getInt("AD_ImpFormat_ID"), atts, hd_menu);
+							CreateImp (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID), atts, hd_menu);
 						else if (Type.compareTo("SNI") == 0)						
-							CreateSnipit (rs.getString("Destination_Directory"),rs.getString("Destination_FileName"),rs.getString("AD_Package_Code_Old"),
-									rs.getString("AD_Package_Code_New"),  rs.getString("ReleaseNo"), atts, hd_menu);
+							CreateSnipit(
+									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory),
+									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_FileName),
+									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Package_Code_Old),
+									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Package_Code_New),
+									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo),
+									atts, hd_menu);
 						else if (Type.compareTo("F") == 0)
-							CreateWorkflow (rs.getInt("AD_Workflow_ID"), atts, hd_menu);
+							CreateWorkflow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID), atts, hd_menu);
 						else if (Type.compareTo("V") == 0)
-							CreateDynamicRuleValidation(rs.getInt("AD_Val_Rule_ID"), atts, hd_menu);
+							CreateDynamicRuleValidation(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID), atts, hd_menu);
+						else if (Type.compareTo("MSG") == 0)
+							CreateMessage(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), atts, hd_menu);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.SEVERE,"In PackOut.java handling Code or Other 2pack module creation");
 							
-							String fullDirectory = rs1.getString("File_Directory") + rs1.getString("Name")+rs.getString("Target_Directory");
+							String fullDirectory = rs1.getString(X_AD_Package_Exp.COLUMNNAME_File_Directory) + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory);
 							log.log(Level.SEVERE,"fullDirectory" + fullDirectory);
 							String targetDirectoryModified=null;
 							char fileseperator1 = '/';
@@ -309,7 +320,7 @@ public class PackOut extends SvrProcess
 							
 							String target_File = (targetDirectoryModified);						
 							success = (new File(target_File).mkdirs());						
-							fullDirectory = rs.getString("File_Directory");
+							fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_File_Directory);
 							targetDirectoryModified=null;						
 							//Correct package for proper file seperator
 							if (fileSeperator.equals("/")){			
@@ -318,13 +329,15 @@ public class PackOut extends SvrProcess
 							else
 								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 							
-							CopyCode (targetDirectoryModified+rs.getString("FileName"),target_File+rs.getString("FileName"));
+							CopyCode(
+									targetDirectoryModified + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
+									target_File + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName));
 							
 							atts.clear();
 							
-							if(rs.getString("Destination_Directory") != null){
+							if(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory) != null){
 								
-								fullDirectory = rs.getString("Destination_Directory");
+								fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory);
 								String destinationDirectoryModified=null;						
 								
 								//Correct package for proper file seperator
@@ -334,21 +347,32 @@ public class PackOut extends SvrProcess
 								else
 									destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);							
 								
-								DistributeFile( rs.getString("FileName"), rs.getString("Target_Directory"), rs.getString("ReleaseNo"),destinationDirectoryModified, atts, hd_menu);
+								DistributeFile(
+										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
+										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory),
+										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo),
+										destinationDirectoryModified, atts,
+										hd_menu);
 								
 							}
 							
-							if(rs.getString("FileName") != null){
+							if(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName) != null){
 								hd_documemt.startElement("","","file",atts);
-								hd_documemt.characters(("File: "+rs.getString("FileName")).toCharArray(),0,("File: "+rs.getString("FileName")).length());
+								hd_documemt.characters(("File: "+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName)).toCharArray(),0,("File: "+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName)).length());
 								hd_documemt.endElement("","","file");
-							}					
+							}
 							hd_documemt.startElement("","","filedirectory",atts);
-							hd_documemt.characters(("Directory: "+rs.getString("TARGET_DIRECTORY")).toCharArray(),0,("Directory: "+rs.getString("TARGET_DIRECTORY")).length());
+							hd_documemt.characters(
+											("Directory: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory)).toCharArray(),
+											0,
+											("Directory: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory)).length());
 							hd_documemt.endElement("","","filedirectory");
 							
 							hd_documemt.startElement("","","filenotes",atts);
-							hd_documemt.characters(("Notes: "+rs.getString("Description")).toCharArray(),0,(("Notes: " + rs.getString("Description")).length()));
+							hd_documemt.characters(
+											("Notes: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Description)).toCharArray(),
+											0,
+											(("Notes: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Description)).length()));
 							hd_documemt.endElement("","","filenotes");
 						}
 					}
@@ -590,6 +614,44 @@ public class PackOut extends SvrProcess
 	public void CopyCode (String sourceName, String copyName)
 	{
 		CopyFile (sourceName, copyName );
+	}
+
+	public void CreateMessage (int AD_Message_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
+	{
+		log.info("");
+			
+		String sql = "SELECT value FROM AD_Message WHERE  AD_Message_ID= " + AD_Message_ID;
+
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement (sql, get_TrxName());		
+
+		try {
+
+			ResultSet rs = pstmt.executeQuery();		
+
+			while (rs.next())
+			{
+				m_Message = new X_AD_Message (getCtx(), AD_Message_ID, null);										
+				atts = createmessageBinding(atts,m_Message);	
+				hd_menu.startElement("","","message",atts);
+				hd_menu.endElement("","","message");
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+
+		catch (Exception e){
+			log.log(Level.SEVERE,"getProcess", e);
+		}
+		finally{
+			try	{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e){}
+			pstmt = null;
+		}
 	}
 	
 	public void CreateDynamicRuleValidation (int AD_Val_Rule_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
@@ -2107,6 +2169,20 @@ public class PackOut extends SvrProcess
 		atts.addAttribute("","","isCentrallyMaintained","CDATA",(m_Processpara.isCentrallyMaintained()== true ? "true":"false"));
 		atts.addAttribute("","","isMandatory","CDATA",(m_Processpara.isMandatory()== true ? "true":"false"));
 		atts.addAttribute("","","isRange","CDATA",(m_Processpara.isRange()== true ? "true":"false"));
+		return atts;
+	}
+
+	public static AttributesImpl createmessageBinding( AttributesImpl atts, X_AD_Message m_Message) 
+	{
+		atts.clear();
+		//FIXME:  may not need this I guess
+		//atts.addAttribute("","","AccessLevel","CDATA",(m_Message.getAccessLevel () != null ? m_Message.getAccessLevel ():""));
+		atts.addAttribute("","","MsgText","CDATA",(m_Message.getMsgText() != null ? m_Message.getMsgText():""));
+		atts.addAttribute("","","MsgType","CDATA",(m_Message.getMsgType() != null ? m_Message.getMsgType ():""));
+		atts.addAttribute("","","MsgTip","CDATA",(m_Message.getMsgTip() != null ? m_Message.getMsgTip ():""));
+		atts.addAttribute("","","Value","CDATA",(m_Message.getValue() != null ? m_Message.getValue ():""));
+		atts.addAttribute("","","EntityType","CDATA",(m_Message.getEntityType () != null ? m_Message.getEntityType ():""));
+		atts.addAttribute("","","isActive","CDATA",(m_Message.isActive()== true ? "true":"false"));
 		return atts;
 	}
 

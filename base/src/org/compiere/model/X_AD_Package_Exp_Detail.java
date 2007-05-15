@@ -56,13 +56,13 @@ public X_AD_Package_Exp_Detail (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=50006 */
-public static final int Table_ID=MTable.getTable_ID("AD_Package_Exp_Detail");
-
 /** TableName=AD_Package_Exp_Detail */
 public static final String Table_Name="AD_Package_Exp_Detail";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Exp_Detail");
+/** AD_Table_ID=50006 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
@@ -146,6 +146,24 @@ return ii.intValue();
 }
 /** Column name AD_Menu_ID */
 public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
+/** Set Message.
+@param AD_Message_ID System Message */
+public void setAD_Message_ID (int AD_Message_ID)
+{
+if (AD_Message_ID <= 0) set_Value ("AD_Message_ID", null);
+ else 
+set_Value ("AD_Message_ID", Integer.valueOf(AD_Message_ID));
+}
+/** Get Message.
+@return System Message */
+public int getAD_Message_ID() 
+{
+Integer ii = (Integer)get_Value("AD_Message_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name AD_Message_ID */
+public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
 /** Set AD_Package_Code_New.
 @param AD_Package_Code_New AD_Package_Code_New */
 public void setAD_Package_Code_New (String AD_Package_Code_New)
@@ -672,6 +690,8 @@ public static final String TYPE_Workflow = "F";
 public static final String TYPE_ImportFormat = "IMP";
 /** Application or Module = M */
 public static final String TYPE_ApplicationOrModule = "M";
+/** Message = MSG */
+public static final String TYPE_Message = "MSG";
 /** Process/Report = P */
 public static final String TYPE_ProcessReport = "P";
 /** ReportView = R */
@@ -695,8 +715,8 @@ public static final String TYPE_Form = "X";
 public void setType (String Type)
 {
 if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - V - W - X");
+if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("MSG") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - MSG - P - R - S - SNI - SQL - T - V - W - X");
 if (Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");
