@@ -1339,10 +1339,7 @@ public class PackInHandler extends DefaultHandler {
 					 || m_Column.is_ValueChanged("ColumnName")
 					 || m_Column.is_ValueChanged("IsMandatory")
 					);
-				// Don't create database column for virtual columns
-				if (m_Column.isVirtualColumn())
-					recreateColumn = false;
-				
+
 				// changed default ??
 				// m_Column.is_ValueChanged("DefaultValue") doesn't work well with nulls
 				if (! recreateColumn) {
@@ -1359,6 +1356,14 @@ public class PackInHandler extends DefaultHandler {
 						if (! oldDefault.equals(newDefault))
 							recreateColumn = true;
 					}
+				}
+				
+				// Don't create database column for virtual columns
+				// Don't create columns by default, just if getIsSyncDatabase='Y' 
+				if (recreateColumn) {
+					String sync = atts.getValue("getIsSyncDatabase");
+					if (m_Column.isVirtualColumn() || sync == null || (!sync.equals("Y")))
+						recreateColumn = false;
 				}
 				
 				if (m_Column.save(m_trxName) == true){		    	
