@@ -458,4 +458,36 @@ public class MColumn extends X_AD_Column
 		return sb.toString ();
 	}	//	toString
 	
+	//begin vpj-cd e-evolution
+	/**
+	 * 	get Column ID
+	 *  @param String windowName
+	 *	@param String columnName
+	 *	@return int retValue
+	 */
+	public static int getColumn_ID(String TableName,String columnName) {
+		int m_table_id = MTable.getTable_ID(TableName);
+		if (m_table_id == 0)
+			return 0;
+			
+		int retValue = 0;
+		String SQL = "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID = ?  AND columnname = ?";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setInt(1, m_table_id);
+			pstmt.setString(2, columnName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
+	//end vpj-cd e-evolution
 }	//	MColumn

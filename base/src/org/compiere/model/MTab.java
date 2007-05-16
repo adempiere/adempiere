@@ -156,4 +156,33 @@ public class MTab extends X_AD_Tab
 		return true;
 	}
 	
+	// begin e-evolution vpj-cd
+	/**
+	 * 	get Tab ID
+	 *	@param String AD_Window_ID
+	 *	@param String TabName
+	 *	@return int retValue
+	 */
+	public static int getTab_ID(int AD_Window_ID , String TabName) {
+		int retValue = 0;
+		String SQL = "SELECT AD_Tab_ID FROM AD_Tab WHERE AD_Window_ID= ?  AND Name = ?";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setInt(1, AD_Window_ID);
+			pstmt.setString(2, TabName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
+	//end vpj-cd e-evolution
+	
 }	//	M_Tab

@@ -220,4 +220,31 @@ public class MWindow extends X_AD_Window
 		return retValue;
 	}	//	getWFNode
 	
+	//vpj-cd begin e-evolution
+	/**
+	 * 	get Window ID
+	 *	@param String windowName
+	 *	@return int retValue
+	 */
+	public static int getWindow_ID(String windowName) {
+		int retValue = 0;
+		String SQL = "SELECT AD_Window_ID FROM AD_Window WHERE Name = ?";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setString(1, windowName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
+	//end vpj-cd e-evolution
+	
 }	//	M_Window
