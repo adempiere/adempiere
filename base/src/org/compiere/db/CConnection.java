@@ -1089,7 +1089,6 @@ public class CConnection implements Serializable
 		  .append (",FWhost=").append (m_fw_host)
 		  .append (",FWport=").append (m_fw_port)
 		  .append (",UID=").append (m_db_uid)
-		  .append (",PWD=").append (m_db_pwd)
 		  ;		//	the format is read by setAttributes
 		sb.append ("]");
 		return sb.toString ();
