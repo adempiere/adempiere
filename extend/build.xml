@@ -21,8 +21,9 @@
   <path id="project.class.path">
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
-    <pathelement path="../base/Base.jar"/>
+    <pathelement path="../base/build"/>
     <pathelement path="../looks/CLooks.jar"/>
+    <pathelement path="../tools/lib/junit.jar"/>
   </path>
 
   <target name="init" description="initialization target">
