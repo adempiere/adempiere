@@ -22,8 +22,6 @@ import org.compiere.model.*;
 import org.compiere.print.*;
 import org.compiere.util.*;
 
-
-
 /**
  *	Dunning Letter Print
  *	
@@ -67,9 +65,9 @@ public class DunningPrint extends SvrProcess
 	}	//	prepare
 
 	/**
-	 * 	Pocess
-	 *	@return info
-	 *	@throws Exception
+	 * Pocess
+	 * @return info
+	 * @throws Exception
 	 */
 	protected String doIt () throws Exception
 	{
@@ -79,14 +77,14 @@ public class DunningPrint extends SvrProcess
 		//	Need to have Template
 		if (p_EMailPDF && p_R_MailText_ID == 0)
 			throw new AdempiereUserError ("@NotFound@: @R_MailText_ID@");
-		String subject = "";
+//		String subject = "";
 		MMailText mText = null;
 		if (p_EMailPDF)
 		{
 			mText = new MMailText (getCtx(), p_R_MailText_ID, get_TrxName());
 			if (p_EMailPDF && mText.get_ID() == 0)
 				throw new AdempiereUserError ("@NotFound@: @R_MailText_ID@ - " + p_R_MailText_ID);
-			subject = mText.getMailHeader();
+//			subject = mText.getMailHeader();
 		}
 		//
 		MDunningRun run = new MDunningRun (getCtx(), p_C_DunningRun_ID, get_TrxName());
@@ -131,20 +129,8 @@ public class DunningPrint extends SvrProcess
 					continue;
 				}
 			}
-			//	BP Language
-			Language language = Language.getLoginLanguage();		//	Base Language
-			String tableName = "C_Dunning_Header_v";
-			if (client.isMultiLingualDocument())
-			{
-				tableName += "t";
-				String AD_Language = bp.getAD_Language();
-				if (AD_Language != null)
-					language = Language.getLanguage(AD_Language);
-			}
-			format.setLanguage(language);
-			format.setTranslationLanguage(language);
 			//	query
-			MQuery query = new MQuery(tableName);
+			MQuery query = new MQuery("C_Dunning_Header_v");
 			query.addRestriction("C_DunningRunEntry_ID", MQuery.EQUAL, 
 				new Integer(entry.getC_DunningRunEntry_ID()));
 
