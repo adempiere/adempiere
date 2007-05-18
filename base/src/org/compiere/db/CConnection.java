@@ -1654,19 +1654,18 @@ public class CConnection implements Serializable
 			server = "server".equals(args[0]);
 		System.out.println("CConnection - " + (server ? "server" : "client"));
 		//
-		if (server)
-		{
+		if (server) {
 			Adempiere.startup(false);
-		}
-		else
+		} else {
 			Adempiere.startup(true);
+		}
 		//
 		System.out.println ("Connection = ");
 		//	CConnection[name=localhost{dev-dev1-adempiere},AppsHost=localhost,AppsPort=1099,type=Oracle,DBhost=dev,DBport=1521,DBname=dev1,BQ=false,FW=false,FWhost=,FWport=1630,UID=adempiere,PWD=adempiere]
-		System.out.println (Ini.getProperty (Ini.P_CONNECTION));
+//		System.out.println (Ini.getProperty (Ini.P_CONNECTION));
 
 		CConnection cc = CConnection.get ();
-		System.out.println (">> " + cc.toStringLong ());
+//		System.out.println (">> " + cc.toStringLong ());
 		Connection con = cc.getConnection (false,
 						 Connection.TRANSACTION_READ_COMMITTED);
 		new CConnectionDialog(cc);
