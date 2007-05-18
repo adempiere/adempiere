@@ -46,13 +46,8 @@ BEGIN
 
 		--	Next Business Day
 		IF (p.IsNextBusinessDay='Y') THEN
-			--	Not fully correct - only does weekends (7=Saturday, 1=Sunday)
-			SELECT 	DECODE(TO_CHAR(Discount1Date,'D'), '7',2, '1',1, 0),
-					DECODE(TO_CHAR(Discount2Date,'D'), '7',2, '1',1, 0)
-			  INTO	Add1Date, Add2Date
-			FROM 	DUAL;
-			Discount1Date := Discount1Date+Add1Date;
-			Discount2Date := Discount2Date+Add2Date;
+			Discount1Date := nextBusinessDay(Discount1Date, p.AD_Client_ID);
+			Discount2Date := nextBusinessDay(Discount2Date, p.AD_Client_ID);
 		END IF;
 
 		--	Discount 1
