@@ -1,4 +1,3 @@
-//MLocationTest.java
 package test;
 
 import java.io.FileInputStream;
@@ -7,12 +6,12 @@ import java.util.logging.Level;
 
 import junit.framework.TestCase;
 
-import org.compiere.model.MLocation;
+import org.compiere.model.MProduct;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Ini;
 
-public class MLocationTest extends TestCase {
+public class MProductTest extends TestCase {
 	
 	// Test: General
 	private Properties testProperties = null;
@@ -32,7 +31,7 @@ public class MLocationTest extends TestCase {
 	private int AD_User_ID_Value = 0;
 
 	// Test: Specific variables
-	private MLocation location = null;
+	private MProduct product = null;
 	
 
 	@Override
@@ -64,7 +63,7 @@ public class MLocationTest extends TestCase {
 //		    DB.setDBTarget(cc);
 //		}
 	
-		CLogMgt.setLevel(Level.FINEST);
+		CLogMgt.setLevel(Level.SEVERE);
 /*		Available levels: 
 		Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO,
 		Level.CONFIG, Level.FINE, Level.FINER, Level.FINEST, Level.ALL
@@ -79,31 +78,64 @@ public class MLocationTest extends TestCase {
 		m_Ctx = null;
 	}
 
-	public void testMLocationCreation() {
+	public void testMProductCreation() {
+		boolean singleCommit = true;
 		String trxName = "test";
-		location = new MLocation(m_Ctx, 0, trxName);
-		// location.loadDefaults();
-		location.setC_Country_ID(100);
-		location.setC_Region_ID(103);
-		location.setCity("Windsor");
-		location.setAddress1("nyb");
-		location.setAddress2("");
-		location.setPostal("95492");
-		location.setPostal_Add("95492");
-		// location.setAD_Client_ID(0);
-		location.setAD_Org_ID(0);
-
-		boolean saveResult = location.save();
-		if (!saveResult) {
-			assertEquals("Location not updated!", true, saveResult);
-		} else {
-			System.out.println("location.getC_Location_ID: " + location.getC_Location_ID());
+		m_Ctx.setProperty("#AD_Client_ID", new Integer(11).toString());
+		
+		// Start time - 20:16
+		long time = System.currentTimeMillis();
+		int count = 100000;
+		
+		for (int idx=25258; idx < count; idx++) {
+			//product = MProduct.get(m_Ctx, int M_Product_ID)
+			product = new MProduct(m_Ctx, 0, trxName);
+			//
+			product.setAD_Org_ID(0);
+			product.setValue("Test-Product-" + idx);
+			product.setName("Test-Product-" + idx);
+			
+			// M_Product_Category
+			int M_Product_Category_ID = 105; // TODO - Trifon
+			product.setM_Product_Category_ID(M_Product_Category_ID);
+			// C_TaxCategory
+			int C_TaxCategory_ID = 107; // TODO - Trifon
+			product.setC_TaxCategory_ID(C_TaxCategory_ID);
+			// C_UOM
+			int C_UOM_ID = 100; // TODO - Trifon
+			product.setC_UOM_ID(C_UOM_ID);
+			// C_UOM
+			String ProductType = "I"; // TODO - Trifon
+			product.setProductType(ProductType);
+			
+			boolean saveResult = product.save();
+			if (!saveResult) {
+				assertEquals("Product not updated!", true, saveResult);
+			} else {
+				System.out.println("product.getM_Product_ID: " + product.getM_Product_ID());
+				if (singleCommit) {
+					try {
+						DB.commit(true, trxName);
+					} catch (Exception e) {
+						assertEquals("Product not updated!", true, false);
+					}
+				}	
+			} // end loop
+		}
+		
+		if (!singleCommit) {
 			try {
 				DB.commit(true, trxName);
 			} catch (Exception e) {
-				assertEquals("Location not updated!", true, false);
+				assertEquals("Product not updated!", true, false);
 			}
 		}
-		assertTrue("TestExample", true);
+		time = System.currentTimeMillis() - time;
+		System.out.println("#"  
+			+ ", Count=" + count 
+			+ " " + ((float)count*100/count)
+			+ "% - " + time + "ms - ea " + ((float)time/count) + "ms");
+		
+		assertTrue(this.getClass().getName(), true);
 	}
 }
