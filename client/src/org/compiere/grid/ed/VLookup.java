@@ -211,6 +211,7 @@ public class VLookup extends JComponent
 		{
 			mBPartnerNew = new CMenuItem (Msg.getMsg(Env.getCtx(), "New"), Env.getImageIcon("InfoBPartner16.gif"));
 			mBPartnerNew.addActionListener(this);
+			mBPartnerNew.setVisible(isReadWrite()); // visible only if the field is editable - teo_sarca [ 1721710 ]
 			popupMenu.add(mBPartnerNew);
 			mBPartnerUpd = new CMenuItem (Msg.getMsg(Env.getCtx(), "Update"), Env.getImageIcon("InfoBPartner16.gif"));
 			mBPartnerUpd.addActionListener(this);
@@ -343,6 +344,9 @@ public class VLookup extends JComponent
 			if (m_comboActive)
 				setValue (m_value);
 		}
+		// If the field is readonly the BPartner new option should be hidden - teo_sarca [ 1721710 ]
+		if (mBPartnerNew != null)
+			mBPartnerNew.setVisible(value);
 	}	//	setReadWrite
 
 	/**
