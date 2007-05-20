@@ -140,6 +140,8 @@ public class SecureEngine
 	 */
 	public static Object encrypt (Object value)
 	{
+		if (value instanceof String)
+			return encrypt((String) value);
 		return value;
 	}	//	encrypt
 
@@ -151,6 +153,8 @@ public class SecureEngine
 	 */
 	public static Object decrypt (Object value)
 	{
+		if (value instanceof String)
+			return decrypt((String) value);
 		return value;
 	}	//	decrypt
 	
