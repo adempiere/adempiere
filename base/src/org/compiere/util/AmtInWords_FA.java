@@ -103,13 +103,13 @@ public class AmtInWords_FA implements AmtInWords {
         if (number % 100 < 20) {
             soFar = numNames[number % 100];
             number /= 100;
-            soFar = hundredsNames[number] + (soFar=="" || hundredsNames[number]=="" ? soFar : " و " + soFar);
+            soFar = hundredsNames[number] + ("".equals(soFar) || hundredsNames[number].equals("") ? soFar : " و " + soFar);
         } else {
             soFar = numNames[number % 10];
             number /= 10;
-            soFar = tensNames[number % 10] + (tensNames[number % 10]=="" ? soFar : " و " + soFar);
+            soFar = tensNames[number % 10] + (tensNames[number % 10].equals("") ? soFar : " و " + soFar);
             number /= 10;
-            soFar = hundredsNames[number % 10] + (hundredsNames[number % 10]=="" ? soFar : " و " + soFar);
+            soFar = hundredsNames[number % 10] + (hundredsNames[number % 10].equals("") ? soFar : " و " + soFar);
         }
         return soFar;
     }	//	convertLessThanOneThousand
@@ -136,9 +136,9 @@ public class AmtInWords_FA implements AmtInWords {
             long n = number % 1000;
             if (n != 0) {
                 String s = convertLessThanOneThousand((int)n);
-                if (soFar != "")
+                if (!soFar.equals(""))
                     soFar = s + " " + majorNames[place] + 
-                            (s=="" || majorNames[place]==""  ? soFar : " و " + soFar);
+                            (s.equals("") || majorNames[place].equals("")  ? soFar : " و " + soFar);
                 else
                     soFar = s + " " + majorNames[place];
             }
