@@ -169,14 +169,15 @@ public class MUser extends X_AD_User
 		
 		MUser retValue = null;
 		String sql = "SELECT * FROM AD_User "
-			+ "WHERE Name=? AND Password=? AND IsActive='Y' AND AD_Client_ID=?";
+			+ "WHERE Name=? AND (Password=? OR Password=?) AND IsActive='Y' AND AD_Client_ID=?";
 		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setString (1, name);
 			pstmt.setString (2, password);
-			pstmt.setInt(3, AD_Client_ID);
+			pstmt.setString(3, SecureEngine.encrypt(password));
+			pstmt.setInt(4, AD_Client_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
