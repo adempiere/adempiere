@@ -1,4 +1,4 @@
-package test;
+package test.performance;
 
 import java.io.FileInputStream;
 import java.util.Properties;

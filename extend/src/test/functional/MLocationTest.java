@@ -1,5 +1,5 @@
 //MLocationTest.java
-package test;
+package test.functional;
 
 import java.io.FileInputStream;
 import java.util.Properties;
