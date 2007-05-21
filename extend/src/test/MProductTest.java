@@ -63,7 +63,8 @@ public class MProductTest extends TestCase {
 //		    DB.setDBTarget(cc);
 //		}
 	
-		CLogMgt.setLevel(Level.SEVERE);
+		//CLogMgt.setLevel(Level.ALL);
+		CLogMgt.setLevel(Level.OFF);
 /*		Available levels: 
 		Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO,
 		Level.CONFIG, Level.FINE, Level.FINER, Level.FINEST, Level.ALL
@@ -84,10 +85,13 @@ public class MProductTest extends TestCase {
 		m_Ctx.setProperty("#AD_Client_ID", new Integer(11).toString());
 		
 		// Start time - 20:16
-		long time = System.currentTimeMillis();
-		int count = 100000;
+		long startTime = System.currentTimeMillis();
+		System.out.println("Start Time(ms) = " + startTime);
+		System.out.println("Start Time     = " + new java.util.Date(startTime));
+		int startCount = 570000;
+		int count = 10000;
 		
-		for (int idx=25258; idx < count; idx++) {
+		for (int idx= startCount; idx < (startCount + count); idx++) {
 			//product = MProduct.get(m_Ctx, int M_Product_ID)
 			product = new MProduct(m_Ctx, 0, trxName);
 			//
@@ -112,7 +116,7 @@ public class MProductTest extends TestCase {
 			if (!saveResult) {
 				assertEquals("Product not updated!", true, saveResult);
 			} else {
-				System.out.println("product.getM_Product_ID: " + product.getM_Product_ID());
+				//System.out.println("product.getM_Product_ID: " + product.getM_Product_ID());
 				if (singleCommit) {
 					try {
 						DB.commit(true, trxName);
@@ -120,8 +124,8 @@ public class MProductTest extends TestCase {
 						assertEquals("Product not updated!", true, false);
 					}
 				}	
-			} // end loop
-		}
+			} 
+		} // end loop
 		
 		if (!singleCommit) {
 			try {
@@ -130,11 +134,21 @@ public class MProductTest extends TestCase {
 				assertEquals("Product not updated!", true, false);
 			}
 		}
-		time = System.currentTimeMillis() - time;
-		System.out.println("#"  
-			+ ", Count=" + count 
-			+ " " + ((float)count*100/count)
-			+ "% - " + time + "ms - ea " + ((float)time/count) + "ms");
+		long endTime = System.currentTimeMillis();
+		System.out.println("End Time(ms) = " + endTime);
+		System.out.println("End Time     = " + new java.util.Date(endTime));
+		long time = endTime - startTime;
+		System.out.println("Duration(ms) = " + time);
+		
+		time = time / 1000;
+		System.out.println("Duration(sec.) = " + time);
+		if (time > 0) {
+			System.out.println("Duration(min.) = " + time / 60);	
+		}
+		
+		System.out.println(  
+			  "Count = " + count 
+			+ "; Time(seconds) = " + time + "; Produsts/Second = " + ((float)count/time) + "; ");
 		
 		assertTrue(this.getClass().getName(), true);
 	}
