@@ -160,6 +160,11 @@ public final class Ini implements Serializable
 	public static final String P_LOAD_TAB_META_DATA_BG = "LoadTabMetaDataBackground";
 	
 	public static final String DEFAULT_LOAD_TAB_META_DATA_BG = "N";
+	
+	/** Apply wan security protection **/
+	public static final String P_SERVER_VALIDATE_SECURITY_TOKEN = "ServerValidateSecurityToken";
+	
+	public static final String DEFAULT_SERVER_VALIDATE_SECURITY_TOKEN = "Y";
 			
 	/** Ini Properties		*/
 	private static final String[]   PROPERTIES = new String[] {
@@ -177,7 +182,8 @@ public final class Ini implements Serializable
 		P_SINGLE_INSTANCE_PER_WINDOW,
 		P_OPEN_WINDOW_MAXIMIZED,
 		P_WARNING, P_WARNING_de,
-		P_CHARSET, P_LOAD_TAB_META_DATA_BG
+		P_CHARSET, P_LOAD_TAB_META_DATA_BG,
+		P_SERVER_VALIDATE_SECURITY_TOKEN
 	};
 	/** Ini Property Values	*/
 	private static final String[]   VALUES = new String[] {
@@ -195,7 +201,8 @@ public final class Ini implements Serializable
 		DEFAULT_SINGLE_INSTANCE_PER_WINDOW?"Y":"N",
 		DEFAULT_OPEN_WINDOW_MAXIMIZED?"Y":"N",
 		DEFAULT_WARNING, DEFAULT_WARNING_de,
-		DEFAULT_CHARSET, DEFAULT_LOAD_TAB_META_DATA_BG
+		DEFAULT_CHARSET, DEFAULT_LOAD_TAB_META_DATA_BG,
+		DEFAULT_SERVER_VALIDATE_SECURITY_TOKEN
 	};
 
 	/**	Container for Properties    */
@@ -767,5 +774,10 @@ public final class Ini implements Serializable
 		} catch (Exception e) {
 		}
 		return Charset.defaultCharset();
+	}
+	
+	public static boolean isServerValidateSecurityToken()
+	{
+		return isPropertyBool(P_SERVER_VALIDATE_SECURITY_TOKEN);
 	}
 }	//	Ini
