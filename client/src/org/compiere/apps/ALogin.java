@@ -603,14 +603,25 @@ public final class ALogin extends CDialog
 
 		//  Get Roles
 		m_login = new Login(m_ctx);
-		KeyNamePair[] roles = m_login.getRoles(m_user, m_pwd);
-		if (roles == null || roles.length == 0)
+		KeyNamePair[] roles = null;
+		try 
 		{
-			statusBar.setStatusLine(txt_UserPwdError, true);
-			userTextField.setBackground(AdempierePLAF.getFieldBackground_Error());
-			passwordField.setBackground(AdempierePLAF.getFieldBackground_Error());
+			roles = m_login.getRoles(m_user, m_pwd);
+			if (roles == null || roles.length == 0)
+			{
+				statusBar.setStatusLine(txt_UserPwdError, true);
+				userTextField.setBackground(AdempierePLAF.getFieldBackground_Error());
+				passwordField.setBackground(AdempierePLAF.getFieldBackground_Error());
+				return false;
+			}
+		}
+		catch (Throwable e)
+		{
+			log.severe(CLogger.getRootCause(e).getLocalizedMessage());
+			statusBar.setStatusLine(CLogger.getRootCause(e).getLocalizedMessage(), true);
 			return false;
 		}
+		
 		
 		//	Delete existing role items
 		m_comboActive = true;

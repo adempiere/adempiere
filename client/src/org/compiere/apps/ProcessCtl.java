@@ -23,6 +23,8 @@ import java.rmi.*;
 import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
+
+import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 import org.compiere.model.*;
@@ -593,7 +595,7 @@ public class ProcessCtl extends Thread
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.dbProcess(m_pi, ProcedureName, trxName);
+					m_pi = server.dbProcess(m_pi, ProcedureName, trxName, Adempiere.getSecurityToken());
 					log.finest("server => " + m_pi);
 					started = true;		
 				}
