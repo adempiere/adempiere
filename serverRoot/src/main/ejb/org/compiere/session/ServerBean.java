@@ -17,6 +17,9 @@
 package org.compiere.session;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.cert.Certificate;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -122,12 +125,16 @@ public class ServerBean implements SessionBean
 	 *  @ejb.interface-method view-type="both"
 	 *
 	 *  @param info Result info
+	 *  @param token Security Token
 	 *  @return RowSet
 	 *  @throws NotSerializableException
 	 */
-	public RowSet pstmt_getRowSet (CStatementVO info) 
+	public RowSet pstmt_getRowSet (CStatementVO info, SecurityToken token) 
 		throws NotSerializableException
 	{
+		
+		validateSecurityToken(token);
+			
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CPreparedStatement pstmt = new CPreparedStatement(info);
@@ -139,10 +146,13 @@ public class ServerBean implements SessionBean
 	 *  @ejb.interface-method view-type="both"
 	 *
 	 *  @param info Result info
+	 *  @param token Security Token
 	 *  @return RowSet
 	 */
-	public RowSet stmt_getRowSet (CStatementVO info)
+	public RowSet stmt_getRowSet (CStatementVO info, SecurityToken token)
 	{
+		validateSecurityToken(token);
+		
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CStatement stmt = new CStatement(info);
@@ -154,10 +164,13 @@ public class ServerBean implements SessionBean
 	 *  @ejb.interface-method view-type="both"
 	 *
 	 *  @param info Result info
+	 *  @param token Security Token
 	 *  @return row count
 	 */
-	public int stmt_executeUpdate (CStatementVO info)
+	public int stmt_executeUpdate (CStatementVO info, SecurityToken token)
 	{
+		validateSecurityToken(token);
+		
 		log.finer("[" + m_no + "]");
 		m_stmt_updateCount++;
 		if (info.getParameterCount() == 0)
@@ -419,10 +432,13 @@ public class ServerBean implements SessionBean
 	 *  @param sql table name
 	 *  @param displayType display type (i.e. BLOB/CLOB)
 	 * 	@param value the data
+	 *  @param token Security Token
 	 * 	@return true if updated
 	 */
-	public boolean updateLOB (String sql, int displayType, Object value)
+	public boolean updateLOB (String sql, int displayType, Object value, SecurityToken token)
 	{
+		validateSecurityToken(token);
+		
 		if (sql == null || value == null)
 		{
 			log.fine("No sql or data");
@@ -596,8 +612,10 @@ public class ServerBean implements SessionBean
 	 * @param trxName
 	 * @return ProcessInfo
 	 */
-	public ProcessInfo dbProcess(ProcessInfo processInfo, String procedureName, String trxName)
+	public ProcessInfo dbProcess(ProcessInfo processInfo, String procedureName, String trxName, SecurityToken token)
 	{
+		validateSecurityToken(token);
+		
 		String sql = "{call " + procedureName + "(?)}";
 		Trx trx = null;
 		if (trxName != null)
@@ -733,6 +751,64 @@ public class ServerBean implements SessionBean
 			+ "L;\n";
 		System.out.println (s);
 	}	//	dumpSVUID
+	
+	/**
+	 * Validate security token from client
+	 * @param token
+	 */
+	private void validateSecurityToken(SecurityToken token)
+	{
+		if (Ini.isServerValidateSecurityToken())
+		{
+			checkCertificate(token);
+			checkCodeBaseHost(token);
+		}
+	}
+	
+	/**
+	 * Verify client code is sign with the same certificate as server 
+	 * @param token
+	 */
+	private void checkCertificate(SecurityToken token)
+	{
+		Certificate certs[] =
+			this.getClass().getProtectionDomain().getCodeSource().getCertificates();
+		if (certs != null && certs.length > 0)
+		{
+			if (!certs[0].equals(token.getCodeCertificate()))
+				throw new RuntimeException("Client not signed or not signed with the same certificate");
+		}
+	}
+	
+	/**
+	 * Verify client code is loaded from trusted server
+	 * @param token
+	 */
+	private void checkCodeBaseHost(SecurityToken token)
+	{
+		InetAddress host = null;
+		try {
+			host = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+		}
+		String hostName = null;
+		String hostAddress = null;
+		if (host != null)
+		{
+			hostName = host.getHostName();
+			hostAddress = host.getHostAddress();
+		}
+		else
+		{
+			hostName = "localhost";
+			hostAddress = "127.0.0.1";
+		}
+		if (!hostName.equals(token.getCodeBaseHost()) && 
+				!hostAddress.equals(token.getCodeBaseHost()))
+		{
+			throw new RuntimeException("Client code not originated from server.");
+		}
+	}
 
 	/**
 	 * 	Print UID of used classes.
