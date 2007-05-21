@@ -595,7 +595,7 @@ public class ProcessCtl extends Thread
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.dbProcess(m_pi, ProcedureName, trxName, Adempiere.getSecurityToken());
+					m_pi = server.dbProcess(m_pi, ProcedureName, trxName, SecurityToken.getInstance());
 					log.finest("server => " + m_pi);
 					started = true;		
 				}
