@@ -322,7 +322,7 @@ public class Login
 			list.toArray(retValue);
 			log.fine("User=" + app_user + " - roles #" + retValue.length);
 		}
-		catch (SQLException ex)
+		catch (Exception ex)
 		{
 			log.log(Level.SEVERE, sql.toString(), ex);
 			log.saveError("DBLogin", ex);

@@ -222,6 +222,21 @@ public class CLogger extends Logger implements Serializable
 	}	//	resetLast
 	
 	/**
+	 * Get root cause
+	 * @param t
+	 * @return Throwable
+	 */
+	public static Throwable getRootCause(Throwable t)
+	{
+		Throwable cause = t;
+		while (cause.getCause() != null)
+		{
+			cause = cause.getCause();
+		} 
+		return cause;
+	}
+	
+	/**
 	 * 	String Representation
 	 *	@return info
 	 */

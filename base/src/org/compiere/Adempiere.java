@@ -19,6 +19,8 @@ package org.compiere;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.security.CodeSource;
+import java.security.cert.Certificate;
 import java.util.logging.*;
 import javax.jnlp.*;
 import javax.swing.*;
@@ -539,6 +541,25 @@ public final class Adempiere
 	}	//	startupEnvironment
 
 
+	/**
+	 * @return SecurityToken
+	 */
+	public static SecurityToken getSecurityToken()
+	{
+		Certificate cert = null;
+		String host = null;
+		CodeSource cs 
+			= Adempiere.class.getProtectionDomain().getCodeSource();
+		if (cs != null)
+		{
+			Certificate[] certs = cs.getCertificates();
+			if (certs != null && certs.length > 0)
+				cert = certs[0];
+		}
+		host = Adempiere.getCodeBaseHost();
+		return new SecurityToken(cert, host);
+	}
+	
 	/**
 	 *  Main Method
 	 *

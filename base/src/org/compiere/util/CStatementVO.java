@@ -17,7 +17,12 @@
 package org.compiere.util;
 
 import java.io.*;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+import java.security.cert.Certificate;
 import java.util.*;
+
+import org.compiere.Adempiere;
 
 /**
  *	Adempiere Statement Value Object

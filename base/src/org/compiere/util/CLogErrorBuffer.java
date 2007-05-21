@@ -197,8 +197,16 @@ public class CLogErrorBuffer extends Handler
 					)
 				{
 					m_issueError = false;
-					MIssue.create(record);
-					m_issueError = true;
+					try 
+					{
+						MIssue.create(record);
+						m_issueError = true;
+					} catch (Throwable e)
+					{
+						//failed to save exception to db, print to console
+						System.err.println(getFormatter().format(record));
+						m_issueError = false;
+					}
 				}
 				else
 				{

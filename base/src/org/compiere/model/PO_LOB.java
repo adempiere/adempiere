@@ -20,6 +20,8 @@ import java.io.*;
 import java.rmi.*;
 import java.sql.*;
 import java.util.logging.*;
+
+import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
@@ -117,7 +119,7 @@ public class PO_LOB implements Serializable
 			{
 				if (server != null)
 				{	//	See ServerBean
-					success = server.updateLOB (sql.toString(), m_displayType, m_value); 
+					success = server.updateLOB (sql.toString(), m_displayType, m_value, Adempiere.getSecurityToken()); 
 					if (CLogMgt.isLevelFinest())
 						log.fine("server => " + success);
 					if (success)

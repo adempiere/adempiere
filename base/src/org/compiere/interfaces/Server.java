@@ -36,21 +36,21 @@ public interface Server
     * @param info Result info
     * @return RowSet
     * @throws NotSerializableException    */
-   public javax.sql.RowSet pstmt_getRowSet( org.compiere.util.CStatementVO info )
+   public javax.sql.RowSet pstmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
       throws java.io.NotSerializableException, java.rmi.RemoteException;
 
    /**
     * Get Statement ResultSet
     * @param info Result info
     * @return RowSet    */
-   public javax.sql.RowSet stmt_getRowSet( org.compiere.util.CStatementVO info )
+   public javax.sql.RowSet stmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
    /**
     * Execute Update
     * @param info Result info
     * @return row count    */
-   public int stmt_executeUpdate( org.compiere.util.CStatementVO info )
+   public int stmt_executeUpdate( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
    /**
@@ -150,7 +150,7 @@ public interface Server
     * @param displayType display type (i.e. BLOB/CLOB)
     * @param value the data
     * @return true if updated    */
-   public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value )
+   public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
    /**
@@ -179,7 +179,7 @@ public interface Server
     * @param procedureName
     * @param trxName
     * @return ProcessInfo    */
-   public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName,java.lang.String trxName )
+   public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName,java.lang.String trxName,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
    /**

@@ -21,6 +21,7 @@ import java.util.logging.*;
 
 import javax.sql.*;
 
+import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 
@@ -136,7 +137,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					ResultSet rs = server.stmt_getRowSet (p_vo);
+					ResultSet rs = server.stmt_getRowSet (p_vo, Adempiere.getSecurityToken());
 					if (rs == null)
 						log.warning("ResultSet is null - " + p_vo);
 					else
@@ -198,7 +199,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					int result = server.stmt_executeUpdate(p_vo);
+					int result = server.stmt_executeUpdate(p_vo, Adempiere.getSecurityToken());
 					p_vo.clearParameters();		//	re-use of result set
 					return result;
 				}
@@ -867,7 +868,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					RowSet rs = server.stmt_getRowSet (p_vo);
+					RowSet rs = server.stmt_getRowSet (p_vo, Adempiere.getSecurityToken());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("RowSet is null - " + p_vo);

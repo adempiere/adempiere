@@ -23,6 +23,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.sql.*;
+
+import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 
@@ -122,7 +124,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					ResultSet rs = server.pstmt_getRowSet (p_vo);
+					ResultSet rs = server.pstmt_getRowSet (p_vo, Adempiere.getSecurityToken());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("ResultSet is null - " + p_vo);
@@ -198,7 +200,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					int result = server.stmt_executeUpdate (p_vo);
+					int result = server.stmt_executeUpdate (p_vo, Adempiere.getSecurityToken());
 					p_vo.clearParameters();		//	re-use of result set
 					return result;
 				}
@@ -886,7 +888,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					RowSet rs = server.pstmt_getRowSet (p_vo);
+					RowSet rs = server.pstmt_getRowSet (p_vo, Adempiere.getSecurityToken());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("RowSet is null - " + p_vo);

@@ -675,7 +675,7 @@ public class MTable extends X_AD_Table
 			rs.close();
 			pstmt.close();
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			retValue = -1;
 		}
