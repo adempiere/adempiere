@@ -124,7 +124,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					ResultSet rs = server.pstmt_getRowSet (p_vo, Adempiere.getSecurityToken());
+					ResultSet rs = server.pstmt_getRowSet (p_vo, SecurityToken.getInstance());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("ResultSet is null - " + p_vo);
@@ -200,7 +200,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					int result = server.stmt_executeUpdate (p_vo, Adempiere.getSecurityToken());
+					int result = server.stmt_executeUpdate (p_vo, SecurityToken.getInstance());
 					p_vo.clearParameters();		//	re-use of result set
 					return result;
 				}
@@ -888,7 +888,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					RowSet rs = server.pstmt_getRowSet (p_vo, Adempiere.getSecurityToken());
+					RowSet rs = server.pstmt_getRowSet (p_vo, SecurityToken.getInstance());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("RowSet is null - " + p_vo);

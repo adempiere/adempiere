@@ -542,25 +542,6 @@ public final class Adempiere
 
 
 	/**
-	 * @return SecurityToken
-	 */
-	public static SecurityToken getSecurityToken()
-	{
-		Certificate cert = null;
-		String host = null;
-		CodeSource cs 
-			= Adempiere.class.getProtectionDomain().getCodeSource();
-		if (cs != null)
-		{
-			Certificate[] certs = cs.getCertificates();
-			if (certs != null && certs.length > 0)
-				cert = certs[0];
-		}
-		host = Adempiere.getCodeBaseHost();
-		return new SecurityToken(cert, host);
-	}
-	
-	/**
 	 *  Main Method
 	 *
 	 *  @param args optional start class

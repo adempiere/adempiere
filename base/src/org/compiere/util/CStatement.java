@@ -137,7 +137,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					ResultSet rs = server.stmt_getRowSet (p_vo, Adempiere.getSecurityToken());
+					ResultSet rs = server.stmt_getRowSet (p_vo, SecurityToken.getInstance());
 					if (rs == null)
 						log.warning("ResultSet is null - " + p_vo);
 					else
@@ -199,7 +199,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					int result = server.stmt_executeUpdate(p_vo, Adempiere.getSecurityToken());
+					int result = server.stmt_executeUpdate(p_vo, SecurityToken.getInstance());
 					p_vo.clearParameters();		//	re-use of result set
 					return result;
 				}
@@ -868,7 +868,7 @@ public class CStatement implements Statement
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					RowSet rs = server.stmt_getRowSet (p_vo, Adempiere.getSecurityToken());
+					RowSet rs = server.stmt_getRowSet (p_vo, SecurityToken.getInstance());
 					p_vo.clearParameters();		//	re-use of result set
 					if (rs == null)
 						log.warning("RowSet is null - " + p_vo);
