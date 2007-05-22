@@ -34,10 +34,12 @@
  	derive only from unrecognized comments (-> unknown command), thats
  	just because the sql tool treats the comments as sql commands - don't worry.
  
- 4.	Apply migration-newLines.sql, migration-updateElements.sql, migration-replace-views.sql 
- 	and old_migration_missing.sql the same way.
- 
- 
+ 4.	Apply the remaining scripts in the order
+     migration-replace-views.sql 
+     migration-newLines.sql, 
+     migration-updateElements.sql, 
+ 	 and finally old_migration_missing.sql the same way.
+  
  
  Installation of Compiere253b
  
