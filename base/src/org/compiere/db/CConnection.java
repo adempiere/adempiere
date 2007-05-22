@@ -1575,7 +1575,10 @@ public class CConnection implements Serializable
 		setDbPort (svr.getDbPort ());
 		setDbName (svr.getDbName ());
 		setDbUid (svr.getDbUid ());
-		setDbPwd (svr.getDbPwd ());
+		if (isRMIoverHTTP())
+			setDbPwd ("");
+		else
+			setDbPwd (svr.getDbPwd ());
 		setBequeath (false);
 		//
 		setFwHost (svr.getFwHost ());
