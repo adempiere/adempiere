@@ -24,6 +24,7 @@
     <pathelement path="../base/build"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../tools/lib/junit.jar"/>
+    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
   </path>
 
   <target name="init" description="initialization target">
@@ -69,6 +70,32 @@
     <!-- put everything from ${build.dir} into the ${jar.name}.jar file -->
     <jar jarfile="${dist.dir}/${jar.name}.jar" basedir="${build.dir}"/>
   </target>
+
+  <path id="class.path.test">
+    <pathelement path="${classpath}"/>
+    <pathelement path="${jar.path}/CCTools.jar"/>
+    <pathelement path="../base/build"/>
+    <pathelement path="../looks/CLooks.jar"/>
+    <pathelement path="../tools/lib/junit.jar"/>
+    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
+    <pathelement path="./Extend.jar" />
+  </path>
+
+<target name="functionaltest" depends="dist">
+    <junit>
+      <classpath refid="class.path.test" />
+      <formatter type="brief" usefile="false" />
+      <test name="test.functional.MUserTest" />
+      <test name="test.functional.MLocationTest" />
+      <test name="test.functional.MBPartnerTest" />
+      <test name="test.functional.MBPGroupTest" />
+      <test name="test.functional.MBPartnerLocationTest" />
+    </junit>
+  </target>
+
 
 
   <target name="clean">
