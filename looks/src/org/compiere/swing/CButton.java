@@ -1,283 +1,329 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- *****************************************************************************/
+/********************************************************************* 
+* This file is part of Adempiere ERP Bazaar                          * 
+* http://www.adempiere.org                                           * 
+*                                                                    * 
+* Copyright (C) 1999 - 2006 Compiere Inc.                            * 
+* Copyright (C) Contributors                                         * 
+*                                                                    * 
+* This program is free software; you can redistribute it and/or      * 
+* modify it under the terms of the GNU General Public License        * 
+* as published by the Free Software Foundation; either version 2     * 
+* of the License, or (at your option) any later version.             * 
+*                                                                    * 
+* This program is distributed in the hope that it will be useful,    * 
+* but WITHOUT ANY WARRANTY; without even the implied warranty of     * 
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       * 
+* GNU General Public License for more details.                       * 
+*                                                                    * 
+* You should have received a copy of the GNU General Public License  * 
+* along with this program; if not, write to the Free Software        * 
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         * 
+* MA 02110-1301, USA.                                                * 
+*                                                                    * 
+* Contributors:                                                      * 
+*  - Bahman Movaqar (bmovaqar@users.sf.net)                          * 
+**********************************************************************/ 
 package org.compiere.swing;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.InputEvent;
+
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ComponentInputMapUIResource;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.plaf.CompiereLookAndFeel;
 
 /**
- *  Adempiere Button supporting colored Background
- *
- *  @author     Jorg Janke
- *  @version    $Id: CButton.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ * Adempiere Button supporting colored Background
+ * 
+ * @author Jorg Janke
+ * @version $Id: CButton.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
-public class CButton extends JButton implements CEditor
-{
+public class CButton extends JButton implements CEditor {
 	/**
 	 * Creates a button with no set text or icon.
 	 */
-	public CButton()
-	{
-		this (null, null);
-	}	//	CButton
+	public CButton() {
+		this(null, null);
+	} // CButton
 
 	/**
 	 * Creates a button with an icon.
-	 *
-	 * @param icon  the Icon image to display on the button
+	 * 
+	 * @param icon
+	 *            the Icon image to display on the button
 	 */
-	public CButton(Icon icon)
-	{
-		this (null, icon);
-	}	//	CButton
+	public CButton(Icon icon) {
+		this(null, icon);
+	} // CButton
 
 	/**
 	 * Creates a button with text.
-	 *
-	 * @param text  the text of the button
+	 * 
+	 * @param text
+	 *            the text of the button
 	 */
-	public CButton(String text)
-	{
-		this (text, null);
-	}	//	CButton
+	public CButton(String text) {
+		this(text, null);
+	} // CButton
 
 	/**
-	 * Creates a button where properties are taken from the
-	 * <code>Action</code> supplied.
-	 *
-	 * @param a the <code>Action</code> used to specify the new button
-	 *
+	 * Creates a button where properties are taken from the <code>Action</code>
+	 * supplied.
+	 * 
+	 * @param a
+	 *            the <code>Action</code> used to specify the new button
+	 * 
 	 * @since 1.3
 	 */
-	public CButton (Action a)
-	{
-		super (a);
-	}	//	CButton
+	public CButton(Action a) {
+		super(a);
+	} // CButton
 
 	/**
 	 * Creates a button with initial text and an icon.
-	 *
-	 * @param text  the text of the button
-	 * @param icon  the Icon image to display on the button
+	 * 
+	 * @param text
+	 *            the text of the button
+	 * @param icon
+	 *            the Icon image to display on the button
 	 */
-	public CButton(String text, Icon icon)
-	{
-		super (text, icon);
-	}   //  CButton
+	public CButton(String text, Icon icon) {
+		super(text, icon);
+	} // CButton
 
-	
-	/**************************************************************************
-	 *  Set Background - Differentiates between system & user call.
-	 *  If User Call, sets Opaque & ContextAreaFilled to true
-	 *  @param bg background color
+	/***************************************************************************
+	 * Set Background - Differentiates between system & user call. If User Call,
+	 * sets Opaque & ContextAreaFilled to true
+	 * 
+	 * @param bg
+	 *            background color
 	 */
-	public void setBackground (Color bg)
-	{
+	public void setBackground(Color bg) {
 		if (bg.equals(getBackground()))
 			return;
-		super.setBackground (bg);
+		super.setBackground(bg);
 		setBackgroundColor(new CompiereColor(bg));
 		this.repaint();
-	}   //  setBackground
+	} // setBackground
 
 	/**
-	 *  Set Background - NOP
-	 *  @param error error
+	 * Set Background - NOP
+	 * 
+	 * @param error
+	 *            error
 	 */
-	public void setBackground (boolean error)
-	{
-	}   //  setBackground
+	public void setBackground(boolean error) {
+	} // setBackground
 
 	/**
-	 *  Set Standard Background
+	 * Set Standard Background
 	 */
-	public void setBackgroundColor ()
-	{
-		setBackgroundColor (null);
-	}   //  setBackground
+	public void setBackgroundColor() {
+		setBackgroundColor(null);
+	} // setBackground
 
 	/**
-	 *  Set Background
-	 *  @param bg AdempiereColor for Background, if null set standard background
+	 * Set Background
+	 * 
+	 * @param bg
+	 *            AdempiereColor for Background, if null set standard background
 	 */
-	public void setBackgroundColor (CompiereColor bg)
-	{
+	public void setBackgroundColor(CompiereColor bg) {
 		if (bg == null)
 			bg = new CompiereColor(AdempierePLAF.getFormBackground());
 		putClientProperty(CompiereLookAndFeel.BACKGROUND, bg);
-		super.setBackground (bg.getFlatColor());
+		super.setBackground(bg.getFlatColor());
 		this.repaint();
-	}   //  setBackground
+	} // setBackground
 
 	/**
-	 *  Get Background
-	 *  @return Color for Background
+	 * Get Background
+	 * 
+	 * @return Color for Background
 	 */
-	public CompiereColor getBackgroundColor ()
-	{
-		try
-		{
-			return (CompiereColor)getClientProperty(CompiereLookAndFeel.BACKGROUND);
-		}
-		catch (Exception e)
-		{
+	public CompiereColor getBackgroundColor() {
+		try {
+			return (CompiereColor) getClientProperty(CompiereLookAndFeel.BACKGROUND);
+		} catch (Exception e) {
 			System.err.println("CButton - ClientProperty: " + e.getMessage());
 		}
 		return null;
-	}   //  getBackgroundColor
+	} // getBackgroundColor
 
-	/** Mandatory (default false)   */
+	/** Mandatory (default false) */
 	private boolean m_mandatory = false;
-	/** Read-Write                  */
+
+	/** Read-Write */
 	private boolean m_readWrite = true;
 
 	/**
-	 *	Set Editor Mandatory
-	 *  @param mandatory true, if you have to enter data
+	 * Set Editor Mandatory
+	 * 
+	 * @param mandatory
+	 *            true, if you have to enter data
 	 */
-	public void setMandatory (boolean mandatory)
-	{
+	public void setMandatory(boolean mandatory) {
 		m_mandatory = mandatory;
 		setBackground(false);
-	}   //  setMandatory
+	} // setMandatory
 
 	/**
-	 *	Is Field mandatory
-	 *  @return true, if mandatory
+	 * Is Field mandatory
+	 * 
+	 * @return true, if mandatory
 	 */
-	public boolean isMandatory()
-	{
+	public boolean isMandatory() {
 		return m_mandatory;
-	}   //  isMandatory
+	} // isMandatory
 
 	/**
-	 *	Enable Editor
-	 *  @param rw true, if you can enter/select data
+	 * Enable Editor
+	 * 
+	 * @param rw
+	 *            true, if you can enter/select data
 	 */
-	public void setReadWrite (boolean rw)
-	{
+	public void setReadWrite(boolean rw) {
 		if (isEnabled() != rw)
 			setEnabled(rw);
 		m_readWrite = rw;
-	}   //  setReadWrite
+	} // setReadWrite
 
 	/**
-	 *	Is it possible to edit
-	 *  @return true, if editable
+	 * Is it possible to edit
+	 * 
+	 * @return true, if editable
 	 */
-	public boolean isReadWrite()
-	{
+	public boolean isReadWrite() {
 		return m_readWrite;
-	}   //  isReadWrite
+	} // isReadWrite
 
 	/**
-	 *	Set Editor to value
-	 *  @param value value of the editor
+	 * Set Editor to value
+	 * 
+	 * @param value
+	 *            value of the editor
 	 */
-	public void setValue (Object value)
-	{
+	public void setValue(Object value) {
 		if (value == null)
 			setText("");
 		else
 			setText(value.toString());
-	}   //  setValue
+	} // setValue
 
 	/**
-	 *	Return Editor value
-	 *  @return current value
+	 * Return Editor value
+	 * 
+	 * @return current value
 	 */
-	public Object getValue()
-	{
+	public Object getValue() {
 		return getText();
-	}   //  getValue
+	} // getValue
 
 	/**
-	 *  Return Display Value
-	 *  @return displayed String value
+	 * Return Display Value
+	 * 
+	 * @return displayed String value
 	 */
-	public String getDisplay()
-	{
+	public String getDisplay() {
 		return getText();
-	}   //  getDisplay
+	} // getDisplay
 
 	/**
-	 *	Set Text & Mnemonic
-	 *	@param text text
+	 * Set Text & Mnemonic
+	 * 
+	 * @param text
+	 *            text
 	 */
-	public void setText (String text)
-	{
-		if (text == null)
-		{
+	public void setText(String text) {
+		if (text == null) {
 			super.setText(text);
 			return;
 		}
 		int pos = text.indexOf('&');
-		if (pos != -1)					//	We have a nemonic - creates ALT-_
+		if (pos != -1) // We have a nemonic - creates ALT-_
 		{
-			int mnemonic = text.toUpperCase().charAt(pos+1);
-			if (mnemonic != ' ')
-			{
+			int mnemonic = text.toUpperCase().charAt(pos + 1);
+			if (mnemonic != ' ') {
 				setMnemonic(mnemonic);
-				text = text.substring(0, pos) + text.substring(pos+1);
+				text = text.substring(0, pos) + text.substring(pos + 1);
 			}
 		}
-		super.setText (text);
+		super.setText(text);
 		if (getName() == null)
-			setName (text);
-	}	//	setText
-	
+			setName(text);
+	} // setText
+
 	/**
-	 * 	Set Tool Tip Text & Mnemonic
-	 *	@param text text
+	 * Set Tool Tip Text & Mnemonic
+	 * 
+	 * @param text
+	 *            text
 	 */
-	public void setToolTipText (String text)
-	{
-		if (text == null)
-		{
+	public void setToolTipText(String text) {
+		if (text == null) {
 			super.setText(text);
 			return;
 		}
 		int pos = text.indexOf('&');
-		if (pos != -1)					//	We have a nemonic - creates ALT-_
+		if (pos != -1) // We have a nemonic - creates ALT-_
 		{
-			int mnemonic = text.toUpperCase().charAt(pos+1);
-			if (mnemonic != ' ')
-			{
+			int mnemonic = text.toUpperCase().charAt(pos + 1);
+			if (mnemonic != ' ') {
 				setMnemonic(mnemonic);
-				text = text.substring(0, pos) + text.substring(pos+1);
+				text = text.substring(0, pos) + text.substring(pos + 1);
 			}
 		}
-		super.setToolTipText (text);
+		super.setToolTipText(text);
 		if (getName() == null)
-			setName (text);
-	}	//	setToolTipText
-	
+			setName(text);
+	} // setToolTipText
+
 	/**
-	 * 	Set Action Command
-	 *	@param actionCommand command 
+	 * Set Action Command
+	 * 
+	 * @param actionCommand
+	 *            command
 	 */
-	public void setActionCommand (String actionCommand)
-	{
-		super.setActionCommand (actionCommand);
-		if (getName() == null && actionCommand != null && actionCommand.length() > 0)
+	public void setActionCommand(String actionCommand) {
+		super.setActionCommand(actionCommand);
+		if (getName() == null && actionCommand != null
+				&& actionCommand.length() > 0)
 			setName(actionCommand);
-	}	//	setActionCommand
-	
-}   //  CButton
+	} // setActionCommand
+
+	/**
+	 * Overrides the JButton.setMnemonic() method, setting modifier keys to
+	 * CTRL+ALT.
+	 * 
+	 * @param mnemonic
+	 *            The mnemonic character code.
+	 */
+	public void setMnemonic(int mnemonic) {
+		super.setMnemonic(mnemonic);
+
+		InputMap map = SwingUtilities.getUIInputMap(this,
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+		if (map == null) {
+			map = new ComponentInputMapUIResource(this);
+			SwingUtilities.replaceUIInputMap(this,
+					JComponent.WHEN_IN_FOCUSED_WINDOW, map);
+		}
+		map.clear();
+		int mask = InputEvent.ALT_MASK + InputEvent.CTRL_MASK; // Default
+																// Buttons
+		map.put(KeyStroke.getKeyStroke(mnemonic, mask, false), "pressed");
+		map.put(KeyStroke.getKeyStroke(mnemonic, mask, true), "released");
+		map.put(KeyStroke.getKeyStroke(mnemonic, 0, true), "released");
+		setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, map);
+	} // setMnemonic
+} // CButton
