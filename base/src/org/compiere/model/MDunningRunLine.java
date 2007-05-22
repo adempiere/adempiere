@@ -326,9 +326,9 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	{
 		// we do not count the fee line as an item, but it sum it up.
 		String sql = "UPDATE C_DunningRunEntry e "
-			+ "SET Amt=(SELECT SUM(ConvertedAmt)+SUM(FeeAmt)+SUM(InterestAmt)"
+			+ "SET Amt=NVL((SELECT SUM(ConvertedAmt)+SUM(FeeAmt)+SUM(InterestAmt)"
 			+ " FROM C_DunningRunLine l "
-				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID), "
+				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID), 0), "
 			+ "QTY=(SELECT COUNT(*)"
 			+ " FROM C_DunningRunLine l "
 				+ "WHERE e.C_DunningRunEntry_ID=l.C_DunningRunEntry_ID "
