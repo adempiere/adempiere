@@ -574,6 +574,9 @@ public class MUser extends X_AD_User
 		String s = getEMailUser();
 		if (s == null || s.length() == 0)
 			return false;
+		// If SMTP authorization is not required, then don't check password - teo_sarca [ 1723309 ]
+		if (!MClient.get(getCtx()).isSmtpAuthorization())
+			return true;
 		s = getEMailUserPW();
 		return s != null && s.length() > 0;
 	}	//	isCanSendEMail

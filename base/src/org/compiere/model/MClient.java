@@ -751,7 +751,8 @@ public class MClient extends X_AD_Client
 			return createEMail (to, subject, message);
 		//	No From details - Error
 		if (from.getEMail() == null 
-			|| from.getEMailUser() == null || from.getEMailUserPW() == null)
+			|| from.getEMailUser() == null
+			|| (isSmtpAuthorization() && from.getEMailUserPW() == null) ) // is SMTP authorization and password is null - teo_sarca [ 1723309 ]
 		{
 			log.warning("From EMail incomplete: " + from + " (" + getName() + ")");
 			return null;
