@@ -31,6 +31,10 @@ public class MLocationTest extends TestCase {
 	private String AD_User_ID_Key = "AD_User_ID";
 	private int AD_User_ID_Value = 0;
 
+	private String AD_Client_ID_DefaultValue = "11";
+	private String AD_Client_ID_Key = "AD_Client_ID";
+	private int AD_Client_ID_Value = 11;
+
 	// Test: Specific variables
 	private MLocation location = null;
 	
@@ -44,9 +48,12 @@ public class MLocationTest extends TestCase {
 		fileName_Value = testProperties.getProperty(fileName_Key, fileName_DefaultValue);
 		isClient_Value = "Y".equals( testProperties.getProperty(isClient_Key, isClient_DefaultValue) );
 		AD_User_ID_Value = Integer.parseInt(testProperties.getProperty(AD_User_ID_Key, AD_User_ID_DefaultValue) );
+		AD_Client_ID_Value = Integer.parseInt(testProperties.getProperty(AD_Client_ID_Key, AD_Client_ID_DefaultValue) );
+		
 		
 		m_Ctx = new Properties();
 		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
+		m_Ctx.setProperty("#AD_Client_ID", new Integer(AD_Client_ID_Value).toString());
 		System.out.println("m_Ctx: " + m_Ctx);
 		
 		if (fileName_Value.length() < 1) {
