@@ -2411,6 +2411,7 @@ public class PackInHandler extends DefaultHandler {
 			int tableid = get_IDWithColumn("AD_Table", "TableName", name);	    
 			name = atts.getValue("ADColumnNameID");
 			id =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", name, "AD_Table", tableid);
+			if(id > 0)
 			m_PrintFormatItem.setAD_Column_ID(id);
 			name = atts.getValue("ADPrintGraphID");
 			id = get_IDWithColumn("AD_PrintGraph", "Name", name);
@@ -2944,7 +2945,7 @@ public class PackInHandler extends DefaultHandler {
 	 */
 	public int get_IDWithColumn (String tableName, String columnName, Object value) {
 		int id = 0;
-		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"=?");
+		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER("+columnName+")=?");
 		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+value.toString());
 		
 		if (!tableName.startsWith("AD_"))
@@ -2954,7 +2955,7 @@ public class PackInHandler extends DefaultHandler {
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), m_trxName);
 			if (value instanceof String)
-				pstmt.setString(1, (String)value);
+				pstmt.setString(1, ((String)value).toUpperCase());
 			else if (value instanceof Integer)
 				pstmt.setInt(1, ((Integer)value).intValue());
 			if (!tableName.startsWith("AD_"))
@@ -2983,13 +2984,13 @@ public class PackInHandler extends DefaultHandler {
 	 */
 	public int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster) {
 		int id = 0;
-		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where name=? and "
-				+ tableNameMaster+"_ID = (select "+tableNameMaster+"_ID from "+tableNameMaster+" where name=?)");
+		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER(name)=? and "
+				+ tableNameMaster+"_ID = (select "+tableNameMaster+"_ID from "+tableNameMaster+" where UPPER(name)=?)");
 		
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), m_trxName);
-			pstmt.setString(1, name);
-			pstmt.setString(2, nameMaster);
+			pstmt.setString(1, name.toUpperCase());
+			pstmt.setString(2, nameMaster.toUpperCase());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 				id = rs.getInt(1);
@@ -3014,16 +3015,16 @@ public class PackInHandler extends DefaultHandler {
     
 	public int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID) {
 		int id = 0;
-		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"=? and "
+		sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER("+columnName+")=? and "
 				+ tableNameMaster+"_ID =?");
 		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+name+" and "
 		//	    + tableNameMaster+"_ID ="+masterID);
-		//log.info(sqlC.toString());
+		log.info(sqlB.toString());
 		
 		try {
 			
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), m_trxName);
-			pstmt.setString(1, name);
+			pstmt.setString(1, name.toUpperCase());
 			pstmt.setInt(2, masterID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
