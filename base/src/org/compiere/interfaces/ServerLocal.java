@@ -32,6 +32,7 @@ public interface ServerLocal
    /**
     * Get Prepared Statement ResultSet
     * @param info Result info
+    * @param token Security Token
     * @return RowSet
     * @throws NotSerializableException    */
    public javax.sql.RowSet pstmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) throws java.io.NotSerializableException;
@@ -39,12 +40,14 @@ public interface ServerLocal
    /**
     * Get Statement ResultSet
     * @param info Result info
+    * @param token Security Token
     * @return RowSet    */
    public javax.sql.RowSet stmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
 
    /**
     * Execute Update
     * @param info Result info
+    * @param token Security Token
     * @return row count    */
    public int stmt_executeUpdate( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
 
@@ -134,6 +137,7 @@ public interface ServerLocal
     * @param sql table name
     * @param displayType display type (i.e. BLOB/CLOB)
     * @param value the data
+    * @param token Security Token
     * @return true if updated    */
    public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value,org.compiere.util.SecurityToken token ) ;
 
