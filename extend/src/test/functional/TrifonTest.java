@@ -12,7 +12,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.util.CLogMgt;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 

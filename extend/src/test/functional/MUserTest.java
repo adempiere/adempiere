@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 import org.compiere.model.*;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
-import org.compiere.utils.DBUtils;
+import org.adempiere.test.utils.DBUtils;
 import org.compiere.util.*;
 import java.sql.*;
 
@@ -625,7 +625,7 @@ public class MUserTest extends TestCase {
                         m_group.setIsConfidentialInfo (false);  // N
                         m_group.setIsDefault (false);
 
-                        m_group.setPriorityBase(m_group.PRIORITYBASE_Same);
+                        m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
 
                         m_group.save();
 
