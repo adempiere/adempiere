@@ -604,8 +604,7 @@ public class MBPartnerTest extends TestCase {
 			// FIXME:  determine AD_Client_ID correctly
 			//m_partner.setAD_Client_ID(11);
 			m_partner.setValue ("");
-			//m_partner.setName ("Test MBPartner");
-			m_partner.setName (null);
+			m_partner.setName ("Test MBPartner");
 			m_partner.setName2 (null);
 			m_partner.setDUNS("");
 			m_partner.setFirstSale(null);
