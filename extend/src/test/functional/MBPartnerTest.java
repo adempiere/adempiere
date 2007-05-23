@@ -506,7 +506,7 @@ public class MBPartnerTest extends TestCase {
 		System.out.println("m_Ctx: " + m_Ctx);
 		
 		if (fileName_Value.length() < 1) {
-		    assertEquals("Please specify path to Adempiere.properties file!", true, false);
+		    fail("Please specify path to Adempiere.properties file!");
 		}
 		
 		System.setProperty("PropertyFile", fileName_Value);
@@ -604,7 +604,8 @@ public class MBPartnerTest extends TestCase {
 			// FIXME:  determine AD_Client_ID correctly
 			//m_partner.setAD_Client_ID(11);
 			m_partner.setValue ("");
-			m_partner.setName ("Test MBPartner");
+			//m_partner.setName ("Test MBPartner");
+			m_partner.setName (null);
 			m_partner.setName2 (null);
 			m_partner.setDUNS("");
 			m_partner.setFirstSale(null);
@@ -635,7 +636,7 @@ public class MBPartnerTest extends TestCase {
 			// Reset Created, Updated to current system time ( teo_sarca )
 			m_partner.save();
 		} else {
-       			System.out.println("m_partner is null");
+       		fail("m_partner is null");
 		}
  
 		try {
@@ -647,10 +648,10 @@ public class MBPartnerTest extends TestCase {
 		
 			//DB.commit(true, "test");
 		} catch(Exception e) {
-			System.out.println("Location not updated");
+			fail("Location not updated");
 		}
       } catch(Exception e) {
-		System.out.println("Exception with MBPartnerTest");
+		fail(e.getLocalizedMessage());
       }
 
     }
