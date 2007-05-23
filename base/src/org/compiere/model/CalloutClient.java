@@ -41,4 +41,18 @@ public class CalloutClient extends CalloutEngine
 		return "StoreAttachmentWarning";
 	}	//	storeAttachmentOnFilesystem
 	
+	/**
+	 *	Shows a warning message if the archive storing method is changed.
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab
+	 *	@param mField field
+	 *	@param value value
+	 *	@return null or error message
+	 */
+	public String storeArchiveOnFileSystem (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		return "StoreArchiveWarning";
+	}	//	storeArchiveOnFileSystem
+	
 }	//	CalloutClient

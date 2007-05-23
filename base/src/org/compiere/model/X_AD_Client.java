@@ -48,6 +48,7 @@ setIsSmtpAuthorization (false);	// N
 setIsUseBetaFunctions (true);	// Y
 setMMPolicy (null);	// F
 setName (null);
+setStoreArchiveOnFileSystem (false);
 setStoreAttachmentsOnFileSystem (false);
 setValue (null);
 }
@@ -62,13 +63,13 @@ public X_AD_Client (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=112 */
-public static final int Table_ID=MTable.getTable_ID("AD_Client");
-
 /** TableName=AD_Client */
 public static final String Table_Name="AD_Client";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Client");
+/** AD_Table_ID=112 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel
@@ -500,6 +501,26 @@ return (String)get_Value("SMTPHost");
 }
 /** Column name SMTPHost */
 public static final String COLUMNNAME_SMTPHost = "SMTPHost";
+/** Set Store Archive On File System.
+@param StoreArchiveOnFileSystem Store Archive On File System */
+public void setStoreArchiveOnFileSystem (boolean StoreArchiveOnFileSystem)
+{
+set_Value ("StoreArchiveOnFileSystem", Boolean.valueOf(StoreArchiveOnFileSystem));
+}
+/** Get Store Archive On File System.
+@return Store Archive On File System */
+public boolean isStoreArchiveOnFileSystem() 
+{
+Object oo = get_Value("StoreArchiveOnFileSystem");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Column name StoreArchiveOnFileSystem */
+public static final String COLUMNNAME_StoreArchiveOnFileSystem = "StoreArchiveOnFileSystem";
 /** Set Store Attachments On File System.
 @param StoreAttachmentsOnFileSystem Store Attachments On File System */
 public void setStoreAttachmentsOnFileSystem (boolean StoreAttachmentsOnFileSystem)
@@ -520,6 +541,25 @@ return false;
 }
 /** Column name StoreAttachmentsOnFileSystem */
 public static final String COLUMNNAME_StoreAttachmentsOnFileSystem = "StoreAttachmentsOnFileSystem";
+/** Set Unix Archive Path.
+@param UnixArchivePath Unix Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+public void setUnixArchivePath (String UnixArchivePath)
+{
+if (UnixArchivePath != null && UnixArchivePath.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+UnixArchivePath = UnixArchivePath.substring(0,254);
+}
+set_Value ("UnixArchivePath", UnixArchivePath);
+}
+/** Get Unix Archive Path.
+@return Unix Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+public String getUnixArchivePath() 
+{
+return (String)get_Value("UnixArchivePath");
+}
+/** Column name UnixArchivePath */
+public static final String COLUMNNAME_UnixArchivePath = "UnixArchivePath";
 /** Set Unix Attachment Path.
 @param UnixAttachmentPath Unix Attachment Path */
 public void setUnixAttachmentPath (String UnixAttachmentPath)
@@ -559,6 +599,25 @@ return (String)get_Value("Value");
 }
 /** Column name Value */
 public static final String COLUMNNAME_Value = "Value";
+/** Set Windows Archive Path.
+@param WindowsArchivePath Windows Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+public void setWindowsArchivePath (String WindowsArchivePath)
+{
+if (WindowsArchivePath != null && WindowsArchivePath.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+WindowsArchivePath = WindowsArchivePath.substring(0,254);
+}
+set_Value ("WindowsArchivePath", WindowsArchivePath);
+}
+/** Get Windows Archive Path.
+@return Windows Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+public String getWindowsArchivePath() 
+{
+return (String)get_Value("WindowsArchivePath");
+}
+/** Column name WindowsArchivePath */
+public static final String COLUMNNAME_WindowsArchivePath = "WindowsArchivePath";
 /** Set Windows Attachment Path.
 @param WindowsAttachmentPath Windows Attachment Path */
 public void setWindowsAttachmentPath (String WindowsAttachmentPath)
