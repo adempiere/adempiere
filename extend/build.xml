@@ -73,6 +73,7 @@
   </target>
 
   <path id="class.path.test">
+    <pathelement path="${build.dir}"/>
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/build"/>
@@ -83,6 +84,7 @@
     <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
     <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
     <pathelement path="./Extend.jar" />
+    <!-- pathelement path="/root/RmiJdbc/dist/lib/RmiJdbc.jar" / -->
   </path>
 
 <target name="functionaltest" depends="dist">
@@ -94,6 +96,8 @@
       <test name="test.functional.MBPartnerTest" />
       <test name="test.functional.MBPGroupTest" />
       <test name="test.functional.MBPartnerLocationTest" />
+      <test name="test.functional.PackOutTest" />
+      <!-- test name="test.functional.BPMigrationTest" / -->
     </junit>
   </target>
 
