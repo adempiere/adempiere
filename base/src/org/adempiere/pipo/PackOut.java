@@ -303,6 +303,8 @@ public class PackOut extends SvrProcess
 							CreateDynamicRuleValidation(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID), atts, hd_menu);
 						else if (Type.compareTo("MSG") == 0)
 							CreateMessage(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), atts, hd_menu);
+						else if (Type.compareTo("PFT") == 0)
+							CreatePrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), atts, hd_menu);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.SEVERE,"In PackOut.java handling Code or Other 2pack module creation");
 							
@@ -614,6 +616,58 @@ public class PackOut extends SvrProcess
 	public void CopyCode (String sourceName, String copyName)
 	{
 		CopyFile (sourceName, copyName );
+	}
+
+	public void CreatePrintFormat (int AD_PrintFormat_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
+	{
+		log.info("");
+			
+
+		try {
+
+				m_Printformat = new X_AD_PrintFormat (getCtx(), AD_PrintFormat_ID, null);										
+				atts = createPrintformatBinding(atts,m_Printformat);
+				hd_menu.startElement("","","printformat",atts);
+				
+				String sql2 = "SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID= " + AD_PrintFormat_ID;
+				PreparedStatement pstmt2 = null;
+				pstmt2 = DB.prepareStatement (sql2, get_TrxName());		
+				try {
+					ResultSet rs2 = pstmt2.executeQuery();		
+					while (rs2.next())
+					{
+						m_PrintFormatItem = new X_AD_PrintFormatItem (getCtx(), rs2.getInt("AD_PrintFormatItem_ID"), null);									
+						atts = createPrintformatItemBinding(atts,m_PrintFormatItem);
+						hd_menu.startElement("","","printformatitem",atts);
+						hd_menu.endElement("","","printformatitem");
+					}
+					rs2.close();
+					pstmt2.close();
+					pstmt2 = null;			
+				}	
+				
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE,"printformatitem", e);
+				}
+				finally
+				{
+					try
+					{
+						if (pstmt2 != null)
+							pstmt2.close ();
+					}
+					catch (Exception e)
+					{}
+					pstmt2 = null;
+				}
+				hd_menu.endElement("","","printformat");
+
+		}
+
+		catch (Exception e){
+			log.log(Level.SEVERE,"getProcess", e);
+		}
 	}
 
 	public void CreateMessage (int AD_Message_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
