@@ -18,6 +18,7 @@ package org.compiere.apps;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.AccessException;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
@@ -617,9 +618,19 @@ public final class ALogin extends CDialog
 		}
 		catch (Throwable e)
 		{
-			log.severe(CLogger.getRootCause(e).getLocalizedMessage());
-			statusBar.setStatusLine(CLogger.getRootCause(e).getLocalizedMessage(), true);
-			return false;
+			if (e.getCause() instanceof AccessException)
+			{
+				statusBar.setStatusLine(txt_UserPwdError, true);
+				userTextField.setBackground(AdempierePLAF.getFieldBackground_Error());
+				passwordField.setBackground(AdempierePLAF.getFieldBackground_Error());
+				return false;
+			}
+			else
+			{
+				log.severe(CLogger.getRootCause(e).getLocalizedMessage());
+				statusBar.setStatusLine(CLogger.getRootCause(e).getLocalizedMessage(), true);
+				return false;
+			}
 		}
 		
 		
