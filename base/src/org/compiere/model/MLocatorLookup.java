@@ -319,7 +319,7 @@ public final class MLocatorLookup extends Lookup implements Serializable
 			try
 			{
 				PreparedStatement pstmt = DB.prepareStatement(finalSql, null);
-				int index = 0;
+				int index = 1;
 				if (getOnly_Warehouse_ID() != 0)
 					pstmt.setInt(index++, getOnly_Warehouse_ID());
 				if (getOnly_Product_ID() != 0)
