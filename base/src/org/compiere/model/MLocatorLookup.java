@@ -295,11 +295,15 @@ public final class MLocatorLookup extends Lookup implements Serializable
 		{
 		//	log.config("MLocatorLookup Loader.run " + m_AD_Column_ID);
 			//	Set Info	- see VLocator.actionText
+			int local_only_warehouse_id = getOnly_Warehouse_ID(); // [ 1674891 ] MLocatorLookup - weird error 
+			int local_only_product_id = getOnly_Product_ID();
+			
 			StringBuffer sql = new StringBuffer("SELECT * FROM M_Locator ")
 				.append(" WHERE IsActive='Y'");
-			if (getOnly_Warehouse_ID() != 0)
+			
+			if (local_only_warehouse_id != 0)
 				sql.append(" AND M_Warehouse_ID=?");
-			if (getOnly_Product_ID() != 0)
+			if (local_only_product_id != 0)
 				sql.append(" AND (IsDefault='Y' ")	//	Default Locator
 					.append("OR EXISTS (SELECT * FROM M_Product p ")	//	Product Locator
 					.append("WHERE p.M_Locator_ID=M_Locator.M_Locator_ID AND p.M_Product_ID=?)")
@@ -320,9 +324,9 @@ public final class MLocatorLookup extends Lookup implements Serializable
 			{
 				PreparedStatement pstmt = DB.prepareStatement(finalSql, null);
 				int index = 1;
-				if (getOnly_Warehouse_ID() != 0)
+				if (local_only_warehouse_id != 0)
 					pstmt.setInt(index++, getOnly_Warehouse_ID());
-				if (getOnly_Product_ID() != 0)
+				if (local_only_product_id != 0)
 				{
 					pstmt.setInt(index++, getOnly_Product_ID());
 					pstmt.setInt(index++, getOnly_Product_ID());
