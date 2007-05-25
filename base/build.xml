@@ -95,8 +95,9 @@
 <target name="GenerateModel" depends="dist"> 
       <java fork="true" classname="org.compiere.util.GenerateModel">
       	<classpath refid="class.path.test" />
+	<arg value="/work2/adempiere/base/src/org/compiere/model/"/>
 	<arg value="org.compiere.model"/>
-	<arg value="D"/>
+	<arg value="'D'"/>
 	<arg value="'AD_Package_Exp_Detail'"/>
       </java>
   </target>
