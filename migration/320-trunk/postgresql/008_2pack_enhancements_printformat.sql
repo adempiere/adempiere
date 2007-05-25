@@ -11,7 +11,7 @@ INSERT INTO AD_COLUMN
              isencrypted, isselectioncolumn, ad_element_id, issyncdatabase,
              isalwaysupdateable
             )
-     VALUES (50214, 0, 0, 'Y',
+     VALUES (50217, 0, 0, 'Y',
              TO_TIMESTAMP ('05/25/2007 19:48:41', 'MM/DD/YYYY HH24:MI:SS'),
              TO_TIMESTAMP ('05/25/2007 19:48:41', 'MM/DD/YYYY HH24:MI:SS'), 100,
              100, 'PrintFormat', 'Print Format',
@@ -31,11 +31,11 @@ INSERT INTO AD_FIELD
              displaylogic, displaylength, isreadonly, seqno, issameline,
              isheading, isfieldonly, isencrypted, entitytype
             )
-     VALUES (50184, 0, 0, 'Y',
+     VALUES (50187, 0, 0, 'Y',
              TO_TIMESTAMP ('05/25/2007 19:51:35', 'MM/DD/YYYY HH24:MI:SS'), 100,
              TO_TIMESTAMP ('05/25/2007 19:52:28', 'MM/DD/YYYY HH24:MI:SS'), 100,
              'PrintFormat', 'Print Format', 'Print Format',
-             'Y', 50006, 50214, 'Y',
+             'Y', 50006, 50217, 'Y',
              '@Type@=''PFT''', 22, 'N', 246, 'N',
              'N', 'N', 'N', 'D'
             );
