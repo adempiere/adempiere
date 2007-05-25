@@ -97,7 +97,7 @@
       	<classpath refid="class.path.test" />
 	<arg value="org.compiere.model"/>
 	<arg value="D"/>
-	<arg value="AD_Package_Exp_Detail"/>
+	<arg value="'AD_Package_Exp_Detail'"/>
       </java>
   </target>
 
