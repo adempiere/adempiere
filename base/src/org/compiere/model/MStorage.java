@@ -401,6 +401,15 @@ public class MStorage extends X_M_Storage
 				+ ",M_Product_ID=" + M_Product_ID + ",ASI=" + M_AttributeSetInstance_ID);
 			return false;
 		}
+		
+		// CarlosRuiz - globalqss - Fix [ 1725383 ] QtyOrdered wrongly updated
+		MProduct prd = new MProduct(ctx, M_Product_ID, trxName);
+		if (prd.getM_AttributeSet_ID() == 0) {
+			// Product doesn't manage attribute set, always reserved with 0
+			reservationAttributeSetInstance_ID = 0;
+		}
+		//		
+		
 		MStorage storage0 = null;
 		if (M_AttributeSetInstance_ID != reservationAttributeSetInstance_ID)
 		{
