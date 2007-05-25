@@ -304,7 +304,7 @@ public class PackOut extends SvrProcess
 						else if (Type.compareTo("MSG") == 0)
 							CreateMessage(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), atts, hd_menu);
 						else if (Type.compareTo("PFT") == 0)
-							CreatePrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), atts, hd_menu);
+							CreatePrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID), atts, hd_menu);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.SEVERE,"In PackOut.java handling Code or Other 2pack module creation");
 							
