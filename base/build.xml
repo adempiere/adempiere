@@ -78,6 +78,30 @@
     <jar jarfile="${dist.dir}/${jar.name}.jar" basedir="${build.dir}"/>
   </target>
 
+  <path id="class.path.test">
+    <pathelement path="${build.dir}"/>
+    <pathelement path="${classpath}"/>
+    <pathelement path="${jar.path}/CCTools.jar"/>
+    <pathelement path="../base/build"/>
+    <pathelement path="../looks/CLooks.jar"/>
+    <pathelement path="../tools/lib/junit.jar"/>
+    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
+    <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
+    <pathelement path="./base.jar" />
+  </path>
+
+<target name="GenerateModel" depends="dist"> 
+      <java fork="true" classname="org.compiere.util.GenerateModel">
+      	<classpath refid="class.path.test" />
+	<arg value="org.compiere.model"/>
+	<arg value="D"/>
+	<arg value="AD_Package_Exp_Detail"/>
+      </java>
+  </target>
+
+
 
   <target name="clean">
     <!-- Delete the ${build.dir} directory trees -->
