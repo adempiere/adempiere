@@ -242,6 +242,24 @@ return ii.intValue();
 }
 /** Column name AD_Package_Exp_ID */
 public static final String COLUMNNAME_AD_Package_Exp_ID = "AD_Package_Exp_ID";
+/** Set Print Format.
+@param AD_PrintFormat_ID Data Print Format */
+public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
+{
+if (AD_PrintFormat_ID <= 0) set_Value ("AD_PrintFormat_ID", null);
+ else 
+set_Value ("AD_PrintFormat_ID", Integer.valueOf(AD_PrintFormat_ID));
+}
+/** Get Print Format.
+@return Data Print Format */
+public int getAD_PrintFormat_ID() 
+{
+Integer ii = (Integer)get_Value("AD_PrintFormat_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name AD_PrintFormat_ID */
+public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 /** Set Process.
 @param AD_Process_ID Process or Report */
 public void setAD_Process_ID (int AD_Process_ID)
@@ -684,14 +702,10 @@ public static final String TYPE_Workbench = "B";
 public static final String TYPE_File_CodeOrOther = "C";
 /** Data = D */
 public static final String TYPE_Data = "D";
-/** Workflow = F */
-public static final String TYPE_Workflow = "F";
 /** Import Format = IMP */
 public static final String TYPE_ImportFormat = "IMP";
 /** Application or Module = M */
 public static final String TYPE_ApplicationOrModule = "M";
-/** Message = MSG */
-public static final String TYPE_Message = "MSG";
 /** Process/Report = P */
 public static final String TYPE_ProcessReport = "P";
 /** ReportView = R */
@@ -704,19 +718,25 @@ public static final String TYPE_CodeSnipit = "SNI";
 public static final String TYPE_SQLStatement = "SQL";
 /** Table = T */
 public static final String TYPE_Table = "T";
-/** Dynamic Validation Rule = V */
-public static final String TYPE_DynamicValidationRule = "V";
 /** Window = W */
 public static final String TYPE_Window = "W";
 /** Form = X */
 public static final String TYPE_Form = "X";
+/** Workflow = F */
+public static final String TYPE_Workflow = "F";
+/** Dynamic Validation Rule = V */
+public static final String TYPE_DynamicValidationRule = "V";
+/** Message = MSG */
+public static final String TYPE_Message = "MSG";
+/** PrintFormat = PFT */
+public static final String TYPE_PrintFormat = "PFT";
 /** Set Type.
 @param Type Type of Validation (SQL, Java Script, Java Language) */
 public void setType (String Type)
 {
 if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("MSG") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - MSG - P - R - S - SNI - SQL - T - V - W - X");
+if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("F") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT"));
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - IMP - M - P - R - S - SNI - SQL - T - W - X - F - V - MSG - PFT");
 if (Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");
