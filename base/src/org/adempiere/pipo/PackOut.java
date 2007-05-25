@@ -621,11 +621,21 @@ public class PackOut extends SvrProcess
 	public void CreatePrintFormat (int AD_PrintFormat_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
 	{
 		log.info("");
-			
-
+		String sql = null;
+		sql = "SELECT AD_PrintFormat_ID "
+			+ "FROM AD_PrintFormat "
+			+ "WHERE AD_PrintFormat_ID in "
+			+ "(( select AD_PrintFormatChild_ID from  AD_PrintFormatItem  WHERE AD_PrintFormat_ID = " + AD_PrintFormat_ID 
+			+ " AND PrintFormatType = 'P'), " +  AD_PrintFormat_ID + ")";
+		
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement (sql, get_TrxName());
 		try {
-
-				m_Printformat = new X_AD_PrintFormat (getCtx(), AD_PrintFormat_ID, null);										
+			ResultSet rs = pstmt.executeQuery();		
+			while (rs.next())
+			{
+			
+				m_Printformat = new X_AD_PrintFormat (getCtx(), rs.getInt("AD_PrintFormat_ID"), null);										
 				atts = createPrintformatBinding(atts,m_Printformat);
 				hd_menu.startElement("","","printformat",atts);
 				
@@ -662,12 +672,27 @@ public class PackOut extends SvrProcess
 					pstmt2 = null;
 				}
 				hd_menu.endElement("","","printformat");
-
+      			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
 		}
-
-		catch (Exception e){
-			log.log(Level.SEVERE,"getProcess", e);
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE,"getWindows", e);
 		}
+		finally
+		{
+			try
+			{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e)
+			{}
+			pstmt = null;
+		}	
+
 	}
 
 	public void CreateMessage (int AD_Message_ID, AttributesImpl atts, TransformerHandler hd_menu) throws SAXException
