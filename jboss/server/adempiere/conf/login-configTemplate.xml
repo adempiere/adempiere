@@ -149,6 +149,16 @@ $Revision: 1.1 $
              flag = "required" />
        </authentication>
     </application-policy>
-
+    
+    <!-- login configuration for adempiere -->
+	<application-policy name = "adempiere">
+		<authentication>
+        	<login-module 
+        		code = "org.compiere.session.AdempiereLoginModule"
+            	flag = "required">
+	       		<module-option name="unauthenticatedIdentity">anonymous</module-option>
+        	</login-module>
+    	</authentication>
+    </application-policy>
 </policy>
 
