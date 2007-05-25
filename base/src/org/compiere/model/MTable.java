@@ -21,6 +21,9 @@ import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
 import org.compiere.util.*;
 
 /**
@@ -667,13 +670,21 @@ public class MTable extends X_AD_Table
 		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, tableName);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
+			if (DB.isRemoteObjects()) 
+			{
+				Server server = CConnection.get().getServer();
+				retValue = server.getTableID(tableName);
+			}
+			else
+			{
+				PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+				pstmt.setString(1, tableName);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next())
+					retValue = rs.getInt(1);
+				rs.close();
+				pstmt.close();
+			}
 		}
 		catch (Exception e)
 		{

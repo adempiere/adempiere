@@ -217,6 +217,8 @@ public class Login
 
 		//	Authentification
 		boolean authenticated = false;
+		if (Ini.isClient())
+			CConnection.get().setAppServerCredential(app_user, app_pwd);
 		MSystem system = MSystem.get(m_ctx);
 		if (system == null)
 			throw new IllegalStateException("No System Info");
@@ -287,19 +289,22 @@ public class Login
 			Env.setContext(m_ctx, "#AD_User_ID", rs.getInt(1));
 			Env.setContext(m_ctx, "#SalesRep_ID", rs.getInt(1));
 			//
-			Ini.setProperty(Ini.P_UID, app_user);
-			if (Ini.isPropertyBool(Ini.P_STORE_PWD))
-				Ini.setProperty(Ini.P_PWD, app_pwd);
-			
-			m_connectionProfile = rs.getString(4);		//	User Based
-			if (m_connectionProfile != null)
+			if (Ini.isClient())
 			{
-				CConnection cc = CConnection.get();
-				if (!cc.getConnectionProfile().equals(m_connectionProfile))
+				Ini.setProperty(Ini.P_UID, app_user);
+				if (Ini.isPropertyBool(Ini.P_STORE_PWD))
+					Ini.setProperty(Ini.P_PWD, app_pwd);
+				
+				m_connectionProfile = rs.getString(4);		//	User Based
+				if (m_connectionProfile != null)
 				{
-					cc.setConnectionProfile(m_connectionProfile);
-					Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
-					Ini.saveProperties(false);
+					CConnection cc = CConnection.get();
+					if (!cc.getConnectionProfile().equals(m_connectionProfile))
+					{
+						cc.setConnectionProfile(m_connectionProfile);
+						Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+						Ini.saveProperties(false);
+					}
 				}
 			}
 

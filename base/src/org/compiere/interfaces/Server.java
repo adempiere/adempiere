@@ -193,4 +193,11 @@ public interface Server
    public java.util.ArrayList getFields( org.compiere.model.GridTabVO gridTabVO )
       throws java.rmi.RemoteException;
 
+   /**
+    * Get table id from ad_table by table name
+    * @param tableName
+    * @return tableName    */
+   public int getTableID( java.lang.String tableName )
+      throws java.rmi.RemoteException;
+
 }

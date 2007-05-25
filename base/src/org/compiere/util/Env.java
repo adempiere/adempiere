@@ -85,6 +85,8 @@ public final class Env
 		//
 		reset(true);	// final cache reset
 		//
+		
+		CConnection.get().setAppServerCredential(null, null);
 	}
 	
 	/**

@@ -27,6 +27,8 @@ import javax.swing.JOptionPane;
 import org.compiere.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
+import org.jboss.security.SecurityAssociation;
+import org.jboss.security.SimplePrincipal;
 
 /**
  *  Adempiere Connection Descriptor
@@ -236,6 +238,11 @@ public class CConnection implements Serializable
 	/** Had application server been query **/
 	private boolean m_queryAppsServer = false;
 
+	/** application server authentication principal **/
+	private String m_principal = null;
+	/** application server authentication password **/
+	private String m_credential = null;
+	
 	
 	/*************************************************************************
 	 *  Get Name
@@ -1408,7 +1415,7 @@ public class CConnection implements Serializable
 
 		//	Set Environment
 		if (m_env == null || !useCache)
-			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), isRMIoverHTTP());
+			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), isRMIoverHTTP(), m_principal, m_credential);
 		String connect = (String)m_env.get(Context.PROVIDER_URL);
 		Env.setContext(Env.getCtx(), Context.PROVIDER_URL, connect);
 
@@ -1433,15 +1440,23 @@ public class CConnection implements Serializable
 		return m_iContext;
 	}	//	getInitialContext
 
+	public static Hashtable getInitialEnvironment (String AppsHost, int AppsPort,
+			boolean RMIoverHTTP)
+	{
+		return getInitialEnvironment(AppsHost, AppsPort, RMIoverHTTP, null, null);
+	}
+	
 	/**
 	 * 	Get Initial Environment
 	 * 	@param AppsHost host
 	 * 	@param AppsPort port
 	 * 	@param RMIoverHTTP true if tunnel through HTTP
+	 *  @param principal
+	 *  @param credential
 	 *	@return environment
 	 */
 	public static Hashtable getInitialEnvironment (String AppsHost, int AppsPort,
-		boolean RMIoverHTTP)
+		boolean RMIoverHTTP, String principal, String credential)
 	{
 		//	Set Environment
 		Hashtable<String,String> env = new Hashtable<String,String>();
@@ -1467,6 +1482,18 @@ public class CConnection implements Serializable
 		env.put (org.jnp.interfaces.TimedSocketFactory.JNP_SO_TIMEOUT, "5000");
 		//	JNP - default timeout 5 sec
 		env.put(org.jnp.interfaces.NamingContext.JNP_DISCOVERY_TIMEOUT, "5000");
+		
+		if (principal != null && credential != null)
+		{
+			SecurityAssociation.setPrincipal(new SimplePrincipal(principal));
+			SecurityAssociation.setCredential(credential);
+		}
+		else
+		{
+			SecurityAssociation.setPrincipal(null);
+			SecurityAssociation.setCredential(null);
+		}
+		
 		return env;
 	}	//	getInitialEnvironment
 
@@ -1643,6 +1670,14 @@ public class CConnection implements Serializable
 		return "<?" + transactionIsolation + "?>";
 	}	//	getTransactionIsolationInfo
 	
+	public void setAppServerCredential(String principal, String credential)
+	{
+		m_principal = principal;
+		m_credential = credential;
+		m_iContext = null;
+		m_env = null;
+		m_server = null;
+	}
 
 	/**************************************************************************
 	 *  Testing
