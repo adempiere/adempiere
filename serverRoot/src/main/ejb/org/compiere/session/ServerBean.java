@@ -51,6 +51,8 @@ import org.compiere.wf.*;
  *  @ejb.ejb-ref ejb-name="adempiere/Server"
  *  	view-type="local"
  *		ref-name="adempiere/ServerLocal"
+ *  
+ *  @ejb.permission role-name="adempiereUsers"
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ServerBean.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
@@ -134,6 +136,7 @@ public class ServerBean implements SessionBean
 	{
 		
 		validateSecurityToken(token);
+		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
 			
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
@@ -153,6 +156,7 @@ public class ServerBean implements SessionBean
 	{
 		validateSecurityToken(token);
 		
+		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CStatement stmt = new CStatement(info);
@@ -171,6 +175,7 @@ public class ServerBean implements SessionBean
 	{
 		validateSecurityToken(token);
 		
+		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
 		log.finer("[" + m_no + "]");
 		m_stmt_updateCount++;
 		if (info.getParameterCount() == 0)
@@ -527,6 +532,7 @@ public class ServerBean implements SessionBean
 	/**************************************************************************
 	 * 	Describes the instance and its content for debugging purpose
 	 *  @ejb.interface-method view-type="both"
+	 *  @ejb.permission unchecked="true"
 	 * 	@return Debugging information about the instance and its content
 	 */
 	public String getStatus()
@@ -659,6 +665,18 @@ public class ServerBean implements SessionBean
 	}
 	
 	/**
+	 * Get table id from ad_table by table name
+	 * @ejb.interface-method view-type="both"
+	 * @ejb.permission unchecked="true"
+	 * @param tableName
+	 * @return tableName
+	 */
+	public int getTableID(String tableName)
+	{
+		return MTable.getTable_ID(tableName);
+	}
+	
+	/**
 	 * 	String Representation
 	 * 	@return info
 	 */
@@ -673,6 +691,7 @@ public class ServerBean implements SessionBean
 	 * 	@throws EJBException
 	 * 	@throws CreateException
 	 *  @ejb.create-method view-type="both"
+	 *  @ejb.permission unchecked="true"
 	 */
 	public void ejbCreate() throws EJBException, CreateException
 	{
@@ -680,7 +699,7 @@ public class ServerBean implements SessionBean
 		try
 		{
 			if (!Adempiere.startup(false))
-				throw new CreateException("Compiere could not start");
+				throw new CreateException("Adempiere could not start");
 		}
 		catch (Exception ex)
 		{

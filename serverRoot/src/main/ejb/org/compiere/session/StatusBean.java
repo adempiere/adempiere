@@ -41,6 +41,7 @@ import org.compiere.util.*;
  *  @ejb.ejb-ref ejb-name="adempiere/Status"
  *  	view-type="local"
  *		ref-name="adempiere/StatusLocal"
+ *  @ejb.permission unchecked="true"
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: StatusBean.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $

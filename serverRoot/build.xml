@@ -54,6 +54,8 @@
     <pathelement location="${xdoclet.home}/lib/xdoclet-ejb-module-1.2.3.jar" />
     <pathelement location="${xdoclet.home}/lib/xjavadoc-1.1.jar" />
     <pathelement location="${xdoclet.home}/lib/xdoclet-xdoclet-module-1.2.3.jar" />
+    <pathelement location="${xdoclet.home}/lib/xdoclet-jboss-module-1.2.3.jar" />
+  	<pathelement location="${xdoclet.home}/lib/xdoclet-jmx-module-1.2.3.jar" />
     <pathelement location="${xdoclet.home}/lib/commons-collections-3.1.jar" />
   </path>
 
@@ -100,6 +102,9 @@
       <localinterface/>
       <localhomeinterface/>
       <remoteinterface/>
+      <jboss 
+      	securityDomain="java:/jaas/adempiere"
+      	destdir="${build.dir}/META-INF"/>
       <deploymentdescriptor destdir="${build.dir}/META-INF"/>
     </ejbdoclet>
   </target>

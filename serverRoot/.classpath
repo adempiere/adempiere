@@ -7,5 +7,6 @@
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/looks"/>
+	<classpathentry kind="lib" path="/lib/jboss.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
