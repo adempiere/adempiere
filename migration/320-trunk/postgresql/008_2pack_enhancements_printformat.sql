@@ -14,11 +14,11 @@ INSERT INTO AD_COLUMN
      VALUES (50217, 0, 0, 'Y',
              TO_TIMESTAMP ('05/25/2007 19:48:41', 'MM/DD/YYYY HH24:MI:SS'),
              TO_TIMESTAMP ('05/25/2007 19:48:41', 'MM/DD/YYYY HH24:MI:SS'), 100,
-             100, 'PrintFormat', 'Print Format',
-             'Print Format', 0, 'D', 'AD_PrintFormat_ID',
+             100, 'Print Format', 'Data Print Format',
+             'The print format determines how data is rendered for print.', 0, 'D', 'AD_PrintFormat_ID',
              50006, 19, 22, 'N', 'N',
              'N', 'Y', 'N', 0, 'N',
-             'N', 'N', 1752, 'N',
+             'N', 'N', 1790, 'N',
              'N'
             );
 
