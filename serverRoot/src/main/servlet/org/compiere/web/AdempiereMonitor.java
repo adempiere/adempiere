@@ -748,6 +748,10 @@ public class AdempiereMonitor extends HttpServlet
 			File[] logs = logDir.listFiles();
 			for (int i = 0; i < logs.length; i++) 
 			{
+				// Skip if is not a file - teo_sarca [ 1726066 ]
+				if (!logs[i].isFile())
+					continue;
+				
 				if (i != 0)
 					p.addElement(" - ");
 				String fileName = logs[i].getAbsolutePath();
