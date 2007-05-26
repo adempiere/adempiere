@@ -134,7 +134,7 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		catch (Exception e)
 		{
-			msg = e.getMessage();
+			msg = e.getLocalizedMessage();
 			if (msg == null)
 				msg = e.toString();
 			if (e.getCause() != null)
