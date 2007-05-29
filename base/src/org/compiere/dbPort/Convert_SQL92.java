@@ -330,17 +330,32 @@ public abstract class Convert_SQL92 extends Convert {
 	 *  @param sqlStatement
 	 *  @return converted statement
 	 */
-	protected String convertDecode(String sqlStatement)
+	protected String convertDecode(String sqlStatement, int fromIndex)
 	{
 	//	log.info("DECODE<== " + sqlStatement);
 		String statement = sqlStatement;
 		StringBuffer sb = new StringBuffer("CASE");
 
-		int index = statement.indexOf("DECODE");
+		int index = statement.toUpperCase().indexOf("DECODE", fromIndex);
+		if (index <= 0) return sqlStatement;
+		
+		if (Character.isWhitespace(statement.charAt(index - 1)) == false)
+			return sqlStatement;
+		
 		String firstPart = statement.substring(0,index);
 
 		//  find the opening (
-		index = statement.indexOf('(', index);
+		index = index + 6;
+		while (index < statement.length()) {
+			char c = statement.charAt(index);
+			if (Character.isWhitespace(c)) {
+				index++;
+				continue;
+			}
+			if (c == '(') break;
+			return sqlStatement;
+		}
+		
 		statement = statement.substring(index+1);
 
 		//  find the expression "a" - find first , ignoring ()

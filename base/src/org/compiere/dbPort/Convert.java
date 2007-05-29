@@ -264,17 +264,21 @@ public abstract class Convert
 	 * @param retVars
 	 * @return string
 	 */
-	protected String replaceQuotedStrings(String retValue, Vector<String>retVars) {
+	protected String replaceQuotedStrings(String inputValue, Vector<String>retVars) {
 		// save every value  
 		// Carlos Ruiz - globalqss - better matching regexp
 		retVars.clear();
 		Pattern p = Pattern.compile("'[[^']*]*'");
-		Matcher m = p.matcher(retValue);
+		Matcher m = p.matcher(inputValue);
+		int i = 0;
+		StringBuffer retValue = new StringBuffer(inputValue.length());
 		while (m.find()) {
-			retVars.addElement(new String(retValue.substring(m.start(), m.end())));
+			retVars.addElement(new String(inputValue.substring(m.start(), m.end())));
+			m.appendReplacement(retValue, "<--" + i + "-->");
+			i++;
 		}
-		retValue = m.replaceAll("<-->");
-		return retValue;
+		m.appendTail(retValue);
+		return retValue.toString();
 	}
 
 	/**
@@ -284,18 +288,14 @@ public abstract class Convert
 	 * @return string
 	 */
 	protected String recoverQuotedStrings(String retValue, Vector<String>retVars) {
-		Pattern p = Pattern.compile("<-->", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
-		Matcher m = p.matcher(retValue);
 		StringBuffer sb = new StringBuffer();
-		// Parse the string step by step - teo_sarca [ 1705768 ]
-		for (int cont = 0; cont < retVars.size() && m.find(); cont++) {
+		for (int i = 0; i < retVars.size(); i++) {
 			//hengsin, special character in replacement can cause exception
-			String replacement = (String) retVars.get(cont);
+			String replacement = (String) retVars.get(i);
 			replacement = escapeQuotedString(replacement);
-			m.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+			retValue = retValue.replace("<--" + i + "-->", replacement);
 		}
-		m.appendTail(sb);
-		return sb.toString();
+		return retValue;
 	}
 	
 	/**
@@ -362,13 +362,9 @@ public abstract class Convert
 	 * @return string
 	 */
 	protected String convertWithConvertMap(String sqlStatement) {
-		/** Vector to save previous values of quoted strings **/
-		Vector<String> retVars = new Vector<String>();
 		try 
 		{
-			sqlStatement = replaceQuotedStrings(sqlStatement,retVars);
 			sqlStatement = applyConvertMap(cleanUpStatement(sqlStatement));
-			sqlStatement = recoverQuotedStrings(sqlStatement,retVars);
 		}
 		catch (RuntimeException e) {
 			log.warning(e.getLocalizedMessage());

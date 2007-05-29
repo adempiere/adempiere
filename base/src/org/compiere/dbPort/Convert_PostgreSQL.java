@@ -71,39 +71,42 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 */
 	protected ArrayList<String> convertStatement(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
-
-		String statement = convertWithConvertMap(sqlStatement);
+		/** Vector to save previous values of quoted strings **/
+		Vector<String> retVars = new Vector<String>();
+		
+		String statement = replaceQuotedStrings(sqlStatement, retVars);
+		statement = convertWithConvertMap(statement);
 		
 		String cmpString = statement.toUpperCase();
 		boolean isCreate = cmpString.startsWith("CREATE ");
 
 		// Process
 		if (isCreate && cmpString.indexOf(" FUNCTION ") != -1)
-			result.add(statement);
+			;
 		else if (isCreate && cmpString.indexOf(" TRIGGER ") != -1)
-			result.add(statement);
+			;
 		else if (isCreate && cmpString.indexOf(" PROCEDURE ") != -1)
-			result.add(statement);
+			;
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
-			result.add(statement);
-		// begin vpj-cd e-evolution 02/24/2005 PostgreSQL
+			;
 		else if (cmpString.indexOf("ALTER TABLE") != -1) {
-			result.add(convertDDL(convertComplexStatement(statement)));
+			statement = convertDDL(convertComplexStatement(statement));
 		/*
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
 			result.add(convertRowNum(convertComplexStatement(convertAlias(statement))));*/
 		} else if (cmpString.indexOf("DELETE ") != -1
 				&& cmpString.indexOf("DELETE FROM") == -1) {
 			statement = convertDelete(statement);
-			result.add(convertComplexStatement(convertAlias(statement)));
+			statement = convertComplexStatement(convertAlias(statement));
 		} else if (cmpString.indexOf("DELETE FROM") != -1) {
-			result.add(convertComplexStatement(convertAlias(statement)));
+			statement = convertComplexStatement(convertAlias(statement));
 		} else if (cmpString.indexOf("UPDATE ") != -1) {
-			result.add(convertComplexStatement(convertUpdate(convertAlias(statement))));
+			statement = convertComplexStatement(convertUpdate(convertAlias(statement)));
 		} else {
-			result.add(convertComplexStatement(convertAlias(statement)));
+			statement = convertComplexStatement(convertAlias(statement));
 		}
-		// end vpj-cd e-evolution 02/24/2005 PostgreSQL
+		statement = recoverQuotedStrings(statement, retVars);
+		result.add(statement);
 		
 		return result;
 	} // convertStatement
@@ -150,8 +153,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		StringBuffer sb = null;
 
 		// Convert all decode parts
-		while (retValue.toUpperCase().indexOf("DECODE") != -1)
-			retValue = convertDecode(retValue);
+		int found = retValue.toUpperCase().indexOf("DECODE"); 
+		int fromIndex = 0;
+		while ( found != -1) {
+			retValue = convertDecode(retValue, fromIndex);
+			fromIndex = found + 6;
+			found = retValue.toUpperCase().indexOf("DECODE", fromIndex);
+		}
 
 		// Outer Join Handling -----------------------------------------------
 		int index = retValue.toUpperCase().indexOf("SELECT ");
