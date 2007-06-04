@@ -15,11 +15,6 @@
   <!-- set global properties for this build -->
   <property name="src" value="src"/>
   <property name="build.dir" value="build"/>
-  <property name="buildClient.dir" value="build/Client"/>
-  <property name="buildServer.dir" value="build/Server"/>
-  <property name="buildJBoss.dir" value="build/JBoss"/>
-  <property name="buildOracle.dir" value="build/Oracle"/>
-  <property name="buildPostgreSQL.dir" value="build/PostgreSQL"/>
   <property name="jboss.dir" value="../jboss"/>
   <property name="dist.dir" value="../lib"/>
   <!--<property environment="env"/>-->
@@ -45,11 +40,6 @@
     <tstamp/>
     <!-- create the build directory structure used by compile -->
     <mkdir dir="${build.dir}"/>
-    <mkdir dir="${buildClient.dir}"/>
-    <mkdir dir="${buildServer.dir}"/>
-    <mkdir dir="${buildJBoss.dir}"/>
-    <mkdir dir="${buildOracle.dir}"/>
-    <mkdir dir="${buildPostgreSQL.dir}"/>
     <!-- check for the distribution directory -->
     <mkdir dir="${dist.dir}"/>
 
@@ -91,23 +81,15 @@
   	unless="jars.uptodate"
 	description="Create JBoss Client jar">
 
-    <!-- JBoss Client			-->
-    <unjar src="${jboss.dir}/client/jboss-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jboss-common-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jboss-j2ee.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jbosssx-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jnp-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jmx-invoker-adaptor-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <unjar src="${jboss.dir}/client/jboss-transaction-client.jar" dest="${buildJBoss.dir}" overwrite="no"/>
-    <!-- Clean up			-->
-    <delete>
-      <fileset dir="${buildJBoss.dir}" includes="build.xml"/>
-      <fileset dir="${buildJBoss.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
-    </delete>
-
     <!-- Create jboss.jar file 	-->
-    <jar jarfile="${dist.dir}/jboss.jar">
-      <fileset dir="${buildJBoss.dir}"/>
+    <jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
+      <zipgroupfileset file="${jboss.dir}/client/jboss-client.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jboss-common-client.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jboss-j2ee.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jbosssx-client.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jnp-client.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jmx-invoker-adaptor-client.jar"/>
+      <zipgroupfileset file="${jboss.dir}/client/jboss-transaction-client.jar"/>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere JBoss Client"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -128,18 +110,10 @@
 	  	unless="jars.uptodate"
 		description="Create db jars">
 
-    <!-- Oracle Lib			-->
-    <unjar src="lib/ojdbc14.jar" dest="${buildOracle.dir}"/>
-    <unjar src="lib/ocrs12.jar" dest="${buildOracle.dir}"/>
-    <!-- Clean up			-->
-    <delete>
-      <fileset dir="${buildOracle.dir}" includes="build.xml"/>
-      <fileset dir="${buildOracle.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
-    </delete>
-
     <!-- Create oracle.jar file 	-->
-    <jar jarfile="${dist.dir}/oracle.jar">
-      <fileset dir="${buildOracle.dir}"/>
+    <jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
+      <zipgroupfileset file="lib/ojdbc14.jar"/>
+      <zipgroupfileset file="lib/ocrs12.jar"/>
       <manifest>
 		<attribute name="Specification-Title" value="Oracle JDBC"/>
 		<attribute name="Specification-Version" value="10g"/>
@@ -151,14 +125,9 @@
       </manifest>
     </jar>
 
-    <!-- PostgreSQL Lib			-->
-    <unjar src="lib/postgresql.jar" dest="${buildPostgreSQL.dir}"/>
-
-    <!-- Clean up			-->
-
     <!-- Create postgresql.jar file 	-->
     <jar jarfile="${dist.dir}/postgresql.jar">
-      <fileset dir="${buildPostgreSQL.dir}"/>
+      <zipgroupfileset file="lib/postgresql.jar"/>
       <manifest>
 		<attribute name="Specification-Title" value="PostgreSQL JDBC"/>
 		<attribute name="Specification-Version" value="postgresql"/>
@@ -180,40 +149,28 @@
   	unless="jars.uptodate"
 	description="Create CSTools.jar">
 
-    <!-- Unjar libraries for CSTools *****			-->
-    <!-- JSTL				-->
-    <unjar src="lib/jstl.jar" dest="${buildServer.dir}" />
-    <unjar src="lib/standard.jar" dest="${buildServer.dir}" />
-    <!-- ECS, etc				-->
-    <copy todir="${buildServer.dir}/org/apache/ecs">
-      <fileset dir="${build.dir}/org/apache/ecs" />
-    </copy> 
-    <!-- Payment Processors		-->
-    <unjar src="lib/Verisign.jar" dest="${buildServer.dir}" />
-    <unjar src="lib/jpayment.jar" dest="${buildServer.dir}" />
-    <!-- Log4J, jnlp			-->
-    <unjar src="lib/log4j.jar" dest="${buildServer.dir}"/>
-    <unjar src="lib/jnlp.jar" dest="${buildServer.dir}"/>
-    <!-- Barcode, ftp			-->
-    <unjar src="lib/barbecue-1.0.6d.jar" dest="${buildServer.dir}"/>
-    <unjar src="lib/commons-net-1.4.0.jar" dest="${buildServer.dir}"/>
-
-    <!-- Adempiere look and feel -->
-	<unjar src="lib/looks-2.0.4.jar" dest="${buildServer.dir}"/>
-  	<!-- PDF -->
-  	<unjar src="lib/jpedal.jar" dest="${buildServer.dir}"/>
-	<unjar src="lib/itext-1.4.8.jar" dest="${buildServer.dir}"/>
-
-  	
-    <!-- Clean up			-->
-    <delete>
-      <fileset dir="${buildServer.dir}" includes="build.xml"/>
-      <fileset dir="${buildServer.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
-    </delete>
-
     <!-- Create CSTools jar		-->
-    <jar jarfile="${dist.dir}/CSTools.jar">
-      <fileset dir="${buildServer.dir}" />
+    <jar jarfile="${dist.dir}/CSTools.jar" duplicate="preserve">
+      <!-- JSTL				-->
+      <zipgroupfileset file="lib/jstl.jar"/>
+      <zipgroupfileset file="lib/standard.jar"/>
+      <!-- ECS -->
+      <fileset dir="${build.dir}/org/apache/ecs" />
+      <!-- Payment Processors		-->
+      <zipgroupfileset file="lib/Verisign.jar"/>
+      <zipgroupfileset file="lib/jpayment.jar"/>
+      <!-- Log4J, jnlp			-->
+      <zipgroupfileset file="lib/log4j.jar" />
+      <zipgroupfileset file="lib/jnlp.jar" />
+      <!-- Barcode, ftp			-->
+      <zipgroupfileset file="lib/barbecue-1.0.6d.jar" />
+      <zipgroupfileset file="lib/commons-net-1.4.0.jar" />
+      <!-- Adempiere look and feel -->
+      <zipgroupfileset file="lib/looks-2.0.4.jar" />
+      <!-- PDF -->
+      <zipgroupfileset file="lib/jpedal.jar" />
+      <zipgroupfileset file="lib/itext-1.4.8.jar" />
+    	
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Server Tools"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -233,46 +190,38 @@
   <target name="toolsClient" depends="toolsCompile" 
   	unless="jars.uptodate"
 	description="Create CCTools.jar">
-
-    <!-- Unjar libraries for CCTools *****			-->
-    <!-- Mail				-->
-    <unjar src="lib/activation.jar" dest="${buildClient.dir}" />
-    <unjar src="lib/mail.jar" dest="${buildClient.dir}" />
-    <!-- Bean Shell			-->
-    <unjar src="lib/bsh-1.3.0.jar" dest="${buildClient.dir}" />
-    <!-- Payment Processors		-->
-    <unjar src="lib/Verisign.jar" dest="${buildClient.dir}" />
-    <unjar src="lib/jpayment.jar" dest="${buildClient.dir}" />
-    <!-- Log4J, jnlp			-->
-    <unjar src="lib/log4j.jar" dest="${buildClient.dir}"/>
-    <unjar src="lib/jnlp.jar" dest="${buildClient.dir}"/>
-    <!-- Barcode, ftp			-->
-    <unjar src="lib/barbecue-1.0.6d.jar" dest="${buildClient.dir}"/>
-    <unjar src="lib/commons-net-1.4.0.jar" dest="${buildClient.dir}"/>
-    <!-- JFreeChart			-->
-    <unjar src="lib/jfreechart-1.0.2.jar" dest="${buildClient.dir}"/>
-    <unjar src="lib/jcommon-1.0.5.jar" dest="${buildClient.dir}"/>
-        <!-- Graph				-->
-    <unjar src="lib/jgraph.jar" dest="${buildClient.dir}"/>
-    <!-- Adempeire Look and Feal				-->
-    <unjar src="lib/looks-2.0.4.jar" dest="${buildClient.dir}"/>
-  	<!-- jars for 2pack                         -->
-  	<unjar src="lib/ant.jar" dest="${buildClient.dir}"/>
-  	<unjar src="lib/xercesImpl.jar" dest="${buildClient.dir}"/>
-	<!-- PDF -->
-	<unjar src="lib/jpedal.jar" dest="${buildClient.dir}"/>
-	<unjar src="lib/itext-1.4.8.jar" dest="${buildClient.dir}"/>
-
-    <!-- Clean up			-->
-    <delete>
-      <fileset dir="${buildClient.dir}" includes="build.xml"/>
-      <fileset dir="${buildClient.dir}/META-INF" casesensitive="no" includes="*.mf,*.sf,*.rsa,*.dsa"/>
-    </delete>
-
+  	
     <!-- Create CCTools.jar file 	-->
-    <jar jarfile="${dist.dir}/CCTools.jar">
-      <fileset dir="${buildServer.dir}" includes="**/ecs/**" />
-      <fileset dir="${buildClient.dir}"/>
+    <jar jarfile="${dist.dir}/CCTools.jar" duplicate="preserve">
+      <!-- ECS -->
+      <fileset dir="${build.dir}/org/apache/ecs" />
+      <!-- Mail				-->
+      <zipgroupfileset file="lib/activation.jar" />
+      <zipgroupfileset file="lib/mail.jar" />
+      <!-- Bean Shell			-->
+      <zipgroupfileset file="lib/bsh-1.3.0.jar" />
+      <!-- Payment Processors		-->
+      <zipgroupfileset file="lib/Verisign.jar" />
+      <zipgroupfileset file="lib/jpayment.jar" />
+      <!-- Log4J, jnlp			-->
+      <zipgroupfileset file="lib/log4j.jar" />
+      <zipgroupfileset file="lib/jnlp.jar" />
+      <!-- Barcode, ftp			-->
+      <zipgroupfileset file="lib/barbecue-1.0.6d.jar" />
+      <zipgroupfileset file="lib/commons-net-1.4.0.jar" />
+      <!-- JFreeChart			-->
+      <zipgroupfileset file="lib/jfreechart-1.0.2.jar" />
+      <zipgroupfileset file="lib/jcommon-1.0.5.jar" />
+      <!-- Graph				-->
+      <zipgroupfileset file="lib/jgraph.jar" />
+      <!-- Adempeire Look and Feal				-->
+      <zipgroupfileset file="lib/looks-2.0.4.jar" />
+      <!-- jars for 2pack                         -->
+      <zipgroupfileset file="lib/ant.jar" />
+      <zipgroupfileset file="lib/xercesImpl.jar" />
+      <!-- PDF -->
+      <zipgroupfileset file="lib/jpedal.jar" />
+      <zipgroupfileset file="lib/itext-1.4.8.jar" />
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Client Tools"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
