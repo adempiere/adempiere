@@ -29,6 +29,13 @@
     <pathelement path="lib/standard.jar"/>
   </path>
 
+  <patternset id="manifest.exclude">
+    <exclude name="META-INF/*.DSA"/>
+    <exclude name="META-INF/*.RSA"/>
+    <exclude name="META-INF/*.SF"/>
+    <exclude name="META-INF/MANIFEST.MF"/>
+    <exclude name="META-INF/INDEX.LIST"/>
+  </patternset>
 
   <!-- ============================================= -->
   <!-- Init                                          -->
@@ -83,13 +90,27 @@
 
     <!-- Create jboss.jar file 	-->
     <jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
-      <zipgroupfileset file="${jboss.dir}/client/jboss-client.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jboss-common-client.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jboss-j2ee.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jbosssx-client.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jnp-client.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jmx-invoker-adaptor-client.jar"/>
-      <zipgroupfileset file="${jboss.dir}/client/jboss-transaction-client.jar"/>
+      <zipfileset src="${jboss.dir}/client/jboss-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-common-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-j2ee.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jbosssx-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jnp-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jmx-invoker-adaptor-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-transaction-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere JBoss Client"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -112,8 +133,13 @@
 
     <!-- Create oracle.jar file 	-->
     <jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
-      <zipgroupfileset file="lib/ojdbc14.jar"/>
-      <zipgroupfileset file="lib/ocrs12.jar"/>
+      <zipfileset src="lib/ojdbc14.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/ocrs12.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+
       <manifest>
 		<attribute name="Specification-Title" value="Oracle JDBC"/>
 		<attribute name="Specification-Version" value="10g"/>
@@ -127,7 +153,10 @@
 
     <!-- Create postgresql.jar file 	-->
     <jar jarfile="${dist.dir}/postgresql.jar">
-      <zipgroupfileset file="lib/postgresql.jar"/>
+      <zipfileset src="lib/postgresql.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+
       <manifest>
 		<attribute name="Specification-Title" value="PostgreSQL JDBC"/>
 		<attribute name="Specification-Version" value="postgresql"/>
@@ -151,26 +180,50 @@
 
     <!-- Create CSTools jar		-->
     <jar jarfile="${dist.dir}/CSTools.jar" duplicate="preserve">
+
       <!-- JSTL				-->
-      <zipgroupfileset file="lib/jstl.jar"/>
-      <zipgroupfileset file="lib/standard.jar"/>
+      <zipfileset src="lib/jstl.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/standard.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- ECS -->
-      <fileset dir="${build.dir}/org/apache/ecs" />
+      <fileset dir="${build.dir}">
+	   <include name="**/apache/ecs/**"/>
+      </fileset>
       <!-- Payment Processors		-->
-      <zipgroupfileset file="lib/Verisign.jar"/>
-      <zipgroupfileset file="lib/jpayment.jar"/>
+      <zipfileset src="lib/Verisign.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/jpayment.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Log4J, jnlp			-->
-      <zipgroupfileset file="lib/log4j.jar" />
-      <zipgroupfileset file="lib/jnlp.jar" />
+      <zipfileset src="lib/log4j.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/jnlp.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Barcode, ftp			-->
-      <zipgroupfileset file="lib/barbecue-1.0.6d.jar" />
-      <zipgroupfileset file="lib/commons-net-1.4.0.jar" />
+      <zipfileset src="lib/barbecue-1.0.6d.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/commons-net-1.4.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Adempiere look and feel -->
-      <zipgroupfileset file="lib/looks-2.0.4.jar" />
+      <zipfileset src="lib/looks-2.0.4.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- PDF -->
-      <zipgroupfileset file="lib/jpedal.jar" />
-      <zipgroupfileset file="lib/itext-1.4.8.jar" />
-    	
+      <zipfileset src="lib/jpedal.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/itext-1.4.8.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Server Tools"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -194,34 +247,70 @@
     <!-- Create CCTools.jar file 	-->
     <jar jarfile="${dist.dir}/CCTools.jar" duplicate="preserve">
       <!-- ECS -->
-      <fileset dir="${build.dir}/org/apache/ecs" />
+      <fileset dir="${build.dir}">
+	   <include name="**/apache/ecs/**"/>
+      </fileset>
       <!-- Mail				-->
-      <zipgroupfileset file="lib/activation.jar" />
-      <zipgroupfileset file="lib/mail.jar" />
+      <zipfileset src="lib/activation.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/mail.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Bean Shell			-->
-      <zipgroupfileset file="lib/bsh-1.3.0.jar" />
+      <zipfileset src="lib/bsh-1.3.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Payment Processors		-->
-      <zipgroupfileset file="lib/Verisign.jar" />
-      <zipgroupfileset file="lib/jpayment.jar" />
+      <zipfileset src="lib/Verisign.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/jpayment.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Log4J, jnlp			-->
-      <zipgroupfileset file="lib/log4j.jar" />
-      <zipgroupfileset file="lib/jnlp.jar" />
+      <zipfileset src="lib/log4j.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/jnlp.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Barcode, ftp			-->
-      <zipgroupfileset file="lib/barbecue-1.0.6d.jar" />
-      <zipgroupfileset file="lib/commons-net-1.4.0.jar" />
+      <zipfileset src="lib/barbecue-1.0.6d.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/commons-net-1.4.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- JFreeChart			-->
-      <zipgroupfileset file="lib/jfreechart-1.0.2.jar" />
-      <zipgroupfileset file="lib/jcommon-1.0.5.jar" />
+      <zipfileset src="lib/jfreechart-1.0.2.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/jcommon-1.0.5.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Graph				-->
-      <zipgroupfileset file="lib/jgraph.jar" />
+      <zipfileset src="lib/jgraph.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- Adempeire Look and Feal				-->
-      <zipgroupfileset file="lib/looks-2.0.4.jar" />
+      <zipfileset src="lib/looks-2.0.4.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- jars for 2pack                         -->
-      <zipgroupfileset file="lib/ant.jar" />
-      <zipgroupfileset file="lib/xercesImpl.jar" />
+      <zipfileset src="lib/ant.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/xercesImpl.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <!-- PDF -->
-      <zipgroupfileset file="lib/jpedal.jar" />
-      <zipgroupfileset file="lib/itext-1.4.8.jar" />
+      <zipfileset src="lib/jpedal.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/itext-1.4.8.jar" >
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Client Tools"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
