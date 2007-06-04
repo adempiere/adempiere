@@ -38,6 +38,13 @@
 	<pathelement path="../tools/lib/ant-launcher.jar"/>
   </path>
 
+  <patternset id="manifest.exclude">
+	<exclude name="META-INF/*.DSA"/>
+	<exclude name="META-INF/*.RSA"/>
+	<exclude name="META-INF/*.SF"/>
+	<exclude name="META-INF/MANIFEST.MF"/>
+	<exclude name="META-INF/INDEX.LIST"/>
+  </patternset>
   <!-- ======================================================= -->
   <!-- Init                                                    -->
   <!-- ======================================================= -->
@@ -71,18 +78,26 @@
 	  </fileset>
 	</copy>
 	
-	<!-- extract Ant (with ftp) files -->
-	<unjar src="../tools/lib/ant.jar" dest="${compile.dir}" />
- 	<unjar src="../tools/lib/ant-launcher.jar" dest="${compile.dir}" />
-	<unjar src="../tools/lib/ant-commons-net.jar" dest="${compile.dir}" />
-	<unjar src="../tools/lib/commons-net-1.4.0.jar" dest="${compile.dir}" />
-	<delete file="${compile.dir}/META-INF/MANIFEST.MF" failonerror="false"/>
-
-	<!-- put everything into the $CInstall.jar file -->
+		<!-- put everything into the $CInstall.jar file -->
 	<jar
 	  jarfile="CInstall.jar"
-	  basedir="${compile.dir}"
-	  index="yes">
+	  index="yes"
+	  duplicate="preserve">
+	  <fileset dir="${compile.dir}"/>
+	  <!-- Ant (with ftp) files -->
+	  <zipfileset src="../tools/lib/ant.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+	  <zipfileset src="../tools/lib/ant-launcher.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+	  <zipfileset src="../tools/lib/ant-commons-net.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+	  <zipfileset src="../tools/lib/commons-net-1.4.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+			
 	  <manifest>
 		<attribute name="Specification-Title" value="CInstall"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
