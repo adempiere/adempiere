@@ -27,7 +27,8 @@ import org.compiere.util.*;
 
 
 /**
- *	Start Menu Item  & UpdateProgress Bar
+ *	Start application action ( process, workflow, window, form, task )
+ *  of a menu item ( ad_menu ) or workflow node ( ad_wf_node ).
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: AMenuStartItem.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $

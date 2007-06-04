@@ -24,7 +24,7 @@ import org.compiere.util.*;
 
 /**
  *  Application Action.
- *		Creates Action with MenuItem and Button
+ *		Creates Action with MenuItem and Button, delegate execution of action to an attached ActionListener instance
  *		The ActionCommand is translated for display
  *		If translated text contains &, the next character is the Mnemonic
  *

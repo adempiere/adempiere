@@ -34,7 +34,7 @@ import org.compiere.swing.*;
 import org.compiere.util.*;
 
 /**
- *	Main Application Panel.
+ *	Main Panel of application window.
  *  <pre>
  *  Structure:
  *      (MenuBar) -> to be added to owning window
