@@ -92,7 +92,7 @@
     <jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
       <zipfileset src="${jboss.dir}/client/jboss-client.jar">
 		<patternset refid="manifest.exclude"/>
-	</zipfileset>
+	  </zipfileset>
       <zipfileset src="${jboss.dir}/client/jboss-common-client.jar">
 		<patternset refid="manifest.exclude"/>
 	</zipfileset>
