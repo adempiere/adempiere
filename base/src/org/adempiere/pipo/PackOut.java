@@ -997,42 +997,45 @@ public class PackOut extends SvrProcess
 					{}
 					pstmtP = null;
 				}
+				if(m_Process.getAD_PrintFormat_ID() != 0) {
 				
-				m_Printformat = new X_AD_PrintFormat (getCtx(), m_Process.getAD_PrintFormat_ID(), null);
-				atts = createPrintformatBinding(atts,m_Printformat);
-				hd_menu.startElement("","","printformat",atts);
+					m_Printformat = new X_AD_PrintFormat (getCtx(), m_Process.getAD_PrintFormat_ID(), null);
+					atts = createPrintformatBinding(atts,m_Printformat);
+					hd_menu.startElement("","","printformat",atts);
 				
-				String sql2 = "SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID= " + rs1.getInt("AD_Printformat_ID");
-				PreparedStatement pstmt2 = null;
-				pstmt2 = DB.prepareStatement (sql2, get_TrxName());		
-				try {
-					ResultSet rs2 = pstmt2.executeQuery();		
-					while (rs2.next())
-					{
-						m_PrintFormatItem = new X_AD_PrintFormatItem (getCtx(), rs2.getInt("AD_PrintFormatItem_ID"), null);									
-						atts = createPrintformatItemBinding(atts,m_PrintFormatItem);
-						hd_menu.startElement("","","printformatitem",atts);
-						hd_menu.endElement("","","printformatitem");
-					}
-					rs2.close();
-					pstmt2.close();
-					pstmt2 = null;			
-				}	
-				
-				catch (Exception e)
-				{
-					log.log(Level.SEVERE,"printformatitem", e);
-				}
-				finally
-				{
-					try
-					{
-						if (pstmt2 != null)
-							pstmt2.close ();
-					}
+					String sql2 = "SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID= " + rs1.getInt("AD_Printformat_ID");
+					PreparedStatement pstmt2 = null;
+					pstmt2 = DB.prepareStatement (sql2, get_TrxName());		
+					try {
+						ResultSet rs2 = pstmt2.executeQuery();		
+						while (rs2.next())
+						{
+							m_PrintFormatItem = new X_AD_PrintFormatItem (getCtx(), rs2.getInt("AD_PrintFormatItem_ID"), null);									
+							atts = createPrintformatItemBinding(atts,m_PrintFormatItem);
+							hd_menu.startElement("","","printformatitem",atts);
+							hd_menu.endElement("","","printformatitem");
+						}
+						rs2.close();
+						pstmt2.close();
+						pstmt2 = null;			
+					}	
+					
 					catch (Exception e)
-					{}
-					pstmt2 = null;
+					{
+						log.log(Level.SEVERE,"printformatitem", e);
+					}
+					finally
+					{
+						try
+						{
+							if (pstmt2 != null)
+								pstmt2.close ();
+						}
+						catch (Exception e)
+						{}
+						pstmt2 = null;
+					}
+
 				}
 
 				hd_menu.endElement("","","process");
