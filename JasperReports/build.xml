@@ -26,6 +26,13 @@
     <pathelement path="${classpath}"/>
   </path>
 
+  <patternset id="manifest.exclude">
+	<exclude name="META-INF/*.DSA"/>
+	<exclude name="META-INF/*.RSA"/>
+	<exclude name="META-INF/*.SF"/>
+	<exclude name="META-INF/MANIFEST.MF"/>
+	<exclude name="META-INF/INDEX.LIST"/>
+  </patternset>
 
   <target name="init" description="initialization target">
     <echo message="=========== Build JasperReport"/>
@@ -107,15 +114,6 @@
       </manifest>
     </jar>
 
-	<unjar src="../JasperReportsTools/lib/jasperreports-1.3.0.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/commons-digester-1.7.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/commons-collections-3.1.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/commons-logging-1.4.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/barbecue-1.1.jar" dest="${needed.dir}" />
-	<unjar src="../JasperReportsTools/lib/xercesImpl.jar" dest="${needed.dir}" />
-  	<unjar src="../JasperReportsTools/lib/xml-apis.jar" dest="${needed.dir}" />
-  	<unjar src="../JasperReportsTools/lib/poi-2.0-final-20040126.jar" dest="${needed.dir}" />
   	<unjar src="../JasperReportsTools/lib/iReport.jar" dest="${needed.dir}">
   		<!-- producing an iReport runTime -->
   	    <patternset>
@@ -131,8 +129,36 @@
   	-->
   	<jar jarfile="${dist.dir}/${needed.jar.name}.jar"
 	  excludes="**/*.jbx"
-	  index="yes">
+	  index="yes"
+  	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-1.3.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/commons-collections-3.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/commons-logging-1.4.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/barbecue-1.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/xercesImpl.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/xml-apis.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+  	  <zipfileset src="../JasperReportsTools/lib/poi-2.0-final-20040126.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
       <manifest>
 	<attribute name="Specification-Title" value="Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter"/>
 	<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
