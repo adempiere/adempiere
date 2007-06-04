@@ -61,7 +61,7 @@ INSERT INTO ad_field
              ad_column_id, isdisplayed, displaylength, isreadonly,
              issameline, isheading, isfieldonly, isencrypted, entitytype
             )
-     VALUES (50187, 0, 0, 'Y',
+     VALUES (50188, 0, 0, 'Y',
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
              'Mandatory Logic', 'Logic to determine if field is mandatory (applies only when field is not mandatory in general)', 
