@@ -139,6 +139,8 @@ public class GridFieldVO implements Serializable
 					vo.AD_Process_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
 					vo.ReadOnlyLogic = rs.getString (i);
+				else if (columnName.equalsIgnoreCase("MandatoryLogic"))
+					vo.MandatoryLogic = rs.getString (i);	
 				else if (columnName.equalsIgnoreCase("ObscureType"))
 					vo.ObscureType = rs.getString (i);
 				//
@@ -378,6 +380,8 @@ public class GridFieldVO implements Serializable
 	public String       Description = "";
 	/**	Help			*/
 	public String       Help = "";
+	/**	Mandatory Logic	*/
+	public String 		MandatoryLogic = "";
 	/**	Read Only Logic	*/
 	public String       ReadOnlyLogic = "";
 	/**	Display Obscure	*/
@@ -429,6 +433,8 @@ public class GridFieldVO implements Serializable
 			Callout = "";
 		if (ReadOnlyLogic == null)
 			ReadOnlyLogic = "";
+		if (MandatoryLogic == null)
+			MandatoryLogic = "";
 
 
 		//  Create Lookup, if not ID
@@ -500,6 +506,7 @@ public class GridFieldVO implements Serializable
 		clone.Description = Description;
 		clone.Help = Help;
 		clone.ReadOnlyLogic = ReadOnlyLogic;
+		clone.MandatoryLogic = MandatoryLogic;
 		clone.ObscureType = ObscureType;
 		//	Lookup
 		clone.ValidationCode = ValidationCode;

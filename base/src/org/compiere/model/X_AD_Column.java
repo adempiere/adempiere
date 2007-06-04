@@ -68,13 +68,13 @@ public X_AD_Column (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=101 */
-public static final int Table_ID=MTable.getTable_ID("AD_Column");
-
 /** TableName=AD_Column */
 public static final String Table_Name="AD_Column";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Column");
+/** AD_Table_ID=101 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
@@ -600,6 +600,25 @@ return false;
 }
 /** Column name IsUpdateable */
 public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
+/** Set Mandatory Logic.
+@param MandatoryLogic Logic to determine if field is mandatory (applies only when field is not mandatory in general) */
+public void setMandatoryLogic (String MandatoryLogic)
+{
+if (MandatoryLogic != null && MandatoryLogic.length() > 2000)
+{
+log.warning("Length > 2000 - truncated");
+MandatoryLogic = MandatoryLogic.substring(0,1999);
+}
+set_Value ("MandatoryLogic", MandatoryLogic);
+}
+/** Get Mandatory Logic.
+@return Logic to determine if field is mandatory (applies only when field is not mandatory in general) */
+public String getMandatoryLogic() 
+{
+return (String)get_Value("MandatoryLogic");
+}
+/** Column name MandatoryLogic */
+public static final String COLUMNNAME_MandatoryLogic = "MandatoryLogic";
 /** Set Name.
 @param Name Alphanumeric identifier of the entity */
 public void setName (String Name)

@@ -231,6 +231,7 @@ public class GridField
 		//  Display
 		Evaluator.parseDepends(list, m_vo.DisplayLogic);
 		Evaluator.parseDepends(list, m_vo.ReadOnlyLogic);
+		Evaluator.parseDepends(list, m_vo.MandatoryLogic);
 		//  Lookup
 		if (m_lookup != null)
 			Evaluator.parseDepends(list, m_lookup.getValidation());
@@ -274,6 +275,15 @@ public class GridField
 	 */
 	public boolean isMandatory (boolean checkContext)
 	{
+//	  Do we have a mandatory rule
+		if (checkContext && m_vo.MandatoryLogic.length() > 0)
+		{
+			boolean retValue = Evaluator.evaluateLogic(this, m_vo.MandatoryLogic);
+			log.finest(m_vo.ColumnName + " Mandatory(" + m_vo.MandatoryLogic + ") => Mandatory-" + retValue);
+			if (retValue)
+				return true;
+		}
+		
 		//  Not mandatory
 		if (!m_vo.IsMandatory || isVirtualColumn())
 			return false;
@@ -357,6 +367,7 @@ public class GridField
 			if (!retValue)
 				return false;
 		}
+		
 
 		//  Always editable if Active
 		if (m_vo.ColumnName.equals("Processing")
@@ -1556,5 +1567,5 @@ public class GridField
 	public void setVFormat(String strNewFormat){
 		m_vo.VFormat = strNewFormat;
 	} //setVFormat
-		
+	
 }   //  MField
