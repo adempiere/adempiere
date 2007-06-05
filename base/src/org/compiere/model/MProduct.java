@@ -600,9 +600,9 @@ public class MProduct extends X_M_Product
 		{
 			String sql = "UPDATE A_Asset a "
 				+ "SET (Name, Description)="
-					+ "(SELECT SUBSTR(bp.Name || ' - ' || p.Name,1,60), p.Description "
-					+ "FROM M_Product p, C_BPartner bp "
-					+ "WHERE p.M_Product_ID=a.M_Product_ID AND bp.C_BPartner_ID=a.C_BPartner_ID) "
+					+ "(SELECT SUBSTR((SELECT bp.Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=a.C_BPartner_ID) || ' - ' || p.Name,1,60), p.Description "
+					+ "FROM M_Product p "
+					+ "WHERE p.M_Product_ID=a.M_Product_ID) "
 				+ "WHERE IsActive='Y'"
 			//	+ " AND GuaranteeDate > SysDate"
 				+ "  AND M_Product_ID=" + getM_Product_ID();
