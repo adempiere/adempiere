@@ -1036,6 +1036,7 @@ public class PackOut extends SvrProcess
 						pstmt2 = null;
 					}
 
+					hd_menu.endElement("","","printformat");
 				}
 
 				hd_menu.endElement("","","process");
