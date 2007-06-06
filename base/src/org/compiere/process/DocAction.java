@@ -85,7 +85,9 @@ public interface DocAction
 	/** Waiting Confirmation = WC */
 	public static final String STATUS_WaitingConfirmation = "WC";
 
-
+	/** DocAction Ref_List values **/
+	public static final int AD_REFERENCE_ID = 135;
+	
 	/**
 	 * 	Set Doc Status
 	 *	@param newStatus new Status

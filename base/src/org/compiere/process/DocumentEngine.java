@@ -18,7 +18,12 @@ package org.compiere.process;
 
 import java.io.*;
 import java.math.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+
 import javax.naming.*;
 
 import org.compiere.db.*;
@@ -63,6 +68,9 @@ public class DocumentEngine implements DocAction
 	private String		m_message = null;
 	/** Actual Doc Action		*/
 	private String		m_action = null;
+	
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(DocumentEngine.class);
 	
 	/**
 	 * 	Get Doc Status
@@ -823,4 +831,243 @@ public class DocumentEngine implements DocAction
 		return null;
 	}
 	
+	/**
+	 * Get list of valid document action into the options arary parameter. 
+	 * Set default document action into the docAction array parameter.
+	 * @param docStatus
+	 * @param processing
+	 * @param orderType
+	 * @param isSOTrx
+	 * @param AD_Table_ID
+	 * @param docAction
+	 * @param options
+	 * @return Number of valid options
+	 */
+	public static int getValidActions(String docStatus, Object processing, 
+			String orderType, String isSOTrx, int AD_Table_ID, String[] docAction, String[] options)
+	{
+		if (options == null)
+			throw new IllegalArgumentException("Option array parameter is null");
+		if (docAction == null)
+			throw new IllegalArgumentException("Doc action array parameter is null");
+		
+		int index = 0;
+		
+//		Locked
+		if (processing != null)
+		{
+			boolean locked = "Y".equals(processing);
+			if (!locked && processing instanceof Boolean)
+				locked = ((Boolean)processing).booleanValue();
+			if (locked)
+				options[index++] = DocumentEngine.ACTION_Unlock;
+		}
+
+		//	Approval required           ..  NA
+		if (docStatus.equals(DocumentEngine.STATUS_NotApproved))
+		{
+			options[index++] = DocumentEngine.ACTION_Prepare;
+			options[index++] = DocumentEngine.ACTION_Void;
+		}
+		//	Draft/Invalid				..  DR/IN
+		else if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+			|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+		{
+			options[index++] = DocumentEngine.ACTION_Complete;
+		//	options[index++] = DocumentEngine.ACTION_Prepare;
+			options[index++] = DocumentEngine.ACTION_Void;
+		}
+		//	In Process                  ..  IP
+		else if (docStatus.equals(DocumentEngine.STATUS_InProgress)
+			|| docStatus.equals(DocumentEngine.STATUS_Approved))
+		{
+			options[index++] = DocumentEngine.ACTION_Complete;
+			options[index++] = DocumentEngine.ACTION_Void;
+		}
+		//	Complete                    ..  CO
+		else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+		{
+			options[index++] = DocumentEngine.ACTION_Close;
+		}
+		//	Waiting Payment
+		else if (docStatus.equals(DocumentEngine.STATUS_WaitingPayment)
+			|| docStatus.equals(DocumentEngine.STATUS_WaitingConfirmation))
+		{
+			options[index++] = DocumentEngine.ACTION_Void;
+			options[index++] = DocumentEngine.ACTION_Prepare;
+		}
+		//	Closed, Voided, REversed    ..  CL/VO/RE
+		else if (docStatus.equals(DocumentEngine.STATUS_Closed) 
+			|| docStatus.equals(DocumentEngine.STATUS_Voided) 
+			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
+			return 0;
+
+		/********************
+		 *  Order
+		 */
+		if (AD_Table_ID == MOrder.Table_ID)
+		{
+			//	Draft                       ..  DR/IP/IN
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+				|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+				|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			{
+				options[index++] = DocumentEngine.ACTION_Prepare;
+				options[index++] = DocumentEngine.ACTION_Close;
+				//	Draft Sales Order Quote/Proposal - Process
+				if ("Y".equals(isSOTrx)
+					&& ("OB".equals(orderType) || "ON".equals(orderType)))
+					docAction[0] = DocumentEngine.ACTION_Prepare;
+			}
+			//	Complete                    ..  CO
+			else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_ReActivate;
+			}
+			else if (docStatus.equals(DocumentEngine.STATUS_WaitingPayment))
+			{
+				options[index++] = DocumentEngine.ACTION_ReActivate;
+				options[index++] = DocumentEngine.ACTION_Close;
+			}
+		}
+		/********************
+		 *  Shipment
+		 */
+		else if (AD_Table_ID == MInOut.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		/********************
+		 *  Invoice
+		 */
+		else if (AD_Table_ID == MInvoice.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		/********************
+		 *  Payment
+		 */
+		else if (AD_Table_ID == MPayment.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		/********************
+		 *  GL Journal
+		 */
+		else if (AD_Table_ID == MJournal.Table_ID || AD_Table_ID == MJournalBatch.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+			}
+		}
+		/********************
+		 *  Allocation
+		 */
+		else if (AD_Table_ID == MAllocationHdr.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		/********************
+		 *  Bank Statement
+		 */
+		else if (AD_Table_ID == MBankStatement.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+			}
+		}
+		/********************
+		 *  Inventory Movement, Physical Inventory
+		 */
+		else if (AD_Table_ID == MMovement.Table_ID
+			|| AD_Table_ID == MInventory.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		return index;
+	}
+	
+	/**
+	 * Fill Vector with DocAction Ref_List(135) values
+	 * @param v_value
+	 * @param v_name
+	 * @param v_description
+	 */
+	public static void readReferenceList(ArrayList<String> v_value, ArrayList<String> v_name,
+			ArrayList<String> v_description)
+	{
+		if (v_value == null) 
+			throw new IllegalArgumentException("v_value parameter is null");
+		if (v_name == null)
+			throw new IllegalArgumentException("v_name parameter is null");
+		if (v_description == null)
+			throw new IllegalArgumentException("v_description parameter is null");
+		
+		String sql;
+		if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
+			sql = "SELECT Value, Name, Description FROM AD_Ref_List "
+				+ "WHERE AD_Reference_ID=? ORDER BY Name";
+		else
+			sql = "SELECT l.Value, t.Name, t.Description "
+				+ "FROM AD_Ref_List l, AD_Ref_List_Trl t "
+				+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID"
+				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
+				+ " AND l.AD_Reference_ID=? ORDER BY t.Name";
+
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, DocAction.AD_REFERENCE_ID);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				String value = rs.getString(1);
+				String name = rs.getString(2);
+				String description = rs.getString(3);
+				if (description == null)
+					description = "";
+				//
+				v_value.add(value);
+				v_name.add(name);
+				v_description.add(description);
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+	}
 }	//	DocumentEnine
