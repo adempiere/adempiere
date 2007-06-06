@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.adempiere.util.ProcessUtil;
 import org.compiere.process.*;
 import org.compiere.util.*;
 
@@ -229,13 +231,13 @@ public class MProcess extends X_AD_Process
 
 		boolean ok = true;
 
-		//	PL/SQL Procedure
-		String ProcedureName = getProcedureName();
-		if (ProcedureName != null && ProcedureName.length() > 0)
-			ok = startProcess (ProcedureName, pInstance);
+		ProcessInfo processInfo = new ProcessInfo("", this.getAD_Process_ID());
+		processInfo.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
+		ok = processIt(processInfo, trx);
 
 		//	Unlock
 		pInstance.setResult(ok ? MPInstance.RESULT_OK : MPInstance.RESULT_ERROR);
+		pInstance.setErrorMsg(processInfo.getSummary());
 		pInstance.setIsProcessing(false);
 		pInstance.save();
 		//
@@ -264,12 +266,21 @@ public class MProcess extends X_AD_Process
 		//	Java Class
 		String Classname = getClassname();
 		if (Classname != null && Classname.length() > 0)
-			ok = startClass(Classname, pi, trx);
+			ok = startClass(pi, trx);
 		else
 		{
-			String msg = "No Classname for " + getName();
-			pi.setSummary(msg, ok);
-			log.warning(msg);
+			//	PL/SQL Procedure
+			String ProcedureName = getProcedureName();
+			if (ProcedureName != null && ProcedureName.length() > 0)
+			{
+				ok = startProcess (ProcedureName, pi);
+			}
+			else
+			{
+				String msg = "No Classname or ProcedureName for " + getName();
+				pi.setSummary(msg, ok);
+				log.warning(msg);
+			}
 		}
 		
 		return ok;
@@ -292,28 +303,13 @@ public class MProcess extends X_AD_Process
 	 *	see ProcessCtl.startProcess
 	 *  @return true if success
 	 */
-	private boolean startProcess (String ProcedureName, MPInstance pInstance)
+	private boolean startProcess (String ProcedureName, ProcessInfo processInfo)
 	{
-		int AD_PInstance_ID = pInstance.getAD_PInstance_ID();
+		int AD_PInstance_ID = processInfo.getAD_PInstance_ID();
 		//  execute on this thread/connection
 		log.info(ProcedureName + "(" + AD_PInstance_ID + ")");
-		String sql = "{call " + ProcedureName + "(?)}";
-		try
-		{
-			CallableStatement cstmt = DB.prepareCall(sql);	//	ro??
-			cstmt.setInt(1, AD_PInstance_ID);
-			cstmt.executeUpdate();
-			cstmt.close();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			pInstance.setResult(MPInstance.RESULT_ERROR);
-			pInstance.setErrorMsg(e.getLocalizedMessage());
-			return false;
-		}
-		pInstance.setResult(MPInstance.RESULT_OK);
-		return true;
+		
+		return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, null);
 	}   //  startProcess
 
 
@@ -330,27 +326,11 @@ public class MProcess extends X_AD_Process
 	 *  @return     true if success
 	 *	see ProcessCtl.startClass
 	 */
-	private boolean startClass (String Classname, ProcessInfo pi, Trx trx)
+	private boolean startClass (ProcessInfo pi, Trx trx)
 	{
-		log.info(Classname  + "(" + pi + ")");
-		boolean retValue = false;
-		ProcessCall myObject = null;
-		try
-		{
-			Class myClass = Class.forName(Classname);
-			myObject = (ProcessCall)myClass.newInstance();
-			if (myObject == null)
-				retValue = false;
-			else
-				retValue = myObject.startProcess(getCtx(), pi, trx);
-		}
-		catch (Exception e)
-		{
-			pi.setSummary("Error Start Class " + Classname, true);
-			log.log(Level.SEVERE, Classname, e);
-			throw new RuntimeException(e);
-		}
-		return retValue;
+		log.info(pi.getClassName());
+		
+		return ProcessUtil.startJavaProcess(pi, trx);
 	}   //  startClass
 
 	
