@@ -18,7 +18,6 @@ package org.compiere.grid.ed;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
@@ -210,170 +209,10 @@ public class VDocAction extends CDialog
 		/*******************
 		 *  General Actions
 		 */
-
-		//	Locked
-		if (Processing != null)
-		{
-			boolean locked = "Y".equals(Processing);
-			if (!locked && Processing instanceof Boolean)
-				locked = ((Boolean)Processing).booleanValue();
-			if (locked)
-				options[index++] = DocumentEngine.ACTION_Unlock;
-		}
-
-		//	Approval required           ..  NA
-		if (DocStatus.equals(DocumentEngine.STATUS_NotApproved))
-		{
-			options[index++] = DocumentEngine.ACTION_Prepare;
-			options[index++] = DocumentEngine.ACTION_Void;
-		}
-		//	Draft/Invalid				..  DR/IN
-		else if (DocStatus.equals(DocumentEngine.STATUS_Drafted)
-			|| DocStatus.equals(DocumentEngine.STATUS_Invalid))
-		{
-			options[index++] = DocumentEngine.ACTION_Complete;
-		//	options[index++] = DocumentEngine.ACTION_Prepare;
-			options[index++] = DocumentEngine.ACTION_Void;
-		}
-		//	In Process                  ..  IP
-		else if (DocStatus.equals(DocumentEngine.STATUS_InProgress)
-			|| DocStatus.equals(DocumentEngine.STATUS_Approved))
-		{
-			options[index++] = DocumentEngine.ACTION_Complete;
-			options[index++] = DocumentEngine.ACTION_Void;
-		}
-		//	Complete                    ..  CO
-		else if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-		{
-			options[index++] = DocumentEngine.ACTION_Close;
-		}
-		//	Waiting Payment
-		else if (DocStatus.equals(DocumentEngine.STATUS_WaitingPayment)
-			|| DocStatus.equals(DocumentEngine.STATUS_WaitingConfirmation))
-		{
-			options[index++] = DocumentEngine.ACTION_Void;
-			options[index++] = DocumentEngine.ACTION_Prepare;
-		}
-		//	Closed, Voided, REversed    ..  CL/VO/RE
-		else if (DocStatus.equals(DocumentEngine.STATUS_Closed) 
-			|| DocStatus.equals(DocumentEngine.STATUS_Voided) 
-			|| DocStatus.equals(DocumentEngine.STATUS_Reversed))
-			return;
-
-		/********************
-		 *  Order
-		 */
-		if (m_AD_Table_ID == MOrder.Table_ID)
-		{
-			//	Draft                       ..  DR/IP/IN
-			if (DocStatus.equals(DocumentEngine.STATUS_Drafted)
-				|| DocStatus.equals(DocumentEngine.STATUS_InProgress)
-				|| DocStatus.equals(DocumentEngine.STATUS_Invalid))
-			{
-				options[index++] = DocumentEngine.ACTION_Prepare;
-				options[index++] = DocumentEngine.ACTION_Close;
-				//	Draft Sales Order Quote/Proposal - Process
-				if ("Y".equals(IsSOTrx)
-					&& ("OB".equals(OrderType) || "ON".equals(OrderType)))
-					DocAction = DocumentEngine.ACTION_Prepare;
-			}
-			//	Complete                    ..  CO
-			else if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_ReActivate;
-			}
-			else if (DocStatus.equals(DocumentEngine.STATUS_WaitingPayment))
-			{
-				options[index++] = DocumentEngine.ACTION_ReActivate;
-				options[index++] = DocumentEngine.ACTION_Close;
-			}
-		}
-		/********************
-		 *  Shipment
-		 */
-		else if (m_AD_Table_ID == MInOut.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-			}
-		}
-		/********************
-		 *  Invoice
-		 */
-		else if (m_AD_Table_ID == MInvoice.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-			}
-		}
-		/********************
-		 *  Payment
-		 */
-		else if (m_AD_Table_ID == MPayment.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-			}
-		}
-		/********************
-		 *  GL Journal
-		 */
-		else if (m_AD_Table_ID == MJournal.Table_ID || m_AD_Table_ID == MJournalBatch.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
-			}
-		}
-		/********************
-		 *  Allocation
-		 */
-		else if (m_AD_Table_ID == MAllocationHdr.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-			}
-		}
-		/********************
-		 *  Bank Statement
-		 */
-		else if (m_AD_Table_ID == MBankStatement.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-			}
-		}
-		/********************
-		 *  Inventory Movement, Physical Inventory
-		 */
-		else if (m_AD_Table_ID == MMovement.Table_ID
-			|| m_AD_Table_ID == MInventory.Table_ID)
-		{
-			//	Complete                    ..  CO
-			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
-			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-			}
-		}
-
+		String[] docActionHolder = new String[] {DocAction};
+		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx, m_AD_Table_ID, 
+				docActionHolder, options);
+		DocAction = docActionHolder[0];
 
 		/**
 		 *	Fill actionCombo
@@ -450,43 +289,11 @@ public class VDocAction extends CDialog
 	 */
 	private void readReference()
 	{
-		String sql;
-		if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
-			sql = "SELECT Value, Name, Description FROM AD_Ref_List "
-				+ "WHERE AD_Reference_ID=135 ORDER BY Name";
-		else
-			sql = "SELECT l.Value, t.Name, t.Description "
-				+ "FROM AD_Ref_List l, AD_Ref_List_Trl t "
-				+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID"
-				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
-				+ " AND l.AD_Reference_ID=135 ORDER BY t.Name";
-
 		ArrayList<String> v_value = new ArrayList<String>();
 		ArrayList<String> v_name = new ArrayList<String>();
 		ArrayList<String> v_description = new ArrayList<String>();
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				String value = rs.getString(1);
-				String name = rs.getString(2);
-				String description = rs.getString(3);
-				if (description == null)
-					description = "";
-				//
-				v_value.add(value);
-				v_name.add(name);
-				v_description.add(description);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		
+		DocumentEngine.readReferenceList(v_value, v_name, v_description);
 
 		//	convert to arrays
 		int size = v_value.size();
