@@ -24,7 +24,7 @@ import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
 
-import org.compiere.Adempiere;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 import org.compiere.model.*;
@@ -42,10 +42,10 @@ import org.compiere.wf.*;
  *  - Added support for having description and parameter in one dialog
  *  - Added support to run db process remotely on server
  */
-public class ProcessCtl extends Thread
+public class ProcessCtl implements Runnable
 {
 	/**
-	 *	Async Process - Do it all.
+	 *	Process Control
 	 *  <code>
 	 *	- Get Instance ID
 	 *	- Get Parameters
@@ -54,8 +54,8 @@ public class ProcessCtl extends Thread
 	 *  Creates a ProcessCtl instance, which calls
 	 *  lockUI and unlockUI if parent is a ASyncProcess
 	 *  <br>
-	 *	Called from ProcessCtl.startProcess, APanel.cmd_print,  
-	 *  APanel.actionButton, VPaySelect.cmd_generate
+	 *	Called from APanel.cmd_print, APanel.actionButton and
+	 *  VPaySelect.cmd_generate
 	 *
 	 *  @param parent ASyncProcess & Container
 	 *  @param WindowNo window no
@@ -110,7 +110,16 @@ public class ProcessCtl extends Thread
 
 		//	execute
 		ProcessCtl worker = new ProcessCtl(parent, WindowNo, pi, trx);
-		worker.start();		//	MUST be start!
+		if (parent != null)
+		{
+			//asynchrous
+			worker.start();
+		}
+		else
+		{
+			//synchrous
+			worker.run();
+		}
 		return worker;
 	}	//	execute
 	
@@ -133,7 +142,7 @@ public class ProcessCtl extends Thread
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
 	 */
-	public static ProcessCtl process(ASyncProcess parent, int WindowNo, ProcessParameterPanel paraPanel, ProcessInfo pi, Trx trx)
+	public static ProcessCtl process(ASyncProcess parent, int WindowNo, IProcessParameter parameter, ProcessInfo pi, Trx trx)
 	{
 		log.fine("WindowNo=" + WindowNo + " - " + pi);
 
@@ -165,7 +174,7 @@ public class ProcessCtl extends Thread
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters
-		if (!paraPanel.saveParameters())
+		if (!parameter.saveParameters())
 		{
 			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
 			pi.setError (true);
@@ -174,7 +183,15 @@ public class ProcessCtl extends Thread
 
 		//	execute
 		ProcessCtl worker = new ProcessCtl(parent, WindowNo, pi, trx);
-		worker.start();		//	MUST be start!
+		if (parent != null)
+		{
+			worker.start();
+		}
+		else
+		{
+			//synchrous
+			worker.run();
+		}
 		return worker;
 	}	//	execute
 
@@ -207,6 +224,14 @@ public class ProcessCtl extends Thread
 	
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ProcessCtl.class);
+	
+	/**
+	 * Run this process in a new thread
+	 */
+	public void start()
+	{
+		new Thread(this).start();
+	}
 	
 	/**
 	 *	Execute Process Instance and Lock UI.
@@ -392,23 +417,37 @@ public class ProcessCtl extends Thread
 	private void lock ()
 	{
 	//	log.info("...");
-		JFrame frame = Env.getFrame((Container)m_parent);
-		if (frame instanceof AWindow)
-			((AWindow)frame).setBusyTimer(m_pi.getEstSeconds());
-		else
-			m_waiting = new Waiting (frame, Msg.getMsg(Env.getCtx(), "Processing"), false, m_pi.getEstSeconds());
-		SwingUtilities.invokeLater(new Runnable()
+		//m_parent is null for synchrous execution
+		if (m_parent != null)
 		{
-			public void run()
+			if (m_parent instanceof Container)
 			{
+				//swing client
+				JFrame frame = Env.getFrame((Container)m_parent);
+				if (frame instanceof AWindow)
+					((AWindow)frame).setBusyTimer(m_pi.getEstSeconds());
+				else
+					m_waiting = new Waiting (frame, Msg.getMsg(Env.getCtx(), "Processing"), false, m_pi.getEstSeconds());
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					public void run()
+					{
+						log.finer("lock");
+						m_parent.lockUI(m_pi);
+					}
+				});
+				if (m_waiting != null)
+				{
+					m_waiting.toFront();
+					m_waiting.setVisible(true);
+				}
+			}
+			else
+			{
+				//other client
 				log.finer("lock");
 				m_parent.lockUI(m_pi);
 			}
-		});
-		if (m_waiting != null)
-		{
-			m_waiting.toFront();
-			m_waiting.setVisible(true);
 		}
 	}   //  lock
 
@@ -421,21 +460,33 @@ public class ProcessCtl extends Thread
 	//	log.info("...");
 		if (m_pi.isBatch())
 			m_pi.setIsTimeout(true);
-		SwingUtilities.invokeLater(new Runnable()
+		if (m_parent != null)
 		{
-			public void run()
+			if (m_parent instanceof Container)
 			{
-				String summary = m_pi.getSummary();
-				log.finer("unlock - " + summary);
-				if (summary != null && summary.indexOf('@') != -1)
-					m_pi.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
+				//swing client
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					public void run()
+					{
+						String summary = m_pi.getSummary();
+						log.finer("unlock - " + summary);
+						if (summary != null && summary.indexOf('@') != -1)
+							m_pi.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
+						m_parent.unlockUI(m_pi);
+					}
+				});
+				//	Remove Waiting/Processing Indicator
+				if (m_waiting != null)
+					m_waiting.dispose();
+				m_waiting = null;
+			}
+			else
+			{
+				//other client
 				m_parent.unlockUI(m_pi);
 			}
-		});
-		//	Remove Waiting/Processing Indicator
-		if (m_waiting != null)
-			m_waiting.dispose();
-		m_waiting = null;
+		}
 	}   //  unlock
 
 	
@@ -470,12 +521,7 @@ public class ProcessCtl extends Thread
 		//	Run locally
 		if (!started && !m_IsServerProcess)
 		{
-			MWorkflow wf = MWorkflow.get (Env.getCtx(), AD_Workflow_ID);
-			MWFProcess wfProcess = null;
-			if (m_pi.isBatch())
-				wfProcess = wf.start(m_pi);				//	may return null
-			else
-				wfProcess = wf.startWait(m_pi);	//	may return null
+			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), m_pi, AD_Workflow_ID);
 			started = wfProcess != null;
 		}
 		return started;
@@ -548,30 +594,7 @@ public class ProcessCtl extends Thread
 		//	Run locally
 		if (!started && (!m_IsServerProcess || clientOnly ))
 		{
-			ProcessCall myObject = null;
-			try
-			{
-				myObject = (ProcessCall)processClass.newInstance();
-				if (myObject == null)
-					m_pi.setSummary("No Instance for " + m_pi.getClassName(), true);
-				else
-					myObject.startProcess(Env.getCtx(), m_pi, m_trx);
-				if (m_trx != null)
-				{
-					m_trx.commit(true);
-					m_trx.close();
-				}
-			}
-			catch (Exception e)
-			{
-				if (m_trx != null)
-				{
-					m_trx.rollback();
-					m_trx.close();
-				}
-				m_pi.setSummary("Error starting Class " + m_pi.getClassName(), true);
-				log.log(Level.SEVERE, m_pi.getClassName(), e);
-			}
+			return ProcessUtil.startJavaProcess(m_pi, m_trx);
 		}
 		return !m_pi.isError();
 	}   //  startProcess
@@ -637,32 +660,7 @@ public class ProcessCtl extends Thread
 		//try locally
 		if (!started)
 		{
-			String sql = "{call " + ProcedureName + "(?)}";
-			try
-			{
-				//hengsin, add trx support, updateable support.
-				CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE, trxName);	
-				cstmt.setInt(1, m_pi.getAD_PInstance_ID());
-				cstmt.executeUpdate();
-				cstmt.close();
-				if (m_trx != null && m_trx.isActive())
-				{
-					m_trx.commit(true);
-					m_trx.close();
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-				if (m_trx != null && m_trx.isActive())
-				{
-					m_trx.rollback();
-					m_trx.close();
-				}
-				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
-				m_pi.setError (true);
-				return false;
-			}
+			return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
 		}
 	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;

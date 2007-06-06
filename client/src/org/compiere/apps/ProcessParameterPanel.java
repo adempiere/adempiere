@@ -52,7 +52,7 @@ import org.compiere.util.Env;
  * 	@version 	2006-12-01
  */
 @SuppressWarnings("serial")
-public class ProcessParameterPanel extends CPanel implements VetoableChangeListener {
+public class ProcessParameterPanel extends CPanel implements VetoableChangeListener, IProcessParameter {
 		/**
 		 *	Dynamic generated Parameter panel.
 		 *  @param WindowNo window
@@ -306,9 +306,8 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			Env.setContext(Env.getCtx(), m_WindowNo, evt.getPropertyName(), value);
 		}	//	vetoableChange
 
-		/**
-		 *	Save Parameter values
-		 *  @return true if parameters saved
+		/* (non-Javadoc)
+		 * @see org.compiere.apps.ProcessParameters#saveParameters()
 		 */
 		public boolean saveParameters()
 		{
