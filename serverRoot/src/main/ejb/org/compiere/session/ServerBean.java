@@ -27,6 +27,7 @@ import java.util.logging.*;
 import javax.ejb.*;
 import javax.sql.*;
 
+import org.adempiere.util.ProcessUtil;
 import org.compiere.*;
 import org.compiere.acct.*;
 import org.compiere.model.*;
@@ -250,51 +251,13 @@ public class ServerBean implements SessionBean
 	 */
 	public ProcessInfo process (Properties ctx, ProcessInfo pi)
 	{
-		String className = pi.getClassName();
-		log.info(className + " - " + pi);
 		m_processCount++;
-		//	Get Class
-		Class clazz = null;
-		try
-		{
-			clazz = Class.forName (className);
-		}
-		catch (ClassNotFoundException ex)
-		{
-			log.log(Level.WARNING, className, ex);
-			pi.setSummary ("ClassNotFound", true);
-			return pi;
-		}
-		//	Get Process
-		SvrProcess process = null;
-		try
-		{
-			process = (SvrProcess)clazz.newInstance ();
-		}
-		catch (Exception ex)
-		{
-			log.log(Level.WARNING, "Instance for " + className, ex);
-			pi.setSummary ("InstanceError", true);
-			return pi;
-		}
+		
 		//	Start Process
 		String trxName = pi.getTransactionName();
 		if (trxName == null) trxName = Trx.createTrxName("ServerPrc"); 
 		Trx trx = Trx.get(trxName, true);
-		try
-		{
-			boolean ok = process.startProcess (ctx, pi, trx);
-			pi = process.getProcessInfo();
-			trx.commit(true);
-			trx.close();
-		}
-		catch (Exception ex1)
-		{
-			trx.rollback();
-			trx.close();
-			pi.setSummary ("ProcessError", true);
-			return pi;
-		}
+		ProcessUtil.startJavaProcess(pi, trx);
 		return pi;
 	}	//	process
 
@@ -312,13 +275,7 @@ public class ServerBean implements SessionBean
 	{
 		log.info ("[" + m_no + "] " + AD_Workflow_ID);
 		m_workflowCount++;
-		MWorkflow wf = MWorkflow.get (ctx, AD_Workflow_ID);
-		MWFProcess wfProcess = null;
-		if (pi.isBatch())
-			wfProcess = wf.start(pi);		//	may return null
-		else
-			wfProcess = wf.startWait(pi);	//	may return null
-		log.fine(pi.toString());
+		ProcessUtil.startWorkFlow(ctx, pi, AD_Workflow_ID);
 		return pi;
 	}	//	workflow
 
@@ -622,33 +579,10 @@ public class ServerBean implements SessionBean
 	{
 		validateSecurityToken(token);
 		
-		String sql = "{call " + procedureName + "(?)}";
 		Trx trx = null;
 		if (trxName != null)
 			trx = Trx.get(trxName, true);
-		try 
-		{
-			CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE, trxName);	
-			cstmt.setInt(1, processInfo.getAD_PInstance_ID());
-			cstmt.executeUpdate();
-			cstmt.close();
-			if (trx != null && trx.isActive())
-			{
-				trx.commit(true);
-				trx.close();
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			if (trx != null && trx.isActive())
-			{
-				trx.rollback();
-				trx.close();
-			}
-			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
-			processInfo.setError (true);
-		}
+		ProcessUtil.startDatabaseProcedure(processInfo, procedureName, trx);
 		return processInfo;
 	}
 	
