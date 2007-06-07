@@ -198,8 +198,8 @@ public final class MLookup extends Lookup implements Serializable
 			&& !m_info.IsParent
 			&& m_info.DisplayType != DisplayType.Search)
 		{
-			m_loader = new MLoader();
-			m_loader.run();		//	sync!
+			fillComboBox(isMandatory(), true, true, false);
+			loadComplete();
 			retValue = (NamePair)m_lookup.get(key);
 			if (retValue != null)
 				return retValue;
@@ -603,7 +603,7 @@ public final class MLookup extends Lookup implements Serializable
 		//	if (m_info.KeyColumn.indexOf("C_InvoiceLine_ID") != -1)
 		//		log.info(m_info.KeyColumn);
 		}	//	Loader
-
+		
 		private long m_startTime = System.currentTimeMillis();
 
 		/**

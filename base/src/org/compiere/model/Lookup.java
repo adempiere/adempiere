@@ -60,6 +60,8 @@ public abstract class Lookup extends AbstractListModel
 	private int						m_displayType;
 	/**	Window No				*/
 	private int						m_WindowNo;
+	
+	private boolean 				m_mandatory;
 
 	/**
 	 * 	Get Display Type
@@ -264,7 +266,7 @@ public abstract class Lookup extends AbstractListModel
 
 		//  may cause delay *** The Actual Work ***
 		p_data = getData (mandatory, onlyValidated, onlyActive, temporary);
-
+		
 		//  Selected Object changed
 		if (obj != m_selectedObject)
 		{
@@ -287,6 +289,8 @@ public abstract class Lookup extends AbstractListModel
 		else
 			log.fine(getColumnName() + ": #" + p_data.size() + " - ms=" 
 				+ String.valueOf(System.currentTimeMillis()-startTime));
+		
+		
 	}   //  fillComboBox
 
 	/**
@@ -453,5 +457,15 @@ public abstract class Lookup extends AbstractListModel
 	public void loadComplete()
 	{
 	}   //  loadComplete
+	
+	public void setMandatory(boolean flag)
+	{
+		m_mandatory = flag;
+	}
+	
+	public boolean isMandatory()
+	{
+		return m_mandatory;
+	}
 
 }	//	Lookup
