@@ -1218,7 +1218,7 @@ public class VLookup extends JComponent
 			return;
 		
 		//avoid repeated query
-		if (m_lookup.isValidated() && !m_lookup.hasInactive())
+		if (m_lookup.isValidated() && m_lookup.isLoaded())
 		{
 			m_haveFocus = true;
 			return;
