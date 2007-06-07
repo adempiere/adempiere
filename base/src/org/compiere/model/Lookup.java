@@ -62,6 +62,8 @@ public abstract class Lookup extends AbstractListModel
 	private int						m_WindowNo;
 	
 	private boolean 				m_mandatory;
+	
+	private boolean					m_loaded;
 
 	/**
 	 * 	Get Display Type
@@ -211,6 +213,7 @@ public abstract class Lookup extends AbstractListModel
 			m_selectedObject = null;
 			fireIntervalRemoved (this, firstIndex, lastIndex);
 		}
+		m_loaded = false;
 	}   //  removeAllElements
 
 	
@@ -248,7 +251,7 @@ public abstract class Lookup extends AbstractListModel
 		boolean onlyActive, boolean temporary)
 	{
 		long startTime = System.currentTimeMillis();
-
+		m_loaded = false;
 		//  Save current data
 		if (temporary)
 		{
@@ -282,6 +285,8 @@ public abstract class Lookup extends AbstractListModel
 			log.finest(getColumnName() + ": SelectedValue SetToFirst=" + obj);
 		//	fireContentsChanged(this, -1, -1);
 		}
+		
+		m_loaded = true; 
 		fireContentsChanged(this, 0, p_data.size());
 		if (p_data.size() == 0)
 			log.fine(getColumnName() + ": #0 - ms=" 
@@ -313,11 +318,12 @@ public abstract class Lookup extends AbstractListModel
 			if (obj == null && p_data.size() > 0)
 				obj = p_data.get(0);
 			setSelectedItem(obj);
+			
 			fireContentsChanged(this, 0, p_data.size());
 			return;
 		}
 		if (p_data != null)
-			fillComboBox(false, false, false, false);
+			fillComboBox(isMandatory(), true, true, false);
 	}   //  fillComboBox
 
 	
@@ -449,6 +455,7 @@ public abstract class Lookup extends AbstractListModel
 		p_data = null;
 		m_selectedObject = null;
 		m_tempData = null;
+		m_loaded = false;
 	}   //  dispose
 
 	/**
@@ -458,14 +465,31 @@ public abstract class Lookup extends AbstractListModel
 	{
 	}   //  loadComplete
 	
+	/**
+	 * Set lookup model as mandatory, use in loading data
+	 * @param flag
+	 */
 	public void setMandatory(boolean flag)
 	{
 		m_mandatory = flag;
 	}
 	
+	/**
+	 * Is lookup model mandatory
+	 * @return boolean
+	 */
 	public boolean isMandatory()
 	{
 		return m_mandatory;
+	}
+	
+	/**
+	 * Is this lookup model populated
+	 * @return boolean
+	 */
+	public boolean isLoaded() 
+	{
+		return m_loaded;
 	}
 
 }	//	Lookup
