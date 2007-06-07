@@ -152,6 +152,7 @@ public class VLookup extends JComponent
 		m_columnName = columnName;
 		setMandatory(mandatory);
 		m_lookup = lookup;
+		m_lookup.setMandatory(mandatory);
 		//
 		setLayout(new BorderLayout());
 		VLookup_mouseAdapter mouse = new VLookup_mouseAdapter(this);    //  popup
@@ -176,13 +177,15 @@ public class VLookup extends JComponent
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
 		{
 			//  Memory Leak after executing the next two lines ??
-			m_lookup.fillComboBox (isMandatory(), false, false, false);
+			m_lookup.fillComboBox (isMandatory(), true, true, false);
 			m_combo.setModel(m_lookup);
 			//
+			AutoCompletion.enable(m_combo);
 			m_combo.addActionListener(this);							//	Selection
 			m_combo.addMouseListener(mouse);	                        //	popup
 			//	FocusListener to refresh selection before opening
 			m_combo.addFocusListener(this);
+			m_combo.getEditor().getEditorComponent().addFocusListener(this);
 		}
 
 		setUI (true);
@@ -232,6 +235,7 @@ public class VLookup extends JComponent
 		m_lookup = null;
 		m_mField = null;
 		//
+		m_combo.getEditor().getEditorComponent().removeFocusListener(this);
 		m_combo.removeFocusListener(this);
 		m_combo.removeActionListener(this);
 		m_combo.setModel(new DefaultComboBoxModel());    //  remove reference
@@ -430,12 +434,12 @@ public class VLookup extends JComponent
 		m_value = value;
 
 		//	Set both for switching
-		m_combo.setValue (value);
 		if (value == null)
 		{
 			m_text.setText (null);
 			m_lastDisplay = "";
 			m_settingValue = false;
+			m_combo.setValue (value);
 			return;
 		}
 		if (m_lookup == null)
@@ -443,10 +447,15 @@ public class VLookup extends JComponent
 			m_text.setText (value.toString());
 			m_lastDisplay = value.toString();
 			m_settingValue = false;
+			m_combo.setValue (value);
 			return;
 		}
 
+		//must call m_combo.setvalue after m_lookup as
+		//loading of combo data might happen in m_lookup.getDisplay 
 		m_lastDisplay = m_lookup.getDisplay(value);
+		m_combo.setValue (value);
+		
 		if (m_lastDisplay.equals("<-1>"))
 		{
 			m_lastDisplay = "";
@@ -1188,10 +1197,7 @@ public class VLookup extends JComponent
 		Object obj = m_combo.getSelectedItem();
 		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + obj);
 		m_lookup.refresh();
-		if (m_lookup.isValidated())
-			m_lookup.fillComboBox(isMandatory(), false, false, false);
-		else
-			m_lookup.fillComboBox(isMandatory(), true, false, false);
+		m_lookup.fillComboBox(isMandatory(), true, true, false);
 		m_combo.setSelectedItem(obj);
 	//	m_combo.revalidate();
 		//
@@ -1207,8 +1213,11 @@ public class VLookup extends JComponent
 	 */
 	public void focusGained (FocusEvent e)
 	{
-		if (e.getSource() != m_combo || e.isTemporary() || m_haveFocus || m_lookup == null)
+		if ((e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent()) 
+			|| e.isTemporary() || m_haveFocus || m_lookup == null)
 			return;
+		
+		//avoid repeated query
 		if (m_lookup.isValidated() && !m_lookup.hasInactive())
 		{
 			m_haveFocus = true;
@@ -1223,7 +1232,7 @@ public class VLookup extends JComponent
 			+ " - Start    Count=" + m_combo.getItemCount() + ", Selected=" + obj);
 	//	log.fine( "VLookupHash=" + this.hashCode());
 		boolean popupVisible = m_combo.isPopupVisible();
-		m_lookup.fillComboBox(isMandatory(), true, true, true);     //  only validated & active & temporary
+		m_lookup.fillComboBox(isMandatory(), true, true, false);     //  only validated & active 
 		if (popupVisible)
 		{
 			//refresh
@@ -1266,7 +1275,7 @@ public class VLookup extends JComponent
 			return;
 		}
 		//	Combo lost focus
-		if (e.getSource() != m_combo)
+		if (e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent())
 			return;
 		if (m_lookup.isValidated() && !m_lookup.hasInactive())
 		{
@@ -1278,9 +1287,11 @@ public class VLookup extends JComponent
 		//
 		log.config(m_columnName + " = " + m_combo.getSelectedItem());
 		Object obj = m_combo.getSelectedItem();
+		/*
 		//	set original model
 		if (!m_lookup.isValidated())
 			m_lookup.fillComboBox(true);    //  previous selection
+		*/
 		//	Set value
 		if (obj != null)
 		{
