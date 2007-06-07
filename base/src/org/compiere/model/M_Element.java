@@ -127,6 +127,51 @@ public class M_Element extends X_AD_Element
 	 * 	Get Element
 	 * 	@param ctx context
 	 *	@param columnName case insentitive column name
+	 *	@param columnName case insentitive column name
+	 *	@param trxName trx
+	 *	@return case sensitive column name
+	 */
+	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID, String trxName)
+	{
+		if (AD_Column_ID ==0)
+			return null;
+		M_Element retValue = null;
+		String sql = "SELECT * FROM AD_Element e "
+			+ "WHERE EXISTS (SELECT * FROM AD_Column c "
+				+ "WHERE c.AD_Element_ID=e.AD_Element_ID AND c.AD_Column_ID=?)";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, AD_Column_ID);
+			ResultSet rs = pstmt.executeQuery ();
+			if (rs.next ())
+				retValue = new M_Element (ctx, rs, trxName);
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return retValue;
+	}	//	get
+
+	/**
+	 * 	Get Element
+	 * 	@param ctx context
+	 *	@param columnName case insentitive column name
 	 *	@return case sensitive column name
 	 */
 	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID)
