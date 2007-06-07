@@ -638,7 +638,19 @@ public class MSequence extends X_AD_Sequence
 	 *	@param tableName table name
 	 *	@return Sequence
 	 */
-	public static MSequence get (Properties ctx, String tableName)
+	public static MSequence get (Properties ctx, String tableName) 
+	{
+		return get(ctx, tableName, null);
+	}
+			
+	/**
+	 * 	Get Sequence
+	 *	@param ctx context
+	 *	@param tableName table name
+	 *  @param trxName optional transaction name
+	 *	@return Sequence
+	 */
+	public static MSequence get (Properties ctx, String tableName, String trxName)
 	{
 		String sql = "SELECT * FROM AD_Sequence "
 			+ "WHERE UPPER(Name)=?"
@@ -647,11 +659,11 @@ public class MSequence extends X_AD_Sequence
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setString (1, tableName.toUpperCase());
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
-				retValue = new MSequence (ctx, rs, null);
+				retValue = new MSequence (ctx, rs, trxName);
 			if (rs.next())
 				s_log.log(Level.SEVERE, "More then one sequence for " + tableName);
 			rs.close ();
