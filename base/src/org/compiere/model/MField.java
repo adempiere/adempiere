@@ -118,7 +118,7 @@ public class MField extends X_AD_Field
 		if ((newRecord || is_ValueChanged("AD_Column_ID")) 
 			&& isCentrallyMaintained())
 		{
-			M_Element element = M_Element.getOfColumn(getCtx(), getAD_Column_ID());
+			M_Element element = M_Element.getOfColumn(getCtx(), getAD_Column_ID(), get_TrxName());
 			setName (element.getName ());
 			setDescription (element.getDescription ());
 			setHelp (element.getHelp());
