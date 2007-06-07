@@ -108,11 +108,11 @@ public class MProcess extends X_AD_Process
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Process_ID process
-	 *	@param ignored no transaction
+	 *	@param trxName transaction name
 	 */
-	public MProcess (Properties ctx, int AD_Process_ID, String ignored)
+	public MProcess (Properties ctx, int AD_Process_ID, String trxName)
 	{
-		super (ctx, AD_Process_ID, null);
+		super (ctx, AD_Process_ID, trxName);
 		if (AD_Process_ID == 0)
 		{
 		//	setValue (null);
@@ -129,11 +129,11 @@ public class MProcess extends X_AD_Process
 	 * 	Load Contsructor
 	 *	@param ctx context
 	 *	@param rs result set
-	 *	@param ignored no transaction
+	 *	@param trxName transaction name
 	 */
-	public MProcess (Properties ctx, ResultSet rs, String ignored)
+	public MProcess (Properties ctx, ResultSet rs, String trxName)
 	{
-		super(ctx, rs, null);
+		super(ctx, rs, trxName);
 	}	//	MProcess
 
 
@@ -273,7 +273,7 @@ public class MProcess extends X_AD_Process
 			String ProcedureName = getProcedureName();
 			if (ProcedureName != null && ProcedureName.length() > 0)
 			{
-				ok = startProcess (ProcedureName, pi);
+				ok = startProcess (ProcedureName, pi, trx);
 			}
 			else
 			{
@@ -303,13 +303,13 @@ public class MProcess extends X_AD_Process
 	 *	see ProcessCtl.startProcess
 	 *  @return true if success
 	 */
-	private boolean startProcess (String ProcedureName, ProcessInfo processInfo)
+	private boolean startProcess (String ProcedureName, ProcessInfo processInfo, Trx trx)
 	{
 		int AD_PInstance_ID = processInfo.getAD_PInstance_ID();
 		//  execute on this thread/connection
 		log.info(ProcedureName + "(" + AD_PInstance_ID + ")");
 		
-		return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, null);
+		return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, trx);
 	}   //  startProcess
 
 
