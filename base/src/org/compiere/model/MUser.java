@@ -269,7 +269,6 @@ public class MUser extends X_AD_User
 		super (ctx, AD_User_ID, trxName);	//	0 is also System
 		if (AD_User_ID == 0)
 		{
-			setAD_User_ID (0); //red1 [ 1722226 ] Password for user System can't be changed 
 			setIsFullBPAccess (true);
 			setNotificationType(NOTIFICATIONTYPE_EMail);
 		}		
