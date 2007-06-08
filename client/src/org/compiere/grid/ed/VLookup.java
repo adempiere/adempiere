@@ -152,6 +152,7 @@ public class VLookup extends JComponent
 		m_columnName = columnName;
 		setMandatory(mandatory);
 		m_lookup = lookup;
+		if (m_lookup != null)
 		m_lookup.setMandatory(mandatory);
 		//
 		setLayout(new BorderLayout());
