@@ -183,6 +183,9 @@ public class MOrderLine extends X_C_OrderLine
 	private boolean			m_IsSOTrx = true;
 	//	Product Pricing
 	private MProductPricing	m_productPrice = null;
+
+	/** Tax							*/
+	private MTax 		m_tax = null;
 	
 	/** Cached Currency Precision	*/
 	private Integer			m_precision = null;
@@ -190,6 +193,15 @@ public class MOrderLine extends X_C_OrderLine
 	private MProduct 		m_product = null;
 	/** Parent					*/
 	private MOrder			m_parent = null;
+	
+	/**
+	 * 	Set Precision
+	 *	@param precision The precision to set.
+	 */
+	protected void setPrecision (int precision)
+	{
+		m_precision = new Integer(precision);
+	}	//	setPrecision
 	
 	/**
 	 * 	Set Defaults from Order.
@@ -338,12 +350,46 @@ public class MOrderLine extends X_C_OrderLine
 	 */
 	public void setLineNetAmt ()
 	{
-		BigDecimal bd = getPriceActual().multiply(getQtyOrdered()); 
+		BigDecimal bd = getPriceActual().multiply(getQtyOrdered());
+		boolean documentLevel = getTax().isDocumentLevel();
+		
+		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
+		//  http://sourceforge.net/tracker/index.php?func=detail&aid=1733602&group_id=176962&atid=879332
+		if (isTaxIncluded() && !documentLevel)	{
+			BigDecimal taxStdAmt = Env.ZERO, taxThisAmt = Env.ZERO;
+			
+			MTax orderTax = getTax();
+			//	get the standard tax
+			MTax stdTax = new MTax (getCtx(), getProduct().getC_Tax_ID(), get_TrxName());
+				
+			log.fine("stdTax rate is " + stdTax.getRate());
+			log.fine("orderTax rate is " + orderTax.getRate());
+			
+			taxThisAmt = taxThisAmt.add(orderTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+			taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+			
+			bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+			
+			log.fine("Special Tax Override: Tax Amt: " + taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);
+		}
+		
 		if (bd.scale() > getPrecision())
 			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		
 		super.setLineNetAmt (bd);
 	}	//	setLineNetAmt
 	
+	/**
+	 * 	Get Tax
+	 *	@return tax
+	 */
+	protected MTax getTax()
+	{
+		if (m_tax == null)
+			m_tax = MTax.get(getCtx(), getC_Tax_ID());
+		return m_tax;
+	}	//	getTax
+
 	/**
 	 * 	Get Currency Precision from Currency
 	 *	@return precision
@@ -795,8 +841,9 @@ public class MOrderLine extends X_C_OrderLine
 					if (getQtyOrdered().compareTo(qty) > 0)
 					{
 						log.warning("Qty - Stock=" + qty + ", Ordered=" + getQtyOrdered());
-						log.saveError("QtyInsufficient", "=" + qty); 
-						return false;
+						//log.saveError("QtyInsufficient", "=" + qty); 
+						//return false;
+						return true;
 					}
 				}
 			}	//	stocked
@@ -866,9 +913,15 @@ public class MOrderLine extends X_C_OrderLine
 		if (!newRecord && is_ValueChanged("C_Tax_ID"))
 		{
 			//	Recalculate Tax for old Tax
-			if (!getParent().isProcessed())
-				if (!updateOrderTax(true))
+			MOrderTax tax = MOrderTax.get (this, getPrecision(), 
+				true, get_TrxName());	//	old Tax
+			if (tax != null)
+			{
+				if (!tax.calculateTaxFromLines())
 					return false;
+				if (!tax.save(get_TrxName()))
+					return false;
+			}
 		}
 		return updateHeaderTax();
 	}	//	afterSave
@@ -892,39 +945,18 @@ public class MOrderLine extends X_C_OrderLine
 	}	//	afterDelete
 	
 	/**
-	 * Recalculate order tax
-	 * @param oldTax true if the old C_Tax_ID should be used
-	 * @return true if success, false otherwise
-	 * 
-	 * @author teo_sarca [ 1583825 ]
-	 */
-	private boolean updateOrderTax(boolean oldTax) {
-		MOrderTax tax = MOrderTax.get (this, getPrecision(), oldTax, get_TrxName());
-		if (tax != null) {
-			if (!tax.calculateTaxFromLines())
-				return false;
-			if (tax.getTaxAmt().signum() != 0) {
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else {
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated
 	 */
 	private boolean updateHeaderTax()
 	{
 		//	Recalculate Tax for this Tax
-		if (!getParent().isProcessed())
-			if (!updateOrderTax(false))
-				return false;
+		MOrderTax tax = MOrderTax.get (this, getPrecision(), 
+			false, get_TrxName());	//	current Tax
+		if (!tax.calculateTaxFromLines())
+			return false;
+		if (!tax.save(get_TrxName()))
+			return false;
 		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"
