@@ -1058,9 +1058,6 @@ public class VPayment extends CDialog
 								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
 								invoice.save();
 							}	
-							if(order == null && C_Order_ID != 0)
-							}
-							
 							if (order == null && C_Order_ID != 0)
 							{
 								order = new MOrder (Env.getCtx(), C_Order_ID, null);
