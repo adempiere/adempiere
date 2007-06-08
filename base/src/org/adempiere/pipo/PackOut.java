@@ -509,6 +509,11 @@ public class PackOut extends SvrProcess
 					{					
 						CreateWorkbench (rs.getInt("AD_WORKBENCH_ID"), atts, hd_menu);				
 					}
+				//Call CreateWorkflow	
+				else if (rs.getInt("AD_Workflow_ID") > 0)
+					{
+						CreateWorkflow(rs.getInt("AD_Workflow_ID"), atts, hd_menu );
+					}	
 				//Call CreateModule because entry is a summary menu
 				}
 				else
@@ -584,6 +589,11 @@ public class PackOut extends SvrProcess
 					{					
 						CreateWorkbench (rs.getInt("AD_WORKBENCH_ID"), atts, hd_menu);				
 					}
+				//Call CreateWorkflow	
+				else if (rs.getInt("AD_Workflow_ID") > 0)
+					{
+						CreateWorkflow(rs.getInt("AD_Workflow_ID"), atts, hd_menu );
+					}	
 				//Call CreateModule because entry is a summary menu
 				}
 				else
@@ -956,9 +966,17 @@ public class PackOut extends SvrProcess
 				X_AD_Process m_Process = new X_AD_Process (getCtx(), rs1.getInt("AD_Process_ID"), null);
 				log.log(Level.INFO,"AD_ReportView_ID: " + rs1.getInt("AD_ReportView_ID"));
 				
-				if (rs1.getInt("AD_ReportView_ID")>0){
+				if (rs1.getString("IsReport").equals('Y')  &&  rs1.getInt("AD_ReportView_ID")>0){
 					
 					CreateReportview(rs1.getInt("AD_ReportView_ID"),atts, hd_menu);
+				}
+				if (rs1.getString("IsReport").equals('Y')  &&  rs1.getInt("AD_PrintFormat_ID")>0){
+					
+					CreatePrintFormat(rs1.getInt("AD_PrintFormat_ID"),atts, hd_menu);
+				}
+				if (rs1.getInt("AD_Workflow_ID")>0){
+					
+					CreateWorkflow(rs1.getInt("AD_Workflow_ID"),atts, hd_menu);
 				}
 				atts = createprocessBinding(atts,m_Process);
 				hd_menu.startElement("","","process",atts);
@@ -997,7 +1015,7 @@ public class PackOut extends SvrProcess
 					{}
 					pstmtP = null;
 				}
-				if(m_Process.getAD_PrintFormat_ID() != 0) {
+				/*if(m_Process.getAD_PrintFormat_ID() != 0) {
 				
 					m_Printformat = new X_AD_PrintFormat (getCtx(), m_Process.getAD_PrintFormat_ID(), null);
 					atts = createPrintformatBinding(atts,m_Printformat);
@@ -1037,7 +1055,7 @@ public class PackOut extends SvrProcess
 					}
 
 					hd_menu.endElement("","","printformat");
-				}
+				}*/
 
 				hd_menu.endElement("","","process");
 			}
@@ -1135,6 +1153,11 @@ public class PackOut extends SvrProcess
 			{}
 			pstmt1 = null;
 		}			
+		
+		if(m_Tab.getAD_Process_ID() > 0 )
+		{
+			CreateProcess (m_Tab.getAD_Process_ID(),  atts,  hd_menu);	
+		}
 		
 //		Loop tags.						
 		hd_menu.endElement("","","window");
@@ -1847,8 +1870,11 @@ public class PackOut extends SvrProcess
 								CreateReference (rs1.getInt("AD_Reference_Value_ID"), atts, hd_menu);						
 							
 							if (rs1.getInt("AD_Process_ID")>0)
-								CreateProcess (rs1.getInt("AD_Process_ID"), atts, hd_menu);							
+								CreateProcess (rs1.getInt("AD_Process_ID"), atts, hd_menu);	
 							
+							if (rs1.getInt("AD_Val_Rule_ID")>0)
+								CreateDynamicRuleValidation (rs1.getInt("AD_Val_Rule_ID"), atts, hd_menu);
+													
 							m_Column = new X_AD_Column (getCtx(), rs1.getInt("AD_Column_ID"), null);
 							atts = createcolumnBinding(atts,m_Column);
 							hd_menu.startElement("","","column",atts);
