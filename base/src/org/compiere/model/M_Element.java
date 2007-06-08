@@ -37,6 +37,17 @@ public class M_Element extends X_AD_Element
 	 */
 	public static String getColumnName (String columnName)
 	{
+		return getColumnName(columnName, null);
+	}
+	
+	/**
+	 * 	Get case sensitive Column Name
+	 *	@param columnName case insentitive column name
+	 *  @param trxName optional transaction name
+	 *	@return case sensitive column name
+	 */
+	public static String getColumnName (String columnName, String trxName)
+	{
 		if (columnName == null || columnName.length() == 0)
 			return columnName;
 		String retValue = columnName;
@@ -44,7 +55,7 @@ public class M_Element extends X_AD_Element
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setString (1, columnName.toUpperCase());
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
@@ -83,7 +94,19 @@ public class M_Element extends X_AD_Element
 	 *	@param columnName case insentitive column name
 	 *	@return case sensitive column name
 	 */
-	public static M_Element get (Properties ctx, String columnName)
+	public static M_Element get (Properties ctx, String columnName) 
+	{
+		return get(ctx, columnName, null);
+	}
+	
+	/**
+	 * 	Get Element
+	 * 	@param ctx context
+	 *	@param columnName case insentitive column name
+	 *  @param trxName optional transaction name
+	 *	@return case sensitive column name
+	 */
+	public static M_Element get (Properties ctx, String columnName, String trxName)
 	{
 		if (columnName == null || columnName.length() == 0)
 			return null;
@@ -92,12 +115,12 @@ public class M_Element extends X_AD_Element
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setString (1, columnName.toUpperCase());
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
-				retValue = new M_Element (ctx, rs, null);
+				retValue = new M_Element (ctx, rs, trxName);
 				if (rs.next())
 					s_log.warning("Not unique: " + columnName 
 						+ " -> " + retValue + " - " + rs.getString("ColumnName"));
@@ -176,39 +199,7 @@ public class M_Element extends X_AD_Element
 	 */
 	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID)
 	{
-		if (AD_Column_ID ==0)
-			return null;
-		M_Element retValue = null;
-		String sql = "SELECT * FROM AD_Element e "
-			+ "WHERE EXISTS (SELECT * FROM AD_Column c "
-				+ "WHERE c.AD_Element_ID=e.AD_Element_ID AND c.AD_Column_ID=?)";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Column_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new M_Element (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		return retValue;
+		return getOfColumn(ctx, AD_Column_ID, null);
 	}	//	get
 	
 	/**	Logger	*/
