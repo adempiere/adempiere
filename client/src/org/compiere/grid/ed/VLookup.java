@@ -153,18 +153,18 @@ public class VLookup extends JComponent
 		setMandatory(mandatory);
 		m_lookup = lookup;
 		if (m_lookup != null)
-		m_lookup.setMandatory(mandatory);
+			m_lookup.setMandatory(mandatory);
 		//
 		setLayout(new BorderLayout());
-		VLookup_mouseAdapter mouse = new VLookup_mouseAdapter(this);    //  popup
+		mouseAdapter = new VLookup_mouseAdapter(this);    //  popup
 
 		//	***	Text & Button	***
 		m_text.addActionListener(this);
 		m_text.addFocusListener(this);
-		m_text.addMouseListener(mouse);
+		m_text.addMouseListener(mouseAdapter);
 		//  Button
 		m_button.addActionListener(this);
-		m_button.addMouseListener(mouse);
+		m_button.addMouseListener(mouseAdapter);
 		m_button.setFocusable(false);   //  don't focus when tabbing
 		m_button.setMargin(new Insets(0, 0, 0, 0));
 		if (columnName.equals("C_BPartner_ID"))
@@ -183,7 +183,7 @@ public class VLookup extends JComponent
 			//
 			AutoCompletion.enable(m_combo);
 			m_combo.addActionListener(this);							//	Selection
-			m_combo.addMouseListener(mouse);	                        //	popup
+			m_combo.getEditor().getEditorComponent().addMouseListener(mouseAdapter);	                        //	popup
 			//	FocusListener to refresh selection before opening
 			m_combo.addFocusListener(this);
 			m_combo.getEditor().getEditorComponent().addFocusListener(this);
@@ -237,6 +237,7 @@ public class VLookup extends JComponent
 		m_mField = null;
 		//
 		m_combo.getEditor().getEditorComponent().removeFocusListener(this);
+		m_combo.getEditor().getEditorComponent().removeMouseListener(mouseAdapter);
 		m_combo.removeFocusListener(this);
 		m_combo.removeActionListener(this);
 		m_combo.setModel(new DefaultComboBoxModel());    //  remove reference
@@ -280,6 +281,10 @@ public class VLookup extends JComponent
 	private CMenuItem 			mRefresh;
 	private CMenuItem			mBPartnerNew;
 	private CMenuItem			mBPartnerUpd;
+	// Mouse Listener
+	private VLookup_mouseAdapter mouseAdapter;
+
+	
 	//	Field for Value Preference
 	private GridField              m_mField = null;
 	/**	Logger			*/
