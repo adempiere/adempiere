@@ -36,6 +36,8 @@ import org.w3c.dom.*;
  *
  *  @author Jorg Janke
  *  @version $Id: PO.java,v 1.12 2006/08/09 16:38:47 jjanke Exp $
+ *  
+ *  @author Teo Sarca - FR [ 1675490 ], BF [ 1704828 ]
  */
 public abstract class PO 
 	implements Serializable, Comparator, Evaluatee
@@ -1801,7 +1803,6 @@ public abstract class PO
 			return false;
 		}
 		//	Save
-		boolean success = false;
 		if (newRecord)
 			return saveNew();
 		else
@@ -1902,8 +1903,9 @@ public abstract class PO
 		int size = get_ColumnCount();
 		for (int i = 0; i < size; i++)
 		{
-			if (m_newValues[i] != null)
-				return true;	//	something changed
+			// Test if the column has changed - teo_sarca [ 1704828 ]
+			if (is_ValueChanged(i))
+				return true;
 		}
 		if (m_custom != null && m_custom.size() > 0)
 			return true; // there are custom columns modified
