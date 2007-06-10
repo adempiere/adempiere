@@ -26,6 +26,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: MLookupFactory.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ *  
+ *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ]
  */
 public class MLookupFactory
 {
@@ -273,7 +275,7 @@ public class MLookupFactory
 				+ " ON (AD_Ref_List.AD_Ref_List_ID=trl.AD_Ref_List_ID AND trl.AD_Language='")
 					.append(language.getAD_Language()).append("')");
 		realSQL.append(" WHERE AD_Ref_List.AD_Reference_ID=").append(AD_Reference_Value_ID);
-		realSQL.append(" ORDER BY 2");
+		realSQL.append(" ORDER BY 3"); // sort by name/translated name - teo_sarca, [ 1672820 ] 
 		//
 		return new MLookupInfo(realSQL.toString(), "AD_Ref_List", "AD_Ref_List.Value",
 			101,101, MQuery.getEqualQuery("AD_Reference_ID", AD_Reference_Value_ID));	//	Zoom Window+Query
@@ -688,12 +690,13 @@ public class MLookupFactory
 
 
 	/**
-	 *  Get embedded SQL for TableDir Lookup (no translation)
+	 *  Get embedded SQL for TableDir Lookup
 	 *
 	 *  @param language report language
 	 *  @param ColumnName column name
 	 *  @param BaseTable base table
 	 *  @return SELECT Column FROM TableName WHERE BaseTable.ColumnName=TableName.ColumnName
+	 *  @see #getLookup_TableDirEmbed(Language, String, String, String)
 	 */
 	static public String getLookup_TableDirEmbed (Language language, String ColumnName, String BaseTable)
 	{
@@ -701,7 +704,7 @@ public class MLookupFactory
 	}   //  getLookup_TableDirEmbed
 
 	/**
-	 *  Get embedded SQL for TableDir Lookup (no translation)
+	 *  Get embedded SQL for TableDir Lookup
 	 *
 	 *  @param language report language
 	 *  @param ColumnName column name
@@ -713,6 +716,7 @@ public class MLookupFactory
 		String ColumnName, String BaseTable, String BaseColumn)
 	{
 		String TableName = ColumnName.substring(0,ColumnName.length()-3);
+		String KeyColumn = ColumnName;
 
 		//	get display column name (first identifier column)
 		String sql = "SELECT c.ColumnName,c.IsTranslated,c.AD_Reference_ID,c.AD_Reference_Value_ID "
@@ -722,6 +726,7 @@ public class MLookupFactory
 			+ "ORDER BY c.SeqNo";
 		//
 		ArrayList<LookupDisplayColumn> list = new ArrayList<LookupDisplayColumn>();
+		boolean isTranslated = false;
 		//
 		try
 		{
@@ -734,6 +739,9 @@ public class MLookupFactory
 					"Y".equals(rs.getString(2)), rs.getInt(3), rs.getInt(4));
 				list.add (ldc);
 			//	s_log.fine("getLookup_TableDirEmbed: " + ColumnName + " - " + ldc);
+				//
+				if (!isTranslated && ldc.IsTranslated)
+					isTranslated = true;
 			}
 			rs.close();
 			pstmt.close();
@@ -760,8 +768,11 @@ public class MLookupFactory
 				embedSQL.append("||' - '||" );
 			LookupDisplayColumn ldc = (LookupDisplayColumn)list.get(i);
 
+			//  translated
+			if (ldc.IsTranslated && !Env.isBaseLanguage(language, TableName))
+				embedSQL.append(TableName).append("_Trl.").append(ldc.ColumnName);
 			//  date, number
-			if (DisplayType.isDate(ldc.DisplayType) || DisplayType.isNumeric(ldc.DisplayType))
+			else if (DisplayType.isDate(ldc.DisplayType) || DisplayType.isNumeric(ldc.DisplayType))
 			{
 				embedSQL.append(DB.TO_CHAR(TableName + "." + ldc.ColumnName, ldc.DisplayType, language.getAD_Language()));
 			}
@@ -772,12 +783,27 @@ public class MLookupFactory
 				String embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, TableName);
 				embedSQL.append("(").append(embeddedSQL).append(")");
 			}
+			//	Table - teo_sarca [ 1714261 ]
+			else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
+			{
+				String embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, TableName, ldc.AD_Reference_ID);
+				embedSQL.append("(").append(embeddedSQL).append(")");
+			}
 			//  String
 			else
 				embedSQL.append(TableName).append(".").append(ldc.ColumnName);
 		}
 
 		embedSQL.append(" FROM ").append(TableName);
+		//  Translation
+		if (isTranslated && !Env.isBaseLanguage(language, TableName))
+		{
+			embedSQL.append(" INNER JOIN ").append(TableName).append("_TRL ON (")
+				.append(TableName).append(".").append(KeyColumn)
+				.append("=").append(TableName).append("_Trl.").append(KeyColumn)
+				.append(" AND ").append(TableName).append("_Trl.AD_Language=")
+				.append(DB.TO_STRING(language.getAD_Language())).append(")");
+		}
 		embedSQL.append(" WHERE ").append(BaseTable).append(".").append(BaseColumn);
 		embedSQL.append("=").append(TableName).append(".").append(ColumnName);
 		//
