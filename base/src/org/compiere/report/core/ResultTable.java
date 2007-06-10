@@ -205,8 +205,7 @@ public class ResultTable extends JTable implements MouseListener
 	 *  Sort Table
 	 *  @param modelColumnIndex
 	 */
-	@SuppressWarnings("unchecked")
-	private void sort (int modelColumnIndex)
+	private void sort (final int modelColumnIndex)
 	{
 		int rows = getRowCount();
 		if (rows == 0)
@@ -224,37 +223,16 @@ public class ResultTable extends JTable implements MouseListener
 		ResultTableModel model = (ResultTableModel)getModel();
 
 		//  Prepare sorting
-		MSort sort = new MSort(0, null);
+		final MSort sort = new MSort(0, null);
 		sort.setSortAsc(m_asc);
-		//  while something to sort
-		sorting:
-		while (true)
-		{
-			//  Create sortList
-			ArrayList<MSort> sortList = new ArrayList<MSort>(rows);
-			//	fill with data entity
-			for (int i = 0; i < rows; i++)
-			{
-				Object value = model.getValueAt(i, modelColumnIndex);
-				sortList.add(new MSort(i, value));
+		// Sort the data list - teo_sarca [ 1734327 ]
+		Collections.sort(model.getDataList(), new Comparator<Object>() {
+			public int compare(Object o1, Object o2) {
+				Object item1 = ((ArrayList)o1).get(modelColumnIndex);
+				Object item2 = ((ArrayList)o2).get(modelColumnIndex);
+				return sort.compare(item1, item2);
 			}
-			//	sort list it
-			Collections.sort(sortList, sort);
-			//  move out of sequence row
-			for (int i = 0; i < rows; i++)
-			{
-				int index = ((MSort)sortList.get(i)).index;
-				if (i != index)
-				{
-			//		log.config( "move " + i + " to " + index);
-					model.moveRow (i, index);
-					continue sorting;
-				}
-			}
-			//  we are done
-		//	log.config( "done");
-			break;
-		}   //  while something to sort
+		});
 	}   //  sort
 
 }   //  ResultTable

@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
+import java.util.ArrayList;
+
 import javax.swing.event.*;
 import javax.swing.table.*;
 
@@ -121,4 +123,13 @@ class ResultTableModel extends AbstractTableModel
 		m_model.moveRow (from, to);
 	}   //  moveRow
 
+	/**
+	 * Returns the ArrayList of ArrayLists that contains the table's data values.
+	 * The ArrayLists contained in the outer vector are each a single row of values.
+	 * @return the ArrayList of ArrayLists containing the tables data values
+	 * @author Teo Sarca [ 1734327 ]
+	 */
+	protected ArrayList<ArrayList<Object>> getDataList() {
+		return m_model.getRows();
+	}
 }   //  ResultTableModel

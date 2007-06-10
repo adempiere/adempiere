@@ -360,6 +360,16 @@ public class RModel implements Serializable
 	{
 		m_data.moveRow(from,to);
 	}   //  moveRow
+	
+	/**
+	 * Returns the ArrayList of ArrayLists that contains the table's data values.
+	 * The ArrayLists contained in the outer vector are each a single row of values.
+	 * @return the ArrayList of ArrayLists containing the tables data values
+	 * @author Teo Sarca [ 1734327 ]
+	 */
+	protected ArrayList<ArrayList<Object>> getRows() {
+		return m_data.rows;
+	}
 
 
 	/*************************************************************************/
