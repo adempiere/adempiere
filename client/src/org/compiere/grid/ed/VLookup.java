@@ -444,16 +444,16 @@ public class VLookup extends JComponent
 		{
 			m_text.setText (null);
 			m_lastDisplay = "";
-			m_settingValue = false;
 			m_combo.setValue (value);
+			m_settingValue = false;
 			return;
 		}
 		if (m_lookup == null)
 		{
 			m_text.setText (value.toString());
 			m_lastDisplay = value.toString();
-			m_settingValue = false;
 			m_combo.setValue (value);
+			m_settingValue = false;
 			return;
 		}
 
