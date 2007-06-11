@@ -75,6 +75,16 @@
 		<servlet-class>org.compiere.www.WReport</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>WChat</servlet-name>
+		<display-name>Adempiere Chat</display-name>
+		<servlet-class>org.compiere.www.WChat</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WZoom</servlet-name>
+		<display-name>Adempiere Zoom</display-name>
+		<servlet-class>org.compiere.www.WZoom</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>WHelp</servlet-name>
 		<display-name>Adempiere Help</display-name>
 		<servlet-class>org.compiere.www.WHelp</servlet-class>
@@ -155,6 +165,14 @@
 	<servlet-mapping>
 		<servlet-name>WReport</servlet-name>
 		<url-pattern>/WReport</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WChat</servlet-name>
+		<url-pattern>/WChat</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WZoom</servlet-name>
+		<url-pattern>/WZoom</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>WHelp</servlet-name>
