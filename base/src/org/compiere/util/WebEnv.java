@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -41,18 +41,18 @@ public class WebEnv
 	private static CLogger			log = CLogger.getCLogger(WebEnv.class);
 
 	/**
-	 *  Base Directory links <b>http://localhost:8080/adempiere</b>
-	 *  to the physical <i>%adempiere_HOME%/tomcat/webroot/adempiere</i> directory
+	 *  Base Directory links <b>http://localhost:8080/compiere</b>
+	 *  to the physical <i>%COMPIERE_HOME%/tomcat/webroot/compiere</i> directory
 	 */
 	public static final String   	DIR_BASE    = "/adempiere";      //  /adempiere
 	/** Image Sub-Directory under BASE          */
-	private static final String     DIR_IMAGE   = "images";         //  /adempiere/images
+	private static final String     DIR_IMAGE   = "images";         //  /compiere/images
 	/** Stylesheet Name                         */
-	private static final String     STYLE_STD   = "standard.css";   //  /adempiere/standard.css
+	private static final String     STYLE_STD   = "/css/standard.css";   //  /adempiere/standard.css
 	/** Small Logo. */
 	private static final String     LOGO        = "LogoSmall.gif";  //  /adempiere/LogoSmall.gif
 	/** Store Sub-Directory under BASE          */
-	private static final String     DIR_STORE   = "store";          //  /adempiere/store
+	private static final String     DIR_STORE   = "store";          //  /compiere/store
 
 	/**  Frame name for Commands - WCmd	*/
 	public static final String      TARGET_CMD  = "WCmd";
@@ -167,7 +167,7 @@ public class WebEnv
 	/**************************************************************************
 	 *  Get Base Directory entrry.
 	 *  <br>
-	 *  /adempiere/
+	 *  /compiere/
 	 *  @param entry file entry or path
 	 *  @return url to entry in base directory
 	 */
@@ -183,7 +183,7 @@ public class WebEnv
 	/**
 	 *  Get Image Directory entry.
 	 *  <br>
-	 *  /adempiere/images
+	 *  /compiere/images
 	 *  @param entry file entry or path
 	 *  @return url to entry in image directory
 	 */
@@ -200,7 +200,7 @@ public class WebEnv
 	/**
 	 *  Get Store Directory entry.
 	 *  <br>
-	 *  /adempiere/store
+	 *  /compiere/store
 	 *  @param entry file entry or path
 	 *  @return url to entry in store directory
 	 */
@@ -216,8 +216,9 @@ public class WebEnv
 
 	/**
 	 *  Get Logo Path.
+	 *	Removing/modifying the Compiere logo is a violation of the license
 	 *  <p>
-	 *  /adempiere/LogoSmall.gif
+	 *  /compiere/LogoSmall.gif
 	 *  @return url to logo
 	 */
 	public static String getLogoURL()
@@ -227,18 +228,23 @@ public class WebEnv
 
 	/**
 	 *  Get Logo Image HTML tag.
+	 *	Removing/modifying the Compiere logo or copyright notice is a violation of the license
 	 *  @return Image
 	 */
 	public static img getLogo()
 	{
+		/** Removing/modifying the Compiere logo is a violation of the license	*/
 		return new img(getLogoURL()).setAlign(AlignType.RIGHT)
+		//	Changing the copyright notice in any way violates the license 
+		//	and you'll be held liable for any damage claims
+			//.setAlt("&copy; Jorg Janke/Compiere");	
 			.setAlt("&copy; Jorg Janke/adempiere");	
 	}   //  getLogo
 
 	/**
 	 *  Get Stylesheet Path.
 	 *  <p>
-	 *  /adempiere/standard.css
+	 *  /compiere/standard.css
 	 *  @return url of Stylesheet
 	 */
 	public static String getStylesheetURL()
@@ -465,6 +471,8 @@ public class WebEnv
 		p footer = new p();
 		footer.addElement(org.compiere.Adempiere.DATE_VERSION + ": ");
 		footer.addElement(new a("javascript:diag_window();", "Window Info"));
+		footer.addElement(" - ");
+		footer.addElement(new a("javascript:parent.resizeFrame('5,*');", "Menu"));
 		footer.addElement(" - ");
 		footer.addElement(new a("javascript:diag_navigator();", "Browser Info"));
 		footer.addElement(" - ");

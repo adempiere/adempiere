@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -109,14 +109,14 @@ public final class WebUtil
 		b.addElement(new br());
 
 		//	fini
-		createResponse (request, response, servlet, null, doc, true);
+		createResponse (request, response, servlet, null, doc, false);
 	}   //  createErrorPage
 
 	/**
 	 *  Create Exit Page "Log-off".
 	 *  <p>
 	 *  - End Session
-	 *  - Go to start page (e.g. /adempiere/index.html)
+	 *  - Go to start page (e.g. /compiere/index.html)
 	 *
 	 *  @param request request
 	 *  @param response response
@@ -151,13 +151,15 @@ public final class WebUtil
 	 *  @param ctx context
 	 *  @return Button
 	 */
-	public static button getLoginButton (Properties ctx)
+	public static input getLoginButton (Properties ctx)
 	{
 		String text = "Login";
 		if (ctx != null)
 			text = Msg.getMsg (ctx, "Login");
-		button button = new button();
-		button.setType("button").setName("Login").addElement(text);
+		
+		input button = new input("button", text, "  "+text);		
+		button.setID(text);
+		button.setClass("loginbtn");		
 		StringBuffer cmd = new StringBuffer ("window.top.location.replace('");
 		cmd.append(WebEnv.getBaseDirectory("index.html"));
 		cmd.append("');");
@@ -242,7 +244,7 @@ public final class WebUtil
 			outStr.append(inStr.substring(0, i));			// up to &#
 			inStr = inStr.substring(i+2, inStr.length());	// from &#
 
-			int j = inStr.indexOf(';');						// next ;
+			int j = inStr.indexOf(";");						// next ;
 			if (j < 0)										// no second tag
 			{
 				inStr = "&#" + inStr;
@@ -508,7 +510,7 @@ public final class WebUtil
 		if (cookieProperties != null)
 		{
 			Cookie cookie = new Cookie (WebEnv.COOKIE_INFO, propertiesEncode(cookieProperties));
-			cookie.setComment("(c) adempiere, Inc - Jorg Janke");
+			cookie.setComment("(c) ComPiere, Inc - Jorg Janke");
 			cookie.setSecure(false);
 			cookie.setPath("/");
 			if (cookieProperties.size() == 0)
@@ -555,7 +557,10 @@ public final class WebUtil
 		cmd.append("<!-- clear frame\n")
 			.append("var d = parent.").append(targetFrame).append(".document;\n")
 			.append("d.open();\n")
-			.append("d.write('<link href=\"").append(WebEnv.getStylesheetURL()).append("\" rel=\"stylesheet\">');\n")
+			.append("d.write('<link href=\"").append(WebEnv.getStylesheetURL()).append("\" type=\"text/css\" rel=\"stylesheet\">');\n")
+			.append("d.write('<link href=\"/adempiere/css/window.css\" type=\"text/css\" rel=\"stylesheet\">');\n")
+			.append("d.write('<br><br><br><br><br><br><br>');")
+			.append("d.write('<div style=\"text-align: center;\"><img class=\"CenterImage\" style=\"vertical-align: middle; filter:alpha(opacity=50); -moz-opacity:0.5;\" src=\"Logo.gif\" /></div>');\n")
 			.append("d.close();\n")
 			.append("// -- clear frame -->");
 		//
@@ -683,7 +688,7 @@ public final class WebUtil
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try
 		{
-			pp.store(bos, "adempiere");   //  Header
+			pp.store(bos, "Compiere");   //  Header
 		}
 		catch (IOException e)
 		{
@@ -768,11 +773,11 @@ public final class WebUtil
 	 *  @return Option Array
 	 */
 	public static option[] convertToOption (NamePair[] list, String default_ID)
-	{
+	{		
 		int size = list.length;
-		option[] retValue = new option[size];
+		option[] retValue = new option[size];	
 		for (int i = 0; i < size; i++)
-		{
+		{			
 			boolean selected = false;
 			//  select first entry
 			if (i == 0 && (default_ID == null || default_ID.length() == 0))
@@ -786,7 +791,7 @@ public final class WebUtil
 			if (default_ID != null && default_ID.equals(list[i].getID()))
 				selected = true;
 			retValue[i].setSelected(selected);
-		}
+		}		
 		return retValue;
 	}   //  convertToOption
 
@@ -844,11 +849,18 @@ public final class WebUtil
 	 * 	Get Close PopUp Buton
 	 *	@return button
 	 */
-	public static input createClosePopupButton()
+	public static input createClosePopupButton(Properties ctx)
 	{
-		input close = new input (input.TYPE_BUTTON, "closePopup", "Close");
+		String text = "Close";
+		if (ctx != null)
+			text = Msg.getMsg (ctx, "Close");
+		
+		input close = new input("button", text, "  "+text);		
+		close.setID(text);
+		close.setClass("closebtn");		
 		close.setTitle ("Close PopUp");	//	Help
-		close.setOnClick ("closePopup();return false;");
+		//close.setOnClick ("closePopup();return false;");
+		close.setOnClick ("self.close();return false;");
 		return close;
 	}	//	getClosePopupButton
 	
@@ -987,7 +999,7 @@ public final class WebUtil
 	public static void deleteCookieWebUser (HttpServletRequest request, HttpServletResponse response, String COOKIE_NAME)
 	{
 		Cookie cookie = new Cookie(COOKIE_NAME, " ");
-		cookie.setComment("adempiere Web User");
+		cookie.setComment("Compiere Web User");
 		cookie.setPath(request.getContextPath());
 		cookie.setMaxAge(1);      //  second
 		response.addCookie(cookie);
@@ -1046,7 +1058,7 @@ public final class WebUtil
 		EMail email = wStore.createEMail(to.getEmail(), 
 			subject.toString(), message.toString());
 		//	CC Order
-		if (msgType.equals(MMailMsg.MAILMSGTYPE_OrderAcknowledgement))
+		if (msgType == MMailMsg.MAILMSGTYPE_OrderAcknowledgement)
 		{
 			String orderEMail = wStore.getWebOrderEMail();
 			String storeEMail = wStore.getWStoreEMail();
@@ -1086,7 +1098,7 @@ public final class WebUtil
 	public static void addCookieWebUser (HttpServletRequest request, HttpServletResponse response, String webUser, String COOKIE_NAME)
 	{
 		Cookie cookie = new Cookie(COOKIE_NAME, webUser);
-		cookie.setComment("adempiere Web User");
+		cookie.setComment("Compiere Web User");
 		cookie.setPath(request.getContextPath());
 		cookie.setMaxAge(2592000);      //  30 days in seconds   60*60*24*30
 		response.addCookie(cookie);

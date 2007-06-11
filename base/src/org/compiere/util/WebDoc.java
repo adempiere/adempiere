@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -17,6 +17,8 @@
 package org.compiere.util;
 
 import java.io.*;
+import java.util.Properties;
+
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
 
@@ -61,10 +63,17 @@ public class WebDoc
 	public static WebDoc createPopup (String title)
 	{
 		WebDoc doc = create (title);
-		doc.getHead().addElement(new script((Element)null, "window.js"));
-		doc.getHead().addElement(new link("popup.css", link.REL_STYLESHEET, link.TYPE_CSS));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/window.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/calendar.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/table.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/lang/calendar-en.js"));
+		doc.getHead().addElement(new link("/adempiere/css/window.css", link.REL_STYLESHEET, link.TYPE_CSS));
+		doc.getHead().addElement(new link("/adempiere/css/popup.css", link.REL_STYLESHEET, link.TYPE_CSS));
+		doc.getHead().addElement(new link("/adempiere/css/table.css", link.REL_STYLESHEET, link.TYPE_CSS));		
+		doc.getHead().addElement(new link("/adempiere/css/calendar-blue.css", link.REL_STYLESHEET, link.TYPE_CSS));
 		doc.setClasses ("popupTable", "popupHeader");
-		doc.getTable().setCellSpacing(5);
+		doc.getTable().setCellSpacing(0);
 		return doc;
 	}   //  createPopup
 
@@ -76,10 +85,17 @@ public class WebDoc
 	public static WebDoc createWindow (String title)
 	{
 		WebDoc doc = create (title);
-		doc.getHead().addElement(new link("window.css", link.REL_STYLESHEET, link.TYPE_CSS));
-		doc.getHead().addElement(new script((Element)null, "window.js"));
+		
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/window.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/calendar.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/js/table.js"));
+		doc.getHead().addElement(new script((Element)null, "/adempiere/lang/calendar-en.js"));
+		doc.getHead().addElement(new link("/adempiere/css/window.css", link.REL_STYLESHEET, link.TYPE_CSS));
+		doc.getHead().addElement(new link("/adempiere/css/calendar-blue.css", link.REL_STYLESHEET, link.TYPE_CSS));
+		doc.getHead().addElement(new link("/adempiere/css/table.css", link.REL_STYLESHEET, link.TYPE_CSS));		
 		doc.setClasses ("windowTable", "windowHeader");
-		doc.getTable().setCellSpacing(5);
+		doc.getTable().setCellSpacing(0);
 		return doc;
 	}   //  createWindow
 
@@ -130,34 +146,39 @@ public class WebDoc
 		
 		//	css, js
 		if (javaClient)
-			m_head.addElement(new link("http://www.adempiere.com/standard.css", link.REL_STYLESHEET, link.TYPE_CSS));
+			m_head.addElement(new link("http://www.adempiere.com/css/standard.css", link.REL_STYLESHEET, link.TYPE_CSS));
 		else
 		{
 			m_head.addElement(new link(WebEnv.getStylesheetURL(), link.REL_STYLESHEET, link.TYPE_CSS));
-			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("standard.js")));
+			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/standard.js")));
 		}
-		// globalqss - problems with java 6 reported by kisitomomo
-		// m_head.addElement(new meta().setHttpEquiv("Content-Type", "text/html; charset=UTF-8"));
-		m_head.addElement(new meta().setName("description", "adempiere HTML UI"));
+		m_head.addElement(new meta().setHttpEquiv("Content-Type", "text/html; charset=UTF-8"));
+		m_head.addElement(new meta().setName("description", "Compiere HTML UI"));
 
-		m_table = new table("0", "2", "0", "100%", null);	//	spacing 2
+		m_table = new table("0", "0", "0", "100%", null);	//	spacing 2
 		m_topRow = new tr();
 		//	Title
+		//Start Modification Rob
 		m_topLeft = new td();
 		if (title == null)
 			m_topLeft.addElement(NBSP);
-		else
-			m_topLeft.addElement(new h1(title));
+		//else
+			//m_topLeft.addElement(new h1(title));
 		m_topRow.addElement(m_topLeft);
 		//	Logo
 		m_topRight = new td().setAlign("right");
+		/** Removing/modifying the Compiere logo is a violation of the license	*/
 		if (javaClient)
 			m_topRight.addElement(new img("http://www.adempiere.com/images/adempiere64x32.png")
 				.setAlign(AlignType.RIGHT).setAlt("Adempiere Inc."));
 		else
-			m_topRight.addElement(WebEnv.getLogo());
+			if(title == "")
+				m_topRight.addElement(WebEnv.getLogo());
+			else
+				m_topRight.addElement(new h1(title));
+
 		m_topRow.addElement(m_topRight);
-		m_table.addElement(m_topRow);
+		m_table.addElement(m_topRow);		
 		//
 		m_body.addElement(m_table);
 	}   //  setUp
@@ -279,9 +300,9 @@ public class WebDoc
 	 * 	Add Popup Close Footer
 	 *	@return null or array with left/right td
 	 */
-	public td[] addPopupClose()
+	public td[] addPopupClose(Properties ctx)
 	{
-		input button = WebUtil.createClosePopupButton(); 
+		input button = WebUtil.createClosePopupButton(ctx); 
 		if (m_table == null)
 		{
 			m_body.addElement(button);
