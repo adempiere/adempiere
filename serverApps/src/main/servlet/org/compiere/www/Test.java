@@ -48,7 +48,7 @@ public class Test extends HttpServlet
 	{
 		WebDoc doc = WebDoc.create ("Get Request Test");
 		//
-		WebUtil.createResponse(request, response, this, null, doc, true);
+		WebUtil.createResponse(request, response, this, null, doc, false);
 	}   //  doGet
 
 
@@ -60,7 +60,7 @@ public class Test extends HttpServlet
 	{
 		WebDoc doc = WebDoc.create ("Post Request Test");
 		//
-		WebUtil.createResponse(request, response, this, null, doc, true);
+		WebUtil.createResponse(request, response, this, null, doc, false);
 	}   //  doPost
 
 }   //  Test

@@ -84,8 +84,9 @@ public class WAccount extends HttpServlet
 		String columnName = WebUtil.getParameter (request, "ColumnName");
 		//
 		GridField mField = ws.curTab.getField(columnName);
-		log.config("FormName=" + formName + ", ColumnName=" + columnName + ", MField=" + mField.toString());
-		if (mField == null || formName == null || columnName == null || formName.equals("") || columnName.equals(""))
+		//Modified by Rob Klein 4/29/07
+		log.config("FormName=" + formName + ", ColumnName=" + columnName + ", MField=" + mField.toString());		
+		if (mField == null ||  columnName == null || columnName.equals(""))
 		{
 			WebUtil.createTimeoutPage(request, response, this,  
 				Msg.getMsg(wsc.ctx, "ParameterMissing"));
@@ -93,20 +94,21 @@ public class WAccount extends HttpServlet
 		}
 	//	Object value = ws.curTab.getValue(columnName);
 		String target = "opener.document." + formName + "." + columnName;
-
+		String targetBase = "'" + columnName;
+		//Modifeid by Rob Klein 4/229/07
 		//  Create Document
-		WebDoc doc = WebDoc.create (mField.getHeader());
+		WebDoc doc = WebDoc.createPopup (mField.getHeader());
 		body body = doc.getBody();
 		body.setOnBlur("self.focus();");
-		body.addElement(fillTable(ws, mField, target));
-
+		body.addElement(fillTable(ws, mField, targetBase));
+		//Modified by Rob Klein 4/29/07
 		//  Reset, Cancel
 		button reset = new button();
 		reset.addElement("Reset");                      //  translate
-		reset.setOnClick(target + ".value='';" + target + "_D.value='';window.close();");
+		reset.setOnClick(targetBase + "F.value='';" + targetBase + "D.value='';self.close();");
 		button cancel = new button();
 		cancel.addElement("Cancel");                    //  translate
-		cancel.setOnClick("window.close();");
+		cancel.setOnClick("self.close();return false;");
 		body.addElement(new p(AlignType.RIGHT)
 			.addElement(reset)
 			.addElement("&nbsp")
@@ -144,10 +146,15 @@ public class WAccount extends HttpServlet
 	private table fillTable (WWindowStatus ws, GridField mField, String target)
 	{
 		table table = new table("1");
+		//Modified by Rob klein 4/29/07
+		table.setClass("table-autosort table-autostripe table-stripeclass:alternate");
+		table.addElement("<thead>");
 		tr line = new tr();
-		line.addElement(new th("&nbsp")).addElement(new th(Msg.translate(ws.ctx, "Name")));
+		line.addElement(new th("&nbsp")).addElement(new th(Msg.translate(ws.ctx, "Name")).setClass("table-sortable:default"));
 		table.addElement(line);
-
+		table.addElement("</thead>");
+		table.addElement("<tbody>");
+		
 		//  Fill & list options
 		Lookup lookup = mField.getLookup();
 		lookup.fillComboBox(mField.isMandatory(false), true, true, true);   //  no context check
@@ -162,10 +169,15 @@ public class WAccount extends HttpServlet
 			KeyNamePair np = (KeyNamePair)lValue;
 			button button = new button();
 			button.addElement("&gt;");
-			StringBuffer script = new StringBuffer(target);
-			script.append(".value='").append(np.getKey()).append("';")
-				.append(target).append("_D.value='").append(np.getName()).append("';window.close();");
-			button.setOnClick(script.toString());
+			//Modified by Rob Klein 4/29/07
+			StringBuffer script = new StringBuffer();
+			script
+				//.append("';closePopup();")
+				.append("startUpdate(").append(target).append("F',")
+				.append(target).append("D','").append(np.getKey()).append("',")
+				.append(target).append("F','").append(np.getName())
+				.append("');return false;");
+			button.setOnClick(script.toString());			
 			//
 			line = new tr();
 			line.addElement(new td(button));
@@ -177,6 +189,7 @@ public class WAccount extends HttpServlet
 		}
 		//  Restore
 		lookup.fillComboBox(true);
+		table.addElement("</tbody>");
 		return table;
 	}   //  fillTable
 

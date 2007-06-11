@@ -51,7 +51,7 @@ public class WWindowStatus
 	 */
 	public WWindowStatus (GridWindowVO mWindowVO)
 	{
-		mWindow = new GridWindow(mWindowVO);
+		mWindow = new GridWindow(mWindowVO);		
 		curTab = mWindow.getTab(0);
 		curTab.setSingleRow(true);
 		//

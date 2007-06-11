@@ -55,7 +55,7 @@ public class Test2 extends HttpServlet
 	{
 		WebDoc doc = WebDoc.create ("Get Request Test2");
 		//
-		WebUtil.createResponse(request, response, this, null, doc, true);
+		WebUtil.createResponse(request, response, this, null, doc, false);
 	}   //  doPost
 
 }   //  Test2

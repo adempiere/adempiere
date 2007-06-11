@@ -113,7 +113,8 @@ public class WLocation extends HttpServlet
 		String action = request.getRequestURI();
 		//  Create Document
 		WebDoc doc = WebDoc.createPopup (mField.getHeader());
-		doc.addPopupClose();
+		//Modified by Rob klein 4/29/07
+		doc.addPopupClose(ws.ctx);
 		boolean hasDependents = ws.curTab.hasDependants(columnName);
 		boolean hasCallout = mField.getCallout().length() > 0;
 		
@@ -128,8 +129,8 @@ public class WLocation extends HttpServlet
 		doc.getTable().addElement(new tr()
 			.addElement(fillForm(ws, action, location, targetBase, hasDependents || hasCallout))
 			.addElement(reset));
-		//
-		doc.addPopupClose();
+		//Modified by Rob Klein 4/29/07
+		doc.addPopupClose(ws.ctx);
 	//	log.trace(log.l6_Database, doc.toString());
 		WebUtil.createResponse (request, response, this, null, doc, false);
 	}   //  doGet
@@ -170,7 +171,8 @@ public class WLocation extends HttpServlet
 
 		//  Document
 		WebDoc doc = WebDoc.createPopup ("WLocation");
-		doc.addPopupClose();
+		//Modified by Rob Klein 4/29/07
+		doc.addPopupClose(ws.ctx);
 
 		//  Save Location
 		location.save();

@@ -69,7 +69,8 @@ public class WAttachment extends HttpServlet
 		if (session == null || ws == null)
 		{
 			doc = WebDoc.createPopup ("No Context");
-			doc.addPopupClose();
+			//Modified by Rob Klein 4/29/07
+			doc.addPopupClose(ws.ctx);
 		}
 		else
 		{
@@ -192,7 +193,8 @@ public class WAttachment extends HttpServlet
 		table.addElement(tr);
 		
 		//	Footer
-		doc.addPopupClose();
+		//Modified by Rob Klein 4/29/07
+		doc.addPopupClose(ctx);
 		//
 	//	System.out.println(doc);
 		return doc;

@@ -192,7 +192,7 @@ public class WLogin extends HttpServlet
 				}
 			}
 		}
-		WebUtil.createResponse (request, response, this, cProp, doc, true);
+		WebUtil.createResponse (request, response, this, cProp, doc, false);
 	}	//	doPost
 
 	//  Variable Names
@@ -234,11 +234,15 @@ public class WLogin extends HttpServlet
 		String action = request.getRequestURI();
 		form myForm = null;
 		myForm = new form(action).setName("Login1");
-		table table = new table().setAlign(AlignType.CENTER);
-
+		table table = new table().setAlign(AlignType.CENTER).setWidth("25%");				
+		//Modified by Rob Klein 4/29/07
+		//	Blank Line
+		tr line = new tr();
+		line.addElement(new td().addElement(" "));
+		
 		//	Username
 		String userData = cProp.getProperty(P_USERNAME, "");
-		tr line = new tr();
+		line = new tr();
 		label usrLabel = new label().setFor(P_USERNAME + "F").addElement(usrText);
 		usrLabel.setID(P_USERNAME + "L");
 		line.addElement(new td().addElement(usrLabel).setAlign(AlignType.RIGHT));
@@ -276,7 +280,7 @@ public class WLogin extends HttpServlet
 				options[i].setSelected(false);
 		}
 		line.addElement(new td().addElement(new select(Env.LANGUAGE, options)
-			.setID(Env.LANGUAGE + "F") ));
+			.setID(Env.LANGUAGE + "F")));
 		table.addElement(line);
 
 		//  Store Cookie
@@ -300,18 +304,32 @@ public class WLogin extends HttpServlet
 
 		//  Finish
 		line = new tr();
-		input cancel = new input(input.TYPE_RESET, "Reset", cancelText);
-		line.addElement(new td().addElement(cancel ));
-		line.addElement(new td().addElement(new input(input.TYPE_SUBMIT, P_SUBMIT, okText) ));
-		table.addElement(line);
+		//Modified by Rob Klein 4/29/07
+		table tablebutton = new table().setAlign(AlignType.CENTER).setWidth("25%");
+		input cancel = new input(input.TYPE_RESET, "Reset", "  "+"Cancel");
+		cancel.setClass("cancelbtn");
+		line.addElement(new td().addElement(cancel).setWidth("50%")).setAlign(AlignType.CENTER);
+		input submit = new input(input.TYPE_SUBMIT, P_SUBMIT, "  "+"OK");
+		submit.setClass("loginbtn");
+		line.addElement(new td().addElement(submit).setWidth("50%").setAlign(AlignType.CENTER));		
+		tablebutton.addElement(line);
+		table.addElement(tablebutton);
 		//
 		myForm.addElement(table);
 		
 		//  Document
 		WebDoc doc = WebDoc.createWindow (windowTitle);
-		doc.addWindowCenter(true)
-			.addElement(new h3("The HTML UI is Beta Functionality!"))
-			.addElement(myForm);
+		//Modified by Rob Klein 4/29/07
+		img img = new img (WebEnv.getImageDirectory("Logo.gif"), "logo");
+		doc.addWindowCenter(true)			
+			.addElement(img)
+			.addElement(new p())
+			.addElement(new p())
+			//.addElement(new h3("The HTML UI is Beta Functionality!"))
+			//.addElement(myForm)
+			.addElement(myForm)
+			.addElement(new p())
+			.addElement(new p());
 		//  Clear Menu Frame
 		doc.getBody()
 			.addElement(WebUtil.getClearFrame(WebEnv.TARGET_MENU))
@@ -344,6 +362,10 @@ public class WLogin extends HttpServlet
 
 		//	Role Pick
 		tr line = new tr();
+		//Modified by Rob Klein 4/29/07
+		line.addElement(new td().addElement(" "));
+		table.addElement(line);
+		line = new tr();
 		label roleLabel = new label().setFor(P_ROLE + "F").addElement(Msg.translate(wsc.language, "AD_Role_ID"));
 		roleLabel.setID(P_ROLE + "L");
 		line.addElement(new td().addElement(roleLabel).setAlign(AlignType.RIGHT));
@@ -403,23 +425,37 @@ public class WLogin extends HttpServlet
 			line.addElement(new td().addElement(new strong(errorMessage)).setColSpan(2).setAlign(AlignType.CENTER));
 			table.addElement(line);
 		}
-
-		//  Finish
+		//Modified by Rob Klein 4/29/07
+		//  Finish		
+		table tablebutton = new table().setAlign(AlignType.CENTER).setWidth("25%");
 		line = new tr();
-		input cancel = new input(input.TYPE_RESET, "Reset", Msg.getMsg(wsc.language, "Cancel"));
-		line.addElement(new td().addElement(cancel ));
-		input submit = new input(input.TYPE_SUBMIT, "Submit", Msg.getMsg(wsc.language, "OK"));
+		//Modified by Rob Klein 4/29/07
+		//input cancel = new input(input.TYPE_RESET, "Reset", Msg.getMsg(wsc.language, "Cancel"));
+		input cancel = new input(input.TYPE_RESET, "Reset", "  "+ "Cancel");
+		cancel.setOnClick("window.top.location.replace('/adempiere/index.html');");
+		cancel.setClass("cancelbtn");
+		line.addElement(new td().addElement(cancel).setWidth("50%").setAlign(AlignType.CENTER));
+		input submit = new input(input.TYPE_SUBMIT, "Submit", "  "+ "OK");
 		submit.setOnClick("showLoadingMenu('" + WebEnv.getBaseDirectory("") + "');");
-		line.addElement(new td().addElement(submit));
-		table.addElement(line);
+		//Modified by Rob Klein 4/29/07
+		submit.setClass("loginbtn");
+		line.addElement(new td().addElement(submit).setWidth("50%").setAlign(AlignType.CENTER));
+		tablebutton.addElement(line);
+		table.addElement(tablebutton);
 		//
 		myForm.addElement(table);
 		
 		//  Create Document
 		WebDoc doc = WebDoc.createWindow (windowTitle);
+		//Modified by Rob Klein 4/29/07
+		img img = new img (WebEnv.getImageDirectory("Logo.gif"), "logo");
 		doc.addWindowCenter(true)
-			.addElement(new h3("The HTML UI is Beta Functionality!"))
-			.addElement(myForm);
+			.addElement(img)
+			.addElement(new p())
+			//.addElement(new h3("The HTML UI is Beta Functionality!"))
+			.addElement(myForm)
+			.addElement(new p())
+			.addElement(new p());
 		//
 		String script = "fieldUpdate(document.Login2." + P_ROLE + ");";	//  init dependency updates
 		doc.getBody()

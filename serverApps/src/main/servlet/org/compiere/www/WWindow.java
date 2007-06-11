@@ -18,14 +18,20 @@ package org.compiere.www;
 
 import java.io.*;
 import java.math.*;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
+import org.compiere.apps.ProcessCtl;
 import org.compiere.model.*;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.*;
 
 /**
@@ -57,7 +63,7 @@ public class WWindow extends HttpServlet
 	 */
 	public String getServletInfo()
 	{
-		return "adempiere Web Window";
+		return "Adempiere Web Window";
 	}	//	getServletInfo
 
 	/**
@@ -72,7 +78,10 @@ public class WWindow extends HttpServlet
 	private static int          s_WindowNo  = 1;
 	/** Form Name                               */
 	protected static final String FORM_NAME   = "WForm";
+		//Modified by Rob Klein 4/29/07
 
+	protected static String  sectionNameOld = null;
+	
 	/**  Hidden Parameter   Command - Button    */
 	private static final String P_Command   = "PCommand";
 	/** Hidden Parameter - Tab No               */
@@ -83,7 +92,9 @@ public class WWindow extends HttpServlet
 	private static final String P_ChangedColumn = "ChangedColumn";
 
 	/** Multi Row Lines per Screen          */
-	private static final int    MAX_LINES   = 12;
+	// Modified by Rob Klein 4/29/2007
+	//private static final int    MAX_LINES   = 12;
+	private static final int    MAX_LINES   = 1000;
 	/** Indicator for last line             */
 	private static final int    LAST_LINE   = 999999;
 
@@ -109,6 +120,7 @@ public class WWindow extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		//  Get Session attributes
+		WebDoc doc = null;
 		HttpSession sess = request.getSession();
 		WebSessionCtx wsc = WebSessionCtx.get(request);
 		if (wsc == null)
@@ -124,6 +136,51 @@ public class WWindow extends HttpServlet
 		//
 		log.info("AD_Window_ID=" + AD_Window_ID
 			+ "; AD_Menu_ID=" + AD_Menu_ID);
+		
+		String TableName = null;
+		//Check to see if Zoom
+		int AD_Record_ID = WebUtil.getParameterAsInt(request, "AD_Record_ID");
+		int AD_Table_ID = WebUtil.getParameterAsInt(request, "AD_Table_ID");
+		if (AD_Record_ID != 0 || AD_Table_ID != 0){		
+			
+			AD_Window_ID = 0;
+			int PO_Window_ID = 0;
+			String sql = "SELECT TableName, AD_Window_ID, PO_Window_ID FROM AD_Table WHERE AD_Table_ID=?";
+			try
+			{
+				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, AD_Table_ID);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					TableName = rs.getString(1);
+					AD_Window_ID = rs.getInt(2);
+					PO_Window_ID = rs.getInt(3);
+				}
+				rs.close();
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			
+			if (TableName == null || AD_Window_ID == 0){
+				doc = WebDoc.createPopup ("No Context");
+				doc.addPopupClose(wsc.ctx);				
+			}
+			
+			//	PO Zoom ?
+			boolean isSOTrx = true;
+			if (PO_Window_ID != 0)
+			{
+				String whereClause = TableName + "_ID=" + AD_Record_ID;
+				isSOTrx = DB.isSOTrx(TableName, whereClause);
+				if (!isSOTrx)
+					AD_Window_ID = PO_Window_ID;
+			}
+		}	
+		
 
 		//  Clean up old Window
 		WWindowStatus ws = WWindowStatus.get(request);
@@ -151,15 +208,22 @@ public class WWindow extends HttpServlet
 		ws = new WWindowStatus(mWindowVO);
 		sess.setAttribute(WWindowStatus.NAME, ws);
 
-
 		//  Query
-		ws.curTab.query(ws.mWindow.isTransaction());
-		ws.curTab.navigate(0);
+		if (AD_Record_ID != 0 || AD_Table_ID != 0){ //If Zoom
+			ws.mWindow.initTab(ws.curTab.getTabNo());
+			ws.curTab.setQuery(MQuery.getEqualQuery(TableName + "_ID", AD_Record_ID));
+			ws.curTab.query(false);
+		}
+		else{
+			ws.mWindow.initTab(ws.curTab.getTabNo());
+			ws.curTab.query(ws.mWindow.isTransaction());
+			ws.curTab.navigate(0);
+		}
 
 		/**
 		 *  Build Page
 		 */
-		WebDoc doc = null;
+		
 		if (ws.curTab.isSingleRow())
 			doc = getSR_Form (request.getRequestURI(), wsc, ws);
 		else
@@ -168,7 +232,7 @@ public class WWindow extends HttpServlet
 		//	fini
 		log.fine("Fini");
 	//	log.trace(log.l6_Database, doc.toString());
-		WebUtil.createResponse (request, response, this, null, doc, true);
+		WebUtil.createResponse (request, response, this, null, doc, false);
 		log.fine("Closed");
 	}   //  doGet
 
@@ -233,7 +297,7 @@ public class WWindow extends HttpServlet
 		//
 		log.fine("Fini");
 	//	log.trace(log.l6_Database, doc.toString());
-		WebUtil.createResponse (request, response, this, null, doc, true);
+		WebUtil.createResponse (request, response, this, null, doc, false);
 		log.fine("Closed");
 	}   //  doPost
 
@@ -288,9 +352,17 @@ public class WWindow extends HttpServlet
 			//  move to detail
 			if (newTabNo > ws.curTab.getTabNo())
 			{
-				ws.curTab = ws.mWindow.getTab(newTabNo);
+				ws.mWindow.initTab(newTabNo);
+				ws.curTab = ws.mWindow.getTab(newTabNo);				
 				ws.curTab.query(false);
 				ws.curTab.navigate(0);
+				
+				//Modified by Rob Klein 6/01/07 create new record if no record exists
+				if (ws.curTab.getRowCount() < 1 ){					
+					if (!ws.curTab.dataNew(false))
+						ws.curTab.dataIgnore();					
+				}
+				
 			}
 			//  move back
 			else if (newTabNo < ws.curTab.getTabNo())
@@ -331,14 +403,12 @@ public class WWindow extends HttpServlet
 		{
 			ws.curTab.navigateRelative(999999);
 		}
-
-
 		/**
 		 *  Find
 		 */
-		else if (p_cmd.equals("Find"))
+		else if (p_cmd.equals("Test"))
 		{
-			/** @todo Find */
+			/** @todo Chat */
 		}
 
 		/**
@@ -358,15 +428,64 @@ public class WWindow extends HttpServlet
 		}
 
 		/**
+		 *  Favorite
+		 */
+		else if (p_cmd.equals("Favorite"))
+		{
+			int AD_Window_ID = ws.curTab.getAD_Window_ID();
+			String sqlNode = "SELECT AD_Menu_ID FROM AD_Menu WHERE"
+				+ " AD_Window_ID = "+AD_Window_ID;
+			int Node_ID = DB.getSQLValue(null,sqlNode);
+			
+			
+			int AD_User_ID = Env.getAD_User_ID(wsc.ctx);
+			int AD_Role_ID = Env.getAD_Role_ID(wsc.ctx);
+			int AD_Org_ID = Env.getAD_Org_ID(wsc.ctx);
+			int AD_Client_ID = Env.getAD_Client_ID(wsc.ctx);
+			int AD_Tree_ID = DB.getSQLValue(null,
+					"SELECT COALESCE(r.AD_Tree_Menu_ID, ci.AD_Tree_Menu_ID)" 
+					+ "FROM AD_ClientInfo ci" 
+					+ " INNER JOIN AD_Role r ON (ci.AD_Client_ID=r.AD_Client_ID) "
+					+ "WHERE AD_Role_ID=?", AD_Role_ID);
+			
+			if (AD_Tree_ID <= 0)
+				AD_Tree_ID = 10;	//	Menu			
+			
+			String sql = "SELECT count(*) FROM AD_TreeBar WHERE"
+				+ " Node_ID = "+Node_ID
+				+ " AND CreatedBy = "+AD_User_ID				
+				+ " AND AD_Tree_ID = "+AD_Tree_ID;
+			int Favorite = DB.getSQLValue(null,sql);
+			if (Favorite >0){				
+				sql = "DELETE FROM AD_TreeBar WHERE"
+					+ " Node_ID = "+Node_ID
+					+ " AND CreatedBy = "+AD_User_ID				
+					+ " AND AD_Tree_ID = "+AD_Tree_ID;
+				DB.executeUpdate(sql, null);				
+				}
+				
+			else{				
+				sql = "INSERT INTO AD_TreeBar " 
+					+ "( Node_ID, AD_User_ID, AD_Client_ID, AD_Org_ID," 
+					+ " IsActive, CreatedBy, AD_Tree_ID, UpdatedBy)" 
+					+ "VALUES ( "+Node_ID+", "+AD_User_ID+", "+AD_Client_ID+", "+AD_Org_ID 
+					+ ", 'Y', "+AD_User_ID+", "+AD_Tree_ID+", "+AD_User_ID+")";
+				DB.executeUpdate(sql, null);							
+			}
+		}
+		
+		/**
 		 *  History
 		 */
 		else if (p_cmd.equals("History"))
 		{
-			if (ws.mWindow.isTransaction() && ws.curTab.getWindowNo() == 0)
-			{
+			//Modified by Rob Klein 4/29/07
+			//if (ws.mWindow.isTransaction() && ws.curTab.getWindowNo() == 0)
+			//{
+				ws.mWindow.initTab(ws.curTab.getTabNo());
 				ws.curTab.query( !ws.curTab.isOnlyCurrentRows() );
 				ws.curTab.navigate(0);
-			}
+			//}
 		}
 
 		/**
@@ -375,6 +494,7 @@ public class WWindow extends HttpServlet
 		else if (p_cmd.equals("Report"))
 		{
 			/** @todo Report */
+
 		}
 
 		/**
@@ -393,7 +513,7 @@ public class WWindow extends HttpServlet
 			if (!ws.curTab.dataNew(false))
 				ws.curTab.dataIgnore();
 		}
-
+		
 		/**
 		 *  Delete
 		 */
@@ -576,15 +696,26 @@ public class WWindow extends HttpServlet
 	 */
 	private Object getFieldValue (WebSessionCtx wsc, GridField mField, String value)
 	{
-		if (value == null || value.length() == 0)
-			return null;
-
+		//Modified by Rob Klein 4/29/07
+		//if (value == null || value.length() == 0)
+			//return null;
+		
+		Object defaultObject = null;
+		
 		int dt = mField.getDisplayType();
 		String columnName = mField.getColumnName();
-
+		
+		if (value == null || value.length() == 0){			
+			defaultObject = mField.getDefault();			
+			mField.setValue (defaultObject, true);			
+			if (value == null || value.length() == 0 || mField.getValue() == null){
+				return null;}
+			else
+				value = mField.getValue().toString();
+		}		
 		//  BigDecimal
 		if (DisplayType.isNumeric(dt))
-		{
+		{		
 			BigDecimal bd = null;
 			try
 			{
@@ -598,7 +729,7 @@ public class WWindow extends HttpServlet
 				if (nn instanceof BigDecimal)
 					bd = (BigDecimal)nn;
 				else
-					bd = new BigDecimal(nn.toString());
+					bd = new BigDecimal(nn.toString());		
 			}
 			catch (Exception e)
 			{
@@ -611,7 +742,7 @@ public class WWindow extends HttpServlet
 
 		//  ID
 		else if (DisplayType.isID(dt))
-		{
+		{			
 			Integer ii = null;
 			try
 			{
@@ -625,7 +756,7 @@ public class WWindow extends HttpServlet
 			//  -1 indicates NULL
 			if (ii.intValue() == -1)
 				ii = null;
-			log.fine("ID: " + columnName + "=" + value + " -> " + ii);
+			log.fine("ID: " + columnName + "=" + value + " -> " + ii);		
 			return ii;
 		}
 
@@ -647,7 +778,7 @@ public class WWindow extends HttpServlet
 				log.warning("Date: " + columnName + "=" + value + ERROR);
 				return ERROR;
 			}
-			log.fine("Date: " + columnName + "=" + value + " -> " + ts);
+			log.fine("Date: " + columnName + "=" + value + " -> " + ts);			
 			return ts;
 		}
 
@@ -657,12 +788,12 @@ public class WWindow extends HttpServlet
 			Boolean retValue = Boolean.FALSE;
 			if (value.equals("true"))
 				retValue = Boolean.TRUE;
-			log.fine("YesNo: " + columnName + "=" + value + " -> " + retValue);
-			return retValue;
+			log.fine("YesNo: " + columnName + "=" + value + " -> " + retValue);			
+			return retValue;			
 		}
 
 		//  treat as string
-		log.fine(columnName + "=" + value);
+		log.fine(columnName + "=" + value);		
 		return value;
 	}   //  getFieldValue
 
@@ -674,19 +805,23 @@ public class WWindow extends HttpServlet
 	 *  @param ws window status
 	 *  @return Form
 	 */
-	private WebDoc getSR_Form (String action, WebSessionCtx wsc, WWindowStatus ws)
+	public WebDoc getSR_Form (String action, WebSessionCtx wsc, WWindowStatus ws)
 	{
 		log.fine("Tab=" + ws.curTab.getTabNo());
 
 		/**********************
 		 *  For all Fields
 		 */
-		table table = new table()
-			.setAlign(AlignType.CENTER);
-	//	table.setBorder(1).setBorderColor("#00FF00");	//	debug field lines
+		//Modified by Rob Klein 4/29/07
+		//table table = new table()
+		//	.setAlign(AlignType.CENTER);
+		table table = new table();
+		table.setClass("centerTable");
 		StringBuffer scriptSrc = new StringBuffer();
 		//
 		tr line = new tr();
+		//Modified by Rob Klein 4/29/07
+		boolean isTabRO = ws.curTab.isReadOnly();
 		if (ws.curTab.isDisplayed())
 		{
 			int noFields = ws.curTab.getFieldCount();
@@ -699,6 +834,12 @@ public class WWindow extends HttpServlet
 				 *  Get Data and convert to String (singleRow)
 				 */
 				Object oData = ws.curTab.getValue(field);
+				//Modified by Rob Klein 4/29/07
+				/**
+				 *  Get Record ID and Table ID for Processes
+				 */
+				int recordID = ws.curTab.getRecord_ID();
+				int tableID = ws.curTab.getAD_Table_ID();
 
 				/**
 				 *  Display field
@@ -709,7 +850,9 @@ public class WWindow extends HttpServlet
 						line = new tr();
 					//
 					boolean hasDependents = ws.curTab.hasDependants(columnName);
-					addField(wsc, line, field, oData, hasDependents);
+					//Modified by Rob Klein 4/29/07
+					addField(wsc, line, field, oData, hasDependents, recordID, tableID, isTabRO, i, ws.curTab);
+					//addField(wsc, line, field, oData, hasDependents);
 					table.addElement(line);
 					//  Additional Values
 					String dispLogic = field.getDisplayLogic();
@@ -741,7 +884,7 @@ public class WWindow extends HttpServlet
 	 *  @param ws window status
 	 *  @return Form
 	 */
-	private WebDoc getMR_Form (String action, WebSessionCtx wsc, WWindowStatus ws)
+	public WebDoc getMR_Form (String action, WebSessionCtx wsc, WWindowStatus ws)
 	{
 		log.fine("Tab=" + ws.curTab.getTabNo());
 
@@ -751,11 +894,15 @@ public class WWindow extends HttpServlet
 		 *  Table Header
 		 */
 		table table = new table().setAlign(AlignType.CENTER);
-		table.setClass("MultiRow");
+		//Modified by Rob Klein 4/29/07
+		table.setClass("MultiRow table-autofilter table-filterable table-autosort table-autostripe table-stripeclass:alternate");
+		//.setClass("MultiRow");
 		table.setBorder(1);
 		table.setCellSpacing(1);
 		tr line = new tr();
 		//  First Column
+		//Modified by Rob Klein 4/29/07
+		//line.addElement(new th().addElement(" "));
 		line.addElement(new th().addElement(" "));
 		//	Tab not displayed
 		if (!ws.curTab.isDisplayed())
@@ -769,13 +916,39 @@ public class WWindow extends HttpServlet
 			if (field.isDisplayed(false))
 			{
 				th th = new th();
-				th.addElement(field.getHeader());           //  Name
-				th.setAbbr(field.getDescription());         //  Description
-				line.addElement(th);
+				//Modified by Rob Klein 4/29/07 with Autofilter
+				th.addElement(field.getHeader()).setClass("table-filterable table-filtered table-sortable:default");
+				//th.addElement(field.getHeader()); 
+				th.setAbbr(field.getDescription());
+				line.addElement(th);				
 			}
 		}   //  for all columns
-		table.addElement(new thead().addElement(line));
-
+		//	Modified by Rob Klein Client Side Filter Manual Filter 6/1/07
+		tr line2 = new tr();
+		th th = new th();
+		//input filter = new input (input.TYPE_TEXT, "  filter", "");
+		//filter.setOnKeyUp("Table.filter(this,this)");
+		th.addElement(" ");
+		line2.addElement(th);
+		input filter = null;
+		for (int colNo = 0; colNo < noFields; colNo++)
+		{
+			GridField field = ws.curTab.getField(colNo);
+			if (field.isDisplayed(false))
+			{
+				th = new th();
+				filter = new input (input.TYPE_TEXT, field.getHeader()+"filter", "");
+				filter.setOnKeyUp("Table.filter(this,this)");
+				th.addElement(filter);				
+				line2.addElement(th);				
+				//line.addElement(th);
+			}
+		}   //  for all columns
+		//Modified by Rob Klein 4/29/07
+		table.addElement(new thead().addElement(line).addElement(line2));		
+		
+		//Modified by Rob Klein 4/29/07
+		table.addElement("<TBODY>");		
 		/**
 		 *  Table Lines
 		 */
@@ -858,8 +1031,10 @@ public class WWindow extends HttpServlet
 				line.addElement(td);
 			}   //  for all columns
 			table.addElement(line);
+			
 		}   //  for all table lines
-
+		//Modified by Rob Klein 4/29/07
+		table.addElement("</TBODY>");
 		//  Status Line
 		String statusDB = String.valueOf(initRowNo+1) + "-" + String.valueOf(lastRow) + " # " + ws.curTab.getRowCount();
 		
@@ -876,7 +1051,7 @@ public class WWindow extends HttpServlet
 	 *  @param statusDB status db info
 	 *  @return Form
 	 */
-	private static WebDoc createLayout (String action, table contentTable, 
+	private WebDoc createLayout (String action, table contentTable, 
 		WebSessionCtx wsc, WWindowStatus ws, String statusInfo, String statusDB)
 	{
 		form myForm = null;
@@ -893,43 +1068,43 @@ public class WWindow extends HttpServlet
 		//  Set Title of main window
 		String title = ws.mWindow.getName() + " - " + wsc.loginInfo;
 		myForm.addElement(new script("top.document.title='" + title + "';"));
-
+		//Modified by Rob Klein 4/29/07
 		//	Buttons
-		td toolbar = new td(null, AlignType.LEFT, AlignType.MIDDLE, true);
+		td toolbar = new td("toolbar", AlignType.LEFT, AlignType.MIDDLE, true);
 		//	Toolbar
-		toolbar.addElement(createImage(AD_Language, "Ignore", 
-			"reset();", true, false));
+		toolbar.addElement(createImageLink (AD_Language, "Menu", 
+				"parent.resizeFrame('5,*')", 
+				true, false));
+		toolbar.addElement(createImageLink (AD_Language, "Ignore", 
+			"'reset'", true, false));
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImage(AD_Language, "Help", 
-			"startPopup('WHelp?AD_Window_ID=" + ws.mWindow.getAD_Window_ID() + "');", 
+		toolbar.addElement(createImageLink (AD_Language, "Help", 
+			"startPopup('WHelp?AD_Window_ID=" + ws.mWindow.getAD_Window_ID() + "')", 
 			true, false));
-		toolbar.addElement(createImage(AD_Language, "New"));
-		toolbar.addElement(createImage(AD_Language, "Delete", 
-			"if (confirm(deleteText)) submit();", true, false));
-		toolbar.addElement(createImage(AD_Language, "Save"));
+		toolbar.addElement(createImageLink (AD_Language, "New"));
+		toolbar.addElement(createImageLink (AD_Language, "Delete","'if(confirm(deleteText))'", true, false));
+		toolbar.addElement(createImageLink (AD_Language, "Save"));
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImage(AD_Language, "Find"));
-		toolbar.addElement(createImage(AD_Language, "Refresh"));
-		toolbar.addElement(createImage(AD_Language, "Attachment",
-			"startPopup('WAttachment');", 
-			ws.curTab.canHaveAttachment(), ws.curTab.hasAttachment()));
-		toolbar.addElement(createImage(AD_Language, "Multi", null, true, !ws.curTab.isSingleRow()));
+		toolbar.addElement(createImageLink (AD_Language, "Chat","startPopup('WChat')", true, false));
+		toolbar.addElement(createImageLink (AD_Language, "Refresh"));
+		toolbar.addElement(createImageLink (AD_Language, "Attachment",
+			"startPopup('WAttachment')", ws.curTab.canHaveAttachment(), ws.curTab.hasAttachment()));
+		toolbar.addElement(createImageLink (AD_Language, "Multi", null, true, !ws.curTab.isSingleRow()));
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImage(AD_Language, "History", 
+		toolbar.addElement(createImageLink (AD_Language, "History", 
 			null, ws.mWindow.isTransaction()&&ws.curTab.getTabNo()==0, !ws.curTab.isOnlyCurrentRows()));
 		toolbar.addElement("&nbsp;");
 		boolean isFirst = ws.curTab.getCurrentRow() < 1;
-		toolbar.addElement(createImage(AD_Language, "First", null, !isFirst, false));
-		toolbar.addElement(createImage(AD_Language, "Previous", null, !isFirst, false));
+		toolbar.addElement(createImageLink (AD_Language, "First", null, !isFirst, false));
+		toolbar.addElement(createImageLink (AD_Language, "Previous", null, !isFirst, false));
 		boolean isLast = ws.curTab.getCurrentRow()+1 == ws.curTab.getRowCount();
-		toolbar.addElement(createImage(AD_Language, "Next", null, !isLast, false));
-		toolbar.addElement(createImage(AD_Language, "Last", null, !isLast, false));
+		toolbar.addElement(createImageLink (AD_Language, "Next", null, !isLast, false));
+		toolbar.addElement(createImageLink (AD_Language, "Last", null, !isLast, false));
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImage(AD_Language, "Report"));
-		toolbar.addElement(createImage(AD_Language, "Print"));
+		toolbar.addElement(createImageLink (AD_Language, "Report","startPopup('WReport')", true, false));
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImage(AD_Language, "Exit"));
-		
+		toolbar.addElement(createImageLink (AD_Language, "Favorite"));		
+		toolbar.addElement(createImageLink (AD_Language, "Exit"));		
 		//  Tabs
 		td tabbar = new td("windowCenter", AlignType.LEFT, AlignType.MIDDLE, false);
 		tabbar.addElement(new input(input.TYPE_HIDDEN, P_Tab, ""));
@@ -938,23 +1113,26 @@ public class WWindow extends HttpServlet
 			GridTab tab = ws.mWindow.getTab(i);
 			if (tab.isSortTab())
 				continue;
-			big big = new big(tab.getName());
+		//Modified by Rob Klein 4/29/07
+			a big = new a("#",new span(tab.getName()));
 			if (ws.curTab.getTabNo() == i)
 				big.setID("tabSelected");           //  css
 			else
 			{
-				big.setID("tab");                   //  css
-				big.setOnClick("alert('" + tab.getName() + "');");
-				big.setOnClick("document." + FORM_NAME + "." + P_Tab + ".value='" + i + "';submit();");
+		//Modified by Rob Klein 4/29/07
+				big.setID("tab");                   //  css				
+				big.setOnClick( "SubmitForm(" + i + ",'Submit','tab')");
 			}
 			//  Status: Description
 			if (tab.getDescription().length() > 0)
 				big.setOnMouseOver("status='" + tab.getDescription() + "';return true;");
+		
 			tabbar.addElement(big);
 		}
 
 		//	Top Table
-		table topTable = new table ("0", "0", "5", "100%", null);
+		//Modified by Rob Klein 4/29/07
+		table topTable = new table ("0", "0", "0", "100%", null);
 		topTable.setID("WWindow.topTable");
 		topTable.addElement(new tr(toolbar));
 		topTable.addElement(new tr(tabbar));
@@ -972,10 +1150,18 @@ public class WWindow extends HttpServlet
 		statusLine.addElement(new td().setWidth("10%").setAlign(AlignType.RIGHT)
 			.addElement(new small(statusDB)));
 		statusLine.addElement(new td().setWidth("5%").setAlign(AlignType.RIGHT)
-			.addElement(createImage(AD_Language, "Save")));
+		//Modified by Rob Klein 4/29/07
+			.addElement(createImageLink (AD_Language, "Save")));
 		statusTable.addElement(statusLine).setClass("windowCenter");
 		myForm.addElement(statusTable);
-
+		
+		//Beg Modified by Rob Klein
+		//div calpopdiv = new div();
+		//calpopdiv.setStyle("visibility:hidden;background-color:white;layer-background-color:white;");
+		//calpopdiv.setID("cal1div");
+		//myForm.addElement(calpopdiv);
+		//End Modified by Rob Klein
+		
 		//  fini
 		/** @todo Dynamic Display */
 	//	myForm.addElement(new script("dynDisplay(); createWCmd();"));   //  initial Display & set Cmd Window
@@ -1006,8 +1192,8 @@ public class WWindow extends HttpServlet
 		return doc;
 	}   //  createPage
 
-	
-	/**************************************************************************
+
+/**************************************************************************
 	 *  Create Image with name, id of button_name and set P_Command onClick
 	 *  @param  AD_Language
 	 *  @param  name        Name of the Image used also for Name24.gif
@@ -1023,7 +1209,7 @@ public class WWindow extends HttpServlet
 			imgName.append("D");
 		else if (pressed)
 			imgName.append("X");
-		imgName.append("24.gif");
+		imgName.append("16.gif");
 		//
 		img img = new img (WebEnv.getImageDirectory(imgName.toString()), name);
 		if (enabled)
@@ -1033,11 +1219,11 @@ public class WWindow extends HttpServlet
 			img.setID("imgButton");                     //  css
 		else
 			img.setID("imgButtonPressed");              //  css
-		//
-		if (js_command == null)
-			js_command = "submit();";
-		if (js_command.length() > 0 && enabled)
-			img.setOnClick("document." + FORM_NAME + "." + P_Command + ".value='" + name + "';" + js_command);
+			img.setHeight(16);
+			img.setWidth(16);
+			img.setBorder(0);
+			img.setTitle(name);
+		//		
 		//
 		return img;
 	}   //  createImage
@@ -1053,6 +1239,50 @@ public class WWindow extends HttpServlet
 		return createImage (AD_Language, name, null, true, false);
 	}   //  createImage
 
+
+		//Modified by Rob Klein 4/29/07
+	
+	/**************************************************************************
+	 *  Create Image with name, id of button_name and set P_Command onClick
+	 *  @param  AD_Language
+	 *  @param  name        Name of the Image used also for Name24.gif
+	 *  @param  js_command  Java script command, null results in 'submit();', an empty string disables OnClick
+	 *  @param  enabled     Enable the immage button, if not uses the "D" image
+	 *  @param  pressed     If true, use the "X" image
+	 *  @return Image
+	 */
+	private static a createImageLink (String AD_Language, String name, String js_command, boolean enabled, boolean pressed)
+	{		
+
+		a img = new a ("#", createImage (AD_Language, name));
+		
+		if (!pressed || !enabled)
+			img.setID("imgButtonLink");                     //  css
+		else
+			img.setID("imgButtonPressedLink");              //  css
+		//
+		if (js_command == null)
+			js_command = "'Submit'";
+		if (js_command.length() > 0 && enabled)
+			img.setOnClick( "SubmitForm('" + name + "', " + js_command + ",'toolbar');return false;");		
+		img.setClass("ToolbarButton");
+		img.setOnMouseOver("window.status='"+name+"';return true;");
+		img.setOnMouseOut("window.status='';return true;");		
+		img.setOnBlur("this.hideFocus=false");
+		//
+		return img;
+	}   //  createImageLink 
+	/**
+	 *  Create enabled Image with name, id of button_name and sumbit command
+	 *  @param  AD_Language
+	 *  @param  name        Name of the Image used also for Name24.gif
+	 *  @return Image
+	 */
+	private static a createImageLink (String AD_Language, String name)
+	{
+		return createImageLink (AD_Language, name, null, true, false);
+	}   //  createImageLink 
+
 	
 	/**************************************************************************
 	 *	Add Field to Line
@@ -1063,7 +1293,8 @@ public class WWindow extends HttpServlet
 	 *  @param hasDependents has Callout function(s)
 	 */
 	private void addField (WebSessionCtx wsc, tr line, GridField field, 
-		Object oData, boolean hasDependents)
+		Object oData, boolean hasDependents, int recordID, int tableID, boolean tabRO, int fieldNumber,
+		GridTab mTab)
 	{
 		String columnName = field.getColumnName();
 		//  Any Error?
@@ -1072,6 +1303,30 @@ public class WWindow extends HttpServlet
 			oData = field.getErrorValue();
 		int dt = field.getDisplayType();
 		boolean hasCallout = field.getCallout().length() > 0;
+				//Modified by Rob Klein 4/29/07
+		if(!field.getFieldGroup().equals(sectionNameOld)&&!field.getFieldGroup().equals("")&&field.getFieldGroup()!=null)
+		{
+			log.fine("Fieldgroup=" + field.getFieldGroup()+".");
+			td td1 = new td();				
+			td1.setClass("Fieldgroup");			
+			td1.addElement(field.getFieldGroup());			
+			td td2 = new td().setColSpan(4);			
+			td2.setClass("Fieldgroup");			
+			td2.addElement(new hr().setWidth("100%"));
+			line.addElement( new tr().addElement(td1));
+			line.addElement( new tr().addElement(td2));
+			
+			sectionNameOld = field.getFieldGroup();
+		}
+		
+		/** Set read only value
+		 * 
+		 */
+		boolean fieldRO = true;
+		if (tabRO==true)
+			fieldRO = true;
+		else
+			fieldRO = !field.isEditable(true);
 		
 		/**
 		 *  HTML Label Element
@@ -1085,12 +1340,16 @@ public class WWindow extends HttpServlet
 			columnName, field.getHeader(), field.getDescription(),
 			dt, field.getFieldLength(), field.getDisplayLength(), field.isLongField(),
 			// readOnly context check, mandatory no context check,  
-			!field.isEditable(true), field.isMandatory(false), error, 
-			hasDependents, hasCallout);
-		
+			//Modified by Rob Klein 4/29/07
+			//!field.isEditable(true), field.isMandatory(false), error,
+			fieldRO, field.isMandatory(false), error,
+			hasDependents, hasCallout,field.getAD_Process_ID(),field.getAD_Window_ID(),
+			recordID, tableID, fieldNumber, field.getDefault(), field.getCallout(),
+			mTab, field );		
 		line
-			.addElement(wField.getLabel())
-			.addElement(wField.getField(field.getLookup(), oData));
+			.addElement(wField.getLabel())			
+			.addElement(wField.getField(field.getLookup(), oData));		
 	}	//	addField
 
+	
 }   //  WWindow

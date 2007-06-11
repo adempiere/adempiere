@@ -57,7 +57,8 @@ public class WHelp extends HttpServlet
 		if (ws == null)
 		{
 			doc = WebDoc.createPopup("No Context");
-			doc.addPopupClose();
+			//Modified by Rob Klein 4/29/07
+			doc.addPopupClose(Env.getCtx());
 		}
 		else
 			doc = ws.mWindow.getHelpDoc(false);

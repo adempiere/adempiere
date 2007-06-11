@@ -139,6 +139,7 @@ public class WMenu extends HttpServlet
 		throws ServletException, IOException
 	{
 		log.fine("doPost - Create Menu");
+		
 		//  Get Session attributes
 	  	WebSessionCtx wsc = WebSessionCtx.get(request);
 		if (wsc == null)
@@ -146,6 +147,10 @@ public class WMenu extends HttpServlet
 			WebUtil.createTimeoutPage(request, response, this, null);
 			return;
 		}
+		//Added by Rob Klein 4/29/07
+	
+		//Reset WWindow
+		WebUtil.getClearFrame(WebEnv.TARGET_WINDOW);
 
 		//  Get Parameters: Role, Client, Org, Warehouse, Date
 		String role = WebUtil.getParameter (request, WLogin.P_ROLE);
@@ -246,8 +251,12 @@ public class WMenu extends HttpServlet
 		if (!cProp.getProperty(WLogin.P_STORE, "N").equals("Y"))
 			cProp.clear();
 
-		WebDoc doc = createPage (request, wsc, AD_Role_ID);
-		WebUtil.createResponse (request, response, this, cProp, doc, true);
+		WebDoc doc = createPage (request, wsc, AD_Role_ID, AD_User_ID, AD_Client_ID, AD_Org_ID);
+		//Added by Rob Klein 4/29/07
+		doc.getBody()
+		.addElement(WebUtil.getClearFrame(WebEnv.TARGET_WINDOW));
+		WebUtil.createResponse (request, response, this, cProp, doc, false);
+		//WebUtil.createResponse (request, response, this, cProp, doc, true);
 	}   //  doPost
 
 	/**
@@ -307,9 +316,12 @@ public class WMenu extends HttpServlet
 		String printer = null;
 		Login login = new Login(ctx);
 		login.loadPreferences(org, wh, date, printer);
+		//Modified by Rob Klein to Show Accounting Tabs 04/29/2007
 		//	Don't Show Acct/Trl Tabs on HTML UI
-		Env.setContext(ctx, "#ShowAcct", "N");
-		Env.setContext(ctx, "#ShowTrl", "N");
+		//Env.setContext(ctx, "#ShowAcct", "N");
+		//Env.setContext(ctx, "#ShowTrl", "N");		
+		//Env.setContext(ctx, "#ShowAcct", "Y");
+		//Env.setContext(ctx, "#ShowTrl", "Y");
 		//
 		return loginInfo;
 	}   //  checkLogin
@@ -322,33 +334,39 @@ public class WMenu extends HttpServlet
 	 *	@return document
 	 */
 	private WebDoc createPage (HttpServletRequest request, 
-		WebSessionCtx wsc, int AD_Role_ID)
+		WebSessionCtx wsc, int AD_Role_ID, int AD_User_ID, int AD_Client_ID, int AD_Org_ID)
 	{
 		//	Document
-		String windowTitle = Msg.getMsg(wsc.ctx, "Menu");
+		//Modified by Rob Klein 4/29/07
+		//String windowTitle = Msg.getMsg(wsc.ctx, "Menu");
+		String windowTitle = "";
 		WebDoc doc = WebDoc.create (windowTitle);
 		head head = doc.getHead();
 		//  Target
 		head.addElement(new base().setTarget(WebEnv.TARGET_WINDOW));
 		//  Specific Menu Script/Stylesheet
-		head.addElement(new link(WebEnv.getBaseDirectory("menu.css"), link.REL_STYLESHEET, link.TYPE_CSS));
-		head.addElement(new script((Element)null, WebEnv.getBaseDirectory("menu.js")));
+		head.addElement(new link(WebEnv.getBaseDirectory("/css/menu.css"), link.REL_STYLESHEET, link.TYPE_CSS));
+		head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/menu.js")));
+		//Modified by Rob Klein 4/29/07
+		//head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/mktree.js")));
+		//head.addElement(new link(WebEnv.getBaseDirectory("/css/mktree.css"), link.REL_STYLESHEET, link.TYPE_CSS));
 		//	Scripts
 		String statusMessage = Msg.getMsg(wsc.ctx, "SelectMenuItem");
 		String scriptTxt = "top.document.title='" + windowTitle + " - " + wsc.loginInfo + "'; "
 			+ "var defaultStatus='" + statusMessage + "';";
-		head.addElement(new script(scriptTxt));
+		//Rob 12-16-2006 head.addElement(new script(scriptTxt));
 		
 		//	Body
 		body body = doc.getBody();
 		body.setTitle(statusMessage);
 		//  Clear Window Frame
-		body.addElement(WebUtil.getClearFrame(WebEnv.TARGET_WINDOW));
+		//Rob 12-16-2006 body.addElement(WebUtil.getClearFrame(WebEnv.TARGET_WINDOW));
 
 		//  Header
 		table table = doc.getTable();
 		doc.setClasses ("menuTable", "menuHeader");
-		doc.getTopLeft().addElement(new cite(wsc.loginInfo));
+		//Rob 12-16-2006 doc.getTopLeft().addElement(new cite(wsc.loginInfo));
+		doc.getTopLeft().addElement(new cite(""));
 
 		//  Load Menu Structure     ----------------------
 		int AD_Tree_ID = DB.getSQLValue(null,
@@ -380,12 +398,13 @@ public class WMenu extends HttpServlet
 		
 		//	Print tree
 		StringBuffer buf = new StringBuffer();
+		StringBuffer buffav = new StringBuffer();
 		en = root.preorderEnumeration();
 		int oldLevel = 0;
 		while (en.hasMoreElements())
 		{
 			MTreeNode nd = (MTreeNode)en.nextElement();
-
+			
 			//  Level
 			int level = nd.getLevel();	//	0 == root
 			if (level == 0)
@@ -394,7 +413,7 @@ public class WMenu extends HttpServlet
 			while (oldLevel < level)
 			{
 				if (level == 1)
-					buf.append("<ul id=\"main\">\n");			//  start first level
+					buf.append("<ul class=\"mktree\"  id=\"main\">\n");			//  start first level
 				else
 					buf.append("<ul style=\"display:none\">\n");//  start next level
 				oldLevel++;
@@ -410,6 +429,9 @@ public class WMenu extends HttpServlet
 				
 			//	Print Node
 			buf.append(printNode(nd, wsc.ctx));
+			//Modified by Rob Klein 4/29/07
+			if (nd.isOnBar())
+				buffav.append(printNode(nd, wsc.ctx));
 		}
 		//	Final
 		while (oldLevel >  0)
@@ -420,11 +442,30 @@ public class WMenu extends HttpServlet
 			else
 				buf.append("</ul></li>\n");                    	//  finish next level
 		}
+
+		//Modified by Rob Klein 4/29/07
+		//  Set Favorites		
+		buf.append("<ul><li class=\"menuSummary\" id=\"218\" onClick=\"changeMenu(event);\">Favorites<ul style=\"display:none\">\n");
+		buf.append(buffav);
+		buf.append("</ul></li></ul>\n");
+		
+		
+		
 		td td = new td().setColSpan(2).setNoWrap(true);
 		td.setClass("menuCenter");
 		td.addElement(buf.toString());
 		table.addElement(new tr().addElement(td));
 
+		//	  Expand/Collapse Info
+		td = new td().setColSpan(2);
+		td.setClass("menuFooter");		
+		//	Modified by Rob Klein 4/29/07
+		/**td.addElement(new a("javascript:expandTree('main');", "Expand Menu"));
+		td.addElement(" | ");		
+		td.addElement( new a("javascript:collapseTree('main');", "Contract Menu"));
+		table.addElement(new tr().addElement(td));
+		**/
+		
 		//  Exit Info
 		td = new td().setColSpan(2);
 		td.setClass("menuFooter");

@@ -20,32 +20,52 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.compiere.util.*;
+import java.util.*;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
- *  Status Servlet
- *
+ *	Web (window) Help
+ *	
  *  @author Jorg Janke
- *  @version  $Id: WStatus.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version $Id: WHelp.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
  */
-public class WStatus extends HttpServlet
+public class WTest extends HttpServlet
 {
+	/**	Logger			*/
+	protected CLogger	log = CLogger.getCLogger(WTest.class);
+
 	/**
-	 *  Initialize global variables
-	 *  This servlet is also loaded on startup to initialize the system
+	 * Initialize global variables
 	 */
-	public void init(ServletConfig config) throws ServletException
+	public void init(ServletConfig config)
+		throws ServletException
 	{
 		super.init(config);
 		if (!WebEnv.initWeb(config))
-			throw new ServletException("WStatus.init");
+			throw new ServletException("WTest.init");
 	}   //  init
 
 	/**
 	 * Process the HTTP Get request
 	 */
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException
 	{
-		WebDoc doc = WebDoc.create ("WStatus Get Request");
+		log.fine("doGet");
+		WWindowStatus ws = WWindowStatus.get(request);
+		//
+		WebDoc doc = null;
+		if (ws == null)
+		{
+			doc = WebDoc.createPopup("No Context");
+			//Modified by Rob Klein 4/29/07
+			doc.addPopupClose(Env.getCtx());
+		}
+		else
+			doc = WebDoc.createPopup ("Test - Get - Not Implemented");
 		//
 		WebUtil.createResponse(request, response, this, null, doc, false);
 	}   //  doGet
@@ -54,11 +74,11 @@ public class WStatus extends HttpServlet
 	/**
 	 *  Process the HTTP Post request
 	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException
 	{
-		WebDoc doc = WebDoc.create ("WStatus Post Request");
-		//
+		WebDoc doc = WebDoc.createPopup ("Test - Post - Not Implemented");
 		WebUtil.createResponse(request, response, this, null, doc, false);
 	}   //  doPost
 
-}   //  WStatus
+}	//	WHelp

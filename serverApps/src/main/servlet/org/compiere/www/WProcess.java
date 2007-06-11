@@ -20,15 +20,23 @@ import java.io.*;
 import java.math.*;
 import java.net.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.*;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
+import org.compiere.apps.ADialog;
+//import org.compiere.apps.WProcessCtl;
+import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.*;
 import org.compiere.print.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
+import org.compiere.wf.MWFActivity;
+import org.compiere.wf.MWFResponsible;
+
 
 /**
  *	HTML Process and Report UI
@@ -40,6 +48,11 @@ public class WProcess extends HttpServlet
 {
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
+	//Modified by Rob Klein 4/29/07
+	private String errorMessage = null;
+	private static String[]		s_value = null;
+	private static String[]		s_name;
+	private static String[]		s_description;
 
 	/**
 	 *	Initialize global variables
@@ -66,31 +79,59 @@ public class WProcess extends HttpServlet
 		throws ServletException, IOException
 	{
 		//  Get Session attributes
+		
 	  	WebSessionCtx wsc = WebSessionCtx.get(request);
+		//Modified by Rob Klein 4/29/07
+	  	WWindowStatus ws = WWindowStatus.get(request);
 		if (wsc == null)
 		{
 			WebUtil.createTimeoutPage(request, response, this, null);
 			return;
 		}
+		//Modified by Rob Klein 4/29/07
+		if (ws == null)
+		{
+			WebUtil.createTimeoutPage(request, response, this, null);
+			return;
+		}
 		
+				
 		WebDoc doc = null;
 		//  Get Parameter: Menu_ID
-		int AD_Menu_ID = WebUtil.getParameterAsInt(request, "AD_Menu_ID");
+		//Modified by Rob Klein 4/29/07
+		int AD_Menu_ID = WebUtil.getParameterAsInt(request, "AD_Menu_ID");		
+		String fileName = WebUtil.getParameter(request, "File");
 		if (AD_Menu_ID > 0)
 		{
-			log.info("doGet - AD_Menu_ID=" + AD_Menu_ID);
-			doc = createParameterPage(wsc, AD_Menu_ID);
+			
+			doc = createParameterPage(wsc, AD_Menu_ID,0,0,0,0,null,null);
 		}
+		//else if (fileName!=null)
+		//{			
+		//	int AD_PInstance_ID = WebUtil.getParameterAsInt(request, "AD_PInstance_ID");
+		//	
+		//	String error = streamResult (request, response, AD_PInstance_ID, fileName);
+		//	if (error == null)
+		//		return;
+		//	doc = WebDoc.createWindow(error);
+		//}
 		else
 		{
-			String fileName = WebUtil.getParameter(request, "File");
-			int AD_PInstance_ID = WebUtil.getParameterAsInt(request, "AD_PInstance_ID");
-			log.info("doGet - AD_PInstance_ID=" + AD_PInstance_ID 
-				+ ", File=" + fileName);
-			String error = streamResult (request, response, AD_PInstance_ID, fileName);
-			if (error == null)
+			int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");			
+			int AD_Window_ID = WebUtil.getParameterAsInt(request, "AD_Window_ID");
+			int AD_Table_ID = WebUtil.getParameterAsInt(request, "AD_Table_ID");
+			int AD_Record_ID = WebUtil.getParameterAsInt(request, "AD_Record_ID");
+			String columnName = WebUtil.getParameter(request, "columnName");
+			int AD_Tab_ID = WebUtil.getParameterAsInt(request, "AD_Tab_ID");
+			if (AD_Process_ID == 0)
+			{
+				WebUtil.createErrorPage(request, response, this, "No Process");
 				return;
-			doc = WebDoc.createWindow(error);
+			}
+			
+			doc = createParameterPage(wsc, AD_Process_ID,AD_Window_ID,AD_Table_ID,AD_Record_ID,1,
+					columnName,ws.curTab);
+			
 		}
 		if (doc == null)
 			doc = WebDoc.createWindow("Process Not Found");
@@ -119,102 +160,217 @@ public class WProcess extends HttpServlet
 			return;
 		}
 		int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");
-		log.info("doGet - AD_Process_ID=" + AD_Process_ID);
+		//Modified by Rob Klein 4/29/07
+		int AD_Window_ID = WebUtil.getParameterAsInt(request, "AD_Window_ID");
+		int AD_Table_ID = WebUtil.getParameterAsInt(request, "AD_Table_ID");
+		int AD_Record_ID = WebUtil.getParameterAsInt(request, "AD_Record_ID");		
+		
+		
 		if (AD_Process_ID == 0)
 		{
 			WebUtil.createErrorPage(request, response, this, "No Process");
 			return;
 		}
-		
-		WebDoc doc = createProcessPage(request, AD_Process_ID);
+		//Modified by Rob Klein 6/01/07
+		//WebDoc doc = createProcessPage(request, AD_Process_ID, AD_Window_ID);
+		createProcessPage(request, response, AD_Process_ID, AD_Window_ID);
 		//
-		WebUtil.createResponse(request, response, this, null, doc, false);
+		
 	}   //  doPost
 
-	
+	//Modified by Rob Klein 4/29/07
 	/**************************************************************************
 	 * 	Create Parameter Page
 	 * 	@param wsc web session context
 	 *	@param AD_Menu_ID Menu
 	 *	@return Page
 	 */
-	private WebDoc createParameterPage (WebSessionCtx wsc, int AD_Menu_ID)
+	private WebDoc createParameterPage (WebSessionCtx wsc, int processId, int windowID,int tableID,int recordID,int Type,
+			String columnName, GridTab mTab)
 	{
-		MProcess process = MProcess.getFromMenu (wsc.ctx, AD_Menu_ID);
+		MProcess process = null;
+		if (Type == 0)
+			 process = MProcess.getFromMenu (wsc.ctx, processId);
+		else
+			 process = MProcess.get(wsc.ctx, processId);
+		
 		//	need to check if Role can access
 		if (process == null)
 		{
 			WebDoc doc = WebDoc.createWindow("Process Not Found");
 			return doc;
 		}
-
+		//Modified by Rob Klein 4/29/07
 		WebDoc doc = WebDoc.createWindow(process.getName());
-		td center = doc.addWindowCenter(false);
-		if (process.getDescription() != null)
-			center.addElement(new p(new i(process.getDescription())));
-		if (process.getHelp() != null)
-			center.addElement(new p(process.getHelp(), AlignType.LEFT));
-		//
-		form myForm = new form ("WProcess")
-			.setName("process" + process.getAD_Process_ID());
-		myForm.setOnSubmit("this.Submit.disabled=true;return true;");
-		myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Process_ID", process.getAD_Process_ID()));
-		table myTable = new table("0", "0", "5", "100%", null);
-		myTable.setID("WProcessParameter");
-		MProcessPara[] parameter = process.getParameters();
-		for (int i = 0; i < parameter.length; i++)
+		if (process.isWorkflow())
 		{
-			MProcessPara para = parameter[i];
-			//
-			WebField wField = new WebField (wsc,
-				para.getColumnName(), para.getName(), para.getDescription(),
-				//	no display length
-				para.getAD_Reference_ID(), para.getFieldLength(), para.getFieldLength(), false,
-				// 	not r/o, ., not error, not dependent
-				false, para.isMandatory(), false, false, false);	
-			
-			td toField = para.isRange() 
-				? wField.getField(para.getLookup(), para.getDefaultValue2())
-				: new td(WebEnv.NBSP);
-			
-			//	Add to Table
-			myTable.addElement(new tr()
+			//	Pop up Document Action (Workflow)
+			if (columnName.toString().equals("DocAction"))			{
+				
+				readReference();			
+								
+				option[] Options = dynInit( windowID, tableID, recordID,
+						 columnName,  mTab);				
+				
+				td center = doc.addWindowCenter(false);
+				
+				WebField wField = new WebField (wsc,
+						columnName, columnName, columnName,
+						//	no display length
+						17, 22, 22, false,
+						// 	not r/o, ., not error, not dependent
+						false, false, false, false, false, processId,
+						0,0,0,0, null,null, null,null);
+				
+				if (process.getDescription() != null)
+					center.addElement(new p(new i(process.getDescription())));
+				if (process.getHelp() != null)
+					center.addElement(new p(process.getHelp(), AlignType.LEFT));
+				form myForm = new form ("WProcess")
+					.setName("process" + process.getAD_Process_ID());
+				myForm.setOnSubmit("this.Submit.disabled=true;return true;");
+				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Process_ID", process.getAD_Process_ID()));
+				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Window_ID", windowID));
+				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Table_ID", tableID));
+				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Record_ID", recordID));
+				table myTable = new table("0", "0", "5", "100%", null);
+				myTable.setID("WProcessParameter");
+				
+				myTable.addElement(new tr()
 				.addElement(wField.getLabel())
-				.addElement(wField.getField(para.getLookup(), para.getDefaultValue()))
-				.addElement(toField));
+				.addElement(createSelectField(columnName,Options)));
+				
+
+				// Reset
+				String text = "Reset";
+				if (wsc.ctx != null)
+					text = Msg.getMsg (wsc.ctx, "Reset");		
+				input restbtn = new input(input.TYPE_RESET, text, "  "+text);		
+				restbtn.setID(text);
+				restbtn.setClass("resetbtn");	
+				
+				//	Submit
+				 text = "Submit";
+				if (wsc.ctx != null)
+					text = Msg.getMsg (wsc.ctx, "Submit");		
+				input submitbtn = new input(input.TYPE_SUBMIT, text, "  "+text);		
+				submitbtn.setID(text);
+				submitbtn.setClass("submitbtn");				
+				
+				myTable.addElement(new tr()
+					.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
+							restbtn))
+					.addElement(new td(null, AlignType.LEFT, AlignType.MIDDLE, false, 
+							submitbtn ))
+					.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
+							null)));
+				myForm.addElement(myTable);
+				center.addElement(myForm);	
+				
+			}	//	DocAction
+			
 		}
-		//	Submit
-		myTable.addElement(new tr()
-			.addElement(new td(null, AlignType.LEFT, AlignType.MIDDLE, false, 
-				new input(input.TYPE_RESET, "Reset", "Reset") ))
-			.addElement(new td(null, AlignType.LEFT, AlignType.MIDDLE, false, 
-				null ))
-			.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
-				new input(input.TYPE_SUBMIT, "Submit", "Submit") )));
-		myForm.addElement(myTable);
-		center.addElement(myForm);
+		else{		
+
+			td center = doc.addWindowCenter(false);
+			if (process.getDescription() != null)
+				center.addElement(new p(new i(process.getDescription())));
+			if (process.getHelp() != null)
+				center.addElement(new p(process.getHelp(), AlignType.LEFT));
+			//
+			form myForm = new form ("WProcess")
+				.setName("process" + process.getAD_Process_ID());
+			myForm.setOnSubmit("this.Submit.disabled=true;return true;");
+			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Process_ID", process.getAD_Process_ID()));
+			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Window_ID", windowID));
+			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Table_ID", tableID));
+			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Record_ID", recordID));
+			table myTable = new table("0", "0", "5", "100%", null);
+			myTable.setID("WProcessParameter");
+			MProcessPara[] parameter = process.getParameters();
+			
+			for (int i = 0; i < parameter.length; i++)
+			{			
+				MProcessPara para = parameter[i];			
+				WebField wField = new WebField (wsc,
+					para.getColumnName(), para.getName(), para.getDescription(),
+					//	no display length
+					para.getAD_Reference_ID(), para.getFieldLength(), para.getFieldLength(), false,
+					// 	not r/o, ., not error, not dependent
+					false, para.isMandatory(), false, false, false, para.getAD_Process_ID(),
+					0,0,0,i, null,null, null,null);
+				
+				WebField wFieldforRange = null;
+				
+				if(para.isRange())				
+					wFieldforRange = new WebField (wsc,
+						para.getColumnName(), para.getName(), para.getDescription(),
+						//	no display length
+						para.getAD_Reference_ID(), para.getFieldLength(), para.getFieldLength(), false,
+						// 	not r/o, ., not error, not dependent
+						false, para.isMandatory(), false, false, false, para.getAD_Process_ID(),0,0,0,i+1, null,null, null,null);			
+				
+				td toField = para.isRange() 
+					? wFieldforRange.getField(para.getLookup(), para.getDefaultValue2())
+					: new td(WebEnv.NBSP);
+				
+				//	Add to Table
+				myTable.addElement(new tr()
+					.addElement(wField.getLabel())
+					.addElement(wField.getField(para.getLookup(), para.getDefaultValue()))
+					.addElement(toField));		
+			}
+			
+			// Reset
+			String text = "Reset";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Reset");		
+			input restbtn = new input(input.TYPE_RESET, text, "  "+text);		
+			restbtn.setID(text);
+			restbtn.setClass("resetbtn");	
+			
+			//	Submit
+			 text = "Submit";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Submit");		
+			input submitbtn = new input(input.TYPE_SUBMIT, text, "  "+text);		
+			submitbtn.setID(text);
+			submitbtn.setClass("submitbtn");		
+			
+			
+			myTable.addElement(new tr()
+				.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
+						restbtn))
+				.addElement(new td(null, AlignType.LEFT, AlignType.MIDDLE, false, 
+						submitbtn ))
+				.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
+						null)));
+			myForm.addElement(myTable);
+			center.addElement(myForm);
+		}
 		return doc;
 	}	//	createParameterPage
 
-	
+//Modified by Rob klein 4/29/07	
 	/**************************************************************************
 	 * 	Create Parocess Page
 	 * 	@param request request
 	 *	@param AD_Process_ID Process
 	 *	@return Page
 	 */
-	private WebDoc createProcessPage (HttpServletRequest request, int AD_Process_ID)
+	public void createProcessPage (HttpServletRequest request, HttpServletResponse response, int AD_Process_ID, int AD_Window_ID)
 	{
 	  	WebSessionCtx wsc = WebSessionCtx.get (request);
 		MProcess process = MProcess.get (wsc.ctx, AD_Process_ID);
 		//	need to check if Role can access
+		WebDoc doc = null;
 		if (process == null)
 		{
-			WebDoc doc = WebDoc.createWindow("Process Not Found");
-			return doc;
-		}
+			 doc = WebDoc.createWindow("Process Not Found");
 
-		WebDoc doc = WebDoc.createWindow(process.getName());
+		}
+		else{
+			doc = WebDoc.createWindow(process.getName());
 		td center = doc.addWindowCenter(false);
 		if (process.getDescription() != null)
 			center.addElement(new p(new i(process.getDescription())));
@@ -223,11 +379,17 @@ public class WProcess extends HttpServlet
 		
 		//	Create Process Instance
 		MPInstance pInstance = fillParameter (request, process);
-		//
-		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID());
+		//		
+		
+		int AD_Table_ID = WebUtil.getParameterAsInt(request, "AD_Table_ID");
+		int AD_Record_ID = WebUtil.getParameterAsInt(request, "AD_Record_ID");		
+		
+		
+		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(), AD_Table_ID, AD_Record_ID);		
 		pi.setAD_User_ID(Env.getAD_User_ID(wsc.ctx));
-		pi.setAD_Client_ID(Env.getAD_Client_ID(wsc.ctx));
-		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
+		pi.setAD_Client_ID(Env.getAD_Client_ID(wsc.ctx));		
+		log.info("PI client id "+pi.getAD_Client_ID());
+		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());			
 		
 		//	Info
 		p p = new p();
@@ -236,13 +398,44 @@ public class WProcess extends HttpServlet
 		
 		//	Start
 		boolean processOK = false;
+		if (process.isWorkflow())
+		{
+			Trx trx = Trx.get(Trx.createTrxName("WebPrc"), true);
+			try
+			{	
+				WProcessCtl.process(this, AD_Window_ID, pi, trx, request); 
+				//processOK = process.processIt(pi, trx);			
+				trx.commit();
+				trx.close();
+			}
+			catch (Throwable t)
+			{
+				trx.rollback();
+				trx.close();
+			}
+			if ( pi.isError())
+			{
+				center.addElement(new p("Error:" + pi.getSummary(), 
+					AlignType.LEFT).setClass("Cerror"));
+				processOK = false;
+			}
+			else
+			{
+				center.addElement(new p("OK: Workflow Started", 
+						AlignType.LEFT));
+					processOK = true;
+			}
+			center.addElement(new p().addElement(pi.getSummary()));
+			center.addElement(pi.getLogInfo(true));
+		}
+		
 		if (process.isJavaProcess())
 		{
 			Trx trx = Trx.get(Trx.createTrxName("WebPrc"), true);
 			try
-			{
-				processOK = process.processIt(pi, trx);
-				trx.commit(true);
+			{				
+				processOK = process.processIt(pi, trx);			
+				trx.commit();
 				trx.close();
 			}
 			catch (Throwable t)
@@ -261,8 +454,11 @@ public class WProcess extends HttpServlet
 		}
 		
 		//	Report
-		if (processOK && process.isReport())
+		if (process.isReport())
+		//if (processOK && process.isReport())
 		{
+			doc = null;
+			log.info(response.toString());
 			ReportEngine re = ReportEngine.get(wsc.ctx, pi);
 			if (re == null)
 			{
@@ -276,7 +472,15 @@ public class WProcess extends HttpServlet
 					File file = File.createTempFile("WProcess", ".pdf");
 					boolean ok = re.createPDF(file);
 					if (ok)
-					{
+					{	
+						String error = WebUtil.streamFile(response, file);
+						//String error = streamResult (request, response, pInstance.getAD_PInstance_ID(), file);
+						if (error == null)
+							return;
+						doc = WebDoc.create(error);
+						
+						//Modified by Rob Klein 6/1/07
+						/**
 						String url = "WProcess?AD_PInstance_ID=" 
 							+ pInstance.getAD_PInstance_ID()
 							+ "&File=" 
@@ -287,7 +491,9 @@ public class WProcess extends HttpServlet
 								.addElement("Report created: ")
 								.addElement(link));
 						//	Marker that Process is OK
+						 * */
 						wsc.ctx.put("AD_PInstance_ID=" + pInstance.getAD_PInstance_ID(), "ok");
+						
 					}
 					else
 						center.addElement(new p("Could not create Report", 
@@ -301,9 +507,21 @@ public class WProcess extends HttpServlet
 				}
 			}
 		}
-		return doc;
+		}
+		doc.addPopupClose(wsc.ctx);
+		
+		try {
+			WebUtil.createResponse(request, response, this, null, doc, false);
+		} catch (IOException e) {
+			log.info(e.toString());
+		}		
 	}	//	createProcessPage
 	
+	private ASyncProcess ASyncProcess(WProcess process) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * 	Fill Parameter
 	 *	@param request request
@@ -397,7 +615,7 @@ public class WProcess extends HttpServlet
 	 *	@return message
 	 */
 	private String streamResult (HttpServletRequest request, HttpServletResponse response,
-		int AD_PInstance_ID, String fileName)
+		int AD_PInstance_ID, File file)
 	{
 		if (AD_PInstance_ID == 0)
 			return "Your process not found";
@@ -406,13 +624,393 @@ public class WProcess extends HttpServlet
 		if (value == null || !value.equals("ok"))
 			return "Process Instance not found";
 		//
-		if (fileName == null || fileName.length() == 0)
+		if (file == null || file.length() == 0)
 			return "No Process Result";
-		File file = new File (fileName);
+		//File file = new File (fileName);
 		if (!file.exists())
 			return "Process Result not found: " + file;
 		//	OK
 		return WebUtil.streamFile(response, file);
 	}	//	streamResult
+
+//Modidifed by Rob Klein 4/29/07
 	
+	/**
+	 *	Dynamic Init - determine valid DocActions based on DocStatus for the different documents.
+	 *  <pre>
+	 *  DocStatus (131)
+			??                         Unknown
+			AP *                       Approved
+			CH                         Changed
+			CL *                       Closed
+			CO *                       Completed
+			DR                         Drafted
+			IN                         Inactive
+			NA                         Not Approved
+			PE                         Posting Error
+			PO *                       Posted
+			PR *                       Printed
+			RE                         Reversed
+			TE                         Transfer Error
+			TR *                       Transferred
+			VO *                       Voided
+			XX                         Being Processed
+	 *
+	 *   DocAction (135)
+			--                         <None>
+			AP *                       Approve
+			CL *                       Close
+			CO *                       Complete
+			PO *                       Post
+			PR *                       Print
+			RA                         Reverse - Accrual
+			RC                         Reverse - Correction
+			RE                         RE-activate
+			RJ                         Reject
+			TR *                       Transfer
+			VO *                       Void
+			XL                         Unlock
+	 *  </pre>
+	 * 	@param Record_ID id
+	 */
+	private option[] dynInit(int m_WindowNo,int m_AD_Table_ID,int Record_ID,
+			String columnName, GridTab m_mTab)
+	{
+		String DocStatus = (String)m_mTab.getValue("DocStatus");
+		String DocAction = (String)m_mTab.getValue("DocAction");
+		//
+		Object Processing = m_mTab.getValue("Processing");
+		String OrderType = Env.getContext(Env.getCtx(), m_WindowNo, "OrderType");
+		String IsSOTrx = Env.getContext(Env.getCtx(), m_WindowNo, "IsSOTrx");
+
+		option[] optionsret = new option[0];
+		String[] list = new String [s_value.length];
+		
+		 
+		if (DocStatus == null)
+		{
+			errorMessage = "Document Status is Null";
+			return optionsret;
+		}
+
+		log.fine("DocStatus=" + DocStatus 
+			+ ", DocAction=" + DocAction + ", OrderType=" + OrderType 
+			+ ", IsSOTrx=" + IsSOTrx + ", Processing=" + Processing 
+			+ ", AD_Table_ID=" + m_AD_Table_ID + ", Record_ID=" + Record_ID);
+		//
+
+		int index = 0;
+
+		/**
+		 * 	Check Existence of Workflow Acrivities
+		 */
+		String wfStatus = MWFActivity.getActiveInfo(Env.getCtx(), m_AD_Table_ID, Record_ID); 
+		if (wfStatus != null)
+		{
+			errorMessage =  wfStatus;
+			return optionsret;
+		}
+		
+		//	Status Change
+		if (!checkStatus(m_mTab.getTableName(), Record_ID, DocStatus))
+		{
+			errorMessage =  "DocumentStatusChanged";			
+			return optionsret;
+		}
+		
+		/*******************
+		 *  General Actions
+		 */
+
+		//	Locked
+		if (Processing != null)
+		{
+			boolean locked = "Y".equals(Processing);
+			if (!locked && Processing instanceof Boolean)
+				locked = ((Boolean)Processing).booleanValue();
+			if (locked)
+				list[index++]= DocumentEngine.ACTION_Unlock;
+		}
+
+		//	Approval required           ..  NA
+		if (DocStatus.equals(DocumentEngine.STATUS_NotApproved))
+		{
+			list[index++]= (DocumentEngine.ACTION_Prepare);
+			list[index++]= (DocumentEngine.ACTION_Void);
+		}
+		//	Draft/Invalid				..  DR/IN
+		else if (DocStatus.equals(DocumentEngine.STATUS_Drafted)
+			|| DocStatus.equals(DocumentEngine.STATUS_Invalid))
+		{
+			list[index++]= (DocumentEngine.ACTION_Complete);
+		//	options[index++] = (DocumentEngine.ACTION_Prepare);
+			list[index++]= (DocumentEngine.ACTION_Void);
+		}
+		//	In Process                  ..  IP
+		else if (DocStatus.equals(DocumentEngine.STATUS_InProgress)
+			|| DocStatus.equals(DocumentEngine.STATUS_Approved))
+		{
+			list[index++]= (DocumentEngine.ACTION_Complete);
+			list[index++]= (DocumentEngine.ACTION_Void);
+		}
+		//	Complete                    ..  CO
+		else if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+		{
+			list[index++]= (DocumentEngine.ACTION_Close);
+		}
+		//	Waiting Payment
+		else if (DocStatus.equals(DocumentEngine.STATUS_WaitingPayment)
+			|| DocStatus.equals(DocumentEngine.STATUS_WaitingConfirmation))
+		{
+			list[index++]= (DocumentEngine.ACTION_Void);
+			list[index++]= (DocumentEngine.ACTION_Prepare);
+		}
+		//	Closed, Voided, REversed    ..  CL/VO/RE
+		else if (DocStatus.equals(DocumentEngine.STATUS_Closed) 
+			|| DocStatus.equals(DocumentEngine.STATUS_Voided) 
+			|| DocStatus.equals(DocumentEngine.STATUS_Reversed))
+			return optionsret;
+
+		/********************
+		 *  Order
+		 */
+		if (m_AD_Table_ID == MOrder.Table_ID)
+		{
+			//	Draft                       ..  DR/IP/IN
+			if (DocStatus.equals(DocumentEngine.STATUS_Drafted)
+				|| DocStatus.equals(DocumentEngine.STATUS_InProgress)
+				|| DocStatus.equals(DocumentEngine.STATUS_Invalid))
+			{
+				list[index++]= (DocumentEngine.ACTION_Prepare);
+				list[index++]= (DocumentEngine.ACTION_Close);
+				//	Draft Sales Order Quote/Proposal - Process
+				if ("Y".equals(IsSOTrx)
+					&& ("OB".equals(OrderType) || "ON".equals(OrderType)))
+					DocAction = DocumentEngine.ACTION_Prepare;
+			}
+			//	Complete                    ..  CO
+			else if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+				list[index++]= (DocumentEngine.ACTION_ReActivate);
+			}
+			else if (DocStatus.equals(DocumentEngine.STATUS_WaitingPayment))
+			{
+				list[index++]= (DocumentEngine.ACTION_ReActivate);
+				list[index++]= (DocumentEngine.ACTION_Close);
+			}
+		}
+		/********************
+		 *  Shipment
+		 */
+		else if (m_AD_Table_ID == MInOut.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+				list[index++]= (DocumentEngine.ACTION_Reverse_Correct);
+			}
+		}
+		/********************
+		 *  Invoice
+		 */
+		else if (m_AD_Table_ID == MInvoice.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+				list[index++]= (DocumentEngine.ACTION_Reverse_Correct);
+			}
+		}
+		/********************
+		 *  Payment
+		 */
+		else if (m_AD_Table_ID == MPayment.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+				list[index++]= (DocumentEngine.ACTION_Reverse_Correct);
+			}
+		}
+		/********************
+		 *  GL Journal
+		 */
+		else if (m_AD_Table_ID == MJournal.Table_ID || m_AD_Table_ID == MJournalBatch.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Reverse_Correct);
+				list[index++]= (DocumentEngine.ACTION_Reverse_Accrual);
+			}
+		}
+		/********************
+		 *  Allocation
+		 */
+		else if (m_AD_Table_ID == MAllocationHdr.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+				list[index++]= (DocumentEngine.ACTION_Reverse_Correct);
+			}
+		}
+		/********************
+		 *  Bank Statement
+		 */
+		else if (m_AD_Table_ID == MBankStatement.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++]= (DocumentEngine.ACTION_Void);
+			}
+		}
+		/********************
+		 *  Inventory Movement, Physical Inventory
+		 */
+		else if (m_AD_Table_ID == MMovement.Table_ID
+			|| m_AD_Table_ID == MInventory.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (DocStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				list[index++] = (DocumentEngine.ACTION_Void);
+				list[index++] = (DocumentEngine.ACTION_Reverse_Correct);
+			}			
+			
+		}
+		
+		
+		option[] options = new option[index];
+		/**
+		 *	Add Name to options
+		 */
+		for (int i = 0; i < index; i++)
+		{
+			//	Serach for option and add it			
+			boolean added = false;
+			for (int j = 0; j < s_value.length && !added; j++)
+			{				
+				if (list[i].equals(s_value[j]))
+				{					
+					options[i] = new option(list[i]).addElement(s_name[j]);
+					added = true;
+					if (DocAction.equals(s_value[i]))
+						options[i].setSelected(true);
+				}
+			}
+		}	
+
+		return options;
+	}	//	dynInit
+	
+	/**
+	 *	Fill Vector with DocAction Ref_List(135) values
+	 */
+	private void readReference()
+	{
+		String sql;
+		if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
+			sql = "SELECT Value, Name, Description FROM AD_Ref_List "
+				+ "WHERE AD_Reference_ID=135 ORDER BY Name";
+		else
+			sql = "SELECT l.Value, t.Name, t.Description "
+				+ "FROM AD_Ref_List l, AD_Ref_List_Trl t "
+				+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID"
+				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
+				+ " AND l.AD_Reference_ID=135 ORDER BY t.Name";
+
+		ArrayList<String> v_value = new ArrayList<String>();
+		ArrayList<String> v_name = new ArrayList<String>();
+		ArrayList<String> v_description = new ArrayList<String>();
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				String value = rs.getString(1);
+				String name = rs.getString(2);
+				String description = rs.getString(3);
+				if (description == null)
+					description = "";
+				//
+				v_value.add(value);
+				v_name.add(name);
+				v_description.add(description);
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+
+		//	convert to arrays
+		int size = v_value.size();
+		s_value = new String[size];
+		s_name = new String[size];
+		s_description = new String[size];
+		for (int i = 0; i < size; i++)
+		{
+			s_value[i] = (String)v_value.get(i);
+			s_name[i] = (String)v_name.get(i);
+			s_description[i] = (String)v_description.get(i);
+		}
+	}	//	readReference
+	
+	/**
+	 * 	Check Status Change
+	 *	@param TableName table name
+	 *	@param Record_ID record
+	 *	@param DocStatus current doc status
+	 *	@return true if status not changed
+	 */
+	private boolean checkStatus (String TableName, int Record_ID, String DocStatus)
+	{
+		String sql = "SELECT 2 FROM " + TableName 
+			+ " WHERE " + TableName + "_ID=" + Record_ID
+			+ " AND DocStatus='" + DocStatus + "'";
+		int result = DB.getSQLValue(null, sql);
+		return result == 2;
+	}	//	checkStatusChange	
+		
+	/**
+	 * 	Get Select Field
+	 *	@param lookup lookup
+	 *	@param dataValue default value
+	 *	@return selction td
+	 */
+	private td createSelectField (String m_columnName, option[] options)
+	{		
+		select sel = new select(m_columnName, options);
+		sel.setID(m_columnName);
+		sel.setDisabled(false);
+		sel.setClass("Cmandatory");
+		
+		//
+		return createTD(sel);
+
+	}	//	getSelectField
+	/**
+	 * 	Create Left Top aligned TD
+	 *	@param element element
+	 *	@return td table data
+	 */
+	private td createTD (Element element)
+	{
+		td td = new td()
+			.addElement(element)
+			.setAlign(AlignType.LEFT)
+			.setVAlign(AlignType.TOP);	
+		return td;
+	}	//	createTD
+
 }   //  WProcess
