@@ -154,6 +154,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		//	Document Link
 		setAD_Table_ID(process.getAD_Table_ID());
 		setRecord_ID(process.getRecord_ID());
+		//modified by Rob Klein
+		setAD_Client_ID(process.getAD_Client_ID());
+		setAD_Org_ID(process.getAD_Org_ID());
 		//	Status
 		super.setWFState(WFSTATE_NotStarted);
 		m_state = new StateEngine (getWFState());
