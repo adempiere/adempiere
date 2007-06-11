@@ -43,6 +43,11 @@ public class AutoCompletion extends PlainDocument {
         });
         editorKeyListener = new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
+        		//	Ignore keys that do not alter the text - teo_sarca [ 1735043 ]
+        		if (e.getKeyChar() == KeyEvent.CHAR_UNDEFINED) {
+        			return;
+        		}
+        		
                 if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
                 hitBackspace=false;
                 switch (e.getKeyCode()) {
