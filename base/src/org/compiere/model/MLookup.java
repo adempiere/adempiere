@@ -339,7 +339,7 @@ public final class MLookup extends Lookup implements Serializable
 
 		//	Never Loaded (correctly)
 		if (!m_allLoaded || m_lookup.size() == 0)
-			refresh (loadParent);
+			loadData (loadParent);
 
 		//	already validation included
 		//if (m_info.IsValidated)
@@ -350,7 +350,7 @@ public final class MLookup extends Lookup implements Serializable
 		//if (!m_info.IsValidated && onlyValidated)
 		if (!validated && onlyValidated)
 		{
-			refresh (loadParent);
+			loadData (loadParent);
 			log.fine(m_info.KeyColumn + ": Validated - #" + m_lookup.size());
 		}
 
@@ -556,17 +556,36 @@ public final class MLookup extends Lookup implements Serializable
 		if (m_info.DisplayType == DisplayType.Search 
 			|| m_info.IsCreadedUpdatedBy)
 			return 0;
-		log.fine(m_info.KeyColumn + ": start");
+		
 		m_refreshing = true;
-		m_loader = new MLoader();
-		m_loader.start();
-	//	m_loader.run();		//	test sync call
-		loadComplete();
-		log.fine(m_info.KeyColumn + ": #" + m_lookup.size());
+		fillComboBox(isMandatory(), true, true, false);
 		m_refreshing = false;
 		return m_lookup.size();
 	}	//	refresh
 
+	/**
+	 * Do the actual loading from database
+	 * @param loadParent
+	 * @return number of records loaded
+	 */
+	private int loadData(boolean loadParent)
+	{
+		if (!loadParent && m_info.IsParent)
+			return 0;
+		//  Don't load Search or CreatedBy/UpdatedBy
+		if (m_info.DisplayType == DisplayType.Search 
+			|| m_info.IsCreadedUpdatedBy)
+			return 0;
+		log.fine(m_info.KeyColumn + ": start");
+		
+		m_loader = new MLoader();
+		m_loader.start();
+		loadComplete();
+		log.fine(m_info.KeyColumn + ": #" + m_lookup.size());
+		
+		return m_lookup.size();
+	}	//	refresh
+	
 	/**
 	 * 	Remove All cached Elements
 	 *	@see org.compiere.model.Lookup#removeAllElements()
