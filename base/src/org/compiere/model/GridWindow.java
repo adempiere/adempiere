@@ -143,8 +143,7 @@ public class GridWindow implements Serializable
 	{
 		GridTab mTab = m_tabs.get(index);
 		if (initTabs.contains(mTab)) return;		
-		mTab.initTab(false);
-		
+		mTab.initTab(false);		
 		//		Set Link Column
 		if (mTab.getLinkColumnName().length() == 0)
 		{
@@ -380,7 +379,7 @@ public class GridWindow implements Serializable
 		else	//	HTML
 		{
 			doc = WebDoc.createPopup (title);
-			doc.addPopupClose();
+			doc.addPopupClose(Env.getCtx());
 		}
 		
 	//	body.addElement("&copy;&nbsp;Adempiere &nbsp; ");
@@ -494,7 +493,7 @@ public class GridWindow implements Serializable
 		}	//	for all Tabs
 		
 		if (!javaClient)
-			doc.addPopupClose();
+			doc.addPopupClose(Env.getCtx());
 	//	System.out.println(doc.toString());
 		return doc;
 	}	//	getHelpDoc
