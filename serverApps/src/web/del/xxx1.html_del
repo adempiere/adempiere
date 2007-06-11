@@ -15,7 +15,7 @@ alert ('function');
 
 <body>
 <form action="http://www.yahoo.com" method="get" name="form1" target="_blank">
-  <a href="/adempiere/" target="popup"><img src="LogoSmall.gif" width="64" height="32" border="1"></a>
+  <a href="/compiere/" target="popup"><img src="LogoSmall.gif" width="64" height="32" border="1"></a>
 </form>
 </body>
 </html>

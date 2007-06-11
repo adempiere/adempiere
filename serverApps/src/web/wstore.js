@@ -1,5 +1,5 @@
 /****************************************************************************
- * Adempiere (c) Jorg Janke - All rights reseverd
+ * Compiere (c) Jorg Janke - All rights reseverd
  * $Id: wstore.js,v 1.5 2006/05/23 22:39:03 mdeaelfweald Exp $
  *
  * Web Store Scripts

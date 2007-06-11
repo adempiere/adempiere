@@ -1,0 +1,184 @@
+/* Compiere HTML UI (c) Jorg Janke */
+/* $Id: window.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+
+
+body	{
+	/* Manu #F4FCFF; */
+	background-color: #FFFFFF;
+	color: #000000;
+	font-size: 10px;
+}
+
+input {
+	background-color: #FFFFFF;
+	font-size: 8pt;
+	font-family: verdana, arial;
+	border: solid gray 1px;
+}
+
+textarea {
+	background: #FFFFFF;
+	font-size: 8pt;
+	font-family: verdana, arial;
+	border: solid gray 1px;
+}
+
+select {
+	background: #FFFFFF;
+	font-size: 8pt;
+	font-family: verdana, arial;
+	border-bottom-style: groove;
+	border-bottom-color: Gray;
+	border-bottom-width: thin;
+	border-left-color: Gray;
+	border-left-style: groove;
+	border-left-width: thin;
+	border-right-color: Gray;
+	border-right-style: groove;
+	border-right-width: thin;
+	border-top-color: Gray;
+	border-top-style: groove;
+	border-top-width: thin;
+	}
+
+td {
+	font-size: 10px;
+}
+
+.loginbtn {
+	width: 75px;
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Ok16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+
+.cancelbtn {
+	width: 75px;
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Cancel16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+.submitbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Ok16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+.closebtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Cancel16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+.processbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Process16.gif) no-repeat left;
+	background-color:#ffffff;
+
+}
+.resetbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Ignore16.gif) no-repeat left;
+	background-color:#ffffff;
+
+}
+
+.Cerror	{
+	background: #FF4A4A;
+}
+
+.Cmandatory	{
+	background: #fdf5dd;
+}
+
+#tab {
+	float:left;
+	/*background:url(/adempiere/images/tab-left-selected.gif) no-repeat left top;*/
+	margin:0;
+	font-size: 11px;
+	padding:0px 0px 0px 9px;
+	text-decoration:none;
+}
+
+#tab span {
+	float:left;
+	display:block;
+	/*background:url(/adempiere/images/tab-right-selected.gif) no-repeat right top;*/
+	padding:5px 9px 5px 0px;
+	font-size: 11px;
+	font-weight:bold;
+	color:black;
+}
+
+#tab a:hover span {
+	color: red;
+}
+
+#tabSelected {
+	float:left;
+	/*background:url(/adempiere/images/tab-left.gif) no-repeat left top;*/
+	margin:0;
+	font-size: 11px;
+	padding:0px 0px 0px 9px;
+	color: red;
+}
+
+#tabSelected span {
+	float:left;
+	display:block;
+	/*background:url(/adempiere/images/tab-right.gif) no-repeat right top;*/
+	padding:5px 9px 5px 0px;
+	font-size: 11px;
+	font-weight:bold;
+	color: red;
+}
+
+
+td.toolbar {
+	border : 0px solid #000000;
+	padding:5px 5px 5px 5px;
+	background-color : #85A6E3;
+	border-top: 1px solid #003FAF;
+	border-bottom: 1px solid #003FAF;
+	text-align: left;
+	text-indent : 0;
+}
+
+
+
+.windowHeader	{
+	background-color : #C9D9F5;
+	padding:5px 5px 0px 5px;
+	border-bottom: 0px solid #000000;
+
+}
+
+.windowCenter	{
+	background-color : #FFFFFF;	
+	border: 0px solid #000000;
+	padding:5px 5px 0px 0px;
+}
+
+.centerTable	{
+	width: 100%;
+	background-color : #E3ECFC;
+	border: none;
+	padding:5px 5px 5px 5px;
+	border-top: 1px solid #003FAF;
+	border-bottom: 1px solid #003FAF;
+	margin: 0px 0px 0px 0px;
+}
+.windowFooter	{
+	border-bottom: 1px solid #000000;
+}
+

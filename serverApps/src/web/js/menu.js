@@ -1,7 +1,7 @@
 var isIE = (navigator.userAgent.indexOf("MSIE") != -1);
 						
 /****************************************************************************
- * Adempiere (c) Jorg Janke - All rights reseverd
+ * Compiere (c) Jorg Janke - All rights reseverd
  * $Id: menu.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $
  *
  * Menu - show/hide sub-menues - tested in IE 6 end Mozila 1.7

@@ -1,18 +1,32 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
-<title>Adempiere ERP+CRM Reach Client</title>
+<title>ADempiere ERP+CRM Reach Client</title>
+<script language="JavaScript" src="calendar2.js"></script>
+<script type="text/javascript">
+
+
+//Start of Calendar
+
+function resizeFrame(value){  
+    var frame = top.document;
+    var frameset = frame.getElementById("framesetMenuWindow");
+    if (!frameset) return false;
+    
+    if (frameset.cols.substring(0,1)=="0") frameset.cols = "260,*";
+    else  frameset.cols = "0,*";
+    return true; 
+}
+
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="pragma" content="no-cache">
 </head>
-<frameset id="framesetOuter" cols="*" rows="0,*" title="&copy; Adempiere">
+<frameset id="framesetOuter" cols="*" rows="0,*" title="&copy; Compiere">
 	<frame src="cmd.html" name="WCmd">
-	<frameset id="framesetMenuWindow" cols="220,*" rows="*"> 
-		<frame src="menu.html" name="WMenu">
-		<frameset id="framesetWindow" cols="*" rows="0,*">
-			<frame src="popup.html" name="WPopUp">
-			<frame src="window.html" name="WWindow">
-		</frameset>
+	<frameset id="framesetMenuWindow" cols="0,*" rows="*"> 
+		<frame src="menu.html" name="WMenu">	
+		<frame src="window.html" name="WWindow">
 	</frameset>
 </frameset>
 <noframes> 

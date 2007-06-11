@@ -1,4 +1,4 @@
-/* Adempiere HTML UI (c) Jorg Janke */
+/* Compiere HTML UI (c) Jorg Janke */
 /* $Id: standard.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
 
 a {
@@ -11,14 +11,24 @@ a:hover {
 }
 
 body {
-	font-family: arial, helvetica, sans-serif;
-	font-size: 12px;
-	margin-left: 0;
-	margin-top: 0;
+	margin-top:0px;
+	margin-right:0px;
+	margin-left:0px;
+	margin-bottom:0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	font-family: Arial, verdana;
+	font-size:	8pt;
+	font-weight: normal;
+	COLOR: #000000;
+	background-color : white;
+;
 }
 
 h1 {
-	color: #FF0000;
+	color: #003FAF;
 	font-size: 16px !important;
 	margin-bottom: 10px;
 	margin-top: 0;
@@ -61,9 +71,19 @@ hr {
 	padding-top: 0;
 }
 
-th {
-	background-color: #E6E6FA;
-	text-align: left;
+
+th	{
+	font-size: 10px;
+	background-color: #C9D9F5;
+	font-weight: bold;
+	color: black;
+	border: 0px;
+}
+
+td	{
+	font-size: 10px;
+	color: black;
+	border: 0px;
 }
 
 p {

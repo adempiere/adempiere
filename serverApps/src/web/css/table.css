@@ -1,0 +1,134 @@
+
+/* Striping */
+tr.alternate {
+	background-color:#E3ECFC;;
+}
+
+/* Sorting */
+th.table-sortable {
+	cursor:pointer;
+	background-image:url("/adempiere/images/01_unsorted.gif");
+	background-position:center left;
+	background-repeat:no-repeat;
+	padding-left:12px;
+}
+th.table-sorted-asc {
+	background-image:url("/adempiere/images/01_ascending.gif");
+	background-position:center left;
+	background-repeat:no-repeat;
+}
+th.table-sorted-desc {
+	background-image:url("/adempiere/images/01_descending.gif");
+	background-position:center left;
+	background-repeat:no-repeat;
+}
+th.table-filtered {
+	background-image:url("/adempiere/filter.gif");
+	background-position:center left;
+	background-repeat:no-repeat;
+}
+select.table-autofilter {
+	font-size:smaller;
+}
+
+/* Examples which stray from the default */
+table.altstripe tr.alternate2 {
+	background-color:#ccffff;
+}
+
+/* Sort Icon Styles */
+table.sort01 th.table-sortable { background-image:url("01_unsorted.gif"); }
+table.sort01 th.table-sorted-asc { background-image:url("01_ascending.gif"); }
+table.sort01 th.table-sorted-desc { background-image:url("01_descending.gif"); }
+
+table.sort02 th.table-sortable { background-image:none; padding-left:16px; }
+table.sort02 th.table-sorted-asc { background-image:url("02_ascending.gif"); }
+table.sort02 th.table-sorted-desc { background-image:url("02_descending.gif"); }
+
+table.sort03 th.table-sortable { background-image:none; }
+table.sort03 th.table-sorted-asc { background-image:url("03_ascending.gif"); }
+table.sort03 th.table-sorted-desc { background-image:url("03_descending.gif"); }
+
+table.sort04 th.table-sortable { background-image:none; }
+table.sort04 th.table-sorted-asc { background-image:url("04_ascending.gif"); }
+table.sort04 th.table-sorted-desc { background-image:url("04_descending.gif"); }
+
+table.sort05 th.table-sortable { background-image:url("05_unsorted.gif"); padding-left:16px;}
+table.sort05 th.table-sorted-asc { background-image:url("05_ascending.gif"); }
+table.sort05 th.table-sorted-desc { background-image:url("05_descending.gif"); }
+
+table.sort06 th.table-sortable { background-image:none; padding-left:16px;}
+table.sort06 th.table-sorted-asc { background-image:url("06_ascending.gif"); }
+table.sort06 th.table-sorted-desc { background-image:url("06_descending.gif"); }
+
+table.sort07 th.table-sortable { background-image:none; }
+table.sort07 th.table-sorted-asc { background-image:url("07_ascending.gif"); }
+table.sort07 th.table-sorted-desc { background-image:url("07_descending.gif"); }
+
+table.sort08 th.table-sortable { background-image:none; }
+table.sort08 th.table-sorted-asc { background-image:url("08_ascending.gif"); }
+table.sort08 th.table-sorted-desc { background-image:url("08_descending.gif"); }
+
+table.sort09 th.table-sortable { background-image:none; padding-left:30px;}
+table.sort09 th.table-sorted-asc { background-image:url("09_ascending.gif"); }
+table.sort09 th.table-sorted-desc { background-image:url("09_descending.gif"); }
+
+table.sort10 th.table-sortable { background-image:url("10_unsorted.gif"); }
+table.sort10 th.table-sorted-asc { background-image:url("10_ascending.gif"); }
+table.sort10 th.table-sorted-desc { background-image:url("10_descending.gif"); }
+
+table.sort11 th.table-sortable { background-image:url("11_unsorted.gif");padding-left:24px; }
+table.sort11 th.table-sorted-asc { background-image:url("11_ascending.gif"); }
+table.sort11 th.table-sorted-desc { background-image:url("11_descending.gif"); }
+
+table.sort12 th.table-sortable { background-image:none; }
+table.sort12 th.table-sorted-asc { background-image:url("12_ascending.gif"); }
+table.sort12 th.table-sorted-desc { background-image:url("12_descending.gif"); }
+
+table.sort13 th.table-sortable { background-image:none; }
+table.sort13 th.table-sorted-asc { background-image:url("13_ascending.gif"); }
+table.sort13 th.table-sorted-desc { background-image:url("13_descending.gif"); }
+
+table.sort14 th.table-sortable { background-image:none; }
+table.sort14 th.table-sorted-asc { background-image:url("14_ascending.gif"); }
+table.sort14 th.table-sorted-desc { background-image:url("14_descending.gif"); }
+
+table.sort15 th.table-sortable { background-image:none; }
+table.sort15 th.table-sorted-asc { background-image:url("15_ascending.gif"); }
+table.sort15 th.table-sorted-desc { background-image:url("15_descending.gif"); }
+
+table.sort16 th.table-sortable { background-image:none; }
+table.sort16 th.table-sorted-asc { background-image:url("16_ascending.gif"); }
+table.sort16 th.table-sorted-desc { background-image:url("16_descending.gif"); }
+
+table.sort17 th.table-sortable { background-image:none; }
+table.sort17 th.table-sorted-asc { background-image:url("17_ascending.gif"); }
+table.sort17 th.table-sorted-desc { background-image:url("17_descending.gif"); }
+
+table.sort18 th.table-sortable { background-image:url("18_unsorted.gif"); }
+table.sort18 th.table-sorted-asc { background-image:url("18_ascending.gif"); }
+table.sort18 th.table-sorted-desc { background-image:url("18_descending.gif"); }
+
+table.sort19 th.table-sortable { background-image:url("19_unsorted.gif");padding-left:24px; }
+table.sort19 th.table-sorted-asc { background-image:url("19_ascending.gif"); }
+table.sort19 th.table-sorted-desc { background-image:url("19_descending.gif"); }
+
+/* Icons box */
+.iconset {
+	margin:5px;
+	border:1px solid #cccccc;
+	border-color:#cccccc #666666 #666666 #cccccc;
+	text-align:center;
+	cursor:pointer;
+	width:100px;
+}
+.iconset img {
+	margin:3px;
+}
+
+/* Documentation */
+tr.doc_section {
+	font-weight:bold;
+	text-align:center;
+	background-color:#dddddd;
+}

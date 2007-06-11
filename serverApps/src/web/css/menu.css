@@ -1,53 +1,54 @@
-/* Adempiere (c) JJanke Modified by moyses */
+/* Compiere (c) Jorg Janke */
 /* $Id: menu.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
 
 body	{
-	background-color: #fbf8f1;
+	/* Manu #F4FCFF; */
+	background-color: #FFFFFF;
 	color: #000000;
-	font-size: 12px;
-}
-
-cite	{
-	display: block;
 	font-size: 10px;
-	padding-bottom: 0px;
-	padding-top: 0px;
 }
 
-li	{
-	font-weight: normal;
-	font-size: 12px;
-	margin-left: 0px;
-	padding-left: 5px;
-	cursor: pointer;
+li{
+	margin-left:10px;
+	padding-left:5px;
+}
+
+ul{
+	padding: 0;
+	margin: 0 0 0 5px;
+	text-indent: -10px;
 }
 
 td {
-	font-size: 12px;
-}
-
-ul	{
-	margin-left:15px;
+	font-size: 10px;
 }
 
 .menuTable	{
 	border-left: none;
 	border-right: none;
-	margin: 0px;
-	padding: 2px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 .menuHeader	{
-	border-top: none;
+	background-color : #C9D9F5;
+	padding:10px 10px 10px 10px;
+	border-bottom: 0px solid #000000;
 }
 
 .menuCenter	{
-	border-bottom: 1px solid #000000;
-	border-top: 1px solid #000000;
+	width: 100%;
+	background-color : #FFFFFF;
+	border: none;
+	padding:0px 0px 0px 15px;
+	border-top: 1px solid #003FAF;
+	border-bottom: 1px solid #003FAF;
+	margin: 0px 0px 0px 0px;
 }
 
 .menuFooter	{
-	border-bottom: none;
+	background-color : #C9D9F5;
+	padding:5px 5px 5px 5px;
 }
 
 
@@ -73,6 +74,6 @@ ul	{
 
 .menuSummary	{
 	font-weight: bold; /* Menu Closed */
-	list-style-image: url(images/mClosed.gif);
+	list-style-image: url(/adempiere/images/mClosed.gif);
 	list-style-type: square;
 }

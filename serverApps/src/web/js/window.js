@@ -1,5 +1,5 @@
 /****************************************************************************
- * Adempiere (c) Jorg Janke - All rights reseverd
+ * Compiere (c) Jorg Janke - All rights reseverd
  * $Id: window.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $
  *
  * Web UI Window Utilities
@@ -166,11 +166,16 @@ function getRealValue (myValue)
 /****************************************************************************
  *  Open PopUp with Attachment Info
  */
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
+}
+
 function startPopup (targetCmd)
 {
-    parent.document.getElementById("framesetWindow").rows="300,*";
-    parent.WPopUp.location = '/adempiere/' + targetCmd;
-    return false;   //  do not submit page
+	var url = targetCmd;
+	return popUp(url);
 }   //  startPopup
 
 /**
@@ -181,25 +186,31 @@ function closePopup ()
     parent.document.getElementById("framesetWindow").rows="0,*";
     return true;   //  do submit page
 }   //  closePopUp
-
 /**
  *	Lookup - get FormName and ColumnName and submit to WLookup
  */
-function startLookup (columnName)
+function startLookup (columnName, processid)
 {
-	var url = "WLookup?ColumnName=" + columnName;
-//	alert (url);
-	return startPopup(url);
+	var url = "WLookup?ColumnName=" + columnName+"&AD_Process_ID="+processid;
+	return popUp(url);
 }	//	startLookup
+/**
+ *	Lookup - get FormName and ColumnName and submit to WLookup
+ */
+function startZoom (TableID, RecordID)
+{
+	var url = "WWindow?AD_Table_ID=" + TableID+"&AD_Record_ID="+RecordID;
+	parent.WWindow.location = '/adempiere/' + url;
+	return false;   //  do not submit page
 
+}	//	startZoom 
 /**
  *	Account - get FormName and ColumnName and submit to WAccount
  */
 function startAccount (columnName)
 {
 	var url = "WAccount?ColumnName=" + columnName;
-//	alert (url);
-	return startPopup(url);
+	return popUp(url);
 }	//	startAccount
 
 /**
@@ -208,10 +219,8 @@ function startAccount (columnName)
 function startLocation (columnName)
 {
 	var url = "WLocation?ColumnName=" + columnName;
-//	alert (url);
-	return startPopup(url);
+	return popUp(url);
 }	//	startLocation
-
 
 /****************************************************************************
  *	Field Updated - submit
@@ -219,14 +228,134 @@ function startLocation (columnName)
 function startUpdate (column)
 {
 	column.form.ChangedColumn.value=column.name;
-    column.form.submit();
+    	column.form.submit();
 }	//	startUpdate
+
+/****************************************************************************
+ *	Lookup Field Updated - submit
+ */
+function startLookUpdate(column, name1, value1, name2, value2)
+{	
+	
+	window.close();
+	opener.document.getElementById(name1).value =value1;
+	opener.document.getElementById(name2).value =value2;	
+}	//	startUpdate
+
 
 /****************************************************************************
  *	Process Button
  */
-function startButton (column)
+function startButton (processID, windowID, recordID, tableID, columnName)
 {
-	column.form.ChangedColumn.value=column.name;
-    column.form.submit();
+	var url = "WProcess?AD_Process_ID=" + processID + "&AD_Window_ID="+windowID+
+	"&AD_Record_ID="+recordID+"&AD_Table_ID="+tableID+"&columnName="+columnName;
+	return popUp(url);
+
 }	//	startButton
+
+/****************************************************************************
+ *	Process Toolbar Button
+ */
+function SubmitForm(pValue, pAction, pType)
+{
+Form = document.forms[0];
+if (pType=='toolbar')
+	{
+	document.WForm.PCommand.value= pValue;
+	if (pAction == 'reset')
+		Form.reset();
+	else if (pValue== 'Delete'){
+		if(confirm('Do you want to delete the record?')){
+			Form.submit();
+		}
+	}
+	else
+		Form.submit();
+	}
+if (pType=='tab')
+	{
+	document.WForm.PTab.value= pValue;
+	Form.submit();
+	}
+}
+/****************************************************************************
+ *	Process Calendar
+ */
+
+var oldLink = null;
+// code to change the active stylesheet
+function setActiveStyleSheet(link, title) {
+  var i, a, main;
+  for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+    if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+      a.disabled = true;
+      if(a.getAttribute("title") == title) a.disabled = false;
+    }
+  }
+  if (oldLink) oldLink.style.fontWeight = 'normal';
+  oldLink = link;
+  link.style.fontWeight = 'bold';
+  return false;
+}
+
+// This function gets called when the end-user clicks on some date.
+function selected(cal, date) {
+  cal.sel.value = date; // just update the date in the input field.
+  if (cal.dateClicked && (cal.sel.id == "sel1" || cal.sel.id == "sel3"))
+    // if we add this call we close the calendar on single-click.
+    // just to exemplify both cases, we are using this only for the 1st
+    // and the 3rd field, while 2nd and 4th will still require double-click.
+    cal.callCloseHandler();
+}
+
+// And this gets called when the end-user clicks on the _selected_ date,
+// or clicks on the "Close" button.  It just hides the calendar without
+// destroying it.
+function closeHandler(cal) {
+  cal.hide();                        // hide the calendar
+//  cal.destroy();
+  _dynarch_popupCalendar = null;
+}
+
+// This function shows the calendar under the element having the given id.
+// It takes care of catching "mousedown" signals on document and hiding the
+// calendar if the click was outside.
+function showCalendar(id, format, showsTime, showsOtherMonths) {	
+  var el = document.getElementById(id);
+  if (_dynarch_popupCalendar != null) {	
+    // we already have some calendar created
+    _dynarch_popupCalendar.hide();                 // so we hide it first.
+  } else {	
+    // first-time call, create the calendar.
+    var cal = new Calendar(1, null, selected, closeHandler);
+    // uncomment the following line to hide the week numbers
+    // cal.weekNumbers = false;
+
+    if (typeof showsTime == "string") {
+      cal.showsTime = true;
+      cal.time24 = (showsTime == "24");
+    }
+    if (showsOtherMonths) {
+      cal.showsOtherMonths = true;
+    }
+    _dynarch_popupCalendar = cal;                  // remember it in the global var
+    cal.setRange(1900, 2070);        // min/max year allowed.
+    cal.create();
+  }
+  _dynarch_popupCalendar.setDateFormat(format);    // set the specified date format
+  _dynarch_popupCalendar.parseDate(el.value);      // try to parse the text in field
+  _dynarch_popupCalendar.sel = el;                 // inform it what input field we use
+
+  // the reference element that we pass to showAtElement is the button that
+  // triggers the calendar.  In this example we align the calendar bottom-right
+  // to the button.   
+  _dynarch_popupCalendar.showAtElement(el, "Br");        // show the calendar
+
+  return false;
+}
+
+var MINUTE = 60 * 1000;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+var WEEK = 7 * DAY;

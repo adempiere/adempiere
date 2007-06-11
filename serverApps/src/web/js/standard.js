@@ -1,5 +1,5 @@
 /****************************************************************************
- * Adempiere (c) Jorg Janke - All rights reseverd
+ * Compiere (c) Jorg Janke - All rights reseverd
  * $Id: standard.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $
  *
  * General Header Script shared by Web UI and WebStore
@@ -214,6 +214,7 @@ function showLoadingWindow (base)
 //
 function showLoadingMenu(base)
 {
+	parent.resizeFrame('5,*');	
 	var d = parent.WMenu.document;
 	d.open();
 	//	Content
@@ -226,7 +227,7 @@ function showLoadingMenu(base)
 	d.write('info += "</h1>"; tickNo++; setOuterHTML(getElementById(\'ticker\'), info); }');
 	d.write('setInterval("tick();", 1500); </script>');
 	//	Fini
-	d.close();
+	d.close();	
 	return true;		//	follow the link
 }	//	showLoadingMenu
 
