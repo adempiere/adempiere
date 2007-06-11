@@ -33,6 +33,16 @@
     <servlet-class>org.compiere.www.WAccount</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>WChat</servlet-name>
+    <description>Adempiere Chat</description>
+    <servlet-class>org.compiere.www.WChat</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>WZoom</servlet-name>
+    <description>Adempiere Zoom</description>
+    <servlet-class>org.compiere.www.WZoom</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>WCounter</servlet-name>
     <servlet-class>org.compiere.wstore.WCounter</servlet-class>
     <load-on-startup>15</load-on-startup>
@@ -72,7 +82,7 @@
     <servlet-name>WReport</servlet-name>
     <description>Adempiere Report</description>
     <servlet-class>org.compiere.www.WReport</servlet-class>
-  </servlet>
+  </servlet>  
   <servlet>
     <servlet-name>WRequest</servlet-name>
     <display-name>Requests</display-name>
@@ -125,6 +135,14 @@
   <servlet-mapping>
     <servlet-name>WAccount</servlet-name>
     <url-pattern>/WAccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WChat</servlet-name>
+    <url-pattern>/WChat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WZoom</servlet-name>
+    <url-pattern>/WZoom</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>WCounter</servlet-name>
