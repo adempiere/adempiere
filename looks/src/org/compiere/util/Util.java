@@ -137,8 +137,8 @@ public class Util
 	 */
 	public static String maskHTML (String content, boolean maskCR)
 	{
-		if (content == null || content.length() == 0 || content.equals(" "))
-			return "&nbsp";
+		//if (content == null || content.length() == 0 || content.equals(" "))
+			//return "&nbsp";
 		//
 		StringBuffer out = new StringBuffer();
 		char[] chars = content.toCharArray();
