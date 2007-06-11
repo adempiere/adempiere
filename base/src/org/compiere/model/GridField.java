@@ -122,9 +122,7 @@ public class GridField
 			return;
 		log.config("(" + m_vo.ColumnName + ")");
 
-		
-		if (DisplayType.isLookup(m_vo.displayType) && m_vo.IsDisplayed || m_vo.displayType == DisplayType.TableDir && m_vo.IsDisplayed
-				||m_vo.displayType == DisplayType.PAttribute)
+		if (DisplayType.isLookup(m_vo.displayType) && m_vo.IsDisplayed)
 		{
 			if (m_vo.lookupInfo == null)
 			{
@@ -158,11 +156,11 @@ public class GridField
 			MAccountLookup ma = new MAccountLookup (m_vo.ctx, m_vo.WindowNo);
 			m_lookup = ma;
 		}
-		//else if (m_vo.displayType == DisplayType.PAttribute)    //  not cached
-		//{
-		//	MPAttributeLookup pa = new MPAttributeLookup (m_vo.ctx, m_vo.WindowNo);
-		//	m_lookup = pa;
-		//}
+		else if (m_vo.displayType == DisplayType.PAttribute)    //  not cached
+		{
+			MPAttributeLookup pa = new MPAttributeLookup (m_vo.ctx, m_vo.WindowNo);
+			m_lookup = pa;
+		}
 	}   //  m_lookup
 
 	/**
@@ -369,6 +367,7 @@ public class GridField
 			if (!retValue)
 				return false;
 		}
+		
 
 		//  Always editable if Active
 		if (m_vo.ColumnName.equals("Processing")
