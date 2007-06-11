@@ -244,6 +244,9 @@ public class CComboBox extends JComboBox
 	{
 		if (bg.equals(getBackground()))
 			return;
+		// Set same color for editor component - teo_sarca [ 1735122 ]
+		if (getEditor() != null && getEditor().getEditorComponent() != null)
+			getEditor().getEditorComponent().setBackground(bg);
 		super.setBackground(bg);
 	}   //  setBackground
 
