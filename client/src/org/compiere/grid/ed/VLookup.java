@@ -442,17 +442,17 @@ public class VLookup extends JComponent
 		//	Set both for switching
 		if (value == null)
 		{
+			m_combo.setValue (value);
 			m_text.setText (null);
 			m_lastDisplay = "";
-			m_combo.setValue (value);
 			m_settingValue = false;
 			return;
 		}
 		if (m_lookup == null)
 		{
+			m_combo.setValue (value);
 			m_text.setText (value.toString());
 			m_lastDisplay = value.toString();
-			m_combo.setValue (value);
 			m_settingValue = false;
 			return;
 		}
