@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -153,7 +153,7 @@ public class WebDoc
 			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/standard.js")));
 		}
 		m_head.addElement(new meta().setHttpEquiv("Content-Type", "text/html; charset=UTF-8"));
-		m_head.addElement(new meta().setName("description", "Compiere HTML UI"));
+		m_head.addElement(new meta().setName("description", "ADempiere HTML UI"));
 
 		m_table = new table("0", "0", "0", "100%", null);	//	spacing 2
 		m_topRow = new tr();
@@ -167,7 +167,7 @@ public class WebDoc
 		m_topRow.addElement(m_topLeft);
 		//	Logo
 		m_topRight = new td().setAlign("right");
-		/** Removing/modifying the Compiere logo is a violation of the license	*/
+		
 		if (javaClient)
 			m_topRight.addElement(new img("http://www.adempiere.com/images/adempiere64x32.png")
 				.setAlign(AlignType.RIGHT).setAlt("Adempiere Inc."));
