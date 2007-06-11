@@ -1367,6 +1367,9 @@ final class VLookup_mouseAdapter extends java.awt.event.MouseAdapter
 		//	popup menu
 		if (SwingUtilities.isRightMouseButton(e))
 			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		// Hide the popup if not right click - teo_sarca [ 1734802 ]
+		else
+			m_adaptee.popupMenu.setVisible(false);
 	}	//	mouse Clicked
 
 }	//	VLookup_mouseAdapter
