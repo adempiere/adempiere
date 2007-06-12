@@ -1,114 +1,114 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_FieldGroup">
-  <row id="101" trl="Y">
-    <value column="Name" original="Status">Статус</value>
-  </row>
-  <row id="102" trl="Y">
-    <value column="Name" original="Quantities">Кол-во</value>
-  </row>
-  <row id="103" trl="Y">
-    <value column="Name" original="Amounts">Суммы</value>
-  </row>
-  <row id="104" trl="Y">
-    <value column="Name" original="Reference">Ссылка</value>
-  </row>
-  <row id="105" trl="Y">
-    <value column="Name" original="History">История</value>
-  </row>
-  <row id="106" trl="Y">
-    <value column="Name" original="Product">Товар</value>
-  </row>
-  <row id="107" trl="Y">
-    <value column="Name" original="Business Partner">Бизнес-партнер</value>
-  </row>
-  <row id="108" trl="Y">
-    <value column="Name" original="Warehouse">Склад</value>
-  </row>
-  <row id="109" trl="Y">
-    <value column="Name" original="Bank">Банк</value>
-  </row>
-  <row id="110" trl="Y">
-    <value column="Name" original="Cash Book">Кассовая книга</value>
-  </row>
-  <row id="111" trl="Y">
-    <value column="Name" original="Tax">Налог</value>
-  </row>
-  <row id="112" trl="Y">
-    <value column="Name" original="Project">Проект</value>
-  </row>
-  <row id="113" trl="Y">
-    <value column="Name" original="General">Общее</value>
-  </row>
-  <row id="114" trl="Y">
-    <value column="Name" original="Action">Действие</value>
-  </row>
-  <row id="115" trl="Y">
-    <value column="Name" original="Standard Cost">Стандартная стоимость</value>
-  </row>
-  <row id="116" trl="Y">
-    <value column="Name" original="Actual Costs">Фактич. стоимость</value>
-  </row>
-  <row id="117" trl="Y">
-    <value column="Name" original="Statistics">Статистика</value>
-  </row>
-  <row id="118" trl="Y">
-    <value column="Name" original="Defaults">По_умолчанию</value>
-  </row>
-  <row id="119" trl="Y">
-    <value column="Name" original="Request Management">Управление запросами</value>
-  </row>
-  <row id="120" trl="Y">
-    <value column="Name" original="Web Store">Web магазин</value>
-  </row>
-  <row id="121" trl="Y">
-    <value column="Name" original="Internal">Внутренние</value>
-  </row>
-  <row id="122" trl="Y">
-    <value column="Name" original="External">Внешние</value>
-  </row>
-  <row id="123" trl="Y">
-    <value column="Name" original="Common">Сомместный</value>
-  </row>
-  <row id="124" trl="Y">
-    <value column="Name" original="Shipment">Отгрузка</value>
-  </row>
-  <row id="125" trl="Y">
-    <value column="Name" original="Document">Документ</value>
-  </row>
-  <row id="126" trl="Y">
-    <value column="Name" original="Line">Строка</value>
-  </row>
-  <row id="127" trl="Y">
-    <value column="Name" original="Simulation">Имитация</value>
-  </row>
-  <row id="128" trl="Y">
-    <value column="Name" original="Calculations">Вычисление</value>
-  </row>
-  <row id="129" trl="Y">
-    <value column="Name" original="Proxy">Прокси</value>
-  </row>
-  <row id="130" trl="Y">
-    <value column="Name" original="Delivery">Доставка</value>
-  </row>
-  <row id="131" trl="Y">
-    <value column="Name" original="Invoicing">Инвойсинг</value>
-  </row>
-  <row id="132" trl="Y">
-    <value column="Name" original="Only ..">Только ..</value>
-  </row>
-  <row id="133" trl="Y">
-    <value column="Name" original="Selection">Выбор</value>
-  </row>
-  <row id="134" trl="Y">
-    <value column="Name" original="Workflow">Workflow</value>
-  </row>
-  <row id="135" trl="Y">
-    <value column="Name" original="Access">Доступ</value>
-  </row>
-  <row id="50000" trl="Y">
-    <value column="Name" original="Allow Info In Role">Инфо о роли доступна</value>
-  </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Status">Статус</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Quantities">Кол-во</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Amounts">Суммы</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Reference">Ссылка</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="History">История</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Product">Товар</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Business Partner">Бизнес-партнер</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Warehouse">Склад</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Bank">Банк</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Cash Book">Кассовая книга</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Tax">Налог</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Project">Проект</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="General">Общее</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="Action">Действие</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Standard Cost">Стд. с-стоимость</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Actual Costs">Фактич. с-стоимость</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Statistics">Статистика</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Defaults">По умолч.</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Request Management">Упр. запросами</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Web Store">Web магазин</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Internal">Внутренние</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="External">Внешние</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Common">Совместный</value>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="Shipment">Отгрузка</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Document">Док-т</value>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Line">Строка</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Simulation">Имитация</value>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Calculations">Вычисление</value>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Proxy">Прокси</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Delivery">Доставка</value>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Invoicing">Выписка С-Ф</value>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Only ..">Только ..</value>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="Selection">Выбор</value>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Workflow">Workflow</value>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="Access">Доступ</value>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Allow Info In Role">Доступ роли к инфо</value>
+ </row>
 </adempiereTrl>

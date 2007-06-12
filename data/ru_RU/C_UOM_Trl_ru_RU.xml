@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="C_UOM">
-  <row id="100" trl="Y">
-    <value column="Name" original="Each">шт</value>
-    <value column="Description" original=""/>
-    <value column="UOMSymbol" original="Ea ">шт</value>
-  </row>
-  <row id="101" trl="Y">
-    <value column="Name" original="Hour">час</value>
-    <value column="Description" original=""/>
-    <value column="UOMSymbol" original="h  ">час</value>
-  </row>
-  <row id="102" trl="Y">
-    <value column="Name" original="Day">день</value>
-    <value column="Description" original=""/>
-    <value column="UOMSymbol" original="d  ">дней</value>
-  </row>
-  <row id="103" trl="Y">
-    <value column="Name" original="Minutes">минут</value>
-    <value column="Description" original="(lowest unit for resorce assigments)">(наменьшая ед-ца ресурса)</value>
-    <value column="UOMSymbol" original="m  ">мин</value>
-  </row>
-  <row id="104" trl="Y">
-    <value column="Name" original="Work Day">Рабочий день</value>
-    <value column="Description" original="8 hour">8 часов</value>
-    <value column="UOMSymbol" original="D  ">дней</value>
-  </row>
-  <row id="105" trl="Y">
-    <value column="Name" original="Week">неделя</value>
-    <value column="Description" original=""/>
-    <value column="UOMSymbol" original="w  ">нед</value>
-  </row>
-  <row id="106" trl="Y">
-    <value column="Name" original="Month">месяц</value>
-    <value column="Description" original="30 days">30 дней</value>
-    <value column="UOMSymbol" original="m  ">мес</value>
-  </row>
-  <row id="107" trl="Y">
-    <value column="Name" original="Working Month">Рабочий месяц</value>
-    <value column="Description" original="20 days">20 дней</value>
-    <value column="UOMSymbol" original="M  ">мес</value>
-  </row>
-  <row id="108" trl="Y">
-    <value column="Name" original="Year">год</value>
-    <value column="Description" original=""/>
-    <value column="UOMSymbol" original="y  ">г</value>
-  </row>
+ <row id="100" trl="Y">
+  <value column="Name" original="Each">шт</value>
+  <value column="Description" original=""></value>
+  <value column="UOMSymbol" original="Ea ">шт</value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Hour">час</value>
+  <value column="Description" original=""></value>
+  <value column="UOMSymbol" original="h  ">час</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Day">день</value>
+  <value column="Description" original=""></value>
+  <value column="UOMSymbol" original="d  ">дней</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Minutes">минут</value>
+  <value column="Description" original="(lowest unit for resorce assigments)">Наменьшая ед-ца ресурса</value>
+  <value column="UOMSymbol" original="m  ">мин</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Work Day">Рабоч. день</value>
+  <value column="Description" original="8 hour">8 часов</value>
+  <value column="UOMSymbol" original="D  ">дней</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Week">неделя</value>
+  <value column="Description" original=""></value>
+  <value column="UOMSymbol" original="w  ">нед</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Month">месяц</value>
+  <value column="Description" original="30 days">30 дней</value>
+  <value column="UOMSymbol" original="m  ">мес</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Working Month">Рабоч. месяц</value>
+  <value column="Description" original="20 days">20 дней</value>
+  <value column="UOMSymbol" original="M  ">мес</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Year">год</value>
+  <value column="Description" original=""></value>
+  <value column="UOMSymbol" original="y  ">г</value>
+ </row>
 </adempiereTrl>

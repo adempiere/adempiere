@@ -1,71 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_WF_Node">
-  <row id="116" trl="Y">
-    <value column="Name" original="Accounting Schema">Бухг. схема</value>
-    <value column="Description" original="Project as Account Segment">Проект, как бухг. сегмент.</value>
-    <value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">Для возможности иметь бухг. отчетность по проектам. Создание и представление сегмента проекта в виде бухг. элементов.</value>
-  </row>
-  <row id="118" trl="Y">
-    <value column="Name" original="System Elements">Элементы системы</value>
-    <value column="Description" original="Translate System Elements">Перевод элементов системы</value>
-    <value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">Элементы системы, которые используются для централизованно определяемых меток полей, описаний и помощи. Когда переводится элемент, который определяет значение полей в окнах, параметрах и отчетах, то его значение (переведенное) перезаписывается</value>
-  </row>
-  <row id="119" trl="Y">
-    <value column="Name" original="Messages">Сообщения</value>
-    <value column="Description" original="Translate Messages">Перевод сообщений</value>
-    <value column="Help" original="Translate the messages used in Windows, Forms and Processes">Перевод сообщений, которые используются в окнах, формах и процессах</value>
-  </row>
-  <row id="120" trl="Y">
-    <value column="Name" original="Reference">Ссылка</value>
-    <value column="Description" original="Translate References">Перевод ссылок</value>
-    <value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">Ссылки, которые используются как предопределенные списки выборки. Вам нужно только перевести элементы списка!!!</value>
-  </row>
-  <row id="121" trl="Y">
-    <value column="Name" original="Window &amp; Tab">Окно &amp; вкладка</value>
-    <value column="Description" original="Translate Windows and Tabs">Перевод окон и вкладок</value>
-    <value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Перевод названия, описания и помощи для окон и вкладок. Некоторые из полей уже переведены, если они обслуживаются централизовано.</value>
-  </row>
-  <row id="122" trl="Y">
-    <value column="Name" original="Form">Формы</value>
-    <value column="Description" original="Translate Forms">Перевод форм</value>
-    <value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Формы - это специальные окна и вам нужно перевести эти названия, описания и помощь.</value>
-  </row>
-  <row id="123" trl="Y">
-    <value column="Name" original="Report &amp; Process">Отчеты и процессы</value>
-    <value column="Description" original="Translate Reports and Processes">Перевод отчетов и процессов</value>
-    <value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Перевод названия, описания и помощи для процессов и отчетов. Вам не нужно переводить параметры, если они обслуживаются централизованно.</value>
-  </row>
-  <row id="140" trl="Y">
-    <value column="Name" original="User">Пользователь</value>
-    <value column="Description" original="Define Sales Representative as User">Определение торгового представителя, как пользователя</value>
-    <value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">Пользователи могут заходить в систему и иметь доступ к функционалу через одну или более роль. Это дает возможность пользователю иметь доступ к отчетам о продажах в данной системе.</value>
-  </row>
-  <row id="141" trl="Y">
-    <value column="Name" original="Business Partner">Бизнес-партнер</value>
-    <value column="Description" original="Set up Sales Representative as Business Partner">Определение торгового представителя, как бизнес-партнера</value>
-    <value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">Установка торгового представителя, как сотрудника. Это помещает торгового представителя в список сотрудников. Так же производится установка в поставщики, если вы хотите производить оплаты.</value>
-  </row>
-  <row id="146" trl="Y">
-    <value column="Name" original="Workflow">Workflow</value>
-    <value column="Description" original="Translate Workflows">Перевод workflow</value>
-    <value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">Перевод названия, описания и помощи workflows и их узлов. Вам нужно перевести только элементы списка!!!</value>
-  </row>
-  <row id="152" trl="Y">
-    <value column="Name" original="Check Client Setup">Проверить настройки клиента</value>
-    <value column="Description" original="Check Client setup for Requests">Проверка настроек клиента для запросов</value>
-    <value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">Вам нужно иметь почтовый сервер и email адрес, с которого запросы и напоминания будут отправляться. Дополнительно, если  вы определяете mail user-а и password, то запросы будут читаться из mail users's папки и импортироваться в систему.</value>
-  </row>
-  <row id="153" trl="Y">
-    <value column="Name" original="Check Users">Проверить пользователей</value>
-    <value column="Description" original="Check users for Request processing">Проверка пользователей для выполнения запросов</value>
-    <value column="Help" original="Please ensure that users have a email address and supervisor assigned.">Убедитесь, чтобы эти пользователи имели email адрес и были назначены супервайзером.</value>
-  </row>
-  <row id="155" trl="Y">
-    <value column="Name" original="Check Business Partners">Проверить бизнес-партнеров</value>
-    <value column="Description" original="Check Business Partners for Request processing">Проверка бизнес-партнеров для выполнения запросов</value>
-    <value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">Вы можете отправить EMail-ы своим бизнес-партнерам. Убедитесь, что ваши бизнес-партнеры и/или контакты имеют email адреса.</value>
-  </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Accounting Schema">Бухг. схема</value>
+  <value column="Description" original="Project as Account Segment">Проект, как бухг. сегмент.</value>
+  <value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">Для возможности иметь бухг. отчетность по проектам. Создание и представление сегмента проекта в виде бухг. элементов.</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="System Elements">Элементы системы</value>
+  <value column="Description" original="Translate System Elements">Перевод элементов системы</value>
+  <value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">Элементы системы, которые используются для централизованно определяемых меток полей, описаний и помощи. Когда переводится элемент, который определяет значение полей в окнах, параметрах и отчетах, то его значение (переведенное) перезаписывается</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Messages">Сообщения</value>
+  <value column="Description" original="Translate Messages">Перевод сообщений</value>
+  <value column="Help" original="Translate the messages used in Windows, Forms and Processes">Перевод сообщений, которые используются в окнах, формах и процессах</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Reference">Ссылка</value>
+  <value column="Description" original="Translate References">Перевод ссылок</value>
+  <value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">Ссылки, которые используются как предопределенные списки выборки. Вам нужно только перевести элементы списка!!!</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Window &amp; Tab">Окно и вкладка</value>
+  <value column="Description" original="Translate Windows and Tabs">Перевод окон и вкладок</value>
+  <value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Перевод названия, описания и помощи для окон и вкладок. Некоторые из полей уже переведены, если они обслуживаются централизовано.</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="Form">Формы</value>
+  <value column="Description" original="Translate Forms">Перевод форм</value>
+  <value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Формы - это специальные окна и вам нужно перевести эти названия, описания и помощь.</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Report &amp; Process">Отчеты и процессы</value>
+  <value column="Description" original="Translate Reports and Processes">Перевод отчетов и процессов</value>
+  <value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Перевод названия, описания и помощи для процессов и отчетов. Вам не нужно переводить параметры, если они обслуживаются централизованно.</value>
+ </row>
+ <row id="140" trl="Y">
+  <value column="Name" original="User">Пользователь</value>
+  <value column="Description" original="Define Sales Representative as User">Определение торгового представителя, как пользователя</value>
+  <value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">Пользователи могут заходить в систему и иметь доступ к функционалу через одну или более роль. Это дает возможность пользователю иметь доступ к отчетам о продажах в данной системе.</value>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="Business Partner">Бизнес-партнер</value>
+  <value column="Description" original="Set up Sales Representative as Business Partner">Определение торгового представителя, как бизнес-партнера</value>
+  <value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">Установка торгового представителя, как сотрудника. Это помещает торгового представителя в список сотрудников. Так же производится установка в поставщики, если вы хотите производить оплаты.</value>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Name" original="Workflow">Workflow</value>
+  <value column="Description" original="Translate Workflows">Перевод workflow</value>
+  <value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">Перевод названия, описания и помощи workflows и их узлов. Вам нужно перевести только элементы списка!!!</value>
+ </row>
+ <row id="152" trl="Y">
+  <value column="Name" original="Check Client Setup">Проверить настройки клиента</value>
+  <value column="Description" original="Check Client setup for Requests">Проверка настроек клиента для запросов</value>
+  <value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">Вам нужно иметь почтовый сервер и email адрес, с которого запросы и напоминания будут отправляться. Дополнительно, если  вы определяете mail user-а и password, то запросы будут читаться из mail users's папки и импортироваться в систему.</value>
+ </row>
+ <row id="153" trl="Y">
+  <value column="Name" original="Check Users">Проверить пользователей</value>
+  <value column="Description" original="Check users for Request processing">Проверка пользователей для выполнения запросов</value>
+  <value column="Help" original="Please ensure that users have a email address and supervisor assigned.">Убедитесь, чтобы эти пользователи имели email адрес и были назначены супервайзером.</value>
+ </row>
+ <row id="155" trl="Y">
+  <value column="Name" original="Check Business Partners">Проверить БП</value>
+  <value column="Description" original="Check Business Partners for Request processing">Проверка бизнес-партнеров для выполнения запросов</value>
+  <value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">Вы можете отправить EMail-ы своим бизнес-партнерам. Убедитесь, что ваши бизнес-партнеры и/или контакты имеют email адреса.</value>
+ </row>
 </adempiereTrl>

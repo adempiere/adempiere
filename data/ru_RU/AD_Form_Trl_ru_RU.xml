@@ -1,115 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070502-0921 - ${env.ADEMPIERE_VENDOR}-->
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Form">
-  <row id="100" trl="Y">
-    <value column="Name" original="Generate Invoices (manual)">Генерировать инвойсы (вручную)</value>
-    <value column="Description" original="Select and generate invoices"/>
-    <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."/>
-  </row>
-  <row id="101" trl="Y">
-    <value column="Name" original="Import File Loader">Импорт загрузчика файлов</value>
-    <value column="Description" original="Load flat Files into import tables"/>
-    <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."/>
-  </row>
-  <row id="102" trl="Y">
-    <value column="Name" original="Initial Client Setup">Создание нового клиента</value>
-    <value column="Description" original="Initial new Client/Tenant Setup"/>
-    <value column="Help" original="Set up a new Client/Tenant of the system"/>
-  </row>
-  <row id="103" trl="Y">
-    <value column="Name" original="Material Transactions">Транзакции с материалами</value>
-    <value column="Description" original="Material Transactions">Транзакции с материалами</value>
-    <value column="Help" original=""/>
-  </row>
-  <row id="104" trl="Y">
-    <value column="Name" original="Payment Allocation">Распределение оплат</value>
-    <value column="Description" original="Allocate invoices and payments"/>
-    <value column="Help" original=""/>
-  </row>
-  <row id="105" trl="Y">
-    <value column="Name" original="Generate Charges">Генерировать затраты</value>
-    <value column="Description" original="Generate Charges from natural accounts">Генерировать затраты с натуральных счетов</value>
-    <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."/>
-  </row>
-  <row id="106" trl="Y">
-    <value column="Name" original="Payment Print/Export">Печать/экспорт оплаты</value>
-    <value column="Description" original="Print or export your payments"/>
-    <value column="Help" original=""/>
-  </row>
-  <row id="107" trl="Y">
-    <value column="Name" original="Payment Selection (manual)">Выбор оплаты (вручную)</value>
-    <value column="Description" original="Manual Payment Selection"/>
-    <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."/>
-  </row>
-  <row id="108" trl="Y">
-    <value column="Name" original="Matching PO-Receipt-Invoice">Сравнить PO-получение-инвойс</value>
-    <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices"/>
-    <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."/>
-  </row>
-  <row id="109" trl="Y">
-    <value column="Name" original="Translation Import/Export">Импорт-экспорт перевода</value>
-    <value column="Description" original="Import or Export Language Translation">Импорт или экспорт перевода языка</value>
-    <value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage.">Экспорт/Импорт переведенной инфо в/из xml для перевода внешними инструментами. Пожалуйста запомните, что язык должен быть установлен как системный.</value>
-  </row>
-  <row id="110" trl="Y">
-    <value column="Name" original="Generate Shipments (manual)">Генерировать отгрузки (вручную)</value>
-    <value column="Description" original="Select and generate shipments">Выбор и генерирация отгрузок</value>
-    <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">Генерировать отгрузки из заказов. 
+ <row id="100" trl="Y">
+  <value column="Name" original="Generate Invoices (manual)">Генерировать С-Ф вручную</value>
+  <value column="Description" original="Select and generate invoices"></value>
+  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."></value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Import File Loader">Импорт загрузчика файлов</value>
+  <value column="Description" original="Load flat Files into import tables"></value>
+  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."></value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Initial Client Setup">Создание нов. клиента</value>
+  <value column="Description" original="Initial new Client/Tenant Setup"></value>
+  <value column="Help" original="Set up a new Client/Tenant of the system"></value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Material Transactions">Транзакции с материалами</value>
+  <value column="Description" original="Material Transactions">Транзакции с материалами</value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Payment Allocation">Распределение оплат</value>
+  <value column="Description" original="Allocate invoices and payments"></value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Generate Charges">Генерировать затраты</value>
+  <value column="Description" original="Generate Charges from natural accounts">Генерировать затраты с натуральных счетов</value>
+  <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."></value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Payment Print/Export">Печать/экспорт оплаты</value>
+  <value column="Description" original="Print or export your payments"></value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Payment Selection (manual)">Выбор оплаты вручную</value>
+  <value column="Description" original="Manual Payment Selection"></value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."></value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Matching PO-Receipt-Invoice">Сравнить ЗП-получение-С-Ф</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices"></value>
+  <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."></value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Translation Import/Export">Импорт-экспорт перевода</value>
+  <value column="Description" original="Import or Export Language Translation">Импорт или экспорт перевода языка</value>
+  <value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage.">Экспорт-импорт переведенной инфо в/из xml для перевода внешними инструментами. Пожалуйста помните, что язык должен быть установлен как системный.</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Generate Shipments (manual)">Генерировать отгрузки вручную</value>
+  <value column="Description" original="Select and generate shipments">Выбор и генерирация отгрузок</value>
+  <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">Генерировать отгрузки из заказов. 
 Выбор заказов для генерации отгрузок.</value>
-  </row>
-  <row id="111" trl="Y">
-    <value column="Name" original="SQL Process">Обработка SQL</value>
-    <value column="Description" original="Process SQL Statements">Состояние обработки SQL</value>
-    <value column="Help" original="Process SQL DDL Statements">Состояние обработки SQL DDL</value>
-  </row>
-  <row id="112" trl="Y">
-    <value column="Name" original="Merge Entities">Перемещение содержимого</value>
-    <value column="Description" original="Merge From Entity to To Entity - Delete From">Перемещение Из объекта &gt; В объект - содержимое Из будет удалено</value>
-    <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;ОПАСНО - Вы должны понимать Что вы делаете!&lt;/i&gt;
-Все данные Из объекта (например, клиента A) будут изменены на В (на) объект (например, на клиента B). Содержимое Из объекта (например, клиент A) будет удалено.
-&lt;p&gt;&lt;b&gt;Здесь НЕТ undo. Изменения Необратимы ! Пожалуйста сначала сделайте backup&lt;/b&gt; Также помните, что вы можете изменить историю записей  (например, инвойсов и т.д.) ! &lt;p&gt;&lt;p&gt;&lt;b&gt;Side effects:&lt;b&gt; Поглощение товаров вызывает искажение стоимости товаров; Поглощение бизнес-партнеров может вызвать неправильное открытие статьи баланса. Проверка с поддержкой на исправление.
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="SQL Process">Обработка SQL</value>
+  <value column="Description" original="Process SQL Statements">Состояние обработки SQL</value>
+  <value column="Help" original="Process SQL DDL Statements">Состояние обработки SQL DDL</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Merge Entities">Перемещение содержимого</value>
+  <value column="Description" original="Merge From Entity to To Entity - Delete From">Перемещение Из объекта &gt; В объект - содержимое Из будет удалено</value>
+  <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;ОПАСНО - Вы должны понимать Что вы делаете!&lt;/i&gt;
+Все данные объекта А (например, данные клиента A) будут заменены на данные объекта В (например, на данные клиента B). Данные объекта А  (например, клиента A) будут удалены.
+&lt;p&gt;&lt;b&gt;Изменения нельзя откатить назад. Изменения Необратимы! Пожалуйста сначала сделайте backup&lt;/b&gt; Также помните, что вы можете изменить историю записей (например, счетов-фактур и т.д.)! &lt;p&gt;&lt;p&gt;&lt;b&gt;Побочные эффекты:&lt;b&gt; Поглощение товаров вызывает искажение себестоимости товаров; Поглощение бизнес-партнеров может вызвать неправильное открытие статьи баланса. Проверка с поддержкой на исправление.
 &lt;p&gt;&lt;b&gt;Запреты:&lt;&gt; Бухгалтерские и инвентаризационные конфликты не разрешимы в этой версии.</value>
-  </row>
-  <row id="113" trl="Y">
-    <value column="Name" original="POS">Точка продажи</value>
-    <value column="Description" original="Point Of Sales Terminal">Терминал точки продажи</value>
-    <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Ввод транзакций через POS терминал. Применяется автоматическое сканирование или считывание с кредитной карточки.</value>
-  </row>
-  <row id="114" trl="Y">
-    <value column="Name" original="BOM Drop">Бросить BOM</value>
-    <value column="Description" original="Drop (expand) Bill of Materials">Бросить (добавить) ведомость материалов</value>
-    <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Бросить (добавить) ведомость материалов в заказ, инвойс и т.д. Для этого нужно, чтобы документ существовал в черновом варианте. Необходимо, чтобы ведомость существовала в прайс-листе заказов, инвойсов и т.д. - иначе цена будет ноль!</value>
-  </row>
-  <row id="115" trl="Y">
-    <value column="Name" original="Tree Maintenance">Управление деревом</value>
-    <value column="Description" original="Maintain Trees">Управление деревом</value>
-    <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Просмотр и изменение структуры. Управление записями в своих специфических окнах.</value>
-  </row>
-  <row id="116" trl="Y">
-    <value column="Name" original="Workflow Editor">Редактор workflow</value>
-    <value column="Description" original="Edit Workflows">Редактировать workflows</value>
-    <value column="Help" original="Edit the graphical layout of workflows">Редактировать графическую схему workflows</value>
-  </row>
-  <row id="117" trl="Y">
-    <value column="Name" original="Workflow Activities">Активность workflow</value>
-    <value column="Description" original="My active workflow activities">Моя рабочая workflow активность</value>
-    <value column="Help" original="View active worflow activities">Просмотр активности workflow</value>
-  </row>
-  <row id="118" trl="Y">
-    <value column="Name" original="Archive Viewer">Просмотрщик архива</value>
-    <value column="Description" original="View automatically archived Documents">Просмотр автоматически заархивированных документов</value>
-    <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">В зависимости от уровня автоматического архивирования клиента, документы и отчеты сохраняются и доступны для последущего просмотра. В просмотрщике архивов вы можете вручную архивировать документы и отчеты. Вы можете только просматривать архивы, если конечно имеете доступ к оригиналу документа.</value>
-  </row>
-  <row id="119" trl="Y">
-    <value column="Name" original="Performance Indicators">Индикаторы продуктивности</value>
-    <value column="Description" original="View Performance Indicators">Просмотр индикаторов продуктивности</value>
-    <value column="Help" original="View all Performance Indicators and Goals">Просмотр всех индикаторов продуктивности и поставленных целей</value>
-  </row>
-  <row id="120" trl="Y">
-    <value column="Name" original="Product Attribute Grid">Таблица атрибутов товара</value>
-    <value column="Description" original="Maintain Products with Attributes in a Table Grid">Управление товарами с атрибутами в таблице</value>
-    <value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">Выбор одного или двух атрибутов, если атрибут товара и отображение/управление товарами производится строкой или в виде таблицы.</value>
-  </row>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="POS">POS терминал</value>
+  <value column="Description" original="Point Of Sales Terminal">POS терминал</value>
+  <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Ввод транзакций через POS терминал. Применяется автоматическое сканирование или считывание с кредитной карты.</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="BOM Drop">Включить специф-ию</value>
+  <value column="Description" original="Drop (expand) Bill of Materials">Включить (добавить) спецификацию</value>
+  <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Включить (добавить) спецификацию в заказ, счет-фактуру и т.д. Для этого нужно, чтобы документ существовал в черновом варианте. Необходимо, чтобы спецификация существовала в прайс-листе заказов, счетов-фактур и т.д. - иначе цена будет ноль!</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Tree Maintenance">Упр. деревом</value>
+  <value column="Description" original="Maintain Trees">Упр. деревом</value>
+  <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Просмотр и изменение дерева (структуры). Управление записями в своих специфических окнах.</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Workflow Editor">Редактор wf</value>
+  <value column="Description" original="Edit Workflows">Редактир wf</value>
+  <value column="Help" original="Edit the graphical layout of workflows">Редактировать графическую схему workflows</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Workflow Activities">Активность wf</value>
+  <value column="Description" original="My active workflow activities">Мои рабочие активности workflow</value>
+  <value column="Help" original="View active worflow activities">Просмотр активности workflow</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Archive Viewer">Просмотрщик архива</value>
+  <value column="Description" original="View automatically archived Documents">Просмотр автоматически заархивированных документов</value>
+  <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">В зависимости от уровня автоматического архивирования клиента, документы и отчеты сохраняются и доступны для последущего просмотра. В просмотрщике архивов вы можете вручную архивировать документы и отчеты. Вы можете только просматривать архивы, если конечно имеете доступ к оригиналу документа.</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Performance Indicators">Индикаторы продуктивности</value>
+  <value column="Description" original="View Performance Indicators">Просмотр индикаторов продуктивности</value>
+  <value column="Help" original="View all Performance Indicators and Goals">Просмотр всех индикаторов продуктивности и поставленных целей</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Product Attribute Grid">Таблица атрибутов товара</value>
+  <value column="Description" original="Maintain Products with Attributes in a Table Grid">Управление товарами с атрибутами в табличном виде</value>
+  <value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">Выбор одного или двух атрибутов, если атрибут товара и отображение/управление товарами производится строкой или в виде таблицы.</value>
+ </row>
 </adempiereTrl>
