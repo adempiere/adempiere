@@ -1166,12 +1166,13 @@ public class GridTable extends AbstractTableModel
 
 		//	Update SQL with specific where clause
 		StringBuffer select = new StringBuffer("SELECT ");
-		for (int i = 0; i < m_fields.size(); i++)
+		for (int i = 0, addedColumns = 0; i < m_fields.size(); i++)
 		{
 			GridField field = (GridField)m_fields.get(i);
 			if (m_inserting && field.isVirtualColumn())
 				continue;
-			if (i > 0)
+			// Add "," if it is not the first added column - teo_sarca [ 1735618 ]
+			if (addedColumns++ > 0)
 				select.append(",");
 			select.append(field.getColumnSQL(true));	//	ColumnName or Virtual Column
 		}
