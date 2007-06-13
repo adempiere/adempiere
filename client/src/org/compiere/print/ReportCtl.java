@@ -18,12 +18,12 @@ package org.compiere.print;
 
 import java.util.logging.*;
 
-import javax.swing.JFrame;
-
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
+
+import sun.misc.Launcher;
 
 /**
  *	Report Controller.
@@ -42,6 +42,8 @@ public class ReportCtl
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (ReportCtl.class);
+	
+	private static ReportViewerProvider viewerProvider = new SwingViewerProvider(); 
 	
 	/**
 	 *	Create Report.
@@ -70,23 +72,40 @@ public class ReportCtl
 	 */
 	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean IsDirectPrint)
 	{
+		pi.setPrintPreview(!IsDirectPrint);
+		return start(parent, WindowNo, pi);
+	}
+	
+	/**
+	 *	Create Report.
+	 *	Called from ProcessCtl.
+	 *	- Check special reports first, if not, create standard Report
+	 *
+	 *  @param parent The window which invoked the printing
+	 *  @param WindowNo The windows number which invoked the printing
+	 *  @param pi process info
+	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @return true if created
+	 */
+	static public boolean start (ASyncProcess parent, int WindowNo, ProcessInfo pi)
+	{
 		s_log.info("start - " + pi);
 
 		/**
 		 *	Order Print
 		 */
 		if (pi.getAD_Process_ID() == 110)			//	C_Order
-			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 116)		//	C_Invoice
-			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 117)		//	M_InOut
-			return startDocumentPrint(ReportEngine.SHIPMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.SHIPMENT, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 217)		//	C_Project
-			return startDocumentPrint(ReportEngine.PROJECT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.PROJECT, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 276)		//	C_RfQResponse
-			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.RFQ, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 313)		//	C_Payment
-			return startCheckPrint(pi.getRecord_ID(), IsDirectPrint);
+			return startCheckPrint(pi.getRecord_ID(), !pi.isPrintPreview());
 		/**
         else if (pi.getAD_Process_ID() == 290)      // Movement Submission by VHARCQ
             return startDocumentPrint(ReportEngine.MOVEMENT, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
@@ -96,17 +115,16 @@ public class ReportCtl
 			return startDocumentPrint(REMITTANCE, pi, IsDirectPrint);
 		**/
 		else if (pi.getAD_Process_ID() == 159)		//	Dunning
-			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), parent, WindowNo, IsDirectPrint);
+			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
 			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
 		   return startFinReport (pi);
 		/********************
 		 *	Standard Report
 		 *******************/
-		return startStandardReport (pi, IsDirectPrint);
+		return startStandardReport (pi);
 	}	//	create
 
-	
 	/**************************************************************************
 	 *	Start Standard Report.
 	 *  - Get Table Info & submit
@@ -116,18 +134,27 @@ public class ReportCtl
 	 */
 	static public boolean startStandardReport (ProcessInfo pi, boolean IsDirectPrint)
 	{
+		pi.setPrintPreview(!IsDirectPrint);
+		return startStandardReport(pi);
+	}
+	
+	/**************************************************************************
+	 *	Start Standard Report.
+	 *  - Get Table Info & submit
+	 *  @param pi Process Info
+	 *  @param IsDirectPrint if true, prints directly - otherwise View
+	 *  @return true if OK
+	 */
+	static public boolean startStandardReport (ProcessInfo pi)
+	{
 		ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
 		if (re == null)
 		{
 			pi.setSummary("No ReportEngine");
 			return false;
 		}
-		if (IsDirectPrint)
-		{
-			re.print();
-		}
-		else
-			preview(re);
+		
+		createOutput(re, pi.isPrintPreview());
 		return true;
 	}	//	startStandardReport
 
@@ -156,7 +183,7 @@ public class ReportCtl
 		PrintInfo info = new PrintInfo(pi);
 
 		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-		preview(re);
+		createOutput(re, pi.isPrintPreview());
 		return true;
 	}	//	startFinReport
 	
@@ -183,7 +210,8 @@ public class ReportCtl
 	 * 	@param IsDirectPrint if true, prints directly - otherwise View
 	 * 	@return true if success
 	 */
-	public static boolean startDocumentPrint (int type, int Record_ID, ASyncProcess parent, int WindowNo, boolean IsDirectPrint)
+	public static boolean startDocumentPrint (int type, int Record_ID, ASyncProcess parent, int WindowNo, 
+			boolean IsDirectPrint)
 	{
 		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
 		if (re == null)
@@ -195,7 +223,7 @@ public class ReportCtl
 		if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
 		{
 			ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
-			
+			pi.setPrintPreview(!IsDirectPrint);
 			//	Execute Process
 			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
 			if(worker == null) // Process has been canceled
@@ -209,13 +237,11 @@ public class ReportCtl
 		}
 		else
 		{
+			createOutput(re, !IsDirectPrint);
 			if (IsDirectPrint)
 			{
-				re.print ();
 				ReportEngine.printConfirm (type, Record_ID);
 			}
-			else
-				preview(re);
 		}
 		
 		return true;
@@ -243,10 +269,29 @@ public class ReportCtl
 		return startDocumentPrint (ReportEngine.CHECK, C_PaySelectionCheck_ID, null, -1, IsDirectPrint);
 	}	//	startCheckPrint
 	
-	private static void preview(ReportEngine re) {
-		Viewer viewer = new Viewer(re);
-		JFrame top = Env.getWindow(0);
-		if (top instanceof AMenu)
-			((AMenu)top).getWindowManager().add(viewer);
+	private static void createOutput(ReportEngine re, boolean printPreview)
+	{
+		if (printPreview)
+			preview(re);
+		else 
+			re.print();
+	}
+	
+	private static void preview(ReportEngine re) 
+	{
+		ReportViewerProvider provider = getReportViewerProvider();
+		provider.openViewer(re);
+	}
+	
+	public static void setReportViewerProvider(ReportViewerProvider provider)
+	{
+		if (provider == null)
+			throw new IllegalArgumentException("Cannot set report viewer provider to null");
+		viewerProvider = provider;
+	}
+	
+	public static ReportViewerProvider getReportViewerProvider()
+	{
+		return viewerProvider;
 	}
 }	//	ReportCtl

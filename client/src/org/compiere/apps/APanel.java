@@ -159,7 +159,7 @@ public final class APanel extends CPanel
 	}	//	jbInit
 
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
-							aNew, aCopy, aDelete, aPrint,
+							aNew, aCopy, aDelete, aPrint, aPrintPreview,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
 	/** Ignore Button		*/
@@ -191,6 +191,7 @@ public final class APanel extends CPanel
 		aScrShot =	addAction("ScreenShot",		mFile,	KeyStroke.getKeyStroke(KeyEvent.VK_PRINTSCREEN, Event.SHIFT_MASK), 	false);
 		aReport = 	addAction("Report",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0),	false);
 		aPrint = 	addAction("Print",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),	false);
+		aPrintPreview = addAction("PrintPreview",	mFile, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.SHIFT_MASK+Event.ALT_MASK), false);
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
 		aLogout = 	addAction("Logout", 		mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), false);
@@ -339,6 +340,7 @@ public final class APanel extends CPanel
 		toolBar.addSeparator();
 		toolBar.add(aReport.getButton());
 		toolBar.add(aArchive.getButton());
+		toolBar.add(aPrintPreview.getButton());
 		toolBar.add(aPrint.getButton());
 		toolBar.addSeparator();
 		if (m_isPersonalLock)
@@ -1184,6 +1186,7 @@ public final class APanel extends CPanel
 		}
 		//	Document Print
 		aPrint.setEnabled(m_curTab.isPrinted());
+		aPrintPreview.setEnabled(m_curTab.isPrinted());
 		//	Query
 		aFind.setPressed(m_curTab.isQueryActive());
 
@@ -1319,6 +1322,8 @@ public final class APanel extends CPanel
 				cmd_report();
 			else if (cmd.equals(aPrint.getName()))
 				cmd_print();
+			else if (cmd.equals(aPrintPreview.getName()))
+				cmd_print(true);
 			else if (cmd.equals(aEnd.getName()))
 				cmd_end(false);
 			else if (cmd.equals(aExit.getName()))
@@ -1694,6 +1699,7 @@ public final class APanel extends CPanel
 		}
 		m_curTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
+		
 	}   //  cmd_ignore
 
 	/**
@@ -1824,6 +1830,14 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_print()
 	{
+		cmd_print(false);
+	}
+	
+	/**
+	 *	Print specific Report - or start default Report
+	 */
+	private void cmd_print(boolean printPreview)
+	{
 		//	Get process defined for this tab
 		int AD_Process_ID = m_curTab.getAD_Process_ID();
 		log.info("ID=" + AD_Process_ID);
@@ -1842,6 +1856,7 @@ public final class APanel extends CPanel
 		ProcessInfo pi = new ProcessInfo (getTitle(), AD_Process_ID, table_ID, record_ID);
 		pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
 		pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+		pi.setPrintPreview(printPreview);
 
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
 	}   //  cmd_print

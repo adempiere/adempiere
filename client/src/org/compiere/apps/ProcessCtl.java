@@ -174,11 +174,13 @@ public class ProcessCtl implements Runnable
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters
-		if (!parameter.saveParameters())
-		{
-			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
-			pi.setError (true);
-			return null;
+		if (parameter != null) {
+			if (!parameter.saveParameters())
+			{
+				pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
+				pi.setError (true);
+				return null;
+			}
 		}
 
 		//	execute
@@ -258,6 +260,8 @@ public class ProcessCtl implements Runnable
 		int		AD_Workflow_ID = 0;
 		boolean IsReport = false;
 		boolean	IsDirectPrint = false;
+		boolean isPrintPreview = m_pi.isPrintPreview();
+
 		//
 		String sql = "SELECT p.Name, p.ProcedureName,p.ClassName, p.AD_Process_ID,"		//	1..4
 			+ " p.isReport,p.IsDirectPrint,p.AD_ReportView_ID,p.AD_Workflow_ID,"		//	5..8
@@ -297,7 +301,8 @@ public class ProcessCtl implements Runnable
 				if ("Y".equals(rs.getString(5)))
 				{
 					IsReport = true;
-					if ("Y".equals(rs.getString(6)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW))
+					if ("Y".equals(rs.getString(6)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
+							&& !isPrintPreview )
 						IsDirectPrint = true;
 				}
 				AD_ReportView_ID = rs.getInt(7);
