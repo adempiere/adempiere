@@ -727,19 +727,21 @@ public class ReportStarter implements ProcessCall {
             pstmt.setInt(1, pi.getAD_PInstance_ID());
             rs = pstmt.executeQuery();
             String path = null;
-            String tmp = null;
             boolean	directPrint = false;
             boolean isPrintPreview = pi.isPrintPreview();
-            if (rs.next()) {
+			
+			if (rs.next()) {
                 path = rs.getString(1);
-                tmp = rs.getString(2);
+				
+				if ("Y".equalsIgnoreCase(rs.getString(2)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
+						&& !isPrintPreview )
+					directPrint = true;
             } else {
-                log.info("data not found; sql = "+sql);
+                log.severe("data not found; sql = "+sql);
+				return null;
             }
-            if ("Y".equals(rs.getString(6)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
-					&& !isPrintPreview )
-				directPrint = true;
-            return new ReportData( path, directPrint);
+			
+			return new ReportData( path, directPrint);
         } catch (SQLException e) {
             log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
             return null;
