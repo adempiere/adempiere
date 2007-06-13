@@ -69,7 +69,7 @@ public final class MLookup extends Lookup implements Serializable
 	//	if (TabNo != 0)
 	//		m_loader.setPriority(Thread.NORM_PRIORITY - 1);
 		m_loader.start();
-	//	m_loader.run();		//	test sync call
+		//m_loader.run();		//	test sync call
 	}	//	MLookup
 
 	/** Inactive Marker Start       */
@@ -346,6 +346,7 @@ public final class MLookup extends Lookup implements Serializable
 		boolean validated = this.isValidated(m_info);
 		if (validated)
 			return new ArrayList<Object>(m_lookup.values());
+		
 
 		//if (!m_info.IsValidated && onlyValidated)
 		if (!validated && onlyValidated)
@@ -369,7 +370,7 @@ public final class MLookup extends Lookup implements Serializable
 	{
 		//	create list
 		ArrayList<Object> list = getData (onlyValidated, temporary);
-
+		
 		//  Remove inactive choices
 		if (onlyActive && m_hasInactive)
 		{
@@ -540,16 +541,18 @@ public final class MLookup extends Lookup implements Serializable
 	 */
 	public int refresh ()
 	{
+		if (m_refreshing) return 0;
 		return refresh(true);
 	}	//	refresh
 
 	/**
 	 *	Refresh & return number of items read
 	 * 	@param loadParent get data of parent lookups
-	 *  @return no of items read
+	 *  @return no of items refresh
 	 */
 	public int refresh (boolean loadParent)
 	{
+		if (m_refreshing) return 0;
 		if (!loadParent && m_info.IsParent)
 			return 0;
 		//  Don't load Search or CreatedBy/UpdatedBy
