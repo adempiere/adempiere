@@ -49,6 +49,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.utils.DBUtils;
@@ -62,6 +63,8 @@ public class ReportStarter implements ProcessCall {
 //logger
 	private static CLogger log = CLogger.getCLogger(ReportStarter.class);
 	private static File REPORT_HOME = null;
+	
+	private static JRViewerProvider viewerProvider = new SwingJRViewerProvider();
 
     static {
         System.setProperty( "javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
@@ -337,7 +340,7 @@ public class ReportStarter implements ProcessCall {
         if (trx != null) {
         	trxName = trx.getTrxName();
         }
-        ReportData reportData = getReportData( AD_PInstance_ID, trxName);
+        ReportData reportData = getReportData( pi, trxName);
         if (reportData==null) {
             reportResult( AD_PInstance_ID, "Can not find report data", trxName);
             return false;
@@ -454,9 +457,8 @@ public class ReportStarter implements ProcessCall {
 //                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
                     } else {
                         log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
-                        JasperViewer jasperViewer = new JasperViewer( jasperPrint, pi.getTitle()+" - " + reportPath);
-						jasperViewer.setExtendedState(jasperViewer.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
-                        jasperViewer.setVisible(true);
+                        JRViewerProvider viewerLauncher = getReportViewerProvider();
+                        viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
                     }
                 } catch (JRException e) {
                     log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
@@ -709,10 +711,10 @@ public class ReportStarter implements ProcessCall {
 
     /**
      * @author rlemeill
-     * @param AD_PInstance_ID
+     * @param ProcessInfo
      * @return ReportData
      */
-    public ReportData getReportData( int AD_PInstance_ID, String trxName) {
+    public ReportData getReportData( ProcessInfo pi, String trxName) {
     	log.info("");
         String sql = "SELECT pr.JasperReport, pr.IsDirectPrint "
         		   + "FROM AD_Process pr, AD_PInstance pi "
@@ -722,18 +724,22 @@ public class ReportStarter implements ProcessCall {
         ResultSet rs = null;
         try {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
-            pstmt.setInt(1, AD_PInstance_ID);
+            pstmt.setInt(1, pi.getAD_PInstance_ID());
             rs = pstmt.executeQuery();
             String path = null;
             String tmp = null;
-            //boolean directPrint;
+            boolean	directPrint = false;
+            boolean isPrintPreview = pi.isPrintPreview();
             if (rs.next()) {
                 path = rs.getString(1);
                 tmp = rs.getString(2);
             } else {
                 log.info("data not found; sql = "+sql);
             }
-            return new ReportData( path, ((tmp.equalsIgnoreCase("y"))?true:false));
+            if ("Y".equals(rs.getString(6)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
+					&& !isPrintPreview )
+				directPrint = true;
+            return new ReportData( path, directPrint);
         } catch (SQLException e) {
             log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
             return null;
@@ -741,6 +747,16 @@ public class ReportStarter implements ProcessCall {
             DBUtils.close( rs);
             DBUtils.close( pstmt);
         }
+    }
+    
+    public static void setReportViewerProvider(JRViewerProvider provider) {
+    	if (provider == null)
+    		throw new IllegalArgumentException("Cannot set report viewer provider to null");
+    	viewerProvider = provider;
+    }
+    
+    public static JRViewerProvider getReportViewerProvider() {
+    	return viewerProvider;
     }
 
     class ReportData {
