@@ -78,18 +78,7 @@ public final class ProcessUtil {
 		ProcessCall process = null;
 		try
 		{
-			if(processClass.getName().equals("org.compiere.report.ReportStarter"))
-			{
-				Class clazz = Class.forName("org.compiere.report.ReportStarter");
-				Object processObj = processClass.newInstance();
-				process = (ProcessCall)clazz.cast(processObj);
-			}
-			else
-			{
-				Class clazz = Class.forName("org.compiere.process.SvrProcess");
-				Object processObj = processClass.newInstance();
-				process = (ProcessCall)clazz.cast(processObj);
-			}
+			process = (ProcessCall)processClass.newInstance();
 		}
 		catch (Exception ex)
 		{
