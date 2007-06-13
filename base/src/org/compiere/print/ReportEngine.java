@@ -799,10 +799,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 	/**
 	 * 	Write PostScript to writer
-	 * 	@param fos file output stream
+	 * 	@param os output stream
 	 * 	@return true if success
 	 */
-	public boolean createPS (FileOutputStream fos)
+	public boolean createPS (OutputStream os)
 	{
 		try
 		{
@@ -817,7 +817,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			}
 			//	just use first one - sun.print.PSStreamPrinterFactory
 			//	System.out.println("- " + spsfactories[0]);
-			StreamPrintService sps = spsfactories[0].getPrintService(fos);
+			StreamPrintService sps = spsfactories[0].getPrintService(os);
 			//	get format
 			if (m_layout == null)
 				layout();
@@ -825,8 +825,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			sps.createPrintJob().print(m_layout.getPageable(false), 
 				new HashPrintRequestAttributeSet());
 			//
-			fos.flush();
-			fos.close();
+			os.flush();
+			//following 2 line for backward compatibility
+			if (os instanceof FileOutputStream)
+				((FileOutputStream)os).close();
 		}
 		catch (Exception e)
 		{

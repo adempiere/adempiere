@@ -44,6 +44,10 @@ public class ProcessInfo implements Serializable
 		setAD_Process_ID(AD_Process_ID);
 		setTable_ID (Table_ID);
 		setRecord_ID (Record_ID);
+		if (Ini.isPropertyBool(Ini.P_PRINTPREVIEW))
+			m_printPreview = true;
+		else
+			m_printPreview = false;
 	}   //  ProcessInfo
 
 	/**
@@ -105,6 +109,8 @@ public class ProcessInfo implements Serializable
 	
 	/** Transaction Name 			*/
 	private String				m_transactionName = null;
+	
+	private boolean				m_printPreview = false;
 
 
 	/**
@@ -601,5 +607,15 @@ public class ProcessInfo implements Serializable
 	public void setTransactionName(String trxName)
 	{
 		m_transactionName = trxName;
+	}
+	
+	public void setPrintPreview(boolean b)
+	{
+		m_printPreview = b;
+	}
+	
+	public boolean isPrintPreview()
+	{
+		return m_printPreview;
 	}
 }   //  ProcessInfo
