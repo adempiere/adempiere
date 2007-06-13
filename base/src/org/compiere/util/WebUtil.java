@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -116,7 +116,7 @@ public final class WebUtil
 	 *  Create Exit Page "Log-off".
 	 *  <p>
 	 *  - End Session
-	 *  - Go to start page (e.g. /compiere/index.html)
+	 *  - Go to start page (e.g. /adempiere/index.html)
 	 *
 	 *  @param request request
 	 *  @param response response
@@ -244,7 +244,7 @@ public final class WebUtil
 			outStr.append(inStr.substring(0, i));			// up to &#
 			inStr = inStr.substring(i+2, inStr.length());	// from &#
 
-			int j = inStr.indexOf(";");						// next ;
+			int j = inStr.indexOf(';');						// next ;
 			if (j < 0)										// no second tag
 			{
 				inStr = "&#" + inStr;
@@ -510,7 +510,7 @@ public final class WebUtil
 		if (cookieProperties != null)
 		{
 			Cookie cookie = new Cookie (WebEnv.COOKIE_INFO, propertiesEncode(cookieProperties));
-			cookie.setComment("(c) ComPiere, Inc - Jorg Janke");
+			cookie.setComment("(c) adempiere, Inc - Jorg Janke");
 			cookie.setSecure(false);
 			cookie.setPath("/");
 			if (cookieProperties.size() == 0)
@@ -688,7 +688,7 @@ public final class WebUtil
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try
 		{
-			pp.store(bos, "Compiere");   //  Header
+			pp.store(bos, "adempiere");   //  Header
 		}
 		catch (IOException e)
 		{
@@ -999,7 +999,7 @@ public final class WebUtil
 	public static void deleteCookieWebUser (HttpServletRequest request, HttpServletResponse response, String COOKIE_NAME)
 	{
 		Cookie cookie = new Cookie(COOKIE_NAME, " ");
-		cookie.setComment("Compiere Web User");
+		cookie.setComment("adempiere Web User");
 		cookie.setPath(request.getContextPath());
 		cookie.setMaxAge(1);      //  second
 		response.addCookie(cookie);
@@ -1058,7 +1058,7 @@ public final class WebUtil
 		EMail email = wStore.createEMail(to.getEmail(), 
 			subject.toString(), message.toString());
 		//	CC Order
-		if (msgType == MMailMsg.MAILMSGTYPE_OrderAcknowledgement)
+		if (msgType.equals(MMailMsg.MAILMSGTYPE_OrderAcknowledgement))
 		{
 			String orderEMail = wStore.getWebOrderEMail();
 			String storeEMail = wStore.getWStoreEMail();
@@ -1098,7 +1098,7 @@ public final class WebUtil
 	public static void addCookieWebUser (HttpServletRequest request, HttpServletResponse response, String webUser, String COOKIE_NAME)
 	{
 		Cookie cookie = new Cookie(COOKIE_NAME, webUser);
-		cookie.setComment("Compiere Web User");
+		cookie.setComment("adempiere Web User");
 		cookie.setPath(request.getContextPath());
 		cookie.setMaxAge(2592000);      //  30 days in seconds   60*60*24*30
 		response.addCookie(cookie);
