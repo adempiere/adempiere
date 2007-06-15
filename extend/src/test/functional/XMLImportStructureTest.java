@@ -3012,4 +3012,20 @@ public class XMLImportStructureTest extends TestCase {
 
 		assertTrue("testXMLImportStructure", true);
 	}
+
+	public static void main(String[] args) {
+	      System.out.println("In main of XMLImportStructureTest");
+
+	      XMLImportStructureTest m_XMLImportStructureTest = new XMLImportStructureTest();
+
+              try {
+	          m_XMLImportStructureTest.setUp();
+	          m_XMLImportStructureTest.testXMLImportStructure();
+              } catch(Exception e) {
+	          System.out.println("Exception with m_XMLImportStructureTest.setUp: " + e.getMessage());
+              }
+       }
+
+
+	
 }
