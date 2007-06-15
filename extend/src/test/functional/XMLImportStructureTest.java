@@ -1686,6 +1686,379 @@ public class XMLImportStructureTest extends TestCase {
 			//}  
 		}
 
+		public void importReferenceTable(Map<String, String> attsMap) {
+			MTable m_Table = null;
+			MColumn m_Column = null;
+			
+			String entitytype = attsMap.get("EntityType");		
+			String name = attsMap.get("ADRefenceNameID");
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 ) {
+				sqlB = new StringBuffer ("SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
+				int id = DB.getSQLValue(m_trxName,sqlB.toString(),name);			
+				sqlB = new StringBuffer ("SELECT Count(*) FROM AD_Ref_Table WHERE AD_Reference_ID= ?");
+				int count = DB.getSQLValue(m_trxName, sqlB.toString(),id);	   	
+				int tableId = get_IDWithColumn("AD_Table", "TableName", attsMap.get("ADTableNameID"));
+				if (tableId ==0){
+					m_Table = new MTable(m_ctx, 0, m_trxName);
+					m_Table.setAccessLevel("3");
+					m_Table.setName(attsMap.get("ADTableNameID"));			    
+					m_Table.setTableName(attsMap.get("ADTableNameID"));		    
+					try {
+					if (m_Table.save(m_trxName) == true){		    	
+						record_log (1, m_Table.getName(),"Table", m_Table.get_ID(),0, "New","AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));
+					}
+					else{
+						record_log (0, m_Table.getName(),"Table", m_Table.get_ID(),0, "New","AD_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Table"));
+					}
+					} catch(SAXException e) {
+					System.out.println("Exception in importReferenceTable: " + e.getMessage());
+
+				}
+					tableId = get_IDWithColumn("AD_Table", "TableName", attsMap.get("ADTableNameID"));
+				}
+				name = attsMap.get("ADDisplay"); 
+				int DisplayId =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", name, "AD_Table", tableId);	    
+				if (DisplayId ==0){
+					m_Column = new MColumn(m_ctx,0,m_trxName);
+					m_Column.setAD_Table_ID(tableId);
+					// m_Column.setVersion(new BigDecimal("1")); // use constructor value
+					m_Column.setColumnName(name);		    	
+					m_Column.setName(name);
+					m_Column.setAD_Reference_ID(30);
+					try {
+					if (m_Column.save(m_trxName) == true){		    	
+						record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));
+					}
+					else{
+						record_log (0, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));
+					}
+					} catch(SAXException e) {
+					System.out.println("Exception in importReferenceTable: " + e.getMessage());
+
+				}
+				}
+				name = attsMap.get("Key");	    
+				int keyId =get_IDWithMasterAndColumn ("AD_Column", "ColumnName", name, "AD_Table", tableId);
+				if (keyId ==0){
+					m_Column = new MColumn(m_ctx,0,m_trxName);
+					m_Column.setAD_Table_ID(tableId);
+					//m_Column.setVersion(new BigDecimal("1")); // use constructor value
+					m_Column.setColumnName(name);
+					m_Column.setName(name);
+					m_Column.setAD_Reference_ID(30);
+					try {
+					if (m_Column.save(m_trxName) == true){
+						record_log (1, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));           		        		
+					}
+					else{
+						record_log (0, m_Column.getName(),"Column", m_Column.get_ID(),0, "New","AD_Column",get_IDWithColumn("AD_Table", "TableName", "AD_Column"));
+					}	    	
+					} catch(SAXException e) {
+					System.out.println("Exception in importReferenceTable: " + e.getMessage());
+
+				}
+				}
+				
+				name = attsMap.get("ADDisplay");	    
+				DisplayId = get_IDWithMasterAndColumn ("AD_Column", "ColumnName", name, "AD_Table", tableId);
+				name = attsMap.get("Key");	    
+				keyId = get_IDWithMasterAndColumn ("AD_Column", "ColumnName", name, "AD_Table", tableId);
+				String entityType = attsMap.get("EntityType");
+				String isValueDisplayed = attsMap.get("IsValueDisplayed");		    
+				String OrderByClause= attsMap.get("OrderByClause").replaceAll("'","''").replaceAll(",","");	
+				String WhereClause= attsMap.get("WhereClause").replaceAll("'","''").replaceAll(",","");
+				if (count >0 ){				
+					sqlB = new StringBuffer ("UPDATE AD_Ref_Table "
+							+ "SET AD_Table_ID = " + tableId
+							+ ", AD_Display = " + DisplayId
+							+ ", AD_Key = " + keyId
+							+ ", isValueDisplayed = '" + isValueDisplayed
+							+ "', OrderByClause = '" + OrderByClause
+							+ "', EntityType ='" + entityType						
+							+ "', WhereClause = '" + WhereClause
+							+ "' WHERE AD_Reference_ID = " + id);					
+					
+					int no = DB.executeUpdate (sqlB.toString(), m_trxName);
+					try {
+					if (no > 0){			    	
+						record_log (1, attsMap.get("ADRefenceNameID"),"Reference Table", id,0, "Update","AD_Ref_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_Table"));
+					}
+					else{
+						record_log (0, attsMap.get("ADRefenceNameID"),"Reference Table", id,0, "Update","AD_Ref_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_Table"));
+					}
+					} catch(SAXException e) {
+					System.out.println("Exception in importReferenceTable: " + e.getMessage());
+
+				}
+					
+				}
+				else{			
+					sqlB = new StringBuffer ("Insert INTO AD_Ref_Table" 
+							+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
+							+   "AD_Reference_ID, AD_Table_ID, AD_Display, AD_Key " 
+							+   ",entityType, isValueDisplayed, OrderByClause, "
+							+   " WhereClause )"
+							+	"VALUES(0, 0, 0, 0, "+id 
+							+	", " + tableId
+							+	", " + DisplayId
+							+	", " + keyId
+							+	", '" + entityType
+							+	"', '" + isValueDisplayed
+							+	"', '" +  OrderByClause  
+							+	"', '" + WhereClause +"')");
+					
+					int no = DB.executeUpdate (sqlB.toString(), m_trxName);
+					try {
+					if (no > 0){
+						record_log (1, attsMap.get("ADRefenceNameID"),"Reference Table", id,0, "New","AD_Ref_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_Table"));		    	           		        		
+					}
+					else{
+						record_log (0, attsMap.get("ADRefenceNameID"),"Reference Table", id,0, "New","AD_Ref_Table",get_IDWithColumn("AD_Table", "TableName", "AD_Ref_Table"));
+					}
+					} catch(SAXException e) {
+					System.out.println("Exception in importReferenceTable: " + e.getMessage());
+
+				}
+				}	 	
+			}
+		}
+
+		public void importProcessPara(Map<String, String> attsMap) {
+			
+			String entitytype = attsMap.get("EntityType");
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 ) {
+				String name = attsMap.get("Name");
+				
+				int id = get_IDWithMaster("AD_Process_Para", name, "AD_Process", attsMap.get("ADProcessNameID"));
+				X_AD_Process_Para m_Process_para = new X_AD_Process_Para(m_ctx, id, m_trxName);
+				if (id>0){				
+					AD_Backup_ID = copyRecord("AD_Process_Para",m_Process_para);
+					Object_Status = "Update";				
+				}
+				else{
+					Object_Status = "New";
+					AD_Backup_ID =0;
+				}
+				m_Process_para.setName(attsMap.get("Name"));
+				name = attsMap.get("ADProcessNameID");
+				id = get_IDWithColumn("AD_Process", "Name", name);
+				m_Process_para.setAD_Process_ID(id);
+				name = attsMap.get("ADElementNameID");
+				id = get_IDWithColumn("AD_Element", "Name", name);
+				m_Process_para.setAD_Element_ID(id);
+				name = attsMap.get("ADReferenceNameID");
+				/**		    
+				 //Adjust for difference between Oracle and PostgreSql DataTypes
+				  if (m_DatabaseType.equals("Oracle")){
+				  if (name.equals("TIMESTAMP"))
+				  name = "Date";
+				  else if (name.equals("TIMESTAMP+Time"))
+				  name = "Date+Time";
+				  else if (name.equals("NUMERIC"))
+				  name = "Number";}
+				  else if (m_DatabaseType.equals("Sybase")){
+				  if (name.equals("TIMESTAMP"))
+				  name = "Date";
+				  else if (name.equals("TIMESTAMP+Time"))
+				  name = "Date+Time";
+				  else if (name.equals("NUMERIC"))
+				  name = "Number";}
+				  else if (m_DatabaseType.equals("PostgreSQL")){
+				  if (name.equals("Date"))					
+				  name = "TIMESTAMP";					
+				  else if (name.equals("Date+Time"))
+				  name = "TIMESTAMP+Time";					
+				  else if (name.equals("Number"))
+				  name = "NUMERIC";}
+				  **/
+				id = get_IDWithColumn("AD_Reference", "Name", name);
+				m_Process_para.setAD_Reference_ID(id);
+				name = attsMap.get("ADReferenceValueNameID");
+				id = get_IDWithColumn("AD_Reference", "Name", name);
+				m_Process_para.setAD_Reference_Value_ID(id);
+				name = attsMap.get("ADValRuleNameID");
+				id = get_IDWithColumn("AD_Val_Rule", "Name", name);
+				m_Process_para.setAD_Val_Rule_ID(id);
+				m_Process_para.setColumnName(attsMap.get("ColumnName"));
+				m_Process_para.setDefaultValue(attsMap.get("DefaultValue"));
+				m_Process_para.setDefaultValue2(attsMap.get("DefaultValue2"));
+				m_Process_para.setDescription(attsMap.get("Description").replaceAll("'","''").replaceAll(",",""));
+				m_Process_para.setEntityType(attsMap.get("EntityType"));
+				m_Process_para.setHelp(attsMap.get("Help").replaceAll("'","''").replaceAll(",",""));
+				m_Process_para.setIsActive(attsMap.get("isActive") != null ? Boolean.valueOf(attsMap.get("isActive")).booleanValue():true);
+				m_Process_para.setName(attsMap.get("Name"));
+				m_Process_para.setVFormat(attsMap.get("VFormat"));
+				m_Process_para.setValueMax(attsMap.get("ValueMax"));
+				m_Process_para.setValueMin(attsMap.get("ValueMin"));
+				m_Process_para.setSeqNo(Integer.parseInt(attsMap.get("SeqNo")));
+				m_Process_para.setFieldLength(Integer.parseInt(attsMap.get("FieldLength")));
+				m_Process_para.setIsCentrallyMaintained(Boolean.valueOf(attsMap.get("isCentrallyMaintained")).booleanValue());
+				m_Process_para.setIsMandatory(Boolean.valueOf(attsMap.get("isMandatory")).booleanValue());
+				m_Process_para.setIsRange(Boolean.valueOf(attsMap.get("isRange")).booleanValue());
+				try {
+				if (m_Process_para.save(m_trxName) == true){		    	
+					System.out.println("m_Process_para.save succeeded");
+					record_log (1, m_Process_para.getName(),"Process_para", m_Process_para.get_ID(),AD_Backup_ID, Object_Status,"AD_Process_para",get_IDWithColumn("AD_Table", "TableName", "AD_Process_para"));           		        		
+				}
+				else{
+					System.out.println("m_Process_para.save failed");
+					record_log (0, m_Process_para.getName(),"Process_para", m_Process_para.get_ID(),AD_Backup_ID, Object_Status,"AD_Process_para",get_IDWithColumn("AD_Table", "TableName", "AD_Process_para"));
+				}
+				} catch(SAXException e) {
+					System.out.println("Exception in importProcessPara: " + e.getMessage());
+
+				}
+			}
+		}
+
+		public void importPreference(Map<String, String> attsMap) {
+			MPreference m_Preference = null;
+			//TODO Add User_ID
+			int windowid = get_ID("AD_Window", attsMap.get("ADWindowNameID"));		
+			sqlB = new StringBuffer ("select AD_Preference_ID from AD_Preference where "
+					+ " Attribute = '"+attsMap.get("Attribute") +"'"
+					+ " and AD_Window_ID = ?");
+			int id = DB.getSQLValue(m_trxName, sqlB.toString (), windowid);
+			m_Preference = new MPreference(m_ctx, id, m_trxName);
+			if (id > 0){			
+				AD_Backup_ID = copyRecord("AD_Preference",m_Preference);
+				Object_Status = "Update";
+			}
+			else{
+				Object_Status = "New";
+				AD_Backup_ID =0;
+			}
+			sqlB = null;
+			m_Preference.setAD_Window_ID(windowid);
+			m_Preference.setAttribute(attsMap.get("Attribute"));
+			m_Preference.setValue(attsMap.get("Value"));
+			try {
+			if (m_Preference.save(m_trxName) == true){		    	
+				System.out.println("m_Preference.save succeeded");
+				record_log (1, m_Preference.getAttribute(),"Preference", m_Preference.get_ID(),AD_Backup_ID, Object_Status,"AD_Preference",get_IDWithColumn("AD_Table", "TableName", "AD_Preference"));           		        		
+			}
+			else{
+				System.out.println("m_Preference.save failed");
+				record_log (0, m_Preference.getAttribute(),"Preference", m_Preference.get_ID(),AD_Backup_ID, Object_Status,"AD_Preference",get_IDWithColumn("AD_Table", "TableName", "AD_Preference"));
+			}
+				} catch(SAXException e) {
+					System.out.println("Exception in importPreference: " + e.getMessage());
+
+				}
+		}
+
+		public void importTab(Map<String, String> attsMap) {
+			MTab m_Tab = null;
+			String entitytype = attsMap.get("EntityType");
+			if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 ) {
+				
+				String name = attsMap.get("ADTabNameID");
+				int tableid = get_IDWithColumn("AD_Table", "TableName", attsMap.get("ADTableNameID"));
+				int windowid = get_ID("AD_Window", attsMap.get("ADWindowNameID"));
+				sqlB = new StringBuffer ("select AD_Tab_ID from AD_Tab where AD_Window_ID = " + windowid
+						+ " and Name = '"+name +"'"
+						+ " and AD_Table_ID = ?");
+				
+				int id = DB.getSQLValue(m_trxName, sqlB.toString (), tableid);
+				m_Tab = new MTab(m_ctx, id, m_trxName);
+				if (id > 0){			
+					AD_Backup_ID = copyRecord("AD_Tab",m_Tab);
+					Object_Status = "Update";
+				}
+				else{
+					Object_Status = "New";
+					AD_Backup_ID =0;
+				}
+				sqlB = null;
+				m_Tab.setName(name);	
+				id = 0;
+				if (attsMap.get("ADColumnSortYesNoNameID")!= null){
+					name = attsMap.get("ADColumnSortYesNoNameID");	    
+					id = get_IDWithColumn("AD_Column", "Name", name);
+					m_Tab.setAD_ColumnSortYesNo_ID(id);
+				}
+				if (attsMap.get("ADColumnSortOrderNameID")!= null){
+					name = attsMap.get("ADColumnSortOrderNameID");	    
+					id = get_IDWithColumn("AD_Column", "Name", name);
+					m_Tab.setAD_ColumnSortOrder_ID(id);
+				}
+				if (attsMap.get("ADImageNameID")!= null){
+					name = attsMap.get("ADImageNameID");	    
+					id = get_IDWithColumn("AD_Image", "Name", name);
+					m_Tab.setAD_Image_ID(id);
+				}
+				if (attsMap.get("ADProcessNameID")!= null){
+					name = attsMap.get("ADProcessNameID");	    
+					id = get_IDWithColumn("AD_Process", "Name", name);
+					m_Tab.setAD_Process_ID(id);
+				}		    
+				if (attsMap.get("ADTableNameID")!= null){
+					name = attsMap.get("ADTableNameID");	    
+					id = get_IDWithColumn("AD_Table", "TableName", name);
+					m_Tab.setAD_Table_ID(id);   
+				}
+				if (attsMap.get("ADColumnNameID")!= null){
+					name = attsMap.get("ADColumnNameID");
+					id  = get_IDWithMasterAndColumn ("AD_Column","Name", attsMap.get("ADColumnNameID"), "AD_Table", get_IDWithColumn("AD_Table", "TableName", attsMap.get("ADTableNameID")));			    
+					m_Tab.setAD_Column_ID(id);   
+				}
+				if (attsMap.get("ADWindowNameID")!= null){
+					name = attsMap.get("ADWindowNameID");	    
+					id = get_IDWithColumn("AD_Window", "Name", name);
+					m_Tab.setAD_Window_ID(id);   
+				}
+				if (attsMap.get("IncludedTabNameID")!= null){
+					name = attsMap.get("IncludedTabNameID");	    
+					id = get_IDWithColumn("AD_Tab", "Name", name);
+					m_Tab.setIncluded_Tab_ID(id);		        
+				}
+				m_Tab.setCommitWarning(attsMap.get("CommitWarning"));
+				m_Tab.setDescription(attsMap.get("Description").replaceAll("'","''").replaceAll(",",""));
+				m_Tab.setEntityType (attsMap.get("EntityType"));
+				m_Tab.setHasTree(Boolean.valueOf(attsMap.get("isHasTree")).booleanValue());
+				m_Tab.setHelp (attsMap.get("Help").replaceAll("'","''").replaceAll(",",""));
+				m_Tab.setIsActive(attsMap.get("isActive") != null ? Boolean.valueOf(attsMap.get("isActive")).booleanValue():true);
+				m_Tab.setImportFields (attsMap.get("ImportFields"));
+				m_Tab.setIsInfoTab (Boolean.valueOf(attsMap.get("isInfoTab")).booleanValue());
+				m_Tab.setIsReadOnly (Boolean.valueOf(attsMap.get("isReadOnly")).booleanValue());
+				m_Tab.setIsSingleRow (Boolean.valueOf(attsMap.get("isSingleRow")).booleanValue());
+				m_Tab.setIsSortTab (Boolean.valueOf(attsMap.get("isSortTab")).booleanValue());
+				m_Tab.setIsTranslationTab (Boolean.valueOf(attsMap.get("IsTranslationTab")).booleanValue());
+				m_Tab.setName (attsMap.get("Name"));
+				m_Tab.setOrderByClause (attsMap.get("OrderByClause"));
+				m_Tab.setProcessing(false);
+				m_Tab.setSeqNo (Integer.parseInt(attsMap.get("SeqNo")));
+				m_Tab.setTabLevel (Integer.parseInt(attsMap.get("TabLevel")));
+				m_Tab.setWhereClause (attsMap.get("WhereClause"));
+				if (attsMap.get("ReadOnlyLogic") != null) {
+					m_Tab.setReadOnlyLogic(attsMap.get("ReadOnlyLogic"));
+				}
+				if (attsMap.get("DisplayLogic") != null) {
+					m_Tab.setDisplayLogic(attsMap.get("DisplayLogic"));
+				}
+				if (attsMap.get("isInsertRecord") != null) {
+					m_Tab.setIsInsertRecord(Boolean.valueOf(attsMap.get("isInsertRecord")).booleanValue());
+				}
+				if (attsMap.get("isAdvancedTab") != null) {
+					m_Tab.setIsAdvancedTab(Boolean.valueOf(attsMap.get("isAdvancedTab")).booleanValue());
+				}
+
+				try {
+				if (m_Tab.save(m_trxName) == true){		    	
+					System.out.println("m_Tab.save succeeded");
+					record_log (1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn("AD_Table", "TableName", "AD_Tab"));           		        		
+				} else {
+					System.out.println("m_Tab.save failed");
+					record_log (0, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn("AD_Table", "TableName", "AD_Tab"));
+				}
+				} catch(SAXException e) {
+					System.out.println("Exception in importTab: " + e.getMessage());
+
+				}
+				
+			}			
+		} 		
+
 		public void importWindow(Map<String, String> attsMap) {
 			MWindow m_Window = null;
 			String entitytype = attsMap.get("EntityType");
@@ -1907,6 +2280,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_menusAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_menusAttsMapList.get(0);
 						System.out.println("menu name: " +  attsMap.get("ADMenuNameID"));
+						importMenu(attsMap);		
 						attsMap.clear();
 						m_menusAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
@@ -1959,6 +2333,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_referenceTablesAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_referenceTablesAttsMapList.get(0);
 						System.out.println("reference table name: " +  attsMap.get("ADRefenceNameID"));
+						importReferenceTable(attsMap);
 						attsMap.clear();
 						m_referenceTablesAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
@@ -1984,6 +2359,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_processParasAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_processParasAttsMapList.get(0);
 						System.out.println("processPara name: " +  attsMap.get("Name"));
+						importProcessPara(attsMap);
 						attsMap.clear();
 						m_processParasAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
@@ -2010,6 +2386,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_preferencesAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_preferencesAttsMapList.get(0);
 						System.out.println("preference name: " +  attsMap.get("Name"));
+						importPreference(attsMap);
 						attsMap.clear();
 						m_preferencesAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
@@ -2035,6 +2412,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_tabsAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_tabsAttsMapList.get(0);
 						System.out.println("tab name: " +  attsMap.get("Name"));
+						importTab(attsMap);
 						attsMap.clear();
 						m_tabsAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
