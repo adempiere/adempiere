@@ -97,9 +97,19 @@
       <test name="test.functional.MBPGroupTest" />
       <test name="test.functional.MBPartnerLocationTest" />
       <test name="test.functional.PackOutTest" />
+      <test name="test.functional.MWFNodePlaceHolderTest" />
+      <test name="test.functional.XMLValidateTest" />
+      <!-- test name="test.functional.XMLImportStructureTest" / -->
       <!-- test name="test.functional.BPMigrationTest" / -->
     </junit>
   </target>
+
+<target name="run" depends="dist">
+      <java fork="true" classname="test.functional.XMLImportStructureTest">
+        <classpath refid="class.path.test" />
+      </java>
+  </target>
+
 
 
 
