@@ -26,6 +26,7 @@ import java.util.logging.*;
 import javax.swing.*;
 import org.compiere.apps.*;
 import org.compiere.impexp.*;
+import org.compiere.model.MRole;
 import org.compiere.plaf.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
@@ -33,15 +34,11 @@ import org.compiere.util.*;
 
 /**
  * Fixed length file import
- * <p>
- * Change log:
- * <ul>
- * <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
- * <li>2007-01-27 - teo_sarca - [ 1619158 ] Import is not working with UTF-8
- * </ul>
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VFileImport.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author 	Teo Sarca, FR [ 1658127 ], BF [ 1619158 ], BF [ 1738641 ] 
  */
 public class VFileImport extends CPanel
 	implements FormPanel, ActionListener
@@ -171,7 +168,8 @@ public class VFileImport extends CPanel
 	{
 		//	Load Formats
 		pickFormat.addItem(s_none);
-		String sql = "SELECT Name from AD_ImpFormat";
+		String sql = MRole.getDefault().addAccessSQL("SELECT Name FROM AD_ImpFormat", "AD_ImpFormat",
+				MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
