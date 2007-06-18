@@ -26,6 +26,8 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MDunningRunEntry.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @author Teo Sarca, BF [ 1739022 ]
  */
 public class MDunningRunEntry extends X_C_DunningRunEntry
 {
@@ -179,6 +181,18 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	}
 
 	
+	/**
+	 * Get Parent
+	 * @return Dunning Run
+	 */
+	private MDunningRun getParent() 
+	{
+		if (m_parent == null) 
+			m_parent = new MDunningRun(getCtx(), getC_DunningRun_ID (), get_TrxName());
+		return m_parent;
+	}	//	getParent
+	
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Set Amt
@@ -190,13 +204,14 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 				theseLines[i].setProcessed (true);
 				theseLines[i].save (get_TrxName());
 			}
-			if (m_parent.getLevel ().isSetCreditStop () || m_parent.getLevel ().isSetPaymentTerm ()) 
+			MDunningRun parent = getParent();
+			if (parent.getLevel ().isSetCreditStop () || parent.getLevel ().isSetPaymentTerm ()) 
 			{
 				MBPartner thisBPartner = MBPartner.get (getCtx(), getC_BPartner_ID());
-				if (m_parent.getLevel ().isSetCreditStop ())
+				if (parent.getLevel ().isSetCreditStop ())
 					thisBPartner.setSOCreditStatus (X_C_BPartner.SOCREDITSTATUS_CreditStop);
-				if (m_parent.getLevel ().isSetPaymentTerm ())
-					thisBPartner.setC_PaymentTerm_ID (m_parent.getLevel().getC_PaymentTerm_ID ());
+				if (parent.getLevel ().isSetPaymentTerm ())
+					thisBPartner.setC_PaymentTerm_ID (parent.getLevel().getC_PaymentTerm_ID ());
 				thisBPartner.save ();
 			}
 		}
