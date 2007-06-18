@@ -561,6 +561,8 @@ public final class MLookup extends Lookup implements Serializable
 			return 0;
 		
 		m_refreshing = true;
+		//force refresh
+		m_lookup.clear();
 		fillComboBox(isMandatory(), true, true, false);
 		m_refreshing = false;
 		return m_lookup.size();
