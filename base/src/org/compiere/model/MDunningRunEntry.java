@@ -27,7 +27,7 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version $Id: MDunningRunEntry.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  
- *  @author Teo Sarca, BF [ 1739022 ]
+ *  @author Teo Sarca - BF [ 1739022 ], BF [ 1739096 ]
  */
 public class MDunningRunEntry extends X_C_DunningRunEntry
 {
@@ -35,10 +35,10 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
 
 	/**
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param C_DunningRunEntry_ID id
-	 *	@param trxName transaction
+	 * Standard Constructor
+	 * @param ctx context
+	 * @param C_DunningRunEntry_ID id
+	 * @param trxName transaction
 	 */
 	public MDunningRunEntry (Properties ctx, int C_DunningRunEntry_ID, String trxName)
 	{
@@ -58,10 +58,10 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	}	//	MDunningRunEntry
 
 	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 *	@param trxName transaction
+	 * Load Constructor
+	 * @param ctx context
+	 * @param rs result set
+	 * @param trxName transaction
 	 */
 	public MDunningRunEntry (Properties ctx, ResultSet rs, String trxName)
 	{
@@ -69,8 +69,8 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	}	//	MDunningRunEntry
 	
 	/**
-	 * 	Parent Constructor
-	 *	@param parent parent 
+	 * Parent Constructor
+	 * @param parent parent 
 	 */
 	public MDunningRunEntry (MDunningRun parent)
 	{
@@ -84,9 +84,9 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	private MDunningRun		m_parent = null;
 	
 	/**
-	 * 	Set BPartner
-	 *	@param bp partner
-	 *	@param isSOTrx SO
+	 * Set BPartner
+	 * @param bp partner
+	 * @param isSOTrx SO
 	 */
 	public void setBPartner (MBPartner bp, boolean isSOTrx)
 	{
@@ -100,6 +100,8 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 			for (int i = 0; i < locations.length; i++)
 			{
 				MBPartnerLocation location = locations[i];
+				if (!location.isActive())
+					continue;
 				if ((location.isPayFrom() && isSOTrx)
 					|| (location.isRemitTo() && !isSOTrx))
 				{
@@ -140,8 +142,8 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	}	//	setBPartner
 	
 	/**
-	 * 	get Lines
-	 *	@return Array of all lines for this Run
+	 * Get Lines
+	 * @return Array of all lines for this Run
 	 */
 	public MDunningRunLine[] getLines() 
 	{
