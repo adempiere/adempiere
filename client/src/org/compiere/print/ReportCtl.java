@@ -23,8 +23,6 @@ import org.compiere.model.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
 
-import sun.misc.Launcher;
-
 /**
  *	Report Controller.
  *
