@@ -27,7 +27,7 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version  $Id: MLookupFactory.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  *  
- *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ], BF [ 1739530 ]
+ *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ], BF [ 1739530 ], BF [ 1739544 ]
  */
 public class MLookupFactory
 {
@@ -473,7 +473,7 @@ public class MLookupFactory
 			+ "WHERE rt.AD_Reference_ID=?"
 			+ " AND rt.IsActive='Y' AND t.IsActive='Y'";
 		//
-		String	KeyColumn, DisplayColumn, TableName;
+		String	KeyColumn, DisplayColumn, TableName, TableNameAlias;
 		boolean IsTranslated, isValueDisplayed;
 
 		try
@@ -504,6 +504,14 @@ public class MLookupFactory
 			s_log.log(Level.SEVERE, sql, e);
 			return null;
 		}
+		
+		// If it's self referencing then use other alias - teo_sarca [ 1739544 ]
+		if (TableName.equals(BaseTable)) {
+			TableNameAlias = TableName + "1";
+		}
+		else {
+			TableNameAlias = TableName;
+		}
 
 		StringBuffer embedSQL = new StringBuffer("SELECT ");
 
@@ -511,12 +519,12 @@ public class MLookupFactory
 		if (IsTranslated && !Env.isBaseLanguage(language, TableName))
 		{
 			if (isValueDisplayed)
-				embedSQL.append(TableName).append(".Value||'-'||");
+				embedSQL.append(TableNameAlias).append(".Value||'-'||");
 			embedSQL.append(TableName).append("_Trl.").append(DisplayColumn);
 			//
-			embedSQL.append(" FROM ").append(TableName)
+			embedSQL.append(" FROM ").append(TableName).append(" ").append(TableNameAlias)
 				.append(" INNER JOIN ").append(TableName).append("_TRL ON (")
-				.append(TableName).append(".").append(KeyColumn)
+				.append(TableNameAlias).append(".").append(KeyColumn)
 				.append("=").append(TableName).append("_Trl.").append(KeyColumn)
 				.append(" AND ").append(TableName).append("_Trl.AD_Language='")
 				.append(language.getAD_Language()).append("')");
@@ -525,14 +533,14 @@ public class MLookupFactory
 		else
 		{
 			if (isValueDisplayed)
-				embedSQL.append(TableName).append(".Value||'-'||");
-			embedSQL.append(TableName).append(".").append(DisplayColumn);
+				embedSQL.append(TableNameAlias).append(".Value||'-'||");
+			embedSQL.append(TableNameAlias).append(".").append(DisplayColumn);
 			//
-			embedSQL.append(" FROM ").append(TableName);
+			embedSQL.append(" FROM ").append(TableName).append(" ").append(TableNameAlias);
 		}
 
 		embedSQL.append(" WHERE ").append(BaseTable).append(".").append(BaseColumn);
-		embedSQL.append("=").append(TableName).append(".").append(KeyColumn);
+		embedSQL.append("=").append(TableNameAlias).append(".").append(KeyColumn);
 
 		return embedSQL.toString();
 	}	//	getLookup_TableEmbed
