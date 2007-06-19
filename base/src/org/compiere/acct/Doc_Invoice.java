@@ -784,12 +784,6 @@ public class Doc_Invoice extends Doc
 		if (lcas.length == 0)
 			return false;
 		
-		//	Delete Old
-		String sql = "DELETE M_CostDetail WHERE C_InvoiceLine_ID=" + C_InvoiceLine_ID;
-		int no = DB.executeUpdate(sql, getTrxName());
-		if (no != 0)
-			log.config("CostDetail Deleted #" + no);
-
 		//	Calculate Total Base
 		double totalBase = 0;
 		for (int i = 0; i < lcas.length; i++)
@@ -802,7 +796,7 @@ public class Doc_Invoice extends Doc
 			MLandedCostAllocation lca = lcas[i];
 			if (lca.getBase().signum() == 0)
 				continue;
-			double percent = totalBase / lca.getBase().doubleValue();
+			double percent = lca.getBase().doubleValue() / totalBase;
 			String desc = il.getDescription();
 			if (desc == null)
 				desc = percent + "%";
@@ -823,6 +817,7 @@ public class Doc_Invoice extends Doc
 			FactLine fl = fact.createLine (line, pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
 				getC_Currency_ID(), drAmt, crAmt);
 			fl.setDescription(desc);
+			fl.setM_Product_ID(lca.getM_Product_ID());
 			
 			//	Cost Detail - Convert to AcctCurrency
 			BigDecimal allocationAmt =  lca.getAmt();
@@ -835,19 +830,22 @@ public class Doc_Invoice extends Doc
 				allocationAmt = allocationAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 			if (!dr)
 				allocationAmt = allocationAmt.negate();
-			MCostDetail cd = new MCostDetail (as, lca.getAD_Org_ID(), 
-				lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(),
-				lca.getM_CostElement_ID(),
-				allocationAmt, Env.ZERO,		//	Qty
-				desc, getTrxName());
-			cd.setC_InvoiceLine_ID(C_InvoiceLine_ID);
-			boolean ok = cd.save();
-			if (ok && !cd.isProcessed())
-			{
-				MClient client = MClient.get(as.getCtx(), as.getAD_Client_ID());
-				if (client.isCostImmediate())
-					cd.process();
-			}
+			// MZ Goodwill
+			// set Qty to 1 or -1 instead of 0 and allocation Amt is counted for each product qty
+			if (lca.getQty().signum() != 0)
+				allocationAmt = allocationAmt.divide(lca.getQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+			
+			// Qty is 1 or -1
+			BigDecimal qty = Env.ONE;
+			if (il.getQtyInvoiced().signum() != 0)
+				 qty = il.getQtyInvoiced().divide(il.getQtyInvoiced().abs());
+			// use createInvoice to create/update non Material Cost Detail
+			MCostDetail.createInvoice(as, lca.getAD_Org_ID(), 
+					lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(),
+					C_InvoiceLine_ID, lca.getM_CostElement_ID(),
+					allocationAmt, qty, 		//	Qty
+					desc, getTrxName());
+			// end MZ
 		}
 		
 		log.config("Created #" + lcas.length);

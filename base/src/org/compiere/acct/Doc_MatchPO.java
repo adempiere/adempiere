@@ -140,12 +140,49 @@ public class Doc_MatchPO extends Doc
 				poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 		}
 
-		//	Create PO Cost Detail Record firs
+		//	Create PO Cost Detail Record first
+		// MZ Goodwill
+		// Create Cost Detail Matched PO using Total Amount and Total Qty based on OrderLine
+		MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), m_oLine.getC_OrderLine_ID(), getTrxName());
+		BigDecimal tQty = Env.ZERO;
+		BigDecimal tAmt = Env.ZERO;
+		BigDecimal priceCost = m_oLine.getPriceCost();
+		if (priceCost == null || priceCost.signum() == 0)
+			priceCost = m_oLine.getPriceActual();
+		for (int i = 0 ; i < mPO.length ; i++)
+		{
+			if (mPO[i].isPosted())
+			{
+				tQty = tQty.add(mPO[i].getQty());
+				tAmt = tAmt.add(priceCost.multiply(mPO[i].getQty()));
+			}
+		}
+		
+		//	Different currency
+		if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
+		{
+			MOrder order = m_oLine.getParent();
+			BigDecimal rate = MConversionRate.getRate(
+				order.getC_Currency_ID(), as.getC_Currency_ID(),
+				order.getDateAcct(), order.getC_ConversionType_ID(),
+				m_oLine.getAD_Client_ID(), m_oLine.getAD_Org_ID());
+			if (rate == null)
+			{
+				p_Error = "Purchase Order not convertible - " + as.getName();
+				return null;
+			}
+			tAmt = tAmt.multiply(rate);
+			if (tAmt.scale() > as.getCostingPrecision())
+				tAmt = tAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		}
+
+		// Set Total Amount and Total Quantity from Matched PO 
 		MCostDetail.createOrder(as, m_oLine.getAD_Org_ID(), 
-			getM_Product_ID(), m_M_AttributeSetInstance_ID,
-			m_C_OrderLine_ID, 0,		//	no cost element
-			poCost, getQty(),			//	Delivered
-			m_oLine.getDescription(), getTrxName());
+				getM_Product_ID(), m_M_AttributeSetInstance_ID,
+				m_C_OrderLine_ID, 0,		//	no cost element
+				tAmt, tQty,			//	Delivered
+				m_oLine.getDescription(), getTrxName());
+		// end MZ
 
 		//	Calculate PPV for standard costing
 		String costingMethod = as.getCostingMethod();

@@ -239,12 +239,52 @@ public class Doc_MatchInv extends Doc
 		log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
 
 		//	Cost Detail Record - data from Expense/IncClearing (CR) record
+		// MZ Goodwill
+		// Create Cost Detail Matched Invoice using Total Amount and Total Qty based on InvoiceLine
+		MMatchInv[] mInv = MMatchInv.getInvoiceLine(getCtx(), m_invoiceLine.getC_InvoiceLine_ID(), getTrxName());
+		BigDecimal tQty = Env.ZERO;
+		BigDecimal tAmt = Env.ZERO;
+		for (int i = 0 ; i < mInv.length ; i++)
+		{
+			if (mInv[i].isPosted() && mInv[i].getM_MatchInv_ID() != get_ID())
+			{
+				tQty = tQty.add(mInv[i].getQty());
+				multiplier = mInv[i].getQty()
+					.divide(m_invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP)
+					.abs();
+				tAmt = tAmt.add(m_invoiceLine.getLineNetAmt().multiply(multiplier));
+			}
+		}
+		tAmt = tAmt.add(cr.getAcctBalance().negate());
+		// set Qty to negative value when MovementType is Vendor Returns
+		MInOut receipt = m_receiptLine.getParent();
+		if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
+			tQty = tQty.add(getQty().negate()); //	Qty is set to negative value
+		else
+			tQty = tQty.add(getQty());
+		
+		// 	Different currency
+		MInvoice invoice = m_invoiceLine.getParent();
+		if (as.getC_Currency_ID() == invoice.getC_Currency_ID())
+		{
+			tAmt = MConversionRate.convert(getCtx(), tAmt, 
+				invoice.getC_Currency_ID(), as.getC_Currency_ID(),
+				invoice.getDateAcct(), invoice.getC_ConversionType_ID(),
+				invoice.getAD_Client_ID(), invoice.getAD_Org_ID());
+			if (tAmt == null)
+			{
+				p_Error = "AP Invoice not convertible - " + as.getName();
+				return null;
+			}
+		}
+		
+		// Set Total Amount and Total Quantity from Matched Invoice 
 		MCostDetail.createInvoice(as, getAD_Org_ID(), 
-			getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(),
-			m_invoiceLine.getC_InvoiceLine_ID(), 0,		//	No cost element
-			cr.getAcctBalance().negate(), getQty(),		//	correcting
-			getDescription(), getTrxName());
-
+				getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(),
+				m_invoiceLine.getC_InvoiceLine_ID(), 0,		//	No cost element
+				tAmt, tQty,	getDescription(), getTrxName());
+		// end MZ
+		
 		//  Update Costing
 		updateProductInfo(as.getC_AcctSchema_ID(), 
 			MAcctSchema.COSTINGMETHOD_StandardCosting.equals(as.getCostingMethod()));

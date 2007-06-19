@@ -139,7 +139,11 @@ public class Doc_InOut extends Doc
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true);
+				// MZ Goodwill
+				// if Shipment CostDetail exist then get Cost from Cost Detail 
+				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?");
+				// end MZ
+				
 				if (costs == null || costs.signum() == 0)	//	zero costs OK
 				{
 					MProduct product = line.getProduct();

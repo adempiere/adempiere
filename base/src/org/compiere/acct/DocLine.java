@@ -687,6 +687,28 @@ public class DocLine
 		return m_productCost;
 	}	//	getProductCost
 	
+	// MZ Goodwill
+	/**
+	 *  Get Total Product Costs from Cost Detail or from Current Cost
+	 *  @param as accounting schema
+	 *  @param AD_Org_ID trx org
+	 *	@param zeroCostsOK zero/no costs are OK
+	 *	@param whereClause null are OK
+	 *  @return costs
+	 */
+	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK, String whereClause)
+	{
+		if (whereClause != null)
+		{
+			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause, 
+					get_ID(), getM_AttributeSetInstance_ID(), p_po.get_TrxName());
+			if (cd != null)
+				return cd.getAmt();
+		}
+		return getProductCosts(as, AD_Org_ID, zeroCostsOK);
+	}   //  getProductCosts
+	// end MZ
+	
 	/**
 	 *  Get Total Product Costs
 	 *  @param as accounting schema

@@ -21,6 +21,7 @@ import java.sql.*;
 import java.util.*;
 
 import org.compiere.model.*;
+
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -166,22 +167,33 @@ public class Doc_Production extends Doc
 			DocLine line = p_lines[i];
 			//	Calculate Costs
 			BigDecimal costs = null;
-			if (line.isProductionBOM())
-			{
-				//	Get BOM Cost - Sum of individual lines
-				BigDecimal bomCost = Env.ZERO;
-				for (int ii = 0; ii < p_lines.length; ii++)
-				{
-					DocLine line0 = p_lines[ii];
-					if (line0.getM_ProductionPlan_ID() != line.getM_ProductionPlan_ID())
-						continue;
-					if (!line0.isProductionBOM())
-						bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false));
-				}
-				costs = bomCost.negate();
-			}
+			
+			// MZ Goodwill
+			// if Production CostDetail exist then get Cost from Cost Detail 
+			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=? AND M_AttributeSetInstance_ID=?", 
+					line.get_ID(), line.getM_AttributeSetInstance_ID(), getTrxName());
+			if (cd != null)
+				costs = cd.getAmt();
 			else
-				costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+			{	
+				if (line.isProductionBOM())
+				{
+					//	Get BOM Cost - Sum of individual lines
+					BigDecimal bomCost = Env.ZERO;
+					for (int ii = 0; ii < p_lines.length; ii++)
+					{
+						DocLine line0 = p_lines[ii];
+						if (line0.getM_ProductionPlan_ID() != line.getM_ProductionPlan_ID())
+							continue;
+						if (!line0.isProductionBOM())
+							bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false));
+					}
+					costs = bomCost.negate();
+				}
+				else
+					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
+			}
+			// end MZ
 			
 			//  Inventory       DR      CR
 			fl = fact.createLine(line,
