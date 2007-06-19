@@ -46,9 +46,13 @@ public final class Env
 	/**	Logging								*/
 	private static CLogger				s_log = CLogger.getCLogger(Env.class);
 		
-	private static String	UNIX_BROWSER = "netscape";
+	private static ContextProvider contextProvider = new DefaultContextProvider();
 	
-	private static String   MAC_BROWSER = "open";
+	public static void setContextProvider(ContextProvider provider)
+	{
+		contextProvider = provider;
+		getCtx().put(LANGUAGE, Language.getBaseAD_Language());
+	}
 	
 	/**
 	 *	Exit System
@@ -96,54 +100,59 @@ public final class Env
 	public static void reset (boolean finalCall)
 	{
 		s_log.info("finalCall=" + finalCall);
-		closeWindows();
-		
-		//	Dismantle windows
-		/**
-		for (int i = 0; i < s_windows.size(); i++)
+		if (Ini.isClient())
 		{
-			Container win = (Container)s_windows.get(i);
-			if (win.getClass().getName().endsWith("AMenu")) // Null pointer
-				;
-			else if (win instanceof Window)
-				((Window)win).dispose();
-			else
-				win.removeAll();
-		}
-		**/
-		//bug [ 1574630 ]
-		if (s_windows.size() > 0) {
-			if (!finalCall) {
-				Container c = s_windows.get(0);
-				s_windows.clear();
-				createWindowNo(c);
-			} else {
-				s_windows.clear();
+			closeWindows();
+			
+			//	Dismantle windows
+			/**
+			for (int i = 0; i < s_windows.size(); i++)
+			{
+				Container win = (Container)s_windows.get(i);
+				if (win.getClass().getName().endsWith("AMenu")) // Null pointer
+					;
+				else if (win instanceof Window)
+					((Window)win).dispose();
+				else
+					win.removeAll();
+			}
+			**/
+			//bug [ 1574630 ]
+			if (s_windows.size() > 0) {
+				if (!finalCall) {
+					Container c = s_windows.get(0);
+					s_windows.clear();
+					createWindowNo(c);
+				} else {
+					s_windows.clear();
+				}
 			}
 		}
 
 		//	Clear all Context
 		if (finalCall)
-			s_ctx.clear();
+			getCtx().clear();
 		else	//	clear window context only
 		{
-			Object[] keys = s_ctx.keySet().toArray();
+			Object[] keys = getCtx().keySet().toArray();
 			for (int i = 0; i < keys.length; i++)
 			{
 				String tag = keys[i].toString();
 				if (Character.isDigit(tag.charAt(0)))
-					s_ctx.remove(keys[i]);
+					getCtx().remove(keys[i]);
 			}
 		}
 
 		//	Cache
 		CacheMgt.get().reset();
-		DB.closeTarget();
+		if (Ini.isClient())
+			DB.closeTarget();
 		//	Reset Role Access
 		if (!finalCall)
 		{
-			DB.setDBTarget(CConnection.get());
-			MRole defaultRole = MRole.getDefault(s_ctx, false);
+			if (Ini.isClient())
+				DB.setDBTarget(CConnection.get());
+			MRole defaultRole = MRole.getDefault(getCtx(), false);
 			if (defaultRole != null)
 				defaultRole.loadAccess(true);	//	Reload
 		}
@@ -153,7 +162,6 @@ public final class Env
 	/**************************************************************************
 	 *  Application Context
 	 */
-	private static Properties   s_ctx = new Properties();
 	/** WindowNo for Find           */
 	public static final int     WINDOW_FIND = 1110;
 	/** WinowNo for MLookup         */
@@ -172,7 +180,7 @@ public final class Env
 	 */
 	public static final Properties getCtx()
 	{
-		return s_ctx;
+		return contextProvider.getContext();
 	}   //  getCtx
 
 	/**
@@ -183,8 +191,8 @@ public final class Env
 	{
 		if (ctx == null)
 			throw new IllegalArgumentException ("Require Context");
-		s_ctx.clear();
-		s_ctx = ctx;
+		getCtx().clear();
+		getCtx().putAll(ctx);
 	}   //  setCtx
 
 	/**
@@ -1064,7 +1072,8 @@ public final class Env
 		MLookupCache.cacheReset(WindowNo);
 	//	MLocator.cacheReset(WindowNo);
 		//
-		removeWindow(WindowNo);
+		if (Ini.isClient())
+			removeWindow(WindowNo);
 	}	//	clearWinContext
 
 	/**
@@ -1230,7 +1239,7 @@ public final class Env
 	 */
 	public static void clearWinContext(int WindowNo)
 	{
-		clearWinContext (s_ctx, WindowNo);
+		clearWinContext (getCtx(), WindowNo);
 	}	//	clearWinContext
 
 	/**
@@ -1238,7 +1247,7 @@ public final class Env
 	 */
 	public static void clearContext()
 	{
-		s_ctx.clear();
+		getCtx().clear();
 	}	//	clearContext
 
 
@@ -1363,42 +1372,7 @@ public final class Env
 	public static void startBrowser (String url)
 	{
 		s_log.info(url);
-		//  OS command
-		String cmd = "rundll32 url.dll,FileProtocolHandler ";
-		if (!isWindows()){
-			if(isMac())
-				cmd = MAC_BROWSER + " ";
-			else
-				cmd = UNIX_BROWSER + " ";
-		}
-		//
-		String execute = cmd + url;
-		try
-		{
-			Runtime.getRuntime().exec(execute);
-			return;
-		}
-		catch (Exception e)
-		{
-			if (isWindows())
-				s_log.severe(execute + " - " + e);
-		}
-		
-		//try firefox
-		if (!isWindows() && !("firefox".equals(UNIX_BROWSER)))
-		{
-			UNIX_BROWSER = "firefox";
-			cmd = UNIX_BROWSER + " ";
-			execute = cmd + url;
-			try
-			{
-				Runtime.getRuntime().exec(execute);
-			}
-			catch (Exception e)
-			{
-				s_log.severe(execute + " - " + e);
-			}
-		}
+		contextProvider.showURL(url);
 	}   //  startBrowser
 	
 	/**
@@ -1495,7 +1469,7 @@ public final class Env
 	}	//	showWindow
 
 	/**
-	 * 	Clode Windows
+	 * 	Clode Windows.
 	 */
 	static void closeWindows ()
 	{
@@ -1589,7 +1563,7 @@ public final class Env
 	static
 	{
 		//  Set English as default Language
-		s_ctx.put(LANGUAGE, Language.getBaseAD_Language());
+		getCtx().put(LANGUAGE, Language.getBaseAD_Language());
 	}   //  static
 
 }   //  Env

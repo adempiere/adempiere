@@ -19,6 +19,10 @@ package org.compiere.print;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import javax.sql.RowSet;
+import javax.swing.JComponent;
+
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -863,6 +867,41 @@ public class MPrintFormat extends X_AD_PrintFormat
 		return retValue;
 	}
 	//end vpj-cd e-evolution
+	
+	/**
+	 * @param AD_Table_ID
+	 * @param AD_Client_ID use -1 to retrieve from all client 
+	 * @param trxName
+	 */
+	public static RowSet getAccessiblePrintFormats (int AD_Table_ID, int AD_Client_ID, String trxName)
+	{
+		RowSet rowSet = null;
+		String sql = "SELECT AD_PrintFormat_ID, Name, AD_Client_ID "
+			+ "FROM AD_PrintFormat "
+			+ "WHERE AD_Table_ID=? AND IsTableBased='Y' ";
+		if (AD_Client_ID >= 0)
+		{
+			sql = sql + " AND AD_Client_ID = ? ";
+		}
+		sql = sql + "ORDER BY AD_Client_ID DESC, IsDefault DESC, Name"; //	Own First 
+		//
+		sql = MRole.getDefault().addAccessSQL (
+			sql, "AD_PrintFormat", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		try
+		{
+			CPreparedStatement pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setInt(1, AD_Table_ID);
+			if (AD_Client_ID >= 0)
+				pstmt.setInt(2, AD_Client_ID);
+			rowSet = pstmt.getRowSet();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		return rowSet;
+	}
 
 	
 	/**************************************************************************
