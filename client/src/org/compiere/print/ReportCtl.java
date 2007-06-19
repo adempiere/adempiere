@@ -267,7 +267,11 @@ public class ReportCtl
 			re.print();
 	}
 	
-	private static void preview(ReportEngine re) 
+	/**
+	 * Launch viewer for report
+	 * @param re
+	 */
+	public static void preview(ReportEngine re) 
 	{
 		ReportViewerProvider provider = getReportViewerProvider();
 		provider.openViewer(re);

@@ -21,6 +21,8 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import javax.sql.RowSet;
 import javax.swing.*;
 import org.compiere.apps.*;
 import org.compiere.model.*;
@@ -99,34 +101,23 @@ public class AReport implements ActionListener
 	private void getPrintFormats (int AD_Table_ID, JComponent invoker)
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		//
-		String sql = MRole.getDefault().addAccessSQL (
-			"SELECT AD_PrintFormat_ID, Name, AD_Client_ID "
-				+ "FROM AD_PrintFormat "
-				+ "WHERE AD_Table_ID=? AND IsTableBased='Y' "
-				+ "ORDER BY AD_Client_ID DESC, IsDefault DESC, Name",		//	Own First
-			"AD_PrintFormat", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		RowSet rowSet = MPrintFormat.getAccessiblePrintFormats(AD_Table_ID, -1, null);
 		KeyNamePair pp = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
+			while (rowSet.next())
 			{
-				pp = new KeyNamePair (rs.getInt(1), rs.getString(2));
-				if (rs.getInt(3) == AD_Client_ID)
+				pp = new KeyNamePair (rowSet.getInt(1), rowSet.getString(2));
+				if (rowSet.getInt(3) == AD_Client_ID)
 				{
 					m_list.add(pp);
 					m_popup.add(pp.toString()).addActionListener(this);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 		}
 
 		//	No Format exists - create it
@@ -198,24 +189,13 @@ public class AReport implements ActionListener
 			
 			//	Execute Process
 			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
-			if(worker == null) // Process has been canceled
-				return;
-			
-			try {
-				worker.start();
-			} catch(java.lang.IllegalThreadStateException itse) {
-				// Do nothing
-			}
 		}
 		else
 		{
 			// It's a default report using the standard printing engine
 			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
-			Viewer viewer = new Viewer(re);
-			AEnv.addToWindowManager(viewer);
+			ReportCtl.preview(re);
 		}
-	//	if (m_popup.isVisible())
-	//		m_popup.setVisible(false);
 	}	//	launchReport
 
 	/**
@@ -240,28 +220,12 @@ public class AReport implements ActionListener
 	
 	/**************************************************************************
 	 * 	Get AD_Table_ID for Table Name
-	 * 	@param TableName table name
+	 * 	@param tableName table name
 	 * 	@return AD_Table_ID or 0
 	 */
-	static public int getAD_Table_ID (String TableName)
+	public static int getAD_Table_ID (String tableName)
 	{
-		int AD_Table_ID = 0;
-		String sql = "SELECT AD_Table_ID FROM AD_Table WHERE TableName=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, TableName);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				AD_Table_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		return AD_Table_ID;
+		return MTable.getTable_ID(tableName);
 	}	//	getAD_Table_ID
 
 }	//	AReport
