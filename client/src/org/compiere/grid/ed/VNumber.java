@@ -34,6 +34,8 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VNumber.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca - BF [ 1739516 ]
  */
 public final class VNumber extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
@@ -543,7 +545,7 @@ public final class VNumber extends JComponent
 		Object oo = getValue();
 		if (m_rangeSet)
 		{
-			String error = "";
+			String error = null;
 			if (oo instanceof Integer)
 			{
 				Integer ii = (Integer)oo;
