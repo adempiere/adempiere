@@ -708,6 +708,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				fromLine.setRef_InvoiceLine_ID(line.getC_InvoiceLine_ID());
 				fromLine.save(get_TrxName());
 			}
+			
+			// MZ Goodwill
+			// copy the landed cost
+			line.copyLandedCostFrom(fromLine);
+			line.allocateLandedCosts();
+			// end MZ
 		}
 		if (fromLines.length != count)
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);

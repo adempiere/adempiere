@@ -81,6 +81,53 @@ public class MMatchInv extends X_M_MatchInv
 		return retValue;
 	}	//	get
 
+	// MZ Goodwill
+	/**
+	 * 	Get Inv Matches for InvoiceLine
+	 *	@param ctx context
+	 *	@param C_InvoiceLine_ID invoice
+	 *	@param trxName transaction
+	 *	@return array of matches
+	 */
+	public static MMatchInv[] getInvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
+	{
+		if (C_InvoiceLine_ID == 0)
+			return new MMatchInv[]{};
+		//
+		String sql = "SELECT * FROM M_MatchInv WHERE C_InvoiceLine_ID=?";
+		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, C_InvoiceLine_ID);
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MMatchInv (ctx, rs, trxName));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e); 
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		MMatchInv[] retValue = new MMatchInv[list.size()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getInvoiceLine
+	// end MZ
+	
 	/**
 	 * 	Get Inv Matches for InOut
 	 *	@param ctx context
@@ -360,6 +407,38 @@ public class MMatchInv extends X_M_MatchInv
 	{
 		if (success)
 		{
+			// MZ Goodwill
+			// update/delete Cost Detail and recalculate Current Cost
+			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
+					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), get_TrxName());
+			if (cd != null)
+			{
+				MInOut receipt = (new MInOutLine(getCtx(),getM_InOutLine_ID(),get_TrxName())).getParent();
+				BigDecimal qty = getQty();
+				if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
+					qty = getQty().negate();
+				//
+				BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
+				cd.setDeltaAmt(price.multiply(qty.negate()));
+				cd.setDeltaQty(qty.negate());
+				cd.setProcessed(false);
+				//
+				cd.setAmt(price.multiply(cd.getQty().subtract(qty)));
+				cd.setQty(cd.getQty().subtract(qty));
+				if (!cd.isProcessed())
+				{
+					MClient client = MClient.get(getCtx(), getAD_Client_ID());
+					if (client.isCostImmediate())
+						cd.process();
+				}
+				if (cd.getQty().compareTo(Env.ZERO) == 0)
+				{
+					cd.setProcessed(false);
+					cd.delete(true);
+				}
+			}
+			// end MZ
+			
 			//	Get Order and decrease invoices
 			MInvoiceLine iLine = new MInvoiceLine (getCtx(), getC_InvoiceLine_ID(), get_TrxName());
 			int C_OrderLine_ID = iLine.getC_OrderLine_ID();

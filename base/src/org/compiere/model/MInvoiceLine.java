@@ -932,6 +932,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 					BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 					lca.setBase(base);
+					// MZ Goodwill
+					// add set Qty from InOutLine
+					lca.setQty(iol.getMovementQty());
+					// end MZ
 					if (base.signum() != 0)
 					{
 						double result = getLineNetAmt().multiply(base).doubleValue();
@@ -956,6 +960,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				lca.setM_Product_ID(iol.getM_Product_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 				lca.setAmt(getLineNetAmt());
+				// MZ Goodwill
+				// add set Qty from InOutLine
+				lca.setQty(iol.getMovementQty());
+				// end MZ
 				if (lca.save())
 					return "";
 				return "Cannot save single line Allocation = " + lc; 
@@ -1033,6 +1041,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 			BigDecimal base = iol.getBase(LandedCostDistribution); 
 			lca.setBase(base);
+			// MZ Goodwill
+			// add set Qty from InOutLine
+			lca.setQty(iol.getMovementQty());
+			// end MZ
 			if (base.signum() != 0)
 			{
 				double result = getLineNetAmt().multiply(base).doubleValue();
@@ -1077,4 +1089,79 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		}
 	}	//	allocateLandedCostRounding
 
+	// MZ Goodwill
+	/**
+	 * 	Get LandedCost of InvoiceLine
+	 * 	@param whereClause starting with AND
+	 * 	@return landedCost
+	 */
+	public MLandedCost[] getLandedCost (String whereClause)
+	{
+		ArrayList<MLandedCost> list = new ArrayList<MLandedCost>();
+		String sql = "SELECT * FROM C_LandedCost WHERE C_InvoiceLine_ID=? ";
+		if (whereClause != null)
+			sql += whereClause;
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, getC_InvoiceLine_ID());
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				MLandedCost lc = new MLandedCost(getCtx(), rs, get_TrxName());
+				list.add(lc);
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "getLandedCost", e);
+		}
+		finally
+		{
+			try
+			{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e)
+			{}
+			pstmt = null;
+		}
+
+		//
+		MLandedCost[] landedCost = new MLandedCost[list.size()];
+		list.toArray(landedCost);
+		return landedCost;
+	}	//	getLandedCost
+	
+	/**
+	 * 	Copy LandedCost From other InvoiceLine.
+	 *	@param otherInvoiceLine invoiceline
+	 *	@return number of lines copied
+	 */
+	public int copyLandedCostFrom (MInvoiceLine otherInvoiceLine)
+	{
+		if (otherInvoiceLine == null)
+			return 0;
+		MLandedCost[] fromLandedCosts = otherInvoiceLine.getLandedCost(null);
+		int count = 0;
+		for (int i = 0; i < fromLandedCosts.length; i++)
+		{
+			MLandedCost landedCost = new MLandedCost (getCtx(), 0, get_TrxName());
+			MLandedCost fromLandedCost = fromLandedCosts[i];
+			PO.copyValues (fromLandedCost, landedCost, fromLandedCost.getAD_Client_ID(), fromLandedCost.getAD_Org_ID());
+			landedCost.setC_InvoiceLine_ID(getC_InvoiceLine_ID());
+			landedCost.set_ValueNoCheck ("C_LandedCost_ID", I_ZERO);	// new
+			if (landedCost.save(get_TrxName()))
+				count++;
+		}
+		if (fromLandedCosts.length != count)
+			log.log(Level.SEVERE, "LandedCost difference - From=" + fromLandedCosts.length + " <> Saved=" + count);
+		return count;
+	}	//	copyLinesFrom
+	// end MZ
 }	//	MInvoiceLine

@@ -73,10 +73,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+			// set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	 
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -91,6 +98,7 @@ public class MCostDetail extends X_M_CostDetail
 		return ok;
 	}	//	createOrder
 
+	
 	/**
 	 * 	Create New Invoice Cost Detail for AP Invoices.
 	 * 	Called from Doc_Invoice - for Invoice Adjustments
@@ -133,10 +141,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+			// set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	 
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -195,10 +210,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+		  // set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	 
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -255,10 +277,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+			// set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -319,10 +348,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+			// set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -379,10 +415,17 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		else
 		{
-			cd.setDeltaAmt(cd.getAmt().subtract(Amt));
-			cd.setDeltaQty(cd.getQty().subtract(Qty));
+			// MZ Goodwill
+			// set deltaAmt=Amt, deltaQty=qty, and set Cost Detail for Amt and Qty	 
+			cd.setDeltaAmt(Amt.subtract(cd.getAmt()));
+			cd.setDeltaQty(Qty.subtract(cd.getQty()));
 			if (cd.isDelta())
+			{
 				cd.setProcessed(false);
+				cd.setAmt(Amt);
+				cd.setQty(Qty);
+			}
+			// end MZ
 			else
 				return true;	//	nothing to do
 		}
@@ -407,7 +450,7 @@ public class MCostDetail extends X_M_CostDetail
 	 *	@param trxName trx
 	 *	@return cost detail
 	 */
-	private static MCostDetail get (Properties ctx, String whereClause, 
+	public static MCostDetail get (Properties ctx, String whereClause, 
 		int ID, int M_AttributeSetInstance_ID, String trxName)
 	{
 		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause;
@@ -766,9 +809,46 @@ public class MCostDetail extends X_M_CostDetail
 	//	if (cost == null)
 	//		cost = new MCost(product, M_ASI_ID, 
 	//			as, Org_ID, ce.getM_CostElement_ID());
-
-		BigDecimal qty = getQty();
-		BigDecimal amt = getAmt();
+		
+		// MZ Goodwill
+		// reset non Material Cost Element when CurrentQty is ZERO and from Matched Invoice
+		if (ce.getCostingMethod() != null)	
+		{
+			if (cost.getCurrentQty().signum() == 0	// CurrentQty is ZERO
+					&& getC_InvoiceLine_ID() != 0 && !product.isService() // from Matched Invoice
+					&& ce.getCostingMethod().equals(as.getCostingMethod())) // based on Accounting Schema Costing Method 	
+			{
+				MCostElement[] nce = MCostElement.getNonCostingMethods(this);
+				for (int i = 0 ; i < nce.length ; i++)
+				{
+					MCost ncost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), nce[i].getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
+					if (ncost != null)
+					{
+						ncost.setCurrentCostPrice(Env.ZERO);
+						ncost.setCurrentQty(Env.ZERO);
+						ncost.save();
+					}
+				}
+			}
+		}
+		// end MZ
+		
+		// MZ Goodwill
+		// used deltaQty and deltaAmt if exist 
+		BigDecimal qty = Env.ZERO;
+		BigDecimal amt = Env.ZERO;
+		if (isDelta())
+		{
+			qty = getDeltaQty();
+			amt = getDeltaAmt();
+		}
+		else
+		{
+			qty = getQty();
+			amt = getAmt();
+		}
+		// end MZ
+		
 		int precision = as.getCostingPrecision();
 		BigDecimal price = amt;
 		if (qty.signum() != 0)
@@ -878,7 +958,13 @@ public class MCostDetail extends X_M_CostDetail
 			}
 			else if (!ce.isCostingMethod())		//	Cost Adjustments
 			{
-				BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
+				// MZ Goodwill
+				// Current Cost is using average
+				BigDecimal cCosts = cost.getCurrentCostPrice().multiply(cost.getCurrentQty()).add(amt);
+				BigDecimal cQty = cost.getCurrentQty().add(qty);
+				if (cQty.signum() != 0)
+				cCosts = cCosts.divide(cQty, precision, BigDecimal.ROUND_HALF_UP);
+				// end MZ
 				cost.setCurrentCostPrice(cCosts);
 				cost.add(amt, qty);
 				log.finer("Inv - none - " + cost);
@@ -982,7 +1068,6 @@ public class MCostDetail extends X_M_CostDetail
 			log.warning("Unknown Type: " + toString());
 			return false;
 		}
-		
 		return cost.save();
 	}	//	process
 	

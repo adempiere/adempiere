@@ -177,6 +177,52 @@ public class MMatchPO extends X_M_MatchPO
 		return retValue;
 	}	//	getInvoice
 
+	// MZ Goodwill
+	/**
+	 * 	Get PO Matches for OrderLine
+	 *	@param ctx context
+	 *	@param C_OrderLine_ID order
+	 *	@param trxName transaction
+	 *	@return array of matches
+	 */
+	public static MMatchPO[] getOrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
+	{
+		if (C_OrderLine_ID == 0)
+			return new MMatchPO[]{};
+		//
+		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=?";
+		ArrayList<MMatchPO> list = new ArrayList<MMatchPO>();
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, C_OrderLine_ID);
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MMatchPO (ctx, rs, trxName));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e); 
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		MMatchPO[] retValue = new MMatchPO[list.size()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getOrderLine
+	// end MZ
 	
 	/**
 	 * 	Find/Create PO(Inv) Match
@@ -704,6 +750,33 @@ public class MMatchPO extends X_M_MatchPO
 		//	(Reserved in VMatch and MInOut.completeIt)
 		if (success && getC_OrderLine_ID() != 0)
 		{
+			// MZ Goodwill
+			// update/delete Cost Detail and recalculate Current Cost
+			MCostDetail cd = MCostDetail.get (getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
+					getC_OrderLine_ID(), getM_AttributeSetInstance_ID(), get_TrxName());
+			if (cd != null)
+			{
+				BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
+				cd.setDeltaAmt(price.multiply(getQty().negate()));
+				cd.setDeltaQty(getQty().negate());
+				cd.setProcessed(false);
+				//
+				cd.setAmt(price.multiply(cd.getQty().subtract(getQty())));
+				cd.setQty(cd.getQty().subtract(getQty()));
+				if (!cd.isProcessed())
+				{
+					MClient client = MClient.get(getCtx(), getAD_Client_ID());
+					if (client.isCostImmediate())
+						cd.process();
+				}
+				if (cd.getQty().compareTo(Env.ZERO) == 0)
+				{
+					cd.setProcessed(false);
+					cd.delete(true);
+				}
+			}
+			// end MZ
+			
 			MOrderLine orderLine = new MOrderLine (getCtx(), getC_OrderLine_ID(), get_TrxName());
 			if (getM_InOutLine_ID() != 0)
 				orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(getQty()));
