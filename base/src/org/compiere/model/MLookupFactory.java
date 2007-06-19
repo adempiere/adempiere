@@ -27,7 +27,7 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version  $Id: MLookupFactory.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  *  
- *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ]
+ *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ], BF [ 1739530 ]
  */
 public class MLookupFactory
 {
@@ -282,11 +282,11 @@ public class MLookupFactory
 	}	//	getLookup_List
 
 	/**
-	 * 	Get Lookup SQL for List
-	 *	@param language report Language
-	 *	@param AD_Reference_Value_ID reference value
-	 *	@param linkColumnName link column name
-	 *	@return SELECT Name FROM AD_Ref_List WHERE AD_Reference_ID=x AND Value=linkColumn
+	 * Get Lookup SQL for List
+	 * @param language report Language
+	 * @param AD_Reference_Value_ID reference value
+	 * @param linkColumnName link column name
+	 * @return SELECT Name FROM AD_Ref_List WHERE AD_Reference_ID=x AND Value=linkColumn
 	 */
 	static public String getLookup_ListEmbed(Language language, 
 		int AD_Reference_Value_ID, String linkColumnName)
@@ -340,10 +340,10 @@ public class MLookupFactory
 		//
 		String	KeyColumn = null, DisplayColumn = null, TableName = null, WhereClause = null, OrderByClause = null;
 		boolean IsTranslated = false, isValueDisplayed = false;
-		boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+		//boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
 		int ZoomWindowPO = 0;
-		int AD_Table_ID = 0;
+		//int AD_Table_ID = 0;
 		boolean loaded = false;
 
 		try
@@ -362,7 +362,7 @@ public class MLookupFactory
 				OrderByClause = rs.getString(7);
 				ZoomWindow = rs.getInt(8);
 				ZoomWindowPO = rs.getInt(9);
-				AD_Table_ID = rs.getInt(10);
+				//AD_Table_ID = rs.getInt(10);
 				loaded = true;
 			}
 			rs.close();
@@ -539,12 +539,12 @@ public class MLookupFactory
 
 
 	/**************************************************************************
-	 * 	Get Lookup SQL for direct Table Lookup
-	 *	@param ctx context for access
-	 *	@param language report language
-	 *	@param ColumnName column name
-	 * 	@param WindowNo Window (for SOTrx)
-	 *	@return SELECT Key, NULL, Name, IsActive from Table (fully qualified)
+	 * Get Lookup SQL for direct Table Lookup
+	 * @param ctx context for access
+	 * @param language report language
+	 * @param ColumnName column name
+	 * @param WindowNo Window (for SOTrx)
+	 * @return SELECT Key, NULL, Name, IsActive from Table (fully qualified)
 	 */
 	static private MLookupInfo getLookup_TableDir (Properties ctx, Language language,
 		int WindowNo, String ColumnName)
@@ -561,7 +561,7 @@ public class MLookupFactory
 
 		String TableName = ColumnName.substring(0,ColumnName.length()-3);
 		String KeyColumn = ColumnName;
-		boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+		//boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
 		int ZoomWindowPO = 0;
 		
@@ -804,7 +804,14 @@ public class MLookupFactory
 				.append(" AND ").append(TableName).append("_Trl.AD_Language=")
 				.append(DB.TO_STRING(language.getAD_Language())).append(")");
 		}
-		embedSQL.append(" WHERE ").append(BaseTable).append(".").append(BaseColumn);
+		embedSQL.append(" WHERE ");
+		// If is not virtual column - teo_sarca [ 1739530 ]
+		if (! BaseColumn.trim().startsWith("(")) {
+			embedSQL.append(BaseTable).append(".").append(BaseColumn);
+		}
+		else {
+			embedSQL.append(BaseColumn);
+		}
 		embedSQL.append("=").append(TableName).append(".").append(ColumnName);
 		//
 		return embedSQL.toString();
