@@ -2141,6 +2141,24 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			if (alloc.processIt(DocAction.ACTION_Complete))
 				alloc.save();
 		}
+		
+		//MZ Goodwill
+		if (!invoice.isSOTrx())
+		{
+			// delete Matched Invoice Cost Detail
+			MInvoiceLine[] lines = invoice.getLines();
+			for (int i = 0; i < lines.length; i++)
+			{
+				MCostDetail cd = MCostDetail.get (invoice.getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
+						lines[i].getC_InvoiceLine_ID(), lines[i].getM_AttributeSetInstance_ID(), invoice.get_TrxName());
+				if (cd !=  null)
+				{
+					cd.setProcessed(false);
+					cd.delete(true);
+				}
+			}
+		}
+		//End MZ
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
