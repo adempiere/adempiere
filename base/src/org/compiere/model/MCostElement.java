@@ -178,6 +178,50 @@ public class MCostElement extends X_M_CostElement
 		return retValue;
 	}	//	getMaterialCostElement
 
+	// MZ Goodwill
+	/**
+	 * 	Get active non Material Cost Element for client 
+	 *	@param po parent
+	 *	@return cost element array
+	 */
+	public static MCostElement[] getNonCostingMethods (PO po)
+	{
+		ArrayList<MCostElement> list = new ArrayList<MCostElement>();
+		String sql = "SELECT * FROM M_CostElement "
+			+ "WHERE AD_Client_ID=?"
+			+ " AND IsActive='Y' AND CostingMethod IS NULL";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, po.get_TrxName());
+			pstmt.setInt (1, po.getAD_Client_ID());
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add(new MCostElement (po.getCtx(), rs, po.get_TrxName()));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		//
+		MCostElement[] retValue = new MCostElement[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getMaterialCostElement
+	// end MZ
 	
 	/**
 	 * 	Get Cost Element from Cache
