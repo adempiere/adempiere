@@ -134,7 +134,7 @@ public class Doc_InOut extends Doc
 		FactLine cr = null;
 
 		//  *** Sales - Shipment
-		if (getDocumentType().equals(DOCTYPE_MatShipment))
+		if (getDocumentType().equals(DOCTYPE_MatShipment) && isSOTrx())
 		{
 			for (int i = 0; i < p_lines.length; i++)
 			{
@@ -197,9 +197,75 @@ public class Doc_InOut extends Doc
 			}	//	for all lines
 			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
 		}	//	Shipment
+        //	  *** Sales - Return
+		else if ( getDocumentType().equals(DOCTYPE_MatReceipt) && isSOTrx() )
+		{
+			for (int i = 0; i < p_lines.length; i++)
+			{
+				DocLine line = p_lines[i];
+				// MZ Goodwill
+				// if Shipment CostDetail exist then get Cost from Cost Detail 
+				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?");
+				// end MZ
+				
+				if (costs == null || costs.signum() == 0)	//	zero costs OK
+				{
+					MProduct product = line.getProduct();
+					if (product.isStocked())
+					{
+						p_Error = "No Costs for " + line.getProduct().getName();
+						log.log(Level.WARNING, p_Error);
+						return null;
+					}
+					else	//	ignore service
+						continue;
+				}
+				//  Inventory               DR
+				dr = fact.createLine(line,
+					line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+					as.getC_Currency_ID(), costs, null);
+				if (dr == null)
+				{
+					p_Error = "FactLine CR not created: " + line;
+					log.log(Level.WARNING, p_Error);
+					return null;
+				}
+				dr.setM_Locator_ID(line.getM_Locator_ID());
+				dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
+				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
+				//
+				if (line.getM_Product_ID() != 0)
+				{
+					MCostDetail.createShipment(as, line.getAD_Org_ID(), 
+						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+						line.get_ID(), 0,
+						costs, line.getQty(),
+						line.getDescription(), true, getTrxName());
+				}
+				
+				//  CoGS            CR
+				cr = fact.createLine(line,
+					line.getAccount(ProductCost.ACCTTYPE_P_Cogs, as),
+					as.getC_Currency_ID(), null, costs);
+				if (cr == null)
+				{
+					p_Error = "FactLine DR not created: " + line;
+					log.log(Level.WARNING, p_Error);
+					return null;
+				}
+				cr.setM_Locator_ID(line.getM_Locator_ID());
+				cr.setLocationFromLocator(line.getM_Locator_ID(), true);    //  from Loc
+				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
+				cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
+				cr.setQty(line.getQty().negate());
+				
+
+			}	//	for all lines
+			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
+		}	//	Shipment
 		
 		//  *** Purchasing - Receipt
-		else if (getDocumentType().equals(DOCTYPE_MatReceipt))
+		else if (getDocumentType().equals(DOCTYPE_MatReceipt) && !isSOTrx())
 		{
 			for (int i = 0; i < p_lines.length; i++)
 			{
@@ -261,6 +327,73 @@ public class Doc_InOut extends Doc
 				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
 				cr.setQty(line.getQty().negate());
+			}
+		}	//	Receipt
+         //	  *** Purchasing - return
+		else if (getDocumentType().equals(DOCTYPE_MatShipment) && !isSOTrx())
+		{
+			for (int i = 0; i < p_lines.length; i++)
+			{
+				DocLine line = p_lines[i];
+				BigDecimal costs = null;
+				MProduct product = line.getProduct();
+				//get costing method for product
+				String costingMethod = as.getCostingMethod();
+				MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
+					product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
+				if (pca.getCostingMethod() != null)
+					costingMethod = pca.getCostingMethod();
+				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
+					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
+				{
+					int C_OrderLine_ID = line.getC_OrderLine_ID();
+					MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
+					costs = orderLine.getPriceCost();
+					if (costs == null || costs.signum() == 0)
+						costs = orderLine.getPriceActual();
+					costs = costs.multiply(line.getQty());
+				}
+				else
+				{
+					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
+				}
+				if (costs == null || costs.signum() == 0)
+				{
+					p_Error = "Resubmit - No Costs for " + product.getName();
+					log.log(Level.WARNING, p_Error);
+					return null;
+				}
+				//  NotInvoicedReceipt				DR
+				dr = fact.createLine(line,
+					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
+					as.getC_Currency_ID(), costs , null);
+				if (dr == null)
+				{
+					p_Error = "CR not created: " + line;
+					log.log(Level.WARNING, p_Error);
+					return null;
+				}
+				dr.setM_Locator_ID(line.getM_Locator_ID());
+				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
+				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
+				dr.setQty(line.getQty().negate());
+				
+				//  Inventory/Asset			CR
+				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+				if (product.isService())
+					assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+				cr = fact.createLine(line, assets,
+					as.getC_Currency_ID(), null, costs);
+				if (cr == null)
+				{
+					p_Error = "DR not created: " + line;
+					log.log(Level.WARNING, p_Error);
+					return null;
+				}
+				cr.setM_Locator_ID(line.getM_Locator_ID());
+				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
+				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
+
 			}
 		}	//	Receipt
 		else
