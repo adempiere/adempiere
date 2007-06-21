@@ -75,7 +75,7 @@ public class ReportStarter implements ProcessCall {
 
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
-            REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "./reports");
+        	REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "/reports");
         } else {
 			REPORT_HOME = new File(reportPath);
         }
