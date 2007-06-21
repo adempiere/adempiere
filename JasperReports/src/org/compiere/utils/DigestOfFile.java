@@ -29,7 +29,7 @@ public class DigestOfFile
      */
     synchronized public byte[] digestAsByteArray(File file) throws Exception
     {
-       digestAgent.reset();
+        digestAgent.reset();
         InputStream is = new BufferedInputStream(new FileInputStream(file));
         for (int bytesRead = 0; (bytesRead = is.read(buffer)) >= 0;)
         {
@@ -37,6 +37,13 @@ public class DigestOfFile
         }
         is.close();
         byte[] digest = digestAgent.digest();
+        return digest;
+    }
+    
+    public synchronized byte[] digestAsByteArray(byte[] input) throws Exception
+    {
+    	digestAgent.reset();
+        byte[] digest = digestAgent.digest(input);
         return digest;
     }
     
@@ -49,6 +56,18 @@ public class DigestOfFile
     synchronized public String digestAsBase64(File file) throws Exception
     {
         byte[] digest = digestAsByteArray(file);
+        String digestAsBase64 = base64Encoder.encode(digest);
+        return digestAsBase64;
+    }
+    
+    /**
+     * @param input
+     * @return hash (base64 encoded)
+     * @throws Exception
+     */
+    public synchronized String digestAsBase64(byte[] input) throws Exception
+    {
+    	byte[] digest = digestAsByteArray(input);
         String digestAsBase64 = base64Encoder.encode(digest);
         return digestAsBase64;
     }
@@ -121,6 +140,25 @@ public class DigestOfFile
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hash = md5DigestAgent.digestAsBase64(file);
+    		return hash; }
+    	catch (Exception e)
+		{
+    		return null;			//if there is an error during comparison return files are difs
+		}
+    }
+    
+    /**
+     * Get md5 hash from byte[]
+     * @param input
+     * @return mdg hash string
+     */
+    public static String getMD5Hash(byte[] input)
+    {
+    	String hash;
+    	java.security.Security.addProvider(new Sun());
+    	try{
+    		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
+    		hash = md5DigestAgent.digestAsBase64(input);
     		return hash; }
     	catch (Exception e)
 		{

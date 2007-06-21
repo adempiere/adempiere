@@ -44,6 +44,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.interfaces.MD5Home;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MAttachmentEntry;
+import org.compiere.model.MProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -72,11 +75,14 @@ public class ReportStarter implements ProcessCall {
 
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
-            REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "/reports");
+            REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "./reports");
         } else {
 			REPORT_HOME = new File(reportPath);
         }
     }
+
+	private ProcessInfo processInfo;
+	private MAttachment attachment;
 
     
     /**
@@ -332,6 +338,7 @@ public class ReportStarter implements ProcessCall {
 	 */
     public boolean startProcess(Properties ctx, ProcessInfo pi, Trx trx) {
 		
+    	processInfo = pi;
 		String Name=pi.getTitle();
         int AD_PInstance_ID=pi.getAD_PInstance_ID();
         int Record_ID=pi.getRecord_ID();
@@ -397,6 +404,10 @@ public class ReportStarter implements ProcessCall {
 					// Locate and download subreports from remote webcontext
 					subreports = getHttpSubreports(jasperName + "Subreport", reportPath, fileExtension);
 				}
+				else if (reportPath.startsWith("attachment:")) 
+				{
+					subreports = getAttachmentSubreports(reportPath);
+				}
 				else
 				{
 					// Locate subreports from local/remote filesystem
@@ -418,24 +429,28 @@ public class ReportStarter implements ProcessCall {
                 
                 Language currLang = Env.getLanguage(Env.getCtx());
                 params.put("CURRENT_LANG", currLang.getAD_Language());
-                // Resources				
-                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));
+                // Resources
                 File resFile = null;
-                // try baseName + "_" + language
-                for( int i=0; i<resources.length; i++) {
-                    if ( resources[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
-                        resFile=resources[i];
-                        break;
-                    }
-                }
-                if (resFile==null) {
-                    // try baseName only
-                    for( int i=0; i<resources.length; i++) {
-                        if ( resources[i].getName().equals( jasperName+".properties")) {
-                            resFile=resources[i];
-                            break;
-                        }
-                    }
+                if (reportPath.startsWith("attachment:") && attachment != null) {
+                	resFile = getAttachmentResourceFile(jasperName, currLang);
+                } else {
+	                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));                
+	                // try baseName + "_" + language
+	                for( int i=0; i<resources.length; i++) {
+	                    if ( resources[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
+	                        resFile=resources[i];
+	                        break;
+	                    }
+	                }
+	                if (resFile==null) {
+	                    // try baseName only
+	                    for( int i=0; i<resources.length; i++) {
+	                        if ( resources[i].getName().equals( jasperName+".properties")) {
+	                            resFile=resources[i];
+	                            break;
+	                        }
+	                    }
+	                }
                 }
                 if (resFile!=null) {
                     try {
@@ -472,6 +487,57 @@ public class ReportStarter implements ProcessCall {
     }
 
     /**
+     * Get .property resource file from process attachment
+     * @param jasperName
+     * @param currLang
+     * @return File
+     */
+    private File getAttachmentResourceFile(String jasperName, Language currLang) {
+    	File resFile = null;
+    	MAttachmentEntry[] entries = attachment.getEntries();
+    	// try baseName + "_" + language
+        for( int i=0; i<entries.length; i++) {
+            if ( entries[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
+                resFile = getAttachmentEntryFile(entries[i]);
+                break;
+            }
+        }
+        if (resFile==null) {
+            // try baseName only
+            for( int i=0; i<entries.length; i++) {
+                if ( entries[i].getName().equals( jasperName+".properties")) {
+                	resFile = getAttachmentEntryFile(entries[i]);
+                    break;
+                }
+            }
+        }
+		return resFile;
+	}
+
+	/**
+     * Get subreports from attachment. Assume all other jasper attachment is subreport.
+     * @param reportPath
+     * @return File[]
+     */
+    private File[] getAttachmentSubreports(String reportPath) {
+		String name = reportPath.substring("attachment:".length()).trim();
+		ArrayList<File> subreports = new ArrayList<File>();
+		MAttachmentEntry[] entries = attachment.getEntries();
+		for(int i = 0; i < entries.length; i++) {
+			if (!entries[i].getName().equals(name) &&
+				(entries[i].getName().endsWith(".jrxml") || entries[i].getName().endsWith(".jasper"))) {
+				File reportFile = getAttachmentEntryFile(entries[i]);
+				if (reportFile != null)
+					subreports.add(reportFile);
+			}
+		}
+		File[] files = new File[subreports.size()];
+		File[] subreportsTemp = new File[0];
+		subreportsTemp = subreports.toArray(subreportsTemp);
+		return subreportsTemp;
+	}
+
+	/**
      * @author alinv
      * @param reportPath
      * @param reportType
@@ -499,6 +565,9 @@ public class ReportStarter implements ProcessCall {
 		// Reports deployement on web server Thanks to Alin Vaida
 		if (reportPath.startsWith("http://") || reportPath.startsWith("https://")) {
 			reportFile = httpDownloadedReport(reportPath);
+		} else if (reportPath.startsWith("attachment:")) {
+			//report file from process attachment
+			reportFile = downloadAttachment(reportPath);
 		} else if(reportPath.startsWith("/")) {
 			reportFile = new File(reportPath);
 		} else {
@@ -507,6 +576,62 @@ public class ReportStarter implements ProcessCall {
 		
 		// Set org.compiere.report.path because it is used in reports which refer to subreports
 		System.setProperty("org.compiere.report.path", reportFile.getParentFile().getAbsolutePath());
+		return reportFile;
+	}
+
+	/**
+	 * Download db attachment 
+	 * @param reportPath must of syntax attachment:filename
+	 * @return File
+	 */
+	private File downloadAttachment(String reportPath) {
+		File reportFile = null;
+		String name = reportPath.substring("attachment:".length()).trim();
+		MProcess process = new MProcess(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getTransactionName()); 
+		attachment = process.getAttachment();
+		if (attachment != null) {
+			MAttachmentEntry[] entries = attachment.getEntries();
+			MAttachmentEntry entry = null;
+			for (int i = 0; i < entries.length; i++) {
+				if (entries[i].getName().equals(name)) {
+					entry = entries[i];
+					break;
+				}
+			}
+			if (entry != null) {
+				reportFile = getAttachmentEntryFile(entry);
+			}	
+		}
+		return reportFile;
+	}
+	
+	/**
+	 * Download db attachment to local file
+	 * @param entry
+	 * @return File
+	 */
+	private File getAttachmentEntryFile(MAttachmentEntry entry) {
+		String localFile = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + entry.getName();
+		String downloadedLocalFile = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")+"TMP" + entry.getName();
+		File reportFile = new File(localFile);
+		if (reportFile.exists()) {
+			String localMD5hash = DigestOfFile.GetLocalMD5Hash(reportFile);
+			String entryMD5hash = DigestOfFile.getMD5Hash(entry.getData());
+			if (localMD5hash.equals(entryMD5hash))
+			{
+				log.info(" no need to download: local report is up-to-date");
+			}
+			else
+			{
+				log.info(" report on server is different that local one, download and replace");
+				File downloadedFile = new File(downloadedLocalFile);
+				entry.getFile(downloadedFile);
+				reportFile.delete();
+				downloadedFile.renameTo(reportFile);
+			}
+		} else {
+			entry.getFile(reportFile);
+		}
 		return reportFile;
 	}
 
@@ -729,8 +854,7 @@ public class ReportStarter implements ProcessCall {
             String path = null;
             boolean	directPrint = false;
             boolean isPrintPreview = pi.isPrintPreview();
-			
-			if (rs.next()) {
+            if (rs.next()) {
                 path = rs.getString(1);
 				
 				if ("Y".equalsIgnoreCase(rs.getString(2)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
@@ -740,8 +864,8 @@ public class ReportStarter implements ProcessCall {
                 log.severe("data not found; sql = "+sql);
 				return null;
             }
-			
-			return new ReportData( path, directPrint);
+            
+            return new ReportData( path, directPrint);
         } catch (SQLException e) {
             log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
             return null;
@@ -751,12 +875,20 @@ public class ReportStarter implements ProcessCall {
         }
     }
     
+    /**
+     * Set jasper report viewer provider.
+     * @param provider
+     */
     public static void setReportViewerProvider(JRViewerProvider provider) {
     	if (provider == null)
     		throw new IllegalArgumentException("Cannot set report viewer provider to null");
     	viewerProvider = provider;
     }
     
+    /**
+     * Get the current jasper report viewer provider
+     * @return JRViewerProvider
+     */
     public static JRViewerProvider getReportViewerProvider() {
     	return viewerProvider;
     }
