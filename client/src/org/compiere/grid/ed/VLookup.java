@@ -40,6 +40,8 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VLookup.java,v 1.5 2006/10/06 00:42:38 jjanke Exp $
+ *  
+ *  @author		Teo Sarca - BF [ 1740835 ]
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -1219,6 +1221,8 @@ public class VLookup extends JComponent
 	 */
 	public void focusGained (FocusEvent e)
 	{
+		if (m_combo == null || m_combo.getEditor() == null)
+			return;
 		if ((e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent()) 
 			|| e.isTemporary() || m_haveFocus || m_lookup == null)
 			return;
