@@ -2143,14 +2143,14 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 		
 		//MZ Goodwill
-		if (!invoice.isSOTrx())
+		if (!isSOTrx())
 		{
 			// delete Matched Invoice Cost Detail
-			MInvoiceLine[] lines = invoice.getLines();
+			MInvoiceLine[] lines = getLines();
 			for (int i = 0; i < lines.length; i++)
 			{
-				MCostDetail cd = MCostDetail.get (invoice.getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
-						lines[i].getC_InvoiceLine_ID(), lines[i].getM_AttributeSetInstance_ID(), invoice.get_TrxName());
+				MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
+						lines[i].getC_InvoiceLine_ID(), lines[i].getM_AttributeSetInstance_ID(), get_TrxName());
 				if (cd !=  null)
 				{
 					cd.setProcessed(false);

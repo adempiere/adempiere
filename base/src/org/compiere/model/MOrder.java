@@ -2019,18 +2019,18 @@ public class MOrder extends X_C_Order implements DocAction
 			return false;
 		
 		//MZ Goodwill	
-		if (!order.isSOTrx())
+		if (!isSOTrx())
 		{
 			// delete Matched PO Cost Detail
-			MOrderLine[] lines = order.getLines();
+			MOrderLine[] linesMZ = getLines();
 			for (int i = 0; i < lines.length; i++)
 			{
-				MMatchPO[] mPO = MMatchPO.getOrderLine(order.getCtx(), lines[i].getC_OrderLine_ID(), order.get_TrxName()); 
+				MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), linesMZ[i].getC_OrderLine_ID(), get_TrxName()); 
 				// delete Cost Detail if the Matched PO has been deleted
 				if (mPO.length == 0)
 				{
-					MCostDetail cd = MCostDetail.get(order.getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
-							lines[i].getC_OrderLine_ID(), lines[i].getM_AttributeSetInstance_ID(), order.get_TrxName());
+					MCostDetail cd = MCostDetail.get(getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
+							linesMZ[i].getC_OrderLine_ID(), linesMZ[i].getM_AttributeSetInstance_ID(), get_TrxName());
 					if (cd !=  null)
 					{
 						cd.setProcessed(false);
