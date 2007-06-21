@@ -256,6 +256,7 @@ public class ProcessCtl implements Runnable
 
 		//	Get Process Information: Name, Procedure Name, ClassName, IsReport, IsDirectPrint
 		String 	ProcedureName = "";
+		String  JasperReport = "";
 		int     AD_ReportView_ID = 0;
 		int		AD_Workflow_ID = 0;
 		boolean IsReport = false;
@@ -266,7 +267,7 @@ public class ProcessCtl implements Runnable
 		String sql = "SELECT p.Name, p.ProcedureName,p.ClassName, p.AD_Process_ID,"		//	1..4
 			+ " p.isReport,p.IsDirectPrint,p.AD_ReportView_ID,p.AD_Workflow_ID,"		//	5..8
 			+ " CASE WHEN COALESCE(p.Statistic_Count,0)=0 THEN 0 ELSE p.Statistic_Seconds/p.Statistic_Count END CASE,"
-			+ " p.IsServerProcess " 
+			+ " p.IsServerProcess, p.JasperReport " 
 			+ "FROM AD_Process p"
 			+ " INNER JOIN AD_PInstance i ON (p.AD_Process_ID=i.AD_Process_ID) "
 			+ "WHERE p.IsActive='Y'"
@@ -316,6 +317,7 @@ public class ProcessCtl implements Runnable
 						m_waiting.setTimerEstimate(m_pi.getEstSeconds());
 				}
 				m_IsServerProcess = "Y".equals(rs.getString(10));
+				JasperReport = rs.getString(11);
 			}
 			else
 				log.log(Level.SEVERE, "No AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
@@ -394,6 +396,13 @@ public class ProcessCtl implements Runnable
 				}
 			}	//	Pre-Report
 
+			if (JasperReport != null && JasperReport.trim().length() > 0 && m_pi.getClassName() == null) 
+			{
+				m_pi.setClassName("org.compiere.report.ReportStarter");
+				startProcess();
+				unlock();
+				return;
+			}
 			//	Start Report	-----------------------------------------------
 			boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
 			m_pi.setSummary("Report", !ok);
