@@ -754,7 +754,7 @@ public class WWindow extends HttpServlet
 				ii = null;
 			}
 			//  -1 indicates NULL
-			if (ii.intValue() == -1)
+			if (ii != null && ii.intValue() == -1)
 				ii = null;
 			log.fine("ID: " + columnName + "=" + value + " -> " + ii);		
 			return ii;
