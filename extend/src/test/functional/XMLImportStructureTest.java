@@ -327,6 +327,7 @@ public class XMLImportStructureTest extends TestCase {
 					while(m_formsAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_formsAttsMapList.get(0);
 						System.out.println("form name: " +  attsMap.get("ADFormNameID"));
+						importForm(attsMap);
 						attsMap.clear();
 						m_formsAttsMapList.remove(0);
 						/*for (Map.Entry<String, String> f : attsMap.entrySet()) {
@@ -433,11 +434,11 @@ public class XMLImportStructureTest extends TestCase {
 					int i = 0;
 					while(m_columnsAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_columnsAttsMapList.get(0);
-						if(attsMap.get("ADColumnNameID").equals("DocumentNo") && attsMap.get("ADTableNameID").equals("AD_Workflow")) {
+						//if(attsMap.get("ADColumnNameID").equals("isAvailable") && attsMap.get("ADTableNameID").equals("S_Resource")) {
 							System.out.println("column num: "+ i++ +" name: " +  attsMap.get("ADColumnNameID"));
 							System.out.println("table name: " +  attsMap.get("ADTableNameID"));
 						importColumn(attsMap);
-						}
+						//}
 
 						attsMap.clear();
 						m_columnsAttsMapList.remove(0);
@@ -595,9 +596,10 @@ public class XMLImportStructureTest extends TestCase {
 
 				List<Map<String, String>> m_workflowNodesAttsMapList = elementAttsMap.get("workflowNode");
 				System.out.println("processing " + m_workflowNodesAttsMapList.size() + " workflowNodes");
+					int i = 0;
 					while(m_workflowNodesAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_workflowNodesAttsMapList.get(0);
-						System.out.println("worklfowNode name: " +  attsMap.get("Name"));
+						System.out.println("worklfowNode  num: "+ i++ +" name: " +  attsMap.get("Name"));
 						importWorkflowNode(attsMap);
 						attsMap.clear();
 						m_workflowNodesAttsMapList.remove(0);
@@ -797,6 +799,7 @@ public class XMLImportStructureTest extends TestCase {
 
 				// changed default ??
 				// m_Column.is_ValueChanged("DefaultValue") doesn't work well with nulls
+				System.out.println("recreateColumn: " + recreateColumn);
 				if (! recreateColumn) {
 					String oldDefault = (String) m_Column.get_ValueOld("DefaultValue");
 					String newDefault = (String) m_Column.get_Value("DefaultValue");
@@ -833,9 +836,18 @@ public class XMLImportStructureTest extends TestCase {
 					System.out.println("Exception in importColumn with m_Column.save: " + e.getMessage());
 
 				}
-				
+
+				System.out.println("recreateColumn: " + recreateColumn);
+				//FIXME:  wght total hack
+				if(attsMap.get("ADTableNameID").equals("PP_WF_Node_Asset") || attsMap.get("ADTableNameID").equals("AD_User")) 
+					recreateColumn = false;
+				else
+					recreateColumn = true;
+
 				if (recreateColumn) {
+					System.out.println("About to call createColumn");
 					success = createcolumn (m_Column);
+					System.out.println("After call to createColumn");
 					try {
 					
 					if (success == 1){	    		           		        		
@@ -1217,7 +1229,7 @@ public class XMLImportStructureTest extends TestCase {
 			MWFNodeNext m_WFNodeNext = null;
 			String entitytype = attsMap.get("EntityType");
 
-			if (entitytype.equals("U") || entitytype.equals("D")) {
+			if (entitytype.equals("U") || entitytype.equals("D")  || entitytype.equals("A")) {
 
 				String workflowName = attsMap.get("ADWorkflowNameID");
 
@@ -1234,6 +1246,7 @@ public class XMLImportStructureTest extends TestCase {
 				sqlB = new StringBuffer ("SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");		
 
 				int wfNodeId = DB.getSQLValue(m_trxName,sqlB.toString(),workflowId,workflowNodeName);
+				System.out.println("wfNodeId found: " + wfNodeId);
 				if( wfNodeId < 0) {
 					//wfNodeId =  createPlaceHolderWorkflowNode( atts, m_trxName);
 				}
@@ -1246,7 +1259,10 @@ public class XMLImportStructureTest extends TestCase {
 				int id = DB.getSQLValue(m_trxName,sqlB.toString(),wfNodeId,wfNodeNextId);
 				System.out.println("id used for MWFNodeNext: " + id);
 
+				System.out.println("About to execute new MWFNodeNext");
+
 				m_WFNodeNext = new MWFNodeNext(m_ctx, id, m_trxName);
+				System.out.println("After execute of new MWFNodeNext");
 				if (id > 0){		
 					AD_Backup_ID = copyRecord("AD_WF_NodeNext",m_WFNodeNext);
 					Object_Status = "Update";			
@@ -1256,6 +1272,8 @@ public class XMLImportStructureTest extends TestCase {
 					AD_Backup_ID =0;
 				}
 
+				System.out.println("about to execute m_WFNodeNext.setAD_WF_Node_ID with wfNodeId: " + wfNodeId);
+
 				m_WFNodeNext.setAD_WF_Node_ID(wfNodeId);
 				m_WFNodeNext.setAD_WF_Next_ID(wfNodeNextId);
 				m_WFNodeNext.setEntityType(attsMap.get("EntityType"));
@@ -1263,6 +1281,7 @@ public class XMLImportStructureTest extends TestCase {
 				m_WFNodeNext.setIsActive(attsMap.get("isActive") != null ? Boolean.valueOf(attsMap.get("isActive")).booleanValue():true);
 				m_WFNodeNext.setIsStdUserWorkflow(attsMap.get("IsStdUserWorkflow") != null ? Boolean.valueOf(attsMap.get("IsStdUserWorkflow")).booleanValue():true);
 				//attsOut.clear();          
+				System.out.println("about to execute m_WFNodeNext.save");
 				try {
 				if (m_WFNodeNext.save(m_trxName) == true){		    	
 					System.out.println("m_WFNodeNext save success");
@@ -1283,7 +1302,7 @@ public class XMLImportStructureTest extends TestCase {
 			String entitytype = attsMap.get("EntityType");
 			MWFNode m_WFNode = null;
 			
-			if (entitytype.equals("U") || entitytype.equals("D")) {
+			if (entitytype.equals("U") || entitytype.equals("D") || entitytype.equals("A")) {
 
 				String workflowName = attsMap.get("ADWorkflowNameID");
 
@@ -1321,7 +1340,9 @@ public class XMLImportStructureTest extends TestCase {
 				}
 				if (attsMap.get("ADFormNameID")!= null){
 					String name = attsMap.get("ADFormNameID");	    
+					System.out.println("ADFormNameID: " + name);
 					id = get_IDWithColumn("AD_Form", "Name", name);
+					System.out.println("AD_Form_id: " + id);
 					if(id <= 0 && attsMap.get("Action").equals(X_AD_WF_Node.ACTION_UserForm)) {
 						//id =  createPlaceHolderForm(atts, m_trxName);
 					}
@@ -1361,6 +1382,9 @@ public class XMLImportStructureTest extends TestCase {
 				taskid = DB.getSQLValue(m_trxName,sqlB.toString(),name);
 			}
 				 */
+				//FIXME: manually set
+				m_WFNode.setLimit(-1);
+
 				m_WFNode.setEntityType(attsMap.get("EntityType"));
 				m_WFNode.setDocAction(attsMap.get("DocAction"));
 				m_WFNode.setDescription(attsMap.get("Description").replaceAll("'","''").replaceAll(",",""));
@@ -1458,6 +1482,9 @@ public class XMLImportStructureTest extends TestCase {
 				m_Workflow.setPublishStatus(attsMap.get("PublishStatus"));
 				m_Workflow.setWorkflowType(attsMap.get("WorkflowType"));
 				m_Workflow.setDocValueLogic(attsMap.get("DocValueLogic"));
+				//FIXME:  not in packout.xml
+				//m_Workflow.setIsReadwrite(true);
+
 				m_Workflow.setIsValid(attsMap.get("isValid") != null ? Boolean.valueOf(attsMap.get("isValid")).booleanValue():true);
 				m_Workflow.setEntityType(attsMap.get("EntityType"));
 				m_Workflow.setAD_WF_Node_ID(-1);
@@ -2311,9 +2338,10 @@ public class XMLImportStructureTest extends TestCase {
 
 				List<Map<String, String>> m_workflowNodeNextsAttsMapList = elementAttsMap.get("workflowNodeNext");
 				System.out.println("processing " + m_workflowNodeNextsAttsMapList.size() + " workflowNodeNexts");
+					int i = 0;
 					while(m_workflowNodeNextsAttsMapList.size() > 0 ) {
 						Map<String, String> attsMap = m_workflowNodeNextsAttsMapList.get(0);
-						System.out.println("worklfowNodeNext name: " +  attsMap.get("ADWorkflowNodeNextNameID"));
+						System.out.println("worklfowNodeNext num: "+ i++ +" name: " +  attsMap.get("ADWorkflowNodeNextNameID"));
 						importWorkflowNodeNext(attsMap);
 						attsMap.clear();
 						m_workflowNodeNextsAttsMapList.remove(0);
@@ -2440,33 +2468,33 @@ public class XMLImportStructureTest extends TestCase {
 		public void processImportStructure() {
 			System.out.println("In processImportStructure");
 			handleWindowsImport();
-			handleDynValRulesImport();
+			handleDynValRulesImport(); 
 			handleFormsImport();
 			handleMessagesImport(); 
 			handleReferencesImport();
 			handleTablesImport(); 
-			handleReferenceListsImport();  
-
-			handleColumnsImport();  
-
-			handleFieldsImport();
-			handlePrintFormatsImport();
-			handlePrintFormatItemsImport();
-			handleWorkflowsImport();
-			handleProcessesImport();
-			handleWorkflowNodesImport();
-			handleWorkflowNodeNextsImport();
-			handleMenusImport();
-			handleReferenceTablesImport();
-			handleProcessParasImport();
-			handlePreferencesImport();
+			handleReferenceListsImport();   
+			handleColumnsImport();   
+			handleFieldsImport(); 
+			handlePrintFormatsImport(); 
+			handlePrintFormatItemsImport(); 
+			handleWorkflowsImport(); 
+			handleProcessesImport();  
+			handleWorkflowNodesImport();   
+			handleWorkflowNodeNextsImport(); 
+			handleMenusImport(); 
+			handleReferenceTablesImport(); 
+			handleProcessParasImport(); 
+			handlePreferencesImport(); 
 			handleTabsImport(); 
+			// FIXME:  don't know why it needs this again but it does
+			handleFieldsImport(); 
 
 			for (Map.Entry<String, List<Map<String, String>>> e : elementAttsMap.entrySet()) {
     				System.out.println(e.getKey());
 			}
 
-			if(false) {
+			if(true) {
     				System.out.println("Committing changes to database");
 
 		         try {
@@ -2910,7 +2938,7 @@ public class XMLImportStructureTest extends TestCase {
     			
     		rst.close();
     		rst = null;
-    		System.out.println(sql);
+    		System.out.println("createcolumn sql: " + sql);
     		
         	if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
         	{
@@ -3019,6 +3047,7 @@ public class XMLImportStructureTest extends TestCase {
 				
                 	} catch (Exception e) {
                         	System.out.println("importXML exception: " +  e);
+				e.printStackTrace();
                 	}
 
 
