@@ -231,8 +231,10 @@ public class MTree extends MTree_Base
 				if (parent != null && parent.getAllowsChildren())
 				{
 					parent.add(node);
+					int sizeBeforeCheckBuffer = m_buffer.size();
 					checkBuffer(node);
-					m_buffer.remove(i);
+					if (sizeBeforeCheckBuffer == m_buffer.size())
+						m_buffer.remove(i);
 					i = -1;		//	start again with i=0
 				}
 			}
@@ -246,8 +248,10 @@ public class MTree extends MTree_Base
 			{
 				MTreeNode node = (MTreeNode)m_buffer.get(i);
 				m_root.add(node);
+				int sizeBeforeCheckBuffer = m_buffer.size();
 				checkBuffer(node);
-				m_buffer.remove(i);
+				if (sizeBeforeCheckBuffer == m_buffer.size())
+					m_buffer.remove(i);
 				i = -1;
 			}
 			if (m_buffer.size() != 0)
