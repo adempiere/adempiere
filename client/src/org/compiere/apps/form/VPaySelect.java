@@ -489,7 +489,8 @@ public class VPaySelect extends CPanel
 			if (id.isSelected())
 			{
 				BigDecimal amt = (BigDecimal)miniTable.getModel().getValueAt(i, 9);
-				invoiceAmt = invoiceAmt.add(amt);
+				if (amt != null)
+					invoiceAmt = invoiceAmt.add(amt);
 				m_noSelected++;
 			}
 		}
