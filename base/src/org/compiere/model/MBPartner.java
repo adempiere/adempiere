@@ -760,9 +760,9 @@ public class MBPartner extends X_C_BPartner
 			//	Balance (incl. unallocated payments)
 			+ "COALESCE((SELECT SUM(currencyBase(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID,i.DateOrdered, i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP) FROM C_Invoice_v i "
 				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsPaid='N'),0) - "
-			+ "COALESCE((SELECT SUM(currencyBase(p.PayAmt,p.C_Currency_ID,p.DateTrx,p.AD_Client_ID,p.AD_Org_ID)) FROM C_Payment_v p "
+			+ "COALESCE((SELECT SUM(currencyBase(Paymentavailable(p.C_Payment_ID),p.C_Currency_ID,p.DateTrx,p.AD_Client_ID,p.AD_Org_ID)) FROM C_Payment_v p "
 				+ "WHERE p.C_BPartner_ID=bp.C_BPartner_ID AND p.IsAllocated='N'"
-				+ " AND p.C_Charge_ID IS NULL AND NOT EXISTS (SELECT * FROM C_AllocationLine al WHERE p.C_Payment_ID=al.C_Payment_ID)),0) "
+				+ " AND p.C_Charge_ID IS NULL),0) "
 			+ "FROM C_BPartner bp "
 			+ "WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
