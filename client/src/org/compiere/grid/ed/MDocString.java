@@ -126,6 +126,7 @@ public final class MDocString extends PlainDocument implements CaretListener
 	 *  @param attr
 	 *  @throws BadLocationException
 	 */
+	@Override
 	public void insertString(int offset, String string, AttributeSet attr)
 		throws BadLocationException
 	{
@@ -277,6 +278,7 @@ public final class MDocString extends PlainDocument implements CaretListener
 	 *  @param length
 	 *  @throws BadLocationException
 	 */
+	@Override
 	public void remove (int offset, int length)
 		throws BadLocationException
 	{

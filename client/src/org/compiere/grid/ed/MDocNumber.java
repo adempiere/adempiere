@@ -84,6 +84,7 @@ public final class MDocNumber extends PlainDocument
 	 *  @param attr
 	 *  @throws BadLocationException
 	 */
+	@Override
 	public void insertString(int origOffset, String string, AttributeSet attr)
 		throws BadLocationException
 	{
@@ -220,6 +221,7 @@ public final class MDocNumber extends PlainDocument
 	 *  @param length length
 	 *  @throws BadLocationException
 	 */
+	@Override
 	public void remove (int origOffset, int length)
 		throws BadLocationException
 	{
