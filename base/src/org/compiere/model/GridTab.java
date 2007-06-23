@@ -49,6 +49,8 @@ import org.compiere.util.*;
  *  </pre>
  *  @author 	Jorg Janke
  *  @version 	$Id: GridTab.java,v 1.10 2006/10/02 05:18:39 jjanke Exp $
+ *  
+ *  @author Teo Sarca - BF [ 1742159 ]
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -2279,16 +2281,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public boolean isProcessed()
 	{
-		int index = m_mTable.findColumn("Processed");
-		if (index != -1)
-		{
-			Object oo = m_mTable.getValueAt(m_currentRow, index);
-			if (oo instanceof String)
-				return "Y".equals(oo);
-			if (oo instanceof Boolean)
-				return ((Boolean)oo).booleanValue();
-		}
-		return "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processed"));
+		return getValueAsBoolean("Processed");
+	}	//	isProcessed
+
+	/**
+	 * Is the current record active
+	 * @return true if current record is active
+	 * @author Teo Sarca - BF [ 1742159 ]
+	 */
+	public boolean isActive()
+	{
+		return getValueAsBoolean("IsActive");
 	}	//	isProcessed
 
 	/**
@@ -2428,6 +2431,27 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		GridField field = m_mTable.getField(columnName);
 		return getValue(field);
 	}   //  getValue
+
+	/**
+	 * Get Boolean Value of Field with columnName.
+	 * If there is no column with the given name, the context for current window will be checked.
+	 * @param columnName column name
+	 * @return boolean value or false if the field was not found
+	 * @author Teo Sarca
+	 */
+	public boolean getValueAsBoolean(String columnName)
+	{
+		int index = m_mTable.findColumn(columnName);
+		if (index != -1)
+		{
+			Object oo = m_mTable.getValueAt(m_currentRow, index);
+			if (oo instanceof String)
+				return "Y".equals(oo);
+			if (oo instanceof Boolean)
+				return ((Boolean)oo).booleanValue();
+		}
+		return "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, columnName));
+	}	//	isProcessed
 
 	/**
 	 *  Get Value of Field

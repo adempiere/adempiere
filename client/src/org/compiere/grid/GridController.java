@@ -94,6 +94,8 @@ import org.compiere.util.*;
  *  </pre>
  * @author  Jorg Janke
  * @version $Id: GridController.java,v 1.8 2006/09/25 00:59:52 jjanke Exp $
+ * 
+ * @author Teo Sarca - BF [ 1742159 ]
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -962,7 +964,7 @@ public class GridController extends CPanel
 	 */
 	public void vetoableChange(PropertyChangeEvent e) throws PropertyVetoException
 	{
-		if (m_mTab.isProcessed())		//	only active records
+		if (m_mTab.isProcessed() || !m_mTab.isActive())		//	only active records
 		{
 			Object source = e.getSource();
 			if (source instanceof VEditor)
