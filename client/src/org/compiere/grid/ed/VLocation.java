@@ -36,8 +36,6 @@ import org.compiere.util.*;
 public class VLocation extends JComponent
 	implements VEditor, ActionListener
 {
-	int m_WindowNo = 0;
-	
 	/**
 	 *	Constructor
 	 *
@@ -57,7 +55,6 @@ public class VLocation extends JComponent
 		//
 		LookAndFeel.installBorder(this, "TextField.border");
 		this.setLayout(new BorderLayout());
-		
 		//  Size
 		this.setPreferredSize(m_text.getPreferredSize());		//	causes r/o to be the same length
 		int height = m_text.getPreferredSize().height;
@@ -89,22 +86,7 @@ public class VLocation extends JComponent
 		popupMenu.add(mDelete);
 
 	}	//	VLocation
-	/**
-	 *	Constructor
-	 *
-	 * 	@param columnName column name
-	 * 	@param mandatory mandatory
-	 * 	@param isReadOnly read only
-	 * 	@param isUpdateable updateable
-	 * 	@param mLocation location model
-	 */
-	public VLocation(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
-		MLocationLookup mLocation, int windowno)
-	{
-		this(columnName, mandatory, isReadOnly, isUpdateable, mLocation);
-		m_WindowNo = windowno;
-		
-	}
+
 	/**
 	 *  Dispose
 	 */
@@ -287,7 +269,7 @@ public class VLocation extends JComponent
 		//
 		log.config( "actionPerformed - " + m_value);
 		VLocationDialog ld = new VLocationDialog(Env.getFrame(this),
-			Msg.getMsg(Env.getCtx(), "Location"), m_value, m_WindowNo);
+			Msg.getMsg(Env.getCtx(), "Location"), m_value);
 		ld.setVisible(true);
 		m_value = ld.getValue();
 		//
