@@ -59,13 +59,13 @@ public X_C_Country (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=170 */
-public static final int Table_ID=MTable.getTable_ID("C_Country");
-
 /** TableName=C_Country */
 public static final String Table_Name="C_Country";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Country");
+/** AD_Table_ID=170 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel
@@ -408,6 +408,102 @@ return false;
 }
 /** Column name IsAddressLinesReverse */
 public static final String COLUMNNAME_IsAddressLinesReverse = "IsAddressLinesReverse";
+/** Set IsPostcodeLookup.
+@param IsPostcodeLookup IsPostcodeLookup */
+public void setIsPostcodeLookup (boolean IsPostcodeLookup)
+{
+set_Value ("IsPostcodeLookup", Boolean.valueOf(IsPostcodeLookup));
+}
+/** Get IsPostcodeLookup.
+@return IsPostcodeLookup */
+public boolean isPostcodeLookup() 
+{
+Object oo = get_Value("IsPostcodeLookup");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
+}
+return false;
+}
+/** Column name IsPostcodeLookup */
+public static final String COLUMNNAME_IsPostcodeLookup = "IsPostcodeLookup";
+/** Set LookupClassName.
+@param LookupClassName LookupClassName */
+public void setLookupClassName (String LookupClassName)
+{
+if (LookupClassName != null && LookupClassName.length() > 255)
+{
+log.warning("Length > 255 - truncated");
+LookupClassName = LookupClassName.substring(0,254);
+}
+set_Value ("LookupClassName", LookupClassName);
+}
+/** Get LookupClassName.
+@return LookupClassName */
+public String getLookupClassName() 
+{
+return (String)get_Value("LookupClassName");
+}
+/** Column name LookupClassName */
+public static final String COLUMNNAME_LookupClassName = "LookupClassName";
+/** Set LookupClientID.
+@param LookupClientID LookupClientID */
+public void setLookupClientID (String LookupClientID)
+{
+if (LookupClientID != null && LookupClientID.length() > 50)
+{
+log.warning("Length > 50 - truncated");
+LookupClientID = LookupClientID.substring(0,49);
+}
+set_Value ("LookupClientID", LookupClientID);
+}
+/** Get LookupClientID.
+@return LookupClientID */
+public String getLookupClientID() 
+{
+return (String)get_Value("LookupClientID");
+}
+/** Column name LookupClientID */
+public static final String COLUMNNAME_LookupClientID = "LookupClientID";
+/** Set LookupPassword.
+@param LookupPassword LookupPassword */
+public void setLookupPassword (String LookupPassword)
+{
+if (LookupPassword != null && LookupPassword.length() > 50)
+{
+log.warning("Length > 50 - truncated");
+LookupPassword = LookupPassword.substring(0,49);
+}
+set_Value ("LookupPassword", LookupPassword);
+}
+/** Get LookupPassword.
+@return LookupPassword */
+public String getLookupPassword() 
+{
+return (String)get_Value("LookupPassword");
+}
+/** Column name LookupPassword */
+public static final String COLUMNNAME_LookupPassword = "LookupPassword";
+/** Set LookupUrl.
+@param LookupUrl LookupUrl */
+public void setLookupUrl (String LookupUrl)
+{
+if (LookupUrl != null && LookupUrl.length() > 100)
+{
+log.warning("Length > 100 - truncated");
+LookupUrl = LookupUrl.substring(0,99);
+}
+set_Value ("LookupUrl", LookupUrl);
+}
+/** Get LookupUrl.
+@return LookupUrl */
+public String getLookupUrl() 
+{
+return (String)get_Value("LookupUrl");
+}
+/** Column name LookupUrl */
+public static final String COLUMNNAME_LookupUrl = "LookupUrl";
 /** Set Media Size.
 @param MediaSize Java Media Size */
 public void setMediaSize (String MediaSize)

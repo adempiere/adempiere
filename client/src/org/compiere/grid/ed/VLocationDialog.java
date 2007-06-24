@@ -26,6 +26,9 @@ import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 
+import org.adempiere.interfaces.*;
+import org.adempiere.model.*;
+
 /**
  *	Dialog to enter Location Info (Address)
  *
@@ -35,6 +38,15 @@ import org.compiere.util.*;
 public class VLocationDialog extends CDialog 
 	implements ActionListener
 {
+	
+	/** Lookup result */
+	//private Object[][] data = null;
+
+	/** Lookup result header */
+	private Object[] header = null;
+
+	//private int m_WindowNo = 0;
+
 	/**
 	 *	Constructor
 	 *
@@ -45,6 +57,7 @@ public class VLocationDialog extends CDialog
 	public VLocationDialog (Frame frame, String title, MLocation location)
 	{
 		super(frame, title, true);
+		//m_WindowNo = WindowNo;
 		try
 		{
 			jbInit();
@@ -61,7 +74,6 @@ public class VLocationDialog extends CDialog
 			setTitle(Msg.getMsg(Env.getCtx(), "LocationNew"));
 		else
 			setTitle(Msg.getMsg(Env.getCtx(), "LocationUpdate"));
-		
 
 		//	Current Country
 		MCountry.setDisplayLanguage(Env.getAD_Language(Env.getCtx()));
@@ -76,7 +88,10 @@ public class VLocationDialog extends CDialog
 		//
 		initLocation();
 		fCountry.addActionListener(this);
+		fOnline.addActionListener(this);
 		AEnv.positionCenterWindow(frame, this);
+		
+		
 	}	//	VLocationDialog
 
 	private boolean 	m_change = false;
@@ -103,6 +118,7 @@ public class VLocationDialog extends CDialog
 	private CLabel		lRegion     = new CLabel(Msg.getMsg(Env.getCtx(), "Region"));
 	private CLabel		lPostal     = new CLabel(Msg.getMsg(Env.getCtx(), "Postal"));
 	private CLabel		lPostalAdd  = new CLabel(Msg.getMsg(Env.getCtx(), "PostalAdd"));
+	private CLabel		lOnline		= new CLabel("");		// dummy to use addLine without error....
 	private CTextField	fAddress1 = new CTextField(20);		//	length=60
 	private CTextField	fAddress2 = new CTextField(20);		//	length=60
 	private CTextField	fAddress3 = new CTextField(20);		//	length=60
@@ -112,6 +128,7 @@ public class VLocationDialog extends CDialog
 	private CComboBox	fRegion;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
 	private CTextField	fPostalAdd = new CTextField(5);		//	length=10
+	private CButton 	fOnline = new CButton();			
 	//
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Insets labelInsets = new Insets(2,15,2,0);		// 	top,left,bottom,right
@@ -191,6 +208,10 @@ public class VLocationDialog extends CDialog
 			else if (s.startsWith("R") && m_location.getCountry().isHasRegion())
 				addLine(line++, lRegion, fRegion);
 		}
+		
+		
+		addLine(line++, lOnline, fOnline);
+		
 		//  Country Last
 		addLine(line++, lCountry, fCountry);
 
@@ -204,11 +225,19 @@ public class VLocationDialog extends CDialog
 			fCity.setText(m_location.getCity());
 			fPostal.setText(m_location.getPostal());
 			fPostalAdd.setText(m_location.getPostal_Add());
+			fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 			if (m_location.getCountry().isHasRegion())
 			{
 				lRegion.setText(m_location.getCountry().getRegionName());
 				fRegion.setSelectedItem(m_location.getRegion());
 			}
+			
+			// disable online if this country doesn't have post code lookup
+			if (m_location.getCountry().isPostcodeLookup())
+				fOnline.setEnabled(true);
+			else
+				fOnline.setEnabled(false);
+			
 			fCountry.setSelectedItem(country);
 		}
 		//	Update UI
@@ -237,7 +266,9 @@ public class VLocationDialog extends CDialog
 		gbc.gridx = 1;
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.NONE;
+		gbc.insets = fieldInsets;
 		mainPanel.add(field, gbc);
+		
 	}	//	addLine
 
 
@@ -265,10 +296,37 @@ public class VLocationDialog extends CDialog
 			//	Modifier for Mouse selection is 16  - for any key selection 0
 			MCountry c = (MCountry)fCountry.getSelectedItem();
 			m_location.setCountry(c);
-			//	refrseh
+			
+			// refresh online button for new country
+			if (c.isPostcodeLookup())
+				fOnline.setEnabled(true);
+			else
+				fOnline.setEnabled(false);
+			
+			// update the region name if regions are enabled for this country
+			if (c.isHasRegion())
+			{
+				lRegion.setText(c.getRegionName());
+				fRegion.setSelectedItem(m_location.getRegion());
+				
+				// TODO: fix bug that occurs when the new region name is shorter than the old region name
+			}
+			
+			//			refrseh
 			mainPanel.removeAll();
+			
 			initLocation();
 			fCountry.requestFocus();	//	allows to use Keybord selection
+		}
+		else if (e.getSource() == fOnline)
+		{
+			
+			// check to see if we have a postcode lookup plugin for this country
+			MCountry c = (MCountry)fCountry.getSelectedItem();
+			if (c.isPostcodeLookup())
+			{
+				lookupPostcode(c, fPostal.getText());
+			}
 		}
 	}	//	actionPerformed
 
@@ -294,7 +352,7 @@ public class VLocationDialog extends CDialog
 		}
 		else
 			m_location.setC_Region_ID(0);
-		//	Save chnages
+		//	Save changes
 		m_location.save();
 	}	//	actionOK
 
@@ -315,5 +373,141 @@ public class VLocationDialog extends CDialog
 	{
 		return m_location;
 	}	//	getValue
-	
+	/**
+	 * lookupPostcode
+	 * 
+	 * 
+	 * @param country
+	 * @param postcode
+	 * @return
+	 */
+	private String lookupPostcode(MCountry country, String postcode)
+	{
+		// Initialise the lookup class.
+		PostcodeLookupInterface pcLookup = null;
+		try {
+			PostcodeLookupInterface pcLookupTmp = (PostcodeLookupInterface) Class
+					.forName(country.getLookupClassName()).newInstance();
+			pcLookup = pcLookupTmp.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "lookupAddress(): " + e.getMessage();
+		}
+		
+		// remove any spaces from the postcode and convert to upper case
+		postcode = postcode.replaceAll(" ", "").toUpperCase();
+		log.fine("Looking up postcode: " + postcode);
+		
+		// Lookup postcode on server.
+		pcLookup.setServerUrl(country.getLookupUrl());
+		pcLookup.setClientID(country.getLookupClientID());
+		pcLookup.setPassword(country.getLookupPassword());
+		if (pcLookup.lookupPostcode(postcode)==1){
+			// Success
+			fillLocation(pcLookup.getPostCodeData(), country);
+			fAddress1.requestFocusInWindow();
+		} else
+			return "Postcode Lookup Error";
+		
+		return "";
+	}
+		/**
+		 * Fills the location field using the information retrieved from postcode
+		 * servers.
+		 * 
+		 * @param ctx
+		 *            Context
+		 * @param pkeyData
+		 *            Lookup results
+		 * @param windowNo
+		 *            Window No.
+		 * @param tab
+		 *            Tab
+		 * @param field
+		 *            Field
+		 */
+		private void fillLocation(HashMap<String, Object> postcodeData, MCountry country) {
+
+			// If it's not empty warn the user.
+			if (fAddress1 != null || fAddress2 != null
+					|| fAddress3 != null
+					|| fAddress4 != null || fCity != null) {
+				String warningMsg = "Existing address information will be overwritten. Proceed?";
+				String warningTitle = "Warning";
+				int response = JOptionPane.showConfirmDialog(null, warningMsg,
+						warningTitle, JOptionPane.YES_NO_OPTION);
+				if (response == JOptionPane.NO_OPTION)
+					return;
+			}
+			
+			
+			Set<String> pcodeKeys = postcodeData.keySet();
+			Iterator<String> iterator = pcodeKeys.iterator();
+			header = null;
+
+			// Allocate the header array
+			header = new Object[pcodeKeys.size()];
+
+			String headerStr = null;
+			
+			// need to check how many records returned
+			// TODO - check number of records returns - size() method is incorrect
+			if (pcodeKeys.size() > 2)
+			{
+				// TODO: Implement ResultData Grid and get return (for premises level data)
+				System.out.println("Too many postcodes returned from Postcode Lookup - need to Implement ResultData");
+			} else
+			{
+				for (int i = 0; (headerStr = (iterator.hasNext() ? iterator.next() : null)) != null
+						|| iterator.hasNext(); i++) {
+					header[i] = headerStr;
+					Postcode values =  (Postcode) postcodeData.get(headerStr);
+				
+					// Overwrite the values in location field.
+					fAddress1.setText(values.getStreet1());
+					fCity.setText(values.getCity());
+					fPostal.setText(values.getPostcode());
+					
+					// Do region lookup
+					if (country.isHasRegion())
+					{
+						// get all regions for this country
+						MRegion[] regions = MRegion.getRegions(country.getCtx(), country.getC_Country_ID());
+						
+						// If regions were loaded
+						if ( regions.length > 0)
+						{
+							// loop through regions array to attempt a region match - don't finish loop if region found
+							boolean found = false;
+							for (i = 0; i < regions.length && !found; i++)
+							{
+								
+								if (regions[i].getName().equals(values.getRegion()) )
+								{
+									// found county
+									fRegion.setSelectedItem(regions[i]);	
+									log.fine("Found region: " + regions[i].getName());
+									found = true;
+								}
+							}
+							if (!found)
+							{
+								// add new region
+								MRegion region = new MRegion(country, values.getRegion());
+								if (region.save())
+								{
+									log.fine("Added new region from web service: " + values.getRegion());
+									fRegion.setSelectedItem(values);
+								} else
+									log.severe("Error saving new region: " + region.getName());
+								
+							}
+						} else
+							log.severe("Region lookup failed for Country: " + country.getName());
+						
+					}		
+				}
+			}
+			
+		}
 }	//	VLocationDialog
