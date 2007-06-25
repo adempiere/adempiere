@@ -73,12 +73,17 @@ public class MSysConfig extends X_AD_SysConfig
 		{
 			s_log.log(Level.SEVERE, "getValue", e);
 		} 
+		if (str == null)
+			return null;
 		return (str.trim());
 	}
 	
 	public static int getIntValue(String Name)
 	{
 		String s = getValue(Name);
+		if (s == null)
+			return 0; 
+		
 		if (s.length() == 0)
 			return 0;
 		//
