@@ -60,6 +60,7 @@
         <include name="**/images/*"/>
         <include name="**/*.gif"/>
         <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
         <include name="**/*.wav"/>
         <include name="**/*.htm"/>
         <include name="**/*.html"/>
