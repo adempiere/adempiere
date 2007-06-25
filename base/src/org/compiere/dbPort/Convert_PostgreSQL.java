@@ -15,11 +15,9 @@ package org.compiere.dbPort;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 import org.compiere.util.CLogger;
@@ -790,51 +788,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		}
 		return result;
 	}
-	
-	private boolean isOperator(char c)
-	{
-		if ('=' == c)
-			return true;
-		else if ('<' == c)
-			return true;
-		else if ('>' == c)
-			return true;
-		else if ('|' == c)
-			return true;
-		else if ('(' == c)
-			return true;
-		else if (')' == c)
-			return true;
-		else if ('+' == c)
-			return true;
-		else if ('-' == c)
-			return true;
-		else if ('*' == c)
-			return true;
-		else if ('/' == c)
-			return true;
-		else if ('!' == c)
-			return true;
-		else if (',' == c)
-			return true;
-		else if ('?' == c)
-			return true;
-		else if ('#' == c)
-			return true;
-		else if ('@' == c)
-			return true;
-		else if ('~' == c)
-			return true;
-		else if ('&' == c)
-			return true;
-		else if ('^' == c)
-			return true;
-		else if ('!' == c)
-			return true;
-		else
-			return false;
-	}
-	
 	
 	/**
 	 * Check if token is a valid sql identifier

@@ -336,5 +336,17 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		sqe = "SELECT supplier_name, CASE WHEN supplier_id=10000 THEN 'IBM' WHEN supplier_id=10001 THEN 'Microsoft' WHEN supplier_id=10002 THEN 'Hewlett Packard' ELSE 'Gateway' END FROM suppliers";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
+		
+		//doc_matchinv update average cost, bug [ 1742835 ]
+		sql = "UPDATE M_Product_Costing "
+		+ "SET CostAverage = CostAverageCumAmt/DECODE(CostAverageCumQty, 0,1, CostAverageCumQty) "
+		+ "WHERE C_AcctSchema_ID=0"
+		+ " AND M_Product_ID=0";
+		sqe = "UPDATE M_Product_Costing "
+			+ "SET CostAverage = CostAverageCumAmt/CASE WHEN CostAverageCumQty=0 THEN 1 ELSE CostAverageCumQty END "
+			+ "WHERE C_AcctSchema_ID=0"
+			+ " AND M_Product_ID=0";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
 	}
 }
