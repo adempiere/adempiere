@@ -151,13 +151,13 @@ public class Doc_MatchPO extends Doc
 			priceCost = m_oLine.getPriceActual();
 		for (int i = 0 ; i < mPO.length ; i++)
 		{
-			if (mPO[i].isPosted())
+			if (mPO[i].isPosted() &&  mPO[i].getM_MatchPO_ID() != get_ID())
 			{
 				tQty = tQty.add(mPO[i].getQty());
 				tAmt = tAmt.add(priceCost.multiply(mPO[i].getQty()));
 			}
 		}
-		
+
 		//	Different currency
 		if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
 		{
@@ -175,6 +175,9 @@ public class Doc_MatchPO extends Doc
 			if (tAmt.scale() > as.getCostingPrecision())
 				tAmt = tAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 		}
+		
+		tAmt = tAmt.add(poCost);
+		tQty = tQty.add(getQty());		
 
 		// Set Total Amount and Total Quantity from Matched PO 
 		MCostDetail.createOrder(as, m_oLine.getAD_Org_ID(), 

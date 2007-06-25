@@ -205,7 +205,7 @@ public class Doc_MatchInv extends Doc
 		else	//	Cash Acct
 		{
 			MInvoice invoice = m_invoiceLine.getParent();
-			if (as.getC_Currency_ID() == invoice.getC_Currency_ID())
+			if (as.getC_Currency_ID() != invoice.getC_Currency_ID())
 				LineNetAmt = MConversionRate.convert(getCtx(), LineNetAmt, 
 					invoice.getC_Currency_ID(), as.getC_Currency_ID(),
 					invoice.getDateAcct(), invoice.getC_ConversionType_ID(),
@@ -250,22 +250,14 @@ public class Doc_MatchInv extends Doc
 			{
 				tQty = tQty.add(mInv[i].getQty());
 				multiplier = mInv[i].getQty()
-					.divide(m_invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP)
-					.abs();
+					.divide(m_invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP).abs();
 				tAmt = tAmt.add(m_invoiceLine.getLineNetAmt().multiply(multiplier));
 			}
 		}
-		tAmt = tAmt.add(cr.getAcctBalance().negate());
-		// set Qty to negative value when MovementType is Vendor Returns
-		MInOut receipt = m_receiptLine.getParent();
-		if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
-			tQty = tQty.add(getQty().negate()); //	Qty is set to negative value
-		else
-			tQty = tQty.add(getQty());
 		
 		// 	Different currency
 		MInvoice invoice = m_invoiceLine.getParent();
-		if (as.getC_Currency_ID() == invoice.getC_Currency_ID())
+		if (as.getC_Currency_ID() != invoice.getC_Currency_ID())
 		{
 			tAmt = MConversionRate.convert(getCtx(), tAmt, 
 				invoice.getC_Currency_ID(), as.getC_Currency_ID(),
@@ -278,6 +270,14 @@ public class Doc_MatchInv extends Doc
 			}
 		}
 		
+		tAmt = tAmt.add(cr.getAcctBalance().negate()); //Invoice Price
+		// set Qty to negative value when MovementType is Vendor Returns
+		MInOut receipt = m_receiptLine.getParent();
+		if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
+			tQty = tQty.add(getQty().negate()); //	Qty is set to negative value
+		else
+			tQty = tQty.add(getQty());
+	
 		// Set Total Amount and Total Quantity from Matched Invoice 
 		MCostDetail.createInvoice(as, getAD_Org_ID(), 
 				getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(),
