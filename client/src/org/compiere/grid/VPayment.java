@@ -1087,7 +1087,7 @@ public class VPayment extends CDialog
 				m_mPayment.setCreditCard(MPayment.TRXTYPE_Sales, newCCType,
 					kNumberField.getText(), "", kExpField.getText());
 				// Get changes to credit card amount
-				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(kAmountField.getText()));
+				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(m_Format.format(kAmountField.getText())));
 				m_mPayment.setPaymentProcessor();
 			}
 			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit)
@@ -1102,7 +1102,7 @@ public class VPayment extends CDialog
 				m_mPayment.setBankCheck(newC_BankAccount_ID, m_isSOTrx, sRoutingField.getText(),
 					sNumberField.getText(), sCheckField.getText());
 				// Get changes to check amount
-				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(sAmountField.getText()));
+				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(m_Format.format(sAmountField.getText())));
 			}
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
 			m_mPayment.setC_Invoice_ID(C_Invoice_ID);
