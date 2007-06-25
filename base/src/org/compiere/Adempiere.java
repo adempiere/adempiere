@@ -16,19 +16,33 @@
  *****************************************************************************/
 package org.compiere;
 
-import java.awt.*;
-import java.io.*;
-import java.net.*;
-import java.security.CodeSource;
-import java.security.cert.Certificate;
-import java.util.logging.*;
-import javax.jnlp.*;
-import javax.swing.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.File;
+import java.net.URL;
+import java.util.logging.Level;
+
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
+import javax.jnlp.UnavailableServiceException;
+import javax.swing.ImageIcon;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.db.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.db.CConnection;
+import org.compiere.model.MClient;
+import org.compiere.model.MSystem;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.util.CLogFile;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Login;
+import org.compiere.util.SecureEngine;
+import org.compiere.util.SecureInterface;
+import org.compiere.util.Splash;
+import org.compiere.util.Util;
 
 /**
  *  Adempiere Control Class
@@ -58,7 +72,7 @@ public final class Adempiere
 	static private final String	s_file32x32		= "images/AD32.gif";
 	/** 100*30 Product Image.  	*/
 	static private final String	s_file100x30	= "images/AD10030.png";
-	static private final String	s_file100x30HR	= "images/AD10030HR.png";
+//	static private final String	s_file100x30HR	= "images/AD10030HR.png";
 	/** 48*15 Product Image.   	*/
 	static private final String	s_file48x15		= "images/Adempiere.png";
 	static private final String	s_file48x15HR	= "images/AdempiereHR.png";

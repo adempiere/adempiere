@@ -17,8 +17,6 @@
 package org.compiere.session;
 
 import java.io.IOException;
-import java.security.Identity;
-import java.security.Principal;
 import java.util.Map;
 
 import javax.security.auth.Subject;
