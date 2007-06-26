@@ -159,7 +159,7 @@ public class VPayment extends CDialog
 	private CLabel kApprovalLabel = new CLabel();
 	private CTextField kApprovalField = new CTextField();
 	private CLabel kAmountLabel = new CLabel();
-	private CTextField kAmountField = new CTextField();
+	private VNumber kAmountField = new VNumber();
 	private CPanel tPanel = new CPanel();
 	private CLabel tAccountLabel = new CLabel();
 	private CComboBox tAccountCombo = new CComboBox();
@@ -178,9 +178,9 @@ public class VPayment extends CDialog
 	private CComboBox pTermCombo = new CComboBox();
 	private GridBagLayout bPanelLayout = new GridBagLayout();
 	private CLabel bAmountLabel = new CLabel();
-	private CTextField bAmountField = new CTextField();
+	private VNumber bAmountField = new VNumber();
 	private CLabel sAmountLabel = new CLabel();
-	private CTextField sAmountField = new CTextField();
+	private VNumber sAmountField = new VNumber();
 	private VDate bDateField;
 	private CLabel bDateLabel = new CLabel();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
@@ -231,7 +231,6 @@ public class VPayment extends CDialog
 		kExpLabel.setText(Msg.getMsg(Env.getCtx(), "Expires"));
 		kApprovalLabel.setText(Msg.translate(Env.getCtx(), "VoiceAuthCode"));
 		kAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
-		kAmountField.setText("");
 		kOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 		kOnline.addActionListener(this);
 		kStatus.setText(" ");
@@ -292,7 +291,7 @@ public class VPayment extends CDialog
 		sPanel.setLayout(sPanelLayout);
 		sBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		sAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
-		sAmountField.setText("");
+		//sAmountField.setText("");
 		sRoutingLabel.setText(Msg.translate(Env.getCtx(), "RoutingNo"));
 		sNumberLabel.setText(Msg.translate(Env.getCtx(), "AccountNo"));
 		sCheckLabel.setText(Msg.translate(Env.getCtx(), "CheckNo"));
@@ -347,7 +346,7 @@ public class VPayment extends CDialog
 		bCurrencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		bPanel.setLayout(bPanelLayout);
 		bAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
-		bAmountField.setText("");
+		//bAmountField.setText("");
 		bDateLabel.setText(Msg.translate(Env.getCtx(), "DateAcct"));
 		centerLayout.addLayoutComponent(bPanel, "bPanel");
 		centerPanel.add(bPanel, "bPanel");
@@ -429,9 +428,10 @@ public class VPayment extends CDialog
 			ADialog.error(m_WindowNo, this, "PaymentZero");
 			return false;
 		}
-		bAmountField.setText(m_Format.format(m_Amount));
-		sAmountField.setText(m_Format.format(m_Amount));
-		kAmountField.setText(m_Format.format(m_Amount));
+		bAmountField.setValue(m_Amount);
+		sAmountField.setValue(m_Amount);
+		kAmountField.setValue(m_Amount);
+		
 
 		/**
 		 *	Get Data from Grid
@@ -458,7 +458,8 @@ public class VPayment extends CDialog
 				kExpField.setText(m_mPayment.getCreditCardExp(null));
 				kApprovalField.setText(m_mPayment.getVoiceAuthCode());
 				kStatus.setText(m_mPayment.getR_PnRef());
-				kAmountField.setText(m_Format.format(m_mPayment.getPayAmt()));
+				kAmountField.setValue(m_Format.format(m_mPayment.getPayAmt()));
+				
 				//	if approved/paid, don't let it change
 				kTypeCombo.setReadWrite(!m_mPayment.isApproved());
 				kNumberField.setReadWrite(!m_mPayment.isApproved());
@@ -472,7 +473,7 @@ public class VPayment extends CDialog
 				sNumberField.setText(m_mPayment.getAccountNo());
 				sCheckField.setText(m_mPayment.getCheckNo());
 				sStatus.setText(m_mPayment.getR_PnRef());
-				sAmountField.setText(m_Format.format(m_mPayment.getPayAmt()));
+				sAmountField.setValue(m_mPayment.getPayAmt());
 				//  Transfer
 				tRoutingField.setText(m_mPayment.getRoutingNo());
 				tNumberField.setText(m_mPayment.getAccountNo());
@@ -498,7 +499,7 @@ public class VPayment extends CDialog
 			{
 				m_cashLine = new MCashLine (Env.getCtx(), m_C_CashLine_ID, null);
 				m_DateAcct = m_cashLine.getStatementDate();
-				bAmountField.setText(m_cashLine.getAmount().toString());
+				bAmountField.setValue(m_cashLine.getAmount().toString());
 			}
 		}
 
@@ -796,7 +797,7 @@ public class VPayment extends CDialog
 			KeyNamePair pp = (KeyNamePair)sCurrencyCombo.getSelectedItem();
 			BigDecimal amt = MConversionRate.convert(Env.getCtx(),
 				m_Amount, m_C_Currency_ID, pp.getKey(), m_AD_Client_ID, m_AD_Org_ID);
-			sAmountField.setText(m_Format.format(amt));
+			sAmountField.setValue(amt);
 		}
 		//	Cash Currency change
 		else if (e.getSource() == bCurrencyCombo)
@@ -804,7 +805,7 @@ public class VPayment extends CDialog
 			KeyNamePair pp = (KeyNamePair)bCurrencyCombo.getSelectedItem();
 			BigDecimal amt = MConversionRate.convert(Env.getCtx(),
 				m_Amount, m_C_Currency_ID, pp.getKey(), m_AD_Client_ID, m_AD_Org_ID);
-			bAmountField.setText(m_Format.format(amt));
+			bAmountField.setValue(amt);
 		}
 
 		//  Online
@@ -848,9 +849,8 @@ public class VPayment extends CDialog
 			newDateAcct = (Timestamp)bDateField.getValue();
 			
 			// Get changes to cash amount
-			m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(bAmountField.getText()));
-			m_Amount = new BigDecimal(bAmountField.getText());
-			//ADialog.info(m_WindowNo, this, "MAJJ Debug", bAmountField.getText());			
+			m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) bAmountField.getValue());
+			m_Amount = (BigDecimal) bAmountField.getValue();			
 		}
 
 		//	K (CreditCard)  Type, Number, Exp, Approval
@@ -994,14 +994,14 @@ public class VPayment extends CDialog
 			}
 			else
 			{
-				payAmount = new BigDecimal(bAmountField.getText());
+				payAmount = (BigDecimal) bAmountField.getValue();
 				//  Changed Amount
 				if (m_cashLine != null
 					&& payAmount.compareTo(m_cashLine.getAmount()) != 0)
 				{
 					log.config("Changed CashBook Amount");
 					//m_cashLine.setAmount(payAmount);
-					m_cashLine.setAmount(new BigDecimal(bAmountField.getText()));
+					m_cashLine.setAmount((BigDecimal) bAmountField.getValue());
 					// ADialog.info(m_WindowNo, this, "m_cashLine - Changed Amount", "Amount: "+m_cashLine.getAmount());
 					if (m_cashLine.save())
 						log.config("CashAmt Changed");
@@ -1046,7 +1046,7 @@ public class VPayment extends CDialog
 							cl.setOrder(order, null); // overrides amount
 							m_needSave = true;
 						}
-						cl.setAmount(new BigDecimal(bAmountField.getText()));
+						cl.setAmount((BigDecimal)bAmountField.getValue());
 						if (cl.save())
 						{	
 							log.config("CashCreated");
@@ -1087,7 +1087,7 @@ public class VPayment extends CDialog
 				m_mPayment.setCreditCard(MPayment.TRXTYPE_Sales, newCCType,
 					kNumberField.getText(), "", kExpField.getText());
 				// Get changes to credit card amount
-				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(kAmountField.getText().replaceAll(",","")));
+				m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) kAmountField.getValue());
 				m_mPayment.setPaymentProcessor();
 			}
 			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit)
@@ -1102,7 +1102,7 @@ public class VPayment extends CDialog
 				m_mPayment.setBankCheck(newC_BankAccount_ID, m_isSOTrx, sRoutingField.getText(),
 					sNumberField.getText(), sCheckField.getText());
 				// Get changes to check amount
-				m_mPayment.setAmount(m_C_Currency_ID, new BigDecimal(sAmountField.getText().replaceAll(",","")));
+				m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) sAmountField.getValue());
 			}
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
 			m_mPayment.setC_Invoice_ID(C_Invoice_ID);
