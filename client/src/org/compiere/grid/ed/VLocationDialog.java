@@ -233,10 +233,14 @@ public class VLocationDialog extends CDialog
 			}
 			
 			// disable online if this country doesn't have post code lookup
-			if (m_location.getCountry().isPostcodeLookup())
+			if (m_location.getCountry().isPostcodeLookup()) {
 				fOnline.setEnabled(true);
-			else
+				fOnline.setVisible(true);
+			}
+			else {
 				fOnline.setEnabled(false);
+				fOnline.setVisible(false);
+			}
 			
 			fCountry.setSelectedItem(country);
 		}
@@ -298,10 +302,14 @@ public class VLocationDialog extends CDialog
 			m_location.setCountry(c);
 			
 			// refresh online button for new country
-			if (c.isPostcodeLookup())
+			if (c.isPostcodeLookup()) {
 				fOnline.setEnabled(true);
-			else
+				fOnline.setVisible(true);
+			}
+			else {
 				fOnline.setEnabled(false);
+				fOnline.setVisible(false);
+			}
 			
 			// update the region name if regions are enabled for this country
 			if (c.isHasRegion())
