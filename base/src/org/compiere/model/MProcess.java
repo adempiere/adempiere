@@ -266,7 +266,10 @@ public class MProcess extends X_AD_Process
 		//	Java Class
 		String Classname = getClassname();
 		if (Classname != null && Classname.length() > 0)
+		{
+			pi.setClassName(Classname);
 			ok = startClass(pi, trx);
+		}
 		else
 		{
 			//	PL/SQL Procedure
