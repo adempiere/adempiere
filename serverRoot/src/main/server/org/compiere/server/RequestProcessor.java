@@ -411,7 +411,7 @@ public class RequestProcessor extends AdempiereServer
 			+ "SELECT * FROM R_Status s "
 			+ "WHERE r.R_Status_ID=s.R_Status_ID"
 			+ " AND s.TimeoutDays > 0 AND s.Next_Status_ID > 0"
-			+ " AND r.Updated+s.TimeoutDays < SysDate"
+			+ " AND r.DateLastAction+s.TimeoutDays < SysDate"
 			+ ") "
 			+ "ORDER BY R_Status_ID";
 		PreparedStatement pstmt = null;
