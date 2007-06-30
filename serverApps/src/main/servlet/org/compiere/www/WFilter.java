@@ -1,19 +1,28 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- *****************************************************************************/
+/********************************************************************** 
+ * This file is part of Adempiere ERP Bazaar                          * 
+ * http://www.adempiere.org                                           * 
+ *                                                                    * 
+ * Copyright (C) 1999 - 2006 Compiere Inc.                            * 
+ * Copyright (C) Contributors                                         * 
+ *                                                                    * 
+ * This program is free software; you can redistribute it and/or      * 
+ * modify it under the terms of the GNU General Public License        * 
+ * as published by the Free Software Foundation; either version 2     * 
+ * of the License, or (at your option) any later version.             * 
+ *                                                                    * 
+ * This program is distributed in the hope that it will be useful,    * 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of     * 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       * 
+ * GNU General Public License for more details.                       * 
+ *                                                                    * 
+ * You should have received a copy of the GNU General Public License  * 
+ * along with this program; if not, write to the Free Software        * 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         * 
+ * MA 02110-1301, USA.                                                * 
+ *                                                                    * 
+ * Contributors:                                                      * 
+ *  - Bahman Movaqar (bmovaqar@users.sf.net)                          * 
+ **********************************************************************/
 package org.compiere.www;
 
 import java.io.*;
@@ -90,6 +99,30 @@ public final class WFilter implements javax.servlet.Filter
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 		throws IOException, ServletException
 	{
+		WebSessionCtx wctx = WebSessionCtx.get((HttpServletRequest)request);
+		if (wctx == null) {
+			if (m_filterConfig != null) {
+		        String login_page = m_filterConfig.getInitParameter("LoginServlet");
+		        if (login_page != null && !"".equals(login_page)) {
+		            m_filterConfig.getServletContext().getRequestDispatcher(login_page).forward(request, response);
+		            return;
+		        }
+			}
+			throw new ServletException("Unauthorized access, unable to forward to login page");
+		}
+			
+		String sessionID = wctx.ctx.getProperty("#AD_Session_ID");
+		if (sessionID == null) {
+			if (m_filterConfig != null) {
+		        String login_page = m_filterConfig.getInitParameter("LoginServlet");
+		        if (login_page != null && !"".equals(login_page)) {
+		            m_filterConfig.getServletContext().getRequestDispatcher(login_page).forward(request, response);
+		            return;
+		        }
+			}
+			throw new ServletException("Unauthorized access, unable to forward to login page");
+		}		
+		
 		//  Get URI
 		String uri = "";
 		if (request instanceof HttpServletRequest)
