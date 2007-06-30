@@ -131,7 +131,6 @@ public class MCommission extends X_C_Commission
 			MCommissionLine line = new MCommissionLine (getCtx(), 0, get_TrxName());
 			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
 			line.setC_Commission_ID (getC_Commission_ID());
-			line.setC_CommissionLine_ID (0);	//	new
 			if (line.save())
 				count++;
 		}
