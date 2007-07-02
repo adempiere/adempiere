@@ -906,6 +906,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else if (MWFNode.ACTION_AppsTask.equals(action))
 		{
 			log.warning ("Task:AD_Task_ID=" + m_node.getAD_Task_ID());
+			log.warning("Start Task is not implemented yet");
 		}
 		
 		/******	EMail						******/
@@ -940,6 +941,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else if (MWFNode.ACTION_SubWorkflow.equals(action))
 		{
 			log.warning ("Workflow:AD_Workflow_ID=" + m_node.getAD_Workflow_ID());
+			log.warning("Start WF Instance is not implemented yet");
 		}
 		
 		/******	User Choice					******/
@@ -986,18 +988,21 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else if (MWFNode.ACTION_UserWorkbench.equals(action))
 		{
 			log.fine("Workbench:?");
+			log.warning("User Workbench is not implemented yet");
 			return false;
 		}
 		/******	User Form					******/
 		else if (MWFNode.ACTION_UserForm.equals(action))
 		{
 			log.fine("Form:AD_Form_ID=" + m_node.getAD_Form_ID());
+			log.warning("User Form is not implemented yet");
 			return false;
 		}
 		/******	User Window					******/
 		else if (MWFNode.ACTION_UserWindow.equals(action))
 		{
 			log.fine("Window:AD_Window_ID=" + m_node.getAD_Window_ID());
+			log.warning("User Window is not implemented yet");
 			return false;
 		}
 		//
