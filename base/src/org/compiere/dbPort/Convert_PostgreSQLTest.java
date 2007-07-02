@@ -78,6 +78,12 @@ public final class Convert_PostgreSQLTest extends TestCase{
         sqe = "ALTER TABLE XX ADD COLUMN A VARCHAR(10) DEFAULT '--'";
         r = convert.convert(sql);
         assertEquals(sqe, r[0].trim());
+        
+        //[ adempiere-Bugs-1746266 ]
+        sql = "ALTER TABLE someTableName MODIFY someColumnName NVARCHAR2(64)";
+        sqe = "insert into t_alter_column values('sometablename','someColumnName','VARCHAR(64)',null,null)";
+        r = convert.convert(sql);
+        assertEquals(sqe, r[0].trim());
 	}
 
 	// Convert.recoverQuotedStrings() error on strings with "<-->" - teo_sarca [ 1705768 ]

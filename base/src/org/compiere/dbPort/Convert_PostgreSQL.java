@@ -1000,8 +1000,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					else 
 					{
 						int typeEnd = rest.indexOf(' ');
-						type = rest.substring(0, typeEnd).trim();
-						rest = rest.substring(typeEnd);
+						type = typeEnd > 0 ? rest.substring(0, typeEnd).trim() : rest;
+						rest = typeEnd > 0 ? rest.substring(typeEnd) : "";
 					}
 
 					if (rest.toUpperCase().indexOf(" DEFAULT ") != -1) {
