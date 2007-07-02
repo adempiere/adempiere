@@ -941,11 +941,56 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				// + 1));
 				String rest = sqlStatement.substring(end_col + 1); 
 				
-				if (action.equals(" ADD "))
-					DDL = sqlStatement
+				if (action.equals(" ADD ")) {
+					if (rest.toUpperCase().indexOf(" DEFAULT ") != -1) {
+						String beforeDefault = rest.substring(0, rest.toUpperCase().indexOf(" DEFAULT "));
+						begin_default = rest.toUpperCase().indexOf(
+								" DEFAULT ") + 9;
+						defaultvalue = rest.substring(begin_default);
+						int nextspace = defaultvalue.indexOf(' ');
+						if (nextspace > -1) {
+						    rest = defaultvalue.substring(nextspace);
+						    defaultvalue = defaultvalue.substring(0, defaultvalue.indexOf(' '));
+						} else {
+							rest = "";
+						}
+						if (defaultvalue.equalsIgnoreCase("NULL")) {
+							DDL = sqlStatement.substring(0, begin_col
+									- action.length())
+									+ " ADD COLUMN "
+									+ column
+									+ " " + beforeDefault.trim()
+									+ " DEFAULT "
+									+ defaultvalue.trim() + " " + rest.trim();
+						} else {
+							// Check if default value is already quoted, no need to double quote
+							if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
+							{
+								DDL = sqlStatement.substring(0, begin_col
+									- action.length())
+									+ " ADD COLUMN "
+									+ column
+									+ " " + beforeDefault.trim()
+									+ " DEFAULT "
+									+ defaultvalue.trim() + " " + rest.trim();
+							}
+							else
+							{
+								DDL = sqlStatement.substring(0, begin_col
+										- action.length())
+									+ " ADD COLUMN "
+									+ column
+									+ " " + beforeDefault.trim()
+									+ " DEFAULT '"
+									+ defaultvalue.trim() + "' " + rest.trim();
+							}
+						}
+					} else {
+						DDL = sqlStatement
 							.substring(0, begin_col - action.length())
-							+ action + "COLUMN " + column + " " + rest;
-				else if (action.equals(" MODIFY "))
+							+ action + "COLUMN " + column + " " + rest.trim();
+					}
+				} else if (action.equals(" MODIFY "))
 				{
 					rest = rest.trim();
 					if (rest.toUpperCase().startsWith("NOT ") || rest.toUpperCase().startsWith("NULL "))
@@ -958,14 +1003,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						type = rest.substring(0, typeEnd).trim();
 						rest = rest.substring(typeEnd);
 					}
-					/*
-					DDL = sqlStatement
-							.substring(0, begin_col - action.length())
-							+ " ALTER COLUMN "
-							+ column
-							+ " TYPE "
-							+ type
-							+ "; ";*/
 
 					if (rest.toUpperCase().indexOf(" DEFAULT ") != -1) {
 						begin_default = rest.toUpperCase().indexOf(

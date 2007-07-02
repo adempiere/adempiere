@@ -72,6 +72,12 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		sqe = "insert into t_alter_column values('lpi_publication','AD_Client_ID','NUMERIC(10)',null,'NULL')";
         r = convert.convert(sql);
         assertEquals(sqe, r[0]);
+        
+        //add column with default fail in libero 2pack import
+        sql = "ALTER TABLE XX ADD A VARCHAR2(10) DEFAULT --";
+        sqe = "ALTER TABLE XX ADD COLUMN A VARCHAR(10) DEFAULT '--'";
+        r = convert.convert(sql);
+        assertEquals(sqe, r[0].trim());
 	}
 
 	// Convert.recoverQuotedStrings() error on strings with "<-->" - teo_sarca [ 1705768 ]
