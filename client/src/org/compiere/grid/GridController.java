@@ -95,7 +95,7 @@ import org.compiere.util.*;
  * @author  Jorg Janke
  * @version $Id: GridController.java,v 1.8 2006/09/25 00:59:52 jjanke Exp $
  * 
- * @author Teo Sarca - BF [ 1742159 ]
+ * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -723,9 +723,6 @@ public class GridController extends CPanel
 	 */
 	public void valueChanged(ListSelectionEvent e)
 	{
-		//	nothing or initiated by mouse (wait for "real" one)
-		if (e.getValueIsAdjusting())
-			return;
 		//  no rows
 		if (m_mTab.getRowCount() == 0)
 			return;
