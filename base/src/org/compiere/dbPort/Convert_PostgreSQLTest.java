@@ -84,6 +84,16 @@ public final class Convert_PostgreSQLTest extends TestCase{
         sqe = "insert into t_alter_column values('sometablename','someColumnName','VARCHAR(64)',null,null)";
         r = convert.convert(sql);
         assertEquals(sqe, r[0].trim());
+        
+        sql = "ALTER TABLE S_Resource MODIFY IsActive CHAR(1) DEFAULT 'Y'";
+        sqe = "insert into t_alter_column values('s_resource','IsActive','CHAR(1)',null,'Y')";
+        r = convert.convert(sql);
+        assertEquals(sqe, r[0].trim());
+        
+        sql = "ALTER TABLE PP_Order_NodeNext MODIFY PP_Order_NodeNext_ID NULL";
+        sqe = "insert into t_alter_column values('pp_order_nodenext','PP_Order_NodeNext_ID',null,'NULL',null)";
+        r = convert.convert(sql);
+        assertEquals(sqe, r[0].trim());
 	}
 
 	// Convert.recoverQuotedStrings() error on strings with "<-->" - teo_sarca [ 1705768 ]

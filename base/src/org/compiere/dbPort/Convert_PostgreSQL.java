@@ -88,6 +88,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
 			;
 		else if (cmpString.indexOf("ALTER TABLE") != -1) {
+			statement = recoverQuotedStrings(statement, retVars);
+			retVars.clear();
 			statement = convertDDL(convertComplexStatement(statement));
 		/*
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
@@ -103,7 +105,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		} else {
 			statement = convertComplexStatement(convertAlias(statement));
 		}
-		statement = recoverQuotedStrings(statement, retVars);
+		if (retVars.size() > 0)
+			statement = recoverQuotedStrings(statement, retVars);
 		result.add(statement);
 		
 		return result;
@@ -993,7 +996,8 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 				} else if (action.equals(" MODIFY "))
 				{
 					rest = rest.trim();
-					if (rest.toUpperCase().startsWith("NOT ") || rest.toUpperCase().startsWith("NULL "))
+					if (rest.toUpperCase().startsWith("NOT ") || rest.toUpperCase().startsWith("NULL ") 
+							|| rest.toUpperCase().equals("NULL") || rest.toUpperCase().equals("NOT NULL"))
 					{
 						type = null;
 					}
@@ -1016,60 +1020,24 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							rest = "";
 						}
 						// Check if default value is already quoted
+						defaultvalue = defaultvalue.trim();
 						if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
 							defaultvalue = defaultvalue.substring(1, defaultvalue.length() - 1);
-						/*
-						if (defaultvalue.equalsIgnoreCase("NULL")) {
-							DDL += sqlStatement.substring(0, begin_col
-									- action.length())
-									+ " ALTER COLUMN "
-									+ column
-									+ " SET DEFAULT "
-									+ defaultvalue + "; ";
-						} else {
-							// Check if default value is already quoted, no need to double quote
-							if(defaultvalue.startsWith("'") && defaultvalue.endsWith("'"))
-							{
-							DDL += sqlStatement.substring(0, begin_col
-									- action.length())
-									+ " ALTER COLUMN "
-									+ column
-										+ " SET DEFAULT "
-										+ defaultvalue + "; ";
-							}
-							else
-							{
-								DDL += sqlStatement.substring(0, begin_col
-										- action.length())
-										+ " ALTER COLUMN "
-										+ column
-									+ " SET DEFAULT '"
-									+ defaultvalue + "'; ";
-							}
-						}*/
+						
 						if (rest != null && rest.toUpperCase().indexOf("NOT NULL") >= 0)
 							nullclause = "NOT NULL";
 						else if (rest != null && rest.toUpperCase().indexOf("NULL") >= 0)
 							nullclause = "NULL";
-							/*
-							DDL += sqlStatement.substring(0, begin_col - action.length())
-									+ " ALTER COLUMN " + column + " SET " + rest.trim()
-									+ ";";*/
+							
 						// return DDL;
 					}
 					else if ( rest != null && rest.toUpperCase().indexOf("NOT NULL") >= 0 ) {
 						nullclause = "NOT NULL";
-						/*
-						DDL += sqlStatement.substring(0, begin_col - action.length())
-						+ " ALTER COLUMN " + column + " SET " + rest.trim()
-						+ ";";*/
+						
 					}
 					else if ( rest != null && rest.toUpperCase().indexOf("NULL") >= 0) {
 						nullclause = "NULL";
-						/*
-						DDL += sqlStatement.substring(0, begin_col - action.length())
-						+ " ALTER COLUMN " + column + " DROP NOT NULL" 
-						+ ";";*/
+						
 					}
 
 					DDL = "insert into t_alter_column values('";
