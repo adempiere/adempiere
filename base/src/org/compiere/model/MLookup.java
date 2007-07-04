@@ -369,7 +369,7 @@ public final class MLookup extends Lookup implements Serializable
 	public ArrayList<Object> getData (boolean mandatory, boolean onlyValidated, boolean onlyActive, boolean temporary)
 	{
 		//	create list
-		ArrayList<Object> list = getData (onlyValidated, temporary);
+		ArrayList<Object> list = getData (onlyValidated, true);
 		
 		//  Remove inactive choices
 		if (onlyActive && m_hasInactive)
