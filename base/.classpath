@@ -9,13 +9,14 @@
 	<classpathentry kind="lib" path="/tools/lib/itext-1.4.8.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jnlp.jar"/>
-	<classpathentry kind="lib" path="/lib/jboss.jar"/>
-	<classpathentry kind="lib" path="/lib/oracle.jar"/>
-	<classpathentry kind="lib" path="/lib/postgresql.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.0.6d.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/junit.jar"/>
+	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
