@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Compiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -85,7 +85,7 @@ public final class DisplayType
 	public static final int TextLong   = 36;
 	/** Display Type 37	CostPrice	*/
 	public static final int CostPrice  = 37;
-	/** Display Type 38	File Path	*/
+	/** Display Type 36	File Path	*/
 	public static final int FilePath  = 38;
 	/** Display Type 39 File Name	*/
 	public static final int FileName  = 39;
@@ -121,6 +121,9 @@ public final class DisplayType
 	/** Default Amount Precision    */
 	private static final int    AMOUNT_FRACTION = 2;
 
+	/**	Logger	*/
+	private static CLogger s_log = CLogger.getCLogger (DisplayType.class);
+	
 	/**
 	 *	Returns true if (numeric) ID (Table, Search, Account, ..).
 	 *  (stored as Integer)
@@ -132,7 +135,7 @@ public final class DisplayType
 		if (displayType == ID || displayType == Table || displayType == TableDir
 			|| displayType == Search || displayType == Location || displayType == Locator
 			|| displayType == Account || displayType == Assignment || displayType == PAttribute
-			|| displayType == Image)
+			|| displayType == Image || displayType == Color)
 			return true;
 		return false;
 	}	//	isID
@@ -220,17 +223,10 @@ public final class DisplayType
 	public static boolean isLOB (int displayType)
 	{
 		if (displayType == Binary 
-			/*
-			 * Removed by comdivisionys as Image is not a real
-			 * LOB Type. Tested the behavior with Image window
-			 * and Web Project Media. Both worked fine after 
-			 * the remove.
-			 */
-			//|| displayType == Image
 			|| displayType == TextLong)
 			return true;
 		return false;
-	}
+	}	//	isLOB
 
 	/**************************************************************************
 	 *	Return Format for numeric DisplayType
@@ -378,6 +374,70 @@ public final class DisplayType
 		return Object.class;
 	}   //  getClass
 
+	/**
+	 * 	Get SQL DataType
+	 *	@param displayType AD_Reference_ID
+	 *	@param columnName name
+	 *	@param fieldLength length
+	 *	@return SQL Data Type in Oracle Notation
+	 */
+	public static String getSQLDataType (int displayType, String columnName, int fieldLength)
+	{
+		if (columnName.equals("EntityType")
+			|| columnName.equals ("AD_Language"))
+			return "VARCHAR2(" + fieldLength + ")";
+		//	ID
+		if (DisplayType.isID(displayType))
+		{
+			if (displayType == DisplayType.Image 	//	FIXTHIS
+				&& columnName.equals("BinaryData"))
+				return "BLOB";
+			//	ID, CreatedBy/UpdatedBy, Acct
+			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("tedBy") 
+				|| columnName.endsWith("_Acct") )
+				return "NUMBER(10)";
+			else if (fieldLength < 4)
+				return "CHAR(" + fieldLength + ")";
+			else	//	EntityType, AD_Language	fallback
+				return "VARCHAR2(" + fieldLength + ")";
+		}
+		//
+		if (displayType == DisplayType.Integer)
+			return "NUMBER(10)";
+		if (DisplayType.isDate(displayType))
+			return "DATE";
+		if (DisplayType.isNumeric(displayType))
+			return "NUMBER";
+		if (displayType == DisplayType.Binary)
+			return "BLOB";
+		if (displayType == DisplayType.TextLong 
+			|| (displayType == DisplayType.Text && fieldLength >= 4000))
+			return "CLOB";
+		if (displayType == DisplayType.YesNo)
+			return "CHAR(1)";
+		if (displayType == DisplayType.List)
+			return "CHAR(" + fieldLength + ")";
+		if (displayType == DisplayType.Color)
+		{
+			if (columnName.endsWith("_ID"))
+				return "NUMBER(10)";
+			else
+				return "CHAR(" + fieldLength + ")";
+		}
+		if (displayType == DisplayType.Button)
+		{
+			if (columnName.endsWith("_ID"))
+				return "NUMBER(10)";
+			else
+				return "CHAR(" + fieldLength + ")";
+		}
+		if (!DisplayType.isText(displayType))
+			s_log.severe("Unhandled Data Type = " + displayType);
+				
+		return "NVARCHAR2(" + fieldLength + ")";
+	}	//	getSQLDataType
+	
 	/**
 	 * 	Get Description
 	 *	@param displayType display Type

@@ -289,6 +289,9 @@ public class MColumn extends X_AD_Column
 	 */
 	public String getSQLDDL()
 	{
+		if (isVirtualColumn())
+			return null;
+		
 		StringBuffer sql = new StringBuffer (getColumnName())
 			.append(" ").append(getSQLDataType());
 		//	Default
@@ -395,6 +398,18 @@ public class MColumn extends X_AD_Column
 	 * 	Get SQL Data Type
 	 *	@return e.g. NVARCHAR2(60)
 	 */
+	public String getSQLDataType()
+	{
+		String columnName = getColumnName();
+		int dt = getAD_Reference_ID();
+		return DisplayType.getSQLDataType (dt, columnName, getFieldLength());
+	}	//	getSQLDataType
+	
+	/**
+	 * 	Get SQL Data Type
+	 *	@return e.g. NVARCHAR2(60)
+	 */
+	/*
 	private String getSQLDataType()
 	{
 		int dt = getAD_Reference_ID();
@@ -419,6 +434,7 @@ public class MColumn extends X_AD_Column
 			
 		return "NVARCHAR2(" + getFieldLength() + ")";
 	}	//	getSQLDataType
+	*/
 	
 	/**
 	 * 	Get Table Constraint
@@ -490,4 +506,8 @@ public class MColumn extends X_AD_Column
 		return retValue;
 	}
 	//end vpj-cd e-evolution
+	
+	
+
+	
 }	//	MColumn
