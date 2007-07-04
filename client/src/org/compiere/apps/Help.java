@@ -19,7 +19,10 @@ package org.compiere.apps;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
+
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
+
 import java.util.logging.*;
 
 import org.adempiere.plaf.AdempierePLAF;
@@ -32,6 +35,8 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: Help.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  @author     Teo Sarca - BF [ 1747741 ]
  */
 public class Help extends CDialog
 	implements ActionListener
@@ -141,6 +146,9 @@ public class Help extends CDialog
 	private void loadInfo(GridWindow mWindow)
 	{
 		WebDoc doc = mWindow.getHelpDoc(true);
+		HTMLDocument htmlDoc = (HTMLDocument)info.getEditorKit().createDefaultDocument();
+		htmlDoc.getDocumentProperties().put("IgnoreCharsetDirective", true);
+		info.setDocument(htmlDoc);
 		info.setText(doc.toString());
 	}	//	loadInfo
 
