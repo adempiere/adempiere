@@ -69,7 +69,7 @@ public class GridWindow implements Serializable
 	/** Model last updated			*/
 	private Timestamp		m_modelUpdated = null;
 
-	private Set initTabs = new HashSet<GridTab>();
+	private Set<GridTab> initTabs = new HashSet<GridTab>();
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(GridWindow.class);
