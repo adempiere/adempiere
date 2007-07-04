@@ -7,7 +7,8 @@
 	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
-	<classpathentry kind="lib" path="/lib/oracle.jar"/>
-	<classpathentry kind="lib" path="/lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
