@@ -353,7 +353,8 @@ public class MColumn extends X_AD_Column
 		{
 			if (DisplayType.isText(getAD_Reference_ID()) 
 				|| getAD_Reference_ID() == DisplayType.List
-				|| getAD_Reference_ID() == DisplayType.YesNo)
+				|| getAD_Reference_ID() == DisplayType.YesNo
+				|| getAD_Reference_ID() == DisplayType.Table)
 			{
 				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 					defaultValue = DB.TO_STRING(defaultValue);
