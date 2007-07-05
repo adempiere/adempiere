@@ -112,7 +112,7 @@
   	<war
   		  warfile="${build.deploy.dir}/adempiereApps.war"
   		  webxml="${src.web.dir}/WEB-INF/web.xml">
-  	      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/lib/**,**/classes/**"/>
+  	      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/classes/**"/>
   	      <manifest>
   			<attribute name="Specification-Title" value="AdempiereAppsWar"/>
   			<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
