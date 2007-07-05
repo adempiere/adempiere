@@ -88,13 +88,6 @@ public class WProcess extends HttpServlet
 			WebUtil.createTimeoutPage(request, response, this, null);
 			return;
 		}
-		//Modified by Rob Klein 4/29/07
-		if (ws == null)
-		{
-			WebUtil.createTimeoutPage(request, response, this, null);
-			return;
-		}
-		
 				
 		WebDoc doc = null;
 		//  Get Parameter: Menu_ID
@@ -204,6 +197,13 @@ public class WProcess extends HttpServlet
 		WebDoc doc = WebDoc.createWindow(process.getName());
 		if (process.isWorkflow())
 		{
+			//Modified by Rob Klein 7/01/07
+			if (mTab == null)
+			{
+				doc = WebDoc.createWindow("No Tab found");
+				return doc;
+			}	
+			
 			//	Pop up Document Action (Workflow)
 			if (columnName.toString().equals("DocAction"))			{
 				
@@ -220,7 +220,7 @@ public class WProcess extends HttpServlet
 						17, 22, 22, false,
 						// 	not r/o, ., not error, not dependent
 						false, false, false, false, false, processId,
-						0,0,0,0, null,null, null,null);
+						0, 0, 0, 0, null, null, null, null, null);
 				
 				if (process.getDescription() != null)
 					center.addElement(new p(new i(process.getDescription())));
@@ -298,7 +298,7 @@ public class WProcess extends HttpServlet
 					para.getAD_Reference_ID(), para.getFieldLength(), para.getFieldLength(), false,
 					// 	not r/o, ., not error, not dependent
 					false, para.isMandatory(), false, false, false, para.getAD_Process_ID(),
-					0,0,0,i, null,null, null,null);
+					0,0,0,i, null,null, null,null, null);
 				
 				WebField wFieldforRange = null;
 				
@@ -308,7 +308,8 @@ public class WProcess extends HttpServlet
 						//	no display length
 						para.getAD_Reference_ID(), para.getFieldLength(), para.getFieldLength(), false,
 						// 	not r/o, ., not error, not dependent
-						false, para.isMandatory(), false, false, false, para.getAD_Process_ID(),0,0,0,i+1, null,null, null,null);			
+						false, para.isMandatory(), false, false, false, para.getAD_Process_ID(),0,0,0,i+1,
+						null,null, null,null, null);			
 				
 				td toField = para.isRange() 
 					? wFieldforRange.getField(para.getLookup(), para.getDefaultValue2())
@@ -362,6 +363,12 @@ public class WProcess extends HttpServlet
 	{
 	  	WebSessionCtx wsc = WebSessionCtx.get (request);
 		MProcess process = MProcess.get (wsc.ctx, AD_Process_ID);
+		log.info("PI table id "+process.get_Table_ID());
+		log.info("PI table name id "+process.get_TableName());
+		log.info("PI table client id "+process.getAD_Client_ID());
+		log.info("PI table process id "+process.getAD_Process_ID());
+		log.info("PI  process class name "+process.getClassname());
+		
 		//	need to check if Role can access
 		WebDoc doc = null;
 		if (process == null)
@@ -387,7 +394,8 @@ public class WProcess extends HttpServlet
 		
 		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(), AD_Table_ID, AD_Record_ID);		
 		pi.setAD_User_ID(Env.getAD_User_ID(wsc.ctx));
-		pi.setAD_Client_ID(Env.getAD_Client_ID(wsc.ctx));		
+		pi.setAD_Client_ID(Env.getAD_Client_ID(wsc.ctx));
+		pi.setClassName(process.getClassname());
 		log.info("PI client id "+pi.getAD_Client_ID());
 		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());			
 		

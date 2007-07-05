@@ -8,8 +8,15 @@
 
 //Start of Calendar
 
-function resizeFrame(value){  
-    var frame = top.document;
+function resizeFrame(value){
+
+
+    if (!top.WCmd)	//	no cmd frame
+	var frame = top.myiframe.document;
+    else
+	var frame = top.document;
+    //var frame = top.document;
+
     var frameset = frame.getElementById("framesetMenuWindow");
     if (!frameset) return false;
     
@@ -23,7 +30,7 @@ function resizeFrame(value){
 <meta http-equiv="pragma" content="no-cache">
 </head>
 <frameset id="framesetOuter" cols="*" rows="0,*" title="&copy; ADempiere">
-	<frame src="cmd.html" name="WCmd" noresize>
+	<frame src="cmd.html" name="WCmd">
 	<frameset id="framesetMenuWindow" cols="0,*" rows="*"> 
 		<frame src="menu.html" name="WMenu">	
 		<frame src="window.html" name="WWindow">

@@ -54,7 +54,7 @@ public class WebField
 		boolean readOnly, boolean mandatory, boolean error, 
 		boolean hasDependents, boolean hasCallout, int AD_Process_ID,
 		int AD_Window_ID, int AD_Record_ID, int AD_Table_ID, int fieldNumber, Object defaultvalue, 
-		String callOut, GridTab mTab, GridField mField )
+		String callOut, GridTab mTab, GridField mField, MRole mRole)
 	{
 		super ();
 		m_wsc = wsc;
@@ -87,6 +87,7 @@ public class WebField
 		m_fieldNumber = fieldNumber;
 		m_Tab = mTab;
 		m_Field = mField;
+		m_Role = mRole;
 		
 		//
 		
@@ -106,6 +107,7 @@ public class WebField
 	private String  m_callOut;
 	private GridTab m_Tab;
 	private GridField m_Field;
+	private MRole m_Role;
 	//
 	private Object	m_defaultObject;
 	private int		m_displayType;
@@ -123,6 +125,7 @@ public class WebField
 	private boolean	m_hasDependents;
 	private boolean	m_hasCallout;
 	private int	m_fieldNumber;
+	private Object	m_dataDisplay;
 	//Modified by Rob Klein 4/29/07
 	
 	/**
@@ -232,7 +235,19 @@ public class WebField
 	 */
 	private td getStringField (String data)
 	{
-		input string = new input(input.TYPE_TEXT, m_columnName, Util.maskHTML(data));
+		input string = null;
+		
+		Boolean isEncrypted = false;
+		
+		if(m_Field != null)
+			isEncrypted = m_Field.isEncryptedField();
+			
+		
+		if(isEncrypted)
+			string = new input(input.TYPE_PASSWORD, m_columnName, Util.maskHTML(data));
+		else
+			string = new input(input.TYPE_TEXT, m_columnName, Util.maskHTML(data));
+		
 		string.setID(m_columnName + "F");
 		string.setSize(m_displayLength);
 		if (m_fieldLength > 0)
@@ -339,7 +354,7 @@ public class WebField
 	 */
 	private td getNumberField (Object data)
 	{
-		String formattedData = "";
+		String formattedData = "";		
 //Modified by Rob Klein 4/29/07
 		if (data == null)
 			if (m_displayType == DisplayType.Amount	)
@@ -351,13 +366,13 @@ public class WebField
 				formattedData = m_wsc.integerFormat.format(0);
 			else
 				formattedData = "0";
-		else if (m_displayType == DisplayType.Amount)
-			formattedData = m_wsc.amountFormat.format(data);
-		else if (m_displayType == DisplayType.Number
-			|| m_displayType == DisplayType.CostPrice)
-			formattedData = m_wsc.numberFormat.format(data);
-		//else if (m_displayType == DisplayType.Quantity)
-		//	formattedData = m_wsc.quantityFormat.format(data);
+		//else if (m_displayType == DisplayType.Amount)			
+				//formattedData = m_wsc.amountFormat.format(data);			
+		//else if (m_displayType == DisplayType.Number
+			//|| m_displayType == DisplayType.CostPrice)
+			//formattedData = m_wsc.numberFormat.format(data);
+		else if (m_displayType == DisplayType.Quantity)
+			formattedData = m_wsc.quantityFormat.format(data);
 		else if (m_displayType == DisplayType.Integer)
 			formattedData = m_wsc.integerFormat.format(data);
 		else
@@ -416,13 +431,16 @@ public class WebField
 	 */
 	private td getPopupField (String dataDisplay, String dataValue)
 	{
+		log.info("0");
 		//  The hidden data field        Name=columnName
 		input hidden = new input (input.TYPE_HIDDEN, m_columnName, dataValue);
 		hidden.setID(m_columnName + "D");
 		//Modified by Rob Klein 4/29/07
 		input display = null;
+		m_dataDisplay = null;
 		//  The display field       Name=columnName, ID=FcolumnName		
 			display = new input(input.TYPE_TEXT, m_columnName, Util.maskHTML(dataDisplay));
+			m_dataDisplay = dataDisplay;
 			display.setID(m_columnName + "F");
 			display.setReadOnly(true);
 		
@@ -445,45 +463,54 @@ public class WebField
 		if (m_displayType == DisplayType.Location)
 			button.setOnClick("startLocation('" + m_columnName + "');return false;");
 		else if (m_displayType == DisplayType.Account)
-//			modified by rob klein 4/29/07
+			//modified by rob klein 4/29/07
 			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+");return false;");
 		else			
 			//modified by rob klein 4/29/07
 			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+");return false;");
 		
-		//Set Zoom
-		//Add by Rob Klein 6/6/2007
-		input buttonZoom = null;
+		//Start Popup Menu
+		//Add by Rob Klein 6/6/2007		
+		a buttonFlyout = null;
+		String menu = null;		
+		
 		if(m_Field != null)
 		{
-			buttonZoom = new input (input.TYPE_IMAGE, m_columnName+ "Z", "x");
-			buttonZoom.setID(m_columnName + "Z");		
-			buttonZoom.setSrc(WebEnv.getImageDirectory("Zoom10.gif"));
-			buttonZoom.setBorder(1);
-			StringBuffer sql = null;
-			int refID = m_Field.getAD_Reference_Value_ID();		
-			if (refID > 0)
-				sql = new StringBuffer ("SELECT AD_Table_ID" 
-						+ "FROM AD_Ref_Table WHERE AD_Reference_ID = "+refID);
-			else	
-				sql = new StringBuffer ("SELECT AD_Table_ID " 
-						+ "FROM AD_Table WHERE TableName = '"+m_columnName.replace("_ID", "")+"'");		
-			int tableID = DB.getSQLValue(null, sql.toString());			
-			buttonZoom.setOnClick("startZoom('" + tableID + "', "+m_Field.getValue()+");return false;");
+			menu = getpopUpMenu ();		
+			//	Popmenu
+			if(menu!=null){
+				buttonFlyout = new a("#", "");
+				buttonFlyout.addElement(new img(WebEnv.getImageDirectory("menufly10.gif")).setBorder(0));
+				buttonFlyout.setID(m_columnName + "PV");
+				buttonFlyout.setOnMouseOver("dropdownmenu(this, event, menu1["+m_fieldNumber+"], '165px')");
+				buttonFlyout.setOnMouseOut("delayhidemenu()");		
+			}
 		}
-		//
 		if (m_error)
 			display.setClass(C_ERROR);
 		else if (m_mandatory)
 			display.setClass(C_MANDATORY);
 		//
-		if (m_hasDependents || m_hasCallout)			
-			display.setOnChange("startUpdate(this);");
+		if (m_hasDependents || m_hasCallout){
+			display.setOnBlur("startUpdate("+m_columnName + "D);");			
+		}
+		
 		//
-		return createTD(hidden)		
+		if(m_Field != null)
+		{
+			
+			return createTD(hidden)		
 			.addElement(display)
 			.addElement(button)
-			.addElement(buttonZoom);
+			.addElement(buttonFlyout)
+			.addElement(new script(menu));					
+			}
+		else
+		{			
+			return createTD(hidden)
+				.addElement(display)
+				.addElement(button);
+			}
 	}	//	getPopupField
 	
 	
@@ -523,21 +550,15 @@ public class WebField
 		display.setReadOnly(true);		
 		//  The button              Name=columnName, ID=BcolumnName
 		input button = new input (input.TYPE_IMAGE, m_columnName+ "B", "x");
-		button.setID(m_columnName + "B");
-		String gif = "PickOpen10.gif";
-		if (m_displayType == DisplayType.Date)
-			gif = "Calendar10.gif";
-		else if (m_displayType == DisplayType.DateTime)
-			gif = "Calendar10.gif";
+		button.setID(m_columnName + "B");		
+		button.setSrc(WebEnv.getImageDirectory("Calendar10.gif"));
 		
-		button.setSrc(WebEnv.getImageDirectory(gif));
-		button.setBorder(1);
 		
 		if (m_displayType == DisplayType.Date){			
-			button.setOnClick("showCalendar('"+m_columnName+ "F"+m_fieldNumber+"', '%m/%d/%Y');return false;");
+			button.setOnClick("return showCalendar('"+m_columnName+ "F"+m_fieldNumber+"', '%m/%d/%Y');");
 		}
 		else if (m_displayType == DisplayType.DateTime){
-			button.setOnClick("showCalendar('"+m_columnName+ "F"+m_fieldNumber+"', '%b %d, %Y %H:%M:%S %p', '24', true);return false;");
+			button.setOnClick("showCalendar('"+m_columnName+ "F"+m_fieldNumber+"', '%b %d, %Y %H:%M:%S %p', '24');return false;");
 		}
 		//
 		if (m_error)
@@ -550,7 +571,7 @@ public class WebField
 		//
 		return createTD(hidden)
 			.addElement(display)
-			.addElement(button);
+			.addElement(button.setBorder(0));
 	}	//	getPopupField
 
 	/**
@@ -565,9 +586,14 @@ public class WebField
 		
 		if (dataValue.length()<1 && m_defaultObject != null)	{			
 			dataValue = m_defaultObject.toString();		
-		}
-		
-		select sel = new select(m_columnName, getOptions(lookup, dataValue));		
+		}		
+				
+		String dataDisplay = "";
+		if (lookup != null && dataValue != null && dataValue.length() > 0)
+			dataDisplay = lookup.getDisplay(dataValue);
+				
+		option[] ops = getOptions(lookup, dataValue);
+		select sel = new select(m_columnName, ops);		
 		sel.setID(m_columnName);
 		sel.setDisabled(m_readOnly);
 		
@@ -579,43 +605,25 @@ public class WebField
 		if (m_hasDependents || m_hasCallout)
 			sel.setOnChange("startUpdate(this);");
 		
-		//Set Zoom
+		//Start Setting up popUpMenu
 		//Add by Rob Klein 6/6/2007
-		input buttonZoom = null;
-		int refID = 0;
-		Object recordID =0;
-		if(m_Field != null && !m_readOnly)
-		{
-			buttonZoom = new input (input.TYPE_IMAGE, m_columnName+ "Z", "x");
-			buttonZoom.setID(m_columnName + "Z");			
-			buttonZoom.setSrc(WebEnv.getImageDirectory("Zoom10.gif"));
-			buttonZoom.setBorder(1);			
-			StringBuffer sql = null;
-			refID = m_Field.getAD_Reference_Value_ID();			
-			if (m_displayType == DisplayType.List ){
-				sql = new StringBuffer ("SELECT AD_Table_ID " 
-						+ "FROM AD_Table WHERE TableName = 'AD_Reference'");				
-				
-				recordID = refID;
-			}
-			else if (refID > 0 ){
-				sql = new StringBuffer ("SELECT AD_Table_ID " 
-						+ "FROM AD_Ref_Table WHERE AD_Reference_ID = "+refID);
-				recordID =m_Field.getValue();
-			}
-			else{		
-				sql = new StringBuffer ("SELECT AD_Table_ID " 
-						+ "FROM AD_Table WHERE TableName = '"+m_columnName.replace("_ID", "")+"'");
-				recordID =m_Field.getValue();
-			}
-			
-			int tableID = DB.getSQLValue(null, sql.toString());
-			
-			buttonZoom.setOnClick("startZoom('" + tableID + "', '"+recordID+"');return false;");
+		a buttonFlyout = null;
+		String menu = null;		
 		
+		if(m_Field != null && !m_readOnly)
+		{						
+			//	Popmenu create
+			menu = getpopUpMenu ();
+			if(menu!=null){
+			buttonFlyout = new a("#", "");
+			buttonFlyout.addElement(new img(WebEnv.getImageDirectory("menufly10.gif")).setBorder(0));
+			buttonFlyout.setID(m_columnName + "PV");
+			buttonFlyout.setOnMouseOver("dropdownmenu(this, event, menu1["+m_fieldNumber+"], '165px')");
+			buttonFlyout.setOnMouseOut("delayhidemenu()");}
+			
 		}
 		//
-		return createTD(sel).addElement(buttonZoom);
+		return createTD(sel).addElement(buttonFlyout).addElement(new script(menu));	
 	}	//	getSelectField
 
 	/**
@@ -645,11 +653,13 @@ public class WebField
 				if (dataValue.length()<1){
 					options[0] = new option("-1").addElement("&nbsp;").setSelected(true);
 					options[1] = new option(value.getID()).addElement(value.getName());
+					m_dataDisplay =value.getName();
 					}
 				else
 				{
 					options[0] = new option("-1").addElement("&nbsp;");
 					options[1] = new option(value.getID()).addElement(value.getName()).setSelected(true);
+					m_dataDisplay =value.getName();
 					}
 			}
 			return options;
@@ -664,8 +674,9 @@ public class WebField
 				MLocator loc = (MLocator)list[i];
 				key = String.valueOf(loc.getM_Locator_ID());
 				String name = Util.maskHTML(loc.getValue());
-				if (dataValue.equals(key))
+				if (dataValue.equals(key)){
 					options[i] = new option(key).addElement(name).setSelected(true);
+					m_dataDisplay = name;}
 				else
 					options[i] = new option(key).addElement(name);				
 			}
@@ -674,8 +685,9 @@ public class WebField
 				KeyNamePair p = (KeyNamePair)list[i];
 				key = String.valueOf(p.getKey());
 				String name = Util.maskHTML(p.getName());
-				if (dataValue.equals(key))
+				if (dataValue.equals(key)){
 					options[i] = new option(key).addElement(name).setSelected(true);
+					m_dataDisplay =name;}
 				else
 					options[i] = new option(key).addElement(name);			
 			}
@@ -689,8 +701,9 @@ public class WebField
 				if (name == null || name.length() == 0)
 					name = "???";
 				name = Util.maskHTML(name);
-				if (dataValue.equals(key))
+				if (dataValue.equals(key)){
 					options[i] = new option(key).addElement(name).setSelected(true);
+					m_dataDisplay =name;}
 				else
 					options[i] = new option(key).addElement(name);
 			}			
@@ -717,5 +730,67 @@ public class WebField
 		return createTD(button)
 			.setAlign(AlignType.LEFT);	//	overwrite
 	}	//	getButtonField
+	
+	
+	/**
+	 * 	Get Popup Menu
+	 *	@return Menu String 
+	 */
+	private String getpopUpMenu ()
+	{
+		//Start Popup Menu
+		//Add by Rob Klein 6/6/2007
+		a buttonZoom = null;
+		a buttonValuePref = null;		
+		String menu = null;
+		Boolean tableAccess =false;	
+		
+			if(m_dataDisplay!=null){
+			//	Set ValuePreference
+			//	Add by Rob Klein 6/6/2007
+			buttonValuePref = new a("#", (new img(WebEnv.getImageDirectory("vPreference10.gif")).setBorder(0))+"  Preference");
+			buttonValuePref.setID(m_columnName + "PV");			
+			buttonValuePref.setOnClick("startValuePref('" + m_displayType + "', '"+Util.maskHTML(m_dataDisplay.toString())+ "', '"
+					+ m_Field.getValue()+ "', '"+m_Field.getHeader()+ "', '"+m_Field.getColumnName()+ "', '"
+					+ Env.getAD_User_ID(m_wsc.ctx)+ "', '" + Env.getAD_Org_ID(m_wsc.ctx) + "', '"+Env.getAD_Client_ID(m_wsc.ctx)
+					+ "', '"+m_Field.getAD_Window_ID()+"');return false;");
+			menu = "menu1["+m_fieldNumber+"]="+buttonValuePref+";\n";	
+			}
+			
+			//Set Zoom			
+			StringBuffer sql = null;
+			int refID = m_Field.getAD_Reference_Value_ID();
+			Object recordID =0;
+			if (m_displayType == DisplayType.List ){
+				sql = new StringBuffer ("SELECT AD_Table_ID " 
+						+ "FROM AD_Table WHERE TableName = 'AD_Reference'");				
+				
+				recordID = refID;
+			}
+			else if (refID > 0){
+				sql = new StringBuffer ("SELECT AD_Table_ID " 
+						+ "FROM AD_Ref_Table WHERE AD_Reference_ID = "+refID);
+				recordID =m_Field.getValue();
+			}
+			else{	
+				sql = new StringBuffer ("SELECT AD_Table_ID " 
+						+ "FROM AD_Table WHERE TableName = '"+m_columnName.replace("_ID", "")+"'");
+				recordID =m_Field.getValue();
+			}
+			int tableID = DB.getSQLValue(null, sql.toString());		
+			
+			tableAccess = m_Role.isTableAccess(tableID, false);
+			if(tableAccess==true){			
+				buttonZoom = new a("#", (new img(WebEnv.getImageDirectory("Zoom10.gif")).setBorder(0))+"  Zoom");
+				buttonZoom.setID(m_columnName + "Z");			
+				buttonZoom.setOnClick("startZoom('" + tableID + "', "+recordID+");return false;");
+				if(m_dataDisplay!=null) 
+					menu = menu + "menu1["+m_fieldNumber+"]+="+buttonZoom+";\n";
+				else
+					menu = "menu1["+m_fieldNumber+"]="+buttonZoom+";\n";
+					
+			}
+		return menu;
+	}	//	getpopUpMenu
 	
 }	//	WebField

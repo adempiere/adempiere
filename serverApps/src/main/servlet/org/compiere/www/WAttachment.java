@@ -150,7 +150,7 @@ public class WAttachment extends HttpServlet
 			attachment = new MAttachment (ctx, AD_Table_ID, Record_ID, null);
 		//
 		tr tr = new tr();
-		td left = new td("popupCenter", AlignType.RIGHT, AlignType.TOP, false,
+		td left = new td("popupCenter", AlignType.LEFT, AlignType.TOP, false,
 			new label("TextMsg", "T", Msg.translate(ctx, "TextMsg")));
 		//
 		td right = new td("popupCenter", AlignType.LEFT, AlignType.TOP, false);
@@ -164,8 +164,19 @@ public class WAttachment extends HttpServlet
 		msg.addElement(attachment.getTextMsg());
 		textMsg.addElement(msg);
 		textMsg.addElement(new br());
-		textMsg.addElement(new input (input.TYPE_SUBMIT, "submit", "Submit"));
+		
+		//textMsg.addElement(new input (input.TYPE_SUBMIT, "submit", "Submit"));
+		//Submit Button
+		//String textbtn = "Submit";
+		//String text = null;
+		//if (ctx != null)
+			//text = Msg.getMsg (ctx, "Submit");		
+		//input submitbtn = new input(input.TYPE_SUBMIT, textbtn, "  "+text);		
+		//submitbtn.setID(text);
+		//submitbtn.setClass("submitbtn");
+		//textMsg.addElement(submitbtn);
 		right.addElement(textMsg);
+
 
 		//	Existing Links
 		p p = new p();

@@ -38,6 +38,11 @@
     <servlet-class>org.compiere.www.WChat</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>WValuePreference</servlet-name>
+    <description>Adempiere Value Preference</description>
+    <servlet-class>org.compiere.www.WValuePreference</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>WZoom</servlet-name>
     <description>Adempiere Zoom</description>
     <servlet-class>org.compiere.www.WZoom</servlet-class>
@@ -139,6 +144,10 @@
   <servlet-mapping>
     <servlet-name>WChat</servlet-name>
     <url-pattern>/WChat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WValuePreference</servlet-name>
+    <url-pattern>/WValuePreference</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>WZoom</servlet-name>

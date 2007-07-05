@@ -9,24 +9,42 @@
  *	Text constants
  */
 var deleteText = "ConfirmDelete";
-
+/****************************************************************************
+ *	Popup Menu variables
+ */
 
 /****************************************************************************
  *	Field Update
  ***************************************************************************/
 function fieldUpdate(e)
 {
-	if (!top.WCmd)	//	no cmd frame
-		return;
 
-	if (!e) e = window.event;
-	//	alert('FieldUpdate ' + e.name + '=' + e.value);
+	if (!top.WCmd){	//	no cmd frame
+		if (!top.myiframe.WCmd){
+			return;
+		}		
+		else{
+			var d = top.myiframe.WCmd.document;
+			var path = "top.myiframe.";
+		}
+	}
+	else{
+		var d = top.WCmd.document;
+		var path = "top.";
+	}
+
+
+	//if (!e) e = window.event;
+
 
 	//	update info and submit
-	top.WCmd.document.fieldUpdate.formName.value = e.form.name; //e.document.forms[0].name;
-	top.WCmd.document.fieldUpdate.fieldName.value = e.name;
-	top.WCmd.document.fieldUpdate.fieldValue.value = e.value;
-	top.WCmd.document.fieldUpdate.submit();
+	//var d = top.WCmd.document;
+		//alert("field Name "+e.name+" Field Value "+e.value);
+	d.fieldUpdate.formName.value = e.form.name; //e.document.forms[0].name;
+	d.fieldUpdate.fieldName.value = e.name;
+	d.fieldUpdate.fieldValue.value = e.value;
+	d.fieldUpdate.location.value = path;
+	d.fieldUpdate.submit();
 }	//	fieldUpdate
 
 /**
@@ -34,15 +52,28 @@ function fieldUpdate(e)
  */
 function createWCmd()
 {
-	if (!top.WCmd)	//	no cmd frame
-		return;
+	
+	if (!top.WCmd){	//	no cmd frame
+		if (!top.myiframe.WCmd){
+			return;
+		}		
+		else{
+			var d = top.myiframe.WCmd.document;
+			var path = "top.myiframe.";
+		}
+	}
+	else{
+		var d = top.WCmd.document;
+		var path = "top.";
+	}
+
 	// write to the command window.
-	var d = top.WCmd.document;
 	d.open();
 	d.writeln('<form name="fieldUpdate" method="post" action="/adempiere/WFieldUpdate">');
 	d.writeln('<input type="hidden" name="formName" value="x">');
 	d.writeln('<input type="hidden" name="fieldName" value="x">');
 	d.writeln('<input type="hidden" name="fieldValue" value="x">');
+	d.writeln('<input type="hidden" name="location" value=path>');
 	d.writeln('</form>');
 	d.close();
 }	//	createWCmd
@@ -166,19 +197,22 @@ function getRealValue (myValue)
 /****************************************************************************
  *  Open PopUp with Attachment Info
  */
-function popUp(URL) {
+function popUp(URL,name) {
 day = new Date();
 id = day.getTime();
-eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
+eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
 }
 
+/****************************************************************************
+ *  Start PopUp
+ */
 function startPopup (targetCmd)
 {
 	var url = targetCmd;
-	return popUp(url);
+	return popUp(url,targetCmd);
 }   //  startPopup
 
-/**
+/****************************************************************************
  *  Close PopUp
  */
 function closePopup ()
@@ -186,15 +220,15 @@ function closePopup ()
     parent.document.getElementById("framesetWindow").rows="0,*";
     return true;   //  do submit page
 }   //  closePopUp
-/**
+/****************************************************************************
  *	Lookup - get FormName and ColumnName and submit to WLookup
  */
 function startLookup (columnName, processid)
 {
 	var url = "WLookup?ColumnName=" + columnName+"&AD_Process_ID="+processid;
-	return popUp(url);
+	return popUp(url,columnName);
 }	//	startLookup
-/**
+/****************************************************************************
  *	Lookup - get FormName and ColumnName and submit to WLookup
  */
 function startZoom (TableID, RecordID)
@@ -204,22 +238,22 @@ function startZoom (TableID, RecordID)
 	return false;   //  do not submit page
 
 }	//	startZoom 
-/**
+/****************************************************************************
  *	Account - get FormName and ColumnName and submit to WAccount
  */
 function startAccount (columnName)
 {
 	var url = "WAccount?ColumnName=" + columnName;
-	return popUp(url);
+	return popUp(url,columnName);
 }	//	startAccount
 
-/**
+/****************************************************************************
  *	Location - get FormName and ColumnName and submit to WLocation
  */
 function startLocation (columnName)
 {
 	var url = "WLocation?ColumnName=" + columnName;
-	return popUp(url);
+	return popUp(url,columnName);
 }	//	startLocation
 
 /****************************************************************************
@@ -227,6 +261,7 @@ function startLocation (columnName)
  */
 function startUpdate (column)
 {
+	//alert(column);
 	column.form.ChangedColumn.value=column.name;
     	column.form.submit();
 }	//	startUpdate
@@ -238,9 +273,10 @@ function startLookUpdate(column, name1, value1, name2, value2)
 {	
 	
 	window.close();
+	opener.document.getElementById(name2).focus();
 	opener.document.getElementById(name1).value =value1;
 	opener.document.getElementById(name2).value =value2;	
-}	//	startUpdate
+}	//	startLookUpdate
 
 
 /****************************************************************************
@@ -250,9 +286,35 @@ function startButton (processID, windowID, recordID, tableID, columnName)
 {
 	var url = "WProcess?AD_Process_ID=" + processID + "&AD_Window_ID="+windowID+
 	"&AD_Record_ID="+recordID+"&AD_Table_ID="+tableID+"&columnName="+columnName;
-	return popUp(url);
+	return popUp(url,columnName);
 
 }	//	startButton
+
+/****************************************************************************
+ *	start Value Preference Button
+ */
+
+function startValuePref(displayType, displayData, value, attributedisplay, attribute,
+	userID, orgID, clientID, windowID)
+{
+	var url = "WValuePreference?DisplayType=" + displayType + "&DisplayValue="+displayData+
+	"&Value="+value+"&DisplayAtrribute="+attributedisplay+"&Attribute="+attribute+
+	"&AD_User_ID="+userID+"&AD_Org_ID="+orgID+"&AD_Client_ID="+clientID+"&AD_Window_ID="+windowID;
+	//alert(url);
+	return popUp(url,attributedisplay);
+
+}	//	startValuePref
+/****************************************************************************
+ *	Update Value Preference Button
+ */
+
+function updateValuePref(action)
+{
+Form = document.forms[0];
+	//alert(action);
+	document.valuepreference.PostAction.value=action;
+    	Form.submit();
+}	//	startValuePref
 
 /****************************************************************************
  *	Process Toolbar Button
@@ -331,7 +393,7 @@ function showCalendar(id, format, showsTime, showsOtherMonths) {
     var cal = new Calendar(1, null, selected, closeHandler);
     // uncomment the following line to hide the week numbers
     // cal.weekNumbers = false;
-
+	cal.singleClick = true;
     if (typeof showsTime == "string") {
       cal.showsTime = true;
       cal.time24 = (showsTime == "24");
@@ -359,3 +421,131 @@ var MINUTE = 60 * 1000;
 var HOUR = 60 * MINUTE;
 var DAY = 24 * HOUR;
 var WEEK = 7 * DAY;
+
+/***********************************************
+* AnyLink Vertical Menu- © Dynamic Drive (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+//Contents for menu 1
+var menu1=new Array()
+
+var disappeardelay=200  //menu disappear speed onMouseout (in miliseconds)
+var horizontaloffset=2 //horizontal offset of menu from default location. (0-5 is a good value)
+
+/////No further editting needed
+
+var ie4=document.all
+var ns6=document.getElementById&&!document.all
+
+if (ie4||ns6)
+document.write('<div id="dropmenudiv" style="visibility:hidden;width: 160px" onMouseover="clearhidemenu()" onMouseout="dynamichide(event)"></div>')
+
+function getposOffset(what, offsettype){
+var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
+var parentEl=what.offsetParent;
+while (parentEl!=null){
+totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
+parentEl=parentEl.offsetParent;
+}
+return totaloffset;
+}
+
+
+function showhide(obj, e, visible, hidden, menuwidth){
+if (ie4||ns6)
+dropmenuobj.style.left=dropmenuobj.style.top=-500
+dropmenuobj.widthobj=dropmenuobj.style
+dropmenuobj.widthobj.width=menuwidth
+if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover")
+obj.visibility=visible
+else if (e.type=="click")
+obj.visibility=hidden
+}
+
+function iecompattest(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function clearbrowseredge(obj, whichedge){
+var edgeoffset=0
+if (whichedge=="rightedge"){
+var windowedge=ie4 && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-15 : window.pageXOffset+window.innerWidth-15
+dropmenuobj.contentmeasure=dropmenuobj.offsetWidth
+if (windowedge-dropmenuobj.x-obj.offsetWidth < dropmenuobj.contentmeasure)
+edgeoffset=dropmenuobj.contentmeasure+obj.offsetWidth
+}
+else{
+var topedge=ie4 && !window.opera? iecompattest().scrollTop : window.pageYOffset
+var windowedge=ie4 && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18
+dropmenuobj.contentmeasure=dropmenuobj.offsetHeight
+if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure){ //move menu up?
+edgeoffset=dropmenuobj.contentmeasure-obj.offsetHeight
+if ((dropmenuobj.y-topedge)<dropmenuobj.contentmeasure) //up no good either? (position at top of viewable window then)
+edgeoffset=dropmenuobj.y
+}
+}
+return edgeoffset
+}
+
+function populatemenu(what){
+if (ie4||ns6)
+dropmenuobj.innerHTML=what
+}
+
+
+function dropdownmenu(obj, e, menucontents, menuwidth){
+if (window.event) event.cancelBubble=true
+else if (e.stopPropagation) e.stopPropagation()
+clearhidemenu()
+dropmenuobj=document.getElementById? document.getElementById("dropmenudiv") : dropmenudiv
+populatemenu(menucontents)
+
+if (ie4||ns6){
+showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth)
+dropmenuobj.x=getposOffset(obj, "left")
+dropmenuobj.y=getposOffset(obj, "top")
+dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+obj.offsetWidth+horizontaloffset+"px"
+dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+"px"
+}
+
+return clickreturnvalue()
+}
+
+function clickreturnvalue(){
+if (ie4||ns6) return false
+else return true
+}
+
+function contains_ns6(a, b) {
+while (b.parentNode)
+if ((b = b.parentNode) == a)
+return true;
+return false;
+}
+
+function dynamichide(e){
+if (ie4&&!dropmenuobj.contains(e.toElement))
+delayhidemenu()
+else if (ns6&&e.currentTarget!= e.relatedTarget&& !contains_ns6(e.currentTarget, e.relatedTarget))
+delayhidemenu()
+}
+
+function hidemenu(e){
+if (typeof dropmenuobj!="undefined"){
+if (ie4||ns6)
+dropmenuobj.style.visibility="hidden"
+}
+}
+
+function delayhidemenu(){
+if (ie4||ns6)
+delayhide=setTimeout("hidemenu()",disappeardelay)
+}
+
+function clearhidemenu(){
+if (typeof delayhide!="undefined")
+clearTimeout(delayhide)
+}
+

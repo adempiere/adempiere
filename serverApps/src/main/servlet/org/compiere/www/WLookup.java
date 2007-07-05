@@ -90,29 +90,29 @@ public class WLookup extends HttpServlet
 		//Modified by Rob Klein 4/29/07
 		//
 		WebSessionCtx wsc = WebSessionCtx.get(request);
-		WWindowStatus ws = WWindowStatus.get(request);
+		WWindowStatus ws = WWindowStatus.get(request);		
 		
-		if (ws == null)
+		if (wsc == null)
 		{
 			WebUtil.createTimeoutPage(request, response, this, null);
 			return;
 		}
+		
 		//  Get Mandatory Parameters
 		String columnName = WebUtil.getParameter (request, "ColumnName");
-		GridField mField = ws.curTab.getField(columnName);
+		
 		//Lookup called from a process
 		//Modified by Rob Klein 4/29/07
-		int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");
+		int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");		
 		
-		if (mField == null)
-		{
+		if (AD_Process_ID > 0)
+		{		
 			
-			AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");
 			if (AD_Process_ID < 1 || columnName == null 
 					|| columnName.equals(""))
 				{
 					WebUtil.createErrorPage(request, response, this, 
-						Msg.getMsg(ws.ctx, "ParameterMissing"));
+						Msg.getMsg(wsc.ctx, "ParameterMissing"));
 					return;
 				}
 			String targetBase = "'" + columnName;
@@ -147,15 +147,22 @@ public class WLookup extends HttpServlet
 			//
 			
 			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, ws, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false))
+				.addElement(fillTable(wsc, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false))
 				.addElement(button));
 			//
-			doc.addPopupClose(ws.ctx);
+			doc.addPopupClose(wsc.ctx);
 		//	log.trace(log.l6_Database, doc.toString());
 			WebUtil.createResponse (request, response, this, null, doc, false);			
 		}
 		//Lookup called from a window
 		else{
+			//	Modified by Rob Klein 7/01/07
+			if (ws == null)
+			{
+				WebUtil.createTimeoutPage(request, response, this, null);
+				return;
+			}			
+			GridField mField = ws.curTab.getField(columnName);
 			
 			log.config("ColumnName=" + columnName 
 				+ ", MField=" + mField);
@@ -192,7 +199,7 @@ public class WLookup extends HttpServlet
 			//
 			
 			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, ws, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout))
+				.addElement(fillTable(wsc, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout))
 				.addElement(restbtn));
 			//
 			doc.addPopupClose(ws.ctx);
@@ -226,7 +233,7 @@ public class WLookup extends HttpServlet
 	 *	@param addStart add startUpdate
 	 *	@return  Table with selection
 	 */
-	private table fillTable (WebSessionCtx wsc, WWindowStatus ws, String columnName, int fieldRefId, 
+	private table fillTable (WebSessionCtx wsc, String columnName, int fieldRefId, 
 			String action,String targetBase, boolean addStart)
 	{
 		/**
@@ -245,18 +252,18 @@ public class WLookup extends HttpServlet
 		
 		//  Set Headers
 		line.addElement(new th("&nbsp")).
-			addElement(new th(Msg.translate(ws.ctx, "Key Name")).setClass("table-filterable table-filtered table-sortable:default"));																		
-		line = fillTable_Lookup_Headers(ws, columnName, fieldRefId, line, targetBase, true, true, true, false, true);		
+			addElement(new th(Msg.translate(wsc.ctx, "Key Name")).setClass("table-filterable table-filtered table-sortable:default"));																		
+		line = fillTable_Lookup_Headers(columnName, fieldRefId, line, targetBase, true, true, true, false, true);		
 		table.addElement(line);
 		tr line2 = new tr();
 		line2.addElement(new th("&nbsp")).addElement(new th("&nbsp"));
-		line2 = fillTable_Lookup_Headers(ws, columnName, fieldRefId, line2, targetBase, true, true, true, false, false);		
+		line2 = fillTable_Lookup_Headers( columnName, fieldRefId, line2, targetBase, true, true, true, false, false);		
 		table.addElement(line2);
 		table.addElement("</thead>");
 		table.addElement("<tbody>");
 		
 		//  Fillout rows
-		table = fillTable_Lookup_Rows(ws, columnName, fieldRefId, table, targetBase, true, true, true, false);		
+		table = fillTable_Lookup_Rows(wsc, columnName, fieldRefId, table, targetBase, true, true, true, false);		
 		
 		table.addElement("</tbody>");		
 		//  Restore				
@@ -272,7 +279,7 @@ public class WLookup extends HttpServlet
 	 * @param targetBase    target field string
 	 * @return  Lookup Rows in List Format
 	 */
-	private table fillTable_Lookup_Rows (WWindowStatus ws, String columnName, int fieldRefId,
+	private table fillTable_Lookup_Rows (WebSessionCtx wsc, String columnName, int fieldRefId,
 			table table1, String targetBase, boolean mandatory, boolean onlyValidated, boolean onlyActive,
 			boolean temporary)
 	{		
@@ -386,7 +393,7 @@ public class WLookup extends HttpServlet
 		try
 		{		
 			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(), null);			
-			pstmt.setInt(1, Env.getAD_Client_ID(ws.ctx));
+			pstmt.setInt(1, Env.getAD_Client_ID(wsc.ctx));
 			ResultSet rs = pstmt.executeQuery();
 		
 			while (rs.next()){
@@ -455,7 +462,7 @@ public class WLookup extends HttpServlet
 	 * @param targetBase    target field string
 	 * @return  Table with selection
 	 */
-	private tr fillTable_Lookup_Headers (WWindowStatus ws, String columnName, int fieldRefId,
+	private tr fillTable_Lookup_Headers ( String columnName, int fieldRefId,
 			tr line, String targetBase, boolean mandatory, boolean onlyValidated, boolean onlyActive,
 			boolean temporary, boolean firstHeaderLine)
 	{

@@ -818,6 +818,7 @@ public class WWindow extends HttpServlet
 		table table = new table();
 		table.setClass("centerTable");
 		StringBuffer scriptSrc = new StringBuffer();
+		MRole role = MRole.getDefault(wsc.ctx, false);
 		//
 		tr line = new tr();
 		//Modified by Rob Klein 4/29/07
@@ -851,7 +852,7 @@ public class WWindow extends HttpServlet
 					//
 					boolean hasDependents = ws.curTab.hasDependants(columnName);
 					//Modified by Rob Klein 4/29/07
-					addField(wsc, line, field, oData, hasDependents, recordID, tableID, isTabRO, i, ws.curTab);
+					addField(wsc, line, field, oData, hasDependents, recordID, tableID, isTabRO, i, ws.curTab,role);
 					//addField(wsc, line, field, oData, hasDependents);
 					table.addElement(line);
 					//  Additional Values
@@ -1156,10 +1157,11 @@ public class WWindow extends HttpServlet
 		myForm.addElement(statusTable);
 		
 		//Beg Modified by Rob Klein
-		//div calpopdiv = new div();
-		//calpopdiv.setStyle("visibility:hidden;background-color:white;layer-background-color:white;");
-		//calpopdiv.setID("cal1div");
-		//myForm.addElement(calpopdiv);
+		//div menupop = new div();
+		//menupop.setOnMouseOver("clearhidemenu()");
+		//menupop.setOnMouseOut("dynamichide(event)");
+		//menupop.setID("popitmenu");
+		//myForm.addElement(menupop);
 		//End Modified by Rob Klein
 		
 		//  fini
@@ -1294,7 +1296,7 @@ public class WWindow extends HttpServlet
 	 */
 	private void addField (WebSessionCtx wsc, tr line, GridField field, 
 		Object oData, boolean hasDependents, int recordID, int tableID, boolean tabRO, int fieldNumber,
-		GridTab mTab)
+		GridTab mTab, MRole role)
 	{
 		String columnName = field.getColumnName();
 		//  Any Error?
@@ -1345,7 +1347,7 @@ public class WWindow extends HttpServlet
 			fieldRO, field.isMandatory(false), error,
 			hasDependents, hasCallout,field.getAD_Process_ID(),field.getAD_Window_ID(),
 			recordID, tableID, fieldNumber, field.getDefault(), field.getCallout(),
-			mTab, field );		
+			mTab, field, role );		
 		line
 			.addElement(wField.getLabel())			
 			.addElement(wField.getField(field.getLookup(), oData));		

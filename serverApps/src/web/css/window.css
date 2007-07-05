@@ -92,7 +92,13 @@ td {
 	background-color:#ffffff;
 
 }
-
+.deletebtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Delete16.gif) no-repeat left;
+	background-color:#ffffff;
+}
 .Cerror	{
 	background: #FF4A4A;
 }
@@ -182,3 +188,24 @@ td.toolbar {
 	border-bottom: 1px solid #000000;
 }
 
+#dropmenudiv{
+position: absolute;
+background-color: white;
+border:1px solid #003FAF;
+font: normal 10px Verdana;
+line-height: 14px;
+z-index: 100;
+visibility: hidden;
+}
+
+#dropmenudiv a{
+text-decoration: none;
+padding-left: 6px;
+color: black;
+display: block;
+
+}
+
+#dropmenudiv a:hover{ /*hover background color*/
+background-color: #C9D9F5;
+}

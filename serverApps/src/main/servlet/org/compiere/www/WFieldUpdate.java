@@ -59,6 +59,7 @@ public class WFieldUpdate extends HttpServlet
 	private static final String FIELD_FORM  = "formName";
 	private static final String FIELD_NAME  = "fieldName";
 	private static final String FIELD_VALUE = "fieldValue";
+	private static final String LOCATION_VALUE = "location";
 
 	/**
 	 *  Process the HTTP Get request
@@ -94,11 +95,12 @@ public class WFieldUpdate extends HttpServlet
 		String formName = WebUtil.getParameter (request, FIELD_FORM);
 		String fieldName = WebUtil.getParameter (request, FIELD_NAME);
 		String fieldValue = WebUtil.getParameter (request, FIELD_VALUE);
-
-		log.info("doPost - Form=" + formName + " - Field=" + fieldName + " - Value=" + fieldValue);
+		String locationValue = WebUtil.getParameter (request, LOCATION_VALUE);
+		
+		log.info("doPost - Form=" + formName + " - Field=" + fieldName + " - Value=" + fieldValue+ " - Location=" + locationValue);
 
 		//  Document
-		WebDoc doc = createPage (wsc, ws, formName, fieldName, fieldValue);
+		WebDoc doc = createPage (wsc, ws, formName, fieldName, fieldValue, locationValue);
 
 		//  The Form
 		form fu = new form(request.getRequestURI());
@@ -106,6 +108,7 @@ public class WFieldUpdate extends HttpServlet
 		fu.addElement(new input(input.TYPE_HIDDEN, FIELD_FORM, "y"));
 		fu.addElement(new input(input.TYPE_HIDDEN, FIELD_NAME, "y"));
 		fu.addElement(new input(input.TYPE_HIDDEN, FIELD_VALUE, "y"));
+		fu.addElement(new input(input.TYPE_HIDDEN, LOCATION_VALUE, locationValue));
 		doc.getBody().addElement(fu);
 
 	//	log.trace(log.l1_User, "WFieldUpdate=" + doc.toString());
@@ -125,16 +128,17 @@ public class WFieldUpdate extends HttpServlet
 	 *  @param fieldValue
 	 */
 	private static WebDoc createPage (WebSessionCtx wsc, WWindowStatus ws,
-		String formName, String fieldName, String fieldValue)
+		String formName, String fieldName, String fieldValue, String locationValue)
 	{
 		WebDoc doc = WebDoc.create (true);	// plain
 		body body = doc.getBody();
-		
+		log.info("Location-createpage: "+locationValue);
 		//  Info
 		StringBuffer sb = new StringBuffer("FieldUpdate - ") 
 			.append(FIELD_FORM).append("=").append(formName).append(", ")
 			.append(FIELD_NAME).append("=").append(fieldName).append(", ")
-			.append(FIELD_VALUE).append("=").append(fieldValue);
+			.append(FIELD_VALUE).append("=").append(fieldValue)
+			.append(LOCATION_VALUE).append("=").append(locationValue);
 		body.addElement(new p()
 			.addElement(sb.toString()));
 
@@ -143,13 +147,13 @@ public class WFieldUpdate extends HttpServlet
 			;
 		//
 		else if (formName.equals("Login2") && fieldName.equals(WLogin.P_ROLE))
-			reply_Login2_Role (body, wsc, formName, fieldValue);
+			reply_Login2_Role (body, wsc, formName, fieldValue, locationValue);
 		//
 		else if (formName.equals("Login2") && fieldName.equals(WLogin.P_CLIENT))
-			reply_Login2_Client (body, wsc, formName, fieldValue);
+			reply_Login2_Client (body, wsc, formName, fieldValue, locationValue);
 		//
 		else if (formName.equals("Login2") && fieldName.equals(WLogin.P_ORG))
-			reply_Login2_Org (body, wsc, ws, formName, fieldValue);
+			reply_Login2_Org (body, wsc, ws, formName, fieldValue, locationValue);
 		//
 		return doc;
 	}   //  getReply
@@ -164,10 +168,18 @@ public class WFieldUpdate extends HttpServlet
 	 *  @param fieldValue
 	 */
 	private static void reply_Login2_Role (body body, WebSessionCtx wsc, 
-		String formName, String fieldValue)
+		String formName, String fieldValue, String locationValue)
 	{
 		//  Formname
-		String form = "top." + WebEnv.TARGET_WINDOW + ".document.forms." + formName + ".";
+		String form = null;
+		log.info("Location-Role: "+locationValue);
+		
+		//if (locationValue!=null)
+			form = locationValue + WebEnv.TARGET_WINDOW + ".document.forms." + formName + ".";
+		//else
+			//form = "top." + WebEnv.TARGET_WINDOW + ".document.forms." + formName + ".";
+		//log.info("form_role->"+form);
+		
 		Login login = new Login(wsc.ctx);
 		//  Get Data
 		KeyNamePair[] clients = login.getClients ( 
@@ -256,12 +268,18 @@ public class WFieldUpdate extends HttpServlet
 	 *  @param fieldValue value
 	 */
 	private static void reply_Login2_Client (body body, WebSessionCtx wsc, 
-		String formName, String fieldValue)
+		String formName, String fieldValue, String locationValue)
 	{
+		log.info("Location-Client: "+locationValue);
 		//  Formname
-		String form = "top." + WebEnv.TARGET_WINDOW + ".document." + formName + ".";
+		String form = null;
+		//if (locationValue!=null)
+			form = locationValue + WebEnv.TARGET_WINDOW + ".document." + formName + ".";
+		//else
+			//form = "top." + WebEnv.TARGET_WINDOW + ".document." + formName + ".";		
 		StringBuffer script = new StringBuffer ();
-
+		//log.info("form_client->"+form);
+		
 		//  Set Organization ----
 
 		//  var A=top.WWindow.document.formName.selectName.options;
@@ -322,10 +340,17 @@ public class WFieldUpdate extends HttpServlet
 	 *  @param fieldValue
 	 */
 	private static void reply_Login2_Org (body body, WebSessionCtx wsc, WWindowStatus ws,
-		String formName, String fieldValue)
+		String formName, String fieldValue, String locationValue)
 	{
 		//  Formname
-		String form = "top." + WebEnv.TARGET_WINDOW + ".document." + formName + ".";
+		String form = null;
+		log.info("Location-Org: "+locationValue);
+		//if (locationValue!=null)
+			form = locationValue + WebEnv.TARGET_WINDOW + ".document." + formName + ".";
+		//else
+			//form = "top." + WebEnv.TARGET_WINDOW + ".document." + formName + ".";
+		
+		//log.info("form_org->"+form);
 		StringBuffer script = new StringBuffer ();
 
 		//  Set Warehouse ----
