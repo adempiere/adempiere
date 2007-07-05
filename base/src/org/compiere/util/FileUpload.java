@@ -48,8 +48,26 @@ public class FileUpload
 	{
 		form upload = new form(action, form.METHOD_POST, form.ENC_UPLOAD);
 		upload.addElement(new label ("File").setFor("file"));
-		upload.addElement(new input (input.TYPE_FILE, "file", "").setSize(40));
-		upload.addElement(new input (input.TYPE_SUBMIT, "upload", "Upload"));
+		
+		//Browse Button
+		//upload.addElement(new input (input.TYPE_FILE, "file", "").setSize(40));
+		String textbtn = "file";
+		String text = "Browse";				
+		input filebtn = new input(input.TYPE_FILE, textbtn, "  "+text);
+		filebtn.setSize(40);
+		filebtn.setID(text);
+		filebtn.setClass("filebtn");
+		upload.addElement(filebtn);
+		
+		//upload Button
+		//upload.addElement(new input (input.TYPE_SUBMIT, "upload", "Upload"));		
+		textbtn = "upload";
+		text = "Upload";				
+		input submitbtn = new input(input.TYPE_SUBMIT, textbtn, "  "+text);		
+		submitbtn.setID(text);
+		submitbtn.setClass("submitbtn");		
+		upload.addElement(submitbtn);
+		
 		return upload;
 	}	//	createForm
 
