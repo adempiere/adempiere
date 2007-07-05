@@ -30,6 +30,8 @@ import javax.swing.*;
  *
  *  @author     Jorg Janke
  *  @version    $Id: Util.java,v 1.3 2006/07/30 00:52:23 jjanke Exp $
+ *  
+ *  @author     Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748346 ]
  */
 public class Util
 {
@@ -67,9 +69,9 @@ public class Util
 	}	//	replace
 
 	/**
-	 * 	Remove CR / LF from String
-	 * 	@param in input
-	 * 	@return cleaned string
+	 * Remove CR / LF from String
+	 * @param in input
+	 * @return cleaned string
 	 */
 	public static String removeCRLF (String in)
 	{
@@ -88,9 +90,9 @@ public class Util
 
 
 	/**
-	 * 	Clean - Remove all white spaces
-	 *	@param in in
-	 *	@return cleaned string
+	 * Clean - Remove all white spaces
+	 * @param in in
+	 * @return cleaned string
 	 */
 	public static String cleanWhitespace (String in)
 	{
@@ -117,11 +119,12 @@ public class Util
 
 
 	/**
-	 * 	Mask HTML content.
-	 *  i.e. replace characters with &values;
-	 *  CR is not masked
-	 * 	@param content content
-	 * 	@return masked content
+	 * Mask HTML content.
+	 * i.e. replace characters with &values;
+	 * CR is not masked
+	 * @param content content
+	 * @return masked content
+	 * @see #maskHTML(String, boolean)
 	 */
 	public static String maskHTML (String content)
 	{
@@ -129,16 +132,17 @@ public class Util
 	}	//	maskHTML
 	
 	/**
-	 * 	Mask HTML content.
-	 *  i.e. replace characters with &values;
-	 * 	@param content content
-	 * 	@param maskCR convert CR into <br>
-	 * 	@return masked content
+	 * Mask HTML content.
+	 * i.e. replace characters with &values;
+	 * @param content content
+	 * @param maskCR convert CR into <br>
+	 * @return masked content or null if the <code>content</code> is null
 	 */
 	public static String maskHTML (String content, boolean maskCR)
 	{
-		//if (content == null || content.length() == 0 || content.equals(" "))
-			//return "&nbsp";
+		// If the content is null, then return null - teo_sarca [ 1748346 ]
+		if (content == null)
+			return content;
 		//
 		StringBuffer out = new StringBuffer();
 		char[] chars = content.toCharArray();
@@ -179,10 +183,10 @@ public class Util
 	}	//	maskHTML
 
 	/**
-	 * 	Get the number of occurances of countChar in string.
-	 * 	@param string String to be searched
-	 * 	@param countChar to be counted character
-	 * 	@return number of occurances
+	 * Get the number of occurances of countChar in string.
+	 * @param string String to be searched
+	 * @param countChar to be counted character
+	 * @return number of occurances
 	 */
 	public static int getCount (String string, char countChar)
 	{
@@ -199,9 +203,9 @@ public class Util
 	}	//	getCount
 
 	/**
-	 * 	Is String Empty
-	 *	@param str string
-	 *	@return true if >= 1 char
+	 * Is String Empty
+	 * @param str string
+	 * @return true if >= 1 char
 	 */
 	public static boolean isEmpty (String str)
 	{
@@ -209,11 +213,11 @@ public class Util
 	}	//	isEmpty
 	
 	/**************************************************************************
-	 *  Find index of search character in str.
-	 *  This ignores content in () and 'texts'
-	 *  @param str string
-	 *  @param search search character
-	 *  @return index or -1 if not found
+	 * Find index of search character in str.
+	 * This ignores content in () and 'texts'
+	 * @param str string
+	 * @param search search character
+	 * @return index or -1 if not found
 	 */
 	public static int findIndexOf (String str, char search)
 	{
@@ -322,9 +326,9 @@ public class Util
 
 	
 	/**************************************************************************
-	 * 	Init Cap Words With Spaces
-	 * 	@param in string
-	 * 	@return init cap
+	 * Init Cap Words With Spaces
+	 * @param in string
+	 * @return init cap
 	 */
 	public static String initCap (String in)
 	{
@@ -350,11 +354,11 @@ public class Util
 
 	
 	/**************************************************************************
-	 * 	Return a Iterator with only the relevant attributes.
-	 *  Fixes implementation in AttributedString, which returns everything
-	 * 	@param aString attributed string
-	 * 	@param relevantAttributes relevant attributes
-	 * 	@return iterator
+	 * Return a Iterator with only the relevant attributes.
+	 * Fixes implementation in AttributedString, which returns everything
+	 * @param aString attributed string
+	 * @param relevantAttributes relevant attributes
+	 * @return iterator
 	 */
 	static public AttributedCharacterIterator getIterator (AttributedString aString, 
 		AttributedCharacterIterator.Attribute[] relevantAttributes)
@@ -405,8 +409,8 @@ public class Util
 
 
 	/**
-	 * 	Dump a Map (key=value) to out
-	 * 	@param map Map
+	 * Dump a Map (key=value) to out
+	 * @param map Map
 	 */
 	static public void dump (Map map)
 	{
@@ -421,8 +425,8 @@ public class Util
 	}	//	dump (Map)
 
 	/**
-	 *  Print Action and Input Map for component
-	 * 	@param comp  Component with ActionMap
+	 * Print Action and Input Map for component
+	 * @param comp  Component with ActionMap
 	 */
 	public static void printActionInputMap (JComponent comp)
 	{
@@ -500,9 +504,9 @@ public class Util
 	}   //  printActionInputMap
 
 	/**
-	 * 	Is 8 Bit
-	 *	@param str string
-	 *	@return true if string contains chars > 255
+	 * Is 8 Bit
+	 * @param str string
+	 * @return true if string contains chars > 255
 	 */
 	public static boolean is8Bit (String str)
 	{
@@ -521,9 +525,9 @@ public class Util
 	}	//	is8Bit
 	
 	/**
-	 * 	Clean Ampersand (used to indicate shortcut) 
-	 *	@param in input
-	 *	@return cleaned string
+	 * Clean Ampersand (used to indicate shortcut) 
+	 * @param in input
+	 * @return cleaned string
 	 */
 	public static String cleanAmp (String in)
 	{
@@ -539,10 +543,10 @@ public class Util
 	}	//	cleanAmp
 	
 	/**
-	 * 	Trim to max character length
-	 *	@param str string
-	 *	@param length max (incl) character length
-	 *	@return string
+	 * Trim to max character length
+	 * @param str string
+	 * @param length max (incl) character length
+	 * @return string
 	 */
 	public static String trimLength (String str, int length)
 	{
@@ -556,9 +560,9 @@ public class Util
 	}	//	trimLength
 	
 	/**
-	 * 	Size of String in bytes
-	 *	@param str string
-	 *	@return size in bytes
+	 * Size of String in bytes
+	 * @param str string
+	 * @return size in bytes
 	 */
 	public static int size (String str)
 	{
@@ -578,10 +582,10 @@ public class Util
 	}	//	size
 
 	/**
-	 * 	Trim to max byte size
-	 *	@param str string
-	 *	@param size max size in bytes
-	 *	@return string
+	 * Trim to max byte size
+	 * @param str string
+	 * @param size max size in bytes
+	 * @return string
 	 */
 	public static String trimSize (String str, int size)
 	{
@@ -612,8 +616,8 @@ public class Util
 
 
 	/**************************************************************************
-	 * 	Test
-	 * 	@param args args
+	 * Test
+	 * @param args args
 	 */
 	public static void main (String[] args)
 	{
