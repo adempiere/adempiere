@@ -554,7 +554,7 @@ public final class WebUtil
 	public static script getClearFrame (String targetFrame)
 	{
 		StringBuffer cmd = new StringBuffer();
-		cmd.append("<!-- clear frame\n")
+		cmd.append("// <!-- clear frame\n")
 			.append("var d = parent.").append(targetFrame).append(".document;\n")
 			.append("d.open();\n")
 			.append("d.write('<link href=\"").append(WebEnv.getStylesheetURL()).append("\" type=\"text/css\" rel=\"stylesheet\">');\n")
