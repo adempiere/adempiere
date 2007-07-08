@@ -24,6 +24,7 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
+import java.util.List;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.plaf.SplitPaneUI;
@@ -66,6 +67,7 @@ public final class VTreePanel extends CPanel
 	public VTreePanel(int WindowNo, boolean hasBar, boolean editable)
 	{
 		super();
+		toolbar = new ArrayList<JToolBar>();
 		log.config("Bar=" + hasBar + ", Editable=" + editable);
 		m_WindowNo = WindowNo;
 		m_hasBar = hasBar;
@@ -76,7 +78,8 @@ public final class VTreePanel extends CPanel
 		if (!hasBar)
 		{
 			bar.setPreferredSize(new Dimension(0,0));
-			centerSplitPane.setDividerLocation(0);
+			//centerSplitPane.setDividerLocation(0);
+			centerSplitPane.setDividerLocation(1000);
 			centerSplitPane.setDividerSize(0);
 			popMenuTree.remove(mBarAdd);
 		}
@@ -123,16 +126,50 @@ public final class VTreePanel extends CPanel
 		//  Shortcut Bar
 		if (m_hasBar)
 		{
-			toolbar.removeAll();	//	remove all existing buttons
-			Enumeration en = m_root.preorderEnumeration();
-			while (en.hasMoreElements())
+			for (JToolBar jt : toolbar)
+				jt.removeAll();
+			toolbarMap = new HashMap<Integer, JToolBar>();
+			Enumeration enTop =m_root.children();
+			JToolBar jt = null;			
+			while (enTop.hasMoreElements())
 			{
-				MTreeNode nd = (MTreeNode)en.nextElement();
-				if (nd.isOnBar())
-					addToBar(nd);
+				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
+				Enumeration en = ndTop.preorderEnumeration();
+				boolean labelDrawn=false;
+				while (en.hasMoreElements())
+				{
+					MTreeNode nd = (MTreeNode)en.nextElement();
+					if (nd.isOnBar()) {
+						if (!labelDrawn) {
+							jt = new JToolBar(JToolBar.VERTICAL);
+							addToBar(ndTop, jt, true);
+							labelDrawn=true;
+							toolbarMap.put(ndTop.getNode_ID(), jt);
+						}
+						addToBar(nd, jt, false);
+					}
+				}
+				if (jt!=null)
+					toolbar.add(jt);
+				jt=null;
+			}
+			//jbInit();
+			for (JToolBar jt2 : toolbar) {
+				jt2.setOpaque(false);
+				//jt2.setLayout(new GridBagLayout());
+				jt2.setFloatable(false);
+				jt2.setRollover(true);
+				jt2.setBorder(BorderFactory.createEmptyBorder());
+				CPanel barPart = new CPanel();
+				barPart.setLayout(new BorderLayout());
+				barPart.add(jt2, BorderLayout.NORTH);
+				barPart.setBorder(new ShadowBorder());
+				bar.add(barPart);
+			}
+			if (toolbarMap.size()<=3){
+				bar.setLayout(new GridLayout(0, 1));
 			}
 		}
-
 		return true;
 	}   //  initTree
 
@@ -152,7 +189,11 @@ public final class VTreePanel extends CPanel
 	private CMenuItem mFrom = new CMenuItem();
 	private CMenuItem mTo = new CMenuItem();
 	private CPanel bar = new CPanel();
-	private JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
+	private java.util.List<JToolBar> toolbar;
+	private HashMap<Integer, JToolBar> toolbarMap;
+	private int toolBarCols=3;
+	//private int toolBarRows=2;
+	//private JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
 	private CMenuItem mBarAdd = new CMenuItem();
 	private CMenuItem mBarRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
@@ -231,13 +272,19 @@ public final class VTreePanel extends CPanel
 		this.add(southPanel, BorderLayout.SOUTH);
 		//
 		centerSplitPane.setOpaque(false);
-		toolbar.setOpaque(false);
-		centerSplitPane.add(treePane, JSplitPane.RIGHT);
-		centerSplitPane.add(bar, JSplitPane.LEFT);
+		centerSplitPane.add(treePane, JSplitPane.LEFT); //fcsku 3.7.2007 switch menu/favorites
+		centerSplitPane.add(bar, JSplitPane.RIGHT);
 		centerSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		removeSplitPaneBorder();
 
 		this.add(centerSplitPane, BorderLayout.CENTER);
+		
+		GridLayout barLayout = new GridLayout(0, toolBarCols);
+		bar.setMinimumSize(new Dimension (50,50));
+		bar.setBorder(new ShadowBorder());
+		bar.setLayout(barLayout);
+
+		
 		//
 		mFrom.setText(Msg.getMsg(Env.getCtx(), "ItemMove"));
 		mFrom.setActionCommand("From");
@@ -246,17 +293,7 @@ public final class VTreePanel extends CPanel
 		mTo.setText(Msg.getMsg(Env.getCtx(), "ItemInsert"));
 		mTo.setActionCommand("To");
 		mTo.addActionListener(this);
-		//
-		bar.setMinimumSize(new Dimension (50,50));
-		bar.setBorder(new ShadowBorder());
-		bar.setLayout(new FlowLayout());
-		((FlowLayout)bar.getLayout()).setAlignment(FlowLayout.LEFT);
-		bar.add(toolbar);
-		toolbar.setLayout(new GridBagLayout());
-		toolbar.setFloatable(false);
-		toolbar.setRollover(true);
-		toolbar.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		mBarAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
 		mBarAdd.setActionCommand("BarAdd");
 		mBarAdd.addActionListener(this);
@@ -858,43 +895,91 @@ public final class VTreePanel extends CPanel
 	{
 		MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
 		if (barDBupdate(true, nd.getNode_ID()))
-			addToBar(nd);
+			addToBar(nd,getParentToolBar(nd), false);
+		else if (CLogger.retrieveException().getMessage().indexOf("ORA-00001")!=-1)
+			ADialog.error(0, this, "", "Item is already on Bar");
 	}   //  barAdd
+	
+	/**
+	 * Returns the top level parent JToolBar for the given MTreenode. If the parent is not on 
+	 * the CPanel yet a new one is created and added.
+	 * @param nd
+	 * @return top level parent JToolBar for the given MTreenode
+	 */
+	private JToolBar getParentToolBar(MTreeNode nd){
+		int topParentId = getTopParentId(nd);
+		JToolBar parent = toolbarMap.get(topParentId);
+		if(parent==null){
+			Enumeration enTop =m_root.children();		
+			while (enTop.hasMoreElements()) {
+				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
+				if(ndTop.getNode_ID()==topParentId){
+					log.fine("add new category: " + ndTop);
+					parent = new JToolBar(JToolBar.VERTICAL);
+					addToBar(ndTop, parent, true);
+					toolbarMap.put(ndTop.getNode_ID(), parent);
+					toolbar.add(parent);
+					parent.setOpaque(false);
+					parent.setFloatable(false);
+					parent.setRollover(true);
+					parent.setBorder(BorderFactory.createEmptyBorder());
+					CPanel barPart = new CPanel();
+					barPart.setLayout(new BorderLayout());
+					barPart.add(parent, BorderLayout.NORTH);
+					barPart.setBorder(new ShadowBorder());
+					bar.add(barPart);
+					return parent;
+				}
+			}
+		} else {
+			log.fine("parent found: " + parent);
+		}
+		return parent;
+	}
+
+	/**
+	 * Returns the id of the top level parent of the given MTreenode
+	 * @param nd
+	 * @return
+	 */
+	private int getTopParentId(MTreeNode nd) {
+		MTreeNode parent = (MTreeNode) nd.getParent();
+		if(parent!=null && parent.getNode_ID()!=0){
+			return getTopParentId(parent);
+		}
+		return nd.getNode_ID();
+	}
 
 	/**
 	 *  Add TreeNode to Bar
 	 *  @param nd node
 	 */
-	private void addToBar(MTreeNode nd)
+	private void addToBar(MTreeNode nd, JToolBar currentToolBar, boolean isLabel)
 	{
 		//	Only first word of Label
 		String label = nd.toString().trim();
-		int space = label.indexOf(' ');
+	//	int space = label.indexOf(' ');
 	//	if (space != -1)
 	//		label = label.substring(0, space);
 
-		CButton button = new CButton(label);
-		button.setOpaque(false);
-		button.setHorizontalAlignment(JButton.LEFT);
-		button.setToolTipText(nd.getDescription());
-		button.setActionCommand(String.valueOf(nd.getNode_ID()));
-		//
-		button.setMargin(new Insets(0, 0, 0, 0));
-		button.setIcon(nd.getIcon());
-		//button.setBorderPainted(false);
-		button.setRequestFocusEnabled(false);
-		//
-		button.addActionListener(this);
-		button.addMouseListener(mouseListener);
-		//
-		toolbar.add(button,
-			new GridBagConstraints(0, GridBagConstraints.RELATIVE,
-					1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, 
-					GridBagConstraints.HORIZONTAL, new Insets(1,0,1,0), 4,2));
+		if (!isLabel) {
+			CButton button = new CButton(label);
+			button.setOpaque(false);
+			button.setHorizontalAlignment(JButton.LEFT);
+			button.setMargin(new Insets(0, 0, 0, 0));
+			button.setIcon(nd.getIcon());
+			button.setRequestFocusEnabled(false);
+			button.setToolTipText(nd.getDescription());
+			button.setActionCommand(String.valueOf(nd.getNode_ID()));
+			button.addActionListener(this);
+			button.addMouseListener(mouseListener);
+			currentToolBar.add(button);
+	    } else {
+	    	currentToolBar.add(new JLabel("<html><u><b>" +label+"</b></u></html>"));
+	    }
 		bar.validate();
-		
-		if (centerSplitPane.getDividerLocation() == -1)
-			centerSplitPane.setDividerLocation(button.getPreferredSize().width);
+		//if (centerSplitPane.getDividerLocation() == -1)
+		//	centerSplitPane.setDividerLocation(button.getPreferredSize().width);
 		bar.repaint();
 	}   //  addToBar
 
@@ -903,7 +988,23 @@ public final class VTreePanel extends CPanel
 	 */
 	private void barRemove()
 	{
-		toolbar.remove(m_buttonSelected);
+		//the button in on a JToolBar which is on a CPanel
+		JToolBar parentBar = (JToolBar) m_buttonSelected.getParent();
+		Container parentPanel = null;
+		if(parentBar!=null){
+			parentPanel = parentBar.getParent();
+		}
+		for (JToolBar jt : toolbar) {
+			jt.remove(m_buttonSelected);
+		}
+
+		if(parentPanel != null && parentBar.getComponentCount()==1){
+			//only label left
+			bar.remove(parentPanel);
+			//remove from toolBarMap..
+			toolbarMap.values().remove(parentBar);
+			
+		}
 		bar.validate();
 		bar.repaint();
 		barDBupdate(false, Integer.parseInt(m_buttonSelected.getActionCommand()));
@@ -934,7 +1035,7 @@ public final class VTreePanel extends CPanel
 			sql.append("DELETE AD_TreeBar WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
 				.append(" AND AD_User_ID=").append(AD_User_ID)
 				.append(" AND Node_ID=").append(Node_ID);
-		int no = DB.executeUpdate(sql.toString(), true, null);
+		int no = DB.executeUpdate(sql.toString(), false, null);
 		return no == 1;
 	}	//	barDBupdate
 
@@ -1021,3 +1122,5 @@ class VTreePanel_keyAdapter extends java.awt.event.KeyAdapter
 			m_adaptee.keyPressed(e);
 	}
 }   //  VTreePanel_keyAdapter
+
+ 	  	 
