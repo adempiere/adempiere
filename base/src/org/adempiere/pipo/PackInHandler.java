@@ -173,7 +173,7 @@ public class PackInHandler extends DefaultHandler {
 			try {
 				fw_document = new FileOutputStream (file_document, false);
 			} catch (FileNotFoundException e1) {
-				log.info ("startElement:"+e1);
+				log.warning ("Failed to create log file:"+e1);
 			}
 			streamResult_document = new StreamResult(fw_document);		
 			tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
