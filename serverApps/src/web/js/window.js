@@ -19,19 +19,20 @@ var deleteText = "ConfirmDelete";
 function fieldUpdate(e)
 {
 
-	if (!top.WCmd){	//	no cmd frame
-		if (!top.myiframe.WCmd){
+	if (!top.WCmd)	//{	no cmd frame
 			return;
-		}		
-		else{
-			var d = top.myiframe.WCmd.document;
-			var path = "top.myiframe.";
-		}
-	}
-	else{
+	//	if (!top.myiframe.WCmd){
+	//		return;
+	//	}		
+	//	else{
+	//		var d = top.myiframe.WCmd.document;
+	//		var path = "top.myiframe.";
+	//	}
+	//}
+	//else{
 		var d = top.WCmd.document;
 		var path = "top.";
-	}
+	//}
 
 
 	//if (!e) e = window.event;
@@ -39,7 +40,8 @@ function fieldUpdate(e)
 
 	//	update info and submit
 	//var d = top.WCmd.document;
-		//alert("field Name "+e.name+" Field Value "+e.value);
+	//alert("field Name "+e.name+" Field Value "+e.value);
+
 	d.fieldUpdate.formName.value = e.form.name; //e.document.forms[0].name;
 	d.fieldUpdate.fieldName.value = e.name;
 	d.fieldUpdate.fieldValue.value = e.value;
@@ -53,21 +55,23 @@ function fieldUpdate(e)
 function createWCmd()
 {
 	
-	if (!top.WCmd){	//	no cmd frame
-		if (!top.myiframe.WCmd){
-			return;
-		}		
-		else{
-			var d = top.myiframe.WCmd.document;
-			var path = "top.myiframe.";
-		}
-	}
-	else{
+	if (!top.WCmd)	//{	no cmd frame
+		return;
+
+	//	if (!top.myiframe.WCmd){
+	//		return;
+	//	}		
+	//	else{
+	//		var d = top.myiframe.WCmd.document;
+	//		var path = "top.myiframe.";
+	//	}
+	//}
+	//else{
 		var d = top.WCmd.document;
 		var path = "top.";
-	}
-
+	//}
 	// write to the command window.
+
 	d.open();
 	d.writeln('<form name="fieldUpdate" method="post" action="/adempiere/WFieldUpdate">');
 	d.writeln('<input type="hidden" name="formName" value="x">');
@@ -301,7 +305,7 @@ function startValuePref(displayType, displayData, value, attributedisplay, attri
 	"&Value="+value+"&DisplayAtrribute="+attributedisplay+"&Attribute="+attribute+
 	"&AD_User_ID="+userID+"&AD_Org_ID="+orgID+"&AD_Client_ID="+clientID+"&AD_Window_ID="+windowID;
 	//alert(url);
-	return popUp(url,attributedisplay);
+	return popUp(url,attribute);
 
 }	//	startValuePref
 /****************************************************************************
@@ -423,24 +427,19 @@ var DAY = 24 * HOUR;
 var WEEK = 7 * DAY;
 
 /***********************************************
-* AnyLink Vertical Menu- © Dynamic Drive (www.dynamicdrive.com)
+* AnyLink CSS Menu script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
-* Visit http://www.dynamicdrive.com/ for full source code
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
 ***********************************************/
 
-//Contents for menu 1
-var menu1=new Array()
-
-var disappeardelay=200  //menu disappear speed onMouseout (in miliseconds)
-var horizontaloffset=2 //horizontal offset of menu from default location. (0-5 is a good value)
+var disappeardelay=250  //menu disappear speed onMouseout (in miliseconds)
+var enableanchorlink=0 //Enable or disable the anchor link when clicked on? (1=e, 0=d)
+var hidemenu_onclick=1 //hide menu when user clicks within menu? (1=yes, 0=no)
 
 /////No further editting needed
 
-var ie4=document.all
+var ie5=document.all
 var ns6=document.getElementById&&!document.all
-
-if (ie4||ns6)
-document.write('<div id="dropmenudiv" style="visibility:hidden;width: 160px" onMouseover="clearhidemenu()" onMouseout="dynamichide(event)"></div>')
 
 function getposOffset(what, offsettype){
 var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
@@ -452,12 +451,9 @@ parentEl=parentEl.offsetParent;
 return totaloffset;
 }
 
-
-function showhide(obj, e, visible, hidden, menuwidth){
-if (ie4||ns6)
+function showhide(obj, e, visible, hidden){
+if (ie5||ns6)
 dropmenuobj.style.left=dropmenuobj.style.top=-500
-dropmenuobj.widthobj=dropmenuobj.style
-dropmenuobj.widthobj.width=menuwidth
 if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover")
 obj.visibility=visible
 else if (e.type=="click")
@@ -471,50 +467,47 @@ return (document.compatMode && document.compatMode!="BackCompat")? document.docu
 function clearbrowseredge(obj, whichedge){
 var edgeoffset=0
 if (whichedge=="rightedge"){
-var windowedge=ie4 && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-15 : window.pageXOffset+window.innerWidth-15
+var windowedge=ie5 && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-15 : window.pageXOffset+window.innerWidth-15
 dropmenuobj.contentmeasure=dropmenuobj.offsetWidth
-if (windowedge-dropmenuobj.x-obj.offsetWidth < dropmenuobj.contentmeasure)
-edgeoffset=dropmenuobj.contentmeasure+obj.offsetWidth
+if (windowedge-dropmenuobj.x < dropmenuobj.contentmeasure)
+edgeoffset=dropmenuobj.contentmeasure-obj.offsetWidth
 }
 else{
-var topedge=ie4 && !window.opera? iecompattest().scrollTop : window.pageYOffset
-var windowedge=ie4 && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18
+var topedge=ie5 && !window.opera? iecompattest().scrollTop : window.pageYOffset
+var windowedge=ie5 && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18
 dropmenuobj.contentmeasure=dropmenuobj.offsetHeight
-if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure){ //move menu up?
-edgeoffset=dropmenuobj.contentmeasure-obj.offsetHeight
-if ((dropmenuobj.y-topedge)<dropmenuobj.contentmeasure) //up no good either? (position at top of viewable window then)
-edgeoffset=dropmenuobj.y
+if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure){ //move up?
+edgeoffset=dropmenuobj.contentmeasure+obj.offsetHeight
+if ((dropmenuobj.y-topedge)<dropmenuobj.contentmeasure) //up no good either?
+edgeoffset=dropmenuobj.y+obj.offsetHeight-topedge
 }
 }
 return edgeoffset
 }
 
-function populatemenu(what){
-if (ie4||ns6)
-dropmenuobj.innerHTML=what
-}
-
-
-function dropdownmenu(obj, e, menucontents, menuwidth){
+function dropdownmenu(obj, e, dropmenuID){
 if (window.event) event.cancelBubble=true
 else if (e.stopPropagation) e.stopPropagation()
+if (typeof dropmenuobj!="undefined") //hide previous menu
+dropmenuobj.style.visibility="hidden"
 clearhidemenu()
-dropmenuobj=document.getElementById? document.getElementById("dropmenudiv") : dropmenudiv
-populatemenu(menucontents)
-
-if (ie4||ns6){
-showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth)
+if (ie5||ns6){
+obj.onmouseout=delayhidemenu
+dropmenuobj=document.getElementById(dropmenuID)
+if (hidemenu_onclick) dropmenuobj.onclick=function(){dropmenuobj.style.visibility='hidden'}
+dropmenuobj.onmouseover=clearhidemenu
+dropmenuobj.onmouseout=ie5? function(){ dynamichide(event)} : function(event){ dynamichide(event)}
+showhide(dropmenuobj.style, e, "visible", "hidden")
 dropmenuobj.x=getposOffset(obj, "left")
 dropmenuobj.y=getposOffset(obj, "top")
-dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+obj.offsetWidth+horizontaloffset+"px"
-dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+"px"
+dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px"
+dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+"px"
 }
-
 return clickreturnvalue()
 }
 
 function clickreturnvalue(){
-if (ie4||ns6) return false
+if ((ie5||ns6) && !enableanchorlink) return false
 else return true
 }
 
@@ -526,26 +519,20 @@ return false;
 }
 
 function dynamichide(e){
-if (ie4&&!dropmenuobj.contains(e.toElement))
+if (ie5&&!dropmenuobj.contains(e.toElement))
 delayhidemenu()
 else if (ns6&&e.currentTarget!= e.relatedTarget&& !contains_ns6(e.currentTarget, e.relatedTarget))
 delayhidemenu()
 }
 
-function hidemenu(e){
-if (typeof dropmenuobj!="undefined"){
-if (ie4||ns6)
-dropmenuobj.style.visibility="hidden"
-}
-}
-
 function delayhidemenu(){
-if (ie4||ns6)
-delayhide=setTimeout("hidemenu()",disappeardelay)
+delayhide=setTimeout("dropmenuobj.style.visibility='hidden'",disappeardelay)
 }
 
 function clearhidemenu(){
 if (typeof delayhide!="undefined")
 clearTimeout(delayhide)
 }
+
+
 

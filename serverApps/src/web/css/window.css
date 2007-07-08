@@ -188,7 +188,8 @@ td.toolbar {
 	border-bottom: 1px solid #000000;
 }
 
-#dropmenudiv{
+.anylinkcss{
+width: 165px;
 position: absolute;
 background-color: white;
 border:1px solid #003FAF;
@@ -198,14 +199,13 @@ z-index: 100;
 visibility: hidden;
 }
 
-#dropmenudiv a{
+.anylinkcss a{
 text-decoration: none;
 padding-left: 6px;
 color: black;
 display: block;
-
 }
 
-#dropmenudiv a:hover{ /*hover background color*/
+.anylinkcss a:hover{ /*hover background color*/
 background-color: #C9D9F5;
 }

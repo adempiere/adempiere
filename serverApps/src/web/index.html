@@ -11,11 +11,11 @@
 function resizeFrame(value){
 
 
-    if (!top.WCmd)	//	no cmd frame
-	var frame = top.myiframe.document;
-    else
-	var frame = top.document;
-    //var frame = top.document;
+    //if (!top.WCmd)	//	no cmd frame
+	//var frame = top.myiframe.document;
+    //else
+	//var frame = top.document;
+    var frame = top.document;
 
     var frameset = frame.getElementById("framesetMenuWindow");
     if (!frameset) return false;

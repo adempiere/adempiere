@@ -482,7 +482,7 @@ public class WebField
 				buttonFlyout = new a("#", "");
 				buttonFlyout.addElement(new img(WebEnv.getImageDirectory("menufly10.gif")).setBorder(0));
 				buttonFlyout.setID(m_columnName + "PV");
-				buttonFlyout.setOnMouseOver("dropdownmenu(this, event, menu1["+m_fieldNumber+"], '165px')");
+				buttonFlyout.setOnMouseOver("dropdownmenu(this, event, 'menu1["+m_fieldNumber+"]')");
 				buttonFlyout.setOnMouseOut("delayhidemenu()");		
 			}
 		}
@@ -498,12 +498,14 @@ public class WebField
 		//
 		if(m_Field != null)
 		{
-			
+			div popup = new div(menu);
+			popup.setClass("anylinkcss");
+			popup.setID("menu1["+m_fieldNumber+"]");
 			return createTD(hidden)		
 			.addElement(display)
 			.addElement(button)
 			.addElement(buttonFlyout)
-			.addElement(new script(menu));					
+			.addElement(popup);						
 			}
 		else
 		{			
@@ -618,12 +620,15 @@ public class WebField
 			buttonFlyout = new a("#", "");
 			buttonFlyout.addElement(new img(WebEnv.getImageDirectory("menufly10.gif")).setBorder(0));
 			buttonFlyout.setID(m_columnName + "PV");
-			buttonFlyout.setOnMouseOver("dropdownmenu(this, event, menu1["+m_fieldNumber+"], '165px')");
+			buttonFlyout.setOnMouseOver("dropdownmenu(this, event, 'menu1["+m_fieldNumber+"]')");
 			buttonFlyout.setOnMouseOut("delayhidemenu()");}
 			
 		}
 		//
-		return createTD(sel).addElement(buttonFlyout).addElement(new script(menu));	
+		div popup = new div(menu);
+		popup.setClass("anylinkcss");
+		popup.setID("menu1["+m_fieldNumber+"]");
+		return createTD(sel).addElement(buttonFlyout).addElement(popup);	
 	}	//	getSelectField
 
 	/**
@@ -750,11 +755,11 @@ public class WebField
 			//	Add by Rob Klein 6/6/2007
 			buttonValuePref = new a("#", (new img(WebEnv.getImageDirectory("vPreference10.gif")).setBorder(0))+"  Preference");
 			buttonValuePref.setID(m_columnName + "PV");			
-			buttonValuePref.setOnClick("startValuePref('" + m_displayType + "', '"+Util.maskHTML(m_dataDisplay.toString())+ "', '"
-					+ m_Field.getValue()+ "', '"+m_Field.getHeader()+ "', '"+m_Field.getColumnName()+ "', '"
-					+ Env.getAD_User_ID(m_wsc.ctx)+ "', '" + Env.getAD_Org_ID(m_wsc.ctx) + "', '"+Env.getAD_Client_ID(m_wsc.ctx)
-					+ "', '"+m_Field.getAD_Window_ID()+"');return false;");
-			menu = "menu1["+m_fieldNumber+"]="+buttonValuePref+";\n";	
+			buttonValuePref.setOnClick("startValuePref(" + m_displayType + ", '"+Util.maskHTML(m_dataDisplay.toString())+ "', '"
+					+ m_Field.getValue()+ "', '"+m_Field.getHeader()+ "', '"+m_Field.getColumnName()+ "', "
+					+ Env.getAD_User_ID(m_wsc.ctx)+ ", " + Env.getAD_Org_ID(m_wsc.ctx) + ", "+Env.getAD_Client_ID(m_wsc.ctx)
+					+ ", "+m_Field.getAD_Window_ID()+");return false;");
+			menu = ""+buttonValuePref+" \n";	
 			}
 			
 			//Set Zoom			
@@ -783,11 +788,11 @@ public class WebField
 			if(tableAccess==true){			
 				buttonZoom = new a("#", (new img(WebEnv.getImageDirectory("Zoom10.gif")).setBorder(0))+"  Zoom");
 				buttonZoom.setID(m_columnName + "Z");			
-				buttonZoom.setOnClick("startZoom('" + tableID + "', "+recordID+");return false;");
+				buttonZoom.setOnClick("startZoom(" + tableID + ", "+recordID+");return false;");
 				if(m_dataDisplay!=null) 
-					menu = menu + "menu1["+m_fieldNumber+"]+="+buttonZoom+";\n";
+					menu = menu + ""+buttonZoom+"\n";
 				else
-					menu = "menu1["+m_fieldNumber+"]="+buttonZoom+";\n";
+					menu = ""+buttonZoom+"\n";
 					
 			}
 		return menu;
