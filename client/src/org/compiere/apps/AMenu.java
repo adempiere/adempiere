@@ -29,7 +29,7 @@ import javax.swing.event.*;
 //
 import org.compiere.*;
 import org.compiere.apps.wf.*;
-import org.compiere.apps.graph.*;
+import org.adempiere.apps.graph.*;
 import org.compiere.db.*;
 import org.compiere.grid.tree.*;
 import org.compiere.model.*;
