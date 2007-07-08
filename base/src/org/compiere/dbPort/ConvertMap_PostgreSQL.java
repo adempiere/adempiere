@@ -31,7 +31,7 @@ public final class ConvertMap_PostgreSQL {
 		s_pg.put("\\bNCHAR\\b",                 "CHAR");
         //begin vpj-cd e-evolution 03/11/2005 PostgreSQL
 		s_pg.put("\\bBLOB\\b",                  "BYTEA");                 //  BLOB not directly supported
-		s_pg.put("\\bCLOB\\b",                  "BYTEA");                //  CLOB not directly supported
+		s_pg.put("\\bCLOB\\b",                  "TEXT");                //  CLOB not directly supported
 		s_pg.put("\\bLIMIT\\b","\"limit\""); 
 		s_pg.put("\\bACTION\\b","\"action\""); 
 		s_pg.put("\\bold\\b","\"old\""); 

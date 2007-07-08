@@ -171,7 +171,7 @@ public class PO_LOB implements Serializable
 		}
 		catch (Exception e)
 		{
-			log.log(Level.FINE, "[" + trxName + "] - " + sql, e);
+			log.log(Level.SEVERE, "[" + trxName + "] - " + sql, e);
 			success = false;
 		}
 		//	Close Statement
