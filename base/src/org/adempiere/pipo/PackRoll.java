@@ -197,6 +197,15 @@ public class PackRoll extends SvrProcess {
 												.getInt("AD_Column_ID"));
 								// log.info(columnName);
 
+								// Adjust for Column reference table
+								if (tableName.equals("AD_Ref_Table")) {
+									columnIDName = "AD_Reference_ID";
+								} else if (tableName.equals("AD_TreeNodeMM")) {
+									columnIDName = "Node_ID";
+								} else {
+									columnIDName = tableName + "_ID";
+								}
+
 								// Update columns for record
 								// TODO make process more efficient!
 								if (IsKey.equals("Y")
@@ -248,15 +257,6 @@ public class PackRoll extends SvrProcess {
 
 									int v_AD_Reference_ID = rs2
 											.getInt("AD_Reference_ID");
-									// Adjust for Column reference table
-									if (tableName.equals("AD_Ref_Table")) {
-										columnIDName = "AD_Reference_ID";
-									} else if (tableName
-											.equals("AD_TreeNodeMM")) {
-										columnIDName = "Node_ID";
-									} else {
-										columnIDName = tableName + "_ID";
-									}
 									// Update columns that are Strings adjusting
 									// for single quotes
 									if (v_AD_Reference_ID == 10
