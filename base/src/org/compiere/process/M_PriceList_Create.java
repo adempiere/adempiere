@@ -172,7 +172,7 @@ public class M_PriceList_Create extends SvrProcess {
 					+ " ORDER BY PriceList DESC";
 
 			PreparedStatement Cur_Vendors = null;
-			Cur_Duplicates = DB.prepareStatement(sql, get_TrxName());
+			Cur_Vendors = DB.prepareStatement(sql, get_TrxName());
 			ResultSet Vend = Cur_Vendors.executeQuery();
 
 			//
