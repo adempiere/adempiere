@@ -337,7 +337,9 @@ public abstract class VCreateFrom extends CDialog
 	{
 		log.config("C_BPartner_ID=" + C_BPartner_ID);
 		KeyNamePair pp = new KeyNamePair(0,"");
-
+        //
+		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
+		
 		//  load PO Orders - Closed, Completed
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
@@ -354,6 +356,7 @@ public abstract class VCreateFrom extends CDialog
 		StringBuffer sql = new StringBuffer("SELECT o.C_Order_ID,").append(display)
 			.append(" FROM C_Order o "
 			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
+			+ " AND o.M_Warehouse_ID = " + M_Warehouse_ID 
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
 				  + " LEFT OUTER JOIN M_MatchPO m ON (ol.C_OrderLine_ID=m.C_OrderLine_ID) "
