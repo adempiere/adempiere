@@ -31,6 +31,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: AcctViewerData.java,v 1.3 2006/08/10 01:00:27 jjanke Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
  */
 class AcctViewerData
 {
@@ -149,7 +151,7 @@ class AcctViewerData
 	protected void fillPostingType (JComboBox cb)
 	{
 		int AD_Reference_ID = 125;
-		ValueNamePair[] pt = MRefList.getList(AD_Reference_ID, true);
+		ValueNamePair[] pt = MRefList.getList(Env.getCtx(), AD_Reference_ID, true);
 		for (int i = 0; i < pt.length; i++)
 			cb.addItem(pt[i]);
 	}   //  fillPostingType

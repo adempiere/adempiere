@@ -27,6 +27,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MRefList.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
  */
 public class MRefList extends X_AD_Ref_List
 {
@@ -137,15 +139,24 @@ public class MRefList extends X_AD_Ref_List
 
 
 	/**
-	 * 	Get Reference List
-	 *	@param AD_Reference_ID reference
-	 *	@param optional if true add "",""
-	 *	@return List or null
+	 * Get Reference List (translated)
+	 * @param ctx context
+	 * @param AD_Reference_ID reference
+	 * @param optional if true add "",""
+	 * @return List or null
 	 */
-	public static ValueNamePair[] getList (int AD_Reference_ID, boolean optional)
+	public static ValueNamePair[] getList (Properties ctx, int AD_Reference_ID, boolean optional)
 	{
-		String sql = "SELECT Value, Name FROM AD_Ref_List "
-			+ "WHERE AD_Reference_ID=? AND IsActive='Y' ORDER BY 1";
+		String ad_language = Env.getAD_Language(ctx);
+		boolean isBaseLanguage = Env.isBaseLanguage(ad_language, "AD_Ref_List");
+		String sql = isBaseLanguage ?
+			"SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=? AND IsActive='Y' ORDER BY Name"
+			:
+			"SELECT r.Value, t.Name FROM AD_Ref_List_Trl t"
+			+ " INNER JOIN AD_Ref_List r ON (r.AD_Ref_List_ID=t.AD_Ref_List_ID)"
+			+ " WHERE r.AD_Reference_ID=? AND t.AD_Language=? AND r.IsActive='Y'"
+			+ " ORDER BY t.Name"
+		;
 		PreparedStatement pstmt = null;
 		ArrayList<ValueNamePair> list = new ArrayList<ValueNamePair>();
 		if (optional)
@@ -154,6 +165,8 @@ public class MRefList extends X_AD_Ref_List
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Reference_ID);
+			if (!isBaseLanguage)
+				pstmt.setString(2, ad_language);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new ValueNamePair(rs.getString(1), rs.getString(2)));

@@ -35,6 +35,8 @@ import org.compiere.wf.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: WFActivity.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *
+ * 	@author 	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
  */
 public class WFActivity extends CPanel 
 	implements FormPanel, ActionListener
@@ -392,13 +394,13 @@ public class WFActivity extends CPanel
 				int dt = m_column.getAD_Reference_ID();
 				if (dt == DisplayType.YesNo)
 				{
-					ValueNamePair[] values = MRefList.getList(319, false);		//	_YesNo
+					ValueNamePair[] values = MRefList.getList(Env.getCtx(), 319, false);		//	_YesNo
 					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
 				}
 				else if (dt == DisplayType.List)
 				{
-					ValueNamePair[] values = MRefList.getList(m_column.getAD_Reference_Value_ID(), false);
+					ValueNamePair[] values = MRefList.getList(Env.getCtx(), m_column.getAD_Reference_Value_ID(), false);
 					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
 				}
