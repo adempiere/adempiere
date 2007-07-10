@@ -715,6 +715,12 @@ INSERT INTO AD_FIELD
              'N', 'N', 'N', 'N', 'D'
             );
 
+-- assign window to new table
+
+UPDATE AD_TABLE
+   SET ad_window_id = 50007
+ WHERE ad_table_id = 50010;
+
 
 -- NOTE: Don't forget to run the three processes:
 -- 1 - Add missing translations
