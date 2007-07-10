@@ -206,30 +206,19 @@ public class PackRoll extends SvrProcess {
 								// Update "Updated" field with current date
 								else if (columnName.equals("Updated")) {
 									// Format Date
-									// TODO Correct to include proper time of
-									// update
-									Date today = new Date();
-									SimpleDateFormat formatter = new SimpleDateFormat(
-											"dd-MMM-yyyy");
-									String colDate = formatter.format(today);
 									sqlC = new StringBuffer("UPDATE "
 											+ tableName + " SET " + columnName
-											+ " = '" + colDate + "' WHERE "
+											+ " = SYSDATE WHERE "
 											+ columnIDName + " = " + recordID);
 
-									no = DB
-											.executeUpdate(sqlC.toString(),
-													null);
+									no = DB.executeUpdate(sqlC.toString(), null);
 									// Update uninstall field
 									sqlD = new StringBuffer(
 											"UPDATE AD_Package_Imp_Backup"
 													+ " SET Uninstall = 'Y'"
 													+ " WHERE AD_Package_Imp_Backup_ID = "
-													+ rs2
-															.getInt("AD_Package_Imp_Backup_ID"));
-									no = DB
-											.executeUpdate(sqlD.toString(),
-													null);
+													+ rs2.getInt("AD_Package_Imp_Backup_ID"));
+									no = DB.executeUpdate(sqlD.toString(), null);
 								}
 								// Update "UpdatedBy" field with current user
 								else if (columnName.equals("UpdatedBy")) {
