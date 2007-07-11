@@ -762,8 +762,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					}
 					if (t.length() > 0)
 					{
-						if (isIdentifier(t.toString()) &&
-							t.toString().indexOf('.') == -1)
+						if ("SELECT".equalsIgnoreCase(t.toString().toUpperCase())) 
+						{
+							o = 0;
+							result = result + t.toString();
+						}
+						else if (isIdentifier(t.toString()) &&
+							t.toString().indexOf('.') == -1 )
 							result = result + alias + "." + t.toString();
 						else
 							result = result + t.toString();

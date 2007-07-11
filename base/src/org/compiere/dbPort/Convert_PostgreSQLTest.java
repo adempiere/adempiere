@@ -28,6 +28,33 @@ public final class Convert_PostgreSQLTest extends TestCase{
 	
 	public Convert_PostgreSQLTest() {}
 	
+	public void test1751966() {
+		sql = "UPDATE I_ReportLine i "
+			+ "SET (Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PostingType)="
+			+ " (SELECT Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PostingType"
+			+ " FROM I_ReportLine ii WHERE i.Name=ii.Name AND i.PA_ReportLineSet_ID=ii.PA_ReportLineSet_ID"
+			+ " AND ii.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii"
+			+ " WHERE i.Name=iii.Name AND i.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID)) "
+			+ "WHERE EXISTS (SELECT *"
+			+ " FROM I_ReportLine ii WHERE i.Name=ii.Name AND i.PA_ReportLineSet_ID=ii.PA_ReportLineSet_ID"
+			+ " AND ii.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii"
+			+ " WHERE i.Name=iii.Name AND i.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID))"
+			+ " AND I_IsImported='N' AND AD_Client_ID=0";
+		sqe = "UPDATE I_ReportLine SET Description=ii.Description,SeqNo=ii.SeqNo,IsSummary=ii.IsSummary,"
+			+"IsPrinted=ii.IsPrinted,LineType=ii.LineType,CalculationType=ii.CalculationType,AmountType=ii.AmountType,"
+			+"PostingType=ii.PostingType FROM I_ReportLine ii WHERE I_ReportLine.Name=ii.Name "
+			+"AND I_ReportLine.PA_ReportLineSet_ID=ii.PA_ReportLineSet_ID "
+			+"AND ii.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii WHERE "
+			+"I_ReportLine.Name=iii.Name AND I_ReportLine.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID) "
+			+"AND EXISTS (SELECT * FROM I_ReportLine ii WHERE I_ReportLine.Name=ii.Name AND "
+			+"I_ReportLine.PA_ReportLineSet_ID=ii.PA_ReportLineSet_ID AND "
+			+"ii.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii "
+			+"WHERE I_ReportLine.Name=iii.Name AND I_ReportLine.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID)) "
+			+"AND I_ReportLine.I_IsImported='N' AND I_ReportLine.AD_Client_ID=0";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
+	
 	//[ 1707959 ] Copy from other PrintFormat doesn't work anymore
 	public void test1707959() {
 		sql = "UPDATE AD_PrintFormatItem_Trl new " +
