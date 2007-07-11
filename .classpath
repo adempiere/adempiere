@@ -6,7 +6,6 @@
 	<classpathentry kind="src" path="print/src"/>
 	<classpathentry kind="src" path="looks/src"/>
 	<classpathentry kind="src" path="install/src"/>
-	<classpathentry kind="src" path="dbPort/src"/>
 	<classpathentry kind="src" path="extend/src"/>
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
 	<classpathentry kind="src" path="serverRoot/src/main/server"/>
