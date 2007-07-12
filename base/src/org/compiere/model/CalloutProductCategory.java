@@ -55,6 +55,8 @@ public class CalloutProductCategory extends CalloutEngine
 		//	get values
 		Integer newParentCategoryId = (Integer) mTab.getValue(MProductCategory.COLUMNNAME_M_Product_Category_Parent_ID);
 		Integer productCategoryId = (Integer) mTab.getValue(MProductCategory.COLUMNNAME_M_Product_Category_ID);
+		if (productCategoryId == null)
+			productCategoryId = new Integer(0);
 
 		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
 		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
@@ -69,7 +71,7 @@ public class CalloutProductCategory extends CalloutEngine
 			}
 			rs.close();
 			stmt.close();
-			if(hasLoop(newParentCategoryId, categories, productCategoryId)) {
+			if (hasLoop(newParentCategoryId, categories, productCategoryId.intValue())) {
 				mTab.setValue(MProductCategory.COLUMNNAME_M_Product_Category_Parent_ID, oldValue);
 
 				setCalloutActive(false);
