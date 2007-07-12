@@ -69,15 +69,15 @@ public class FCHtmlEditorKit extends HTMLEditorKit {
 					return getClass().getClassLoader().
 					getResource("javax/swing/text/html/icons/image-delayed.gif");
 				} else {
-				String src = (String)elem.getAttributes().
-				getAttribute(HTML.Attribute.SRC);
-				//System.out.println("img load: " + src.substring(4));
-				URL url = getClass().getClassLoader().
-				getResource(src.substring(4));
-				if (url != null) {
-					System.out.println("load image: " + url);
-					return url;
-				}
+					String src = (String)elem.getAttributes().
+					getAttribute(HTML.Attribute.SRC);
+					//System.out.println("img load: " + src.substring(4));
+					URL url = getClass().getClassLoader().
+					getResource(src.substring(4));
+					if (url != null) {
+						// System.out.println("load image: " + url);
+						return url;
+					}
 				}
 				return null;
 			}
