@@ -2698,6 +2698,10 @@ public class GridTable extends AbstractTableModel
 						long length = lob.length();
 						rowData[j] = lob.getBytes(1, (int)length);
 					}
+					else if (value instanceof String)
+						rowData[j] = value;
+					else if (value instanceof byte[])
+						rowData[j] = value;
 				}
 				//	String
 				else
