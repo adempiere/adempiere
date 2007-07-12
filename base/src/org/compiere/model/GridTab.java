@@ -1996,7 +1996,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @param info info
 	 *  @param isError if not true, it is a Warning
 	 */
-	protected void fireDataStatusEEvent(String AD_Message, String info, boolean isError)
+	public void fireDataStatusEEvent(String AD_Message, String info, boolean isError)
 	{
 		m_mTable.fireDataStatusEEvent(AD_Message, info, isError);
 	}   //  fireDataStatusEvent
@@ -2005,7 +2005,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  Create and fire Data Status Error Event (from Error Log)
 	 *  @param errorLog log
 	 */
-	protected void fireDataStatusEEvent (ValueNamePair errorLog)
+	public void fireDataStatusEEvent (ValueNamePair errorLog)
 	{
 		if (errorLog != null)
 			m_mTable.fireDataStatusEEvent(errorLog);
