@@ -876,4 +876,61 @@ public class MAttachment extends X_AD_Attachment
 		att.delete(true);		
 	}	//	main
 
+	/**
+	 * Update existing entry
+	 * @param i
+	 * @param file
+	 * @return true if success, false otherwise
+	 */
+	public boolean updateEntry(int i, File file) 
+	{
+		if (file == null)
+		{
+			log.warning("No File");
+			return false;
+		}
+		if (!file.exists() || file.isDirectory())
+		{
+			log.warning("not added - " + file
+				+ ", Exists=" + file.exists() + ", Directory=" + file.isDirectory());
+			return false;
+		}
+		log.fine("updateEntry - " + file);
+		//
+		String name = file.getName();
+		byte[] data = null;
+		try
+		{
+			FileInputStream fis = new FileInputStream (file);
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024*8];   //  8kB
+			int length = -1;
+			while ((length = fis.read(buffer)) != -1)
+				os.write(buffer, 0, length);
+			fis.close();
+			data = os.toByteArray();
+			os.close();
+		}
+		catch (IOException ioe)
+		{
+			log.log(Level.SEVERE, "(file)", ioe);
+		}
+		return updateEntry (i, data);
+		
+	}
+	
+	/**
+	 * Update existing entry
+	 * @param i
+	 * @param data
+	 * @return true if success, false otherwise
+	 */
+	public boolean updateEntry(int i, byte[] data)
+	{
+		MAttachmentEntry entry = getEntry(i);
+		if (entry == null) return false;
+		entry.setData(data);
+		return true;
+	}
+
 }	//	MAttachment
