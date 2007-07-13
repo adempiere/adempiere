@@ -112,6 +112,7 @@ public class ProcessInfo implements Serializable
 	
 	private boolean				m_printPreview = false;
 
+	private boolean				m_reportingProcess = false;
 
 	/**
 	 *  String representation
@@ -609,13 +610,39 @@ public class ProcessInfo implements Serializable
 		m_transactionName = trxName;
 	}
 	
+	/**
+	 * Set print preview flag, only relevant if this is a reporting process
+	 * @param b
+	 */
 	public void setPrintPreview(boolean b)
 	{
 		m_printPreview = b;
 	}
 	
+	/**
+	 * Is print preview instead of direct print ? Only relevant if this is a reporting process 
+	 * @return boolean
+	 */
 	public boolean isPrintPreview()
 	{
 		return m_printPreview;
+	}
+	
+	/**
+	 * Is this a reporting process ?
+	 * @return boolean
+	 */
+	public boolean isReportingProcess() 
+	{
+		return m_reportingProcess;
+	}
+	
+	/**
+	 * Set is this a reporting process
+	 * @param f
+	 */
+	public void setReportingProcess(boolean f)
+	{
+		m_reportingProcess = f;
 	}
 }   //  ProcessInfo
