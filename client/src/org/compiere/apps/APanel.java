@@ -1654,7 +1654,7 @@ public final class APanel extends CPanel
 	 *  @param manualCmd true if invoked manually (i.e. force)
 	 *  @return true if saved
 	 */
-	private boolean cmd_save (boolean manualCmd)
+	public boolean cmd_save (boolean manualCmd)
 	{
 		if (m_curAPanelTab != null)
 			manualCmd = false;
@@ -2271,7 +2271,8 @@ public final class APanel extends CPanel
 	{
 	//	log.fine("" + pi);
 		boolean notPrint = pi != null 
-			&& pi.getAD_Process_ID() != m_curTab.getAD_Process_ID();
+			&& pi.getAD_Process_ID() != m_curTab.getAD_Process_ID()
+			&& pi.isReportingProcess() == false;
 		//
 		setBusy(false, notPrint);
 		//  Process Result
@@ -2317,7 +2318,7 @@ public final class APanel extends CPanel
 	 * 	Get Current Tab
 	 *	@return current tab
 	 */
-	protected GridTab getCurrentTab()
+	public GridTab getCurrentTab()
 	{
 		return m_curTab;
 	}	//	getCurrentTab

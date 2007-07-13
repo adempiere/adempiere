@@ -185,7 +185,7 @@ public class AReport implements ActionListener
 		if(pf != null && pf.getJasperProcess_ID() > 0)
 		{
 			// It's a report using the JasperReports engine
-			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID());
+			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID(), pf.getAD_Table_ID(), Record_ID);
 			
 			//	Execute Process
 			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);

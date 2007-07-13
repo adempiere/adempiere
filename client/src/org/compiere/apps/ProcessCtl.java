@@ -352,6 +352,11 @@ public class ProcessCtl implements Runnable
 		 */
 		if (m_pi.getClassName() != null)
 		{
+			if (JasperReport != null && JasperReport.trim().length() > 0)
+			{
+				m_pi.setReportingProcess(true);
+			}
+			
 			//	Run Class
 			if (!startProcess())
 			{
@@ -386,6 +391,8 @@ public class ProcessCtl implements Runnable
 		 */
 		if (IsReport)
 		{
+			m_pi.setReportingProcess(true);
+			
 			//	Optional Pre-Report Process
 			if (ProcedureName.length() > 0)
 			{
