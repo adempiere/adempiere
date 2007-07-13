@@ -405,6 +405,23 @@ public final class Attachment extends CDialog
 		String fileName = chooser.getSelectedFile().getName();
 		log.config(fileName);
 		File file = chooser.getSelectedFile();
+		int cnt = m_attachment.getEntryCount();
+		
+		//update
+		for (int i = 0; i < cnt; i++) 
+		{
+			if (m_attachment.getEntryName(i).equals(fileName))
+			{
+				if (m_attachment.updateEntry(i, file)) 
+				{
+					cbContent.setSelectedItem(fileName);
+					m_change = true;
+				}
+				return;
+			}
+		}
+		
+		//new
 		if (m_attachment.addEntry(file))
 		{
 			cbContent.addItem(fileName);
