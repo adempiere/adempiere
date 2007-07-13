@@ -995,14 +995,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		else if (MWFNode.ACTION_UserForm.equals(action))
 		{
 			log.fine("Form:AD_Form_ID=" + m_node.getAD_Form_ID());
-			log.warning("User Form is not implemented yet");
 			return false;
 		}
 		/******	User Window					******/
 		else if (MWFNode.ACTION_UserWindow.equals(action))
 		{
 			log.fine("Window:AD_Window_ID=" + m_node.getAD_Window_ID());
-			log.warning("User Window is not implemented yet");
 			return false;
 		}
 		//
