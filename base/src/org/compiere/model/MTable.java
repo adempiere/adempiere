@@ -530,18 +530,43 @@ public class MTable extends X_AD_Table
 	 */
 	public PO getPO (String whereClause, String trxName)
 	{
+		return getPO(whereClause, null, trxName);
+	}	//	getPO
+	
+	/**
+	 * Get PO class instance
+	 * @param whereClause
+	 * @param params
+	 * @param trxName
+	 * @return
+	 */
+	public PO getPO(String whereClause, Object[] params, String trxName)
+	{
 		if (whereClause == null || whereClause.length() == 0)
 			return null;
 		//
 		PO po = null;
-		String sql = "SELECT * FROM " + getTableName() + " WHERE " + whereClause; 
+		POInfo info = POInfo.getPOInfo(getCtx(), getAD_Table_ID());
+		if (info == null) return null;
+		StringBuffer sqlBuffer = info.buildSelect();
+		sqlBuffer.append(" WHERE ").append(whereClause);
+		String sql = sqlBuffer.toString(); 
 		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
+			if (params != null && params.length > 0) 
+			{
+				for (int i = 0; i < params.length; i++)
+				{
+					pstmt.setObject(i+1, params[i]);
+				}
+			}
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
+			{
 				po = getPO(rs, trxName);
+			}
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
@@ -561,11 +586,9 @@ public class MTable extends X_AD_Table
 		{
 			pstmt = null;
 		}
-		if (po == null)
-			return getPO(0, trxName);
+		
 		return po;
-	}	//	getPO
-	
+	}
 	
 	/**
 	 * 	Before Save

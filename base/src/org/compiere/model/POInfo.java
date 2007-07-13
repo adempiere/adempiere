@@ -624,5 +624,23 @@ public class POInfo implements Serializable
 		}
 		return null;
 	}   //  validate
+	
+	/**
+	 * Build select clause
+	 * @return stringbuffer
+	 */
+	public StringBuffer buildSelect()
+	{
+		StringBuffer sql = new StringBuffer("SELECT ");
+		int size = getColumnCount();
+		for (int i = 0; i < size; i++)
+		{
+			if (i != 0)
+				sql.append(",");
+			sql.append(getColumnSQL(i));	//	Normal and Virtual Column
+		}
+		sql.append(" FROM ").append(getTableName());
+		return sql;
+	}
 
 }   //  POInfo
