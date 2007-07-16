@@ -127,6 +127,21 @@ public class MUOM extends X_C_UOM
 		s_cache.put(new Integer(C_UOM_ID), uom);
 		return uom;
 	}	//	getUOMfromCache
+	
+	/**
+	 * Get UOM by name
+	 * @param ctx
+	 * @param name
+	 * @param trxName
+	 * @return MUOM if found, null if not found
+	 */
+	public static MUOM get(Properties ctx, String name, String trxName)
+	{
+		MTable table = MTable.get(Env.getCtx(), Table_ID);
+		MUOM uom = (MUOM)table.getPO("Name = ?", new Object[]{name}, trxName);
+		
+		return uom;
+	}
 
 	/**
 	 * 	Get Precision
