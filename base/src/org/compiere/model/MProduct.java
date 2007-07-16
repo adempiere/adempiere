@@ -710,5 +710,26 @@ public class MProduct extends X_M_Product
 			delete_Tree(X_AD_Tree.TREETYPE_Product);
 		return success;
 	}	//	afterDelete
+	
+	/**
+	 * Get attribute instance for this product by attribute name
+	 * @param name
+	 * @param trxName
+	 * @return
+	 */
+	public MAttributeInstance getAttributeInstance(String name, String trxName) {
+		MAttributeInstance instance = null;
+		
+		MTable table = MTable.get(Env.getCtx(), MAttribute.Table_ID);
+		MAttribute attribute = (MAttribute)table.getPO("Name = ?", new Object[]{name}, trxName);
+		if ( attribute == null ) return null;
+		table = MTable.get(Env.getCtx(), MAttributeInstance.Table_ID);
+		instance = (MAttributeInstance)table.getPO(
+				MAttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID + "=?" 
+				+ " and " + MAttributeInstance.COLUMNNAME_M_Attribute_ID + "=?" ,
+				new Object[]{getM_AttributeSetInstance_ID(), attribute.getM_Attribute_ID()},
+				trxName);
+		return instance;
+	}
 
 }	//	MProduct
