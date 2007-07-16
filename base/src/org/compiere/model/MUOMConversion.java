@@ -696,24 +696,31 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			return false;
 		}
 		//	Enforce Product UOM
-		if (getM_Product_ID() != 0 
-			&& (newRecord || is_ValueChanged("M_Product_ID")))
+		if (MSysConfig.getBooleanValue("ProductUOMConversionUOMValidate", true))
 		{
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			if (product.getC_UOM_ID() != getC_UOM_ID())
+			if (getM_Product_ID() != 0 
+				&& (newRecord || is_ValueChanged("M_Product_ID")))
 			{
-				MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
-				log.saveError("ProductUOMConversionUOMError", uom.getName());
-				return false;
+				MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+				if (product.getC_UOM_ID() != getC_UOM_ID())
+				{
+					MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+					log.saveError("ProductUOMConversionUOMError", uom.getName());
+					return false;
+				}
 			}
 		}
 
 		//	The Product UoM needs to be the smallest UoM - Multiplier  must be > 0
-		if (getM_Product_ID() != 0 && getDivideRate().compareTo(Env.ONE) < 0)
+		if (MSysConfig.getBooleanValue("ProductUOMConversionRateValidate", true))
 		{
-			log.saveError("ProductUOMConversionRateError", "");
-			return false;
+			if (getM_Product_ID() != 0 && getDivideRate().compareTo(Env.ONE) < 0)
+			{
+				log.saveError("ProductUOMConversionRateError", "");
+				return false;
+			}
 		}
+		
 		return true;
 	}	//	beforeSave
 	
