@@ -46,13 +46,17 @@ public class PackageCreate extends SvrProcess
 				;
 			else if (name.equals("M_Shipper_ID"))
 				p_M_Shipper_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_Invoice_ID"))
+			else if (name.equals("M_InOut_ID")) // BF [ 1754889 ] Create Package error
 				p_M_InOut_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 		}
-		if (p_M_InOut_ID == 0)
-			p_M_InOut_ID = getRecord_ID();
+
+		// Bug [ 1754889 ] Create Package error
+		// Commenting these lines because this process is called also from window "Ship/Receipt Confirm"
+		// if (p_M_InOut_ID == 0)
+			// p_M_InOut_ID = getRecord_ID();
+
 	}	//	prepare
 
 	/**
