@@ -55,6 +55,11 @@ public class MSysConfig extends X_AD_SysConfig
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MSysConfig.class);
 	
+	/**
+	 * Get system configuration property of type string
+	 * @param Name
+	 * @return String
+	 */
 	public static String getValue(String Name)
 	{
 		String str = null;
@@ -78,14 +83,20 @@ public class MSysConfig extends X_AD_SysConfig
 		return (str.trim());
 	}
 	
-	public static int getIntValue(String Name)
+	/**
+	 * Get system configuration property of type int
+	 * @param Name
+	 * @param defaultValue
+	 * @return int
+	 */
+	public static int getIntValue(String Name, int defaultValue)
 	{
 		String s = getValue(Name);
 		if (s == null)
-			return 0; 
+			return defaultValue; 
 		
 		if (s.length() == 0)
-			return 0;
+			return defaultValue;
 		//
 		try
 		{
@@ -95,14 +106,20 @@ public class MSysConfig extends X_AD_SysConfig
 		{
 			s_log.log(Level.SEVERE, "getIntValue (" + Name + ") = " + s, e);
 		}
-		return 0;
+		return defaultValue;
 	}
 	
-	public static double getDoubleValue(String Name)
+	/**
+	 * Get system configuration property of type double
+	 * @param Name
+	 * @param defaultValue
+	 * @return double
+	 */
+	public static double getDoubleValue(String Name, double defaultValue)
 	{
 		String s = getValue(Name);
-		if (s.length() == 0)
-			return 0;
+		if (s == null || s.length() == 0)
+			return defaultValue;
 		//
 		try
 		{
@@ -112,7 +129,28 @@ public class MSysConfig extends X_AD_SysConfig
 		{
 			s_log.log(Level.SEVERE, "getDoubleValue (" + Name + ") = " + s, e);
 		}
-		return 0;
+		return defaultValue;
 	}
+	
+	/**
+	 * Get system configuration property of type boolean
+	 * @param Name
+	 * @param defaultValue
+	 * @return boolean
+	 */
+	public static boolean getBooleanValue(String Name, boolean defaultValue)
+	{
+		String s = getValue(Name);
+		if (s == null || s.length() == 0)
+			return defaultValue;
+		
+		if ("Y".equalsIgnoreCase(s))
+			return true;
+		else if ("N".equalsIgnoreCase(s))
+			return false;
+		else
+			return Boolean.valueOf(s).booleanValue();
+	}
+	
 
 }	//	MSysConfig
