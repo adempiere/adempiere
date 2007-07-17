@@ -832,6 +832,12 @@ public class DataEngine
 								}
 								pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType());
 							}
+                            // fix bug [ 1755592 ] Printing time in format
+                            else if (pdc.getDisplayType() == DisplayType.DateTime)
+{
+                                Timestamp datetime = rs.getTimestamp(counter++);
+                                pde = new PrintDataElement(pdc.getColumnName(), datetime, pdc.getDisplayType());
+                            }
 							else
 							//	The general case
 							{
