@@ -621,7 +621,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 					fj = Util.findIndexOf(joinFields, ',');
 					// fieldsjoin.indexOf(',');
 
-					joinField = joinFields.substring(0, fj).trim();
+					joinField = fj > 0 ? joinFields.substring(0, fj).trim() : joinFields.trim();
 					if (joinField.indexOf('.') < 0 && isIdentifier(joinField)) {
 						joinField = joinAlias + "." + joinField;
 					}
