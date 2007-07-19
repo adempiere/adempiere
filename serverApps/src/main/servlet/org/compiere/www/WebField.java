@@ -464,10 +464,10 @@ public class WebField
 			button.setOnClick("startLocation('" + m_columnName + "');return false;");
 		else if (m_displayType == DisplayType.Account)
 			//modified by rob klein 4/29/07
-			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+");return false;");
+			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+", 1);return false;");
 		else			
 			//modified by rob klein 4/29/07
-			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+");return false;");
+			button.setOnClick("startLookup('" + m_columnName + "', "+m_processID+", 1);return false;");
 		
 		//Start Popup Menu
 		//Add by Rob Klein 6/6/2007		

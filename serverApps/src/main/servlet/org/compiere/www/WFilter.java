@@ -100,11 +100,11 @@ public final class WFilter implements javax.servlet.Filter
 		throws IOException, ServletException
 	{
 		WebSessionCtx wctx = WebSessionCtx.get((HttpServletRequest)request);
-		if (wctx == null) {
-			if (m_filterConfig != null) {
-		        String login_page = m_filterConfig.getInitParameter("LoginServlet");
+		/**if (wctx == null) {
+			if (m_filterConfig != null) {				
+		        String login_page = m_filterConfig.getInitParameter("LoginServlet");		        
 		        if (login_page != null && !"".equals(login_page)) {
-		            m_filterConfig.getServletContext().getRequestDispatcher(login_page).forward(request, response);
+		            m_filterConfig.getServletContext().getRequestDispatcher("/WLogin").forward(request, response);
 		            return;
 		        }
 			}
@@ -113,15 +113,22 @@ public final class WFilter implements javax.servlet.Filter
 			
 		String sessionID = wctx.ctx.getProperty("#AD_Session_ID");
 		if (sessionID == null) {
-			if (m_filterConfig != null) {
+			if (m_filterConfig != null) {				
 		        String login_page = m_filterConfig.getInitParameter("LoginServlet");
 		        if (login_page != null && !"".equals(login_page)) {
-		            m_filterConfig.getServletContext().getRequestDispatcher(login_page).forward(request, response);
-		            return;
+		        	RequestDispatcher rd=request.getRequestDispatcher("/WLogin");
+		        	rd.forward(request, response);		        	
+		           return;
 		        }
 			}
 			throw new ServletException("Unauthorized access, unable to forward to login page");
-		}		
+		}	**/	
+		
+		String sessionID = wctx.ctx.getProperty("#AD_Session_ID");
+		
+		if (sessionID == null) {
+			//log.info("Still no session id");
+		}
 		
 		//  Get URI
 		String uri = "";
@@ -130,16 +137,39 @@ public final class WFilter implements javax.servlet.Filter
 			HttpServletRequest req = (HttpServletRequest)request;
 			uri = req.getRequestURI();
 		}
-
+		
+		
+		boolean pass = true;
 		//  Ignore static content
 		boolean check = true;
-		if (!uri.startsWith(WebEnv.DIR_BASE)      //  not requesting /adempiere/...
+		if (sessionID == null)
+				if(uri.endsWith("index.html")
+					|| uri.endsWith("cmd.html")
+					|| uri.endsWith("menu.html")
+					|| uri.endsWith("menu.js")
+					|| uri.endsWith("window.html")
+					|| uri.endsWith("Logo.gif")
+					|| uri.endsWith("standard.js")
+					|| uri.endsWith("standard.css")					
+					|| uri.endsWith("calendar-blue.css")
+					|| uri.endsWith("table.css")
+					|| uri.endsWith("table.js")
+					|| uri.endsWith("calendar.js")
+					//|| uri.endsWith("calendar-setup.js")
+					|| uri.endsWith("calendar-en.js")
+					|| uri.endsWith("window.css")
+					|| uri.endsWith("window.js")					
+					|| uri.endsWith("WLogin"))
+					;
+				else
+					pass = false;
+		else if (!uri.startsWith(WebEnv.DIR_BASE)      //  not requesting /adempiere/...
 			|| uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".png") 
 			|| uri.endsWith(".html") || uri.endsWith(".css")
 			|| uri.endsWith(".js"))
-			check = false;
-		//
-		boolean pass = true;
+			check = false;		
+		else
+			;
 
 		// We need to check
 		StringBuffer sb = new StringBuffer ("| Parameters");
@@ -178,17 +208,19 @@ public final class WFilter implements javax.servlet.Filter
 			chain.doFilter(request, response);
 		else
 		{
-			log.warning("Rejected " + uri);
-			String msg = "Error: Access Rejected";
-			WebDoc doc = WebDoc.create (msg);
+			//log.warning("Rejected " + uri);
+			//String msg = "Error: Access Rejected";
+			//WebDoc doc = WebDoc.create (msg);
 			//	Body
-			body b = doc.getBody();
-			b.addElement(new p(uri, AlignType.CENTER));
+			//body b = doc.getBody();
+			//b.addElement(new p(uri, AlignType.CENTER));
 			//	fini
-			response.setContentType("text/html");
-			PrintWriter out = new PrintWriter (response.getOutputStream());
-			doc.output(out);
-			out.close();
+			//response.setContentType("text/html");
+			//PrintWriter out = new PrintWriter (response.getOutputStream());
+			//doc.output(out);
+			//out.close();
+			RequestDispatcher rd=request.getRequestDispatcher("/index.html");
+        	rd.forward(request, response);
 		}
 
 		//  Post
@@ -198,6 +230,7 @@ public final class WFilter implements javax.servlet.Filter
 				myTime = System.currentTimeMillis() - myTime;
 			log.info("End   " + uri + "| " + (m_timing ? String.valueOf(myTime) : null));
 		}
+		
 	}   //  doFilter
 
 

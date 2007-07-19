@@ -99,6 +99,21 @@ td {
 	background:url(/adempiere/images/Delete16.gif) no-repeat left;
 	background-color:#ffffff;
 }
+.nextpgbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Next16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+.prevpgbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Previous16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+
 .Cerror	{
 	background: #FF4A4A;
 }

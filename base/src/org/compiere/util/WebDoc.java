@@ -64,7 +64,7 @@ public class WebDoc
 	{
 		WebDoc doc = create (title);
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/window.js"));
-		doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
+		//doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/calendar.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/table.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/lang/calendar-en.js"));
@@ -74,6 +74,7 @@ public class WebDoc
 		doc.getHead().addElement(new link("/adempiere/css/calendar-blue.css", link.REL_STYLESHEET, link.TYPE_CSS));
 		doc.setClasses ("popupTable", "popupHeader");
 		doc.getTable().setCellSpacing(0);
+		
 		return doc;
 	}   //  createPopup
 
@@ -87,7 +88,7 @@ public class WebDoc
 		WebDoc doc = create (title);
 		
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/window.js"));
-		doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
+		//doc.getHead().addElement(new script((Element)null, "/adempiere/js/Calendar-setup.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/calendar.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/js/table.js"));
 		doc.getHead().addElement(new script((Element)null, "/adempiere/lang/calendar-en.js"));

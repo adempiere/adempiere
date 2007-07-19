@@ -80,6 +80,7 @@ public class WWindow extends HttpServlet
 	protected static final String FORM_NAME   = "WForm";
 		//Modified by Rob Klein 4/29/07
 
+	
 	protected static String  sectionNameOld = null;
 	
 	/**  Hidden Parameter   Command - Button    */
@@ -902,8 +903,7 @@ public class WWindow extends HttpServlet
 		table.setCellSpacing(1);
 		tr line = new tr();
 		//  First Column
-		//Modified by Rob Klein 4/29/07
-		//line.addElement(new th().addElement(" "));
+		//Modified by Rob Klein 4/29/07		
 		line.addElement(new th().addElement(" "));
 		//	Tab not displayed
 		if (!ws.curTab.isDisplayed())

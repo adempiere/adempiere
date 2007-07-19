@@ -57,6 +57,7 @@ public class WLookup extends HttpServlet
 	/** The Data List           */
 	protected volatile ArrayList<Object>   p_data = new ArrayList<Object>();
 	
+	private static final int    MAX_LINES   = 5;
 	
 	private StringBuffer HeaderSelect = null;
 	
@@ -99,11 +100,15 @@ public class WLookup extends HttpServlet
 		}
 		
 		//  Get Mandatory Parameters
-		String columnName = WebUtil.getParameter (request, "ColumnName");
-		
+		String columnName = WebUtil.getParameter (request, "ColumnName");		
 		//Lookup called from a process
 		//Modified by Rob Klein 4/29/07
-		int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");		
+		int AD_Process_ID = WebUtil.getParameterAsInt(request, "AD_Process_ID");
+		//Lookup modified to include paging
+		//Modified by Rob Klein 07/07/07
+		int page = WebUtil.getParameterAsInt(request, "page");
+		log.info("This is the page on original call"+page);
+		
 		
 		if (AD_Process_ID > 0)
 		{		
@@ -145,14 +150,38 @@ public class WLookup extends HttpServlet
 			String script = targetBase + "F.value='';" + targetBase + "D.value='';closePopup();";			
 			button.setOnClick(script);
 			//
+//			Next Page
+			String textbtn = "Next Page";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Next Page");		
+			input nextpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			int nextpage = (page+1);
+			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
+			nextpgbtn.setID(text);
+			nextpgbtn.setClass("nextpgbtn");
+			
+			//Previous Page
+			textbtn = "Prior Page";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Prior Page");		
+			input prevpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			int prevpage = (page == 1) ? 1 : page-1;
+			prevpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+prevpage+");return false;");
+			prevpgbtn.setID(text);
+			prevpgbtn.setClass("prevpgbtn");
 			
 			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false))
+				.addElement(fillTable(wsc, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false, page))				
+				.addElement(nextpgbtn)
+				.addElement(prevpgbtn)
 				.addElement(button));
-			//
+			
+			
+			
 			doc.addPopupClose(wsc.ctx);
-		//	log.trace(log.l6_Database, doc.toString());
-			WebUtil.createResponse (request, response, this, null, doc, false);			
+			
+			WebUtil.createResponse (request, response, this, null, doc, false);
+			
 		}
 		//Lookup called from a window
 		else{
@@ -184,7 +213,6 @@ public class WLookup extends HttpServlet
 			boolean hasCallout = mField.getCallout().length() > 0;
 			
 			//  Reset
-//			 Reset
 			String text = "Reset";
 			if (wsc.ctx != null)
 				text = Msg.getMsg (wsc.ctx, "Reset");		
@@ -196,14 +224,36 @@ public class WLookup extends HttpServlet
 			if (hasDependents || hasCallout)
 				script += "startUpdate(" + targetBase + "F);";
 			restbtn.setOnClick(script);
-			//
+			
+			//Next Page
+			String textbtn = "Next Page";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Next Page");		
+			input nextpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			int nextpage = (page+1);
+			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
+			nextpgbtn.setID(text);
+			nextpgbtn.setClass("nextpgbtn");
+			
+			//Previous Page
+			textbtn = "Prior Page";
+			if (wsc.ctx != null)
+				text = Msg.getMsg (wsc.ctx, "Prior Page");		
+			input prevpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			int prevpage = (page == 1) ? 1 : page-1;
+			prevpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+prevpage+");return false;");
+			prevpgbtn.setID(text);
+			prevpgbtn.setClass("prevpgbtn");
+			
 			
 			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout))
-				.addElement(restbtn));
-			//
+				.addElement(fillTable(wsc, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout, page))				
+				.addElement(nextpgbtn)
+				.addElement(prevpgbtn));
+				//.addElement(restbtn));
+
 			doc.addPopupClose(ws.ctx);
-		//	log.trace(log.l6_Database, doc.toString());
+
 			WebUtil.createResponse (request, response, this, null, doc, false);
 		}
 	}   //  doGet
@@ -234,7 +284,7 @@ public class WLookup extends HttpServlet
 	 *	@return  Table with selection
 	 */
 	private table fillTable (WebSessionCtx wsc, String columnName, int fieldRefId, 
-			String action,String targetBase, boolean addStart)
+			String action,String targetBase, boolean addStart, int page)
 	{
 		/**
 		if (mField.getColumnName().equals("C_BPartner_ID"))
@@ -263,7 +313,7 @@ public class WLookup extends HttpServlet
 		table.addElement("<tbody>");
 		
 		//  Fillout rows
-		table = fillTable_Lookup_Rows(wsc, columnName, fieldRefId, table, targetBase, true, true, true, false);		
+		table = fillTable_Lookup_Rows(wsc, columnName, fieldRefId, table, targetBase, true, true, true, false, page);		
 		
 		table.addElement("</tbody>");		
 		//  Restore				
@@ -281,7 +331,7 @@ public class WLookup extends HttpServlet
 	 */
 	private table fillTable_Lookup_Rows (WebSessionCtx wsc, String columnName, int fieldRefId,
 			table table1, String targetBase, boolean mandatory, boolean onlyValidated, boolean onlyActive,
-			boolean temporary)
+			boolean temporary, int page)
 	{		
 		ArrayList<Object> list = new ArrayList<Object>();		
 		StringBuffer sqlSelect = null;
@@ -391,12 +441,19 @@ public class WLookup extends HttpServlet
 		
 			}		
 		try
-		{		
-			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(), null);			
-			pstmt.setInt(1, Env.getAD_Client_ID(wsc.ctx));
+		{	
+			
+			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(),
+					ResultSet.TYPE_SCROLL_INSENSITIVE,	ResultSet.CONCUR_READ_ONLY, null);
+			
+			pstmt.setInt(1, Env.getAD_Client_ID(wsc.ctx));						
 			ResultSet rs = pstmt.executeQuery();
+			log.info("This is the page number "+page);
+			log.info("This is the MAX_LINES "+MAX_LINES);
+			rs.absolute(((page-1)*MAX_LINES)+1);			
 		
-			while (rs.next()){
+			for (int j= 1; j<= MAX_LINES; j++){
+				if(rs.next()){
 				StringBuffer name = new StringBuffer ("");
 				for (int i = 2; i <= size; i++)
 				{
@@ -442,6 +499,7 @@ public class WLookup extends HttpServlet
 					log.log(Level.SEVERE, sql.toString(), e);
 				}			
 			table1.addElement(line);			
+			}
 			}
 			rs.close();
 			pstmt.close();

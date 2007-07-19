@@ -12,27 +12,28 @@ var deleteText = "ConfirmDelete";
 /****************************************************************************
  *	Popup Menu variables
  */
-
+var parentopener;
 /****************************************************************************
  *	Field Update
  ***************************************************************************/
 function fieldUpdate(e)
 {
 
-	if (!top.WCmd)	//{	no cmd frame
+	if (!top.WCmd) //{		no cmd frame	
 			return;
-	//	if (!top.myiframe.WCmd){
-	//		return;
-	//	}		
-	//	else{
-	//		var d = top.myiframe.WCmd.document;
-	//		var path = "top.myiframe.";
-	//	}
+
+		//if (!top.myiframe.WCmd){
+		//	return;
+		//}		
+		//else{
+		//	var d = top.myiframe.WCmd.document;
+		//	var path = "top.myiframe.";
+		//}
 	//}
 	//else{
 		var d = top.WCmd.document;
 		var path = "top.";
-	//}
+	//}//
 
 
 	//if (!e) e = window.event;
@@ -55,16 +56,16 @@ function fieldUpdate(e)
 function createWCmd()
 {
 	
-	if (!top.WCmd)	//{	no cmd frame
-		return;
+	if (!top.WCmd)//{		no cmd frame
+			return;
 
-	//	if (!top.myiframe.WCmd){
-	//		return;
-	//	}		
-	//	else{
-	//		var d = top.myiframe.WCmd.document;
-	//		var path = "top.myiframe.";
-	//	}
+		//if (!top.myiframe.WCmd){
+		//	return;
+		//}		
+		//else{
+		//	var d = top.myiframe.WCmd.document;
+		//	var path = "top.myiframe.";
+		//}
 	//}
 	//else{
 		var d = top.WCmd.document;
@@ -202,9 +203,23 @@ function getRealValue (myValue)
  *  Open PopUp with Attachment Info
  */
 function popUp(URL,name) {
-day = new Date();
-id = day.getTime();
-eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
+	day = new Date();
+	var id = day.getTime();
+	var callWindow;
+	browser = navigator.appName
+	
+	if(browser=="Netscape" ){
+
+		if(window.parentopener){
+			callWindow = window.parentopener;	
+			window.close();
+		}
+		else{
+			callWindow = window;
+		}
+	}
+	var openwindow = eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
+	openwindow.parentopener = callWindow;
 }
 
 /****************************************************************************
@@ -212,6 +227,7 @@ eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,
  */
 function startPopup (targetCmd)
 {
+
 	var url = targetCmd;
 	return popUp(url,targetCmd);
 }   //  startPopup
@@ -227,9 +243,10 @@ function closePopup ()
 /****************************************************************************
  *	Lookup - get FormName and ColumnName and submit to WLookup
  */
-function startLookup (columnName, processid)
+function startLookup (columnName, processid, page)
 {
-	var url = "WLookup?ColumnName=" + columnName+"&AD_Process_ID="+processid;
+
+	var url = "WLookup?ColumnName=" + columnName+"&AD_Process_ID="+processid+"&page="+page	
 	return popUp(url,columnName);
 }	//	startLookup
 /****************************************************************************
@@ -274,12 +291,20 @@ function startUpdate (column)
  *	Lookup Field Updated - submit
  */
 function startLookUpdate(column, name1, value1, name2, value2)
-{	
+{		
+	browser = navigator.appName
 	
-	window.close();
-	opener.document.getElementById(name2).focus();
-	opener.document.getElementById(name1).value =value1;
-	opener.document.getElementById(name2).value =value2;	
+	if(browser=="Netscape" ){
+		var d = window.parentopener.document;
+	}
+	else{
+		var d = opener.document;
+	}
+
+	window.close();	
+	d.getElementById(name2).focus();
+	d.getElementById(name1).value =value1;
+	d.getElementById(name2).value =value2;	
 }	//	startLookUpdate
 
 
