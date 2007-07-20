@@ -39,7 +39,7 @@ public X_M_RMALine (Properties ctx, int M_RMALine_ID, String trxName)
 super (ctx, M_RMALine_ID, trxName);
 /** if (M_RMALine_ID == 0)
 {
-setM_InOutLine_ID (0);
+setLine (0);	// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_RMALine WHERE M_RMA_ID=@M_RMA_ID@
 setM_RMALine_ID (0);
 setM_RMA_ID (0);
 setProcessed (false);
@@ -56,13 +56,13 @@ public X_M_RMALine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=660 */
-public static final int Table_ID=MTable.getTable_ID("M_RMALine");
-
 /** TableName=M_RMALine */
 public static final String Table_Name="M_RMALine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RMALine");
+/** AD_Table_ID=660 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
@@ -89,6 +89,40 @@ public String toString()
 StringBuffer sb = new StringBuffer ("X_M_RMALine[").append(get_ID()).append("]");
 return sb.toString();
 }
+/** Set Amount.
+@param Amt Amount */
+public void setAmt (BigDecimal Amt)
+{
+set_Value ("Amt", Amt);
+}
+/** Get Amount.
+@return Amount */
+public BigDecimal getAmt() 
+{
+BigDecimal bd = (BigDecimal)get_Value("Amt");
+if (bd == null) return Env.ZERO;
+return bd;
+}
+/** Column name Amt */
+public static final String COLUMNNAME_Amt = "Amt";
+/** Set Charge.
+@param C_Charge_ID Additional document charges */
+public void setC_Charge_ID (int C_Charge_ID)
+{
+if (C_Charge_ID <= 0) set_Value ("C_Charge_ID", null);
+ else 
+set_Value ("C_Charge_ID", Integer.valueOf(C_Charge_ID));
+}
+/** Get Charge.
+@return Additional document charges */
+public int getC_Charge_ID() 
+{
+Integer ii = (Integer)get_Value("C_Charge_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name C_Charge_ID */
+public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 /** Set Description.
 @param Description Optional short description of the record */
 public void setDescription (String Description)
@@ -108,11 +142,44 @@ return (String)get_Value("Description");
 }
 /** Column name Description */
 public static final String COLUMNNAME_Description = "Description";
+/** Set Line No.
+@param Line Unique line for this document */
+public void setLine (int Line)
+{
+set_Value ("Line", Integer.valueOf(Line));
+}
+/** Get Line No.
+@return Unique line for this document */
+public int getLine() 
+{
+Integer ii = (Integer)get_Value("Line");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name Line */
+public static final String COLUMNNAME_Line = "Line";
+/** Set Line Amount.
+@param LineNetAmt Line Extended Amount (Quantity * Actual Price) without Freight and Charges */
+public void setLineNetAmt (BigDecimal LineNetAmt)
+{
+set_Value ("LineNetAmt", LineNetAmt);
+}
+/** Get Line Amount.
+@return Line Extended Amount (Quantity * Actual Price) without Freight and Charges */
+public BigDecimal getLineNetAmt() 
+{
+BigDecimal bd = (BigDecimal)get_Value("LineNetAmt");
+if (bd == null) return Env.ZERO;
+return bd;
+}
+/** Column name LineNetAmt */
+public static final String COLUMNNAME_LineNetAmt = "LineNetAmt";
 /** Set Shipment/Receipt Line.
 @param M_InOutLine_ID Line on Shipment or Receipt document */
 public void setM_InOutLine_ID (int M_InOutLine_ID)
 {
-if (M_InOutLine_ID < 1) throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
+if (M_InOutLine_ID <= 0) set_Value ("M_InOutLine_ID", null);
+ else 
 set_Value ("M_InOutLine_ID", Integer.valueOf(M_InOutLine_ID));
 }
 /** Get Shipment/Receipt Line.
@@ -202,4 +269,20 @@ return bd;
 }
 /** Column name Qty */
 public static final String COLUMNNAME_Qty = "Qty";
+/** Set Delivered Quantity.
+@param QtyDelivered Delivered Quantity */
+public void setQtyDelivered (BigDecimal QtyDelivered)
+{
+set_Value ("QtyDelivered", QtyDelivered);
+}
+/** Get Delivered Quantity.
+@return Delivered Quantity */
+public BigDecimal getQtyDelivered() 
+{
+BigDecimal bd = (BigDecimal)get_Value("QtyDelivered");
+if (bd == null) return Env.ZERO;
+return bd;
+}
+/** Column name QtyDelivered */
+public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
 }

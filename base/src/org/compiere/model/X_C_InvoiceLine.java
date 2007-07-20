@@ -66,13 +66,13 @@ public X_C_InvoiceLine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=333 */
-public static final int Table_ID=MTable.getTable_ID("C_InvoiceLine");
-
 /** TableName=C_InvoiceLine */
 public static final String Table_Name="C_InvoiceLine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_InvoiceLine");
+/** AD_Table_ID=333 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
@@ -500,6 +500,24 @@ return ii.intValue();
 }
 /** Column name M_Product_ID */
 public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+/** Set RMA Line.
+@param M_RMALine_ID Return Material Authorization Line */
+public void setM_RMALine_ID (int M_RMALine_ID)
+{
+if (M_RMALine_ID <= 0) set_Value ("M_RMALine_ID", null);
+ else 
+set_Value ("M_RMALine_ID", Integer.valueOf(M_RMALine_ID));
+}
+/** Get RMA Line.
+@return Return Material Authorization Line */
+public int getM_RMALine_ID() 
+{
+Integer ii = (Integer)get_Value("M_RMALine_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name M_RMALine_ID */
+public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
 /** Set Unit Price.
 @param PriceActual Actual Price  */
 public void setPriceActual (BigDecimal PriceActual)

@@ -62,13 +62,13 @@ public X_M_InOutLine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=320 */
-public static final int Table_ID=MTable.getTable_ID("M_InOutLine");
-
 /** TableName=M_InOutLine */
 public static final String Table_Name="M_InOutLine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_InOutLine");
+/** AD_Table_ID=320 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
@@ -442,6 +442,24 @@ return ii.intValue();
 }
 /** Column name M_Product_ID */
 public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+/** Set RMA Line.
+@param M_RMALine_ID Return Material Authorization Line */
+public void setM_RMALine_ID (int M_RMALine_ID)
+{
+if (M_RMALine_ID <= 0) set_Value ("M_RMALine_ID", null);
+ else 
+set_Value ("M_RMALine_ID", Integer.valueOf(M_RMALine_ID));
+}
+/** Get RMA Line.
+@return Return Material Authorization Line */
+public int getM_RMALine_ID() 
+{
+Integer ii = (Integer)get_Value("M_RMALine_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name M_RMALine_ID */
+public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
 /** Set Movement Quantity.
 @param MovementQty Quantity of a product moved. */
 public void setMovementQty (BigDecimal MovementQty)

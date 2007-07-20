@@ -556,8 +556,8 @@ public class MInOutLine extends X_M_InOutLine
 		if (newRecord || is_ValueChanged("MovementQty"))
 			setMovementQty(getMovementQty());
 		
-		//	Order Line
-		if (getC_OrderLine_ID() == 0)
+		//	Order/RMA Line
+		if (getC_OrderLine_ID() == 0 && getM_RMALine_ID() == 0)
 		{
 			if (getParent().isSOTrx())
 			{

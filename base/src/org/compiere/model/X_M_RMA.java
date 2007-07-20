@@ -43,8 +43,9 @@ setC_DocType_ID (0);
 setDocAction (null);	// CO
 setDocStatus (null);	// DR
 setDocumentNo (null);
+setInOut_ID (0);
 setIsApproved (false);
-setM_InOut_ID (0);
+setIsSOTrx (false);	// @IsSOTrx@
 setM_RMAType_ID (0);
 setM_RMA_ID (0);
 setName (null);
@@ -62,13 +63,13 @@ public X_M_RMA (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=661 */
-public static final int Table_ID=MTable.getTable_ID("M_RMA");
-
 /** TableName=M_RMA */
 public static final String Table_Name="M_RMA";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_RMA");
+/** AD_Table_ID=661 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel
@@ -207,32 +208,32 @@ public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
-/** <None> = -- */
-public static final String DOCACTION_None = "--";
-/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";
-/** Close = CL */
-public static final String DOCACTION_Close = "CL";
 /** Complete = CO */
 public static final String DOCACTION_Complete = "CO";
-/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";
-/** Post = PO */
-public static final String DOCACTION_Post = "PO";
-/** Prepare = PR */
-public static final String DOCACTION_Prepare = "PR";
-/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";
-/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";
-/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";
+/** Approve = AP */
+public static final String DOCACTION_Approve = "AP";
 /** Reject = RJ */
 public static final String DOCACTION_Reject = "RJ";
+/** Post = PO */
+public static final String DOCACTION_Post = "PO";
 /** Void = VO */
 public static final String DOCACTION_Void = "VO";
+/** Close = CL */
+public static final String DOCACTION_Close = "CL";
+/** Reverse - Correct = RC */
+public static final String DOCACTION_Reverse_Correct = "RC";
+/** Reverse - Accrual = RA */
+public static final String DOCACTION_Reverse_Accrual = "RA";
+/** Invalidate = IN */
+public static final String DOCACTION_Invalidate = "IN";
+/** Re-activate = RE */
+public static final String DOCACTION_Re_Activate = "RE";
+/** <None> = -- */
+public static final String DOCACTION_None = "--";
 /** Wait Complete = WC */
 public static final String DOCACTION_WaitComplete = "WC";
+/** Prepare = PR */
+public static final String DOCACTION_Prepare = "PR";
 /** Unlock = XL */
 public static final String DOCACTION_Unlock = "XL";
 /** Set Document Action.
@@ -240,8 +241,8 @@ public static final String DOCACTION_Unlock = "XL";
 public void setDocAction (String DocAction)
 {
 if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL"));
- else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");
+if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("WC") || DocAction.equals("PR") || DocAction.equals("XL"));
+ else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - WC - PR - XL");
 if (DocAction.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -260,28 +261,28 @@ public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
-/** Unknown = ?? */
-public static final String DOCSTATUS_Unknown = "??";
-/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";
-/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";
-/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";
-/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";
-/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";
-/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";
-/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";
-/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";
-/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";
 /** Waiting Confirmation = WC */
 public static final String DOCSTATUS_WaitingConfirmation = "WC";
+/** Drafted = DR */
+public static final String DOCSTATUS_Drafted = "DR";
+/** Completed = CO */
+public static final String DOCSTATUS_Completed = "CO";
+/** Approved = AP */
+public static final String DOCSTATUS_Approved = "AP";
+/** Not Approved = NA */
+public static final String DOCSTATUS_NotApproved = "NA";
+/** Voided = VO */
+public static final String DOCSTATUS_Voided = "VO";
+/** Invalid = IN */
+public static final String DOCSTATUS_Invalid = "IN";
+/** Reversed = RE */
+public static final String DOCSTATUS_Reversed = "RE";
+/** Closed = CL */
+public static final String DOCSTATUS_Closed = "CL";
+/** Unknown = ?? */
+public static final String DOCSTATUS_Unknown = "??";
+/** In Progress = IP */
+public static final String DOCSTATUS_InProgress = "IP";
 /** Waiting Payment = WP */
 public static final String DOCSTATUS_WaitingPayment = "WP";
 /** Set Document Status.
@@ -289,8 +290,8 @@ public static final String DOCSTATUS_WaitingPayment = "WP";
 public void setDocStatus (String DocStatus)
 {
 if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP"));
- else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");
+if (DocStatus.equals("WC") || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP"));
+ else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - WC - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP");
 if (DocStatus.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -332,6 +333,25 @@ return new KeyNamePair(get_ID(), getDocumentNo());
 }
 /** Column name DocumentNo */
 public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+/** Set Generate To.
+@param GenerateTo Generate To */
+public void setGenerateTo (String GenerateTo)
+{
+if (GenerateTo != null && GenerateTo.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+GenerateTo = GenerateTo.substring(0,0);
+}
+set_Value ("GenerateTo", GenerateTo);
+}
+/** Get Generate To.
+@return Generate To */
+public String getGenerateTo() 
+{
+return (String)get_Value("GenerateTo");
+}
+/** Column name GenerateTo */
+public static final String COLUMNNAME_GenerateTo = "GenerateTo";
 /** Set Comment/Help.
 @param Help Comment or Hint */
 public void setHelp (String Help)
@@ -351,6 +371,26 @@ return (String)get_Value("Help");
 }
 /** Column name Help */
 public static final String COLUMNNAME_Help = "Help";
+
+/** InOut_ID AD_Reference_ID=337 */
+public static final int INOUT_ID_AD_Reference_ID=337;
+/** Set Shipment/Receipt.
+@param InOut_ID Material Shipment Document */
+public void setInOut_ID (int InOut_ID)
+{
+if (InOut_ID < 1) throw new IllegalArgumentException ("InOut_ID is mandatory.");
+set_ValueNoCheck ("InOut_ID", Integer.valueOf(InOut_ID));
+}
+/** Get Shipment/Receipt.
+@return Material Shipment Document */
+public int getInOut_ID() 
+{
+Integer ii = (Integer)get_Value("InOut_ID");
+if (ii == null) return 0;
+return ii.intValue();
+}
+/** Column name InOut_ID */
+public static final String COLUMNNAME_InOut_ID = "InOut_ID";
 /** Set Approved.
 @param IsApproved Indicates if this document requires approval */
 public void setIsApproved (boolean IsApproved)
@@ -371,23 +411,26 @@ return false;
 }
 /** Column name IsApproved */
 public static final String COLUMNNAME_IsApproved = "IsApproved";
-/** Set Shipment/Receipt.
-@param M_InOut_ID Material Shipment Document */
-public void setM_InOut_ID (int M_InOut_ID)
+/** Set Sales Transaction.
+@param IsSOTrx This is a Sales Transaction */
+public void setIsSOTrx (boolean IsSOTrx)
 {
-if (M_InOut_ID < 1) throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-set_ValueNoCheck ("M_InOut_ID", Integer.valueOf(M_InOut_ID));
+set_Value ("IsSOTrx", Boolean.valueOf(IsSOTrx));
 }
-/** Get Shipment/Receipt.
-@return Material Shipment Document */
-public int getM_InOut_ID() 
+/** Get Sales Transaction.
+@return This is a Sales Transaction */
+public boolean isSOTrx() 
 {
-Integer ii = (Integer)get_Value("M_InOut_ID");
-if (ii == null) return 0;
-return ii.intValue();
+Object oo = get_Value("IsSOTrx");
+if (oo != null) 
+{
+ if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
+ return "Y".equals(oo);
 }
-/** Column name M_InOut_ID */
-public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
+return false;
+}
+/** Column name IsSOTrx */
+public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 /** Set RMA Type.
 @param M_RMAType_ID Return Material Authorization Type */
 public void setM_RMAType_ID (int M_RMAType_ID)

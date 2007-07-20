@@ -49,7 +49,45 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 
 	/**  Loaded Invoice             */
 	private MInvoice		m_invoice = null;
+    /**  Loaded RMA             */
+    private MRMA            m_rma = null;
 
+    /**
+     *  Load Order/Invoice/RMA data into Table
+     *  @param data data
+     */
+    protected void loadTableOIS (Vector data)
+    {
+        //  Header Info
+        Vector<String> columnNames = new Vector<String>(7);
+        columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+        columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));
+        columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+        columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
+        columnNames.add(Msg.getElement(Env.getCtx(), "VendorProductNo", false));
+        columnNames.add(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
+        columnNames.add(Msg.getElement(Env.getCtx(), "M_RMA_ID", false));
+        columnNames.add(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
+
+        //  Remove previous listeners
+        dataTable.getModel().removeTableModelListener(this);
+        //  Set Model
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        model.addTableModelListener(this);
+        dataTable.setModel(model);
+        //
+        dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
+        dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
+        dataTable.setColumnClass(2, String.class, true);        //  2-UOM
+        dataTable.setColumnClass(3, String.class, true);        //  3-Product
+        dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
+        dataTable.setColumnClass(5, String.class, true);        //  5-Order
+        dataTable.setColumnClass(6, String.class, true);        //  6-RMA
+        dataTable.setColumnClass(7, String.class, true);        //  7-Invoice
+        //  Table UI
+        dataTable.autoSize();
+    }   //  loadOrder
+    
 	/**
 	 *  Dynamic Init
 	 *  @throws Exception if Lookups cannot be initialized
@@ -75,55 +113,119 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	}   //  dynInit
 
 	/**
-	 *  Init Details - load invoices not shipped
+	 *  Init Details - load invoices not shipped and RMA candidates for Shipment
 	 *  @param C_BPartner_ID BPartner
 	 */
 	protected void initBPDetails(int C_BPartner_ID)
 	{
 		log.config("C_BPartner_ID=" + C_BPartner_ID);
 
-		//  load AP Invoice closed or complete
-		invoiceField.removeActionListener(this);
-		invoiceField.removeAllItems();
-		//	None
-		KeyNamePair pp = new KeyNamePair(0,"");
-		invoiceField.addItem(pp);
-		StringBuffer display = new StringBuffer("i.DocumentNo||' - '||")
-			.append(DB.TO_CHAR("DateInvoiced", DisplayType.Date, Env.getAD_Language(Env.getCtx())))
-			.append("|| ' - ' ||")
-			.append(DB.TO_CHAR("GrandTotal", DisplayType.Amount, Env.getAD_Language(Env.getCtx())));
-		//
-		StringBuffer sql = new StringBuffer("SELECT i.C_Invoice_ID,").append(display)
-		   .append(" FROM C_Invoice i "
-		   + "WHERE i.C_BPartner_ID=? AND i.IsSOTrx='N' AND i.DocStatus IN ('CL','CO')"
-		   + " AND i.C_Invoice_ID IN "
-			   + "(SELECT il.C_Invoice_ID FROM C_InvoiceLine il"
-			   + " LEFT OUTER JOIN M_MatchInv mi ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) "
-			   + "GROUP BY il.C_Invoice_ID,mi.C_InvoiceLine_ID,il.QtyInvoiced "
-			   + "HAVING (il.QtyInvoiced<>SUM(mi.Qty) AND mi.C_InvoiceLine_ID IS NOT NULL)"
-			   + " OR mi.C_InvoiceLine_ID IS NULL) "
-		   + "ORDER BY i.DateInvoiced");
-
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				invoiceField.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		invoiceField.setSelectedIndex(0);
-		invoiceField.addActionListener(this);
+		initBPInvoiceDetails(C_BPartner_ID);
+        initBPRMADetails(C_BPartner_ID);
 	}   //  initBPDetails
+    
+    /**
+     * Init Details - load invoices not shipped
+     * @param C_BPartner_ID BPartner
+     */
+    private void initBPInvoiceDetails(int C_BPartner_ID)
+    {
+//      load AP Invoice closed or complete
+        invoiceField.removeActionListener(this);
+        invoiceField.removeAllItems();
+        //  None
+        KeyNamePair pp = new KeyNamePair(0,"");
+        invoiceField.addItem(pp);
+        StringBuffer display = new StringBuffer("i.DocumentNo||' - '||")
+            .append(DB.TO_CHAR("DateInvoiced", DisplayType.Date, Env.getAD_Language(Env.getCtx())))
+            .append("|| ' - ' ||")
+            .append(DB.TO_CHAR("GrandTotal", DisplayType.Amount, Env.getAD_Language(Env.getCtx())));
+        //
+        StringBuffer sql = new StringBuffer("SELECT i.C_Invoice_ID,").append(display)
+           .append(" FROM C_Invoice i "
+           + "WHERE i.C_BPartner_ID=? AND i.IsSOTrx='N' AND i.DocStatus IN ('CL','CO')"
+           + " AND i.C_Invoice_ID IN "
+               + "(SELECT il.C_Invoice_ID FROM C_InvoiceLine il"
+               + " LEFT OUTER JOIN M_MatchInv mi ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) "
+               + "GROUP BY il.C_Invoice_ID,mi.C_InvoiceLine_ID,il.QtyInvoiced "
+               + "HAVING (il.QtyInvoiced<>SUM(mi.Qty) AND mi.C_InvoiceLine_ID IS NOT NULL)"
+               + " OR mi.C_InvoiceLine_ID IS NULL) "
+           + "ORDER BY i.DateInvoiced");
+
+        try
+        {
+            PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+            pstmt.setInt(1, C_BPartner_ID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+                invoiceField.addItem(pp);
+            }
+            rs.close();
+            pstmt.close();
+        }
+        catch (SQLException e)
+        {
+            log.log(Level.SEVERE, sql.toString(), e);
+        }
+        invoiceField.setSelectedIndex(0);
+        invoiceField.addActionListener(this);
+    }
+    
+    /**
+     * Load RMA that are candidates for shipment
+     * @param C_BPartner_ID BPartner
+     */
+    private void initBPRMADetails(int C_BPartner_ID)
+    {
+        rmaField.removeActionListener(this);
+        rmaField.removeAllItems();
+        //  None
+        KeyNamePair pp = new KeyNamePair(0,"");
+        rmaField.addItem(pp);
+        
+        String sqlStmt = "SELECT r.M_RMA_ID, r.DocumentNo || '-' || r.Amt from M_RMA r "
+                       + "WHERE ISSOTRX='Y' AND r.DocStatus in ('CO', 'CL') " 
+                       + "AND r.C_BPartner_ID=? "
+                       + "AND r.M_RMA_ID in (SELECT rl.M_RMA_ID FROM M_RMALine rl "
+                       + "WHERE rl.M_RMA_ID=r.M_RMA_ID AND rl.QtyDelivered < rl.Qty " 
+                       + "AND rl.M_InOutLine_ID IS NOT NULL)";
+        
+        PreparedStatement pstmt = null;
+        try
+        {
+            pstmt = DB.prepareStatement(sqlStmt, null);
+            pstmt.setInt(1, C_BPartner_ID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+                rmaField.addItem(pp);
+            }
+            rs.close();
+        }
+        catch (SQLException e)
+        {
+            log.log(Level.SEVERE, sqlStmt.toString(), e);
+        }
+        finally
+        {
+            if (pstmt != null)
+            {
+                try
+                {
+                    pstmt.close();
+                }
+                catch (Exception ex)
+                {
+                    log.severe("Could not close prepared statement");
+                }
+            }
+        }
+        rmaField.setSelectedIndex(0);
+        rmaField.addActionListener(this);
+    }
 
 
 	/**
@@ -147,6 +249,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				//  set Invoice and Shipment to Null
 				invoiceField.setSelectedIndex(-1);
 				shipmentField.setSelectedIndex(-1);
+                rmaField.setSelectedIndex(-1);
 				loadOrder(C_Order_ID, false);
 				m_invoice = null;
 			}
@@ -163,9 +266,26 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				//  set Order and Shipment to Null
 				orderField.setSelectedIndex(-1);
 				shipmentField.setSelectedIndex(-1);
+                rmaField.setSelectedIndex(-1);
 				loadInvoice(C_Invoice_ID);
 			}
 		}
+		// RMA
+        else if (e.getSource().equals(rmaField))
+        {
+            KeyNamePair pp = (KeyNamePair)rmaField.getSelectedItem();
+            if (pp == null || pp.getKey() == 0)
+                ;
+            else
+            {
+                int M_RMA_ID = pp.getKey();
+                //  set Order and Shipment to Null
+                orderField.setSelectedIndex(-1);
+                shipmentField.setSelectedIndex(-1);
+                invoiceField.setSelectedIndex(-1);
+                loadRMA(M_RMA_ID);
+            }
+        }
 	}   //  actionPerformed
 
 
@@ -195,6 +315,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		log.config("C_Invoice_ID=" + C_Invoice_ID);
 		m_invoice = new MInvoice(Env.getCtx(), C_Invoice_ID, null); // save
 		p_order = null;
+        m_rma = null;
 
 		Vector<Vector> data = new Vector<Vector>();
 		StringBuffer sql = new StringBuffer("SELECT " // Entered UOM
@@ -253,6 +374,99 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		}
 		loadTableOIS(data);
 	} // loadInvoice
+    
+    /**
+     * Load RMA details
+     * @param M_RMA_ID RMA
+     */
+    private void loadRMA(int M_RMA_ID)
+    {
+        m_invoice = null;
+        p_order = null;
+        
+        m_rma = new MRMA(Env.getCtx(), M_RMA_ID, null);
+        
+        Vector<Vector> data = new Vector<Vector>();
+        StringBuffer sqlStmt = new StringBuffer();
+        sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
+        sqlStmt.append("FROM M_RMALine rl INNER JOIN M_InOutLine iol ON rl.M_InOutLine_ID=iol.M_InOutLine_ID ");
+        
+        if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
+        {
+            sqlStmt.append("LEFT OUTER JOIN C_UOM uom ON (uom.C_UOM_ID=iol.C_UOM_ID) ");
+        }
+        else
+        {
+            sqlStmt.append("LEFT OUTER JOIN C_UOM_Trl uom ON (uom.C_UOM_ID=iol.C_UOM_ID AND uom.AD_Language='");
+            sqlStmt.append(Env.getAD_Language(Env.getCtx())).append("') ");
+        }
+        sqlStmt.append("LEFT OUTER JOIN M_Product p ON p.M_Product_ID=iol.M_Product_ID ");
+        sqlStmt.append("WHERE rl.M_RMA_ID=? ");
+        sqlStmt.append("AND rl.M_INOUTLINE_ID IS NOT NULL");
+        
+        sqlStmt.append(" UNION ");
+        
+        sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, 0, c.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
+        sqlStmt.append("FROM M_RMALine rl INNER JOIN C_Charge c ON c.C_Charge_ID = rl.C_Charge_ID ");
+        if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
+        {
+            sqlStmt.append("LEFT OUTER JOIN C_UOM uom ON (uom.C_UOM_ID=100) ");
+        }
+        else
+        {
+            sqlStmt.append("LEFT OUTER JOIN C_UOM_Trl uom ON (uom.C_UOM_ID=100 AND uom.AD_Language='");
+            sqlStmt.append(Env.getAD_Language(Env.getCtx())).append("') ");
+        }
+        sqlStmt.append("WHERE rl.M_RMA_ID=? ");
+        sqlStmt.append("AND rl.C_Charge_ID IS NOT NULL");
+        
+        PreparedStatement pstmt = null;
+        
+        try
+        {
+            pstmt = DB.prepareStatement(sqlStmt.toString(), null);
+            pstmt.setInt(1, M_RMA_ID);
+            pstmt.setInt(2, M_RMA_ID);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next())
+            {
+                Vector<Object> line = new Vector<Object>(7);
+                line.add(new Boolean(false));   // 0-Selection
+                line.add(rs.getBigDecimal(3).doubleValue());  // 1-Qty
+                KeyNamePair pp = new KeyNamePair(rs.getInt(6), rs.getString(7));
+                line.add(pp); // 2-UOM
+                pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
+                line.add(pp); // 3-Product
+                line.add(null); //4-Vendor Product No
+                line.add(null); //5-Order
+                pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+                line.add(pp);   //6-RMA
+                line.add(null); //7-invoice
+                data.add(line);
+            }
+            rs.close();
+        }
+        catch (Exception ex)
+        {
+            log.log(Level.SEVERE, sqlStmt.toString(), ex);
+        }
+        finally
+        {
+            if (pstmt != null)
+            {
+                try
+                {
+                    pstmt.close();
+                }
+                catch (Exception ex)
+                {
+                    log.severe("Could not close prepared statement");
+                }
+            }
+        }
+        loadTableOIS(data);
+    }
 
 	/**
 	 * List number of rows selected
@@ -297,7 +511,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				// variable values
 				Double d = (Double) model.getValueAt(i, 1); // 1-Qty
 				BigDecimal QtyEntered = new BigDecimal(d.doubleValue());
-				KeyNamePair pp = (KeyNamePair) model.getValueAt(i, 2); // 2-Product
+				KeyNamePair pp = (KeyNamePair) model.getValueAt(i, 2); // 2-UOM
 				int C_UOM_ID = pp.getKey();
 				pp = (KeyNamePair) model.getValueAt(i, 3); // 3-Product
 				int M_Product_ID = pp.getKey();
@@ -305,6 +519,10 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				pp = (KeyNamePair) model.getValueAt(i, 5); // 5-OrderLine
 				if (pp != null)
 					C_OrderLine_ID = pp.getKey();
+                int M_RMALine_ID = 0;
+                pp = (KeyNamePair) model.getValueAt(i, 6); // 6-RMA
+                if (pp != null)
+                    M_RMALine_ID = pp.getKey();
 				int C_InvoiceLine_ID = 0;
 				MInvoiceLine il = null;
 				pp = (KeyNamePair) model.getValueAt(i, 7); // 7-InvoiceLine
@@ -336,6 +554,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				iol.setQty(QtyEntered);							//	Movement/Entered
 				//
 				MOrderLine ol = null;
+				MRMALine rmal = null;
 				if (C_OrderLine_ID != 0)
 				{
 					iol.setC_OrderLine_ID(C_OrderLine_ID);
@@ -380,6 +599,22 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 					iol.setUser1_ID(il.getUser1_ID());
 					iol.setUser2_ID(il.getUser2_ID());
 				}
+                else if (M_RMALine_ID != 0)
+                {
+                    rmal = new MRMALine(Env.getCtx(), M_RMALine_ID, null);
+                    iol.setM_RMALine_ID(M_RMALine_ID);
+                    iol.setQtyEntered(QtyEntered);
+                    iol.setDescription(rmal.getDescription());
+                    iol.setM_AttributeSetInstance_ID(rmal.getM_AttributeSetInstance_ID());
+                    iol.setC_Project_ID(rmal.getC_Project_ID());
+                    iol.setC_ProjectPhase_ID(rmal.getC_ProjectPhase_ID());
+                    iol.setC_ProjectTask_ID(rmal.getC_ProjectTask_ID());
+                    iol.setC_Activity_ID(rmal.getC_Activity_ID());
+                    iol.setAD_OrgTrx_ID(rmal.getAD_OrgTrx_ID());
+                    iol.setUser1_ID(rmal.getUser1_ID());
+                    iol.setUser2_ID(rmal.getUser2_ID());
+                }
+                
 				//	Charge
 				if (M_Product_ID == 0)
 				{
@@ -387,6 +622,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 						iol.setC_Charge_ID(ol.getC_Charge_ID());
 					else if (il != null && il.getC_Charge_ID() != 0)	//	from invoice
 						iol.setC_Charge_ID(il.getC_Charge_ID());
+					else if (rmal != null && rmal.getC_Charge_ID() != 0) // from rma
+					    iol.setC_Charge_ID(rmal.getC_Charge_ID());
 				}
 				//
 				iol.setM_Locator_ID(M_Locator_ID);
@@ -403,7 +640,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 
 		/**
 		 *  Update Header
-		 *  - if linked to another order/invoice - remove link
+		 *  - if linked to another order/invoice/rma - remove link
 		 *  - if no link set it
 		 */
 		if (p_order != null && p_order.getC_Order_ID() != 0)
@@ -428,6 +665,20 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			inout.setUser1_ID(m_invoice.getUser1_ID());
 			inout.setUser2_ID(m_invoice.getUser2_ID());
 		}
+        if (m_rma != null && m_rma.getM_RMA_ID() != 0)
+        {
+            MInOut originalIO = m_rma.getShipment();
+            inout.setIsSOTrx(!m_rma.isSOTrx());
+            inout.setC_Order_ID(0);
+            inout.setC_Invoice_ID(0);
+            inout.setM_RMA_ID(m_rma.getM_RMA_ID());
+            inout.setAD_OrgTrx_ID(originalIO.getAD_OrgTrx_ID());
+            inout.setC_Project_ID(originalIO.getC_Project_ID());
+            inout.setC_Campaign_ID(originalIO.getC_Campaign_ID());
+            inout.setC_Activity_ID(originalIO.getC_Activity_ID());
+            inout.setUser1_ID(originalIO.getUser1_ID());
+            inout.setUser2_ID(originalIO.getUser2_ID());
+        }
 		inout.save();
 		return true;
 	}   //  save

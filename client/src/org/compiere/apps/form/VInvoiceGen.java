@@ -101,6 +101,9 @@ public class VInvoiceGen extends CPanel
 	private MiniTable miniTable = new MiniTable();
 	private ArrayList<Integer> selections = null;
 	
+	private CLabel     lDocType = new CLabel();
+    private VComboBox  cmbDocType = new VComboBox();
+	
 	/**
 	 *	Static Init.
 	 *  <pre>
@@ -143,6 +146,10 @@ public class VInvoiceGen extends CPanel
 		info.setEditable(false);
 		genPanel.add(confirmPanelGen, BorderLayout.SOUTH);
 		confirmPanelGen.addActionListener(this);
+		
+		lDocType.setLabelFor(cmbDocType);
+        selNorthPanel.add(lDocType, null);
+        selNorthPanel.add(cmbDocType, null);
 	}	//	jbInit
 
 	/**
@@ -161,6 +168,12 @@ public class VInvoiceGen extends CPanel
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
 	//	lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		fBPartner.addVetoableChangeListener(this);
+		
+		//Document Type Sales Order/Vendor RMA
+        lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+        cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
+        cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
+        cmbDocType.addActionListener(this);
 	}	//	fillPicks
 
 	/**
@@ -198,6 +211,76 @@ public class VInvoiceGen extends CPanel
 		//	Tabbed Pane Listener
 		tabbedPane.addChangeListener(this);
 	}	//	dynInit
+	
+	private String getOrderSQL()
+	{
+	    StringBuffer sql = new StringBuffer(
+	            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
+	            + "FROM C_Invoice_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+	            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+	            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+	            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+	            + " AND ic.AD_Client_ID=?");
+
+        if (m_AD_Org_ID != null)
+            sql.append(" AND ic.AD_Org_ID=").append(m_AD_Org_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
+        
+        // bug - [ 1713337 ] "Generate Invoices (manual)" show locked records.
+        /* begin - Exclude locked records; @Trifon */
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            if (sql.length() > 0)
+                sql.append(" AND ");
+            sql.append("C_Order_ID").append(lockedIDs);
+        }
+        /* eng - Exclude locked records; @Trifon */
+
+        //
+        sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
+        
+        return sql.toString();
+	}
+	
+	private String getRMASql()
+	{
+	    StringBuffer sql = new StringBuffer();
+	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
+        sql.append("FROM M_RMA rma INNER JOIN AD_Org org ON rma.AD_Org_ID=org.AD_Org_ID ");
+        sql.append("INNER JOIN C_DocType dt ON rma.C_DocType_ID=dt.C_DocType_ID ");
+        sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
+        sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
+        sql.append("WHERE rma.DocStatus='CO' ");
+        sql.append("AND dt.DocBaseType = 'POO' ");
+        sql.append("AND NOT EXISTS (SELECT * FROM C_Invoice i ");
+        sql.append("WHERE i.M_RMA_ID=rma.M_RMA_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
+        sql.append("AND EXISTS (SELECT * FROM C_InvoiceLine il INNER JOIN M_InOutLine iol ");
+        sql.append("ON il.M_InOutLine_ID=iol.M_InOutLine_ID INNER JOIN C_Invoice i ");
+        sql.append("ON i.C_Invoice_ID=il.C_Invoice_ID WHERE i.DocStatus IN ('CO', 'CL') ");
+        sql.append("AND iol.M_InOutLine_ID IN ");
+        sql.append("(SELECT M_InOutLine_ID FROM M_RMALine rl WHERE rl.M_RMA_ID=rma.M_RMA_ID ");
+        sql.append("AND rl.M_InOutLine_ID IS NOT NULL)) ");
+        sql.append("AND rma.AD_Client_ID=?");
+        
+        if (m_AD_Org_ID != null)
+            sql.append(" AND rma.AD_Org_ID=").append(m_AD_Org_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND bp.C_BPartner_ID=").append(m_C_BPartner_ID);
+        
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MRMA.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            sql.append(" AND rma.M_RMA_ID").append(lockedIDs);
+        }
+        
+        sql.append(" ORDER BY org.Name, bp.Name, rma.Created ");
+        
+        return sql.toString();
+	}
 
 	/**
 	 *  Query Info
@@ -207,34 +290,19 @@ public class VInvoiceGen extends CPanel
 		log.info("");
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		//  Create SQL
-		StringBuffer sql = new StringBuffer(
-			"SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-			+ "FROM C_Invoice_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-			+ "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-			+ " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-			+ " AND ic.C_DocType_ID=dt.C_DocType_ID"
-			+ " AND ic.AD_Client_ID=?");
-
-		if (m_AD_Org_ID != null)
-			sql.append(" AND ic.AD_Org_ID=").append(m_AD_Org_ID);
-		if (m_C_BPartner_ID != null)
-			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
 		
-		// bug - [ 1713337 ] "Generate Invoices (manual)" show locked records.
-		/* begin - Exclude locked records; @Trifon */
-		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
-		if (lockedIDs != null)
-		{
-			if (sql.length() > 0)
-				sql.append(" AND ");
-			sql.append("C_Order_ID").append(lockedIDs);
-		}
-		/* eng - Exclude locked records; @Trifon */
-
-		//
-		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
-	//	log.fine( "VInvoiceGen.executeQuery - AD_Client_ID=" + AD_Client_ID, sql.toString());
+		String sql = "";
+        
+        KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+        
+        if (docTypeKNPair.getKey() == MOrder.Table_ID)
+        {
+            sql = getOrderSQL();
+        }
+        else
+        {
+            sql = getRMASql();
+        }
 
 		//  reset table
 		int row = 0;
@@ -296,6 +364,11 @@ public class VInvoiceGen extends CPanel
 			dispose();
 			return;
 		}
+		if (cmbDocType.equals(e.getSource()))
+        {
+            executeQuery();
+            return;
+        }
 		//
 		saveSelection();
 		if (selections != null && selections.size() > 0 && m_selectionActive)
@@ -392,7 +465,17 @@ public class VInvoiceGen extends CPanel
 		statusBar.setStatusDB(String.valueOf(selections.size()));
 
 		//	Prepare Process
-		int AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
+		int AD_Process_ID = 0;
+		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+        
+        if (docTypeKNPair.getKey() == MRMA.Table_ID)
+        {
+            AD_Process_ID = 52002; // C_Invoice_GenerateRMA - org.adempiere.process.InvoiceGenerateRMA
+        }
+        else
+        {
+            AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
+        }
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())
 		{

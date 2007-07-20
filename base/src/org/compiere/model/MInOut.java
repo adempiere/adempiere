@@ -30,6 +30,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MInOut.java,v 1.4 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  Modifications: Added the RMA functionality (Ashley Ramdass)
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -189,6 +191,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		//[ 1633721 ] Reverse Documents- Processing=Y
 		to.setProcessing(false);
 		to.setC_Order_ID(0);	//	Overwritten by setOrder
+		to.setM_RMA_ID(0);      //  Overwritten by setOrder
 		if (counter)
 		{
 			to.setC_Order_ID(0);
@@ -211,7 +214,10 @@ public class MInOut extends X_M_InOut implements DocAction
 		{
 			to.setRef_InOut_ID(0);
 			if (setOrder)
+			{
 				to.setC_Order_ID(from.getC_Order_ID());
+				to.setM_RMA_ID(from.getM_RMA_ID()); // Copy also RMA
+			}
 		}
 		//
 		if (!to.save(trxName))
@@ -663,7 +669,10 @@ public class MInOut extends X_M_InOut implements DocAction
 			line.set_ValueNoCheck ("M_InOutLine_ID", I_ZERO);	//	new
 			//	Reset
 			if (!setOrder)
+			{
 				line.setC_OrderLine_ID(0);
+				line.setM_RMALine_ID(0);  // Reset RMA Line
+			}
 			if (!counter)
 				line.setM_AttributeSetInstance_ID(0);
 		//	line.setS_ResourceAssignment_ID(0);
@@ -923,12 +932,30 @@ public class MInOut extends X_M_InOut implements DocAction
 				return false;
 			}
 		}
-		//	Shipment - Needs Order
-		if (isSOTrx() && getC_Order_ID() == 0)
+        
+        // Shipment/Receipt can have either Order/RMA (For Movement type)
+        if (getC_Order_ID() != 0 && getM_RMA_ID() != 0)
+        {
+            log.saveError("OrderOrRMA", "");
+            return false;
+        }
+        
+		//	Shipment - Needs Order/RMA
+		if (isSOTrx() && getC_Order_ID() == 0 && getM_RMA_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.translate(getCtx(), "C_Order_ID"));
 			return false;
 		}
+        
+        if (!isSOTrx() && getM_RMA_ID() != 0)
+        {
+            // Set Document and Movement type for this Receipt
+            MRMA rma = new MRMA(getCtx(), getM_RMA_ID(), get_TrxName());
+            MDocType docType = MDocType.get(getCtx(), rma.getC_DocType_ID());
+            setC_DocType_ID(docType.getC_DocTypeShipment_ID());
+            setMovementType(MOVEMENTTYPE_CustomerReturns);
+        }
+        
 		return true;
 	}	//	beforeSave
 	
@@ -1009,6 +1036,12 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
+		//  Order OR RMA can be processed on a shipment/receipt
+		if (getC_Order_ID() != 0 && getM_RMA_ID() != 0)
+		{
+		    m_processMsg = "@OrderOrRMA@";
+		    return DocAction.STATUS_Invalid;
+		}
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
 		{
@@ -1193,6 +1226,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				else
 					QtyPO = sLine.getMovementQty();
 			}
+            
+                       
+            // Load RMA Line
+            MRMALine rmaLine = null;
+            
+            if (sLine.getM_RMALine_ID() != 0)
+            {
+                rmaLine = new MRMALine(getCtx(), sLine.getM_RMALine_ID(), get_TrxName());
+            }
 			
 			log.info("Line=" + sLine.getLine() + " - Qty=" + sLine.getMovementQty());
 
@@ -1301,6 +1343,23 @@ public class MInOut extends X_M_InOut implements DocAction
 					log.fine("OrderLine -> Reserved=" + oLine.getQtyReserved() 
 						+ ", Delivered=" + oLine.getQtyReserved());
 			}
+            //  Update RMA Line Qty Delivered
+            else if (rmaLine != null)
+            {
+                if (isSOTrx())
+                {
+                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().subtract(Qty));
+                }
+                else
+                {
+                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().add(Qty));
+                }
+                if (!rmaLine.save())
+                {
+                    m_processMsg = "Could not update RMA Line";
+                    return DocAction.STATUS_Invalid;
+                }
+            }
 
 			//	Create Asset for SO
 			if (product != null 
@@ -1799,6 +1858,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			}
 		}
 		reversal.setC_Order_ID(getC_Order_ID());
+		// Set M_RMA_ID
+		reversal.setM_RMA_ID(getM_RMA_ID());
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//
 		if (!reversal.processIt(DocAction.ACTION_Complete)

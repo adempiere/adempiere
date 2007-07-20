@@ -58,6 +58,9 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			ADialog.error(0, this, "SaveErrorRowNotFound");
 			return false;
 		}
+        // Do not display RMA selection
+        rmaLabel.setVisible(false);
+        rmaField.setVisible(false);
 
 		setTitle(Msg.translate(Env.getCtx(), "C_BankStatement_ID") + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
 		parameterStdPanel.setVisible(false);

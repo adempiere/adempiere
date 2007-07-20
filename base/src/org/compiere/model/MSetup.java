@@ -734,7 +734,7 @@ public final class MSetup
 		
 		createDocType("AP Invoice", Msg.getElement(m_ctx, "C_Invoice_ID", false), 
 			MDocType.DOCBASETYPE_APInvoice, null, 0, 0, 0, GL_API);
-		createDocType("AP CreditMemo", Msg.getMsg(m_ctx, "CreditMemo"), 
+		int DT_IPC = createDocType("AP CreditMemo", Msg.getMsg(m_ctx, "CreditMemo"), 
 			MDocType.DOCBASETYPE_APCreditMemo, null, 0, 0, 0, GL_API);
 		createDocType("Match Invoice", Msg.getElement(m_ctx, "M_MatchInv_ID", false), 
 			MDocType.DOCBASETYPE_MatchInvoice, null, 0, 0, 390000, GL_API);
@@ -750,6 +750,8 @@ public final class MSetup
 			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 500000, GL_MM);
 		int DT_SI = createDocType("MM Shipment Indirect", "Delivery Note", 
 			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 550000, GL_MM);
+		int DT_VRM = createDocType("MM Vendor Return", "Vendor Returns", 
+	            MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 590000, GL_MM);
 		
 		createDocType("MM Receipt", "Vendor Delivery", 
 			MDocType.DOCBASETYPE_MaterialReceipt, null, 0, 0, 0, GL_MM);
@@ -762,7 +764,10 @@ public final class MSetup
 			MDocType.DOCBASETYPE_MatchPO, null, 0, 0, 890000, GL_None);
 		createDocType("Purchase Requisition", Msg.getElement(m_ctx, "M_Requisition_ID", false), 
 			MDocType.DOCBASETYPE_PurchaseRequisition, null, 0, 0, 900000, GL_None);
-
+		createDocType("Vendor Return Material", "Vendor Return Material Authorization",
+		    MDocType.DOCBASETYPE_PurchaseOrder, MDocType.DOCSUBTYPESO_ReturnMaterial, DT_VRM, 
+		    DT_IPC, 990000, GL_MM);
+		        
 		createDocType("Bank Statement", Msg.getElement(m_ctx, "C_BankStatemet_ID", true), 
 			MDocType.DOCBASETYPE_BankStatement, null, 0, 0, 700000, GL_CASH);
 		createDocType("Cash Journal", Msg.getElement(m_ctx, "C_Cash_ID", true),

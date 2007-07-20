@@ -100,6 +100,9 @@ public class VInOutGen extends CPanel
 	private CTextPane info = new CTextPane();
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
+	
+	private CLabel     lDocType = new CLabel();
+	private VComboBox  cmbDocType = new VComboBox();
 
 	/** User selection */
 	private ArrayList<Integer> selection = null;
@@ -145,6 +148,10 @@ public class VInOutGen extends CPanel
 		info.setEditable(false);
 		genPanel.add(confirmPanelGen, BorderLayout.SOUTH);
 		confirmPanelGen.addActionListener(this);
+		
+		lDocType.setLabelFor(cmbDocType);
+		selNorthPanel.add(lDocType, null);
+		selNorthPanel.add(cmbDocType, null);
 	}	//	jbInit
 
 	/**
@@ -165,6 +172,11 @@ public class VInOutGen extends CPanel
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
 		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		fBPartner.addVetoableChangeListener(this);
+		//Document Type Sales Order/Vendor RMA
+		lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+		cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
+		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
+		cmbDocType.addActionListener(this);
 	}	//	fillPicks
 
 	/**
@@ -204,42 +216,104 @@ public class VInOutGen extends CPanel
 	}	//	dynInit
 
 	/**
+	 * Get SQL for Orders that needs to be shipped
+	 * @return sql
+	 */
+	private String getOrderSQL()
+	{
+	//  Create SQL
+        StringBuffer sql = new StringBuffer(
+            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
+            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+            + " AND ic.AD_Client_ID=?");
+
+        if (m_M_Warehouse_ID != null)
+            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
+        
+        // bug - [ 1713317 ] Generate Shipments (manual) show locked records
+        /* begin - Exclude locked records; @Trifon */
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            if (sql.length() > 0)
+                sql.append(" AND ");
+            sql.append("C_Order_ID").append(lockedIDs);
+        }
+        /* eng - Exclude locked records; @Trifon */
+          
+        //
+        sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
+        
+        return sql.toString();
+	}
+	
+	/**
+	 * Get SQL for Vendor RMA that need to be shipped
+	 * @return sql
+	 */
+	private String getRMASql()
+	{
+	    StringBuffer sql = new StringBuffer();
+	    
+	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
+	    sql.append("FROM M_RMA rma INNER JOIN AD_Org org ON rma.AD_Org_ID=org.AD_Org_ID ");
+	    sql.append("INNER JOIN C_DocType dt ON rma.C_DocType_ID=dt.C_DocType_ID ");
+	    sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
+	    sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
+	    sql.append("WHERE rma.DocStatus='CO' ");
+	    sql.append("AND dt.DocBaseType = 'POO' ");
+	    sql.append("AND EXISTS (SELECT * FROM M_RMA r INNER JOIN M_RMALine rl ");
+	    sql.append("ON r.M_RMA_ID=rl.M_RMA_ID WHERE r.M_RMA_ID=rma.M_RMA_ID ");
+	    sql.append("AND rl.IsActive='Y' AND rl.M_InOutLine_ID > 0 AND rl.QtyDelivered < rl.Qty) ");
+	    sql.append("AND NOT EXISTS (SELECT * FROM M_InOut oio WHERE oio.M_RMA_ID=rma.M_RMA_ID ");
+	    sql.append("AND oio.DocStatus IN ('IP', 'CO', 'CL')) " );
+	    sql.append("AND rma.AD_Client_ID=?");
+	    
+	    if (m_M_Warehouse_ID != null)
+            sql.append(" AND io.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND bp.C_BPartner_ID=").append(m_C_BPartner_ID);
+        
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MRMA.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            sql.append(" AND rma.M_RMA_ID").append(lockedIDs);
+        }
+	    
+	    sql.append(" ORDER BY org.Name, bp.Name, rma.Created ");
+
+	    return sql.toString();
+	}
+	
+	/**
 	 *  Query Info
 	 */
 	private void executeQuery()
 	{
 		log.info("");
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		//  Create SQL
-		StringBuffer sql = new StringBuffer(
-			"SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-			+ "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-			+ "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-			+ " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-			+ " AND ic.C_DocType_ID=dt.C_DocType_ID"
-			+ " AND ic.AD_Client_ID=?");
-
-		if (m_M_Warehouse_ID != null)
-			sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
-		if (m_C_BPartner_ID != null)
-			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
 		
-		// bug - [ 1713317 ] Generate Shipments (manual) show locked records
-		/* begin - Exclude locked records; @Trifon */
-		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
-		if (lockedIDs != null)
+		String sql = "";
+		
+		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+		
+		if (docTypeKNPair.getKey() == MRMA.Table_ID)
 		{
-			if (sql.length() > 0)
-				sql.append(" AND ");
-			sql.append("C_Order_ID").append(lockedIDs);
+		    sql = getRMASql();
 		}
-		/* eng - Exclude locked records; @Trifon */
-		  
-		//
-		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
-		log.fine(sql.toString());
+		else
+		{
+		    sql = getOrderSQL();
+		}
 
+		log.fine(sql);
 		//  reset table
 		int row = 0;
 		miniTable.setRowCount(row);
@@ -299,6 +373,11 @@ public class VInOutGen extends CPanel
 		{
 			dispose();
 			return;
+		}
+		if (cmbDocType.equals(e.getSource()))
+		{
+		    executeQuery();
+		    return;
 		}
 		//
 		saveSelection();
@@ -402,7 +481,18 @@ public class VInOutGen extends CPanel
 		statusBar.setStatusDB(String.valueOf(selection.size()));
 
 		//	Prepare Process
-		int AD_Process_ID = 199;	  // M_InOutCreate - org.compiere.process.InOutGenerate
+		int AD_Process_ID = 0;	  
+		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
+        
+        if (docTypeKNPair.getKey() == MRMA.Table_ID)
+        {
+            AD_Process_ID = 52001; // M_InOut_GenerateRMA - org.adempiere.process.InOutGenerateRMA
+        }
+        else
+        {
+            AD_Process_ID = 199;      // M_InOut_Generate - org.compiere.process.InOutGenerate
+        }
+		
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())
 		{

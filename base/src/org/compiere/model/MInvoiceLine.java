@@ -227,6 +227,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	{
 		setM_InOutLine_ID(sLine.getM_InOutLine_ID());
 		setC_OrderLine_ID(sLine.getC_OrderLine_ID());
+		// Set RMALine ID if shipment/receipt is based on RMA Doc
+        setM_RMALine_ID(sLine.getM_RMALine_ID());
 		
 		//
 		setLine(sLine.getLine());
@@ -238,7 +240,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 	//	setS_ResourceAssignment_ID(sLine.getS_ResourceAssignment_ID());
 		if(getM_Product_ID() == 0)
-		setC_Charge_ID(sLine.getC_Charge_ID());
+		    setC_Charge_ID(sLine.getC_Charge_ID());
 		//
 		int C_OrderLine_ID = sLine.getC_OrderLine_ID();
 		if (C_OrderLine_ID != 0)
@@ -255,6 +257,17 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			setLineNetAmt(oLine.getLineNetAmt());
 			setC_Project_ID(oLine.getC_Project_ID());
 		}
+		// Check if shipment line is based on RMA
+        else if (sLine.getM_RMALine_ID() != 0)
+        {
+        	// Set Pricing details from the RMA Line on which it is based
+            MRMALine rmaLine = new MRMALine(getCtx(), sLine.getM_RMALine_ID(), get_TrxName());
+            
+            setPrice();
+            setPrice(rmaLine.getAmt());
+            setC_Tax_ID(rmaLine.getC_Tax_ID());
+            setLineNetAmt(rmaLine.getLineNetAmt());
+        }
 		else
 		{
 			setPrice();

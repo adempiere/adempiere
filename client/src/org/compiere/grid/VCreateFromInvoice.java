@@ -62,6 +62,10 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 		invoiceField.setVisible(false);
 		locatorLabel.setVisible(false);
 		locatorField.setVisible(false);
+        
+        // Do not display RMA document selection
+		rmaLabel.setVisible(false);
+        rmaField.setVisible(false);
 
 		initBPartner(true);
 		bPartnerField.addVetoableChangeListener(this);

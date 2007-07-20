@@ -29,6 +29,8 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MRMA.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *
+ *  Modifications: Completed RMA functionality (Ashley Ramdass)
  */
 public class MRMA extends X_M_RMA implements DocAction
 {
@@ -69,10 +71,10 @@ public class MRMA extends X_M_RMA implements DocAction
 	private MRMALine[]		m_lines = null;
 	/** The Shipment			*/
 	private MInOut			m_inout = null;
-	
+    
 	/**
 	 * 	Get Lines
-	 *	@param requery requary
+	 *	@param requery requery
 	 *	@return lines
 	 */
 	public MRMALine[] getLines (boolean requery)
@@ -120,11 +122,56 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	public MInOut getShipment()
 	{
-		if (m_inout == null && getM_InOut_ID() != 0)
-			m_inout = new MInOut (getCtx(), getM_InOut_ID(), get_TrxName());
+		if (m_inout == null && getInOut_ID() != 0)
+			m_inout = new MInOut (getCtx(), getInOut_ID(), get_TrxName());
 		return m_inout;
 	}	//	getShipment
 	
+    /**
+     * Get the original order on which the shipment/receipt defined is based upon.
+     * @return order
+     */
+    public MOrder getOriginalOrder()
+    {
+       MInOut shipment = getShipment();
+       if (shipment == null)
+       {
+           return null;
+       }
+       return new MOrder(getCtx(), shipment.getC_Order_ID(), get_TrxName());
+    }
+    
+    /**
+     * Get the original invoice on which the shipment/receipt defined is based upon.
+     * @return invoice
+     */
+    public MInvoice getOriginalInvoice()
+    {
+       MInOut shipment = getShipment();
+       if (shipment == null)
+       {
+           return null;
+       }
+       
+       int invId = 0;
+       
+       if (shipment.getC_Invoice_ID() != 0)
+       {
+           invId = shipment.getC_Invoice_ID();
+       }
+       else
+       {
+           String sqlStmt = "SELECT C_Invoice_ID FROM C_Invoice WHERE C_Order_ID=?";
+           invId = DB.getSQLValue(null, sqlStmt, shipment.getC_Order_ID());
+       }
+       
+       if (invId <= 0)
+       {
+           return null;
+       }
+       
+       return new MInvoice(getCtx(), invId, get_TrxName());
+    }
 	
 	/**
 	 * 	Set M_InOut_ID
@@ -132,7 +179,7 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		super.setM_InOut_ID (M_InOut_ID);
+		setInOut_ID (M_InOut_ID);
 		setC_Currency_ID(0);
 		setAmt(Env.ZERO);
 		setC_BPartner_ID(0);
@@ -190,17 +237,16 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+	    getShipment();
 		//	Set BPartner
 		if (getC_BPartner_ID() == 0)
 		{
-			getShipment();
 			if (m_inout != null)
 				setC_BPartner_ID(m_inout.getC_BPartner_ID());
 		}
 		//	Set Currency
 		if (getC_Currency_ID() == 0)
 		{
-			getShipment();
 			if (m_inout != null)
 			{
 				if (m_inout.getC_Order_ID() != 0)
@@ -215,6 +261,14 @@ public class MRMA extends X_M_RMA implements DocAction
 				}
 			}
 		}
+		
+		// Verification whether Shipment/Receipt matches RMA for sales transaction
+		if (m_inout != null && m_inout.isSOTrx() != isSOTrx())
+		{
+		    log.saveError("RMA.IsSOTrx <> InOut.IsSOTrx", "");
+		    return false;
+		}
+                
 		return true;
 	}	//	beforeSave
 	
@@ -275,14 +329,9 @@ public class MRMA extends X_M_RMA implements DocAction
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
-		//	Check Lines
-		BigDecimal amt = Env.ZERO;
-		for (int i = 0; i < lines.length; i++)
-		{
-			MRMALine line = lines[i];
-			amt = amt.add(line.getAmt());
-		}
-		setAmt(amt);
+		
+        // Updates Amount
+		setAmt(getTotalAmount());
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -313,7 +362,7 @@ public class MRMA extends X_M_RMA implements DocAction
 		setIsApproved(false);
 		return true;
 	}	//	rejectIt
-	
+    
 	/**
 	 * 	Complete Document
 	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
@@ -337,11 +386,14 @@ public class MRMA extends X_M_RMA implements DocAction
 			approveIt();
 		log.info("completeIt - " + toString());
 		//
-		if (true)
+		/*
+		Flow for the creation of the credit memo document changed
+        if (true)
 		{
 			m_processMsg = "Need to code creating the credit memo";
 			return DocAction.STATUS_InProgress;
 		}
+        */
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -366,13 +418,32 @@ public class MRMA extends X_M_RMA implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
+		
+		MRMALine lines[] = getLines(true);
+		// Set Qty and Amt on all lines to be Zero
+		for (MRMALine rmaLine : lines)
+		{
+		    rmaLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + rmaLine.getQty() + ")");
+		    rmaLine.setQty(Env.ZERO);
+		    rmaLine.setAmt(Env.ZERO);
+		    
+		    if (!rmaLine.save())
+		    {
+		        m_processMsg = "Could not update line";
+		    }
+		}
+		
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		setAmt(Env.ZERO);
+		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
 			
-		//	Revoke Credit
-		return false;
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
 	}	//	voidIt
 	
 	/**
@@ -455,7 +526,63 @@ public class MRMA extends X_M_RMA implements DocAction
 		return false;
 	}	//	reActivateIt
 	
-	
+    /**
+     *  Set Processed.
+     *  Propagate to Lines
+     *  @param processed processed
+     */
+    public void setProcessed (boolean processed)
+    {
+        super.setProcessed (processed);
+        if (get_ID() == 0)
+            return;
+        String set = "SET Processed='"
+            + (processed ? "Y" : "N")
+            + "' WHERE M_RMA_ID=" + getM_RMA_ID();
+        int noLine = DB.executeUpdate("UPDATE M_RMALine " + set, get_TrxName());
+        m_lines = null;
+        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+    }   //  setProcessed
+    
+    /**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description)
+    {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+    
+    /**
+     * Get the total amount based on the lines
+     * @return Total Amount
+     */
+    public BigDecimal getTotalAmount()
+    {
+        MRMALine lines[] = this.getLines(true);
+        
+        BigDecimal amt = Env.ZERO;
+        
+        for (MRMALine line : lines)
+        {
+            amt = amt.add(line.getLineNetAmt());
+        }
+        
+        return amt;
+    }
+    
+    /**
+     * Updates the amount on the document
+     */
+    public void updateAmount()
+    {
+        setAmt(getTotalAmount());
+    }
+    
 	/*************************************************************************
 	 * 	Get Summary
 	 *	@return Summary of Document
@@ -473,7 +600,50 @@ public class MRMA extends X_M_RMA implements DocAction
 			sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
+    
+    /**
+     * Retrieves all the charge lines that is present on the document
+     * @return Charge Lines
+     */
+    public MRMALine[] getChargeLines()
+    {
+        StringBuffer whereClause = new StringBuffer();
+        whereClause.append("IsActive='Y' AND M_RMA_ID=");
+        whereClause.append(get_ID());
+        whereClause.append(" AND C_Charge_ID IS NOT null");
+        
+        int rmaLineIds[] = MRMALine.getAllIDs(MRMALine.Table_Name, whereClause.toString(), get_TrxName());
+        
+        ArrayList<MRMALine> chargeLineList = new ArrayList<MRMALine>();
+        
+        for (int i = 0; i < rmaLineIds.length; i++)
+        {
+            MRMALine rmaLine = new MRMALine(getCtx(), rmaLineIds[i], get_TrxName());
+            chargeLineList.add(rmaLine);
+        }
+        
+        MRMALine lines[] = new MRMALine[chargeLineList.size()];
+        chargeLineList.toArray(lines);
+        
+        return lines;
+    }
 	
+    /**
+     * Get whether Tax is included (based on the original order) 
+     * @return True if tax is included
+     */
+    public boolean isTaxIncluded()
+    {
+        MOrder order = getOriginalOrder();
+        
+        if (order != null && order.get_ID() != 0)
+        {
+            return order.isTaxIncluded();
+        }
+        
+        return true;
+    }
+    
 	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
@@ -500,5 +670,4 @@ public class MRMA extends X_M_RMA implements DocAction
 	{
 		return getAmt();
 	}	//	getApprovalAmt
-
 }	//	MRMA

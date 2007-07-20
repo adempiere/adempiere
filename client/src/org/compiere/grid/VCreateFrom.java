@@ -140,6 +140,11 @@ public abstract class VCreateFrom extends CDialog
 	protected VLocator locatorField = new VLocator();
 	public static final String SELECT_ALL = "SelectAll";
 //	public static final String SELECT_ALL_TOOLTIP = "Select all records";	
+    
+    /** Label for the rma selection */
+    protected JLabel rmaLabel = new JLabel();
+    /** Combo box for selecting RMA document */
+    protected JComboBox rmaField = new JComboBox();
 	/**
 	 *  Static Init.
 	 *  <pre>
@@ -166,6 +171,7 @@ public abstract class VCreateFrom extends CDialog
 		invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
 		shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
 		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+        rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
 		//
 		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
 		parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
@@ -196,6 +202,13 @@ public abstract class VCreateFrom extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterStdPanel.add(locatorField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+        
+        // Add RMA document selection to panel
+        parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+                ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        parameterStdPanel.add(rmaField,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+                ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+        
 		this.getContentPane().add(dataPane, BorderLayout.CENTER);
 		dataPane.getViewport().add(dataTable, null);
 		//
@@ -337,9 +350,7 @@ public abstract class VCreateFrom extends CDialog
 	{
 		log.config("C_BPartner_ID=" + C_BPartner_ID);
 		KeyNamePair pp = new KeyNamePair(0,"");
-        //
-		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
-		
+
 		//  load PO Orders - Closed, Completed
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
@@ -356,7 +367,6 @@ public abstract class VCreateFrom extends CDialog
 		StringBuffer sql = new StringBuffer("SELECT o.C_Order_ID,").append(display)
 			.append(" FROM C_Order o "
 			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
-			+ " AND o.M_Warehouse_ID = " + M_Warehouse_ID 
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
 				  + " LEFT OUTER JOIN M_MatchPO m ON (ol.C_OrderLine_ID=m.C_OrderLine_ID) "
