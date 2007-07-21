@@ -25,11 +25,13 @@ import org.compiere.swing.*;
 import org.compiere.util.*;
 
 /**
- *  Table Grid based on CTable.
- * 	Used in GridController
+ * Table Grid based on CTable.
+ * Used in GridController
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: VTable.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * @author  Jorg Janke
+ * @version $Id: VTable.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author 	Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1753943 ]
  */
 public final class VTable extends CTable 
 	implements PropertyChangeListener
@@ -42,6 +44,7 @@ public final class VTable extends CTable
 		super();
 		setAutoscrolls(true);
 		putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+		new VTableExcelAdapter(this); // teo_sarca - FR [ 1753943 ]
 	}	//	VTable
 
 	/**	Logger			*/

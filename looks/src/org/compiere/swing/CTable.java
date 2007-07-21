@@ -28,14 +28,11 @@ import org.compiere.util.*;
 /**
  * Model Independent enhanced JTable.
  * Provides sizing and sorting.
- * <p>
- * Change log:
- * <ul>
- * <li>2007-01-27 - teo_sarca - [ 1585369 ] CTable sorting is TOO LAZY
- * </ul>
  * 
  * @author	Jorg Janke
  * @version	$Id: CTable.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ * 
+ * @author	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1585369 ], FR [ 1753943 ]
  */
 public class CTable extends JTable
 {
@@ -46,7 +43,7 @@ public class CTable extends JTable
 	{
 		super(new DefaultTableModel());
 		setColumnSelectionAllowed(false);
-		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // teo_sarca - FR [ 1753943 ]
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		getTableHeader().addMouseListener(new CTableMouseListener());
 		setSurrendersFocusOnKeystroke(true);
