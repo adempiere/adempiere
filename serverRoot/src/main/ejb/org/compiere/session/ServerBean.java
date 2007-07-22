@@ -33,7 +33,6 @@ import org.compiere.acct.*;
 import org.compiere.model.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
-import org.compiere.wf.*;
 
 /**
  * 	Adempiere Server Bean.
@@ -60,6 +59,8 @@ import org.compiere.wf.*;
  *  @author Low Heng Sin
  *  - Added remote transaction management
  *  - Added support to run db process remotely on server
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
  */
 public class ServerBean implements SessionBean
 {
@@ -257,7 +258,7 @@ public class ServerBean implements SessionBean
 		String trxName = pi.getTransactionName();
 		if (trxName == null) trxName = Trx.createTrxName("ServerPrc"); 
 		Trx trx = Trx.get(trxName, true);
-		ProcessUtil.startJavaProcess(pi, trx);
+		ProcessUtil.startJavaProcess(ctx, pi, trx);
 		return pi;
 	}	//	process
 

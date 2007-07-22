@@ -19,7 +19,8 @@ import org.compiere.wf.MWorkflow;
 /**
  * 
  * @author Low Heng Sin
- *
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
  */
 public final class ProcessUtil {
 
@@ -59,7 +60,12 @@ public final class ProcessUtil {
 		return true;
 	}
 	
+	@Deprecated
 	public static boolean startJavaProcess(ProcessInfo pi, Trx trx) {
+		return startJavaProcess(Env.getCtx(), pi, trx);
+	}
+	
+	public static boolean startJavaProcess(Properties ctx, ProcessInfo pi, Trx trx) {
 		String className = pi.getClassName();
 		//Get Class
 		Class processClass = null;
@@ -94,7 +100,7 @@ public final class ProcessUtil {
 		
 		try
 		{
-			process.startProcess(Env.getCtx(), pi, trx);
+			process.startProcess(ctx, pi, trx);
 			if (trx != null)
 			{
 				trx.commit(true);

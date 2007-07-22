@@ -41,6 +41,8 @@ import org.compiere.wf.*;
  *  @author Low Heng Sin
  *  - Added support for having description and parameter in one dialog
  *  - Added support to run db process remotely on server
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
  */
 public class ProcessCtl implements Runnable
 {
@@ -615,7 +617,7 @@ public class ProcessCtl implements Runnable
 		//	Run locally
 		if (!started && (!m_IsServerProcess || clientOnly ))
 		{
-			return ProcessUtil.startJavaProcess(m_pi, m_trx);
+			return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
 		}
 		return !m_pi.isError();
 	}   //  startProcess

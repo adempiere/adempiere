@@ -29,6 +29,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MProcess.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
  */
 public class MProcess extends X_AD_Process
 {
@@ -333,7 +335,7 @@ public class MProcess extends X_AD_Process
 	{
 		log.info(pi.getClassName());
 		
-		return ProcessUtil.startJavaProcess(pi, trx);
+		return ProcessUtil.startJavaProcess(getCtx(), pi, trx);
 	}   //  startClass
 
 	
