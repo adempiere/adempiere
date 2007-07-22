@@ -21,8 +21,4 @@ UPDATE ad_column SET description = 'The URL of the web service that the plugin c
 -- Update Field Definitions
 UPDATE ad_field SET seqno = 225 WHERE ad_field_id = 51000;
 
--- update UK Regions
-update c_region set name = trim(name), description = trim(description) where  c_country_id = 333;
-update c_region set name = 'Manchester' where c_region_id = 26;
-
 COMMIT;
