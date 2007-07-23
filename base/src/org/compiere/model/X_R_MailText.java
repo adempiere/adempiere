@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_MailText
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_R_MailText extends PO
 {
 /** Standard Constructor
@@ -55,13 +55,13 @@ public X_R_MailText (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=416 */
-public static final int Table_ID=MTable.getTable_ID("R_MailText");
-
 /** TableName=R_MailText */
 public static final String Table_Name="R_MailText";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_MailText");
+/** AD_Table_ID=416 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel

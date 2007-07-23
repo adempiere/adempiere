@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_PaymentProcessor extends PO
 {
 /** Standard Constructor
@@ -71,13 +71,13 @@ public X_C_PaymentProcessor (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=398 */
-public static final int Table_ID=MTable.getTable_ID("C_PaymentProcessor");
-
 /** TableName=C_PaymentProcessor */
 public static final String Table_Name="C_PaymentProcessor";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_PaymentProcessor");
+/** AD_Table_ID=398 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel
@@ -537,13 +537,13 @@ if (Password.length() > 60)
 log.warning("Length > 60 - truncated");
 Password = Password.substring(0,59);
 }
-set_ValueE ("Password", Password);
+set_Value ("Password", Password);
 }
 /** Get Password.
 @return Password of any length (case sensitive) */
 public String getPassword() 
 {
-return (String)get_ValueE("Password");
+return (String)get_Value("Password");
 }
 /** Column name Password */
 public static final String COLUMNNAME_Password = "Password";
@@ -613,13 +613,13 @@ if (ProxyPassword != null && ProxyPassword.length() > 60)
 log.warning("Length > 60 - truncated");
 ProxyPassword = ProxyPassword.substring(0,59);
 }
-set_ValueE ("ProxyPassword", ProxyPassword);
+set_Value ("ProxyPassword", ProxyPassword);
 }
 /** Get Proxy password.
 @return Password of your proxy server */
 public String getProxyPassword() 
 {
-return (String)get_ValueE("ProxyPassword");
+return (String)get_Value("ProxyPassword");
 }
 /** Column name ProxyPassword */
 public static final String COLUMNNAME_ProxyPassword = "ProxyPassword";

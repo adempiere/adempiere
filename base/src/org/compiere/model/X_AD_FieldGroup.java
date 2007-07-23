@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_FieldGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_FieldGroup extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_AD_FieldGroup (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=414 */
-public static final int Table_ID=MTable.getTable_ID("AD_FieldGroup");
-
 /** TableName=AD_FieldGroup */
 public static final String Table_Name="AD_FieldGroup";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_FieldGroup");
+/** AD_Table_ID=414 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel

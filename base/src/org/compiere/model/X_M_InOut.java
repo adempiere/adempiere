@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_InOut
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_InOut extends PO
 {
 /** Standard Constructor
@@ -444,25 +444,25 @@ public static final String COLUMNNAME_DateReceived = "DateReceived";
 
 /** DeliveryRule AD_Reference_ID=151 */
 public static final int DELIVERYRULE_AD_Reference_ID=151;
-/** After Receipt = R */
-public static final String DELIVERYRULE_AfterReceipt = "R";
 /** Availability = A */
 public static final String DELIVERYRULE_Availability = "A";
-/** Complete Line = L */
-public static final String DELIVERYRULE_CompleteLine = "L";
-/** Complete Order = O */
-public static final String DELIVERYRULE_CompleteOrder = "O";
-/** Manual = M */
-public static final String DELIVERYRULE_Manual = "M";
 /** Force = F */
 public static final String DELIVERYRULE_Force = "F";
+/** Complete Line = L */
+public static final String DELIVERYRULE_CompleteLine = "L";
+/** Manual = M */
+public static final String DELIVERYRULE_Manual = "M";
+/** Complete Order = O */
+public static final String DELIVERYRULE_CompleteOrder = "O";
+/** After Receipt = R */
+public static final String DELIVERYRULE_AfterReceipt = "R";
 /** Set Delivery Rule.
 @param DeliveryRule Defines the timing of Delivery */
 public void setDeliveryRule (String DeliveryRule)
 {
 if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is mandatory");
-if (DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("M") || DeliveryRule.equals("F"));
- else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - M - F");
+if (DeliveryRule.equals("A") || DeliveryRule.equals("F") || DeliveryRule.equals("L") || DeliveryRule.equals("M") || DeliveryRule.equals("O") || DeliveryRule.equals("R"));
+ else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - A - F - L - M - O - R");
 if (DeliveryRule.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -481,10 +481,10 @@ public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
 
 /** DeliveryViaRule AD_Reference_ID=152 */
 public static final int DELIVERYVIARULE_AD_Reference_ID=152;
-/** Pickup = P */
-public static final String DELIVERYVIARULE_Pickup = "P";
 /** Delivery = D */
 public static final String DELIVERYVIARULE_Delivery = "D";
+/** Pickup = P */
+public static final String DELIVERYVIARULE_Pickup = "P";
 /** Shipper = S */
 public static final String DELIVERYVIARULE_Shipper = "S";
 /** Set Delivery Via.
@@ -492,8 +492,8 @@ public static final String DELIVERYVIARULE_Shipper = "S";
 public void setDeliveryViaRule (String DeliveryViaRule)
 {
 if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRule is mandatory");
-if (DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S"));
- else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
+if (DeliveryViaRule.equals("D") || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("S"));
+ else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - D - P - S");
 if (DeliveryViaRule.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -531,32 +531,32 @@ public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
-/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";
-/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";
-/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";
-/** Post = PO */
-public static final String DOCACTION_Post = "PO";
-/** Void = VO */
-public static final String DOCACTION_Void = "VO";
-/** Close = CL */
-public static final String DOCACTION_Close = "CL";
-/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";
-/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";
-/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";
-/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";
 /** <None> = -- */
 public static final String DOCACTION_None = "--";
-/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";
+/** Approve = AP */
+public static final String DOCACTION_Approve = "AP";
+/** Close = CL */
+public static final String DOCACTION_Close = "CL";
+/** Complete = CO */
+public static final String DOCACTION_Complete = "CO";
+/** Invalidate = IN */
+public static final String DOCACTION_Invalidate = "IN";
+/** Post = PO */
+public static final String DOCACTION_Post = "PO";
 /** Prepare = PR */
 public static final String DOCACTION_Prepare = "PR";
+/** Reverse - Accrual = RA */
+public static final String DOCACTION_Reverse_Accrual = "RA";
+/** Reverse - Correct = RC */
+public static final String DOCACTION_Reverse_Correct = "RC";
+/** Re-activate = RE */
+public static final String DOCACTION_Re_Activate = "RE";
+/** Reject = RJ */
+public static final String DOCACTION_Reject = "RJ";
+/** Void = VO */
+public static final String DOCACTION_Void = "VO";
+/** Wait Complete = WC */
+public static final String DOCACTION_WaitComplete = "WC";
 /** Unlock = XL */
 public static final String DOCACTION_Unlock = "XL";
 /** Set Document Action.
@@ -564,8 +564,8 @@ public static final String DOCACTION_Unlock = "XL";
 public void setDocAction (String DocAction)
 {
 if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("WC") || DocAction.equals("PR") || DocAction.equals("XL"));
- else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - WC - PR - XL");
+if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL"));
+ else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");
 if (DocAction.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -584,28 +584,28 @@ public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
-/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";
-/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";
-/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";
-/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";
-/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";
-/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";
-/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";
-/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";
-/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";
-/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";
 /** Unknown = ?? */
 public static final String DOCSTATUS_Unknown = "??";
+/** Approved = AP */
+public static final String DOCSTATUS_Approved = "AP";
+/** Closed = CL */
+public static final String DOCSTATUS_Closed = "CL";
+/** Completed = CO */
+public static final String DOCSTATUS_Completed = "CO";
+/** Drafted = DR */
+public static final String DOCSTATUS_Drafted = "DR";
+/** Invalid = IN */
+public static final String DOCSTATUS_Invalid = "IN";
+/** In Progress = IP */
+public static final String DOCSTATUS_InProgress = "IP";
+/** Not Approved = NA */
+public static final String DOCSTATUS_NotApproved = "NA";
+/** Reversed = RE */
+public static final String DOCSTATUS_Reversed = "RE";
+/** Voided = VO */
+public static final String DOCSTATUS_Voided = "VO";
+/** Waiting Confirmation = WC */
+public static final String DOCSTATUS_WaitingConfirmation = "WC";
 /** Waiting Payment = WP */
 public static final String DOCSTATUS_WaitingPayment = "WP";
 /** Set Document Status.
@@ -613,8 +613,8 @@ public static final String DOCSTATUS_WaitingPayment = "WP";
 public void setDocStatus (String DocStatus)
 {
 if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-if (DocStatus.equals("WC") || DocStatus.equals("IP") || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("WP"));
- else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - WC - IP - DR - CO - AP - NA - VO - IN - RE - CL - ?? - WP");
+if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP"));
+ else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");
 if (DocStatus.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -675,12 +675,12 @@ public static final String COLUMNNAME_FreightAmt = "FreightAmt";
 
 /** FreightCostRule AD_Reference_ID=153 */
 public static final int FREIGHTCOSTRULE_AD_Reference_ID=153;
-/** Freight included = I */
-public static final String FREIGHTCOSTRULE_FreightIncluded = "I";
-/** Fix price = F */
-public static final String FREIGHTCOSTRULE_FixPrice = "F";
 /** Calculated = C */
 public static final String FREIGHTCOSTRULE_Calculated = "C";
+/** Fix price = F */
+public static final String FREIGHTCOSTRULE_FixPrice = "F";
+/** Freight included = I */
+public static final String FREIGHTCOSTRULE_FreightIncluded = "I";
 /** Line = L */
 public static final String FREIGHTCOSTRULE_Line = "L";
 /** Set Freight Cost Rule.
@@ -688,8 +688,8 @@ public static final String FREIGHTCOSTRULE_Line = "L";
 public void setFreightCostRule (String FreightCostRule)
 {
 if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRule is mandatory");
-if (FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L"));
- else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
+if (FreightCostRule.equals("C") || FreightCostRule.equals("F") || FreightCostRule.equals("I") || FreightCostRule.equals("L"));
+ else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - C - F - I - L");
 if (FreightCostRule.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -912,26 +912,26 @@ public static final String COLUMNNAME_MovementDate = "MovementDate";
 
 /** MovementType AD_Reference_ID=189 */
 public static final int MOVEMENTTYPE_AD_Reference_ID=189;
+/** Customer Returns = C+ */
+public static final String MOVEMENTTYPE_CustomerReturns = "C+";
+/** Customer Shipment = C- */
+public static final String MOVEMENTTYPE_CustomerShipment = "C-";
+/** Inventory In = I+ */
+public static final String MOVEMENTTYPE_InventoryIn = "I+";
+/** Inventory Out = I- */
+public static final String MOVEMENTTYPE_InventoryOut = "I-";
+/** Movement To = M+ */
+public static final String MOVEMENTTYPE_MovementTo = "M+";
+/** Movement From = M- */
+public static final String MOVEMENTTYPE_MovementFrom = "M-";
 /** Production + = P+ */
 public static final String MOVEMENTTYPE_ProductionPlus = "P+";
 /** Production - = P- */
 public static final String MOVEMENTTYPE_Production_ = "P-";
-/** Customer Shipment = C- */
-public static final String MOVEMENTTYPE_CustomerShipment = "C-";
-/** Customer Returns = C+ */
-public static final String MOVEMENTTYPE_CustomerReturns = "C+";
 /** Vendor Receipts = V+ */
 public static final String MOVEMENTTYPE_VendorReceipts = "V+";
 /** Vendor Returns = V- */
 public static final String MOVEMENTTYPE_VendorReturns = "V-";
-/** Inventory Out = I- */
-public static final String MOVEMENTTYPE_InventoryOut = "I-";
-/** Inventory In = I+ */
-public static final String MOVEMENTTYPE_InventoryIn = "I+";
-/** Movement From = M- */
-public static final String MOVEMENTTYPE_MovementFrom = "M-";
-/** Movement To = M+ */
-public static final String MOVEMENTTYPE_MovementTo = "M+";
 /** Work Order + = W+ */
 public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";
 /** Work Order - = W- */
@@ -941,8 +941,8 @@ public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
 public void setMovementType (String MovementType)
 {
 if (MovementType == null) throw new IllegalArgumentException ("MovementType is mandatory");
-if (MovementType.equals("P+") || MovementType.equals("P-") || MovementType.equals("C-") || MovementType.equals("C+") || MovementType.equals("V+") || MovementType.equals("V-") || MovementType.equals("I-") || MovementType.equals("I+") || MovementType.equals("M-") || MovementType.equals("M+") || MovementType.equals("W+") || MovementType.equals("W-"));
- else throw new IllegalArgumentException ("MovementType Invalid value - " + MovementType + " - Reference_ID=189 - P+ - P- - C- - C+ - V+ - V- - I- - I+ - M- - M+ - W+ - W-");
+if (MovementType.equals("C+") || MovementType.equals("C-") || MovementType.equals("I+") || MovementType.equals("I-") || MovementType.equals("M+") || MovementType.equals("M-") || MovementType.equals("P+") || MovementType.equals("P-") || MovementType.equals("V+") || MovementType.equals("V-") || MovementType.equals("W+") || MovementType.equals("W-"));
+ else throw new IllegalArgumentException ("MovementType Invalid value - " + MovementType + " - Reference_ID=189 - C+ - C- - I+ - I- - M+ - M- - P+ - P- - V+ - V- - W+ - W-");
 if (MovementType.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -1030,14 +1030,14 @@ public static final String COLUMNNAME_Posted = "Posted";
 
 /** PriorityRule AD_Reference_ID=154 */
 public static final int PRIORITYRULE_AD_Reference_ID=154;
+/** Urgent = 1 */
+public static final String PRIORITYRULE_Urgent = "1";
 /** High = 3 */
 public static final String PRIORITYRULE_High = "3";
 /** Medium = 5 */
 public static final String PRIORITYRULE_Medium = "5";
 /** Low = 7 */
 public static final String PRIORITYRULE_Low = "7";
-/** Urgent = 1 */
-public static final String PRIORITYRULE_Urgent = "1";
 /** Minor = 9 */
 public static final String PRIORITYRULE_Minor = "9";
 /** Set Priority.
@@ -1045,8 +1045,8 @@ public static final String PRIORITYRULE_Minor = "9";
 public void setPriorityRule (String PriorityRule)
 {
 if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
-if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9"));
- else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
+if (PriorityRule.equals("1") || PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("9"));
+ else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");
 if (PriorityRule.length() > 1)
 {
 log.warning("Length > 1 - truncated");

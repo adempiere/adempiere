@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueRecommendation
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_R_IssueRecommendation extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_R_IssueRecommendation (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=837 */
-public static final int Table_ID=MTable.getTable_ID("R_IssueRecommendation");
-
 /** TableName=R_IssueRecommendation */
 public static final String Table_Name="R_IssueRecommendation";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueRecommendation");
+/** AD_Table_ID=837 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

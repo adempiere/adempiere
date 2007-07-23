@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_User extends PO
 {
 /** Standard Constructor
@@ -55,13 +55,13 @@ public X_AD_User (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=114 */
-public static final int Table_ID=MTable.getTable_ID("AD_User");
-
 /** TableName=AD_User */
 public static final String Table_Name="AD_User";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_User");
+/** AD_Table_ID=114 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel
@@ -329,13 +329,13 @@ if (EMailUserPW != null && EMailUserPW.length() > 20)
 log.warning("Length > 20 - truncated");
 EMailUserPW = EMailUserPW.substring(0,19);
 }
-set_ValueE ("EMailUserPW", EMailUserPW);
+set_Value ("EMailUserPW", EMailUserPW);
 }
 /** Get EMail User Password.
 @return Password of your email user id */
 public String getEMailUserPW() 
 {
-return (String)get_ValueE("EMailUserPW");
+return (String)get_Value("EMailUserPW");
 }
 /** Column name EMailUserPW */
 public static final String COLUMNNAME_EMailUserPW = "EMailUserPW";
@@ -531,13 +531,13 @@ if (Password != null && Password.length() > 40)
 log.warning("Length > 40 - truncated");
 Password = Password.substring(0,39);
 }
-set_ValueE ("Password", Password);
+set_Value ("Password", Password);
 }
 /** Get Password.
 @return Password of any length (case sensitive) */
 public String getPassword() 
 {
-return (String)get_ValueE("Password");
+return (String)get_Value("Password");
 }
 /** Column name Password */
 public static final String COLUMNNAME_Password = "Password";

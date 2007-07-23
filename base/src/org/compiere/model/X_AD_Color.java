@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Color
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Color extends PO
 {
 /** Standard Constructor
@@ -42,7 +42,7 @@ super (ctx, AD_Color_ID, trxName);
 setAD_Color_ID (0);
 setAlpha (0);
 setBlue (0);
-setColorType (null);
+setColorType (0);
 setGreen (0);
 setImageAlpha (Env.ZERO);
 setIsDefault (false);
@@ -60,13 +60,13 @@ public X_AD_Color (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=457 */
-public static final int Table_ID=MTable.getTable_ID("AD_Color");
-
 /** TableName=AD_Color */
 public static final String Table_Name="AD_Color";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Color");
+/** AD_Table_ID=457 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
@@ -205,18 +205,20 @@ public static final String COLORTYPE_Line = "L";
 public static final String COLORTYPE_TexturePicture = "T";
 /** Set Color Type.
 @param ColorType Color presentation for this color */
-public void setColorType (Object ColorType)
+public void setColorType (int ColorType)
 {
 if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");
 if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T"));
  else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");
-set_Value ("ColorType", ColorType);
+set_Value ("ColorType", Integer.valueOf(ColorType));
 }
 /** Get Color Type.
 @return Color presentation for this color */
-public Object getColorType() 
+public int getColorType() 
 {
-return get_Value("ColorType");
+Integer ii = (Integer)get_Value("ColorType");
+if (ii == null) return 0;
+return ii.intValue();
 }
 /** Column name ColorType */
 public static final String COLUMNNAME_ColorType = "ColorType";

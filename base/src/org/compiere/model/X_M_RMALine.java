@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_RMALine extends PO
 {
 /** Standard Constructor
@@ -39,7 +39,6 @@ public X_M_RMALine (Properties ctx, int M_RMALine_ID, String trxName)
 super (ctx, M_RMALine_ID, trxName);
 /** if (M_RMALine_ID == 0)
 {
-setLine (0);	// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_RMALine WHERE M_RMA_ID=@M_RMA_ID@
 setM_RMALine_ID (0);
 setM_RMA_ID (0);
 setProcessed (false);

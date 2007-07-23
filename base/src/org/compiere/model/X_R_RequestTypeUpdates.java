@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_RequestTypeUpdates
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_R_RequestTypeUpdates extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_R_RequestTypeUpdates (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=784 */
-public static final int Table_ID=MTable.getTable_ID("R_RequestTypeUpdates");
-
 /** TableName=R_RequestTypeUpdates */
 public static final String Table_Name="R_RequestTypeUpdates";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_RequestTypeUpdates");
+/** AD_Table_ID=784 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel

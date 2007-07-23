@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_NewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_NewsChannel extends PO
 {
 /** Standard Constructor
@@ -55,13 +55,13 @@ public X_CM_NewsChannel (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=870 */
-public static final int Table_ID=MTable.getTable_ID("CM_NewsChannel");
-
 /** TableName=CM_NewsChannel */
 public static final String Table_Name="CM_NewsChannel";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_NewsChannel");
+/** AD_Table_ID=870 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Benchmark
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_Benchmark extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_PA_Benchmark (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=833 */
-public static final int Table_ID=MTable.getTable_ID("PA_Benchmark");
-
 /** TableName=PA_Benchmark */
 public static final String Table_Name="PA_Benchmark";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Benchmark");
+/** AD_Table_ID=833 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

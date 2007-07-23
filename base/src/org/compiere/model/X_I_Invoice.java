@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_I_Invoice extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_I_Invoice (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=598 */
-public static final int Table_ID=MTable.getTable_ID("I_Invoice");
-
 /** TableName=I_Invoice */
 public static final String Table_Name="I_Invoice";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_Invoice");
+/** AD_Table_ID=598 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

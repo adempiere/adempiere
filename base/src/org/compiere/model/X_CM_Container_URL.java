@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_Container_URL extends PO
 {
 /** Standard Constructor
@@ -56,13 +56,13 @@ public X_CM_Container_URL (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=865 */
-public static final int Table_ID=MTable.getTable_ID("CM_Container_URL");
-
 /** TableName=CM_Container_URL */
 public static final String Table_Name="CM_Container_URL";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Container_URL");
+/** AD_Table_ID=865 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

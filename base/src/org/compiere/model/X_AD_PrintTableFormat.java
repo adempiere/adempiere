@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_PrintTableFormat extends PO
 {
 /** Standard Constructor
@@ -59,13 +59,13 @@ public X_AD_PrintTableFormat (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=523 */
-public static final int Table_ID=MTable.getTable_ID("AD_PrintTableFormat");
-
 /** TableName=AD_PrintTableFormat */
 public static final String Table_Name="AD_PrintTableFormat";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_PrintTableFormat");
+/** AD_Table_ID=523 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

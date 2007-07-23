@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for R_IssueSystem
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_R_IssueSystem extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_R_IssueSystem (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=843 */
-public static final int Table_ID=MTable.getTable_ID("R_IssueSystem");
-
 /** TableName=R_IssueSystem */
 public static final String Table_Name="R_IssueSystem";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"R_IssueSystem");
+/** AD_Table_ID=843 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

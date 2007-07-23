@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_PriceList_Version extends PO
 {
 /** Standard Constructor
@@ -56,13 +56,13 @@ public X_M_PriceList_Version (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=295 */
-public static final int Table_ID=MTable.getTable_ID("M_PriceList_Version");
-
 /** TableName=M_PriceList_Version */
 public static final String Table_Name="M_PriceList_Version";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_PriceList_Version");
+/** AD_Table_ID=295 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_WebAccessLog extends PO
 {
 /** Standard Constructor
@@ -56,13 +56,13 @@ public X_CM_WebAccessLog (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=894 */
-public static final int Table_ID=MTable.getTable_ID("CM_WebAccessLog");
-
 /** TableName=CM_WebAccessLog */
 public static final String Table_Name="CM_WebAccessLog";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_WebAccessLog");
+/** AD_Table_ID=894 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

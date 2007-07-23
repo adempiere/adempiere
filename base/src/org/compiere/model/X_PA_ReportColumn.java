@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_ReportColumn extends PO
 {
 /** Standard Constructor
@@ -58,13 +58,13 @@ public X_PA_ReportColumn (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=446 */
-public static final int Table_ID=MTable.getTable_ID("PA_ReportColumn");
-
 /** TableName=PA_ReportColumn */
 public static final String Table_Name="PA_ReportColumn";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ReportColumn");
+/** AD_Table_ID=446 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(7);
 /** AccessLevel

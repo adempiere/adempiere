@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Package_Exp_Common extends PO
 {
 /** Standard Constructor
@@ -52,13 +52,13 @@ public X_AD_Package_Exp_Common (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=50007 */
-public static final int Table_ID=MTable.getTable_ID("AD_Package_Exp_Common");
-
 /** TableName=AD_Package_Exp_Common */
 public static final String Table_Name="AD_Package_Exp_Common";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Package_Exp_Common");
+/** AD_Table_ID=50007 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
@@ -551,8 +551,12 @@ public static final String TYPE_Workflow = "F";
 public static final String TYPE_ImportFormat = "IMP";
 /** Application or Module = M */
 public static final String TYPE_ApplicationOrModule = "M";
+/** Message = MSG */
+public static final String TYPE_Message = "MSG";
 /** Process/Report = P */
 public static final String TYPE_ProcessReport = "P";
+/** PrintFormat = PFT */
+public static final String TYPE_PrintFormat = "PFT";
 /** ReportView = R */
 public static final String TYPE_ReportView = "R";
 /** Role = S */
@@ -573,8 +577,8 @@ public static final String TYPE_Form = "X";
 @param Type Type of Validation (SQL, Java Script, Java Language) */
 public void setType (String Type)
 {
-if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
- else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - V - W - X");
+if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("MSG") || Type.equals("P") || Type.equals("PFT") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X"));
+ else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - MSG - P - PFT - R - S - SNI - SQL - T - V - W - X");
 if (Type != null && Type.length() > 10)
 {
 log.warning("Length > 10 - truncated");

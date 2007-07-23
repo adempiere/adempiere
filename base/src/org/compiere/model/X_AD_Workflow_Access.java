@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Workflow_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Workflow_Access extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_AD_Workflow_Access (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=202 */
-public static final int Table_ID=MTable.getTable_ID("AD_Workflow_Access");
-
 /** TableName=AD_Workflow_Access */
 public static final String Table_Name="AD_Workflow_Access";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Workflow_Access");
+/** AD_Table_ID=202 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_ClickCount
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_W_ClickCount extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_W_ClickCount (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=553 */
-public static final int Table_ID=MTable.getTable_ID("W_ClickCount");
-
 /** TableName=W_ClickCount */
 public static final String Table_Name="W_ClickCount";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_ClickCount");
+/** AD_Table_ID=553 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

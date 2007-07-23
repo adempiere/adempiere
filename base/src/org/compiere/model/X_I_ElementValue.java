@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_I_ElementValue extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_I_ElementValue (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=534 */
-public static final int Table_ID=MTable.getTable_ID("I_ElementValue");
-
 /** TableName=I_ElementValue */
 public static final String Table_Name="I_ElementValue";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_ElementValue");
+/** AD_Table_ID=534 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

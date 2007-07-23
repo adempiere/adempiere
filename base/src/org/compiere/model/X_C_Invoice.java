@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_Invoice extends PO
 {
 /** Standard Constructor
@@ -555,32 +555,32 @@ public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
-/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";
-/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";
-/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";
-/** Post = PO */
-public static final String DOCACTION_Post = "PO";
-/** Void = VO */
-public static final String DOCACTION_Void = "VO";
-/** Close = CL */
-public static final String DOCACTION_Close = "CL";
-/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";
-/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";
-/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";
-/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";
 /** <None> = -- */
 public static final String DOCACTION_None = "--";
-/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";
+/** Approve = AP */
+public static final String DOCACTION_Approve = "AP";
+/** Close = CL */
+public static final String DOCACTION_Close = "CL";
+/** Complete = CO */
+public static final String DOCACTION_Complete = "CO";
+/** Invalidate = IN */
+public static final String DOCACTION_Invalidate = "IN";
+/** Post = PO */
+public static final String DOCACTION_Post = "PO";
 /** Prepare = PR */
 public static final String DOCACTION_Prepare = "PR";
+/** Reverse - Accrual = RA */
+public static final String DOCACTION_Reverse_Accrual = "RA";
+/** Reverse - Correct = RC */
+public static final String DOCACTION_Reverse_Correct = "RC";
+/** Re-activate = RE */
+public static final String DOCACTION_Re_Activate = "RE";
+/** Reject = RJ */
+public static final String DOCACTION_Reject = "RJ";
+/** Void = VO */
+public static final String DOCACTION_Void = "VO";
+/** Wait Complete = WC */
+public static final String DOCACTION_WaitComplete = "WC";
 /** Unlock = XL */
 public static final String DOCACTION_Unlock = "XL";
 /** Set Document Action.
@@ -588,8 +588,8 @@ public static final String DOCACTION_Unlock = "XL";
 public void setDocAction (String DocAction)
 {
 if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("WC") || DocAction.equals("PR") || DocAction.equals("XL"));
- else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - WC - PR - XL");
+if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL"));
+ else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");
 if (DocAction.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -608,28 +608,28 @@ public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
-/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";
-/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";
-/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";
-/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";
-/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";
-/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";
-/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";
-/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";
-/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";
-/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";
 /** Unknown = ?? */
 public static final String DOCSTATUS_Unknown = "??";
+/** Approved = AP */
+public static final String DOCSTATUS_Approved = "AP";
+/** Closed = CL */
+public static final String DOCSTATUS_Closed = "CL";
+/** Completed = CO */
+public static final String DOCSTATUS_Completed = "CO";
+/** Drafted = DR */
+public static final String DOCSTATUS_Drafted = "DR";
+/** Invalid = IN */
+public static final String DOCSTATUS_Invalid = "IN";
+/** In Progress = IP */
+public static final String DOCSTATUS_InProgress = "IP";
+/** Not Approved = NA */
+public static final String DOCSTATUS_NotApproved = "NA";
+/** Reversed = RE */
+public static final String DOCSTATUS_Reversed = "RE";
+/** Voided = VO */
+public static final String DOCSTATUS_Voided = "VO";
+/** Waiting Confirmation = WC */
+public static final String DOCSTATUS_WaitingConfirmation = "WC";
 /** Waiting Payment = WP */
 public static final String DOCSTATUS_WaitingPayment = "WP";
 /** Set Document Status.
@@ -637,8 +637,8 @@ public static final String DOCSTATUS_WaitingPayment = "WP";
 public void setDocStatus (String DocStatus)
 {
 if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-if (DocStatus.equals("WC") || DocStatus.equals("IP") || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("WP"));
- else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - WC - IP - DR - CO - AP - NA - VO - IN - RE - CL - ?? - WP");
+if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP"));
+ else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");
 if (DocStatus.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -719,10 +719,10 @@ public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 
 /** InvoiceCollectionType AD_Reference_ID=394 */
 public static final int INVOICECOLLECTIONTYPE_AD_Reference_ID=394;
-/** Dunning = D */
-public static final String INVOICECOLLECTIONTYPE_Dunning = "D";
 /** Collection Agency = C */
 public static final String INVOICECOLLECTIONTYPE_CollectionAgency = "C";
+/** Dunning = D */
+public static final String INVOICECOLLECTIONTYPE_Dunning = "D";
 /** Legal Procedure = L */
 public static final String INVOICECOLLECTIONTYPE_LegalProcedure = "L";
 /** Uncollectable = U */
@@ -731,8 +731,8 @@ public static final String INVOICECOLLECTIONTYPE_Uncollectable = "U";
 @param InvoiceCollectionType Invoice Collection Status */
 public void setInvoiceCollectionType (String InvoiceCollectionType)
 {
-if (InvoiceCollectionType == null || InvoiceCollectionType.equals("D") || InvoiceCollectionType.equals("C") || InvoiceCollectionType.equals("L") || InvoiceCollectionType.equals("U"));
- else throw new IllegalArgumentException ("InvoiceCollectionType Invalid value - " + InvoiceCollectionType + " - Reference_ID=394 - D - C - L - U");
+if (InvoiceCollectionType == null || InvoiceCollectionType.equals("C") || InvoiceCollectionType.equals("D") || InvoiceCollectionType.equals("L") || InvoiceCollectionType.equals("U"));
+ else throw new IllegalArgumentException ("InvoiceCollectionType Invalid value - " + InvoiceCollectionType + " - Reference_ID=394 - C - D - L - U");
 if (InvoiceCollectionType != null && InvoiceCollectionType.length() > 1)
 {
 log.warning("Length > 1 - truncated");
@@ -1007,23 +1007,23 @@ public static final String COLUMNNAME_POReference = "POReference";
 public static final int PAYMENTRULE_AD_Reference_ID=195;
 /** Cash = B */
 public static final String PAYMENTRULE_Cash = "B";
-/** Credit Card = K */
-public static final String PAYMENTRULE_CreditCard = "K";
-/** Direct Deposit = T */
-public static final String PAYMENTRULE_DirectDeposit = "T";
-/** Check = S */
-public static final String PAYMENTRULE_Check = "S";
-/** On Credit = P */
-public static final String PAYMENTRULE_OnCredit = "P";
 /** Direct Debit = D */
 public static final String PAYMENTRULE_DirectDebit = "D";
+/** Credit Card = K */
+public static final String PAYMENTRULE_CreditCard = "K";
+/** On Credit = P */
+public static final String PAYMENTRULE_OnCredit = "P";
+/** Check = S */
+public static final String PAYMENTRULE_Check = "S";
+/** Direct Deposit = T */
+public static final String PAYMENTRULE_DirectDeposit = "T";
 /** Set Payment Rule.
 @param PaymentRule How you pay the invoice */
 public void setPaymentRule (String PaymentRule)
 {
 if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D"));
- else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+if (PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T"));
+ else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");
 if (PaymentRule.length() > 1)
 {
 log.warning("Length > 1 - truncated");

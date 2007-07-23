@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_RMA
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_RMA extends PO
 {
 /** Standard Constructor
@@ -208,32 +208,32 @@ public static final String COLUMNNAME_Description = "Description";
 
 /** DocAction AD_Reference_ID=135 */
 public static final int DOCACTION_AD_Reference_ID=135;
-/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";
-/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";
-/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";
-/** Post = PO */
-public static final String DOCACTION_Post = "PO";
-/** Void = VO */
-public static final String DOCACTION_Void = "VO";
-/** Close = CL */
-public static final String DOCACTION_Close = "CL";
-/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";
-/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";
-/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";
-/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";
 /** <None> = -- */
 public static final String DOCACTION_None = "--";
-/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";
+/** Approve = AP */
+public static final String DOCACTION_Approve = "AP";
+/** Close = CL */
+public static final String DOCACTION_Close = "CL";
+/** Complete = CO */
+public static final String DOCACTION_Complete = "CO";
+/** Invalidate = IN */
+public static final String DOCACTION_Invalidate = "IN";
+/** Post = PO */
+public static final String DOCACTION_Post = "PO";
 /** Prepare = PR */
 public static final String DOCACTION_Prepare = "PR";
+/** Reverse - Accrual = RA */
+public static final String DOCACTION_Reverse_Accrual = "RA";
+/** Reverse - Correct = RC */
+public static final String DOCACTION_Reverse_Correct = "RC";
+/** Re-activate = RE */
+public static final String DOCACTION_Re_Activate = "RE";
+/** Reject = RJ */
+public static final String DOCACTION_Reject = "RJ";
+/** Void = VO */
+public static final String DOCACTION_Void = "VO";
+/** Wait Complete = WC */
+public static final String DOCACTION_WaitComplete = "WC";
 /** Unlock = XL */
 public static final String DOCACTION_Unlock = "XL";
 /** Set Document Action.
@@ -241,8 +241,8 @@ public static final String DOCACTION_Unlock = "XL";
 public void setDocAction (String DocAction)
 {
 if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("WC") || DocAction.equals("PR") || DocAction.equals("XL"));
- else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - WC - PR - XL");
+if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL"));
+ else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");
 if (DocAction.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -261,28 +261,28 @@ public static final String COLUMNNAME_DocAction = "DocAction";
 
 /** DocStatus AD_Reference_ID=131 */
 public static final int DOCSTATUS_AD_Reference_ID=131;
-/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";
-/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";
-/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";
-/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";
-/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";
-/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";
-/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";
-/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";
-/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";
 /** Unknown = ?? */
 public static final String DOCSTATUS_Unknown = "??";
+/** Approved = AP */
+public static final String DOCSTATUS_Approved = "AP";
+/** Closed = CL */
+public static final String DOCSTATUS_Closed = "CL";
+/** Completed = CO */
+public static final String DOCSTATUS_Completed = "CO";
+/** Drafted = DR */
+public static final String DOCSTATUS_Drafted = "DR";
+/** Invalid = IN */
+public static final String DOCSTATUS_Invalid = "IN";
 /** In Progress = IP */
 public static final String DOCSTATUS_InProgress = "IP";
+/** Not Approved = NA */
+public static final String DOCSTATUS_NotApproved = "NA";
+/** Reversed = RE */
+public static final String DOCSTATUS_Reversed = "RE";
+/** Voided = VO */
+public static final String DOCSTATUS_Voided = "VO";
+/** Waiting Confirmation = WC */
+public static final String DOCSTATUS_WaitingConfirmation = "WC";
 /** Waiting Payment = WP */
 public static final String DOCSTATUS_WaitingPayment = "WP";
 /** Set Document Status.
@@ -290,8 +290,8 @@ public static final String DOCSTATUS_WaitingPayment = "WP";
 public void setDocStatus (String DocStatus)
 {
 if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-if (DocStatus.equals("WC") || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP"));
- else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - WC - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP");
+if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP"));
+ else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");
 if (DocStatus.length() > 2)
 {
 log.warning("Length > 2 - truncated");
@@ -375,14 +375,14 @@ public static final String COLUMNNAME_Help = "Help";
 /** InOut_ID AD_Reference_ID=337 */
 public static final int INOUT_ID_AD_Reference_ID=337;
 /** Set Shipment/Receipt.
-@param InOut_ID Material Shipment Document */
+@param InOut_ID MaterialShipment Document */
 public void setInOut_ID (int InOut_ID)
 {
 if (InOut_ID < 1) throw new IllegalArgumentException ("InOut_ID is mandatory.");
 set_ValueNoCheck ("InOut_ID", Integer.valueOf(InOut_ID));
 }
 /** Get Shipment/Receipt.
-@return Material Shipment Document */
+@return MaterialShipment Document */
 public int getInOut_ID() 
 {
 Integer ii = (Integer)get_Value("InOut_ID");

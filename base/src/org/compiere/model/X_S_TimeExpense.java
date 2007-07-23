@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for S_TimeExpense
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_S_TimeExpense extends PO
 {
 /** Standard Constructor
@@ -61,13 +61,13 @@ public X_S_TimeExpense (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=486 */
-public static final int Table_ID=MTable.getTable_ID("S_TimeExpense");
-
 /** TableName=S_TimeExpense */
 public static final String Table_Name="S_TimeExpense";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"S_TimeExpense");
+/** AD_Table_ID=486 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Menu
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Menu extends PO
 {
 /** Standard Constructor
@@ -57,13 +57,13 @@ public X_AD_Menu (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=116 */
-public static final int Table_ID=MTable.getTable_ID("AD_Menu");
-
 /** TableName=AD_Menu */
 public static final String Table_Name="AD_Menu";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Menu");
+/** AD_Table_ID=116 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

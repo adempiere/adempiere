@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessStage
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_AccessStage extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_CM_AccessStage (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=889 */
-public static final int Table_ID=MTable.getTable_ID("CM_AccessStage");
-
 /** TableName=CM_AccessStage */
 public static final String Table_Name="CM_AccessStage";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_AccessStage");
+/** AD_Table_ID=889 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

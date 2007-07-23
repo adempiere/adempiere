@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_Year extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_C_Year (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=177 */
-public static final int Table_ID=MTable.getTable_ID("C_Year");
-
 /** TableName=C_Year */
 public static final String Table_Name="C_Year";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Year");
+/** AD_Table_ID=177 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

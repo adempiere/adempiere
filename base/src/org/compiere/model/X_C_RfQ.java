@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_RfQ extends PO
 {
 /** Standard Constructor
@@ -65,13 +65,13 @@ public X_C_RfQ (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=677 */
-public static final int Table_ID=MTable.getTable_ID("C_RfQ");
-
 /** TableName=C_RfQ */
 public static final String Table_Name="C_RfQ";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQ");
+/** AD_Table_ID=677 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel

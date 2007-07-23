@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_DunningLevel extends PO
 {
 /** Standard Constructor
@@ -63,13 +63,13 @@ public X_C_DunningLevel (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=331 */
-public static final int Table_ID=MTable.getTable_ID("C_DunningLevel");
-
 /** TableName=C_DunningLevel */
 public static final String Table_Name="C_DunningLevel";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_DunningLevel");
+/** AD_Table_ID=331 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

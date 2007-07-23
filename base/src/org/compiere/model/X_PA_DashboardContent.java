@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_DashboardContent extends PO
 {
 /** Standard Constructor
@@ -56,7 +56,7 @@ super (ctx, rs, trxName);
 /** TableName=PA_DashboardContent */
 public static final String Table_Name="PA_DashboardContent";
 
-/** AD_Table_ID=1000000 */
+/** AD_Table_ID=50010 */
 public static final int Table_ID=MTable.getTable_ID(Table_Name);
 
 protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

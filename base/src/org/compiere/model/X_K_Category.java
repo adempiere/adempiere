@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for K_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_K_Category extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_K_Category (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=615 */
-public static final int Table_ID=MTable.getTable_ID("K_Category");
-
 /** TableName=K_Category */
 public static final String Table_Name="K_Category";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"K_Category");
+/** AD_Table_ID=615 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

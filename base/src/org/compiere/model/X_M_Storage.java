@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Storage
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_Storage extends PO
 {
 /** Standard Constructor
@@ -57,13 +57,13 @@ public X_M_Storage (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=250 */
-public static final int Table_ID=MTable.getTable_ID("M_Storage");
-
 /** TableName=M_Storage */
 public static final String Table_Name="M_Storage";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Storage");
+/** AD_Table_ID=250 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

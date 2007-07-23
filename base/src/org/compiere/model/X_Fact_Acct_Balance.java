@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for Fact_Acct_Balance
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_Fact_Acct_Balance extends PO
 {
 /** Standard Constructor
@@ -58,13 +58,13 @@ public X_Fact_Acct_Balance (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=547 */
-public static final int Table_ID=MTable.getTable_ID("Fact_Acct_Balance");
-
 /** TableName=Fact_Acct_Balance */
 public static final String Table_Name="Fact_Acct_Balance";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"Fact_Acct_Balance");
+/** AD_Table_ID=547 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

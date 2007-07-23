@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_I_Payment extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_I_Payment (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=597 */
-public static final int Table_ID=MTable.getTable_ID("I_Payment");
-
 /** TableName=I_Payment */
 public static final String Table_Name="I_Payment";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_Payment");
+/** AD_Table_ID=597 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

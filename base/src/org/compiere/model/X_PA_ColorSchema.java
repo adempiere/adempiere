@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_ColorSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_ColorSchema extends PO
 {
 /** Standard Constructor
@@ -58,13 +58,13 @@ public X_PA_ColorSchema (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=831 */
-public static final int Table_ID=MTable.getTable_ID("PA_ColorSchema");
-
 /** TableName=PA_ColorSchema */
 public static final String Table_Name="PA_ColorSchema";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_ColorSchema");
+/** AD_Table_ID=831 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

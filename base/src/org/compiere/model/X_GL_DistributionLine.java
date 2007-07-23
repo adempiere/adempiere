@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_GL_DistributionLine extends PO
 {
 /** Standard Constructor
@@ -68,13 +68,13 @@ public X_GL_DistributionLine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=707 */
-public static final int Table_ID=MTable.getTable_ID("GL_DistributionLine");
-
 /** TableName=GL_DistributionLine */
 public static final String Table_Name="GL_DistributionLine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"GL_DistributionLine");
+/** AD_Table_ID=707 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_GoalRestriction extends PO
 {
 /** Standard Constructor
@@ -55,13 +55,13 @@ public X_PA_GoalRestriction (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=832 */
-public static final int Table_ID=MTable.getTable_ID("PA_GoalRestriction");
-
 /** TableName=PA_GoalRestriction */
 public static final String Table_Name="PA_GoalRestriction";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_GoalRestriction");
+/** AD_Table_ID=832 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

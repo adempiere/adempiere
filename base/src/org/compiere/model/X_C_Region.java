@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Region
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_Region extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_C_Region (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=164 */
-public static final int Table_ID=MTable.getTable_ID("C_Region");
-
 /** TableName=C_Region */
 public static final String Table_Name="C_Region";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_Region");
+/** AD_Table_ID=164 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

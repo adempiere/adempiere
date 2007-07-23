@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_Ad extends PO
 {
 /** Standard Constructor
@@ -64,13 +64,13 @@ public X_CM_Ad (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=858 */
-public static final int Table_ID=MTable.getTable_ID("CM_Ad");
-
 /** TableName=CM_Ad */
 public static final String Table_Name="CM_Ad";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_Ad");
+/** AD_Table_ID=858 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

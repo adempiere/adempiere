@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_Country extends PO
 {
 /** Standard Constructor
@@ -409,13 +409,13 @@ return false;
 /** Column name IsAddressLinesReverse */
 public static final String COLUMNNAME_IsAddressLinesReverse = "IsAddressLinesReverse";
 /** Set IsPostcodeLookup.
-@param IsPostcodeLookup IsPostcodeLookup */
+@param IsPostcodeLookup Does this country have a post code web service */
 public void setIsPostcodeLookup (boolean IsPostcodeLookup)
 {
 set_Value ("IsPostcodeLookup", Boolean.valueOf(IsPostcodeLookup));
 }
 /** Get IsPostcodeLookup.
-@return IsPostcodeLookup */
+@return Does this country have a post code web service */
 public boolean isPostcodeLookup() 
 {
 Object oo = get_Value("IsPostcodeLookup");
@@ -429,7 +429,7 @@ return false;
 /** Column name IsPostcodeLookup */
 public static final String COLUMNNAME_IsPostcodeLookup = "IsPostcodeLookup";
 /** Set LookupClassName.
-@param LookupClassName LookupClassName */
+@param LookupClassName The class name of the postcode lookup plugin */
 public void setLookupClassName (String LookupClassName)
 {
 if (LookupClassName != null && LookupClassName.length() > 255)
@@ -440,7 +440,7 @@ LookupClassName = LookupClassName.substring(0,254);
 set_Value ("LookupClassName", LookupClassName);
 }
 /** Get LookupClassName.
-@return LookupClassName */
+@return The class name of the postcode lookup plugin */
 public String getLookupClassName() 
 {
 return (String)get_Value("LookupClassName");
@@ -448,7 +448,7 @@ return (String)get_Value("LookupClassName");
 /** Column name LookupClassName */
 public static final String COLUMNNAME_LookupClassName = "LookupClassName";
 /** Set LookupClientID.
-@param LookupClientID LookupClientID */
+@param LookupClientID The ClientID or Login submitted to the Lookup URL */
 public void setLookupClientID (String LookupClientID)
 {
 if (LookupClientID != null && LookupClientID.length() > 50)
@@ -459,7 +459,7 @@ LookupClientID = LookupClientID.substring(0,49);
 set_Value ("LookupClientID", LookupClientID);
 }
 /** Get LookupClientID.
-@return LookupClientID */
+@return The ClientID or Login submitted to the Lookup URL */
 public String getLookupClientID() 
 {
 return (String)get_Value("LookupClientID");
@@ -467,7 +467,7 @@ return (String)get_Value("LookupClientID");
 /** Column name LookupClientID */
 public static final String COLUMNNAME_LookupClientID = "LookupClientID";
 /** Set LookupPassword.
-@param LookupPassword LookupPassword */
+@param LookupPassword The password submitted to the Lookup URL */
 public void setLookupPassword (String LookupPassword)
 {
 if (LookupPassword != null && LookupPassword.length() > 50)
@@ -478,7 +478,7 @@ LookupPassword = LookupPassword.substring(0,49);
 set_Value ("LookupPassword", LookupPassword);
 }
 /** Get LookupPassword.
-@return LookupPassword */
+@return The password submitted to the Lookup URL */
 public String getLookupPassword() 
 {
 return (String)get_Value("LookupPassword");
@@ -486,7 +486,7 @@ return (String)get_Value("LookupPassword");
 /** Column name LookupPassword */
 public static final String COLUMNNAME_LookupPassword = "LookupPassword";
 /** Set LookupUrl.
-@param LookupUrl LookupUrl */
+@param LookupUrl The URL of the web service that the plugin connects to in order to retrieve postcode data */
 public void setLookupUrl (String LookupUrl)
 {
 if (LookupUrl != null && LookupUrl.length() > 100)
@@ -497,7 +497,7 @@ LookupUrl = LookupUrl.substring(0,99);
 set_Value ("LookupUrl", LookupUrl);
 }
 /** Get LookupUrl.
-@return LookupUrl */
+@return The URL of the web service that the plugin connects to in order to retrieve postcode data */
 public String getLookupUrl() 
 {
 return (String)get_Value("LookupUrl");

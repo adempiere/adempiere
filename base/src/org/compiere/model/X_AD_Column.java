@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Column extends PO
 {
 /** Standard Constructor
@@ -601,7 +601,7 @@ return false;
 /** Column name IsUpdateable */
 public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
 /** Set Mandatory Logic.
-@param MandatoryLogic Logic to determine if field is mandatory (applies only when field is not mandatory in general) */
+@param MandatoryLogic Mandatory Logic */
 public void setMandatoryLogic (String MandatoryLogic)
 {
 if (MandatoryLogic != null && MandatoryLogic.length() > 2000)
@@ -612,7 +612,7 @@ MandatoryLogic = MandatoryLogic.substring(0,1999);
 set_Value ("MandatoryLogic", MandatoryLogic);
 }
 /** Get Mandatory Logic.
-@return Logic to determine if field is mandatory (applies only when field is not mandatory in general) */
+@return Mandatory Logic */
 public String getMandatoryLogic() 
 {
 return (String)get_Value("MandatoryLogic");

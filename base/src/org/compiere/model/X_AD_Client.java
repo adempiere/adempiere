@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Client extends PO
 {
 /** Standard Constructor
@@ -542,7 +542,7 @@ return false;
 /** Column name StoreAttachmentsOnFileSystem */
 public static final String COLUMNNAME_StoreAttachmentsOnFileSystem = "StoreAttachmentsOnFileSystem";
 /** Set Unix Archive Path.
-@param UnixArchivePath Unix Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+@param UnixArchivePath Unix Archive Path */
 public void setUnixArchivePath (String UnixArchivePath)
 {
 if (UnixArchivePath != null && UnixArchivePath.length() > 255)
@@ -553,7 +553,7 @@ UnixArchivePath = UnixArchivePath.substring(0,254);
 set_Value ("UnixArchivePath", UnixArchivePath);
 }
 /** Get Unix Archive Path.
-@return Unix Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+@return Unix Archive Path */
 public String getUnixArchivePath() 
 {
 return (String)get_Value("UnixArchivePath");
@@ -600,7 +600,7 @@ return (String)get_Value("Value");
 /** Column name Value */
 public static final String COLUMNNAME_Value = "Value";
 /** Set Windows Archive Path.
-@param WindowsArchivePath Windows Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+@param WindowsArchivePath Windows Archive Path */
 public void setWindowsArchivePath (String WindowsArchivePath)
 {
 if (WindowsArchivePath != null && WindowsArchivePath.length() > 255)
@@ -611,7 +611,7 @@ WindowsArchivePath = WindowsArchivePath.substring(0,254);
 set_Value ("WindowsArchivePath", WindowsArchivePath);
 }
 /** Get Windows Archive Path.
-@return Windows Archive Path - If you change this value make sure to copy the archive entries to the new path! */
+@return Windows Archive Path */
 public String getWindowsArchivePath() 
 {
 return (String)get_Value("WindowsArchivePath");

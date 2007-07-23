@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for C_RfQResponseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_C_RfQResponseLine extends PO
 {
 /** Standard Constructor
@@ -56,13 +56,13 @@ public X_C_RfQResponseLine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=673 */
-public static final int Table_ID=MTable.getTable_ID("C_RfQResponseLine");
-
 /** TableName=C_RfQResponseLine */
 public static final String Table_Name="C_RfQResponseLine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"C_RfQResponseLine");
+/** AD_Table_ID=673 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(1);
 /** AccessLevel

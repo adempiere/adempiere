@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_W_Store extends PO
 {
 /** Standard Constructor
@@ -70,13 +70,13 @@ public X_W_Store (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=778 */
-public static final int Table_ID=MTable.getTable_ID("W_Store");
-
 /** TableName=W_Store */
 public static final String Table_Name="W_Store";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"W_Store");
+/** AD_Table_ID=778 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

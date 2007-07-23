@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for AD_Desktop
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_AD_Desktop extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_AD_Desktop (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=458 */
-public static final int Table_ID=MTable.getTable_ID("AD_Desktop");
-
 /** TableName=AD_Desktop */
 public static final String Table_Name="AD_Desktop";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"AD_Desktop");
+/** AD_Table_ID=458 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(4);
 /** AccessLevel
@@ -88,15 +88,19 @@ return sb.toString();
 }
 /** Set System Color.
 @param AD_Color_ID Color for backgrounds or indicators */
-public void setAD_Color_ID (Object AD_Color_ID)
+public void setAD_Color_ID (int AD_Color_ID)
 {
-set_Value ("AD_Color_ID", AD_Color_ID);
+if (AD_Color_ID <= 0) set_Value ("AD_Color_ID", null);
+ else 
+set_Value ("AD_Color_ID", Integer.valueOf(AD_Color_ID));
 }
 /** Get System Color.
 @return Color for backgrounds or indicators */
-public Object getAD_Color_ID() 
+public int getAD_Color_ID() 
 {
-return get_Value("AD_Color_ID");
+Integer ii = (Integer)get_Value("AD_Color_ID");
+if (ii == null) return 0;
+return ii.intValue();
 }
 /** Column name AD_Color_ID */
 public static final String COLUMNNAME_AD_Color_ID = "AD_Color_ID";

@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for M_Demand
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_M_Demand extends PO
 {
 /** Standard Constructor
@@ -56,13 +56,13 @@ public X_M_Demand (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=723 */
-public static final int Table_ID=MTable.getTable_ID("M_Demand");
-
 /** TableName=M_Demand */
 public static final String Table_Name="M_Demand";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"M_Demand");
+/** AD_Table_ID=723 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel

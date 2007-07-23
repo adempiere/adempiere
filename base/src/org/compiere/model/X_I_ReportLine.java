@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_I_ReportLine extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_I_ReportLine (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=535 */
-public static final int Table_ID=MTable.getTable_ID("I_ReportLine");
-
 /** TableName=I_ReportLine */
 public static final String Table_Name="I_ReportLine";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"I_ReportLine");
+/** AD_Table_ID=535 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

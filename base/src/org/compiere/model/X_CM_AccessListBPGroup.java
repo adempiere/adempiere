@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_AccessListBPGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_AccessListBPGroup extends PO
 {
 /** Standard Constructor
@@ -53,13 +53,13 @@ public X_CM_AccessListBPGroup (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=886 */
-public static final int Table_ID=MTable.getTable_ID("CM_AccessListBPGroup");
-
 /** TableName=CM_AccessListBPGroup */
 public static final String Table_Name="CM_AccessListBPGroup";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_AccessListBPGroup");
+/** AD_Table_ID=886 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

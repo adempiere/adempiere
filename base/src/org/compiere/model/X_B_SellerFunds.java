@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for B_SellerFunds
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_B_SellerFunds extends PO
 {
 /** Standard Constructor
@@ -55,13 +55,13 @@ public X_B_SellerFunds (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=680 */
-public static final int Table_ID=MTable.getTable_ID("B_SellerFunds");
-
 /** TableName=B_SellerFunds */
 public static final String Table_Name="B_SellerFunds";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"B_SellerFunds");
+/** AD_Table_ID=680 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

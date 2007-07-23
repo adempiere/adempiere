@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for A_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_A_Registration extends PO
 {
 /** Standard Constructor
@@ -57,13 +57,13 @@ public X_A_Registration (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=651 */
-public static final int Table_ID=MTable.getTable_ID("A_Registration");
-
 /** TableName=A_Registration */
 public static final String Table_Name="A_Registration";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"A_Registration");
+/** AD_Table_ID=651 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(3);
 /** AccessLevel

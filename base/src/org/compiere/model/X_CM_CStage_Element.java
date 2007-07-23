@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for CM_CStage_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_CM_CStage_Element extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_CM_CStage_Element (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=867 */
-public static final int Table_ID=MTable.getTable_ID("CM_CStage_Element");
-
 /** TableName=CM_CStage_Element */
 public static final String Table_Name="CM_CStage_Element";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"CM_CStage_Element");
+/** AD_Table_ID=867 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(6);
 /** AccessLevel

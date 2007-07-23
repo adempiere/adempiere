@@ -26,7 +26,7 @@ import java.math.*;
 import org.compiere.util.*;
 /** Generated Model for PA_Ratio
  *  @author Adempiere (generated) 
- *  @version Release 3.2.0 - $Id$ */
+ *  @version Release 3.3.0 - $Id$ */
 public class X_PA_Ratio extends PO
 {
 /** Standard Constructor
@@ -54,13 +54,13 @@ public X_PA_Ratio (Properties ctx, ResultSet rs, String trxName)
 {
 super (ctx, rs, trxName);
 }
-/** AD_Table_ID=835 */
-public static final int Table_ID=MTable.getTable_ID("PA_Ratio");
-
 /** TableName=PA_Ratio */
 public static final String Table_Name="PA_Ratio";
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID,"PA_Ratio");
+/** AD_Table_ID=835 */
+public static final int Table_ID=MTable.getTable_ID(Table_Name);
+
+protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
 protected BigDecimal accessLevel = BigDecimal.valueOf(2);
 /** AccessLevel
