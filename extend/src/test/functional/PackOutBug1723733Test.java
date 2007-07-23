@@ -96,8 +96,8 @@ public class PackOutBug1723733Test extends TestCase {
 		PackOut m_PackOut = new PackOut();
 		PackInHandler m_PackInHandler = new PackInHandler();
 		Trx m_trx = Trx.get(Trx.createTrxName("SvrProcess"), true);
-		int m_ad_process_id = m_PackInHandler.get_IDWithColumn("ad_process", "Name", "PackOut");
-		int m_ad_table_id = m_PackInHandler.get_IDWithColumn("ad_table", "Name", "AD_Package_Exp_ID");
+		int m_ad_process_id = IDFinder.get_IDWithColumn("ad_process", "Name", "PackOut", AD_Client_ID_Value, m_trx.getTrxName());
+		int m_ad_table_id = IDFinder.get_IDWithColumn("ad_table", "Name", "AD_Package_Exp_ID", AD_Client_ID_Value, m_trx.getTrxName());
 
 		//Create 2Pack Export Package
 
@@ -130,7 +130,7 @@ public class PackOutBug1723733Test extends TestCase {
 		m_PackDetail.setDBType("ALL");
 		m_PackDetail.setSQLStatement("select * from ad_table");
 		m_PackDetail.setDescription("Order_Header  ** TEMPLATE ** with subformat Order_LineTax  ** TEMPLATE **");
-		m_PackDetail.setAD_PrintFormat_ID(m_PackInHandler.get_IDWithColumn("ad_printformat", "Name", "Order_Header  ** TEMPLATE **") );
+		m_PackDetail.setAD_PrintFormat_ID(IDFinder.get_IDWithColumn("ad_printformat", "Name", "Order_Header  ** TEMPLATE **", AD_Client_ID_Value, m_trx.getTrxName()) );
 
 		/*m_PackDetail.setFileName(rs.getString("FILENAME"));
 		m_PackDetail.setAD_Client_ID(m_MPackageExp.getAD_Client_ID());
@@ -167,7 +167,7 @@ public class PackOutBug1723733Test extends TestCase {
 		assertTrue("PackOutBug1723733Test", true);
 
 
-		int m_ad_record_id = m_PackInHandler.get_IDWithColumn("ad_package_exp", "Name", "test2packJunit");
+		int m_ad_record_id = IDFinder.get_IDWithColumn("ad_package_exp", "Name", "test2packJunit", AD_Client_ID_Value, m_trx.getTrxName());
 
 		//ProcessInfo m_ProcessInfo =  new ProcessInfo("PackOut", m_ad_process_id, m_ad_table_id, m_ad_record_id);
 		ProcessInfo m_ProcessInfo =  new ProcessInfo("PackOut", m_ad_process_id, m_ad_table_id, m_MPackageExp.get_ID());

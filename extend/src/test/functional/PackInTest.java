@@ -96,8 +96,8 @@ public class PackInTest extends TestCase {
 		PackIn m_PackIn = new PackIn();
 		PackInHandler m_PackInHandler = new PackInHandler();
 		Trx m_trx = Trx.get(Trx.createTrxName("SvrProcess"), true);
-		int m_ad_process_id = m_PackInHandler.get_IDWithColumn("ad_process", "Name", "PackIn");
-		int m_ad_table_id = m_PackInHandler.get_IDWithColumn("ad_table", "Name", "AD_Package_Imp_Proc_ID");
+		int m_ad_process_id = IDFinder.get_IDWithColumn("ad_process", "Name", "PackIn", AD_Client_ID_Value, m_trx.getTrxName());
+		int m_ad_table_id = IDFinder.get_IDWithColumn("ad_table", "Name", "AD_Package_Imp_Proc_ID", AD_Client_ID_Value, m_trx.getTrxName());
 
 		//Create 2Pack Export Package
 

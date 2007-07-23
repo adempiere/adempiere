@@ -96,8 +96,8 @@ public class PackOutTest extends TestCase {
 		PackOut m_PackOut = new PackOut();
 		PackInHandler m_PackInHandler = new PackInHandler();
 		Trx m_trx = Trx.get(Trx.createTrxName("SvrProcess"), true);
-		int m_ad_process_id = m_PackInHandler.get_IDWithColumn("ad_process", "Name", "PackOut");
-		int m_ad_table_id = m_PackInHandler.get_IDWithColumn("ad_table", "Name", "AD_Package_Exp_ID");
+		int m_ad_process_id = IDFinder.get_IDWithColumn("ad_process", "Name", "PackOut", AD_Client_ID_Value, m_trx.getTrxName());
+		int m_ad_table_id = IDFinder.get_IDWithColumn("ad_table", "Name", "AD_Package_Exp_ID", AD_Client_ID_Value, m_trx.getTrxName());
 
 		//Create 2Pack Export Package
 
@@ -165,7 +165,7 @@ public class PackOutTest extends TestCase {
 		assertTrue("PackOutTest", true);
 
 
-		int m_ad_record_id = m_PackInHandler.get_IDWithColumn("ad_package_exp", "Name", "test2packJunit");
+		int m_ad_record_id = IDFinder.get_IDWithColumn("ad_package_exp", "Name", "test2packJunit", AD_Client_ID_Value, m_trx.getTrxName());
 
 		//ProcessInfo m_ProcessInfo =  new ProcessInfo("PackOut", m_ad_process_id, m_ad_table_id, m_ad_record_id);
 		ProcessInfo m_ProcessInfo =  new ProcessInfo("PackOut", m_ad_process_id, m_ad_table_id, m_MPackageExp.get_ID());
