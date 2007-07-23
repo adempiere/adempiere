@@ -1,0 +1,466 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
+ * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *****************************************************************************/
+package org.adempiere.pipo.handler;
+
+import java.math.BigDecimal;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.xml.transform.sax.TransformerHandler;
+
+import org.adempiere.pipo.AbstractElementHandler;
+import org.adempiere.pipo.Element;
+import org.adempiere.pipo.exception.DatabaseAccessException;
+import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.model.X_AD_Column;
+import org.compiere.model.X_AD_Element;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+
+public class ColumnElementHandler extends AbstractElementHandler {
+
+	public void startElement(Properties ctx, Element element)
+			throws SAXException {
+		String elementValue = element.getElementValue();
+		Attributes atts = element.attributes;
+		log.info(elementValue + " " + atts.getValue("ColumnName"));
+		int success = 0;
+		String entitytype = atts.getValue("EntityType");
+		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
+				&& getUpdateMode(ctx).compareTo("true") == 0) {
+			String columnName = atts.getValue("ColumnName");
+
+			int tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
+					.getValue("ADTableNameID"));
+			int id = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
+					columnName, "AD_Table", tableid);
+			MColumn m_Column = new MColumn(ctx, id, getTrxName(ctx));
+			int AD_Backup_ID = -1;
+			String Object_Status = null;
+			if (id > 0) {
+				AD_Backup_ID = copyRecord(ctx, "AD_Column", m_Column);
+				Object_Status = "Update";
+			} else {
+				Object_Status = "New";
+				AD_Backup_ID = 0;
+			}
+			m_Column.setColumnName(columnName);
+
+			String Name = atts.getValue("ADProcessNameID");
+			id = get_IDWithColumn(ctx, "AD_Process", "Name", Name);
+			m_Column.setAD_Process_ID(id);
+			Name = atts.getValue("ADReferenceNameID");
+			// log.info("Column Name1 ->"+Name);
+			// log.info("Database Name ->"+m_DatabaseType);
+			// log.info("Column Name2 ->"+Name);
+			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+			m_Column.setAD_Reference_ID(id);
+			// log.info("Column ID ->"+id);
+			Name = atts.getValue("ADTableNameID");
+			id = get_IDWithColumn(ctx, "AD_Table", "TableName", Name);
+			m_Column.setAD_Table_ID(id);
+
+			Name = atts.getValue("ADValRuleNameID");
+			id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
+			m_Column.setAD_Val_Rule_ID(id);
+			Name = atts.getValue("ADReferenceNameValueID");
+			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+			m_Column.setAD_Reference_Value_ID(id);
+			m_Column.setCallout(atts.getValue("Callout"));
+			m_Column.setColumnSQL(atts.getValue("ColumnSQL"));
+
+			m_Column.setColumnName(atts.getValue("ColumnName"));
+			m_Column.setDefaultValue(atts.getValue("DefaultValue"));
+			m_Column.setDescription(atts.getValue("Description").replaceAll(
+					"'", "''").replaceAll(",", ""));
+			m_Column.setEntityType(atts.getValue("EntityType"));
+
+			if (Integer.parseInt(atts.getValue("FieldLength")) > 0)
+				m_Column.setFieldLength(Integer.parseInt(atts
+						.getValue("FieldLength")));
+			m_Column.setHelp(atts.getValue("Help").replaceAll("'", "''")
+					.replaceAll(",", ""));
+			m_Column.setIsActive(atts.getValue("isActive") != null ? Boolean
+					.valueOf(atts.getValue("isActive")).booleanValue() : true);
+			m_Column.setIsAlwaysUpdateable((Boolean.valueOf(atts
+					.getValue("isAlwaysUpdateable")).booleanValue()));
+			// m_Column.setIsEncrypted(atts.getValue("isEncrypted"));
+			m_Column.setIsIdentifier((Boolean.valueOf(atts
+					.getValue("isIdentifier")).booleanValue()));
+			m_Column.setIsKey((Boolean.valueOf(atts.getValue("isKey"))
+					.booleanValue()));
+			m_Column.setIsMandatory((Boolean.valueOf(atts
+					.getValue("isMandatory")).booleanValue()));
+
+			m_Column.setIsParent((Boolean.valueOf(atts.getValue("isParent"))
+					.booleanValue()));
+			m_Column.setIsSelectionColumn((Boolean.valueOf(atts
+					.getValue("isSelectionColumn")).booleanValue()));
+			m_Column.setIsSyncDatabase(atts.getValue("getIsSyncDatabase"));
+
+			m_Column.setIsTranslated((Boolean.valueOf(atts
+					.getValue("isTranslated")).booleanValue()));
+			m_Column.setIsUpdateable((Boolean.valueOf(atts
+					.getValue("isUpdateable")).booleanValue()));
+			m_Column.setName(atts.getValue("Name"));
+			m_Column.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
+
+			if (Integer.parseInt(atts.getValue("SeqNo")) > 0)
+				m_Column.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
+			m_Column.setVFormat(atts.getValue("VFormat"));
+			if (atts.getValue("ValueMax") != null)
+				m_Column.setValueMax(atts.getValue("ValueMax"));
+			if (atts.getValue("ValueMin") != null)
+				m_Column.setValueMin(atts.getValue("ValueMin"));
+			if (atts.getValue("Version") != null)
+				m_Column.setVersion(new BigDecimal(atts.getValue("Version")));
+
+			// Setup Element.
+			id = get_IDWithColumn(ctx, "AD_Element", "ColumnName", m_Column
+					.getColumnName());
+			X_AD_Element adElement = new X_AD_Element(ctx, id, getTrxName(ctx));
+
+			String Object_Status_col = Object_Status;
+			if (adElement.getAD_Element_ID() == 0) {
+				// Object_Status = "New";
+				adElement.setColumnName(m_Column.getColumnName());
+				adElement.setEntityType(m_Column.getEntityType());
+				adElement.setPrintName(m_Column.getColumnName());
+
+				adElement.setName(m_Column.getColumnName());
+				if (adElement.save(getTrxName(ctx)) == true) {
+					record_log(ctx, 1, m_Column.getName(), "Element", adElement
+							.getAD_Element_ID(), AD_Backup_ID, "New",
+							"AD_Element", get_IDWithColumn(ctx, "AD_Table",
+									"TableName", "AD_Element"));
+				} else {
+					record_log(ctx, 0, m_Column.getName(), "Element", adElement
+							.getAD_Element_ID(), AD_Backup_ID, "New",
+							"AD_Element", get_IDWithColumn(ctx, "AD_Table",
+									"TableName", "AD_Element"));
+				}
+			}
+
+			Object_Status = Object_Status_col;
+			m_Column.setAD_Element_ID(adElement.getAD_Element_ID());
+
+			boolean recreateColumn = (m_Column.is_new()
+					|| m_Column.is_ValueChanged("AD_Reference_ID")
+					|| m_Column.is_ValueChanged("FieldLength")
+					|| m_Column.is_ValueChanged("ColumnName") || m_Column
+					.is_ValueChanged("IsMandatory"));
+
+			// changed default ??
+			// m_Column.is_ValueChanged("DefaultValue") doesn't work well with
+			// nulls
+			if (!recreateColumn) {
+				String oldDefault = (String) m_Column
+						.get_ValueOld("DefaultValue");
+				String newDefault = (String) m_Column.get_Value("DefaultValue");
+				if (oldDefault != null && oldDefault.length() == 0)
+					oldDefault = null;
+				if (newDefault != null && newDefault.length() == 0)
+					newDefault = null;
+				if ((oldDefault == null && newDefault != null)
+						|| (oldDefault != null && newDefault == null)) {
+					recreateColumn = true;
+				} else if (oldDefault != null && newDefault != null) {
+					if (!oldDefault.equals(newDefault))
+						recreateColumn = true;
+				}
+			}
+
+			// Don't create database column for virtual columns
+			// Don't create columns by default, just if getIsSyncDatabase='Y'
+			if (recreateColumn) {
+				String sync = atts.getValue("getIsSyncDatabase");
+				if (m_Column.isVirtualColumn() || sync == null
+						|| (!sync.equals("Y")))
+					recreateColumn = false;
+			}
+
+			if (m_Column.save(getTrxName(ctx)) == true) {
+				record_log(ctx, 1, m_Column.getName(), "Column", m_Column
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
+								"AD_Column"));
+			} else {
+				record_log(ctx, 0, m_Column.getName(), "Column", m_Column
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
+								"AD_Column"));
+				throw new POSaveFailedException("Column");
+			}
+
+			if (recreateColumn) {
+				success = createcolumn(ctx, m_Column);
+
+				if (success == 1) {
+					record_log(ctx, 1, m_Column.getColumnName(), "dbColumn",
+							m_Column.get_ID(), 0, Object_Status, atts.getValue(
+									"ADTableNameID").toUpperCase(),
+							get_IDWithColumn(ctx, "AD_Table", "TableName", atts
+									.getValue("ADTableNameID").toUpperCase()));
+				} else {
+					record_log(ctx, 0, m_Column.getColumnName(), "dbColumn",
+							m_Column.get_ID(), 0, Object_Status, atts.getValue(
+									"ADTableNameID").toUpperCase(),
+							get_IDWithColumn(ctx, "AD_Table", "TableName", atts
+									.getValue("ADTableNameID").toUpperCase()));
+					throw new DatabaseAccessException("CreateColumn");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check if column exists in database and modify. If not create column.
+	 * 
+	 * @param tablename
+	 * @param columnname
+	 * @param v_AD_Reference_ID
+	 * @param v_FieldLength
+	 * @param v_DefaultValue
+	 * @param v_IsMandatory
+	 * 
+	 */
+	private int createcolumn(Properties ctx, MColumn column) {
+		MTable table = new MTable(ctx, column.getAD_Table_ID(), getTrxName(ctx));
+		if (table.isView())
+			return 0;
+
+		int no = 0;
+
+		String sql = null;
+		ResultSet rst = null;
+		ResultSet rsc = null;
+		try {
+			// Find Column in Database
+			DatabaseMetaData md = DB.getConnectionRO().getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			String tableName = table.getTableName();
+			String columnName = column.getColumnName();
+			if (DB.isOracle()) {
+				tableName = tableName.toUpperCase();
+				columnName = columnName.toUpperCase();
+			} else if (DB.isPostgreSQL()) {
+				tableName = tableName.toLowerCase();
+				columnName = columnName.toLowerCase();
+			}
+
+			rst = md.getTables(catalog, schema, tableName,
+					new String[] { "TABLE" });
+			if (!rst.next()) {
+				// table doesn't exist
+				sql = table.getSQLCreate();
+			} else {
+				//
+				rsc = md.getColumns(catalog, schema, tableName, columnName);
+				if (rsc.next()) {
+					// update existing column
+					boolean notNull = DatabaseMetaData.columnNoNulls == rsc
+							.getInt("NULLABLE");
+					sql = column.getSQLModify(table,
+							column.isMandatory() != notNull);
+				} else {
+					// No existing column
+					sql = column.getSQLAdd(table);
+				}
+				rsc.close();
+				rsc = null;
+			}
+
+			rst.close();
+			rst = null;
+			log.info(sql);
+
+			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
+				no = DB.executeUpdate(sql, false, getTrxName(ctx));
+			} else {
+				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
+				for (int i = 0; i < statements.length; i++) {
+					int count = DB.executeUpdate(statements[i], false,
+							getTrxName(ctx));
+					no += count;
+				}
+			}
+
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			if (rsc != null) {
+				try {
+					rsc.close();
+				} catch (SQLException e1) {
+				}
+				rsc = null;
+			}
+			if (rst != null) {
+				try {
+					rst.close();
+				} catch (SQLException e1) {
+				}
+				rst = null;
+			}
+			return 0;
+		}
+
+		// postgres requires commit on DDL (ALTER,CREATE)
+		if (DB.isPostgreSQL()) {
+			try {
+				DB.commit(true, getTrxName(ctx));
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				return 0;
+			}
+		}
+
+		return 1;
+	}
+
+	public void endElement(Properties ctx, Element element) throws SAXException {
+	}
+
+	public void create(Properties ctx, TransformerHandler document)
+			throws SAXException {
+		int AD_Column_ID = Env.getContextAsInt(ctx,
+				X_AD_Column.COLUMNNAME_AD_Column_ID);
+		AttributesImpl atts = new AttributesImpl();
+		X_AD_Column m_Column = new X_AD_Column(ctx, AD_Column_ID,
+				getTrxName(ctx));
+		createColumnBinding(atts, m_Column);
+		document.startElement("", "", "column", atts);
+		document.endElement("", "", "column");
+	}
+
+	private AttributesImpl createColumnBinding(AttributesImpl atts,
+			X_AD_Column m_Column) {
+		String sql = null;
+		String name = null;
+		atts.clear();
+		if (m_Column.getAD_Column_ID() > 0) {
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column.getAD_Column_ID());
+			atts.addAttribute("", "", "ADColumnNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
+		if (m_Column.getAD_Process_ID() > 0) {
+			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column.getAD_Process_ID());
+			atts.addAttribute("", "", "ADProcessNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADProcessNameID", "CDATA", "");
+		if (m_Column.getAD_Element_ID() > 0) {
+			sql = "SELECT Name FROM AD_Element WHERE AD_Element_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column.getAD_Element_ID());
+			atts.addAttribute("", "", "ADElementNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADElementNameID", "CDATA", "");
+		if (m_Column.getAD_Reference_ID() > 0) {
+			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column
+					.getAD_Reference_ID());
+			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", "");
+		if (m_Column.getAD_Reference_Value_ID() > 0) {
+			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column
+					.getAD_Reference_Value_ID());
+			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
+		if (m_Column.getAD_Table_ID() > 0) {
+			sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Column.getAD_Table_ID());
+			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADTableNameID", "CDATA", "");
+		if (m_Column.getAD_Val_Rule_ID() > 0) {
+			sql = "SELECT Name FROM AD_Val_Rule WHERE AD_Val_Rule_ID=?";
+			name = DB
+					.getSQLValueString(null, sql, m_Column.getAD_Val_Rule_ID());
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", "");
+		atts.addAttribute("", "", "Callout", "CDATA",
+				(m_Column.getCallout() != null ? m_Column.getCallout() : ""));
+		atts.addAttribute("", "", "ColumnSQL", "CDATA", (m_Column
+				.getColumnSQL() != null ? m_Column.getColumnSQL() : ""));
+		atts.addAttribute("", "", "ColumnName", "CDATA", (m_Column
+				.getColumnName() != null ? m_Column.getColumnName() : ""));
+		atts.addAttribute("", "", "DefaultValue", "CDATA", (m_Column
+				.getDefaultValue() != null ? m_Column.getDefaultValue() : ""));
+		atts.addAttribute("", "", "Description", "CDATA", (m_Column
+				.getDescription() != null ? m_Column.getDescription() : ""));
+		atts.addAttribute("", "", "EntityType", "CDATA", (m_Column
+				.getEntityType() != null ? m_Column.getEntityType() : ""));
+		atts.addAttribute("", "", "FieldLength", "CDATA", (m_Column
+				.getFieldLength() > 0 ? "" + m_Column.getFieldLength() : "0"));
+		atts.addAttribute("", "", "Help", "CDATA",
+				(m_Column.getHelp() != null ? m_Column.getHelp() : ""));
+		atts.addAttribute("", "", "isAlwaysUpdateable", "CDATA", (m_Column
+				.isAlwaysUpdateable() == true ? "true" : "false"));
+		// atts.addAttribute("","","isEncrypted","CDATA",(m_Column.getIsEncrypted()==
+		// true ? "true":"false"));
+		atts.addAttribute("", "", "isIdentifier", "CDATA", (m_Column
+				.isIdentifier() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isKey", "CDATA",
+				(m_Column.isKey() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isMandatory", "CDATA", (m_Column
+				.isMandatory() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isParent", "CDATA",
+				(m_Column.isParent() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isSelectionColumn", "CDATA", (m_Column
+				.isSelectionColumn() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isActive", "CDATA",
+				(m_Column.isActive() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isTranslated", "CDATA", (m_Column
+				.isTranslated() == true ? "true" : "false"));
+		atts.addAttribute("", "", "isUpdateable", "CDATA", (m_Column
+				.isUpdateable() == true ? "true" : "false"));
+		atts.addAttribute("", "", "Name", "CDATA",
+				(m_Column.getName() != null ? m_Column.getName() : ""));
+		atts.addAttribute("", "", "getIsSyncDatabase", "CDATA", (m_Column
+				.getIsSyncDatabase() != null ? m_Column.getIsSyncDatabase()
+				: ""));
+		atts
+				.addAttribute("", "", "ReadOnlyLogic", "CDATA", (m_Column
+						.getReadOnlyLogic() != null ? m_Column
+						.getReadOnlyLogic() : ""));
+		atts.addAttribute("", "", "SeqNo", "CDATA",
+				(m_Column.getSeqNo() > 0 ? "" + m_Column.getSeqNo() : "0"));
+		atts.addAttribute("", "", "VFormat", "CDATA",
+				(m_Column.getVFormat() != null ? m_Column.getVFormat() : ""));
+		atts.addAttribute("", "", "ValueMax", "CDATA",
+				(m_Column.getValueMax() != null ? m_Column.getValueMax() : ""));
+		atts.addAttribute("", "", "ValueMin", "CDATA",
+				(m_Column.getValueMin() != null ? m_Column.getValueMin() : ""));
+		atts.addAttribute("", "", "Version", "CDATA",
+				(m_Column.getVersion() != null ? "" + m_Column.getVersion()
+						: "0.0"));
+		return atts;
+	}
+}

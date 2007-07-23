@@ -1,0 +1,370 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
+ * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *****************************************************************************/
+package org.adempiere.pipo.handler;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.xml.transform.sax.TransformerHandler;
+
+import org.adempiere.pipo.AbstractElementHandler;
+import org.adempiere.pipo.Element;
+import org.adempiere.pipo.exception.DatabaseAccessException;
+import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.X_AD_Package_Exp_Detail;
+import org.compiere.model.X_AD_WF_NextCondition;
+import org.compiere.model.X_AD_WF_Node;
+import org.compiere.model.X_AD_WF_NodeNext;
+import org.compiere.model.X_AD_Workflow;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.wf.MWorkflow;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+
+public class WorkflowElementHandler extends AbstractElementHandler {
+
+	private WorkflowNodeElementHandler nodeHandler = new WorkflowNodeElementHandler();
+	private WorkflowNodeNextElementHandler nodeNextHandler = new WorkflowNodeNextElementHandler();
+	private WorkflowNodeNextConditionElementHandler nextConditionHandler = new WorkflowNodeNextConditionElementHandler();
+
+	public void startElement(Properties ctx, Element element)
+			throws SAXException {
+		Attributes atts = element.attributes;
+		String elementValue = element.getElementValue();
+		log.info(elementValue + " " + atts.getValue("Name"));
+		String entitytype = atts.getValue("EntityType");
+		log.info("entitytype " + atts.getValue("EntityType"));
+
+		if (entitytype.equals("U") || entitytype.equals("D")
+				&& getUpdateMode(ctx).equals("true")) {
+			log.info("entitytype is a U or D");
+
+			String workflowName = atts.getValue("Name");
+
+			int id = get_IDWithColumn(ctx, "AD_Workflow", "name", workflowName);
+
+			MWorkflow m_Workflow = new MWorkflow(ctx, id, getTrxName(ctx));
+			int AD_Backup_ID = -1;
+			String Object_Status = null;
+			if (id > 0) {
+				AD_Backup_ID = copyRecord(ctx, "AD_Workflow", m_Workflow);
+				Object_Status = "Update";
+			} else {
+				Object_Status = "New";
+				AD_Backup_ID = 0;
+			}
+
+			String name = atts.getValue("ADWorkflowResponsibleNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_WF_Responsible", "Name", name);
+				if (id <= 0) {
+					element.defer = true;
+					return;
+				}
+				m_Workflow.setAD_WF_Responsible_ID(id);
+			}
+
+			name = atts.getValue("ADTableNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
+				if (id <= 0) {
+					element.defer = true;
+					return;
+				}
+				m_Workflow.setAD_Table_ID(id);
+
+			}
+
+			name = atts.getValue("ADWorkflowProcessorNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_WorkflowProcessor", "Name", name);
+				if (id <= 0) {
+					element.defer = true;
+					return;
+				}
+				m_Workflow.setAD_WorkflowProcessor_ID(id);
+
+			}
+			m_Workflow.setName(workflowName);
+			m_Workflow.setAccessLevel(atts.getValue("AccessLevel"));
+			m_Workflow.setDescription(atts.getValue("Description").replaceAll(
+					"'", "''").replaceAll(",", ""));
+			m_Workflow.setHelp(atts.getValue("Help").replaceAll("'", "''")
+					.replaceAll(",", ""));
+			m_Workflow.setDurationUnit(atts.getValue("DurationUnit"));
+			m_Workflow.setAuthor(atts.getValue("Author"));
+			m_Workflow.setVersion(Integer.valueOf(atts.getValue("Version")));
+			m_Workflow.setPriority(Integer.valueOf(atts.getValue("Priority")));
+			m_Workflow.setLimit(Integer.valueOf(atts.getValue("Limit")));
+			m_Workflow.setDuration(Integer.valueOf(atts.getValue("Duration")));
+			m_Workflow.setCost(Integer.valueOf(atts.getValue("Cost")));
+			m_Workflow.setWorkingTime(Integer.valueOf(atts
+					.getValue("WorkingTime")));
+			m_Workflow.setWaitingTime(Integer.valueOf(atts
+					.getValue("WaitingTime")));
+			m_Workflow.setPublishStatus(atts.getValue("PublishStatus"));
+			m_Workflow.setWorkflowType(atts.getValue("WorkflowType"));
+			m_Workflow.setDocValueLogic(atts.getValue("DocValueLogic"));
+			m_Workflow.setIsValid(atts.getValue("isValid") != null ? Boolean
+					.valueOf(atts.getValue("isValid")).booleanValue() : true);
+			m_Workflow.setEntityType(atts.getValue("EntityType"));
+			m_Workflow.setAD_WF_Node_ID(-1);
+			// log.info("in3");
+			getDocumentAttributes(ctx).clear();
+			log.info("about to execute m_Workflow.save");
+			if (m_Workflow.save(getTrxName(ctx)) == true) {
+				log.info("m_Workflow save success");
+				record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
+						get_IDWithColumn(ctx, "AD_Workflow", "Name",
+								"AD_Workflow"));
+			} else {
+				log.info("m_Workflow save failure");
+				record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
+						get_IDWithColumn(ctx, "AD_Workflow", "Name",
+								"AD_Workflow"));
+				throw new POSaveFailedException("MWorkflow");
+			}
+		} else {
+			log.info("entitytype is not a U or D");
+		}
+	}
+
+	public void endElement(Properties ctx, Element element) throws SAXException {
+	}
+
+	public void create(Properties ctx, TransformerHandler document)
+			throws SAXException {
+		int AD_Workflow_ID = Env.getContextAsInt(ctx,
+				X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID);
+		String sql = "SELECT Name FROM AD_Workflow WHERE  AD_Workflow_ID= "
+				+ AD_Workflow_ID;
+		int ad_wf_nodenext_id = 0;
+		int ad_wf_nodenextcondition_id = 0;
+		AttributesImpl atts = new AttributesImpl();
+
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
+
+		try {
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				X_AD_Workflow m_Workflow = new X_AD_Workflow(ctx,
+						AD_Workflow_ID, null);
+				X_AD_WF_Node m_WF_Node = null;
+				createWorkflowBinding(atts, m_Workflow);
+				document.startElement("", "", "workflow", atts);
+				String sql1 = "SELECT * FROM AD_WF_Node WHERE AD_Workflow_ID = "
+						+ AD_Workflow_ID;
+
+				PreparedStatement pstmt1 = null;
+				pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
+
+				try {
+
+					// Generated workflowNodeNext(s) and
+					// workflowNodeNextCondition(s)
+					ResultSet rs1 = pstmt1.executeQuery();
+					while (rs1.next()) {
+
+						int nodeId = rs1.getInt("AD_WF_Node_ID");
+						createNode(ctx, document, nodeId);
+
+						ad_wf_nodenext_id = 0;
+
+						sql = "SELECT ad_wf_nodenext_id from ad_wf_nodenext WHERE ad_wf_node_id = ?";
+						ad_wf_nodenext_id = DB.getSQLValue(null, sql, m_WF_Node
+								.getAD_WF_Node_ID());
+						if (ad_wf_nodenext_id > 0) {
+							createNodeNext(ctx, document, ad_wf_nodenext_id);
+
+							ad_wf_nodenextcondition_id = 0;
+
+							sql = "SELECT ad_wf_nextcondition_id from ad_wf_nextcondition WHERE ad_wf_nodenext_id = ?";
+							ad_wf_nodenextcondition_id = DB.getSQLValue(null,
+									sql, m_WF_Node.getAD_WF_Node_ID());
+							log
+									.info("ad_wf_nodenextcondition_id: "
+											+ String
+													.valueOf(ad_wf_nodenextcondition_id));
+							if (ad_wf_nodenextcondition_id > 0) {
+								createNodeNextCondition(ctx, document,
+										ad_wf_nodenextcondition_id);
+							}
+						}
+
+					}
+
+					rs1.close();
+					pstmt1.close();
+					pstmt1 = null;
+				} finally {
+					try {
+						if (pstmt1 != null)
+							pstmt1.close();
+					} catch (Exception e) {
+					}
+					pstmt1 = null;
+				}
+				document.endElement("", "", "workflow");
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Workflow", e);
+			if (e instanceof SAXException)
+				throw (SAXException) e;
+			else if (e instanceof SQLException)
+				throw new DatabaseAccessException("Workflow", e);
+			else
+				throw new RuntimeException("Workflow", e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (Exception e) {
+			}
+			pstmt = null;
+		}
+	}
+
+	private void createNodeNextCondition(Properties ctx,
+			TransformerHandler document, int ad_wf_nodenextcondition_id)
+			throws SAXException {
+		Env.setContext(ctx,
+				X_AD_WF_NextCondition.COLUMNNAME_AD_WF_NextCondition_ID,
+				ad_wf_nodenextcondition_id);
+		nextConditionHandler.create(ctx, document);
+		ctx.remove(X_AD_WF_NextCondition.COLUMNNAME_AD_WF_NextCondition_ID);
+	}
+
+	private void createNodeNext(Properties ctx, TransformerHandler document,
+			int ad_wf_nodenext_id) throws SAXException {
+		Env.setContext(ctx, X_AD_WF_NodeNext.COLUMNNAME_AD_WF_NodeNext_ID,
+				ad_wf_nodenext_id);
+		nodeNextHandler.create(ctx, document);
+		ctx.remove(X_AD_WF_NodeNext.COLUMNNAME_AD_WF_NodeNext_ID);
+	}
+
+	private void createNode(Properties ctx, TransformerHandler document,
+			int AD_WF_Node_ID) throws SAXException {
+		Env.setContext(ctx, X_AD_WF_Node.COLUMNNAME_AD_WF_Node_ID,
+				AD_WF_Node_ID);
+		nodeHandler.create(ctx, document);
+		ctx.remove(X_AD_WF_Node.COLUMNNAME_AD_WF_Node_ID);
+	}
+
+	private AttributesImpl createWorkflowBinding(AttributesImpl atts,
+			X_AD_Workflow m_Workflow) {
+		String sql = null;
+		String name = null;
+		atts.clear();
+		atts.addAttribute("", "", "Name", "CDATA",
+				(m_Workflow.getName() != null ? m_Workflow.getName() : ""));
+		if (m_Workflow.getAD_Table_ID() > 0) {
+			sql = "SELECT Name FROM AD_Table WHERE AD_Table_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Workflow.getAD_Table_ID());
+			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADTableNameID", "CDATA", "");
+
+		if (m_Workflow.getAD_WF_Node_ID() > 0) {
+			sql = "SELECT Name FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Workflow
+					.getAD_WF_Node_ID());
+			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", "");
+		if (m_Workflow.getAD_WF_Responsible_ID() > 0) {
+			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Workflow
+					.getAD_WF_Responsible_ID());
+			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
+					name);
+		} else
+			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
+					"");
+		if (m_Workflow.getAD_WorkflowProcessor_ID() > 0) {
+			sql = "SELECT Name FROM  AD_WorkflowProcessor_ID WHERE AD_WorkflowProcessor_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Workflow
+					.getAD_WorkflowProcessor_ID());
+			atts.addAttribute("", "", "ADWorkflowProcessorNameID", "CDATA",
+					name);
+		} else
+			atts.addAttribute("", "", "ADWorkflowProcessorNameID", "CDATA", "");
+		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Workflow
+				.getAccessLevel() != null ? m_Workflow.getAccessLevel() : ""));
+		atts
+				.addAttribute("", "", "DurationUnit", "CDATA", (m_Workflow
+						.getDurationUnit() != null ? m_Workflow
+						.getDurationUnit() : ""));
+		atts.addAttribute("", "", "Help", "CDATA",
+				(m_Workflow.getHelp() != null ? m_Workflow.getHelp() : ""));
+		atts.addAttribute("", "", "Description", "CDATA", (m_Workflow
+				.getDescription() != null ? m_Workflow.getDescription() : ""));
+		atts.addAttribute("", "", "EntityType", "CDATA", (m_Workflow
+				.getEntityType() != null ? m_Workflow.getEntityType() : ""));
+		atts.addAttribute("", "", "Author", "CDATA",
+				(m_Workflow.getAuthor() != null ? m_Workflow.getAuthor() : ""));
+		atts.addAttribute("", "", "Version", "CDATA", (""
+				+ m_Workflow.getVersion() != null ? ""
+				+ m_Workflow.getVersion() : ""));
+		// FIXME: Handle dates
+		// atts.addAttribute("","","ValidFrom","CDATA",(m_Workflow.getValidFrom
+		// ().toGMTString() != null ?
+		// m_Workflow.getValidFrom().toGMTString():""));
+		// atts.addAttribute("","","ValidTo","CDATA",(m_Workflow.getValidTo
+		// ().toGMTString() != null ?
+		// m_Workflow.getValidTo().toGMTString():""));
+		atts.addAttribute("", "", "Priority", "CDATA", ("" + m_Workflow
+				.getPriority()));
+		atts.addAttribute("", "", "Limit", "CDATA",
+				("" + m_Workflow.getLimit()));
+		atts.addAttribute("", "", "Duration", "CDATA", ("" + m_Workflow
+				.getDuration()));
+		atts.addAttribute("", "", "Cost", "CDATA", ("" + m_Workflow.getCost()));
+		atts.addAttribute("", "", "WorkingTime", "CDATA", ("" + m_Workflow
+				.getWorkingTime()));
+		atts.addAttribute("", "", "WaitingTime", "CDATA", ("" + m_Workflow
+				.getWaitingTime()));
+		atts.addAttribute("", "", "PublishStatus", "CDATA", (m_Workflow
+				.getPublishStatus() != null ? m_Workflow.getPublishStatus()
+				: ""));
+		atts
+				.addAttribute("", "", "WorkflowType", "CDATA", (m_Workflow
+						.getWorkflowType() != null ? m_Workflow
+						.getWorkflowType() : ""));
+		atts.addAttribute("", "", "DocValueLogic", "CDATA", (m_Workflow
+				.getDocValueLogic() != null ? m_Workflow.getDocValueLogic()
+				: ""));
+		atts.addAttribute("", "", "isValid", "CDATA",
+				(m_Workflow.isValid() == true ? "true" : "false"));
+		// Doesn't appear to be necessary
+		// atts.addAttribute("","","SetupTime","CDATA",(""+m_Workflow.getSetupTime()
+		// != null ? ""+m_Workflow.getSetupTime():""));
+		return atts;
+	}
+}
