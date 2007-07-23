@@ -42,7 +42,7 @@ super (ctx, AD_Color_ID, trxName);
 setAD_Color_ID (0);
 setAlpha (0);
 setBlue (0);
-setColorType (0);
+setColorType (null);
 setGreen (0);
 setImageAlpha (Env.ZERO);
 setIsDefault (false);
@@ -205,20 +205,23 @@ public static final String COLORTYPE_Line = "L";
 public static final String COLORTYPE_TexturePicture = "T";
 /** Set Color Type.
 @param ColorType Color presentation for this color */
-public void setColorType (int ColorType)
+public void setColorType (String ColorType)
 {
 if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");
 if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T"));
  else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");
-set_Value ("ColorType", Integer.valueOf(ColorType));
+if (ColorType.length() > 1)
+{
+log.warning("Length > 1 - truncated");
+ColorType = ColorType.substring(0,0);
+}
+set_Value ("ColorType", ColorType);
 }
 /** Get Color Type.
 @return Color presentation for this color */
-public int getColorType() 
+public String getColorType() 
 {
-Integer ii = (Integer)get_Value("ColorType");
-if (ii == null) return 0;
-return ii.intValue();
+return (String)get_Value("ColorType");
 }
 /** Column name ColorType */
 public static final String COLUMNNAME_ColorType = "ColorType";

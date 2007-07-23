@@ -85,7 +85,7 @@ public final class DisplayType
 	public static final int TextLong   = 36;
 	/** Display Type 37	CostPrice	*/
 	public static final int CostPrice  = 37;
-	/** Display Type 36	File Path	*/
+	/** Display Type 38	File Path	*/
 	public static final int FilePath  = 38;
 	/** Display Type 39 File Name	*/
 	public static final int FileName  = 39;
