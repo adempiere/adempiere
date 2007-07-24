@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.text.*;
-import javax.swing.text.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
 
 import org.compiere.apps.ADialog;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 
 /**
  *  Number Document Model.
@@ -30,6 +36,8 @@ import org.compiere.util.*;
  *  @see VNumber
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MDocNumber.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1759655 ]
  */
 public final class MDocNumber extends PlainDocument
 {
@@ -145,7 +153,7 @@ public final class MDocNumber extends PlainDocument
 			//	only positive numbers
 			if (m_displayType == DisplayType.Integer)
 				return;
-			if (content.charAt(0) == '-')
+			if (content.length() > 0 && content.charAt(0) == '-')
 				super.remove(0, 1);
 		}
 
