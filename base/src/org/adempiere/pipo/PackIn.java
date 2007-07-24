@@ -76,6 +76,7 @@ public class PackIn extends SvrProcess {
 			PackInHandler handler = new PackInHandler();
 			handler.set_TrxName(trxName);
 			handler.setCtx(ctx);
+			handler.setProcess(this);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser = factory.newSAXParser();
 			String msg = "Start Parser";
@@ -227,6 +228,7 @@ public class PackIn extends SvrProcess {
 
 		// impXML.setUpdateMode(args[7]);
 		impXML.m_UpdateMode = args[7];
+		
 		impXML.importXML(file, Env.getCtx(), null);
 
 		System.exit(0);

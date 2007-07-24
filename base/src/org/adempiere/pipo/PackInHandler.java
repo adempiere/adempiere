@@ -136,12 +136,14 @@ public class PackInHandler extends DefaultHandler {
 	private List<Element> menus = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
+	private PackIn packIn;
 
 	private void init() throws SAXException {
-		PackIn pack = new PackIn();
-		packageDirectory = pack.m_Package_Dir;
-		m_UpdateMode = pack.m_UpdateMode;
-		m_DatabaseType = pack.m_Database;    	
+		if (packIn == null)
+			packIn = new PackIn();
+		packageDirectory = packIn.m_Package_Dir;
+		m_UpdateMode = packIn.m_UpdateMode;
+		m_DatabaseType = packIn.m_Database;
 		File file = new File("");
 		SimpleDateFormat formatter_file = new SimpleDateFormat("yyMMddHHmmssZ");
 		SimpleDateFormat formatter_log = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
@@ -695,5 +697,12 @@ public class PackInHandler extends DefaultHandler {
 			element = e;
 			startElement = b;
 		}
+	}
+
+	/**
+	 * @param packIn
+	 */
+	public void setProcess(PackIn packIn) {
+		this.packIn = packIn;
 	}
 }   // PackInHandler
