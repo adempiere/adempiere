@@ -331,7 +331,7 @@ public class ImportAccount extends SvrProcess
 			+ "WHERE ParentElementValue_ID IS NULL AND ParentValue IS NOT NULL"
 			+ " AND I_IsImported='Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
-		log.config("Not Found Patent ElementValue=" + no);
+		log.config("Not Found Parent ElementValue=" + no);
 		//
 		sql = new StringBuffer ("SELECT i.ParentElementValue_ID, i.I_ElementValue_ID,"
 			+ " e.AD_Tree_ID, i.C_ElementValue_ID, i.Value||'-'||i.Name AS Info "
