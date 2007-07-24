@@ -245,6 +245,16 @@ public class MLocator extends X_M_Locator
 	 */
 	public boolean isCanStoreProduct (int M_Product_ID)
 	{
+		// BF [ 1759245 ] Locator field cleared in Physical Inventory
+		// CarlosRuiz - globalqss comments:
+		// The algorithm to search if a product can be stored is wrong, it looks for:
+		// * M_Storage to see if the product is already in the locator
+		// * If the product has this locator defined as default
+		// This implies that every time you create a new product you must create initial inventory zero for all locators where the product can be stored.
+		// A good enhancement could be a new table to indicate when a locator is exclusive for some products, but I consider current approach not working.
+		return true;
+
+		/*
 		//	Default Locator
 		if (M_Product_ID == 0 || isDefault())
 			return true;
@@ -302,6 +312,7 @@ public class MLocator extends X_M_Locator
 		}
 		
 		return count != 0;
+		*/
 	}	//	isCanStoreProduct
 	
 }	//	MLocator
