@@ -26,6 +26,8 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCashLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1760240 ]
  */
 public class MCashLine extends X_C_CashLine
 {
@@ -326,6 +328,10 @@ public class MCashLine extends X_C_CashLine
 			if (getAD_Org_ID() == 0)
 				setAD_Org_ID(getParent().getAD_Org_ID());
 		}
+		
+		// If CashType is not Bank Account Transfer, set C_BankAccount_ID to null - teo_sarca BF [ 1760240 ]
+		if (!CASHTYPE_BankAccountTransfer.equals(getCashType()))
+			setC_BankAccount_ID(I_ZERO);
 
 		/**	General fix of Currency 
 		UPDATE C_CashLine cl SET C_Currency_ID = (SELECT C_Currency_ID FROM C_Invoice i WHERE i.C_Invoice_ID=cl.C_Invoice_ID) WHERE C_Currency_ID IS NULL AND C_Invoice_ID IS NOT NULL;
