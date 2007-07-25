@@ -27,6 +27,7 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTab;
 import org.compiere.model.X_AD_Field;
 import org.compiere.model.X_AD_Tab;
@@ -45,11 +46,33 @@ public class TabElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("ADTabNameID"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && getUpdateMode(ctx).compareTo("true") == 0) {
-			
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+			if (element.parent != null && element.parent.getElementValue().equals("window")
+				&& element.parent.defer) {
+				element.defer = true;
+				return;
+			}
 			String name = atts.getValue("ADTabNameID");
 			int tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", atts.getValue("ADTableNameID"));
-			int windowid = get_ID(ctx, "AD_Window", atts.getValue("ADWindowNameID"));
+			if (tableid <= 0) {
+				element.defer = true;
+				return;
+			}
+			int windowid = 0;
+			if (element.parent != null && element.parent.getElementValue().equals("window")
+					&& element.parent.recordId > 0) {
+				windowid = element.parent.recordId;
+			} else {
+				windowid = get_ID(ctx, "AD_Window", atts.getValue("ADWindowNameID"));
+				if (element.parent != null && element.parent.getElementValue().equals("window")
+						&& windowid > 0) {
+					element.parent.recordId = windowid;
+				}
+			}
+			if (windowid <= 0) {
+				element.defer = true;
+				return;
+			}
 			StringBuffer sqlB = new StringBuffer ("select AD_Tab_ID from AD_Tab where AD_Window_ID = " + windowid
 					+ " and Name = '"+name +"'"
 					+ " and AD_Table_ID = ?");
@@ -110,10 +133,10 @@ public class TabElementHandler extends AbstractElementHandler {
 				m_Tab.setIncluded_Tab_ID(id);		        
 			}
 			m_Tab.setCommitWarning(atts.getValue("CommitWarning"));
-			m_Tab.setDescription(atts.getValue("Description").replaceAll("'","''").replaceAll(",",""));
+			m_Tab.setDescription(atts.getValue("Description").replaceAll("'","''"));
 			m_Tab.setEntityType (atts.getValue("EntityType"));
 			m_Tab.setHasTree(Boolean.valueOf(atts.getValue("isHasTree")).booleanValue());
-			m_Tab.setHelp (atts.getValue("Help").replaceAll("'","''").replaceAll(",",""));
+			m_Tab.setHelp (atts.getValue("Help").replaceAll("'","''"));
 			m_Tab.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Tab.setImportFields (atts.getValue("ImportFields"));
 			m_Tab.setIsInfoTab (Boolean.valueOf(atts.getValue("isInfoTab")).booleanValue());
@@ -140,9 +163,11 @@ public class TabElementHandler extends AbstractElementHandler {
 				m_Tab.setIsAdvancedTab(Boolean.valueOf(atts.getValue("isAdvancedTab")).booleanValue());
 			}
 			if (m_Tab.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));           		        		
+				record_log (ctx, 1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
+				element.recordId = m_Tab.getAD_Tab_ID();
 			} else {
 				record_log (ctx, 0, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
+				throw new POSaveFailedException("Tab");
 			}
 			
 		}

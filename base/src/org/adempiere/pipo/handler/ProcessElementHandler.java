@@ -29,7 +29,6 @@ import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.MProcess;
 import org.compiere.model.MSequence;
 import org.compiere.model.X_AD_Process;
 import org.compiere.model.X_AD_Process_Para;
@@ -50,22 +49,21 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 		int id = 0;
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
 
 			// Get New process.
 			id = get_ID(ctx, "AD_Process", name);
 
-			MProcess m_Process = null;
+			X_AD_Process m_Process = null;
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0) {
-				m_Process = new MProcess(ctx, id, getTrxName(ctx));
+				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
 				AD_Backup_ID = copyRecord(ctx, "AD_Process", m_Process);
 				Object_Status = "Update";
 			} else {
-				m_Process = new MProcess(ctx, id, getTrxName(ctx));
+				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
 				id = MSequence.getNextID(Env.getAD_Client_ID(ctx),
 						"AD_Process", getTrxName(ctx));
 				m_Process.setAD_Process_ID(id);

@@ -754,6 +754,22 @@ public abstract class PO
 			else if (p_info.getColumnClass(index) == Boolean.class 
 				&& ("Y".equals(value) || "N".equals(value)) )
 				m_newValues[index] = new Boolean("Y".equals(value));
+			else if (p_info.getColumnClass(index) == Integer.class 
+				&& value.getClass() == String.class) 
+			{
+				try 
+				{
+					int intValue = Integer.parseInt((String)value);
+					m_newValues[index] = Integer.valueOf(intValue);
+				} 
+				catch (Exception e) 
+				{
+					log.warning (ColumnName
+							+ " - Class invalid: " + value.getClass().toString()
+							+ ", Should be " + p_info.getColumnClass(index).toString() + ": " + value);
+					m_newValues[index] = null;
+				}
+			}
 			else
 			{
 				log.warning (ColumnName

@@ -41,7 +41,7 @@ public class MessageElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("Value"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || entitytype.equals("D") && getUpdateMode(ctx).equals("true")) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String value = atts.getValue("Value");
 			int id = get_IDWithColumn(ctx, "AD_Message", "value", value);
 
@@ -56,8 +56,8 @@ public class MessageElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID =0;
 			}    	    
-			m_Message.setMsgText(atts.getValue("MsgText").replaceAll("'","''").replaceAll(",",""));
-			m_Message.setMsgTip(atts.getValue("MsgTip").replaceAll("'","''").replaceAll(",",""));
+			m_Message.setMsgText(atts.getValue("MsgText").replaceAll("'","''"));
+			m_Message.setMsgTip(atts.getValue("MsgTip").replaceAll("'","''"));
 			m_Message.setEntityType(atts.getValue("EntityType"));
 			m_Message.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Message.setValue(value);

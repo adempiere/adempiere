@@ -40,7 +40,7 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("Name"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || entitytype.equals("D") && getUpdateMode(ctx).equals("true")) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
 			int id = get_IDWithColumn(ctx, "AD_Val_Rule", "name", name);
 			
@@ -55,7 +55,7 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID =0;
 			}    	    
-			m_ValRule.setDescription(atts.getValue("Description").replaceAll("'","''").replaceAll(",",""));
+			m_ValRule.setDescription(atts.getValue("Description").replaceAll("'","''"));
 			m_ValRule.setEntityType(atts.getValue("EntityType"));
 			m_ValRule.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_ValRule.setName(name);

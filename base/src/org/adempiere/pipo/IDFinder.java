@@ -44,7 +44,11 @@ public class IDFinder {
 	 */
 	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
-		StringBuffer sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where name=?");
+		StringBuffer sqlB = new StringBuffer ("select ")
+			.append(tableName)
+			.append("_ID from ")
+			.append(tableName)
+			.append(" where name=?");
 		
 		if (!tableName.startsWith("AD_"))
 			sqlB = sqlB.append(" and AD_Client_ID=?");
@@ -77,17 +81,25 @@ public class IDFinder {
 	 */
 	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName) {
 		int id = 0;
-		StringBuffer sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER("+columnName+")=?");
+		StringBuffer sqlB = new StringBuffer ("select ")
+		 	.append(tableName)
+		 	.append("_ID from ")
+		 	.append(tableName)
+		 	.append(" where ")
+		 	.append(columnName)
+		 	.append(" = ?");
 		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+value.toString());
 		
 		if (!tableName.startsWith("AD_"))
 			sqlB = sqlB.append(" and AD_Client_ID=?");
 		//here!
-		sqlB = sqlB.append(" Order By "+tableName+"_ID");
+		sqlB = sqlB.append(" Order By ")
+				.append(tableName)
+				.append("_ID");
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
 			if (value instanceof String)
-				pstmt.setString(1, ((String)value).toUpperCase());
+				pstmt.setString(1, (String)value);
 			else if (value instanceof Integer)
 				pstmt.setInt(1, ((Integer)value).intValue());
 			if (!tableName.startsWith("AD_"))
@@ -117,13 +129,22 @@ public class IDFinder {
 	 */
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster, String trxName) {
 		int id = 0;
-		StringBuffer sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER(name)=? and "
-				+ tableNameMaster+"_ID = (select "+tableNameMaster+"_ID from "+tableNameMaster+" where UPPER(name)=?)");
+		StringBuffer sqlB = new StringBuffer ("select ")
+			.append(tableName)
+			.append("_ID from ")
+			.append(tableName)
+			.append(" where name = ? and ")
+			.append(tableNameMaster)
+			.append("_ID = (select ")
+			.append(tableNameMaster)
+			.append("_ID from ")
+			.append(tableNameMaster)
+			.append(" where name = ?)");
 		
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name.toUpperCase());
-			pstmt.setString(2, nameMaster.toUpperCase());
+			pstmt.setString(1, name);
+			pstmt.setString(2, nameMaster);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 				id = rs.getInt(1);
@@ -149,8 +170,14 @@ public class IDFinder {
     
 	public static int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID, String trxName) {
 		int id = 0;
-		StringBuffer sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where UPPER("+columnName+")=? and "
-				+ tableNameMaster+"_ID =?");
+		StringBuffer sqlB = new StringBuffer ("select ")
+			.append(tableName)
+			.append("_ID from ")
+			.append(tableName)
+			.append(" where ")
+			.append(columnName)
+			.append(" = ? and ")
+			.append(tableNameMaster+"_ID =?");
 		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+name+" and "
 		//	    + tableNameMaster+"_ID ="+masterID);
 		log.info(sqlB.toString());
@@ -158,7 +185,7 @@ public class IDFinder {
 		try {
 			
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name.toUpperCase());
+			pstmt.setString(1, name);
 			pstmt.setInt(2, masterID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
@@ -184,8 +211,13 @@ public class IDFinder {
 	 */    
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, int masterID, String trxName) {
 		int id = 0;
-		StringBuffer sqlB = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where name=? and "
-				+ tableNameMaster+"_ID=?");
+		StringBuffer sqlB = new StringBuffer ("select ")
+			.append(tableName)
+			.append("_ID from ")
+			.append(tableName)
+			.append(" where name=? and ")
+			.append(tableNameMaster)
+			.append("_ID=?");
 		
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
@@ -215,13 +247,17 @@ public class IDFinder {
 	 */
 	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
-		String sql = "SELECT "+tableName+"_ID "
-		+ "FROM "+tableName+" "
-		+ "WHERE name=?";
+		StringBuffer sql = new StringBuffer("SELECT ")
+			.append(tableName)
+			.append("_ID ")
+			.append("FROM ")
+			.append(tableName)
+			.append(" ")
+			.append("WHERE name=?");
 		if (!tableName.startsWith("AD_"))
-			sql = sql + " AND AD_Client_ID=?";
+			sql.append(" AND AD_Client_ID=?");
 		try {
-			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
+			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), trxName);
 			pstmt.setString(1, name);
 			if (!tableName.startsWith("AD_"))
 				pstmt.setInt(2, AD_Client_ID);

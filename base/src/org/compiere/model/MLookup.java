@@ -734,7 +734,7 @@ public final class MLookup extends Lookup implements Serializable
 			}
 			catch (SQLException e)
 			{
-				log.log(Level.SEVERE, m_info.KeyColumn + ": Loader - " + sql, e);
+				log.log(Level.SEVERE, m_info.KeyColumn + ", " + m_info.Column_ID + " : Loader - " + sql, e);
 			}
 			int size = m_lookup.size();
 			log.finer(m_info.KeyColumn

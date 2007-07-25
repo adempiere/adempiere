@@ -48,8 +48,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADRefenceNameID");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			StringBuffer sqlB = new StringBuffer(
 					"SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), name);
@@ -126,10 +125,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 					name, "AD_Table", tableId);
 			String entityType = atts.getValue("EntityType");
 			String isValueDisplayed = atts.getValue("IsValueDisplayed");
-			String OrderByClause = atts.getValue("OrderByClause").replaceAll(
-					"'", "''").replaceAll(",", "");
-			String WhereClause = atts.getValue("WhereClause").replaceAll("'",
-					"''").replaceAll(",", "");
+			String OrderByClause = atts.getValue("OrderByClause").replaceAll("'", "''");
+			String WhereClause = atts.getValue("WhereClause").replaceAll("'","''");
 			if (count > 0) {
 				sqlB = new StringBuffer("UPDATE AD_Ref_Table ").append(
 						"SET AD_Table_ID = " + tableId).append(

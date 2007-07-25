@@ -614,11 +614,13 @@ public class MTable extends X_AD_Table
 		//	Sync Table ID
 		if (newRecord)
 		{
-			MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
+			MSequence seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
+			if (seq == null || seq.get_ID() == 0)
+				MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
 		}
 		else
 		{
-			MSequence seq = MSequence.get(getCtx(), getTableName());
+			MSequence seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
 			if (seq == null || seq.get_ID() == 0)
 				MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
 			else if (!seq.getName().equals(getTableName()))

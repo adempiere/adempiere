@@ -38,7 +38,7 @@ public class FormElementHandler extends AbstractElementHandler {
 		log.info(elementValue+" "+atts.getValue("ADFormNameID"));
 		
 		String entitytype = atts.getValue("EntityType");		
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && getUpdateMode(ctx).compareTo("true") == 0 ) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("ADFormNameID");
 			int id = get_ID(ctx, "AD_Form", name);
 			MForm m_Form = new MForm(ctx, id, getTrxName(ctx));
@@ -55,9 +55,9 @@ public class FormElementHandler extends AbstractElementHandler {
 			m_Form.setClassname (atts.getValue("Classname"));
 			m_Form.setIsBetaFunctionality (Boolean.valueOf(atts.getValue("isBetaFunctionality")).booleanValue());
 			m_Form.setAccessLevel(atts.getValue("AccessLevel"));
-			m_Form.setDescription(atts.getValue("Description").replaceAll("'","''").replaceAll(",",""));
+			m_Form.setDescription(atts.getValue("Description").replaceAll("'","''"));
 			m_Form.setEntityType(atts.getValue("EntityType"));
-			m_Form.setHelp(atts.getValue("Help").replaceAll(",",""));
+			m_Form.setHelp(atts.getValue("Help"));
 			m_Form.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Form.setName(atts.getValue("Name")); 
 			

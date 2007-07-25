@@ -326,7 +326,7 @@ public class PackInHandler extends DefaultHandler {
 					.append( ", '" + atts.getValue("CompVer") )
 					.append( "', '" + atts.getValue("Version") )
 					.append( "', '" + atts.getValue("DataBase") )
-					.append( "', '" +  atts.getValue("Description").replaceAll("'","''").replaceAll(",","") )
+					.append( "', '" +  atts.getValue("Description").replaceAll("'","''"))
 					.append( "', '" +  atts.getValue("Name") )
 					.append( "', '" + atts.getValue("creator") )
 					.append( "', '" + atts.getValue("creatorcontact") )
@@ -357,7 +357,7 @@ public class PackInHandler extends DefaultHandler {
 						.append( ", '" + atts.getValue("CompVer") )
 						.append( "', '" + atts.getValue("Version") )
 						.append( "', '" + atts.getValue("DataBase") )
-						.append( "', '" +  atts.getValue("Description").replaceAll("'","''").replaceAll(",","") )
+						.append( "', '" +  atts.getValue("Description").replaceAll("'","''"))
 						.append( "', '" +  atts.getValue("Name") )
 						.append( "', '" + atts.getValue("creator") )
 						.append( "', '" + atts.getValue("creatorcontact") )
@@ -387,20 +387,27 @@ public class PackInHandler extends DefaultHandler {
 			Env.setContext(m_ctx, "PackageDirectory", packageDirectory);
 			m_ctx.put("Document", hd_document);
 			m_ctx.put("DocumentAttributes", attsOut);
+			m_ctx.put("PackInProcess", packIn);
 		}
 		else if (elementValue.equals("menu")) {
 			//defer
-			Element e = new Element(uri, localName, qName, atts);
+			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+			if (stack.size() > 0)
+				e.parent = stack.peek();
+			stack.push(e);
 			menus.add(e);
 		}
 		else {
-			Element e = new Element(uri, localName, qName, atts);
+			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+			if (stack.size() > 0)
+				e.parent = stack.peek();
 			stack.push(e);
 			ElementHandler handler = handlers.get(elementValue);
 			if (handler != null)
 				handler.startElement(m_ctx, e);
-			if (e.defer)
+			if (e.defer) {
 				defer.add(new DeferEntry(e, true));
+			}
 		}	
 	}   // startElement
     
@@ -642,6 +649,8 @@ public class PackInHandler extends DefaultHandler {
     			handler.endElement(m_ctx, e);
     		if (e.defer)
 				defer.add(new DeferEntry(e, false));
+    		else
+    			log.info("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
     	}
     }   // endElement
     
@@ -677,6 +686,11 @@ public class PackInHandler extends DefaultHandler {
     		int endSize = defer.size();
     		if (startSize == endSize) break;
     	} while (defer.size() > 0);
+    	
+    	if (defer.size() > 0) {
+    		//TODO
+    		throw new RuntimeException("Failed to resolve dependency for " + defer.size() + " elements.");
+    	}
     }
 
 	// globalqss - add support for trx in 3.1.2

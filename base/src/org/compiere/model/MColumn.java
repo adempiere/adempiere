@@ -309,7 +309,9 @@ public class MColumn extends X_AD_Column
 			{
 				if (DisplayType.isText(getAD_Reference_ID()) 
 					|| getAD_Reference_ID() == DisplayType.List
-					|| getAD_Reference_ID() == DisplayType.YesNo)
+					|| getAD_Reference_ID() == DisplayType.YesNo
+					|| (getAD_Reference_ID() == DisplayType.Button &&
+						!(getColumnName().endsWith("_ID"))))
 				{
 					if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 						defaultValue = DB.TO_STRING(defaultValue);
@@ -354,7 +356,8 @@ public class MColumn extends X_AD_Column
 			if (DisplayType.isText(getAD_Reference_ID()) 
 				|| getAD_Reference_ID() == DisplayType.List
 				|| getAD_Reference_ID() == DisplayType.YesNo
-				|| getAD_Reference_ID() == DisplayType.Table)
+				|| (getAD_Reference_ID() == DisplayType.Button &&
+						!(getColumnName().endsWith("_ID"))))
 			{
 				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 					defaultValue = DB.TO_STRING(defaultValue);

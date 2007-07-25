@@ -43,12 +43,20 @@ public class WindowAccessElementHandler extends AbstractElementHandler {
 			String name = atts.getValue("rolename");		
 			sqlB = new StringBuffer ("SELECT AD_Role_ID FROM AD_Role WHERE Name= ?");
 			roleid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
+			if (roleid <= 0) {
+				element.defer = true;
+				return;
+			}
 		}
 		
 		if (atts.getValue("windowname")!=null){
 			String name = atts.getValue("windowname");		
 			sqlB = new StringBuffer ("SELECT AD_Window_ID FROM AD_Window WHERE Name= ?");
 			windowid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
+			if (windowid <= 0)  {
+				element.defer = true;
+				return;
+			}
 		}
 		
 		sqlB = new StringBuffer ("SELECT count(*) FROM AD_Window_Access WHERE AD_Role_ID=? and AD_Window_ID=?");		

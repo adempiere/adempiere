@@ -34,6 +34,7 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.GenericPO;
 import org.adempiere.pipo.IDFinder;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.POInfo;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.DB;
@@ -46,7 +47,7 @@ public class DataElementHandler extends AbstractElementHandler {
 
 	private GenericPO genericPO = null;
 	int AD_Backup_ID = -1;
-	String Object_Status = null;
+	String objectStatus = null;
 	String d_tablename = null;
 	
 	private DataRowElementHandler rowHandler = new DataRowElementHandler();
@@ -101,10 +102,10 @@ public class DataElementHandler extends AbstractElementHandler {
 				genericPO = new GenericPO(ctx, id, getTrxName(ctx));
 				if (id > 0){
 					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
-					Object_Status = "Update";			
+					objectStatus = "Update";			
 				}
 				else{
-					Object_Status = "New";
+					objectStatus = "New";
 					AD_Backup_ID =0;
 				}
 			}
@@ -131,7 +132,7 @@ public class DataElementHandler extends AbstractElementHandler {
 					
 					ResultSet rs = pstmt.executeQuery();
 					if (rs.next()) {
-						Object_Status = "Update";	
+						objectStatus = "Update";	
 						genericPO = new GenericPO(ctx, rs, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
@@ -142,7 +143,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						rs.close();
 						pstmt.close();
 						pstmt = null;
-						Object_Status = "New";
+						objectStatus = "New";
 						// set keyXname.
 						CURRENT_KEY = "key1name";
 						if (!atts.getValue(CURRENT_KEY).equals("")) {
@@ -202,9 +203,11 @@ public class DataElementHandler extends AbstractElementHandler {
 		public void endElement(Properties ctx, Element element) throws SAXException {
 			if (genericPO != null) {
 				if (genericPO.save(getTrxName(ctx))== true)
-					record_log (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, Object_Status,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
-				else
-					record_log (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, Object_Status,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					record_log (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+				else {
+					record_log (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					throw new POSaveFailedException("GenericPO");
+				}
 				
 				genericPO = null;
 			}
@@ -229,9 +232,9 @@ public class DataElementHandler extends AbstractElementHandler {
 			String isUpdateable = DB.getSQLValueString(getTrxName(ctx), sql.toString(),id);
 			sql = new StringBuffer ("SELECT IsKey FROM AD_column WHERE AD_Column_ID = ?");
 			String isKey = DB.getSQLValueString(getTrxName(ctx), sql.toString(),id);
-			if (isKey.equals("N") && 
+			if (("New".equals(objectStatus)) || (isKey.equals("N") && 
 					isUpdateable.equals("Y") &&
-					(!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy"))) {
+					(!atts.getValue("name").equals("CreatedBy")||!atts.getValue("name").equals("UpdatedBy")))) {
 				if (atts.getValue("value") != null && !atts.getValue("value").equals("null")) {
 					if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
 							|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				

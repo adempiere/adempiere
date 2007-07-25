@@ -499,6 +499,7 @@ public class CLogMgt
 		sb.append(getMsg("ImplementationVersion")).append(eq).append(org.compiere.Adempiere.getImplementationVersion()).append(NL);
 		//
 		sb.append("AdempiereHome = ").append(Adempiere.getAdempiereHome()).append(NL);
+		sb.append("AdempiereProperties = ").append(Ini.getPropertyFileName()).append(NL);
 		sb.append(Env.getLanguage(Env.getCtx())).append(NL);
 		MClient client = MClient.get(Env.getCtx());
 		sb.append(client).append(NL);

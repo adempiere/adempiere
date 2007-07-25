@@ -27,7 +27,9 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackIn;
 import org.adempiere.pipo.PackOut;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_Column;
 import org.compiere.model.X_AD_Package_Exp_Detail;
@@ -41,7 +43,10 @@ import org.xml.sax.helpers.AttributesImpl;
 public class TableElementHandler extends AbstractElementHandler {
 	private ColumnElementHandler columnHandler = new ColumnElementHandler();
 	
+	private List<Integer>tables = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element) throws SAXException {
+		PackIn packIn = (PackIn)ctx.get("PackInProcess");
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("ADTableNameID"));
@@ -50,8 +55,16 @@ public class TableElementHandler extends AbstractElementHandler {
 		if (entitytype.equals("U") || entitytype.equals("D") && getUpdateMode(ctx).equals("true")) {
 			
 			String tableName = atts.getValue("ADTableNameID");
-			
-			int id = get_IDWithColumn(ctx, "AD_Table", "TableName", tableName);
+			int id = packIn.getTableId(tableName);
+			if (id <= 0) {
+				id = get_IDWithColumn(ctx, "AD_Table", "TableName", tableName);
+				if (id > 0)
+					packIn.addTable(tableName, id);
+			}
+			if (id > 0 && isTableProcess(ctx, id)) {
+				System.out.println("skip table, already process");
+				return;
+			}
 			
 			MTable m_Table = new MTable(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
@@ -79,9 +92,9 @@ public class TableElementHandler extends AbstractElementHandler {
 			
 			m_Table.setAD_Val_Rule_ID(id);
 			m_Table.setAccessLevel (atts.getValue("AccessLevel"));		    
-			m_Table.setDescription(atts.getValue("Description").replaceAll("'","''").replaceAll(",",""));
+			m_Table.setDescription(atts.getValue("Description").replaceAll("'","''"));
 			m_Table.setEntityType(atts.getValue("EntityType"));
-			m_Table.setHelp(atts.getValue("Help").replaceAll("'","''").replaceAll(",",""));            
+			m_Table.setHelp(atts.getValue("Help").replaceAll("'","''"));            
 			m_Table.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Table.setImportTable(atts.getValue("ImportTable"));
 			m_Table.setIsChangeLog(Boolean.valueOf(atts.getValue("isChangeLog")).booleanValue());
@@ -96,10 +109,14 @@ public class TableElementHandler extends AbstractElementHandler {
 //			log.info("in3");
 			getDocumentAttributes(ctx).clear();          
 			if (m_Table.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));           		        		
+				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
+				tables.add(m_Table.getAD_Table_ID());
+				packIn.addTable(tableName, m_Table.getAD_Table_ID());
+				element.recordId = m_Table.getAD_Table_ID();
 			}
 			else{
 				record_log (ctx, 0, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
+				throw new POSaveFailedException("Table");
 			}            
 		}
 	}
@@ -112,7 +129,7 @@ public class TableElementHandler extends AbstractElementHandler {
 		
 		int AD_Table_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
-		boolean exported = isTableExported(ctx, AD_Table_ID);
+		boolean exported = isTableProcess(ctx, AD_Table_ID);
 		AttributesImpl atts = new AttributesImpl();
 		//Export table if not already done so
 		if (!exported){
@@ -202,19 +219,12 @@ public class TableElementHandler extends AbstractElementHandler {
 		ctx.remove(X_AD_Column.COLUMNNAME_AD_Column_ID);
 	}
 
-	private boolean isTableExported(Properties ctx, int AD_Table_ID) {
-		List<Integer>tables = (List<Integer>)ctx.get("ExportedTables");
-		if (tables == null) {
-			tables = new ArrayList<Integer>();
+	private boolean isTableProcess(Properties ctx, int AD_Table_ID) {
+		if (tables.contains(AD_Table_ID))
+			return true;
+		else {
 			tables.add(AD_Table_ID);
 			return false;
-		} else {
-			if (tables.contains(AD_Table_ID))
-				return true;
-			else {
-				tables.add(AD_Table_ID);
-				return false;
-			}
 		}
 	}
 

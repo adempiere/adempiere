@@ -32,6 +32,10 @@ public class Element {
 	public Attributes attributes;
 	//defer for later reprocessing
 	public boolean defer = false;
+	//parent element
+	public Element parent;
+	//resolved db recordid, store for reference by child element
+	public int recordId = 0;
 	
 	/**
 	 * @param uri

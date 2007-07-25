@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
@@ -92,26 +93,26 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		
     		id = MSequence.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
     		
-    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail" 
-    				+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
-    				+   "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," 
-    				+   " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)"
-    				+	"VALUES("
-    				+	" "+ Env.getAD_Client_ID(ctx)
-    				+	", "+ Env.getAD_Org_ID(ctx)
-    				+	", "+ Env.getAD_User_ID(ctx)
-    				+	", "+ Env.getAD_User_ID(ctx)
-    				+	", " + id 
-    				+	", " + getPackageImpId(ctx)
-    				+	", '" + objectType
-    				+	"', '" + objectName
-    				+	"', '" + objectStatus
-    				+	"', 'Success'"
-    				+	", "+objectID
-    				+	", "+objectIDBackup
-    				+	", '"+tableName
-    				+	"', "+AD_Table_ID
-    				+")");
+    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
+    				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
+    				.append( "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," ) 
+    				.append( " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)" )
+    				.append( "VALUES(" )
+    				.append( " "+ Env.getAD_Client_ID(ctx) )
+    				.append( ", "+ Env.getAD_Org_ID(ctx) )
+    				.append( ", "+ Env.getAD_User_ID(ctx) )
+    				.append( ", "+ Env.getAD_User_ID(ctx) )
+    				.append( ", " + id ) 
+    				.append( ", " + getPackageImpId(ctx) )
+    				.append( ", '" + objectType )
+    				.append( "', '" + objectName )
+    				.append( "', '" + objectStatus )
+    				.append( "', 'Success'" )
+    				.append( ", "+objectID )
+    				.append( ", "+objectIDBackup )
+    				.append( ", '"+tableName )
+    				.append( "', "+AD_Table_ID )
+    				.append(")");
     		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
     		if (no == -1)
     			log.info("Insert to import detail failed");
@@ -131,26 +132,26 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		
     		id = MSequence.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
     		
-    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail" 
-    				+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
-    				+   "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," 
-    				+   " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)"
-    				+	"VALUES("
-    				+	" "+ Env.getAD_Client_ID(ctx)
-    				+	", "+ Env.getAD_Org_ID(ctx)
-    				+	", "+ Env.getAD_User_ID(ctx)
-    				+	", "+ Env.getAD_User_ID(ctx)
-    				+	", " + id 
-    				+	", " + getPackageImpId(ctx)
-    				+	", '" + objectType
-    				+	"', '" + objectName
-    				+	"', '" + objectStatus
-    				+	"', 'Failure'" 
-    				+	", "+objectID
-    				+	", "+objectIDBackup
-    				+	", '"+tableName
-    				+	"', "+AD_Table_ID
-    				+")");
+    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
+    				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
+    				.append( "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," ) 
+    				.append( " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)" )
+    				.append( "VALUES(" )
+    				.append( " "+ Env.getAD_Client_ID(ctx) )
+    				.append( ", "+ Env.getAD_Org_ID(ctx) )
+    				.append( ", "+ Env.getAD_User_ID(ctx) )
+    				.append( ", "+ Env.getAD_User_ID(ctx) )
+    				.append( ", " + id ) 
+    				.append( ", " + getPackageImpId(ctx) )
+    				.append( ", '" + objectType )
+    				.append( "', '" + objectName )
+    				.append( "', '" + objectStatus )
+    				.append( "', 'Failure'" ) 
+    				.append( ", "+objectID )
+    				.append( ", "+objectIDBackup )
+    				.append( ", '"+tableName )
+    				.append( "', "+AD_Table_ID )
+    				.append( ")");
     		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
     		if (no == -1)
     			log.info("Insert to import detail failed");
@@ -245,23 +246,23 @@ public abstract class AbstractElementHandler implements ElementHandler {
 				else
 					;//Ignore
 	    			    		
-	    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Backup" 
-	    				+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
-	    				+   "AD_PACKAGE_IMP_BACKUP_ID, AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID," 
-	    				+	" AD_TABLE_ID, AD_COLUMN_ID, AD_REFERENCE_ID, COLVALUE)"
-	    				+	"VALUES("
-	    				+	" "+ Env.getAD_Client_ID(ctx)
-	    				+	", "+ Env.getAD_Org_ID(ctx)
-	    				+	", "+ Env.getAD_User_ID(ctx)
-	    				+	", "+ Env.getAD_User_ID(ctx)
-						+	", " + idBackup
-						+	", " + idDetail
-	    				+	", " + getPackageImpId(ctx)
-	    				+	", " + tableID
-	    				+	", " + columnID
-	    				+	", " + referenceID
-	    				+	", '" + (colValue != null ? colValue : from.get_Value(i))
-	    				+"')");
+	    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Backup") 
+	    				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
+	    				.append( "AD_PACKAGE_IMP_BACKUP_ID, AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID," ) 
+	    				.append( " AD_TABLE_ID, AD_COLUMN_ID, AD_REFERENCE_ID, COLVALUE)" )
+	    				.append( "VALUES(" )
+	    				.append( " "+ Env.getAD_Client_ID(ctx) )
+	    				.append( ", "+ Env.getAD_Org_ID(ctx) )
+	    				.append( ", "+ Env.getAD_User_ID(ctx) )
+	    				.append( ", "+ Env.getAD_User_ID(ctx) )
+						.append( ", " + idBackup )
+						.append( ", " + idDetail )
+	    				.append( ", " + getPackageImpId(ctx) )
+	    				.append( ", " + tableID )
+	    				.append( ", " + columnID )
+	    				.append( ", " + referenceID )
+	    				.append( ", '" + (colValue != null ? colValue : from.get_Value(i)) )
+	    				.append( "')");
 	    		
 	    		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
 	    		if (no == -1)
@@ -333,13 +334,11 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	           }
 	           source.close();
 	           target.close();
-	          
-	           
-	           System.out.println("Successfully copied " + byteCount + " bytes.");
+	           //System.out.println("Successfully copied " + byteCount + " bytes.");
 	        }
 	        catch (Exception e) {
 	           System.out.println("Error occurred while copying.  "+ byteCount + " bytes copied.");
-	           System.out.println(e.toString());
+	           log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 	           
 	           success = -1;
 	        }
@@ -372,5 +371,5 @@ public abstract class AbstractElementHandler implements ElementHandler {
     
     protected String getPackageDirectory(Properties ctx) {
     	return Env.getContext(ctx, "PackageDirectory");
-    }
+    }    
 }

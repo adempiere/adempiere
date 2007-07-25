@@ -27,6 +27,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackIn;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MColumn;
@@ -43,19 +44,40 @@ public class ColumnElementHandler extends AbstractElementHandler {
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
+		PackIn packIn = (PackIn)ctx.get("PackInProcess");
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("ColumnName"));
 		int success = 0;
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+			if (element.parent != null && element.parent.getElementValue().equals("table") &&
+				element.parent.defer) {
+				element.defer = true;
+				return;
+			}
 			String columnName = atts.getValue("ColumnName");
-
-			int tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
-					.getValue("ADTableNameID"));
-			int id = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
+			String tableName = atts.getValue("ADTableNameID");
+			int tableid = 0;
+			if (element.parent != null && element.parent.getElementValue().equals("table") &&
+				element.parent.recordId > 0) {
+				tableid = element.parent.recordId;
+			} else {
+				tableid = packIn.getTableId(tableName);
+			}
+			if (tableid <= 0) {
+				tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", tableName);
+				if (tableid > 0)
+					packIn.addTable(tableName, tableid);
+			}
+			int id = packIn.getColumnId(tableName, columnName);
+			if (id <= 0) {
+				id = get_IDWithMasterAndColumn(ctx, "AD_Column", "ColumnName",
 					columnName, "AD_Table", tableid);
+				if (id > 0) {
+					packIn.addColumn(tableName, columnName, id);
+				}
+			}
 			MColumn m_Column = new MColumn(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
@@ -193,19 +215,22 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			}
 
 			// Don't create database column for virtual columns
-			// Don't create columns by default, just if getIsSyncDatabase='Y'
+			boolean syncDatabase = "Y".equalsIgnoreCase(atts.getValue("getIsSyncDatabase"));
 			if (recreateColumn) {
-				String sync = atts.getValue("getIsSyncDatabase");
-				if (m_Column.isVirtualColumn() || sync == null
-						|| (!sync.equals("Y")))
+				if (m_Column.isVirtualColumn() || !syncDatabase)
 					recreateColumn = false;
 			}
 
+			if (tableName.equals("A_Depreciation") && columnName.equals("Processed")) {
+				System.out.println("A_Depreciation.Processed: " + recreateColumn);
+			}
+			
 			if (m_Column.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Column.getName(), "Column", m_Column
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Column"));
+				element.recordId = m_Column.getAD_Column_ID();
 			} else {
 				record_log(ctx, 0, m_Column.getName(), "Column", m_Column
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
@@ -214,8 +239,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				throw new POSaveFailedException("Column");
 			}
 
-			if (recreateColumn) {
-				success = createcolumn(ctx, m_Column);
+			if (recreateColumn || syncDatabase) {
+				success = createColumn(ctx, m_Column, recreateColumn);
 
 				if (success == 1) {
 					record_log(ctx, 1, m_Column.getColumnName(), "dbColumn",
@@ -246,7 +271,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 	 * @param v_IsMandatory
 	 * 
 	 */
-	private int createcolumn(Properties ctx, MColumn column) {
+	private int createColumn(Properties ctx, MColumn column, boolean doAlter) {
 		MTable table = new MTable(ctx, column.getAD_Table_ID(), getTrxName(ctx));
 		if (table.isView())
 			return 0;
@@ -280,11 +305,13 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				//
 				rsc = md.getColumns(catalog, schema, tableName, columnName);
 				if (rsc.next()) {
-					// update existing column
-					boolean notNull = DatabaseMetaData.columnNoNulls == rsc
-							.getInt("NULLABLE");
-					sql = column.getSQLModify(table,
-							column.isMandatory() != notNull);
+					if (doAlter) {
+						// update existing column
+						boolean notNull = DatabaseMetaData.columnNoNulls == rsc
+								.getInt("NULLABLE");
+						sql = column.getSQLModify(table,
+								column.isMandatory() != notNull);
+					}
 				} else {
 					// No existing column
 					sql = column.getSQLAdd(table);
@@ -295,19 +322,21 @@ public class ColumnElementHandler extends AbstractElementHandler {
 
 			rst.close();
 			rst = null;
-			log.info(sql);
-
-			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
-				no = DB.executeUpdate(sql, false, getTrxName(ctx));
-			} else {
-				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
-				for (int i = 0; i < statements.length; i++) {
-					int count = DB.executeUpdate(statements[i], false,
-							getTrxName(ctx));
-					no += count;
+			//execute modify or add if needed
+			if (sql != null && sql.trim().length() > 0) {
+				log.info(sql);
+	
+				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
+					no = DB.executeUpdate(sql, false, getTrxName(ctx));
+				} else {
+					String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
+					for (int i = 0; i < statements.length; i++) {
+						int count = DB.executeUpdate(statements[i], false,
+								getTrxName(ctx));
+						no += count;
+					}
 				}
 			}
-
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			if (rsc != null) {
@@ -443,9 +472,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				.isUpdateable() == true ? "true" : "false"));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_Column.getName() != null ? m_Column.getName() : ""));
-		atts.addAttribute("", "", "getIsSyncDatabase", "CDATA", (m_Column
-				.getIsSyncDatabase() != null ? m_Column.getIsSyncDatabase()
-				: ""));
+		atts.addAttribute("", "", "getIsSyncDatabase", "CDATA", "Y");
 		atts
 				.addAttribute("", "", "ReadOnlyLogic", "CDATA", (m_Column
 						.getReadOnlyLogic() != null ? m_Column

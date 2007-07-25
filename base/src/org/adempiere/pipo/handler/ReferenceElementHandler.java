@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -41,6 +43,8 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 
 	private ReferenceListElementHandler listHandler = new ReferenceListElementHandler();
 	private ReferenceTableElementHandler tableHandler = new ReferenceTableElementHandler();
+	
+	private List<Integer> references = new ArrayList<Integer>();
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
@@ -63,6 +67,9 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Reference", m_Reference);
 				Object_Status = "Update";
+				if (references.contains(id)) {
+					return;
+				}
 			} else {
 				Object_Status = "New";
 				AD_Backup_ID = 0;
@@ -84,6 +91,7 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 						m_Reference.get_ID(), AD_Backup_ID, Object_Status,
 						"AD_Reference", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Reference"));
+				references.add(m_Reference.getAD_Reference_ID());
 			} else {
 				record_log(ctx, 0, m_Reference.getName(), "Reference",
 						m_Reference.get_ID(), AD_Backup_ID, Object_Status,

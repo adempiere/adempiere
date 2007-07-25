@@ -67,20 +67,18 @@ public class CodeSnipitElementHandler extends AbstractElementHandler {
 			String packagePath=null;       
 			String sourcePath=null; 
 			
-			//get compiere-all directory
+			//get adempiere-all directory
 			try {
-				packagePath = currentDirectory.getCanonicalPath();
+				packagePath = getPackageDirectory(ctx);
 				File parentDirectory = new File(packagePath);
-				
 				while (!parentDirectory.getName().equals("packages")){        		
 					parentDirectory = parentDirectory.getParentFile();        				
 				}
 				parentDirectory = parentDirectory.getParentFile();        				
 				sourcePath = parentDirectory.getCanonicalPath();
 			} catch (IOException e1) {
-				System.out.println("Can't find compiere-all directory.");			
-			}        
-			
+				System.out.println("Can't find adempiere-all directory.");			
+			}
 			
 			//	Create backup directory if required
 			File backupDir = new File(packagePath+File.separator+"backup"+File.separator);

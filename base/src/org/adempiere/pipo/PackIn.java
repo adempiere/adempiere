@@ -20,6 +20,8 @@ package org.adempiere.pipo;
 import java.io.File;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
+
+import org.compiere.Adempiere;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
@@ -29,7 +31,10 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Trx;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.*;
 
@@ -42,10 +47,59 @@ public class PackIn extends SvrProcess {
 
 	/** Logger */
 	private CLogger log = CLogger.getCLogger("PackIn");
-	public static String m_UpdateMode = "false";
+	//update system maintain dictionary, default to true
+	public static String m_UpdateMode = "true";
 	public static String m_Database = "Oracle";
 	public static String m_Package_Dir = null;
 	public int p_PackIn_ID = 0;
+	
+	private Map<String,Integer> tableCache = new HashMap<String,Integer>();
+	private Map<String,Integer> columnCache = new HashMap<String,Integer>();
+	
+	/**
+	 * add to table id cache
+	 * @param tableName
+	 * @param tableId
+	 */
+	public void addTable(String tableName, int tableId) {
+		tableCache.put(tableName, tableId);
+	}
+	
+	/**
+	 * Find table id from cache
+	 * @param tableName
+	 * @return tableId
+	 */
+	public int getTableId(String tableName) {
+		if (tableCache.containsKey(tableName))
+			return tableCache.get(tableName).intValue();
+		else
+			return 0;
+	}
+	
+	/**
+	 * add to column id cache
+	 * @param tableName
+	 * @param columnName
+	 * @param columnId
+	 */
+	public void addColumn(String tableName, String columnName, int columnId) {
+		columnCache.put(tableName+"."+columnName, columnId);
+	}
+	
+	/**
+	 * find column id from cache
+	 * @param tableName
+	 * @param columnName
+	 * @return column id
+	 */
+	public int getColumnId(String tableName, String columnName) {
+		String key = tableName+"."+columnName;
+		if (columnCache.containsKey(key)) 
+			return columnCache.get(key).intValue();
+		else
+			return 0;
+	}
 
 	protected void prepare() {
 		p_PackIn_ID = getRecord_ID();
@@ -61,7 +115,7 @@ public class PackIn extends SvrProcess {
 	 *            xml file to read
 	 * @return status message
 	 */
-	public String importXML(String fileName, Properties ctx, String trxName) {
+	public String importXML(String fileName, Properties ctx, String trxName) throws Exception {
 		log.info("importXML:" + fileName);
 		File in = new File(fileName);
 		if (!in.exists()) {
@@ -87,7 +141,7 @@ public class PackIn extends SvrProcess {
 			return "OK.";
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "importXML:", e);
-			return e.toString();
+			throw e;
 		}
 	}
 
@@ -97,21 +151,22 @@ public class PackIn extends SvrProcess {
 	 * @return ""
 	 * 
 	 */
-	protected String doIt() {
+	protected String doIt() throws Exception {
 
 		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(),
 				p_PackIn_ID, null);
 
 		// Create Target directory if required
-		String fileSeparator = null;
-		File tempfile = new File("");
-		fileSeparator = tempfile.separator;
-		File targetDir = new File(adPackageImp.getAD_Package_Dir() + fileSeparator
+		String packageDirectory = adPackageImp.getAD_Package_Dir();
+		if (packageDirectory == null || packageDirectory.trim().length() == 0) {
+			packageDirectory = Adempiere.getAdempiereHome();
+		}
+		File targetDir = new File( packageDirectory + File.separator
 				+ "packages");
 
 		if (!targetDir.exists()) {
-			boolean success = (new File(adPackageImp.getAD_Package_Dir()
-					+ fileSeparator + "packages")).mkdirs();
+			boolean success = (new File(packageDirectory
+					+ File.separator + "packages")).mkdirs();
 			if (!success) {
 				log.info("Target directory creation failed");
 			}
@@ -123,26 +178,26 @@ public class PackIn extends SvrProcess {
 		String PackageName = CreateZipFile.getParentDir(zipFilepath);
 		CreateZipFile.unpackFile(zipFilepath, targetDir);
 
-		String dict_file = adPackageImp.getAD_Package_Dir() + fileSeparator
-				+ "packages" + fileSeparator + PackageName + fileSeparator
-				+ "dict" + fileSeparator + "PackOut.xml";
+		String dict_file = packageDirectory + File.separator
+				+ "packages" + File.separator + PackageName + File.separator
+				+ "dict" + File.separator + "PackOut.xml";
 		log.info("dict file->" + dict_file);
-		PackIn impXML = new PackIn();
+		PackIn packIn = new PackIn();
 
 		if (adPackageImp.isAD_Override_Dict() == true)
-			impXML.m_UpdateMode = "true";
+			packIn.m_UpdateMode = "true";
 		else
-			impXML.m_UpdateMode = "false";
+			packIn.m_UpdateMode = "false";
 
-		impXML.m_Package_Dir = adPackageImp.getAD_Package_Dir() + fileSeparator
-				+ "packages" + fileSeparator + PackageName + fileSeparator;
+		packIn.m_Package_Dir = packageDirectory + File.separator
+				+ "packages" + File.separator + PackageName + File.separator;
 		if (DB.isOracle())
-			impXML.m_Database = "Oracle";
+			packIn.m_Database = "Oracle";
 		else if (DB.isPostgreSQL())
-			impXML.m_Database = "PostgreSQL";
+			packIn.m_Database = "PostgreSQL";
 
 		// call XML Handler
-		impXML.importXML(dict_file, getCtx(), get_TrxName());
+		String msg = packIn.importXML(dict_file, getCtx(), get_TrxName());
 
 		// Generate Model Classes
 		// globalqss - don't call Generate Model must be done manual
@@ -151,7 +206,7 @@ public class PackIn extends SvrProcess {
 		// "org.compiere.model","'U'"};
 		// org.compiere.util.GenerateModel.main(args) ;
 
-		return "Finish Process";
+		return msg;
 	} // doIt
 
 	/***************************************************************************
@@ -176,7 +231,7 @@ public class PackIn extends SvrProcess {
 			Ini.setProperty(Ini.P_ADEMPIERESYS, true);
 		}
 
-		PackIn impXML = new PackIn();
+		PackIn packIn = new PackIn();
 		// org.compiere.Compiere.startupEnvironment(true);
 		// Force connection if there are enough parameters. Else we work with
 		// Compiere.properties
@@ -185,7 +240,7 @@ public class PackIn extends SvrProcess {
 			// Integer.valueOf(args[2]).intValue(), args[5], args[3], args[4]);
 			CConnection cc = CConnection.get();
 			// System.out.println("DB Connect String1:"+cc.getDbName());
-			impXML.m_Database = cc.getType();
+			packIn.m_Database = cc.getType();
 			DB.setDBTarget(cc);
 		}
 
@@ -226,10 +281,21 @@ public class PackIn extends SvrProcess {
 		CLogMgt.setLevel(logLevel);
 		CLogMgt.setLoggerLevel(logLevel, null);
 
-		// impXML.setUpdateMode(args[7]);
-		impXML.m_UpdateMode = args[7];
+		if (args.length >= 8)
+			packIn.m_UpdateMode = args[7];
 		
-		impXML.importXML(file, Env.getCtx(), null);
+		String trxName = Trx.createTrxName("PackIn");
+		try {
+			packIn.importXML(file, Env.getCtx(), trxName);
+			Trx trx = Trx.get(trxName, false);
+			if (trx != null)
+				trx.commit(true);
+		} catch (Exception e) {
+			System.out.println("Import Failed: " + e.getLocalizedMessage());
+			Trx trx = Trx.get(trxName, false);
+			if (trx != null)
+				trx.rollback();
+		}
 
 		System.exit(0);
 	} // main

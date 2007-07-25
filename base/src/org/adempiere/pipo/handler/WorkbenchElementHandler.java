@@ -59,9 +59,9 @@ public class WorkbenchElementHandler extends AbstractElementHandler {
 			int tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", atts.getValue("ADTableNameID"));	
 			int columnid  = get_IDWithMasterAndColumn (ctx, "AD_Column","ColumnName", atts.getValue("ADColumnNameID"), "AD_Table", tableid);		    
 			m_Workbench.setAD_Column_ID(columnid);
-			m_Workbench.setDescription(atts.getValue("Description").replaceAll("'","''").replaceAll(",",""));
+			m_Workbench.setDescription(atts.getValue("Description").replaceAll("'","''"));
 			m_Workbench.setEntityType(atts.getValue("EntityType"));
-			m_Workbench.setHelp(atts.getValue("Help").replaceAll("'","''").replaceAll(",",""));
+			m_Workbench.setHelp(atts.getValue("Help").replaceAll("'","''"));
 			m_Workbench.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Workbench.setName(atts.getValue("Name"));
 			//m_Workbench.setPA_Goal_ID(Integer.parseInt(atts.getValue("PAGoalID")));

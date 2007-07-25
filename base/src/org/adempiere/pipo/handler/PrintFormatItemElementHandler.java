@@ -39,6 +39,11 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
+		if (element.parent != null && element.parent.getElementValue().equals("printformat") &&
+			element.parent.defer) {
+			element.defer = true;
+			return;
+		}
 
 		String name = atts.getValue("Name");
 		int id = get_IDWithMaster(ctx, "AD_PrintFormatItem", name,
@@ -56,7 +61,16 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 		}
 		m_PrintFormatItem.setName(name);
 		name = atts.getValue("ADPrintFormatNameID");
-		id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);
+		if (element.parent != null && element.parent.getElementValue().equals("printformat") &&
+			element.parent.recordId != 0) {
+			id = element.parent.recordId;
+		} else {
+			id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);
+			if (element.parent != null && element.parent.getElementValue().equals("printformat") &&
+				id > 0) {
+				element.parent.recordId = id;
+			}
+		}
 		if (id <= 0) {
 			element.defer = true;
 			return;
@@ -76,31 +90,40 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 		name = atts.getValue("ADPrintGraphID");
 		if (name != null && name.trim().length() > 0) {
 			id = get_IDWithColumn(ctx, "AD_PrintGraph", "Name", name);
+			//TODO: export and import of ad_printgraph
+			/*
 			if (id <= 0) {
 				element.defer = true;
 				return;
-			}
-			m_PrintFormatItem.setAD_PrintGraph_ID(id);
+			}*/
+			if (id > 0)
+				m_PrintFormatItem.setAD_PrintGraph_ID(id);
 		}
 
 		name = atts.getValue("ADPrintColorID");
 		if (name != null && name.trim().length() > 0) {
 			id = get_IDWithColumn(ctx, "AD_PrintColor", "Name", name);
+			//TODO: export and import of ad_printcolor
+			/*
 			if (id <= 0) {
 				element.defer = true;
 				return;
-			}
-			m_PrintFormatItem.setAD_PrintColor_ID(id);
+			}*/
+			if (id > 0)
+				m_PrintFormatItem.setAD_PrintColor_ID(id);
 		}
 
 		name = atts.getValue("ADPrintFontID");
 		if (name != null && name.trim().length() > 0) {
 			id = get_IDWithColumn(ctx, "AD_PrintFont", "Name", name);
+			//TODO: export and import of print font
+			/*
 			if (id <= 0) {
 				element.defer = true;
 				return;
-			}
-			m_PrintFormatItem.setAD_PrintFont_ID(id);
+			}*/
+			if (id > 0)
+				m_PrintFormatItem.setAD_PrintFont_ID(id);
 		}
 
 		m_PrintFormatItem.setPrintName(atts.getValue("PrintName"));

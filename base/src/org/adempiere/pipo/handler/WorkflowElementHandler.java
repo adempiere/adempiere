@@ -54,8 +54,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		log.info("entitytype " + atts.getValue("EntityType"));
 
-		if (entitytype.equals("U") || entitytype.equals("D")
-				&& getUpdateMode(ctx).equals("true")) {
+		if (entitytype.equals("U") || (entitytype.equals("D")
+					&& getUpdateMode(ctx).equals("true"))) {
 			log.info("entitytype is a U or D");
 
 			String workflowName = atts.getValue("Name");

@@ -51,8 +51,7 @@ public class WindowElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
 			int id = get_ID(ctx, "AD_Window", name);
 			MWindow m_Window = new MWindow(ctx, id, getTrxName(ctx));
@@ -70,21 +69,27 @@ public class WindowElementHandler extends AbstractElementHandler {
 			name = atts.getValue("ADImageNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_Image", "Name", name);
+				//TODO: export and import of ad_image
+				/*
 				if (id <= 0) {
 					element.defer = true;
 					return;
-				}
-				m_Window.setAD_Image_ID(id);
+				}*/
+				if (id > 0)
+					m_Window.setAD_Image_ID(id);
 			}
 
 			name = atts.getValue("ADColorNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_Color", "Name", name);
+				//TODO: export and import of ad_color
+				/*
 				if (id <= 0) {
 					element.defer = true;
 					return;
-				}
-				m_Window.setAD_Color_ID(id);
+				}*/
+				if (id > 0)
+					m_Window.setAD_Color_ID(id);
 			}
 
 			m_Window.setDescription(atts.getValue("Description").replaceAll(
@@ -111,6 +116,7 @@ public class WindowElementHandler extends AbstractElementHandler {
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Window",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Window"));
+				element.recordId = m_Window.getAD_Window_ID();
 			} else {
 				record_log(ctx, 0, m_Window.getName(), "Window", m_Window
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Window",
@@ -170,6 +176,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 			}
 			pstmt = null;
 		}
+		
+		//TODO: export of ad_image and ad_color use
 
 		// Loop tags.
 		document.endElement("", "", "window");
@@ -232,19 +240,26 @@ public class WindowElementHandler extends AbstractElementHandler {
 		if (m_Window.getAD_Image_ID() > 0) {
 			sql = "SELECT Name FROM AD_Image WHERE AD_Image_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Window.getAD_Image_ID());
+			if (name != null)
+				atts.addAttribute("", "", "ADImageNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADImageNameID", "CDATA", "");
 		}
-		if (name != null)
-			atts.addAttribute("", "", "ADImageNameID", "CDATA", name);
-		else
+		else {
 			atts.addAttribute("", "", "ADImageNameID", "CDATA", "");
+		}
+		
 		if (m_Window.getAD_Color_ID() > 0) {
 			sql = "SELECT Name FROM AD_Color WHERE AD_Color_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Window.getAD_Color_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADColorNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADColorNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADColorNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADColorNameID", "CDATA", "");
+		}
+		
 		atts.addAttribute("", "", "Description", "CDATA", (m_Window
 				.getDescription() != null ? m_Window.getDescription() : ""));
 		atts.addAttribute("", "", "EntityType", "CDATA", (m_Window

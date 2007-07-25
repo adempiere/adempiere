@@ -44,8 +44,7 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADReportViewColID");
 
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			int id = get_ID(ctx, "AD_Reportview_Col", name);
 			X_AD_ReportView_Col m_Reportview_Col = new X_AD_ReportView_Col(ctx,
 					id, getTrxName(ctx));

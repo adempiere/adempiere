@@ -59,7 +59,7 @@ public class UserRoleElementHandler extends AbstractElementHandler {
 			orgid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
 		}
 		
-		sqlB = new StringBuffer ("SELECT count(*) FROM AD_User_Roles WHERE AD_User_ID = ? and AD_Role_ID = ? and AD_Org_ID = "+orgid);		
+		sqlB = new StringBuffer ("SELECT count(*) FROM AD_User_Roles WHERE AD_User_ID = ? and AD_Role_ID = ?");		
 		int count = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),userid,roleid);
 		
 		int AD_Backup_ID = -1;

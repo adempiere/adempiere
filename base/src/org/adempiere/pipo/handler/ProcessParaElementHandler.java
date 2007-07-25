@@ -39,8 +39,7 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
 
 			int id = get_IDWithMaster(ctx, "AD_Process_Para", name,

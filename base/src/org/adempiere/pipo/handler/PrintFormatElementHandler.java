@@ -161,6 +161,7 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 					m_PrintFormat.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_PrintFormat", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormat"));
+			element.recordId = m_PrintFormat.getAD_PrintFormat_ID();
 		} else {
 			record_log(ctx, 0, m_PrintFormat.getName(), "PrintFormat",
 					m_PrintFormat.get_ID(), AD_Backup_ID, Object_Status,

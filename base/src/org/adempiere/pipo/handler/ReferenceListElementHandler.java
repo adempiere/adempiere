@@ -41,32 +41,30 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 		// TODO: Solve for date issues with valuefrom valueto
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
-			int Referenceid = get_IDWithColumn(ctx, "AD_Reference", "Name",
+			String value = atts.getValue("Value");
+			int AD_Reference_ID = get_IDWithColumn(ctx, "AD_Reference", "Name",
 					atts.getValue("ADRefenceNameID"));
-			int id = get_IDWithMaster(ctx, "AD_Ref_List", name, "AD_Reference",
-					Referenceid);
-			X_AD_Ref_List m_Ref_List = new X_AD_Ref_List(ctx, id,
+			int AD_Ref_List_ID = get_IDWithMasterAndColumn(ctx, "AD_Ref_List", "Value", value, "AD_Reference", AD_Reference_ID);
+			X_AD_Ref_List m_Ref_List = new X_AD_Ref_List(ctx, AD_Ref_List_ID,
 					getTrxName(ctx));
-			if (id > 0) {
+			if (AD_Ref_List_ID > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Ref_List", m_Ref_List);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
 				AD_Backup_ID = 0;
 			}
-			name = atts.getValue("ADRefenceNameID");
-			id = get_IDWithColumn(ctx, "AD_Reference", "Name", name);
-			m_Ref_List.setAD_Reference_ID(id);
-			m_Ref_List.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			
+			m_Ref_List.setAD_Reference_ID(AD_Reference_ID);
+			m_Ref_List.setDescription(atts.getValue("Description").replaceAll("'", "''"));
 			m_Ref_List.setEntityType(atts.getValue("EntityType"));
 			m_Ref_List.setName(atts.getValue("Name"));
+			m_Ref_List.setValue(value);
 			m_Ref_List.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
-			m_Ref_List.setValue(atts.getValue("Value"));
+			
 			if (m_Ref_List.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Ref_List.getName(), "Reference List",
 						m_Ref_List.get_ID(), AD_Backup_ID, Object_Status,
