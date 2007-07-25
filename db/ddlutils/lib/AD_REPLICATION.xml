@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <AD_REPLICATION AD_REPLICATION_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2003-12-11 12:09:32.0" CREATEDBY="100" UPDATED="2003-12-11 12:14:39.0" UPDATEDBY="100" NAME="POS-Store" DESCRIPTION="Store is a remote POS - Can only enter Trx for the Store - not for HQ" HELP="1) Set up everything and test in in central location (transaction, migration, etc.)&#xa;2) Export the database and import at the store location(s)&#xa;3) Run the Replication from the central location. That sets up the remote store(s) - ID Range, etc" HOSTADDRESS="dev" HOSTPORT="80" AD_REPLICATIONSTRATEGY_ID="100" ISRMIOVERHTTP="Y" PROCESSING="N" IDRANGESTART="10000000" IDRANGEEND="19999999" REMOTE_CLIENT_ID="11" REMOTE_ORG_ID="12" PREFIX="Store-" />
+</data>

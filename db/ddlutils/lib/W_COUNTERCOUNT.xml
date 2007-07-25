@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <W_COUNTERCOUNT W_COUNTERCOUNT_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="11" ISACTIVE="Y" CREATED="2003-12-11 20:42:17.0" CREATEDBY="100" UPDATED="2004-10-15 12:35:27.0" UPDATEDBY="100" NAME="Test" DESCRIPTION="Page Display Counter" PAGEURL="http://www.adempiere.org/aboutus/index.html" />
+</data>

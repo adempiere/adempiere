@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <TEST TEST_ID="103" AD_CLIENT_ID="0" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2003-11-26 00:32:53.0" CREATEDBY="100" UPDATED="2000-01-01 00:00:00.0" UPDATEDBY="0" NAME="Test Record" DESCRIPTION="Test record description" HELP="Test Comment" T_INTEGER="10000002" T_NUMBER="10000002" C_UOM_ID="100" T_QTY="10000002" C_CURRENCY_ID="195" T_AMOUNT="10000002" PROCESSING="N" PROCESSED="N">
+    <CHARACTERDATA><![CDATA[<html>
+  <head>
+    
+  </head>
+  <body>
+    <p align="center">
+      <i>This</i> <font size="6">is</font> <u>HTML!</u>
+    </p>
+    <h1>
+      heading
+    </h1>
+    <p align="right">
+      This is right aligned
+    </p>
+    <table border="1">
+      <tr>
+        <td>
+          one
+        </td>
+        <td>
+          two
+        </td>
+        <td>
+          three
+        </td>
+      </tr>
+      <tr>
+        <td>
+          1
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          3
+        </td>
+      </tr>
+    </table>
+    <ul>
+      <li>
+        point 1
+      </li>
+      <li>
+        point 2
+      </li>
+    </ul>
+    <ol>
+      <li>
+        list 1
+      </li>
+      <li>
+        list 2
+      </li>
+      <li>
+        list 3
+      </li>
+    </ol>
+  </body>
+</html>]]></CHARACTERDATA>
+  </TEST>
+</data>

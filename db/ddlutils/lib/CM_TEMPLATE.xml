@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data>
+  <CM_TEMPLATE CM_TEMPLATE_ID="104" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-06 14:21:31.0" CREATEDBY="100" UPDATED="2006-08-08 16:36:58.0" UPDATEDBY="100" NAME="Default Footer" CM_WEBPROJECT_ID="102" VALUE="FooterDefault" ISINCLUDE="Y" ISUSEAD="N" ISNEWS="N" TEMPLATEXST="&lt;xsl:template name=&quot;FooterDefault&quot;>&#xa;  &lt;div id=&quot;footer&quot;>&#xa;    Copyright 2005 - 2006, &lt;a href=&quot;http://www.compiere.com/&quot;>ComPiere Inc.&lt;/a>&#xa;  &lt;/div>&#xa;&lt;/xsl:template>" ISSUMMARY="N" ISVALID="N" PROCESSING="N" />
+  <CM_TEMPLATE CM_TEMPLATE_ID="105" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-08-08 20:07:45.0" CREATEDBY="100" UPDATED="2006-08-08 20:07:45.0" UPDATEDBY="100" NAME="Menu Navigation Left Hand" CM_WEBPROJECT_ID="102" VALUE="menuNav" ISINCLUDE="Y" ISUSEAD="N" ISNEWS="N" ISSUMMARY="N" ISVALID="N" PROCESSING="N">
+    <TEMPLATEXST><![CDATA[<xsl:template name="menuNav">
+<xsl:for-each select="/webCM/containerTree/treenode[CM_Container_ID=100]/treenode">
+  <xsl:choose>
+    <xsl:when test="Title='null'">
+      <a class="menuMain" href="{RelativeURL}"><xsl:value-of select="Name"/></a><br/>
+    </xsl:when>
+    <xsl:otherwise>
+      <a class="menuMain" href="{RelativeURL}"><xsl:value-of select="Title"/></a><br/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:for-each>
+</xsl:template>]]></TEMPLATEXST>
+  </CM_TEMPLATE>
+  <CM_TEMPLATE CM_TEMPLATE_ID="103" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-04-22 22:35:54.0" CREATEDBY="100" UPDATED="2006-04-22 22:35:54.0" UPDATEDBY="100" NAME="Error 404" CM_WEBPROJECT_ID="102" VALUE="error404" ISINCLUDE="N" ISUSEAD="N" ISNEWS="N" ELEMENTS="headline1" ISSUMMARY="N" ISVALID="N">
+    <TEMPLATEXST><![CDATA[<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<xsl:output encoding="UTF-8" method="html" indent="yes"/>
+	<xsl:template match="/webCM">
+		<xsl:variable name="mediaPath" select="project/media_path"/>
+		<html>			
+			<head>
+				<meta http-equiv="Content-Type" content="{thisContainer/CM_Container/Meta_Content}"/>
+				<meta name="generator" content="Compiere ERP+CRM http://www.compiere.org"/>
+				<meta name="language" content="{thisContainer/CM_Container/Meta_Language}"/>
+				<meta name="copyright" content="{thisContainer/CM_Container/Meta_Copyright}"/>
+				<meta name="description" content="{thisContainer/CM_Container/Meta_Description}"/>
+				<meta name="keywords" content="{thisContainer/CM_Container/Meta_Keywords}"/>
+				<meta name="robots" content="{thisContainer/CM_Container/Meta_RobotsTag}"/>
+				<title>
+					GardenWorld Error 404
+				</title>
+			</head>
+			<body class="body" topmargin="0" leftmargin="0">
+				<h1>Error 404 Page not found</h1><br/>
+			</body>
+		</html>
+	</xsl:template>
+</xsl:stylesheet>]]></TEMPLATEXST>
+  </CM_TEMPLATE>
+  <CM_TEMPLATE CM_TEMPLATE_ID="100" AD_CLIENT_ID="11" AD_ORG_ID="0" ISACTIVE="Y" CREATED="2006-04-17 19:06:39.0" CREATEDBY="100" UPDATED="2006-08-08 20:06:25.0" UPDATEDBY="100" NAME="MainPage" CM_WEBPROJECT_ID="102" VALUE="main" ISINCLUDE="N" ISUSEAD="N" ISNEWS="N" ELEMENTS="headline1&#xa;content1&#xa;" ISSUMMARY="N" ISVALID="N">
+    <TEMPLATEXST><![CDATA[<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<xsl:output encoding="UTF-8" method="html" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+	<xsl:template match="/webCM">
+		<xsl:variable name="mediaPath" select="/webCM/system/deployment/sessionMediaURL"/>
+		<html xmlns="http://www.w3.org/1999/xhtml">			
+			<head>
+				<meta http-equiv="Content-Type" content="{thisContainer/CM_Container/Meta_Content}"/>
+				<meta name="generator" content="Compiere ERP+CRM http://www.compiere.org"/>
+				<meta name="language" content="{thisContainer/CM_Container/Meta_Language}"/>
+				<meta name="copyright" content="{thisContainer/CM_Container/Meta_Copyright}"/>
+				<meta name="description" content="{thisContainer/CM_Container/Meta_Description}"/>
+				<meta name="keywords" content="{thisContainer/CM_Container/Meta_Keywords}"/>
+				<meta name="robots" content="{thisContainer/CM_Container/Meta_RobotsTag}"/>
+				<title>
+					GardenWorld / <xsl:value-of select="thisContainer/CM_Container/Title"/>
+				</title>
+			</head>
+			<link href="{$mediaPath}109.css" rel="stylesheet" type="text/css"/>
+			<body>
+				<div id="page">
+				<div id="header">
+				<div id="headerContent">HeaderContent
+				</div>
+				</div>
+				<div id="main">
+				<div id="menu">
+<a class="menuMain" href="/index.html">Home</a>
+<hr width="90%"/>
+<xsl:call-template name="menuNav"/>
+
+				</div>
+				<div id="content">
+				<h1><xsl:value-of disable-output-escaping="yes" select="thisContainer/CM_Container_Element[Name='headline1']/ContentHTML"/></h1><br/>
+				<xsl:value-of disable-output-escaping="yes" select="thisContainer/CM_Container_Element[Name='content1']/ContentHTML"/>
+				</div>
+				</div>
+				<xsl:call-template name="FooterDefault"/>
+				</div>
+			</body>
+		</html>
+	</xsl:template>
+</xsl:stylesheet>]]></TEMPLATEXST>
+  </CM_TEMPLATE>
+</data>
