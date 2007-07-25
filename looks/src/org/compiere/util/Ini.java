@@ -207,6 +207,9 @@ public final class Ini implements Serializable
 
 	/**	Container for Properties    */
 	private static Properties 		s_prop = new Properties();
+	
+	private static String s_propertyFileName = null;
+	
 	/**	Logger						*/
 	private static Logger			log = Logger.getLogger(Ini.class.getName());
 
@@ -311,6 +314,8 @@ public final class Ini implements Serializable
 			saveProperties(true);
 		s_loaded = true;
 		log.info(filename + " #" + s_prop.size());
+		s_propertyFileName = filename;
+		
 		return firstTime;
 	}	//	loadProperties
 
@@ -779,5 +784,10 @@ public final class Ini implements Serializable
 	public static boolean isServerValidateSecurityToken()
 	{
 		return isPropertyBool(P_SERVER_VALIDATE_SECURITY_TOKEN);
+	}
+	
+	public static String getPropertyFileName() 
+	{
+		return s_propertyFileName;
 	}
 }	//	Ini
