@@ -276,7 +276,7 @@ public class MColumn extends X_AD_Column
 			.append(" ADD ").append(getSQLDDL());
 		String constraint = getConstraint(table.getTableName());
 		if (constraint != null && constraint.length() > 0) {
-			sql.append("; ").append("ALTER TABLE ")
+			sql.append(DB.SQLSTATEMENT_SEPARATOR).append("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" ADD ").append(constraint);
 		}

@@ -238,9 +238,9 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			if (e instanceof SAXException)
 				throw (SAXException) e;
 			else if (e instanceof SQLException)
-				throw new DatabaseAccessException("Workflow", e);
+				throw new DatabaseAccessException("Failed to export workflow.", e);
 			else
-				throw new RuntimeException("Workflow", e);
+				throw new RuntimeException("Failed to export workflow.", e);
 		} finally {
 			try {
 				if (pstmt != null)

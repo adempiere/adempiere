@@ -206,11 +206,11 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					if (e instanceof SAXException)
 						throw (SAXException) e;
 					else if (e instanceof SQLException)
-						throw new DatabaseAccessException("Window", e);
+						throw new DatabaseAccessException("Failed to export process.", e);
 					else if (e instanceof RuntimeException)
 						throw (RuntimeException) e;
 					else
-						throw new RuntimeException("Window", e);
+						throw new RuntimeException("Failed to export process.", e);
 				} finally {
 					try {
 						if (pstmtP != null)

@@ -62,7 +62,6 @@ public class TableElementHandler extends AbstractElementHandler {
 					packIn.addTable(tableName, id);
 			}
 			if (id > 0 && isTableProcess(ctx, id)) {
-				System.out.println("skip table, already process");
 				return;
 			}
 			

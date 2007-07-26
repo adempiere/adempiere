@@ -203,7 +203,7 @@ public class TabElementHandler extends AbstractElementHandler {
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE,e.getLocalizedMessage(), e);
-			throw new DatabaseAccessException("Tab", e);
+			throw new DatabaseAccessException("Failed to export window tab", e);
 		}
 		finally
 		{

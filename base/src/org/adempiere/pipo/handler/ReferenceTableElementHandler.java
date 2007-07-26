@@ -258,7 +258,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 			pstmt = null;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			throw new DatabaseAccessException("ReferenceTable", e);
+			throw new DatabaseAccessException("Failed to export Reference Table", e);
 		} finally {
 			try {
 				if (pstmt != null)

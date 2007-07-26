@@ -114,7 +114,6 @@ public class PackInHandler extends DefaultHandler {
     private String m_UpdateMode = "true";
     private String packageDirectory = null;
     private String m_DatabaseType = "Oracle";
-    private boolean adempiereAD = false;    
     private int m_AD_Client_ID = 0;
     private int AD_Package_Imp_ID=0;
 	private int AD_Package_Imp_Inst_ID=0;
@@ -262,7 +261,6 @@ public class PackInHandler extends DefaultHandler {
 		// adempiereAD.	
 		if (elementValue.equals("adempiereAD")) {		
 			log.info("adempiereAD updateMode="+m_UpdateMode);
-			adempiereAD = true;	    
 			//Start package log
 			hd_document.startElement("","","adempiereDocument",attsOut);
 			hd_document.startElement("","","header",attsOut);		
@@ -642,6 +640,9 @@ public class PackInHandler extends DefaultHandler {
     		}
     		catch (Exception e)
     		{}
+    		
+    		//reset
+    		setupHandlers();
     	} else {
     		Element e = stack.pop();
     		ElementHandler handler = handlers.get(elementValue);

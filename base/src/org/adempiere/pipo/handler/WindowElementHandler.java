@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -43,6 +45,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 
 	private TabElementHandler tabHandler = new TabElementHandler();
 	private PreferenceElementHandler preferenceHandler = new PreferenceElementHandler();
+	
+	private List<Integer> windows = new ArrayList<Integer>();
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
@@ -54,6 +58,9 @@ public class WindowElementHandler extends AbstractElementHandler {
 		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
 			String name = atts.getValue("Name");
 			int id = get_ID(ctx, "AD_Window", name);
+			if (id > 0 && windows.contains(id)) {
+				return;
+			}
 			MWindow m_Window = new MWindow(ctx, id, getTrxName(ctx));
 			String Object_Status = null;
 			int AD_Backup_ID = -1;
@@ -117,6 +124,7 @@ public class WindowElementHandler extends AbstractElementHandler {
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Window"));
 				element.recordId = m_Window.getAD_Window_ID();
+				windows.add(m_Window.getAD_Window_ID());
 			} else {
 				record_log(ctx, 0, m_Window.getName(), "Window", m_Window
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Window",
@@ -163,11 +171,11 @@ public class WindowElementHandler extends AbstractElementHandler {
 			if (e instanceof SAXException)
 				throw (SAXException) e;
 			else if (e instanceof SQLException)
-				throw new DatabaseAccessException("Window", e);
+				throw new DatabaseAccessException("Failed to export window.", e);
 			else if (e instanceof RuntimeException)
 				throw (RuntimeException) e;
 			else
-				throw new RuntimeException("Window", e);
+				throw new RuntimeException("Failed to export window.", e);
 		} finally {
 			try {
 				if (pstmt != null)
@@ -200,11 +208,11 @@ public class WindowElementHandler extends AbstractElementHandler {
 			if (e instanceof SAXException)
 				throw (SAXException) e;
 			else if (e instanceof SQLException)
-				throw new DatabaseAccessException("Window", e);
+				throw new DatabaseAccessException("Failed to export window preference.", e);
 			else if (e instanceof RuntimeException)
 				throw (RuntimeException) e;
 			else
-				throw new RuntimeException("Window", e);
+				throw new RuntimeException("Failed to export window preference.", e);
 		} finally {
 			try {
 				if (pstmt != null)

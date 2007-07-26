@@ -207,7 +207,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Role_OrgAccess", e);
-			throw new DatabaseAccessException("AD_Role_OrgAccess");
+			throw new DatabaseAccessException("Failed to export organization role access.");
 		}
 		// Process user assignment access
 		sql = "SELECT * FROM AD_User_Roles WHERE AD_Role_ID= " + Role_id;
@@ -226,7 +226,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_User_Roles", e);
-			throw new DatabaseAccessException("AD_User_Roles");
+			throw new DatabaseAccessException("Failed to export user role assignment.");
 		}
 		
 		// Process AD_Window_Access Values
@@ -246,7 +246,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Window_Access", e);
-			throw new DatabaseAccessException("AD_Window_Access");
+			throw new DatabaseAccessException("Failed to export window access.");
 		}
 
 		// Process AD_Process_Access Values
@@ -266,7 +266,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Process_Access", e);
-			throw new DatabaseAccessException("AD_Process_Access");
+			throw new DatabaseAccessException("Failed to export process access.");
 		}
 
 		// Process AD_Form_Access Values
@@ -286,7 +286,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Form_Access", e);
-			throw new DatabaseAccessException("AD_Form_Access");
+			throw new DatabaseAccessException("Failed to export form access.");
 		}
 
 		// Process AD_Workflow_Access Values
@@ -306,7 +306,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Workflow_Access", e);
-			throw new DatabaseAccessException("AD_Workflow_Access");
+			throw new DatabaseAccessException("Failed to export workflow access.");
 		}
 
 		// Process AD_Task_Access Values
@@ -326,7 +326,7 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		catch (Exception e) {
 			log.log(Level.SEVERE, "AD_Task_Access", e);
-			throw new DatabaseAccessException("AD_Task_Access");
+			throw new DatabaseAccessException("Failed to export task access.");
 		} finally {
 			try {
 				if (pstmt != null)

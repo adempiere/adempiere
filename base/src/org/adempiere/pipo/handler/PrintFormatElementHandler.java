@@ -229,11 +229,11 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			if (e instanceof SAXException)
 				throw (SAXException) e;
 			else if (e instanceof SQLException)
-				throw new DatabaseAccessException("Window", e);
+				throw new DatabaseAccessException("Failed to export print format.", e);
 			else if (e instanceof RuntimeException)
 				throw (RuntimeException) e;
 			else
-				throw new RuntimeException("Window", e);
+				throw new RuntimeException("Failed to export print format.", e);
 		} finally {
 			try {
 				if (pstmt != null)

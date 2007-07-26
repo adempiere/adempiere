@@ -121,7 +121,7 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 			pstmt = null;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "ImpFormat", e);
-			throw new DatabaseAccessException("ImpFormat", e);
+			throw new DatabaseAccessException("Failed to export Import Format.", e);
 		} finally {
 			try {
 				if (pstmt != null)

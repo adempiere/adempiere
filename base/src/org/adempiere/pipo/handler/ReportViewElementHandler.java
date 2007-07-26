@@ -186,11 +186,11 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 			if (e instanceof SAXException)
 				throw (SAXException) e;
 			else if (e instanceof SQLException)
-				throw new DatabaseAccessException("Window", e);
+				throw new DatabaseAccessException("Failed to export report view.", e);
 			else if (e instanceof RuntimeException)
 				throw (RuntimeException) e;
 			else
-				throw new RuntimeException("Window", e);
+				throw new RuntimeException("Failed to export report view.", e);
 		} finally {
 			try {
 				if (pstmt != null)

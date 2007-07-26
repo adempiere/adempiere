@@ -152,11 +152,11 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 						if (e instanceof SAXException)
 							throw (SAXException) e;
 						else if (e instanceof SQLException)
-							throw new DatabaseAccessException("Window", e);
+							throw new DatabaseAccessException("Failed to export Reference.", e);
 						else if (e instanceof RuntimeException)
 							throw (RuntimeException) e;
 						else
-							throw new RuntimeException("Window", e);
+							throw new RuntimeException("Failed to export Reference.", e);
 					} finally {
 						try {
 							if (pstmt1 != null)

@@ -236,7 +236,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Column"));
-				throw new POSaveFailedException("Column");
+				throw new POSaveFailedException("Failed to import column.");
 			}
 
 			if (recreateColumn || syncDatabase) {
@@ -254,7 +254,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 									"ADTableNameID").toUpperCase(),
 							get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 									.getValue("ADTableNameID").toUpperCase()));
-					throw new DatabaseAccessException("CreateColumn");
+					throw new DatabaseAccessException("Failed to create column or related constraint for " + m_Column.getColumnName());
 				}
 			}
 		}
@@ -333,6 +333,9 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					for (int i = 0; i < statements.length; i++) {
 						int count = DB.executeUpdate(statements[i], false,
 								getTrxName(ctx));
+						if (count == -1) {
+							return 0;
+						}
 						no += count;
 					}
 				}
