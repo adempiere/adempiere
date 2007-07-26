@@ -131,6 +131,7 @@ public class VFile extends JComponent
 		m_button.setReadWrite (value);
 		if (m_button.isVisible() != value)
 			m_button.setVisible (value);
+		m_text.setReadWrite(value);
 		setBackground(false);
 	}	//	setReadWrite
 
