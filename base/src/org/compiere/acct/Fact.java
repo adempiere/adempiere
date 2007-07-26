@@ -426,26 +426,26 @@ public final class Fact
 					{
 						if (difference.isReversal())
 						{
-							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 							line.setAccount(m_acctSchema, m_acctSchema.getDueTo_Acct(elementType));
+							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 						}
 						else
 						{
-							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 							line.setAccount(m_acctSchema, m_acctSchema.getDueFrom_Acct(elementType));
+							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 						}
 					}
 					else
 					{
 						if (difference.isReversal())
 						{
-							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 							line.setAccount(m_acctSchema, m_acctSchema.getDueFrom_Acct(elementType));
+							line.setAmtSource(m_doc.getC_Currency_ID(), difference.getPostBalance(), Env.ZERO);
 						}
 						else
 						{
-							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 							line.setAccount(m_acctSchema, m_acctSchema.getDueTo_Acct(elementType));
+							line.setAmtSource(m_doc.getC_Currency_ID(), Env.ZERO, difference.getPostBalance());
 						}
 					}
 					line.convert();
