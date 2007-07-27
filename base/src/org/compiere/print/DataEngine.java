@@ -23,11 +23,13 @@ import org.compiere.model.*;
 import org.compiere.util.*;
 
 /**
- *	Data Engine.
- * 	Creates SQL and laods data into PrintData (including totals/etc.)
+ * Data Engine.
+ * Creates SQL and laods data into PrintData (including totals/etc.)
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: DataEngine.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * @author 	Jorg Janke
+ * @version 	$Id: DataEngine.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1761891 ]
  */
 public class DataEngine
 {
@@ -79,7 +81,7 @@ public class DataEngine
 		//
 		if (format.getAD_ReportView_ID() != 0)
 		{
-			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name "
+			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
 				+ "FROM AD_Table t"
 				+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
 				+ "WHERE rv.AD_ReportView_ID=?";	//	1
@@ -92,6 +94,10 @@ public class DataEngine
 				{
 					tableName = rs.getString(2);  	//	TableName
 					reportName = rs.getString(3);
+					// Add WhereClause restriction from AD_ReportView - teo_sarca BF [ 1761891 ]
+					String whereClause = rs.getString(4);
+					if (!Util.isEmpty(whereClause))
+						query.addRestriction(whereClause);
 				}
 				rs.close();
 				pstmt.close();
