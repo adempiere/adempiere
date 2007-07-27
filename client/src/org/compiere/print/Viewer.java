@@ -43,7 +43,8 @@ import org.adempiere.pdf.*;
  * globalqss: integrate Teo Sarca bug fixing
  * Colin Rooney 2007/03/20 RFE#1670185 & BUG#1684142
  *                         Extend security to Info queries
- *   	
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1762466 ]
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -455,6 +456,11 @@ public class Viewer extends CFrame
 		AEnv.addMenuItem("Script", null, null, mTools, this);
 		mTools.addSeparator();
 		AEnv.addMenuItem("Preference", null, null, mTools, this);
+		
+		//		Window
+		AMenu aMenu = (AMenu)Env.getWindow(0);
+		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), this);
+		menuBar.add(mWindow);
 
 		//      Help
 		JMenu mHelp = AEnv.getMenu("Help");
