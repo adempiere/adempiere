@@ -38,7 +38,7 @@ public class FormElementHandler extends AbstractElementHandler {
 		log.info(elementValue+" "+atts.getValue("ADFormNameID"));
 		
 		String entitytype = atts.getValue("EntityType");		
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("ADFormNameID");
 			int id = get_ID(ctx, "AD_Form", name);
 			MForm m_Form = new MForm(ctx, id, getTrxName(ctx));
@@ -67,6 +67,8 @@ public class FormElementHandler extends AbstractElementHandler {
 			else{
 				record_log (ctx, 0, m_Form.getName(),"Form", m_Form.get_ID(),AD_Backup_ID, Object_Status,"AD_Form",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Form"));
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

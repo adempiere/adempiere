@@ -41,7 +41,7 @@ public class MessageElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("Value"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String value = atts.getValue("Value");
 			int id = get_IDWithColumn(ctx, "AD_Message", "value", value);
 
@@ -68,6 +68,8 @@ public class MessageElementHandler extends AbstractElementHandler {
 			else{
 				record_log (ctx, 0, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Message", "value", "AD_Message"));
 			}
+		} else {
+			element.skip = true;
 		}
 
 	}

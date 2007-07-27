@@ -52,7 +52,7 @@ public class TableElementHandler extends AbstractElementHandler {
 		log.info(elementValue+" "+atts.getValue("ADTableNameID"));
 		String entitytype = atts.getValue("EntityType");
 		
-		if (entitytype.equals("U") || entitytype.equals("D") && getUpdateMode(ctx).equals("true")) {
+		if (isProcessElement(ctx, entitytype)) {
 			
 			String tableName = atts.getValue("ADTableNameID");
 			int id = packIn.getTableId(tableName);
@@ -117,6 +117,8 @@ public class TableElementHandler extends AbstractElementHandler {
 				record_log (ctx, 0, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				throw new POSaveFailedException("Table");
 			}            
+		} else {
+			element.skip = true;
 		}
 	}
 

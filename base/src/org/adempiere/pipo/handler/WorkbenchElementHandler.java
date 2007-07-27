@@ -44,7 +44,7 @@ public class WorkbenchElementHandler extends AbstractElementHandler {
 		log.info(elementValue+" "+atts.getValue("ADWorkbenchNameID"));
 		String entitytype = atts.getValue("EntityType");		
 		String name = atts.getValue("ADWorkbenchNameID");
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0 && getUpdateMode(ctx).compareTo("true") == 0 ) {
+		if (isProcessElement(ctx, entitytype)) {
 			int id = get_ID(ctx, "AD_Workbench", name);
 			X_AD_Workbench m_Workbench = new X_AD_Workbench(ctx, id, getTrxName(ctx));
 			if (id > 0){
@@ -71,6 +71,8 @@ public class WorkbenchElementHandler extends AbstractElementHandler {
 			else{
 				record_log (ctx, 0, m_Workbench.getName(),"Workbench", m_Workbench.get_ID(),AD_Backup_ID, Object_Status,"AD_Workbench",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Workbench"));
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

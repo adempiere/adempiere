@@ -44,7 +44,7 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADReportViewColID");
 
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			int id = get_ID(ctx, "AD_Reportview_Col", name);
 			X_AD_ReportView_Col m_Reportview_Col = new X_AD_ReportView_Col(ctx,
 					id, getTrxName(ctx));
@@ -95,6 +95,8 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 								"AD_Reportview_Col"));
 				throw new POSaveFailedException("ReportViewCol");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

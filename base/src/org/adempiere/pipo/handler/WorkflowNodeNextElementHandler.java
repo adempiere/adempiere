@@ -39,29 +39,38 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		log.info("entitytype "+atts.getValue("EntityType"));
 
-		if (entitytype.equals("U") || entitytype.equals("D") && getUpdateMode(ctx).equals("true")) {
-			log.info("entitytype is a U or D");
-
+		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.skip) {
+				element.skip = true;
+				return;
+			}
 
 			String workflowName = atts.getValue("ADWorkflowNameID");
 			int workflowId = get_IDWithColumn(ctx, "AD_Workflow", "name", workflowName);
 			if (workflowId <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_Workflow: " + workflowName;
 				return;
 			}
 
-			String workflowNodeName = atts.getValue("ADWorkflowNodeNameID");
-			String workflowNodeNextName = atts.getValue("ADWorkflowNodeNextNameID");
+			String workflowNodeName = atts.getValue("ADWorkflowNodeNameID").trim();
+			String workflowNodeNextName = atts.getValue("ADWorkflowNodeNextNameID").trim();
 
 			StringBuffer sqlB = new StringBuffer ("SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");		
 
 			int wfNodeId = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),workflowId,workflowNodeName);
 			if (wfNodeId <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_WF_Node: " + workflowNodeName;
 				return;
 			}
 
 			int wfNodeNextId = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),workflowId,workflowNodeNextName);
+			if (wfNodeNextId <= 0) {
+				element.defer = true;
+				element.unresolved = "AD_WF_Node: " + workflowNodeNextName;
+				return;
+			}
 
 			sqlB = new StringBuffer ("SELECT  ad_wf_nodenext_id FROM AD_WF_NodeNext  WHERE ad_wf_node_id =? and ad_wf_next_id =?");		
 
@@ -97,8 +106,7 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 				throw new POSaveFailedException("WorkflowNodeNext");
 			}            
 		} else {
-			log.info("entitytype is not a U or D");
-
+			element.skip = true;
 		}
 	}
 

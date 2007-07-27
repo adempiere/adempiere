@@ -23,6 +23,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_Process_Para;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -39,7 +40,7 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("Name");
 
 			int id = get_IDWithMaster(ctx, "AD_Process_Para", name,
@@ -61,18 +62,45 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 			id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
 			if (id <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_Process: " + name;
 				return;
 			}
 			m_Process_para.setAD_Process_ID(id);
-
+			
+			m_Process_para.setColumnName(atts.getValue("ColumnName"));
+			m_Process_para.setEntityType(atts.getValue("EntityType"));
+			m_Process_para.setName(atts.getValue("Name"));
+			
 			name = atts.getValue("ADElementNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_Element", "Name", name);
-				if (id <= 0) {
-					element.defer = true;
-					return;
+				// Setup Element
+				X_AD_Element adElement = new X_AD_Element(ctx, id, getTrxName(ctx));
+				if (adElement.getAD_Element_ID() == 0) {
+					String columnName = m_Process_para.getColumnName();
+					id = get_IDWithColumn(ctx, "AD_Element", "ColumnName", columnName);
+					if ( id > 0 ) {
+						adElement = new X_AD_Element(ctx, id, getTrxName(ctx));
+					} else {
+						adElement.setColumnName(columnName);
+						adElement.setEntityType(m_Process_para.getEntityType());
+						adElement.setPrintName(name);
+	
+						adElement.setName(m_Process_para.getName());
+						if (adElement.save(getTrxName(ctx)) == true) {
+							record_log(ctx, 1, m_Process_para.getName(), "Element", adElement
+									.getAD_Element_ID(), AD_Backup_ID, "New",
+									"AD_Element", get_IDWithColumn(ctx, "AD_Table",
+											"TableName", "AD_Element"));
+						} else {
+							record_log(ctx, 0, m_Process_para.getName(), "Element", adElement
+									.getAD_Element_ID(), AD_Backup_ID, "New",
+									"AD_Element", get_IDWithColumn(ctx, "AD_Table",
+											"TableName", "AD_Element"));
+						}
+					}
 				}
-				m_Process_para.setAD_Element_ID(id);
+				m_Process_para.setAD_Element_ID(adElement.getAD_Element_ID());
 			}
 
 			name = atts.getValue("ADReferenceNameID");
@@ -80,6 +108,7 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Reference: " + name;
 					return;
 				}
 				m_Process_para.setAD_Reference_ID(id);
@@ -90,6 +119,7 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Reference: " + name; 
 					return;
 				}
 				m_Process_para.setAD_Reference_Value_ID(id);
@@ -100,24 +130,24 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Val_Rule: " +name;
 					return;
 				}
 				m_Process_para.setAD_Val_Rule_ID(id);
 			}
-
-			m_Process_para.setColumnName(atts.getValue("ColumnName"));
+			
 			m_Process_para.setDefaultValue(atts.getValue("DefaultValue"));
 			m_Process_para.setDefaultValue2(atts.getValue("DefaultValue2"));
 			m_Process_para.setDescription(atts.getValue("Description")
 					.replaceAll("'", "''").replaceAll(",", ""));
-			m_Process_para.setEntityType(atts.getValue("EntityType"));
+			
 			m_Process_para.setHelp(atts.getValue("Help").replaceAll("'", "''")
 					.replaceAll(",", ""));
 			m_Process_para
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
 							.valueOf(atts.getValue("isActive")).booleanValue()
 							: true);
-			m_Process_para.setName(atts.getValue("Name"));
+			
 			m_Process_para.setVFormat(atts.getValue("VFormat"));
 			m_Process_para.setValueMax(atts.getValue("ValueMax"));
 			m_Process_para.setValueMin(atts.getValue("ValueMin"));
@@ -142,6 +172,8 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 								"TableName", "AD_Process_para"));
 				throw new POSaveFailedException("ProcessPara");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

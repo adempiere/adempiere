@@ -55,7 +55,7 @@ public class WindowElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("Name");
 			int id = get_ID(ctx, "AD_Window", name);
 			if (id > 0 && windows.contains(id)) {
@@ -132,6 +132,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 								"AD_Window"));
 				throw new POSaveFailedException("Window");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

@@ -40,10 +40,12 @@ public class WorkflowNodeNextConditionElementHandler extends
 		String entitytype = atts.getValue("EntityType");
 		log.info("entitytype " + atts.getValue("EntityType"));
 
-		if (entitytype.equals("U") || entitytype.equals("D")
-				&& getUpdateMode(ctx).equals("true")) {
-			log.info("entitytype is a U or D");
-
+		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.skip) {
+				element.skip = true;
+				return;
+			}
+			
 			String workflowName = atts.getValue("ADWorkflowNameID");
 
 			int workflowId = get_IDWithColumn(ctx, "AD_Workflow", "name",
@@ -152,8 +154,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 				throw new POSaveFailedException("WorkflowNodeNextCondition");
 			}
 		} else {
-			log.info("entitytype is not a U or D");
-
+			element.skip = true;
 		}
 	}
 

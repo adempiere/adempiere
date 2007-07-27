@@ -58,8 +58,7 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("name");
 
-		if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-				&& getUpdateMode(ctx).compareTo("true") == 0) {
+		if (isProcessElement(ctx, entitytype)) {
 			int id = get_ID(ctx, "AD_Reference", name);
 
 			X_AD_Reference m_Reference = new X_AD_Reference(ctx, id,
@@ -68,6 +67,7 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 				AD_Backup_ID = copyRecord(ctx, "AD_Reference", m_Reference);
 				Object_Status = "Update";
 				if (references.contains(id)) {
+					element.skip = true;
 					return;
 				}
 			} else {
@@ -99,6 +99,8 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 								"TableName", "AD_Reference"));
 				throw new POSaveFailedException("Reference");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

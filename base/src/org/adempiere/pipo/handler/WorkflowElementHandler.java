@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -45,6 +47,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 	private WorkflowNodeElementHandler nodeHandler = new WorkflowNodeElementHandler();
 	private WorkflowNodeNextElementHandler nodeNextHandler = new WorkflowNodeNextElementHandler();
 	private WorkflowNodeNextConditionElementHandler nextConditionHandler = new WorkflowNodeNextConditionElementHandler();
+	
+	private List<Integer> workflows = new ArrayList<Integer>();
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
@@ -54,13 +58,15 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		log.info("entitytype " + atts.getValue("EntityType"));
 
-		if (entitytype.equals("U") || (entitytype.equals("D")
-					&& getUpdateMode(ctx).equals("true"))) {
-			log.info("entitytype is a U or D");
-
+		if (isProcessElement(ctx, entitytype)) {
+			
 			String workflowName = atts.getValue("Name");
 
 			int id = get_IDWithColumn(ctx, "AD_Workflow", "name", workflowName);
+			if (id > 0 && workflows.contains(id)) {
+				element.skip = true;
+				return;
+			}
 
 			MWorkflow m_Workflow = new MWorkflow(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
@@ -78,6 +84,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_WF_Responsible", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_WF_Responsible: " + name;
 					return;
 				}
 				m_Workflow.setAD_WF_Responsible_ID(id);
@@ -88,6 +95,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Table: " + name;
 					return;
 				}
 				m_Workflow.setAD_Table_ID(id);
@@ -99,6 +107,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_WorkflowProcessor", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_WorkflowProcessor: " + name;
 					return;
 				}
 				m_Workflow.setAD_WorkflowProcessor_ID(id);
@@ -137,6 +146,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
 						get_IDWithColumn(ctx, "AD_Workflow", "Name",
 								"AD_Workflow"));
+				workflows.add(m_Workflow.getAD_Workflow_ID());
+				element.recordId = m_Workflow.getAD_Workflow_ID();
 			} else {
 				log.info("m_Workflow save failure");
 				record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
@@ -146,7 +157,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				throw new POSaveFailedException("MWorkflow");
 			}
 		} else {
-			log.info("entitytype is not a U or D");
+			element.skip = true;
 		}
 	}
 
@@ -285,9 +296,10 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_Workflow.getName() != null ? m_Workflow.getName() : ""));
 		if (m_Workflow.getAD_Table_ID() > 0) {
-			sql = "SELECT Name FROM AD_Table WHERE AD_Table_ID=?";
+			sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Workflow.getAD_Table_ID());
-			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADTableNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADTableNameID", "CDATA", "");
 
@@ -295,26 +307,30 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			sql = "SELECT Name FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Workflow
 					.getAD_WF_Node_ID());
-			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", "");
+		
 		if (m_Workflow.getAD_WF_Responsible_ID() > 0) {
 			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Workflow
 					.getAD_WF_Responsible_ID());
 			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
-					name);
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
 					"");
+		
 		if (m_Workflow.getAD_WorkflowProcessor_ID() > 0) {
 			sql = "SELECT Name FROM  AD_WorkflowProcessor_ID WHERE AD_WorkflowProcessor_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Workflow
 					.getAD_WorkflowProcessor_ID());
 			atts.addAttribute("", "", "ADWorkflowProcessorNameID", "CDATA",
-					name);
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowProcessorNameID", "CDATA", "");
+		
 		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Workflow
 				.getAccessLevel() != null ? m_Workflow.getAccessLevel() : ""));
 		atts

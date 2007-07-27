@@ -41,8 +41,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U")
-				|| (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			if (element.parent != null && element.parent.getElementValue().equals("tab") &&
 				element.parent.defer) {
 				element.defer = true;
@@ -159,7 +158,8 @@ public class FieldElementHandler extends AbstractElementHandler {
 				element.defer = true;
 				return;
 			}
-
+		} else {
+			element.skip = true;
 		}
 	}
 

@@ -650,8 +650,8 @@ public class PackInHandler extends DefaultHandler {
     			handler.endElement(m_ctx, e);
     		if (e.defer)
 				defer.add(new DeferEntry(e, false));
-    		else
-    			log.info("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
+    		else if (!e.skip)
+    			System.out.println("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
     	}
     }   // endElement
     
@@ -673,7 +673,11 @@ public class PackInHandler extends DefaultHandler {
     		List<DeferEntry> tmp = new ArrayList<DeferEntry>(defer);
     		defer.clear();
     		for (DeferEntry d : tmp) {
-    			d.element.defer = false;
+    			if (d.startElement) {
+	    			d.element.defer = false;
+	    			d.element.unresolved = "";
+	    			d.element.pass++;
+    			}
     			ElementHandler handler = handlers.get(d.element.getElementValue());
     			if (handler != null) {
     				if (d.startElement)
@@ -683,14 +687,23 @@ public class PackInHandler extends DefaultHandler {
     			}
     			if (d.element.defer)
     				defer.add(d);
+    			else if (!d.startElement)
+    				System.out.println("Processed: " + d.element.getElementValue() + " - " 
+    					+ d.element.attributes.getValue(0));
     		}
     		int endSize = defer.size();
     		if (startSize == endSize) break;
     	} while (defer.size() > 0);
     	
     	if (defer.size() > 0) {
-    		//TODO
-    		throw new RuntimeException("Failed to resolve dependency for " + defer.size() + " elements.");
+    		int count = 0;
+    		for (DeferEntry d : defer) {
+    			if (d.startElement) {
+    				count++;
+    				System.out.println("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
+    			}
+    		}
+    		throw new RuntimeException("Failed to resolve dependency for " + count + " elements.");
     	}
     }
 

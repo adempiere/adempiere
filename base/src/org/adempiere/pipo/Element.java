@@ -36,6 +36,12 @@ public class Element {
 	public Element parent;
 	//resolved db recordid, store for reference by child element
 	public int recordId = 0;
+	//unresolved dependency
+	public String unresolved = "";
+	//number of pass
+	public int pass = 1;
+	//skip this node
+	public boolean skip = false;
 	
 	/**
 	 * @param uri

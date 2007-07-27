@@ -41,7 +41,11 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 		// TODO: Solve for date issues with valuefrom valueto
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.skip) {
+				element.skip = true;
+				return;
+			}
 			String name = atts.getValue("Name");
 			String value = atts.getValue("Value");
 			int AD_Reference_ID = get_IDWithColumn(ctx, "AD_Reference", "Name",
@@ -77,6 +81,8 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 								"TableName", "AD_Ref_List"));
 				throw new POSaveFailedException("ReferenceList");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

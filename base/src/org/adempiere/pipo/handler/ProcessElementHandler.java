@@ -49,7 +49,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("Name"));
 		int id = 0;
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("Name");
 
 			// Get New process.
@@ -77,6 +77,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Workflow: " + name;
 					return;
 				}
 				m_Process.setAD_Workflow_ID(id);
@@ -86,20 +87,32 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);
 				if (id <= 0) {
-					element.defer = true;
-					return;
+					if (element.pass == 1) {
+						element.defer = true;
+						element.unresolved = "AD_PrintFormat: " + name;
+						return;
+					} else {
+						log.warning("AD_PrintFormat: " + name + " not found for Process: " + m_Process.getName());
+					}
 				}
-				m_Process.setAD_PrintFormat_ID(id);
+				if (id > 0)
+					m_Process.setAD_PrintFormat_ID(id);
 			}
 
 			name = atts.getValue("ADReportViewNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_ReportView", "Name", name);
 				if (id <= 0) {
-					element.defer = true;
-					return;
+					if (element.pass == 1) {
+						element.defer = true;
+						element.unresolved = "AD_ReportView: " + name;
+						return;
+					} else {
+						log.warning("AD_ReportView: " + name + " not found for Process: " + m_Process.getName());
+					}
 				}
-				m_Process.setAD_ReportView_ID(id);
+				if (id > 0)
+					m_Process.setAD_ReportView_ID(id);
 			}
 
 			m_Process.setAccessLevel(atts.getValue("AccessLevel"));
@@ -136,6 +149,8 @@ public class ProcessElementHandler extends AbstractElementHandler {
 								"AD_Process"));
 				throw new POSaveFailedException("Process");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

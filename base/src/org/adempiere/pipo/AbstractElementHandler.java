@@ -345,31 +345,79 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	    return success;
     }
     
+    /**
+     * Get client id
+     * @param ctx
+     * @return int
+     */
     protected int getClientId(Properties ctx) {
     	return Env.getContextAsInt(ctx, "AD_Client_ID");
     }
     
+    /**
+     * Get AD_Package_Imp_ID
+     * @param ctx
+     * @return int
+     */
     protected int getPackageImpId(Properties ctx) {
     	return Env.getContextAsInt(ctx, "AD_Package_Imp_ID");
     }
     
+    /**
+     * Get update system maintained dictionary flag
+     * @param ctx
+     * @return update mode
+     */
     protected String getUpdateMode(Properties ctx) {
     	return Env.getContext(ctx, "UpdateMode");
     }
     
+    /**
+     * Get current transaction name
+     * @param ctx
+     * @return transaction name
+     */
     protected String getTrxName(Properties ctx) {
     	return Env.getContext(ctx, "TrxName");
     }
     
+    /**
+     * Get share document
+     * @param ctx
+     * @return TransformerHandler 
+     */
     protected TransformerHandler getDocument(Properties ctx) {
     	return (TransformerHandler)ctx.get("Document");
     }
-    
+
+    /**
+     * Get share document attributes
+     * @param ctx
+     * @return AttributesImpl 
+     */
     protected AttributesImpl getDocumentAttributes(Properties ctx) {
     	return (AttributesImpl)ctx.get("DocumentAttributes");
     }
     
+    /**
+     * @param ctx
+     * @return package directory
+     */
     protected String getPackageDirectory(Properties ctx) {
     	return Env.getContext(ctx, "PackageDirectory");
-    }    
+    }
+    
+    /**
+     * Process element by entity type and user setting.
+     * @param ctx
+     * @param entityType
+     * @return boolean
+     */
+    protected boolean isProcessElement(Properties ctx, String entityType) {
+    	if ("D".equals(entityType) || "C".equals(entityType)) {
+    		return "true".equalsIgnoreCase(getUpdateMode(ctx));
+    	} else {
+    		return true;
+    	}
+    }
 }

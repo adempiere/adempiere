@@ -50,7 +50,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("ColumnName"));
 		int success = 0;
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			if (element.parent != null && element.parent.getElementValue().equals("table") &&
 				element.parent.defer) {
 				element.defer = true;
@@ -257,6 +257,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					throw new DatabaseAccessException("Failed to create column or related constraint for " + m_Column.getColumnName());
 				}
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

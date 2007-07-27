@@ -48,7 +48,12 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADRefenceNameID");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.skip) {
+				element.skip = true;
+				return;
+			}
+			
 			StringBuffer sqlB = new StringBuffer(
 					"SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), name);
@@ -181,6 +186,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 					throw new POSaveFailedException("ReferenceTable");
 				}
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

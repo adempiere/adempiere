@@ -46,7 +46,7 @@ public class TabElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("ADTabNameID"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U") || (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			if (element.parent != null && element.parent.getElementValue().equals("window")
 				&& element.parent.defer) {
 				element.defer = true;
@@ -168,8 +168,9 @@ public class TabElementHandler extends AbstractElementHandler {
 			} else {
 				record_log (ctx, 0, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
 				throw new POSaveFailedException("Tab");
-			}
-			
+			}	
+		} else {
+			element.skip = true;
 		}
 
 	}

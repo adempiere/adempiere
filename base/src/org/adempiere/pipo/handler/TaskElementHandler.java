@@ -39,8 +39,7 @@ public class TaskElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("ADTaskNameID"));
 		String entitytype = atts.getValue("EntityType");
-		if (entitytype.equals("U")
-				|| (entitytype.equals("D") && getUpdateMode(ctx).equals("true"))) {
+		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("ADTaskNameID");
 			int id = get_ID(ctx, "AD_Task", name);
 			MTask m_Task = new MTask(ctx, id, getTrxName(ctx));
@@ -75,6 +74,8 @@ public class TaskElementHandler extends AbstractElementHandler {
 								"AD_Task"));
 				throw new POSaveFailedException("Task");
 			}
+		} else {
+			element.skip = true;
 		}
 	}
 

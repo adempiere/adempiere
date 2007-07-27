@@ -27,7 +27,6 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.wf.MWFNode;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -42,19 +41,35 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		String entitytype = atts.getValue("EntityType");
 		log.info("entitytype " + atts.getValue("EntityType"));
 
-		if (entitytype.equals("U") || entitytype.equals("D")
-				&& getUpdateMode(ctx).equals("true")) {
-			log.info("entitytype is a U or D");
-
-			String workflowName = atts.getValue("ADWorkflowNameID");
-			int workflowId = get_IDWithColumn(ctx, "AD_Workflow", "name",
-					workflowName);
-			if (workflowId <= 0) {
+		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.skip) {
+				element.skip = true;
+				return;
+			}
+			if (element.parent != null && element.parent.getElementValue().equals("workflow")
+				&& element.parent.defer) {
 				element.defer = true;
 				return;
 			}
+			
+			int workflowId = 0;
+			String workflowName = atts.getValue("ADWorkflowNameID");
+			if (element.parent != null && element.parent.getElementValue().equals("workflow")
+				&& element.parent.recordId > 0)
+				workflowId = element.parent.recordId;
+			else {
+				workflowId = get_IDWithColumn(ctx, "AD_Workflow", "name",
+					workflowName);
+				if (workflowId <= 0) {
+					element.defer = true;
+					element.unresolved = "AD_Workflow: " + workflowName;
+					return;
+				}
+				else if (element.parent != null && element.parent.getElementValue().equals("workflow"))
+					element.parent.recordId = workflowId;
+			}
 
-			String workflowNodeName = atts.getValue("Name");
+			String workflowNodeName = atts.getValue("Name").trim();
 
 			StringBuffer sqlB = new StringBuffer(
 					"SELECT ad_wf_node_id FROM AD_WF_Node WHERE AD_Workflow_ID=? and Name =?");
@@ -62,7 +77,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
 					workflowId, workflowNodeName);
 
-			MWFNode m_WFNode = new MWFNode(ctx, id, getTrxName(ctx));
+			X_AD_WF_Node m_WFNode = new X_AD_WF_Node(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0) {
@@ -80,6 +95,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Process: " + name;
 					return;
 				}
 				m_WFNode.setAD_Process_ID(id);
@@ -90,6 +106,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Form", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Form: " + name;
 					return;
 				}
 				m_WFNode.setAD_Form_ID(id);
@@ -98,11 +115,14 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			name = atts.getValue("ADWorkflowResponsibleNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_WF_Responsible", "Name", name);
+				//TODO: export and import of ad_wf_responsible
+				/*
 				if (id <= 0) {
 					element.defer = true;
 					return;
-				}
-				m_WFNode.setAD_WF_Responsible_ID(id);
+				}*/
+				if (id > 0)
+					m_WFNode.setAD_WF_Responsible_ID(id);
 			}
 
 			name = atts.getValue("ADWindowNameID");
@@ -110,6 +130,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Window", "Name", name);
 				if (id <= 0) {
 					element.defer = true;
+					element.unresolved = "AD_Window: " + name;
 					return;
 				}
 				m_WFNode.setAD_Window_ID(id);
@@ -118,21 +139,27 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			name = atts.getValue("ADImageNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_Image", "Name", name);
+				//TODO: export and import of ad_image
+				/*
 				if (id <= 0) {
 					element.defer = true;
 					return;
-				}
-				m_WFNode.setAD_Image_ID(id);
+				}*/
+				if (id > 0)
+					m_WFNode.setAD_Image_ID(id);
 			}
 
 			name = atts.getValue("ADWorkflowBlockNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_WF_Block", "Name", name);
+				//TODO: export and import of ad_workflow_block
+				/*
 				if (id <= 0) {
 					element.defer = true;
 					return;
-				}
-				m_WFNode.setAD_WF_Block_ID(id);
+				}*/
+				if (id > 0)
+					m_WFNode.setAD_WF_Block_ID(id);
 			}
 			/*
 			 * FIXME: Do we need TaskName ? if
@@ -158,17 +185,17 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			m_WFNode.setCost(new BigDecimal(atts.getValue("Cost")));
 			m_WFNode.setDuration(Integer.valueOf(atts.getValue("Duration")));
 			m_WFNode.setPriority(Integer.valueOf(atts.getValue("Priority")));
-			// FIXME: Failing for some reason on a ""
-			// m_WFNode.setStartMode(atts.getValue("StartMode"));
-			// FIXME: Failing for some reason on a ""
-			// m_WFNode.setSubflowExecution(atts.getValue("SubflowExecution"));
+			String startMode = atts.getValue("StartMode");
+			m_WFNode.setStartMode(("".equals(startMode) ? null : startMode));
+			String subFlowExecution = atts.getValue("SubflowExecution");
+			m_WFNode.setSubflowExecution(("".equals(subFlowExecution) ? null : subFlowExecution));
 			m_WFNode.setIsCentrallyMaintained(Boolean.valueOf(
 					atts.getValue("IsCentrallyMaintained")).booleanValue());
 			m_WFNode.setDynPriorityChange(new BigDecimal(atts
 					.getValue("DynPriorityChange")));
 			// m_WFNode.setAccessLevel (atts.getValue("AccessLevel"));
-			// FIXME: Failing for some reason on a ""
-			// m_WFNode.setDynPriorityUnit (atts.getValue("DynPriorityUnit"));
+			String dynPriorityUnit = atts.getValue("DynPriorityUnit");
+			m_WFNode.setDynPriorityUnit (("".equals(dynPriorityUnit) ? null : dynPriorityUnit));
 			m_WFNode.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			// log.info("in3");
@@ -189,8 +216,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				throw new POSaveFailedException("WorkflowNode");
 			}
 		} else {
-			log.info("entitytype is not a U or D");
-
+			element.skip = true;
 		}
 	}
 
@@ -230,47 +256,59 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		if (m_WF_Node.getAD_Window_ID() > 0) {
 			sql = "SELECT Name FROM AD_Window WHERE AD_Window_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Window_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADWindowNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADWindowNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADWindowNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADWindowNameID", "CDATA", "");
+		}
+		
 
 		if (m_WF_Node.getAD_Task_ID() > 0) {
 			sql = "SELECT Name FROM AD_Task WHERE AD_Task_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Task_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADTaskNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADTaskNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADTaskNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADTaskNameID", "CDATA", "");
+		}
+		
 
 		if (m_WF_Node.getAD_Process_ID() > 0) {
 			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
 			name = DB
 					.getSQLValueString(null, sql, m_WF_Node.getAD_Process_ID());
-			atts.addAttribute("", "", "ADProcessNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADProcessNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADProcessNameID", "CDATA", "");
+		
 		if (m_WF_Node.getAD_Form_ID() > 0) {
 			sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Form_ID());
-			atts.addAttribute("", "", "ADFormNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADFormNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADFormNameID", "CDATA", "");
+		
 		if (m_WF_Node.getAD_WF_Block_ID() > 0) {
 			sql = "SELECT Name FROM AD_WF_Block WHERE AD_WF_Block_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node
 					.getAD_WF_Block_ID());
-			atts.addAttribute("", "", "ADWorkflowBlockNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADWorkflowBlockNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowBlockNameID", "CDATA", "");
+		
 		if (m_WF_Node.getAD_WF_Responsible_ID() > 0) {
 			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node
 					.getAD_WF_Responsible_ID());
 			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
-					name);
+					(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowResponsibleNameID", "CDATA",
 					"");
@@ -278,17 +316,22 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		if (m_WF_Node.getAD_Image_ID() > 0) {
 			sql = "SELECT Name FROM AD_Image WHERE AD_Image_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Image_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADImageNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADImageNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADImageNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADImageNameID", "CDATA", "");
+		}
+		
 		if (m_WF_Node.getAD_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node.getAD_Column_ID());
-			atts.addAttribute("", "", "ADColumnNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADColumnNameID", "CDATA", 
+				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
+		
 		atts.addAttribute("", "", "isActive", "CDATA",
 				(m_WF_Node.isActive() == true ? "true" : "false"));
 		atts.addAttribute("", "", "Description", "CDATA", (m_WF_Node
