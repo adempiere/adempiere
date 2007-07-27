@@ -902,12 +902,15 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			return process.processIt(pi, trx);
 		}
 		
-		/******	TODO Start Task				******/
+		/******	Start Task (Probably redundant;
+		        same can be achieved by attaching a Workflow node sequentially) ******/
+		/*
 		else if (MWFNode.ACTION_AppsTask.equals(action))
 		{
 			log.warning ("Task:AD_Task_ID=" + m_node.getAD_Task_ID());
 			log.warning("Start Task is not implemented yet");
 		}
+		*/
 		
 		/******	EMail						******/
 		else if (MWFNode.ACTION_EMail.equals(action))
@@ -983,13 +986,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					return true;	//	done
 			}	//	approval
 			return false;	//	wait for user
-		}
-		/******	User Workbench				******/
-		else if (MWFNode.ACTION_UserWorkbench.equals(action))
-		{
-			log.fine("Workbench:?");
-			log.warning("User Workbench is not implemented yet");
-			return false;
 		}
 		/******	User Form					******/
 		else if (MWFNode.ACTION_UserForm.equals(action))
