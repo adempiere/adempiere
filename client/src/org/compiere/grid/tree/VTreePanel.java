@@ -897,7 +897,7 @@ public final class VTreePanel extends CPanel
 		if (barDBupdate(true, nd.getNode_ID()))
 			addToBar(nd,getParentToolBar(nd), false);
 		else if (CLogger.retrieveException().getMessage().indexOf("ORA-00001")!=-1)
-			ADialog.error(0, this, "", "Item is already on Bar");
+			ADialog.error(0, this, "BookmarkExist", null);
 	}   //  barAdd
 	
 	/**
