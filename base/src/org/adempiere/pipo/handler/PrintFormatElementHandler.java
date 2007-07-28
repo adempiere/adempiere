@@ -134,10 +134,9 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			m_PrintFormat.setAD_PrintPaper_ID(id);
 		}
 
-		m_PrintFormat.setDescription(atts.getValue("Description").replaceAll(
-				"'", "''").replaceAll(",", ""));
+		m_PrintFormat.setDescription(getStringValue(atts, "Description"));
 		m_PrintFormat.setName(atts.getValue("Name"));
-		m_PrintFormat.setPrinterName(atts.getValue("PrinterName"));
+		m_PrintFormat.setPrinterName(getStringValue(atts, "PrinterName"));
 		m_PrintFormat.setFooterMargin(Integer.parseInt(atts
 				.getValue("FooterMargin")));
 
@@ -167,7 +166,7 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 					m_PrintFormat.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_PrintFormat", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormat"));
-			throw new POSaveFailedException("PrintFormat");
+			throw new POSaveFailedException("Failed to save Print Format");
 		}
 	}
 

@@ -75,11 +75,9 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 				AD_Backup_ID = 0;
 			}
 
-			m_Reference.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			m_Reference.setDescription(getStringValue(atts,"Description"));
 			m_Reference.setEntityType(atts.getValue("EntityType"));
-			m_Reference.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Reference.setHelp(getStringValue(atts,"Help"));
 			m_Reference.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_Reference.setName(atts.getValue("name"));
@@ -111,6 +109,11 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int Reference_id = Env.getContextAsInt(ctx,
 				X_AD_Reference.COLUMNNAME_AD_Reference_ID);
+		
+		if (references.contains(Reference_id))
+			return;
+		
+		references.add(Reference_id);
 		AttributesImpl atts = new AttributesImpl();
 		String sql = "SELECT * FROM AD_Reference WHERE AD_Reference_ID= "
 				+ Reference_id;

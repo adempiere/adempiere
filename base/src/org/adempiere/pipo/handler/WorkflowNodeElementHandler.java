@@ -169,37 +169,38 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			 * DB.getSQLValue(m_trxName,sqlB.toString(),name); }
 			 */
 			m_WFNode.setEntityType(atts.getValue("EntityType"));
-			m_WFNode.setAction(atts.getValue("Action"));
-			m_WFNode.setDocAction(atts.getValue("DocAction"));
-			m_WFNode.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			m_WFNode.setAction(getStringValue(atts,"Action"));
+			m_WFNode.setDocAction(getStringValue(atts, "DocAction"));
+			m_WFNode.setDescription(getStringValue(atts,"Description"));
 			m_WFNode.setJoinElement(atts.getValue("JoinElement"));
 			m_WFNode.setSplitElement(atts.getValue("SplitElement"));
-			m_WFNode.setXPosition(Integer.valueOf(atts.getValue("XPosition")));
-			m_WFNode.setYPosition(Integer.valueOf(atts.getValue("YPosition")));
+			if (getStringValue(atts, "XPosition") != null)
+				m_WFNode.setXPosition(Integer.valueOf(atts.getValue("XPosition")));
+			if (getStringValue(atts, "YPosition") != null) 
+				m_WFNode.setYPosition(Integer.valueOf(atts.getValue("YPosition")));
 			m_WFNode.setWaitingTime(Integer.valueOf(atts
 					.getValue("WaitingTime")));
-			m_WFNode.setWaitTime(Integer.valueOf(atts.getValue("WaitTime")));
+			if (getStringValue(atts, "WaitTime") != null)
+				m_WFNode.setWaitTime(Integer.valueOf(atts.getValue("WaitTime")));
 			m_WFNode.setWorkingTime(Integer.valueOf(atts
 					.getValue("WorkingTime")));
-			m_WFNode.setCost(new BigDecimal(atts.getValue("Cost")));
-			m_WFNode.setDuration(Integer.valueOf(atts.getValue("Duration")));
-			m_WFNode.setPriority(Integer.valueOf(atts.getValue("Priority")));
-			String startMode = atts.getValue("StartMode");
-			m_WFNode.setStartMode(("".equals(startMode) ? null : startMode));
-			String subFlowExecution = atts.getValue("SubflowExecution");
-			m_WFNode.setSubflowExecution(("".equals(subFlowExecution) ? null : subFlowExecution));
+			if (getStringValue(atts, "Cost") != null)
+				m_WFNode.setCost(new BigDecimal(atts.getValue("Cost")));
+			if (getStringValue(atts, "Duration") != null)
+				m_WFNode.setDuration(Integer.valueOf(atts.getValue("Duration")));
+			if (getStringValue(atts, "Priority") != null)
+				m_WFNode.setPriority(Integer.valueOf(atts.getValue("Priority")));
+			m_WFNode.setStartMode(getStringValue(atts, "StartMode"));
+			m_WFNode.setSubflowExecution(getStringValue(atts,"SubflowExecution"));
 			m_WFNode.setIsCentrallyMaintained(Boolean.valueOf(
 					atts.getValue("IsCentrallyMaintained")).booleanValue());
-			m_WFNode.setDynPriorityChange(new BigDecimal(atts
+			if (getStringValue(atts,"DynPriorityChange") != null)
+				m_WFNode.setDynPriorityChange(new BigDecimal(atts
 					.getValue("DynPriorityChange")));
 			// m_WFNode.setAccessLevel (atts.getValue("AccessLevel"));
-			String dynPriorityUnit = atts.getValue("DynPriorityUnit");
-			m_WFNode.setDynPriorityUnit (("".equals(dynPriorityUnit) ? null : dynPriorityUnit));
+			m_WFNode.setDynPriorityUnit (getStringValue(atts,"DynPriorityUnit"));
 			m_WFNode.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
-			// log.info("in3");
-			getDocumentAttributes(ctx).clear();
 			log.info("about to execute m_WFNode.save");
 			if (m_WFNode.save(getTrxName(ctx)) == true) {
 				log.info("m_WFNode save success");

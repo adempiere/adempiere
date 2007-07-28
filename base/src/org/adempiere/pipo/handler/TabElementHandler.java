@@ -92,51 +92,51 @@ public class TabElementHandler extends AbstractElementHandler {
 			sqlB = null;
 			m_Tab.setName(name);	
 			id = 0;
-			if (atts.getValue("ADColumnSortYesNoNameID")!= null){
+			if (getStringValue(atts,"ADColumnSortYesNoNameID")!= null){
 				name = atts.getValue("ADColumnSortYesNoNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Column", "Name", name);
 				m_Tab.setAD_ColumnSortYesNo_ID(id);
 			}
-			if (atts.getValue("ADColumnSortOrderNameID")!= null){
+			if (getStringValue(atts,"ADColumnSortOrderNameID")!= null){
 				name = atts.getValue("ADColumnSortOrderNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Column", "Name", name);
 				m_Tab.setAD_ColumnSortOrder_ID(id);
 			}
-			if (atts.getValue("ADImageNameID")!= null){
+			if (getStringValue(atts,"ADImageNameID")!= null){
 				name = atts.getValue("ADImageNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Image", "Name", name);
 				m_Tab.setAD_Image_ID(id);
 			}
-			if (atts.getValue("ADProcessNameID")!= null){
+			if (getStringValue(atts,"ADProcessNameID")!= null){
 				name = atts.getValue("ADProcessNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
 				m_Tab.setAD_Process_ID(id);
 			}		    
-			if (atts.getValue("ADTableNameID")!= null){
+			if (getStringValue(atts,"ADTableNameID")!= null){
 				name = atts.getValue("ADTableNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
 				m_Tab.setAD_Table_ID(id);   
 			}
-			if (atts.getValue("ADColumnNameID")!= null){
+			if (getStringValue(atts,"ADColumnNameID")!= null){
 				name = atts.getValue("ADColumnNameID");
 				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", atts.getValue("ADColumnNameID"), "AD_Table", get_IDWithColumn(ctx,"AD_Table", "TableName", atts.getValue("ADTableNameID")));			    
 				m_Tab.setAD_Column_ID(id);   
 			}
-			if (atts.getValue("ADWindowNameID")!= null){
+			if (getStringValue(atts,"ADWindowNameID")!= null){
 				name = atts.getValue("ADWindowNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Window", "Name", name);
 				m_Tab.setAD_Window_ID(id);   
 			}
-			if (atts.getValue("IncludedTabNameID")!= null){
+			if (getStringValue(atts,"IncludedTabNameID")!= null){
 				name = atts.getValue("IncludedTabNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Tab", "Name", name);
 				m_Tab.setIncluded_Tab_ID(id);		        
 			}
 			m_Tab.setCommitWarning(atts.getValue("CommitWarning"));
-			m_Tab.setDescription(atts.getValue("Description").replaceAll("'","''"));
+			m_Tab.setDescription(getStringValue(atts,"Description"));
 			m_Tab.setEntityType (atts.getValue("EntityType"));
 			m_Tab.setHasTree(Boolean.valueOf(atts.getValue("isHasTree")).booleanValue());
-			m_Tab.setHelp (atts.getValue("Help").replaceAll("'","''"));
+			m_Tab.setHelp (getStringValue(atts,"Help"));
 			m_Tab.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Tab.setImportFields (atts.getValue("ImportFields"));
 			m_Tab.setIsInfoTab (Boolean.valueOf(atts.getValue("isInfoTab")).booleanValue());
@@ -145,21 +145,21 @@ public class TabElementHandler extends AbstractElementHandler {
 			m_Tab.setIsSortTab (Boolean.valueOf(atts.getValue("isSortTab")).booleanValue());
 			m_Tab.setIsTranslationTab (Boolean.valueOf(atts.getValue("IsTranslationTab")).booleanValue());
 			m_Tab.setName (atts.getValue("Name"));
-			m_Tab.setOrderByClause (atts.getValue("OrderByClause"));
+			m_Tab.setOrderByClause (getStringValue(atts,"OrderByClause"));
 			m_Tab.setProcessing(false);
 			m_Tab.setSeqNo (Integer.parseInt(atts.getValue("SeqNo")));
 			m_Tab.setTabLevel (Integer.parseInt(atts.getValue("TabLevel")));
-			m_Tab.setWhereClause (atts.getValue("WhereClause"));
-			if (atts.getValue("ReadOnlyLogic") != null) {
+			m_Tab.setWhereClause (getStringValue(atts,"WhereClause"));
+			if (getStringValue(atts,"ReadOnlyLogic") != null) {
 				m_Tab.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
 			}
-			if (atts.getValue("DisplayLogic") != null) {
+			if (getStringValue(atts,"DisplayLogic") != null) {
 				m_Tab.setDisplayLogic(atts.getValue("DisplayLogic"));
 			}
-			if (atts.getValue("isInsertRecord") != null) {
+			if (getStringValue(atts,"isInsertRecord") != null) {
 				m_Tab.setIsInsertRecord(Boolean.valueOf(atts.getValue("isInsertRecord")).booleanValue());
 			}
-			if (atts.getValue("isAdvancedTab") != null) {
+			if (getStringValue(atts,"isAdvancedTab") != null) {
 				m_Tab.setIsAdvancedTab(Boolean.valueOf(atts.getValue("isAdvancedTab")).booleanValue());
 			}
 			if (m_Tab.save(getTrxName(ctx)) == true){		    	
@@ -221,7 +221,7 @@ public class TabElementHandler extends AbstractElementHandler {
 		
 		if(m_Tab.getAD_Process_ID() > 0 )
 		{
-			packOut.createProcess(m_Tab.getAD_Process_ID(), atts, document);
+			packOut.createProcess(m_Tab.getAD_Process_ID(), document);
 		}
 		
 	}

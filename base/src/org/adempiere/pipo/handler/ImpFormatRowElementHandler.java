@@ -97,7 +97,7 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		}
 		else{
 			record_log (ctx, 0, m_ImpFormat_row.getName(),"ImpFormat", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));
-			throw new POSaveFailedException("ImpFormatRow");
+			throw new POSaveFailedException("Failed to import Import Format Row.");
 		}
 	}
 

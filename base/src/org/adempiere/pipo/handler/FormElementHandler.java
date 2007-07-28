@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MForm;
 import org.compiere.model.X_AD_Form;
 import org.compiere.util.DB;
@@ -55,9 +56,9 @@ public class FormElementHandler extends AbstractElementHandler {
 			m_Form.setClassname (atts.getValue("Classname"));
 			m_Form.setIsBetaFunctionality (Boolean.valueOf(atts.getValue("isBetaFunctionality")).booleanValue());
 			m_Form.setAccessLevel(atts.getValue("AccessLevel"));
-			m_Form.setDescription(atts.getValue("Description").replaceAll("'","''"));
+			m_Form.setDescription(getStringValue(atts, "Description"));
 			m_Form.setEntityType(atts.getValue("EntityType"));
-			m_Form.setHelp(atts.getValue("Help"));
+			m_Form.setHelp(getStringValue(atts, "Help"));
 			m_Form.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Form.setName(atts.getValue("Name")); 
 			
@@ -66,6 +67,7 @@ public class FormElementHandler extends AbstractElementHandler {
 			}
 			else{
 				record_log (ctx, 0, m_Form.getName(),"Form", m_Form.get_ID(),AD_Backup_ID, Object_Status,"AD_Form",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Form"));
+				throw new POSaveFailedException("Failed to save form definition");
 			}
 		} else {
 			element.skip = true;
@@ -93,11 +95,14 @@ public class FormElementHandler extends AbstractElementHandler {
         if (m_Form.getAD_Form_ID()> 0 ){
             sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
             name = DB.getSQLValueString(null,sql,m_Form.getAD_Form_ID());
+            if (name != null )
+                atts.addAttribute("","","ADFormNameID","CDATA",name);
+            else
+            	atts.addAttribute("","","ADFormNameID","CDATA","");
+        } else {
+        	atts.addAttribute("","","ADFormNameID","CDATA","");
         }
-        if (name != null )
-            atts.addAttribute("","","ADFormNameID","CDATA",name);
-        else
-        	atts.addAttribute("","","ADFormNameID","CDATA","");	
+        	
         atts.addAttribute("","","Classname","CDATA",(m_Form.getClassname () != null ? m_Form.getClassname ():""));
         atts.addAttribute("","","isBetaFunctionality","CDATA",(m_Form.isBetaFunctionality()== true ? "true":"false"));
         atts.addAttribute("","","AccessLevel","CDATA",(m_Form.getAccessLevel () != null ? m_Form.getAccessLevel ():""));

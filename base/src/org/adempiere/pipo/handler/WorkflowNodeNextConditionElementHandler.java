@@ -123,7 +123,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 			m_WFNodeNextCondition.setOperation(atts.getValue("Operation"));
 			m_WFNodeNextCondition.setValue(atts.getValue("Value"));
 			m_WFNodeNextCondition.setValue2(atts.getValue("Value2"));
-			getDocumentAttributes(ctx).clear();
+			
 			log.info("about to execute m_WFNodeNextCondition.save");
 			if (m_WFNodeNextCondition.save(getTrxName(ctx)) == true) {
 				log.info("m_WFNodeNextCondition save success");

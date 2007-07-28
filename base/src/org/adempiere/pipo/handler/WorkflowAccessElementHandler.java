@@ -40,13 +40,13 @@ public class WorkflowAccessElementHandler extends AbstractElementHandler {
 		int workflowid =0;		
 		StringBuffer sqlB = null;
 		Attributes atts = element.attributes;
-		if (atts.getValue("rolename")!=null){
+		if (getStringValue(atts,"rolename")!=null){
 			String name = atts.getValue("rolename");		
 			sqlB = new StringBuffer ("SELECT AD_Role_ID FROM AD_Role WHERE Name= ?");
 			roleid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
 		}
 		
-		if (atts.getValue("workflowname")!=null){
+		if (getStringValue(atts,"workflowname")!=null){
 			String name = atts.getValue("workflowname");		
 			sqlB = new StringBuffer ("SELECT AD_Workflow_ID FROM AD_Workflow WHERE Name= ?");
 			workflowid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);

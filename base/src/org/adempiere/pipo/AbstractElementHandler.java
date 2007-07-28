@@ -32,6 +32,7 @@ import org.compiere.model.POInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -77,8 +78,8 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		int objectIDBackup, String objectStatus, String tableName, int AD_Table_ID) throws SAXException{    	
     	String recordLayout;
     	int id = 0;
-    	TransformerHandler hd_document = getDocument(ctx);
-		AttributesImpl attsOut = getDocumentAttributes(ctx);
+    	TransformerHandler hd_document = getLogDocument(ctx);
+		AttributesImpl attsOut = new AttributesImpl();
     	if (success == 1){    		
     		//hd_documemt.startElement("","","Successfull",attsOut);
     		recordLayout = "Type:"+objectType + "  -   Name:"+objectName + "  -  ID:"+objectID +"  -  Action:"+objectStatus+"  -  Success";
@@ -386,19 +387,10 @@ public abstract class AbstractElementHandler implements ElementHandler {
      * @param ctx
      * @return TransformerHandler 
      */
-    protected TransformerHandler getDocument(Properties ctx) {
-    	return (TransformerHandler)ctx.get("Document");
+    protected TransformerHandler getLogDocument(Properties ctx) {
+    	return (TransformerHandler)ctx.get("LogDocument");
     }
 
-    /**
-     * Get share document attributes
-     * @param ctx
-     * @return AttributesImpl 
-     */
-    protected AttributesImpl getDocumentAttributes(Properties ctx) {
-    	return (AttributesImpl)ctx.get("DocumentAttributes");
-    }
-    
     /**
      * @param ctx
      * @return package directory
@@ -419,5 +411,16 @@ public abstract class AbstractElementHandler implements ElementHandler {
     	} else {
     		return true;
     	}
+    }
+    
+    /**
+     * return null for empty string ("").
+     * @param atts
+     * @param qName
+     * @return string value
+     */
+    protected String getStringValue(Attributes atts, String qName) {
+    	String s = atts.getValue(qName);
+    	return ("".equals(s) ? null : s);
     }
 }

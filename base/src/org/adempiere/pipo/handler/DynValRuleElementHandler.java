@@ -18,6 +18,8 @@ package org.adempiere.pipo.handler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -25,6 +27,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Val_Rule;
 import org.compiere.util.DB;
@@ -35,6 +38,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class DynValRuleElementHandler extends AbstractElementHandler {
 
+	private List<Integer> rules = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
@@ -55,7 +60,7 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID =0;
 			}    	    
-			m_ValRule.setDescription(atts.getValue("Description").replaceAll("'","''"));
+			m_ValRule.setDescription(getStringValue(atts, "Description"));
 			m_ValRule.setEntityType(atts.getValue("EntityType"));
 			m_ValRule.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_ValRule.setName(name);
@@ -66,6 +71,7 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 			}
 			else{
 				record_log (ctx, 0, m_ValRule.getName(),"Task", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Val_Rule", "Name", "AD_Val_Rule"));
+				throw new POSaveFailedException("Failed to save dynamic validation rule.");
 			}
 		} else {
 			element.skip = true;
@@ -79,6 +85,9 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Val_Rule_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
+		if (rules.contains(AD_Val_Rule_ID))
+			return;
+		rules.add(AD_Val_Rule_ID);
 		String sql = "SELECT Name FROM AD_Val_Rule WHERE  AD_Val_Rule_ID= " + AD_Val_Rule_ID;
 		AttributesImpl atts = new AttributesImpl();
 		PreparedStatement pstmt = null;

@@ -99,11 +99,9 @@ public class WindowElementHandler extends AbstractElementHandler {
 					m_Window.setAD_Color_ID(id);
 			}
 
-			m_Window.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			m_Window.setDescription(getStringValue(atts,"Description"));
 			m_Window.setEntityType(atts.getValue("EntityType"));
-			m_Window.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Window.setHelp(getStringValue(atts,"Help"));
 			m_Window.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_Window.setIsBetaFunctionality(Boolean.valueOf(
@@ -162,7 +160,7 @@ public class WindowElementHandler extends AbstractElementHandler {
 				String name = rs.getString("NAME");
 				String tablename = DB.getSQLValueString(null, tableSql,
 						table_id);
-				packOut.createTable(rs.getInt("AD_Table_ID"), atts, document);
+				packOut.createTable(rs.getInt("AD_Table_ID"), document);
 				createTab(ctx, document, rs.getInt("AD_Tab_ID"));
 			}
 			rs.close();

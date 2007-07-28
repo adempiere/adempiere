@@ -126,7 +126,7 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 				m_PrintFormatItem.setAD_PrintFont_ID(id);
 		}
 
-		m_PrintFormatItem.setPrintName(atts.getValue("PrintName"));
+		m_PrintFormatItem.setPrintName(getStringValue(atts, "PrintName"));
 		m_PrintFormatItem.setName(atts.getValue("Name"));
 		m_PrintFormatItem.setPrintAreaType(atts.getValue("PrintAreaType"));
 

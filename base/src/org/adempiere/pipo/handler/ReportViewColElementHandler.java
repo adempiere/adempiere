@@ -42,10 +42,36 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 		log.info(elementValue + " " + atts.getValue("ADReportViewColID"));
 
 		String entitytype = atts.getValue("EntityType");
-		String name = atts.getValue("ADReportViewColID");
-
+		
 		if (isProcessElement(ctx, entitytype)) {
-			int id = get_ID(ctx, "AD_Reportview_Col", name);
+			String name = atts.getValue("ADReportviewNameID");
+			int AD_ReportView_ID = get_IDWithColumn(ctx, "AD_ReportView", "Name", name);
+			if (AD_ReportView_ID <= 0) {
+				element.defer = true;
+				return;
+			}
+			
+			name = atts.getValue("ADColumnNameID");
+			int AD_Column_ID = 0;
+			if (name != null && name.trim().length() > 0) {
+				AD_Column_ID = get_IDWithColumn(ctx, "AD_Column", "Name", name);
+				if (AD_Column_ID <= 0) {
+					element.defer = true;
+					return;
+				}
+			}
+			
+			String functionColumn = getStringValue(atts, "FunctionColumn");
+			StringBuffer sql = new StringBuffer("SELECT AD_Reportview_Col_ID FROM AD_Reportview_Col ")
+				.append(" WHERE AD_Column_ID ");
+			if (AD_Column_ID > 0)
+				sql.append(" = " + AD_Column_ID);
+			else
+				sql.append(" IS NULL ");
+			sql.append(" AND FunctionColumn = ?");
+			
+			int id = DB.getSQLValue(getTrxName(ctx), sql.toString(), functionColumn);
+			if (id < 0) id = 0;
 			X_AD_ReportView_Col m_Reportview_Col = new X_AD_ReportView_Col(ctx,
 					id, getTrxName(ctx));
 			if (id > 0) {
@@ -56,31 +82,22 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID = 0;
 			}
-			name = atts.getValue("ADReportviewnameID");
-			id = get_IDWithColumn(ctx, "AD_ReportView", "Name", name);
-			if (id <= 0) {
-				element.defer = true;
-				return;
-			}
-			m_Reportview_Col.setAD_ReportView_ID(id);
+			
+			boolean isGroupFunction = Boolean.valueOf(
+					atts.getValue("isGroupFunction")).booleanValue();
+			
+			m_Reportview_Col.setAD_ReportView_ID(AD_ReportView_ID);
 
-			name = atts.getValue("ADColumnNameID");
-			if (name != null && name.trim().length() > 0) {
-				id = get_IDWithColumn(ctx, "AD_Column", "Name", name);
-				if (id <= 0) {
-					element.defer = true;
-					return;
-				}
+			if (AD_Column_ID > 0) {
 				m_Reportview_Col.setAD_Column_ID(id);
 			}
 
-			m_Reportview_Col.setFunctionColumn(atts.getValue("ADColumnNameID"));
+			m_Reportview_Col.setFunctionColumn(functionColumn);
 			m_Reportview_Col
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
 							.valueOf(atts.getValue("isActive")).booleanValue()
 							: true);
-			m_Reportview_Col.setIsGroupFunction(Boolean.valueOf(
-					atts.getValue("ADColumnNameID")).booleanValue());
+			m_Reportview_Col.setIsGroupFunction(isGroupFunction);
 			if (m_Reportview_Col.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, "" + m_Reportview_Col.getAD_ReportView_ID(),
 						"Reportview_Col", m_Reportview_Col.get_ID(),
@@ -129,20 +146,12 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
 
 		if (m_Reportview_Col.getAD_ReportView_ID() > 0) {
-			sql = "SELECT Name FROM AD_Reference WHERE AD_Reportview_ID=?";
+			sql = "SELECT Name FROM AD_Reportview WHERE AD_Reportview_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Reportview_Col
 					.getAD_ReportView_ID());
-			atts.addAttribute("", "", "ADReportviewnameID", "CDATA", name);
+			atts.addAttribute("", "", "ADReportviewNameID", "CDATA", name);
 		} else
-			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
-
-		if (m_Reportview_Col.getAD_ReportView_Col_ID() > 0) {
-			sql = "SELECT Name FROM AD_Reference WHERE AD_ReportView_Col_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Reportview_Col
-					.getAD_ReportView_Col_ID());
-			atts.addAttribute("", "", "ADReportViewColID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
+			atts.addAttribute("", "", "ADReportviewNameID", "CDATA", "");
 
 		atts.addAttribute("", "", "FunctionColumn", "CDATA", (m_Reportview_Col
 				.getFunctionColumn() != null ? m_Reportview_Col

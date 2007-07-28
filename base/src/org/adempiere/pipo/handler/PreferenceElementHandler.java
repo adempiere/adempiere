@@ -75,7 +75,7 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 					m_Preference.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Preference", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Preference"));
-			throw new POSaveFailedException("Preference");
+			throw new POSaveFailedException("Failed to save Preference");
 		}
 	}
 

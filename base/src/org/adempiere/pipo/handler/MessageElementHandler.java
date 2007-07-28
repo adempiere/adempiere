@@ -25,6 +25,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MMessage;
 import org.compiere.model.X_AD_Message;
 import org.compiere.model.X_AD_Package_Exp_Detail;
@@ -56,8 +57,8 @@ public class MessageElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID =0;
 			}    	    
-			m_Message.setMsgText(atts.getValue("MsgText").replaceAll("'","''"));
-			m_Message.setMsgTip(atts.getValue("MsgTip").replaceAll("'","''"));
+			m_Message.setMsgText(getStringValue(atts, "MsgText"));
+			m_Message.setMsgTip(getStringValue(atts, "MsgTip"));
 			m_Message.setEntityType(atts.getValue("EntityType"));
 			m_Message.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_Message.setValue(value);
@@ -67,6 +68,7 @@ public class MessageElementHandler extends AbstractElementHandler {
 			}
 			else{
 				record_log (ctx, 0, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Message", "value", "AD_Message"));
+				throw new POSaveFailedException("Failed to save message.");
 			}
 		} else {
 			element.skip = true;

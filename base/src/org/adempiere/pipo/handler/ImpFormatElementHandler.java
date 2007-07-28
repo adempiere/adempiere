@@ -76,7 +76,7 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 						.valueOf(atts.getValue("isProcessing")).booleanValue()
 						: true);
 		m_ImpFormat.setName(atts.getValue("Name"));
-		m_ImpFormat.setDescription(atts.getValue("Description"));
+		m_ImpFormat.setDescription(getStringValue(atts,"Description"));
 		m_ImpFormat.setFormatType(atts.getValue("FormatType"));
 		if (m_ImpFormat.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_ImpFormat.getName(), "ImpFormat", m_ImpFormat
@@ -88,7 +88,7 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 					.get_ID(), AD_Backup_ID, Object_Status, "AD_ImpFormat",
 					get_IDWithColumn(ctx, "AD_Table", "TableName",
 							"AD_ImpFormat"));
-			throw new POSaveFailedException("ImpFormat");
+			throw new POSaveFailedException("Failed to save Import Format.");
 		}
 	}
 

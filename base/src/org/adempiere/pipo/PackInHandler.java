@@ -76,7 +76,6 @@ import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.UserRoleElementHandler;
 import org.adempiere.pipo.handler.WindowAccessElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
-import org.adempiere.pipo.handler.WorkbenchElementHandler;
 import org.adempiere.pipo.handler.WorkflowAccessElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
@@ -119,8 +118,7 @@ public class PackInHandler extends DefaultHandler {
 	private int AD_Package_Imp_Inst_ID=0;
     private CLogger log = CLogger.getCLogger("PackIn");
     private OutputStream  fw_document = null;
-    private TransformerHandler hd_document = null;
-    private AttributesImpl attsOut = null;
+    private TransformerHandler logDocument = null;
     private StreamResult streamResult_document = null;		
 	private SAXTransformerFactory tf_document = null;	
 	private Transformer serializer_document = null;
@@ -161,18 +159,16 @@ public class PackInHandler extends DefaultHandler {
 		tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();	
 		
 		try {
-			hd_document = tf_document.newTransformerHandler();
+			logDocument = tf_document.newTransformerHandler();
 		} catch (TransformerConfigurationException e2) {
 			log.info ("startElement:"+e2);
 		}		
-		serializer_document = hd_document.getTransformer();		
+		serializer_document = logDocument.getTransformer();		
 		serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
 		serializer_document.setOutputProperty(OutputKeys.INDENT,"yes");		
-		hd_document.setResult(streamResult_document);				
-		hd_document.startDocument();		
-		attsOut = new AttributesImpl();		
-		attsOut.clear();		
-		hd_document.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
+		logDocument.setResult(streamResult_document);				
+		logDocument.startDocument();		
+		logDocument.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
 		Properties tmp = new Properties();
 		if (m_ctx != null)
 			tmp.putAll(m_ctx);
@@ -222,7 +218,6 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("taskaccess", new TaskAccessElementHandler());
     	handlers.put("impformat", new ImpFormatElementHandler());
     	handlers.put("impformatrow", new ImpFormatRowElementHandler());
-    	handlers.put("workbench", new WorkbenchElementHandler());
     	handlers.put("codesnipit", new CodeSnipitElementHandler());
     	handlers.put("distfile", new DistFileElementHandler());
     	handlers.put("reportview", new ReportViewElementHandler());
@@ -262,40 +257,41 @@ public class PackInHandler extends DefaultHandler {
 		if (elementValue.equals("adempiereAD")) {		
 			log.info("adempiereAD updateMode="+m_UpdateMode);
 			//Start package log
-			hd_document.startElement("","","adempiereDocument",attsOut);
-			hd_document.startElement("","","header",attsOut);		
-			hd_document.characters((atts.getValue("Name")+" Install Log").toCharArray(),0,(atts.getValue("Name")+" Install Log").length());
-			hd_document.endElement("","","header");
-			hd_document.startElement("","","H3",attsOut);		
-			hd_document.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
-			hd_document.endElement("","","H3");
-			hd_document.startElement("","","packagename4log",attsOut);
-			hd_document.characters(atts.getValue("Name").toCharArray(),0,atts.getValue("Name").length());
-			hd_document.endElement("","","packagename4log");
-			hd_document.startElement("","","H3",attsOut);		
-			hd_document.characters(("Version:" ).toCharArray(),0,("Version:" ).length());
-			hd_document.endElement("","","H3");
-			hd_document.startElement("","","Version",attsOut);
-			hd_document.characters(atts.getValue("Version").toCharArray(),0,atts.getValue("Version").length());
-			hd_document.endElement("","","Version");
-			hd_document.startElement("","","H3",attsOut);		
-			hd_document.characters(("Package Install Date:" ).toCharArray(),0,("Package Install Date:" ).length());
-			hd_document.endElement("","","H3");
-			hd_document.startElement("","","installDate",attsOut);
-			hd_document.characters(logDate.toCharArray(),0,logDate.length());
-			hd_document.endElement("","","installDate");
-			hd_document.startElement("","","H3",attsOut);		
-			hd_document.characters(("Min. Compiere Version:" ).toCharArray(),0,("Min. Compiere Version:" ).length());
-			hd_document.endElement("","","H3");
-			hd_document.startElement("","","CompVer",attsOut);
-			hd_document.characters(atts.getValue("CompVer").toCharArray(),0,atts.getValue("CompVer").length());
-			hd_document.endElement("","","CompVer");
-			hd_document.startElement("","","H3",attsOut);		
-			hd_document.characters(("Min. Database Date:" ).toCharArray(),0,("Min. Database Date:" ).length());
-			hd_document.endElement("","","H3");
-			hd_document.startElement("","","DataBase",attsOut);
-			hd_document.characters(atts.getValue("DataBase").toCharArray(),0,atts.getValue("DataBase").length());
-			hd_document.endElement("","","DataBase");
+			AttributesImpl attsOut = new AttributesImpl();
+			logDocument.startElement("","","adempiereDocument",attsOut);
+			logDocument.startElement("","","header",attsOut);		
+			logDocument.characters((atts.getValue("Name")+" Install Log").toCharArray(),0,(atts.getValue("Name")+" Install Log").length());
+			logDocument.endElement("","","header");
+			logDocument.startElement("","","H3",attsOut);		
+			logDocument.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
+			logDocument.endElement("","","H3");
+			logDocument.startElement("","","packagename4log",attsOut);
+			logDocument.characters(atts.getValue("Name").toCharArray(),0,atts.getValue("Name").length());
+			logDocument.endElement("","","packagename4log");
+			logDocument.startElement("","","H3",attsOut);		
+			logDocument.characters(("Version:" ).toCharArray(),0,("Version:" ).length());
+			logDocument.endElement("","","H3");
+			logDocument.startElement("","","Version",attsOut);
+			logDocument.characters(atts.getValue("Version").toCharArray(),0,atts.getValue("Version").length());
+			logDocument.endElement("","","Version");
+			logDocument.startElement("","","H3",attsOut);		
+			logDocument.characters(("Package Install Date:" ).toCharArray(),0,("Package Install Date:" ).length());
+			logDocument.endElement("","","H3");
+			logDocument.startElement("","","installDate",attsOut);
+			logDocument.characters(logDate.toCharArray(),0,logDate.length());
+			logDocument.endElement("","","installDate");
+			logDocument.startElement("","","H3",attsOut);		
+			logDocument.characters(("Min. Compiere Version:" ).toCharArray(),0,("Min. Compiere Version:" ).length());
+			logDocument.endElement("","","H3");
+			logDocument.startElement("","","CompVer",attsOut);
+			logDocument.characters(atts.getValue("CompVer").toCharArray(),0,atts.getValue("CompVer").length());
+			logDocument.endElement("","","CompVer");
+			logDocument.startElement("","","H3",attsOut);		
+			logDocument.characters(("Min. Database Date:" ).toCharArray(),0,("Min. Database Date:" ).length());
+			logDocument.endElement("","","H3");
+			logDocument.startElement("","","DataBase",attsOut);
+			logDocument.characters(atts.getValue("DataBase").toCharArray(),0,atts.getValue("DataBase").length());
+			logDocument.endElement("","","DataBase");
 			
 			createImp_Sum_table ("AD_Package_Imp_Backup");
 			createImp_Sum_table ("AD_Package_Imp");
@@ -383,8 +379,7 @@ public class PackInHandler extends DefaultHandler {
 			Env.setContext(m_ctx, "UpdateMode", m_UpdateMode);
 			Env.setContext(m_ctx, "TrxName", m_trxName);
 			Env.setContext(m_ctx, "PackageDirectory", packageDirectory);
-			m_ctx.put("Document", hd_document);
-			m_ctx.put("DocumentAttributes", attsOut);
+			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
 		else if (elementValue.equals("menu")) {
@@ -633,8 +628,8 @@ public class PackInHandler extends DefaultHandler {
     		if (no == -1)
     			log.info("Update to package list failed");
     		
-    		hd_document.endElement("","","adempiereDocument");
-    		hd_document.endDocument();	
+    		logDocument.endElement("","","adempiereDocument");
+    		logDocument.endDocument();	
     		try {
     			fw_document.close();
     		}

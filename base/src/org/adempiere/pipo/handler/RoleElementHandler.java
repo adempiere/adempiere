@@ -115,9 +115,10 @@ public class RoleElementHandler extends AbstractElementHandler {
 			m_Role.setC_Currency_ID(id);
 		}
 
-		m_Role.setDescription(atts.getValue("Description")
-				.replaceAll("'", "''").replaceAll(",", ""));
-		m_Role.setAmtApproval(new BigDecimal(atts.getValue("AmtApproval")));
+		m_Role.setDescription(getStringValue(atts,"Description"));
+		String amtApproval = getStringValue(atts,"AmtApproval");
+		if (amtApproval != null)
+			m_Role.setAmtApproval(new BigDecimal(amtApproval));
 		m_Role.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(
 				atts.getValue("isActive")).booleanValue() : true);
 		m_Role
@@ -162,6 +163,17 @@ public class RoleElementHandler extends AbstractElementHandler {
 						: true);
 		m_Role.setPreferenceType(atts.getValue("PreferenceType"));
 		m_Role.setUserLevel(atts.getValue("UserLevel"));
+		m_Role.setAllow_Info_Account(Boolean.valueOf(atts.getValue("AllowInfoAccount")));
+		m_Role.setAllow_Info_Asset(Boolean.valueOf(atts.getValue("AllowInfoAsset")));
+		m_Role.setAllow_Info_BPartner(Boolean.valueOf(atts.getValue("AllowInfoBPartner")));
+		m_Role.setAllow_Info_CashJournal(Boolean.valueOf(atts.getValue("AllowInfoCashJournal")));
+		m_Role.setAllow_Info_InOut(Boolean.valueOf(atts.getValue("AllowInfoInOut")));
+		m_Role.setAllow_Info_Invoice(Boolean.valueOf(atts.getValue("AllowInfoInvoice")));
+		m_Role.setAllow_Info_Order(Boolean.valueOf(atts.getValue("AllowInfoOrder")));
+		m_Role.setAllow_Info_Payment(Boolean.valueOf(atts.getValue("AllowInfoPayment")));
+		m_Role.setAllow_Info_Product(Boolean.valueOf(atts.getValue("AllowInfoProduct")));
+		m_Role.setAllow_Info_Resource(Boolean.valueOf(atts.getValue("AllowInfoResource")));
+		m_Role.setAllow_Info_Schedule(Boolean.valueOf(atts.getValue("AllowInfoSchedule")));
 
 		if (m_Role.save(getTrxName(ctx)) == true) {
 
@@ -473,7 +485,19 @@ public class RoleElementHandler extends AbstractElementHandler {
 						.getPreferenceType() : ""));
 		atts.addAttribute("", "", "UserLevel", "CDATA",
 				(m_Role.getUserLevel() != null ? m_Role.getUserLevel() : ""));
-
+		
+		atts.addAttribute("", "", "AllowInfoAccount", "CDATA", Boolean.toString(m_Role.isAllow_Info_Account()));
+		atts.addAttribute("", "", "AllowInfoAsset", "CDATA", Boolean.toString(m_Role.isAllow_Info_Asset()));
+		atts.addAttribute("", "", "AllowInfoBPartner", "CDATA", Boolean.toString(m_Role.isAllow_Info_BPartner()));
+		atts.addAttribute("", "", "AllowInfoCashJournal", "CDATA", Boolean.toString(m_Role.isAllow_Info_CashJournal()));
+		atts.addAttribute("", "", "AllowInfoInOut", "CDATA", Boolean.toString(m_Role.isAllow_Info_InOut()));
+		atts.addAttribute("", "", "AllowInfoInvoice", "CDATA", Boolean.toString(m_Role.isAllow_Info_Invoice()));
+		atts.addAttribute("", "", "AllowInfoOrder", "CDATA", Boolean.toString(m_Role.isAllow_Info_Order()));
+		atts.addAttribute("", "", "AllowInfoPayment", "CDATA", Boolean.toString(m_Role.isAllow_Info_Payment()));
+		atts.addAttribute("", "", "AllowInfoProduct", "CDATA", Boolean.toString(m_Role.isAllow_Info_Product()));
+		atts.addAttribute("", "", "AllowInfoResource", "CDATA", Boolean.toString(m_Role.isAllow_Info_Resource()));
+		atts.addAttribute("", "", "AllowInfoSchedule", "CDATA", Boolean.toString(m_Role.isAllow_Info_Schedule()));
+		
 		return atts;
 	}
 }

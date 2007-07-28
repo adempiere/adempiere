@@ -116,12 +116,10 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			}
 
 			m_Process.setAccessLevel(atts.getValue("AccessLevel"));
-			m_Process.setClassname(atts.getValue("Classname"));
-			m_Process.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			m_Process.setClassname(getStringValue(atts, "Classname"));
+			m_Process.setDescription(getStringValue(atts, "Description"));
 			m_Process.setEntityType(atts.getValue("EntityType"));
-			m_Process.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Process.setHelp(getStringValue(atts, "Help"));
 			m_Process.setIsBetaFunctionality(Boolean.valueOf(
 					atts.getValue("isBetaFunctionality")).booleanValue());
 			m_Process.setIsDirectPrint(Boolean.valueOf(
@@ -130,13 +128,15 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					.booleanValue());
 			m_Process.setName(atts.getValue("Name"));
 
-			m_Process.setProcedureName(atts.getValue("ProcedureName"));
+			m_Process.setProcedureName(getStringValue(atts, "ProcedureName"));
 			m_Process.setStatistic_Count(0);
 			m_Process.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_Process.setStatistic_Seconds(0);
 			m_Process.setValue(atts.getValue("Value"));
 			m_Process.setWorkflowValue(atts.getValue("WorkflowValue"));
+			m_Process.setShowHelp((getStringValue(atts, "ShowHelp")));
+			m_Process.setJasperReport(getStringValue(atts, "JasperReport"));
 			if (m_Process.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Process.getName(), "Process", m_Process
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Process",
@@ -161,7 +161,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int AD_Process_ID = Env.getContextAsInt(ctx, "AD_Process_ID");
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
-		String sqlW = "SELECT * FROM AD_PROCESS WHERE AD_PROCESS_ID = "
+		String sqlW = "SELECT AD_Process_ID FROM AD_PROCESS WHERE AD_PROCESS_ID = "
 				+ AD_Process_ID;
 
 		AttributesImpl atts = new AttributesImpl();
@@ -173,26 +173,23 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				X_AD_Process m_Process = new X_AD_Process(ctx, rs1
 						.getInt("AD_Process_ID"), null);
 				log.log(Level.INFO, "AD_ReportView_ID: "
-						+ rs1.getInt("AD_ReportView_ID"));
+						+ m_Process.getAD_Process_ID());
 
-				if (rs1.getString("IsReport").equals('Y')
-						&& rs1.getInt("AD_ReportView_ID") > 0) {
-
-					packOut.createReportview(rs1.getInt("AD_ReportView_ID"),
-							atts, document);
-				}
-				if (rs1.getString("IsReport").equals('Y')
-						&& rs1.getInt("AD_PrintFormat_ID") > 0) {
-
-					packOut.createPrintFormat(rs1.getInt("AD_PrintFormat_ID"),
-							atts, document);
-				}
-				if (rs1.getInt("AD_Workflow_ID") > 0) {
-
-					packOut.createWorkflow(rs1.getInt("AD_Workflow_ID"), atts,
+				if (m_Process.isReport() && m_Process.getAD_ReportView_ID() > 0) {
+					packOut.createReportview(m_Process.getAD_ReportView_ID(),
 							document);
 				}
-				atts = createProcessBinding(atts, m_Process);
+				if (m_Process.isReport() && m_Process.getAD_PrintFormat_ID() > 0) {
+
+					packOut.createPrintFormat(m_Process.getAD_PrintFormat_ID(),
+							document);
+				}
+				if (m_Process.getAD_Workflow_ID() > 0) {
+
+					packOut.createWorkflow(m_Process.getAD_Workflow_ID(), 
+							document);
+				}
+				createProcessBinding(atts, m_Process);
 				document.startElement("", "", "process", atts);
 				// processpara tags
 				String sqlP = "SELECT * FROM AD_PROCESS_PARA WHERE AD_PROCESS_ID = "
@@ -204,10 +201,10 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					while (rsP.next()) {
 						if (rsP.getInt("AD_Reference_ID") > 0)
 							packOut.createReference(rsP
-									.getInt("AD_Reference_ID"), atts, document);
+									.getInt("AD_Reference_ID"), document);
 						if (rsP.getInt("AD_Reference_Value_ID") > 0)
 							packOut.createReference(rsP
-									.getInt("AD_Reference_Value_ID"), atts,
+									.getInt("AD_Reference_Value_ID"), 
 									document);
 
 						createProcessPara(ctx, document, rsP
@@ -325,6 +322,10 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "WorkflowValue", "CDATA",
 				(m_Process.getWorkflowValue() != null ? m_Process
 						.getWorkflowValue() : ""));
+		atts.addAttribute("", "", "ShowHelp", "CDATA", 
+				(m_Process.getShowHelp() != null ? m_Process.getShowHelp() : ""));
+		atts.addAttribute("", "", "JasperReport", "CDATA", 
+				(m_Process.getJasperReport() != null ? m_Process.getJasperReport() : ""));
 		return atts;
 	}
 }

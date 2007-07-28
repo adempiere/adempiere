@@ -24,6 +24,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackIn;
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MField;
 import org.compiere.model.X_AD_Field;
 import org.compiere.util.DB;
@@ -133,15 +134,15 @@ public class FieldElementHandler extends AbstractElementHandler {
 				m_Field.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 				m_Field.setDisplayLength(Integer.parseInt(atts
 						.getValue("DisplayLength")));
-				m_Field.setDescription(atts.getValue("Description").replaceAll(
-						"'", "''").replaceAll(",", ""));
-				m_Field.setHelp(atts.getValue("Help").replaceAll("'", "''")
-						.replaceAll(",", ""));
+				m_Field.setDescription(getStringValue(atts, "Description"));
+				m_Field.setHelp(getStringValue(atts, "Help"));
 				m_Field.setIsActive(atts.getValue("isActive") != null ? Boolean
 						.valueOf(atts.getValue("isActive")).booleanValue()
 						: true);
-				m_Field.setSortNo(new BigDecimal(atts.getValue("SortNo")));
-				m_Field.setDisplayLogic(atts.getValue("DisplayLogic"));
+				String sortNo = getStringValue(atts, "SortNo");
+				if (sortNo != null)
+					m_Field.setSortNo(new BigDecimal(sortNo));
+				m_Field.setDisplayLogic(getStringValue(atts, "DisplayLogic"));
 				if (m_Field.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Field.getName(), "Field", m_Field
 							.get_ID(), AD_Backup_ID, Object_Status, "AD_Field",
@@ -153,6 +154,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 							.get_ID(), AD_Backup_ID, Object_Status, "AD_Field",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Field"));
+					throw new POSaveFailedException("Failed to save field definition.");
 				}
 			} else {
 				element.defer = true;

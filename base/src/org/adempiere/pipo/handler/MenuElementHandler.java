@@ -128,8 +128,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 				.getValue("Action") : " ");
 		if (action.compareTo(" ") > -1)
 			m_Menu.setAction(action);
-		m_Menu.setDescription(atts.getValue("Description")
-				.replaceAll("'", "''").replaceAll(",", ""));
+		m_Menu.setDescription(getStringValue(atts, "Description"));
 		m_Menu.setEntityType(atts.getValue("EntityType"));
 		m_Menu.setIsReadOnly(Boolean.valueOf(atts.getValue("isReadOnly"))
 				.booleanValue());
@@ -386,28 +385,23 @@ public class MenuElementHandler extends AbstractElementHandler {
 						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
 					// Call CreateWindow.
 					if (rs.getInt("AD_WINDOW_ID") > 0) {
-						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), atts, document);
+						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
 					}
 					// Call CreateProcess.
 					else if (rs.getInt("AD_PROCESS_ID") > 0) {
-						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), atts, document);
+						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), document);
 					}
 					// Call CreateTask.
 					else if (rs.getInt("AD_TASK_ID") > 0) {
-						packOut.createTask(rs.getInt("AD_TASK_ID"), atts, document);
+						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
 					}
 					// Call CreateForm.
 					else if (rs.getInt("AD_FORM_ID") > 0) {
-						packOut.createForm(rs.getInt("AD_FORM_ID"), atts, document);
-					}
-					// Call CreateWorkbench
-					else if (rs.getInt("AD_WORKBENCH_ID") > 0) {
-						packOut.createWorkbench(rs.getInt("AD_WORKBENCH_ID"), atts,
-								document);
+						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
 					}
 					// Call CreateWorkflow
 					else if (rs.getInt("AD_Workflow_ID") > 0) {
-						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), atts,
+						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
 								document);
 					}
 					// Call CreateModule because entry is a summary menu
@@ -460,29 +454,24 @@ public class MenuElementHandler extends AbstractElementHandler {
 						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
 					// Call CreateWindow.
 					if (rs.getInt("AD_WINDOW_ID") > 0) {
-						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), atts, document);
+						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
 					}
 					// Call CreateProcess.
 					else if (rs.getInt("AD_PROCESS_ID") > 0) {
-						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), atts,
+						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), 
 								document);
 					}
 					// Call CreateTask.
 					else if (rs.getInt("AD_TASK_ID") > 0) {
-						packOut.createTask(rs.getInt("AD_TASK_ID"), atts, document);
+						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
 					}
 					// Call CreateForm.
 					else if (rs.getInt("AD_FORM_ID") > 0) {
-						packOut.createForm(rs.getInt("AD_FORM_ID"), atts, document);
-					}
-					// Call CreateWorkbench
-					else if (rs.getInt("AD_WORKBENCH_ID") > 0) {
-						packOut.createWorkbench(rs.getInt("AD_WORKBENCH_ID"), atts,
-								document);
+						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
 					}
 					// Call CreateWorkflow
 					else if (rs.getInt("AD_Workflow_ID") > 0) {
-						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), atts,
+						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
 								document);
 					}
 					// Call CreateModule because entry is a summary menu

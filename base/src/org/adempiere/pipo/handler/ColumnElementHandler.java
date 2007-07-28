@@ -110,20 +110,18 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			Name = atts.getValue("ADReferenceNameValueID");
 			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 			m_Column.setAD_Reference_Value_ID(id);
-			m_Column.setCallout(atts.getValue("Callout"));
-			m_Column.setColumnSQL(atts.getValue("ColumnSQL"));
+			m_Column.setCallout(getStringValue(atts, "Callout"));
+			m_Column.setColumnSQL(getStringValue(atts, "ColumnSQL"));
 
 			m_Column.setColumnName(atts.getValue("ColumnName"));
-			m_Column.setDefaultValue(atts.getValue("DefaultValue"));
-			m_Column.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
+			m_Column.setDefaultValue(getStringValue(atts, "DefaultValue"));
+			m_Column.setDescription(getStringValue(atts,  "Description"));
 			m_Column.setEntityType(atts.getValue("EntityType"));
 
 			if (Integer.parseInt(atts.getValue("FieldLength")) > 0)
 				m_Column.setFieldLength(Integer.parseInt(atts
 						.getValue("FieldLength")));
-			m_Column.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Column.setHelp(getStringValue(atts, "Help"));
 			m_Column.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_Column.setIsAlwaysUpdateable((Boolean.valueOf(atts
@@ -147,16 +145,16 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			m_Column.setIsUpdateable((Boolean.valueOf(atts
 					.getValue("isUpdateable")).booleanValue()));
 			m_Column.setName(atts.getValue("Name"));
-			m_Column.setReadOnlyLogic(atts.getValue("ReadOnlyLogic"));
+			m_Column.setReadOnlyLogic(getStringValue(atts, "ReadOnlyLogic"));
 
 			if (Integer.parseInt(atts.getValue("SeqNo")) > 0)
 				m_Column.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
-			m_Column.setVFormat(atts.getValue("VFormat"));
-			if (atts.getValue("ValueMax") != null)
+			m_Column.setVFormat(getStringValue(atts, "VFormat"));
+			if (getStringValue(atts, "ValueMax") != null)
 				m_Column.setValueMax(atts.getValue("ValueMax"));
-			if (atts.getValue("ValueMin") != null)
+			if (getStringValue(atts, "ValueMin") != null)
 				m_Column.setValueMin(atts.getValue("ValueMin"));
-			if (atts.getValue("Version") != null)
+			if (getStringValue(atts, "Version") != null)
 				m_Column.setVersion(new BigDecimal(atts.getValue("Version")));
 
 			// Setup Element.

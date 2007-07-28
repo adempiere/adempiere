@@ -40,13 +40,13 @@ public class TaskAccessElementHandler extends AbstractElementHandler {
 		int taskid =0;		
 		StringBuffer sqlB = null;
 		Attributes atts = element.attributes;
-		if (atts.getValue("rolename")!=null){
+		if (getStringValue(atts,"rolename")!=null){
 			String name = atts.getValue("rolename");		
 			sqlB = new StringBuffer ("SELECT AD_Role_ID FROM AD_Role WHERE Name= ?");
 			roleid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
 		}
 		
-		if (atts.getValue("taskname")!=null){
+		if (getStringValue(atts,"taskname")!=null){
 			String name = atts.getValue("taskname");		
 			sqlB = new StringBuffer ("SELECT AD_Task_ID FROM AD_Task WHERE Name= ?");
 			taskid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);

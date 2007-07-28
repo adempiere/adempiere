@@ -85,14 +85,13 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 		}
 
 		m_Reportview.setAD_Table_ID(id);
-		m_Reportview.setDescription(atts.getValue("Description").replaceAll(
-				"'", "''").replaceAll(",", ""));
+		m_Reportview.setDescription(getStringValue(atts,"Description"));
 		m_Reportview.setEntityType(atts.getValue("EntityType"));
 		m_Reportview.setName(atts.getValue("Name"));
 		m_Reportview.setIsActive(atts.getValue("isActive") != null ? Boolean
 				.valueOf(atts.getValue("isActive")).booleanValue() : true);
-		m_Reportview.setOrderByClause(atts.getValue("OrderByClause"));
-		m_Reportview.setWhereClause(atts.getValue("WhereClause"));
+		m_Reportview.setOrderByClause(getStringValue(atts,"OrderByClause"));
+		m_Reportview.setWhereClause(getStringValue(atts,"WhereClause"));
 		if (m_Reportview.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_Reportview.getName(), "Reportview",
 					m_Reportview.get_ID(), AD_Backup_ID, Object_Status,
@@ -136,10 +135,10 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 					ResultSet rs1 = pstmt1.executeQuery();
 					while (rs1.next()) {
 						// Export Table if neccessary
-						packOut.createTable(rs1.getInt("AD_Table_ID"), atts,
+						packOut.createTable(rs1.getInt("AD_Table_ID"), 
 								document);
 						packOut.createPrintFormat(rs1
-								.getInt("AD_Printformat_ID"), atts, document);
+								.getInt("AD_Printformat_ID"), document);
 					}
 					rs1.close();
 					pstmt1.close();

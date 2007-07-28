@@ -136,21 +136,19 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 				m_Process_para.setAD_Val_Rule_ID(id);
 			}
 			
-			m_Process_para.setDefaultValue(atts.getValue("DefaultValue"));
-			m_Process_para.setDefaultValue2(atts.getValue("DefaultValue2"));
-			m_Process_para.setDescription(atts.getValue("Description")
-					.replaceAll("'", "''").replaceAll(",", ""));
+			m_Process_para.setDefaultValue(getStringValue(atts, "DefaultValue"));
+			m_Process_para.setDefaultValue2(getStringValue(atts, "DefaultValue2"));
+			m_Process_para.setDescription(getStringValue(atts,"Description"));
 			
-			m_Process_para.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Process_para.setHelp(getStringValue(atts,"Help"));
 			m_Process_para
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
 							.valueOf(atts.getValue("isActive")).booleanValue()
 							: true);
 			
-			m_Process_para.setVFormat(atts.getValue("VFormat"));
-			m_Process_para.setValueMax(atts.getValue("ValueMax"));
-			m_Process_para.setValueMin(atts.getValue("ValueMin"));
+			m_Process_para.setVFormat(getStringValue(atts,"VFormat"));
+			m_Process_para.setValueMax(getStringValue(atts,"ValueMax"));
+			m_Process_para.setValueMin(getStringValue(atts,"ValueMin"));
 			m_Process_para.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 			m_Process_para.setFieldLength(Integer.parseInt(atts
 					.getValue("FieldLength")));

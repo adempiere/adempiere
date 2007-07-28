@@ -62,7 +62,7 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			}
 			
 			m_Ref_List.setAD_Reference_ID(AD_Reference_ID);
-			m_Ref_List.setDescription(atts.getValue("Description").replaceAll("'", "''"));
+			m_Ref_List.setDescription(getStringValue(atts,"Description"));
 			m_Ref_List.setEntityType(atts.getValue("EntityType"));
 			m_Ref_List.setName(atts.getValue("Name"));
 			m_Ref_List.setValue(value);
@@ -110,20 +110,26 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			sql = "SELECT Name FROM AD_Ref_List WHERE AD_Ref_List_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Ref_List
 					.getAD_Ref_List_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADReflistNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADReflistNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADReflistNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADReflistNameID", "CDATA", "");
+		}
+		
 		if (m_Ref_List.getAD_Reference_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Ref_List
 					.getAD_Reference_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADRefenceNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADRefenceNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADRefenceNameID", "CDATA", "");
+		}
+		
 		atts.addAttribute("", "", "Description", "CDATA", (m_Ref_List
 				.getDescription() != null ? m_Ref_List.getDescription() : ""));
 		atts.addAttribute("", "", "EntityType", "CDATA", (m_Ref_List

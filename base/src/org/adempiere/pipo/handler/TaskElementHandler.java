@@ -53,15 +53,13 @@ public class TaskElementHandler extends AbstractElementHandler {
 				AD_Backup_ID = 0;
 			}
 			m_Task.setAccessLevel(atts.getValue("AccessLevel"));
-			m_Task.setDescription(atts.getValue("Description").replaceAll("'",
-					"''").replaceAll(",", ""));
+			m_Task.setDescription(getStringValue(atts,"Description"));
 			m_Task.setEntityType(atts.getValue("EntityType"));
-			m_Task.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
+			m_Task.setHelp(getStringValue(atts,"Help"));
 			m_Task.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
 			m_Task.setName(name);
-			m_Task.setOS_Command(atts.getValue("OS_Command"));
+			m_Task.setOS_Command(getStringValue(atts,"OS_Command"));
 			if (m_Task.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Task.getName(), "Task", m_Task.get_ID(),
 						AD_Backup_ID, Object_Status, "AD_Task",
@@ -101,11 +99,14 @@ public class TaskElementHandler extends AbstractElementHandler {
 		if (m_Task.getAD_Task_ID() > 0) {
 			sql = "SELECT Name FROM AD_Task WHERE AD_Task_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Task.getAD_Task_ID());
-		}
-		if (name != null)
-			atts.addAttribute("", "", "ADTaskNameID", "CDATA", name);
-		else
+			if (name != null)
+				atts.addAttribute("", "", "ADTaskNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "ADTaskNameID", "CDATA", "");
+		} else {
 			atts.addAttribute("", "", "ADTaskNameID", "CDATA", "");
+		}
+		
 		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Task
 				.getAccessLevel() != null ? m_Task.getAccessLevel() : ""));
 		atts.addAttribute("", "", "Description", "CDATA", (m_Task

@@ -93,8 +93,6 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			m_WFNodeNext.setSeqNo(Integer.valueOf(atts.getValue("SeqNo")));
 			m_WFNodeNext.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
 			m_WFNodeNext.setIsStdUserWorkflow(atts.getValue("IsStdUserWorkflow") != null ? Boolean.valueOf(atts.getValue("IsStdUserWorkflow")).booleanValue():true);
-//			log.info("m_WFNodeNext.get_ID: " + String.valueOf(m_WFNodeNext.get_ID));
-			getDocumentAttributes(ctx).clear();          
 			log.info("about to execute m_WFNodeNext.save");
 			if (m_WFNodeNext.save(getTrxName(ctx)) == true){		    	
 				log.info("m_WFNodeNext save success");

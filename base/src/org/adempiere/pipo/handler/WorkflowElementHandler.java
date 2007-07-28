@@ -115,30 +115,32 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			}
 			m_Workflow.setName(workflowName);
 			m_Workflow.setAccessLevel(atts.getValue("AccessLevel"));
-			m_Workflow.setDescription(atts.getValue("Description").replaceAll(
-					"'", "''").replaceAll(",", ""));
-			m_Workflow.setHelp(atts.getValue("Help").replaceAll("'", "''")
-					.replaceAll(",", ""));
-			m_Workflow.setDurationUnit(atts.getValue("DurationUnit"));
-			m_Workflow.setAuthor(atts.getValue("Author"));
-			m_Workflow.setVersion(Integer.valueOf(atts.getValue("Version")));
-			m_Workflow.setPriority(Integer.valueOf(atts.getValue("Priority")));
-			m_Workflow.setLimit(Integer.valueOf(atts.getValue("Limit")));
-			m_Workflow.setDuration(Integer.valueOf(atts.getValue("Duration")));
-			m_Workflow.setCost(Integer.valueOf(atts.getValue("Cost")));
+			m_Workflow.setDescription(getStringValue(atts,"Description"));
+			m_Workflow.setHelp(getStringValue(atts,"Help"));
+			m_Workflow.setDurationUnit(getStringValue(atts,"DurationUnit"));
+			m_Workflow.setAuthor(getStringValue(atts,"Author"));
+			if(getStringValue(atts, "Version") != null)
+				m_Workflow.setVersion(Integer.valueOf(atts.getValue("Version")));
+			if(getStringValue(atts, "Priority") != null)
+				m_Workflow.setPriority(Integer.valueOf(atts.getValue("Priority")));
+			if(getStringValue(atts, "Limit") != null)
+				m_Workflow.setLimit(Integer.valueOf(atts.getValue("Limit")));
+			if(getStringValue(atts, "Duration") != null)
+				m_Workflow.setDuration(Integer.valueOf(atts.getValue("Duration")));
+			if(getStringValue(atts, "Cost") != null)
+				m_Workflow.setCost(Integer.valueOf(atts.getValue("Cost")));
+			
 			m_Workflow.setWorkingTime(Integer.valueOf(atts
 					.getValue("WorkingTime")));
 			m_Workflow.setWaitingTime(Integer.valueOf(atts
 					.getValue("WaitingTime")));
 			m_Workflow.setPublishStatus(atts.getValue("PublishStatus"));
 			m_Workflow.setWorkflowType(atts.getValue("WorkflowType"));
-			m_Workflow.setDocValueLogic(atts.getValue("DocValueLogic"));
+			m_Workflow.setDocValueLogic(getStringValue(atts,"DocValueLogic"));
 			m_Workflow.setIsValid(atts.getValue("isValid") != null ? Boolean
 					.valueOf(atts.getValue("isValid")).booleanValue() : true);
 			m_Workflow.setEntityType(atts.getValue("EntityType"));
 			m_Workflow.setAD_WF_Node_ID(-1);
-			// log.info("in3");
-			getDocumentAttributes(ctx).clear();
 			log.info("about to execute m_Workflow.save");
 			if (m_Workflow.save(getTrxName(ctx)) == true) {
 				log.info("m_Workflow save success");
@@ -168,6 +170,10 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int AD_Workflow_ID = Env.getContextAsInt(ctx,
 				X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID);
+		if (workflows.contains(AD_Workflow_ID))
+			return;
+		
+		workflows.add(AD_Workflow_ID);
 		String sql = "SELECT Name FROM AD_Workflow WHERE  AD_Workflow_ID= "
 				+ AD_Workflow_ID;
 		int ad_wf_nodenext_id = 0;
@@ -184,10 +190,10 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			while (rs.next()) {
 				X_AD_Workflow m_Workflow = new X_AD_Workflow(ctx,
 						AD_Workflow_ID, null);
-				X_AD_WF_Node m_WF_Node = null;
+				
 				createWorkflowBinding(atts, m_Workflow);
 				document.startElement("", "", "workflow", atts);
-				String sql1 = "SELECT * FROM AD_WF_Node WHERE AD_Workflow_ID = "
+				String sql1 = "SELECT AD_WF_Node_ID FROM AD_WF_Node WHERE AD_Workflow_ID = "
 						+ AD_Workflow_ID;
 
 				PreparedStatement pstmt1 = null;
@@ -204,8 +210,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 						ad_wf_nodenext_id = 0;
 
 						sql = "SELECT ad_wf_nodenext_id from ad_wf_nodenext WHERE ad_wf_node_id = ?";
-						ad_wf_nodenext_id = DB.getSQLValue(null, sql, m_WF_Node
-								.getAD_WF_Node_ID());
+						ad_wf_nodenext_id = DB.getSQLValue(null, sql, nodeId);
 						if (ad_wf_nodenext_id > 0) {
 							createNodeNext(ctx, document, ad_wf_nodenext_id);
 
@@ -213,7 +218,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 
 							sql = "SELECT ad_wf_nextcondition_id from ad_wf_nextcondition WHERE ad_wf_nodenext_id = ?";
 							ad_wf_nodenextcondition_id = DB.getSQLValue(null,
-									sql, m_WF_Node.getAD_WF_Node_ID());
+									sql, nodeId);
 							log
 									.info("ad_wf_nodenextcondition_id: "
 											+ String

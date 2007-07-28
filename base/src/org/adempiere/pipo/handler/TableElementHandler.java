@@ -80,22 +80,23 @@ public class TableElementHandler extends AbstractElementHandler {
 			String Name = atts.getValue("ADWindowNameID");	    
 			id = get_IDWithColumn(ctx, "AD_Window", "Name", Name);
 			m_Table.setAD_Window_ID(id);
-			Name = atts.getValue("POWindowNameID");
+			Name = getStringValue(atts,"POWindowNameID");
 			if (Name != null){
 				id = get_IDWithColumn(ctx, "AD_Window", "Name", Name);
 				m_Table.setPO_Window_ID(id);
 			}
-			else
-				Name = atts.getValue("ADValRuleNameID");
-			id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
 			
-			m_Table.setAD_Val_Rule_ID(id);
+			Name = getStringValue(atts,"ADValRuleNameID");
+			if (Name != null) {
+				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);			
+				m_Table.setAD_Val_Rule_ID(id);
+			}
 			m_Table.setAccessLevel (atts.getValue("AccessLevel"));		    
-			m_Table.setDescription(atts.getValue("Description").replaceAll("'","''"));
+			m_Table.setDescription(getStringValue(atts,"Description"));
 			m_Table.setEntityType(atts.getValue("EntityType"));
-			m_Table.setHelp(atts.getValue("Help").replaceAll("'","''"));            
+			m_Table.setHelp(getStringValue(atts,"Help"));            
 			m_Table.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
-			m_Table.setImportTable(atts.getValue("ImportTable"));
+			m_Table.setImportTable(getStringValue(atts,"ImportTable"));
 			m_Table.setIsChangeLog(Boolean.valueOf(atts.getValue("isChangeLog")).booleanValue());
 			m_Table.setIsDeleteable(Boolean.valueOf(atts.getValue("isDeleteable")).booleanValue());
 			m_Table.setIsHighVolume(Boolean.valueOf(atts.getValue("isHighVolume")).booleanValue());
@@ -103,10 +104,8 @@ public class TableElementHandler extends AbstractElementHandler {
 			m_Table.setIsView(Boolean.valueOf(atts.getValue("isView")).booleanValue());
 			//m_Table.setLoadSeq(Integer.parseInt(atts.getValue("LoadSeq")));
 			m_Table.setName(atts.getValue("Name"));
-			m_Table.setReplicationType(atts.getValue("ReplicationType"));
+			m_Table.setReplicationType(getStringValue(atts,"ReplicationType"));
 			m_Table.setTableName(atts.getValue("TableName"));
-//			log.info("in3");
-			getDocumentAttributes(ctx).clear();          
 			if (m_Table.save(getTrxName(ctx)) == true){		    	
 				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				tables.add(m_Table.getAD_Table_ID());
@@ -163,16 +162,16 @@ public class TableElementHandler extends AbstractElementHandler {
 						while (rs1.next()){
 							
 							if (rs1.getInt("AD_Reference_ID")>0)
-								packOut.createReference (rs1.getInt("AD_Reference_ID"), atts, document);
+								packOut.createReference (rs1.getInt("AD_Reference_ID"), document);
 							
 							if (rs1.getInt("AD_Reference_Value_ID")>0)
-								packOut.createReference (rs1.getInt("AD_Reference_Value_ID"), atts, document);						
+								packOut.createReference (rs1.getInt("AD_Reference_Value_ID"), document);						
 							
 							if (rs1.getInt("AD_Process_ID")>0)
-								packOut.createProcess (rs1.getInt("AD_Process_ID"), atts, document);	
+								packOut.createProcess (rs1.getInt("AD_Process_ID"), document);	
 							
 							if (rs1.getInt("AD_Val_Rule_ID")>0)
-								packOut.createDynamicRuleValidation (rs1.getInt("AD_Val_Rule_ID"), atts, document);
+								packOut.createDynamicRuleValidation (rs1.getInt("AD_Val_Rule_ID"), document);
 	
 							createColumn(ctx, document, rs1.getInt("AD_Column_ID"));							
 						}
