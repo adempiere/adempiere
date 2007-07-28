@@ -191,10 +191,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 						+ AD_Workflow_ID;
 
 				PreparedStatement pstmt1 = null;
-				pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
-
 				try {
-
+					pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
 					// Generated workflowNodeNext(s) and
 					// workflowNodeNextCondition(s)
 					ResultSet rs1 = pstmt1.executeQuery();
@@ -238,8 +236,9 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 					} catch (Exception e) {
 					}
 					pstmt1 = null;
-				}
-				document.endElement("", "", "workflow");
+					
+					document.endElement("", "", "workflow");
+				}				
 			}
 			rs.close();
 			pstmt.close();
