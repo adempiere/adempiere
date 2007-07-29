@@ -128,10 +128,10 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 
 		m_PrintFormatItem.setPrintName(getStringValue(atts, "PrintName"));
 		m_PrintFormatItem.setName(atts.getValue("Name"));
-		m_PrintFormatItem.setPrintAreaType(atts.getValue("PrintAreaType"));
+		m_PrintFormatItem.setPrintAreaType(getStringValue(atts,"PrintAreaType"));
 
 		m_PrintFormatItem.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
-		m_PrintFormatItem.setPrintFormatType(atts.getValue("PrintFormatType"));
+		m_PrintFormatItem.setPrintFormatType(getStringValue(atts,"PrintFormatType"));
 		m_PrintFormatItem.setXSpace(Integer.parseInt(atts.getValue("XSpace")));
 
 		m_PrintFormatItem.setYSpace(Integer.parseInt(atts.getValue("YSpace")));
@@ -146,20 +146,20 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 				.getValue("MaxHieght")));
 		m_PrintFormatItem.setSortNo(Integer.parseInt(atts.getValue("SortNo")));
 
-		m_PrintFormatItem.setFieldAlignmentType(atts
-				.getValue("FieldAlignmentType"));
-		m_PrintFormatItem.setLineAlignmentType(atts
-				.getValue("LineAlignmentType"));
-		m_PrintFormatItem.setImageURL(atts.getValue("ImageURL"));
+		m_PrintFormatItem.setFieldAlignmentType(getStringValue(atts
+				,"FieldAlignmentType"));
+		m_PrintFormatItem.setLineAlignmentType(getStringValue(atts
+				,"LineAlignmentType"));
+		m_PrintFormatItem.setImageURL(getStringValue(atts,"ImageURL"));
 		m_PrintFormatItem.setArcDiameter(Integer.parseInt(atts
 				.getValue("ArcDiameter")));
 		m_PrintFormatItem.setLineWidth(Integer.parseInt(atts
 				.getValue("LineWidth")));
-		m_PrintFormatItem.setShapeType(atts.getValue("ShapeType"));
+		m_PrintFormatItem.setShapeType(getStringValue(atts,"ShapeType"));
 
 		m_PrintFormatItem.setBelowColumn(Integer.parseInt(atts
 				.getValue("BelowColumn")));
-		m_PrintFormatItem.setPrintNameSuffix(atts.getValue("PrintNameSuffix"));
+		m_PrintFormatItem.setPrintNameSuffix(getStringValue(atts,"PrintNameSuffix"));
 		m_PrintFormatItem.setRunningTotalLines(Integer.parseInt(atts
 				.getValue("RunningTotalLines")));
 
