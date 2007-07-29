@@ -238,21 +238,24 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			}
 
 			if (recreateColumn || syncDatabase) {
-				success = createColumn(ctx, m_Column, recreateColumn);
-
-				if (success == 1) {
-					record_log(ctx, 1, m_Column.getColumnName(), "dbColumn",
-							m_Column.get_ID(), 0, Object_Status, atts.getValue(
-									"ADTableNameID").toUpperCase(),
-							get_IDWithColumn(ctx, "AD_Table", "TableName", atts
-									.getValue("ADTableNameID").toUpperCase()));
-				} else {
-					record_log(ctx, 0, m_Column.getColumnName(), "dbColumn",
-							m_Column.get_ID(), 0, Object_Status, atts.getValue(
-									"ADTableNameID").toUpperCase(),
-							get_IDWithColumn(ctx, "AD_Table", "TableName", atts
-									.getValue("ADTableNameID").toUpperCase()));
-					throw new DatabaseAccessException("Failed to create column or related constraint for " + m_Column.getColumnName());
+				MTable table = new MTable(ctx, m_Column.getAD_Table_ID(), getTrxName(ctx));
+				if (!table.isView()) {
+					success = createColumn(ctx, table, m_Column, recreateColumn);
+	
+					if (success == 1) {
+						record_log(ctx, 1, m_Column.getColumnName(), "dbColumn",
+								m_Column.get_ID(), 0, Object_Status, atts.getValue(
+										"ADTableNameID").toUpperCase(),
+								get_IDWithColumn(ctx, "AD_Table", "TableName", atts
+										.getValue("ADTableNameID").toUpperCase()));
+					} else {
+						record_log(ctx, 0, m_Column.getColumnName(), "dbColumn",
+								m_Column.get_ID(), 0, Object_Status, atts.getValue(
+										"ADTableNameID").toUpperCase(),
+								get_IDWithColumn(ctx, "AD_Table", "TableName", atts
+										.getValue("ADTableNameID").toUpperCase()));
+						throw new DatabaseAccessException("Failed to create column or related constraint for " + m_Column.getColumnName());
+					}
 				}
 			}
 		} else {
@@ -271,10 +274,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 	 * @param v_IsMandatory
 	 * 
 	 */
-	private int createColumn(Properties ctx, MColumn column, boolean doAlter) {
-		MTable table = new MTable(ctx, column.getAD_Table_ID(), getTrxName(ctx));
-		if (table.isView())
-			return 0;
+	private int createColumn(Properties ctx, MTable table, MColumn column, boolean doAlter) {		
 
 		int no = 0;
 
@@ -328,6 +328,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 	
 				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
 					no = DB.executeUpdate(sql, false, getTrxName(ctx));
+					if (no == -1)
+						return 0;
 				} else {
 					String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
 					for (int i = 0; i < statements.length; i++) {
