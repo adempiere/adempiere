@@ -31,6 +31,8 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: AZoomAcross.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1762465 ]
  */
 public class AZoomAcross implements ActionListener
 {
@@ -84,7 +86,6 @@ public class AZoomAcross implements ActionListener
 				+ "(SELECT AD_Table_ID FROM AD_Column "
 				+ "WHERE ColumnName=? AND IsKey='N' AND IsParent='N') "	//	#x
 			+ "ORDER BY 2";
-		KeyNamePair pp = null;
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -168,7 +169,7 @@ public class AZoomAcross implements ActionListener
 		if (count <= 0)
 			return false;
 		//
-		KeyNamePair pp = new KeyNamePair (AD_Window_ID, Name);
+		KeyNamePair pp = new KeyNamePair (AD_Window_ID, Name + " (#"+count+")");
 		m_list.add(pp);
 		m_popup.add(pp.toString()).addActionListener(this);
 		return true;
