@@ -172,6 +172,7 @@ public class AZoomAcross implements ActionListener
 		KeyNamePair pp = new KeyNamePair (AD_Window_ID, Name + " (#"+count+")");
 		m_list.add(pp);
 		m_popup.add(pp.toString()).addActionListener(this);
+		m_query.setRecordCount(count);
 		return true;
 	}	//	checkTarget
 	
