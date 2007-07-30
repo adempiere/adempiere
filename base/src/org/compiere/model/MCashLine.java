@@ -257,7 +257,7 @@ public class MCashLine extends X_C_CashLine
 		{
 			if (get_ValueOld("C_Invoice_ID") != null)
 			{
-				log.warning("Cannot delete line with generated Invoice");
+				log.saveError("Error", Msg.getMsg(getCtx(), "CannotDeleteCashGenInvoice"));
 				return false;
 			}
 		}
@@ -290,7 +290,7 @@ public class MCashLine extends X_C_CashLine
 			Object generated = get_ValueOld("IsGenerated");
 			if (generated != null && ((Boolean)generated).booleanValue())
 			{
-				log.warning("Cannot change line with generated Invoice");
+				log.saveError("Error", Msg.getMsg(getCtx(), "CannotChangeCashGenInvoice"));
 				return false;
 			}
 		}
