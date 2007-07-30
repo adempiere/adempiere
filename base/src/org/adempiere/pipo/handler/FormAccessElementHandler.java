@@ -48,7 +48,7 @@ public class FormAccessElementHandler extends AbstractElementHandler {
 		
 		if (atts.getValue("formname")!=null){
 			String name = atts.getValue("formname");		
-			sqlB = new StringBuffer ("SELECT AD_Form_ID FROM AD_Process WHERE Name= ?");
+			sqlB = new StringBuffer ("SELECT AD_Form_ID FROM AD_Form WHERE Name= ?");
 			formid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
 		}
 		
