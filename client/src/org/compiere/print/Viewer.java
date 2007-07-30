@@ -452,7 +452,9 @@ public class Viewer extends CFrame
 		menuBar.add(mTools);
 		AEnv.addMenuItem("Calculator", null, null, mTools, this);
 		AEnv.addMenuItem("Calendar", null, null, mTools, this);
-		AEnv.addMenuItem("Editor", null, null, mTools, this);
+		MUser user = MUser.get(Env.getCtx());
+		if (user.isAdministrator())
+			AEnv.addMenuItem("Editor", null, null, mTools, this);
 		AEnv.addMenuItem("Script", null, null, mTools, this);
 		mTools.addSeparator();
 		AEnv.addMenuItem("Preference", null, null, mTools, this);

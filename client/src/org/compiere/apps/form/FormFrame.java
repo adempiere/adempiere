@@ -169,7 +169,9 @@ public class FormFrame extends CFrame
 		AEnv.addMenuItem("Calculator", null, null, mTools, this);
 		AEnv.addMenuItem("Calendar", null, null, mTools, this);
 		AEnv.addMenuItem("Editor", null, null, mTools, this);
-		AEnv.addMenuItem("Script", null, null, mTools, this);
+		MUser user = MUser.get(Env.getCtx());
+		if (user.isAdministrator())
+			AEnv.addMenuItem("Script", null, null, mTools, this);
 		if (MRole.getDefault().isShowPreference())
 		{
 			mTools.addSeparator();

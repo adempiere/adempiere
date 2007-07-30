@@ -287,7 +287,9 @@ public final class APanel extends CPanel
 		aCalculator = addAction("Calculator",	mTools, 	null,	false);
 		aCalendar = addAction("Calendar",		mTools, 	null,	false);
 		aEditor =	addAction("Editor",			mTools, 	null,	false);
-		aScript = addAction("Script",	        mTools, 	null,	false);
+		MUser user = MUser.get(Env.getCtx());
+		if (user.isAdministrator())
+			aScript = addAction("Script",	        mTools, 	null,	false);
 		if ("Y".equals(Env.getContext(m_ctx, "#SysAdmin")))	//	set in DB.loginDB
 			aWinSize = addAction("WinSize",     mTools, 	null,	false);
 		if (AEnv.isWorkflowProcess())
