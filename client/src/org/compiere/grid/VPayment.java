@@ -59,6 +59,8 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayment.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1763488 ]
  */
 public class VPayment extends CDialog
 	implements ActionListener
@@ -458,7 +460,7 @@ public class VPayment extends CDialog
 				kExpField.setText(m_mPayment.getCreditCardExp(null));
 				kApprovalField.setText(m_mPayment.getVoiceAuthCode());
 				kStatus.setText(m_mPayment.getR_PnRef());
-				kAmountField.setValue(m_Format.format(m_mPayment.getPayAmt()));
+				kAmountField.setValue(m_mPayment.getPayAmt());
 				
 				//	if approved/paid, don't let it change
 				kTypeCombo.setReadWrite(!m_mPayment.isApproved());
@@ -499,7 +501,7 @@ public class VPayment extends CDialog
 			{
 				m_cashLine = new MCashLine (Env.getCtx(), m_C_CashLine_ID, null);
 				m_DateAcct = m_cashLine.getStatementDate();
-				bAmountField.setValue(m_cashLine.getAmount().toString());
+				bAmountField.setValue(m_cashLine.getAmount()); 
 			}
 		}
 
