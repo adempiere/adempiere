@@ -13,7 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- * Contributor(s): phib - fixing bug [ 1568765 ] Close email dialog button broken *
+ * Contributor(s):                                                            *
  *****************************************************************************/
 package org.compiere.apps;
 
@@ -36,6 +36,11 @@ import org.compiere.util.*;
  *  
  *  globalqss: integrate phib fixing bug reported here
  *     http://sourceforge.net/tracker/index.php?func=detail&aid=1568765&group_id=176962&atid=879332
+ * 
+ *  phib - fixing bug [ 1568765 ] Close email dialog button broken
+ *  
+ *  globalqss - Carlos Ruiz - implement CC - FR [ 1754879 ] Enhancements on sending e-mail
+ *
  */
 public class EMailDialog extends CDialog 
 	implements ActionListener, VetoableChangeListener
@@ -96,6 +101,8 @@ public class EMailDialog extends CDialog
 				"EMail IS NOT NULL");
 			fUser = new VLookup ("AD_User_ID", false, false, true, lookup);
 			fUser.addVetoableChangeListener(this);
+			fCcUser = new VLookup ("AD_User_ID", false, false, true, lookup);
+			fCcUser.addVetoableChangeListener(this);
 			jbInit();
 		}
 		catch(Exception ex)
@@ -114,8 +121,11 @@ public class EMailDialog extends CDialog
 	private MUser	m_from = null;
 	/** Primary Recipient	*/
 	private MUser	m_user = null;
+	/** Cc Recipient	*/
+	private MUser	m_ccuser = null;
 	//
 	private String  m_to;
+	private String  m_cc;
 	private String  m_subject;
 	private String  m_message;
 	/**	File to be optionally attached	*/
@@ -129,10 +139,13 @@ public class EMailDialog extends CDialog
 	private GridBagLayout headerLayout = new GridBagLayout();
 	private CTextField fFrom = new CTextField(20);
 	private CTextField fTo = new CTextField(20);
+	private CTextField fCc = new CTextField(20);
 	private VLookup fUser = null;
+	private VLookup fCcUser = null;
 	private CTextField fSubject = new CTextField(40);
 	private	CLabel lFrom = new CLabel();
 	private CLabel lTo = new CLabel();
+	private CLabel lCc = new CLabel();
 	private CLabel lSubject = new CLabel();
 	private CLabel lAttachment = new CLabel();
 	private CTextField fAttachment = new CTextField(40);
@@ -147,6 +160,7 @@ public class EMailDialog extends CDialog
 	{
 		lFrom.setText(Msg.getMsg(Env.getCtx(), "From") + ":");
 		lTo.setText(Msg.getMsg(Env.getCtx(), "To") + ":");
+		lCc.setText(Msg.getMsg(Env.getCtx(), "Cc") + ":");
 		lSubject.setText(Msg.getMsg(Env.getCtx(), "Subject") + ":");
 		lAttachment.setText(Msg.getMsg(Env.getCtx(), "Attachment") + ":");
 		fFrom.setReadWrite(false);
@@ -170,15 +184,21 @@ public class EMailDialog extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
 		headerPanel.add(fTo, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+		headerPanel.add(lCc, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 10, 0, 5), 0, 0));
+			headerPanel.add(fCcUser, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
+		headerPanel.add(fCc, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 10), 0, 0));
 
-		headerPanel.add(lSubject, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+		headerPanel.add(lSubject, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 10, 0, 5), 0, 0));
-		headerPanel.add(fSubject, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+		headerPanel.add(fSubject, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 10), 1, 0));
 
-		headerPanel.add(lAttachment, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
+		headerPanel.add(lAttachment, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 10, 0, 5), 0, 0));
-		headerPanel.add(fAttachment, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+		headerPanel.add(fAttachment, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 10), 1, 0));
 
 		mainPanel.add(fMessage, BorderLayout.CENTER);
@@ -213,6 +233,15 @@ public class EMailDialog extends CDialog
 	}	//	setTo
 
 	/**
+	 *  Set CC Address
+	 */
+	public void setCc(String newCc)
+	{
+		m_cc = newCc;
+		fCc.setText(m_cc);
+	}	//	setCc
+
+	/**
 	 *  Get Address
 	 */
 	public String getTo()
@@ -220,6 +249,15 @@ public class EMailDialog extends CDialog
 		m_to = fTo.getText();
 		return m_to;
 	}	//	getTo
+
+	/**
+	 *  Get CC Address
+	 */
+	public String getCc()
+	{
+		m_cc = fCc.getText();
+		return m_cc;
+	}	//	getCc
 
 	/**
 	 *  Set Sender
@@ -337,6 +375,13 @@ public class EMailDialog extends CDialog
 			{
 				while (st.hasMoreTokens())
 					email.addTo(st.nextToken());
+				// cc
+				StringTokenizer stcc = new StringTokenizer(getCc(), " ,;", false);
+				String cc = stcc.nextToken();
+				if (cc != null && cc.length() > 0)
+					email.addCc(cc);
+				while (stcc.hasMoreTokens())
+					email.addCc(stcc.nextToken());
 				//	Attachment
 				if (m_attachFile != null && m_attachFile.exists())
 					email.addAttachment(m_attachFile);
@@ -371,17 +416,30 @@ public class EMailDialog extends CDialog
 	public void vetoableChange (PropertyChangeEvent evt)
 		throws PropertyVetoException
 	{
+		VLookup source = (VLookup) evt.getSource();
 		Object value = evt.getNewValue();
 		log.info("Value=" + value);
-		if (value == null)
-			fTo.setText("");
-		if (value instanceof Integer)
-		{
-			int AD_User_ID = ((Integer)value).intValue();
-			m_user = MUser.get(Env.getCtx(), AD_User_ID);
-			fTo.setValue(m_user.getEMail());
+		if (source.equals(fUser)) {
+			// fUser			
+			if (value == null)
+				fTo.setText("");
+			if (value instanceof Integer)
+			{
+				int AD_User_ID = ((Integer)value).intValue();
+				m_user = MUser.get(Env.getCtx(), AD_User_ID);
+				fTo.setValue(m_user.getEMail());
+			}
+		} else {
+			// fCcUser
+			if (value == null)
+				fCc.setText("");
+			if (value instanceof Integer)
+			{
+				int AD_User_ID = ((Integer)value).intValue();
+				m_ccuser = MUser.get(Env.getCtx(), AD_User_ID);
+				fCc.setValue(m_ccuser.getEMail());
+			}
 		}
 	}	//	vetoableChange
 
 }	//	VEMailDialog
-
