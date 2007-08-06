@@ -131,13 +131,18 @@ public final class MDocString extends PlainDocument implements CaretListener
 		throws BadLocationException
 	{
 		//	Max Length
-		// Begin - fer_luck @ centuryon
-		// BugFix [ 1766180 ] Formatted Field input Bug
-		//  // @Trifon - [ 1718897 ] User can enter more characters than max size field
-		// if (getLength() + string.length() > m_maxLength)
-		if (((String)this.getText().replace(" ", "")).length() + string.length() > m_maxLength)
-			return;
-		// End - fer_luck @ centuryon
+		if (m_VFormat.length() == 0) {
+			// non formatted strings
+			//  // @Trifon - [ 1718897 ] User can enter more characters than max size field
+			if (getLength() + string.length() > m_maxLength)
+				return;
+		} else {
+			// Formatted strings
+			// globalqss - Carlos Ruiz [ 1766180 ] Formatted Field input Bug
+			if (offset >= m_maxLength)
+				return;
+		}
+		
 		//	We have no Format or inserted not manually (assuming correct Format)
 		if (m_VFormat.length() == 0 || string.length() != 1)
 		{
