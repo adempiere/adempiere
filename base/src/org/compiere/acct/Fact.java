@@ -145,10 +145,19 @@ public final class Fact
 	 *  Add Fact Line
 	 *  @param line fact line
 	 */
-	void add (FactLine line)
+	public void add (FactLine line)
 	{
 		m_lines.add(line);
 	}   //  add
+
+	/**
+	 *  Remove Fact Line
+	 *  @param line fact line
+	 */
+	public void remove (FactLine line)
+	{
+		m_lines.remove(line);
+	}   //  remove
 
 	/**
 	 *	Create and convert Fact Line.
