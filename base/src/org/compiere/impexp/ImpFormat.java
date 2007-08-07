@@ -136,7 +136,8 @@ public final class ImpFormat
 		}
 		else if (m_AD_Table_ID == 533)		//	I_BPartner
 		{
-			m_tableUnique1 = "Value";				//	the key
+			// gody: 20070113 to allow multiple contacts per BP			
+			// m_tableUnique1 = "Value";				//	the key
 		}
 		else if (m_AD_Table_ID == 534)		//	I_ElementValue
 		{

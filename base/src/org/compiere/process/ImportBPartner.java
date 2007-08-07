@@ -256,12 +256,25 @@ public class ImportBPartner extends SvrProcess
 		//	Go through Records
 		sql = new StringBuffer ("SELECT * FROM I_BPartner "
 			+ "WHERE I_IsImported='N'").append(clientCheck);
+		// gody: 20070113 - Order so the same values are consecutive.
+		sql.append(" ORDER BY Value, I_BPartner_ID");	
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			ResultSet rs = pstmt.executeQuery();
+
+			// Remember Previous BP Value BP is only first one, others are contacts.
+			// All contacts share BP location.
+			// bp and bpl declarations before loop, we need them for data.
+			String Old_BPValue = "" ; 
+			MBPartner bp = null;
+			MBPartnerLocation bpl = null;
+			
 			while (rs.next())
-			{
+			{	
+				// Remember Value - only first occurance of the value is BP
+				String New_BPValue = rs.getString("Value") ;
+
 				X_I_BPartner impBP = new X_I_BPartner (getCtx(), rs, get_TrxName());
 				log.fine("I_BPartner_ID=" + impBP.getI_BPartner_ID()
 					+ ", C_BPartner_ID=" + impBP.getC_BPartner_ID()
@@ -269,8 +282,10 @@ public class ImportBPartner extends SvrProcess
 					+ ", AD_User_ID=" + impBP.getAD_User_ID());
 
 
-				//	****	Create/Update BPartner	****
-				MBPartner bp = null;
+			  if ( ! New_BPValue.equals(Old_BPValue)) {
+ 				//	****	Create/Update BPartner	****
+				bp = null;
+
 				if (impBP.getC_BPartner_ID() == 0)	//	Insert new BPartner
 				{
 					bp = new MBPartner(impBP);
@@ -328,7 +343,7 @@ public class ImportBPartner extends SvrProcess
 				}
 
 				//	****	Create/Update BPartner Location	****
-				MBPartnerLocation bpl = null;
+				bpl = null;
 				if (impBP.getC_BPartner_Location_ID() != 0)		//	Update Location
 				{
 					bpl = new MBPartnerLocation(getCtx(), impBP.getC_BPartner_Location_ID(), get_TrxName());
@@ -399,6 +414,9 @@ public class ImportBPartner extends SvrProcess
 						continue;
 					}
 				}
+			  }
+				
+				Old_BPValue = New_BPValue ;
 
 				//	****	Create/Update Contact	****
 				MUser user = null;
