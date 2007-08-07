@@ -231,7 +231,11 @@ public abstract class PO
 		if (!(cmp instanceof PO))
 			return false;
 		if (cmp.getClass().equals(this.getClass()))
-			return ((PO)cmp).get_ID() == get_ID();
+			// if both ID's are zero they can't be compared by ID
+			if (((PO)cmp).get_ID() == 0 && get_ID() == 0)
+				return super.equals(cmp);
+			else
+				return ((PO)cmp).get_ID() == get_ID();
 		return super.equals(cmp);
 	}	//	equals
 
