@@ -37,6 +37,7 @@ import org.compiere.*;
  *  globalqss - integrate Teo Sarca hint [ 1617928 ] Ineficient use of Boolean ctor for gen. model
  *  teo_sarca - bug fix [ 1651801 ] GenerateModel: duplicate "getKeyNamePair" methods
  *  teo_sarca - feature request [ 1662447 ] Add column names in model classes
+ *  trifon    - Cotribution [1770528] Reuse COLUMNAME_ property
  */
 public class GenerateModel
 {
@@ -77,7 +78,7 @@ public class GenerateModel
 		+" *****************************************************************************/\n";
 	
 	/**	Generated on					*/
-	private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
+	//private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
 	
 	/**	Logger			*/
 	private static CLogger	log	= CLogger.getCLogger (GenerateModel.class);
@@ -184,12 +185,10 @@ public class GenerateModel
 			// globalqss - Grant independence to GenerateModel from AD_Table_ID
 			+ "/** TableName=").append(tableName).append(" */\n"
 			+ "public static final String Table_Name=\"").append(tableName).append("\";\n"
-			// + "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
 			+ "/** AD_Table_ID=").append(AD_Table_ID).append(" */\n"
-			+ "public static final int Table_ID=MTable.getTable_ID(Table_Name);\n"
+			+ "public static final int Table_ID = MTable.getTable_ID(Table_Name);\n"
 			//	
 			// globalqss
-			// + "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");\n"
 			+ "protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n" 
 			//	
 			+ "protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");"
@@ -272,6 +271,13 @@ public class GenerateModel
 				String ColumnSQL = rs.getString(15); 
 				boolean virtualColumn = ColumnSQL != null && ColumnSQL.length() > 0;
 				boolean IsEncrypted = "Y".equals(rs.getString(16));
+
+				// Create COLUMNNAME_ property (teo_sarca, [ 1662447 ])
+				// Reuse COLUMNAME_ property (Trifon, [1770528] ) 
+				sb.append("/** Column name ").append(columnName).append(" */\n")
+					.append("public static final String COLUMNNAME_").append(columnName)
+						.append(" = \"").append(columnName).append("\";");
+
 				//
 				sb.append(createColumnMethods (mandatory,
 					columnName, isUpdateable, isMandatory, 
@@ -289,10 +295,6 @@ public class GenerateModel
 								+ " (AD_Table_ID=" + AD_Table_ID + ", ColumnName=" + columnName + ")");
 					}
 				}
-				// Create COLUMNNAME_ property (teo_sarca, [ 1662447 ])
-				sb.append("/** Column name ").append(columnName).append(" */\n")
-					.append("public static final String COLUMNNAME_").append(columnName)
-						.append(" = \"").append(columnName).append("\";");
 			}
 			rs.close();
 			pstmt.close();
@@ -435,13 +437,13 @@ public class GenerateModel
 				}
 				else				//	set optional _ID to null if 0
 					sb.append("if (").append (columnName).append (" <= 0) ")
-						.append(setValue).append(" (\"").append(columnName).append("\", null); else \n");
+						.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", null); else \n");
 			}
-			sb.append(setValue).append(" (\"").append(columnName).append("\", Integer.valueOf(").append(columnName).append("));");
+			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Integer.valueOf(").append(columnName).append("));");
 		}
 		//	Boolean
 		else if (clazz.equals(Boolean.class))
-			sb.append(setValue).append(" (\"").append(columnName).append("\", Boolean.valueOf(").append(columnName).append("));");
+			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Boolean.valueOf(").append(columnName).append("));");
 		else
 		{
 			if (isMandatory && AD_Reference_ID == 0)	//	does not apply to int/boolean
@@ -465,7 +467,7 @@ public class GenerateModel
 			}
 					  
 			//
-			sb.append (setValue).append(" (\"").append (columnName).append ("\", ")
+			sb.append (setValue).append(" (").append ("COLUMNNAME_").append (columnName).append (", ")
 				.append (columnName).append (");");
 		}
 		sb.append("}");
@@ -521,27 +523,27 @@ public class GenerateModel
 		sb.append("() {");
 		if (clazz.equals(Integer.class))
 			sb.append("Integer ii = (Integer)")
-				.append(getValue).append("(\"").append(columnName).append("\");"
+				.append(getValue).append("(").append ("COLUMNNAME_").append(columnName).append(");"
 				+ "if (ii == null)"
 				+ " return 0;"
 				+ "return ii.intValue();");
 		else if (clazz.equals(BigDecimal.class))
 			sb.append("BigDecimal bd = (BigDecimal)").append(getValue)
-				.append("(\"").append(columnName).append("\");"
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");"
 				+ "if (bd == null)"
 				+ " return Env.ZERO;"
 				+ "return bd;");
 		else if (clazz.equals(Boolean.class))
 			sb.append("Object oo = ").append(getValue)
-				.append("(\"").append(columnName).append("\");"
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");"
 				+ "if (oo != null) { if (oo instanceof Boolean) return ((Boolean)oo).booleanValue(); return \"Y\".equals(oo);}"
 				+ "return false;");
 		else if (dataType.equals("Object"))
 			sb.append("return ").append(getValue)
-				.append("(\"").append(columnName).append("\");");
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");");
 		else
 			sb.append("return (").append(dataType).append(")").append(getValue)
-				.append("(\"").append(columnName).append("\");");
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");");
 		sb.append("}");
 		//
 		return sb.toString();
