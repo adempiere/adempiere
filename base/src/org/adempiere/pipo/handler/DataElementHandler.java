@@ -113,16 +113,13 @@ public class DataElementHandler extends AbstractElementHandler {
 			else {
 				String sql = "select * from "+d_tablename;
 				String whereand = " where";
-				String t_tablename = null;
 				String CURRENT_KEY = "key1name";		
 				if (!atts.getValue(CURRENT_KEY).equals("")) {		
-					t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
 					sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
 					whereand = " and";
 				}
 				CURRENT_KEY = "key2name";		
 				if (!atts.getValue(CURRENT_KEY).equals("")) {
-					t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
 					sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
 					whereand = " and";
 				}
@@ -147,12 +144,10 @@ public class DataElementHandler extends AbstractElementHandler {
 						// set keyXname.
 						CURRENT_KEY = "key1name";
 						if (!atts.getValue(CURRENT_KEY).equals("")) {
-							t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
 							genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
 						}
 						CURRENT_KEY = "key2name";
 						if (!atts.getValue(CURRENT_KEY).equals("")) {
-							t_tablename = atts.getValue(CURRENT_KEY).substring(0, atts.getValue(CURRENT_KEY).length()-3);
 							genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
 						}
 					}
